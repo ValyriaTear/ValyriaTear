@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -63,12 +63,12 @@ public:
         _drunes = amount;
     }
 
-    /** \brief Adds an object to the contents of the MapTreasure
+    /** \brief Adds an item to the contents of the MapTreasure
     *** \param id The id of the GlobalObject to add
     *** \param quantity The number of the object to add (default == 1)
     *** \return True if the object was added successfully
     **/
-    bool AddObject(uint32 id, uint32 quantity = 1);
+    bool AddItem(uint32 id, uint32 quantity = 1);
 
     //! \name Class member access methods
     //@{
@@ -89,8 +89,8 @@ private:
     uint32 _drunes;
 
     //! \brief The list of objects given to the player upon opening the treasure
-    std::vector<vt_global::GlobalObject *> _objects_list;
-}; // class MapTreasure : public PhysicalObject
+    std::vector<vt_global::GlobalObject *> _items_list;
+};
 
 
 /** ***************************************************************************************

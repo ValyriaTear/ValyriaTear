@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -25,19 +25,6 @@
 
 #ifndef __AUDIO_INPUT_HEADER__
 #define __AUDIO_INPUT_HEADER__
-
-#ifdef __APPLE__
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#else
-#include "al.h"
-#include "alc.h"
-#endif
-
-#include "utils.h"
-
-#include <vorbis/vorbisfile.h>
-#include <fstream>
 
 namespace vt_audio
 {
@@ -198,8 +185,14 @@ class OggFile : public AudioInput
 {
 public:
     OggFile(const std::string &file_name) :
-        AudioInput(), _read_buffer_position(0), _read_buffer_size(0),
-        _initialized(false) {
+        AudioInput(),
+        _read_buffer_position(0),
+        _read_buffer_size(0),
+        _initialized(false)
+    {
+        // Fill the buffer with 0
+        memset(_read_buffer, 0, 4096);
+
         _filename = file_name;
     }
 
@@ -231,6 +224,7 @@ private:
     //! It is used to know whether they can be deallocated.
     bool _initialized;
 
+#ifdef _WIN32
     /** \brief A wrapper function for file seek operations
     *** \param ffile A pointer to the FILE struct which represents the input stream
     *** \param off The number of bytes to offset from the stream's origin
@@ -242,6 +236,7 @@ private:
     *** since it is a wrapper to a C function which expects those types.
     */
     static int _FileSeekWrapper(FILE *file, ogg_int64_t off, int whence);
+#endif
 }; // class OggFile : public AudioInput
 
 

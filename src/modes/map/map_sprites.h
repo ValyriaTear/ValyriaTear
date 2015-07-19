@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -58,45 +58,9 @@ const uint32 STANDARD_ENEMY_DEAD_TIME = 5000;
 class VirtualSprite : public MapObject
 {
 public:
-    VirtualSprite();
+    VirtualSprite(MapObjectDrawLayer layer);
 
     ~VirtualSprite();
-
-    // ---------- Public Members: Orientation and Movement
-
-    /** \brief A bit-mask for the sprite's draw orientation and direction vector.
-    *** This member determines both where to move the sprite (8 directions) and
-    *** which way the sprite is facing (4 directions). See the Sprite direction
-    *** constants for the values that this member may be set to.
-    **/
-    uint16 direction;
-
-    //! \brief The speed at which the sprite moves around the map.
-    float movement_speed;
-
-    /** \brief Set to true when the sprite is currently in motion.
-    *** This does not necessarily mean that the sprite actually is moving, but rather
-    *** that the sprite is <i>trying</i> to move in a certain direction.
-    **/
-    bool moving;
-
-    /** \brief Set to true whenever the sprite's position was changed due to movement
-    *** This is distinctly different than the moving member. Whereas the moving member
-    *** indicates desired movement, this member indicates that positional change due to
-    *** movement actually occurred. It is used for drawing functions to determine if they
-    *** should draw the sprite in motion or not in motion
-    **/
-    bool moved_position;
-
-    //! \brief Set to true when the sprite is running rather than walking
-    bool is_running;
-
-    // ---------- Public Members: Events
-
-    //! \brief A pointer to the event that is controlling the action of this sprite
-    SpriteEvent *control_event;
-
-    // ---------- Public methods
 
     //! \brief Updates the virtual object's position if it is moving, otherwise does nothing.
     virtual void Update();
@@ -139,11 +103,11 @@ public:
     *** \param event The sprite event that is assuming control
     *** This function is not safe to call when there is an event already controlling the sprite.
     *** The previously controlling event should first release control (which will set the control_event
-    *** member to NULL) before a new event acquires it. The acquisition will be successful regardless
+    *** member to nullptr) before a new event acquires it. The acquisition will be successful regardless
     *** of whether there is currently a controlling event or not, but a warning will be printed in the
     *** improper case.
     **/
-    void AcquireControl(SpriteEvent *event);
+    void AcquireControl(SpriteEvent* event);
 
     /** \brief Declares that an event is releasing control over the sprite
     *** \param event The sprite event that is releasing control
@@ -152,7 +116,14 @@ public:
     *** (because another event acquired it before this event released it), a warning will be printed
     *** and no change will be made (the control event will not change).
     **/
-    void ReleaseControl(SpriteEvent *event);
+    void ReleaseControl(SpriteEvent* event);
+
+    /** \brief Gets the SpriteEvent* currently controlling the sprite
+    *** or nullptr is none.
+    **/
+    SpriteEvent* GetControlEvent() const {
+        return _control_event;
+    }
 
     /** \brief Saves the state of the sprite
     *** Attributes saved: direction, speed, moving state
@@ -173,37 +144,68 @@ public:
     }
 
     void SetMovementSpeed(float speed) {
-        movement_speed = speed;
+        _movement_speed = speed;
     }
 
     void SetMoving(bool motion) {
-        moving = motion;
+        _moving = motion;
     }
 
     bool GetMoving() const {
-        return moving;
+        return _moving;
     }
 
     uint16 GetDirection() const {
-        return direction;
+        return _direction;
     }
 
     float GetMovementSpeed() const {
-        return movement_speed;
+        return _movement_speed;
+    }
+
+    void SetRunning(bool running) {
+        _is_running = running;
+    }
+
+    bool IsRunning() const {
+        return _is_running;
+    }
+
+    bool HasMoved() const {
+        return _moved_position;
     }
     //@}
 
 protected:
-    /** \brief Set the next sprite position, according to the current direction set.
-    *** This function aims at finding the next correct position for the given sprite,
-    *** and avoid the most possible to make it stop, except when walking against a wall.
+    /** \brief A bit-mask for the sprite's draw orientation and direction vector.
+    *** This member determines both where to move the sprite (8 directions) and
+    *** which way the sprite is facing (4 directions). See the Sprite direction
+    *** constants for the values that this member may be set to.
     **/
-    void _SetNextPosition();
+    uint16 _direction;
 
-    /** \brief Start a battle encounter with a given enemy
-    *** \param enemy The enemy sprite the character has collided with.
+    //! \brief The speed at which the sprite moves around the map.
+    float _movement_speed;
+
+    /** \brief Set to true when the sprite is currently in motion.
+    *** This does not necessarily mean that the sprite actually is moving, but rather
+    *** that the sprite is <i>trying</i> to move in a certain direction.
     **/
-    void _StartBattleEncounter(EnemySprite *enemy);
+    bool _moving;
+
+    /** \brief Set to true whenever the sprite's position was changed due to movement
+    *** This is distinctly different than the moving member. Whereas the moving member
+    *** indicates desired movement, this member indicates that positional change due to
+    *** movement actually occurred. It is used for drawing functions to determine if they
+    *** should draw the sprite in motion or not in motion
+    **/
+    bool _moved_position;
+
+    //! \brief Set to true when the sprite is running rather than walking
+    bool _is_running;
+
+    //! \brief A pointer to the event that is controlling the action of this sprite
+    SpriteEvent* _control_event;
 
     /** \name Saved state attributes
     *** These attributes are used to save and restore the state of a VirtualSprite
@@ -215,6 +217,18 @@ protected:
     float _saved_movement_speed;
     bool _saved_moving;
     //@}
+
+    /** \brief Set the next sprite position, according to the current direction set.
+    *** This function aims at finding the next correct position for the given sprite,
+    *** and avoid the most possible to make it stop, except when walking against a wall.
+    **/
+    void _SetNextPosition();
+
+    /** \brief Handles position corrections when the sprite is on the edge of
+    *** physical obstacles. (NPC sprites, treasure, ... aren't considered here for playability purpose)
+    **/
+    bool _HandleWallEdges(float& next_pos_x, float& next_pos_y, float distance_moved,
+                          MapObject* collision_object);
 }; // class VirtualSprite : public MapObject
 
 
@@ -231,9 +245,15 @@ protected:
 class MapSprite : public VirtualSprite
 {
 public:
-    MapSprite();
+    MapSprite(MapObjectDrawLayer layer);
 
     ~MapSprite();
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static MapSprite* Create(MapObjectDrawLayer layer);
 
     // ---------- Public methods
 
@@ -260,12 +280,12 @@ public:
     *** \param filename The name of the image file holding the given custom animation (one direction only)
     *** \return False if there was a problem loading the animation.
     **/
-    bool LoadCustomAnimation(const std::string &animation_name, const std::string &filename);
+    bool LoadCustomAnimation(const std::string &animation_name, const std::string& filename);
 
     //! \brief Clear out all the sprite animation. Useful in case of reloading.
     void ClearAnimations();
 
-    void LoadFacePortrait(const std::string &filename);
+    void LoadFacePortrait(const std::string& filename);
 
     //! \brief Updates the sprite's position and state.
     virtual void Update();
@@ -277,27 +297,19 @@ public:
     virtual void DrawDialog();
 
     /** \brief Adds a new reference to a dialogue that the sprite uses
-    *** \param dialogue_id The ID number of the dialogue
     *** \param dialogue The SpriteDialogue used.
     *** \note It is valid for a dialogue to be referenced more than once by a sprite
     **/
-    void AddDialogueReference(uint32 dialogue_id);
-    void AddDialogueReference(SpriteDialogue *dialogue) {
-        AddDialogueReference(dialogue->GetDialogueID());
-    }
+    void AddDialogueReference(SpriteDialogue* dialogue);
 
     /** \brief Removes all dialogue references from a sprite
     **/
     void ClearDialogueReferences();
 
     /** \brief Removes a specific dialogue reference from a sprite
-    *** \param dialogue_id The ID number of the dialogue that should be removed
     *** \param dialogue The SpriteDialogue used.
     **/
-    void RemoveDialogueReference(uint32 dialogue_id);
-    void RemoveDialogueReference(SpriteDialogue *dialogue) {
-        RemoveDialogueReference(dialogue->GetDialogueID());
-    }
+    void RemoveDialogueReference(SpriteDialogue* dialogue);
 
     /** \brief Begins a new dialogue with this sprite using its next referenced dialogue
     ***
@@ -377,9 +389,7 @@ public:
     }
 
     //! \brief Gets the ID value of the dialogue that will be the next to be referenced by the sprite
-    uint32 GetNextDialogueID() const { // TODO: check invalid indexing
-        return _dialogue_references[_next_dialogue];
-    }
+    const std::string& GetNextDialogueID() const;
 
     //! \brief Returns the number of dialogues referenced by the sprite (including duplicates)
     uint16 GetNumberDialogueReferences() const {
@@ -389,19 +399,20 @@ public:
     /** \brief Tells the sprite to use a custom animation
     *** \param The animation name used as a key to find the custom animation declared in map_sprites.lua
     *** You can set the animation key to empty to disable the custom animation.
-    *** \param The time to display the given animation or 0 for the default time.
+    *** \param The time to display the given animation, -1 for the default time and 0 for an infinite amount of time.
     **/
-    void SetCustomAnimation(const std::string &animaton_name, uint32 time);
+    void SetCustomAnimation(const std::string &animaton_name, int32 time);
 
     bool IsAnimationCustom() const {
         return _custom_animation_on;
     }
 
     /** \brief Disable a posible running custom animation.
-    *** Useful when setting an inifinite running animation, for instance.
+    *** Useful after setting an inifinite running animation, for instance.
     **/
     void DisableCustomAnimation() {
         _custom_animation_on = false;
+        _infinite_custom_animation = false;
     }
 
     void SetSpriteName(const std::string &map_sprite_name) {
@@ -432,7 +443,7 @@ protected:
     vt_utils::ustring _name;
 
     /** \brief A pointer to the face portrait of the sprite, as seen in dialogues and menus.
-    *** \note Not all sprites have portraits, in which case this member will be NULL
+    *** \note Not all sprites have portraits, in which case this member will be nullptr
     **/
     vt_video::StillImage *_face_portrait;
 
@@ -462,7 +473,7 @@ protected:
     vt_video::AnimatedImage *_current_custom_animation;
 
     //! \brief Contains the id values of all dialogues referenced by the sprite
-    std::vector<uint32> _dialogue_references;
+    std::vector<std::string> _dialogue_references;
 
     /** \brief An index to the dialogue_references vector, representing the next dialogue the sprite should reference
     *** A negative value indicates that the sprite has no dialogue.
@@ -482,7 +493,10 @@ protected:
     bool _custom_animation_on;
 
     //! \brief Tells how much time left the custom animation will have to be drawn
-    int32  _custom_animation_time;
+    int32 _custom_animation_time;
+
+    //! Tells whether the animation has got an infinite duration
+    bool _infinite_custom_animation;
 
     /** \name Saved state attributes
     *** These attributes are used to save and load the state of a VirtualSprite
@@ -543,11 +557,14 @@ private:
     };
 
 public:
-    //! \brief The default constructor which typically requires that the user make several additional calls to setup the sprite properties
+    //! \brief The default constructor
     EnemySprite();
 
-    //! \brief A constructor for when the enemy sprite is stored in the definition of a single file
-    EnemySprite(const std::string &file);
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static EnemySprite* Create();
 
     //! \brief Resets various members of the class so that the enemy is dead, invisible, and does not produce a collision
     void Reset();
@@ -580,14 +597,26 @@ public:
     //! \brief Returns a reference to a random party of enemies
     const std::vector<BattleEnemyInfo>& RetrieveRandomParty() const;
 
+    //! \brief Returns the enemy's encounter event id.
+    //! If this event is not empty, it is triggered instead of a battle,
+    //! when encountering an enemy sprite in the map mode.
+    const std::string& GetEncounterEvent() const {
+        return _encounter_event;
+    }
+
+    //! \brief Sets the enemy's encounter event id.
+    void SetEncounterEvent(const std::string& event) {
+        _encounter_event = event;
+    }
+
     //! \name Class Member Access Functions
     //@{
     float GetAggroRange() const {
         return _aggro_range;
     }
 
-    uint32 GetTimeToChange() const {
-        return _time_dir_change;
+    uint32 GetTimeBeforeNewDestination() const {
+        return _time_before_new_destination;
     }
 
     uint32 GetTimeToSpawn() const {
@@ -634,12 +663,12 @@ public:
         _aggro_range = range;
     }
 
-    void SetTimeToChange(uint32 time) {
-        _time_dir_change = time;
+    void SetTimeBeforeNewDestination(uint32 time) {
+        _time_before_new_destination = time;
     }
 
-    void SetTimeToSpawn(uint32 time) {
-        _time_to_spawn = time;
+    void SetTimeToRespawn(uint32 time) {
+        _time_to_respawn = time;
     }
 
     void SetBoss(bool is_boss) {
@@ -664,12 +693,17 @@ public:
     }
 
     void ChangeStateSpawning() {
-        updatable = true;
+        _updatable = true;
         _state = SPAWNING;
-        collision_mask = NO_COLLISION;
+        _collision_mask = NO_COLLISION;
     }
 
     void ChangeStateHostile();
+
+    //! Makes an enemy follow way point when not running after a hero
+    //! \note You'll have to add at least two valid way point to make those
+    //! taken into account by the enemy sprite.
+    void AddWayPoint(float destination_x, float destination_y);
     //@}
 
 private:
@@ -688,14 +722,14 @@ private:
     //! \brief A value which determines how close the player needs to be for the enemy to aggressively seek to confront it
     float _aggro_range;
 
-    //! \brief ???
-    uint32 _time_dir_change;
+    //! \brief Tells the time the sprite is waiting before going to a new destination.
+    uint32 _time_before_new_destination;
 
-    //! \brief ???
+    //! \brief Tells the actual time in milliseconds the sprite will use to respawn. This will set up the fade in speed.
     uint32 _time_to_spawn;
 
-    //! \brief Indicates if the enemy is outside of its zone. If it is, it won't change direction until it gets back in.
-    bool _out_of_zone;
+    //! \brief the default time used to respawn (Set to STANDARD_ENEMY_SPAWN_TIME by default)
+    uint32 _time_to_respawn;
 
     //! \brief The default battle music theme for the monster
     std::string _music_theme;
@@ -709,14 +743,59 @@ private:
     //! \brief Tells whether the sprite is a boss.
     bool _is_boss;
 
-    //! \brief The custom script filename
-    // TODO: Actually use it for animation and/or custom battle AI ??
-    std::string _filename;
-
     /** \brief Contains the possible groups of enemies that may appear in a battle should the player encounter this enemy sprite
     *** The numbers contained within this member are ID numbers for the enemy.
     **/
     std::vector<std::vector<BattleEnemyInfo> > _enemy_parties;
+
+    //! \brief The enemy's encounter event.
+    //! If this event is not empty, it is triggered instead of a battle.
+    std::string _encounter_event;
+
+    //! \brief Tells whether pathfinding is used to compute the enemy movement.
+    bool _use_path;
+
+    //! \brief Used to store the previous coordinates of the sprite during path movement,
+    //! so as to set the proper direction of the sprite as it moves
+    float _last_node_x_position, _last_node_y_position;
+
+    //! \brief Used to store the current node collision position (with offset)
+    float _current_node_x, _current_node_y;
+
+    //! \brief An index to the path vector containing the node that the sprite currently occupies
+    uint32 _current_node_id;
+
+    //! \brief The current destination of the sprite.
+    float _destination_x, _destination_y;
+
+    //! \brief Holds the path needed to traverse from source to destination
+    Path _path;
+
+    //! \brief Way points used by the enemy when not hostile
+    std::vector<MapPosition> _way_points;
+    uint32 _current_way_point_id;
+
+    //! \brief Set the new path destination of the sprite.
+    //! \param destination_x The pixel x destination to find a path to.
+    //! \param destination_y The pixel y destination to find a path to.
+    //! \param max_cost More or less the path max length in nodes or 0 if no limitations.
+    //! Use this to avoid heavy computations.
+    //! \return whether it failed.
+    bool _SetDestination(float destination_x, float destination_y, uint32 max_cost = 20);
+
+    //! \brief Set the actual sprite direction according to the current path node.
+    void _SetSpritePathDirection();
+
+    //! \brief Update the sprite direction according to the current path.
+    void _UpdatePath();
+
+    //! \brief Set a path for the sprite being the next way point given.
+    //! \return whether it failed.
+    bool _SetPathToNextWayPoint();
+
+    //! \brief Handles behavior when the enemy is in hostile state (seeking for characters)
+    void _HandleHostileUpdate();
+
 }; // class EnemySprite : public MapSprite
 
 } // namespace private_map

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -22,7 +22,6 @@
 #define __OPTION_HEADER__
 
 #include "common/gui/gui.h"
-#include "engine/video/image.h"
 #include "engine/video/text.h"
 #include "engine/system.h"
 
@@ -216,8 +215,8 @@ public:
     //! \brief The elements that this option is composed of
     std::vector<OptionElement> elements;
 
-    //! \brief Contains all pieces of text for this option
-    std::vector<vt_utils::ustring> text;
+    //! \brief Contains all pieces of text for this option (as pre-rendered images)
+    std::vector<vt_video::TextImage> text;
 
     //! \brief Contains all images used for this option
     vt_video::StillImage *image;
@@ -281,7 +280,7 @@ public:
     *** \note Calling this function will clear any current options
     ***
     *** If any single option contains formatting errors, then the entire set of options will not be added.
-    *** Example of an option with formatting: "<img/weapons/mythril.png>Mythril knife<r>500 drunes"
+    *** Example of an option with formatting: "<data/inventoryweapons/mythril.png>Mythril knife<r>500 drunes"
     **/
     void SetOptions(const std::vector<vt_utils::ustring>& option_text);
 
@@ -315,7 +314,7 @@ public:
 
     /** \brief Appends an image element to an existing option
     *** \param option_index The index of the option to append the image element to
-    *** \param image A pointer to the image to create a copy of for the option (must be non-NULL)
+    *** \param image A pointer to the image to create a copy of for the option (must be non-nullptr)
     **/
     void AddOptionElementImage(uint32 option_index, const vt_video::StillImage *image);
 
@@ -362,18 +361,11 @@ public:
 
     /** \brief Retrieves a pointer to the image embedded within the option
     *** \param index The index of the option to retrieve the image
-    *** \return NULL if the index is invalid or the option does not embed an image, otherwise a valid pointer to a StillImage
+    *** \return nullptr if the index is invalid or the option does not embed an image, otherwise a valid pointer to a StillImage
     **/
     vt_video::StillImage *GetEmbeddedImage(uint32 index) const;
 
-    /** \brief Used to determine whether the option box is initialized and ready for use
-    *** \param error_messages Used to report the list of reasons why the option box is not initialized
-    *** \return True if the option box is initialized, false if it is not
-    **/
-    bool IsInitialized(std::string &error_messages);
-
-    /**
-    *** \brief resets the viewing selection to the top-most option.
+    /** \brief resets the viewing selection to the top-most option.
     *** this essentially forces the draw top and draw left to be set to zero
     *** \note This call must be called INDEPENDENTLY of ClearOptions() or SetOptions(), etc.
     *** because every frame, it is possible that we "reset" the actual options via a ClearOptions() / SetOptions() call,
@@ -404,7 +396,6 @@ public:
     void SetOptionAlignment(int32 xalign, int32 yalign) {
         _option_xalign = xalign;
         _option_yalign = yalign;
-        _initialized = IsInitialized(_initialization_errors);
     }
 
     /** \brief Sets the option selection mode (single or double confirm)
@@ -412,7 +403,6 @@ public:
     **/
     void SetSelectMode(SelectMode mode) {
         _selection_mode = mode;
-        _initialized = IsInitialized(_initialization_errors);
     }
 
     /** \brief Sets the behavior for vertical wrapping of the cursor
@@ -453,10 +443,10 @@ public:
         _cursor_yoffset = y;
     }
 
-    /** \brief Sets the text style to use for this textbox.
+    /** \brief Sets the text style to use for this option box.
     *** \param style The style intended \see #TextStyle
     **/
-    void SetTextStyle(const vt_video::TextStyle &style);
+    void SetTextStyle(const vt_video::TextStyle& style);
 
     /** \brief Sets the state of the cursor icon
     *** \param state The cursor state to set
@@ -478,6 +468,11 @@ public:
     **/
     bool IsScrolling() const {
         return _scrolling;
+    }
+
+    //! \brief Tells whether the scrolling should be animated.
+    void AnimateScrolling(bool animated) {
+        _scrolling_animated = animated;
     }
 
     /** \brief Retreives an event that has occurred, or zero if no event occurred.
@@ -511,19 +506,7 @@ public:
     }
     //@}
 
-    /** \brief Used to enable scissoring of the option box
-    *** \param enable Set to true to enable, or false to disable
-    *** \param owner Set to true to scissor to the _owner's size, or false to scissor to the box's size
-    **/
-    void Scissoring(bool enable, bool owner) {
-        _scissoring = enable;
-        _scissoring_owner = owner;
-    }
-
 private:
-    //! \brief When set to true, indicates that the option box is initialized and ready to be used
-    bool _initialized;
-
     //! \name Option Property Members
     //@{
     /** \brief The vector containing all of the options
@@ -575,12 +558,6 @@ private:
     //! \brief The vertical alignment type for option cell contents
     int32 _option_yalign;
 
-    //! \brief True if scissoring is enabled
-    bool _scissoring;
-
-    //! \brief True if scissoring should be applied according to the owner window, false for the box's size
-    bool _scissoring_owner;
-
     //! \brief When true the scroll arrows for the horizontal and vertical directions will be drawn
     bool _draw_horizontal_arrows, _draw_vertical_arrows;
 
@@ -612,6 +589,9 @@ private:
 
     //! \brief Indicates the scrolling direction; 1 for down or -1 for up
     int32 _scroll_direction;
+
+    //! \brief Tells whether the scrolling should be animated.
+    bool _scrolling_animated;
 
     //! \brief The position of the horizontal scroll arrows
     HORIZONTAL_ARROWS_POSITION _horizontal_arrows_position;

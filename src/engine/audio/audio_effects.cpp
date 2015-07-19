@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,6 +15,7 @@
 *** \brief  Source file for audio effects
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "audio_effects.h"
 
 #include "engine/system.h"

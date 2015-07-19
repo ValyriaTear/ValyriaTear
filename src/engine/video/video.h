@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -22,47 +22,26 @@
 *** by the map editor GUI as a QT widget.
 ***
 *** \note This code uses the OpenGL library for graphics rendering.
-*** \note This code uses the libpng and libjpeg libraries for loading images.
+*** \note This code uses the SDL_Image library to load images.
 *** \note This code uses the SDL_ttf 2.0 library for font rendering.
 *** ***************************************************************************/
 
 #ifndef __VIDEO_HEADER__
 #define __VIDEO_HEADER__
 
-#include "context.h"
-#include "color.h"
-#include "coord_sys.h"
-#include "fade.h"
-#include "image.h"
-#include "screen_rect.h"
-#include "texture_controller.h"
-#include "text.h"
+#include "engine/video/video_utils.h"
 
-// required for Code::Blocks and VS
-#ifdef _WIN32
-#include <windows.h> // needs to be included before gl.h
-#endif
-
-// just required for VS
-#ifdef _VS
-#include <GL/glew.h>
-#endif
-
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#else
-#include <GL/gl.h>
-#include <GL/glu.h>
-#endif
-
-#ifdef __APPLE__
-#include <SDL_ttf/SDL_ttf.h>
-#else
-#include <SDL/SDL_ttf.h>
-#endif
-
-#include <stack>
+#include "engine/video/color.h"
+#include "engine/video/context.h"
+#include "engine/video/coord_sys.h"
+#include "engine/video/fade.h"
+#include "engine/video/gl/gl_shader_programs.h"
+#include "engine/video/gl/gl_shaders.h"
+#include "engine/video/gl/gl_transform.h"
+#include "engine/video/image.h"
+#include "engine/video/screen_rect.h"
+#include "engine/video/text.h"
+#include "engine/video/texture_controller.h"
 
 namespace vt_gui {
 class TextBox;
@@ -87,6 +66,18 @@ class ModeEngine;
 //! \brief All calls to the video engine are wrapped in this namespace.
 namespace vt_video
 {
+
+// Forward declarations.
+namespace gl
+{
+
+class ParticleSystem;
+class Shader;
+class ShaderProgram;
+class Sprite;
+
+} // namespace gl
+
 class VideoEngine;
 
 //! \brief The singleton pointer for the engine, responsible for all video operations.
@@ -95,83 +86,12 @@ extern VideoEngine *VideoManager;
 //! \brief Determines whether the code in the vt_video namespace should print
 extern bool VIDEO_DEBUG;
 
-namespace private_video
-{
-//! \brief The number of FPS samples to retain across frames
-const uint32 FPS_SAMPLES = 250;
-
-//! \brief Maximum milliseconds that the current frame time and our averaged frame time must vary before we begin trying to catch up
-const uint32 MAX_FTIME_DIFF = 5;
-
-//! \brief The number of samples to take if we need to play catchup with the current FPS
-const uint32 FPS_CATCHUP = 20;
-}
-
-//! \brief Draw flags to control x and y alignment, flipping, and texture blending.
-enum VIDEO_DRAW_FLAGS {
-    VIDEO_DRAW_FLAGS_INVALID = -1,
-
-    //! X draw alignment flags
-    //@{
-    VIDEO_X_LEFT = 1,
-    VIDEO_X_CENTER = 2,
-    VIDEO_X_RIGHT = 3,
-    //@}
-
-    //! Y draw alignment flags
-    //@{
-    VIDEO_Y_TOP = 4,
-    VIDEO_Y_CENTER = 5,
-    VIDEO_Y_BOTTOM = 6,
-    //@}
-
-    //! X flip flags
-    //@{
-    VIDEO_X_FLIP = 7,
-    VIDEO_X_NOFLIP = 8,
-    //@}
-
-    //! Y flip flags
-    //@{
-    VIDEO_Y_FLIP = 9,
-    VIDEO_Y_NOFLIP = 10,
-    //@}
-
-    //! Texture blending flags
-    //@{
-    VIDEO_NO_BLEND = 11,
-    VIDEO_BLEND = 12,
-    VIDEO_BLEND_ADD = 13,
-    //@}
-
-    VIDEO_DRAW_FLAGS_TOTAL = 14
-};
-
-
-//! \brief Specifies the target window environement where the video engine will run
-enum VIDEO_TARGET {
-    VIDEO_TARGET_INVALID = -1,
-
-    //! Represents a SDL window
-    VIDEO_TARGET_SDL_WINDOW = 0,
-
-    //! Represents a QT widget
-    VIDEO_TARGET_QT_WIDGET  = 1,
-
-    VIDEO_TARGET_TOTAL = 2
-};
-
-//! \brief The standard screen resolution
-const float	VIDEO_STANDARD_RES_WIDTH  = 1024.0f;
-const float	VIDEO_STANDARD_RES_HEIGHT = 768.0f;
-
 /** \brief Rotates a point (x,y) around the origin (0,0), by angle radians
 *** \param x x coordinate of point to rotate
 *** \param y y coordinate of point to rotate
 *** \param angle amount to rotate by (in radians)
 **/
 void RotatePoint(float &x, float &y, float angle);
-
 
 /** ****************************************************************************
 *** \brief Manages all the video operations and serves as the API to the video engine.
@@ -208,24 +128,15 @@ public:
     /** \brief Initialzies all video engine libraries and sub-systems
     *** \return True if all initializations were successful, false if there was an error.
     **/
-    bool SingletonInitialize();
+    bool SingletonInitialize()
+    { return true; }
 
     //! \brief Delayed setup calls, that require data from the settings file.
     //@{
-    void SetInitialResolution(int32 width, int32 height);
     bool FinalizeInitialization();
     //@}
 
     // ---------- General methods
-
-    /** \brief Sets the target window environment where the video engine will be used
-    *** \param target The window target, which can be VIDEO_TARGET_SDL_WINDOW or VIDEO_TARGET_QT_WIDGET
-    *** \note The video engien's default target is a SDL window, so if that's what you desire then this
-    *** function does not need to be called.
-    *** \note You must set the target before calling the SingletonInitialize() function. Any invocations
-    *** of the SetTarget function after SingletonInitialize has been called will result in no effect.
-    **/
-    void SetTarget(VIDEO_TARGET target);
 
     /** \brief Sets one to multiple flags which control drawing orientation (flip, align, blending, etc). Simply pass
     *** \param first_flag The first (and possibly only) draw flag to set
@@ -249,9 +160,8 @@ public:
     **/
     void Update();
 
-    /** \brief Displays the newly drawn contents onto the screen
-    **/
-    void Draw();
+    //! \brief Displays potential debug information (FPS and textures).
+    void DrawDebugInfo();
 
     /** \brief Retrieves the OpenGL error code and retains it in the _gl_error_code member
     *** \return True if an OpenGL error has been detected, false if no errors were detected
@@ -259,11 +169,7 @@ public:
     *** because the call to glGetError() requires a round trip to the GPU and a flush of the rendering pipeline; a fairly
     *** expensive operation. If VIDEO_DEBUG is false, the function will always return false immediately.
     **/
-    bool CheckGLError() {
-        if(VIDEO_DEBUG == false) return false;
-        _gl_error_code = glGetError();
-        return (_gl_error_code != GL_NO_ERROR);
-    }
+    bool CheckGLError();
 
     //! \brief Returns the value of the most recently fetched OpenGL error code
     GLenum GetGLError() {
@@ -283,6 +189,20 @@ public:
     //! \brief Returns the height of the screen, in pixels
     int32 GetScreenHeight() const {
         return _screen_height;
+    }
+
+    //! \brief Returns the viewport current offsets/width/height
+    int32 GetViewportXOffset() const {
+        return _viewport_x_offset;
+    }
+    int32 GetViewportYOffset() const {
+        return _viewport_y_offset;
+    }
+    int32 GetViewportWidth() const {
+        return _viewport_width;
+    }
+    int32 GetViewportHeight() const {
+        return _viewport_height;
     }
 
     bool IsInitialized() const {
@@ -321,18 +241,34 @@ public:
         SetFullscreen(!_temp_fullscreen);
     }
 
-    //! \brief Will make the pixel art related images smoothed (only used for map tiles at the moment)
-    void SetPixelArtSmoothed(bool smooth) {
-        _smooth_pixel_art = smooth;
+    //! \brief Sets VSync mode support.
+    //! \param mode 0 or > 2: None, 1: VSync, 2: Swap Tearing
+    void SetVSyncMode(uint32 mode) {
+        _vsync_mode = mode;
     }
 
-    //! \brief Returns true if pixel art textures should be smoothed (only used for map tiles at the moment)
-    bool ShouldSmoothPixelArt() {
-        return _smooth_pixel_art;
+    //! \brief Gets current VSync mode support.
+    //! \return 0 or > 2: None, 1: VSync, 2: Swap Tearing
+    inline uint32 GetVSyncMode() const {
+        return _vsync_mode;
+    }
+
+    //! \brief Sets the game main loop update mode.
+    //! \param update_mode true for performance, false for the CPU-gentle loop.
+    //! \note  It is always on performance when VSync is enabled.
+    void SetGameUpdateMode(bool update_mode) {
+        _game_update_mode = update_mode;
+    }
+
+    //! \brief Gets the game main loop update mode.
+    //! \param update_mode true for performance, false for the CPU-gentle loop.
+    //! \note  It is always on performance when VSync is enabled.
+    inline bool GetGameUpdateMode() const {
+        return _game_update_mode;
     }
 
     //! \brief Returns a reference to the current coordinate system
-    const CoordSys &GetCoordSys() const {
+    const CoordSys& GetCoordSys() const {
         return _current_context.coordinate_system;
     }
 
@@ -378,15 +314,7 @@ public:
     *** \param width current width as a float
     *** \param height current height as a float
     **/
-    void GetCurrentViewport(float &x, float &y, float &width, float &height)
-    {
-        static GLint viewport_dimensions[4] = {(GLint)0};
-        glGetIntegerv(GL_VIEWPORT, viewport_dimensions);
-        x = (float) viewport_dimensions[0];
-        y = (float) viewport_dimensions[1];
-        width = (float) viewport_dimensions[2];
-        height = (float) viewport_dimensions[3];
-    }
+    void GetCurrentViewport(float &x, float &y, float &width, float &height);
 
     /** \brief assigns the viewport for open gl to draw into
     *** \param x the x start location
@@ -394,35 +322,38 @@ public:
     *** \param width the x width
     *** \param height the y height
     **/
-    void SetViewport(float x, float y, float width, float height)
-    {
-        if(width <= 0 || height <= 0)
-        {
-            PRINT_WARNING << "attempted to set an invalid viewport size: " << x << "," << y
-                << " at " << width << ":" << height << std::endl;
-            return;
-        }
-        glViewport((GLint) x, (GLint)y, (GLsizei)width, (GLsizei)height);
-    }
+    void SetViewport(float x, float y, float width, float height);
 
     //! Perform the OpenGL corresponding calls, but only if necessary.
-    void EnableAlphaTest();
-    void DisableAlphaTest();
     void EnableBlending();
     void DisableBlending();
     void EnableStencilTest();
     void DisableStencilTest();
     void EnableTexture2D();
     void DisableTexture2D();
-    void EnableColorArray();
-    void DisableColorArray();
-    void EnableVertexArray();
-    void DisableVertexArray();
-    void EnableTextureCoordArray();
-    void DisableTextureCoordArray();
+
+    //! \brief Loads a shader program.
+    gl::ShaderProgram* LoadShaderProgram(const gl::shader_programs::ShaderPrograms& shader_program);
+
+    //! \brief Unloads the currently loaded shader program.
+    void UnloadShaderProgram();
+
+    //! \brief Draws a particle system.
+    void DrawParticleSystem(gl::ShaderProgram* shader_program,
+                            float* vertex_positions,
+                            float* vertex_texture_coordinates,
+                            float* vertex_colors,
+                            unsigned number_of_vertices);
+
+    //! \brief Draws a sprite.
+    void DrawSprite(gl::ShaderProgram* shader_program,
+                    float* vertex_positions,
+                    float* vertex_texture_coordinates,
+                    float* vertex_colors,
+                    const Color& color = ::vt_video::Color::white);
 
     /** \brief Enables the scissoring effect in the video engine
-    *** Scisorring is where you can specify a rectangle of the screen which is affected
+    *** Scissoring is where you can specify a rectangle of the screen which is affected
     *** by rendering operations (and hence, specify what area is not affected). Make sure
     *** to disable scissoring as soon as you're done using the effect, or all subsequent
     *** draw calls will get messed up.
@@ -443,31 +374,19 @@ public:
     }
 
     /** \brief Sets the rectangle area to use for scissorring
-    *** \param left Coordinate for left side of scissoring rectangle
-    *** \param right Coordinate for right side of scissoring rectangle
-    *** \param bottom Coordinate for bottom side of scissoring rectangle
-    *** \param top Coordinate for top side of scissoring rectangle
-    *** \note The coordinate arguments are based on the current coordinate system,
-    *** not the screen coordinates
+    *** \param x Coordinate for the X value of scissoring rectangle
+    *** \param y Coordinate for the Y value of scissoring rectangle
+    *** \param width Coordinate for the width of scissoring rectangle
+    *** \param height Coordinate for the height of scissoring rectangle
+    *** \note The arguments are based on screen coordinates
     **/
-    void SetScissorRect(float left, float right, float bottom, float top);
+    void SetScissorRect(unsigned x, unsigned y, unsigned width, unsigned height);
 
     /** \brief Sets the rectangle area to use for scissorring
     *** \param rect The rectangle to set the scissoring rectangle to
-    *** In this function the rect coordinates should have already been transformed to
-    *** integer values (pixel unit) with (0,0) as the upper left and (w-1, h-1) as the
-    *** lower right, where w and h are the current screen dimensions. Do <b>not</b>
-    *** incorrectly assume that rect should contain coordinates based on the current
-    *** coordinate system.
+    *** \note The arguments are based on screen coordinates
     **/
-    void SetScissorRect(const ScreenRect &rect);
-
-    /** \brief Converts coordinates from the current coordinate system into screen coordinates
-    *** \return A ScreenRect object that contains the translated screen coordinates.
-    *** Screen coordinates are in pixel units with (0,0) as the top left and (w-1, h-1)
-    *** as the lower-right, where w and h are the dimensions of the screen.
-    **/
-    ScreenRect CalculateScreenRect(float left, float right, float bottom, float top);
+    void SetScissorRect(const ScreenRect& screen_rectangle);
 
     // ----------  Transformation methods
 
@@ -496,14 +415,10 @@ public:
     *** What this means is that it save the combined result of all transformation
     *** calls (Move/MoveRelative/Scale/Rotate)
     **/
-    void PushMatrix() {
-        glPushMatrix();
-    }
+    void PushMatrix();
 
     //! \brief Pops the modelview transformation from the stack
-    void PopMatrix() {
-        glPopMatrix();
-    }
+    void PopMatrix();
 
     /** \brief Saves relevant state of the video engine on to an internal stack
     *** The contents saved include the modelview transformation and the current
@@ -521,14 +436,12 @@ public:
     //! \brief Restores the most recently pushed video engine state
     void PopState();
 
-    /** \brief Rotates images counterclockwise by the specified number of radians
-    *** \param angle How many radians to perform the rotation by
+    /** \brief Rotates images counterclockwise by the specified number of degrees.
+    *** \param angle How many degrees to perform the rotation by.
     *** \note You should understand how transformation matrices work in OpenGL
     *** prior to using this function.
     **/
-    void Rotate(float angle) {
-        glRotatef(angle, 0, 0, 1);
-    }
+    void Rotate(float angle);
 
     /** \brief Scales all subsequent image drawing calls in the horizontal and vertical direction
     *** \param x The amount of horizontal scaling to perform (0.5 for half, 1.0 for normal, 2.0 for double, etc)
@@ -536,14 +449,7 @@ public:
     *** \note You should understand how transformation matrices work in OpenGL
     *** prior to using this function.
     **/
-    void Scale(float x, float y) {
-        glScalef(x, y, 1.0f);
-    }
-
-    /** \brief Sets the OpenGL transform to the contents of 4x4 matrix
-    *** \param matrix A pointer to an array of 16 float values that form a 4x4 transformation matrix
-    **/
-    void SetTransform(float matrix[16]);
+    void Scale(float x, float y);
 
     // ----------  Image operation methods
 
@@ -571,43 +477,6 @@ public:
     *** \throw Exception if the new image cannot be created
     **/
     StillImage CreateImage(private_video::ImageMemory *raw_image, const std::string &image_name, bool delete_on_exist = true) throw(vt_utils::Exception);
-
-    /** \brief Returns a pointer to the GUIManager singleton object
-    *** This method allows the user to perform text operations. For example, to load a
-    *** font, the user may utilize this method like so:
-    *** `if (VideoManager->Text()->LoadFont(...) == true) { cout << "Success" << std::endl; }`
-    ***
-    *** \note See text.h for the public methods available from the TextSupervisor class
-    *** \note This function is guaranteed to return a valid pointer so long as the VideoEngine class
-    *** has been properly initialized
-    **/
-    TextSupervisor *Text() {
-        return TextManager;
-    }
-
-    /** \brief Helper to draw some text at the given position.
-     *
-     * \param x x coordinate to start grid at
-     * \param y y coordinate to start grid at
-     * \param c color of the text
-     */
-    void DrawText(const std::string &text, float x, float y, const Color &c) {
-        DrawText(vt_utils::MakeUnicodeString(text), x, y, c);
-    }
-    void DrawText(const vt_utils::ustring &text, float x, float y, const Color &c);
-
-    /** \brief Returns a pointer to the TextureManager singleton object
-    *** This method allows the user to perform texture management operations. For example, to reload
-    *** all textures, the user may utilize this method like so:
-    *** `if (VideoManager->Textures()->ReloadTextures() == true) { cout << "Success" << std::endl; }`
-    ***
-    *** \note See texture_controller.h for the public methods available from the GUISystem class
-    *** \note This function is guaranteed to return a valid pointer so long as the VideoEngine class
-    *** has been properly initialized
-    **/
-    TextureController *Textures() {
-        return TextureManager;
-    }
 
     //-- Overlays: Lighting, Lightning  -----------------------------------------------------
 
@@ -650,55 +519,48 @@ public:
     }
 
     //-- Screen shaking -------------------------------------------------------
-// Avoid a useless dependency on the mode manager for the editor build
-#ifndef EDITOR_BUILD
     //! \brief Returns true if the screen is shaking
     //! \note The function acts as a wrapper for the current game mode effect supervisor
     //! and check for active shaking
     bool IsScreenShaking();
-#endif
 
     //-- Miscellaneous --------------------------------------------------------
 
-    /** \brief Sets a new gamma value using SDL_SetGamma()
-     *
-     *  \param value        Gamma value of 1.0f is the default value
-     */
-    void SetGamma(float value);
+    /** \brief Sets a new brightness value
+    *** \param value Brightness value [0.0f - 2.0f]. 1.0f is the default value
+    **/
+    void SetBrightness(float value);
 
-    /** \brief Returns the gamma value
-     * \return the gamma value
-     */
-    float GetGamma() const {
-        return _gamma_value;
+    /** \brief Returns the current brightness value [0.0f - 2.0f]
+    *** \return the brightness value
+    **/
+    float GetBrightness() const {
+        return _brightness_value;
     }
 
-    /** \brief Draws a colored line between two points
-    *** \param x1 The x coordinate of the first point
-    *** \param y1 The y coordinate of the first point
-    *** \param x2 The x coordinate of the second point
-    *** \param y2 The y coordinate of the second point
-    *** \param width The width/thickness of the line to draw, in pixels
-    *** \param color The color to draw the line in
-    *** \todo Width argument should be an unsigned, non-zero integer
+    /** \brief Draws a colored line between two points.
+    *** \param x1 The x coordinate of the first point.
+    *** \param y1 The y coordinate of the first point.
+    *** \param width1 The width/thickness of the first point.
+    *** \param x2 The x coordinate of the second point.
+    *** \param y2 The y coordinate of the second point.
+    *** \param width2 The width/thickness of the second point.
+    *** \param color The color to draw the line in.
     **/
-    void DrawLine(float x1, float y1, float x2, float y2, float width, const Color &color);
+    void DrawLine(float x1, float y1, unsigned width1, float x2, float y2, unsigned width2, const Color &color);
 
-    /** \brief draws a line grid. Used by map editor to draw a grid over all
-     *         the tiles. This function will start at (x,y), and go to
-     *         (xMax, yMax), with horizontal cell spacing of xstep and
-     *         vertical cell spacing of ystep. The final parameter is just the
-     *         color the lines should be drawn
+    /** \brief Draws a grid of lines grid. Used by map editor to draw a grid over all the tiles.
      *
-     *  \note  xMax and yMax are not inputs to the function- they are taken
-     *         from the current coord sys
-     * \param x x coordinate to start grid at
-     * \param y y coordinate to start grid at
-     * \param x_step width of grid squares
-     * \param y_step height of grid squares
-     * \param c color of the grid
+     * \param left The left coordinate of the grid.
+     * \param top The top coordinate of the grid.
+     * \param right The right coordinate of the grid.
+     * \param bottom The bottom coordinate of the grid.
+     * \param width_cell_horizontal The horizontal width of the grid's cells.
+     * \param width_cell_vertical The vertical width of the grid's cells.
+     * \param width_line The width of the grid's lines.
+     * \param color The color of the grid.
      */
-    void DrawGrid(float x, float y, float x_step, float y_step, const Color &c);
+    void DrawGrid(float left, float top, float right, float bottom, float width_cell_horizontal, float width_cell_vertical, unsigned width_line, const Color& color);
 
     /** \brief Draws a solid rectangle of a given color.
     *** Draws a solid rectangle of a given color. For that, the lower-left corner
@@ -710,21 +572,20 @@ public:
     **/
     void DrawRectangle(float width, float height, const Color &color);
 
-    /** \brief Draws an outline of a rectangle that is not filled in
-    *** \param left The x coordinate corresponding to the left side of the rectangle
-    *** \param right The x coordinate corresponding to the right side of the rectangle
-    *** \param bottom The y coordinate corresponding to the bottom side of the rectangle
-    *** \param top The y coordinate corresponding to the top side of the rectangle
-    *** \param width The width/thickness of the outline to draw, in pixels
-    *** \param color The color to draw the outline in
-    *** \todo Width argument should be an unsigned, non-zero integer
+    /** \brief Draws an outline of a rectangle that is not filled in.
+    *** \param left The x coordinate corresponding to the left side of the rectangle.
+    *** \param right The x coordinate corresponding to the right side of the rectangle.
+    *** \param bottom The y coordinate corresponding to the bottom side of the rectangle.
+    *** \param top The y coordinate corresponding to the top side of the rectangle.
+    *** \param width The width/thickness of the outline to draw.
+    *** \param color The color to draw the outline in.
     **/
-    void DrawRectangleOutline(float x1, float y1, float x2, float y2, float width, const Color &color);
+    void DrawRectangleOutline(float x1, float y1, float x2, float y2, unsigned width, const Color &color);
 
     /** \brief Takes a screenshot and saves the image to a file
-    *** \param filename The name of the file, if any, to save the screenshot as. Default is "screenshot.jpg"
+    *** \param filename The name of the file, if any, to save the screenshot as. Default is "screenshot.png"
     **/
-    void MakeScreenshot(const std::string &filename = "screenshot.jpg");
+    void MakeScreenshot(const std::string &filename = "screenshot.png");
 
     /** \brief toggles debug information display.
     *** currently used for debugging game modes, and more especially the map mode.
@@ -740,28 +601,20 @@ public:
         return _debug_info;
     }
 
-    /** \brief sets the default cursor to the image in the given filename
-    * \param cursor_image_filename file containing the cursor image
-    */
-    bool SetDefaultCursor(const std::string &cursor_image_filename);
-
-    /** \brief returns the cursor image
-    * \return the cursor image
-    */
-    StillImage *GetDefaultCursor();
-
     /** Retrieves current set text style for rendering
      */
     TextStyle GetTextStyle();
 
-    //! \brief Updates the FPS counter and draws the current average FPS to the screen.
-    void DrawFPS();
-
-    /** \brief toggles the FPS display
-     */
+    //! \brief toggles the FPS display
     void ToggleFPS() {
         _fps_display = !_fps_display;
     }
+
+    void SetWindowHandle(SDL_Window* window)
+    { _sdl_window = window; }
+
+    SDL_Window* GetWindowHandle()
+    { return _sdl_window; }
 private:
     VideoEngine();
 
@@ -779,11 +632,14 @@ private:
 
     //-- Private variables ----------------------------------------------------
 
+    // The SDL2 Window handle
+    SDL_Window* _sdl_window;
+
     //! fps display flag. If true, FPS is displayed
     bool _fps_display;
 
     //! \brief A circular array of FPS samples used for calculating average FPS
-    uint32 _fps_samples[private_video::FPS_SAMPLES];
+    uint32 _fps_samples[FPS_SAMPLES];
 
     /** \brief Keeps track of the sum of FPS values over the last VIDEO_FPS_SAMPLES frames
     *** This is used to simplify the calculation of average frames per second.
@@ -800,32 +656,36 @@ private:
     **/
     uint32 _number_samples;
 
+    //! The FPS text
+    TextImage* _FPS_textimage;
+
     //! \brief Holds the most recently fetched OpenGL error code
     GLenum _gl_error_code;
 
-    //! \brief those members are used to activate/deactivate the GL state only when needed.
+    //! \brief These members are used to activate/deactivate the GL state only when needed.
+
     //! \brief Holds whether the GL_BLEND state is activated. Used to optimize the drawing logic
     bool _gl_blend_is_active;
+
     //! \brief Holds whether the GL_TEXTURE_2D state is activated. Used to optimize the drawing logic
     bool _gl_texture_2d_is_active;
-    //! \brief Holds whether the GL_ALPHA_TEST state is activated. Used to optimize the drawing logic
-    bool _gl_alpha_test_is_active;
+
     //! \brief Holds whether the GL_STENCIL_STATE state is activated. Used to optimize the drawing logic
     bool _gl_stencil_test_is_active;
+
     //! \brief Holds whether the GL_SCISSOR_TEST state is activated. Used to optimize the drawing logic
     bool _gl_scissor_test_is_active;
-    //! \brief Holds whether the GL_VERTEX_ARRAY state is activated. Used to optimize the drawing logic
-    bool _gl_vertex_array_is_activated;
-    //! \brief Holds whether the GL_VERTEX_ARRAY state is activated. Used to optimize the drawing logic
-    bool _gl_color_array_is_activated;
-    //! \brief Holds whether the GL_VERTEX_ARRAY state is activated. Used to optimize the drawing logic
-    bool _gl_texture_coord_array_is_activated;
 
-    //! \brief The type of window target that the video manager will operate on (SDL window or QT widget)
-    VIDEO_TARGET _target;
+    //! \brief The x/y offsets, width and height of the current viewport (the drawn part), in pixels
+    //! \note the viewport is different from the screen size when in non-4:3 modes.
+    int32 _viewport_x_offset;
+    int32 _viewport_y_offset;
+    int32 _viewport_width;
+    int32 _viewport_height;
 
-    //! \brief The width and height of the current screen, in pixels
-    int32  _screen_width, _screen_height;
+    //! \brief The width and height of the current screen (window), in pixels
+    int32 _screen_width;
+    int32 _screen_height;
 
     //! \brief True if the game is currently running fullscreen
     bool _fullscreen;
@@ -845,13 +705,13 @@ private:
     // Shaking effects
 
     //! X offset to shake the screen by (if any)
-    float  _x_shake;
+    float _x_shake;
 
     //! Y offset to shake the screen by (if any)
     float _y_shake;
 
-    //! Current gamma value
-    float _gamma_value;
+    //! Current brightness value between 0.0f and 2.0f. 1.0f is the original brightness value.
+    float _brightness_value;
 
     // changing the video settings does not actually do anything until
     // you call ApplySettings(). Up til that point, store them in temp
@@ -866,19 +726,39 @@ private:
     //! holds the desired screen height. Not actually applied until ApplySettings() is called
     int32 _temp_height;
 
-    //! \brief Tells whether pixel art sprites should be smoothed.
-    bool _smooth_pixel_art;
+    //! \brief Stores the current vsync mode.
+    uint32 _vsync_mode;
 
-    //! image which is to be used as the cursor
-    StillImage _default_menu_cursor;
+    //! \brief The game main loop update mode.
+    //! \note update_mode true for performance, false for the CPU-gentle loop.
+    //! It is always on performance when VSync is enabled.
+    bool _game_update_mode;
 
     //! Image used for rendering rectangles
     StillImage _rectangle_image;
 
-    //! stack containing context, i.e. draw flags plus coord sys. Context is pushed and popped by any VideoEngine functions that clobber these settings
+    //! The stack containing contexts, i.e. draw flags plus coord sys. Context is pushed and popped by any VideoEngine functions that clobber these settings
     std::stack<private_video::Context> _context_stack;
 
-    //! check to see if the VideoManager has already been setup.
+    //! The projection matrix.
+    gl::Transform _projection;
+
+    //! The stack containing transforms. Pushed and popped by PushMatrix/PopMatrix.
+    std::stack<gl::Transform> _transform_stack;
+
+    //! The OpenGL buffers and objects to draw a sprite.
+    gl::Sprite* _sprite;
+
+    //! The OpenGL buffers and objects to draw a particle system.
+    gl::ParticleSystem* _particle_system;
+
+    //! The OpenGL shaders.
+    std::map<gl::shaders::Shaders, gl::Shader*> _shaders;
+
+    //! The OpenGL shader programs.
+    std::map<gl::shader_programs::ShaderPrograms, gl::ShaderProgram*> _programs;
+
+    //! Check to see if the VideoManager has already been setup.
     bool _initialized;
 
     //-- Private methods ------------------------------------------------------
@@ -895,19 +775,17 @@ private:
     */
     int32 _ConvertYAlign(int32 yalign);
 
-    /**
-    * \brief takes an x value and converts it into screen coordinates
-    * \return the converted value
-    */
-    int32 _ScreenCoordX(float x);
+    //! \brief Updates the viewport metrics according to the current screen width/height.
+    //! \note it also centers the viewport when the resolution isn't a 4:3 one.
+    void _UpdateViewportMetrics();
 
-    /**
-    * \brief takes an x value and converts it into screen coordinates
-    * \return the converted value
-    */
-    int32 _ScreenCoordY(float y);
-}; // class VideoEngine : public vt_utils::Singleton<VideoEngine>
+    // Debug info
+    //! \brief Updates the FPS counter.
+    void _UpdateFPS();
+    //! \brief Draws the current average FPS to the screen.
+    void _DrawFPS();
+};
 
-}  // namespace vt_video
+} // namespace vt_video
 
 #endif // __VIDEO_HEADER__

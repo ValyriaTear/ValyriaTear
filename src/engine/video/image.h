@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -49,6 +49,8 @@
 #define __IMAGE_HEADER__
 
 #include "image_base.h"
+
+#include "utils/exception.h"
 
 namespace vt_mode_manager
 {
@@ -103,16 +105,10 @@ public:
     //! \brief Clears all data retained by the object (color, width, height, etc.)
     virtual void Clear() = 0;
 
-    /** \brief Draws the image to the display buffer
-    *** The location and orientation of the drawn image is dependent upon the current cursor position
-    *** and context (draw flags) set in the VideoEngine class.
-    **/
-    virtual void Draw() const = 0;
-
     /** \brief Draws a color modulated version of the image to the display buffer
     *** \param draw_color The color to modulate the image by
     **/
-    virtual void Draw(const Color &draw_color) const = 0;
+    virtual void Draw(const Color& draw_color = vt_video::Color::white) const = 0;
 
     //! \name Class Member Access Functions
     //@{
@@ -125,6 +121,10 @@ public:
     virtual float GetHeight() const {
         return _height;
     }
+
+    //! \brief Empty update function permitting better abstraction between StillImage and AnimatedImage.
+    virtual void Update()
+    {}
 
     //! \brief Set whether the image should be drawn smoothed.
     void Smooth(bool smooth) {
@@ -197,13 +197,13 @@ public:
     **/
     //@{
     /** \brief Retrieves various properties about an image file
-    *** \param filename The name of the image file (.png or .jpg) to retrieve the properties of
+    *** \param filename The name of the image file (SDL_Image compatible) to retrieve the properties of
     *** \param rows The number of rows of pixels in the image
     *** \param cols The number of columns of pixels in the image
     *** \param bpp The number of bits per pixel of the image
-    *** \throw Exception If any of the properties are not retrieved successfully
+    *** \returns whether the info were successfully obtained.
     **/
-    static void GetImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(vt_utils::Exception);
+    static bool GetImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp);
 
     /** \brief Loads a multi image into a vector of StillImage objects
     *** \param images Reference to the vector of StillImages to be loaded with elements from the multi image
@@ -286,9 +286,9 @@ protected:
 
     /** \brief Removes a reference to _texture, and frees or deletes it if it has no remaining references
     ***
-    *** This method will set _texture to NULL before returning. If your derived class has a duplicate texture
+    *** This method will set _texture to nullptr before returning. If your derived class has a duplicate texture
     *** pointer (ie, ImageTexture pointer for StillImage class), you should make sure to set that member to
-    *** NULL as well.
+    *** nullptr as well.
     **/
     void _RemoveTextureReference();
 
@@ -296,14 +296,14 @@ protected:
     ***
     *** \note This method modifies the draw cursor position and does not restore it before finishing. Therefore
     *** under most circumstances, you will want to call VideoManager->PushState()/PopState(), or
-    *** glPushMatrix()/glPopMatrix() before and after calling this function. The latter is preferred due to the
+    *** PushMatrix()/PopMatrix() before and after calling this function. The latter is preferred due to the
     *** lower cost of the call, but some circumstances may require using the former when more state information
     *** needs to be retained.
     **/
     void _DrawOrientation() const;
 
     /** \brief Draws the OpenGL texture referred to by the object on the screen
-    *** \param draw_color A non-NULL pointer to an array of four valid Color objects
+    *** \param draw_color A non-nullptr pointer to an array of four valid Color objects
     ***
     *** This method is typically a helper method to other draw calls in some way. It assumes that
     *** all of the appropriate transformation, scaling, and other image property opertaions have been
@@ -314,24 +314,6 @@ protected:
     void _DrawTexture(const Color *draw_color) const;
 
 private:
-    /** \brief Retrieves various properties about a PNG image file
-    *** \param filename The name of the PNG image file to retrieve the properties of
-    *** \param rows The number of rows of pixels in the image
-    *** \param cols The number of columns of pixels in the image
-    *** \param bpp The number of bits per pixel of the image
-    *** \throw Exception If any of the properties are not retrieved successfully
-    **/
-    static void _GetPngImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(vt_utils::Exception);
-
-    /** \brief Retrieves various properties about a JPG image file
-    *** \param filename The name of the JPG image file to retrieve the properties of
-    *** \param rows The number of rows of pixels in the image
-    *** \param cols The number of columns of pixels in the image
-    *** \param bpp The number of bits per pixel of the image
-    *** \throw Exception If any of the properties are not retrieved successfully
-    **/
-    static void _GetJpgImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(vt_utils::Exception);
-
     /** \brief A helper function to the public LoadMultiImage* calls
     *** \param images Reference to the vector of StillImages to be loaded
     *** \param filename The name of the multi image file to read
@@ -362,7 +344,7 @@ class StillImage : public ImageDescriptor
 
 public:
     //! \brief Supply the constructor with "true" if you want this to represent a grayscale image
-    StillImage(const bool grayscale = false);
+    explicit StillImage(const bool grayscale = false);
 
     ~StillImage();
 
@@ -370,7 +352,7 @@ public:
     void Clear();
 
     /** \brief Loads a single image file to be represented by the class object
-    *** \param filename The filename of the image to load (should have a .png or .jpg extension)
+    *** \param filename The filename of the image to load (should have a SDL_image compatible extension)
     *** \return True if the image was successfully loaded and is now represented by this object
     ***
     *** \note Invoking this function will clear all image elements currently used by this class.
@@ -385,16 +367,13 @@ public:
         return Load(filename);
     }
 
-    //! \brief Draws the image to the screen
-    void Draw() const;
-
     /** \brief Draws a color-modulated version of the image
     *** \param draw_color The color to modulate the image by
     **/
-    void Draw(const Color &draw_color) const;
+    void Draw(const Color& draw_color = vt_video::Color::white) const;
 
     /** \brief Saves the image to a file
-    *** \param filename The filename of the image to save (should have a .png or .jpg extension)
+    *** \param filename The filename of the image to save (must have a .png extension)
     *** \return True if the image was successfully saved to a file
     ***
     *** \note The image being saved should contain only one image element. Support for saving of
@@ -526,7 +505,6 @@ public:
     StillImage image;
 }; // class AnimationFrame
 
-
 /** ****************************************************************************
 *** \brief Represents a single element in a composite image
 *** ***************************************************************************/
@@ -534,20 +512,27 @@ class ImageElement
 {
 public:
     ImageElement() :
-        x_offset(0.0f), y_offset(0.0f) {}
+        image(),
+        x_offset(0.0f),
+        y_offset(0.0f)
+    {
+    }
 
     ImageElement(const StillImage &img, float x, float y) :
-        image(img), x_offset(x), y_offset(y) {}
+        image(img),
+        x_offset(x),
+        y_offset(y)
+    {
+    }
 
     //! \brief The singular image that represents this element
     StillImage image;
 
     //! \brief X and y draw position offsets of this element
     float x_offset, y_offset;
-}; // class ImageElement
+};
 
 } // namespace private_video
-
 
 /** ****************************************************************************
 *** \brief Represents an animated image with both frames and timing information
@@ -574,7 +559,7 @@ public:
     void Clear();
 
     /** \brief Loads an AnimatedImage by opening a multi image file
-    *** \param filename The name of the file to load, which should end in a .png or .jpg extension
+    *** \param filename The name of the image file to load.
     *** \param timings A vector reference which holds the timing information for each animation frame
     *** \param frame_width The width (in pixels) of each frame in the multi image file
     *** \param frame_height The height (in pixels) of each frame in the multi image file
@@ -588,7 +573,7 @@ public:
     bool LoadFromFrameSize(const std::string &filename, const std::vector<uint32>& timings, const uint32 frame_width, const uint32 frame_height, const uint32 trim = 0);
 
     /** \brief Loads an AnimatedImage from a multi image file
-    *** \param filename The name of the file to load, which should end in a .png or .jpg extension
+    *** \param filename The name of the image file to load.
     *** \param timings A vector reference which holds the timing information for each animation frame
     *** \param frame_rows The number of rows of frame images in the image file
     *** \param frame_cols The number of columns of frame images in the image file
@@ -621,16 +606,13 @@ public:
      */
     bool LoadFromAnimationScript(const std::string &filename);
 
-    //! \brief Draws the current frame image to the screen
-    void Draw() const;
-
     /** \brief Draws the current frame image which is modulated by a color
     *** \param draw_color The color to modulate the image by
     **/
-    void Draw(const Color &draw_color) const;
+    void Draw(const Color& draw_color = vt_video::Color::white) const;
 
     /** \brief Saves all frame images into a single file (a multi image file)
-    *** \param filename The filename of the image to save (should have a .png or .jpg extension)
+    *** \param filename The filename of the image to save (must have a .png extension)
     *** \param grid_rows The number of grid rows to save in the multi image
     *** \param grid_cols The number of grid columns to save in the multi image
     *** \return True if all frames were successfully saved to a file
@@ -711,14 +693,14 @@ public:
 
     /** \brief Returns a pointer to the StillImage at a specified frame.
     *** \param index index of the frame you want
-    *** \return A pointer to the image at that index, or NULL if the index parameter was invalid
+    *** \return A pointer to the image at that index, or nullptr if the index parameter was invalid
     ***
     *** Using this function is dangerous since it provides direct access to an image frame.
     *** If you find yourself in constant need of using this function, think twice about
     *** what you are doing.
     **/
     StillImage *GetFrame(uint32 index) const {
-        if(index >= _frames.size()) return NULL;
+        if(index >= _frames.size()) return nullptr;
         else return const_cast<StillImage *>(&(_frames[index].image));
     }
 
@@ -794,6 +776,12 @@ public:
         _frame_counter = 0;
     }
 
+    /** \brief Sets a random frame index to the animation.
+    *** \note This permits to avoid seeing the exact same animation shapes
+    *** when adding the same animation multiple times on screen.
+    **/
+    void RandomizeAnimationFrame();
+
     /** \brief Sets the number of milliseconds that the current frame has been shown for.
     *** \param time The time to set the frame counter
     *** \note This does not set the frame timer for the current frame
@@ -868,7 +856,7 @@ private:
 *** created by attaching multiple border images together to create the window.
 ***
 *** \note Because this class references other StillImage objects, it's _texture
-*** member is always NULL, since the class itself does not make use of any
+*** member is always nullptr, since the class itself does not make use of any
 *** textures.
 *** ***************************************************************************/
 class CompositeImage : public ImageDescriptor

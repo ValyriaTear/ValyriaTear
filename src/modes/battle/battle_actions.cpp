@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -17,13 +17,12 @@
 *** \brief   Source file for actions that occur in battles.
 *** ***************************************************************************/
 
-#include <iostream>
-#include <sstream>
+#include "utils/utils_pch.h"
+#include "modes/battle/battle_actions.h"
 
 #include "engine/script/script.h"
 
 #include "modes/battle/battle.h"
-#include "modes/battle/battle_actions.h"
 #include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_utils.h"
 
@@ -44,12 +43,13 @@ namespace private_battle
 // BattleAction class
 ////////////////////////////////////////////////////////////////////////////////
 
-BattleAction::BattleAction(BattleActor *actor, BattleTarget target) :
+BattleAction::BattleAction(BattleActor* actor, BattleTarget target) :
     _actor(actor),
-    _target(target)
+    _target(target),
+    _is_scripted(false)
 {
-    if(actor == NULL)
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL actor" << std::endl;
+    if(actor == nullptr)
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received nullptr actor" << std::endl;
     if(target.GetType() == GLOBAL_TARGET_INVALID)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received invalid target" << std::endl;
 }
@@ -62,8 +62,8 @@ SkillAction::SkillAction(BattleActor *actor, BattleTarget target, GlobalSkill *s
     BattleAction(actor, target),
     _skill(skill)
 {
-    if(skill == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL skill argument" << std::endl;
+    if(skill == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received nullptr skill argument" << std::endl;
         return;
     }
 
@@ -110,6 +110,14 @@ SkillAction::SkillAction(BattleActor *actor, BattleTarget target, GlobalSkill *s
     anim_script.CloseFile();
 }
 
+bool SkillAction::ShouldShowSkillNotice() const
+{
+    if (!_skill)
+        return false;
+
+    return _skill->ShouldShowSkillNotice();
+}
+
 void SkillAction::_InitAnimationScript()
 {
     try {
@@ -127,20 +135,13 @@ void SkillAction::_InitAnimationScript()
 
 bool SkillAction::Initialize()
 {
-    // First check that the actor has sufficient XP to use the skill
+    // First check that the actor has sufficient SP to use the skill
     if(_actor->GetSkillPoints() < _skill->GetSPRequired())
         return false;
 
     // Ensure that the skill will affect a valid target
-    if(!_target.IsValid()) {
-        // TEMP: party targets should always be valid and attack points never disappear, so only the actor needs to be changed
-// 		if (IsTargetPoint(_target.GetType()) == true)
-// 			_target.SelectNextPoint();
-// 		else if (IsTargetActor(_target.GetType()) == true)
-
-        // TEMP: this should only be done if the skill has no custom checking for valid targets
-        _target.SelectNextActor(_actor);
-    }
+    if(!_target.IsValid())
+        _target.SelectNextActor();
 
     if(IsScripted())
         _InitAnimationScript();
@@ -154,29 +155,6 @@ bool SkillAction::Execute()
 
     if(!_skill->ExecuteBattleFunction(_actor, _target))
         return false;
-
-// 	if (_target->GetType() == GLOBAL_TARGET_PARTY) {
-    // TODO: loop through _target.GetParty() and apply the function
-// 		if (_target->IsEnemy()) {
-// 			BattleEnemy* enemy;
-// 			//Loop through all enemies and apply the item
-// 			for (uint32 i = 0; i < BattleMode::CurrentInstance()->GetNumberOfEnemies(); i++) {
-// 				enemy = BattleMode::CurrentInstance()->GetEnemyActorAt(i);
-// 				ScriptCallFunction<void>(*script_function, enemy, _source);
-// 			}
-// 		}
-// 		else { // Target is a character
-// 			BattleCharacter* character;
-// 			//Loop through all party members and apply
-// 			for (uint32 i = 0; i < BattleMode::CurrentInstance()->GetNumberOfCharacters(); i++) {
-// 				character = BattleMode::CurrentInstance()->GetPlayerCharacterAt(i);
-// 				ScriptCallFunction<void>(*script_function, character, _source);
-// 			}
-// 		}
-// 	}
-// 	else {
-//
-// 	}
 
     _actor->SubtractSkillPoints(_skill->GetSPRequired());
     return true;
@@ -204,15 +182,34 @@ bool SkillAction::Update()
 
 ustring SkillAction::GetName() const
 {
-    if(_skill == NULL)
+    if(_skill == nullptr)
         return ustring();
     else
         return _skill->GetName();
 }
 
+std::string SkillAction::GetIconFilename() const
+{
+    if (!_skill)
+        return std::string();
+
+    if (!_skill->GetIconFilename().empty())
+        return _skill->GetIconFilename();
+
+    switch (_skill->GetType()) {
+    default:
+        break;
+    case vt_global::GLOBAL_SKILL_WEAPON:
+        return std::string("weapon"); // alias used to know the weapon icon needs to used.
+    case GLOBAL_SKILL_BARE_HANDS:
+        return std::string("data/inventory/weapons/fist-human.png");
+    }
+    return _skill->GetIconFilename();
+}
+
 std::string SkillAction::GetWarmupActionName() const
 {
-    if(_skill == NULL)
+    if(_skill == nullptr)
         return std::string();
     else
         return _skill->GetWarmupActionName();
@@ -220,7 +217,7 @@ std::string SkillAction::GetWarmupActionName() const
 
 std::string SkillAction::GetActionName() const
 {
-    if(_skill == NULL)
+    if(_skill == nullptr)
         return std::string();
     else
         return _skill->GetActionName();
@@ -228,7 +225,7 @@ std::string SkillAction::GetActionName() const
 
 uint32 SkillAction::GetWarmUpTime() const
 {
-    if(_skill == NULL)
+    if(_skill == nullptr)
         return 0;
     else
         return _skill->GetWarmupTime();
@@ -236,7 +233,7 @@ uint32 SkillAction::GetWarmUpTime() const
 
 uint32 SkillAction::GetCoolDownTime() const
 {
-    if(_skill == NULL)
+    if(_skill == nullptr)
         return 0;
     else
         return _skill->GetCooldownTime();
@@ -251,27 +248,85 @@ ItemAction::ItemAction(BattleActor *source, BattleTarget target, BattleItem *ite
     _item(item),
     _action_canceled(false)
 {
-    if(item == NULL) {
+    if(item == nullptr) {
         PRINT_WARNING << "Item action without valid item!!" << std::endl;
         return;
     }
 
-    if(item->GetItem().GetTargetType() == GLOBAL_TARGET_INVALID)
+    if(item->GetGlobalItem().GetTargetType() == GLOBAL_TARGET_INVALID)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received invalid item" << std::endl;
-    if(item->GetItem().GetTargetType() != target.GetType())
+    if(item->GetGlobalItem().GetTargetType() != target.GetType())
         IF_PRINT_WARNING(BATTLE_DEBUG) << "item and target reference different target types" << std::endl;
-    if(item->GetItem().IsUsableInBattle() == false)
+    if(item->GetGlobalItem().IsUsableInBattle() == false)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "item is not usable in battle" << std::endl;
+
+    // Check for a custom skill animation script for the given character
+    _is_scripted = false;
+    std::string animation_script_file = item->GetGlobalItem().GetAnimationScript();
+
+    if(animation_script_file.empty())
+        return;
+
+    // Clears out old script data
+    std::string tablespace = ScriptEngine::GetTableSpace(animation_script_file);
+    ScriptManager->DropGlobalTable(tablespace);
+
+    ReadScriptDescriptor anim_script;
+    if(!anim_script.OpenFile(animation_script_file)) {
+        anim_script.CloseFile();
+        return;
+    }
+
+    if(anim_script.OpenTablespace().empty()) {
+        PRINT_ERROR << "No namespace found in file: " << animation_script_file << std::endl;
+        anim_script.CloseFile();
+        return;
+    }
+
+    _init_function = anim_script.ReadFunctionPointer("Initialize");
+
+    if(!_init_function.is_valid()) {
+        anim_script.CloseFile();
+        return;
+    }
+
+    // Attempt to load a possible update function.
+    _update_function = anim_script.ReadFunctionPointer("Update");
+    _is_scripted = true;
+    anim_script.CloseFile();
 }
 
+bool ItemAction::Initialize()
+{
+    if(IsScripted())
+        _InitAnimationScript();
+    return true;
+}
 
+bool ItemAction::Update()
+{
+    // When there is no update function, the animation is done.
+    if(!_update_function.is_valid())
+        return true;
+
+    try {
+        return ScriptCallFunction<bool>(_update_function);
+    } catch(const luabind::error& err) {
+        ScriptManager->HandleLuaError(err);
+        return true;
+    } catch(const luabind::cast_failed& e) {
+        ScriptManager->HandleCastError(e);
+        return true;
+    }
+
+    // Should never happen
+    return true;
+}
 
 bool ItemAction::Execute()
 {
-    // Note that the battle item is already removed from the item list at that
-    // step.
-
-    const ScriptObject &script_function = _item->GetItem().GetBattleUseFunction();
+    // Note that the battle item is already removed from the item list at that step.
+    const ScriptObject &script_function = _item->GetGlobalItem().GetBattleUseFunction();
     if(!script_function.is_valid()) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "item did not have a battle use function" << std::endl;
 
@@ -312,15 +367,21 @@ void ItemAction::Cancel()
 
 ustring ItemAction::GetName() const
 {
-    if(_item == NULL)
-        return UTranslate("Use: [error]");
-    else
-        return (UTranslate("Use: ") + (_item->GetItem()).GetName());
+    if(_item)
+        return _item->GetGlobalItem().GetName();
+    return UTranslate("[error]");
+}
+
+std::string ItemAction::GetIconFilename() const
+{
+    if(_item)
+        return _item->GetGlobalItem().GetIconImage().GetFilename();
+    return std::string();
 }
 
 uint32 ItemAction::GetWarmUpTime() const
 {
-    if(_item == NULL)
+    if(_item == nullptr)
         return 0;
     else
         return _item->GetWarmUpTime();
@@ -328,10 +389,25 @@ uint32 ItemAction::GetWarmUpTime() const
 
 uint32 ItemAction::GetCoolDownTime() const
 {
-    if(_item == NULL)
+    if(_item == nullptr)
         return 0;
     else
         return _item->GetCoolDownTime();
+}
+
+void ItemAction::_InitAnimationScript()
+{
+    try {
+        ScriptCallFunction<void>(_init_function, _actor, _target, _item);
+    } catch(const luabind::error& err) {
+        ScriptManager->HandleLuaError(err);
+        // Fall back to hard-coded mode
+        _is_scripted = false;
+    } catch(const luabind::cast_failed& e) {
+        ScriptManager->HandleCastError(e);
+        // Fall back to hard-coded mode
+        _is_scripted = false;
+    }
 }
 
 } // namespace private_battle

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -21,12 +21,13 @@
 #include "effect_supervisor.h"
 #include "engine/video/particle_manager.h"
 #include "engine/script_supervisor.h"
+#include "engine/indicator_supervisor.h"
 
 //! All calls to the mode management code are wrapped inside this namespace
 namespace vt_mode_manager
 {
-
 class HelpWindow;
+class ModeEngine;
 
 //! The singleton pointer responsible for maintaining and updating the game mode state.
 extern ModeEngine *ModeManager;
@@ -65,22 +66,16 @@ class GameMode
 {
     friend class ModeEngine;
 
-protected:
-    //! Indicates what 'mode' this object is in (what type of inherited class).
-    uint8 mode_type;
-
-private:
-    //! Copy constructor is private, because making a copy of a game mode object is a \b bad idea.
-    GameMode(const GameMode &other);
-    //! Copy assignment operator is private, because making a copy of a game mode object is a \b bad idea.
-    GameMode &operator=(const GameMode &other);
-    // Note: Should I make the delete and delete[] operators private too?
 public:
     GameMode();
     //! \param mt The mode_type to set the new GameMode object to.
     GameMode(uint8 mt);
 
     virtual ~GameMode();
+
+    uint8 GetGameType() const {
+        return _mode_type;
+    }
 
     //! Updates the state of the game mode.
     virtual void Update();
@@ -95,7 +90,7 @@ public:
     *** Draws the next screen frame for the game mode, but unaffected
     *** by potential light and fade effects.
     **/
-    virtual void DrawPostEffects() {};
+    virtual void DrawPostEffects();
 
     /** \brief Resets the state of the class.
     ***
@@ -106,20 +101,34 @@ public:
     virtual void Reset() = 0;
 
     //! \brief Called when a game mode is made inactive
-    virtual void Deactivate()
+    virtual void Deactivate();
+
+    //! \brief Returns the effect supervisor.
+    EffectSupervisor& GetEffectSupervisor();
+
+    //! \brief Returns the particle manager.
+    ParticleManager& GetParticleManager();
+
+    //! \brief Returns the script supervisor.
+    ScriptSupervisor& GetScriptSupervisor();
+
+    //! \brief Returns the indicator supervisor.
+    IndicatorSupervisor& GetIndicatorSupervisor();
+
+    //! \brief Makes the game mode reload the different texts.
+    //! Used when changing the language in the options.
+    virtual void ReloadTranslatedTexts()
     {}
 
-    EffectSupervisor &GetEffectSupervisor() {
-        return _effect_supervisor;
+    //! \brief Tells whether user input is accepted in dialogues.
+    //! Used by the common dialogue supervisor.
+    virtual bool AcceptUserInputInDialogues() const {
+        return true;
     }
 
-    ParticleManager &GetParticleManager() {
-        return _particle_manager;
-    }
-
-    ScriptSupervisor &GetScriptSupervisor() {
-        return _script_supervisor;
-    }
+protected:
+    //! Indicates what 'mode' this object is in (what type of inherited class).
+    uint8 _mode_type;
 
 private:
     //! \brief Handles all the custom scripted animation for the given mode.
@@ -130,6 +139,14 @@ private:
 
     //! \brief The particle manager instance, handles the work of managing particle effects
     ParticleManager _particle_manager;
+
+    //! \brief The indicator supervisor instance, handles the work of displaying indication with eye-candy.
+    IndicatorSupervisor _indicator_supervisor;
+
+    //! Copy constructor is private, because making a copy of a game mode object is a \b bad idea.
+    GameMode(const GameMode &other);
+    //! Copy assignment operator is private, because making a copy of a game mode object is a \b bad idea.
+    GameMode &operator=(const GameMode &other);
 }; // class GameMode
 
 

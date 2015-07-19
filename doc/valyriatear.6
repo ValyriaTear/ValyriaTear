@@ -1,98 +1,83 @@
-.TH VALYRIATEAR 6 "2013\-01\-07" "games" "Valyria Tear Manual"
-.SH NAME
-valyriatear \- Valyria Tear is a free 2D J-RPG based on the Hero of Allacrost engine.
-.SH SYNOPSIS
-.B valyriatear [options]
-.SH DESCRIPTION
-Valyria Tear is a free (as meant in the Gnu Public License) 2D J-RPG game
-based on the Hero of Allacrost engine.
-
+.Dd August 20, 2014
+.Dt VALYRIATEAR 6
+.Os "Valyria Tear Manual"
+.Sh NAME
+.Nm valyriatear
+.Nd free 2D J-RPG based on the Hero of Allacrost engine
+.Sh SYNOPSIS
+.Nm valyriatear
+.Op options
+.Sh DESCRIPTION
+Valyria Tear is a free (as in the GNU General Public License) 2D
+J-RPG game based on the Hero of Allacrost engine.
+.Pp
 You can play it very much like a typical console role-playing game.
 You can explore maps and talk to non-playable characters (NPCs),
 fight active-time battles against multiple enemies,
 and manage your characters and equipment through a series of menus.
-Valyria Tear runs in a series of "game modes" which represent
-different states of operation in the game.
-
-.SH OPTIONS
-.TP
-.B \-c, \-\-check
-Checks all files for integrity
-.TP
-.B \-d, \-\-debug <args>
-enables debug statements in specifed sections of the program,
-where <args> can be:
-all, audio, battle, boot, data, global, input, map, mode_manager,
-pause, quit, scene, system, utils, video
-.TP
-.B \-\-disable-audio
+Valyria Tear runs in a series of
+.Dq game modes
+which represent different states of operation in the game.
+.Sh OPTIONS
+.Bl -tag -width Ds
+.It Fl d , Fl Fl debug Ar args
+enables debug statements in specified sections of the program,
+where
+.Ar args
+can be:
+.Cm all , audio , battle , boot , data , global , input , map ,
+.Cm mode_manager , pause , quit , scene , system , utils , video
+.It Fl Fl disable-audio
 Disables loading and playing audio
-.TP
-.B \-h, \-\-help
+.It Fl h , Fl Fl help
 Prints the help menu
-.TP
-.B \-i, \-\-info
+.It Fl i , Fl Fl info
 Prints information about the user's system
-.TP
-.B \-r, \-\-reset
+.It Fl r , Fl Fl reset
 Resets game configuration to use default settings
-
-.SH GAME INPUT
+.El
+.Sh GAME INPUT
 Valyria Tear players can input commands to the game either through the keyboard
-or a gamepad/joystick. Mouse input is not supported.
-
+or a gamepad/joystick.
+Mouse input is not supported.
+.Pp
 The table below lists the standard set of user input commands,
 their default keyboard mappings, and their general purpose.
-
+.Pp
 Most of these keys can be re-mapped from the Valyria Tear main menu
 (the boot screen you see when first starting Valyria Tear).
-
-.TP
-.B Up Arrow:
+.Bl -tag -width "Right Arrow"
+.It Cm "Up Arrow"
 Move sprite or cursor upwards
-.TP
-.B Down Arrow:
+.It Cm "Down Arrow"
 Move sprite or cursor downwards
-.TP
-.B Left Arrow:
+.It Cm "Left Arrow"
 Move sprite or cursor to the left
-.TP
-.B Right Arrow:
+.It Cm "Right Arrow"
 Move sprite or cursor to the right
-.TP
-.B Key F:
-Confirm an action or menu command
-.TP
-.B Key D:
+.It Cm F
+Confirm an action, interact, or menu command
+.It Cm D
 Cancel an action or menu command
-.TP
-.B Key S:
-Display the main menu
-.TP
-.B Key A:
-Swap the character being displayed
-.TP
-.B Key W:
-Select multiple targets or page scroll up
-.TP
-.B Key E:
-Select multiple targets or page scroll down
-.TP
-.B Key Spacebar:
+.It Cm S
+Display the party menu
+.It Cm Spacebar
 Pause/unpause the game
-.TP
-.B Key ESC:
-Quit the game
-
-.SH AUTHOR
-Written by Yohann Ferreira and Erik Schilling
-
-.SH REPORTING BUGS
-Report bugs to https://github.com/Bertram25/ValyriaTear/issues
-
-.SH COPYRIGHT
-Copyright  ©  2012  Valyria Tear Development Team  License GPLv2: GNU
-GPL version 2 <http://gnu.org/licenses/gpl.html>.
-This is free software: you are free  to  change  and  redistribute  it.
+.It Cm Escape
+Show the option menu, quit the game in the main menu
+.El
+.Sh AUTHOR
+.An -nosplit
+Written by
+.An Yohann Ferreira
+and
+.An Erik Schilling .
+.Sh REPORTING BUGS
+Report bugs to
+.Lk https://github.com/Bertram25/ValyriaTear/issues .
+.Sh COPYRIGHT
+Copyright \(co 2012-2014 Valyria Tear Development Team.
+License
+.Lk "GPLv2: GNU GPL version 2" https://www.gnu.org/licenses/gpl-2.0.html .
+This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
-

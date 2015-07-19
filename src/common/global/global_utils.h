@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -21,10 +21,7 @@
 #ifndef __GLOBAL_UTILS_HEADER__
 #define __GLOBAL_UTILS_HEADER__
 
-#include "utils.h"
 #include "engine/video/image.h"
-
-#include <map>
 
 namespace vt_audio {
 class SoundDescriptor;
@@ -36,6 +33,20 @@ class StillImage;
 
 namespace vt_global
 {
+
+//! \brief The different item categories
+//! \TODO Merge this back with the other item categories...
+enum ITEM_CATEGORY {
+    ITEM_ALL = 0,
+    ITEM_ITEM = 1,
+    ITEM_WEAPON = 2,
+    ITEM_HEAD_ARMOR = 3,
+    ITEM_TORSO_ARMOR = 4,
+    ITEM_ARMS_ARMOR = 5,
+    ITEM_LEGS_ARMOR = 6,
+    ITEM_KEY = 7,
+    ITEM_CATEGORY_SIZE = 8
+};
 
 class GlobalObject;
 
@@ -106,10 +117,11 @@ enum GLOBAL_TARGET {
     GLOBAL_TARGET_SELF           =  3,
     GLOBAL_TARGET_ALLY           =  4, //!< \note This includes allowing the user to target itself
     GLOBAL_TARGET_ALLY_EVEN_DEAD =  5,
-    GLOBAL_TARGET_FOE            =  6,
-    GLOBAL_TARGET_ALL_ALLIES     =  7,
-    GLOBAL_TARGET_ALL_FOES       =  8,
-    GLOBAL_TARGET_TOTAL          =  9
+    GLOBAL_TARGET_DEAD_ALLY_ONLY =  6,
+    GLOBAL_TARGET_FOE            =  7,
+    GLOBAL_TARGET_ALL_ALLIES     =  8,
+    GLOBAL_TARGET_ALL_FOES       =  9,
+    GLOBAL_TARGET_TOTAL          =  10
 };
 
 /** \name GlobalItem and GlobalSkill Usage Cases
@@ -128,7 +140,7 @@ enum GLOBAL_USE {
 *** These series of constants are used as bit-masks for determining things such as if the character
 *** may use a certain item. Only one bit should be set for each character ID.
 ***
-*** \note The IDs for each character are defined in the dat/global.lua file.
+*** \note The IDs for each character are defined in the data/global.lua file.
 **/
 //@{
 const uint32 GLOBAL_CHARACTER_INVALID     = 0x00000000;
@@ -226,6 +238,107 @@ enum GLOBAL_INTENSITY {
     GLOBAL_INTENSITY_TOTAL         =  5
 };
 
+/** \name Active Status effect data
+*** \brief Stores the data to load/save a currently active status effect, due to wounds, traps, ....
+***
+*** It is used to store the current status effects applied on global characters.
+*** and update/display their effects in the menu and map modes.
+**/
+class ActiveStatusEffect {
+public:
+    // Default constructor - Invalid status effect
+    ActiveStatusEffect():
+        _status_effect(GLOBAL_STATUS_INVALID),
+        _intensity(GLOBAL_INTENSITY_NEUTRAL),
+        _effect_time(0),
+        _elapsed_time(0)
+    {}
+
+    ActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity):
+        _status_effect(status_effect),
+        _intensity(intensity),
+        _effect_time(30000), // default time
+        _elapsed_time(0)
+    {}
+
+    ActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity, uint32 effect_time):
+        _status_effect(status_effect),
+        _intensity(intensity),
+        _effect_time(effect_time),
+        _elapsed_time(0)
+    {}
+
+    ActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity,
+                       uint32 effect_time, uint32 elapsed_time):
+        _status_effect(status_effect),
+        _intensity(intensity),
+        _effect_time(effect_time),
+        _elapsed_time(elapsed_time)
+    {}
+
+    void SetEffect(GLOBAL_STATUS status_effect) {
+        _status_effect = status_effect;
+    }
+
+    void SetIntensity(GLOBAL_INTENSITY intensity) {
+        _intensity = intensity;
+    }
+
+    void SetEffectTime(uint32 effect_time) {
+        _effect_time = effect_time;
+    }
+
+    void SetElapsedTime(uint32 elapsed_time) {
+        _elapsed_time = elapsed_time;
+    }
+
+    GLOBAL_STATUS GetEffect() const {
+        return _status_effect;
+    }
+
+    GLOBAL_INTENSITY GetIntensity() const {
+        return _intensity;
+    }
+
+    uint32 GetEffectTime() const {
+        return _effect_time;
+    }
+
+    uint32 GetElapsedTime() const {
+        return _elapsed_time;
+    }
+
+    //! \brief Sets the effect as invalid
+    void Disable() {
+        _status_effect = GLOBAL_STATUS_INVALID;
+        _intensity = GLOBAL_INTENSITY_NEUTRAL;
+    }
+
+    //! \brief Checks whether the effect is active (and valid).
+    bool IsActive() const {
+        return !(_status_effect == GLOBAL_STATUS_INVALID || _status_effect == GLOBAL_STATUS_TOTAL
+            || _intensity == GLOBAL_INTENSITY_NEUTRAL || _intensity == GLOBAL_INTENSITY_INVALID
+            || _intensity == GLOBAL_INTENSITY_TOTAL);
+    }
+
+private:
+    //! The active status effect type.
+    GLOBAL_STATUS _status_effect;
+
+    //! The active status effect current intensity.
+    GLOBAL_INTENSITY _intensity;
+
+    //! The active status effect current intensity total time of appliance
+    //! in milliseconds.
+    //! Once the time has passed, the intensity goes one step toward the neutral
+    //! intensity and its total time of appliance is halved.
+    uint32 _effect_time;
+
+    //! The active status effect current intensity time of appliance
+    //! already elapsed in milliseconds.
+    uint32 _elapsed_time;
+};
+
 /** \name Skill Types
 *** \brief Enum values used to identify the type of a skill.
 **/
@@ -286,7 +399,7 @@ bool IsTargetFoe(GLOBAL_TARGET target);
 /** \brief Creates a new GlobalObject and returns a pointer to it
 *** \param id The id value of the object to create
 *** \param count The count of the new object to create (default value == 1)
-*** \return A pointer to the newly created GlobalObject, or NULL if the object could not be created
+*** \return A pointer to the newly created GlobalObject, or nullptr if the object could not be created
 ***
 *** This function does not actually create a GlobalObject (it can't since its an abstract class).
 *** It creates one of the derived object class types depending on the value of the id argument.
@@ -362,16 +475,38 @@ public:
         return &_bottom_menu_image;
     }
 
+    vt_video::StillImage* GetStaminaBarBackgroundImage() {
+        return &_stamina_bar_background;
+    }
+
+    vt_video::StillImage* GetStaminaBarImage() {
+        return &_stamina_bar;
+    }
+
+    vt_video::StillImage* GetStaminaInfiniteImage() {
+        return &_stamina_bar_infinite_overlay;
+    }
+
     std::vector<vt_video::StillImage>* GetAllItemCategoryIcons() {
         return &_all_category_icons;
+    }
+    std::vector<vt_video::StillImage>* GetAllSmallItemCategoryIcons() {
+        return &_small_category_icons;
     }
 
     /** \brief Retrieves the category icon image that represents the specified object type
     *** \param object_type The type of the global object to retrieve the icon for
-    *** \return A pointer to the image holding the category's icon. NULL if the argument was invalid.
+    *** \return A pointer to the image holding the category's icon. nullptr if the argument was invalid.
     *** \note GLOBAL_OBJECT_TOTAL will return the icon for "all wares"
     **/
     vt_video::StillImage* GetItemCategoryIcon(GLOBAL_OBJECT object_type);
+
+    /** \brief Retrieves the category icon image that represents the specified object type
+    *** \param object_type The type of the global object to retrieve the icon for
+    *** \return A pointer to the image holding the category's icon. nullptr if the argument was invalid.
+    *** \note GLOBAL_OBJECT_TOTAL will return the icon for "all wares"
+    **/
+    vt_video::StillImage* GetSmallItemCategoryIcon(ITEM_CATEGORY object_category);
 
     /** \brief Retrieves a specific elemental icon with the proper type and intensity
     *** \param element_type The type of element the user is trying to retrieve the icon for
@@ -387,14 +522,17 @@ public:
     **/
     vt_video::StillImage* GetStatusIcon(GLOBAL_STATUS status_type, GLOBAL_INTENSITY intensity);
 
-    /** \brief Plays a sound object previoulsy loaded
+    /** \brief Plays a sound object previously loaded
     *** \param identifier The string identifier for the sound to play
     **/
-    void PlaySound(const std::string &identifier);
+    void PlaySound(const std::string& identifier);
 
 private:
     //! \brief Retains icon images for all possible object categories, including "all wares"
     std::vector<vt_video::StillImage> _all_category_icons;
+
+    //! \brief Category icons - in a smaller size for the party menu.
+    std::vector<vt_video::StillImage> _small_category_icons;
 
     //! \brief Image icon representing drunes (currency)
     vt_video::StillImage _drunes_icon;
@@ -419,6 +557,15 @@ private:
 
     //! \brief The clock icon
     vt_video::StillImage _clock_icon;
+
+    //! \brief Image which underlays the stamina bar for running
+    vt_video::StillImage _stamina_bar_background;
+
+    //! \brief The stamina bar representing the current stamina
+    vt_video::StillImage _stamina_bar;
+
+    //! \brief Image which overlays the stamina bar to show that the player has unlimited running
+    vt_video::StillImage _stamina_bar_infinite_overlay;
 
     //! \brief Retains all icon images that represent the game's status effects
     std::vector<vt_video::StillImage> _status_icons;

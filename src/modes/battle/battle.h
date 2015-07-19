@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -25,13 +25,17 @@
 #define __BATTLE_HEADER__
 
 #include "battle_utils.h"
+#include "battle_menu.h"
 
 #include "engine/audio/audio_descriptor.h"
 #include "engine/mode_manager.h"
 
 #include "common/global/global_actors.h"
 
-#include <list>
+namespace vt_common
+{
+class DialogueSupervisor;
+}
 
 namespace vt_battle
 {
@@ -48,8 +52,8 @@ class BattleCharacter;
 class BattleEnemy;
 class BattleObject;
 class BattleParticleEffect;
+class BattleAnimation;
 class CommandSupervisor;
-class DialogueSupervisor;
 class FinishSupervisor;
 class SequenceSupervisor;
 
@@ -144,18 +148,30 @@ public:
 
     /** \brief Retrieves a specific button icon for character action
     *** \param index The index of the button to retrieve
-    *** \return A pointer to the appropriate button image, or NULL if the index argument was out of bounds
+    *** \return A pointer to the appropriate button image, or nullptr if the index argument was out of bounds
     **/
     vt_video::StillImage *GetCharacterActionButton(uint32 index);
 
     /** \brief Retrieves the appropriate icon image given a valid target type
     *** \param target_type The enumerated value that represents the type of target
-    *** \return A pointer to the appropriate icon image, or NULL if the target type was invalid
+    *** \return A pointer to the appropriate icon image, or nullptr if the target type was invalid
     **/
     vt_video::StillImage *GetTargetTypeIcon(vt_global::GLOBAL_TARGET target_type);
 
-    const vt_video::StillImage &GetStunnedIcon() {
+    inline const vt_video::StillImage& GetStunnedIcon() const {
         return _stunned_icon;
+    }
+
+    inline const vt_video::StillImage& GetAutoBattleIcon() const {
+        return _auto_battle_icon;
+    }
+
+    inline const vt_video::TextImage& GetAutoBattleActiveText() const {
+        return _auto_battle_activated;
+    }
+
+    inline const vt_video::StillImage& GetEscapeIcon() const {
+        return _escape_icon;
     }
 
     // ---------- Public members
@@ -207,8 +223,10 @@ public:
     **/
     std::vector<vt_video::StillImage> character_action_buttons;
 
-    //! \brief The music played during the battle
-    vt_audio::MusicDescriptor battle_music;
+    //! \brief The music filename played during the battle.
+    //! We only keep a string because this music is handled by the audio manager
+    //! for better cross game modes support.
+    std::string battle_music_filename;
 
     //! \brief The music played after the player has won the battle
     vt_audio::MusicDescriptor victory_music;
@@ -225,6 +243,15 @@ private:
 
     //! \brief An icon displayed above the character's head when it is stunned.
     vt_video::StillImage _stunned_icon;
+
+    //! \brief The auto battle icon.
+    vt_video::StillImage _auto_battle_icon;
+
+    //! \brief The auto-battle activated text.
+    vt_video::TextImage _auto_battle_activated;
+
+    //! \brief The escape icon.
+    vt_video::StillImage _escape_icon;
 }; // class BattleMedia
 
 } // namespace private_battle
@@ -281,6 +308,7 @@ public:
     /** \brief Adds a new active enemy to the battle field
     *** \param new_enemy_id The id number of the new enemy to add to the battle
     *** \param position_x, position_y The enemy sprite position on the battle ground in pixels
+    *** If both are equal to 0.0f, the position is automatically computed.
     *** This method works precisely the same was as the method which takes a GlobalEnemy argument,
     *** only this version will construct the global enemy just using its id (meaning that it has
     *** to open up the Lua file which defines the enemy). If the GlobalEnemy has already been
@@ -288,6 +316,9 @@ public:
     *** function.
     **/
     void AddEnemy(uint32 new_enemy_id, float position_x, float position_y);
+    void AddEnemy(uint32 new_enemy_id) {
+        AddEnemy(new_enemy_id, 0.0f, 0.0f);
+    }
 
     /** \brief Restores the battle to its initial state, allowing the player another attempt to achieve victory
     *** This function is permitted only when the battle state isn't invalid, as this value is reserved
@@ -316,6 +347,13 @@ public:
 
     //! \brief Tells whether the battle is paused and playing a scene
     bool IsInSceneMode() const {
+        return _scene_mode;
+    }
+
+    //! \brief Tells whether user input is accepted in dialogues.
+    //! Used by the common dialogue supervisor.
+    //! In the battle mode, dialogues can handle input only when in scene mode.
+    bool AcceptUserInputInDialogues() const {
         return _scene_mode;
     }
 
@@ -400,7 +438,7 @@ public:
 
     private_battle::BattleCharacter* GetCharacterActor(uint32 index) {
         if (index >= _character_actors.size())
-            return NULL;
+            return nullptr;
         return _character_actors[index];
     }
 
@@ -410,7 +448,7 @@ public:
 
     private_battle::BattleEnemy* GetEnemyActor(uint32 index) {
         if (index >= _enemy_actors.size())
-            return NULL;
+            return nullptr;
         return _enemy_actors[index];
     }
 
@@ -422,11 +460,11 @@ public:
         return _enemy_party;
     }
 
-    private_battle::CommandSupervisor *GetCommandSupervisor() {
+    private_battle::CommandSupervisor* GetCommandSupervisor() {
         return _command_supervisor;
     }
 
-    private_battle::DialogueSupervisor *GetDialogueSupervisor() {
+    vt_common::DialogueSupervisor* GetDialogueSupervisor() {
         return _dialogue_supervisor;
     }
 
@@ -442,7 +480,40 @@ public:
     //! \param The effect filename is the particle effect definition file.
     //! \param x the x coordinates of the particle effect in pixels.
     //! \param y the y coordinates of the particle effect in pixels.
-    void TriggerBattleParticleEffect(const std::string &effect_filename, uint32 x, uint32 y);
+    void TriggerBattleParticleEffect(const std::string& effect_filename, uint32 x, uint32 y);
+
+    //! \brief Creates a battle animation object.
+    //! Those objects are also drawn sorted by their Y coordinate value.
+    //! Note that at the animation is created invisible at coordinate (0,0)
+    //! and that you must call SetVisible(true) and move it somewhere visible
+    //! for it to be shown.
+    //! Once you don't need it anymore, you can throw it by calling Remove()
+    //! and the animation will be freed from memory on the next Battle update.
+    //!
+    //! \param The animation filename is the animation definition file.
+    //! \return the animation object for scripted manipulation purpose.
+    private_battle::BattleAnimation* CreateBattleAnimation(const std::string& animation_filename);
+
+    //! \brief Sets whether the current fight is a fight including a boss.
+    //! N.B.: Certain items shouldn't work in a boss fight, for instance.
+    void SetBossBattle(bool is_boss = true) {
+        _is_boss_battle = is_boss;
+    }
+
+    //! \brief Tells whether the current fight is a fight including a boss.
+    bool IsBossBattle() const {
+        return _is_boss_battle;
+    }
+
+    //! \brief Tells the battle mode Heroes will receive an aguility boost at battle start.
+    void BoostHeroPartyInitiative() {
+        _hero_init_boost = true;
+    }
+
+    //! \brief Tells the battle mode Enemies will receive an aguility boost at battle start.
+    void BoostEnemyPartyInitiative() {
+        _enemy_init_boost = true;
+    }
     //@}
 
 private:
@@ -459,16 +530,16 @@ private:
     //! \name Battle supervisor classes
     //@{
     //! \brief Manages update and draw calls during special battle sequences
-    private_battle::SequenceSupervisor *_sequence_supervisor;
+    private_battle::SequenceSupervisor* _sequence_supervisor;
 
     //! \brief Manages state and visuals when the player is selecting a command for a character
-    private_battle::CommandSupervisor *_command_supervisor;
+    private_battle::CommandSupervisor* _command_supervisor;
 
     //! \brief Stores and processes any dialogue that is to occur on the battle
-    private_battle::DialogueSupervisor *_dialogue_supervisor;
+    vt_common::DialogueSupervisor* _dialogue_supervisor;
 
     //! \brief Presents player with information and options after a battle has concluded
-    private_battle::FinishSupervisor *_finish_supervisor;
+    private_battle::FinishSupervisor* _finish_supervisor;
     //@}
 
     //! \name Battle Actor Containers
@@ -504,11 +575,11 @@ private:
     //! as the number of enemies might have changed.
     std::deque<private_battle::BattleEnemyInfo> _initial_enemy_actors_info;
 
-    /** \brief The particle effects container.
-    *** It will permit to draw particle effect in the right order, and will get rid of the dead particle effects,
-    *** at update time.
+    /** \brief The effects container.
+    *** It will permit to draw particle effects and animations in the right order,
+    *** and will get rid of the "dead" useless effects at update time.
     **/
-    std::vector<private_battle::BattleParticleEffect *> _battle_particle_effects;
+    std::vector<private_battle::BattleObject *> _battle_effects;
 
     /** \brief A FIFO queue of all actors that are ready to perform an action
     *** When an actor has completed the wait time for their warm-up state, they enter the ready state and are
@@ -557,28 +628,31 @@ private:
     //! \brief the battle type time factor, speeding the battle actors depending on the battle type.
     float _battle_type_time_factor;
 
+    //! \brief Tells whether the battle is a boss fight.
+    bool _is_boss_battle;
+
+    //! \brief The battle menu
+    vt_battle::private_battle::BattleMenu _battle_menu;
+
+    //! \brief Whether the hero party should get an initiative boost at battle start.
+    bool _hero_init_boost;
+
+    //! \brief Whether the enemy party should get an initiative boost at battle start.
+    bool _enemy_init_boost;
+
+
     ////////////////////////////// PRIVATE METHODS ///////////////////////////////
 
     //! \brief Initializes all data necessary for the battle to begin
     void _Initialize();
 
-    //! \brief resets the character's original global attributes
-    //! \note this also sets the BattleActor's attributes for the first time
-    void _ResetAttributesFromGlobalActor(private_battle::BattleActor &character);
+    //! \brief Set the battle music state
+    void _ResetMusicState();
 
-    //! \brief applies the highest status effect for the given weapon and armor
-    //! to the character.
-    //! \note this does not effect the global character, but only for the duration of the battle
-    void _ApplyPassiveStatusEffects(private_battle::BattleActor &character,
-                                    const vt_global::GlobalWeapon* weapon,
-                                    const std::vector<vt_global::GlobalArmor *>& armors);
-
-    //! \brief resets the actor to their global status values, and then applies
-    //! the passive effect
-    //! \note this is a very simple function, and technically cane be put into the header and inlined.
-    //! \note however, if you do that then you need to mess with the include order, and probably
-    //! \note increase both coupling and build time.
-    void _ResetPassiveStatusEffects(vt_battle::private_battle::BattleCharacter &character);
+    /** \brief Applies a battle command to a given character automatically.
+    *** \param character The character which will receive the command.
+    **/
+    void _AutoCharacterCommand(private_battle::BattleCharacter* character);
 
     /** \brief Sets the origin location of all character and enemy actors
     *** The location of the actors in both parties is dependent upon the number and physical size of the actor
@@ -599,6 +673,7 @@ private:
     *** \note This function only counts the characters on the screen, not characters in the party reserves
     **/
     uint32 _NumberCharactersAlive() const;
+
 
     //! \name Draw assistant functions
     //@{
@@ -631,9 +706,6 @@ private:
 
     //! \brief Draws the stamina bar and the icons of the actors of both parties
     void _DrawStaminaBar();
-
-    //! \brief Draws indicator text and graphics for each actor on the field
-    void _DrawIndicators();
     //@}
 }; // class BattleMode : public vt_mode_manager::GameMode
 
@@ -675,7 +747,7 @@ private:
     //! \brief Tells whether the boss trigger sound is to be played or not.
     bool _is_boss;
 
-    //! \brief The Battle mode to trigger afterward. Must not be NULL.
+    //! \brief The Battle mode to trigger afterward. Must not be nullptr.
     BattleMode *_BM;
 };
 

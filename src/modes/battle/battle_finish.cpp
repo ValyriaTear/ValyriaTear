@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -15,6 +15,9 @@
 *** \brief   Source file for battle finish menu
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
+#include "modes/battle/battle_finish.h"
+
 #include "engine/audio/audio.h"
 #include "engine/mode_manager.h"
 #include "engine/input.h"
@@ -24,11 +27,9 @@
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actions.h"
 #include "modes/battle/battle_actors.h"
-#include "modes/battle/battle_finish.h"
 #include "modes/battle/battle_utils.h"
 
 #include "modes/boot/boot.h"
-#include <boost/concept_check.hpp>
 
 using namespace vt_utils;
 using namespace vt_audio;
@@ -84,8 +85,8 @@ CharacterGrowth::CharacterGrowth(GlobalCharacter* ch) :
     _character(ch),
     _experience_levels_gained(0)
 {
-    if (ch == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "NULL pointer passed to constructor" << std::endl;
+    if (ch == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "nullptr pointer passed to constructor" << std::endl;
     }
 }
 
@@ -106,7 +107,7 @@ void CharacterGrowth::UpdateGrowthData() {
         evade += _character->GetEvadeGrowth();
 
         ++_experience_levels_gained;
-        AudioManager->PlaySound("snd/levelup.wav");
+        AudioManager->PlaySound("data/sounds/levelup.wav");
 
         // New skills are only found in growth data when the character has reached a new level
         // Note that the character's new skills learned container will be cleared upon the next
@@ -166,7 +167,7 @@ FinishDefeatAssistant::FinishDefeatAssistant(FINISH_STATE &state) :
     _tooltip.SetDimensions(480.0f, 80.0f);
     _tooltip.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _tooltip.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _tooltip.SetDisplaySpeed(30);
+    _tooltip.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _tooltip.SetTextStyle(TextStyle("text20", Color::white));
     _tooltip.SetDisplayMode(VIDEO_TEXT_INSTANT);
 }
@@ -198,7 +199,7 @@ void FinishDefeatAssistant::Update()
         _options.Update();
         if(InputManager->ConfirmPress()) {
             if(!_options.IsOptionEnabled(_options.GetSelection())) {
-                AudioManager->PlaySound("snd/cancel.wav");
+                AudioManager->PlaySound("data/sounds/cancel.wav");
             } else {
                 _state = FINISH_DEFEAT_CONFIRM;
                 // Set default confirm option to "No"
@@ -341,7 +342,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     _header_growth.SetDimensions(400.0f, 40.0f);
     _header_growth.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _header_growth.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _header_growth.SetDisplaySpeed(30);
+    _header_growth.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _header_growth.SetTextStyle(TextStyle("text20", Color::white));
     _header_growth.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
@@ -350,7 +351,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     _header_drunes_dropped.SetDimensions(400.0f, 40.0f);
     _header_drunes_dropped.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _header_drunes_dropped.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _header_drunes_dropped.SetDisplaySpeed(30);
+    _header_drunes_dropped.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _header_drunes_dropped.SetTextStyle(TextStyle("text20", Color::white));
     _header_drunes_dropped.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
@@ -359,7 +360,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     _header_total_drunes.SetDimensions(400.0f, 40.0f);
     _header_total_drunes.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _header_total_drunes.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _header_total_drunes.SetDisplaySpeed(30);
+    _header_total_drunes.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _header_total_drunes.SetTextStyle(TextStyle("text20", Color::white));
     _header_total_drunes.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
@@ -374,7 +375,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     _object_header_text.SetDimensions(350.0f, 40.0f);
     _object_header_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _object_header_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _object_header_text.SetDisplaySpeed(30);
+    _object_header_text.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _object_header_text.SetTextStyle(TextStyle("title20", Color::white));
     _object_header_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _object_header_text.SetDisplayText(UTranslate("Items Found"));
@@ -395,12 +396,12 @@ FinishVictoryAssistant::~FinishVictoryAssistant()
     _header_window.Destroy();
     _spoils_window.Destroy();
 
-    for(uint32 i = 0; i < _number_character_windows_created; i++) {
+    for(uint32 i = 0; i < _number_character_windows_created; ++i) {
         _character_window[i].Destroy();
     }
 
     // Add all the objects that were dropped by enemies to the party's inventory
-    for(std::map<GlobalObject *, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); i++) {
+    for(std::map<GlobalObject *, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
         GlobalManager->AddToInventory(i->first->GetID(), i->second);
     }
 
@@ -441,12 +442,11 @@ void FinishVictoryAssistant::Initialize()
 
     // Collect the XP, drunes, and dropped objects for each defeated enemy
     std::deque<BattleEnemy *>& all_enemies = BattleMode::CurrentInstance()->GetEnemyActors();
-    GlobalEnemy *enemy;
     std::vector<GlobalObject *> objects;
     std::map<GlobalObject *, int32>::iterator iter;
 
     for(uint32 i = 0; i < all_enemies.size(); ++i) {
-        enemy = all_enemies[i]->GetGlobalEnemy();
+        GlobalEnemy* enemy = all_enemies[i]->GetGlobalEnemy();
         _xp_earned += enemy->GetExperiencePoints();
         _drunes_dropped += enemy->GetDrunesDropped();
         enemy->DetermineDroppedObjects(objects);
@@ -458,7 +458,7 @@ void FinishVictoryAssistant::Initialize()
             iter = _objects_dropped.begin();
             while(iter != _objects_dropped.end()) {
                 if(iter->first->GetID() == objects[j]->GetID()) break;
-                iter++;
+                ++iter;
             }
 
             if(iter != _objects_dropped.end()) {
@@ -572,9 +572,9 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
     // Construct GUI objects that will fill each character window
     for(uint32 i = 0; i < _characters_number; ++i) {
         _growth_list[i].SetOwner(&_character_window[i]);
-        _growth_list[i].SetPosition(350.0f, 15.0f);
-        _growth_list[i].SetDimensions(180.0f, 70.0f, 4, 4, 4, 4);
-        _growth_list[i].SetTextStyle(TextStyle("text20", Color::white, VIDEO_TEXT_SHADOW_DARK));
+        _growth_list[i].SetPosition(340.0f, 15.0f);
+        _growth_list[i].SetDimensions(200.0f, 70.0f, 4, 4, 4, 4);
+        _growth_list[i].SetTextStyle(TextStyle("text14", Color::white, VIDEO_TEXT_SHADOW_DARK));
         _growth_list[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _growth_list[i].SetOptionAlignment(VIDEO_X_RIGHT, VIDEO_Y_CENTER);
         _growth_list[i].SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
@@ -587,7 +587,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
         _level_text[i].SetDimensions(200.0f, 40.0f);
         _level_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _level_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-        _level_text[i].SetDisplaySpeed(30);
+        _level_text[i].SetDisplaySpeed(SystemManager->GetMessageSpeed());
         _level_text[i].SetTextStyle(TextStyle("text20", Color::white));
         _level_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
 
@@ -596,7 +596,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
         _xp_text[i].SetDimensions(200.0f, 50.0f);
         _xp_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _xp_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-        _xp_text[i].SetDisplaySpeed(30);
+        _xp_text[i].SetDisplaySpeed(SystemManager->GetMessageSpeed());
         _xp_text[i].SetTextStyle(TextStyle("text20", Color::white));
         _xp_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
 
@@ -617,7 +617,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
         _skill_text[i].SetDimensions(200.0f, 40.0f);
         _skill_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _skill_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-        _skill_text[i].SetDisplaySpeed(30);
+        _skill_text[i].SetDisplaySpeed(SystemManager->GetMessageSpeed());
         _skill_text[i].SetTextStyle(TextStyle("text20", Color::white));
         _skill_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
     }
@@ -627,14 +627,14 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
 
 void FinishVictoryAssistant::_CreateObjectList()
 {
-    for(std::map<vt_global::GlobalObject *, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); i++) {
+    for(std::map<vt_global::GlobalObject *, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
         GlobalObject *obj = i->first;
         _object_list.AddOption(MakeUnicodeString("<" + obj->GetIconImage().GetFilename() + "><30>")
                                + obj->GetName() + MakeUnicodeString("<R>x" + NumberToString(i->second)));
     }
 
     // Resize all icon images so that they are the same height as the text
-    for(uint32 i = 0; i < _object_list.GetNumberOptions(); i++) {
+    for(uint32 i = 0; i < _object_list.GetNumberOptions(); ++i) {
         _object_list.GetEmbeddedImage(i)->SetDimensions(30.0f, 30.0f);
     }
 }
@@ -645,7 +645,7 @@ void FinishVictoryAssistant::_SetCharacterStatus()
 {
     std::deque<BattleCharacter *>& battle_characters = BattleMode::CurrentInstance()->GetCharacterActors();
 
-    for(std::deque<BattleCharacter *>::iterator i = battle_characters.begin(); i != battle_characters.end(); i++) {
+    for(std::deque<BattleCharacter *>::iterator i = battle_characters.begin(); i != battle_characters.end(); ++i) {
         GlobalCharacter *character = (*i)->GetGlobalCharacter();
 
         // Put back the current HP / SP onto the global characters.
@@ -770,7 +770,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
 
             // Fortitude
             if(_character_growths[i].fortitude > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("FOR: +") + MakeUnicodeString(NumberToString(_character_growths[i].fortitude)));
+                _growth_list[i].SetOptionText(line, UTranslate("FRT: +") + MakeUnicodeString(NumberToString(_character_growths[i].fortitude)));
                 line = line + 2;
             }
 
@@ -788,7 +788,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
 
             // Evade
             if(_character_growths[i].evade > 0.0f) {
-                _growth_list[i].SetOptionText(line, UTranslate("EVA: +")
+                _growth_list[i].SetOptionText(line, UTranslate("EVD: +")
                     + MakeUnicodeString(NumberToString(_character_growths[i].evade)) + MakeUnicodeString("%"));
                 line = line + 2;
             }
@@ -918,7 +918,7 @@ FinishSupervisor::FinishSupervisor() :
     _outcome_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _outcome_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _outcome_text.SetDimensions(400.0f, 50.0f);
-    _outcome_text.SetDisplaySpeed(30);
+    _outcome_text.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _outcome_text.SetTextStyle(TextStyle("text24", Color::white));
     _outcome_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
 }

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -25,18 +25,12 @@
 #define __MENU_HEADER__
 
 #include "menu_views.h"
-
-#include "utils.h"
-
 #include "engine/video/video.h"
 
+#include "common/message_window.h"
 #include "common/global/global.h"
 
 #include "engine/mode_manager.h"
-
-#include <string>
-#include <vector>
-#include <map>
 
 //! \brief All calls to menu mode are wrapped in this namespace.
 namespace vt_menu
@@ -101,8 +95,8 @@ public:
     /**
     *** \brief based on the selection (pased in via the OptionBox selection returns the next state to transition to
     *** \param selection selection state indicator
-    *** \return either a valid AbstractMenuState pointer to the next valid transition state, or NULL
-    *** \note NULL actions do not lead to a crash, but the assumption is that the state has some state-specific
+    *** \return either a valid AbstractMenuState pointer to the next valid transition state, or nullptr
+    *** \note nullptr actions do not lead to a crash, but the assumption is that the state has some state-specific
     *** actions, such as activitaing a MenuView that take place
     **/
     virtual AbstractMenuState *GetTransitionState(uint32 selection) = 0;
@@ -117,7 +111,7 @@ public:
 
 protected:
     //! \brief default bottom menu drawing
-    void _DrawBottomMenu();
+    virtual void _DrawBottomMenu();
 
     //! \brief action that takes place when we exit this state via a "cancel" input
     void _OnCancel();
@@ -300,7 +294,7 @@ public:
     void Reset();
 
     AbstractMenuState* GetTransitionState(uint32 /*selection*/)
-    { return NULL; }
+    { return nullptr; }
 
 protected:
     void _DrawBottomMenu();
@@ -332,7 +326,7 @@ public:
     void Reset();
 
     AbstractMenuState *GetTransitionState(uint32 /*selection*/)
-    { return NULL; }
+    { return nullptr; }
 protected:
     void _OnDrawMainWindow();
     void _OnDrawSideWindow();
@@ -358,7 +352,7 @@ public:
     void Reset();
 
     AbstractMenuState *GetTransitionState(uint32 /*selection*/)
-    { return NULL; }
+    { return nullptr; }
 protected:
     void _OnDrawMainWindow();
 
@@ -530,7 +524,7 @@ private:
     private_menu::QuestWindow _quest_window;
     private_menu::WorldMapWindow _world_map_window;
 
-    MessageWindow *_message_window;
+    vt_common::MessageWindow* _message_window;
 
     //! \name Option boxes that are used in the various menu windows
     //@{
@@ -573,9 +567,6 @@ private:
     vt_video::TextImage _mag_stat_diff;
     vt_video::Color _phys_diff_color;
     vt_video::Color _mag_diff_color;
-
-    //! \brief Icon images representing elemental effects and intensity properties of the selected object
-    std::vector<vt_video::StillImage *> _elemental_icons;
 
     //! \brief Icon images representing status effects and intensity properties of the selected object
     std::vector<vt_video::StillImage *> _status_icons;

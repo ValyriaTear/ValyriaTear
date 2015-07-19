@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,7 +15,9 @@
 *** \brief  Source file for managing user settings
 *** **************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "mode_manager.h"
+
 #include "system.h"
 
 #include "engine/video/video.h"
@@ -28,12 +30,10 @@ using namespace vt_system;
 using namespace vt_video;
 using namespace vt_audio;
 
-template<> vt_mode_manager::ModeEngine *Singleton<vt_mode_manager::ModeEngine>::_singleton_reference = NULL;
-
 namespace vt_mode_manager
 {
 
-ModeEngine *ModeManager = NULL;
+ModeEngine *ModeManager = nullptr;
 bool MODE_MANAGER_DEBUG = false;
 
 const uint32 FADE_IN_OUT_TIME = 800;
@@ -48,7 +48,7 @@ GameMode::GameMode()
             << "MODE MANAGER: GameMode constructor invoked" << std::endl;
 
     // The value of this member should later be replaced by the child class
-    mode_type = MODE_MANAGER_DUMMY_MODE;
+    _mode_type = MODE_MANAGER_DUMMY_MODE;
 }
 
 
@@ -56,7 +56,7 @@ GameMode::GameMode(uint8 mt)
 {
     IF_PRINT_WARNING(MODE_MANAGER_DEBUG)
             << "MODE MANAGER: GameMode constructor invoked" << std::endl;
-    mode_type = mt;
+    _mode_type = mt;
 }
 
 
@@ -66,7 +66,7 @@ GameMode::~GameMode()
             << "MODE MANAGER: GameMode destructor invoked" << std::endl;
 
     // Tells the audio manager that the mode is ending to permit freeing self-managed audio files.
-    AudioManager->RemoveOwner(this);
+    AudioManager->RemoveGameModeOwner(this);
 }
 
 
@@ -77,6 +77,7 @@ void GameMode::Update()
     _script_supervisor.Update();
     _effect_supervisor.Update(frame_time);
     _particle_manager.Update(frame_time);
+    _indicator_supervisor.Update();
 }
 
 
@@ -86,6 +87,33 @@ void GameMode::DrawEffects()
     _effect_supervisor.DrawEffects();
 }
 
+void GameMode::DrawPostEffects()
+{
+}
+
+void GameMode::Deactivate()
+{
+}
+
+EffectSupervisor& GameMode::GetEffectSupervisor()
+{
+    return _effect_supervisor;
+}
+
+ParticleManager& GameMode::GetParticleManager()
+{
+    return _particle_manager;
+}
+
+ScriptSupervisor& GameMode::GetScriptSupervisor()
+{
+    return _script_supervisor;
+}
+
+IndicatorSupervisor& GameMode::GetIndicatorSupervisor()
+{
+    return _indicator_supervisor;
+}
 
 // ****************************************************************************
 // ***** ModeEngine class
@@ -207,7 +235,7 @@ uint8 ModeEngine::GetGameType()
     if(_game_stack.empty())
         return MODE_MANAGER_DUMMY_MODE;
     else
-        return _game_stack.back()->mode_type;
+        return _game_stack.back()->GetGameType();
 }
 
 
@@ -217,7 +245,7 @@ uint8 ModeEngine::GetGameType(uint32 index)
     if(_game_stack.size() < index)
         return MODE_MANAGER_DUMMY_MODE;
     else
-        return _game_stack.at(_game_stack.size() - index)->mode_type;
+        return _game_stack.at(_game_stack.size() - index)->GetGameType();
 }
 
 
@@ -225,7 +253,7 @@ uint8 ModeEngine::GetGameType(uint32 index)
 GameMode *ModeEngine::GetTop()
 {
     if(_game_stack.empty())
-        return NULL;
+        return nullptr;
     else
         return _game_stack.back();
 }
@@ -235,7 +263,7 @@ GameMode *ModeEngine::GetTop()
 GameMode *ModeEngine::Get(uint32 index)
 {
     if(_game_stack.size() < index)
-        return NULL;
+        return nullptr;
     else
         return _game_stack.at(_game_stack.size() - index);
 }
@@ -265,7 +293,7 @@ void ModeEngine::Update()
         }
 
         // Push any new game modes onto the true game stack.
-        while(_push_stack.size() != 0) {
+        while(!_push_stack.empty()) {
             // Tell the previous game mode about being deactivated.
             if(!_game_stack.empty() && _game_stack.back())
                 _game_stack.back()->Deactivate();
@@ -289,7 +317,6 @@ void ModeEngine::Update()
         // Reset the fade out member
         _fade_out_finished = false;
 
-#ifndef EDITOR_BUILD // Needed when building using QT-Creator
         // We can now fade in, or not
         VideoManager->_TransitionalFadeIn(_fade_in ? FADE_IN_OUT_TIME : 0);
 
@@ -298,7 +325,6 @@ void ModeEngine::Update()
 
         // Re-initialize the game update timer so that the new active game mode does not begin with any update time to process
         SystemManager->InitializeUpdateTimer();
-#endif
     } // if (_state_change == true)
 
     // Call the Update function on the top stack mode (the active game mode)
@@ -339,14 +365,14 @@ void ModeEngine::DrawPostEffects()
 void ModeEngine::DEBUG_PrintStack()
 {
     PRINT_WARNING << "MODE MANAGER DEBUG: Printing Game Stack" << std::endl;
-    if(_game_stack.size() == 0) {
+    if(_game_stack.empty()) {
         PRINT_WARNING << "***Game stack is empty!" << std::endl;
         return;
     }
 
     PRINT_WARNING << "***top of stack***" << std::endl;
     for(int32 i = static_cast<int32>(_game_stack.size()) - 1; i >= 0; i--)
-        PRINT_WARNING << " index: " << i << " type: " << _game_stack[i]->mode_type << std::endl;
+        PRINT_WARNING << " index: " << i << " type: " << _game_stack[i]->GetGameType() << std::endl;
     PRINT_WARNING << "***bottom of stack***" << std::endl;
 }
 

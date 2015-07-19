@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -18,9 +18,11 @@
 #ifndef __MAP_UTILS_HEADER__
 #define __MAP_UTILS_HEADER__
 
-#include "utils.h"
+#include "utils/utils_pch.h"
+#include "engine/video/video_utils.h"
 
 #include <cmath>
+#include <vector>
 
 namespace vt_map
 {
@@ -40,8 +42,12 @@ namespace private_map
 *** number of rows and columns of tiles.
 **/
 //@{
-const float SCREEN_GRID_X_LENGTH = 32.0f;
-const float SCREEN_GRID_Y_LENGTH = 24.0f;
+// The zoom ratio will set how magnified (if > 1.0f) the map mode will display the tiles,
+// sprites and objects.
+const float MAP_ZOOM_RATIO = 2.0f;
+
+const float SCREEN_GRID_X_LENGTH = 64.0f / MAP_ZOOM_RATIO; // was 32 for zoom ratio 2.0f;
+const float SCREEN_GRID_Y_LENGTH = 48.0f / MAP_ZOOM_RATIO;
 const float HALF_SCREEN_GRID_X_LENGTH = SCREEN_GRID_X_LENGTH / 2;
 const float HALF_SCREEN_GRID_Y_LENGTH = SCREEN_GRID_Y_LENGTH / 2;
 
@@ -50,8 +56,10 @@ const uint16 TILES_ON_Y_AXIS = (uint16)SCREEN_GRID_Y_LENGTH / 2; // Number of ti
 const uint16 HALF_TILES_ON_X_AXIS = TILES_ON_X_AXIS / 2;
 const uint16 HALF_TILES_ON_Y_AXIS = TILES_ON_Y_AXIS / 2;
 
-const uint16 GRID_LENGTH = 32; // Length of a grid element in pixels
-const uint16 TILE_LENGTH = GRID_LENGTH * 2; // Length of a tile in pixels
+// Length of a grid element in pixels (taken from the grid to screen width ratio)
+const uint16 GRID_LENGTH = vt_video::VIDEO_STANDARD_RES_WIDTH / SCREEN_GRID_X_LENGTH;
+// Length of a tile in pixels
+const uint16 TILE_LENGTH = GRID_LENGTH * 2;
 //@}
 
 
@@ -68,22 +76,6 @@ enum MAP_STATE {
     STATE_TOTAL            = 5
 };
 //@}
-
-/** \name Map Zone Types
-*** \brief Identifier types for the various classes of map zones
-***
-*** \todo This enum is currently not in use by zone classes. Evaluate whether or not such a type identifier enum
-*** is necessary and either add them to the zone classes or remove this enum.
-**/
-enum ZONE_TYPE {
-    ZONE_INVALID    = 0,
-    ZONE_MAP        = 1,
-    ZONE_CAMERA     = 2,
-    ZONE_RESIDENT   = 3,
-    ZONE_ENEMY      = 4,
-    ZONE_CONTEXT    = 5,
-    MAP_ZONE_TOTAL  = 6,
-};
 
 //! \brief The number of tiles that are found in a tileset image (512x512 pixel image containing 32x32 pixel tiles)
 const uint32 TILES_PER_TILESET = 256;
@@ -209,7 +201,8 @@ enum EVENT_TYPE {
     ANIMATE_SPRITE_EVENT            = 12,
     TREASURE_EVENT                  = 13,
     LOOK_AT_SPRITE_EVENT            = 14,
-    TOTAL_EVENT                     = 15
+    IF_EVENT                        = 15,
+    TOTAL_EVENT                     = 16
 };
 
 //! \brief Defines the different states the dialogue can be in.
@@ -225,9 +218,6 @@ const uint32 MAX_DIALOGUE_OPTIONS = 5;
 
 //! \brief The number of milliseconds to take to fade out the map
 const uint32 MAP_FADE_OUT_TIME = 800;
-
-const uint32 STAMINA_EMPTY  = 0;
-const uint32 STAMINA_FULL   = 10000;
 
 /** ****************************************************************************
 *** \brief Represents a rectangular section of a map
@@ -367,6 +357,17 @@ struct MapVector {
 
     float length() const {
         return sqrtf(x * x + y * y);
+    }
+
+    MapVector& operator= (const MapVector& map_vec) {
+        // Prevents upon-self copy.
+        if (&map_vec == this)
+            return *this;
+
+        x = map_vec.x;
+        y = map_vec.y;
+
+        return *this;
     }
 
     float x;

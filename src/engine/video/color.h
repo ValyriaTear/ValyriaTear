@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -18,9 +18,7 @@
 #ifndef __COLOR_HEADER__
 #define __COLOR_HEADER__
 
-#include <SDL/SDL.h>
-
-#include "utils.h"
+#include "utils/utils_numeric.h"
 
 namespace vt_video
 {
@@ -129,7 +127,7 @@ public:
         sdl_color.r = static_cast<uint8>(_colors[0] * 0xFF);
         sdl_color.g = static_cast<uint8>(_colors[1] * 0xFF);
         sdl_color.b = static_cast<uint8>(_colors[2] * 0xFF);
-        sdl_color.unused = static_cast<uint8>(_colors[3] * 0xFF);
+        sdl_color.a = static_cast<uint8>(_colors[3] * 0xFF);
         return sdl_color;
     }
 

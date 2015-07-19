@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -26,28 +26,8 @@
 #ifndef __SCRIPT_HEADER__
 #define __SCRIPT_HEADER__
 
-#include "utils.h"
-
-// Prevents redefinition errors on OSX against old boost libraries.
-#ifdef __APPLE__
-#undef check
-#endif
-
-#include <sstream>
-#include <fstream>
-extern "C" {
-#include <lua.h>
-#include <lauxlib.h>
-#include <lualib.h>
-}
-
-#include <luabind/luabind.hpp>
-#include <luabind/object.hpp>
-#include <luabind/adopt_policy.hpp>
-
-#if LUA_VERSION_NUM < 502
-# define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
-#endif
+#include "utils/utils_pch.h"
+#include "utils/singleton.h"
 
 //! \brief All calls to the scripting engine are wrapped in this namespace.
 namespace vt_script
@@ -62,7 +42,7 @@ extern ScriptEngine *ScriptManager;
 extern bool SCRIPT_DEBUG;
 
 /** \name Script File Access Modes
-*** \brief Used to indicate with what priveledges a file is to be opened with.
+*** \brief Used to indicate with what privileges a file is to be opened with.
 **/
 enum SCRIPT_ACCESS_MODE {
     SCRIPT_CLOSED  = 0,
@@ -185,7 +165,7 @@ public:
     }
 
     //! \brief Create an auto namespace tablename out of the filename
-    //! For example, 'dat/maps/demo.lua' will a tablespace name of 'demo'.
+    //! For example, 'data/story/demo.lua' will a tablespace name of 'demo'.
     std::string GetTableSpace() {
         int32 period = _filename.find(".");
         int32 last_slash = _filename.find_last_of("/");
@@ -276,7 +256,7 @@ public:
     }
 
     //! \brief Create an auto namespace tablename out of the filename
-    //! For example, 'dat/maps/demo.lua' will a tablespace name of 'demo'.
+    //! For example, 'data/story/demo.lua' will a tablespace name of 'demo'.
     static std::string GetTableSpace(const std::string& filename) {
         if (filename.empty())
             return std::string();
@@ -313,7 +293,7 @@ private:
     *** Note that a thread should only be used once per file opening and its reference removed
     *** at file closure. This way, the lua garbage collector can remove it safely.
     ***
-    *** \return A pointer to the thread's lua_State for the file, or NULL if the file has never been opened.
+    *** \return A pointer to the thread's lua_State for the file, or nullptr if the file has never been opened.
     **/
     lua_State *_CheckForPreviousLuaState(const std::string &filename);
 

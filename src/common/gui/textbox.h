@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -30,11 +30,11 @@
 namespace vt_gui
 {
 
+//! \brief The default speed at which the text will appear, for non-instant text, in character/second.
+const float DEFAULT_MESSAGE_SPEED = 300.0f;
+
 namespace private_gui
 {
-
-//! \brief The unicode version of the newline character, used for string parsing
-const uint16 NEWLINE_CHARACTER = static_cast<uint16>('\n');
 
 //! \brief Assume this many characters per line of text when calculating display speed for textboxes
 const uint32 CHARS_PER_LINE = 30;
@@ -62,10 +62,8 @@ enum TEXT_DISPLAY_MODE {
 
 /** ****************************************************************************
 *** \brief Class for representing an invisible box for rendering text to.
-*** Although the video engine has an easy-to-use DrawText() function, for any
-*** non-trivial text display, the TextBox class must be used. This class provides
-*** a few things which aren't handled by DrawText(), namely word wrapping, and
-*** "gradual display", such as drawing one character at a time or fading each line
+*** This class provides word wrapping, and "gradual display",
+*** such as drawing one character at a time or fading each line
 *** of text in individually.
 ***
 *** \note The alignment flags affect the textbox as a whole, but not the actual text
@@ -182,8 +180,8 @@ public:
     }
 
     //! \brief Returns the text currently being displayed by the textbox.
-    void GetText(std::vector<vt_utils::ustring>& text) const {
-        text = _text;
+    vt_utils::ustring GetText() const {
+        return (_mode == VIDEO_TEXT_INSTANT) ? _text_image.GetString() : _text_save;
     }
 
     /** \brief Returns true if this textbox is finished with its gradual display of text
@@ -196,23 +194,8 @@ public:
 
     //! \brief Returns true if this text box contains no text empty.
     bool IsEmpty() const {
-        return _text.empty();
+        return (_mode == VIDEO_TEXT_INSTANT) ? _text_image.GetString().empty() : _text.empty();
     }
-
-    /** \brief Checks all class members to see if all members have been set to valid values.
-    *** \param errors A reference to a string to be filled if any errors are found.
-    *** \return True if object is initialized, or false if it is not.
-    *** This is used to make sure that the text box's settings are valid before doing any
-    *** drawing or update operations. If it detects any problems, it generates a string of errors
-    *** and returns it by reference so they can be displayed.
-    **/
-    bool IsInitialized(std::string &errors);
-
-    /** \brief Returns the height of the text when it's rendered with the current font
-    *** \return The height of text rendered in current font
-    *** \note This is a low-level function so it doesn't check if the current font is valid or not
-    **/
-    int32 CalculateTextHeight();
 
 private:
     //! \brief The display speed of the text, in characters per second.
@@ -239,9 +222,6 @@ private:
     //! \brief The text style for this textbox
     vt_video::TextStyle _text_style;
 
-    //! \brief A pointer to the structure containing properties of the current font such as its height, etc.
-    vt_video::FontProperties *_font_properties;
-
     //! \brief The display mode for the text (one character at a time, fading in, instant, etc.).
     TEXT_DISPLAY_MODE _mode;
 
@@ -261,21 +241,6 @@ private:
     float _text_xpos;
     float _text_ypos;
 
-    /** \brief Returns true if the given unicode character can be interrupted for a word wrap.
-    *** \param character The character you wish to check.
-    *** \return True if character can be wrapped, false if it can not.
-    *** For example in English, you can do a word wrap wherever there is a space (code 0x20).
-    *** Other languages might have space characters corresponding to other unicode values.
-    **/
-    bool _IsBreakableChar(uint16 character);
-
-    /** \brief Adds a new line of text to the _text vector.
-    *** \param line The unicode text string to add as a new line
-    *** If the line is too long to fit in the width of the textbox, it will automatically
-    *** be split into multiple lines through word wrapping.
-    **/
-    void _AddLine(const vt_utils::ustring &line);
-
     /** \brief Draws the textbox text, taking the display mode into account.
     *** \param text_x The x value to use, depending on the alignment.
     *** \param text_y The y value to use, depending on the alignment.
@@ -286,6 +251,12 @@ private:
     /** \brief Reformats text for size/font.
     **/
     void _ReformatText();
+
+    /** \brief Returns the height of the text when it's rendered with the current font
+    *** \return The height of text rendered in current font
+    *** \note This is a low-level function so it doesn't check if the current font is valid or not
+    **/
+    float _CalculateTextHeight();
 
     /** \brief Draws an outline of the element boundaries
     *** \note This function also draws an outline for each line of text in addition to the textbox

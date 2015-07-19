@@ -28,9 +28,9 @@
 #include <luabind/lua_include.hpp>
 #include <memory>
 
-namespace luabind { 
-    
-    struct scope; 
+namespace luabind {
+
+    struct scope;
 
 } // namespace luabind
 
@@ -56,13 +56,13 @@ namespace luabind {
     struct LUABIND_API scope
     {
         scope();
-        explicit scope(std::auto_ptr<detail::registration> reg);
+        explicit scope(std::unique_ptr<detail::registration> reg);
         scope(scope const& other_);
         ~scope();
 
         scope& operator=(scope const& other_);
 
-        scope& operator,(scope s);
+        scope& operator,(const scope& s);
 
         void register_(lua_State* L) const;
 

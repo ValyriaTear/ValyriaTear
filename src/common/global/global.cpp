@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,7 +15,9 @@
 *** \brief   Source file for the global game manager
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "global.h"
+
 #include "engine/system.h"
 #include "modes/map/map_mode.h"
 
@@ -25,14 +27,12 @@ using namespace vt_video;
 using namespace vt_script;
 using namespace vt_system;
 
-template<> vt_global::GameGlobal *Singleton<vt_global::GameGlobal>::_singleton_reference = NULL;
-
 namespace vt_global
 {
 
 using namespace private_global;
 
-GameGlobal *GlobalManager = NULL;
+GameGlobal *GlobalManager = nullptr;
 bool GLOBAL_DEBUG = false;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -80,9 +80,10 @@ GameGlobal::GameGlobal() :
     _max_experience_level(100),
     _x_save_map_position(0),
     _y_save_map_position(0),
-    _world_map_image(NULL),
+    _world_map_image(nullptr),
     _same_map_hud_name_as_previous(false),
-    _quest_log_count(0)
+    _quest_log_count(0),
+    _show_minimap(true)
 {
     IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal constructor invoked" << std::endl;
 }
@@ -144,6 +145,12 @@ void GameGlobal::_CloseGlobalScripts() {
     _status_effects_script.CloseTable();
     _status_effects_script.CloseFile();
 
+    _characters_script.CloseTable();
+    _characters_script.CloseFile();
+
+    _enemies_script.CloseTable();
+    _enemies_script.CloseFile();
+
     _map_sprites_script.CloseFile();
     _map_objects_script.CloseFile();
     _map_treasures_script.CloseFile();
@@ -152,59 +159,65 @@ void GameGlobal::_CloseGlobalScripts() {
 bool GameGlobal::_LoadGlobalScripts()
 {
     // Open up the persistent script files
-    if(!_global_script.OpenFile("dat/global.lua"))
+    if(!_global_script.OpenFile("data/global.lua"))
         return false;
 
-    if(!_items_script.OpenFile("dat/objects/items.lua") || !_items_script.OpenTable("items"))
+    if(!_items_script.OpenFile("data/inventory/items.lua") || !_items_script.OpenTable("items"))
         return false;
 
-    if(!_weapons_script.OpenFile("dat/objects/weapons.lua") || !_weapons_script.OpenTable("weapons"))
+    if(!_weapons_script.OpenFile("data/inventory/weapons.lua") || !_weapons_script.OpenTable("weapons"))
         return false;
 
-    if(!_head_armor_script.OpenFile("dat/objects/head_armor.lua") || !_head_armor_script.OpenTable("armor"))
+    if(!_head_armor_script.OpenFile("data/inventory/head_armor.lua") || !_head_armor_script.OpenTable("armor"))
         return false;
 
-    if(!_torso_armor_script.OpenFile("dat/objects/torso_armor.lua") || !_torso_armor_script.OpenTable("armor"))
+    if(!_torso_armor_script.OpenFile("data/inventory/torso_armor.lua") || !_torso_armor_script.OpenTable("armor"))
         return false;
 
-    if(!_arm_armor_script.OpenFile("dat/objects/arm_armor.lua") || !_arm_armor_script.OpenTable("armor"))
+    if(!_arm_armor_script.OpenFile("data/inventory/arm_armor.lua") || !_arm_armor_script.OpenTable("armor"))
         return false;
 
-    if(!_leg_armor_script.OpenFile("dat/objects/leg_armor.lua") || !_leg_armor_script.OpenTable("armor"))
+    if(!_leg_armor_script.OpenFile("data/inventory/leg_armor.lua") || !_leg_armor_script.OpenTable("armor"))
         return false;
 
-    if(!_spirits_script.OpenFile("dat/objects/spirits.lua") || !_spirits_script.OpenTable("spirits"))
+    if(!_spirits_script.OpenFile("data/inventory/spirits.lua") || !_spirits_script.OpenTable("spirits"))
         return false;
 
-    if(!_weapon_skills_script.OpenFile("dat/skills/weapon.lua") || !_weapon_skills_script.OpenTable("skills"))
+    if(!_weapon_skills_script.OpenFile("data/skills/weapon.lua") || !_weapon_skills_script.OpenTable("skills"))
         return false;
 
-    if(!_magic_skills_script.OpenFile("dat/skills/magic.lua") || !_magic_skills_script.OpenTable("skills"))
+    if(!_magic_skills_script.OpenFile("data/skills/magic.lua") || !_magic_skills_script.OpenTable("skills"))
        return false;
 
-    if(!_special_skills_script.OpenFile("dat/skills/special.lua") || !_special_skills_script.OpenTable("skills"))
+    if(!_special_skills_script.OpenFile("data/skills/special.lua") || !_special_skills_script.OpenTable("skills"))
         return false;
 
-    if(!_bare_hands_skills_script.OpenFile("dat/skills/barehands.lua") || !_bare_hands_skills_script.OpenTable("skills"))
+    if(!_bare_hands_skills_script.OpenFile("data/skills/barehands.lua") || !_bare_hands_skills_script.OpenTable("skills"))
         return false;
 
-    if(!_status_effects_script.OpenFile("dat/effects/status.lua") || !_status_effects_script.OpenTable("status_effects"))
+    if(!_status_effects_script.OpenFile("data/entities/status_effects/status_effects.lua") || !_status_effects_script.OpenTable("status_effects"))
         return false;
 
-    if(!_map_sprites_script.OpenFile("dat/actors/map_sprites.lua") || !_map_sprites_script.OpenTable("sprites"))
+    if(!_characters_script.OpenFile("data/entities/characters.lua") || !_characters_script.OpenTable("characters"))
         return false;
 
-    if(!_map_objects_script.OpenFile("dat/actors/map_objects.lua"))
+    if(!_enemies_script.OpenFile("data/entities/enemies.lua") || !_enemies_script.OpenTable("enemies"))
         return false;
 
-    if(!_map_treasures_script.OpenFile("dat/actors/map_treasures.lua"))
+    if(!_map_sprites_script.OpenFile("data/entities/map_sprites.lua") || !_map_sprites_script.OpenTable("sprites"))
+        return false;
+
+    if(!_map_objects_script.OpenFile("data/entities/map_objects.lua"))
+        return false;
+
+    if(!_map_treasures_script.OpenFile("data/entities/map_treasures.lua"))
         return false;
 
     // Reload the Quests script
-    if(!_LoadQuestsScript("dat/config/quests.lua"))
+    if(!_LoadQuestsScript("data/config/quests.lua"))
         return false;
 
-    if(!_LoadWorldLocationsScript("dat/config/world_locations.lua"))
+    if(!_LoadWorldLocationsScript("data/config/world_locations.lua"))
         return false;
 
     return true;
@@ -224,6 +237,7 @@ void GameGlobal::ClearAllData()
     _inventory_arm_armor.clear();
     _inventory_leg_armor.clear();
     _inventory_spirits.clear();
+    _inventory_key_items.clear();
 
     // Delete all characters
     for(std::map<uint32, GlobalCharacter *>::iterator it = _characters.begin(); it != _characters.end(); ++it) {
@@ -261,7 +275,67 @@ void GameGlobal::ClearAllData()
 
     // Clear out the time played, in case of a new game
     SystemManager->SetPlayTime(0, 0, 0);
+
+    // Show the minimap by default when available
+    _show_minimap = true;
 } // void GameGlobal::ClearAllData()
+
+////////////////////////////////////////////////////////////////////////////////
+// QuestLogInfo class
+////////////////////////////////////////////////////////////////////////////////
+
+QuestLogInfo::QuestLogInfo(const vt_utils::ustring &title,
+             const vt_utils::ustring &description,
+             const vt_utils::ustring &completion_description,
+             const std::string &completion_event_group,
+             const std::string &completion_event_name,
+             const vt_utils::ustring &location_name,
+             const std::string &location_banner_filename,
+             const vt_utils::ustring &location_subname,
+             const std::string &location_subimage_filename) :
+    _title(title),
+    _description(description),
+    _completion_description(completion_description),
+    _completion_event_group(completion_event_group),
+    _completion_event_name(completion_event_name),
+    _location_name(location_name),
+    _location_subname(location_subname)
+{
+    if(!_location_image.Load(location_banner_filename))
+    {
+        PRINT_ERROR << "image: " << location_banner_filename << " not able to load" << std::endl;
+        return;
+    }
+    //rescale such that the height is no bigger than 90 pixels. we give ourselves a bit of wiggle room
+    //by actually setting it to 90px, 5 pixel buffer top and bottom, so that we can utilize a potential 100px
+    if(_location_image.GetHeight() > 90.0f)
+        _location_image.SetHeightKeepRatio(90.0f);
+
+    if(!_location_subimage.Load(location_subimage_filename))
+    {
+        PRINT_ERROR << "image: " << location_subimage_filename << " not able to load" << std::endl;
+        return;
+    }
+    //rescale such that the height is no bigger than 90 pixels. we give ourselves a bit of wiggle room
+    //by actually setting it to 90px, 5 pixel buffer top and bottom, so that we can utilize a potential 100px
+    if(_location_subimage.GetHeight() > 90.0f)
+        _location_subimage.SetHeightKeepRatio(90.0f);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// WorldMapLocation struct
+////////////////////////////////////////////////////////////////////////////////
+
+WorldMapLocation::WorldMapLocation(float x, float y, const std::string& location_name,
+                                   const std::string& image_path, const std::string& world_map_location_id) :
+    _x(x),
+    _y(y),
+    _location_name(location_name),
+    _world_map_location_id(world_map_location_id)
+{
+    if(!_image.Load(image_path))
+        PRINT_ERROR << "image: " << image_path << " not able to load" << std::endl;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // GameGlobal class - Character Functions
@@ -301,8 +375,8 @@ void GameGlobal::AddCharacter(uint32 id)
 
 void GameGlobal::AddCharacter(GlobalCharacter *ch)
 {
-    if(ch == NULL) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received NULL pointer argument" << std::endl;
+    if(ch == nullptr) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received nullptr pointer argument" << std::endl;
         return;
     }
 
@@ -362,7 +436,7 @@ GlobalCharacter *GameGlobal::GetCharacter(uint32 id)
 {
     std::map<uint32, GlobalCharacter *>::iterator ch = _characters.find(id);
     if(ch == _characters.end())
-        return NULL;
+        return nullptr;
     else
         return (ch->second);
 }
@@ -393,6 +467,20 @@ void GameGlobal::SwapCharactersByIndex(uint32 first_index, uint32 second_index)
     _active_party.SwapCharactersByIndex(first_index, second_index);
 }
 
+bool GameGlobal::DoesEnemyExist(uint32 enemy_id)
+{
+    if(enemy_id == 0)
+        return false;
+
+    ReadScriptDescriptor& enemy_data = GetEnemiesScript();
+
+    if (!enemy_data.OpenTable(enemy_id))
+        return false;
+
+    enemy_data.CloseTable(); // enemy_id
+    return true;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // GameGlobal class - Inventory Functions
 ////////////////////////////////////////////////////////////////////////////////
@@ -410,46 +498,56 @@ void GameGlobal::AddToInventory(uint32 obj_id, uint32 obj_count)
     }
 
     // Otherwise create a new object instance and add it to the inventory
+    GlobalObject* new_object = nullptr;
     if((obj_id > 0 && obj_id <= MAX_ITEM_ID)
-        || (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
-        GlobalItem *new_obj = new GlobalItem(obj_id, obj_count);
-        _inventory.insert(std::make_pair(obj_id, new_obj));
-        _inventory_items.push_back(new_obj);
+            || (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
+        GlobalItem* new_item = new GlobalItem(obj_id, obj_count);
+        new_object = new_item;
+        _inventory.insert(std::make_pair(obj_id, new_item));
+        _inventory_items.push_back(new_item);
     } else if((obj_id > MAX_ITEM_ID) && (obj_id <= MAX_WEAPON_ID)) {
-        GlobalWeapon *new_obj = new GlobalWeapon(obj_id, obj_count);
-        _inventory.insert(std::make_pair(obj_id, new_obj));
-        _inventory_weapons.push_back(new_obj);
+        GlobalWeapon* new_wpn = new GlobalWeapon(obj_id, obj_count);
+        new_object = new_wpn;
+        _inventory.insert(std::make_pair(obj_id, new_wpn));
+        _inventory_weapons.push_back(new_wpn);
     } else if((obj_id > MAX_WEAPON_ID) && (obj_id <= MAX_HEAD_ARMOR_ID)) {
-        GlobalArmor *new_obj = new GlobalArmor(obj_id, obj_count);
-        _inventory.insert(std::make_pair(obj_id, new_obj));
-        _inventory_head_armor.push_back(new_obj);
+        GlobalArmor* new_arm = new GlobalArmor(obj_id, obj_count);
+        new_object = new_arm;
+        _inventory.insert(std::make_pair(obj_id, new_arm));
+        _inventory_head_armor.push_back(new_arm);
     } else if((obj_id > MAX_HEAD_ARMOR_ID) && (obj_id <= MAX_TORSO_ARMOR_ID)) {
-        GlobalArmor *new_obj = new GlobalArmor(obj_id, obj_count);
-        _inventory.insert(std::make_pair(obj_id, new_obj));
-        _inventory_torso_armor.push_back(new_obj);
+        GlobalArmor* new_arm = new GlobalArmor(obj_id, obj_count);
+        new_object = new_arm;
+        _inventory.insert(std::make_pair(obj_id, new_arm));
+        _inventory_torso_armor.push_back(new_arm);
     } else if((obj_id > MAX_TORSO_ARMOR_ID) && (obj_id <= MAX_ARM_ARMOR_ID)) {
-        GlobalArmor *new_obj = new GlobalArmor(obj_id, obj_count);
-        _inventory.insert(std::make_pair(obj_id, new_obj));
-        _inventory_arm_armor.push_back(new_obj);
+        GlobalArmor* new_arm = new GlobalArmor(obj_id, obj_count);
+        new_object = new_arm;
+        _inventory.insert(std::make_pair(obj_id, new_arm));
+        _inventory_arm_armor.push_back(new_arm);
     } else if((obj_id > MAX_ARM_ARMOR_ID) && (obj_id <= MAX_LEG_ARMOR_ID)) {
-        GlobalArmor *new_obj = new GlobalArmor(obj_id, obj_count);
-        _inventory.insert(std::make_pair(obj_id, new_obj));
-        _inventory_leg_armor.push_back(new_obj);
+        GlobalArmor* new_arm = new GlobalArmor(obj_id, obj_count);
+        new_object = new_arm;
+        _inventory.insert(std::make_pair(obj_id, new_arm));
+        _inventory_leg_armor.push_back(new_arm);
     } else if((obj_id > MAX_LEG_ARMOR_ID) && (obj_id <= MAX_SPIRIT_ID)) {
-        GlobalSpirit *new_obj = new GlobalSpirit(obj_id, obj_count);
-        _inventory.insert(std::make_pair(obj_id, new_obj));
-        _inventory_spirits.push_back(new_obj);
+        GlobalSpirit* new_spirit = new GlobalSpirit(obj_id, obj_count);
+        new_object = new_spirit;
+        _inventory.insert(std::make_pair(obj_id, new_spirit));
+        _inventory_spirits.push_back(new_spirit);
     } else {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add invalid object to inventory with id: " << obj_id << std::endl;
     }
-} // void GameGlobal::AddToInventory(uint32 obj_id)
 
-
+    // Updates the key items list
+    if (new_object != nullptr && new_object->IsKeyItem())
+        _inventory_key_items.push_back(new_object);
+}
 
 void GameGlobal::AddToInventory(GlobalObject *object)
 {
-    if(object == NULL) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received NULL pointer argument" << std::endl;
+    if(object == nullptr) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received nullptr pointer argument" << std::endl;
         return;
     }
 
@@ -502,16 +600,33 @@ void GameGlobal::AddToInventory(GlobalObject *object)
     } else {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add invalid object to inventory with id: " << obj_id << std::endl;
         delete object;
+        return;
     }
-} // void GameGlobal::AddToInventory(GlobalObject* object)
 
-
+    // Updates the key items list
+    if (object->IsKeyItem())
+        _inventory_key_items.push_back(object);
+}
 
 void GameGlobal::RemoveFromInventory(uint32 obj_id)
 {
-    if(_inventory.find(obj_id) == _inventory.end()) {
+    std::map<uint32, GlobalObject *>::iterator it = _inventory.find(obj_id);
+    if(it == _inventory.end()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to remove an object from inventory that didn't exist with id: " << obj_id << std::endl;
         return;
+    }
+
+    // Check whether the item is a key item to remove.
+    GlobalObject* object = it->second;
+    if (object != nullptr && object->IsKeyItem()) {
+        for(std::vector<GlobalObject *>::iterator it2 = _inventory_key_items.begin();
+                it2 != _inventory_key_items.end(); ++it2) {
+            if((*it2)->GetID() != obj_id)
+                continue;
+
+            _inventory_key_items.erase(it2);
+            break;
+        }
     }
 
     // Use the id value to figure out what type of object it is, and remove it from the object vector
@@ -540,58 +655,54 @@ void GameGlobal::RemoveFromInventory(uint32 obj_id)
     } else {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to remove an object from inventory with an invalid id: " << obj_id << std::endl;
     }
-} // void GameGlobal::RemoveFromInventory(uint32 obj_id)
+}
 
-
-
-GlobalObject *GameGlobal::RetrieveFromInventory(uint32 obj_id, bool all_counts)
+GlobalObject* GameGlobal::GetGlobalObject(uint32 obj_id)
 {
     if(_inventory.find(obj_id) == _inventory.end()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to retrieve an object from inventory that didn't exist with id: " << obj_id << std::endl;
-        return NULL;
+        return nullptr;
     }
 
-    GlobalObject *return_object = NULL;
+    GlobalObject *return_object = nullptr;
     // Use the id value to figure out what type of object it is, and remove it from the object vector
     if((obj_id > 0 && obj_id <= MAX_ITEM_ID)
         || (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_items, all_counts);
-        if(return_object == NULL)
+        return_object = _GetFromInventory(obj_id, _inventory_items);
+        if(return_object == nullptr)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory items: " << obj_id << std::endl;
     } else if((obj_id > MAX_ITEM_ID) && (obj_id <= MAX_WEAPON_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_weapons, all_counts);
-        if(return_object == NULL)
+        return_object = _GetFromInventory(obj_id, _inventory_weapons);
+        if(return_object == nullptr)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory weapons: " << obj_id << std::endl;
     } else if((obj_id > MAX_WEAPON_ID) && (obj_id <= MAX_HEAD_ARMOR_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_head_armor, all_counts);
-        if(return_object == NULL)
+        return_object = _GetFromInventory(obj_id, _inventory_head_armor);
+        if(return_object == nullptr)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory head armor: " << obj_id << std::endl;
     } else if((obj_id > MAX_HEAD_ARMOR_ID) && (obj_id <= MAX_TORSO_ARMOR_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_torso_armor, all_counts);
-        if(return_object == NULL)
+        return_object = _GetFromInventory(obj_id, _inventory_torso_armor);
+        if(return_object == nullptr)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory torso armor: " << obj_id << std::endl;
     } else if((obj_id > MAX_TORSO_ARMOR_ID) && (obj_id <= MAX_ARM_ARMOR_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_arm_armor, all_counts);
-        if(return_object == NULL)
+        return_object = _GetFromInventory(obj_id, _inventory_arm_armor);
+        if(return_object == nullptr)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory arm armor: " << obj_id << std::endl;
     } else if((obj_id > MAX_ARM_ARMOR_ID) && (obj_id <= MAX_LEG_ARMOR_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_leg_armor, all_counts);
-        if(return_object == NULL)
+        return_object = _GetFromInventory(obj_id, _inventory_leg_armor);
+        if(return_object == nullptr)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory leg armor: " << obj_id << std::endl;
     } else if((obj_id > MAX_LEG_ARMOR_ID) && (obj_id <= MAX_SPIRIT_ID)) {
-        return_object = _RetrieveFromInventory(obj_id, _inventory_spirits, all_counts);
-        if(return_object == NULL)
+        return_object = _GetFromInventory(obj_id, _inventory_spirits);
+        if(return_object == nullptr)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory spirits: " << obj_id << std::endl;
     } else {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to retrieve an object from inventory with an invalid id: " << obj_id << std::endl;
     }
 
     return return_object;
-} // GlobalObject* GameGlobal::RetrieveFromInventory(uint32 obj_id, bool all_counts)
+}
 
-
-
-void GameGlobal::IncrementObjectCount(uint32 obj_id, uint32 count)
+void GameGlobal::IncrementItemCount(uint32 obj_id, uint32 count)
 {
     // Do nothing if the item does not exist in the inventory
     if(_inventory.find(obj_id) == _inventory.end()) {
@@ -604,7 +715,7 @@ void GameGlobal::IncrementObjectCount(uint32 obj_id, uint32 count)
 
 
 
-void GameGlobal::DecrementObjectCount(uint32 obj_id, uint32 count)
+void GameGlobal::DecrementItemCount(uint32 obj_id, uint32 count)
 {
     // Do nothing if the item does not exist in the inventory
     if(_inventory.find(obj_id) == _inventory.end()) {
@@ -663,7 +774,7 @@ GlobalEventGroup *GameGlobal::GetEventGroup(const std::string &group_name) const
     std::map<std::string, GlobalEventGroup *>::const_iterator group_iter = _event_groups.find(group_name);
     if(group_iter == _event_groups.end()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "could not find any event group by the requested name: " << group_name << std::endl;
-        return NULL;
+        return nullptr;
     }
     return (group_iter->second);
 }
@@ -879,6 +990,13 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32 slot_id)
         _map_script_filename = map_common_name + "_script.lua";
     }
 
+    // DEPRECATED: Remove in one release
+    // test whether the beginning of the filepath is 'dat/maps/' and replace with 'data/story/'
+    if (_map_data_filename.substr(0, 9) == "dat/maps/")
+        _map_data_filename = std::string("data/story/") + _map_data_filename.substr(9, _map_data_filename.length() - 9);
+    if (_map_script_filename.substr(0, 9) == "dat/maps/")
+        _map_script_filename = std::string("data/story/") + _map_script_filename.substr(9, _map_script_filename.length() - 9);
+
     // Load a potential saved position
     _x_save_map_position = file.ReadUInt("location_x");
     _y_save_map_position = file.ReadUInt("location_y");
@@ -1005,7 +1123,7 @@ void GameGlobal::LoadEmotes(const std::string &emotes_filename)
         if(anim.LoadFromAnimationScript(animation_file)) {
             // NOTE: The map mode should one day be fixed to use the same coords
             // than everything else, thus making possible to remove this
-            vt_map::MapMode::ScaleToMapCoords(anim);
+            vt_map::MapMode::ScaleToMapZoomRatio(anim);
 
             _emotes.insert(std::make_pair(emotes_id[i], anim));
 
@@ -1064,8 +1182,8 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
         return;
     }
-    if(character == NULL) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL character pointer argument" << std::endl;
+    if(character == nullptr) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a nullptr character pointer argument" << std::endl;
         return;
     }
 
@@ -1079,17 +1197,18 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     file.WriteLine("\t\texperience_points = " + NumberToString(character->GetExperiencePoints()) + ",");
     file.WriteLine("\t\texperience_points_next = " + NumberToString(character->GetExperienceForNextLevel()) + ", ");
 
+    // The values stored are the unmodified ones.
     file.WriteLine("\t\tmax_hit_points = " + NumberToString(character->GetMaxHitPoints()) + ",");
     file.WriteLine("\t\thit_points = " + NumberToString(character->GetHitPoints()) + ",");
     file.WriteLine("\t\tmax_skill_points = " + NumberToString(character->GetMaxSkillPoints()) + ",");
     file.WriteLine("\t\tskill_points = " + NumberToString(character->GetSkillPoints()) + ",");
 
-    file.WriteLine("\t\tstrength = " + NumberToString(character->GetStrength()) + ",");
-    file.WriteLine("\t\tvigor = " + NumberToString(character->GetVigor()) + ",");
-    file.WriteLine("\t\tfortitude = " + NumberToString(character->GetFortitude()) + ",");
-    file.WriteLine("\t\tprotection = " + NumberToString(character->GetProtection()) + ",");
-    file.WriteLine("\t\tagility = " + NumberToString(character->GetAgility()) + ",");
-    file.WriteLine("\t\tevade = " + NumberToString(character->GetEvade()) + ",");
+    file.WriteLine("\t\tstrength = " + NumberToString(character->GetStrengthBase()) + ",");
+    file.WriteLine("\t\tvigor = " + NumberToString(character->GetVigorBase()) + ",");
+    file.WriteLine("\t\tfortitude = " + NumberToString(character->GetFortitudeBase()) + ",");
+    file.WriteLine("\t\tprotection = " + NumberToString(character->GetProtectionBase()) + ",");
+    file.WriteLine("\t\tagility = " + NumberToString(character->GetAgilityBase()) + ",");
+    file.WriteLine("\t\tevade = " + NumberToString(character->GetEvadeBase()) + ",");
 
     // ----- (2): Write out the character's equipment
     uint32 weapon_id = 0;
@@ -1097,26 +1216,26 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     uint32 torso_id = 0;
     uint32 arm_id = 0;
     uint32 leg_id = 0;
-    GlobalObject *obj_tmp = NULL;
+    GlobalObject *obj_tmp = nullptr;
 
     obj_tmp = character->GetWeaponEquipped();
-    if(obj_tmp != NULL)
+    if(obj_tmp != nullptr)
         weapon_id = obj_tmp->GetID();
 
     obj_tmp = character->GetHeadArmorEquipped();
-    if(obj_tmp != NULL)
+    if(obj_tmp != nullptr)
         head_id = obj_tmp->GetID();
 
     obj_tmp = character->GetTorsoArmorEquipped();
-    if(obj_tmp != NULL)
+    if(obj_tmp != nullptr)
         torso_id = obj_tmp->GetID();
 
     obj_tmp = character->GetArmArmorEquipped();
-    if(obj_tmp != NULL)
+    if(obj_tmp != nullptr)
         arm_id = obj_tmp->GetID();
 
     obj_tmp = character->GetLegArmorEquipped();
-    if(obj_tmp != NULL)
+    if(obj_tmp != nullptr)
         leg_id = obj_tmp->GetID();
 
     file.InsertNewLine();
@@ -1142,6 +1261,24 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
             file.WriteLine(", ", false);
         file.WriteLine(NumberToString(skill_id), false);
     }
+    file.WriteLine("\n\t\t},");
+
+    // Writes active status effects at the time of the save
+    file.InsertNewLine();
+    file.WriteLine("\t\tactive_status_effects = {");
+    const std::vector<ActiveStatusEffect>& status_effects = character->GetActiveStatusEffects();
+    for(uint32 i = 0; i < status_effects.size(); ++i) {
+        const ActiveStatusEffect& effect = status_effects.at(i);
+        if (!effect.IsActive())
+            continue;
+
+        std::string effect_str = "\t\t\t[" + NumberToString((int32)effect.GetEffect()) + "] = { ";
+        effect_str += "intensity = " + NumberToString((int32)effect.GetIntensity()) + ", ";
+        effect_str += "duration = " + NumberToString((int32)effect.GetEffectTime()) + ", ";
+        effect_str += "elapsed_time = " + NumberToString((int32)effect.GetElapsedTime()) + "},";
+
+        file.WriteLine(effect_str);
+    }
     file.WriteLine("\n\t\t}");
 
     if(last)
@@ -1158,8 +1295,8 @@ void GameGlobal::_SaveEvents(WriteScriptDescriptor &file, GlobalEventGroup *even
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
         return;
     }
-    if(event_group == NULL) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a NULL event group pointer argument" << std::endl;
+    if(event_group == nullptr) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a nullptr event group pointer argument" << std::endl;
         return;
     }
 
@@ -1194,9 +1331,9 @@ void GameGlobal::_SaveQuests(WriteScriptDescriptor &file, const QuestLogEntry *q
         return;
     }
 
-    if(quest_log_entry == NULL)
+    if(quest_log_entry == nullptr)
     {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "_SaveQuests function received a NULL quest log entry pointer argument" << std::endl;
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "_SaveQuests function received a nullptr quest log entry pointer argument" << std::endl;
         return;
     }
 
@@ -1219,16 +1356,24 @@ void GameGlobal::_SaveWorldMap(vt_script::WriteScriptDescriptor &file)
         return;
     }
 
+    // Write the 'worldmap' table
+    file.WriteLine("worldmap = {");
+
     //write the world map filename
-    file.WriteLine("world_map = \"" + GetWorldMapFilename() + "\",");
+    file.WriteLine("\tworld_map_file = \"" + GetWorldMapFilename() + "\",");
     file.InsertNewLine();
 
     //write the viewable locations
-    file.WriteLine("viewable_locations = {");
+    file.WriteLine("\tviewable_locations = {");
     for(uint32 i = 0; i < _viewable_world_locations.size(); ++i)
-        file.WriteLine("\t\"" + _viewable_world_locations[i]+"\",");
-    file.WriteLine("}");
+        file.WriteLine("\t\t\"" + _viewable_world_locations[i]+"\",");
+    file.WriteLine("\t},");
+    file.InsertNewLine();
 
+    file.WriteLine("\tcurrent_location = \"" + GetCurrentLocationId() + "\"");
+
+    file.WriteLine("}"); // close the main table
+    file.InsertNewLine();
 }
 
 void GameGlobal::_LoadInventory(ReadScriptDescriptor &file, const std::string &category_name)
@@ -1392,6 +1537,45 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
         character->AddSkill(skill_ids[i]);
     }
 
+    // Read the character's active status effects data
+    character->ResetActiveStatusEffects();
+    std::vector<int32> status_effects_ids;
+    file.ReadTableKeys("active_status_effects", status_effects_ids);
+
+    if (file.OpenTable("active_status_effects")) {
+
+        for(uint32 i = 0; i < status_effects_ids.size(); ++i) {
+            int32 status_effect = status_effects_ids[i];
+
+            if (!file.OpenTable(status_effect))
+                continue;
+
+            // Check the status effect validity
+            if (status_effect <= (int32)GLOBAL_STATUS_INVALID || status_effect >= (int32)GLOBAL_STATUS_TOTAL) {
+                file.CloseTable(); // status_effect
+                continue;
+            }
+
+            // Check the status intensity validity
+            int32 intensity = file.ReadInt("intensity");
+            if (intensity <= GLOBAL_INTENSITY_INVALID || intensity >= GLOBAL_INTENSITY_TOTAL) {
+                file.CloseTable(); // status_effect
+                continue;
+            }
+
+            uint32 duration = file.ReadInt("duration");
+            uint32 elapsed_time = file.ReadInt("elapsed_time");
+
+            character->SetActiveStatusEffect((GLOBAL_STATUS)status_effect,
+                                             (GLOBAL_INTENSITY)intensity,
+                                             duration, elapsed_time);
+
+            file.CloseTable(); // status_effect
+        }
+
+        file.CloseTable(); // active_status_effects
+    }
+
     file.CloseTable(); // character id
 
     AddCharacter(character);
@@ -1407,7 +1591,7 @@ void GameGlobal::_LoadEvents(ReadScriptDescriptor &file, const std::string &grou
     }
 
     AddNewEventGroup(group_name);
-    GlobalEventGroup *new_group = GetEventGroup(group_name); // new_group is guaranteed not to be NULL
+    GlobalEventGroup *new_group = GetEventGroup(group_name); // new_group is guaranteed not to be nullptr
 
     std::vector<std::string> event_names;
 
@@ -1462,13 +1646,37 @@ void GameGlobal::_LoadWorldMap(vt_script::ReadScriptDescriptor &file)
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
         return;
     }
-    std::string world_map = file.ReadString("world_map");
+
+    if (!file.OpenTable("worldmap")) {
+        // DEPRECATED! Old World map format. Removed in one release...
+        std::string world_map = file.ReadString("world_map");
+        SetWorldMap(world_map);
+
+        std::vector<std::string> location_ids;
+        file.ReadStringVector("viewable_locations", location_ids);
+        for(uint32 i = 0; i < location_ids.size(); ++i)
+            ShowWorldLocation(location_ids[i]);
+        return;
+    }
+
+    std::string world_map = file.ReadString("world_map_file");
+
+    // DEPRECATED: Remove this hack in one release
+    if (world_map.substr(0, 20) == "img/menus/worldmaps/")
+        world_map = std::string("data/story/common/worldmaps/") + world_map.substr(20, world_map.length() - 20);
+
     SetWorldMap(world_map);
 
     std::vector<std::string> location_ids;
     file.ReadStringVector("viewable_locations", location_ids);
     for(uint32 i = 0; i < location_ids.size(); ++i)
         ShowWorldLocation(location_ids[i]);
+
+    std::string current_location = file.ReadString("current_location");
+    if (!current_location.empty())
+        SetCurrentLocationId(current_location);
+
+    file.CloseTable(); // worldmap
 }
 
 bool GameGlobal::_LoadWorldLocationsScript(const std::string &world_locations_filename)
@@ -1569,7 +1777,7 @@ bool GameGlobal::_LoadQuestsScript(const std::string& quests_script_filename)
         }
 
         //check whether all fields are there.
-        if(quest_info.size() == 9)
+        if(quest_info.size() >= 9)
         {
             QuestLogInfo info = QuestLogInfo(MakeUnicodeString(quest_info[0]),
                                      MakeUnicodeString(quest_info[1]),
@@ -1577,6 +1785,10 @@ bool GameGlobal::_LoadQuestsScript(const std::string& quests_script_filename)
                                      quest_info[3], quest_info[4],
                                      MakeUnicodeString(quest_info[5]), quest_info[6],
                                      MakeUnicodeString(quest_info[7]), quest_info[8]);
+            // If possible, loads the non-competable event group and name
+            if (quest_info.size() == 11) {
+                info.SetNotCompletableIf(quest_info[9], quest_info[10]);
+            }
             _quest_log_info[quest_id] = info;
         }
         //malformed quest log

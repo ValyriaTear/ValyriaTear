@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -25,6 +25,8 @@
 
 #include "engine/video/image.h"
 #include "engine/script/script.h"
+
+#include "utils/ustring.h"
 
 namespace vt_script {
 class ReadScriptDescriptor;
@@ -63,6 +65,7 @@ class GlobalObject
 public:
     GlobalObject() :
         _id(0),
+        _is_key_item(false),
         _count(0),
         _price(0),
         _trade_price(0)
@@ -149,10 +152,6 @@ public:
         return _icon_image;
     }
 
-    const std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >& GetElementalEffects() const {
-        return _elemental_effects;
-    }
-
     const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& GetStatusEffects() const {
         return _status_effects;
     }
@@ -189,11 +188,6 @@ protected:
     //! \brief A loaded icon image of the object at its original size of 60x60 pixels
     vt_video::StillImage _icon_image;
 
-    /** \brief Container that holds the intensity of each type of elemental effect of the object
-    *** Elements with an intensity of GLOBAL_INTENSITY_NEUTRAL indicate no elemental bonus
-    **/
-    std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> > _elemental_effects;
-
     /** \brief Container that holds the intensity of each type of status effect of the object
     *** Effects with an intensity of GLOBAL_INTENSITY_NEUTRAL indicate no status effect bonus
     **/
@@ -216,9 +210,6 @@ protected:
     *** the open table in the script file and return.
     **/
     void _LoadObjectData(vt_script::ReadScriptDescriptor &script);
-
-    //! \brief Loads elemental effects data
-    void _LoadElementalEffects(vt_script::ReadScriptDescriptor &script);
 
     //! \brief Loads status effects data
     void _LoadStatusEffects(vt_script::ReadScriptDescriptor &script);
@@ -276,29 +267,32 @@ public:
     }
 
     /** \brief Returns a pointer to the ScriptObject of the battle use function
-    *** \note This function will return NULL if the skill is not usable in battle
+    *** \note This function will return nullptr if the skill is not usable in battle
     **/
     const ScriptObject &GetBattleUseFunction() const {
         return _battle_use_function;
     }
 
     /** \brief Returns a pointer to the ScriptObject of the field use function
-    *** \note This function will return NULL if the skill is not usable in the field
+    *** \note This function will return nullptr if the skill is not usable in the field
     **/
     const ScriptObject &GetFieldUseFunction() const {
         return _field_use_function;
     }
 
-    /** \brief Returns Warmup time needed before using this item in battles.
-    **/
-    uint32 GetWarmUpTime() const {
+    //! \brief Returns Warmup time needed before using this item in battles.
+    inline uint32 GetWarmUpTime() const {
         return _warmup_time;
     }
 
-    /** \brief Returns Warmup time needed before using this item in battles.
-    **/
-    uint32 GetCoolDownTime() const {
+    //! \brief Returns Warmup time needed before using this item in battles.
+    inline uint32 GetCoolDownTime() const {
         return _cooldown_time;
+    }
+
+    //! \brief Returns the animation script filename, used to animate this item use in battles.
+    const std::string& GetAnimationScript() const {
+        return _animation_script_file;
     }
     //@}
 
@@ -317,6 +311,9 @@ private:
 
     //! \brief The cooldown time in milliseconds needed after using this item in battles.
     uint32 _cooldown_time;
+
+    //! \brief The animation script file used to animate the item use in battles.
+    std::string _animation_script_file;
 }; // class GlobalItem : public GlobalObject
 
 
@@ -354,10 +351,8 @@ public:
         return _physical_attack;
     }
 
-    uint32 GetMagicalAttack(GLOBAL_ELEMENTAL element) const {
-        if (element <= GLOBAL_ELEMENTAL_INVALID || element >= GLOBAL_ELEMENTAL_TOTAL)
-            element = GLOBAL_ELEMENTAL_NEUTRAL;
-        return _magical_attack[element];
+    uint32 GetMagicalAttack() const {
+        return _magical_attack;
     }
 
     uint32 GetUsableBy() const {
@@ -368,8 +363,8 @@ public:
         return _spirit_slots;
     }
 
-    const std::string &GetAmmoImageFile() const {
-        return _ammo_image_file;
+    const std::string& GetAmmoAnimationFile() const {
+        return _ammo_animation_file;
     }
 
     //! \brief Get the animation filename corresponding to the character weapon animation
@@ -384,13 +379,13 @@ public:
 
 private:
     //! \brief The battle image animation file used to display the weapon ammo.
-    std::string _ammo_image_file;
+    std::string _ammo_animation_file;
 
     //! \brief The amount of physical damage that the weapon causes
     uint32 _physical_attack;
 
     //! \brief The amount of magical damage that the weapon causes for each elements.
-    uint32 _magical_attack[GLOBAL_ELEMENTAL_TOTAL];
+    uint32 _magical_attack;
 
     /** \brief A bit-mask that determines which characters can use or equip the object
     *** See the game character ID constants in global_actors.h for more information
@@ -404,7 +399,7 @@ private:
     /** \brief Spirit slots which may be used to place spirits on the weapon
     *** Weapons may have no slots, so it is not uncommon for the size of this vector to be zero.
     *** When spirit slots are available but empty (has no attached spirit), the pointer at that index
-    *** will be NULL.
+    *** will be nullptr.
     **/
     std::vector<GlobalSpirit *> _spirit_slots;
 
@@ -444,10 +439,8 @@ public:
         return _physical_defense;
     }
 
-    uint32 GetMagicalDefense(GLOBAL_ELEMENTAL element) const {
-        if (element <= GLOBAL_ELEMENTAL_INVALID || element >= GLOBAL_ELEMENTAL_TOTAL)
-            element = GLOBAL_ELEMENTAL_NEUTRAL;
-        return _magical_defense[element];
+    uint32 GetMagicalDefense() const {
+        return _magical_defense;
     }
 
     uint32 GetUsableBy() const {
@@ -468,7 +461,7 @@ private:
     uint32 _physical_defense;
 
     //! \brief The amount of magical defense that the armor provides against each elements
-    uint32 _magical_defense[GLOBAL_ELEMENTAL_TOTAL];
+    uint32 _magical_defense;
 
     /** \brief A bit-mask that determines which characters can use or equip the object
     *** See the game character ID constants in global_actors.h for more information
@@ -478,7 +471,7 @@ private:
     /** \brief Sockets which may be used to place spirits on the armor
     *** Armor may have no sockets, so it is not uncommon for the size of this vector to be zero.
     *** When a socket is available but empty (has no attached spirit), the pointer at that index
-    *** will be NULL.
+    *** will be nullptr.
     **/
     std::vector<GlobalSpirit *> _spirit_slots;
 }; // class GlobalArmor : public GlobalObject

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2013-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -13,6 +13,7 @@
 *** \brief   Source file for the minimaps.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "modes/map/map_minimap.h"
 
 #include "modes/map/map_objects.h"
@@ -21,8 +22,10 @@
 #include "engine/video/video.h"
 #include "common/gui/menu_window.h"
 
-#include <algorithm>
-#include <SDL_image.h>
+// Used for the collision to XPM dev function
+#ifdef DEBUG_FEATURES
+#include "engine/script/script_write.h"
+#endif
 
 namespace vt_map
 {
@@ -30,123 +33,121 @@ namespace vt_map
 namespace private_map
 {
 
-//! \brief allows for scoped-based control of SDL Surfaces
+//! \brief The default opcaity.
+const vt_video::Color DEFAULT_OPACITY(1.0f, 1.0f, 1.0f, 0.75f);
+
+//! \brief The overlap opcaity.
+const vt_video::Color OVERLAP_OPACITY(1.0f, 1.0f, 1.0f, 0.45f);
+
+//! \brief The X value for the minimap's position.
+const float MINIMAP_POS_X = 775.0f;
+
+//! \brief The Y value for the minimap's position.
+const float MINIMAP_POS_Y = 545.0f;
+
+//! \brief Allows for scoped-based control of SDL Surfaces.
 struct SDLSurfaceController {
-    SDL_Surface *_surface;
-    inline SDLSurfaceController(const char *str) :
+    SDL_Surface* _surface;
+
+    explicit SDLSurfaceController(const char *str) :
         _surface(IMG_Load(str))
     {
-        if(!_surface)
-            PRINT_ERROR << "Couldn't create white_noise image for collision map: " << SDL_GetError() << std::endl;
+        if (!_surface)
+            PRINT_ERROR << "Couldn't create the white noise image for the collision map: " << SDL_GetError() << std::endl;
     }
 
     ~SDLSurfaceController()
     {
-        if(_surface)
+        if (_surface)
             SDL_FreeSurface(_surface);
+    }
+
+private:
+    //
+    // The copy constructor and assignment operator are hidden by design
+    // to cause compilation errors when attempting to copy or assign this class.
+    //
+
+    SDLSurfaceController(const SDLSurfaceController&)
+    {
+        throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+    }
+
+    SDLSurfaceController& operator=(const SDLSurfaceController&)
+    {
+        throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+        return *this;
     }
 };
 
-static const vt_video::Color default_opacity(1.0f, 1.0f, 1.0f, 0.75f);
-static const vt_video::Color overlap_opacity(1.0f, 1.0f, 1.0f, 0.65f);
+//! \brief A white noise texture.
+const SDLSurfaceController WHITE_NOISE("data/gui/map/minimap_collision.png");
 
-Minimap::Minimap(ObjectSupervisor *map_object_supervisor, const std::string &map_name) :
-    _current_position_x(-1),
-    _current_position_y(-1),
-    _box_x_length(20.0f),
-    _box_y_length(_box_x_length * .75f),
-    _x_offset(0),
-    _y_offset(0),
-    _x_half_len(1.75f * TILES_ON_X_AXIS * _box_x_length),
-    _y_half_len(1.75f * TILES_ON_Y_AXIS * _box_y_length),
-    _map_alpha_scale(1.0f)
+//! \brief A helper function to prepare a SDL_Surface.
+static bool _PrepareSurface(SDL_Surface* temp_surface)
 {
-    if(!map_object_supervisor)
-    {
-        PRINT_ERROR << "map object supervisor is not instantiated" << std::endl;
-        exit(EXIT_FAILURE);
-    }
+    SDL_Rect r = { 0, 0, 0, 0 };
 
-    //save the viewport
-    vt_video::VideoManager->GetCurrentViewport(_viewport_original_x, _viewport_original_y,
-                                                _viewport_original_width, _viewport_original_height);
-
-    //create a temporary SDL surface on which to generate the collision map
-    SDL_Surface *temp_surface = _ProcedurallyDraw(map_object_supervisor);
-    if (!temp_surface) {
-        MapMode::CurrentInstance()->ShowMinimap(false);
-    }
-
-    SDL_LockSurface(temp_surface);
-    //setup a temporary memory space to copy the SDL data into
-    vt_video::private_video::ImageMemory temp_data;
-    temp_data.rgb_format = false;
-    temp_data.width = temp_surface->w;
-    temp_data.height = temp_surface->h;
-    size_t len = temp_surface->h * temp_surface->w * ((unsigned short) (temp_surface->format->BitsPerPixel) / 8) ;
-    temp_data.pixels = malloc(len);
-    //copy the data
-    memcpy(temp_data.pixels, temp_surface->pixels, len);
-    SDL_UnlockSurface(temp_surface);
-    //at this point, the screen data is set up. We can get rid of unncesary data here
-    SDL_FreeSurface(temp_surface);
-    //do the image file creationg
-    std::string map_name_cmap = map_name + "_cmap";
-    _minimap_image = vt_video::VideoManager->CreateImage(&temp_data, map_name_cmap);
-    free(temp_data.pixels);
-
-    //setup the map window, if it isn't already created
-    _background.Load("img/menus/minimap_background.png");
-    _background.SetStatic(true);
-    _background.SetHeight(173.0f);
-    _background.SetWidth(235.0f);
-
-    //load the location market
-    if(!_location_marker.LoadFromAnimationScript("img/menus/minimap_arrows.lua"))
-        PRINT_ERROR << "Could not load marker image!" << std::endl;
-    _location_marker.SetWidth(_box_x_length * 5);
-    _location_marker.SetHeight(_box_y_length * 5);
-    _location_marker.SetFrameIndex(0);
-
-    float ratio_x = vt_video::VideoManager->GetScreenWidth() / 800.0f;
-    float ratio_y = vt_video::VideoManager->GetScreenHeight() / 600.0f;
-    _viewport_x = 610.0f * ratio_x;
-    _viewport_y = 42.0f * ratio_y;
-    _viewport_width = 175.0f * ratio_x;
-    _viewport_height = 128.0f * ratio_y;
-}
-
-static inline bool _PrepareSurface(SDL_Surface *temp_surface)
-{
-    static const SDLSurfaceController white_noise("img/menus/minimap_collision.png");
-    SDL_Rect r;
-    r.x = r.y = 0;
-
-    //prepare the surface with the image. we tile the white noise image onto the surface
-    //with full alpha
-    for(int x = 0; x < temp_surface->w; x += white_noise._surface->w)
-    {
+    // Prepare the surface with the image.  Tile the white noise image onto the surface with full alpha.
+    for(int x = 0; x < temp_surface->w; x += WHITE_NOISE._surface->w) {
         r.x = x;
-        for(int y = 0; y < temp_surface->h; y += white_noise._surface->h)
-        {
+        for(int y = 0; y < temp_surface->h; y += WHITE_NOISE._surface->h) {
             r.y = y;
-            if(SDL_BlitSurface(white_noise._surface, NULL, temp_surface, &r))
-            {
+            if(SDL_BlitSurface(WHITE_NOISE._surface, nullptr, temp_surface, &r)) {
                 PRINT_ERROR << "Couldn't fill a rect on temp_surface: " << SDL_GetError() << std::endl;
                 return false;
             }
         }
     }
+
     return true;
 }
 
-SDL_Surface *Minimap::_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor)
+Minimap::Minimap(const std::string& minimap_image_filename) :
+    _current_position_x(-1.0f),
+    _current_position_y(-1.0f),
+    _box_x_length(10),
+    _box_y_length(_box_x_length * .75f),
+    _x_offset(0.0f),
+    _y_offset(0.0f),
+    _x_cent(0.0f),
+    _y_cent(0.0f),
+    _x_half_len(1.75f * TILES_ON_X_AXIS * _box_x_length),
+    _y_half_len(1.75f * TILES_ON_Y_AXIS * _box_y_length),
+    _grid_width(0),
+    _grid_height(0),
+    _current_opacity(nullptr),
+    _map_alpha_scale(1.0f)
 {
+    ObjectSupervisor *map_object_supervisor = MapMode::CurrentInstance()->GetObjectSupervisor();
+    map_object_supervisor->GetGridAxis(_grid_width, _grid_height);
+
+    // If no minimap image is given, we create one.
+    if (minimap_image_filename.empty() ||
+            !_minimap_image.Load(minimap_image_filename, _grid_width * _box_x_length, _grid_height * _box_y_length)) {
+        _minimap_image = _CreateProcedurally();
+    }
+
+    //setup the map window, if it isn't already created
+    _background.Load("data/gui/map/minimap_background.png");
+    _background.SetStatic(true);
+    _background.SetHeight(173.0f);
+    _background.SetWidth(235.0f);
+
+    //load the location market
+    if(!_location_marker.LoadFromAnimationScript("data/gui/map/minimap_arrows.lua"))
+        PRINT_ERROR << "Could not load marker image!" << std::endl;
+    _location_marker.SetWidth(_box_x_length * 5);
+    _location_marker.SetHeight(_box_y_length * 5);
+    _location_marker.SetFrameIndex(0);
+}
+
+vt_video::StillImage Minimap::_CreateProcedurally()
+{
+    ObjectSupervisor *map_object_supervisor = MapMode::CurrentInstance()->GetObjectSupervisor();
 
     float x, y, width, height;
     vt_video::VideoManager->GetCurrentViewport(x, y, width, height);
-
-    map_object_supervisor->GetGridAxis(_grid_width, _grid_height);
 
     //create a new SDL surface that is the rendering dimensions we want.
     SDL_Surface *temp_surface = SDL_CreateRGBSurface(SDL_SWSURFACE,
@@ -159,7 +160,8 @@ SDL_Surface *Minimap::_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor)
 
     if(!temp_surface) {
         PRINT_ERROR << "Couldn't create temp_surface for collision map: " << SDL_GetError() << std::endl;
-        return NULL;
+        MapMode::CurrentInstance()->ShowMinimap(false);
+        return vt_video::StillImage();
     }
 
     //set the basic rect information
@@ -174,7 +176,8 @@ SDL_Surface *Minimap::_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor)
     //note that the ordering needs to be transposed for drawing
     if (!_PrepareSurface(temp_surface)) {
         SDL_FreeSurface(temp_surface);
-        return NULL;
+        MapMode::CurrentInstance()->ShowMinimap(false);
+        return vt_video::StillImage();
     }
 
     for(uint32 row = 0; row < _grid_width; ++row)
@@ -189,7 +192,7 @@ SDL_Surface *Minimap::_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor)
                 {
                     PRINT_ERROR << "Couldn't fill a rect on temp_surface: " << SDL_GetError() << std::endl;
                     SDL_FreeSurface(temp_surface);
-                    return NULL;
+                    return vt_video::StillImage();
                 }
 
             }
@@ -198,76 +201,132 @@ SDL_Surface *Minimap::_ProcedurallyDraw(ObjectSupervisor *map_object_supervisor)
         r.x += _box_x_length;
     }
 
-    //flush the SDL surface. This forces any pending writes onto the surface to complete
-    SDL_UpdateRect(temp_surface, 0, 0, 0, 0);
-    return temp_surface;
+    //TEST: flush the SDL surface. This forces any pending writes onto the surface to complete
+    //SDL_UpdateRect(temp_surface, 0, 0, 0, 0);
+
+    if (!temp_surface) {
+        MapMode::CurrentInstance()->ShowMinimap(false);
+        return vt_video::StillImage();
+    }
+
+    SDL_LockSurface(temp_surface);
+    //setup a temporary memory space to copy the SDL data into
+    vt_video::private_video::ImageMemory temp_data;
+    temp_data.rgb_format = false;
+    temp_data.width = temp_surface->w;
+    temp_data.height = temp_surface->h;
+    size_t len = temp_surface->h * temp_surface->w * ((unsigned short) (temp_surface->format->BitsPerPixel) / 8) ;
+    temp_data.pixels = malloc(len);
+    //copy the data
+    memcpy(temp_data.pixels, temp_surface->pixels, len);
+    SDL_UnlockSurface(temp_surface);
+    //at this point, the screen data is set up. We can get rid of unnecessary data here
+    SDL_FreeSurface(temp_surface);
+    //do the image file creation
+    std::string map_name_cmap = MapMode::CurrentInstance()->GetMapScriptFilename() + "_cmap";
+    vt_video::StillImage minimap_image = vt_video::VideoManager->CreateImage(&temp_data, map_name_cmap);
+    free(temp_data.pixels);
+
+#ifdef DEBUG_FEATURES
+    // Uncomment and compile this to generate XPM minimaps.
+    //_DEV_CreateXPMFromCollisionMap(map_name_cmap + ".xpm");
+#endif
+
+    return minimap_image;
 }
 
 void Minimap::Draw()
 {
-    using namespace vt_video;
-    if(_current_position_x > -1)
-    {
-        Color resultant_opacity = *_current_opacity;
-        if(_map_alpha_scale < resultant_opacity.GetAlpha())
-            resultant_opacity.SetAlpha(_map_alpha_scale);
-        //save the current video manager state
-        VideoManager->PushState();
-        //set the new coordinates to match our viewport
-        VideoManager->SetStandardCoordSys();
-        //draw the background in the current viewport and coordinate space
-        VideoManager->Move(775.0f, 545.0f);
-        VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
-        _background.Draw(resultant_opacity);
-        //assign the viewport to be "inside" the above area
-        VideoManager->SetViewport(_viewport_x, _viewport_y, _viewport_width, _viewport_height);
-        //scale and translate the orthographic projection such that it "centers" on our calculated positions
-        VideoManager->SetCoordSys(_x_cent - _x_half_len, _x_cent + _x_half_len, _y_cent + _y_half_len, _y_cent - _y_half_len);
+    if (_current_position_x <= -1.0f)
+        return;
 
-        float x_location = _current_position_x * _box_x_length - _location_marker.GetWidth() / 2.0f;
-        float y_location = _current_position_y * _box_y_length - _location_marker.GetHeight()/ 2.0f;
+    vt_video::Color resultant_opacity = *_current_opacity;
+    if (_map_alpha_scale < resultant_opacity.GetAlpha())
+        resultant_opacity.SetAlpha(_map_alpha_scale);
 
-        VideoManager->Move(0, 0);
-        //adjust the currnet opacity for the map scale
+    // Save the current video manager state.
+    vt_video::VideoManager->PushState();
+    // Set the new coordinates to match our viewport.
+    vt_video::VideoManager->SetStandardCoordSys();
 
-        _minimap_image.Draw(resultant_opacity + Color(0.0f, 0.0f, 0.0f, -0.15f));
+    // Draw the background in the current viewport and coordinate space
+    vt_video::VideoManager->Move(MINIMAP_POS_X, MINIMAP_POS_Y);
+    vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_TOP, 0);
+    _background.Draw(resultant_opacity);
 
-        VideoManager->Move(x_location, y_location);
-        _location_marker.Draw(resultant_opacity);
+    // Store the current viewport.
+    float viewport_original_x = 0.0f;
+    float viewport_original_y = 0.0f;
+    float viewport_original_width = 0.0f;
+    float viewport_original_height = 0.0f;
+    vt_video::VideoManager->GetCurrentViewport(viewport_original_x, viewport_original_y,
+                                               viewport_original_width, viewport_original_height);
 
-        VideoManager->PopState();
+    // Compute the minimap's viewport.
+    const float ratio_x = vt_video::VideoManager->GetViewportWidth() / 800.0f;
+    const float ratio_y = vt_video::VideoManager->GetViewportHeight() / 600.0f;
+    float viewport_x = (610.0f * ratio_x) + vt_video::VideoManager->GetViewportXOffset();
+    float viewport_y = (42.0f * ratio_y) + vt_video::VideoManager->GetViewportYOffset();
+    float viewport_width = 175.0f * ratio_x;
+    float viewport_height = 128.0f * ratio_y;
 
-        //remember kids: please be kind and rewind!
-        VideoManager->SetViewport(_viewport_original_x, _viewport_original_y,
-                                  _viewport_original_width, _viewport_original_height);
-    }
+    // Update the scissor rectangle.
+    vt_video::VideoManager->EnableScissoring();
+    vt_video::VideoManager->SetScissorRect(viewport_x, viewport_y, viewport_width, viewport_height);
+
+    // Assign the viewport to be "inside" the above area.
+    vt_video::VideoManager->SetViewport(viewport_x, viewport_y, viewport_width, viewport_height);
+
+    // Scale and translate the orthographic projection such that it "centers" on our calculated positions.
+    vt_video::VideoManager->SetCoordSys(_x_cent - _x_half_len, _x_cent + _x_half_len, _y_cent + _y_half_len, _y_cent - _y_half_len);
+
+    float x_location = _current_position_x * _box_x_length - _location_marker.GetWidth() / 2.0f;
+    float y_location = _current_position_y * _box_y_length - _location_marker.GetHeight() / 2.0f;
+
+    vt_video::VideoManager->Move(0, 0);
+
+    // Adjust the current opacity for the map scale.
+    _minimap_image.Draw(resultant_opacity);
+
+    vt_video::VideoManager->Move(x_location, y_location);
+    _location_marker.Draw(resultant_opacity);
+
+    vt_video::VideoManager->DisableScissoring();
+
+    vt_video::VideoManager->PopState();
+
+    // Reset the original viewport.
+    vt_video::VideoManager->SetViewport(viewport_original_x, viewport_original_y,
+                                        viewport_original_width, viewport_original_height);
 }
 
 void Minimap::Update(VirtualSprite *camera, float map_alpha_scale)
 {
-    //in case the camera isn't specified, we don't do anything
+    // In case the camera isn't specified, we don't do anything
     if(!camera)
         return;
 
+    MapMode* map_mode = MapMode::CurrentInstance();
+
     _map_alpha_scale = map_alpha_scale;
 
-    //get the collision-map transformed location of the camera
+    // Get the collision-map transformed location of the camera
     _current_position_x = camera->GetPosition().x;
     _current_position_y = camera->GetPosition().y;
     _x_cent = _box_x_length * _current_position_x;
     _y_cent = _box_y_length * _current_position_y;
 
-    //update the opacity based on the camera location.
-    //we decrease the opacity if it is in the region covered by the collision map
-    if((_minimap_image.GetWidth() - _x_cent) <= 180.0f &&
-            (_minimap_image.GetHeight() - _y_cent) <= 115.0f)
-        _current_opacity = &overlap_opacity;
+    // Update the opacity based on the camera location.
+    // We decrease the opacity if it is in the region covered by the collision map
+    if(map_mode->GetScreenXCoordinate(_current_position_x) >= MINIMAP_POS_X &&
+            map_mode->GetScreenYCoordinate(_current_position_y) >= MINIMAP_POS_Y)
+        _current_opacity = &OVERLAP_OPACITY;
     else
-        _current_opacity = &default_opacity;
+        _current_opacity = &DEFAULT_OPACITY;
 
-    //update the orthographic projection information based on the camera location
-    //we "lock" the minimap so that if it is against an edge of the map the orthographic
-    //projection doesn't roll over the edge.
+    // Update the orthographic projection information based on the camera location
+    // We "lock" the minimap so that if it is against an edge of the map the orthographic
+    // projection doesn't roll over the edge.
     if(_x_cent - _x_half_len < 0)
         _x_cent = _x_half_len;
     if(_x_cent + _x_half_len > _grid_width * _box_x_length)
@@ -278,19 +337,27 @@ void Minimap::Update(VirtualSprite *camera, float map_alpha_scale)
     if(_y_cent + _y_half_len > _grid_height * _box_y_length)
         _y_cent = _grid_height * _box_y_length - _y_half_len;
 
-    //set the indicator frame based on what direction the camera is moving
+    // Set the indicator frame based on what direction the camera is moving
     switch(camera->GetDirection())
     {
-        case 0x1:
+        case NORTH:
+        case NW_NORTH:
+        case NE_NORTH:
             _location_marker.SetFrameIndex(0);
         break;
-        case 0x8:
+        case EAST:
+        case NE_EAST:
+        case SE_EAST:
             _location_marker.SetFrameIndex(3);
         break;
-        case 0x2:
+        case SOUTH:
+        case SW_SOUTH:
+        case SE_SOUTH:
             _location_marker.SetFrameIndex(2);
         break;
-        case 0x4:
+        case WEST:
+        case NW_WEST:
+        case SW_WEST:
             _location_marker.SetFrameIndex(1);
         break;
         default:
@@ -299,6 +366,52 @@ void Minimap::Update(VirtualSprite *camera, float map_alpha_scale)
 
 }
 
-}
+#ifdef DEBUG_FEATURES
+void Minimap::_DEV_CreateXPMFromCollisionMap(const std::string& output_file)
+{
+    vt_script::WriteScriptDescriptor xpm_file;
+    if(!xpm_file.OpenFile(output_file)) {
+        PRINT_ERROR << "Failed to open xpm file: " << output_file << std::endl;
+        return;
+    }
 
+    ObjectSupervisor *map_object_supervisor = MapMode::CurrentInstance()->GetObjectSupervisor();
+    uint32 grid_width = 0;
+    uint32 grid_height = 0;
+    map_object_supervisor->GetGridAxis(grid_width, grid_height);
+
+    xpm_file.WriteLine("/* XPM */");
+    xpm_file.WriteLine("static char * minimap_xpm[] = {");
+    std::ostringstream text("");
+    text << "\"" << grid_width << " " << grid_height << " 2 1\",";
+    xpm_file.WriteLine(text.str());
+    xpm_file.WriteLine("\"1 c None\",");
+    xpm_file.WriteLine("\"0 c #FFFFFF\",");
+
+    for(uint32 col = 0; col < grid_height; ++col)
+    {
+        std::ostringstream text("");
+        text << "\"";
+
+        for(uint32 row = 0; row < grid_width; ++row)
+        {
+            if(map_object_supervisor->IsStaticCollision(row, col))
+                text << "1";
+            else
+                text << "0";
+        }
+
+        text << "\",";
+        xpm_file.WriteLine(text.str());
+    }
+
+    xpm_file.WriteLine("};");
+
+    xpm_file.SaveFile();
+    xpm_file.CloseFile();
 }
+#endif
+
+} // private_map
+
+} // vt_map

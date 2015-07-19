@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -25,8 +25,6 @@
 #include <QVariant>
 
 #include "engine/script/script.h"
-#include "utils.h"
-#include "engine/video/video.h"
 
 //! All calls to the editor are wrapped in this namespace.
 namespace vt_editor
@@ -124,9 +122,10 @@ public:
     **/
     bool Save();
 
-    //! \brief Contains the StillImage tiles of the tileset, used in grid.cpp.
-    // FIXME Turn this into a QT object, so that one can remove the editor dependency upon the videomanager
-    std::vector<vt_video::StillImage> tiles;
+    //! \brief Contains the QPixmap tiles of the tileset, used in grid.cpp.
+    //! \note The QPixmap class is optimized to show pictures on screen,
+    //! but QImage is used at load times at it is better in it.
+    std::vector<QPixmap> tiles;
 
     //! \brief Contains walkability information for each tile.
     std::map<int, std::vector<int32> > walkability;

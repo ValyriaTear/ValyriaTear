@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -18,9 +18,8 @@
 #ifndef __INPUT_HEADER__
 #define __INPUT_HEADER__
 
-#include <SDL/SDL.h>
-
-#include "utils.h"
+#include "utils/utils_strings.h"
+#include "utils/singleton.h"
 
 //! All calls to the input engine are wrapped in this namespace.
 namespace vt_input
@@ -41,25 +40,26 @@ namespace private_input
 /** ***************************************************************************
 *** \brief Retains information about the user-defined key settings.
 ***
-*** This class is simply a container for various SDLKey structures that represent
+*** This class is simply a container for various SDL_Keycode structures that represent
 *** the game's input keys.
 *** **************************************************************************/
 class KeyState
 {
 public:
-    /** \name Generic key names
+    /** \name Generic key code names (layout-dependant, not scancodes)
     *** \brief Each member holds the actual keyboard key that corresponds to the named key event.
     *** \note that SDLK_ESCAPE and SDLK_F1 are reserved for Quit, and Help.
     **/
     //@{
-    SDLKey up;
-    SDLKey down;
-    SDLKey left;
-    SDLKey right;
-    SDLKey confirm;
-    SDLKey cancel;
-    SDLKey menu;
-    SDLKey pause;
+    SDL_Keycode up;
+    SDL_Keycode down;
+    SDL_Keycode left;
+    SDL_Keycode right;
+    SDL_Keycode confirm;
+    SDL_Keycode cancel;
+    SDL_Keycode menu;
+    SDL_Keycode minimap;
+    SDL_Keycode pause;
     //@}
 }; // class KeyState
 
@@ -91,7 +91,9 @@ public:
     uint8 confirm;
     uint8 cancel;
     uint8 menu;
+    uint8 minimap;
     uint8 pause;
+    uint8 help;
     uint8 quit;
     //@}
 
@@ -127,9 +129,7 @@ public:
 *** - confirm      :: Confirms a menu selection or command
 *** - cancel       :: Cancels a menu selection or command
 *** - menu         :: Opens up a menu
-*** - swap         :: Used for swapping selected items or characters
-*** - left_select  :: Selecting multiple items or friendlys
-*** - right_select :: Selecting multiple items or foes
+*** - minimap      :: Used to toggle the minimap view when there is one.
 *** - pause        :: Pauses the game
 ***
 *** There are also other events and meta-key combination events that are handled within
@@ -175,11 +175,17 @@ private:
     //! Is useful on certain OS where other inputs are falsely taken as joysticks ones.
     bool _joysticks_enabled;
 
-    //! Any key (or joystick button) pressed
-    bool _any_key_press;
+    //! Any registered key (or joystick button) pressed (one of the key mapped to have an action in game)
+    bool _registered_key_press;
 
-    //! Any key released
-    bool _any_key_release;
+    //! Any registered key (or joystick button) released (one of the key mapped to have an action in game)
+    bool _registered_key_release;
+
+    //! Any keyboard key pressed (registered or not)
+    bool _any_keyboard_key_press;
+
+    //! Any joystick key pressed (registered or not)
+    bool _any_joystick_key_press;
 
     //! Any joystick axis moved
     int8 _last_axis_moved;
@@ -208,6 +214,7 @@ private:
     bool _confirm_press;
     bool _cancel_press;
     bool _menu_press;
+    bool _minimap_press;
     bool _pause_press;
     bool _quit_press;
     bool _help_press;
@@ -224,14 +231,20 @@ private:
     bool _confirm_release;
     bool _cancel_release;
     bool _menu_release;
+    bool _minimap_release;
+    bool _pause_release;
+    bool _quit_release;
+    bool _help_release;
     //@}
 
-    /** \name  First Joystick Axis Motion
-    *** \brief Retains whether a joystick axis event has already occured or not
+    /** \name  D-Pad/ Hat Input State Members
+    *** \brief Retain whether an input key/button is currently being held down
     **/
     //@{
-    bool _joyaxis_x_first;
-    bool _joyaxis_y_first;
+    bool _hat_up_state;
+    bool _hat_down_state;
+    bool _hat_left_state;
+    bool _hat_right_state;
     //@}
 
     /** \brief Most recent SDL event
@@ -252,7 +265,7 @@ private:
     *** \param old_key key to be replaced (_key.up for example)
     *** \param new_key key to replace the old value
     **/
-    void _SetNewKey(SDLKey &old_key, SDLKey new_key);
+    void _SetNewKey(SDL_Keycode &old_key, SDL_Keycode new_key);
 
     /** \brief Sets a new joystick button over an older one. If the same button is used elsewhere, the older one is removed
     *** \param old_button to be replaced (_joystick.confirm for example)
@@ -281,15 +294,31 @@ public:
     **/
     bool RestoreDefaultJoyButtons();
 
-    /** \brief Checks if any keyboard key or joystick button is pressed
-    *** \return True if any key/button is pressed
+    /** \brief Checks whether any mapped keyboard key or joystick button is pressed.
+    *** A mapped key is a key configured to have an action in game.
+    *** \return True if any of the mapped key/button is pressed.
     **/
-    bool AnyKeyPress();
+    bool AnyRegisteredKeyPress() const
+    { return _registered_key_press; }
 
-    /** \brief Checks if any keyboard key or joystick button is released
+    /** \brief Checks if any mapped keyboard key or joystick button is released
+    *** A mapped key is a key configured to have an action in game.
     *** \return True if any key/button is released
     **/
-    bool AnyKeyRelease();
+    bool AnyRegisteredKeyRelease() const
+    { return _registered_key_release; }
+
+    /** \brief Checks if any keyboard key is pressed (registered or not)
+    *** \return True if any key is pressed
+    **/
+    bool AnyKeyboardKeyPress() const
+    { return _any_keyboard_key_press; }
+
+    /** \brief Checks if any joystick button is pressed (registered or not)
+    *** \return True if any button is pressed
+    **/
+    bool AnyJoystickKeyPress() const
+    { return _any_joystick_key_press; }
 
     /** \brief Returns the last joystick axis that has moved
     *** \return True if any joystick axis has moved
@@ -318,19 +347,19 @@ public:
     **/
     //@{
     bool UpState() const {
-        return _up_state;
+        return _up_state || _hat_up_state;
     }
 
     bool DownState() const {
-        return _down_state;
+        return _down_state || _hat_down_state;
     }
 
     bool LeftState() const {
-        return _left_state;
+        return _left_state || _hat_left_state;
     }
 
     bool RightState() const {
-        return _right_state;
+        return _right_state || _hat_right_state;
     }
 
     bool ConfirmState() const {
@@ -378,6 +407,10 @@ public:
         return _menu_press;
     }
 
+    bool MinimapPress() const {
+        return _minimap_press;
+    }
+
     bool PausePress() const {
         return _pause_press;
     }
@@ -422,6 +455,22 @@ public:
     bool MenuRelease() const {
         return _menu_release;
     }
+
+    bool MinimapRelease() const {
+        return _minimap_release;
+    }
+
+    bool PauseRelease() const {
+        return _pause_release;
+    }
+
+    bool QuitRelease() const {
+        return _quit_release;
+    }
+
+    bool HelpRelease() const {
+        return _help_release;
+    }
     //@}
 
     /** \name Key name access functions
@@ -454,6 +503,10 @@ public:
 
     std::string GetMenuKeyName() const {
         return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.menu));
+    }
+
+    std::string GetMinimapKeyName() const {
+        return vt_utils::UpcaseFirst(SDL_GetKeyName(_key.minimap));
     }
 
     std::string GetPauseKeyName() const {
@@ -509,6 +562,10 @@ public:
         return _joystick.menu;
     }
 
+    int32 GetMinimapJoy() const {
+        return _joystick.minimap;
+    }
+
     int32 GetPauseJoy() const {
         return _joystick.pause;
     }
@@ -516,41 +573,49 @@ public:
     int32 GetQuitJoy() const {
         return _joystick.quit;
     }
+
+    int32 GetHelpJoy() const {
+        return _joystick.help;
+    }
     //@}
 
     /** \name Key re-mapping functions
-    *** \paramkey New key for the action
+    *** \param key New key for the action
     **/
     //@{
-    void SetUpKey(const SDLKey &key) {
+    void SetUpKey(const SDL_Keycode &key) {
         _SetNewKey(_key.up, key);
     }
 
-    void SetDownKey(const SDLKey &key) {
+    void SetDownKey(const SDL_Keycode &key) {
         _SetNewKey(_key.down, key);
     }
 
-    void SetLeftKey(const SDLKey &key) {
+    void SetLeftKey(const SDL_Keycode &key) {
         _SetNewKey(_key.left, key);
     }
 
-    void SetRightKey(const SDLKey &key) {
+    void SetRightKey(const SDL_Keycode &key) {
         _SetNewKey(_key.right, key);
     }
 
-    void SetConfirmKey(const SDLKey &key) {
+    void SetConfirmKey(const SDL_Keycode &key) {
         _SetNewKey(_key.confirm, key);
     }
 
-    void SetCancelKey(const SDLKey &key) {
+    void SetCancelKey(const SDL_Keycode &key) {
         _SetNewKey(_key.cancel, key);
     }
 
-    void SetMenuKey(const SDLKey &key) {
+    void SetMenuKey(const SDL_Keycode &key) {
         _SetNewKey(_key.menu, key);
     }
 
-    void SetPauseKey(const SDLKey &key) {
+    void SetMinimapKey(const SDL_Keycode &key) {
+        _SetNewKey(_key.minimap, key);
+    }
+
+    void SetPauseKey(const SDL_Keycode &key) {
         _SetNewKey(_key.pause, key);
     }
     //@}
@@ -582,12 +647,20 @@ public:
         _SetNewJoyButton(_joystick.menu, button);
     }
 
+    void SetMinimapJoy(uint8 button) {
+        _SetNewJoyButton(_joystick.minimap, button);
+    }
+
     void SetPauseJoy(uint8 button) {
         _SetNewJoyButton(_joystick.pause, button);
     }
 
     void SetQuitJoy(uint8 button) {
         _SetNewJoyButton(_joystick.quit, button);
+    }
+
+    void SetHelpJoy(uint8 button) {
+        _SetNewJoyButton(_joystick.help, button);
     }
 
     void SetXAxisJoy(int8 axis) {
@@ -633,6 +706,10 @@ public:
 
     int32 GetMenuKey() const {
         return _key.menu;
+    }
+
+    int32 GetMinimapKey() const {
+        return _key.minimap;
     }
 
     int32 GetPauseKey() const {

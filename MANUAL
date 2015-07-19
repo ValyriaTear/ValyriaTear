@@ -38,9 +38,6 @@ Right           'right arrow'      Move sprite or cursor to the right
 Confirm         'f'                Confirm an action or menu command
 Cancel          'd'                Cancel an action or menu command
 Menu            's'                Display the main menu
-Swap            'a'                Swap the character being displayed
-Left Select     'w'                Select multiple targets or page scroll up
-Right Select    'e'                Select multiple targets or page scroll down
 Pause           'spacebar'         Pause/unpause the game
 Quit            'ESC'              Quit the game
 
@@ -50,10 +47,10 @@ These commands are not normally used during game play.
 
 
 Command Name    Default Key Map    General Purpose
-Fullscreen	'Ctrl+f'           Toggles between full-screen mode and windowed mode
+Fullscreen      'Ctrl+f'           Toggles between full-screen mode and windowed mode
 Quit            'Ctrl+q'           Quit the game
-FPS Display 	'Ctrl+r'           Toggles display of the frames per second in the upper-right hand corner
-Screenshot 	'Ctrl+s'           Takes a screenshot and saves it to 'screenshot.jpg'
+FPS Display     'Ctrl+r'           Toggles display of the frames per second in the upper-right hand corner
+Screenshot      'Ctrl+s'           Takes a screenshot and saves it to 'screenshot.jpg'
 
 
 === Quitting the Game ===

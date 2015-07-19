@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,9 +15,8 @@
 *** \brief   Source file for root interface of shop mode
 *** ***************************************************************************/
 
-#include <iostream>
-
-#include "utils.h"
+#include "utils/utils_pch.h"
+#include "shop_root.h"
 
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
@@ -28,7 +27,6 @@
 #include "common/global/global.h"
 
 #include "shop.h"
-#include "shop_root.h"
 
 using namespace vt_utils;
 using namespace vt_audio;

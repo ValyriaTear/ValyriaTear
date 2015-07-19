@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,18 +15,17 @@
 *** \brief   Source file for image classes
 *** ***************************************************************************/
 
-#include <cstdarg>
-#include <math.h>
+#include "utils/utils_pch.h"
+#include "image.h"
 
-#include "video.h"
 #include "engine/script/script_read.h"
 #include "engine/system.h"
 
+#include "utils/utils_files.h"
+#include "utils/utils_random.h"
+#include "utils/utils_strings.h"
 
-#include <png.h>
-extern "C" {
-#include <jpeglib.h>
-}
+#include "video.h"
 
 using namespace vt_utils;
 using namespace vt_video::private_video;
@@ -39,7 +38,7 @@ namespace vt_video
 // -----------------------------------------------------------------------------
 
 ImageDescriptor::ImageDescriptor() :
-    _texture(NULL),
+    _texture(nullptr),
     _width(0.0f),
     _height(0.0f),
     _u1(0.0f),
@@ -55,8 +54,6 @@ ImageDescriptor::ImageDescriptor() :
     _color[0] = _color[1] = _color[2] = _color[3] = Color::white;
 }
 
-
-
 ImageDescriptor::~ImageDescriptor()
 {
     // The destructor for the inherited class should have disabled grayscale mode
@@ -66,10 +63,10 @@ ImageDescriptor::~ImageDescriptor()
         IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was still enabled when destructor was invoked -- possible memory leak" << std::endl;
 
     // Remove the reference to the original, colored texture
-    if(_texture != NULL)
+    if(_texture != nullptr)
         _RemoveTextureReference();
 
-    _texture = NULL;
+    _texture = nullptr;
 }
 
 
@@ -93,7 +90,7 @@ ImageDescriptor::ImageDescriptor(const ImageDescriptor &copy) :
     _color[2] = copy._color[2];
     _color[3] = copy._color[3];
 
-    if(_texture != NULL)
+    if(_texture != nullptr)
         _texture->AddReference();
 }
 
@@ -124,11 +121,11 @@ ImageDescriptor &ImageDescriptor::operator=(const ImageDescriptor &copy)
 
 
     // Update the reference to the previous image texturee
-    if(_texture != NULL && copy._texture != _texture) {
+    if(_texture != nullptr && copy._texture != _texture) {
         _RemoveTextureReference();
     }
 
-    if(copy._texture != NULL) {
+    if(copy._texture != nullptr) {
         copy._texture->AddReference();
     }
 
@@ -145,10 +142,10 @@ void ImageDescriptor::Clear()
 // 	if (_grayscale)
 // 		DisableGrayScale();
 
-    if(_texture != NULL)
+    if(_texture != nullptr)
         _RemoveTextureReference();
 
-    _texture = NULL;
+    _texture = nullptr;
     _width = 0.0f;
     _height = 0.0f;
     _u1 = 0.0f;
@@ -201,39 +198,35 @@ void ImageDescriptor::SetVertexColors(const Color &tl, const Color &tr, const Co
         _unichrome_vertices = false;
 }
 
-
-
-void ImageDescriptor::GetImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(Exception)
+bool ImageDescriptor::GetImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp)
 {
-    // Isolate the file extension
-    size_t ext_position = filename.rfind('.');
+    // Init with invalid data to ease early returns,
+    rows = 0;
+    cols = 0;
+    bpp = 0;
 
-    if(ext_position == std::string::npos) {
-        throw Exception("could not decipher file extension for filename: " + filename, __FILE__, __LINE__, __FUNCTION__);
+    SDL_Surface *surf = IMG_Load(filename.c_str());
+
+    if (!surf) {
+        PRINT_ERROR << "Couldn't load image " << filename << ": " << IMG_GetError() << std::endl;
+        return false;
     }
 
-    std::string extension = std::string(filename, ext_position, filename.length() - ext_position);
+    rows = surf->h;
+    cols = surf->w;
+    bpp  = surf->format->BitsPerPixel * 8;
+    SDL_FreeSurface(surf);
 
-    if(extension == ".png")
-        _GetPngImageInfo(filename, rows, cols, bpp);
-    else if(extension == ".jpg")
-        _GetJpgImageInfo(filename, rows, cols, bpp);
-    else
-        throw Exception("unsupported image file extension \"" + extension + "\" for filename: " + filename, __FILE__, __LINE__, __FUNCTION__);
+    return true;
 }
-
-
 
 bool ImageDescriptor::LoadMultiImageFromElementSize(std::vector<StillImage>& images, const std::string &filename,
         const uint32 elem_width, const uint32 elem_height)
 {
     // First retrieve the dimensions of the multi image (in pixels)
     uint32 img_height, img_width, bpp;
-    try {
-        GetImageInfo(filename, img_height, img_width, bpp);
-    } catch(const Exception &e) {
-        IF_PRINT_WARNING(VIDEO_DEBUG)
-                << e.ToString() << std::endl;
+    if (!GetImageInfo(filename, img_height, img_width, bpp)) {
+        PRINT_WARNING << "Couldn't load image file info: " << filename << std::endl;
         return false;
     }
 
@@ -255,10 +248,10 @@ bool ImageDescriptor::LoadMultiImageFromElementSize(std::vector<StillImage>& ima
 
     // If the width or height of the StillImages in the images vector were not specified (set to the default 0.0f),
     // then set those sizes to the element width and height arguments (which are in number of pixels)
-    for(std::vector<StillImage>::iterator i = images.begin(); i < images.end(); i++) {
-        if(IsFloatEqual(i->_height, 0.0f) == true)
+    for(std::vector<StillImage>::iterator i = images.begin(); i < images.end(); ++i) {
+        if(IsFloatEqual(i->_height, 0.0f))
             i->_height = static_cast<float>(elem_height);
-        if(IsFloatEqual(i->_width, 0.0f) == true)
+        if(IsFloatEqual(i->_width, 0.0f))
             i->_width = static_cast<float>(elem_width);
     }
 
@@ -275,11 +268,8 @@ bool ImageDescriptor::LoadMultiImageFromElementGrid(std::vector<StillImage>& ima
     }
     // First retrieve the dimensions of the multi image (in pixels)
     uint32 img_height, img_width, bpp;
-    try {
-        GetImageInfo(filename, img_height, img_width, bpp);
-    } catch(const Exception &e) {
-        IF_PRINT_WARNING(VIDEO_DEBUG)
-                << e.ToString() << std::endl;
+    if (!GetImageInfo(filename, img_height, img_width, bpp)) {
+        PRINT_WARNING << "Couldn't load image file info: " << filename << std::endl;
         return false;
     }
 
@@ -299,10 +289,10 @@ bool ImageDescriptor::LoadMultiImageFromElementGrid(std::vector<StillImage>& ima
     // then set those sizes to the element width and height arguments (which are in number of pixels)
     float elem_width = static_cast<float>(img_width) / static_cast<float>(grid_cols);
     float elem_height = static_cast<float>(img_height) / static_cast<float>(grid_rows);
-    for(std::vector<StillImage>::iterator i = images.begin(); i < images.end(); i++) {
-        if(IsFloatEqual(i->_height, 0.0f) == true)
+    for(std::vector<StillImage>::iterator i = images.begin(); i < images.end(); ++i) {
+        if(IsFloatEqual(i->_height, 0.0f))
             i->_height = static_cast<float>(elem_height);
-        if(IsFloatEqual(i->_width, 0.0f) == true)
+        if(IsFloatEqual(i->_width, 0.0f))
             i->_width = static_cast<float>(elem_width);
     }
 
@@ -329,12 +319,12 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
         // NOTE: no return false for this case because we have enough images to continue
     }
 
-    // Check that all the images are non-NULL and are of the same size
+    // Check that all the images are non-nullptr and are of the same size
     float img_width = images[0]->_width;
     float img_height = images[0]->_height;
     for(uint32 i = 0; i < images.size(); i++) {
-        if(images[i] == NULL || images[i]->_image_texture == NULL) {
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL StillImage or ImageElement was present in images vector argument when saving file: " << filename << std::endl;
+        if(images[i] == nullptr || images[i]->_image_texture == nullptr) {
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr StillImage or ImageElement was present in images vector argument when saving file: " << filename << std::endl;
             return false;
         }
         if(IsFloatEqual(images[i]->_width, img_width) == false || IsFloatEqual(images[i]->_height, img_height)) {
@@ -344,7 +334,6 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     }
 
     // Isolate the filename's extension and determine the type of image file we're saving
-    bool is_png_image;
     size_t ext_position = filename.rfind('.');
     if(ext_position == std::string::npos) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to decipher file extension for filename: " << filename << std::endl;
@@ -353,11 +342,7 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
 
     std::string extension = std::string(filename, ext_position, filename.length() - ext_position);
 
-    if(extension == ".png")
-        is_png_image = true;
-    else if(extension == ".jpg")
-        is_png_image = false;
-    else {
+    if(extension != ".png") {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "unsupported file extension: \"" << extension << "\" for filename: " << filename << std::endl;
         return false;
     }
@@ -369,7 +354,7 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     save.width = static_cast<int32>(grid_columns * img_width);
     save.pixels = malloc(save.width * save.height * 4);
 
-    if(save.pixels == NULL) {
+    if(save.pixels == nullptr) {
         PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << std::endl;
         return false;
     }
@@ -385,7 +370,7 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     texture.height = img->texture_sheet->height;
     texture.pixels = malloc(texture.width * texture.height * 4);
 
-    if(texture.pixels == NULL) {
+    if(texture.pixels == nullptr) {
         PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << std::endl;
         free(save.pixels);
         return false;
@@ -413,7 +398,7 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
                     texture.width = img->texture_sheet->width;
                     texture.height = img->texture_sheet->height;
                     texture.pixels = realloc(texture.pixels, texture.width * texture.height * 4);
-                    if(texture.pixels == NULL) {
+                    if(texture.pixels == nullptr) {
                         PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << std::endl;
                         free(save.pixels);
                         return false;
@@ -439,8 +424,7 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     } // for (uint32 x = 0; x < grid_rows; x++)
 
     // save.pixels now contains all the image data we wish to save, so write it out to the new image file
-    bool success = true;
-    success = save.SaveImage(filename, is_png_image);
+    bool success = save.SaveImage(filename);
     free(save.pixels);
     free(texture.pixels);
 
@@ -469,8 +453,8 @@ void ImageDescriptor::DEBUG_PrintInfo()
 
 void ImageDescriptor::_RemoveTextureReference()
 {
-    if(_texture == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "_texture member was NULL upon method invocation" << std::endl;
+    if(_texture == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "_texture member was nullptr upon method invocation" << std::endl;
         return;
     }
 
@@ -490,16 +474,14 @@ void ImageDescriptor::_RemoveTextureReference()
         delete _texture;
     }
 
-    _texture = NULL;
+    _texture = nullptr;
 }
-
-
 
 void ImageDescriptor::_DrawOrientation() const
 {
     Context &current_context = VideoManager->_current_context;
 
-    // Fix the image offset according to the current context alignement.
+    // Fix the image offset according to the current context alignment.
     // Takes the image width/height and divides it by 2 (equal to * 0.5f) and applies the offset (left, right, center/top, bottom, center).
     float x_align_offset = ((current_context.x_align + 1) * _width) * 0.5f * -current_context.coordinate_system.GetHorizontalDirection();
     float y_align_offset = ((current_context.y_align + 1) * _height) * 0.5f * -current_context.coordinate_system.GetVerticalDirection();
@@ -515,8 +497,7 @@ void ImageDescriptor::_DrawOrientation() const
     if(current_context.y_flip) {
         y_off = _height;
     }
-// Avoid a useless dependency on the mode manager for the editor build
-#ifndef EDITOR_BUILD
+
     if(VideoManager->IsScreenShaking()) {
         // Calculate x and y draw offsets due to any screen shaking effects
         float x_shake = VideoManager->_x_shake * (current_context.coordinate_system.GetRight() - current_context.coordinate_system.GetLeft()) / VIDEO_STANDARD_RES_WIDTH;
@@ -524,7 +505,6 @@ void ImageDescriptor::_DrawOrientation() const
         x_off += x_shake;
         y_off += y_shake;
     }
-#endif
 
     VideoManager->MoveRelative(x_off * current_context.coordinate_system.GetHorizontalDirection(), y_off * current_context.coordinate_system.GetVerticalDirection());
 
@@ -536,213 +516,153 @@ void ImageDescriptor::_DrawOrientation() const
         x_scale = -x_scale;
     if(current_context.coordinate_system.GetVerticalDirection() < 0.0f)
         y_scale = -y_scale;
-    glScalef(x_scale, y_scale, 1.0f);
+    VideoManager->Scale(x_scale, y_scale);
 }
 
-
-
-void ImageDescriptor::_DrawTexture(const Color *draw_color) const
+void ImageDescriptor::_DrawTexture(const Color* draw_color) const
 {
-    // Array of the four vertexes defined on the 2D plane for glDrawArrays()
-    // This is no longer const, because when tiling the background for the menu's
-    // sometimes you need to draw part of a texture
-    float vert_coords[] = {
-        _u1, _v1,
-        _u2, _v1,
-        _u2, _v2,
-        _u1, _v2,
+    // The vertex positions.
+    float vertex_positions[] =
+    {
+        _u1, _v1, 0.0f, // Vertex One.
+        _u2, _v1, 0.0f, // Vertex Two.
+        _u2, _v2, 0.0f, // Vertex Three.
+        _u1, _v2, 0.0f  // Vertex Four.
     };
 
-    // If no color array was passed, use the image's own vertex colors
-    if(!draw_color)
-        draw_color = _color;
+    // The vertex texture coordinates.
+    float vertex_texture_coordinates[] =
+    {
+        0.0f, 1.0f, // Vertex One.
+        0.0f, 0.0f, // Vertex Two.
+        1.0f, 0.0f, // Vertex Three.
+        1.0f, 1.0f  // Vertex Four.
+    };
 
-    // Set blending parameters
-    if(VideoManager->_current_context.blend) {
+    // The vertex colors.
+    float vertex_colors[] =
+    {
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex One.
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex Two.
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex Three.
+        1.0f, 1.0f, 1.0f, 1.0f  // Vertex Four.
+    };
+
+    // If no color array was passed, use the image's own vertex colors.
+    if (!draw_color) {
+        draw_color = _color;
+    }
+    assert(draw_color != nullptr);
+
+    // Set the blending parameters.
+    if (VideoManager->_current_context.blend) {
         VideoManager->EnableBlending();
-        if(VideoManager->_current_context.blend == 1)
+        if (VideoManager->_current_context.blend == 1)
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Normal blending
         else
             glBlendFunc(GL_SRC_ALPHA, GL_ONE); // Additive blending
-    } else if(_blend) {
+    } else if (_blend) {
         VideoManager->EnableBlending();
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Normal blending
     } else {
         VideoManager->DisableBlending();
     }
 
-    VideoManager->EnableVertexArray();
-    glVertexPointer(2, GL_FLOAT, 0, vert_coords);
+    // The shader program.
+    gl::ShaderProgram* shader_program = nullptr;
 
-    // If we have a valid image texture poiner, setup texture coordinates and the texture coordinate array for glDrawArrays()
-    if(_texture) {
-        // Set the texture coordinates
-        float s0, s1, t0, t1;
+    // If we have a valid image texture poiner, setup texture coordinates and the texture coordinate array.
+    if (_texture) {
+        // Set the texture coordinates.
+        float s0 = _texture->u1 + (_u1 * (_texture->u2 - _texture->u1));
+        float s1 = _texture->u1 + (_u2 * (_texture->u2 - _texture->u1));
+        float t0 = _texture->v1 + (_v1 * (_texture->v2 - _texture->v1));
+        float t1 = _texture->v1 + (_v2 * (_texture->v2 - _texture->v1));
 
-        s0 = _texture->u1 + (_u1 * (_texture->u2 - _texture->u1));
-        s1 = _texture->u1 + (_u2 * (_texture->u2 - _texture->u1));
-        t0 = _texture->v1 + (_v1 * (_texture->v2 - _texture->v1));
-        t1 = _texture->v1 + (_v2 * (_texture->v2 - _texture->v1));
-
-        // Swap x texture coordinates if x flipping is enabled
-        if(VideoManager->_current_context.x_flip) {
+        // Swap x texture coordinates if x flipping is enabled.
+        if (VideoManager->_current_context.x_flip) {
             float temp = s0;
             s0 = s1;
             s1 = temp;
         }
 
-        // Swap y texture coordinates if y flipping is enabled
-        if(VideoManager->_current_context.y_flip) {
+        // Swap y texture coordinates if y flipping is enabled.
+        if (VideoManager->_current_context.y_flip) {
             float temp = t0;
             t0 = t1;
             t1 = temp;
         }
 
-        // Place the texture coordinates in a 4x2 array mirroring the structure of the vertex array for use in glDrawArrays().
-        float tex_coords[] = {
-            s0, t1,
-            s1, t1,
-            s1, t0,
-            s0, t0,
-        };
+        // The vertex texture coordinates.
 
-        // Enable texturing and bind texture
+        // Vertex One.
+        vertex_texture_coordinates[0] = s0;
+        vertex_texture_coordinates[1] = t1;
+
+        // Vertex Two.
+        vertex_texture_coordinates[2] = s1;
+        vertex_texture_coordinates[3] = t1;
+
+        // Vertex Three.
+        vertex_texture_coordinates[4] = s1;
+        vertex_texture_coordinates[5] = t0;
+
+        // Vertex Four.
+        vertex_texture_coordinates[6] = s0;
+        vertex_texture_coordinates[7] = t0;
+
+        // Enable texturing and bind the texture.
         VideoManager->EnableTexture2D();
         TextureManager->_BindTexture(_texture->texture_sheet->tex_id);
         _texture->texture_sheet->Smooth(_smooth);
 
-        // Enable and setup the texture coordinate array
-        VideoManager->EnableTextureCoordArray();
-        glTexCoordPointer(2, GL_FLOAT, 0, tex_coords);
+        // Load the sprite shader program.
+        shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
+        assert(shader_program != nullptr);
+    } else {
+        //
+        // Otherwise there is no image texture, so we're drawing pure color on the vertices.
+        //
 
-        if(_unichrome_vertices) {
-            glColor4fv((GLfloat *)draw_color[0].GetColors());
-            VideoManager->DisableColorArray();
-        } else {
-            VideoManager->EnableColorArray();
-            glColorPointer(4, GL_FLOAT, 0, (GLfloat *)draw_color);
-        }
-    } // if (_texture)
-    else {
-        // Otherwise there is no image texture, so we're drawing pure color on the vertices
-
-        // Use a single call to glColor for unichrome images, or a setup a gl color array for multiple colors
-        if(_unichrome_vertices) {
-            glColor4fv((GLfloat *)draw_color[0].GetColors());
-            VideoManager->DisableColorArray();
-        } else {
-            VideoManager->EnableColorArray();
-            glColorPointer(4, GL_FLOAT, 0, (GLfloat *)draw_color);
-        }
-
-        // Disable texturing as we're using pure colour
+        // Disable texturing as we're using pure color.
         VideoManager->DisableTexture2D();
+
+        // Load the solid shader program.
+        shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Solid);
+        assert(shader_program != nullptr);
     }
 
-    // Use a vertex array to draw all of the vertices
-    glDrawArrays(GL_QUADS, 0, 4);
-} // void ImageDescriptor::_DrawTexture(const Color* color_array) const
+    if (_unichrome_vertices) {
+        // Draw the image.
+        VideoManager->DrawSprite(shader_program, vertex_positions, vertex_texture_coordinates, vertex_colors, *draw_color);
+    } else {
+        // For each of the four vertices.
+        for (unsigned i = 0; i < 4; ++i)
+        {
+            // Get the vertex's color.
+            vt_video::Color color = draw_color[i];
 
+            // Update the vertex colors.
+            vertex_colors[(i * 4) + 0] = color[0];
+            vertex_colors[(i * 4) + 1] = color[1];
+            vertex_colors[(i * 4) + 2] = color[2];
+            vertex_colors[(i * 4) + 3] = color[3];
+        }
 
+        // Unload the shader program.
+        VideoManager->UnloadShaderProgram();
 
-void ImageDescriptor::_GetPngImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(Exception)
-{
-    // first, we start by reading from the file
-    FILE *fp = fopen(filename.c_str(), "rb");
+        // Load the solid shader program.
+        shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Solid);
+        assert(shader_program != nullptr);
 
-    if(fp == NULL) {
-        throw Exception("failed to open file: " + filename, __FILE__, __LINE__, __FUNCTION__);
+        // Draw the image.
+        VideoManager->DrawSprite(shader_program, vertex_positions, vertex_texture_coordinates, vertex_colors);
     }
 
-    // check the signature - make sure it is actually a PNG! otherwise BAD THINGS would happen
-    uint8 test_buffer[8];
-
-    fread(test_buffer, 1, 8, fp);
-    if(png_sig_cmp(test_buffer, 0, 8)) {
-        fclose(fp);
-        throw Exception("png_sig_cmp() failed for file: " + filename, __FILE__, __LINE__, __FUNCTION__);
-    }
-
-    // open up our PNG file
-    png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, (png_voidp)NULL, NULL, NULL);
-
-    if(png_ptr == NULL) {
-        fclose(fp);
-        return;
-    }
-
-    // grab the info structure
-    png_infop info_ptr = png_create_info_struct(png_ptr);
-
-    if(!info_ptr) {
-        png_destroy_read_struct(&png_ptr, NULL, (png_infopp)NULL);
-        fclose(fp);
-        throw Exception("png_create_info_struct() returned NULL for file: " + filename, __FILE__, __LINE__, __FUNCTION__);
-    }
-
-    // error checking
-    if(setjmp(png_jmpbuf(png_ptr))) {
-        png_destroy_read_struct(&png_ptr, NULL, (png_infopp)NULL);
-        fclose(fp);
-        throw Exception("setjmp returned non-zero value for file: " + filename, __FILE__, __LINE__, __FUNCTION__);
-    }
-
-    // open up the IO stuff and read the PNG
-    png_init_io(png_ptr, fp);
-    png_set_sig_bytes(png_ptr, 8);
-    png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_STRIP_16 | PNG_TRANSFORM_PACKING | PNG_TRANSFORM_EXPAND, NULL);
-
-    // grab the relevant data...
-#if PNG_LIBPNG_VER_SONUM >= 15
-    cols = png_get_image_width(png_ptr, info_ptr);
-    rows = png_get_image_height(png_ptr, info_ptr);
-    bpp = png_get_bit_depth(png_ptr, info_ptr) * 8;
-#else
-    cols = info_ptr->width;
-    rows = info_ptr->height;
-    bpp = info_ptr->channels * 8;
-#endif
-
-    // and clean up.
-    png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
-    fclose(fp);
-} // void ImageDescriptor::_GetPngImageInfo(const std::string& filename, uint32& rows, uint32& cols, uint32& bpp)
-
-
-
-void ImageDescriptor::_GetJpgImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp) throw(Exception)
-{
-    // open up the file (with C IO)
-    FILE *fp = fopen(filename.c_str(), "rb");
-
-    if(fp == NULL) {
-        throw Exception("failed to open file: " + filename, __FILE__, __LINE__, __FUNCTION__);
-    }
-
-    // do our magical setup: create a jpeg decompressor and the relevant error stuff
-    jpeg_decompress_struct cinfo;
-    jpeg_error_mgr jerr;
-
-    cinfo.err = jpeg_std_error(&jerr);
-    jpeg_create_decompress(&cinfo);
-
-    // tell jpeg where to look for the data...
-    jpeg_stdio_src(&cinfo, fp);
-    // and read the header
-    jpeg_read_header(&cinfo, TRUE);
-
-    // grab the relevant information from the header...
-    cols = cinfo.output_width;
-    rows = cinfo.output_height;
-    bpp = cinfo.output_components;
-
-    // clean up
-    jpeg_destroy_decompress(&cinfo);
-
-    fclose(fp);
-} // void ImageDescriptor::_GetJpgImageInfo(const std::string& filename, uint32& rows, uint32& cols, uint32& bpp)
-
-
+    // Unload the shader program.
+    VideoManager->UnloadShaderProgram();
+}
 
 bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std::string &filename,
                                       const uint32 grid_rows, const uint32 grid_cols)
@@ -785,10 +705,10 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
         sub_image.width = multi_image.width / grid_cols;
         sub_image.height = multi_image.height / grid_rows;
         sub_image.pixels = malloc(sub_image.width * sub_image.height * 4);
-        if(sub_image.pixels == NULL) {
+        if(sub_image.pixels == nullptr) {
             PRINT_ERROR << "failed to malloc memory for multi image file: " << filename << std::endl;
             free(multi_image.pixels);
-            multi_image.pixels = NULL;
+            multi_image.pixels = nullptr;
             return false;
         }
     }
@@ -804,14 +724,14 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
             if(loaded[current_image] == true) {
                 img = TextureManager->_GetImageTexture(filename + tags[current_image]);
 
-                if(img == NULL) {
-                    IF_PRINT_WARNING(VIDEO_DEBUG) << "a NULL image was found in the TextureManager's _images container "
+                if(img == nullptr) {
+                    IF_PRINT_WARNING(VIDEO_DEBUG) << "a nullptr image was found in the TextureManager's _images container "
                                                   << "-- aborting multi image load operation" << std::endl;
 
                     free(multi_image.pixels);
                     free(sub_image.pixels);
-                    multi_image.pixels = NULL;
-                    sub_image.pixels = NULL;
+                    multi_image.pixels = nullptr;
+                    sub_image.pixels = nullptr;
                     return false;
                 }
 
@@ -835,14 +755,14 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
                 // Try to insert the image in a texture sheet
                 TexSheet *sheet = TextureManager->_InsertImageInTexSheet(img, sub_image, images.at(current_image)._is_static);
 
-                if(sheet == NULL) {
+                if(sheet == nullptr) {
                     IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureController::_InsertImageInTexSheet failed -- " <<
                                                   "aborting multi image load operation" << std::endl;
 
                     free(multi_image.pixels);
                     free(sub_image.pixels);
-                    multi_image.pixels = NULL;
-                    sub_image.pixels = NULL;
+                    multi_image.pixels = nullptr;
+                    sub_image.pixels = nullptr;
                     delete img;
                     return false;
                 }
@@ -868,11 +788,11 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
     // Make sure to free all dynamically allocated memory
     if(multi_image.pixels) {
         free(multi_image.pixels);
-        multi_image.pixels = NULL;
+        multi_image.pixels = nullptr;
     }
     if(sub_image.pixels) {
         free(sub_image.pixels);
-        sub_image.pixels = NULL;
+        sub_image.pixels = nullptr;
     }
 
     return true;
@@ -884,7 +804,7 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
 
 StillImage::StillImage(const bool grayscale) :
     ImageDescriptor(),
-    _image_texture(NULL),
+    _image_texture(nullptr),
     _x_offset(0.0f),
     _y_offset(0.0f)
 {
@@ -892,32 +812,26 @@ StillImage::StillImage(const bool grayscale) :
     _grayscale = grayscale;
 }
 
-
-
 StillImage::~StillImage()
 {
     Clear();
 }
 
-
-
 void StillImage::Clear()
 {
     ImageDescriptor::Clear(); // This call will remove the texture reference for us
     _filename.clear();
-    _image_texture = NULL;
+    _image_texture = nullptr;
     _x_offset = 0.0f;
     _y_offset = 0.0f;
 }
 
-
-
 bool StillImage::Load(const std::string &filename)
 {
     // Delete everything previously stored in here
-    if(_image_texture != NULL) {
+    if(_image_texture != nullptr) {
         _RemoveTextureReference();
-        _image_texture = NULL;
+        _image_texture = nullptr;
         _width = 0.0f;
         _height = 0.0f;
         _x_offset = 0.0f;
@@ -932,11 +846,11 @@ bool StillImage::Load(const std::string &filename)
     }
 
     // 1. Check if an image with the same filename has already been loaded. If so, point to that and increment its reference
-    if((_image_texture = TextureManager->_GetImageTexture(_filename)) != NULL) {
+    if((_image_texture = TextureManager->_GetImageTexture(_filename)) != nullptr) {
         _texture = _image_texture;
 
-        if(_image_texture == NULL) {
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "recovered a NULL image inside the TextureManager's image map: " << _filename << std::endl;
+        if(_image_texture == nullptr) {
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "recovered a nullptr image inside the TextureManager's image map: " << _filename << std::endl;
             return false;
         }
 
@@ -963,13 +877,13 @@ bool StillImage::Load(const std::string &filename)
     _image_texture = new ImageTexture(_filename, "", img_data.width, img_data.height);
     _texture = _image_texture;
 
-    if(TextureManager->_InsertImageInTexSheet(_image_texture, img_data, _is_static) == NULL) {
+    if(TextureManager->_InsertImageInTexSheet(_image_texture, img_data, _is_static) == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureController::_InsertImageInTexSheet() failed for file: " << _filename << std::endl;
         delete _image_texture;
-        _image_texture = NULL;
-        _texture = NULL;
+        _image_texture = nullptr;
+        _texture = nullptr;
         free(img_data.pixels);
-        img_data.pixels = NULL;
+        img_data.pixels = nullptr;
         return false;
     }
 
@@ -985,22 +899,22 @@ bool StillImage::Load(const std::string &filename)
     // If we don't need to create a grayscale version, we finished successfully
     if(_grayscale == false) {
         free(img_data.pixels);
-        img_data.pixels = NULL;
+        img_data.pixels = nullptr;
         return true;
     }
 
     // 3. If we reached this point, we must now create a grayscale version of this image
     img_data.ConvertToGrayscale();
     ImageTexture *gray_image = new ImageTexture(_filename, "<G>", img_data.width, img_data.height);
-    if(TextureManager->_InsertImageInTexSheet(gray_image, img_data, _is_static) == NULL) {
+    if(TextureManager->_InsertImageInTexSheet(gray_image, img_data, _is_static) == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureController::_InsertImageInTexSheet() failed for file: " << _filename << std::endl;
 
         TextureManager->_UnregisterImageTexture(gray_image);
         delete gray_image;
-        _RemoveTextureReference(); // sets _texture to NULL
-        _image_texture = NULL;
+        _RemoveTextureReference(); // sets _texture to nullptr
+        _image_texture = nullptr;
         free(img_data.pixels);
-        img_data.pixels = NULL;
+        img_data.pixels = nullptr;
         return false;
     }
 
@@ -1009,32 +923,24 @@ bool StillImage::Load(const std::string &filename)
     _image_texture->AddReference();
 
     free(img_data.pixels);
-    img_data.pixels = NULL;
+    img_data.pixels = nullptr;
     return true;
-} // bool StillImage::Load(const string& filename)
-
-
-
-void StillImage::Draw() const
-{
-    Draw(Color::white);
 }
-
-
 
 void StillImage::Draw(const Color &draw_color) const
 {
-    // Don't draw anything if this image is completely transparent (invisible)
-    if(IsFloatEqual(draw_color[3], 0.0f))
+    // Don't draw anything if this image is completely transparent (invisible).
+    if (IsFloatEqual(draw_color[3], 0.0f))
         return;
 
-    glPushMatrix();
+    VideoManager->PushMatrix();
+
     if (_x_offset != 0.0f || _y_offset != 0.0f)
         VideoManager->MoveRelative(_x_offset, _y_offset);
 
     _DrawOrientation();
 
-    // Used to determine if the image color should be modulated by any degree due to screen fading effects
+    // Used to determine if the image color should be modulated by any degree due to screen fading effects.
     if(draw_color == Color::white) {
         _DrawTexture(_color);
     }
@@ -1049,21 +955,18 @@ void StillImage::Draw(const Color &draw_color) const
         _DrawTexture(modulated_colors);
     }
 
-    glPopMatrix();
-} // void StillImage::Draw(const Color& draw_color) const
-
-
+    VideoManager->PopMatrix();
+}
 
 bool StillImage::Save(const std::string &filename) const
 {
-    if(_image_texture == NULL) {
+    if(_image_texture == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "attempted to save an image that had no texture reference" << std::endl;
         return false;
     }
 
     // Isolate the file extension
     size_t ext_position = filename.rfind('.');
-    bool is_png_image;
 
     if(ext_position == std::string::npos) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "could not decipher file extension for file: " << filename << std::endl;
@@ -1072,18 +975,14 @@ bool StillImage::Save(const std::string &filename) const
 
     std::string extension = std::string(filename, ext_position, filename.length() - ext_position);
 
-    if(extension == ".png")
-        is_png_image = true;
-    else if(extension == ".jpg")
-        is_png_image = false;
-    else {
+    if(extension != ".png") {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "unsupported file extension \"" << extension << "\" for file: " << filename << std::endl;
         return false;
     }
 
     ImageMemory buffer;
     buffer.CopyFromImage(_image_texture);
-    return buffer.SaveImage(filename, is_png_image);
+    return buffer.SaveImage(filename);
 } // bool StillImage::Save(const string& filename)
 
 
@@ -1098,7 +997,7 @@ void StillImage::EnableGrayScale()
     _grayscale = true;
 
     // 1. If no image texture is available we are done here (when Load() is next called, grayscale will automatically be enabled)
-    if(_image_texture == NULL) {
+    if(_image_texture == nullptr) {
         return;
     }
 
@@ -1106,7 +1005,7 @@ void StillImage::EnableGrayScale()
     std::string search_key = _filename + _image_texture->tags + "<G>";
     std::string tags = _image_texture->tags;
     ImageTexture *temp_texture = _image_texture;
-    if((_image_texture = TextureManager->_GetImageTexture(search_key)) != NULL) {
+    if((_image_texture = TextureManager->_GetImageTexture(search_key)) != nullptr) {
         // NOTE: We do not decrement the reference to the colored image, because we want to guarantee that
         // it remains referenced in texture memory while its grayscale counterpart is being used
         _texture = _image_texture;
@@ -1121,13 +1020,13 @@ void StillImage::EnableGrayScale()
 
     ImageTexture *new_img = new ImageTexture(_filename, tags + "<G>", gray_img.width, gray_img.height);
 
-    if(TextureManager->_InsertImageInTexSheet(new_img, gray_img, _is_static) == NULL) {
+    if(TextureManager->_InsertImageInTexSheet(new_img, gray_img, _is_static) == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to insert new grayscale image into texture sheet" << std::endl;
         delete new_img;
 
         if(gray_img.pixels) {
             free(gray_img.pixels);
-            gray_img.pixels = NULL;
+            gray_img.pixels = nullptr;
         }
 
         return;
@@ -1139,7 +1038,7 @@ void StillImage::EnableGrayScale()
 
     if(gray_img.pixels) {
         free(gray_img.pixels);
-        gray_img.pixels = NULL;
+        gray_img.pixels = nullptr;
     }
 } // void StillImage::EnableGrayScale()
 
@@ -1154,12 +1053,12 @@ void StillImage::DisableGrayScale()
     _grayscale = false;
 
     // If no image data is loaded, we're finished
-    if(_image_texture == NULL) {
+    if(_image_texture == nullptr) {
         return;
     }
 
     std::string search_key = _image_texture->filename + _image_texture->tags.substr(0, _image_texture->tags.length() - 3);
-    if((_image_texture = TextureManager->_GetImageTexture(search_key)) == NULL) {
+    if((_image_texture = TextureManager->_GetImageTexture(search_key)) == nullptr) {
         PRINT_WARNING << "non-grayscale version of image was not found in texture memory" << std::endl;
         return;
     }
@@ -1224,6 +1123,7 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
         return false;
 
     if(!image_script.DoesTableExist("animation")) {
+        PRINT_WARNING << "No animation table in " << filename << std::endl;
         image_script.CloseFile();
         return false;
     }
@@ -1257,16 +1157,14 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
         return false;
     }
 
+    // Load requested dimensions and setup default ones if not set
     float frame_width = image_script.ReadFloat("frame_width");
     float frame_height = image_script.ReadFloat("frame_height");
 
-    // Load requested dimensions
-    if(frame_width > 0.0f && frame_height > 0.0f) {
-        SetDimensions(frame_width, frame_height);
-    } else if(IsFloatEqual(_width, 0.0f) && IsFloatEqual(_height, 0.0f)) {
+    if(IsFloatEqual(frame_width, 0.0f) && IsFloatEqual(frame_height, 0.0f)) {
         // If the animation dimensions are not set, we're using the first frame size.
-        _width = image_frames.begin()->GetWidth();
-        _height = image_frames.begin()->GetHeight();
+        frame_width = image_frames.begin()->GetWidth();
+        frame_height = image_frames.begin()->GetHeight();
     }
 
     std::vector<uint32> frames_ids;
@@ -1311,17 +1209,18 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
     // Actually create the animation data
     _frames.clear();
     ResetAnimation();
-    for(uint32 i = 0; i < frames_ids.size(); ++i) {
-        // set the frame offsets
-        image_frames[frames_ids[i]].SetDrawOffsets(frames_offsets[i].first, frames_offsets[i].second);
-        // Set the dimension of the requested frame
-        image_frames[frames_ids[i]].SetDimensions(_width, _height);
-
+    // First copy the image data raw
+    for(uint32 i = 0; i < frames_ids.size(); ++i)
         AddFrame(image_frames[frames_ids[i]], frames_duration[i]);
-        if(frames_duration[i] == 0) {
-            PRINT_WARNING << "Added a frame time value of zero when loading file: " << filename << std::endl;
-        }
-    }
+
+    // Once copied and only at that time, setup the data offsets to avoid the case
+    // where the offsets might be applied several times on the same origin image,
+    // breaking the offset resizing when the dimensions are different from the original image.
+    for (uint32 i = 0; i < _frames.size(); ++i)
+        _frames[i].image.SetDrawOffsets(frames_offsets[i].first, frames_offsets[i].second);
+
+    // Then only, set the dimensions
+    SetDimensions(frame_width, frame_height);
 
     return true;
 }
@@ -1387,7 +1286,7 @@ bool AnimatedImage::LoadFromFrameGrid(const std::string &filename, const std::ve
         return false;
     }
 
-    if(image_frames.size() == 0)
+    if(image_frames.empty())
         return false;
 
     // If the animation dimensions are not set yet, we're using the first frame
@@ -1408,19 +1307,6 @@ bool AnimatedImage::LoadFromFrameGrid(const std::string &filename, const std::ve
 
     return true;
 } // bool AnimatedImage::LoadFromFrameGrid(...)
-
-
-
-void AnimatedImage::Draw() const
-{
-    if(_frames.empty()) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "no frames were loaded into the AnimatedImage object" << std::endl;
-        return;
-    }
-
-    _frames[_frame_index].image.Draw();
-}
-
 
 
 void AnimatedImage::Draw(const Color &draw_color) const
@@ -1489,11 +1375,26 @@ void AnimatedImage::Update(uint32 elapsed_time)
     if(_loops_finished)
         return;
 
+    // If the frame time is 0, it means the frame is a terminator and should be displayed 'forever'.
+    //N.B.: Early exit to avoid increasing the frame time counter when not needed.
+    if (_frames[_frame_index].frame_time == 0) {
+        _loops_finished = true;
+        return;
+    }
+
     // Get the amount of milliseconds that have pass since the last display
     uint32 ms_change = (elapsed_time == 0) ? vt_system::SystemManager->GetUpdateTime() : elapsed_time;
     _frame_counter += ms_change;
+
     // If the frame time has expired, update the frame index and counter.
     while(_frame_counter >= _frames[_frame_index].frame_time) {
+        // If the frame time is 0, it means the frame is a terminator and should be displayed 'forever'.
+        if (_frames[_frame_index].frame_time == 0) {
+            _loops_finished = true;
+            return;
+        }
+
+        // Remove the time spent on the current frame before incrementing it.
         ms_change = _frame_counter - _frames[_frame_index].frame_time;
         _frame_index++;
         if(_frame_index >= _frames.size()) {
@@ -1502,11 +1403,13 @@ void AnimatedImage::Update(uint32 elapsed_time)
             if(_number_loops >= 0 && ++_loop_counter >= _number_loops) {
                 _loops_finished = true;
                 _frame_counter = 0;
-                _frame_index--;
+                _frame_index = _frames.size() - 1;
                 return;
             }
             _frame_index = 0;
         }
+
+        // Add the time left already spent on the new frame.
         _frame_counter = ms_change;
     }
 } // void AnimatedImage::Update()
@@ -1519,12 +1422,6 @@ bool AnimatedImage::AddFrame(const std::string &frame, uint32 frame_time)
     if(!img.Load(frame, _width, _height)) {
         return false;
     }
-    if(frame_time == 0) {
-        PRINT_WARNING << "Added zero frame time for an image frame when adding frame file: "
-                      << frame << std::endl;
-        return false;
-    }
-
 
     AnimationFrame new_frame;
     new_frame.frame_time = frame_time;
@@ -1538,11 +1435,6 @@ bool AnimatedImage::AddFrame(const StillImage &frame, uint32 frame_time)
 {
     if(!frame._image_texture) {
         PRINT_WARNING << "The StillImage argument did not contain any image elements" << std::endl;
-        return false;
-    }
-    if(frame_time == 0) {
-        PRINT_WARNING << "Added zero frame time for an image frame when adding frame file: "
-                      << frame.GetFilename() << std::endl;
         return false;
     }
 
@@ -1585,8 +1477,6 @@ void AnimatedImage::SetDimensions(float width, float height)
     }
 }
 
-
-
 void AnimatedImage::SetColor(const Color &color)
 {
     ImageDescriptor::SetColor(color);
@@ -1596,8 +1486,6 @@ void AnimatedImage::SetColor(const Color &color)
     }
 }
 
-
-
 void AnimatedImage::SetVertexColors(const Color &tl, const Color &tr, const Color &bl, const Color &br)
 {
     ImageDescriptor::SetVertexColors(tl, tr, bl, br);
@@ -1605,6 +1493,17 @@ void AnimatedImage::SetVertexColors(const Color &tl, const Color &tr, const Colo
     for(uint32 i = 0; i < _frames.size(); i++) {
         _frames[i].image.SetVertexColors(tl, tr, bl, br);
     }
+}
+
+void AnimatedImage::RandomizeAnimationFrame() {
+
+    uint32 nb_frames = _frames.size();
+    if (nb_frames <= 1)
+        return;
+
+    uint32 index = vt_utils::RandomBoundedInteger(0, nb_frames - 1);
+    _frame_index = index;
+    _frame_counter = 0;
 }
 
 // -----------------------------------------------------------------------------
@@ -1641,7 +1540,7 @@ void CompositeImage::Draw(const Color &draw_color) const
                            coord_sys.GetVerticalDirection();
 
     // Save the draw cursor position as we move to draw each element
-    glPushMatrix();
+    VideoManager->PushMatrix();
 
     VideoManager->MoveRelative(x_align_offset, y_align_offset);
 
@@ -1663,7 +1562,7 @@ void CompositeImage::Draw(const Color &draw_color) const
         x_off += x_shake;
         y_off += y_shake;
 
-        glPushMatrix();
+        VideoManager->PushMatrix();
         VideoManager->MoveRelative(x_off * coord_sys.GetHorizontalDirection(),
                                    y_off * coord_sys.GetVerticalDirection());
 
@@ -1675,7 +1574,7 @@ void CompositeImage::Draw(const Color &draw_color) const
         if(coord_sys.GetVerticalDirection() < 0.0f)
             y_scale = -y_scale;
 
-        glScalef(x_scale, y_scale, 1.0f);
+        VideoManager->Scale(x_scale, y_scale);
 
         if(draw_color == Color::white)
             _elements[i].image._DrawTexture(_color);
@@ -1687,9 +1586,9 @@ void CompositeImage::Draw(const Color &draw_color) const
             modulated_colors[3] = _color[3] * draw_color;
             _elements[i].image._DrawTexture(modulated_colors);
         }
-        glPopMatrix();
+        VideoManager->PopMatrix();
     }
-    glPopMatrix();
+    VideoManager->PopMatrix();
 } // void CompositeImage::Draw(const Color& draw_color) const
 
 
@@ -1716,7 +1615,7 @@ void CompositeImage::SetWidth(float width)
         return;
     }
 
-    for(std::vector<ImageElement>::iterator i = _elements.begin(); i < _elements.end(); i++) {
+    for(std::vector<ImageElement>::iterator i = _elements.begin(); i < _elements.end(); ++i) {
         if(IsFloatEqual(i->image.GetWidth(), 0.0f) == false)
             i->image.SetWidth(width * (_width / i->image.GetWidth()));
     }
@@ -1747,7 +1646,7 @@ void CompositeImage::SetHeight(float height)
         return;
     }
 
-    for(std::vector<ImageElement>::iterator i = _elements.begin(); i < _elements.end(); i++) {
+    for(std::vector<ImageElement>::iterator i = _elements.begin(); i < _elements.end(); ++i) {
         if(IsFloatEqual(i->image.GetHeight(), 0.0f) == false)
             i->image.SetHeight(height * (_height / i->image.GetHeight()));
     }
@@ -1760,7 +1659,7 @@ void CompositeImage::SetColor(const Color &color)
 {
     ImageDescriptor::SetColor(color);
 
-    for(uint32 i = 0; i < _elements.size(); i++) {
+    for(uint32 i = 0; i < _elements.size(); ++i) {
         _elements[i].image.SetColor(color);
     }
 }

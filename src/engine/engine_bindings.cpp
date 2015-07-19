@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -22,6 +22,8 @@
 *** file may be very unfamiliar and obtuse. Refer to the Luabind documentation
 *** as necessary to gain an understanding of this code style.
 *** **************************************************************************/
+
+#include "utils/utils_pch.h"
 
 #include "engine/audio/audio.h"
 #include "engine/input.h"
@@ -45,13 +47,15 @@ void BindEngineCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_audio")
         [
             luabind::class_<AudioEngine>("GameAudio")
+            .def("LoadSound", &AudioEngine::LoadSound)
             .def("PlaySound", &AudioEngine::PlaySound)
             .def("PlayMusic", &AudioEngine::PlayMusic)
             .def("LoadMusic", &AudioEngine::LoadMusic)
-            .def("PauseAllMusic", &AudioEngine::PauseAllMusic)
-            .def("ResumeAllMusic", &AudioEngine::ResumeAllMusic)
-            .def("FadeOutAllMusic", &AudioEngine::FadeOutAllMusic)
-            .def("FadeInAllMusic", &AudioEngine::FadeInAllMusic)
+            .def("PauseActiveMusic", &AudioEngine::PauseActiveMusic)
+            .def("ResumeActiveMusic", &AudioEngine::ResumeActiveMusic)
+            .def("FadeOutActiveMusic", &AudioEngine::FadeOutActiveMusic)
+            .def("FadeInActiveMusic", &AudioEngine::FadeInActiveMusic)
+            .def("FadeOutAllSounds", &AudioEngine::FadeOutAllSounds)
         ];
 
     } // End using audio namespaces
@@ -72,6 +76,7 @@ void BindEngineCode()
             .def("GetConfirmKeyName", &InputEngine::GetConfirmKeyName)
             .def("GetCancelKeyName", &InputEngine::GetCancelKeyName)
             .def("GetMenuKeyName", &InputEngine::GetMenuKeyName)
+            .def("GetMinimapKeyName", &InputEngine::GetMinimapKeyName)
             .def("GetPauseKeyName", &InputEngine::GetPauseKeyName)
             .def("GetHelpKeyName", &InputEngine::GetHelpKeyName)
             .def("GetQuitKeyName", &InputEngine::GetQuitKeyName)
@@ -89,14 +94,10 @@ void BindEngineCode()
         [
             luabind::class_<ScriptSupervisor>("ScriptSupervisor")
             .def("AddScript", &ScriptSupervisor::AddScript)
-            .def("AddAnimation", (int32(ScriptSupervisor:: *)(const std::string&))&ScriptSupervisor::AddAnimation)
-            .def("AddAnimation", (int32(ScriptSupervisor:: *)(const std::string&, float, float))&ScriptSupervisor::AddAnimation)
-            .def("AddImage", &ScriptSupervisor::AddImage)
-            .def("DrawImage", (void(ScriptSupervisor:: *)(int32, float, float, const vt_video::Color&))&ScriptSupervisor::DrawImage)
-            .def("DrawImage", (void(ScriptSupervisor:: *)(int32, float, float))&ScriptSupervisor::DrawImage)
-            .def("DrawRotatedImage", &ScriptSupervisor::DrawRotatedImage)
-            .def("DrawAnimation", (void(ScriptSupervisor:: *)(int32, float, float))&ScriptSupervisor::DrawAnimation)
-            .def("DrawAnimation", (void(ScriptSupervisor:: *)(int32, float, float, const vt_video::Color&))&ScriptSupervisor::DrawAnimation)
+            .def("CreateImage", &ScriptSupervisor::CreateImage)
+            .def("CreateAnimation", &ScriptSupervisor::CreateAnimation)
+            .def("CreateText", (vt_video::TextImage*(ScriptSupervisor:: *)(const std::string&, const vt_video::TextStyle&))&ScriptSupervisor::CreateText)
+            .def("CreateText", (vt_video::TextImage*(ScriptSupervisor:: *)(const vt_utils::ustring&, const vt_video::TextStyle&))&ScriptSupervisor::CreateText)
             .def("SetDrawFlag", &ScriptSupervisor::SetDrawFlag)
         ];
 
@@ -107,8 +108,6 @@ void BindEngineCode()
             .def("DisableLightingOverlay", &EffectSupervisor::DisableLightingOverlay)
             .def("EnableAmbientOverlay", &EffectSupervisor::EnableAmbientOverlay)
             .def("DisableAmbientOverlay", &EffectSupervisor::DisableAmbientOverlay)
-            .def("EnableLightning", &EffectSupervisor::EnableLightning)
-            .def("DisableLightning", &EffectSupervisor::DisableLightning)
             .def("DisableEffects", &EffectSupervisor::DisableEffects)
             .def("GetCameraXMovement", &EffectSupervisor::GetCameraXMovement)
             .def("GetCameraYMovement", &EffectSupervisor::GetCameraYMovement)
@@ -132,7 +131,7 @@ void BindEngineCode()
             .def(luabind::constructor<>())
             .def(luabind::constructor<const std::string &>())
             .def("LoadEffect", &ParticleEffect::LoadEffect)
-            .def("Update", (bool (ParticleEffect:: *)())&ParticleEffect::Update)
+            .def("Update", (void (ParticleEffect:: *)())&ParticleEffect::Update)
             .def("Draw", &ParticleEffect::Draw)
             .def("IsAlive", &ParticleEffect::IsAlive)
             .def("Move", &ParticleEffect::Move)
@@ -149,10 +148,19 @@ void BindEngineCode()
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
         [
+            luabind::class_<IndicatorSupervisor>("IndicatorSupervisor")
+            .def("AddDamageIndicator", &IndicatorSupervisor::AddDamageIndicator)
+            .def("AddHealingIndicator", &IndicatorSupervisor::AddHealingIndicator)
+            .def("AddShortNotice", &IndicatorSupervisor::AddShortNotice)
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
+        [
             luabind::class_<GameMode>("GameMode")
             .def("GetScriptSupervisor", &GameMode::GetScriptSupervisor)
             .def("GetEffectSupervisor", &GameMode::GetEffectSupervisor)
             .def("GetParticleManager", &GameMode::GetParticleManager)
+            .def("GetIndicatorSupervisor", &GameMode::GetIndicatorSupervisor)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_mode_manager")
@@ -240,9 +248,7 @@ void BindEngineCode()
             .def("GetPlayMinutes", &SystemEngine::GetPlayMinutes)
             .def("GetPlaySeconds", &SystemEngine::GetPlaySeconds)
             .def("GetLanguage", &SystemEngine::GetLanguage)
-            .def("SetLanguage", &SystemEngine::SetLanguage)
-            .def("NotDone", &SystemEngine::NotDone)
-            .def("ExitGame", &SystemEngine::ExitGame)
+            .def("GetGameDifficulty", &SystemEngine::GetGameDifficulty)
         ];
 
     } // End using system namespaces
@@ -260,15 +266,68 @@ void BindEngineCode()
             .def("SetAlpha", &Color::SetAlpha)
             .def("SetColor", (void(Color::*)(float, float, float, float))&Color::SetColor),
 
+            luabind::class_<ImageDescriptor>("ImageDescriptor")
+            .def("GetWidth", &ImageDescriptor::GetWidth)
+            .def("GetHeight", &ImageDescriptor::GetHeight)
+            .def("Update", &ImageDescriptor::Update),
+
+            luabind::class_<StillImage, ImageDescriptor>("StillImage")
+            .def("Clear", &StillImage::Clear)
+            .def("Draw", (void(StillImage::*)(const vt_video::Color&)) &StillImage::Draw)
+            .def("Draw", (void(StillImage::*)()) &StillImage::Draw)
+            .def("EnableGrayScale", &StillImage::EnableGrayScale)
+            .def("DisableGrayScale", &StillImage::DisableGrayScale)
+            .def("SetWidth", &StillImage::SetWidth)
+            .def("SetHeight", &StillImage::SetHeight)
+            .def("SetWidthKeepRatio", &StillImage::SetWidthKeepRatio)
+            .def("SetHeightKeepRatio", &StillImage::SetHeightKeepRatio)
+            .def("SetDimensions", &StillImage::SetDimensions)
+            .def("SetXDrawOffset", &StillImage::SetXDrawOffset)
+            .def("SetYDrawOffset", &StillImage::SetYDrawOffset)
+            .def("SetDrawOffsets", &StillImage::SetDrawOffsets),
+
+            luabind::class_<AnimatedImage, ImageDescriptor>("AnimatedImage")
+            .def("Clear", &AnimatedImage::Clear)
+            .def("Draw", (void(AnimatedImage::*)(const Color&))&AnimatedImage::Draw)
+            .def("Draw", (void(AnimatedImage::*)())&AnimatedImage::Draw)
+            .def("EnableGrayScale", &AnimatedImage::EnableGrayScale)
+            .def("DisableGrayScale", &AnimatedImage::DisableGrayScale)
+            .def("Update", (void(AnimatedImage::*)())&AnimatedImage::Update)
+            .def("Update", (void(AnimatedImage::*)(uint32))&AnimatedImage::Update)
+            .def("ResetAnimation", &AnimatedImage::ResetAnimation)
+            .def("GetAnimationLength", &AnimatedImage::GetAnimationLength)
+            .def("RandomizeAnimationFrame", &AnimatedImage::RandomizeAnimationFrame)
+            .def("SetWidth", &AnimatedImage::SetWidth)
+            .def("SetHeight", &AnimatedImage::SetHeight)
+            .def("SetDimensions", &AnimatedImage::SetDimensions),
+
+            luabind::class_<TextImage, ImageDescriptor>("TextImage")
+            .def("Clear", &TextImage::Clear)
+            .def("Draw", (void(TextImage::*)(const Color&))&TextImage::Draw)
+            .def("Draw", (void(TextImage::*)())&TextImage::Draw)
+            .def("SetWidth", &TextImage::SetWidth)
+            .def("SetHeight", &TextImage::SetHeight)
+            .def("SetDimensions", &TextImage::SetDimensions)
+            .def("SetText", (void(TextImage::*)(const std::string&))&TextImage::SetText)
+            .def("SetText", (void(TextImage::*)(const std::string&, const TextStyle&))&TextImage::SetText)
+            .def("SetText", (void(TextImage::*)(const vt_utils::ustring&))&TextImage::SetText)
+            .def("SetText", (void(TextImage::*)(const vt_utils::ustring&, const TextStyle&))&TextImage::SetText)
+            .def("SetStyle", &TextImage::SetStyle)
+            .def("SetWordWrapWidth", &TextImage::SetWordWrapWidth)
+            .def("GetWordWrapWidth", &TextImage::GetWordWrapWidth),
+
+            luabind::class_<TextStyle>("TextStyle")
+            .def(luabind::constructor<const std::string&>())
+            .def(luabind::constructor<const std::string&, const Color&>()),
+
             luabind::class_<VideoEngine>("GameVideo")
             .def("FadeScreen", &VideoEngine::FadeScreen)
             .def("IsFading", &VideoEngine::IsFading)
             .def("FadeIn", &VideoEngine::FadeIn)
-            .def("DrawText", (void (VideoEngine:: *)(const vt_utils::ustring &, float, float, const Color &)) &VideoEngine::DrawText)
-            .def("DrawText", (void (VideoEngine:: *)(const std::string &, float, float, const Color &)) &VideoEngine::DrawText)
 
             // Draw cursor commands
             .def("Move", &VideoEngine::Move)
+            .def("MoveRelative", &VideoEngine::MoveRelative)
             .def("Rotate", &VideoEngine::Rotate)
 
             // Namespace constants

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -16,40 +16,26 @@
 *** \brief   Source file for system code management
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "engine/system.h"
+
 #include "engine/script/script.h"
 
-#ifndef EDITOR_BUILD
+#include "utils/utils_strings.h"
+#include "utils/utils_files.h"
+
+#include "common/gui/textbox.h"
+
 #include "mode_manager.h"
-#endif
-
-#ifdef _WIN32
-#include <direct.h>
-#include <stdlib.h>          // defines _MAX_PATH constant
-#ifndef PATH_MAX
-#define PATH_MAX _MAX_PATH   // redefine _MAX_PATH to be compatible with Darwin's PATH_MAX
-#endif
-#elif defined __APPLE__
-#include <unistd.h>
-#include <cstdlib>
-#elif defined __linux__
-#include <limits.h>
-#endif
-
-#ifndef DISABLE_TRANSLATIONS
-#include <libintl.h>
-#endif
 
 using namespace vt_utils;
 using namespace vt_script;
 using namespace vt_mode_manager;
 
-template<> vt_system::SystemEngine *Singleton<vt_system::SystemEngine>::_singleton_reference = NULL;
-
 namespace vt_system
 {
 
-SystemEngine *SystemManager = NULL;
+SystemEngine *SystemManager = nullptr;
 bool SYSTEM_DEBUG = false;
 
 // If gettext translations are disabled, let's define a dummy gettext.
@@ -131,24 +117,20 @@ SystemTimer::SystemTimer() :
     _auto_update(false),
     _duration(0),
     _number_loops(0),
-    _mode_owner(NULL),
+    _mode_owner(nullptr),
     _time_expired(0),
     _times_completed(0)
 {}
-
-
 
 SystemTimer::SystemTimer(uint32 duration, int32 loops) :
     _state(SYSTEM_TIMER_INITIAL),
     _auto_update(false),
     _duration(duration),
     _number_loops(loops),
-    _mode_owner(NULL),
+    _mode_owner(nullptr),
     _time_expired(0),
     _times_completed(0)
 {}
-
-
 
 SystemTimer::~SystemTimer()
 {
@@ -156,8 +138,6 @@ SystemTimer::~SystemTimer()
         SystemManager->RemoveAutoTimer(this);
     }
 }
-
-
 
 void SystemTimer::Initialize(uint32 duration, int32 number_loops)
 {
@@ -167,8 +147,6 @@ void SystemTimer::Initialize(uint32 duration, int32 number_loops)
     _time_expired = 0;
     _times_completed = 0;
 }
-
-
 
 void SystemTimer::EnableAutoUpdate(GameMode *owner)
 {
@@ -182,8 +160,6 @@ void SystemTimer::EnableAutoUpdate(GameMode *owner)
     SystemManager->AddAutoTimer(this);
 }
 
-
-
 void SystemTimer::EnableManualUpdate()
 {
     if(_auto_update == false) {
@@ -193,17 +169,13 @@ void SystemTimer::EnableManualUpdate()
 
     SystemManager->RemoveAutoTimer(this);
     _auto_update = false;
-    _mode_owner = NULL;
+    _mode_owner = nullptr;
 }
-
-
 
 void SystemTimer::Update()
 {
     Update(SystemManager->GetUpdateTime());
 }
-
-
 
 void SystemTimer::Update(uint32 time)
 {
@@ -235,8 +207,6 @@ float SystemTimer::PercentComplete() const
     }
 }
 
-
-
 void SystemTimer::SetDuration(uint32 duration)
 {
     if(IsInitial() == false) {
@@ -247,7 +217,13 @@ void SystemTimer::SetDuration(uint32 duration)
     _duration = duration;
 }
 
-
+void SystemTimer::SetTimeExpired(uint32 time_expired)
+{
+    if (time_expired <= _duration)
+        _time_expired = time_expired;
+    else
+        _time_expired = _duration;
+}
 
 void SystemTimer::SetNumberLoops(int32 loops)
 {
@@ -259,8 +235,6 @@ void SystemTimer::SetNumberLoops(int32 loops)
     _number_loops = loops;
 }
 
-
-
 void SystemTimer::SetModeOwner(vt_mode_manager::GameMode *owner)
 {
     if(IsInitial() == false) {
@@ -270,8 +244,6 @@ void SystemTimer::SetModeOwner(vt_mode_manager::GameMode *owner)
 
     _mode_owner = owner;
 }
-
-
 
 void SystemTimer::_AutoUpdate()
 {
@@ -285,8 +257,6 @@ void SystemTimer::_AutoUpdate()
 
     _UpdateTimer(SystemManager->GetUpdateTime());
 }
-
-
 
 void SystemTimer::_UpdateTimer(uint32 time)
 {
@@ -315,12 +285,22 @@ void SystemTimer::_UpdateTimer(uint32 time)
 // SystemEngine Class
 // -----------------------------------------------------------------------------
 
-SystemEngine::SystemEngine()
+SystemEngine::SystemEngine():
+    _last_update(0),
+    _update_time(1), // Set to 1 to avoid hanging the system.
+    _hours_played(0),
+    _minutes_played(0),
+    _seconds_played(0),
+    _milliseconds_played(0),
+    _not_done(true),
+    _message_speed(vt_gui::DEFAULT_MESSAGE_SPEED),
+    _battle_target_cursor_memory(true),
+    _game_difficulty(2) // Normal
 {
     IF_PRINT_DEBUG(SYSTEM_DEBUG) << "constructor invoked" << std::endl;
 
-    _not_done = true;
-    SetLanguage("en@quot"); //Default language is English
+    SetLanguage("en_GB"); // Default language is British English
+    _language = "en_GB"; // In case no files were found.
 }
 
 
@@ -331,7 +311,7 @@ SystemEngine::~SystemEngine()
 }
 
 
-void Reinitl10n()
+std::string _Reinitl10n()
 {
     // Initialize the gettext library
     setlocale(LC_ALL, "");
@@ -348,7 +328,7 @@ void Reinitl10n()
 #elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
     // Look for translation files in LOCALEDIR only if they are not available in the
     // current directory.
-    if(std::ifstream("po/en@quot/LC_MESSAGES/"APPSHORTNAME".mo") == NULL) {
+    if(!vt_utils::DoesFileExist("po/en_GB/LC_MESSAGES/" APPSHORTNAME ".mo")) {
         bind_text_domain_path = LOCALEDIR;
     } else {
         char buffer[PATH_MAX];
@@ -364,12 +344,35 @@ void Reinitl10n()
     bind_textdomain_codeset(APPSHORTNAME, "UTF-8");
     textdomain(APPSHORTNAME);
 #endif
+    return bind_text_domain_path;
 }
 
-
-void SystemEngine::SetLanguage(const std::string& lang)
+bool SystemEngine::IsLanguageAvailable(const std::string& lang)
 {
-    Reinitl10n();
+    // Construct the corresponding mo filename path.
+    std::string mo_filename = _Reinitl10n();
+    mo_filename.append("/");
+    mo_filename.append(lang);
+    mo_filename.append("/LC_MESSAGES/" APPSHORTNAME ".mo");
+
+    // Note: English is always available as it's the default language
+    if (lang == "en_GB")
+        return true;
+
+    // Test whether the file is existing.
+    if (!vt_utils::DoesFileExist(mo_filename))
+        return false;
+
+    return true;
+}
+
+bool SystemEngine::SetLanguage(const std::string& lang)
+{
+    // Test whether the file is existing.
+    // The function called also reinit the i10n paths
+    // so we don't have to do it here.
+    if (!IsLanguageAvailable(lang))
+        return false;
 
     _language = lang;
     setlocale(LC_MESSAGES, _language.c_str());
@@ -378,14 +381,34 @@ void SystemEngine::SetLanguage(const std::string& lang)
 #ifdef _WIN32
     std::string lang_var = "LANGUAGE=" + _language;
     putenv(lang_var.c_str());
-    SetEnvironmentVariable("LANGUAGE", _language.c_str());
-    SetEnvironmentVariable("LANG", _language.c_str());
+    SetEnvironmentVariableA("LANGUAGE", _language.c_str());
+    SetEnvironmentVariableA("LANG", _language.c_str());
 #else
     setenv("LANGUAGE", _language.c_str(), 1);
     setenv("LANG", _language.c_str(), 1);
 #endif
+    return true;
 }
 
+void SystemEngine::SetMessageSpeed(float message_speed)
+{
+    _message_speed = message_speed;
+
+    if (_message_speed < 40.0f)
+        _message_speed = 40.0f;
+
+    if (_message_speed > 600.0f)
+        _message_speed = 600.0f;
+}
+
+void SystemEngine::SetGameDifficulty(uint32 game_difficulty)
+{
+        _game_difficulty = game_difficulty;
+        if (_game_difficulty > 3)
+            _game_difficulty = 3;
+        else if (_game_difficulty < 1)
+            _game_difficulty = 1;
+}
 
 bool SystemEngine::SingletonInitialize()
 {
@@ -408,8 +431,8 @@ void SystemEngine::InitializeTimers()
 
 void SystemEngine::AddAutoTimer(SystemTimer *timer)
 {
-    if(timer == NULL) {
-        IF_PRINT_WARNING(SYSTEM_DEBUG) << "function received NULL argument" << std::endl;
+    if(timer == nullptr) {
+        IF_PRINT_WARNING(SYSTEM_DEBUG) << "function received nullptr argument" << std::endl;
         return;
     }
     if(timer->IsAutoUpdate() == false) {
@@ -427,8 +450,8 @@ void SystemEngine::AddAutoTimer(SystemTimer *timer)
 
 void SystemEngine::RemoveAutoTimer(SystemTimer *timer)
 {
-    if(timer == NULL) {
-        IF_PRINT_WARNING(SYSTEM_DEBUG) << "function received NULL argument" << std::endl;
+    if(timer == nullptr) {
+        IF_PRINT_WARNING(SYSTEM_DEBUG) << "function received nullptr argument" << std::endl;
         return;
     }
     if(timer->IsAutoUpdate() == false) {
@@ -444,12 +467,12 @@ void SystemEngine::RemoveAutoTimer(SystemTimer *timer)
 
 void SystemEngine::UpdateTimers()
 {
-    // ----- (1): Update the update game timer
+    // Update the update game timer
     uint32 tmp = _last_update;
     _last_update = SDL_GetTicks();
     _update_time = _last_update - tmp;
 
-    // ----- (2): Update the game play timer
+    // Update the game play timer
     _milliseconds_played += _update_time;
     if(_milliseconds_played >= 1000) {
         _seconds_played += _milliseconds_played / 1000;
@@ -464,21 +487,19 @@ void SystemEngine::UpdateTimers()
         }
     }
 
-    // ----- (3): Update all SystemTimer objects
-    for(std::set<SystemTimer *>::iterator i = _auto_system_timers.begin(); i != _auto_system_timers.end(); i++)
+    // Update all SystemTimer objects
+    for(std::set<SystemTimer *>::iterator i = _auto_system_timers.begin(); i != _auto_system_timers.end(); ++i)
         (*i)->_AutoUpdate();
 }
 
 // Avoid a useless dependency on the mode manager for the editor build
-#ifndef EDITOR_BUILD
 void SystemEngine::ExamineSystemTimers()
 {
-    GameMode *active_mode = ModeManager->GetTop();
-    GameMode *timer_mode = NULL;
+    GameMode* active_mode = ModeManager->GetTop();
 
-    for(std::set<SystemTimer *>::iterator i = _auto_system_timers.begin(); i != _auto_system_timers.end(); i++) {
-        timer_mode = (*i)->GetModeOwner();
-        if(timer_mode == NULL)
+    for(std::set<SystemTimer *>::iterator i = _auto_system_timers.begin(); i != _auto_system_timers.end(); ++i) {
+        GameMode* timer_mode = (*i)->GetModeOwner();
+        if(timer_mode == nullptr)
             continue;
 
         if(timer_mode == active_mode)
@@ -487,15 +508,13 @@ void SystemEngine::ExamineSystemTimers()
             (*i)->Pause();
     }
 }
-#endif
 
 void SystemEngine::WaitForThread(Thread *thread)
 {
 #if (THREAD_TYPE == SDL_THREADS)
-    SDL_WaitThread(thread, NULL);
+    SDL_WaitThread(thread, nullptr);
 #endif
 }
-
 
 
 Semaphore *SystemEngine::CreateSemaphore(int max)
@@ -529,6 +548,45 @@ void SystemEngine::UnlockThread(Semaphore *s)
 {
 #if (THREAD_TYPE == SDL_THREADS)
     SDL_SemPost(s);
+#endif
+}
+
+template <class T> struct generic_class_func_info {
+    static int SpawnThread_Intermediate(void *vptr) {
+        ((((generic_class_func_info <T> *) vptr)->myclass)->*(((generic_class_func_info <T> *) vptr)->func))();
+        return 0;
+    }
+
+    T *myclass;
+    void (T::*func)();
+};
+
+
+
+template <class T> Thread *SystemEngine::SpawnThread(void (T::*func)(), T *myclass)
+{
+#if (THREAD_TYPE == SDL_THREADS)
+    Thread *thread;
+    static generic_class_func_info <T> gen;
+    gen.func = func;
+    gen.myclass = myclass;
+
+    // Winter Knight: There is a potential, but unlikely race condition here.
+    // gen may be overwritten prematurely if this function, SpawnThread, gets
+    // called a second time before SpawnThread_Intermediate calls myclass->*func
+    // This will result in a segfault.
+    thread = SDL_CreateThread(gen.SpawnThread_Intermediate, &gen, nullptr);
+    if(thread == nullptr) {
+        PRINT_ERROR << "Unable to create thread: " << SDL_GetError() << std::endl;
+        return nullptr;
+    }
+    return thread;
+#elif (THREAD_TYPE == NO_THREADS)
+    (myclass->*func)();
+    return 1;
+#else
+    PRINT_ERROR << "Invalid THREAD_TYPE." << std::endl;
+    return 0;
 #endif
 }
 

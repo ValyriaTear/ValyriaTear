@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -9,18 +9,22 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ***************************************************************************
-*** \file    particle.h
+*** \file    particle_effect.cpp
 *** \author  Raj Sharma, roos@allacrost.org
 *** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for particle effects
 *** **************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "engine/video/particle_effect.h"
-#include "engine/video/particle_system.h"
 
-#include "engine/system.h"
+#include "engine/video/particle_system.h"
 #include "engine/video/video.h"
+
 #include "engine/script/script_read.h"
+#include "engine/system.h"
+
+#include "utils/utils_files.h"
 
 using namespace vt_script;
 using namespace vt_video;
@@ -49,6 +53,8 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
     if (particle_script.OpenTable("map_effect_collision")) {
         _effect_def.effect_collision_width = particle_script.ReadFloat("effect_collision_width");
         _effect_def.effect_collision_height = particle_script.ReadFloat("effect_collision_height");
+        _effect_def.effect_width = particle_script.ReadFloat("effect_width");
+        _effect_def.effect_height = particle_script.ReadFloat("effect_height");
         particle_script.CloseTable(); // map_effect_collision
     }
 
@@ -115,6 +121,8 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
             sys_def.emitter._shape = EMITTER_SHAPE_POINT;
         else if(!strcasecmp(shape_string.c_str(), "line"))
             sys_def.emitter._shape = EMITTER_SHAPE_LINE;
+        else if(!strcasecmp(shape_string.c_str(), "ellipse outline"))
+            sys_def.emitter._shape = EMITTER_SHAPE_ELLIPSE;
         else if(!strcasecmp(shape_string.c_str(), "circle outline"))
             sys_def.emitter._shape = EMITTER_SHAPE_CIRCLE;
         else if(!strcasecmp(shape_string.c_str(), "circle"))
@@ -124,8 +132,7 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
 
         sys_def.emitter._omnidirectional = particle_script.ReadBool("omnidirectional");
         sys_def.emitter._orientation = particle_script.ReadFloat("orientation");
-        sys_def.emitter._outer_cone = particle_script.ReadFloat("outer_cone");
-        sys_def.emitter._inner_cone = particle_script.ReadFloat("inner_cone");
+        sys_def.emitter._angle_variation = particle_script.ReadFloat("angle_variation");
         sys_def.emitter._initial_speed = particle_script.ReadFloat("initial_speed");
         sys_def.emitter._initial_speed_variation = particle_script.ReadFloat("initial_speed_variation");
         sys_def.emitter._emission_rate = particle_script.ReadFloat("emission_rate");
@@ -395,48 +402,32 @@ bool ParticleEffect::LoadEffect(const std::string &filename)
     return true;
 }
 
-bool ParticleEffect::Draw()
+void ParticleEffect::Draw()
 {
-    bool success = true;
-
-    // move to the effect's location
+    // Move to the effect's location.
     VideoManager->Move(_x, _y);
 
     std::vector<ParticleSystem>::iterator iSystem = _systems.begin();
-
-    while(iSystem != _systems.end()) {
-        VideoManager->PushMatrix();
-        if(!(*iSystem).Draw()) {
-            success = false;
-            IF_PRINT_WARNING(VIDEO_DEBUG)
-                    << "Failed to draw system!" << std::endl;
-        }
-
-        VideoManager->PopMatrix();
+    while (iSystem != _systems.end()) {
+        (*iSystem).Draw();
         ++iSystem;
     }
 
-    VideoManager->DisableAlphaTest();
     VideoManager->DisableStencilTest();
-    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-
-    return success;
 }
 
-bool ParticleEffect::Update()
+void ParticleEffect::Update()
 {
-    return Update(static_cast<float>(vt_system::SystemManager->GetUpdateTime()) / 1000.0f);
+    Update(static_cast<float>(vt_system::SystemManager->GetUpdateTime()) / 1000.0f);
 }
 
-bool ParticleEffect::Update(float frame_time)
+void ParticleEffect::Update(float frame_time)
 {
     _age += frame_time;
     _num_particles = 0;
 
     if(!_alive)
-        return true;
-
-    bool success = true;
+        return;
 
     vt_mode_manager::EffectParameters effect_parameters;
     effect_parameters.orientation = _orientation;
@@ -455,18 +446,12 @@ bool ParticleEffect::Update(float frame_time)
             if(_systems.empty())
                 _alive = false;
         } else {
-            if(!(*iSystem).Update(frame_time, effect_parameters)) {
-                success = false;
-                IF_PRINT_WARNING(VIDEO_DEBUG)
-                        << "Failed to update system!" << std::endl;
-            }
+            (*iSystem).Update(frame_time, effect_parameters);
 
             _num_particles += (*iSystem).GetNumParticles();
             ++iSystem;
         }
     }
-
-    return success;
 }
 
 

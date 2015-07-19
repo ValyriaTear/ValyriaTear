@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -16,7 +16,8 @@
 *** \note    Only main.cpp and main_options.cpp should need to include this file.
 *** **************************************************************************/
 
-#include "utils.h"
+#ifndef __MAIN_OPTIONS_HEADER__
+#define __MAIN_OPTIONS_HEADER__
 
 /** \brief Namespace containing functions central to main program execution.
 *** \note Normally no other code should need to use this namespace.
@@ -46,11 +47,6 @@ void PrintUsage();
 **/
 bool PrintSystemInformation();
 
-/** \brief Checks the integrity of the game's file structure to make sure no files are missing or corrupt.
-*** \return False if something is wrong with the file integrity.
-**/
-bool CheckFiles();
-
 /** \brief Resets the game settings (audio volume, key mappings, etc.) to their default values.
 *** \return False if the settings could not be restored, or if another problem occured.
 **/
@@ -63,3 +59,5 @@ bool ResetSettings();
 bool EnableDebugging(const std::string& vars);
 
 } // namespace vt_main
+
+#endif // __MAIN_OPTIONS_HEADER__

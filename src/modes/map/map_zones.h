@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -70,14 +70,11 @@ public:
 *** ***************************************************************************/
 class MapZone
 {
-    // This friend declaration is necessary because EnemyZone, although it dervies from MapZone, also keeps a pointer
+    // This friend declaration is necessary because EnemyZone, although it derives from MapZone, also keeps a pointer
     // to a MapZone object and needs to access the protected members and methods of this object pointer.
     friend class EnemyZone;
 
 public:
-    MapZone()
-    {}
-
     /** \brief Constructs a map zone that is initialized with a single zone section
     *** \param left_col The left edge of the section to add
     *** \param right_col The right edge of the section to add
@@ -88,6 +85,12 @@ public:
 
     virtual ~MapZone()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static MapZone* Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
 
     /** \brief Adds a new zone section to the map zone
     *** \param left_col The left edge of the section to add
@@ -118,15 +121,15 @@ public:
     //! \brief Draws the map zone on screen for debugging purpose
     virtual void Draw();
 
+    /** \brief Returns random x, y position coordinates within the zone
+    *** \param x A reference where to store the value of the x position
+    *** \param y A reference where to store the value of the y position
+    **/
+    void RandomPosition(float &x, float &y);
+
 protected:
     //! \brief The rectangular sections which compose the map zone
     std::vector<ZoneSection> _sections;
-
-    /** \brief Returns random x, y position coordinates within the zone
-    *** \param x A reference where to store the value of the x position
-    *** \param y A reference where to store the value of the x position
-    **/
-    void _RandomPosition(float &x, float &y);
 
     //! \brief Tells whether a section is on screen and place the drawing cursor in that case.
     bool _ShouldDraw(const ZoneSection &section);
@@ -153,9 +156,6 @@ protected:
 class CameraZone : public MapZone
 {
 public:
-    CameraZone() : MapZone(), _camera_inside(false), _was_camera_inside(false)
-    {}
-
     /** \brief Constructs a camera zone that is initialized with a single zone section
     *** \param left_col The left edge of the section to add
     *** \param right_col The right edge of the section to add
@@ -166,6 +166,12 @@ public:
 
     virtual ~CameraZone()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static CameraZone* Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
 
     //! \brief Updates the state of the zone by checking the current camera position
     void Update();
@@ -217,8 +223,6 @@ protected:
 class EnemyZone : public MapZone
 {
 public:
-    EnemyZone();
-
     /** \brief Constructs an enemy zone that is initialized with a single zone section
     *** \param left_col The left edge of the section to add
     *** \param right_col The right edge of the section to add
@@ -229,19 +233,25 @@ public:
               uint16 top_row, uint16 bottom_row);
 
     ~EnemyZone() {
-        if(_spawn_zone != NULL) delete _spawn_zone;
+        if(_spawn_zone != nullptr) delete _spawn_zone;
     }
 
-    EnemyZone(const EnemyZone &copy);
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static EnemyZone* Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
 
-    EnemyZone &operator=(const EnemyZone &copy);
+    //! \brief Enables/disables the enemy zone.
+    void SetEnabled(bool is_enabled) {
+        _enabled = is_enabled;
+    }
 
     /** \brief Adds a new enemy sprite to the zone
     *** \param enemy A pointer to the EnemySprite object instance to add
-    *** \param map A pointer to the MapMode instance to add the EnemySprite to
     *** \param count The number of copies of this enemy to add
     **/
-    void AddEnemy(EnemySprite *enemy, MapMode *map, uint8 count = 1);
+    void AddEnemy(EnemySprite *enemy, uint8 count = 1);
 
     /** \brief Adds a new zone section to the zone where enemies may spawn
     *** \param left_col The left edge of the section to add
@@ -274,7 +284,7 @@ public:
 
     //! \brief Returns true if this zone has seperate zones for roaming and spawning
     bool HasSeparateSpawnZone() const {
-        return (_spawn_zone != NULL);
+        return (_spawn_zone != nullptr);
     }
 
     //! \name Class Member Access Functions
@@ -283,22 +293,12 @@ public:
         return _roaming_restrained;
     }
 
-    //! \brief Tells whether the monster is allowed to get out of the spawning zone while chasing a character.
-    bool IsAgressionRestrainedtoRoamingZone() const {
-        return _agression_roaming_restrained;
-    }
-
     uint32 GetSpawnTime() const {
         return _spawn_timer.GetDuration();
     }
 
     void SetRoamingRestrained(bool restrain) {
         _roaming_restrained = restrain;
-    }
-
-    //! \brief Sets whether the monster is allowed to get out of the spawning zone while chasing a character.
-    void SetAgressionRestrainedtoRoamingZone(bool restrain) {
-        _agression_roaming_restrained = restrain;
     }
 
     //! \note Calling this function will reset the elapsed spawn time
@@ -322,13 +322,12 @@ public:
     //@}
 
 private:
+    //! \brief Tells whether the zone is activated.
+    bool _enabled;
+
     //! \brief If true, enemies of this zone are not allowed
     //! to roam outside of the zone boundaries
     bool _roaming_restrained;
-
-    //! \brief If true, enemies of this zone are not allowed
-    //! to roam outside of the zone boundaries while chasing a character
-    bool _agression_roaming_restrained;
 
     //! \brief The number of enemies that are currently not in the DEAD state
     uint8 _active_enemies;

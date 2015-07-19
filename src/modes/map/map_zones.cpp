@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,9 +15,12 @@
 *** \brief   Source file for map mode zones.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "modes/map/map_zones.h"
 
 #include "modes/map/map_sprites.h"
+
+#include "utils/utils_random.h"
 
 using namespace vt_utils;
 
@@ -34,6 +37,15 @@ namespace private_map
 MapZone::MapZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
 {
     AddSection(left_col, right_col, top_row, bottom_row);
+    // Register to the object supervisor
+    MapMode::CurrentInstance()->GetObjectSupervisor()->AddZone(this);
+}
+
+MapZone* MapZone::Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
+{
+    // The zone auto registers to the object supervisor
+    // and will later handle deletion.
+    return new MapZone(left_col, right_col, top_row, bottom_row);
 }
 
 void MapZone::AddSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
@@ -72,14 +84,14 @@ void MapZone::Draw()
     // Verify each section of the zone and check if the position is within the section bounds.
     for(std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
         if(_ShouldDraw(*it)) {
-            vt_video::VideoManager->DrawRectangle(it->right_col - it->left_col,
-                                                   it->bottom_row - it->top_row,
+            vt_video::VideoManager->DrawRectangle((it->right_col - it->left_col) * GRID_LENGTH,
+                                                  (it->bottom_row - it->top_row) * GRID_LENGTH,
                                                    vt_video::Color(1.0f, 0.6f, 0.0f, 0.6f));
         }
     }
 }
 
-void MapZone::_RandomPosition(float &x, float &y)
+void MapZone::RandomPosition(float &x, float &y)
 {
     // Select a random ZoneSection
     uint16 i = RandomBoundedInteger(0, _sections.size() - 1);
@@ -91,7 +103,7 @@ void MapZone::_RandomPosition(float &x, float &y)
 
 bool MapZone::_ShouldDraw(const ZoneSection &section)
 {
-    MapMode *map = MapMode::CurrentInstance();
+    MapMode* map_mode = MapMode::CurrentInstance();
 
     MapRectangle rect;
     rect.top = section.top_row;
@@ -100,29 +112,16 @@ bool MapZone::_ShouldDraw(const ZoneSection &section)
     rect.right = section.right_col;
 
     // Determine if the sprite is off-screen and if so, don't draw it.
-    if(!MapRectangle::CheckIntersection(rect, map->GetMapFrame().screen_edges))
+    if(!MapRectangle::CheckIntersection(rect, map_mode->GetMapFrame().screen_edges))
         return false;
 
     // Determine the center position coordinates for the camera
-    float x_pos, y_pos; // Holds the final X, Y coordinates of the camera
-    float x_pixel_length, y_pixel_length; // The X and Y length values that coorespond to a single pixel in the current coodinate system
-    float rounded_x_offset, rounded_y_offset; // The X and Y position offsets of the object, rounded to perfectly align on a pixel boundary
-
-
-    // TODO: the call to GetPixelSize() will return the same result every time so long as the coordinate system did not change. If we never
-    // change the coordinate system in map mode, then this should be done only once and the calculated values should be saved for re-use.
-    // However, we've discussed the possiblity of adding a zoom feature to maps, in which case we need to continually re-calculate the pixel size
-    x_pos = rect.left + (rect.right - rect.left) / 2;
-    y_pos = rect.top + (rect.bottom - rect.top);
-    vt_video::VideoManager->GetPixelSize(x_pixel_length, y_pixel_length);
-    rounded_x_offset = FloorToFloatMultiple(GetFloatFraction(x_pos), x_pixel_length);
-    rounded_y_offset = FloorToFloatMultiple(GetFloatFraction(y_pos), y_pixel_length);
-    x_pos = static_cast<float>(GetFloatInteger(x_pos)) + rounded_x_offset;
-    y_pos = static_cast<float>(GetFloatInteger(y_pos)) + rounded_y_offset;
+    float x_pos = rect.left + (rect.right - rect.left) / 2;
+    float y_pos = rect.top + (rect.bottom - rect.top);
 
     // Move the drawing cursor to the appropriate coordinates for this sprite
-    vt_video::VideoManager->Move(x_pos - map->GetMapFrame().screen_edges.left,
-                                  y_pos - map->GetMapFrame().screen_edges.top);
+    vt_video::VideoManager->Move(map_mode->GetScreenXCoordinate(x_pos),
+                                 map_mode->GetScreenYCoordinate(y_pos));
     return true;
 }
 
@@ -136,6 +135,13 @@ CameraZone::CameraZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16
     _was_camera_inside(false)
 {}
 
+CameraZone* CameraZone::Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
+{
+    // The zone auto registers to the object supervisor
+    // and will later handle deletion.
+    return new CameraZone(left_col, right_col, top_row, bottom_row);
+}
+
 void CameraZone::Update()
 {
     _was_camera_inside = _camera_inside;
@@ -145,7 +151,7 @@ void CameraZone::Update()
         return;
 
     VirtualSprite *camera = MapMode::CurrentInstance()->GetCamera();
-    if(camera == NULL) {
+    if(camera == nullptr) {
         _camera_inside = false;
     }
     // Camera must share a context with the zone and be within its borders
@@ -160,81 +166,29 @@ void CameraZone::Update()
 // ---------- EnemyZone Class Functions
 // -----------------------------------------------------------------------------
 
-EnemyZone::EnemyZone() :
-    MapZone(),
-    _roaming_restrained(true),
-    _agression_roaming_restrained(false),
-    _active_enemies(0),
-    _spawns_left(-1), // Inifite spawns permitted.
-    _spawn_timer(STANDARD_ENEMY_FIRST_SPAWN_TIME),
-    _dead_timer(STANDARD_ENEMY_DEAD_TIME),
-    _spawn_zone(NULL)
-{
-    // Done so that when the zone updates for the first time, an inactive enemy will immediately be selected and begin spawning
-    _dead_timer.Finish();
-}
-
-
-
 EnemyZone::EnemyZone(uint16 left_col, uint16 right_col,
                      uint16 top_row, uint16 bottom_row):
     MapZone(left_col, right_col, top_row, bottom_row),
+    _enabled(true),
     _roaming_restrained(true),
-    _agression_roaming_restrained(false),
     _active_enemies(0),
-    _spawns_left(-1), // Inifite spawns permitted.
+    _spawns_left(-1), // Infinite spawns permitted.
     _spawn_timer(STANDARD_ENEMY_FIRST_SPAWN_TIME),
     _dead_timer(STANDARD_ENEMY_DEAD_TIME),
-    _spawn_zone(NULL)
+    _spawn_zone(nullptr)
 {
     // Done so that when the zone updates for the first time, an inactive enemy will immediately be selected and begin spawning
     _dead_timer.Finish();
 }
 
-EnemyZone::EnemyZone(const EnemyZone &copy) :
-    MapZone(copy)
+EnemyZone* EnemyZone::Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
 {
-    _roaming_restrained = copy._roaming_restrained;
-    _agression_roaming_restrained = copy._agression_roaming_restrained;
-    _spawns_left = copy._spawns_left;
-    _active_enemies = copy._active_enemies;
-    _spawn_timer = copy._spawn_timer;
-    _dead_timer = copy._dead_timer;
-    if(copy._spawn_zone == NULL)
-        _spawn_zone = NULL;
-    else
-        _spawn_zone = new MapZone(*(copy._spawn_zone));
-
-    // Done so that when the zone updates for the first time, an inactive enemy will immediately be selected and begin spawning
-    _dead_timer.Finish();
-    _spawn_timer.Reset();
+    // The zone auto registers to the object supervisor
+    // and will later handle deletion.
+    return new EnemyZone(left_col, right_col, top_row, bottom_row);
 }
 
-EnemyZone &EnemyZone::operator=(const EnemyZone &copy)
-{
-    if(this == &copy)  // Handle self-assignment case
-        return *this;
-
-    MapZone::operator=(copy);
-    _roaming_restrained = copy._roaming_restrained;
-    _agression_roaming_restrained = copy._agression_roaming_restrained;
-    _spawns_left = copy._spawns_left;
-    _active_enemies = copy._active_enemies;
-    _spawn_timer = copy._spawn_timer;
-    _dead_timer = copy._dead_timer;
-    if(copy._spawn_zone == NULL)
-        _spawn_zone = NULL;
-    else
-        _spawn_zone = new MapZone(*(copy._spawn_zone));
-
-    // Done so that when the zone updates for the first time, an inactive enemy will immediately be selected and begin spawning
-    _dead_timer.Finish();
-    _spawn_timer.Reset();
-
-    return *this;
-}
-
-void EnemyZone::AddEnemy(EnemySprite *enemy, MapMode *map_instance, uint8 enemy_number)
+void EnemyZone::AddEnemy(EnemySprite* enemy, uint8 enemy_number)
 {
     if(enemy_number == 0) {
         IF_PRINT_WARNING(MAP_DEBUG) << "function called with a zero value count argument" << std::endl;
@@ -243,23 +197,15 @@ void EnemyZone::AddEnemy(EnemySprite *enemy, MapMode *map_instance, uint8 enemy_
 
     // Prepare the first enemy
     enemy->SetZone(this);
-    map_instance->AddGroundObject(enemy);
     _enemies.push_back(enemy);
 
     // Create any additional copies of the enemy and add them as well
     for(uint8 i = 1; i < enemy_number; ++i) {
-        EnemySprite *copy = new EnemySprite(*enemy);
-        copy->SetObjectID(map_instance->GetObjectSupervisor()->GenerateObjectID());
-        // Add a 10% random margin of error to make enemies look less synchronized
-        copy->SetTimeToChange(static_cast<uint32>(copy->GetTimeToChange() * (1 + RandomFloat() * 10)));
+        EnemySprite* copy = new EnemySprite(*enemy);
         copy->Reset();
-
-        map_instance->AddGroundObject(copy);
         _enemies.push_back(copy);
     }
 }
-
-
 
 void EnemyZone::AddSpawnSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
 {
@@ -291,7 +237,7 @@ void EnemyZone::AddSpawnSection(uint16 left_col, uint16 right_col, uint16 top_ro
     }
 
     // Create the spawn zone if it does not exist and add the new section
-    if(_spawn_zone == NULL) {
+    if(_spawn_zone == nullptr) {
         _spawn_zone = new MapZone(left_col, right_col, top_row, bottom_row);
     } else {
         _spawn_zone->AddSection(left_col, right_col, top_row, bottom_row);
@@ -314,6 +260,10 @@ void EnemyZone::Update()
     // giving up and waiting for the next call to Update(). Otherwise this function could
     // potentially take a noticable amount of time to complete
     const int8 SPAWN_RETRIES = 50;
+
+    // Don't update when the zone is disabled.
+    if (!_enabled)
+        return;
 
     // Test whether a respawn is still permitted
     if (_spawns_left == 0)
@@ -365,8 +315,8 @@ void EnemyZone::Update()
     uint32 collision = NO_COLLISION;
 
     // Select a random position inside the zone to place the spawning enemy
-    _enemies[index]->collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
-    MapZone *spawning_zone = NULL;
+    _enemies[index]->SetCollisionMask(WALL_COLLISION | CHARACTER_COLLISION);
+    MapZone* spawning_zone = nullptr;
     if (!HasSeparateSpawnZone()) {
         spawning_zone = this;
     } else {
@@ -374,12 +324,12 @@ void EnemyZone::Update()
     }
     // If there is a collision, retry a different location
     do {
-        spawning_zone->_RandomPosition(x, y);
+        spawning_zone->RandomPosition(x, y);
         _enemies[index]->SetPosition(x, y);
         collision = MapMode::CurrentInstance()->GetObjectSupervisor()->DetectCollision(_enemies[index],
                     _enemies[index]->GetXPosition(),
                     _enemies[index]->GetYPosition(),
-                    NULL);
+                    nullptr);
     } while (collision != NO_COLLISION && --retries > 0);
 
     // Otherwise, spawn the enemy and reset the spawn timer
@@ -401,11 +351,15 @@ void EnemyZone::Update()
 
 void EnemyZone::Draw()
 {
+    // Don't draw when the zone is disabled.
+    if (!_enabled)
+        return;
+
     // Verify each section of the zone and check if the position is within the section bounds.
     for(std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
         if(_ShouldDraw(*it)) {
-            vt_video::VideoManager->DrawRectangle(it->right_col - it->left_col,
-                                                   it->bottom_row - it->top_row,
+            vt_video::VideoManager->DrawRectangle((it->right_col - it->left_col) * GRID_LENGTH,
+                                                  (it->bottom_row - it->top_row) * GRID_LENGTH,
                                                    vt_video::Color(0.0f, 0.0f, 0.0f, 0.5f));
         }
     }

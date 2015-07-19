@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E9897D34-2891-4846-8135-0C1926AF2AD7}</ProjectGuid>
+    <RootNamespace>ValyriaTear</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level2</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\src;..\..\ValyriaTear-VS2013-Dependencies\sdl2-2.0.1\include\;..\..\ValyriaTear-VS2013-Dependencies\sdl2-2.0.1\include\SDL2\;..\..\ValyriaTear-VS2013-Dependencies\sdl2_image-2.0.0\include\;..\..\ValyriaTear-VS2013-Dependencies\sdl2_ttf-2.0.12\include\;..\..\ValyriaTear-VS2013-Dependencies\boost_1_56_0\;..\..\ValyriaTear-VS2013-Dependencies\openal-soft-1.15.1\include\AL\;..\..\ValyriaTear-VS2013-Dependencies\libiconv-1.9.2-1\include\;..\..\ValyriaTear-VS2013-Dependencies\libintl-0.14.4\include\;..\..\ValyriaTear-VS2013-Dependencies\lua-5.2.2\include\;..\..\ValyriaTear-VS2013-Dependencies\luabind\include\;..\..\ValyriaTear-VS2013-Dependencies\libogg-1.3.1\include\;..\..\ValyriaTear-VS2013-Dependencies\libvorbis-1.3.3\include\;..\..\ValyriaTear-VS2013-Dependencies\libvorbisfile-1.3.3\include\;..\..\ValyriaTear-VS2013-Dependencies\lpng1250\include\;..\..\ValyriaTear-VS2013-Dependencies\zlib-1.2.8\include\;..\..\ValyriaTear-VS2013-Dependencies\glew-1.11.0\include\</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4121;4146;4244;4290;4305;4611;4702;4800;4996;</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <PreprocessorDefinitions>_DEBUG;_WIN32;_MBCS;WIN32_LEAN_AND_MEAN;DEBUG_FEATURES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>utils/utils_pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\ValyriaTear-VS2013-Dependencies\libiconv-1.9.2-1\lib\;..\..\ValyriaTear-VS2013-Dependencies\libintl-0.14.4\lib\;..\..\ValyriaTear-VS2013-Dependencies\libogg-1.3.1\lib\debug\;..\..\ValyriaTear-VS2013-Dependencies\lpng1250\lib\debug\;..\..\ValyriaTear-VS2013-Dependencies\libvorbis-1.3.3\lib\debug\;..\..\ValyriaTear-VS2013-Dependencies\libvorbisfile-1.3.3\lib\debug\;..\..\ValyriaTear-VS2013-Dependencies\openal-soft-1.15.1\lib\Win32\;..\..\ValyriaTear-VS2013-Dependencies\sdl2-2.0.1\lib\debug\;..\..\ValyriaTear-VS2013-Dependencies\sdl2_image-2.0.0\lib\debug\;..\..\ValyriaTear-VS2013-Dependencies\sdl2_ttf-2.0.12\lib\debug\;..\..\ValyriaTear-VS2013-Dependencies\zlib-1.2.8\lib\debug\;..\..\ValyriaTear-VS2013-Dependencies\lua-5.2.2\lib\debug\;..\..\ValyriaTear-VS2013-Dependencies\luabind\lib\debug\;..\..\ValyriaTear-VS2013-Dependencies\freetype-2.5.4\lib\debug\;..\..\ValyriaTear-VS2013-Dependencies\glew-1.11.0\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dxguid.lib;Imm32.lib;Version.lib;Winmm.lib;lua-d.lib;luabind-d.lib;libOpenAL32.dll.a;libvorbis-d.lib;libvorbisfile-d.lib;libogg-d.lib;sdl2-d.lib;sdl2_main-d.lib;sdl2_image-d.lib;sdl2_ttf-d.lib;libcharset.lib;libiconv.lib;opengl32.lib;glu32.lib;libintl.lib;libpng-d.lib;zlib-d.lib;freetype-d.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>libcmtd.lib;libcmt.lib;msvcrt.lib;msvcmrt.lib;msvcurt.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy_dlls.bat</Command>
+      <Message>Copying Dlls to working directory...</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level2</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\src;..\..\ValyriaTear-VS2013-Dependencies\sdl2-2.0.1\include\;..\..\ValyriaTear-VS2013-Dependencies\sdl2-2.0.1\include\SDL2\;..\..\ValyriaTear-VS2013-Dependencies\sdl2_image-2.0.0\include\;..\..\ValyriaTear-VS2013-Dependencies\sdl2_ttf-2.0.12\include\;..\..\ValyriaTear-VS2013-Dependencies\boost_1_56_0\;..\..\ValyriaTear-VS2013-Dependencies\openal-soft-1.15.1\include\AL\;..\..\ValyriaTear-VS2013-Dependencies\libiconv-1.9.2-1\include\;..\..\ValyriaTear-VS2013-Dependencies\libintl-0.14.4\include\;..\..\ValyriaTear-VS2013-Dependencies\lua-5.2.2\include\;..\..\ValyriaTear-VS2013-Dependencies\luabind\include\;..\..\ValyriaTear-VS2013-Dependencies\libogg-1.3.1\include\;..\..\ValyriaTear-VS2013-Dependencies\libvorbis-1.3.3\include\;..\..\ValyriaTear-VS2013-Dependencies\libvorbisfile-1.3.3\include\;..\..\ValyriaTear-VS2013-Dependencies\lpng1250\include\;..\..\ValyriaTear-VS2013-Dependencies\zlib-1.2.8\include\;..\..\ValyriaTear-VS2013-Dependencies\freetype-2.5.4\include\;..\..\ValyriaTear-VS2013-Dependencies\glew-1.11.0\include\</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4121;4146;4244;4290;4305;4611;4702;4800;4996;</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>_WIN32;NDEBUG;_MBCS;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>utils/utils_pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\ValyriaTear-VS2013-Dependencies\libiconv-1.9.2-1\lib\;..\..\ValyriaTear-VS2013-Dependencies\libintl-0.14.4\lib\;..\..\ValyriaTear-VS2013-Dependencies\libogg-1.3.1\lib\release\;..\..\ValyriaTear-VS2013-Dependencies\libvorbis-1.3.3\lib\release\;..\..\ValyriaTear-VS2013-Dependencies\libvorbisfile-1.3.3\lib\release\;..\..\ValyriaTear-VS2013-Dependencies\lpng1250\lib\release\;..\..\ValyriaTear-VS2013-Dependencies\openal-soft-1.15.1\lib\Win32\;..\..\ValyriaTear-VS2013-Dependencies\sdl2-2.0.1\lib\release\;..\..\ValyriaTear-VS2013-Dependencies\sdl2_image-2.0.0\lib\release\;..\..\ValyriaTear-VS2013-Dependencies\sdl2_ttf-2.0.12\lib\release\;..\..\ValyriaTear-VS2013-Dependencies\zlib-1.2.8\lib\release\;..\..\ValyriaTear-VS2013-Dependencies\lua-5.2.2\lib\release\;..\..\ValyriaTear-VS2013-Dependencies\luabind\lib\release\;..\..\ValyriaTear-VS2013-Dependencies\freetype-2.5.4\lib\release\;..\..\ValyriaTear-VS2013-Dependencies\glew-1.11.0\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>dxguid.lib;Imm32.lib;Version.lib;Winmm.lib;lua.lib;luabind.lib;libOpenAL32.dll.a;libvorbis.lib;libvorbisfile.lib;libogg.lib;sdl2.lib;sdl2_main.lib;sdl2_image.lib;sdl2_ttf.lib;libcharset.lib;libiconv.lib;opengl32.lib;glu32.lib;libintl.lib;libpng.lib;zlib.lib;freetype.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>libcmtd.lib;libcmt.lib;msvcrtd.lib;msvcmrt.lib;msvcurt.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy_dlls.bat</Command>
+      <Message>Copying Dlls to working directory...</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\common\common.cpp" />
+    <ClCompile Include="..\..\src\common\common_bindings.cpp" />
+    <ClCompile Include="..\..\src\common\dialogue.cpp" />
+    <ClCompile Include="..\..\src\common\global\global.cpp" />
+    <ClCompile Include="..\..\src\common\global\global_actors.cpp" />
+    <ClCompile Include="..\..\src\common\global\global_effects.cpp" />
+    <ClCompile Include="..\..\src\common\global\global_objects.cpp" />
+    <ClCompile Include="..\..\src\common\global\global_skills.cpp" />
+    <ClCompile Include="..\..\src\common\global\global_utils.cpp" />
+    <ClCompile Include="..\..\src\common\gui\gui.cpp" />
+    <ClCompile Include="..\..\src\common\gui\menu_window.cpp" />
+    <ClCompile Include="..\..\src\common\gui\option.cpp" />
+    <ClCompile Include="..\..\src\common\gui\textbox.cpp" />
+    <ClCompile Include="..\..\src\common\message_window.cpp" />
+    <ClCompile Include="..\..\src\common\options_handler.cpp" />
+    <ClCompile Include="..\..\src\engine\audio\audio.cpp" />
+    <ClCompile Include="..\..\src\engine\audio\audio_descriptor.cpp" />
+    <ClCompile Include="..\..\src\engine\audio\audio_effects.cpp" />
+    <ClCompile Include="..\..\src\engine\audio\audio_input.cpp" />
+    <ClCompile Include="..\..\src\engine\audio\audio_stream.cpp" />
+    <ClCompile Include="..\..\src\engine\effect_supervisor.cpp" />
+    <ClCompile Include="..\..\src\engine\engine_bindings.cpp" />
+    <ClCompile Include="..\..\src\engine\indicator_supervisor.cpp" />
+    <ClCompile Include="..\..\src\engine\input.cpp" />
+    <ClCompile Include="..\..\src\engine\mode_manager.cpp" />
+    <ClCompile Include="..\..\src\engine\script\script.cpp" />
+    <ClCompile Include="..\..\src\engine\script\script_read.cpp" />
+    <ClCompile Include="..\..\src\engine\script\script_write.cpp" />
+    <ClCompile Include="..\..\src\engine\script_supervisor.cpp" />
+    <ClCompile Include="..\..\src\engine\system.cpp" />
+    <ClCompile Include="..\..\src\engine\video\fade.cpp" />
+    <ClCompile Include="..\..\src\engine\video\gl\gl_particle_system.cpp" />
+    <ClCompile Include="..\..\src\engine\video\gl\gl_shader.cpp" />
+    <ClCompile Include="..\..\src\engine\video\gl\gl_shader_program.cpp" />
+    <ClCompile Include="..\..\src\engine\video\gl\gl_sprite.cpp" />
+    <ClCompile Include="..\..\src\engine\video\gl\gl_transform.cpp" />
+    <ClCompile Include="..\..\src\engine\video\image.cpp" />
+    <ClCompile Include="..\..\src\engine\video\image_base.cpp" />
+    <ClCompile Include="..\..\src\engine\video\interpolator.cpp" />
+    <ClCompile Include="..\..\src\engine\video\particle_effect.cpp" />
+    <ClCompile Include="..\..\src\engine\video\particle_manager.cpp" />
+    <ClCompile Include="..\..\src\engine\video\particle_system.cpp" />
+    <ClCompile Include="..\..\src\engine\video\text.cpp" />
+    <ClCompile Include="..\..\src\engine\video\texture.cpp" />
+    <ClCompile Include="..\..\src\engine\video\texture_controller.cpp" />
+    <ClCompile Include="..\..\src\engine\video\video.cpp" />
+    <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\main_options.cpp" />
+    <ClCompile Include="..\..\src\modes\battle\battle.cpp" />
+    <ClCompile Include="..\..\src\modes\battle\battle_actions.cpp" />
+    <ClCompile Include="..\..\src\modes\battle\battle_actors.cpp" />
+    <ClCompile Include="..\..\src\modes\battle\battle_command.cpp" />
+    <ClCompile Include="..\..\src\modes\battle\battle_effects.cpp" />
+    <ClCompile Include="..\..\src\modes\battle\battle_finish.cpp" />
+    <ClCompile Include="..\..\src\modes\battle\battle_menu.cpp" />
+    <ClCompile Include="..\..\src\modes\battle\battle_sequence.cpp" />
+    <ClCompile Include="..\..\src\modes\battle\battle_utils.cpp" />
+    <ClCompile Include="..\..\src\modes\boot\boot.cpp" />
+    <ClCompile Include="..\..\src\modes\map\map_dialogue.cpp" />
+    <ClCompile Include="..\..\src\modes\map\map_events.cpp" />
+    <ClCompile Include="..\..\src\modes\map\map_minimap.cpp" />
+    <ClCompile Include="..\..\src\modes\map\map_mode.cpp" />
+    <ClCompile Include="..\..\src\modes\map\map_objects.cpp" />
+    <ClCompile Include="..\..\src\modes\map\map_sprites.cpp" />
+    <ClCompile Include="..\..\src\modes\map\map_status_effects.cpp" />
+    <ClCompile Include="..\..\src\modes\map\map_tiles.cpp" />
+    <ClCompile Include="..\..\src\modes\map\map_treasure.cpp" />
+    <ClCompile Include="..\..\src\modes\map\map_utils.cpp" />
+    <ClCompile Include="..\..\src\modes\map\map_zones.cpp" />
+    <ClCompile Include="..\..\src\modes\menu\menu.cpp" />
+    <ClCompile Include="..\..\src\modes\menu\menu_views.cpp" />
+    <ClCompile Include="..\..\src\modes\mode_bindings.cpp" />
+    <ClCompile Include="..\..\src\modes\mode_help_window.cpp" />
+    <ClCompile Include="..\..\src\modes\pause.cpp" />
+    <ClCompile Include="..\..\src\modes\save\save_mode.cpp" />
+    <ClCompile Include="..\..\src\modes\shop\shop.cpp" />
+    <ClCompile Include="..\..\src\modes\shop\shop_buy.cpp" />
+    <ClCompile Include="..\..\src\modes\shop\shop_root.cpp" />
+    <ClCompile Include="..\..\src\modes\shop\shop_sell.cpp" />
+    <ClCompile Include="..\..\src\modes\shop\shop_trade.cpp" />
+    <ClCompile Include="..\..\src\modes\shop\shop_utils.cpp" />
+    <ClCompile Include="..\..\src\utils\exception.cpp" />
+    <ClCompile Include="..\..\src\utils\ustring.cpp" />
+    <ClCompile Include="..\..\src\utils\utils_files.cpp" />
+    <ClCompile Include="..\..\src\utils\utils_numeric.cpp" />
+    <ClCompile Include="..\..\src\utils\utils_pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\src\utils\utils_random.cpp" />
+    <ClCompile Include="..\..\src\utils\utils_strings.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\common\common.h" />
+    <ClInclude Include="..\..\src\common\dialogue.h" />
+    <ClInclude Include="..\..\src\common\global\global.h" />
+    <ClInclude Include="..\..\src\common\global\global_actors.h" />
+    <ClInclude Include="..\..\src\common\global\global_effects.h" />
+    <ClInclude Include="..\..\src\common\global\global_objects.h" />
+    <ClInclude Include="..\..\src\common\global\global_skills.h" />
+    <ClInclude Include="..\..\src\common\global\global_utils.h" />
+    <ClInclude Include="..\..\src\common\gui\gui.h" />
+    <ClInclude Include="..\..\src\common\gui\menu_window.h" />
+    <ClInclude Include="..\..\src\common\gui\option.h" />
+    <ClInclude Include="..\..\src\common\gui\textbox.h" />
+    <ClInclude Include="..\..\src\common\message_window.h" />
+    <ClInclude Include="..\..\src\common\options_handler.h" />
+    <ClInclude Include="..\..\src\engine\audio\audio.h" />
+    <ClInclude Include="..\..\src\engine\audio\audio_descriptor.h" />
+    <ClInclude Include="..\..\src\engine\audio\audio_effects.h" />
+    <ClInclude Include="..\..\src\engine\audio\audio_input.h" />
+    <ClInclude Include="..\..\src\engine\audio\audio_stream.h" />
+    <ClInclude Include="..\..\src\engine\effect_supervisor.h" />
+    <ClInclude Include="..\..\src\engine\indicator_supervisor.h" />
+    <ClInclude Include="..\..\src\engine\input.h" />
+    <ClInclude Include="..\..\src\engine\mode_manager.h" />
+    <ClInclude Include="..\..\src\engine\script\script.h" />
+    <ClInclude Include="..\..\src\engine\script\script_read.h" />
+    <ClInclude Include="..\..\src\engine\script\script_write.h" />
+    <ClInclude Include="..\..\src\engine\script_supervisor.h" />
+    <ClInclude Include="..\..\src\engine\system.h" />
+    <ClInclude Include="..\..\src\engine\video\color.h" />
+    <ClInclude Include="..\..\src\engine\video\context.h" />
+    <ClInclude Include="..\..\src\engine\video\coord_sys.h" />
+    <ClInclude Include="..\..\src\engine\video\fade.h" />
+    <ClInclude Include="..\..\src\engine\video\gl\gl_particle_system.h" />
+    <ClInclude Include="..\..\src\engine\video\gl\gl_shader.h" />
+    <ClInclude Include="..\..\src\engine\video\gl\gl_shaders.h" />
+    <ClInclude Include="..\..\src\engine\video\gl\gl_shader_definitions.h" />
+    <ClInclude Include="..\..\src\engine\video\gl\gl_shader_program.h" />
+    <ClInclude Include="..\..\src\engine\video\gl\gl_shader_programs.h" />
+    <ClInclude Include="..\..\src\engine\video\gl\gl_sprite.h" />
+    <ClInclude Include="..\..\src\engine\video\gl\gl_transform.h" />
+    <ClInclude Include="..\..\src\engine\video\image.h" />
+    <ClInclude Include="..\..\src\engine\video\image_base.h" />
+    <ClInclude Include="..\..\src\engine\video\interpolator.h" />
+    <ClInclude Include="..\..\src\engine\video\particle.h" />
+    <ClInclude Include="..\..\src\engine\video\particle_effect.h" />
+    <ClInclude Include="..\..\src\engine\video\particle_emitter.h" />
+    <ClInclude Include="..\..\src\engine\video\particle_keyframe.h" />
+    <ClInclude Include="..\..\src\engine\video\particle_manager.h" />
+    <ClInclude Include="..\..\src\engine\video\particle_system.h" />
+    <ClInclude Include="..\..\src\engine\video\screen_rect.h" />
+    <ClInclude Include="..\..\src\engine\video\shake.h" />
+    <ClInclude Include="..\..\src\engine\video\text.h" />
+    <ClInclude Include="..\..\src\engine\video\texture.h" />
+    <ClInclude Include="..\..\src\engine\video\texture_controller.h" />
+    <ClInclude Include="..\..\src\engine\video\video.h" />
+    <ClInclude Include="..\..\src\engine\video\video_utils.h" />
+    <ClInclude Include="..\..\src\main_options.h" />
+    <ClInclude Include="..\..\src\modes\battle\battle.h" />
+    <ClInclude Include="..\..\src\modes\battle\battle_actions.h" />
+    <ClInclude Include="..\..\src\modes\battle\battle_actors.h" />
+    <ClInclude Include="..\..\src\modes\battle\battle_command.h" />
+    <ClInclude Include="..\..\src\modes\battle\battle_effects.h" />
+    <ClInclude Include="..\..\src\modes\battle\battle_finish.h" />
+    <ClInclude Include="..\..\src\modes\battle\battle_menu.h" />
+    <ClInclude Include="..\..\src\modes\battle\battle_sequence.h" />
+    <ClInclude Include="..\..\src\modes\battle\battle_utils.h" />
+    <ClInclude Include="..\..\src\modes\boot\boot.h" />
+    <ClInclude Include="..\..\src\modes\map\map_dialogue.h" />
+    <ClInclude Include="..\..\src\modes\map\map_events.h" />
+    <ClInclude Include="..\..\src\modes\map\map_minimap.h" />
+    <ClInclude Include="..\..\src\modes\map\map_mode.h" />
+    <ClInclude Include="..\..\src\modes\map\map_objects.h" />
+    <ClInclude Include="..\..\src\modes\map\map_sprites.h" />
+    <ClInclude Include="..\..\src\modes\map\map_status_effects.h" />
+    <ClInclude Include="..\..\src\modes\map\map_tiles.h" />
+    <ClInclude Include="..\..\src\modes\map\map_treasure.h" />
+    <ClInclude Include="..\..\src\modes\map\map_utils.h" />
+    <ClInclude Include="..\..\src\modes\map\map_zones.h" />
+    <ClInclude Include="..\..\src\modes\menu\menu.h" />
+    <ClInclude Include="..\..\src\modes\menu\menu_views.h" />
+    <ClInclude Include="..\..\src\modes\mode_help_window.h" />
+    <ClInclude Include="..\..\src\modes\pause.h" />
+    <ClInclude Include="..\..\src\modes\save\save_mode.h" />
+    <ClInclude Include="..\..\src\modes\shop\shop.h" />
+    <ClInclude Include="..\..\src\modes\shop\shop_buy.h" />
+    <ClInclude Include="..\..\src\modes\shop\shop_root.h" />
+    <ClInclude Include="..\..\src\modes\shop\shop_sell.h" />
+    <ClInclude Include="..\..\src\modes\shop\shop_trade.h" />
+    <ClInclude Include="..\..\src\modes\shop\shop_utils.h" />
+    <ClInclude Include="..\..\src\utils\exception.h" />
+    <ClInclude Include="..\..\src\utils\singleton.h" />
+    <ClInclude Include="..\..\src\utils\ustring.h" />
+    <ClInclude Include="..\..\src\utils\utils_pch.h" />
+    <ClInclude Include="..\..\src\utils\utils_files.h" />
+    <ClInclude Include="..\..\src\utils\utils_numeric.h" />
+    <ClInclude Include="..\..\src\utils\utils_random.h" />
+    <ClInclude Include="..\..\src\utils\utils_strings.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

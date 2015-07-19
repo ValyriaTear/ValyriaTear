@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,18 +15,10 @@
 *** \brief   Source file for image base classes
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "image_base.h"
+
 #include "video.h"
-
-#include <png.h>
-extern "C" {
-#include <jpeglib.h>
-}
-
-#include <cstdarg>
-#include <math.h>
-
-#include <SDL_image.h>
 
 using namespace vt_utils;
 
@@ -43,7 +35,7 @@ namespace private_video
 ImageMemory::ImageMemory() :
     width(0),
     height(0),
-    pixels(NULL),
+    pixels(nullptr),
     rgb_format(false)
 {}
 
@@ -53,10 +45,10 @@ ImageMemory::~ImageMemory()
 {
 // Winter Knight - I commented this out because it was causing double free
 // segfaults when ImageMemory objects were copied via copy constructor.
-    if(pixels != NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was not NULL upon object destruction" << std::endl;
+    if(pixels != nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was not nullptr upon object destruction" << std::endl;
 //		free(pixels);
-//		pixels = NULL;
+//		pixels = nullptr;
     }
 }
 
@@ -64,30 +56,29 @@ ImageMemory::~ImageMemory()
 
 bool ImageMemory::LoadImage(const std::string &filename)
 {
-    if(pixels != NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was not NULL upon function invocation" << std::endl;
+    if(pixels != nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was not nullptr upon function invocation" << std::endl;
         free(pixels);
-        pixels = NULL;
+        pixels = nullptr;
     }
 
-    SDL_Surface *temp_surf = NULL;
-    SDL_Surface *alpha_surf = NULL;
-
-    if((temp_surf = IMG_Load(filename.c_str())) == NULL) {
+    SDL_Surface* temp_surf = IMG_Load(filename.c_str());
+    if(temp_surf == nullptr) {
         PRINT_ERROR << "Couldn't load image file: " << filename << std::endl;
         return false;
     }
 
-    alpha_surf = SDL_DisplayFormatAlpha(temp_surf);
+    SDL_Surface* alpha_surf = SDL_ConvertSurfaceFormat(temp_surf, SDL_PIXELFORMAT_ARGB8888, 0);
 
     // Tells whether the alpha image will be used
     bool alpha_format = true;
-    if(alpha_surf == NULL) {
+    if(alpha_surf == nullptr) {
         // use the default image in that case
         alpha_surf = temp_surf;
         alpha_format = false;
     } else {
         SDL_FreeSurface(temp_surf);
+        temp_surf = nullptr;
     }
 
     // Now allocate the pixel values
@@ -97,8 +88,8 @@ bool ImageMemory::LoadImage(const std::string &filename)
     rgb_format = false;
 
     // convert the data so that it works in our format
-    uint8 *img_pixel = NULL;
-    uint8 *dst_pixel = NULL;
+    uint8 *img_pixel = nullptr;
+    uint8 *dst_pixel = nullptr;
 
     for(uint32 y = 0; y < height; ++y) {
         for(uint32 x = 0; x < width; ++x) {
@@ -117,14 +108,12 @@ bool ImageMemory::LoadImage(const std::string &filename)
                 dst_pixel[3] = img_pixel[3];
             }
 #else
-            if(alpha_format) {
-
+            if(alpha_format) { // ARGB8888
 #ifdef __APPLE__
-
-                dst_pixel[3] = img_pixel[0];
-                dst_pixel[0] = img_pixel[1];
-                dst_pixel[1] = img_pixel[2];
-                dst_pixel[2] = img_pixel[3];
+                dst_pixel[3] = img_pixel[3];
+                dst_pixel[0] = img_pixel[2];
+                dst_pixel[1] = img_pixel[1];
+                dst_pixel[2] = img_pixel[0];
 #else
                 dst_pixel[2] = img_pixel[0];
                 dst_pixel[1] = img_pixel[1];
@@ -154,26 +143,91 @@ bool ImageMemory::LoadImage(const std::string &filename)
     return true;
 }
 
-
-
-bool ImageMemory::SaveImage(const std::string &filename, bool png_image)
+bool ImageMemory::SaveImage(const std::string &filename)
 {
-    if(pixels == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was NULL upon function invocation for file: " << filename << std::endl;
+    if(pixels == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was nullptr upon function invocation for file: " << filename << std::endl;
         return false;
     }
 
-    if(png_image) {
-        return _SavePngImage(filename);
-    } else {
-        // JPG images don't have alpha information, so we must convert the data to RGB format first
-        if(rgb_format == false)
-            RGBAToRGB();
-        return _SaveJpgImage(filename);
+    // open up the file for writing
+    FILE *fp = fopen(filename.c_str(), "wb");
+
+    if(fp == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "could not open file: " << filename << std::endl;
+        return false;
     }
-}
+
+    // grab a write structure
+    png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, (png_voidp)nullptr, nullptr, nullptr);
+
+    if(!png_ptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_write_struct() failed for file: " << filename << std::endl;
+        fclose(fp);
+        return false;
+    }
+
+    // and a place to store the metadata
+    png_infop info_ptr = png_create_info_struct(png_ptr);
+
+    if(!info_ptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_info_struct() failed for file: " << filename << std::endl;
+        png_destroy_write_struct(&png_ptr, (png_infopp)nullptr);
+        fclose(fp);
+        return false;
+    }
+
+    // prepare for error handling!
+    if(setjmp(png_jmpbuf(png_ptr))) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "setjmp returned non-zero for file: " << filename << std::endl;
+        png_destroy_write_struct(&png_ptr, (png_infopp)nullptr);
+        fclose(fp);
+        return false;
+    }
+
+    // tell it where to look
+    png_init_io(png_ptr, fp);
+
+    // write the header
+    int32 color_type = rgb_format ? PNG_COLOR_TYPE_RGB : PNG_COLOR_TYPE_RGBA;
+    png_set_IHDR(png_ptr, info_ptr, width, height, 8, color_type,
+                 PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
 
+    png_write_info(png_ptr, info_ptr);
+
+    png_set_packing(png_ptr);
+
+    // get the row array from our data
+    png_bytep *row_pointers = new png_bytep[height];
+    if(!row_pointers) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "Couldn't allocate png row_pointers for: " << filename << std::endl;
+        png_destroy_write_struct(&png_ptr, (png_infopp)nullptr);
+        fclose(fp);
+        return false;
+    }
+
+    int32 bytes_per_row = rgb_format ? width * 3 : width * 4;
+    for(uint32 i = 0; i < height; ++i) {
+        row_pointers[i] = (png_bytep)pixels + bytes_per_row * i;
+    }
+
+    // tell it what the rows are
+    png_set_rows(png_ptr, info_ptr, row_pointers);
+    // and write the PNG
+    png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, nullptr);
+    png_write_image(png_ptr, row_pointers);
+    // clean up
+    png_write_end(png_ptr, info_ptr);
+
+    fclose(fp);
+
+    // free the memory
+    delete[] row_pointers;
+    png_destroy_write_struct(&png_ptr, (png_infopp)nullptr);
+
+    return true;
+} // bool ImageMemory::SaveImage(const std::string& filename)
 
 void ImageMemory::ConvertToGrayscale()
 {
@@ -182,8 +236,8 @@ void ImageMemory::ConvertToGrayscale()
         return;
     }
 
-    if(pixels == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "no image data (pixels == NULL)" << std::endl;
+    if(pixels == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "no image data (pixels == nullptr)" << std::endl;
         return;
     }
 
@@ -208,8 +262,8 @@ void ImageMemory::RGBAToRGB()
         return;
     }
 
-    if(pixels == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "no image data (pixels == NULL)" << std::endl;
+    if(pixels == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "no image data (pixels == nullptr)" << std::endl;
         return;
     }
 
@@ -230,7 +284,7 @@ void ImageMemory::RGBAToRGB()
 
     // Reduce the memory consumed by 1/4 since we no longer need to contain alpha data
     void *new_pixels = realloc(pixels, width * height * 3);
-    if(new_pixels != NULL)
+    if(new_pixels != nullptr)
         pixels = new_pixels;
     rgb_format = true;
 }
@@ -239,15 +293,15 @@ void ImageMemory::RGBAToRGB()
 
 void ImageMemory::CopyFromTexture(TexSheet *texture)
 {
-    if(pixels != NULL)
+    if(pixels != nullptr)
         free(pixels);
-    pixels = NULL;
+    pixels = nullptr;
 
     // Get the texture as a buffer
     height = texture->height;
     width = texture->width;
     pixels = malloc(height * width * (rgb_format ? 3 : 4));
-    if(pixels == NULL) {
+    if(pixels == nullptr) {
         PRINT_ERROR << "failed to malloc enough memory to copy the texture" << std::endl;
     }
 
@@ -270,7 +324,7 @@ void ImageMemory::CopyFromImage(BaseTexture *img)
         uint32 dst_bytes = img->width * format_bytes;
         uint32 src_offset = img->y * width * format_bytes + img->x * format_bytes;
         void *img_pixels = malloc(img->width * img->height * format_bytes);
-        if(img_pixels == NULL) {
+        if(img_pixels == nullptr) {
             PRINT_ERROR << "failed to malloc enough memory to copy the image" << std::endl;
             return;
         }
@@ -289,139 +343,12 @@ void ImageMemory::CopyFromImage(BaseTexture *img)
     }
 }
 
-
-bool ImageMemory::_SavePngImage(const std::string &filename) const
-{
-    // open up the file for writing
-    FILE *fp = fopen(filename.c_str(), "wb");
-
-    if(fp == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "could not open file: " << filename << std::endl;
-        return false;
-    }
-
-    // aah, RGB data! We can only handle RGBA at the moment
-    if(rgb_format == true) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "attempting to save RGB format image data as a RGBA format PNG image" << std::endl;
-    }
-
-    // grab a write structure
-    png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, (png_voidp)NULL, NULL, NULL);
-
-    if(!png_ptr) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_write_struct() failed for file: " << filename << std::endl;
-        fclose(fp);
-        return false;
-    }
-
-    // and a place to store the metadata
-    png_infop info_ptr = png_create_info_struct(png_ptr);
-
-    if(!info_ptr) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_info_struct() failed for file: " << filename << std::endl;
-        png_destroy_write_struct(&png_ptr, NULL);
-        fclose(fp);
-        return false;
-    }
-
-    // prepare for error handling!
-    if(setjmp(png_jmpbuf(png_ptr))) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "setjmp returned non-zero for file: " << filename << std::endl;
-        png_destroy_write_struct(&png_ptr, &info_ptr);
-        fclose(fp);
-        return false;
-    }
-
-    // tell it where to look
-    png_init_io(png_ptr, fp);
-
-    // write the header
-    png_set_IHDR(png_ptr, info_ptr, width, height, 8, PNG_COLOR_TYPE_RGB_ALPHA,
-                 PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
-
-    // get the row array from our data
-    png_byte **row_pointers = new png_byte*[height];
-    int32 bytes_per_row = width * 4;
-    for(uint32 i = 0; i < height; ++i) {
-        row_pointers[i] = (png_byte *)pixels + bytes_per_row * i;
-    }
-
-    // tell it what the rows are
-    png_set_rows(png_ptr, info_ptr, row_pointers);
-    // and write the PNG
-    png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, NULL);
-    png_write_image(png_ptr, row_pointers);
-    // clean up
-    png_write_end(png_ptr, info_ptr);
-    png_destroy_write_struct(&png_ptr, &info_ptr);
-
-    // free the memory we ate
-    delete[] row_pointers;
-
-    // peace and love for all
-    return true;
-} // bool ImageMemory::_SavePngImage(const std::string& filename) const
-
-
-
-bool ImageMemory::_SaveJpgImage(const std::string &filename) const
-{
-    FILE *fp = fopen(filename.c_str(), "wb");
-    if(fp == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "could not open file: " << filename << std::endl;
-        return false;
-    }
-
-    // we don't support RGBA because JPEGs don't support alpha
-    if(rgb_format == false) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "attempting to save non-RGB format pixel data as a RGB format JPG image" << std::endl;
-    }
-
-    // compression object and error handling
-    jpeg_compress_struct cinfo;
-    jpeg_error_mgr jerr;
-
-    cinfo.err = jpeg_std_error(&jerr);
-    jpeg_create_compress(&cinfo);
-
-    // tell libjpeg how we do things in this town
-    cinfo.in_color_space = JCS_RGB;
-    cinfo.image_width = width;
-    cinfo.image_height = height;
-    cinfo.input_components = 3;
-
-    // everything else can be default
-    jpeg_set_defaults(&cinfo);
-    // tell it where to look
-    jpeg_stdio_dest(&cinfo, fp);
-    // compress it
-    jpeg_start_compress(&cinfo, TRUE);
-
-    JSAMPROW row_pointer; // A pointer to a single row
-    uint32 row_stride = width * 3; // The physical row width in the buffer (RGB)
-
-    // Note that the lines have to be stored from top to bottom
-    while(cinfo.next_scanline < cinfo.image_height) {
-        row_pointer = (uint8 *)pixels + cinfo.next_scanline * row_stride;
-        jpeg_write_scanlines(&cinfo, &row_pointer, 1);
-    }
-
-    // compression is DONE, we are HAPPY
-    // now finish it and clean up
-    jpeg_finish_compress(&cinfo);
-    jpeg_destroy_compress(&cinfo);
-
-    fclose(fp);
-
-    return true;
-} // bool ImageMemory::_SaveJpgImage(const std::string& file_name) const
-
 // -----------------------------------------------------------------------------
 // BaseTexture class
 // -----------------------------------------------------------------------------
 
 BaseTexture::BaseTexture() :
-    texture_sheet(NULL),
+    texture_sheet(nullptr),
     width(0),
     height(0),
     x(0),
@@ -437,7 +364,7 @@ BaseTexture::BaseTexture() :
 
 
 BaseTexture::BaseTexture(uint32 width_, uint32 height_) :
-    texture_sheet(NULL),
+    texture_sheet(nullptr),
     width(width_),
     height(height_),
     x(0),

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -17,8 +17,8 @@
 *** \brief   Source file for menu mode interface.
 *** ***************************************************************************/
 
-#include <iostream>
-#include <sstream>
+#include "utils/utils_pch.h"
+#include "menu.h"
 
 #include "engine/system.h"
 #include "engine/input.h"
@@ -26,7 +26,6 @@
 #include "modes/pause.h"
 
 #include "engine/mode_manager.h"
-#include "menu.h"
 
 using namespace vt_utils;
 using namespace vt_audio;
@@ -64,7 +63,7 @@ static void SetupOptionBoxCommonSettings(OptionBox *ob)
 AbstractMenuState::AbstractMenuState(const char *state_name, MenuMode *menu_mode):
     _state_name(state_name),
     _menu_mode(menu_mode),
-    _from_state(NULL)
+    _from_state(nullptr)
 {
 }
 
@@ -92,11 +91,13 @@ void AbstractMenuState::Update()
     // handle left / right option box movement
     else if(InputManager->LeftPress())
     {
+        media.PlaySound("bump");
         _options.InputLeft();
         return;
     }
     else if(InputManager->RightPress())
     {
+        media.PlaySound("bump");
         _options.InputRight();
         return;
     }
@@ -124,7 +125,7 @@ void AbstractMenuState::Update()
             return;
         }
         // otherwise, if the state is valid and not this state itself, handle the transition
-        else if(next_state != NULL && next_state != this)
+        else if(next_state != nullptr && next_state != this)
         {
             // change the static current menu state
             _menu_mode->_current_menu_state = next_state;
@@ -147,11 +148,10 @@ void AbstractMenuState::Update()
 
 void AbstractMenuState::Draw()
 {
-    static const Color grayed(0.35f, 0.35f, 0.35f, 1.0f);
     // Draw the saved screen background
     // For that, set the system coordinates to the size of the window (same with the save-screen)
-    int32 width = VideoManager->GetScreenWidth();
-    int32 height = VideoManager->GetScreenHeight();
+    int32 width = VideoManager->GetViewportWidth();
+    int32 height = VideoManager->GetViewportHeight();
     VideoManager->SetCoordSys(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
@@ -159,7 +159,7 @@ void AbstractMenuState::Draw()
     VideoManager->Move(0.0f, 0.0f);
     _menu_mode->_saved_screen.Draw();
 
-    // Restore the Coordinate system (that one is menu mode coodinate system)
+    // Restore the Coordinate system (that one is menu mode coordinate system)
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
 
@@ -221,6 +221,10 @@ void AbstractMenuState::_OnCancel()
         _menu_mode->_current_menu_state = _from_state;
 }
 
+//! Menu messages
+static ustring world_map_window_message;
+static ustring quest_view_message;
+
 MainMenuState::MainMenuState(MenuMode *menu_mode):
     AbstractMenuState("Main Menu", menu_mode)
 {
@@ -247,6 +251,11 @@ MainMenuState::MainMenuState(MenuMode *menu_mode):
 
     if (GlobalManager->GetWorldMapFilename().empty())
         _options.EnableOption(4, false);
+
+    // We set them here in case the language has changed since the game start.
+    world_map_window_message = UTranslate("Select to view current world map.\n"
+                                          "Use left / right to cycle through locations.\nPress 'cancel' to return");
+    quest_view_message = UTranslate("Select to view Quest Log.");
 }
 
 AbstractMenuState* MainMenuState::GetTransitionState(uint32 selection)
@@ -273,7 +282,7 @@ AbstractMenuState* MainMenuState::GetTransitionState(uint32 selection)
             break;
 
     }
-    return NULL;
+    return nullptr;
 }
 
 void MainMenuState::_OnUpdateState()
@@ -292,7 +301,6 @@ void MainMenuState::_OnUpdateState()
 
 void MainMenuState::_OnDrawMainWindow()
 {
-
     uint32 draw_window = _options.GetSelection();
 
     // Draw the chosen window
@@ -308,7 +316,6 @@ void MainMenuState::_OnDrawMainWindow()
             break;
         }
         case MAIN_OPTIONS_QUESTS: {
-            static const ustring quest_view_message = UTranslate("Select to view Quest Log.");
             _menu_mode->_bottom_window.Draw();
             _menu_mode->_help_information.SetDisplayText(quest_view_message);
             _menu_mode->_help_information.Draw();
@@ -317,11 +324,10 @@ void MainMenuState::_OnDrawMainWindow()
         }
         case MAIN_OPTIONS_WORLDMAP:
         {
-            static const ustring world_map_window_message = UTranslate("Select to view current world map.\nUse left / right to cycle through locations.\nPress 'cancel' to return");
             _menu_mode->_bottom_window.Draw();
             _menu_mode->_help_information.SetDisplayText(world_map_window_message);
             _menu_mode->_help_information.Draw();
-            // actual drawing of thebottom window will occur upon transition
+            // Actual drawing of the bottom window will occur upon transition
             // to the world map state
             _menu_mode->_world_map_window.Draw();
             break;
@@ -377,7 +383,7 @@ AbstractMenuState* InventoryState::GetTransitionState(uint32 selection)
         default:
             break;
     };
-    return NULL;
+    return nullptr;
 }
 
 void InventoryState::_ActiveWindowUpdate()
@@ -459,7 +465,7 @@ AbstractMenuState* PartyState::GetTransitionState(uint32 selection)
         default:
             break;
     };
-    return NULL;
+    return nullptr;
 }
 
 void PartyState::_DrawBottomMenu()
@@ -520,7 +526,7 @@ AbstractMenuState* SkillsState::GetTransitionState(uint32 selection)
             break;
 
     }
-    return NULL;
+    return nullptr;
 }
 
 void EquipState::Reset()
@@ -583,17 +589,18 @@ void EquipState::_DrawBottomMenu()
 
 void QuestState::Reset()
 {
-    //clear the bottom info
+    // Clear the bottom info.
     _menu_mode->_quest_window.ClearBottom();
-    //automatically go into the quest list window
-    _menu_mode->_quest_list_window.Activate(true);
+
+    // Automatically go into the quest list window.
+    _menu_mode->_quest_list_window._active_box = true;
 }
 
 void QuestState::_ActiveWindowUpdate()
 {
     _menu_mode->_quest_window.Update();
     _menu_mode->_quest_list_window.Update();
-    if(!_IsActive())
+    if (!_IsActive())
         _OnCancel();
 }
 
@@ -628,7 +635,7 @@ void QuestState::_DrawBottomMenu()
 
 WorldMapState::WorldMapState(MenuMode *menu_mode):
     AbstractMenuState("WorldMapState", menu_mode),
-    _location_image(NULL)
+    _location_image(nullptr)
 {
     _location_text.SetPosition(102, 556);
     _location_text.SetDimensions(500.0f, 50.0f);
@@ -662,7 +669,7 @@ void WorldMapState::_DrawBottomMenu()
         VideoManager->Move(150, 580);
         // Display Location
         _location_text.Draw();
-        if(_location_image != NULL && !_location_image->GetFilename().empty())
+        if(_location_image != nullptr && !_location_image->GetFilename().empty())
         {
             VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
             VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
@@ -688,9 +695,9 @@ void WorldMapState::_ActiveWindowUpdate()
 
     //draw the current viewing location information
     WorldMapLocation *current_location = _menu_mode->_world_map_window.GetCurrentViewingLocation();
-    if(current_location == NULL)
+    if(current_location == nullptr)
     {
-        _location_image = NULL;
+        _location_image = nullptr;
         _location_text.ClearText();
         return;
     }
@@ -702,7 +709,7 @@ void WorldMapState::_ActiveWindowUpdate()
 
 bool MENU_DEBUG = false;
 
-MenuMode *MenuMode::_current_instance = NULL;
+MenuMode *MenuMode::_current_instance = nullptr;
 
 // Window size helpers
 const uint32 win_start_x = (1024 - 800) / 2 - 40;
@@ -714,6 +721,7 @@ const uint32 win_width = 208;
 ////////////////////////////////////////////////////////////////////////////////
 
 MenuMode::MenuMode() :
+    GameMode(MODE_MANAGER_MENU_MODE),
     _main_menu_state(this),
     _inventory_state(this),
     _party_state(this),
@@ -721,17 +729,15 @@ MenuMode::MenuMode() :
     _equip_state(this),
     _quests_state(this),
     _world_map_state(this),
-    _message_window(NULL),
-    _object(NULL),
-    _character(NULL),
+    _message_window(nullptr),
+    _object(nullptr),
+    _character(nullptr),
     _equip_view_type(EQUIP_VIEW_NONE),
     _is_weapon(false),
     _spirit_number(0)
 
 {
     _current_instance = this;
-
-    mode_type = MODE_MANAGER_MENU_MODE;
 
     // Init the controls parameters.
     _time_text.SetTextStyle(TextStyle("text22"));
@@ -800,6 +806,23 @@ MenuMode::MenuMode() :
     _drunes_icon->SetWidthKeepRatio(30.0f);
 
     //////////// Setup the menu windows
+    // Width of each character window is 360 px.
+    // Each char window will have an additional 16 px for the left border
+    // The 4th (last) char window will have another 16 px for the right border
+    // Height of the char window is 98 px.
+    // The bottom window in the main view is 192 px high, and the full width which will be 216 * 4 + 16
+    _character_window0.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM);
+    _character_window0.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
+
+    _character_window1.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM | VIDEO_MENU_EDGE_TOP);
+    _character_window1.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 118));
+
+    _character_window2.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM | VIDEO_MENU_EDGE_TOP);
+    _character_window2.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 226));
+
+    _character_window3.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_TOP | VIDEO_MENU_EDGE_BOTTOM);
+    _character_window3.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 334));
+
     // The character windows
     ReloadCharacterWindows();
 
@@ -899,15 +922,19 @@ MenuMode::~MenuMode()
     _quest_window.Destroy();
     _world_map_window.Destroy();
 
-    _current_instance = NULL;
+    _current_instance = nullptr;
 
-    if(_message_window != NULL)
+    if(_message_window != nullptr)
         delete _message_window;
 } // MenuMode::~MenuMode()
 
 void MenuMode::Reset()
 {
     _current_instance = this;
+
+    // Reload characters information,
+    // as active status effects may have changed.
+    ReloadCharacterWindows();
 }
 
 void MenuMode::UpdateTimeAndDrunes()
@@ -941,16 +968,19 @@ void MenuMode::Update()
     }
 
     // check the message window
-    if(_message_window != NULL) {
+    if(_message_window != nullptr) {
         _message_window->Update();
         if(InputManager->ConfirmPress() || InputManager->CancelPress()) {
             delete _message_window;
-            _message_window = NULL;
+            _message_window = nullptr;
         }
         return;
     }
 
     _current_menu_state->Update();
+
+    // Update the overall game mode
+    GameMode::Update();
 
 } // void MenuMode::Update()
 
@@ -958,8 +988,6 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
 {
     // Only update when necessary
     if ((_object == object) && (_character == character) && (_equip_view_type == view_type))
-        return;
-    if (view_type == EQUIP_VIEW_NONE)
         return;
 
     _object = object;
@@ -969,7 +997,6 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
     // Clear the corresponding texts when there is no corresponding data
     if (!_object) {
         _object_name.Clear();
-        _elemental_icons.clear();
         _status_icons.clear();
         _spirit_number = 0;
         _equip_skills.clear();
@@ -981,7 +1008,10 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         _mag_stat.Clear();
     }
 
-    // Don't show any diff when there no slected character,
+    if (view_type == EQUIP_VIEW_NONE)
+        return;
+
+    // Don't show any diff when there no selected character,
     // or not showing equip/unequip diffs.
     if (!_character || view_type == EQUIP_VIEW_CHAR) {
         _phys_stat_diff.Clear();
@@ -993,15 +1023,6 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         return;
 
     _object_name.SetText(_object->GetName());
-
-    // Loads elemental icons
-    const std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >& elemental_effects = _object->GetElementalEffects();
-    _elemental_icons.clear();
-    for(std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >::const_iterator it = elemental_effects.begin();
-            it != elemental_effects.end(); ++it) {
-        if(it->second != GLOBAL_INTENSITY_NEUTRAL)
-            _elemental_icons.push_back(GlobalManager->Media().GetElementalIcon(it->first, it->second));
-    }
 
     // Loads status effects.
     const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& status_effects = _object->GetStatusEffects();
@@ -1020,16 +1041,16 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
             return;
         case GLOBAL_OBJECT_WEAPON: {
             _is_weapon = true;
-            GlobalWeapon* wpn = NULL;
+            GlobalWeapon* wpn = nullptr;
             // If character view or unequipping, we take the character current weapon as a base
             if (view_type == EQUIP_VIEW_CHAR || view_type == EQUIP_VIEW_UNEQUIPPING)
-                wpn = _character ? _character->GetWeaponEquipped() : NULL;
+                wpn = _character ? _character->GetWeaponEquipped() : nullptr;
             else // We can take the given object as a base
                 wpn = dynamic_cast<GlobalWeapon *>(_object);
 
             _spirit_number = wpn ? wpn->GetSpiritSlots().size() : 0;
             equip_phys_stat = wpn ? wpn->GetPhysicalAttack() : 0;
-            equip_mag_stat = wpn ? wpn->GetMagicalAttack(GLOBAL_ELEMENTAL_NEUTRAL) : 0;
+            equip_mag_stat = wpn ? wpn->GetMagicalAttack() : 0;
 
             const std::vector<uint32>& equip_skills = wpn->GetEquipmentSkills();
             _equip_skills.clear();
@@ -1055,12 +1076,12 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         case GLOBAL_OBJECT_LEG_ARMOR:
         {
             _is_weapon = false;
-            GlobalArmor* armor = NULL;
+            GlobalArmor* armor = nullptr;
 
             // If character view or unequipping, we take the character current armor as a base
             if (view_type == EQUIP_VIEW_CHAR || view_type == EQUIP_VIEW_UNEQUIPPING) {
                 uint32 equip_index = GetEquipmentPositionFromObjectType(_object->GetObjectType());
-                armor = _character ? _character->GetArmorEquipped(equip_index) : NULL;
+                armor = _character ? _character->GetArmorEquipped(equip_index) : nullptr;
             }
             else { // We can take the given object as a base
                 armor = dynamic_cast<GlobalArmor *>(_object);
@@ -1068,7 +1089,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
 
             _spirit_number = armor ? armor->GetSpiritSlots().size() : 0;
             equip_phys_stat = armor ? armor->GetPhysicalDefense() : 0;
-            equip_mag_stat = armor ? armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL) : 0;
+            equip_mag_stat = armor ? armor->GetMagicalDefense() : 0;
 
             const std::vector<uint32>& equip_skills = armor->GetEquipmentSkills();
             _equip_skills.clear();
@@ -1116,7 +1137,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         uint32 char_mag_stat = 0;
         if (_equip_view_type == EQUIP_VIEW_EQUIPPING) {
             char_phys_stat = (wpn ? wpn->GetPhysicalAttack() : 0);
-            char_mag_stat = (wpn ? wpn->GetMagicalAttack(GLOBAL_ELEMENTAL_NEUTRAL) : 0);
+            char_mag_stat = (wpn ? wpn->GetMagicalAttack() : 0);
 
             phys_stat_diff = equip_phys_stat - char_phys_stat;
             mag_stat_diff = equip_mag_stat - char_mag_stat;
@@ -1133,7 +1154,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         uint32 char_mag_stat = 0;
         if (_equip_view_type == EQUIP_VIEW_EQUIPPING) {
             char_phys_stat = (armor ? armor->GetPhysicalDefense() : 0);
-            char_mag_stat = (armor ? armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL) : 0);
+            char_mag_stat = (armor ? armor->GetMagicalDefense() : 0);
 
             phys_stat_diff = equip_phys_stat - char_phys_stat;
             mag_stat_diff = equip_mag_stat - char_mag_stat;
@@ -1244,27 +1265,27 @@ void MenuMode::DrawEquipmentInfo()
             j -= 25.0f;
         }
     }
-    VideoManager->MoveRelative(j, -35.0f);
-
-    // Draw elemental effect icons
-    uint32 element_size = _elemental_icons.size();
-    VideoManager->MoveRelative((18.0f * element_size) - 12.0f, 0.0f);
-    for(uint32 i = 0; i < element_size; ++i) {
-        _elemental_icons[i]->Draw();
-        VideoManager->MoveRelative(-18.0f, 0.0f);
-    }
-    VideoManager->MoveRelative(0.0f, -25.0f);
+    VideoManager->MoveRelative(j, -55.0f);
 
     // Draw status effects icons
-    element_size = _status_icons.size() > 9 ? 9 : _status_icons.size();
+    uint32 element_size = _status_icons.size() > 9 ? 9 : _status_icons.size();
     VideoManager->MoveRelative((18.0f * element_size), 0.0f);
     for(uint32 i = 0; i < element_size; ++i) {
         _status_icons[i]->Draw();
         VideoManager->MoveRelative(-18.0f, 0.0f);
     }
+    VideoManager->MoveRelative(0.0f, 20.0f);
+    if (_status_icons.size() > 9) {
+        element_size = _status_icons.size();
+        VideoManager->MoveRelative((18.0f * (element_size - 9)), 0.0f);
+        for(uint32 i = 9; i < element_size; ++i) {
+            _status_icons[i]->Draw();
+            VideoManager->MoveRelative(-18.0f, 0.0f);
+        }
+    }
 
     // Draw possible equipment skills
-    VideoManager->MoveRelative(250.0f, 0.0f);
+    VideoManager->MoveRelative(250.0f, -20.0f);
     element_size = _equip_skills.size();
     if (element_size > 0)
         _equip_skills_header.Draw();
@@ -1297,23 +1318,6 @@ void MenuMode::ReloadCharacterWindows()
         ModeManager->Pop();
         break;
     }
-
-    // Width of each character window is 360 px.
-    // Each char window will have an additional 16 px for the left border
-    // The 4th (last) char window will have another 16 px for the right border
-    // Height of the char window is 98 px.
-    // The bottom window in the main view is 192 px high, and the full width which will be 216 * 4 + 16
-    _character_window0.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM);
-    _character_window0.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
-
-    _character_window1.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM | VIDEO_MENU_EDGE_TOP);
-    _character_window1.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 118));
-
-    _character_window2.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM | VIDEO_MENU_EDGE_TOP);
-    _character_window2.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 226));
-
-    _character_window3.Create(360, 98, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_TOP | VIDEO_MENU_EDGE_BOTTOM);
-    _character_window3.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 334));
 }
 
 } // namespace vt_menu

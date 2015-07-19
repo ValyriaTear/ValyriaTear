@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -27,8 +27,6 @@
 #include "audio_input.h"
 #include "audio_stream.h"
 #include "audio_effects.h"
-
-#include <cstring>
 
 namespace vt_mode_manager {
 class GameMode;
@@ -153,7 +151,7 @@ class AudioSource
 public:
     //! \param al_source A valid OpenAL source that has been generated
     AudioSource(ALuint al_source) :
-        source(al_source), owner(NULL) {}
+        source(al_source), owner(nullptr) {}
 
     ~AudioSource();
 
@@ -210,7 +208,7 @@ public:
     *** \param filename The name of the file that contains the new audio data (should have a .wav or .ogg file extension)
     *** \param load_type The type of loading to perform (default == AUDIO_LOAD_STATIC)
     *** \param stream_buffer_size If the loading type is streaming, the buffer size to use (default == DEFAULT_BUFFER_SIZE)
-    *** \return True if the audio was succesfully loaded, false if there was an error
+    *** \return True if the audio was successfully loaded, false if there was an error
     ***
     *** The action taken by this function depends on the load type selected. For static sounds, a single OpenAL buffer is
     *** filled. For streaming, the file/memory is prepared.
@@ -224,7 +222,7 @@ public:
     void FreeAudio();
 
     const std::string GetFilename() const {
-        if(_input == NULL) return std::string();
+        if(_input == nullptr) return std::string();
         else return _input->GetFilename();
     }
 
@@ -287,6 +285,9 @@ public:
     **/
     void SeekSecond(float second);
 
+    //! \brief Gets the current sample number (track offset)
+    uint32 GetCurrentSampleNumber() const;
+
     //! \brief Returns the volume level for this audio
     float GetVolume() const {
         return _volume;
@@ -323,28 +324,28 @@ public:
     *** Adds a new game mode owning the audio descriptor.
     *** It is done to permit the engine to automatically free audio files
     *** when the game mode is deleted.
-    *** This function won't add NULL reference and won't permit duplicate owners.
+    *** This function won't add nullptr reference and won't permit duplicate owners.
     **/
-    void AddOwner(vt_mode_manager::GameMode *gm);
+    void AddGameModeOwner(vt_mode_manager::GameMode *gm);
 
     /**
     *** Adds multiple owners at once.
     *** @see AddOwner()
     **/
-    void AddOwners(std::vector<vt_mode_manager::GameMode *>& owners);
+    void AddGameModeOwners(std::vector<vt_mode_manager::GameMode *>& owners);
 
     /**
     *** Remove a game mode reference from the audio descriptor owners,
     *** and checks whether the file data can be freed.
     *** \returns whether the descriptor should be removed from the cache.
     **/
-    bool RemoveOwner(vt_mode_manager::GameMode *gm);
+    bool RemoveGameModeOwner(vt_mode_manager::GameMode *gm);
 
     /**
     *** Get the list of game mode claiming ownership over the audio descriptor.
     **/
-    std::vector<vt_mode_manager::GameMode *>* GetOwners() {
-        return &_owners;
+    std::vector<vt_mode_manager::GameMode *>* GetGameModeOwners() {
+        return &_game_mode_owners;
     }
 
     /** \brief Fades a music or sound in as it plays
@@ -381,7 +382,7 @@ protected:
     //! \brief A pointer to the input object that manages the data
     private_audio::AudioInput *_input;
 
-    //! \brief A pointer to the stream object (set to NULL if the audio was loaded statically)
+    //! \brief A pointer to the stream object (set to nullptr if the audio was loaded statically)
     private_audio::AudioStream *_stream;
 
     //! \brief A pointer to where the data is streamed to
@@ -423,12 +424,12 @@ protected:
 
     /** \brief The game modes loading the audio file.
     *** On can usually free it whenever no owner is present for a given sound.
-    *** Note that sounds/musics are only freed when their owners are removed
+    *** Note that data/sounds/musics are only freed when their owners are removed
     *** and were the last in this list.
     *** Musics and sounds that are never owned will have to be freed manually.
-    *** @see AddOwner(), RemoveOwner()
+    *** @see AddGameModeOwner(), RemoveGameModeOwner()
     **/
-    std::vector<vt_mode_manager::GameMode *> _owners;
+    std::vector<vt_mode_manager::GameMode *> _game_mode_owners;
 
     //! \brief Holds all active audio effects for this descriptor
     std::vector<private_audio::AudioEffect *> _audio_effects;

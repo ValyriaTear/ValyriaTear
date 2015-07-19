@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -27,6 +27,10 @@
 *** -# Update the game status based on how much time expired from the last update.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
+
+#include "utils/utils_files.h"
+
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"
@@ -38,13 +42,6 @@
 
 #include "modes/boot/boot.h"
 #include "main_options.h"
-
-#ifdef __APPLE__
-#include <unistd.h>
-#endif
-
-#include <SDL_image.h>
-#include <time.h>
 
 using namespace vt_utils;
 using namespace vt_audio;
@@ -130,25 +127,47 @@ bool LoadSettings()
         PRINT_ERROR << "Couldn't open the 'key_settings' table in: "
             << settings.GetFilename() << std::endl
             << settings.GetErrorMessages() << std::endl;
-            settings.CloseFile();
+        settings.CloseFile();
         return false;
     }
 
-    InputManager->SetUpKey(static_cast<SDLKey>(settings.ReadInt("up")));
-    InputManager->SetDownKey(static_cast<SDLKey>(settings.ReadInt("down")));
-    InputManager->SetLeftKey(static_cast<SDLKey>(settings.ReadInt("left")));
-    InputManager->SetRightKey(static_cast<SDLKey>(settings.ReadInt("right")));
-    InputManager->SetConfirmKey(static_cast<SDLKey>(settings.ReadInt("confirm")));
-    InputManager->SetCancelKey(static_cast<SDLKey>(settings.ReadInt("cancel")));
-    InputManager->SetMenuKey(static_cast<SDLKey>(settings.ReadInt("menu")));
-    InputManager->SetPauseKey(static_cast<SDLKey>(settings.ReadInt("pause")));
+    // Hack to port SDL1.2 arrow values to SDL 2.0
+    // DEPRECATED: Dump this in a release aka while in Episode II
+    // old - SDL1.2
+    // settings.key_settings.up = 273
+    // settings.key_settings.down = 274
+    // settings.key_settings.left = 276
+    // settings.key_settings.right = 275
+    // new - SDL 2.0
+    // settings.key_settings.up = 1073741906
+    // settings.key_settings.down = 1073741905
+    // settings.key_settings.left = 1073741904
+    // settings.key_settings.right = 1073741903
+    int32 key_code = settings.ReadInt("up");
+    if (key_code == 273) key_code = 1073741906;
+    InputManager->SetUpKey(static_cast<SDL_Keycode>(key_code));
+    key_code = settings.ReadInt("down");
+    if (key_code == 274) key_code = 1073741905;
+    InputManager->SetDownKey(static_cast<SDL_Keycode>(key_code));
+    key_code = settings.ReadInt("left");
+    if (key_code == 276) key_code = 1073741904;
+    InputManager->SetLeftKey(static_cast<SDL_Keycode>(key_code));
+    key_code = settings.ReadInt("right");
+    if (key_code == 275) key_code = 1073741903;
+    InputManager->SetRightKey(static_cast<SDL_Keycode>(key_code));
+
+    InputManager->SetConfirmKey(static_cast<SDL_Keycode>(settings.ReadInt("confirm")));
+    InputManager->SetCancelKey(static_cast<SDL_Keycode>(settings.ReadInt("cancel")));
+    InputManager->SetMenuKey(static_cast<SDL_Keycode>(settings.ReadInt("menu")));
+    InputManager->SetMinimapKey(static_cast<SDL_Keycode>(settings.ReadInt("minimap")));
+    InputManager->SetPauseKey(static_cast<SDL_Keycode>(settings.ReadInt("pause")));
     settings.CloseTable(); // key_settings
 
     if (!settings.OpenTable("joystick_settings")) {
         PRINT_ERROR << "Couldn't open the 'joystick_settings' table in: "
             << settings.GetFilename() << std::endl
             << settings.GetErrorMessages() << std::endl;
-            settings.CloseFile();
+        settings.CloseFile();
         return false;
     }
 
@@ -157,9 +176,15 @@ bool LoadSettings()
     InputManager->SetConfirmJoy(static_cast<uint8>(settings.ReadInt("confirm")));
     InputManager->SetCancelJoy(static_cast<uint8>(settings.ReadInt("cancel")));
     InputManager->SetMenuJoy(static_cast<uint8>(settings.ReadInt("menu")));
+    InputManager->SetMinimapJoy(static_cast<uint8>(settings.ReadInt("minimap")));
     InputManager->SetPauseJoy(static_cast<uint8>(settings.ReadInt("pause")));
-
     InputManager->SetQuitJoy(static_cast<uint8>(settings.ReadInt("quit")));
+    // DEPRECATED: Remove the hack in one or two releases...
+    if(settings.DoesIntExist("help"))
+        InputManager->SetHelpJoy(static_cast<uint8>(settings.ReadInt("help")));
+    else
+        InputManager->SetHelpJoy(15); // A high value to avoid getting in the way
+
     if(settings.DoesIntExist("x_axis"))
         InputManager->SetXAxisJoy(static_cast<int8>(settings.ReadInt("x_axis")));
     if(settings.DoesIntExist("y_axis"))
@@ -174,15 +199,20 @@ bool LoadSettings()
         PRINT_ERROR << "Couldn't open the 'video_settings' table in: "
             << settings.GetFilename() << std::endl
             << settings.GetErrorMessages() << std::endl;
-            settings.CloseFile();
+        settings.CloseFile();
         return false;
     }
 
     // Load video settings
     int32 resx = settings.ReadInt("screen_resx");
     int32 resy = settings.ReadInt("screen_resy");
-    VideoManager->SetInitialResolution(resx, resy);
+    VideoManager->SetResolution(resx, resy);
     VideoManager->SetFullscreen(settings.ReadBool("full_screen"));
+    if (settings.DoesUIntExist("vsync_mode"))
+        VideoManager->SetVSyncMode(settings.ReadUInt("vsync_mode"));
+    if (settings.DoesBoolExist("game_update_mode"))
+        VideoManager->SetGameUpdateMode(settings.ReadBool("game_update_mode"));
+    GUIManager->SetUserMenuSkin(settings.ReadString("ui_theme"));
     settings.CloseTable(); // video_settings
 
     // Load Audio settings
@@ -191,7 +221,7 @@ bool LoadSettings()
             PRINT_ERROR << "Couldn't open the 'audio_settings' table in: "
                 << settings.GetFilename() << std::endl
                 << settings.GetErrorMessages() << std::endl;
-                settings.CloseFile();
+            settings.CloseFile();
             return false;
         }
 
@@ -200,12 +230,30 @@ bool LoadSettings()
 
         settings.CloseTable(); // audio_settings
     }
+
+    // Load Game settings
+    if (!settings.OpenTable("game_options")) {
+        SystemManager->SetMessageSpeed(DEFAULT_MESSAGE_SPEED);
+    }
+    else {
+        if (settings.DoesUIntExist("game_difficulty"))
+            SystemManager->SetGameDifficulty(settings.ReadUInt("game_difficulty"));
+
+        SystemManager->SetMessageSpeed(settings.ReadFloat("message_speed"));
+
+        if (settings.DoesBoolExist("battle_target_cursor_memory"))
+            SystemManager->SetBattleTargetMemory(settings.ReadBool("battle_target_cursor_memory"));
+
+        settings.CloseTable(); // game_options
+    }
+
     settings.CloseTable(); // settings
 
     if(settings.IsErrorDetected()) {
         PRINT_ERROR << "Errors while attempting to load the setting file: "
             << settings.GetFilename() << std::endl
             << settings.GetErrorMessages() << std::endl;
+        settings.CloseFile();
         return false;
     }
 
@@ -214,79 +262,7 @@ bool LoadSettings()
     return true;
 } // bool LoadSettings()
 
-//! Loads all the fonts available in the game.
-//! And sets a default one
-//! The function will exit the game if no valid font were loaded
-//! or if the default font is invalid.
-static void LoadFonts(const std::string &font_script_filename)
-{
-    vt_script::ReadScriptDescriptor font_script;
-
-    //Checking the file existence and validity.
-    if(!font_script.OpenFile(font_script_filename)) {
-        PRINT_ERROR << "Couldn't open font file: " << font_script_filename
-                    << std::endl;
-        exit(EXIT_FAILURE);
-    }
-
-    if(!font_script.DoesTableExist("fonts")) {
-        PRINT_ERROR << "No 'fonts' table in file: " << font_script_filename
-                    << std::endl;
-        font_script.CloseFile();
-        exit(EXIT_FAILURE);
-    }
-
-    std::string font_default = font_script.ReadString("font_default");
-    if(font_default.empty()) {
-        PRINT_ERROR << "No default font defined in: " << font_script_filename
-                    << std::endl;
-        font_script.CloseFile();
-        exit(EXIT_FAILURE);
-    }
-
-    std::vector<std::string> style_names;
-    font_script.ReadTableKeys("fonts", style_names);
-    if(style_names.empty()) {
-        PRINT_ERROR << "No text styles defined in the 'fonts' table of file: "
-                    << font_script_filename << std::endl;
-        font_script.CloseFile();
-        exit(EXIT_FAILURE);
-    }
-
-    font_script.OpenTable("fonts");
-    for(uint32 i = 0; i < style_names.size(); ++i) {
-        font_script.OpenTable(style_names[i]); // Text style
-
-        std::string font_file = font_script.ReadString("font");
-        uint32 font_size = font_script.ReadInt("size");
-
-        if(!VideoManager->Text()->LoadFont(font_file, style_names[i], font_size)) {
-            // Check whether the default font is invalid
-            if(font_default == style_names[i]) {
-                font_script.CloseAllTables();
-                font_script.CloseFile();
-                PRINT_ERROR << "The default font '" << font_default
-                            << "' couldn't be loaded in file: " << font_script_filename
-                            << std::endl;
-                exit(EXIT_FAILURE);
-                return; // Superfluous but for readability.
-            }
-        }
-
-        font_script.CloseTable(); // Text style
-    }
-    font_script.CloseTable(); // fonts
-
-    font_script.CloseFile();
-
-    // Setup the default font
-    VideoManager->Text()->SetDefaultStyle(TextStyle(font_default, Color::white,
-                                          VIDEO_TEXT_SHADOW_BLACK, 1, -2));
-}
-
 //! Loads the default window GUI theme for the game.
-//! TODO: Make this changeable from the boot menu
-//! and handle keeping the them in memory through config
 static void LoadGUIThemes(const std::string& theme_script_filename)
 {
     vt_script::ReadScriptDescriptor theme_script;
@@ -305,17 +281,9 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
         exit(EXIT_FAILURE);
     }
 
-    std::string default_theme = theme_script.ReadString("default_theme");
-    if (default_theme.empty()) {
-        PRINT_ERROR << "No default theme defined in: " << theme_script_filename
-                    << std::endl;
-        theme_script.CloseFile();
-        exit(EXIT_FAILURE);
-    }
-
-    std::vector<std::string> theme_names;
-    theme_script.ReadTableKeys("themes", theme_names);
-    if (theme_names.empty()) {
+    std::vector<std::string> theme_ids;
+    theme_script.ReadTableKeys("themes", theme_ids);
+    if (theme_ids.empty()) {
         PRINT_ERROR << "No themes defined in the 'themes' table of file: "
                     << theme_script_filename << std::endl;
         theme_script.CloseFile();
@@ -324,60 +292,78 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
 
     theme_script.OpenTable("themes");
 
+    std::string default_theme_id = theme_script.ReadString("default_theme");
+    if (default_theme_id.empty()) {
+        PRINT_ERROR << "No default theme defined in: " << theme_script_filename
+                    << std::endl;
+        theme_script.CloseFile();
+        exit(EXIT_FAILURE);
+    }
+
     bool default_theme_found = false;
 
-    for(uint32 i = 0; i < theme_names.size(); ++i) {
-        theme_script.OpenTable(theme_names[i]); // Theme name
+    for(uint32 i = 0; i < theme_ids.size(); ++i) {
+        // Skip the default theme value
+        if (theme_ids[i] == "default_theme")
+            continue;
 
+        theme_script.OpenTable(theme_ids[i]); // Theme name
+
+        std::string theme_name = theme_script.ReadString("name");
         std::string win_border_file = theme_script.ReadString("win_border_file");
         std::string win_background_file = theme_script.ReadString("win_background_file");
         std::string cursor_file = theme_script.ReadString("cursor_file");
+        std::string scroll_arrows_file = theme_script.ReadString("scroll_arrows_file");
 
-        if(!GUIManager->LoadMenuSkin(theme_names[i], win_border_file, win_background_file)) {
-            // Check whether the default font is invalid
-            if(default_theme == theme_names[i]) {
-                theme_script.CloseAllTables();
-                theme_script.CloseFile();
-                PRINT_ERROR << "The default theme '" << default_theme
-                            << "' couldn't be loaded in file: '" << theme_script_filename
-                            << "'. Exitting." << std::endl;
-                exit(EXIT_FAILURE);
-                return; // Superfluous but for readability.
-            }
-        }
-
-        if(default_theme == theme_names[i]) {
+        if (default_theme_id == theme_ids[i])
             default_theme_found = true;
-            if(!VideoManager->SetDefaultCursor(cursor_file)) {
-                theme_script.CloseAllTables();
-                theme_script.CloseFile();
-                PRINT_ERROR << "Couldn't load the GUI cursor file: '" << cursor_file
-                    << "'. Exitting." << std::endl;
-                exit(EXIT_FAILURE);
-            }
+
+        if (!GUIManager->LoadMenuSkin(theme_ids[i], theme_name, cursor_file,
+                                      scroll_arrows_file, win_border_file,
+                                      win_background_file)) {
+            theme_script.CloseAllTables();
+            theme_script.CloseFile();
+            PRINT_ERROR << "The theme '" << theme_ids[i]
+                        << "' couldn't be loaded in file: '" << theme_script_filename
+                        << "'. Exitting." << std::endl;
+            exit(EXIT_FAILURE);
+            return; // Superfluous but for readability.
         }
 
         theme_script.CloseTable(); // Theme name
     }
 
+    theme_script.CloseTable(); // themes
     theme_script.CloseFile();
 
-    if (!default_theme_found) {
-        PRINT_ERROR << "Couldn't find the default theme: '" << default_theme
-            << "' in file: '" << theme_script_filename << "'. Exitting." << std::endl;
+    // Query for the user menu skin which could have been set in the user settings lua file.
+    std::string user_theme_id = GUIManager->GetUserMenuSkinId();
+    if (!user_theme_id.empty()) {
+        // Activate the user theme, and the default one if not found.
+        if (!GUIManager->SetDefaultMenuSkin(user_theme_id))
+            GUIManager->SetDefaultMenuSkin(default_theme_id);
+    } else if (default_theme_found) {
+        // Activate the default theme.
+        GUIManager->SetDefaultMenuSkin(default_theme_id);
+    } else {
+        PRINT_ERROR << "No default or user settings UI theme found. Exiting." << std::endl;
         exit(EXIT_FAILURE);
     }
-
-    // Activate the default theme
-    // TODO: Obtain it from config
-    GUIManager->SetDefaultMenuSkin(default_theme);
 }
 
 /** \brief Initializes all engine components and makes other preparations for the game to start
-*** \return True if the game engine was initialized successfully, false if an unrecoverable error occured
+*** \return True if the game engine was initialized successfully, false if an unrecoverable error occurred
 **/
 void InitializeEngine() throw(Exception)
 {
+    // use display #0 unless already specified
+    // behavior of fullscreen mode is erratic without this value set
+#ifndef _WIN32
+    setenv("SDL_VIDEO_FULLSCREEN_DISPLAY", "0", 0);
+#else
+    SetEnvironmentVariable("SDL_VIDEO_FULLSCREEN_DISPLAY", "0");
+#endif
+
     // Initialize SDL. The video, audio, and joystick subsystems are initialized elsewhere.
     if(SDL_Init(SDL_INIT_TIMER) != 0) {
         throw Exception("MAIN ERROR: Unable to initialize SDL: ", __FILE__, __LINE__, __FUNCTION__);
@@ -419,52 +405,37 @@ void InitializeEngine() throw(Exception)
         throw Exception("ERROR: unable to initialize ModeManager", __FILE__, __LINE__, __FUNCTION__);
     }
 
-    // Set the window icon
-    // NOTE: Seems to be working only under WinXP for now.
-    SDL_WM_SetIcon(IMG_Load("img/logos/program_icon.png"), NULL);
-
     // Load all the settings from lua. This includes some engine configuration settings.
     if(!LoadSettings())
         throw Exception("ERROR: Unable to load settings file", __FILE__, __LINE__, __FUNCTION__);
 
-    // Enforce smooth tiles graphics
-    VideoManager->SetPixelArtSmoothed(true);
-
     // Apply engine configuration settings with delayed initialization calls to the managers
     InputManager->InitializeJoysticks();
 
-    if(VideoManager->ApplySettings() == false)
-        throw Exception("ERROR: Unable to apply video settings", __FILE__, __LINE__, __FUNCTION__);
     if(VideoManager->FinalizeInitialization() == false)
         throw Exception("ERROR: Unable to apply video settings", __FILE__, __LINE__, __FUNCTION__);
 
-    // Loads the default GUI skin
-    LoadGUIThemes("dat/config/themes.lua");
+    // Loads the GUI skins.
+    LoadGUIThemes("data/config/themes.lua");
 
     // NOTE: This function call should have its argument set to false for release builds
     GUIManager->DEBUG_EnableGUIOutlines(false);
 
-    // Loads all game fonts
-    LoadFonts("dat/config/fonts.lua");
+    // Loads needed game text styles (fonts + colors + shadows)
+    if (!TextManager->LoadFonts(SystemManager->GetLanguage()))
+        exit(EXIT_FAILURE);
 
     // Loads potential emotes
-    GlobalManager->LoadEmotes("dat/effects/emotes.lua");
-
-    // Set the window title and icon name
-    SDL_WM_SetCaption(APPFULLNAME, APPFULLNAME);
+    GlobalManager->LoadEmotes("data/entities/emotes.lua");
 
     // Hide the mouse cursor since we don't use or acknowledge mouse input from the user
     SDL_ShowCursor(SDL_DISABLE);
-
-    // Enabled for multilingual keyboard support
-    SDL_EnableUNICODE(1);
 
     // Ignore the events that we don't care about so they never appear in the event queue
     SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
     SDL_EventState(SDL_MOUSEBUTTONDOWN, SDL_IGNORE);
     SDL_EventState(SDL_MOUSEBUTTONUP, SDL_IGNORE);
     SDL_EventState(SDL_SYSWMEVENT, SDL_IGNORE);
-    SDL_EventState(SDL_VIDEOEXPOSE, SDL_IGNORE);
     SDL_EventState(SDL_USEREVENT, SDL_IGNORE);
 
     if(GUIManager->SingletonInitialize() == false) {
@@ -488,6 +459,43 @@ int main(int argc, char *argv[])
     atexit(SDL_Quit);
     atexit(QuitApp);
 
+    if(SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
+        PRINT_ERROR << "SDL video initialization failed" << std::endl;
+        return false;
+    }
+
+    // Create a default window
+    SDL_Window* sdl_window = SDL_CreateWindow(APPFULLNAME,
+                         SDL_WINDOWPOS_CENTERED,
+                         SDL_WINDOWPOS_CENTERED,
+                         800, 600, // default size
+                         SDL_WINDOW_OPENGL);
+    if (!sdl_window) {
+        PRINT_ERROR << "SDL window creation failed: " << SDL_GetError() << std::endl;
+        return false;
+    }
+
+    // Set the window icon
+    SDL_Surface* icon = IMG_Load("data/icons/program_icon.png");
+    if (icon) {
+        SDL_SetWindowIcon(sdl_window, icon);
+        // ...and the surface containing the icon pixel data is no longer required.
+        SDL_FreeSurface(icon);
+    }
+
+    // Create an OpenGL context associated with the window.
+    SDL_GLContext glcontext = SDL_GL_CreateContext(sdl_window);
+
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+    SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 2);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+    SDL_GL_SetSwapInterval(1);
+
     try {
         // Change to the directory where the game data is stored
 #ifdef __APPLE__
@@ -502,7 +510,7 @@ int main(int argc, char *argv[])
         chdir(path.c_str());
 #elif (defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(SOLARIS)) && !defined(RELEASE_BUILD)
         // Look for data files in DATADIR only if they are not available in the current directory.
-        if(std::ifstream("dat/config/settings.lua") == NULL) {
+        if(std::ifstream("data/config/settings.lua") == nullptr) {
             if(chdir(PKG_DATADIR) != 0) {
                 throw Exception("ERROR: failed to change directory to data location", __FILE__, __LINE__, __FUNCTION__);
             }
@@ -510,7 +518,7 @@ int main(int argc, char *argv[])
 #endif
 
         // Initialize the random number generator (note: 'unsigned int' is a required usage in this case)
-        srand(static_cast<unsigned int>(time(NULL)));
+        srand(static_cast<unsigned int>(time(nullptr)));
 
         // This variable will be set by the ParseProgramOptions function
         int32 return_code = EXIT_FAILURE;
@@ -525,55 +533,97 @@ int main(int argc, char *argv[])
 
     } catch(const Exception &e) {
 #ifdef WIN32
-        MessageBox(NULL, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
+        MessageBox(nullptr, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
 #else
-        std::cerr << e.ToString() << std::endl;
+        PRINT_ERROR << e.ToString() << std::endl;
 #endif
         return EXIT_FAILURE;
     }
 
+    // Set the window handle, apply actual screen resolution
+    VideoManager->SetWindowHandle(sdl_window);
+    VideoManager->ApplySettings();
+
+    // Now the settings are loaded, let's set the windows translated title.
+    /// Translators: The window title only supports UTF-8 characters in SDL2.
+    std::string app_fullname = vt_system::Translate("Valyria Tear");
+    SDL_SetWindowTitle(sdl_window, app_fullname.c_str());
+
     ModeManager->Push(new BootMode(), false, true);
+
+    // Used for a variable game speed, sleeping when on sufficiently fast hardware, and max FPS.
+    const uint32 UPDATES_PER_SECOND = 60;
+    const uint32 SKIP_UPDATE_TICKS = 1000 / UPDATES_PER_SECOND; // 25
+    uint32 update_tick = SDL_GetTicks();
+    uint32 next_update_tick = update_tick;
+
+    bool cpu_gentle_update_mode = true;
 
     try {
         // This is the main loop for the game. The loop iterates once for every frame drawn to the screen.
         while(SystemManager->NotDone()) {
-            // Update only every 10 milliseconds.
-            SDL_Delay(10);
+            // Set the game update mode.
+            if (VideoManager->GetVSyncMode() > 0 || VideoManager->GetGameUpdateMode())
+                cpu_gentle_update_mode = false;
+            else
+                cpu_gentle_update_mode = true;
 
-            // 1) Render the scene
-            VideoManager->Clear();
-            ModeManager->Draw();
-            VideoManager->Draw();
-            ModeManager->DrawEffects();
-            ModeManager->DrawPostEffects();
-            VideoManager->DrawFadeEffect();
-            // Swap the buffers once the draw operations are done.
-            SDL_GL_SwapBuffers();
+            if (cpu_gentle_update_mode) {
+                update_tick = SDL_GetTicks();
 
-            // Update timers for correct time-based movement operation
-            SystemManager->UpdateTimers();
+                // If we want to be nice with the CPU % used.
+                if (update_tick <= next_update_tick && next_update_tick - update_tick >= 10)
+                    SDL_Delay(next_update_tick - update_tick);
+            }
 
-            // Process all new events
-            InputManager->EventHandler();
+            // Render capped at UPDATES_PER_SECOND if the update mode is gentle with the cpu(s).
+            if (!cpu_gentle_update_mode || update_tick > next_update_tick) {
+                VideoManager->Clear();
+                ModeManager->Draw();
+                ModeManager->DrawEffects();
+                ModeManager->DrawPostEffects();
+                VideoManager->DrawFadeEffect();
+                VideoManager->DrawDebugInfo();
 
-            // Update video
-            VideoManager->Update();
+                // Swap the buffers once the draw operations are done.
+                SDL_GL_SwapWindow(sdl_window);
 
-            // Update any streaming audio sources
-            AudioManager->Update();
+                // Update the game logic
 
-            // Update the game status
-            ModeManager->Update();
+                // Update timers for correct time-based movement operation
+                SystemManager->UpdateTimers();
+
+                // Process all new events
+                InputManager->EventHandler();
+
+                // Update video
+                VideoManager->Update();
+
+                // Update any streaming audio sources
+                AudioManager->Update();
+
+                // Update the game status
+                ModeManager->Update();
+
+                // Wait for the next update.
+                next_update_tick += SKIP_UPDATE_TICKS;
+            }
 
         } // while (SystemManager->NotDone())
-    } catch(const Exception &e) {
+    } catch(const Exception& e) {
 #ifdef WIN32
-        MessageBox(NULL, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
+        MessageBox(nullptr, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
 #else
         std::cerr << e.ToString() << std::endl;
 #endif
         return EXIT_FAILURE;
     }
+
+    // Once finished with OpenGL functions, the SDL_GLContext can be deleted.
+    SDL_GL_DeleteContext(glcontext);
+
+    // Close and destroy the window
+    SDL_DestroyWindow(sdl_window);
 
     return EXIT_SUCCESS;
 } // int main(int argc, char *argv[])

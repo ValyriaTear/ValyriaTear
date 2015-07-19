@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -22,8 +22,8 @@
 *** \note This code uses Ogg-vorbis library for loading Ogg files
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "audio_input.h"
-#include <SDL/SDL_endian.h>
 
 namespace vt_audio
 {
@@ -38,7 +38,6 @@ namespace private_audio
 ////////////////////////////////////////////////////////////////////////////////
 
 AudioInput::AudioInput() :
-    _filename(""),
     _samples_per_second(0),
     _bits_per_sample(0),
     _number_channels(0),
@@ -230,7 +229,7 @@ bool OggFile::Initialize()
     // Windows requires a special loading method in order load ogg files
     // properly when dynamically linking vorbis libs. The workaround is
     // to use the ov_open_callbacks function
-#ifdef WIN32
+#ifdef _WIN32
     // Callbacks struct defining the open, closing, seeking and location behaviors.
     ov_callbacks callbacks =  {
         (size_t ( *)(void *, size_t, size_t, void *)) fread,
@@ -244,12 +243,11 @@ bool OggFile::Initialize()
     if (!file)
         return false;
 
-    if(ov_open_callbacks(file, &_vorbis_file, NULL, 0, callbacks) < 0) {
+    if(ov_open_callbacks(file, &_vorbis_file, nullptr, 0, callbacks) < 0) {
         fclose(file);
         IF_PRINT_WARNING(AUDIO_DEBUG) << "input file does not appear to be an Ogg bitstream: " << _filename << std::endl;
         return false;
     }
-
 #else
     // File loading code for non Win32 platforms.  Much simpler.
     FILE *file = fopen(_filename.c_str(), "rb");
@@ -257,7 +255,7 @@ bool OggFile::Initialize()
     if (!file)
         return false;
 
-    if(ov_open(file, &_vorbis_file, NULL, 0) < 0) {
+    if(ov_open(file, &_vorbis_file, nullptr, 0) < 0) {
         fclose(file);
         IF_PRINT_WARNING(AUDIO_DEBUG) << "input file does not appear to be an Ogg bitstream: " << _filename << std::endl;
         return false;
@@ -349,16 +347,17 @@ uint32 OggFile::Read(uint8 *buffer, uint32 size, bool &end)
 } // uint32 OggFile::Read(uint8* buffer, uint32 size, bool& end)
 
 
-
+#ifdef _WIN32
 int OggFile::_FileSeekWrapper(FILE *file, ogg_int64_t off, int whence)
 {
-    if(file == NULL) {
-        IF_PRINT_WARNING(AUDIO_DEBUG) << "file pointer was NULL in argument list" << std::endl;
+    if(file == nullptr) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "file pointer was nullptr in argument list" << std::endl;
         return -1;
     } else {
         return fseek(file, static_cast<long>(off), whence);
     }
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // AudioMemory class methods
@@ -367,7 +366,7 @@ int OggFile::_FileSeekWrapper(FILE *file, ogg_int64_t off, int whence)
 
 AudioMemory::AudioMemory(AudioInput *input) :
     AudioInput(),
-    _audio_data(NULL),
+    _audio_data(nullptr),
     _data_position(0)
 {
     _filename = input->GetFilename();
@@ -389,7 +388,7 @@ AudioMemory::AudioMemory(AudioInput *input) :
 
 AudioMemory::AudioMemory(const AudioMemory &audio_memory) :
     AudioInput(),
-    _audio_data(NULL),
+    _audio_data(nullptr),
     _data_position(0)
 {
     _filename = audio_memory._filename;
@@ -410,9 +409,9 @@ AudioMemory &AudioMemory::operator=(const AudioMemory &audio_memory)
     if(this == &audio_memory)  // Handle self-assignment case
         return *this;
 
-    if(_audio_data != NULL) {
+    if(_audio_data != nullptr) {
         delete[] _audio_data;
-        _audio_data = NULL;
+        _audio_data = nullptr;
     }
     _filename = audio_memory._filename;
     _samples_per_second = audio_memory.GetSamplesPerSecond();
@@ -433,9 +432,9 @@ AudioMemory &AudioMemory::operator=(const AudioMemory &audio_memory)
 
 AudioMemory::~AudioMemory()
 {
-    if(_audio_data != NULL) {
+    if(_audio_data != nullptr) {
         delete[] _audio_data;
-        _audio_data = NULL;
+        _audio_data = nullptr;
     }
 }
 

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -23,12 +23,11 @@
 #ifndef __BATTLE_ACTIONS_HEADER__
 #define __BATTLE_ACTIONS_HEADER__
 
-#include "utils.h"
-
 #include "engine/system.h"
-#include "engine/video/video.h"
 
 #include "common/global/global.h"
+
+#include "utils/utils_random.h"
 
 namespace vt_battle
 {
@@ -46,7 +45,7 @@ namespace private_battle
 *** necessary synchronization of visual and audio media presented to the user as well as modifying
 *** any change to the stats of the actor or target. Actions (and by proxy the actors executing them)
 *** may be either processed individually one at a time, or multiple skills may be executed
-*** simulatenously.
+*** simultaneously.
 ***
 *** Each action used determines the amount of time that the actor using the action
 *** must wait in the warm up and cool down states. The warm up state is when the
@@ -64,7 +63,7 @@ public:
     //! \brief Returns true if this action consumes an item
     virtual bool IsItemAction() const = 0;
 
-    // Init the battle action member and possible scripts
+    //! \brief Init the battle action member and possible scripts
     virtual bool Initialize() {
         return true;
     }
@@ -84,11 +83,17 @@ public:
 
     //! \brief Tells whether the battle action is handled through a script
     virtual bool IsScripted() const {
-        return false;
+        return _is_scripted;
     }
 
     //! \brief Returns the name of the action that the player would read
     virtual vt_utils::ustring GetName() const = 0;
+
+    //! \brief Returns the icon filename of the action that the player would need
+    virtual std::string GetIconFilename() const = 0;
+
+    //! \brief Returns whether a short notice should be shown just before triggering the action.
+    virtual bool ShouldShowSkillNotice() const = 0;
 
     //! \brief Returns the number of milliseconds that the owner actor must wait in the warm up state
     virtual uint32 GetWarmUpTime() const = 0;
@@ -114,33 +119,29 @@ public:
     //@}
 
 protected:
-    //! \brief The rendered text for the name of the action
-// 	vt_video::TextImage _action_name;
-
     //! \brief The actor who will be executing the action
     BattleActor *_actor;
 
     //! \brief The target of the action which may be an attack point, actor, or entire party
     BattleTarget _target;
 
-    /** \brief Makes sure that the target is valid and selects a new target if it is not
-    *** This method is necessary because there is a period of time between when the desired target
-    *** is selected and when the action actually gets executed by the owning actor. Within that time
-    *** period the target may have become invalid due death or some other reason. This method will
-    *** search for the next available target of the same type and modify the _target member so that
-    *** it points to a valid target.
-    ***
-    *** \note Certain skills may have different criteria for determining target validity. For example,
-    *** a revive skill or item would be useless if no allies were in the dead state. For this reason,
-    *** inheriting classes may wish to expand upon this function to check for these types of specific
-    *** conditions.
+    /** The functions of the possible animation.
+    *** When valid, the Update function should be called until the function returns true.
     **/
-// 	virtual void _VerifyValidTarget();
+    ScriptObject _init_function;
+    ScriptObject _update_function;
+
+    //! \brief Tells whether the battle action animation is scripted.
+    bool _is_scripted;
+
+    //! \brief Initialize (Calling #Initialize) a scripted battle animation when one is existing.
+    virtual void _InitAnimationScript()
+    {}
 }; // class BattleAction
 
 
 /** ****************************************************************************
-*** \brief A battle action which involves the exectuion of an actor's skill
+*** \brief A battle action which involves the execution of an actor's skill
 ***
 *** This class invokes the execution of a GlobalSkill contained by the source
 *** actor. When the action is finished, any SP required to use the skill is
@@ -155,10 +156,6 @@ public:
         return false;
     }
 
-    bool IsScripted() const {
-        return _is_scripted;
-    }
-
     // Init the battle action member and possible scripts
     bool Initialize();
 
@@ -171,6 +168,10 @@ public:
     {}
 
     vt_utils::ustring GetName() const;
+
+    std::string GetIconFilename() const;
+
+    bool ShouldShowSkillNotice() const;
 
     uint32 GetWarmUpTime() const;
 
@@ -187,15 +188,6 @@ public:
 private:
     //! \brief Pointer to the skill attached to this script (for skill events only)
     vt_global::GlobalSkill *_skill;
-
-    /** The functions of the possible attack animation skill.
-    *** When valid, the Update function should be called until the function returns true.
-    **/
-    ScriptObject _init_function;
-    ScriptObject _update_function;
-
-    //! \brief Tells whether the battle action animation is scripted.
-    bool _is_scripted;
 
     //! \brief Initialize (Calling #Initialize) a scripted battle animation when one is existing.
     void _InitAnimationScript();
@@ -221,12 +213,22 @@ public:
         return true;
     }
 
+    bool Initialize();
+
+    bool Update();
+
     bool Execute();
 
     ///! \brief Cancel a waiting action, putting back the item in available battle items.
     void Cancel();
 
     vt_utils::ustring GetName() const;
+
+    std::string GetIconFilename() const;
+
+    bool ShouldShowSkillNotice() const {
+        return true;
+    }
 
     uint32 GetWarmUpTime() const;
 
@@ -246,10 +248,13 @@ public:
 
 private:
     //! \brief Pointer to the item attached to this script
-    BattleItem *_item;
+    BattleItem* _item;
 
     //! \brief Tells whether the action has already been canceled.
     bool _action_canceled;
+
+    //! \brief Initialize (Calling #Initialize) a scripted battle animation when one is existing.
+    void _InitAnimationScript();
 }; // class ItemAction : public BattleAction
 
 } // namespace private_battle

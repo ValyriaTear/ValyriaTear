@@ -26,40 +26,51 @@
 					<Add directory="valyriatear-win32-depends/include" />
 					<Add directory="valyriatear-win32-depends/include/AL" />
 					<Add directory="valyriatear-win32-depends/include/boost" />
-					<Add directory="valyriatear-win32-depends/include/libpng12" />
 					<Add directory="valyriatear-win32-depends/include/lua5.1" />
 					<Add directory="valyriatear-win32-depends/include/ogg" />
-					<Add directory="valyriatear-win32-depends/include/SDL" />
+					<Add directory="valyriatear-win32-depends/include/SDL2" />
 					<Add directory="valyriatear-win32-depends/include/vorbis" />
 				</Compiler>
 				<Linker>
 					<Add library="shell32" />
 					<Add library="user32" />
 					<Add library="mingw32" />
-					<Add library="SDLMain" />
-					<Add library="SDL" />
-					<Add library="SDL_TTF" />
+					<Add library="SDL2main" />
+					<Add library="SDL2" />
+					<Add library="SDL2_TTF" />
+					<Add library="gdi32" />
+					<Add library="winmm" />
+					<Add library="dxguid" />
 					<Add library="OpenAL32" />
 					<Add library="ogg" />
 					<Add library="vorbis" />
 					<Add library="Opengl32" />
+					<Add library="glew" />
 					<Add library="glu32" />
-					<Add library="libpng" />
-					<Add library="libjpeg" />
+					<Add library="libpng15" />
 					<Add library="Lua51" />
 					<Add library="libintl" />
 					<Add library="libiconv2" />
-					<Add library="SDL_image" />
+					<Add library="SDL2_image" />
+					<Add library="m" />
+					<Add library="imm32" />
+					<Add library="ole32" />
+					<Add library="oleaut32" />
+					<Add library="version" />
+					<Add library="uuid" />
+					<Add library="dinput8" />
+					<Add library="dxerr8" />
 					<Add directory="valyriatear-win32-depends/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release Win32">
 				<Option platforms="Windows;" />
-				<Option output="ValyriaTearWin" prefix_auto="1" extension_auto="1" />
+				<Option output="ValyriaTear" prefix_auto="1" extension_auto="1" />
 				<Option object_output="ValyriaTear-Release" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-O3" />
 					<Add option="-W" />
 					<Add option="-DWIN32" />
 					<Add option="-DNDEBUG" />
@@ -67,30 +78,41 @@
 					<Add directory="valyriatear-win32-depends/include" />
 					<Add directory="valyriatear-win32-depends/include/AL" />
 					<Add directory="valyriatear-win32-depends/include/boost" />
-					<Add directory="valyriatear-win32-depends/include/libpng12" />
 					<Add directory="valyriatear-win32-depends/include/lua5.1" />
 					<Add directory="valyriatear-win32-depends/include/ogg" />
-					<Add directory="valyriatear-win32-depends/include/SDL" />
+					<Add directory="valyriatear-win32-depends/include/SDL2" />
 					<Add directory="valyriatear-win32-depends/include/vorbis" />
 				</Compiler>
 				<Linker>
+					<Add option="-s" />
 					<Add library="shell32" />
 					<Add library="user32" />
 					<Add library="mingw32" />
-					<Add library="SDLMain" />
-					<Add library="SDL" />
-					<Add library="SDL_TTF" />
+					<Add library="SDL2main" />
+					<Add library="SDL2" />
+					<Add library="SDL2_TTF" />
+					<Add library="gdi32" />
+					<Add library="winmm" />
+					<Add library="dxguid" />
 					<Add library="OpenAL32" />
 					<Add library="ogg" />
 					<Add library="vorbis" />
 					<Add library="Opengl32" />
 					<Add library="glu32" />
-					<Add library="libpng" />
-					<Add library="libjpeg" />
+					<Add library="glew" />
+					<Add library="libpng15" />
 					<Add library="Lua51" />
 					<Add library="libintl" />
 					<Add library="libiconv2" />
-					<Add library="SDL_image" />
+					<Add library="SDL2_image" />
+					<Add library="m" />
+					<Add library="imm32" />
+					<Add library="ole32" />
+					<Add library="oleaut32" />
+					<Add library="version" />
+					<Add library="uuid" />
+					<Add library="dinput8" />
+					<Add library="dxerr8" />
 					<Add directory="valyriatear-win32-depends/lib" />
 				</Linker>
 			</Target>
@@ -114,15 +136,14 @@
 					<Add directory="/usr/include/lua5.1" />
 					<Add directory="/usr/include/luabind" />
 					<Add directory="/usr/include/GL" />
-					<Add directory="/usr/include/SDL" />
+					<Add directory="/usr/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="`sdl-config --libs`" />
 					<Add library="lua5.1" />
-					<Add library="SDL_ttf" />
+					<Add library="SDL2_ttf" />
 					<Add library="vorbisfile" />
 					<Add library="openal" />
-					<Add library="jpeg" />
 					<Add library="png" />
 					<Add library="GLU" />
 					<Add library="GL" />
@@ -156,15 +177,14 @@
 					<Add directory="/usr/include/lua5.1" />
 					<Add directory="/usr/include/luabind" />
 					<Add directory="/usr/include/GL" />
-					<Add directory="/usr/include/SDL" />
+					<Add directory="/usr/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="`sdl-config --libs`" />
 					<Add library="lua5.1" />
-					<Add library="SDL_ttf" />
+					<Add library="SDL2_ttf" />
 					<Add library="vorbisfile" />
 					<Add library="openal" />
-					<Add library="jpeg" />
 					<Add library="png" />
 					<Add library="GLU" />
 					<Add library="GL" />
@@ -182,6 +202,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Winvalid-pch" />
 			<Add directory="src" />
 			<Add directory="src/common/gui" />
 			<Add directory="src/common/global" />
@@ -233,25 +254,15 @@
 		<Unit filename="src/common/common_bindings.cpp" />
 		<Unit filename="src/common/dialogue.cpp" />
 		<Unit filename="src/common/dialogue.h" />
-		<Unit filename="src/common/global/global.cpp">
-			<Option weight="60" />
-		</Unit>
+		<Unit filename="src/common/global/global.cpp" />
 		<Unit filename="src/common/global/global.h" />
-		<Unit filename="src/common/global/global_actors.cpp">
-			<Option weight="60" />
-		</Unit>
+		<Unit filename="src/common/global/global_actors.cpp" />
 		<Unit filename="src/common/global/global_actors.h" />
-		<Unit filename="src/common/global/global_effects.cpp">
-			<Option weight="60" />
-		</Unit>
+		<Unit filename="src/common/global/global_effects.cpp" />
 		<Unit filename="src/common/global/global_effects.h" />
-		<Unit filename="src/common/global/global_objects.cpp">
-			<Option weight="60" />
-		</Unit>
+		<Unit filename="src/common/global/global_objects.cpp" />
 		<Unit filename="src/common/global/global_objects.h" />
-		<Unit filename="src/common/global/global_skills.cpp">
-			<Option weight="60" />
-		</Unit>
+		<Unit filename="src/common/global/global_skills.cpp" />
 		<Unit filename="src/common/global/global_skills.h" />
 		<Unit filename="src/common/global/global_utils.cpp" />
 		<Unit filename="src/common/global/global_utils.h" />
@@ -263,6 +274,10 @@
 		<Unit filename="src/common/gui/option.h" />
 		<Unit filename="src/common/gui/textbox.cpp" />
 		<Unit filename="src/common/gui/textbox.h" />
+		<Unit filename="src/common/message_window.cpp" />
+		<Unit filename="src/common/message_window.h" />
+		<Unit filename="src/common/options_handler.cpp" />
+		<Unit filename="src/common/options_handler.h" />
 		<Unit filename="src/engine/audio/audio.cpp" />
 		<Unit filename="src/engine/audio/audio.h" />
 		<Unit filename="src/engine/audio/audio_descriptor.cpp" />
@@ -276,6 +291,8 @@
 		<Unit filename="src/engine/effect_supervisor.cpp" />
 		<Unit filename="src/engine/effect_supervisor.h" />
 		<Unit filename="src/engine/engine_bindings.cpp" />
+		<Unit filename="src/engine/indicator_supervisor.cpp" />
+		<Unit filename="src/engine/indicator_supervisor.h" />
 		<Unit filename="src/engine/input.cpp" />
 		<Unit filename="src/engine/input.h" />
 		<Unit filename="src/engine/mode_manager.cpp" />
@@ -295,6 +312,19 @@
 		<Unit filename="src/engine/video/coord_sys.h" />
 		<Unit filename="src/engine/video/fade.cpp" />
 		<Unit filename="src/engine/video/fade.h" />
+		<Unit filename="src/engine/video/gl/gl_particle_system.cpp" />
+		<Unit filename="src/engine/video/gl/gl_particle_system.h" />
+		<Unit filename="src/engine/video/gl/gl_shader.cpp" />
+		<Unit filename="src/engine/video/gl/gl_shader.h" />
+		<Unit filename="src/engine/video/gl/gl_shader_definitions.h" />
+		<Unit filename="src/engine/video/gl/gl_shader_program.cpp" />
+		<Unit filename="src/engine/video/gl/gl_shader_program.h" />
+		<Unit filename="src/engine/video/gl/gl_shader_programs.h" />
+		<Unit filename="src/engine/video/gl/gl_shaders.h" />
+		<Unit filename="src/engine/video/gl/gl_sprite.cpp" />
+		<Unit filename="src/engine/video/gl/gl_sprite.h" />
+		<Unit filename="src/engine/video/gl/gl_transform.cpp" />
+		<Unit filename="src/engine/video/gl/gl_transform.h" />
 		<Unit filename="src/engine/video/image.cpp" />
 		<Unit filename="src/engine/video/image.h" />
 		<Unit filename="src/engine/video/image_base.cpp" />
@@ -428,22 +458,16 @@
 		<Unit filename="src/modes/battle/battle_actors.h" />
 		<Unit filename="src/modes/battle/battle_command.cpp" />
 		<Unit filename="src/modes/battle/battle_command.h" />
-		<Unit filename="src/modes/battle/battle_dialogue.cpp" />
-		<Unit filename="src/modes/battle/battle_dialogue.h" />
 		<Unit filename="src/modes/battle/battle_effects.cpp" />
 		<Unit filename="src/modes/battle/battle_effects.h" />
 		<Unit filename="src/modes/battle/battle_finish.cpp" />
 		<Unit filename="src/modes/battle/battle_finish.h" />
-		<Unit filename="src/modes/battle/battle_indicators.cpp" />
-		<Unit filename="src/modes/battle/battle_indicators.h" />
 		<Unit filename="src/modes/battle/battle_sequence.cpp" />
 		<Unit filename="src/modes/battle/battle_sequence.h" />
 		<Unit filename="src/modes/battle/battle_utils.cpp" />
 		<Unit filename="src/modes/battle/battle_utils.h" />
 		<Unit filename="src/modes/boot/boot.cpp" />
 		<Unit filename="src/modes/boot/boot.h" />
-		<Unit filename="src/modes/boot/boot_menu.cpp" />
-		<Unit filename="src/modes/boot/boot_menu.h" />
 		<Unit filename="src/modes/map/map_dialogue.cpp" />
 		<Unit filename="src/modes/map/map_dialogue.h" />
 		<Unit filename="src/modes/map/map_events.cpp" />
@@ -456,6 +480,8 @@
 		<Unit filename="src/modes/map/map_objects.h" />
 		<Unit filename="src/modes/map/map_sprites.cpp" />
 		<Unit filename="src/modes/map/map_sprites.h" />
+		<Unit filename="src/modes/map/map_status_effects.cpp" />
+		<Unit filename="src/modes/map/map_status_effects.h" />
 		<Unit filename="src/modes/map/map_tiles.cpp" />
 		<Unit filename="src/modes/map/map_tiles.h" />
 		<Unit filename="src/modes/map/map_treasure.cpp" />
@@ -487,8 +513,24 @@
 		<Unit filename="src/modes/shop/shop_trade.h" />
 		<Unit filename="src/modes/shop/shop_utils.cpp" />
 		<Unit filename="src/modes/shop/shop_utils.h" />
-		<Unit filename="src/utils.cpp" />
-		<Unit filename="src/utils.h" />
+		<Unit filename="src/utils/exception.cpp" />
+		<Unit filename="src/utils/exception.h" />
+		<Unit filename="src/utils/singleton.h" />
+		<Unit filename="src/utils/ustring.cpp" />
+		<Unit filename="src/utils/ustring.h" />
+		<Unit filename="src/utils/utils_files.cpp" />
+		<Unit filename="src/utils/utils_files.h" />
+		<Unit filename="src/utils/utils_numeric.cpp" />
+		<Unit filename="src/utils/utils_numeric.h" />
+		<Unit filename="src/utils/utils_pch.cpp" />
+		<Unit filename="src/utils/utils_pch.h">
+			<Option compile="1" />
+			<Option weight="0" />
+		</Unit>
+		<Unit filename="src/utils/utils_random.cpp" />
+		<Unit filename="src/utils/utils_random.h" />
+		<Unit filename="src/utils/utils_strings.cpp" />
+		<Unit filename="src/utils/utils_strings.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

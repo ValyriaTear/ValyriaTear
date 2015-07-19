@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -28,17 +28,14 @@ namespace vt_map
 namespace private_map
 {
 
-class VirtualSprite;
+class MapSprite;
 
 /** ****************************************************************************
 *** \brief Represents a dialogue that occurs between one or more sprites on a map
 *** ***************************************************************************/
-class SpriteDialogue : public vt_common::CommonDialogue
+class SpriteDialogue : public vt_common::Dialogue
 {
 public:
-    //! \param id The id number to represent the dialogue, which should be unique to other dialogue ids within this map
-    SpriteDialogue(uint32 id);
-
     //! \brief Constructor with auto-generated dialogue ID
     SpriteDialogue();
 
@@ -52,6 +49,13 @@ public:
     ~SpriteDialogue()
     {}
 
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static SpriteDialogue* Create();
+    static SpriteDialogue* Create(const std::string& dialogue_event_name);
+
     //! \brief Indicates if this dialogue has already been seen by the player.
     bool HasAlreadySeen() const {
         return _dialogue_seen;
@@ -63,86 +67,78 @@ public:
 
     /** \brief Adds a new line of text to the dialogue
     *** \param text The text to show on the screen
-    *** \param speaker The object ID or VirtualSprite speaking this line
+    *** \param speaker The VirtualSprite speaking this line
     ***
     *** The following line properties are set when using this call:
     *** - proceed to next sequential line, no display time, no event
     **/
-    void AddLine(const std::string &text, uint32 speaker_id);
-    void AddLine(const std::string &text, VirtualSprite *speaker);
+    void AddLine(const std::string &text, MapSprite *speaker);
 
-    void AddLineEmote(const std::string &text, VirtualSprite *speaker,
+    void AddLineEmote(const std::string &text, MapSprite *speaker,
                       const std::string &emote_id);
 
     /** \brief Adds a new line of text to the dialogue
     *** \param text The text to show on the screen
-    *** \param speaker The object ID or VirtualSprite speaking this line
+    *** \param speaker The VirtualSprite speaking this line
     *** \param next_line The line of dialogue which should follow this one
     ***
     *** The following line properties are set when using this call:
     *** - no display time, no event
     **/
-    void AddLine(const std::string &text, uint32 speaker_id, int32 next_line);
-    void AddLine(const std::string &text, VirtualSprite *speaker, int32 next_line);
+    void AddLine(const std::string &text, MapSprite *speaker, int32 next_line);
 
     /** \brief Adds a new line of text to the dialogue that uses a display time
     *** \param text The text to show on the screen
-    *** \param speaker The object ID or VirtualSprite speaking this line
+    *** \param speaker VirtualSprite speaking this line
     *** \param display_time The number of milliseconds that the line should be displayed for
     ***
     *** The following line properties are set when using this call:
     *** - proceed to next sequential line, no event
     **/
-    void AddLineTimed(const std::string &text, uint32 speaker_id, uint32 display_time);
-    void AddLineTimed(const std::string &text, VirtualSprite *speaker, uint32 display_time);
+    void AddLineTimed(const std::string &text, MapSprite *speaker, uint32 display_time);
 
     /** \brief Adds a new line of text to the dialogue that uses a display time
     *** \param text The text to show on the screen
-    *** \param speaker The object ID or VirtualSprite speaking this line
+    *** \param speaker The VirtualSprite speaking this line
     *** \param next_line The line of dialogue which should follow this one
     *** \param display_time The number of milliseconds that the line should be displayed for
     ***
     *** The following line properties are set when using this call:
     *** - no event
     **/
-    void AddLineTimed(const std::string &text, uint32 speaker_id, int32 next_line, uint32 display_time);
-    void AddLineTimed(const std::string &text, VirtualSprite *speaker, int32 next_line, uint32 display_time);
+    void AddLineTimed(const std::string &text, MapSprite *speaker, int32 next_line, uint32 display_time);
 
     /** \brief Adds a new line of text to the dialogue that uses a map event
     *** \param text The text to show on the screen
-    *** \param speaker The object ID or VirtualSprite speaking this line
+    *** \param speaker The VirtualSprite speaking this line
     *** \param end_event_id The ID of the event to execute after this line finishes
     *** \param begin_event_id The ID of the event to execute when the line starts
     ***
     *** The following line properties are set when using this call:
     *** - proceed to next sequential line, no display time
     **/
-    void AddLineEvent(const std::string &text, uint32 speaker_id,
-                      const std::string &begin_event_id, const std::string &end_event_id);
-    void AddLineEvent(const std::string &text, VirtualSprite *speaker,
+    void AddLineEvent(const std::string &text, MapSprite *speaker,
                       const std::string &begin_event_id, const std::string &end_event_id);
 
-    void AddLineEventEmote(const std::string &text, VirtualSprite *speaker,
+    void AddLineEventEmote(const std::string &text, MapSprite *speaker,
                            const std::string &begin_event_id, const std::string &end_event_id,
                            const std::string &emote_id);
 
     /** \brief Adds a new line of text to the dialogue that uses a map event
     *** \param text The text to show on the screen
-    *** \param speaker The object ID or VirtualSprite speaking this line
+    *** \param speaker The VirtualSprite speaking this line
     *** \param next_line The line of dialogue which should follow this one
     *** \param display_time The number of milliseconds that the line should be displayed for
     ***
     *** The following line properties are set when using this call:
     *** - no event
     **/
-    void AddLineEvent(const std::string &text, uint32 speaker_id, int32 next_line,
-                      const std::string &begin_event_id, const std::string &end_event_id);
-    void AddLineEvent(const std::string &text, VirtualSprite *speaker, int32 next_line,
+    void AddLineEvent(const std::string &text, MapSprite *speaker, int32 next_line,
                       const std::string &begin_event_id, const std::string &end_event_id);
 
     /** \brief Adds a new line of text to the dialogue that uses a map event
     *** \param text The text to show on the screen
-    *** \param speaker The object ID or VirtualSprite speaking this line
+    *** \param speaker The VirtualSprite speaking this line
     *** \param display_time The number of milliseconds that the line should be displayed for
     *** \param end_event_id The ID of the event to execute after this line finishes
     *** \param begin_event_id The ID of the event to execute when the line starts
@@ -150,24 +146,20 @@ public:
     *** The following line properties are set when using this call:
     *** - proceed to next sequential line
     **/
-    void AddLineTimedEvent(const std::string &text, uint32 speaker_id, uint32 display_time,
-                           const std::string &begin_event_id, const std::string &end_event_id);
-    void AddLineTimedEvent(const std::string &text, VirtualSprite *speaker, uint32 display_time,
+    void AddLineTimedEvent(const std::string &text, MapSprite *speaker, uint32 display_time,
                            const std::string &begin_event_id, const std::string &end_event_id);
 
     /** \brief Adds a new line of text to the dialogue that uses a map event
     *** \param text The text to show on the screen
-    *** \param speaker The object ID or VirtualSprite speaking this line
+    *** \param speaker The VirtualSprite speaking this line
     *** \param next_line The line of dialogue which should follow this one
     *** \param display_time The number of milliseconds that the line should be displayed for
-    *** \param end_event_id The ID of the event to execute after this line finishes
     *** \param begin_event_id The ID of the event to execute when the line starts
+    *** \param end_event_id The ID of the event to execute after this line finishes
+    *** \param emote_id The ID of the emote to trigger on the speaker map sprite.
     **/
-    void AddLineTimedEvent(const std::string &text, uint32 speaker_id, int32 next_line, uint32 display_time,
-                           const std::string &begin_event_id, const std::string &end_event_id,
-                           const std::string &emote_id);
-    void AddLineTimedEvent(const std::string &text, VirtualSprite *speaker, int32 next_line, uint32 display_time,
-                           const std::string &begin_event_id, const std::string &end_event_id);
+    void AddLineTimedEvent(const std::string &text, MapSprite *speaker, int32 next_line, uint32 display_time,
+                           const std::string &begin_event_id, const std::string &end_event_id, const std::string& emote_id);
 
     /** \brief Adds an option to the most recently added line of text
     *** \param text The text for this particular option
@@ -218,8 +210,8 @@ public:
     //! \name Methods for retrieving properties of a specific line
     //@{
     //! \brief Returns the object ID of the speaker for the line specified (or zero if the line index was invalid)
-    uint32 GetLineSpeaker(uint32 line) const {
-        if(line >= _line_count) return 0;
+    MapSprite* GetLineSpeaker(uint32 line) const {
+        if(line >= _line_count) return nullptr;
         else return _speakers[line];
     }
 
@@ -262,6 +254,14 @@ public:
     void SetRestoreState(bool restore) {
         _restore_state = restore;
     }
+
+    void SetEventAtDialogueEnd(const std::string& event_id) {
+        _event_after_dialogue_end = event_id;
+    }
+
+    const std::string& GetEventAtDialogueEnd() const {
+        return _event_after_dialogue_end;
+    }
     //@}
 
 private:
@@ -272,13 +272,15 @@ private:
     bool _restore_state;
 
     //! \brief The event name for this dialogue that is stored in the saved game file, if not empty.
+    //! This permit the engine to know whether the player already saw a dialogue event when leaving the map
+    //! and coming back.
     std::string _event_name;
 
     //! \brief Tells whether the dialogue has been seen by the player.
     bool _dialogue_seen;
 
-    //! \brief Contains object ID numbers that declare the speaker of each line
-    std::vector<uint32> _speakers;
+    //! \brief Contains MapSprite speakers of each line
+    std::vector<MapSprite*> _speakers;
 
     //! \brief An optional MapEvent that may occur when a line begins
     std::vector<std::string> _begin_events;
@@ -288,7 +290,11 @@ private:
 
     //! \brief the emote to play on the speaker sprite before starting the line (and if possible).
     std::vector<std::string> _emote_events;
-}; // class SpriteDialogue : public vt_common::CommonDialogue
+
+    //! \brief The optional event id to trigger after dialogue's end.
+    //! This is handly to trigger other scene events after a dialogue.
+    std::string _event_after_dialogue_end;
+}; // class SpriteDialogue : public vt_common::Dialogue
 
 
 /** ***************************************************************************************
@@ -299,7 +305,7 @@ private:
 *** that will follow. Optionally, each particular option may trigger a different map event when
 *** it is selected.
 *** **************************************************************************************/
-class MapDialogueOptions : public vt_common::CommonDialogueOptions
+class MapDialogueOptions : public vt_common::DialogueOptions
 {
 public:
     MapDialogueOptions()
@@ -357,7 +363,7 @@ public:
 private:
     //! \brief An optional MapEvent that may occur as a result of selecting each option
     std::vector<std::string> _events;
-}; // class MapDialogueOptions : public vt_common::CommonDialogueOptions
+}; // class MapDialogueOptions : public vt_common::DialogueOptions
 
 
 /** ****************************************************************************
@@ -367,16 +373,13 @@ private:
 *** processing that occurs on the map. This includes containing the dialogue objects,
 *** handling user input, processing of dialogue events, and display timing of the
 *** dialogue.
-***
-*** \todo Add support so that the player may backtrack through lines in a
-*** dialogue (without re-processing selected options or previous script events).
 *** ***************************************************************************/
-class DialogueSupervisor
+class MapDialogueSupervisor
 {
 public:
-    DialogueSupervisor();
+    MapDialogueSupervisor();
 
-    ~DialogueSupervisor();
+    ~MapDialogueSupervisor();
 
     //! \brief Processes user input and updates the state of the dialogue
     void Update();
@@ -398,16 +401,16 @@ public:
     /** \brief Prepares the dialogue manager to begin processing a new dialogue
     *** \param dialogue_id The id number of the dialogue to begin
     **/
-    void BeginDialogue(uint32 dialogue_id);
+    void StartDialogue(const std::string& dialogue_id);
 
     //! \brief Immediately ends any dialogue that is taking place
     void EndDialogue();
 
     /** \brief Returns a pointer to the CommonDialogue with the requested ID value
     *** \param dialogue_id The identification number of the dialogue to retrieve
-    *** \return A pointer to the dialogue requested, or NULL if no such dialogue was found
+    *** \return A pointer to the dialogue requested, or nullptr if no such dialogue was found
     **/
-    SpriteDialogue *GetDialogue(uint32 dialogue_id);
+    SpriteDialogue *GetDialogue(const std::string& dialogue_id);
 
     //! \name Class member access functions
     //@{
@@ -431,8 +434,9 @@ public:
         return _line_counter;
     }
 
-    uint32 GenerateDialogueID() const {
-        return _dialogues.empty() ? 1 : _dialogues.rbegin()->first + 1;
+    //! \brief Returns a new unique dialogue id string.
+    std::string GenerateDialogueID() {
+        return vt_utils::NumberToString(_next_dialogue_id++);
     }
     //@}
 
@@ -440,8 +444,11 @@ private:
     //! \brief Retains the current state of the dialogue execution
     DIALOGUE_STATE _state;
 
+    //! \brief A numeric value used to generate unique dialogue ids.
+    uint32 _next_dialogue_id;
+
     //! \brief Contains all dialogues used in the map in a std::map structure. The dialogue IDs serve as the map keys
-    std::map<uint32, SpriteDialogue *> _dialogues;
+    std::map<std::string, SpriteDialogue *> _dialogues;
 
     //! \brief A pointer to the current piece of dialogue that is active
     SpriteDialogue *_current_dialogue;
@@ -456,7 +463,7 @@ private:
     uint32 _line_counter;
 
     //! \brief Holds the text and graphics that should be displayed for the dialogue
-    vt_common::CommonDialogueWindow _dialogue_window;
+    vt_common::DialogueWindow _dialogue_window;
 
     //! \brief Keeps in memory whether the emote event has been triggered.
     bool _emote_triggered;
@@ -495,7 +502,7 @@ private:
 
     //! \brief Restores participating sprites to their state before this dialogue started
     void _RestoreSprites();
-}; // class DialogueSupervisor
+}; // class MapDialogueSupervisor
 
 } // namespace private_map
 

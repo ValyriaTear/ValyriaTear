@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -38,8 +38,6 @@
 
 #include "engine/video/particle_system.h"
 
-#include "utils.h"
-
 namespace vt_script {
 class ReadScriptDescriptor;
 }
@@ -64,18 +62,28 @@ class ParticleEffectDef
 {
 public:
     ParticleEffectDef():
+        effect_width(0.0f),
+        effect_height(0.0f),
         effect_collision_width(0.0f),
         effect_collision_height(0.0f)
     {}
 
     void Clear() {
+        effect_width = 0.0f;
+        effect_height = 0.0f;
         effect_collision_width = 0.0f;
         effect_collision_height = 0.0f;
         _systems.clear();
     }
 
     /** The effect size in pixels, used to know when to display it when it used as
-    *** a map object fir instance. It is used to compute the image rectangle.
+    *** a map object for instance. It is used to compute the image rectangle.
+    *** \note Not used if equal to 0.
+    **/
+    float effect_width;
+    float effect_height;
+
+    /** The effect collision size in pixels.
     *** \note Not used if equal to 0.
     **/
     float effect_collision_width;
@@ -210,31 +218,36 @@ public:
         return _age;
     }
 
-    //! \brief Get the overall effect width/height in pixels.
-    float GetEffectWidth() const {
+    //! \brief Get the overall effect collision width/height in pixels.
+    float GetEffectCollisionWidth() const {
         return _effect_def.effect_collision_width;
     }
-    float GetEffectHeight() const {
+    float GetEffectCollisionHeight() const {
         return _effect_def.effect_collision_height;
     }
+
+    //! \brief Get the overall effect image width/height in pixels.
+    float GetEffectWidth() const {
+        return _effect_def.effect_width;
+    }
+    float GetEffectHeight() const {
+        return _effect_def.effect_height;
+    }
+
 
     bool IsLoaded() const {
         return _loaded;
     }
 
-    /*!
-     * \brief draws the effect.
-     * \return success/failure
-     */
-    bool Draw();
+    //! \brief draws the effect.
+    void Draw();
 
     /*!
      * \brief updates the effect.
      * \param the new frame time
-     * \return success/failure
      */
-    bool Update(float frame_time);
-    bool Update();
+    void Update(float frame_time);
+    void Update();
 private:
     /*!
      * \brief destroys the effect. This is private so that only the ParticleManager class

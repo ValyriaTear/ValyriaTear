@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,11 +15,7 @@
 *** \brief   Source file for editor's main() function.
 *** ***************************************************************************/
 
-#ifdef __MACH__
-#include <unistd.h>
-#include <string>
-#endif
-
+#include "utils/utils_pch.h"
 #include "editor.h"
 
 // Used to permit compilation as qmake will create a makefile requiring qMain
@@ -38,7 +34,7 @@ int main(int argc, char **argv)
 #ifndef __MACH__
     // Look for data files in DATADIR only if they are not available in the
     // current directory.
-    if(std::ifstream("./dat/config/editor.lua") == NULL) {
+    if(std::ifstream("./data/editor/editor.lua") == nullptr) {
         if(chdir(PKG_DATADIR) != 0) {
             PRINT_ERROR << "failed to change directory to data location" << std::endl;
         }

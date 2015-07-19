@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -18,6 +18,7 @@
 *** classes.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "modes/battle/battle_utils.h"
 
 #include "modes/battle/battle.h"
@@ -26,6 +27,8 @@
 #include "common/global/global.h"
 
 #include "engine/system.h"
+
+#include "utils/utils_random.h"
 
 using namespace vt_utils;
 using namespace vt_system;
@@ -41,204 +44,90 @@ namespace private_battle
 // Standard battle calculation functions
 ////////////////////////////////////////////////////////////////////////////////
 
-bool CalculateStandardEvasion(BattleTarget *target)
+bool RndEvade(BattleActor* target_actor)
 {
-    return CalculateStandardEvasionAdder(target, 0.0f);
+    return RndEvade(target_actor, 0.0f, 1.0f, -1);
 }
 
-
-
-bool CalculateStandardEvasionAdder(BattleTarget *target, float add_eva)
+bool RndEvade(BattleActor* target_actor, float add_eva = 0.0f)
 {
-    if(target == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << std::endl;
+    return RndEvade(target_actor, add_eva, 1.0f, -1);
+}
+
+bool RndEvade(BattleActor* target_actor, float add_eva = 0.0f, float mul_eva = 1.0f)
+{
+    return RndEvade(target_actor, add_eva, mul_eva, -1);
+}
+
+bool RndEvade(BattleActor* target_actor, float add_eva, float mul_eva, int32 attack_point)
+{
+    if (!target_actor)
+        return true;
+
+    // When stunned, the actor can't dodge.
+    if (target_actor->IsStunned())
         return false;
-    }
-    if(IsTargetParty(target->GetType()) == true) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << std::endl;
-        return false;
-    }
 
     float evasion = 0.0f;
-    if(IsTargetPoint(target->GetType()) == true) {
-        evasion = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalEvadeRating();
-    } else if(IsTargetActor(target->GetType()) == true) {
-        evasion = target->GetActor()->GetAverageEvadeRating();
-    } else {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
-        return false;
+    if(attack_point > -1) {
+        GlobalAttackPoint* atk_point = target_actor->GetAttackPoint(attack_point);
+        evasion = atk_point ? atk_point->GetTotalEvadeRating() : target_actor->GetAverageEvadeRating();
+    }
+    else {
+        evasion = target_actor->GetAverageEvadeRating();
     }
 
     evasion += add_eva;
+    evasion *= mul_eva;
 
     // Check for absolute hit/miss conditions
+    // and still give a slight chance for it to happen.
     if(evasion <= 0.0f)
-        return false;
+        evasion = 0.05f;
     else if(evasion >= 100.0f)
-        return true;
+        evasion = 0.95f;
 
     if(RandomFloat(0.0f, 100.0f) <= evasion)
         return true;
     else
         return false;
-} // bool CalculateStandardEvasionAdder(BattleTarget* target, float add_evade)
-
-
-
-bool CalculateStandardEvasionMultiplier(BattleTarget *target, float mul_eva)
-{
-    if(target == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << std::endl;
-        return false;
-    }
-    if(IsTargetParty(target->GetType()) == true) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << std::endl;
-        return false;
-    }
-    if(mul_eva < 0.0f) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier argument: " << mul_eva << std::endl;
-        mul_eva = fabs(mul_eva);
-    }
-
-    // Find the base evasion and apply the multiplier
-    float evasion = 0.0f;
-    if(IsTargetPoint(target->GetType()) == true) {
-        evasion = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalEvadeRating();
-    } else if(IsTargetActor(target->GetType()) == true) {
-        evasion = target->GetActor()->GetAverageEvadeRating();
-    } else {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
-        return false;
-    }
-
-    evasion = evasion * mul_eva;
-
-    // Check for absolute hit/miss conditions
-    if(evasion <= 0.0f)
-        return false;
-    else if(evasion >= 100.0f)
-        return true;
-
-    if(RandomFloat(0.0f, 100.0f) > evasion)
-        return false;
-    else
-        return true;
-} // bool CalculateStandardEvasionMultiplier(BattleTarget* target, float mul_evade)
-
-
-
-uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleTarget *target)
-{
-    return CalculatePhysicalDamageAdder(attacker, target, 0, 0.10f);
 }
 
-
-
-uint32 CalculatePhysicalDamage(BattleActor *attacker, BattleTarget *target, float std_dev)
+uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor)
 {
-    return CalculatePhysicalDamageAdder(attacker, target, 0, std_dev);
+    return RndPhysicalDamage(attacker, target_actor, 0, 1.0f, -1);
 }
 
-
-
-uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleTarget *target, int32 add_atk)
+uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
+                         uint32 add_atk)
 {
-    return CalculatePhysicalDamageAdder(attacker, target, add_atk, 0.10f);
+    return RndPhysicalDamage(attacker, target_actor, add_atk, 1.0f, -1);
 }
 
-
-
-uint32 CalculatePhysicalDamageAdder(BattleActor *attacker, BattleTarget *target, int32 add_atk, float std_dev)
+uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
+                         uint32 add_atk, float mul_atk)
 {
-    if(attacker == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
+    return RndPhysicalDamage(attacker, target_actor, add_atk, mul_atk, -1);
+}
+
+uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
+                         uint32 add_atk, float mul_atk, int32 attack_point)
+{
+    if(attacker == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr attacker argument" << std::endl;
         return 0;
     }
-    if(target == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << std::endl;
+    if(target_actor == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr target_actor argument" << std::endl;
         return 0;
-    }
-    if(IsTargetParty(target->GetType()) == true) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << std::endl;
-        return 0;
-    }
-    if(std_dev < 0.0f) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << std::endl;
-        std_dev = fabs(std_dev);
     }
 
     // Holds the total physical attack of the attacker and modifier
     int32 total_phys_atk = attacker->GetTotalPhysicalAttack() + add_atk;
-    if(total_phys_atk < 0)
-        total_phys_atk = 0;
-
-    // Holds the total physical defense of the target
-    int32 total_phys_def = 0;
-
-    if(IsTargetPoint(target->GetType()) == true) {
-        total_phys_def = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalPhysicalDefense();
-    } else if(IsTargetActor(target->GetType()) == true) {
-        total_phys_def = target->GetActor()->GetAverageDefense();
-    } else {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
-        return 0;
-    }
-
-    // Holds the total damage dealt
-    int32 total_dmg = total_phys_atk - total_phys_def;
-
-    // If the total damage is zero, fall back to causing a small non-zero damage value
-    if(total_dmg <= 0)
-        return static_cast<uint32>(RandomBoundedInteger(1, 5));
-
-    // Holds the absolute standard deviation used in the GaussianRandomValue function
-    float abs_std_dev = 0.0f;
-    abs_std_dev = static_cast<float>(total_dmg) * std_dev;
-    total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
-
-    // If the total damage came to a value less than or equal to zero after the gaussian randomization,
-    // fall back to returning a small non-zero damage value
-    if(total_dmg <= 0)
-        return static_cast<uint32>(RandomBoundedInteger(1, 5));
-
-    return static_cast<uint32>(total_dmg);
-} // uint32 CalculatePhysicalDamageAdder(BattleActor* attacker, BattleTarget* target, int32 add_atk, float std_dev)
-
-
-
-uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *target, float mul_atk)
-{
-    return CalculatePhysicalDamageMultiplier(attacker, target, mul_atk, 0.10f);
-}
-
-
-
-uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *target, float mul_atk, float std_dev)
-{
-    if(attacker == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
-        return 0;
-    }
-    if(target == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << std::endl;
-        return 0;
-    }
-    if(IsTargetParty(target->GetType()) == true) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << std::endl;
-        return 0;
-    }
-    if(mul_atk < 0.0f) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier arument: " << mul_atk << std::endl;
-        mul_atk = fabs(mul_atk);
-    }
-    if(std_dev < 0.0f) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << std::endl;
-        std_dev = fabs(std_dev);
-    }
-
-    // Retrieve the total physical attack of the attacker and apply the modifier
-    int32 total_phys_atk = attacker->GetTotalPhysicalAttack();
     total_phys_atk = static_cast<int32>(static_cast<float>(total_phys_atk) * mul_atk);
+    // Randomize the damage a bit.
+    int32 phys_atk_diff = total_phys_atk / 10;
+    total_phys_atk = RandomBoundedInteger(total_phys_atk - phys_atk_diff, total_phys_atk + phys_atk_diff);
 
     if(total_phys_atk < 0)
         total_phys_atk = 0;
@@ -246,13 +135,12 @@ uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *ta
     // Holds the total physical defense of the target
     int32 total_phys_def = 0;
 
-    if(IsTargetPoint(target->GetType()) == true) {
-        total_phys_def = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalPhysicalDefense();
-    } else if(IsTargetActor(target->GetType()) == true) {
-        total_phys_def = target->GetActor()->GetAverageDefense();
-    } else {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
-        return 0;
+    if(attack_point > -1) {
+        GlobalAttackPoint* atk_point = target_actor->GetAttackPoint(attack_point);
+        total_phys_def = atk_point ? atk_point->GetTotalPhysicalDefense() : target_actor->GetAverageDefense();
+    }
+    else {
+        total_phys_def = target_actor->GetAverageDefense();
     }
 
     // Holds the total damage dealt
@@ -260,73 +148,59 @@ uint32 CalculatePhysicalDamageMultiplier(BattleActor *attacker, BattleTarget *ta
 
     // If the total damage is zero, fall back to causing a small non-zero damage value
     if(total_dmg <= 0)
-        return static_cast<uint32>(RandomBoundedInteger(1, 5));
-
-    // Holds the absolute standard deviation used in the GaussianRandomValue function
-    float abs_std_dev = 0.0f;
-    // A value of "0.075f" means the standard deviation should be 7.5% of the mean (the total damage)
-    abs_std_dev = static_cast<float>(total_dmg) * std_dev;
-    total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
-
-    // If the total damage came to a value less than or equal to zero after the gaussian randomization,
-    // fall back to returning a small non-zero damage value
-    if(total_dmg <= 0)
-        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+        return static_cast<uint32>(RandomBoundedInteger(1, 5 + attacker->GetStrength() / 10));
 
     return static_cast<uint32>(total_dmg);
-} // uint32 CalculatePhysicalDamageMultiplier(BattleActor* attacker, BattleTarget* target, float mul_phys, float std_dev)
-
-uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target, GLOBAL_ELEMENTAL element)
-{
-    return CalculateMagicalDamageAdder(attacker, target, element, 0, 0.10f);
 }
 
-uint32 CalculateMagicalDamage(BattleActor *attacker, BattleTarget *target, GLOBAL_ELEMENTAL element, float std_dev)
+uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element)
 {
-    return CalculateMagicalDamageAdder(attacker, target, element, 0, std_dev);
+    return RndMagicalDamage(attacker, target_actor, element, 0, 1.0f, -1);
 }
 
-uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target, GLOBAL_ELEMENTAL element, int32 add_atk)
+uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOBAL_ELEMENTAL element,
+                        uint32 add_atk)
 {
-    return CalculateMagicalDamageAdder(attacker, target, element, add_atk, 0.10f);
+    return RndMagicalDamage(attacker, target_actor, element, add_atk, 1.0f, -1);
 }
 
-
-uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target,
-                                   GLOBAL_ELEMENTAL element, int32 add_atk, float std_dev)
+uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOBAL_ELEMENTAL element,
+                        uint32 add_atk, float mul_atk)
 {
-    if(attacker == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
+    return RndMagicalDamage(attacker, target_actor, element, add_atk, mul_atk, -1);
+}
+
+uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOBAL_ELEMENTAL element,
+                        uint32 add_atk, float mul_atk, int32 attack_point)
+{
+    if(attacker == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr attacker argument" << std::endl;
         return 0;
     }
-    if(target == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << std::endl;
+    if(target_actor == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr target_actor argument" << std::endl;
         return 0;
-    }
-    if(IsTargetParty(target->GetType()) == true) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << std::endl;
-        return 0;
-    }
-    if(std_dev < 0.0f) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << std::endl;
-        std_dev = fabs(std_dev);
     }
 
     // Holds the total physical attack of the attacker and modifier
     int32 total_mag_atk = attacker->GetTotalMagicalAttack(element) + add_atk;
+    total_mag_atk = static_cast<int32>(static_cast<float>(total_mag_atk) * mul_atk);
+    // Randomize the damage a bit.
+    int32 mag_atk_diff = total_mag_atk / 10;
+    total_mag_atk = RandomBoundedInteger(total_mag_atk - mag_atk_diff, total_mag_atk + mag_atk_diff);
+
     if(total_mag_atk < 0)
         total_mag_atk = 0;
 
     // Holds the total physical defense of the target
     int32 total_mag_def = 0;
 
-    if(IsTargetPoint(target->GetType()) == true) {
-        total_mag_def = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalMagicalDefense(element);
-    } else if(IsTargetActor(target->GetType()) == true) {
-        total_mag_def = target->GetActor()->GetAverageMagicalDefense(element);
-    } else {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
-        return 0;
+    if(attack_point > -1) {
+        GlobalAttackPoint* atk_point = target_actor->GetAttackPoint(attack_point);
+        total_mag_def = atk_point ? atk_point->GetTotalMagicalDefense(element) : target_actor->GetAverageMagicalDefense(element);
+    }
+    else {
+        total_mag_def = target_actor->GetAverageMagicalDefense(element);
     }
 
     // Holds the total damage dealt
@@ -336,89 +210,11 @@ uint32 CalculateMagicalDamageAdder(BattleActor *attacker, BattleTarget *target,
 
     // If the total damage is zero, fall back to causing a small non-zero damage value
     if(total_dmg <= 0)
-        return static_cast<uint32>(RandomBoundedInteger(1, 5));
-
-    // Holds the absolute standard deviation used in the GaussianRandomValue function
-    float abs_std_dev = 0.0f;
-    abs_std_dev = static_cast<float>(total_dmg) * std_dev;
-    total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
-
-    // If the total damage came to a value less than or equal to zero after the gaussian randomization,
-    // fall back to returning a small non-zero damage value
-    if(total_dmg <= 0)
-        return static_cast<uint32>(RandomBoundedInteger(1, 5));
+        return static_cast<uint32>(RandomBoundedInteger(1, 5 + attacker->GetVigor() / 10));
 
     return static_cast<uint32>(total_dmg);
-} // uint32 CalculateMagicalDamageAdder(BattleActor* attacker, BattleTarget* target, int32 add_atk, float std_dev)
-
-uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *target,
-                                        GLOBAL_ELEMENTAL element, float mul_atk)
-{
-    return CalculateMagicalDamageMultiplier(attacker, target, element, mul_atk, 0.10f);
 }
 
-uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *target,
-                                        GLOBAL_ELEMENTAL element, float mul_atk, float std_dev)
-{
-    if(attacker == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL attacker argument" << std::endl;
-        return 0;
-    }
-    if(target == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL target argument" << std::endl;
-        return 0;
-    }
-    if(IsTargetParty(target->GetType()) == true) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "target was a party type: " << target->GetType() << std::endl;
-        return 0;
-    }
-    if(mul_atk < 0.0f) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative multiplier arument: " << mul_atk << std::endl;
-        mul_atk = fabs(mul_atk);
-    }
-    if(std_dev < 0.0f) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received negative standard deviation argument: " << std_dev << std::endl;
-        std_dev = fabs(std_dev);
-    }
-
-    // Retrieve the total physical attack of the attacker and apply the modifier
-    int32 total_mag_atk = static_cast<int32>(static_cast<float>(attacker->GetTotalMagicalAttack(element)) * mul_atk);
-
-    if(total_mag_atk < 0)
-        total_mag_atk = 0;
-
-    // Holds the total physical defense of the target
-    int32 total_mag_def = 0;
-
-    if(IsTargetPoint(target->GetType()) == true) {
-        total_mag_def = target->GetActor()->GetAttackPoint(target->GetPoint())->GetTotalMagicalDefense(element);
-    } else if(IsTargetActor(target->GetType()) == true) {
-        total_mag_def = target->GetActor()->GetAverageMagicalDefense(element);
-    } else {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << target->GetType() << std::endl;
-        return 0;
-    }
-
-    // Holds the total damage dealt
-    int32 total_dmg = total_mag_atk - total_mag_def;
-
-    // If the total damage is zero, fall back to causing a small non-zero damage value
-    if(total_dmg <= 0)
-        return static_cast<uint32>(RandomBoundedInteger(1, 5));
-
-    // Holds the absolute standard deviation used in the GaussianRandomValue function
-    float abs_std_dev = 0.0f;
-    // A value of "0.075f" means the standard deviation should be 7.5% of the mean (the total damage)
-    abs_std_dev = static_cast<float>(total_dmg) * std_dev;
-    total_dmg = GaussianRandomValue(total_dmg, abs_std_dev, false);
-
-    // If the total damage came to a value less than or equal to zero after the gaussian randomization,
-    // fall back to returning a small non-zero damage value
-    if(total_dmg <= 0)
-        return static_cast<uint32>(RandomBoundedInteger(1, 5));
-
-    return static_cast<uint32>(total_dmg);
-} // uint32 CalculateMagicalDamageMultiplier(BattleActor* attacker, BattleTarget* target, float mul_phys, float std_dev)
 
 ////////////////////////////////////////////////////////////////////////////////
 // BattleTarget class
@@ -426,290 +222,178 @@ uint32 CalculateMagicalDamageMultiplier(BattleActor *attacker, BattleTarget *tar
 
 BattleTarget::BattleTarget() :
     _type(GLOBAL_TARGET_INVALID),
-    _point(0),
-    _actor(NULL),
-    _party(NULL)
+    _attack_point(0),
+    _actor_target(nullptr)
 {}
-
-
 
 void BattleTarget::InvalidateTarget()
 {
     _type = GLOBAL_TARGET_INVALID;
-    _point = 0;
-    _actor = NULL;
-    _party = NULL;
+    _attack_point = 0;
+    _actor_target = nullptr;
+    _party_target.clear();
 }
 
-
-
-bool BattleTarget::SetInitialTarget(BattleActor *user, GLOBAL_TARGET type)
+bool BattleTarget::SetTarget(BattleActor* attacker, vt_global::GLOBAL_TARGET type, BattleActor* target, uint32 attack_point)
 {
-    InvalidateTarget();
-
-    if(user == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
-        return false;
-    }
     if((type <= GLOBAL_TARGET_INVALID) || (type >= GLOBAL_TARGET_TOTAL)) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type argument: " << type << std::endl;
         return false;
     }
 
-    // Determine what party the initial target will exist in
-    std::deque<BattleActor *>* target_party;
-    if((type == GLOBAL_TARGET_ALLY_POINT) || (type == GLOBAL_TARGET_ALLY) || (type == GLOBAL_TARGET_ALL_ALLIES)
-            || (type == GLOBAL_TARGET_ALLY_EVEN_DEAD)) {
-        if(user->IsEnemy() == false)
-            target_party = &BattleMode::CurrentInstance()->GetCharacterParty();
-        else
-            target_party = &BattleMode::CurrentInstance()->GetEnemyParty();
-    } else if((type == GLOBAL_TARGET_FOE_POINT) || (type == GLOBAL_TARGET_FOE) || (type == GLOBAL_TARGET_ALL_FOES)) {
-        if(user->IsEnemy() == false)
-            target_party = &BattleMode::CurrentInstance()->GetEnemyParty();
-        else
-            target_party = &BattleMode::CurrentInstance()->GetCharacterParty();
-    } else {
-        target_party = NULL;
+    if (attacker == nullptr) {
+        PRINT_ERROR << "BattleTarget::SetTarget() called wirh nullptr attacker." << std::endl;
+        return false;
     }
 
-    // Set the actor/party according to the target type
+    InvalidateTarget();
+
+    // Set the target party according to the target type
+    std::deque<BattleActor *>* party_target = nullptr;
     switch(type) {
     case GLOBAL_TARGET_SELF_POINT:
-    case GLOBAL_TARGET_SELF:
     case GLOBAL_TARGET_ALLY_POINT:
+    case GLOBAL_TARGET_SELF:
     case GLOBAL_TARGET_ALLY:
-        _actor = user;
-        break;
     case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+    case GLOBAL_TARGET_DEAD_ALLY_ONLY:
+    case GLOBAL_TARGET_ALL_ALLIES:
+        if(attacker->IsEnemy())
+            party_target = &BattleMode::CurrentInstance()->GetEnemyParty();
+        else
+            party_target = &BattleMode::CurrentInstance()->GetCharacterParty();
+        break;
+
     case GLOBAL_TARGET_FOE_POINT:
     case GLOBAL_TARGET_FOE:
-        _actor = target_party->at(0);
-        break;
-    case GLOBAL_TARGET_ALL_ALLIES:
     case GLOBAL_TARGET_ALL_FOES:
-        _party = target_party;
+        if(attacker->IsEnemy())
+            party_target = &BattleMode::CurrentInstance()->GetCharacterParty();
+        else
+            party_target = &BattleMode::CurrentInstance()->GetEnemyParty();
         break;
+
     default:
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid type: " << type << std::endl;
+        // Shouldn't happen
+        PRINT_WARNING << "Invalid target type argument: " << type << std::endl;
         return false;
+        break;
     }
 
+    // Check whether the actor is actually part of the party and fix this if needed.
+    if (target && std::find(party_target->begin(), party_target->end(), target) == party_target->end())
+        target = party_target->at(0);
+
+    if (target != nullptr)
+        _actor_target = target;
+    else
+        _actor_target = party_target->at(0);
+
     _type = type;
+
+    _party_target.clear();
+    for (size_t i = 0; i < party_target->size(); ++i) {
+        _party_target.push_back(party_target->at(i));
+    }
+
+    _attack_point = attack_point;
+    if (_attack_point >= _actor_target->GetAttackPoints().size())
+        _attack_point = 0;
 
     // If the target is not a party and not the user themselves, select the first valid actor
-    if((_actor != NULL) && (_actor != user)) {
-        if(!IsValid()) {
-            if(!SelectNextActor(user, true, true)) {
-                IF_PRINT_WARNING(BATTLE_DEBUG)
-                        << "could not find an initial actor that was a valid target" << std::endl;
-                return false;
-            }
-        }
+    if(!IsValid() && !SelectNextActor()) {
+        InvalidateTarget();
+
+        PRINT_WARNING << "Could not find an initial actor that was a valid target" << std::endl;
+        return false;
     }
     return true;
 }
 
-bool BattleTarget::SetPointTarget(GLOBAL_TARGET type, uint32 attack_point, BattleActor *actor)
+bool BattleTarget::IsValid()
 {
-    if(IsTargetPoint(type) == false) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid type argument: " << type << std::endl;
-        return false;
-    }
-    if((actor == NULL) && (_actor == NULL)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to set an attack point with no valid actor selected" << std::endl;
-        return false;
-    } else if((actor == NULL) && (attack_point >= _actor->GetAttackPoints().size())) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "attack point index was out-of-range: " << attack_point << std::endl;
-        return false;
-    } else if((_actor == NULL) && (attack_point >= actor->GetAttackPoints().size())) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "attack point index was out-of-range: " << attack_point << std::endl;
+    if (!_actor_target || _party_target.empty()) {
+        PRINT_WARNING << "No valid actor or party set: " << _type << std::endl;
         return false;
     }
 
-    _type = type;
-    _point = attack_point;
-    if(actor != NULL)
-        _actor = actor;
-    _party = NULL;
-    return true;
-}
-
-bool BattleTarget::SetActorTarget(GLOBAL_TARGET type, BattleActor *actor)
-{
-    if(!IsTargetActor(type)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG)
-                << "function received invalid type argument: " << type << std::endl;
-        return false;
-    }
-    if(!actor) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument"
-                                       << std::endl;
-        return false;
-    }
-
-    _type = type;
-    _point = 0;
-    _actor = actor;
-    _party = NULL;
-    return true;
-}
-
-bool BattleTarget::SetPartyTarget(GLOBAL_TARGET type, std::deque<BattleActor *>* party)
-{
-    if(!IsTargetParty(type)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG)
-                << "function received invalid type argument: " << type << std::endl;
-        return false;
-    }
-    if(!party) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument"
-                                       << std::endl;
-        return false;
-    }
-
-    _type = type;
-    _point = 0;
-    _actor = NULL;
-    _party = party;
-    return true;
-}
-
-
-bool BattleTarget::IsValid(bool permit_dead_targets)
-{
-    // No dead enemies can be selected here.
     if(IsTargetPoint(_type)) {
-        if(!_actor)
+        if(_attack_point >= _actor_target->GetAttackPoints().size())
             return false;
-        bool enemy_actor = _actor->IsEnemy();
-
-        if(_point >= _actor->GetAttackPoints().size())
-            return false;
-        // We extra check the actor HP since the state might desynced on purpose.
-        else if(!_actor->IsAlive() || _actor->GetHitPoints() == 0)
-            return !enemy_actor && permit_dead_targets;
-        else if(_actor->GetState() == ACTOR_STATE_DYING)
-            return !enemy_actor && permit_dead_targets;
-        else
-            return true;
-    } else if(IsTargetActor(_type) == true) {
-        if(!_actor)
-            return false;
-        bool enemy_actor = _actor->IsEnemy();
-
-        if(!_actor->IsAlive() || _actor->GetHitPoints() == 0)
-            return !enemy_actor && permit_dead_targets;
-        else if(_actor->GetState() == ACTOR_STATE_DYING)
-            return !enemy_actor && permit_dead_targets;
-        else
-            return true;
-    } else if(IsTargetParty(_type)) {
-        if(!_party)
-            return false;
-        else
-            return true;
-    } else {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << _type << std::endl;
-        return false;
     }
+
+    // If we can't find the actor within the party, then it's bad.
+    if (std::find(_party_target.begin(), _party_target.end(), _actor_target) == _party_target.end())
+        return false;
+
+    bool permit_dead_targets = (_type == GLOBAL_TARGET_ALLY_EVEN_DEAD || _type == GLOBAL_TARGET_DEAD_ALLY_ONLY);
+
+    if (!_actor_target->IsAlive() || !_actor_target->CanFight() || _actor_target->GetHitPoints() == 0)
+        return permit_dead_targets;
+
+    return true;
 }
 
-bool BattleTarget::SelectNextPoint(BattleActor *user, bool direction, bool valid_criteria,
-                                   bool permit_dead_targets)
+bool BattleTarget::SelectNextPoint(bool direction)
 {
-    if(user == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
-        return false;
-    }
     if(IsTargetPoint(_type) == false) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << _type << std::endl;
         return false;
     }
-    if(_actor == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "no valid actor target" << std::endl;
+    if(_actor_target == nullptr || _party_target.empty()) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "No valid target set" << std::endl;
         return false;
     }
 
-    // First check for the case where we need to select a new actor
-    if(valid_criteria && !IsValid(permit_dead_targets)) {
-        _point = 0;
-        return SelectNextActor(user, direction, valid_criteria, permit_dead_targets);
+    // First check for the case where we need to select a new actor first
+    if(!IsValid()) {
+        _attack_point = 0;
+        return SelectNextActor();
     }
 
     // If the actor has only a single attack point, there's no way to select another attack point
-    uint32 num_points = _actor->GetAttackPoints().size();
-    if(num_points == 1) {
-        return false;
-    }
+    uint32 num_points = _actor_target->GetAttackPoints().size();
+    if(num_points == 1)
+        return true;
 
     if(direction == true) {
-        _point++;
-        if(_point >= num_points)
-            _point = 0;
+        ++_attack_point;
+        if(_attack_point >= num_points)
+            _attack_point = 0;
     } else {
-        if(_point == 0)
-            _point = num_points - 1;
+        if(_attack_point == 0)
+            _attack_point = num_points - 1;
         else
-            _point--;
+            --_attack_point;
     }
     return true;
 }
 
-
-
-bool BattleTarget::SelectNextActor(BattleActor *user, bool direction, bool valid_criteria,
-                                   bool permit_dead_targets)
+bool BattleTarget::SelectNextActor(bool direction)
 {
-    if(!user) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument"
-                                       << std::endl;
-        return false;
-    }
-    if((!IsTargetPoint(_type)) && (!IsTargetActor(_type))) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << _type
-                                       << std::endl;
-        return false;
-    }
-    if(!_actor) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "no valid actor target" << std::endl;
+    if(!IsTargetPoint(_type) && !IsTargetActor(_type)) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "Invalid target type: " << _type << std::endl;
         return false;
     }
 
-    // ----- (1): Retrieve the proper party container that contains the actors we would like to select from
-    std::deque<BattleActor *>* target_party = NULL;
-    if((_type == GLOBAL_TARGET_SELF_POINT) || (_type == GLOBAL_TARGET_SELF)) {
-        return false; // Self type targets do not have multiple actors to select from
-    } else if((_type == GLOBAL_TARGET_ALLY_POINT) || (_type == GLOBAL_TARGET_ALLY)
-              || (_type == GLOBAL_TARGET_ALLY_EVEN_DEAD)) {
-        if(user->IsEnemy() == false)
-            target_party = &BattleMode::CurrentInstance()->GetCharacterParty();
-        else
-            target_party = &BattleMode::CurrentInstance()->GetEnemyParty();
-    } else if((_type == GLOBAL_TARGET_FOE_POINT) || (_type == GLOBAL_TARGET_FOE)) {
-        if(user->IsEnemy() == false)
-            target_party = &BattleMode::CurrentInstance()->GetEnemyParty();
-        else
-            target_party = &BattleMode::CurrentInstance()->GetCharacterParty();
-    } else {
-        // This should never be reached because the target type was already determined to be a point or actor above
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << _type << std::endl;
+    // Check the target party for early exit conditions
+    if(_party_target.empty()) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "Actor target's party was empty" << std::endl;
         return false;
     }
-
-    // ----- (2): Check the target party for early exit conditions
-    if(target_party->empty() == true) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "actor target's party was empty" << std::endl;
-        return false;
-    }
-    if(target_party->size() == 1) {
+    if(_party_target.size() == 1) {
         return false; // No more actors to select from in the party
     }
 
-    // ----- (3): Determine the index of the current actor in the target party
+    // The target died in between events. Let's reset it.
+    if(!_actor_target) {
+        _actor_target = _party_target.at(0);
+    }
+
+    // Determine the index of the current actor in the target party
     uint32 original_target_index = 0xFFFFFFFF; // Initially set to an impossibly high index for error checking
-    for(uint32 i = 0; i < target_party->size(); i++) {
-        if(target_party->at(i) == _actor) {
+    for(uint32 i = 0; i < _party_target.size(); ++i) {
+        if(_party_target.at(i) == _actor_target) {
             original_target_index = i;
             break;
         }
@@ -719,65 +403,80 @@ bool BattleTarget::SelectNextActor(BattleActor *user, bool direction, bool valid
         return false;
     }
 
-    // ----- (4): Starting from the index of the original actor, select the next available actor
-    BattleActor *original_actor = _actor;
+    // Starting from the index of the original actor, select the next available actor
+    BattleActor* original_actor = _actor_target;
     uint32 new_target_index = original_target_index;
     while(true) {
         // Increment or decrement the target index based on the direction argument
         if(direction == true) {
-            new_target_index = (new_target_index >= target_party->size() - 1) ? 0 : new_target_index + 1;
+            new_target_index = (new_target_index >= _party_target.size() - 1) ? 0 : new_target_index + 1;
         } else {
-            new_target_index = (new_target_index == 0) ? target_party->size() - 1 : new_target_index - 1;
+            new_target_index = (new_target_index == 0) ? _party_target.size() - 1 : new_target_index - 1;
         }
 
         // If we've reached the original target index then we were unable to select another actor target
         if(new_target_index == original_target_index) {
-            _actor = original_actor;
+            _actor_target = original_actor;
             return false;
         }
 
         // Set the new actor target and if required, ascertain the new target's validity. If the new target
         // must be valid and this new actor is not, the loop will continue and will try again with the next actor
-        _actor = target_party->at(new_target_index);
-        if(valid_criteria == false) {
+        _actor_target = _party_target.at(new_target_index);
+        if (IsValid())
             return true;
-        } else if(IsValid(permit_dead_targets)) {
-            return true;
-        }
     }
-} // bool BattleTarget::SelectNextActor(BattleActor* user, bool direction, bool valid_criteria)
-
-
-
-BattleActor *BattleTarget::GetPartyActor(uint32 index)
-{
-    if(_party == NULL) {
-        return NULL;
-    }
-
-    if(index >= _party->size()) {
-        return NULL;
-    }
-
-    return (*_party)[index];
 }
 
+BattleActor* BattleTarget::GetPartyActor(uint32 index)
+{
+    if (index >= _party_target.size())
+        return nullptr;
 
+    return _party_target.at(index);
+}
 
 ustring BattleTarget::GetName()
 {
-    if((_type == GLOBAL_TARGET_SELF_POINT) || (_type == GLOBAL_TARGET_ALLY_POINT) || (_type == GLOBAL_TARGET_FOE_POINT)) {
-        return (_actor->GetName() + UTranslate(" — ") + (_actor->GetAttackPoints()).at(_point)->GetName());
-    } else if((_type == GLOBAL_TARGET_SELF) || (_type == GLOBAL_TARGET_ALLY) || (_type == GLOBAL_TARGET_FOE)
-              || (_type == GLOBAL_TARGET_ALLY_EVEN_DEAD)) {
-        return _actor->GetName();
-    } else if(_type == GLOBAL_TARGET_ALL_ALLIES) {
+    switch(_type) {
+    default:
+        return UTranslate("[Invalid Target]");
+
+    case GLOBAL_TARGET_SELF_POINT:
+    case GLOBAL_TARGET_ALLY_POINT:
+    case GLOBAL_TARGET_FOE_POINT:
+        return (_actor_target->GetName() + UTranslate(" — ") + (_actor_target->GetAttackPoints()).at(_attack_point)->GetName());
+
+    case GLOBAL_TARGET_SELF:
+    case GLOBAL_TARGET_ALLY:
+    case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+    case GLOBAL_TARGET_DEAD_ALLY_ONLY:
+    case GLOBAL_TARGET_FOE:
+        return _actor_target->GetName();
+
+    case GLOBAL_TARGET_ALL_ALLIES:
         return UTranslate("All Allies");
-    } else if(_type == GLOBAL_TARGET_ALL_FOES) {
+
+    case GLOBAL_TARGET_ALL_FOES:
         return UTranslate("All Enemies");
     }
+}
 
-    return UTranslate("[Invalid Target]");
+BattleTarget& BattleTarget::operator=(const BattleTarget& copy)
+{
+    if(this == &copy)  // Handle self-assignment case
+        return *this;
+
+    _type = copy._type;
+    _attack_point = copy._attack_point;
+    _actor_target = copy._actor_target;
+
+    std::deque<BattleActor *> _party_target;
+    for (uint32 i = 0; i < copy._party_target.size(); ++i) {
+        _party_target.push_back(copy._party_target[i]);
+    }
+
+    return *this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

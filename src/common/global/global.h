@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -24,6 +24,8 @@
 
 #ifndef __GLOBAL_HEADER__
 #define __GLOBAL_HEADER__
+
+#include "utils/utils_strings.h"
 
 #include "engine/script/script_read.h"
 #include "engine/script/script_write.h"
@@ -196,50 +198,27 @@ private:
 };
 
 // A simple structure used to store quest log system info.
-struct QuestLogInfo {
-    QuestLogInfo(const vt_utils::ustring &title,
-                 const vt_utils::ustring &description,
-                 const vt_utils::ustring &completion_description,
-                 const std::string &completion_event_group,
-                 const std::string &completion_event_name,
-                 const vt_utils::ustring &location_name,
-                 const std::string &location_banner_filename,
-                 const vt_utils::ustring &location_subname,
-                 const std::string &location_subimage_filename) :
-        _title(title),
-        _description(description),
-        _completion_description(completion_description),
-        _completion_event_group(completion_event_group),
-        _completion_event_name(completion_event_name),
-        _location_name(location_name),
-        _location_subname(location_subname)
-    {
-        if(!_location_image.Load(location_banner_filename))
-        {
-            PRINT_ERROR << "image: " << location_banner_filename << " not able to load" << std::endl;
-            return;
-        }
-        //rescale such that the height is no bigger than 90 pixels. we give ourselves a bit of wiggle room
-        //by actually setting it to 90px, 5 pixel buffer top and bottom, so that we can utilize a potential 100px
-        if(_location_image.GetHeight() > 90.0f)
-            _location_image.SetHeightKeepRatio(90.0f);
+class QuestLogInfo {
 
-        if(!_location_subimage.Load(location_subimage_filename))
-        {
-            PRINT_ERROR << "image: " << location_subimage_filename << " not able to load" << std::endl;
-            return;
-        }
-        //rescale such that the height is no bigger than 90 pixels. we give ourselves a bit of wiggle room
-        //by actually setting it to 90px, 5 pixel buffer top and bottom, so that we can utilize a potential 100px
-        if(_location_subimage.GetHeight() > 90.0f)
-            _location_subimage.SetHeightKeepRatio(90.0f);
-
-
-
-    }
+public:
+    QuestLogInfo(const vt_utils::ustring& title,
+                 const vt_utils::ustring& description,
+                 const vt_utils::ustring& completion_description,
+                 const std::string& completion_event_group,
+                 const std::string& completion_event_name,
+                 const vt_utils::ustring& location_name,
+                 const std::string& location_banner_filename,
+                 const vt_utils::ustring& location_subname,
+                 const std::string& location_subimage_filename);
 
     QuestLogInfo()
     {}
+
+    void SetNotCompletableIf(const std::string& not_completable_event_group,
+                             const std::string& not_completable_event_name) {
+        _not_completable_event_group = not_completable_event_group;
+        _not_completable_event_name = not_completable_event_name;
+    }
 
     // User info about the quest log
     vt_utils::ustring _title;
@@ -250,6 +229,9 @@ struct QuestLogInfo {
     // Internal quest info used to know whether the quest is complete.
     std::string _completion_event_group;
     std::string _completion_event_name;
+    // Internal quest info used to know whether the quest is not comppletable anymore.
+    std::string _not_completable_event_group;
+    std::string _not_completable_event_name;
 
     // location information
     vt_video::StillImage _location_image;
@@ -268,29 +250,21 @@ struct QuestLogInfo {
 struct WorldMapLocation
 {
 public:
-    WorldMapLocation()
-    {
-        _image.SetStatic(true);
-    }
+    WorldMapLocation():
+        _x(0.0f),
+        _y(0.0f)
+    {}
 
-    WorldMapLocation(float x, float y, const std::string &location_name, const std::string &image_path, const std::string &world_map_location_id) :
-        _x(x),
-        _y(y),
-        _location_name(location_name),
-        _world_map_location_id(world_map_location_id)
-    {
-        if(!_image.Load(image_path))
-            PRINT_ERROR << "image: " << image_path << " not able to load" << std::endl;
-    }
+    WorldMapLocation(float x, float y, const std::string& location_name,
+                     const std::string& image_path, const std::string& world_map_location_id);
 
     WorldMapLocation(const WorldMapLocation &other):
         _x(other._x),
         _y(other._y),
         _location_name(other._location_name),
-        _world_map_location_id(other._world_map_location_id)
-    {
-        _image = other._image;
-    }
+        _world_map_location_id(other._world_map_location_id),
+        _image(other._image)
+    {}
 
     WorldMapLocation &operator=(const WorldMapLocation &other)
     {
@@ -304,7 +278,7 @@ public:
         return *this;
     }
 
-    ~WorldMapLocation(){
+    ~WorldMapLocation() {
         _image.Clear();
     }
 
@@ -385,7 +359,7 @@ public:
 
     /** \brief Returns a pointer to a character currently in the party.
     *** \param id The ID number of the character to retrieve.
-    *** \return A pointer to the character, or NULL if the character was not found.
+    *** \return A pointer to the character, or nullptr if the character was not found.
     ***/
     GlobalCharacter *GetCharacter(uint32 id);
 
@@ -403,6 +377,9 @@ public:
         if(_characters.find(id) != _characters.end()) return true;
         else return false;
     }
+
+    //! \brief Tells whether an enemy id is existing in the enemy data.
+    bool DoesEnemyExist(uint32 enemy_id);
     //@}
 
     //! \name Inventory Methods
@@ -433,21 +410,15 @@ public:
     ***
     *** This function removes the item regardless of what the GlobalObject#_count member is set to.
     *** If you want to remove only a certain number of instances of the object, use the function
-    *** GameGlobal#DecrementObjectCount.
+    *** GameGlobal#DecrementItemCount.
     **/
     void RemoveFromInventory(uint32 obj_id);
 
-    /** \brief Retries a single copy of an object from the inventory
-    *** \param obj_id The identifier value of the item to remove
-    *** \param all_counts If set to true, all counts of the object will be removed from the inventory (default value == false)
-    *** \return A newly instantiated copy of the object, or NULL if the object was not found in the inventory
-    ***
-    *** If all_counts is false, the returned object will have a count of one and the count of the object inside the inventory
-    *** will be decremented by one. If all_counts is ture, the returned object will have the same count as was previously in
-    *** the inventory, and the object will be removed from the inventory alltogether. Note that the pointer returned will need
-    *** to be deleted by the user code, unless the object is re-added to the inventory or equipped on a character.
+    /** \brief Gets a copy of an object from the inventory
+    *** \param obj_id The identifier value of the item to obtain
+    *** \return A newly instantiated copy of the object, or nullptr if the object was not found in the inventory
     **/
-    GlobalObject *RetrieveFromInventory(uint32 obj_id, bool all_counts = false);
+    GlobalObject* GetGlobalObject(uint32 obj_id);
 
     /** \brief Increments the number (count) of an object in the inventory
     *** \param item_id The integer identifier of the item that will have its count incremented
@@ -458,7 +429,7 @@ public:
     ***
     *** \note The callee can not assume that the function call succeeded, but rather has to check this themselves.
     **/
-    void IncrementObjectCount(uint32 obj_id, uint32 obj_count = 1);
+    void IncrementItemCount(uint32 obj_id, uint32 obj_count = 1);
 
     /** \brief Decrements the number (count) of an object in the inventory
     *** \param item_id The integer identifier of the item that will have its count decremented
@@ -470,13 +441,13 @@ public:
     ***
     *** \note The callee can not assume that the function call succeeded, but rather has to check this themselves.
     **/
-    void DecrementObjectCount(uint32 obj_id, uint32 obj_count = 1);
+    void DecrementItemCount(uint32 obj_id, uint32 obj_count = 1);
 
     /** \brief Checks whether or a given object is currently stored in the inventory
     *** \param id The id of the object (item, weapon, armor, etc.) to check for
     *** \return True if the object was found in the inventor, or false if it was not found
     **/
-    bool IsObjectInInventory(uint32 id) {
+    bool IsItemInInventory(uint32 id) {
         return (_inventory.find(id) != _inventory.end());
     }
 
@@ -516,13 +487,13 @@ public:
 
     /** \brief Returns a pointer to an event group of the specified name
     *** \param group_name The name of the event group to retreive
-    *** \return A pointer to the GlobalEventGroup that represents the event group, or NULL if no event group
-    *** of the specifed name was found
+    *** \return A pointer to the GlobalEventGroup that represents the event group, or nullptr if no event group
+    *** of the specified name was found
     ***
     *** You can use this method to invoke the public methods of the GlobalEventGroup class. For example, if
     *** we wanted to add a new event "cave_collapse" with a value of 1 to the group event "cave_map", we
     *** would do the following: GlobalManager->GetEventGroup("cave_map")->AddNewEvent("cave_collapse", 1);
-    *** Be careful, however, because since this function returns NULL if the event group was not found, the
+    *** Be careful, however, because since this function returns nullptr if the event group was not found, the
     *** example code above would produce a segmentation fault if no event group by the name "cave_map" existed.
     **/
     GlobalEventGroup *GetEventGroup(const std::string &group_name) const;
@@ -556,19 +527,38 @@ public:
 
     //! \name Quest Log Entry methods
     //@{
-    //! Tells whether a quest id is completed, based on the internal quest info
+    //! \brief Tells whether a quest id is completed, based on the internal quest info
     //! and the current game event values.
-    bool IsQuestCompleted(const std::string &quest_id)
+    //! \param quest_id the string id into quests table for this quest
+    bool IsQuestCompleted(const std::string& quest_id)
     {
-        if (_quest_log_info.find(quest_id) == _quest_log_info.end())
+        std::map<std::string, vt_global::QuestLogInfo>::iterator it = _quest_log_info.find(quest_id);
+        if (it == _quest_log_info.end())
             return false;
-        const QuestLogInfo info = _quest_log_info[quest_id];
+        const QuestLogInfo& info = it->second;
+        if (info._completion_event_group.empty() || info._completion_event_name.empty())
+            return true;
 
         return (GetEventValue(info._completion_event_group, info._completion_event_name) == 1);
     }
 
+    //! \brief Tells whether a quest id is completed, based on the internal quest info
+    //! and the current game event values.
+    //! \param quest_id the string id into quests table for this quest
+    bool IsQuestCompletable(const std::string& quest_id)
+    {
+        std::map<std::string, vt_global::QuestLogInfo>::iterator it = _quest_log_info.find(quest_id);
+        if (it == _quest_log_info.end())
+            return true;
+        const QuestLogInfo& info = it->second;
+        if (info._not_completable_event_group.empty() || info._not_completable_event_name.empty())
+            return true;
+
+        return (GetEventValue(info._not_completable_event_group, info._not_completable_event_name) == 0);
+    }
+
     /** \brief adds a new quest log entry into the quest log entries table
-    *** \param the string id into quests table for this quest
+    *** \param quest_id the string id into quests table for this quest
     *** \return true if the entry was added. false if the entry already exists
     **/
     bool AddQuestLog(const std::string &quest_id)
@@ -674,7 +664,7 @@ public:
     }
 
     /** \brief adds a viewable location string id to the currently viewable
-    *** set. This string IDs are maintained in the dat/ folder
+    *** set. This string IDs are maintained in the data/config/world_location.lua file.
     *** \param the string id to the currently viewable location
     **/
     void ShowWorldLocation(const std::string &location_id)
@@ -683,7 +673,7 @@ public:
         //if you want to remove an id, call HideWorldLocation
         if(location_id.empty())
             return;
-        // check to make sure this location isn't already visable
+        // check to make sure this location isn't already visible
         if(std::find(_viewable_world_locations.begin(),
                      _viewable_world_locations.end(),
                      location_id) == _viewable_world_locations.end())
@@ -716,13 +706,13 @@ public:
 
     /** \brief get a pointer to the associated world location for the id
     *** \param string Reference if for the world map location
-    *** \return NULL if the location does not exist. otherwise, return a const pointer
+    *** \return nullptr if the location does not exist. otherwise, return a const pointer
     *** to the location
     **/
     WorldMapLocation *GetWorldLocation(const std::string &id)
     {
         std::map<std::string, WorldMapLocation>::iterator itr = _world_map_locations.find(id);
-        return itr == _world_map_locations.end() ? NULL : &(itr->second);
+        return itr == _world_map_locations.end() ? nullptr : &(itr->second);
     }
 
     /** \brief Gets a reference to the current world location id
@@ -754,6 +744,15 @@ public:
     **/
     bool ShouldDisplayHudNameOnMapIntro() const {
         return !_same_map_hud_name_as_previous;
+    }
+
+    //! Tells whether the map mode minimap should be shown, if any.
+    bool ShouldShowMinimap() const {
+        return _show_minimap;
+    }
+
+    void ShowMinimap(bool show) {
+        _show_minimap = show;
     }
 
     //! \brief Executes function NewGame() from global script
@@ -831,7 +830,7 @@ public:
 
     //! \brief gets the current world map image
     //! \return a pointer to the currently viewable World Map Image.
-    //! \note returns NULL if the filename has been set to ""
+    //! \note returns nullptr if the filename has been set to ""
     vt_video::StillImage *GetWorldMapImage() const
     {
         return _world_map_image;
@@ -842,11 +841,21 @@ public:
         if (_world_map_image)
             return _world_map_image->GetFilename();
         else
-            return _empty_string;
+            return vt_utils::_empty_string;
     }
 
     std::vector<GlobalCharacter *>* GetOrderedCharacters() {
         return &_ordered_characters;
+    }
+
+    // Returns the character party position
+    uint32 GetPartyPosition(GlobalCharacter* character) {
+        for (uint32 i = 0; i < _ordered_characters.size(); ++i) {
+            if (_ordered_characters[i] == character)
+                return i;
+        }
+        // Default case
+        return 0;
     }
 
     GlobalParty *GetActiveParty() {
@@ -865,24 +874,28 @@ public:
         return &_inventory_weapons;
     }
 
-    std::vector<GlobalArmor *>* GetInventoryHeadArmor() {
+    std::vector<GlobalArmor *>* GetInventoryHeadArmors() {
         return &_inventory_head_armor;
     }
 
-    std::vector<GlobalArmor *>* GetInventoryTorsoArmor() {
+    std::vector<GlobalArmor *>* GetInventoryTorsoArmors() {
         return &_inventory_torso_armor;
     }
 
-    std::vector<GlobalArmor *>* GetInventoryArmArmor() {
+    std::vector<GlobalArmor *>* GetInventoryArmArmors() {
         return &_inventory_arm_armor;
     }
 
-    std::vector<GlobalArmor *>* GetInventoryLegArmor() {
+    std::vector<GlobalArmor *>* GetInventoryLegArmors() {
         return &_inventory_leg_armor;
     }
 
     std::vector<GlobalSpirit *>* GetInventorySpirits() {
         return &_inventory_spirits;
+    }
+
+    std::vector<GlobalObject *>* GetInventoryKeyItems() {
+        return &_inventory_key_items;
     }
 
     vt_script::ReadScriptDescriptor &GetItemsScript() {
@@ -931,6 +944,14 @@ public:
 
     vt_script::ReadScriptDescriptor &GetStatusEffectsScript() {
         return _status_effects_script;
+    }
+
+    vt_script::ReadScriptDescriptor &GetCharactersScript() {
+        return _characters_script;
+    }
+
+    vt_script::ReadScriptDescriptor &GetEnemiesScript() {
+        return _enemies_script;
     }
 
     vt_script::ReadScriptDescriptor &GetMapSpriteScript() {
@@ -1045,6 +1066,10 @@ private:
     std::vector<GlobalArmor *>    _inventory_arm_armor;
     std::vector<GlobalArmor *>    _inventory_leg_armor;
     std::vector<GlobalSpirit *>   _inventory_spirits;
+
+    //! \brief The key items can be any kind of items. Thus, this vector is used as reference
+    //! and shouldn't be saved or used to delete an item.
+    std::vector<GlobalObject *>   _inventory_key_items;
     //@}
 
     //! \name Global data and function script files
@@ -1087,6 +1112,12 @@ private:
 
     //! \brief Contains functional definitions for all status effects
     vt_script::ReadScriptDescriptor _status_effects_script;
+
+    //! \brief Contains data and functional definitions for characters
+    vt_script::ReadScriptDescriptor _characters_script;
+
+    //! \brief Contains data and functional definitions for enemies
+    vt_script::ReadScriptDescriptor _enemies_script;
 
     //! \brief Contains data and functional definitions for sprites seen in game maps
     vt_script::ReadScriptDescriptor _map_sprites_script;
@@ -1131,6 +1162,9 @@ private:
     //! \brief a map of the quest string ids to their info
     std::map<std::string, QuestLogInfo> _quest_log_info;
 
+    //! \brief Stores whether the map mode minimap should be shown.
+    bool _show_minimap;
+
     // ----- Global media files
     //! \brief member storing all the common media files.
     GlobalMedia _global_media;
@@ -1145,12 +1179,11 @@ private:
     template <class T> bool _RemoveFromInventory(uint32 obj_id, std::vector<T *>& inv);
 
     /** \brief A helper template function that finds and returns a copy of an object from the inventory
-    *** \param obj_id The ID of the object to remove from the inventory
+    *** \param obj_id The ID of the object to obtain from the inventory
     *** \param inv The vector container of the appropriate inventory type
-    *** \param all_counts If false the object's count is decremented by one from the inventory, otherwise all counts are removed completely
-    *** \return A pointer to the newly created copy of the object, or NULL if the object could not be found
+    *** \return A pointer to the newly created copy of the object, or nullptr if the object could not be found
     **/
-    template <class T> T *_RetrieveFromInventory(uint32 obj_id, std::vector<T *>& inv, bool all_counts);
+    template <class T> T *_GetFromInventory(uint32 obj_id, std::vector<T *>& inv);
 
     /** \brief A helper function to GameGlobal::SaveGame() that stores the contents of a type of inventory to the saved game file
     *** \param file A reference to the open and valid file where to write the inventory list
@@ -1236,7 +1269,7 @@ private:
 
     /** \brief Helper function called by LoadGlobalScripts() that (re)loads each world location from the script into the world location entry map
     *** \param file Path to the file to world locations script
-    *** \return true if succesfully loaded
+    *** \return true if successfully loaded
     **/
     bool _LoadWorldLocationsScript(const std::string &world_locations_filename);
 
@@ -1270,30 +1303,19 @@ template <class T> bool GameGlobal::_RemoveFromInventory(uint32 obj_id, std::vec
     return false;
 } // template <class T> bool GameGlobal::_RemoveFromInventory(uint32 obj_id, std::vector<T*>& inv)
 
-
-
-template <class T> T *GameGlobal::_RetrieveFromInventory(uint32 obj_id, std::vector<T *>& inv, bool all_counts)
+template <class T> T *GameGlobal::_GetFromInventory(uint32 obj_id, std::vector<T *>& inv)
 {
-    for(typename std::vector<T *>::iterator i = inv.begin(); i != inv.end(); i++) {
-        if((*i)->GetID() == obj_id) {
-            T *return_object;
-            if(all_counts == true || _inventory[obj_id]->GetCount() == 1) {
-                return_object = *i;
-                _inventory.erase(obj_id);
-                inv.erase(i);
-            } else {
-                return_object = new T(**i);
-                return_object->SetCount(1);
-                _inventory[obj_id]->DecrementCount();
-            }
-            return return_object;
-        }
+    for(typename std::vector<T*>::iterator it = inv.begin(); it != inv.end(); ++it) {
+        if((*it)->GetID() != obj_id)
+            continue;
+
+        T *return_object = new T(**it);
+        return_object->SetCount(1);
+        return return_object;
     }
 
-    return NULL;
-} // template <class T> T* GameGlobal::_RetrieveFromInventory(uint32 obj_id, std::vector<T*>& inv, bool all_counts)
-
-
+    return nullptr;
+}
 
 template <class T> void GameGlobal::_SaveInventory(vt_script::WriteScriptDescriptor &file, const std::string &name, std::vector<T *>& inv)
 {

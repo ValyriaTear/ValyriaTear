@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -47,7 +47,7 @@ public:
 
     ~TradeInterface();
 
-    //! \brief (Re)initializes the data conatiners and GUI objects to be used
+    //! \brief (Re)initializes the data containers and GUI objects to be used
     void Reinitialize();
 
     //! \brief Sets the selected object for the ShopObjectViewer class
@@ -55,6 +55,11 @@ public:
 
     //! \brief Reconstructs all buy display lists and resets the current category
     void TransactionNotification();
+
+    /** \brief Takes all necessary action for when the active view mode is to be altered
+    *** \param new_mode The new view mode to set
+    **/
+    void ChangeViewMode(SHOP_VIEW_MODE new_mode);
 
     //! \brief Processes user input and sends appropriate commands to helper class objects
     void Update();
@@ -117,11 +122,6 @@ private:
     *** Refresh the available item categories.
     **/
     void _RefreshItemCategories();
-
-    /** \brief Takes all necessary action for when the active view mode is to be altered
-    *** \param new_mode The new view mode to set
-    **/
-    void _ChangeViewMode(SHOP_VIEW_MODE new_mode);
 
     /** \brief Changes the current category and object list that is being displayed
     *** \param left_or_right False to move the category to the left, or true for the right

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,10 +15,12 @@
 *** \brief   Source file for global game skills.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
+#include "global_skills.h"
+
 #include "engine/script/script.h"
 #include "engine/video/video.h"
 
-#include "global_skills.h"
 #include "global.h"
 
 using namespace vt_utils;
@@ -41,6 +43,7 @@ using namespace private_global;
 
 GlobalSkill::GlobalSkill(uint32 id) :
     _id(id),
+    _show_skill_notice(false),
     _type(GLOBAL_SKILL_INVALID),
     _sp_required(0),
     _warmup_time(0),
@@ -48,7 +51,7 @@ GlobalSkill::GlobalSkill(uint32 id) :
     _target_type(GLOBAL_TARGET_INVALID)
 {
     // A pointer to the skill script which will be used to load this skill
-    ReadScriptDescriptor *skill_script = NULL;
+    ReadScriptDescriptor *skill_script = nullptr;
 
     if((_id > 0) && (_id <= MAX_WEAPON_SKILL_ID)) {
         _type = GLOBAL_SKILL_WEAPON;
@@ -81,6 +84,8 @@ GlobalSkill::GlobalSkill(uint32 id) :
         _description = MakeUnicodeString(skill_script->ReadString("description"));
     if(skill_script->DoesStringExist("icon"))
         _icon_filename = skill_script->ReadString("icon");
+    if(skill_script->DoesBoolExist("show_notice"))
+        _show_skill_notice = skill_script->ReadBool("show_notice");
     _sp_required = skill_script->ReadUInt("sp_required");
     _warmup_time = skill_script->ReadUInt("warmup_time");
     _cooldown_time = skill_script->ReadUInt("cooldown_time");
@@ -112,23 +117,24 @@ GlobalSkill::GlobalSkill(uint32 id) :
     }
 } // GlobalSkill::GlobalSkill()
 
-GlobalSkill::GlobalSkill(const GlobalSkill &copy)
+GlobalSkill::GlobalSkill(const GlobalSkill &copy):
+    _icon_filename(copy._icon_filename),
+    _warmup_action_name(copy._warmup_action_name),
+    _action_name(copy._action_name),
+    _animation_scripts(copy._animation_scripts)
 {
     _name = copy._name;
     _description = copy._description;
-    _icon_filename = copy._icon_filename;
     _id = copy._id;
     _type = copy._type;
     _sp_required = copy._sp_required;
     _warmup_time = copy._warmup_time;
     _cooldown_time = copy._cooldown_time;
-    _action_name = copy._action_name;
     _target_type = copy._target_type;
 
     // Make copies of valid ScriptObject function pointers
     _battle_execute_function = copy._battle_execute_function;
     _field_execute_function = copy._field_execute_function;
-    _animation_scripts = copy._animation_scripts;
 }
 
 
@@ -146,6 +152,7 @@ GlobalSkill &GlobalSkill::operator=(const GlobalSkill &copy)
     _sp_required = copy._sp_required;
     _warmup_time = copy._warmup_time;
     _cooldown_time = copy._cooldown_time;
+    _warmup_action_name = copy._warmup_action_name;
     _action_name = copy._action_name;
     _target_type = copy._target_type;
 

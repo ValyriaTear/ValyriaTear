@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -21,7 +21,7 @@
 
 #include "script.h"
 
-#include "utils.h"
+#include "utils/ustring.h"
 
 namespace vt_script
 {
@@ -73,7 +73,7 @@ class ReadScriptDescriptor : public ScriptDescriptor
     friend class ScriptEngine;
 public:
     ReadScriptDescriptor() :
-        _lstack(NULL) {}
+        _lstack(nullptr) {}
 
     virtual ~ReadScriptDescriptor();
 
@@ -330,7 +330,7 @@ public:
     /** Opens the lua file own tablespace. It's useful to permit having several lua files
     *** with their own function without worrying too much about the global naming collisions.
     *** \note the tablespace must be named like the lua filename, but without the extension:
-    *** e.g.: dat/script/my_script.lua should have a 'my_script' tablespace defined
+    *** e.g.: data/scripts/my_script.lua should have a 'my_script' tablespace defined
     *** at the beginning of the file using the following way:
     ***
     *** local ns = {}
@@ -643,7 +643,7 @@ template <class T> void ReadScriptDescriptor::_ReadDataVectorHelper(std::vector<
     }
 
     // Iterate through all the items of the table and place it in the vector
-    for(luabind::iterator it(o); it != private_script::TABLE_END; it++) {
+    for(luabind::iterator it(o); it != private_script::TABLE_END; ++it) {
         try {
             vect.push_back(luabind::object_cast<T>((*it)));
         } catch(...) {
@@ -670,7 +670,7 @@ template <class T> void ReadScriptDescriptor::_ReadTableKeys(std::vector<T>& key
         return;
     }
 
-    for(luabind::iterator i(table); i != private_script::TABLE_END; i++) {
+    for(luabind::iterator i(table); i != private_script::TABLE_END; ++i) {
         try {
             keys.push_back(luabind::object_cast<T>(i.key()));
         } catch(...) {

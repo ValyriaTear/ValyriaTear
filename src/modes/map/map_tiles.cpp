@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,6 +15,7 @@
 *** \brief   Source file for map mode tile management.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "modes/map/map_tiles.h"
 
 #include "modes/map/map_mode.h"
@@ -31,10 +32,21 @@ namespace vt_map
 namespace private_map
 {
 
+//! \brief A helper function to convert a string to a layer type.
+static LAYER_TYPE StringToLayerType(const std::string& type)
+{
+    if(type == "ground")
+        return GROUND_LAYER;
+    else if(type == "sky")
+        return SKY_LAYER;
+    return INVALID_LAYER;
+}
+
 TileSupervisor::TileSupervisor() :
     _num_tile_on_x_axis(0),
     _num_tile_on_y_axis(0)
-{}
+{
+}
 
 TileSupervisor::~TileSupervisor()
 {
@@ -47,16 +59,6 @@ TileSupervisor::~TileSupervisor()
     _tile_images.clear();
     _animated_tile_images.clear();
 }
-
-static LAYER_TYPE getLayerType(const std::string &type)
-{
-    if(type == "ground")
-        return GROUND_LAYER;
-    else if(type == "sky")
-        return SKY_LAYER;
-    return INVALID_LAYER;
-}
-
 
 bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
 {
@@ -99,10 +101,8 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
             return false;
         }
 
-        // The map mode coordinate system used corresponds to a tile size of (2.0, 2.0)
         for(uint32 j = 0; j < TILES_PER_TILESET; j++) {
-            tileset_images[i][j].SetDimensions(2.0f, 2.0f);
-            tileset_images[i][j].Smooth(VideoManager->ShouldSmoothPixelArt());
+            tileset_images[i][j].SetDimensions(TILE_LENGTH, TILE_LENGTH);
         }
     }
 
@@ -136,7 +136,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
         // Add a layer for the base context
         _tile_grid.resize(layer_id + 1);
 
-        LAYER_TYPE layer_type = getLayerType(map_file.ReadString("type"));
+        LAYER_TYPE layer_type = StringToLayerType(map_file.ReadString("type"));
 
         if(layer_type == INVALID_LAYER) {
             PRINT_WARNING << "Ignoring unexisting layer type: " << layer_type
@@ -267,7 +267,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
                 }
 
                 AnimatedImage *new_animation = new AnimatedImage();
-                new_animation->SetDimensions(2.0f, 2.0f);
+                new_animation->SetDimensions(TILE_LENGTH, TILE_LENGTH);
 
                 // Each pair of entries in the animation info indicate the tile frame index (k) and the time (k+1)
                 for(uint32 k = 0; k < animation_info.size(); k += 2) {
@@ -312,9 +312,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
     tileset_images.clear();
 
     return true;
-} // bool TileSupervisor::Load(ReadScriptDescriptor& map_file)
-
-
+}
 
 void TileSupervisor::Update()
 {
@@ -322,7 +320,6 @@ void TileSupervisor::Update()
         _animated_tile_images[i]->Update();
     }
 }
-
 
 void TileSupervisor::DrawLayers(const MapFrame *frame, const LAYER_TYPE &layer_type)
 {
@@ -344,21 +341,21 @@ void TileSupervisor::DrawLayers(const MapFrame *frame, const LAYER_TYPE &layer_t
         // because the video engine will display the map tiles using their
         // top left coordinates to avoid a position computation flaw when specifying the tile
         // coordinates from the bottom center point, as the engine does for everything else.
-        VideoManager->Move(frame->tile_x_offset - 1.0f, frame->tile_y_offset - 2.0f);
-
+        VideoManager->Move(GRID_LENGTH * (frame->tile_x_offset - 1.0f), GRID_LENGTH * (frame->tile_y_offset - 2.0f));
         for(uint32 y = static_cast<uint32>(frame->tile_y_start); y < y_end; ++y) {
             for(uint32 x = static_cast<uint32>(frame->tile_x_start); x < x_end; ++x) {
                 // Draw a tile image if it exists at this location
                 if(layer.tiles[y][x] >= 0)
                     _tile_images[ layer.tiles[y][x] ]->Draw();
 
-                VideoManager->MoveRelative(2.0f, 0.0f);
+                VideoManager->MoveRelative(TILE_LENGTH, 0.0f);
             } // x
-            VideoManager->MoveRelative(-static_cast<float>(frame->num_draw_x_axis * 2), 2.0f);
+            VideoManager->MoveRelative(-static_cast<float>(frame->num_draw_x_axis) * TILE_LENGTH, TILE_LENGTH);
         } // y
     } // layer_id
-    // Restore the previous draw flags
-    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
+
+    // Restore the previous draw flags.
+    VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 }
 
 } // namespace private_map

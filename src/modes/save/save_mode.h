@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -46,16 +46,9 @@ extern bool SAVE_DEBUG;
 *** ***************************************************************************/
 class SmallCharacterWindow : public vt_gui::MenuWindow
 {
-private:
-    //! The name of the character that this window corresponds) to
-    vt_global::GlobalCharacter *_character;
-
-    //! The image of the character
-    vt_video::StillImage _portrait;
-
 public:
     SmallCharacterWindow():
-        _character(NULL)
+        _character(nullptr)
     {}
 
     ~SmallCharacterWindow();
@@ -69,6 +62,17 @@ public:
     *** \return success/failure
     **/
     void Draw();
+
+private:
+    //! The name of the character that this window corresponds) to
+    vt_global::GlobalCharacter *_character;
+
+    //! The image of the character
+    vt_video::StillImage _portrait;
+
+    //! The text along with the character portrait
+    vt_video::TextImage _character_name;
+    vt_video::TextImage _character_data;
 }; // class SmallCharacterWindow : public vt_video::MenuWindow
 
 

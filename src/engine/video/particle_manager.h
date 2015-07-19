@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -21,8 +21,6 @@
 
 #ifndef __PARTICLE_MANAGER_HEADER__
 #define __PARTICLE_MANAGER_HEADER__
-
-#include "utils.h"
 
 namespace vt_mode_manager
 {
@@ -58,18 +56,14 @@ public:
      */
     bool AddParticleEffect(const std::string &effect_filename, float x, float y);
 
-    /*!
-     *  \brief draws all active effects
-     * \return success/failure
-     */
-    bool Draw();
+    //! \brief draws all active effects
+    void Draw() const;
 
     /*!
-     *  \brief updates all active effects
-     * \param the new time
-     * \return success/failure
+     * \brief updates all active effects
+     * \param frame_time The elapsed time since last call.
      */
-    bool Update(int32 frame_time);
+    void Update(int32 frame_time);
 
     /*!
      *  \brief stops all registered effects

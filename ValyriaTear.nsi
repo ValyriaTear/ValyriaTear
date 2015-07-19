@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Valyria Tear"
-!define PRODUCT_VERSION "Half-Episode I Release Candidate 1"
+!define PRODUCT_VERSION "Episode I"
 !define PRODUCT_PUBLISHER "Bertram"
 !define PRODUCT_WEB_SITE "https://github.com/Bertram25/ValyriaTear/wiki"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\ValyriaTear.exe"
@@ -17,7 +17,7 @@
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "img/logos/program_icon.ico"
+!define MUI_ICON "data/icons/program_icon.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
 ; Welcome page
@@ -51,14 +51,12 @@ Section "MainSection" SEC01
   StrCpy $0 "ValyriaTear"
   SetOverwrite ifnewer
 
-  SetOutPath "$INSTDIR\dat"
-  File /r dat\*
-  SetOutPath "$INSTDIR\img"
-  File /r img\*
-  SetOutPath "$INSTDIR\mus"
-  File /r mus\*
-  SetOutPath "$INSTDIR\snd"
-  File /r snd\*
+  SetOutPath "$INSTDIR\data"
+  File /r data\*
+
+; The offline manual
+  SetOutPath "$INSTDIR\doc"
+  File /r doc\*
 
 ;  TODO: Add proper support for translatable languages
 ;  SetOutPath "$INSTDIR\po"
@@ -70,8 +68,22 @@ Section "MainSection" SEC01
   File /oname=valyriatear.mo po\it.mo
   SetOutPath "$INSTDIR\po\de\LC_MESSAGES"
   File /oname=valyriatear.mo po\de.mo
-  SetOutPath "$INSTDIR\po\en@quot\LC_MESSAGES"
-  File /oname=valyriatear.mo po\en@quot.mo
+  SetOutPath "$INSTDIR\po\es\LC_MESSAGES"
+  File /oname=valyriatear.mo po\es.mo
+  SetOutPath "$INSTDIR\po\gl\LC_MESSAGES"
+  File /oname=valyriatear.mo po\gl.mo
+  SetOutPath "$INSTDIR\po\nl_NL\LC_MESSAGES"
+  File /oname=valyriatear.mo po\nl_NL.mo
+  SetOutPath "$INSTDIR\po\pt_BR\LC_MESSAGES"
+  File /oname=valyriatear.mo po\pt_BR.mo
+  SetOutPath "$INSTDIR\po\pt_PT\LC_MESSAGES"
+  File /oname=valyriatear.mo po\pt_PT.mo
+  SetOutPath "$INSTDIR\po\ru\LC_MESSAGES"
+  File /oname=valyriatear.mo po\ru.mo
+  SetOutPath "$INSTDIR\po\en_GB\LC_MESSAGES"
+  File /oname=valyriatear.mo po\en_GB.mo
+  SetOutPath "$INSTDIR\po\sv\LC_MESSAGES"
+  File /oname=valyriatear.mo po\sv.mo
 
   SetOutPath "$INSTDIR"
   File valyriaTear.exe
@@ -79,6 +91,7 @@ Section "MainSection" SEC01
 
   CreateDirectory "$SMPROGRAMS\ValyriaTear"
   CreateShortCut "$SMPROGRAMS\ValyriaTear\$0.lnk" "$INSTDIR\$0.exe"
+  CreateShortCut "$SMPROGRAMS\ValyriaTear\Manual.lnk" "$INSTDIR\doc\index.htm"
 SectionEnd
 
 Section -AdditionalIcons
@@ -112,6 +125,7 @@ Section Uninstall
 
   Delete "$SMPROGRAMS\ValyriaTear\Uninstall.lnk"
   Delete "$SMPROGRAMS\ValyriaTear\$0.lnk"
+  Delete "$SMPROGRAMS\ValyriaTear\Manual.lnk"
 
   RMDir "$SMPROGRAMS\ValyriaTear"
   RMDir /r "$INSTDIR"

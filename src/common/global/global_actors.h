@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -29,8 +29,7 @@
 
 #include "engine/video/image.h"
 
-#include <map>
-#include <deque>
+#include "utils/ustring.h"
 
 /** \brief Namespace which contains all binding functions
 *** Contains the binding code which makes the C++ engine available to Lua
@@ -56,6 +55,56 @@ class GlobalCharacter;
 class GlobalSkill;
 class GlobalWeapon;
 
+class GlobalStat {
+
+public:
+    GlobalStat():
+        _base_value(0.0f),
+        _modifier(1.0f),
+        _final_value(0.0f)
+    {}
+
+    GlobalStat(float value):
+        _base_value(value),
+        _modifier(1.0f),
+        _final_value(value)
+    {}
+
+    void SetBase(float value) {
+        _base_value = value;
+        _ComputeFinalValue();
+    }
+
+    void SetModifier(float value) {
+        _modifier = value;
+        _ComputeFinalValue();
+    }
+
+    float GetValue() const {
+        return _final_value;
+    }
+
+    float GetModifier() const {
+        return _modifier;
+    }
+
+    float GetBase() const {
+        return _base_value;
+    }
+
+private:
+
+    float _base_value;
+
+    float _modifier;
+
+    float _final_value;
+
+    void _ComputeFinalValue() {
+        _final_value = _base_value * _modifier;
+    }
+}; // class GlobalStat
+
 /** ****************************************************************************
 *** \brief Represents the points of attack present on an actor
 ***
@@ -72,7 +121,7 @@ public:
     GlobalAttackPoint(GlobalActor *owner);
 
     ~GlobalAttackPoint() {
-        _actor_owner = NULL;
+        _actor_owner = nullptr;
     }
 
     /** \brief Reads in the attack point's data from a script file
@@ -88,7 +137,7 @@ public:
     bool LoadData(vt_script::ReadScriptDescriptor &script);
 
     /** \brief Determines the total physical and magical defense of the attack point
-    *** \param equipped_armor A pointer to the armor equipped on the attack point, or NULL if no armor is equipped
+    *** \param equipped_armor A pointer to the armor equipped on the attack point, or nullptr if no armor is equipped
     ***
     *** This method uses the owning GlobalActor's base defense stats, the attack point's defense modifiers stats,
     *** and the properties of the equipped armor to calculate the attack point's total physical and magical defense.
@@ -199,9 +248,9 @@ private:
     *** armor that is equipped on the attack point.
     **/
     //@{
-    uint16 _total_physical_defense;
+    uint32 _total_physical_defense;
     //! \brief The magical defense is computed against each elements.
-    uint16 _total_magical_defense[GLOBAL_ELEMENTAL_TOTAL];
+    uint32 _total_magical_defense[GLOBAL_ELEMENTAL_TOTAL];
     float _total_evade_rating;
     //@}
 
@@ -256,7 +305,7 @@ public:
     /** \name Class member get functions
     *** Some of these functions take an index argument to retrieve a particular
     *** attack point stat or piece of armor. If an invalid index is given, a zero
-    *** or NULL value will be returned.
+    *** or nullptr value will be returned.
     **/
     //@{
     uint32 GetID() const {
@@ -304,27 +353,51 @@ public:
     }
 
     uint32 GetStrength() const {
-        return _strength;
+        return (uint32)_strength.GetValue();
+    }
+
+    float GetStrengthModifier() const {
+        return _strength.GetModifier();
     }
 
     uint32 GetVigor() const {
-        return _vigor;
+        return (uint32)_vigor.GetValue();
+    }
+
+    float GetVigorModifier() const {
+        return _vigor.GetModifier();
     }
 
     uint32 GetFortitude() const {
-        return _fortitude;
+        return (uint32)_fortitude.GetValue();
+    }
+
+    float GetFortitudeModifier() const {
+        return _fortitude.GetModifier();
     }
 
     uint32 GetProtection() const {
-        return _protection;
+        return (uint32)_protection.GetValue();
+    }
+
+    float GetProtectionModifier() const {
+        return _protection.GetModifier();
     }
 
     uint32 GetAgility() const {
-        return _agility;
+        return (uint32)_agility.GetValue();
+    }
+
+    float GetAgilityModifier() const {
+        return _agility.GetModifier();
     }
 
     float GetEvade() const {
-        return _evade;
+        return _evade.GetValue();
+    }
+
+    float GetEvadeModifier() const {
+        return _evade.GetModifier();
     }
 
     uint32 GetTotalPhysicalAttack() const {
@@ -360,6 +433,14 @@ public:
     const std::vector<GlobalSkill *>& GetSkills() {
         return _skills;
     }
+
+    const std::string& GetDeathScriptFilename() const {
+        return _death_script_filename;
+    }
+
+    const std::string& GetBattleAIScriptFilename() const {
+        return _ai_script_filename;
+    }
     //@}
 
     /** \name Class member set functions
@@ -393,33 +474,77 @@ public:
     }
 
     virtual void SetStrength(uint32 st) {
-        _strength = st;
+        _strength.SetBase((float) st);
+        _CalculateAttackRatings();
+    }
+
+    virtual void SetStrengthModifier(float mod) {
+        _strength.SetModifier(mod);
         _CalculateAttackRatings();
     }
 
     virtual void SetVigor(uint32 vi) {
-        _vigor = vi;
+        _vigor.SetBase((float) vi);
+        _CalculateAttackRatings();
+    }
+
+    virtual void SetVigorModifier(float mod) {
+        _vigor.SetModifier(mod);
         _CalculateAttackRatings();
     }
 
     virtual void SetFortitude(uint32 fo) {
-        _fortitude = fo;
+        _fortitude.SetBase((float) fo);
+        _CalculateDefenseRatings();
+    }
+
+    virtual void SetFortitudeModifier(float mod) {
+        _fortitude.SetModifier(mod);
         _CalculateDefenseRatings();
     }
 
     virtual void SetProtection(uint32 pr) {
-        _protection = pr;
+        _protection.SetBase((float) pr);
+        _CalculateDefenseRatings();
+    }
+
+    virtual void SetProtectionModifier(float mod) {
+        _protection.SetModifier(mod);
         _CalculateDefenseRatings();
     }
 
     //! Made virtual to permit Battle Actors to recompute the idle state time.
     virtual void SetAgility(uint32 ag) {
-        _agility = ag;
+        _agility.SetBase((float) ag);
+    }
+
+    virtual void SetAgilityModifier(float mod) {
+        _agility.SetModifier(mod);
     }
 
     virtual void SetEvade(float ev) {
-        _evade = ev;
+        _evade.SetBase(ev);
         _CalculateEvadeRatings();
+    }
+
+    virtual void SetEvadeModifier(float mod) {
+        _evade.SetModifier(mod);
+        _CalculateEvadeRatings();
+    }
+
+    float GetElementalModifier(GLOBAL_ELEMENTAL element) const {
+        if (element <= GLOBAL_ELEMENTAL_INVALID || element >= GLOBAL_ELEMENTAL_TOTAL)
+            return 1.0f;
+        return _elemental_modifier[element];
+    }
+
+    void SetElementalModifier(GLOBAL_ELEMENTAL element, float value) {
+        if (element <= GLOBAL_ELEMENTAL_INVALID || element >= GLOBAL_ELEMENTAL_TOTAL)
+            return;
+        _elemental_modifier[element] = value;
+        // Updates ratings
+        _CalculateAttackRatings();
+        _CalculateDefenseRatings();
     }
     //@}
 
@@ -515,22 +640,22 @@ protected:
     uint32 _max_skill_points;
 
     //! \brief Used to determine the actor's physical attack rating
-    uint32 _strength;
+    GlobalStat _strength;
 
     //! \brief Used to determine the actor's magical attack rating
-    uint32 _vigor;
+    GlobalStat _vigor;
 
     //! \brief Used to determine the actor's physical defense rating
-    uint32 _fortitude;
+    GlobalStat _fortitude;
 
     //! \brief Used to determine the actor's magical defense rating
-    uint32 _protection;
+    GlobalStat _protection;
 
     //! \brief Used to calculate the time it takes to recover stamina in battles
-    uint32 _agility;
+    GlobalStat _agility;
 
     //! \brief The attack evade percentage of the actor, ranged from 0.0 to 1.0
-    float _evade;
+    GlobalStat _evade;
     //@}
 
     //! \brief The sum of the character's strength and their weapon's physical attack
@@ -539,19 +664,29 @@ protected:
     //! \brief The sum of the character's vigor and their weapon's magical attack for each elements.
     uint32 _total_magical_attack[GLOBAL_ELEMENTAL_TOTAL];
 
+    //! \brief Tells the current mag atk/def stats modifier of the actor against each elemental.
+    //! \note The modifier is multiplied to the current magical atk/def for the given elemental.
+    std::vector<float> _elemental_modifier;
+
     /** \brief The attack points that are located on the actor
     *** \note All actors must have at least one attack point.
     **/
     std::vector<GlobalAttackPoint *> _attack_points;
 
     /** \brief A map containing all skills that the actor can use
-    *** Unlike with characters, there is no need to hold the various types of skills in seperate containers
+    *** Unlike with characters, there is no need to hold the various types of skills in separate containers
     *** for enemies. An enemy must have <b>at least</b> one skill in order to do anything useful in battle.
     **/
     std::vector<GlobalSkill *> _skills;
 
     //! A vector keeping all the skills ids learned. Used for fast id requests.
     std::vector<uint32> _skills_id;
+
+    //! \brief Stores the animation script filename used when the actor dies.
+    std::string _death_script_filename;
+
+    //! \brief Stores the battle AI script filename used when the actor is fighting.
+    std::string _ai_script_filename;
 
     /** \brief Calculates an actor's physical and magical attack ratings
     *** This function sums the actor's strength/vigor with their weapon's attack ratings
@@ -623,7 +758,7 @@ public:
     *** \param initial If true, the character's stats, equipment, and skills are set
     *** to the character's initial status
     *** \note If initial is set to false, the character's stats, equipment, and skills
-    *** must be set by external code, otherwise they will remain 0/NULL/empty.
+    *** must be set by external code, otherwise they will remain 0/nullptr/empty.
     **/
     GlobalCharacter(uint32 id, bool initial = true);
 
@@ -642,24 +777,63 @@ public:
         _experience_level = xp_level;
     }
 
+    uint32 GetStrengthBase() const {
+        return (uint32) _strength.GetBase();
+    }
+    uint32 GetVigorBase() const {
+        return (uint32) _vigor.GetBase();
+    }
+    uint32 GetFortitudeBase() const {
+        return (uint32) _fortitude.GetBase();
+    }
+    uint32 GetProtectionBase() const {
+        return (uint32) _protection.GetBase();
+    }
+    uint32 GetAgilityBase() const {
+        return (uint32) _agility.GetBase();
+    }
+    float GetEvadeBase() const {
+        return _evade.GetBase();
+    }
+
     // Character's stats changers, taking equipment in account
     virtual void SetStrength(uint32 st) {
-        _strength = st;
+        _strength.SetBase(st);
+        _CalculateAttackRatings();
+    }
+
+    virtual void SetStrengthModifier(float mod) {
+        _strength.SetModifier(mod);
         _CalculateAttackRatings();
     }
 
     virtual void SetVigor(uint32 vi) {
-        _vigor = vi;
+        _vigor.SetBase(vi);
+        _CalculateAttackRatings();
+    }
+
+    virtual void SetVigorModifier(float mod) {
+        _vigor.SetModifier(mod);
         _CalculateAttackRatings();
     }
 
     virtual void SetFortitude(uint32 fo) {
-        _fortitude = fo;
+        _fortitude.SetBase(fo);
+        _CalculateDefenseRatings();
+    }
+
+    virtual void SetFortitudeModifier(float mod) {
+        _fortitude.SetModifier(mod);
         _CalculateDefenseRatings();
     }
 
     virtual void SetProtection(uint32 pr) {
-        _protection = pr;
+        _protection.SetBase(pr);
+        _CalculateDefenseRatings();
+    }
+
+    virtual void SetProtectionModifier(float mod) {
+        _protection.SetModifier(mod);
         _CalculateDefenseRatings();
     }
 
@@ -713,7 +887,7 @@ public:
 
     /** \brief Equips a new weapon on the actor
     *** \param weapon The new weapon to equip on the actor
-    *** \return A pointer to the weapon that was previouslly equipped, or NULL if no weapon was equipped.
+    *** \return A pointer to the weapon that was previouslly equipped, or nullptr if no weapon was equipped.
     ***
     *** This function will also automatically re-calculate all attack ratings, elemental, and status bonuses.
     **/
@@ -820,6 +994,42 @@ public:
     //! whereas the equipment skills are reloaded through equipment.
     std::vector<uint32>& GetPermanentSkills() {
         return _permanent_skills;
+    }
+
+    const std::vector<GLOBAL_INTENSITY>& GetEquipementStatusEffects() const {
+        return _equipment_status_effects;
+    }
+
+    //! Gets the currently active status effects on the global actor.
+    const std::vector<ActiveStatusEffect>& GetActiveStatusEffects() const {
+        return _active_status_effects;
+    }
+
+    //! Reset all the active status effects on the global actor.
+    void ResetActiveStatusEffects() {
+        _active_status_effects.clear();
+        _active_status_effects.resize(GLOBAL_STATUS_TOTAL, ActiveStatusEffect());
+    }
+
+    //! Sets the given active status effect state on the global actor.
+    void SetActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity,
+                               uint32 duration, uint32 elapsed_time) {
+        _active_status_effects[status_effect] = ActiveStatusEffect(status_effect, intensity, duration, elapsed_time);
+    }
+
+    //! Sets a newly active status effect on the global actor, but taking in account a possible previous active one.
+    void ApplyActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity,
+                                 uint32 duration);
+
+    //! \brief Tells the intensity of the active status effect currently applied on the character.
+    vt_global::GLOBAL_INTENSITY GetActiveStatusEffectIntensity(vt_global::GLOBAL_STATUS status_effect) const {
+        return _active_status_effects[status_effect].GetIntensity();
+    }
+
+    //! \brief Removes the given status effect.
+    //! \note No scripted function is called.
+    void RemoveActiveStatusEffect(GLOBAL_STATUS status_effect) {
+        _active_status_effects[status_effect] = ActiveStatusEffect();
     }
 
     uint32 GetHitPointsGrowth() const {
@@ -949,7 +1159,7 @@ protected:
     bool _enabled;
 
     /** \brief The weapon that the character has equipped
-    *** \note If no weapon is equipped, this member will be equal to NULL.
+    *** \note If no weapon is equipped, this member will be equal to nullptr.
     ***
     *** Actors are not required to have weapons equipped, and indeed most enemies will probably not have any
     *** weapons explicitly equipped. The various bonuses to attack ratings, elemental attacks, and status
@@ -969,10 +1179,29 @@ protected:
     **/
     std::vector<GlobalArmor *> _armor_equipped;
 
+    /** \brief The status effects given by equipment, aka passive status effects.
+    *** \note elemental effects are handled as status effects also.
+    *** The vector is initialized with the size of GLOBAL_STATUS_TOTAL with
+    *** GLOBAL_INTENSITY_NEUTRAL values. Those intensities corresponds to each
+    *** status effect passive intensity.
+    *** On equipping/unequipping, this vector should be updated, and his values
+    *** applied on the character stats by calling the corresponding status effect function.
+    **/
+    std::vector<GLOBAL_INTENSITY> _equipment_status_effects;
+
+    /** \brief Active status effects currently applied on the character.
+    *** Active status effects are effects not applied through equipment, but rather through
+    *** battle wounds, dungeon trap, potions from the menu, ...
+    *** The given status effect vector is used to store active status effect data and pass it
+    *** between game modes. Each mode is then responsible for properly updating, displaying and applying it.
+    *** The vector is initialized with the size of GLOBAL_STATUS_TOTAL with empty status effects.
+    **/
+    std::vector<ActiveStatusEffect> _active_status_effects;
+
     /** \brief Equips a new armor on the character
     *** \param armor The piece of armor to equip
     *** \param index The index into the _armor_equipped vector where to equip the armor
-    *** \return A pointer to the armor that was previously equipped, or NULL if no armor was equipped
+    *** \return A pointer to the armor that was previously equipped, or nullptr if no armor was equipped
     ***
     *** This function will also automatically re-calculate all defense ratings, elemental, and status bonuses
     *** for the attack point that the armor was equipped on. If the index argument is invalid (out-of-bounds),
@@ -980,21 +1209,11 @@ protected:
     **/
     GlobalArmor *_EquipArmor(GlobalArmor *armor, uint32 index);
 
+    //! \brief Updates the equipment status effects.
+    void _UpdateEquipmentStatusEffects();
+
     //! \brief Recomputes which skills are available, based on equipment and permanent skills.
     void _UpdatesAvailableSkills();
-
-    // TODO: elemental and status effects on the global character
-// 	std::vector<GlobalElementalEffect*>& GetElementalAttackBonuses()
-// 		{ return _elemental_attack_bonuses; }
-//
-// 	std::vector<std::pair<float, GlobalStatusEffect*> >& GetStatusAttackBonuses()
-// 		{ return _status_attack_bonuses; }
-//
-// 	std::vector<GlobalElementalEffect*>& GetElementalDefenseBonuses()
-// 		{ return _elemental_defense_bonuses; }
-//
-// 	std::vector<std::pair<float, GlobalStatusEffect*> >& GetStatusDefenseBonuses()
-// 		{ return _status_defense_bonuses; }
 
 private:
     /** \brief The remaining experience points required to reach the next experience level
@@ -1016,7 +1235,7 @@ private:
     ***
     *** \note These members are given read/write access in Lua so that Lua may use them to hold new
     *** growth amounts when a character reaches a new level. Refer to the function DetermineLevelGrowth(character)
-    *** defined in dat/actors/characters.lua
+    *** defined in data/entities/characters.lua
     **/
     //@{
     uint32 _hit_points_growth;
@@ -1046,34 +1265,6 @@ private:
     *** are removed from a character should also be removed from this container if they exist.
     **/
     std::vector<GlobalSkill*> _new_skills_learned;
-
-    /** \brief The elemental effects added to the character's attack
-    *** Actors may carry various elemental attack bonuses, or they may carry none. These bonuses include
-    *** those that are brought upon by the weapon that the character may have equipped.
-    **/
-// 	std::vector<GlobalElementalEffect*> _elemental_attack_bonuses;
-
-    /** \brief The status effects added to the character's attack
-    *** Actors may carry various status attack bonuses, or they may carry none. These bonuses include
-    *** those that are brought upon by the weapon that the character may have equipped. The first member
-    *** in the pair is the likelihood (between 0.0 and 1.0) that the character has of inflicting that status
-    *** effect upon a targeted foe.
-    **/
-// 	std::vector<std::pair<float, GlobalStatusEffect*> > _status_attack_bonuses;
-
-    /** \brief The elemental effects added to the character's defense
-    *** Actors may carry various elemental defense bonuses, or they may carry none. These bonuses include
-    *** those that are brought upon by all of the armors that the character may have equipped.
-    **/
-// 	std::vector<GlobalElementalEffect*> _elemental_defense_bonuses;
-
-    /** \brief The status effects added to the character's defense
-    *** Actors may carry various status defense bonuses, or they may carry none. These bonuses include
-    *** those that are brought upon by the armors that the character may have equipped. The first member
-    *** in the pair is the reduction in the likelihood (between 0.0 and 1.0) that the character has of
-    *** repelling an attack with a status effect.
-    **/
-// 	std::vector<std::pair<float, GlobalStatusEffect*> > _status_defense_bonuses;
 
     /** \brief Calculates an actor's physical and magical attack ratings
     *** This function sums the actor's strength/vigor with their weapon's attack ratings
@@ -1112,18 +1303,6 @@ public:
 
     virtual ~GlobalEnemy()
     {}
-
-    /** \brief Initializes the enemy and prepares it for battle
-    ***
-    *** This function sets the enemy's experience level, modifies its stats using Guassian
-    *** random values, and constructs the skills that the enemy is capable of using. Call this
-    *** function once only, because after the enemy has skills enabled it will not be able to
-    *** re-initialize. If you need to initialize the enemy once more, you'll have to create a
-    *** brand new GlobalEnemy object and initialize that instead.
-    ***
-    *** \note Certain enemies will skip the stat modification step.
-    **/
-    void Initialize();
 
     /** \brief Enables the enemy to be able to use a specific skill
     *** \param skill_id The integer ID of the skill to add to the enemy
@@ -1164,16 +1343,9 @@ public:
     std::vector<vt_video::AnimatedImage>* GetBattleAnimations() {
         return &_battle_animations;
     }
-
-    const std::string& GetDeathScriptFilename() const {
-        return _death_script_filename;
-    }
     //@}
 
 protected:
-    //! \brief If set to true, when initialized the enemy will not randomize its statistic values
-    bool _no_stat_randomization;
-
     //! \brief The dimensions of the enemy's battle sprite in pixels
     uint32 _sprite_width, _sprite_height;
 
@@ -1203,8 +1375,14 @@ protected:
     **/
     std::vector<vt_video::AnimatedImage> _battle_animations;
 
-    //! \brief Stores the animation script filename used when the enemy dies.
-    std::string _death_script_filename;
+    /** \brief Initializes the enemy stats and skills
+    ***
+    *** This function sets the enemy's experience level, modifies its stats using Gaussian
+    *** random values, and constructs the skills that the enemy is capable of using.
+    ***
+    *** \note Certain enemies can skip the stat randomization step.
+    **/
+    void _Initialize();
 }; // class GlobalEnemy : public GlobalActor
 
 
@@ -1250,13 +1428,13 @@ public:
 
     /** \brief Removes an character from the party
     *** \param index The index of the character in the party to remove
-    *** \return A pointer to the character that was removed, or NULL if the index provided was invalid
+    *** \return A pointer to the character that was removed, or nullptr if the index provided was invalid
     **/
     GlobalCharacter *RemoveCharacterAtIndex(uint32 index);
 
     /** \brief Removes an character from the party
     *** \param id The id value of the character to remove
-    *** \return A pointer to the character that was removed, or NULL if the character was not found in the party
+    *** \return A pointer to the character that was removed, or nullptr if the character was not found in the party
     **/
     GlobalCharacter *RemoveCharacterByID(uint32 id);
 
@@ -1270,13 +1448,13 @@ public:
 
     /** \brief Retrieves a poitner to the character in the party at a specified index
     *** \param index The index where the character may be found in the party
-    *** \return A pointer to the character at the specified index, or NULL if the index argument was invalid
+    *** \return A pointer to the character at the specified index, or nullptr if the index argument was invalid
     **/
     GlobalCharacter *GetCharacterAtIndex(uint32 index) const;
 
     /** \brief Retrieves a poitner to the character in the party with the spefified id
     *** \param id The id of the character to return
-    *** \return A pointer to the character with the requested ID, or NULL if the character was not found
+    *** \return A pointer to the character with the requested ID, or nullptr if the character was not found
     **/
     GlobalCharacter *GetCharacterByID(uint32 id) const;
 
@@ -1297,14 +1475,14 @@ public:
     /** \brief Replaces an character in the party at a specified index with a new character
     *** \param index The index of the character to be replaced
     *** \param new_character A pointer to the character that will replace the existing character
-    *** \return A pointer to the replaced character, or NULL if the operation did not take place
+    *** \return A pointer to the replaced character, or nullptr if the operation did not take place
     **/
     GlobalCharacter *ReplaceCharacterByIndex(uint32 index, GlobalCharacter *new_character);
 
     /** \brief Replaces an character in the party with the specified id with a new character
     *** \param id The id of the character to be replaced
     *** \param new_character A pointer to the character that will replace the existing character
-    *** \return A pointer to the replaced character, or NULL if the operation did not take place
+    *** \return A pointer to the replaced character, or nullptr if the operation did not take place
     **/
     GlobalCharacter *ReplaceCharacterByID(uint32 id, GlobalCharacter *new_character);
 
@@ -1332,7 +1510,7 @@ public:
     }
 
     bool IsPartyEmpty() const {
-        return (_characters.size() == 0);
+        return _characters.empty();
     }
 
     uint32 GetPartySize() const {

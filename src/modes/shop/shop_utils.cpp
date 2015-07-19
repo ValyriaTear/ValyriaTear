@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -18,11 +18,13 @@
 *** classes.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
+#include "shop_utils.h"
+
 #include "engine/video/video.h"
 
 #include "common/global/global.h"
 
-#include "shop_utils.h"
 #include "shop.h"
 
 using namespace vt_utils;
@@ -48,11 +50,12 @@ ShopObject::ShopObject(GlobalObject *object) :
     _sell_price(0),
     _own_count(0),
     _stock_count(0),
+    _infinite_buy_amount(false),
     _buy_count(0),
     _sell_count(0),
     _trade_count(0)
 {
-    assert(_object != NULL);
+    assert(_object != nullptr);
 
     // Init the trading price
     _trade_price = _object->GetTradingPrice();
@@ -171,7 +174,7 @@ void ShopObject::IncrementBuyCount(uint32 inc)
     }
 
     _buy_count += inc;
-    if(_stock_count < _buy_count) {
+    if(!IsInfiniteAmount() && _stock_count < _buy_count) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "incremented buy count beyond the amount available in stock" << std::endl;
         _buy_count = old_count;
         return;
@@ -213,7 +216,7 @@ void ShopObject::IncrementTradeCount(uint32 inc)
     }
 
     _trade_count += inc;
-    if(_trade_count > _stock_count) {
+    if(!IsInfiniteAmount() && _trade_count > _stock_count) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "incremented sell count beyond the amount available to be sold" << std::endl;
         _trade_count -= inc;
         return;
@@ -244,6 +247,10 @@ void ShopObject::DecrementOwnCount(uint32 dec)
 
 void ShopObject::DecrementStockCount(uint32 dec)
 {
+    // Doesn't apply when there is an infinity of such items.
+    if (IsInfiniteAmount())
+        return;
+
     if(dec > _stock_count) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to decrement stock count below zero" << std::endl;
         return;
@@ -327,10 +334,10 @@ const float TRANSITION_TIME_TEXT = 25.0f;
 
 ObjectCategoryDisplay::ObjectCategoryDisplay() :
     _view_mode(SHOP_VIEW_MODE_LIST),
-    _selected_object(NULL),
-    _current_icon(NULL),
-    _last_icon(NULL),
-    _object_icon(NULL)
+    _selected_object(nullptr),
+    _current_icon(nullptr),
+    _last_icon(nullptr),
+    _object_icon(nullptr)
 {
     _name_text.SetStyle(TextStyle("text22"));
 
@@ -352,10 +359,10 @@ ObjectCategoryDisplay::ObjectCategoryDisplay() :
 
 ObjectCategoryDisplay::~ObjectCategoryDisplay()
 {
-    _selected_object = NULL;
-    _current_icon = NULL;
-    _last_icon = NULL;
-    _object_icon = NULL;
+    _selected_object = nullptr;
+    _current_icon = nullptr;
+    _last_icon = nullptr;
+    _object_icon = nullptr;
 }
 
 
@@ -378,15 +385,15 @@ void ObjectCategoryDisplay::Draw()
             // Alpha ranges from 0.0f at timer start to 1.0f at end
             float alpha = static_cast<float>(_transition_timer.GetTimeExpired()) / static_cast<float>(TRANSITION_TIME_ICON);
 
-            if(_last_icon != NULL)
+            if(_last_icon != nullptr)
                 _last_icon->Draw(Color(1.0f, 1.0f, 1.0f, 1.0f - alpha));
-            if(_current_icon != NULL)
+            if(_current_icon != nullptr)
                 _current_icon->Draw(Color(1.0f, 1.0f, 1.0f, alpha));
-        } else if(_current_icon != NULL) {
+        } else if(_current_icon != nullptr) {
             _current_icon->Draw();
         }
         _name_textbox.Draw();
-    } else if((_view_mode == SHOP_VIEW_MODE_INFO) && (_selected_object != NULL)) {
+    } else if((_view_mode == SHOP_VIEW_MODE_INFO) && (_selected_object != nullptr)) {
         VideoManager->Move(200.0f, 603.0f);
         _object_icon->Draw();
         VideoManager->MoveRelative(0.0f, 45.0f);
@@ -423,8 +430,8 @@ void ObjectCategoryDisplay::SetSelectedObject(ShopObject *shop_object)
 
     _selected_object = shop_object;
 
-    if(_selected_object == NULL) {
-        _object_icon = NULL;
+    if(_selected_object == nullptr) {
+        _object_icon = nullptr;
         _name_text.SetText("");
         return;
     } else {
@@ -438,8 +445,8 @@ void ObjectCategoryDisplay::SetSelectedObject(ShopObject *shop_object)
 
 void ObjectCategoryDisplay::ChangeCategory(ustring &name, const StillImage *icon)
 {
-    if(icon == NULL) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL pointer argument" << std::endl;
+    if(icon == nullptr) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a nullptr pointer argument" << std::endl;
     }
 
     _name_textbox.SetDisplayText(name);
@@ -506,11 +513,11 @@ void ObjectListDisplay::PopulateList(std::vector<ShopObject *>& objects)
 ShopObject *ObjectListDisplay::GetSelectedObject()
 {
     if(IsListEmpty() == true)
-        return NULL;
+        return nullptr;
 
     if(static_cast<uint32>(_identify_list.GetSelection()) >= _objects.size()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "current selection index exceeds available objects: " << _identify_list.GetSelection() << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     return _objects[_identify_list.GetSelection()];

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -25,27 +25,8 @@
 #ifndef __SYSTEM_HEADER__
 #define __SYSTEM_HEADER__
 
-#include "utils.h"
-
-#include <set>
-#include <SDL/SDL.h>
-
-#define NO_THREADS 0
-#define SDL_THREADS 1
-
-/* Set this to NO_THREADS to disable threads. Set this to SDL_THREADS to use
- * SDL Threads. */
-#define THREAD_TYPE SDL_THREADS
-
-#if (THREAD_TYPE == SDL_THREADS)
-#include <SDL/SDL_thread.h>
-#include <SDL/SDL_mutex.h>
-typedef SDL_Thread Thread;
-typedef SDL_sem Semaphore;
-#else
-typedef int Thread;
-typedef int Semaphore;
-#endif
+#include "utils/ustring.h"
+#include "utils/singleton.h"
 
 namespace vt_mode_manager {
 class GameMode;
@@ -185,9 +166,9 @@ public:
     void Initialize(uint32 duration, int32 loops = 0);
 
     /** \brief Enables the auto update feature for the timer
-    *** \param owner A pointer to the GameMode which owns this class. Default value is set to NULL (no owner).
+    *** \param owner A pointer to the GameMode which owns this class. Default value is set to nullptr (no owner).
     **/
-    void EnableAutoUpdate(vt_mode_manager::GameMode *owner = NULL);
+    void EnableAutoUpdate(vt_mode_manager::GameMode *owner = nullptr);
 
     //! \brief Disables the timer auto update feature
     void EnableManualUpdate();
@@ -273,6 +254,9 @@ public:
     //@{
     void SetDuration(uint32 duration);
 
+    //! \brief Forces the timer to be at a given elapsed time.
+    void SetTimeExpired(uint32 time_expired);
+
     void SetNumberLoops(int32 loops);
 
     void SetModeOwner(vt_mode_manager::GameMode *owner);
@@ -322,7 +306,7 @@ protected:
     //! \brief The number of loops the timer should run for. -1 indicates infinite looping.
     int32 _number_loops;
 
-    //! \brief A pointer to the game mode object which owns this timer, or NULL if it is unowned
+    //! \brief A pointer to the game mode object which owns this timer, or nullptr if it is unowned
     vt_mode_manager::GameMode *_mode_owner;
 
     //! \brief The amount of time that has expired on the current timer loop (counts up from 0 to _duration)
@@ -410,9 +394,7 @@ public:
     *** When this is done, all system timers that are owned by the active game mode are resumed, all timers with
     *** a different owner are paused, and all timers with no owner are ignored.
     **/
-#ifndef EDITOR_BUILD
     void ExamineSystemTimers();
-#endif
 
     /** \brief Retrieves the amount of time that the game should be updated by for time-based movement.
     *** \return The number of milliseconds that have transpired since the last update.
@@ -422,7 +404,7 @@ public:
     *** function returns at least one, but I'm not sure there exists a computer fast enough
     *** that we have to worry about it.
     **/
-    uint32 GetUpdateTime() const {
+    inline uint32 GetUpdateTime() const {
         return _update_time;
     }
 
@@ -466,8 +448,12 @@ public:
 
     /** \brief Sets the language that the game should use.
     *** \param lang A two-character string representing the language to execute the game in
+    *** \return whether the corresponding language file could be found.
     **/
-    void SetLanguage(const std::string& lang);
+    bool SetLanguage(const std::string& lang);
+
+    //! \brief Tells whether a language is available.
+    bool IsLanguageAvailable(const std::string& lang);
 
     /** \brief Determines whether the user is done with the game.
     *** \return False if the user would like to exit the game.
@@ -492,6 +478,36 @@ public:
     Semaphore *CreateSemaphore(int max);
     void DestroySemaphore(Semaphore *);
 
+    //! \brief Get the dialogue text message growth in characters per second.
+    //! Mostly seen in characters dialogues while in game.
+    float GetMessageSpeed() const {
+        return _message_speed;
+    }
+
+    //! \brief Set the dialogue text message growth in characters per second.
+    void SetMessageSpeed(float message_speed);
+
+    //! \brief Tells whether the last battle target should be kept in memory between two actions
+    //! for battle characters.
+    bool GetBattleTargetMemory() const {
+        return _battle_target_cursor_memory;
+    }
+
+    //! \brief Sets whether the last battle target should be kept in memory between two actions
+    //! for battle characters.
+    void SetBattleTargetMemory(bool cursor_memory) {
+        _battle_target_cursor_memory = cursor_memory;
+    }
+
+    //! \brief Tells whether the last battle target should be kept in memory between two actions
+    //! for battle characters.
+    uint32 GetGameDifficulty() const {
+        return _game_difficulty;
+    }
+
+    //! \brief Sets whether the last battle target should be kept in memory between two actions
+    //! for battle characters.
+    void SetGameDifficulty(uint32 game_difficulty);
 
 private:
     SystemEngine();
@@ -519,52 +535,23 @@ private:
     //! \brief The identification string that determines what language the game is running in
     std::string _language;
 
+    //! \brief Speed at which messages are displayed in dialogues, in characters per second
+    float _message_speed;
+
+    //! \brief Tells whether the last battle target should be kept in memory between two actions
+    //! for battle characters.
+    bool _battle_target_cursor_memory;
+
+    //! \brief Tells the game difficulty. 1: Easy, 2: Normal, 3: Hard.
+    //! The difficulty will change how much XP you win and will taint the enemies stats.
+    //! Certain scripted events may also change according to the current difficulty when entering a new map/battle.
+    uint32 _game_difficulty;
+
     /** \brief A set container for all SystemTimer objects that have automatic updating enabled
     *** The timers in this container are updated on each call to UpdateTimers().
     **/
     std::set<SystemTimer *> _auto_system_timers;
 }; // class SystemEngine : public vt_utils::Singleton<SystemEngine>
-
-
-
-template <class T> struct generic_class_func_info {
-    static int SpawnThread_Intermediate(void *vptr) {
-        ((((generic_class_func_info <T> *) vptr)->myclass)->*(((generic_class_func_info <T> *) vptr)->func))();
-        return 0;
-    }
-
-    T *myclass;
-    void (T::*func)();
-};
-
-
-
-template <class T> Thread *SystemEngine::SpawnThread(void (T::*func)(), T *myclass)
-{
-#if (THREAD_TYPE == SDL_THREADS)
-    Thread *thread;
-    static generic_class_func_info <T> gen;
-    gen.func = func;
-    gen.myclass = myclass;
-
-    // Winter Knight: There is a potential, but unlikely race condition here.
-    // gen may be overwritten prematurely if this function, SpawnThread, gets
-    // called a second time before SpawnThread_Intermediate calls myclass->*func
-    // This will result in a segfault.
-    thread = SDL_CreateThread(gen.SpawnThread_Intermediate, &gen);
-    if(thread == NULL) {
-        PRINT_ERROR << "Unable to create thread: " << SDL_GetError() << std::endl;
-        return NULL;
-    }
-    return thread;
-#elif (THREAD_TYPE == NO_THREADS)
-    (myclass->*func)();
-    return 1;
-#else
-    PRINT_ERROR << "Invalid THREAD_TYPE." << std::endl;
-    return 0;
-#endif
-}
 
 } // namepsace vt_system
 

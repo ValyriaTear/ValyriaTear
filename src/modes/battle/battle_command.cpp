@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -15,6 +15,9 @@
 *** \brief   Source file for battle menu windows
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
+#include "modes/battle/battle_command.h"
+
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/system.h"
@@ -23,7 +26,7 @@
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actions.h"
 #include "modes/battle/battle_actors.h"
-#include "modes/battle/battle_command.h"
+#include "modes/battle/battle_menu.h"
 #include "modes/battle/battle_utils.h"
 
 using namespace vt_utils;
@@ -40,6 +43,14 @@ namespace vt_battle
 
 namespace private_battle
 {
+
+/** \name Action Type Constants
+*** \brief Identifications for the types of actions a player's characters may perform
+**/
+const int32 CATEGORY_WEAPON    = 0;
+const int32 CATEGORY_MAGIC     = 1;
+const int32 CATEGORY_SPECIAL   = 2;
+const int32 CATEGORY_ITEM      = 3;
 
 const float HEADER_POSITION_X = 140.0f;
 const float HEADER_POSITION_Y = -12.0f;
@@ -80,6 +91,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _weapon_skill_list.SetTextStyle(TextStyle("text20"));
     _weapon_skill_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     _weapon_skill_list.SetCursorOffset(-50.0f, -25.0f);
+    _weapon_skill_list.AnimateScrolling(false);
 
     _weapon_target_list.SetOwner(&window);
     _weapon_target_list.SetPosition(LIST_POSITION_X + TARGET_ICON_OFFSET, LIST_POSITION_Y);
@@ -89,6 +101,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _weapon_target_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _weapon_target_list.SetTextStyle(TextStyle("text20"));
     _weapon_target_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    _weapon_target_list.AnimateScrolling(false);
 
     _magic_skill_list.SetOwner(&window);
     _magic_skill_list.SetPosition(LIST_POSITION_X, LIST_POSITION_Y);
@@ -99,6 +112,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _magic_skill_list.SetTextStyle(TextStyle("text20"));
     _magic_skill_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     _magic_skill_list.SetCursorOffset(-50.0f, -25.0f);
+    _magic_skill_list.AnimateScrolling(false);
 
     _magic_target_list.SetOwner(&window);
     _magic_target_list.SetPosition(LIST_POSITION_X + TARGET_ICON_OFFSET, LIST_POSITION_Y);
@@ -108,6 +122,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _magic_target_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _magic_target_list.SetTextStyle(TextStyle("text20"));
     _magic_target_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    _magic_target_list.AnimateScrolling(false);
 
     _special_skill_list.SetOwner(&window);
     _special_skill_list.SetPosition(LIST_POSITION_X, LIST_POSITION_Y);
@@ -118,6 +133,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _special_skill_list.SetTextStyle(TextStyle("text20"));
     _special_skill_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     _special_skill_list.SetCursorOffset(-50.0f, -25.0f);
+    _special_skill_list.AnimateScrolling(false);
 
     _special_target_list.SetOwner(&window);
     _special_target_list.SetPosition(LIST_POSITION_X + TARGET_ICON_OFFSET, LIST_POSITION_Y);
@@ -127,14 +143,15 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     _special_target_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _special_target_list.SetTextStyle(TextStyle("text20"));
     _special_target_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    _special_target_list.AnimateScrolling(false);
 
-    if(_character == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received NULL character pointer" << std::endl;
+    if(_character == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received nullptr character pointer" << std::endl;
         return;
     }
 
     // Construct the weapon, magic, and special skill lists for the character
-    std::vector<GlobalSkill *>* skill_list = NULL;
+    std::vector<GlobalSkill *>* skill_list = nullptr;
     GlobalWeapon* char_wpn = _character->GetGlobalCharacter()->GetWeaponEquipped();
 
     if (char_wpn)
@@ -154,7 +171,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
             if (char_wpn)
                 wpn_icon_filename = char_wpn->GetIconImage().GetFilename();
             else
-                wpn_icon_filename = "img/icons/weapons/fist-human.png";
+                wpn_icon_filename = "data/inventory/weapons/fist-human.png";
 
             if (!wpn_icon_filename.empty()) {
                 _weapon_skill_list.AddOptionElementImage(i, wpn_icon_filename);
@@ -233,7 +250,7 @@ void CharacterCommandSettings::RefreshLists()
 {
     uint32 require_sp = 0xFFFFFFFF;
     uint32 current_sp = _character->GetSkillPoints();
-    std::vector<GlobalSkill *>* skill_list = NULL;
+    std::vector<GlobalSkill *>* skill_list = nullptr;
 
     skill_list = _character->GetGlobalCharacter()->GetWeaponSkills();
     for(uint32 i = 0; i < skill_list->size(); ++i) {
@@ -287,6 +304,7 @@ void CharacterCommandSettings::SaveLastTarget(BattleTarget &target)
     case GLOBAL_TARGET_ALLY_POINT:
     case GLOBAL_TARGET_ALLY:
     case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+    case GLOBAL_TARGET_DEAD_ALLY_ONLY:
         _last_character_target = target;
         break;
     case GLOBAL_TARGET_FOE_POINT:
@@ -300,43 +318,6 @@ void CharacterCommandSettings::SaveLastTarget(BattleTarget &target)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << std::endl;
         break;
     }
-}
-
-
-
-void CharacterCommandSettings::SetLastSelfTarget(BattleTarget &target)
-{
-    if((target.GetType() != GLOBAL_TARGET_SELF_POINT) && (target.GetType() != GLOBAL_TARGET_SELF)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << std::endl;
-        return;
-    }
-
-    _last_self_target = target;
-}
-
-
-
-void CharacterCommandSettings::SetLastCharacterTarget(BattleTarget &target)
-{
-    if((target.GetType() != GLOBAL_TARGET_ALLY_POINT) && (target.GetType() != GLOBAL_TARGET_ALLY)
-            && (target.GetType() != GLOBAL_TARGET_ALLY_EVEN_DEAD)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << std::endl;
-        return;
-    }
-
-    _last_character_target = target;
-}
-
-
-
-void CharacterCommandSettings::SetLastEnemyTarget(BattleTarget &target)
-{
-    if((target.GetType() != GLOBAL_TARGET_FOE_POINT) && (target.GetType() != GLOBAL_TARGET_FOE)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument was an invalid type: " << target.GetType() << std::endl;
-        return;
-    }
-
-    _last_enemy_target = target;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -363,6 +344,7 @@ ItemCommand::ItemCommand(MenuWindow &window)
     _item_list.SetTextStyle(TextStyle("text20"));
     _item_list.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     _item_list.SetCursorOffset(-50.0f, -25.0f);
+    _item_list.AnimateScrolling(false);
 
     _item_target_list.SetOwner(&window);
     _item_target_list.SetPosition(LIST_POSITION_X + TARGET_ICON_OFFSET, LIST_POSITION_Y);
@@ -372,56 +354,63 @@ ItemCommand::ItemCommand(MenuWindow &window)
     _item_target_list.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _item_target_list.SetTextStyle(TextStyle("text20"));
     _item_target_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+    _item_target_list.AnimateScrolling(false);
 
     ResetItemList();
 }
 
 void ItemCommand::ResetItemList()
 {
-    _items.clear();
-    std::vector<GlobalItem *>* all_items = GlobalManager->GetInventoryItems();
-    for(uint32 i = 0; i < all_items->size(); i++) {
-        if(all_items->at(i)->IsUsableInBattle() == true) {
-            if(all_items->at(i)->GetCount() == 0) {
-                IF_PRINT_WARNING(BATTLE_DEBUG) << "discovered item in inventory with a zero count" << std::endl;
-            }
+    _battle_items.clear();
+    std::vector<GlobalItem *>* inv_items = GlobalManager->GetInventoryItems();
+    for(uint32 i = 0; i < inv_items->size(); ++i) {
+        // Only add non key and valid items as items available at battle start.
+        if(inv_items->at(i)->GetCount() == 0)
+            continue;
+        if (!inv_items->at(i)->IsValid())
+            continue;
+        if (inv_items->at(i)->IsKeyItem())
+            continue;
 
-            _items.push_back(BattleItem(GlobalItem(*all_items->at(i))));
-        }
+        if(inv_items->at(i)->IsUsableInBattle())
+            _battle_items.push_back(BattleItem(GlobalItem(*inv_items->at(i))));
     }
-    _item_mappings.resize(_items.size(), -1);
+    // We clear the menu items list as its pointers are now invalid.
+    _menu_items.clear();
 }
-
-
 
 void ItemCommand::ConstructList()
 {
     _item_list.ClearOptions();
     _item_target_list.ClearOptions();
 
-    uint32 option_index = 0;
-    for(uint32 i = 0; i < _items.size(); i++) {
-        // Don't add any items with a non-zero count
-        if(_items[i].GetBattleCount() == 0) {
-            _item_mappings[i] = -1;
-            continue;
-        }
+    _menu_items.clear();
 
+    uint32 option_index = 0;
+    for(uint32 i = 0; i < _battle_items.size(); ++i) {
+        BattleItem* item = &_battle_items[i];
+        // Don't add any items with a zero count
+        if(item->GetBattleCount() == 0)
+            continue;
+
+        // Adds the BattleItem pointer to the main item list
+        _menu_items.push_back(item);
+
+        // Adds the item menu option
         _item_list.AddOption();
-        if (!_items[i].GetItem().GetIconImage().GetFilename().empty()) {
-            _item_list.AddOptionElementImage(i, _items[i].GetItem().GetIconImage().GetFilename());
-            _item_list.GetEmbeddedImage(i)->SetHeightKeepRatio(25);
-            _item_list.AddOptionElementPosition(i, 30);
+        if (!item->GetGlobalItem().GetIconImage().GetFilename().empty()) {
+            _item_list.AddOptionElementImage(option_index, item->GetGlobalItem().GetIconImage().GetFilename());
+            _item_list.GetEmbeddedImage(option_index)->SetHeightKeepRatio(25);
+            _item_list.AddOptionElementPosition(option_index, 30);
         }
-        _item_list.AddOptionElementText(option_index, _items[i].GetItem().GetName());
+        _item_list.AddOptionElementText(option_index, item->GetGlobalItem().GetName());
 
         _item_target_list.AddOption(ustring());
-        _item_target_list.AddOptionElementImage(option_index, BattleMode::CurrentInstance()->GetMedia().GetTargetTypeIcon(_items[i].GetTargetType()));
+        _item_target_list.AddOptionElementImage(option_index,
+                                                BattleMode::CurrentInstance()->GetMedia().GetTargetTypeIcon(item->GetTargetType()));
         _item_target_list.AddOptionElementPosition(option_index, 45);
-        _item_target_list.AddOptionElementText(option_index, MakeUnicodeString(NumberToString(_items[i].GetBattleCount())));
-
-        _item_mappings[i] = option_index;
-        option_index++;
+        _item_target_list.AddOptionElementText(option_index, MakeUnicodeString(NumberToString(item->GetBattleCount())));
+        ++option_index;
     }
 
     if(_item_list.GetNumberOptions() == 0) {
@@ -431,105 +420,67 @@ void ItemCommand::ConstructList()
     else {
         _item_list.SetSelection(0);
         _item_target_list.SetSelection(0);
+        // Reset scrolling
+        _item_list.ResetViewableOption();
+        _item_target_list.ResetViewableOption();
     }
 }
 
 
 
-void ItemCommand::Initialize(uint32 item_index)
+void ItemCommand::Initialize(uint32 battle_item_index)
 {
-    if(item_index >= _items.size()) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "item_index argument was out-of-range: " << item_index << std::endl;
+    // If there is no more usable items in the inventory,
+    // we can set the selection as invalid.
+    if(_item_list.GetNumberOptions() == 0 || _menu_items.empty()) {
+        _item_list.SetSelection(-1);
+        _item_target_list.SetSelection(-1);
         return;
     }
 
-    // If the item is in the list, set the list selection to that item
-    if(_item_mappings[item_index] >= 0) {
-        _item_list.SetSelection(_item_mappings[item_index]);
-        _item_target_list.SetSelection(_item_mappings[item_index]);
+    // In case the selection of the previous item leads to something
+    // not relevant anymore, we reset the selection.
+    if(battle_item_index >= _battle_items.size() ||
+            _battle_items[battle_item_index].GetBattleCount() == 0) {
+        _item_list.SetSelection(0);
+        _item_target_list.SetSelection(0);
         return;
     }
 
-    // Otherwise find the nearest item to the desired item that is in the list
-    uint32 next_item_index = 0xFFFFFFFF;
-    uint32 prev_item_index = 0xFFFFFFFF;
-
-    for(uint32 i = item_index + 1; i < _items.size(); i++) {
-        if(_item_mappings[i] >= 0) {
-            next_item_index = i;
+    // Find the corresponding item in the menu list and select it.
+    uint32 selection = 0; // First item in the list per default
+    BattleItem* selected_item = &_battle_items[battle_item_index];
+    for (uint32 i = 0; i < _menu_items.size(); ++i) {
+        if (_menu_items[i] == selected_item) {
+            selection = i;
             break;
         }
     }
-    if(item_index != 0) {
-        uint32 i = item_index - 1;
 
-        do {
-            if(_item_mappings[i] >= 0) {
-                prev_item_index = i;
-                break;
-            }
-
-            i--;
-        } while(i != 0);
-    }
-
-    // If this case is true there are no items in the list. This should not happen because the item
-    // command should not be used if no items exist
-    if((next_item_index == 0xFFFFFFFF) && (prev_item_index == 0xFFFFFFFF)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "no items were in the list" << std::endl;
-        return;
-    } else if((next_item_index - item_index) <= (item_index - prev_item_index)) {
-        _item_list.SetSelection(_item_mappings[next_item_index]);
-        _item_target_list.SetSelection(_item_mappings[next_item_index]);
-    } else {
-        _item_list.SetSelection(_item_mappings[prev_item_index]);
-        _item_target_list.SetSelection(_item_mappings[prev_item_index]);
-    }
+    // If the item is in the list, set the list selection to that item
+    _item_list.SetSelection(selection);
+    _item_target_list.SetSelection(selection);
 }
 
 
 
 BattleItem *ItemCommand::GetSelectedItem()
 {
-    uint32 index = GetItemIndex();
-    if(index == 0xFFFFFFFF)
-        return NULL;
-    else
-        return &(_items[index]);
-}
-
-
-
-uint32 ItemCommand::GetItemIndex() const
-{
-    if(_item_list.GetSelection() < 0) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid selection in item list" << std::endl;
-        return 0xFFFFFFFF;
-    }
-
     int32 selection = _item_list.GetSelection();
-    for(uint32 i = 0; i < _items.size(); i++) {
-        if(_item_mappings[i] == selection) {
-            return static_cast<uint32>(selection);
-        }
-    }
+    if (selection == -1 || selection >= (int32)_menu_items.size())
+        return nullptr;
 
-    // Execution should never reach this line
-    IF_PRINT_WARNING(BATTLE_DEBUG) << "could not find index for item list selection: " << _item_list.GetSelection() << std::endl;
-    return 0xFFFFFFFF;
+    return _menu_items[selection];
 }
-
 
 bool ItemCommand::IsSelectedItemAvailable() const
 {
-    uint32 index = GetItemIndex();
-
-    if(index == 0xFFFFFFFF)
+    int32 selection = _item_list.GetSelection();
+    if (selection == -1 || selection >= (int32)_menu_items.size())
         return false;
-    else
-        return (_items[index].GetBattleCount() > 0);
-}
 
+    return (_menu_items[selection]->GetBattleCount() > 0);
+}
 
 void ItemCommand::UpdateList()
 {
@@ -539,22 +490,13 @@ void ItemCommand::UpdateList()
     if(InputManager->UpPress()) {
         _item_list.InputUp();
         _item_target_list.InputUp();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     } else if(InputManager->DownPress()) {
         _item_list.InputDown();
         _item_target_list.InputDown();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     }
 }
-
-
-
-void ItemCommand::UpdateInformation()
-{
-    // TODO
-}
-
-
 
 void ItemCommand::DrawList()
 {
@@ -563,76 +505,25 @@ void ItemCommand::DrawList()
     _item_target_list.Draw();
 }
 
-
-
-void ItemCommand::DrawInformation()
-{
-    // TODO
-}
-
-
-
 void ItemCommand::CommitChangesToInventory()
 {
-    for(uint32 i = 0; i < _items.size(); ++i) {
+    for(uint32 i = 0; i < _battle_items.size(); ++i) {
         // Get the global item id
-        uint32 id = _items[i].GetItem().GetID();
+        uint32 id = _battle_items[i].GetGlobalItem().GetID();
 
         // Remove slots totally used
-        if(_items[i].GetBattleCount() == 0) {
+        if(_battle_items[i].GetBattleCount() == 0) {
             GlobalManager->RemoveFromInventory(id);
         } else {
-            int32 diff = _items[i].GetBattleCount() - _items[i].GetInventoryCount();
+            int32 diff = _battle_items[i].GetBattleCount() - _battle_items[i].GetInventoryCount();
             if(diff > 0) {
                 // Somehow the character have more than before the battle.
-                GlobalManager->IncrementObjectCount(id, diff);
+                GlobalManager->IncrementItemCount(id, diff);
             } else if(diff < 0) {
                 // Remove the used items.
-                GlobalManager->DecrementObjectCount(id, -diff);
+                GlobalManager->DecrementItemCount(id, -diff);
             }
         }
-    }
-}
-
-
-void ItemCommand::RefreshEntry(uint32 entry)
-{
-    if(entry >= _item_list.GetNumberOptions()) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "entry argument was out-of-range: " << entry << std::endl;
-        return;
-    }
-
-    // Determine which item corresponds to the list entry
-    int32 item_index = 0;
-    for(uint32 i = 0; i < _item_mappings.size(); i++) {
-        if(_item_mappings[i] == static_cast<int32>(entry)) {
-            item_index = _item_mappings[i];
-            break;
-        }
-    }
-
-    // Clear the option and repopulate its elements
-    _item_list.SetOptionText(entry, ustring());
-    if (!_items[item_index].GetItem().GetIconImage().GetFilename().empty()) {
-        _item_list.AddOptionElementImage(entry, _items[item_index].GetItem().GetIconImage().GetFilename());
-        _item_list.GetEmbeddedImage(entry)->SetHeightKeepRatio(25);
-        _item_list.AddOptionElementPosition(entry, 30);
-    }
-    _item_list.AddOptionElementText(entry, _items[item_index].GetItem().GetName());
-
-    _item_target_list.SetOptionText(entry, ustring());
-    _item_target_list.AddOptionElementImage(entry, BattleMode::CurrentInstance()->GetMedia().GetTargetTypeIcon(_items[item_index].GetTargetType()));
-    _item_target_list.AddOptionElementPosition(entry, 45);
-    _item_target_list.AddOptionElementText(entry, MakeUnicodeString(NumberToString(_items[item_index].GetBattleCount())));
-
-    // Gray out the option when there are no items available.
-    if(_items[item_index].GetBattleCount() == 0) {
-        _item_list.EnableOption(entry, false);
-        _item_target_list.EnableOption(entry, false);
-    } else {
-        // Re-enable it if we come to get an item back for any reasons
-        _item_list.EnableOption(entry, true);
-        _item_target_list.EnableOption(entry, true);
     }
 }
 
@@ -641,9 +532,9 @@ void ItemCommand::RefreshEntry(uint32 entry)
 ////////////////////////////////////////////////////////////////////////////////
 
 SkillCommand::SkillCommand(MenuWindow &window) :
-    _skills(NULL),
-    _skill_list(NULL),
-    _target_n_cost_list(NULL)
+    _skills(nullptr),
+    _skill_list(nullptr),
+    _target_n_cost_list(nullptr)
 {
     _skill_header.SetOwner(&window);
     _skill_header.SetPosition(HEADER_POSITION_X, HEADER_POSITION_Y);
@@ -659,12 +550,12 @@ void SkillCommand::Initialize(std::vector<GlobalSkill *>* skills,
                               OptionBox *skill_list,
                               OptionBox *target_n_cost_list)
 {
-    if(skills == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL skills argument" << std::endl;
+    if(skills == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr skills argument" << std::endl;
         return;
     }
-    if(skill_list == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL skill_list argument" << std::endl;
+    if(skill_list == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr skill_list argument" << std::endl;
         return;
     }
 
@@ -675,8 +566,8 @@ void SkillCommand::Initialize(std::vector<GlobalSkill *>* skills,
 
 GlobalSkill *SkillCommand::GetSelectedSkill() const
 {
-    if((_skills == NULL) || (_skill_list == NULL))
-        return NULL;
+    if((_skills == nullptr) || (_skill_list == nullptr))
+        return nullptr;
 
     uint32 selection = _skill_list->GetSelection();
     // The skills object needs to be returned even if not enabled due to low SP
@@ -684,22 +575,18 @@ GlobalSkill *SkillCommand::GetSelectedSkill() const
     return _skills->at(selection);
 }
 
-
-
 bool SkillCommand::GetSelectedSkillEnabled()
 {
-    if((_skills == NULL) || (_skill_list == NULL))
+    if((_skills == nullptr) || (_skill_list == nullptr))
         return false;
 
     uint32 selection = _skill_list->GetSelection();
     return _skill_list->IsOptionEnabled(selection);
 }
 
-
-
 void SkillCommand::UpdateList()
 {
-    if(_skill_list == NULL)
+    if(_skill_list == nullptr)
         return;
 
     _skill_list->Update();
@@ -708,26 +595,17 @@ void SkillCommand::UpdateList()
     if(InputManager->UpPress()) {
         _skill_list->InputUp();
         _target_n_cost_list->InputUp();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     } else if(InputManager->DownPress()) {
         _skill_list->InputDown();
         _target_n_cost_list->InputDown();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     }
 }
 
-
-
-void SkillCommand::UpdateInformation()
-{
-
-}
-
-
-
 void SkillCommand::DrawList()
 {
-    if(_skill_list == NULL)
+    if(_skill_list == nullptr)
         return;
 
     _skill_header.Draw();
@@ -741,11 +619,12 @@ void SkillCommand::DrawList()
 
 CommandSupervisor::CommandSupervisor() :
     _state(COMMAND_STATE_INVALID),
-    _active_settings(NULL),
-    _selected_skill(NULL),
-    _selected_item(NULL),
+    _active_settings(nullptr),
+    _selected_skill(nullptr),
+    _selected_item(nullptr),
     _item_command(_command_window),
-    _skill_command(_command_window)
+    _skill_command(_command_window),
+    _show_information(false)
 {
     if(_command_window.Create(512.0f, 128.0f) == false) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to create menu window" << std::endl;
@@ -754,14 +633,19 @@ CommandSupervisor::CommandSupervisor() :
     _command_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _command_window.Show();
 
+    _info_window.Create(512.0f, 150.0f);
+    _info_window.SetPosition(512.0f, 470.0f);
+    _info_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+    _info_window.Show();
+
     _category_icons.resize(4, StillImage());
-    if(_category_icons[0].Load("img/icons/battle/default_weapon.png") == false)
+    if(_category_icons[0].Load("data/gui/battle/default_weapon.png") == false)
         PRINT_ERROR << "failed to load category icon" << std::endl;
-    if(_category_icons[1].Load("img/icons/battle/magic.png") == false)
+    if(_category_icons[1].Load("data/gui/battle/magic.png") == false)
         PRINT_ERROR << "failed to load category icon" << std::endl;
-    if(_category_icons[2].Load("img/icons/battle/default_special.png") == false)
+    if(_category_icons[2].Load("data/gui/battle/default_special.png") == false)
         PRINT_ERROR << "failed to load category icon" << std::endl;
-    if(_category_icons[3].Load("img/icons/battle/item.png") == false)
+    if(_category_icons[3].Load("data/gui/battle/item.png") == false)
         PRINT_ERROR << "failed to load category icon" << std::endl;
 
     _category_text.resize(4, TextImage("", TextStyle("title22")));
@@ -771,13 +655,16 @@ CommandSupervisor::CommandSupervisor() :
     _category_text[3].SetText(Translate("Items"));
 
     std::vector<ustring> option_text;
-    option_text.push_back(MakeUnicodeString("<img/icons/battle/default_weapon.png>\n\n") + UTranslate("Weapon"));
-    option_text.push_back(MakeUnicodeString("<img/icons/battle/magic.png>\n\n") + UTranslate("Magic"));
+    option_text.push_back(MakeUnicodeString("<data/gui/battle/default_weapon.png>\n\n") + UTranslate("Weapon"));
+    option_text.push_back(MakeUnicodeString("<data/gui/battle/magic.png>\n\n") + UTranslate("Magic"));
     option_text.push_back(MakeUnicodeString("")); // Special
-    option_text.push_back(MakeUnicodeString("<img/icons/battle/item.png>\n\n") + UTranslate("Items"));
+    option_text.push_back(MakeUnicodeString("<data/gui/battle/item.png>\n\n") + UTranslate("Items"));
 
     _window_header.SetStyle(TextStyle("title22"));
-    _window_text.SetStyle(TextStyle("text20"));
+    _selected_target_name.SetStyle(TextStyle("text20"));
+    _info_header.SetStyle(TextStyle("title22"));
+    _info_text.SetStyle(TextStyle("text20"));
+    _info_text.SetWordWrapWidth(475);
 
     _category_options.SetOwner(&_command_window);
     _category_options.SetPosition(256.0f, 80.0f);
@@ -787,6 +674,7 @@ CommandSupervisor::CommandSupervisor() :
     _category_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
     _category_options.SetTextStyle(TextStyle("title22"));
     _category_options.SetSelectMode(VIDEO_SELECT_SINGLE);
+    _category_options.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _category_options.SetOptions(option_text);
     _category_options.SetSelection(0);
 
@@ -798,20 +686,17 @@ CommandSupervisor::CommandSupervisor() :
     _target_options.SetDimensions(TARGET_SIZE_X, TARGET_SIZE_Y, 1, 255, 1, 4);
     _target_options.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _target_options.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _target_options.SetVerticalWrapMode(VIDEO_WRAP_MODE_NONE);
+    _target_options.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _target_options.SetTextStyle(TextStyle("text20"));
     _target_options.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
     _target_options.SetCursorOffset(-50.0f, -25.0f);
 }
 
-
-
 CommandSupervisor::~CommandSupervisor()
 {
     _command_window.Destroy();
+    _info_window.Destroy();
 }
-
-
 
 void CommandSupervisor::ConstructMenus()
 {
@@ -822,12 +707,10 @@ void CommandSupervisor::ConstructMenus()
         _CreateCharacterSettings(characters[i]);
 }
 
-
-
 void CommandSupervisor::Initialize(BattleCharacter *character)
 {
-    if(character == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function recieved NULL pointer argument" << std::endl;
+    if(character == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr pointer argument" << std::endl;
         _state = COMMAND_STATE_INVALID;
         return;
     }
@@ -853,12 +736,12 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
     GlobalWeapon* wpn = character->GetGlobalCharacter()->GetWeaponEquipped();
     if (wpn) {
         if (wpn->GetIconImage().GetFilename().empty())
-            icon_name += "img/icons/battle/default_weapon.png";
+            icon_name += "data/gui/battle/default_weapon.png";
         else
             icon_name += wpn->GetIconImage().GetFilename();
     }
     else {
-        icon_name += "img/icons/weapons/fist-human.png";
+        icon_name += "data/inventory/weapons/fist-human.png";
     }
     icon_name += ">\n\n";
 
@@ -894,7 +777,7 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
         // Set icon from character config.
         std::string special_icon = character->GetGlobalCharacter()->GetSpecialCategoryIconFilename();
         if (special_icon.empty())
-            special_icon = "img/icons/battle/default_special.png";
+            special_icon = "data/gui/battle/default_special.png";
 
         vt_utils::ustring special_name = character->GetGlobalCharacter()->GetSpecialCategoryName();
         _category_options.SetOptionText(CATEGORY_SPECIAL, MakeUnicodeString("<" + special_icon + ">\n\n") + special_name);
@@ -918,8 +801,6 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
     PRINT_ERROR << "No category options were enabled. The game might be stuck." << std::endl;
 }
 
-
-
 void CommandSupervisor::Update()
 {
     switch(_state) {
@@ -935,17 +816,12 @@ void CommandSupervisor::Update()
     case COMMAND_STATE_POINT:
         _UpdateAttackPointTarget();
         break;
-    case COMMAND_STATE_INFORMATION:
-        _UpdateInformation();
-        break;
     default:
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid/unknown command state: " << _state << std::endl;
         _ChangeState(COMMAND_STATE_CATEGORY);
         return;
     }
 }
-
-
 
 void CommandSupervisor::Draw()
 {
@@ -956,25 +832,26 @@ void CommandSupervisor::Draw()
         _DrawCategory();
         break;
     case COMMAND_STATE_ACTION:
+        // Show potential info about the current selection
+        if (_show_information)
+            _DrawActionInformation();
+
         _DrawAction();
         break;
     case COMMAND_STATE_ACTOR:
         _DrawActorTarget();
         break;
     case COMMAND_STATE_POINT:
+        // Show potential info about the currently selected attack point
+        if (_show_information)
+            _DrawActionInformation();
+
         _DrawAttackPointTarget();
         break;
-    case COMMAND_STATE_INFORMATION:
-        _DrawInformation();
-        break;
     default:
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid/unknown command state: " << _state << std::endl;
-        _ChangeState(COMMAND_STATE_CATEGORY);
-        return;
+        break;
     }
 }
-
-
 
 void CommandSupervisor::NotifyActorDeath(BattleActor *actor)
 {
@@ -999,7 +876,7 @@ void CommandSupervisor::NotifyActorDeath(BattleActor *actor)
 
         // Try selecting the next actor and fall back to the previous command menu
         // if not possible.
-        if(!_selected_target.SelectNextActor(actor)) {
+        if(!_selected_target.SelectNextActor()) {
             if(character && (_state == COMMAND_STATE_ACTOR || _state == COMMAND_STATE_POINT))
                 _ChangeState(COMMAND_STATE_ACTION);
             return;
@@ -1007,7 +884,17 @@ void CommandSupervisor::NotifyActorDeath(BattleActor *actor)
     }
 }
 
+void CommandSupervisor::CancelCurrentCommand()
+{
+    if (_state == COMMAND_STATE_INVALID || GetCommandCharacter() == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG)
+            << "function called when class was in invalid state" << std::endl;
+        return;
+    }
 
+    _ChangeState(COMMAND_STATE_INVALID);
+    BattleMode::CurrentInstance()->NotifyCommandCancel();
+}
 
 bool CommandSupervisor::_IsSkillCategorySelected() const
 {
@@ -1018,8 +905,6 @@ bool CommandSupervisor::_IsSkillCategorySelected() const
         return false;
 }
 
-
-
 bool CommandSupervisor::_IsItemCategorySelected() const
 {
     int32 category = _category_options.GetSelection();
@@ -1028,8 +913,6 @@ bool CommandSupervisor::_IsItemCategorySelected() const
     else
         return false;
 }
-
-
 
 GLOBAL_TARGET CommandSupervisor::_ActionTargetType()
 {
@@ -1041,19 +924,28 @@ GLOBAL_TARGET CommandSupervisor::_ActionTargetType()
         return GLOBAL_TARGET_INVALID;
 }
 
-
-
 bool CommandSupervisor::_SetInitialTarget()
 {
-    BattleActor *user = GetCommandCharacter();
+    BattleActor* actor = GetCommandCharacter();
     GLOBAL_TARGET target_type = _ActionTargetType();
 
     // Party targets are simple because we don't have to restore the last save target, since there is either the
     // ally party or foe party, and both parties are always valid targets (because otherwise the battle would have
     // already ended).
-    if(IsTargetParty(target_type) == true) {
+    if(IsTargetParty(target_type)) {
         // Party-type targets are always the same, so we don't need to recall the last target in this case
-        return _selected_target.SetInitialTarget(user, target_type);
+        return _selected_target.SetTarget(actor, target_type);
+    }
+
+    // If we don't memorize the last target, simply select the first one again.
+    if(!SystemManager->GetBattleTargetMemory()) {
+        // If the target type is invalid that means that there is no previous target so grab the initial target
+        if(!_selected_target.SetTarget(actor, target_type)) {
+            // No more target of that type, let's go back to the command state
+            _selected_target.InvalidateTarget();
+            return false;
+        }
+        return true;
     }
 
     // Retrieved the last saved target depending on the type (self/ally/foe)
@@ -1064,40 +956,36 @@ bool CommandSupervisor::_SetInitialTarget()
     } else if(IsTargetFoe(target_type)) {
         _selected_target = _active_settings->GetLastEnemyTarget();
     } else {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "no conditions met for invalid target type: " << target_type << std::endl;
+        PRINT_WARNING << "No conditions met for invalid target type: " << target_type << std::endl;
+    }
+    // Restore the target type after getting the target from memory.
+    if (!_selected_target.SetTarget(actor, target_type, _selected_target.GetActor(), _selected_target.GetAttackPoint())) {
+        // No more target of that type, let's go back to the command state
+        _selected_target.InvalidateTarget();
+        return false;
     }
 
-    bool permit_dead_targets = (_selected_target.GetType() == GLOBAL_TARGET_ALLY_EVEN_DEAD);
+    if (_selected_target.IsValid())
+        return true;
 
-    // Otherwise if the last target is no longer valid, select the next valid target
-    if(!_selected_target.IsValid(permit_dead_targets)) {
+    // Otherwise if the last target is set but no longer valid, select the next valid target in the serie.
+    if(_selected_target.GetActor() != nullptr) {
         // Party targets should always be valid and attack points on actors do not disappear, so only the actor
         // must be invalid
-        if(!_selected_target.SelectNextActor(user, permit_dead_targets)) {
+        if(!_selected_target.SelectNextActor()) {
             // No more target of that type, let's go back to the command state
             // Invalidate the target so that one can get a completely new one
-            _selected_target.InvalidateTarget();
-        }
-    }
-
-    // If the target type is invalid that means that there is no previous target so grab the initial target
-    if(_selected_target.GetType() == GLOBAL_TARGET_INVALID) {
-        if(!_selected_target.SetInitialTarget(user, target_type)) {
-            // No more target of that type, let's go back to the command state
             _selected_target.InvalidateTarget();
             GlobalManager->Media().PlaySound("cancel");
             return false;
         }
+        return true;
     }
-
-    // This case occurs when our last target was an actor type and we're now using an action with a point target,
-    // or vice versa. We need to modify the target type while still retaining the original target actor.
-    if(_selected_target.GetType() != target_type) {
-        if(IsTargetPoint(target_type) == true) {
-            _selected_target.SetPointTarget(target_type, 0);
-        } else { // then IsTargetActor(target_type) == true
-            _selected_target.SetActorTarget(target_type, _selected_target.GetActor());
-        }
+    else if (!_selected_target.SetTarget(actor, target_type)) {
+        // No more target of that type, let's go back to the command state
+        _selected_target.InvalidateTarget();
+        GlobalManager->Media().PlaySound("cancel");
+        return false;
     }
     return true;
 }
@@ -1110,9 +998,9 @@ void CommandSupervisor::_ChangeState(COMMAND_STATE new_state)
     }
 
     if(new_state == COMMAND_STATE_INVALID) {
-        _active_settings = NULL;
-        _selected_skill = NULL;
-        _selected_item = NULL;
+        _active_settings = nullptr;
+        _selected_skill = nullptr;
+        _selected_item = nullptr;
     } else if(new_state == COMMAND_STATE_CATEGORY) {
         // Nothing to do here. The Initialize() function performs all necessary actions when entering this state.
     } else if(new_state == COMMAND_STATE_ACTION) {
@@ -1154,12 +1042,10 @@ void CommandSupervisor::_ChangeState(COMMAND_STATE new_state)
                 return;
             }
         }
-
-        _CreateActorTargetText();
+        _target_options.ResetViewableOption();
+        _UpdateActorTargetText();
     } else if(new_state == COMMAND_STATE_POINT) {
         _CreateAttackPointTargetText();
-    } else if(new_state == COMMAND_STATE_INFORMATION) {
-        _CreateInformationText();
     }
 
     _state = new_state;
@@ -1177,14 +1063,12 @@ void CommandSupervisor::_UpdateCategory()
         // The only time we do not allow the player to abort the command menu is if they are running the battle with the "wait" setting active and the
         // current character is in the command state. Under these circumstances, the player has to enter a command for this character before the battle
         // is allowed to continue.
-        if((BM->GetBattleType() == BATTLE_TYPE_WAIT || BM->GetBattleType() == BATTLE_TYPE_SEMI_ACTIVE)
-            && (GetCommandCharacter()->GetState() == ACTOR_STATE_COMMAND)) {
-            GlobalManager->Media().PlaySound("cancel");
-        } else {
-            _ChangeState(COMMAND_STATE_INVALID);
-            BM->NotifyCommandCancel();
-            GlobalManager->Media().PlaySound("cancel");
+        if((BM->GetBattleType() != BATTLE_TYPE_WAIT && BM->GetBattleType() != BATTLE_TYPE_SEMI_ACTIVE)
+                || (GetCommandCharacter()->GetState() != ACTOR_STATE_COMMAND)) {
+            CancelCurrentCommand();
         }
+
+        GlobalManager->Media().PlaySound("cancel");
     }
 
     else if(InputManager->ConfirmPress()) {
@@ -1199,12 +1083,12 @@ void CommandSupervisor::_UpdateCategory()
 
     else if(InputManager->LeftPress()) {
         _category_options.InputLeft();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     }
 
     else if(InputManager->RightPress()) {
         _category_options.InputRight();
-        GlobalManager->Media().PlaySound("confirm");
+        GlobalManager->Media().PlaySound("bump");
     }
 }
 
@@ -1216,6 +1100,15 @@ void CommandSupervisor::_UpdateAction()
         _ChangeState(COMMAND_STATE_CATEGORY);
         GlobalManager->Media().PlaySound("cancel");
         return;
+    }
+
+    // Handles showing skills/item info on menu key pressed state
+    if(InputManager->MenuState()) {
+        _show_information = true;
+        _UpdateActionInformation();
+    }
+    else {
+        _show_information = false;
     }
 
     if(_IsSkillCategorySelected() == true) {
@@ -1230,35 +1123,25 @@ void CommandSupervisor::_UpdateAction()
                 GlobalManager->Media().PlaySound("cancel");
             }
         }
-
-        else if(InputManager->MenuPress()) {
-            _ChangeState(COMMAND_STATE_INFORMATION);
-            GlobalManager->Media().PlaySound("confirm");
-        }
-
         else {
             _skill_command.UpdateList();
+            _UpdateActionInformation();
         }
     } else if(_IsItemCategorySelected() == true) {
         _selected_item = _item_command.GetSelectedItem();
 
         if(InputManager->ConfirmPress()) {
             // Permit the selection only where are items left.
-            if(_selected_item != NULL && _item_command.IsSelectedItemAvailable()) {
+            if(_selected_item != nullptr && _item_command.IsSelectedItemAvailable()) {
                 _ChangeState(COMMAND_STATE_ACTOR);
                 GlobalManager->Media().PlaySound("confirm");
             } else {
                 GlobalManager->Media().PlaySound("cancel");
             }
         }
-
-        else if(InputManager->MenuPress()) {
-            _ChangeState(COMMAND_STATE_INFORMATION);
-            GlobalManager->Media().PlaySound("confirm");
-        }
-
         else {
             _item_command.UpdateList();
+            _UpdateActionInformation();
         }
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid category selection: " << _category_options.GetSelection() << std::endl;
@@ -1266,8 +1149,6 @@ void CommandSupervisor::_UpdateAction()
         _category_options.SetSelection(CATEGORY_WEAPON);
     }
 }
-
-
 
 void CommandSupervisor::_UpdateActorTarget()
 {
@@ -1290,18 +1171,17 @@ void CommandSupervisor::_UpdateActorTarget()
         else
             _target_options.InputUp();
 
-        bool direction = InputManager->DownPress();
-        bool permit_dead_targets = (_selected_target.GetType() == GLOBAL_TARGET_ALLY_EVEN_DEAD);
-
         if((IsTargetActor(_selected_target.GetType()) == true) || (IsTargetPoint(_selected_target.GetType()) == true)) {
-            _selected_target.SelectNextActor(GetCommandCharacter(), direction, true, permit_dead_targets);
-            _CreateActorTargetText();
-            GlobalManager->Media().PlaySound("confirm");
+            // Since we're changing the target, we reinit the attack point to the first one,
+            // as the new target may have less attack points than the latest one.
+            _selected_target.ReinitAttackPoint();
+            _selected_target.SelectNextActor(InputManager->DownPress());
+            _UpdateActorTargetText();
+            GlobalManager->Media().PlaySound("bump");
         }
     }
+    _target_options.Update();
 }
-
-
 
 void CommandSupervisor::_UpdateAttackPointTarget()
 {
@@ -1313,6 +1193,7 @@ void CommandSupervisor::_UpdateAttackPointTarget()
     else if(InputManager->ConfirmPress()
             || _selected_target.GetActor()->GetAttackPoints().size() == 1) {
         _FinalizeCommand();
+        GlobalManager->Media().PlaySound("confirm");
     }
 
     else if(InputManager->UpPress() || InputManager->DownPress()) {
@@ -1321,55 +1202,125 @@ void CommandSupervisor::_UpdateAttackPointTarget()
         else
             _target_options.InputUp();
 
-        _selected_target.SelectNextPoint(GetCommandCharacter(), InputManager->DownPress());
-        _CreateAttackPointTargetText();
-        GlobalManager->Media().PlaySound("confirm");
+        _selected_target.SelectNextPoint(InputManager->DownPress());
+        GlobalManager->Media().PlaySound("bump");
     }
+
+    // Handles showing target points info
+    if(InputManager->MenuState()) {
+        _show_information = true;
+        _UpdateActionInformation();
+    }
+    else {
+        _show_information = false;
+    }
+
+    _target_options.Update();
 }
 
-
-
-void CommandSupervisor::_UpdateInformation()
+std::string _TurnIntoSeconds(uint32 milliseconds)
 {
-    if(InputManager->CancelPress() || InputManager->MenuPress()) {
-        _state = COMMAND_STATE_ACTION;
-        GlobalManager->Media().PlaySound("cancel");
-    }
+    uint32 seconds = milliseconds / 1000;
+    uint32 dec = (milliseconds / 100) - (seconds * 10);
+    std::string formatted_seconds = NumberToString(seconds) + "." + NumberToString(dec);
+    /// TRANSLATORS: this is about displaying a time: eg 4.2s
+    formatted_seconds = VTranslate("%ss", formatted_seconds);
+    return formatted_seconds;
+}
 
-    else if(InputManager->ConfirmPress()) {
-        _ChangeState(COMMAND_STATE_ACTOR);
-        GlobalManager->Media().PlaySound("cancel");
-    }
+void CommandSupervisor::_UpdateActionInformation()
+{
+    ustring info_text;
 
-    // Change selected skill/item and update the information text
-    else if(InputManager->UpPress() || InputManager->DownPress()) {
+    if (_state == COMMAND_STATE_POINT) {
+        // Show the target points information.
+        BattleActor* actor = _selected_target.GetActor();
+        uint32 selected_point = _selected_target.GetAttackPoint();
+        GlobalAttackPoint* attack_point = actor->GetAttackPoint(selected_point);
 
-        if(_IsSkillCategorySelected() == true) {
-            _skill_command.UpdateList();
-            _selected_skill = _skill_command.GetSelectedSkill();
-            GlobalManager->Media().PlaySound("confirm");
-        } else if(_IsItemCategorySelected() == true) {
-            _item_command.UpdateList();
-            _selected_item = _item_command.GetSelectedItem();
-            GlobalManager->Media().PlaySound("confirm");
+        _info_header.SetText(attack_point->GetName());
+
+         // Set the text
+        info_text = UTranslate("Enemy Defense Modifiers:\n");
+        // Evade
+        // Hack to get the text located right.
+        // FIXME: Once image within text is supported, we can get rid of all that.
+        float evade_modifier = attack_point->GetEvadeModifier();
+        {
+            std::string evade_str = "     ";
+            if (evade_modifier > 0.0f)
+                evade_str += "+" + NumberToString(evade_modifier) + "%";
+            else
+                evade_str += NumberToString(evade_modifier) + "%";
+
+            // Make the text be of fixed width (kinda)...
+            while (evade_str.length() < 20)
+                evade_str += " ";
+
+            info_text += MakeUnicodeString(evade_str);
+
+        }
+        // Fortitude (Physical defense)
+        float fortitude_modifier = attack_point->GetFortitudeModifier();
+        {
+            std::string fort_str;
+            if (fortitude_modifier > 0.0f)
+                fort_str = "+" + NumberToString(fortitude_modifier);
+            else
+                fort_str = NumberToString(fortitude_modifier);
+
+            while (fort_str.length() < 15)
+                fort_str += " ";
+            info_text += MakeUnicodeString(fort_str);
+        }
+        // Protection (Magical defense)
+        float protection_modifier = attack_point->GetProtectionModifier();
+        {
+            std::string prot_str;
+            if (protection_modifier > 0.0f)
+                prot_str = "+" + NumberToString(protection_modifier);
+            else
+                prot_str = NumberToString(protection_modifier);
+
+            info_text += MakeUnicodeString(prot_str);
         }
 
-        _CreateInformationText();
+        // Display the percentage of status effect modification
+        info_text += UTranslate("\n\nEffects:\n");
+
+        _selected_attack_point_status_effects.clear();
+        const std::vector<std::pair<GLOBAL_STATUS, float> >& effects = attack_point->GetStatusEffects();
+        // Only show the first effects, in case of bad config.
+        for (uint32 i = 0; i < effects.size() && i < 2; ++i) {
+            _selected_attack_point_status_effects.push_back(GlobalManager->Media().GetStatusIcon(effects[i].first, GLOBAL_INTENSITY_NEG_LESSER));
+            info_text += MakeUnicodeString("      -> " + NumberToString(effects[i].second) + "%\n");
+        }
+
+    } else if(_IsSkillCategorySelected() == true) {
+        _info_header.SetText(_selected_skill->GetName()
+                             + MakeUnicodeString(" - "
+                             + VTranslate("%s SP", NumberToString(_selected_skill->GetSPRequired()))));
+
+        info_text = MakeUnicodeString(VTranslate("Target Type: %s", GetTargetText(_selected_skill->GetTargetType())) + "\n");
+        info_text += MakeUnicodeString(VTranslate("Prep Time: %s", _TurnIntoSeconds(_selected_skill->GetWarmupTime())) + " - ");
+        info_text += MakeUnicodeString(VTranslate("Cool Time: %s", _TurnIntoSeconds(_selected_skill->GetCooldownTime())) + "\n\n");
+        info_text += _selected_skill->GetDescription();
+    } else if(_IsItemCategorySelected() == true) {
+        _info_header.SetText(_selected_item->GetGlobalItem().GetName()
+                             + MakeUnicodeString(" x " + NumberToString(_selected_item->GetBattleCount())));
+        info_text = MakeUnicodeString(VTranslate("Target Type: %s", GetTargetText(_selected_item->GetTargetType())) + "\n\n");
+        info_text += _selected_item->GetGlobalItem().GetDescription();
+    } else {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "unknown category selected: " << _category_options.GetSelection() << std::endl;
     }
 
-    else if(InputManager->RightPress() || InputManager->LeftPress()) {
-        // TODO: toggle between description text and detailed stats
-    }
+    _info_text.SetText(info_text);
 }
-
-
 
 void CommandSupervisor::_DrawCategory()
 {
     _category_options.Draw();
 }
-
-
 
 void CommandSupervisor::_DrawAction()
 {
@@ -1393,21 +1344,24 @@ void CommandSupervisor::_DrawAction()
     }
 }
 
-
-
 void CommandSupervisor::_DrawActorTarget()
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
     VideoManager->Move(560.0f, 658.0f);
     _window_header.Draw();
     VideoManager->Move(560.0f, 683.0f);
-    _window_text.Draw();
+    _selected_target_name.Draw();
+    // We don't draw the target option as it may desync when enemies spawn/die.
+    //_target_options.Draw();
 
-// 	_target_options.Draw();
-    // TODO: draw relevant status/elemental icons
+    // Draw relevant active status effect icons
+    float width = _selected_target_name.GetWidth() < 130.0f ? 130.0f : _selected_target_name.GetWidth() + 10.0f;
+    VideoManager->MoveRelative(width, 0.0f);
+    for (uint32 i = 0; i < _selected_target_status_effects.size(); ++i) {
+        _selected_target_status_effects[i]->Draw();
+        VideoManager->MoveRelative(25.0f, 0.0f);
+    }
 }
-
-
 
 void CommandSupervisor::_DrawAttackPointTarget()
 {
@@ -1415,28 +1369,38 @@ void CommandSupervisor::_DrawAttackPointTarget()
     VideoManager->Move(560.0f, 658.0f);
     _window_header.Draw();
     VideoManager->Move(560.0f, 683.0f);
-// 	_window_text.Draw();
-
     _target_options.Draw();
-    // TODO: draw relevant status/elemental icons
 }
 
-
-
-void CommandSupervisor::_DrawInformation()
+void CommandSupervisor::_DrawActionInformation()
 {
+    _info_window.Draw();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(560.0f, 658.0f);
-    _window_header.Draw();
-    VideoManager->Move(560.0f, 683.0f);
-    _window_text.Draw();
+    VideoManager->Move(560.0f, 488.0f);
+    _info_header.Draw();
+    VideoManager->Move(530.0f, 510.0f);
+    _info_text.Draw();
 
-    // TODO: draw relevant status/elemental icons
+    if (_state != COMMAND_STATE_POINT)
+            return;
+
+    // Draw the modifiers icons.
+    VideoManager->MoveRelative(0.0f, 25.0f);
+    GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_EVADE, GLOBAL_INTENSITY_NEUTRAL)->Draw();
+    VideoManager->MoveRelative(80.0f, 0.0f);
+    GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_FORTITUDE, GLOBAL_INTENSITY_NEUTRAL)->Draw();
+    VideoManager->MoveRelative(80.0f, 0.0f);
+    GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_PROTECTION, GLOBAL_INTENSITY_NEUTRAL)->Draw();
+    VideoManager->MoveRelative(-160.0f, 60.0f);
+
+    // Draw the status effect applied next to their percentage.
+    for (uint32 i = 0; i < _selected_attack_point_status_effects.size(); ++i) {
+        _selected_attack_point_status_effects[i]->Draw();
+        VideoManager->MoveRelative(0.0f, 20.0f);
+    }
 }
 
-
-
-void CommandSupervisor::_CreateActorTargetText()
+void CommandSupervisor::_UpdateActorTargetText()
 {
     _window_header.SetText(UTranslate("Select Target"));
 
@@ -1468,66 +1432,57 @@ void CommandSupervisor::_CreateActorTargetText()
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type: " << _selected_target.GetType() << std::endl;
     }
 
-    // TEMP: remove once _target_options box works properly
+    // Clear the shown effects first.
+    _selected_target_status_effects.clear();
+
     if(IsTargetParty(_selected_target.GetType()) == true) {
         if(_selected_target.GetType() == GLOBAL_TARGET_ALL_ALLIES) {
-            _window_text.SetText(UTranslate("All Allies"));
+            _selected_target_name.SetText(UTranslate("All Allies"));
         } else {
-            _window_text.SetText(UTranslate("All Enemies"));
+            _selected_target_name.SetText(UTranslate("All Enemies"));
         }
     } else {
-        _window_text.SetText(_selected_target.GetActor()->GetName());
+        _selected_target_name.SetText(_selected_target.GetActor()->GetName());
+
+        // Get every non neutral status effects.
+        for (uint32 i = 0; i < GLOBAL_STATUS_TOTAL; ++i) {
+            GLOBAL_STATUS status = static_cast<GLOBAL_STATUS>(i);
+            GLOBAL_INTENSITY intensity = _selected_target.GetActor()->GetActiveStatusEffectIntensity(status);
+            if (intensity == GLOBAL_INTENSITY_NEUTRAL ||
+                    intensity <= GLOBAL_INTENSITY_INVALID ||
+                    intensity >= GLOBAL_INTENSITY_TOTAL) {
+                continue;
+            }
+
+            _selected_target_status_effects.push_back(vt_global::GlobalManager->Media().GetStatusIcon(status, intensity));
+        }
     }
-
 }
-
-
 
 void CommandSupervisor::_CreateAttackPointTargetText()
 {
     _window_header.SetText(UTranslate("Select Attack Point"));
 
-    BattleActor *actor = _selected_target.GetActor();
-    uint32 selected_point = _selected_target.GetPoint();
+    BattleActor* actor = _selected_target.GetActor();
+    uint32 selected_point = _selected_target.GetAttackPoint();
+
+    if (actor == nullptr) {
+        PRINT_ERROR << "nullptr actor when selection target attack points!" << std::endl;
+        return;
+    }
 
     _target_options.ClearOptions();
     for(uint32 i = 0; i < actor->GetAttackPoints().size(); i++) {
         _target_options.AddOption(actor->GetAttackPoints().at(i)->GetName());
     }
 
+    _target_options.ResetViewableOption();
     _target_options.SetSelection(selected_point);
 }
 
-
-
-void CommandSupervisor::_CreateInformationText()
-{
-    ustring info_text;
-
-    if(_IsSkillCategorySelected() == true) {
-        _window_header.SetText(_selected_skill->GetName());
-
-        info_text = UTranslate("Skill Points: " + NumberToString(_selected_skill->GetSPRequired())) + MakeUnicodeString("\n");
-        info_text += UTranslate("Target Type: ") + MakeUnicodeString(GetTargetText(_selected_skill->GetTargetType())) + MakeUnicodeString("\n");
-        info_text += UTranslate("Prep Time: ") + MakeUnicodeString(NumberToString(_selected_skill->GetWarmupTime())) + MakeUnicodeString("\n");
-        info_text += UTranslate("Cool Time: ") + MakeUnicodeString(NumberToString(_selected_skill->GetCooldownTime())) + MakeUnicodeString("\n");
-    } else if(_IsItemCategorySelected() == true) {
-        _window_header.SetText(_selected_item->GetItem().GetName());
-
-        info_text = UTranslate("Quantity: " + NumberToString(_selected_item->GetBattleCount())) + MakeUnicodeString("\n");
-        info_text += UTranslate("Target Type: ") + MakeUnicodeString(GetTargetText(_selected_item->GetItem().GetTargetType())) + MakeUnicodeString("\n");
-    } else {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "unknown category selected: " << _category_options.GetSelection() << std::endl;
-    }
-
-    _window_text.SetText(info_text);
-}
-
-
-
 void CommandSupervisor::_FinalizeCommand()
 {
-    BattleAction *new_action = NULL;
+    BattleAction *new_action = nullptr;
     BattleCharacter *character = GetCommandCharacter();
 
     _active_settings->SaveLastTarget(_selected_target);
@@ -1539,7 +1494,6 @@ void CommandSupervisor::_FinalizeCommand()
 
         // Reserve the item for use by the character.
         _selected_item->DecrementBattleCount();
-        _item_command.RefreshEntry(_item_command.GetItemIndex());
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "did not create action for character, unknown category selected: " << _category_options.GetSelection() << std::endl;
     }
@@ -1547,7 +1501,6 @@ void CommandSupervisor::_FinalizeCommand()
 
     _ChangeState(COMMAND_STATE_INVALID);
     BattleMode::CurrentInstance()->NotifyCharacterCommandComplete(character);
-    GlobalManager->Media().PlaySound("confirm");
 }
 
 } // namespace private_battle

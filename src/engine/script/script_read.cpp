@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -16,10 +16,13 @@
 *** \brief   Source file for the ReadScriptDescriptor class.
 *** ***************************************************************************/
 
-#include "utils.h"
+#include "utils/utils_pch.h"
+#include "script_read.h"
 
 #include "script.h"
-#include "script_read.h"
+
+#include "utils/utils_files.h"
+#include "utils/utils_strings.h"
 
 using namespace luabind;
 
@@ -57,7 +60,7 @@ bool ReadScriptDescriptor::OpenFile(const std::string &filename)
     }
 
     // Check that the thread stack is in sync with open files.
-    assert(ScriptManager->_CheckForPreviousLuaState(filename) == NULL);
+    assert(ScriptManager->_CheckForPreviousLuaState(filename) == nullptr);
 
     // Increases the global stack size by 1 element. That is needed because the new thread will be pushed in the
     // stack and we have to be sure there is enough space there.
@@ -109,7 +112,7 @@ void ReadScriptDescriptor::CloseFile()
                 << std::endl << _error_messages.str() << std::endl;
     }
 
-    _lstack = NULL;
+    _lstack = nullptr;
     _error_messages.clear();
     _open_tables.clear();
     _access_mode = SCRIPT_CLOSED;

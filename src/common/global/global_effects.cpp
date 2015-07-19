@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,7 +15,9 @@
 *** \brief   Source file for global game effects
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "global_effects.h"
+
 #include "global.h"
 
 #include "engine/system.h"
@@ -50,8 +52,6 @@ std::string GetElementName(GLOBAL_ELEMENTAL type)
     }
 }
 
-
-
 std::string GetStatusName(GLOBAL_STATUS type)
 {
     std::string result;
@@ -70,29 +70,54 @@ std::string GetStatusName(GLOBAL_STATUS type)
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "Lua definition file contained no entry for status effect: " << type << std::endl;
     }
 
-    if(result == "") {
+    if(result.empty()) {
         result = Translate("Invalid Status");
     }
     return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// GlobalElementalEffect class
-////////////////////////////////////////////////////////////////////////////////
-
-void GlobalElementalEffect::IncrementIntensity(uint8 amount)
-{
-    vt_global::IncrementIntensity(_intensity, amount);
-}
-
-void GlobalElementalEffect::DecrementIntensity(uint8 amount)
-{
-    vt_global::DecrementIntensity(_intensity, amount);
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // GlobalStatusEffect class
 ////////////////////////////////////////////////////////////////////////////////
+
+GlobalStatusEffect::GlobalStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity) :
+        _type(type),
+        _intensity(intensity),
+        _update_timer(0),
+        _use_update_timer(false)
+{
+    // Check that the constructor arguments are valid
+    if((type <= GLOBAL_STATUS_INVALID) || (type >= GLOBAL_STATUS_TOTAL)) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "constructor received an invalid type argument: " << type << std::endl;
+        return;
+    }
+    if((intensity <= GLOBAL_INTENSITY_INVALID) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "constructor received an invalid intensity argument: " << intensity << std::endl;
+        return;
+    }
+
+    // Make sure that a table entry exists for this status element
+    uint32 table_id = static_cast<uint32>(type);
+    ReadScriptDescriptor &script_file = GlobalManager->GetStatusEffectsScript();
+    if(!script_file.OpenTable(table_id)) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "Lua definition file contained no entry for status effect: " << table_id << std::endl;
+        return;
+    }
+
+    uint32 update_every = script_file.ReadUInt("update_every");
+    if (update_every > 0)
+        _update_timer.SetDuration(update_every);
+
+    script_file.CloseTable(); // table_id
+
+    // Init the update effect timer
+    if (update_every > 0) {
+        _update_timer.EnableManualUpdate();
+        _update_timer.Reset();
+        _update_timer.Run();
+        _use_update_timer = true;
+    }
+}
 
 bool GlobalStatusEffect::IncrementIntensity(uint8 amount)
 {

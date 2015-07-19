@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -23,15 +23,15 @@
 #ifndef __BATTLE_SEQUENCE_HEADER__
 #define __BATTLE_SEQUENCE_HEADER__
 
+#include "modes/battle/battle.h"
 #include "modes/battle/battle_utils.h"
 
-#include "utils.h"
+#include "utils/utils_pch.h"
 
 #include "engine/audio/audio.h"
 #include "engine/mode_manager.h"
 #include "engine/script/script.h"
 #include "engine/system.h"
-#include "engine/video/video.h"
 
 #include "common/global/global.h"
 

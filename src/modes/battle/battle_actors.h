@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -23,8 +23,6 @@
 #ifndef __BATTLE_ACTORS_HEADER__
 #define __BATTLE_ACTORS_HEADER__
 
-#include "utils.h"
-
 #include "common/global/global_actors.h"
 #include "common/global/global_effects.h"
 
@@ -39,8 +37,7 @@ namespace private_battle
 {
 
 class BattleAction;
-class EffectsSupervisor;
-class IndicatorSupervisor;
+class BattleStatusEffectsSupervisor;
 
 /** ****************************************************************************
 *** \brief An abstract class for representing an object in the battle
@@ -91,7 +88,16 @@ public:
     }
 
     virtual void DrawSprite()
-    {};
+    {}
+
+    //! Tells whether the object can be removed from memory.
+    //! \note: Only visual effects are throwable once used.
+    virtual bool CanBeRemoved() const {
+        return false;
+    }
+
+    virtual void Update()
+    {}
 
 protected:
     //! \brief The "home" coordinates for the actor's default location on the battle field
@@ -106,7 +112,7 @@ protected:
 class BattleParticleEffect : public BattleObject
 {
 public:
-    BattleParticleEffect(const std::string &effect_filename);
+    BattleParticleEffect(const std::string& effect_filename);
 
     //! Used to be drawn at the right time by the battle mode.
     void DrawSprite();
@@ -116,9 +122,9 @@ public:
         return _effect.Start();
     }
 
-    //! \Tells whether the effect is still alive.
-    bool IsAlive() const {
-        return _effect.IsAlive();
+    //! Tells whether the effect can be removed from memory.
+    bool CanBeRemoved() const {
+        return !_effect.IsAlive();
     }
 
     void Update() {
@@ -130,60 +136,57 @@ protected:
     vt_mode_manager::ParticleEffect _effect;
 };
 
-//! \brief The battle ammo class is made to represent an ammo image on the battle ground.
-class BattleAmmo : public BattleObject
+//! \brief A class representing animated images used as battle objects:
+//! used also for spell effects, attack effects, ...
+class BattleAnimation : public BattleObject
 {
 public:
-    BattleAmmo():
-        BattleObject(),
-        _flying_height(0.0f),
-        _shown(false)
-    {}
+    BattleAnimation(const std::string& animation_filename);
 
-    BattleAmmo(const std::string &animation_filename, uint32 flying_height):
-        BattleObject(),
-        _flying_height(flying_height),
-        _shown(false) {
-        LoadAmmoAnimatedImage(animation_filename);
-    }
-
-    //! Draw the ammo on screen if it was set to be shown.
+    //! Used to be drawn at the right time by the battle mode.
     void DrawSprite();
 
-    void LoadAmmoAnimatedImage(const std::string &filename) {
-        _ammo_image.Clear();
-        _ammo_image.LoadFromAnimationScript(filename);
+
+    void Update() {
+        _animation.Update();
     }
 
-    const vt_video::AnimatedImage &GetAmmoImage() const {
-        return _ammo_image;
+    //! Permits to restart the animation.
+    void Reset() {
+        _animation.ResetAnimation();
     }
 
-    void SetFlyingHeight(float height) {
-        _flying_height = height;
+    void SetVisible(bool show) {
+        _visible = show;
     }
 
-    float GetFlyingHeight() const {
-        return _flying_height;
+    bool IsVisible() const {
+        return _visible;
     }
 
-    void SetShowAmmo(bool show) {
-        _shown = show;
+    //! Tells whether the effect can be scheduled for removal from memory.
+    bool CanBeRemoved() const {
+        return _can_be_removed;
     }
 
-    bool IsAmmoShown() const {
-        return _shown;
+    void Remove() {
+        _can_be_removed = true;
+    }
+
+    //! Get the animatedImage for deeper manipulations.
+    vt_video::AnimatedImage& GetAnimatedImage() {
+        return _animation;
     }
 
 protected:
-    //! The actual ammo graphics used when firing
-    vt_video::AnimatedImage _ammo_image;
+    //! The particle effect class used internally
+    vt_video::AnimatedImage _animation;
 
-    //! The pixel height of the ammo compared to the ground (at which height the ammo flies).
-    float _flying_height;
+    //! Set whether the animation is drawn.
+    bool _visible;
 
-    //! Tells whether the ammo should be drawn on screen.
-    bool _shown;
+    //! Set whether the animation can be removed from memory (now useless).
+    bool _can_be_removed;
 };
 
 /** ****************************************************************************
@@ -201,10 +204,10 @@ protected:
 *** agility. We need the ability to restore each stat to its base value, and the GlobalActor
 *** class retains that unaltered value. Second, if the player loses the battle and chooses to
 *** retry, we need to restore all actors back to their original state before the battle began.
-*** Retreiving the values of the GlobalActor class allows us to do so.
+*** Retrieving the values of the GlobalActor class allows us to do so.
 ***
 *** Throughout the battle, actors progress through a series of states. The
-*** standard set of states that an actor cylces through while they are "alive"
+*** standard set of states that an actor cycles through while they are "alive"
 *** and participating in the battle are as follows.
 ***
 *** -# ACTOR_STATE_IDLE
@@ -235,7 +238,7 @@ public:
     }
 
     //! \brief Returns true if the actor can still fight.
-    bool IsValid() const {
+    bool CanFight() const {
         return (_state != ACTOR_STATE_DYING && IsAlive());
     }
 
@@ -271,6 +274,17 @@ public:
     virtual void ChangeSpriteAnimation(const std::string & /*alias*/)
     {}
 
+    inline float GetSpriteAlpha() const {
+        return _sprite_alpha;
+    }
+
+    //! Set the sprite alpha, useful for custom death sequences and other effects on sprites.
+    void SetSpriteAlpha(float alpha) {
+        if (alpha > 1.0f) alpha = 1.0f;
+        if (alpha < 0.0f) alpha = 0.0f;
+        _sprite_alpha = alpha;
+    }
+
     /** \brief Deals damage to the actor by reducing its hit points by a certain amount
     *** \param amount The number of hit points to decrease on the actor
     ***
@@ -278,7 +292,10 @@ public:
     *** If the amount of damage dealt is greater than the actor's current hit points, the actor will be placed
     *** in the ACTOR_STATE_DEAD state.
     **/
-    void RegisterDamage(uint32 amount);
+    virtual void RegisterDamage(uint32 amount);
+
+    //! \brief Steals the actor skill points
+    void RegisterSPDamage(uint32 amount);
 
     /** \brief Deals damage to the actor by reducing its hit points by a certain amount
     *** \param amount The number of hit points to decrease on the actor
@@ -345,15 +362,15 @@ public:
     *** If the desired effect does yield a change in status, this function will prepare an indicator image
     *** to be displayed representing the change in status.
     **/
-    void RegisterStatusChange(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity,
-                              uint32 duration = 0);
+    void ApplyActiveStatusEffect(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity,
+                                 uint32 duration = 0);
 
-    /** Returns the reference of the indicators supervisor.
-    *** It is sometimes used by the effect supervisor to trigger status effects and elemental effects display.
-    **/
-    IndicatorSupervisor *GetIndicatorSupervisor() {
-        return _indicator_supervisor;
-    }
+    //! \brief Removes the given status effect, calling the according BattleRemove() script function.
+    void RemoveActiveStatusEffect(vt_global::GLOBAL_STATUS status_effect);
+
+    //! \brief Tells the intensity of the active status effect currently applied on the character,
+    //! or GLOBAL_STATUS_NEUTRAL if there is no such effect.
+    vt_global::GLOBAL_INTENSITY GetActiveStatusEffectIntensity(vt_global::GLOBAL_STATUS status);
 
     /** \brief Increases or decreases the current skill points of the actor
     *** \param amount The number of skill points to increase or decrease
@@ -373,15 +390,17 @@ public:
         _is_stunned = stun;
     }
 
+    //! \brief Tells whether the actor is stunned.
+    bool IsStunned() const {
+        return _is_stunned;
+    }
+
     /** \brief Updates the state of the actor
     ***
     *** The optional boolean parameter is primarily used by battle sequences which desire to update the sprite graphics
     *** but not any battle state.
     **/
     virtual void Update();
-
-    //! \brief Draws all active indicator text and graphics for the actor
-    void DrawIndicators() const;
 
     //! \brief Draws the stamina icon - default implementation
     virtual void DrawStaminaIcon(const vt_video::Color &color = vt_video::Color::white) const;
@@ -396,6 +415,15 @@ public:
     *** printed in the case where the actor has another action prepared.
     **/
     void SetAction(BattleAction *action);
+
+    //! \brief Convenience wrapper for all targets type skills
+    //! This one useful for self target-type skills, and all allies/enemies target-type skills.
+    void SetAction(uint32 skill_id) {
+        SetAction(skill_id, nullptr);
+    }
+
+    //! \brief Convenience wrapper for single target type skills
+    void SetAction(uint32 skill_id, BattleActor* target_actor);
 
     //! \brief Resets actor stats to their original values
     //@{
@@ -417,29 +445,38 @@ public:
 
     void ResetStrength() {
         SetStrength(_global_actor->GetStrength());
+        SetStrengthModifier(1.0f);
     }
 
     void ResetVigor() {
         SetVigor(_global_actor->GetVigor());
+        SetVigorModifier(1.0f);
     }
 
     void ResetFortitude() {
         SetFortitude(_global_actor->GetFortitude());
+        SetFortitudeModifier(1.0f);
     }
 
     void ResetProtection() {
         SetProtection(_global_actor->GetProtection());
+        SetProtectionModifier(1.0f);
     }
 
     void ResetAgility() {
         SetAgility(_global_actor->GetAgility());
+        SetAgilityModifier(1.0f);
     }
 
     //! SetAgility() overloading the GlobalActor one, to permit updating the idle State timer also.
     void SetAgility(uint32 agility);
 
+    //! SetAgilityModifier() overloading the GlobalActor one, to permit updating the idle State timer also.
+    void SetAgilityModifier(float modifier);
+
     void ResetEvade() {
         SetEvade(_global_actor->GetEvade());
+        SetEvadeModifier(1.0f);
     }
     //@}
 
@@ -449,21 +486,12 @@ public:
         return _state;
     }
 
-    vt_global::GlobalActor *GetGlobalActor() {
+    vt_global::GlobalActor* GetGlobalActor() {
         return _global_actor;
     }
 
-    void SetShowAmmo(bool show) {
-        _ammo.SetShowAmmo(show);
-    }
-
-    void SetAmmoPosition(float x, float y) {
-        _ammo.SetXLocation(x);
-        _ammo.SetYLocation(y);
-    }
-
-    BattleAmmo &GetAmmo() {
-        return _ammo;
+    const std::string& GetAmmoAnimationFile() const {
+        return _ammo_animation_file;
     }
 
     BattleAction *GetAction() {
@@ -471,7 +499,7 @@ public:
     }
 
     bool IsActionSet() const {
-        return (_action != NULL);
+        return (_action != nullptr);
     }
 
     uint32 GetIdleStateTime() const {
@@ -497,16 +525,13 @@ protected:
     ACTOR_STATE _state;
 
     //! \brief A pointer to the global actor object which the battle actor represents
-    vt_global::GlobalActor *_global_actor;
+    vt_global::GlobalActor* _global_actor;
 
-    //! \brief The ammo object. Use when the actor weapon uses ammo.
-    BattleAmmo _ammo;
+    //! \brief The ammo animation filename, when the actor weapon uses ammo. Empty otherwise.
+    std::string _ammo_animation_file;
 
     //! \brief A pointer to the action that the actor is preparing to perform or is currently performing
-    BattleAction *_action;
-
-    //! \brief Set to true when the actor is in the ACTING state and the execution of the action is complete
-    bool _execution_finished;
+    BattleAction* _action;
 
     //! \brief The amount of time (in milliseconds) that the actor needs to wait to pass through the idle state
     uint32 _idle_state_time;
@@ -520,6 +545,9 @@ protected:
     //! \brief Tells whether the actor is stunned, preventing its idle state time to update.
     bool _is_stunned;
 
+    //! \brief Contains the alpha value to draw the sprite at: useful for fading effects
+    float _sprite_alpha;
+
     //! \brief Used to assist in the animation of actors as they move on the battlefield
     vt_system::SystemTimer _animation_timer;
 
@@ -527,13 +555,46 @@ protected:
     float _x_stamina_location, _y_stamina_location;
 
     //! \brief An assistant class to the actor that manages all the actor's status and elemental effects
-    EffectsSupervisor *_effects_supervisor;
+    BattleStatusEffectsSupervisor* _effects_supervisor;
 
-    //! \brief An assistant class to the actor that manages all the actor's indicator text and graphics
-    IndicatorSupervisor *_indicator_supervisor;
+    //! \brief Script object used when playing the death sequence.
+    //! A default sequence is played one of those is invalid.
+    ScriptObject _death_update;
+    ScriptObject _death_init;
+    //! This function permits to draw something along with the Battle enemy sprite
+    ScriptObject _death_draw_on_sprite;
+
+    //! \brief The battle AI script
+    ScriptObject _ai_script;
+
+    //! \brief Loads the potential death animation scripted functions.
+    void _LoadDeathAnimationScript();
+
+    //! \brief Loads the potential battle AI scripted function.
+    void _LoadAIScript();
+
+    /** \brief Decides what action that the hero or enemy should execute and the target
+    *** This function is used as a fallback when no AI script is set for the given enemy.
+    *** \note More complete AI decision making algorithms should be supported
+    *** through lua scripts.
+    **/
+    void _DecideAction();
 
     //! \brief Updates the Stamina Icon position.
     void _UpdateStaminaIconPosition();
+
+    //! \brief Initializes the Battle Actor stats values.
+    //! The global actor final stats are used as base for the battle actors.
+    //! This means that the final strength value of the global actor is the base value
+    //! of the battle actor.
+    //! This way, equipment modifiers aren't touched in battles, but battle modifiers
+    //! are applied on top of the global actor values and properly reset to the global
+    //! (and equipment values) when the battle effects disappear.
+    void _InitStats();
+
+    //! Returns the text style corresponding to the damage/healing type and amount
+    vt_video::TextStyle _GetDamageTextStyle(uint32 amount, bool is_sp_damage);
+    vt_video::TextStyle _GetHealingTextStyle(uint32 amount, bool is_hp);
 }; // class BattleActor
 
 
@@ -549,14 +610,11 @@ class BattleCharacter : public BattleActor
 public:
     BattleCharacter(vt_global::GlobalCharacter *character);
 
-    ~BattleCharacter()
-    {}
+    ~BattleCharacter();
 
     bool IsEnemy() const {
         return false;
     }
-
-    void ResetActor();
 
     void ChangeState(ACTOR_STATE new_state);
 
@@ -598,7 +656,7 @@ public:
 
     /** \brief Draws the character's status in the bottom area of the screen
     *** \param order The order position of the character [0-3] used to determine draw positions
-    *** \param character_command Tells which character the command menu is open for, if any. (can be NULL)
+    *** \param character_command Tells which character the command menu is open for, if any. (can be nullptr)
     **/
     void DrawStatus(uint32 order, BattleCharacter* character_command);
 
@@ -612,7 +670,7 @@ public:
 
 protected:
     //! \brief A pointer to the global character object which the battle character represents
-    vt_global::GlobalCharacter *_global_character;
+    vt_global::GlobalCharacter* _global_character;
 
     //! \brief Retrains the last HP and SP values that were rendered to text
     uint32 _last_rendered_hp, _last_rendered_sp;
@@ -627,7 +685,7 @@ protected:
     //! \brief The Animated image pointer from the global character
     //! Used to avoid calling the global character std::map find calls on each loops
     //! Don't delete it, it's just a reference to the global manager animated images
-    vt_video::AnimatedImage *_current_sprite_animation;
+    vt_video::AnimatedImage* _current_sprite_animation;
 
     //! The current weapon animation loaded for the given weapon
     vt_video::AnimatedImage _current_weapon_animation;
@@ -644,8 +702,8 @@ protected:
     //! \brief Rendered text of the character's currently selected action
     vt_video::TextImage _action_selection_text;
 
-    //! \brief Rendered text of the character's currently selected target
-    vt_video::TextImage _target_selection_text;
+    //! \brief Rendered icon of the character's currently selected action
+    vt_video::StillImage _action_selection_icon;
 }; // class BattleCharacter
 
 
@@ -657,15 +715,13 @@ protected:
 class BattleEnemy : public BattleActor
 {
 public:
-    BattleEnemy(vt_global::GlobalEnemy *enemy);
+    BattleEnemy(uint32 enemy_id);
 
     ~BattleEnemy();
 
     bool IsEnemy() const {
         return true;
     }
-
-    void ResetActor();
 
     void ChangeState(ACTOR_STATE new_state);
 
@@ -700,24 +756,12 @@ public:
         return _global_enemy;
     }
 
-    float GetSpriteAlpha() const {
-        return _sprite_alpha;
-    }
-
-    //! Set the sprite alpha, useful for custom death sequences.
-    //! Ignored otherwise. LATER: (Should be more widely used)
-    void SetSpriteAlpha(float alpha) {
-        if (alpha > 1.0f) alpha = 1.0f;
-        if (alpha < 0.0f) alpha = 0.0f;
-        _sprite_alpha = alpha;
-    }
-
     //! \brief See BattleActor::DrawStaminaIcon()
     void DrawStaminaIcon(const vt_video::Color &color = vt_video::Color::white) const;
 
 protected:
     //! \brief A pointer to the global enemy object which the battle enemy represents
-    vt_global::GlobalEnemy *_global_enemy;
+    vt_global::GlobalEnemy* _global_enemy;
 
     //! \brief A pointer to the enemy battle animations
     //! Do not delete it, the global enemy instance will take care of it.
@@ -726,25 +770,8 @@ protected:
     //! \brief Contains the identifier text of the current sprite animation
     std::string _sprite_animation_alias;
 
-    //! \brief Contains the alpha value to draw the sprite at: useful for fading effects
-    float _sprite_alpha;
-
-    //! \brief Script object used when playing the death sequence.
-    //! A default sequence is played one of those is invalid.
-    ScriptObject _death_update;
-    ScriptObject _death_init;
-    // This function permits to draw something along with the Batleenemy Sprite
-    ScriptObject _death_draw_on_sprite;
-
-    //! \brief Loads the potential death animation scripted functions.
-    void _LoadDeathAnimationScript();
-
-    /** \brief Decides what action that the enemy should execute and the target
-    *** This function is used as a fallback when no AI script is set for the given enemy.
-    *** \todo More complete AI decision making algorithms should be supported
-    *** through lua scripts.
-    **/
-    void _DecideAction();
+    //! \brief Set to true when the actor is in the ACTING state and the execution of the action is complete
+    bool _action_finished;
 }; // class BattleEnemy
 
 } // namespace private_battle

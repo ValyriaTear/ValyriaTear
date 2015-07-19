@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -36,6 +36,22 @@ namespace vt_map
 {
 
 class MapMode;
+
+//! \brief Used to know on which draw layer the object should be registered.
+enum MapObjectDrawLayer {
+    // Before ground layer object. Used to display flat object on ground.
+    FLATGROUND_OBJECT = 0,
+    // Ground objects, such as characters and props.
+    GROUND_OBJECT,
+    // TODO: Objects used as bridges, removing the map collision when they are visible. They are displayed as flat ground objects.
+    PASS_OBJECT,
+    // Object displayed above all map layers.
+    SKY_OBJECT,
+    // An object not registered to be drawn on one specific map layer,
+    // since it's has other means and shouldn't be taken in account for collisions.
+    // E.g.: Ambient sound objects.
+    NO_LAYER_OBJECT
+};
 
 namespace private_map
 {
@@ -78,82 +94,10 @@ class VirtualSprite;
 class MapObject
 {
 public:
-    MapObject();
+    MapObject(MapObjectDrawLayer layer);
 
     virtual ~MapObject()
     {}
-
-    /** \brief An identification number for the object as it is represented in the map file.
-    *** Player sprites are assigned object IDs from 5000 and above. Technically this means that
-    *** a map can have no more than 5000 objects that are not player sprites, but no map should
-    *** need to contain that many objects in the first place. Objects with an ID less than zero
-    *** are invalid.
-    **/
-    int16 object_id;
-
-    /** \brief Coordinates for the object's origin/position.
-    *** The origin of every map object is the bottom center point of the object. These
-    *** origin coordinates are used to determine where the object is on the map as well
-    *** as where the objects collision rectangle lies.
-    ***
-    *** The position coordinates point to the map grid tile that the object currently occupies
-    *** and may range from 0 to the number of columns or rows of grid tiles on the map.
-    **/
-    //@{
-    MapPosition position;
-    //@}
-
-    /** \brief The half-width and height of the image, in map grid coordinates.
-    *** The half_width member is indeed just that: half the width of the object's image. We keep
-    *** the half width rather than the full width because the origin of the object is its bottom
-    *** center, and it is more convenient to store only half the sprite's width.
-    ***
-    *** \note These members assume that the object retains the same width and height regardless
-    *** of the current animation frame or image being drawn. If the object's image changes size
-    *** for any reason, the programmer must remember to change these values accordingly.
-    **/
-    float img_half_width, img_height;
-
-    /** \brief Determines the collision rectangle for the object.
-    *** The collision area determines what portion of the map object may not be overlapped
-    *** by other objects or unwalkable regions of the map. The x and y coordinates are
-    *** relative to the origin, so an x value of 0.5f means that the collision rectangle
-    *** extends the length of 1/2 of a grid element from the origin on both sides, and a y value
-    *** of 1.0f means that the collision area exists from the origin to one grid element above.
-    ***
-    *** \note These members should always be positive and non-zero. Setting these members to
-    *** zero does <b>not</b> eliminate collision detection for the object.
-    **/
-    float coll_half_width, coll_height;
-
-    //! \name Object Properties
-    //@{
-    //! \brief When false, the Update() function will do nothing (default == true).
-    bool updatable;
-
-    //! \brief When false, the Draw() function will do nothing (default == true).
-    bool visible;
-
-    //! \brief The collision mask indiacting what the object will collide with. (i.e.: walls + objects, nothing, ...)
-    //! \NOTE: COLLISION TYPE used as bitmask
-    uint32 collision_mask;
-
-    /** \brief When true, indicates that the object exists on the sky object layer (default == false).
-    *** This member is necessary for collision detection purposes. When a sprite needs to detect
-    *** if it has encountered a collision, that collision must be examined with other objects on
-    *** the appropriate layer (the ground/pass layers or the sky layer).
-    **/
-    bool sky_object;
-
-    /** \brief When true, objects in the ground object layer will be drawn after the pass objects
-    *** This member is only checked for objects that exist in the ground layer. It has no meaning
-    *** for objects in the pass or sky layers. Its purpose is so that objects (such as a bridge)
-    *** in the pass layer can be both walked over and walked under by sprites in the ground layer.
-    **/
-    bool draw_on_second_pass;
-    //@}
-
-    // ---------- Methods
 
     /** \brief Updates the state of an object.
     *** Many map objects may not actually have a use for this function. For example, animated objects
@@ -187,20 +131,44 @@ public:
         return _object_type;
     }
 
-    /** \brief Returns the collision rectangle for the current object
+    /** \brief Tells whether the object is currently colliding with another object or a wall
+    *** \param pos_x The tile x position to test against a collision
+    *** \param pos_y The tile y position to test against a collision
     **/
-    MapRectangle GetCollisionRectangle() const;
+    bool IsColliding(float pos_x, float pos_y);
+
+    /** \brief Tells whether the object is currently colliding with another object or a wall
+    *** \param object The other object to test against a collision
+    **/
+    bool IsCollidingWith(MapObject* other_object);
+
+    //! \brief Returns the collision rectangle for the current object on the map collision grid
+    MapRectangle GetGridCollisionRectangle() const;
 
     /** \brief Returns the collision rectangle for the current object for the given position
     *** \return rect A MapRectangle object storing the collision rectangle data
     *** using the given position.
     **/
-    MapRectangle GetCollisionRectangle(float x, float y) const;
+    MapRectangle GetGridCollisionRectangle(float tile_x, float tile_y) const;
+
+    //! \brief Returns the collision rectangle for the current object.
+    MapRectangle GetScreenCollisionRectangle() const;
+
+    /** \brief Returns the collision rectangle for the current object for the given position
+    *** \return rect A MapRectangle object storing the collision rectangle data
+    *** using the given pixel position.
+    **/
+    MapRectangle GetScreenCollisionRectangle(float screen_x, float screen_y) const;
 
     /** \brief Returns the image rectangle for the current object
     *** \param rect A MapRectangle object storing the image rectangle data
     **/
-    virtual MapRectangle GetImageRectangle() const;
+    virtual MapRectangle GetScreenImageRectangle() const;
+
+    /** \brief Returns the image rectangle for the current object
+    *** \param rect A MapRectangle object storing the image rectangle data
+    **/
+    virtual MapRectangle GetGridImageRectangle() const;
 
     /** \brief Restores the saved state of the object
     *** This state data is retained in the saved game file. When any map object is created and added
@@ -216,102 +184,116 @@ public:
     *** so it is not mandatory to do so.
     **/
     //@{
-    void SetObjectID(int16 id = 0) {
-        object_id = id;
-    }
-
     void SetPosition(float x, float y) {
-        position.x = x;
-        position.y = y;
+        _tile_position.x = x;
+        _tile_position.y = y;
     }
 
     void SetXPosition(float x) {
-        position.x = x;
+        _tile_position.x = x;
     }
 
     void SetYPosition(float y) {
-        position.y = y;
+        _tile_position.y = y;
     }
 
-    void SetImgHalfWidth(float width) {
-        img_half_width = width;
+    //! \brief Set the object image half width (in pixels).
+    //! \note The value in map tiles is also stored.
+    void SetImgPixelHalfWidth(float width) {
+        _img_pixel_half_width = width;
+        _img_screen_half_width = width * MAP_ZOOM_RATIO;
+        _img_grid_half_width = width / GRID_LENGTH * MAP_ZOOM_RATIO;
     }
 
-    void SetImgHeight(float height) {
-        img_height = height;
+    //! \brief Set the object image half width (in pixels).
+    //! \note The value in map tiles is also stored.
+    void SetImgPixelHeight(float height) {
+        _img_pixel_height = height;
+        _img_screen_height = height * MAP_ZOOM_RATIO;
+        _img_grid_height = height / GRID_LENGTH * MAP_ZOOM_RATIO;
     }
 
-    void SetCollHalfWidth(float collision) {
-        coll_half_width = collision;
+    void SetCollPixelHalfWidth(float collision) {
+        _coll_pixel_half_width = collision;
+        _coll_screen_half_width = collision * MAP_ZOOM_RATIO;
+        _coll_grid_half_width = collision / GRID_LENGTH * MAP_ZOOM_RATIO;
     }
 
-    void SetCollHeight(float collision) {
-        coll_height = collision;
+    void SetCollPixelHeight(float collision) {
+        _coll_pixel_height = collision;
+        _coll_screen_height = collision * MAP_ZOOM_RATIO;
+        _coll_grid_height = collision / GRID_LENGTH * MAP_ZOOM_RATIO;
     }
 
     void SetUpdatable(bool update) {
-        updatable = update;
+        _updatable = update;
     }
 
     void SetVisible(bool vis) {
-        visible = vis;
+        _visible = vis;
     }
 
     // Use a set of COLLISION_TYPE bitmask values
     void SetCollisionMask(uint32 collision_types) {
-        collision_mask = collision_types;
+        _collision_mask = collision_types;
     }
 
     void SetDrawOnSecondPass(bool pass) {
-        draw_on_second_pass = pass;
+        _draw_on_second_pass = pass;
+    }
+
+    //! \brief Tells the draw layer for faster deletion from the object supervisor.
+    MapObjectDrawLayer GetObjectDrawLayer() const {
+        return _draw_layer;
     }
 
     int16 GetObjectID() const {
-        return object_id;
+        return _object_id;
     }
 
+    //! \brief Get the object position in tiles.
     MapPosition GetPosition() const {
-        return position;
+        return _tile_position;
     }
 
     float GetXPosition() const {
-        return position.x;
+        return _tile_position.x;
     }
 
     float GetYPosition() const {
-        return position.y;
+        return _tile_position.y;
     }
 
-    float GetImgHalfWidth() const {
-        return img_half_width;
+    float GetImgScreenHalfWidth() const {
+        return _img_screen_half_width;
     }
 
-    float GetImgHeight() const {
-        return img_height;
+    float GetImgScreenHeight() const {
+        return _img_screen_height;
     }
 
-    float GetCollHalfWidth() const {
-        return coll_half_width;
+    float GetCollGridHalfWidth() const {
+        return _coll_grid_half_width;
     }
 
-    float GetCollHeight() const {
-        return coll_height;
+    float GetCollGridHeight() const {
+        return _coll_grid_height;
     }
 
     bool IsUpdatable() const {
-        return updatable;
+        return _updatable;
     }
 
     bool IsVisible() const {
-        return visible;
+        return _visible;
     }
 
     uint32 GetCollisionMask() const {
-        return collision_mask;
+        return _collision_mask;
     }
 
     bool IsDrawOnSecondPass() const {
-        return draw_on_second_pass;
+        return _draw_on_second_pass;
     }
 
     MAP_OBJECT_TYPE GetType() const {
@@ -321,7 +303,7 @@ public:
     /** \brief Play the corresponding emote animation set in the emotes.lua file
     *** \see LoadEmotes() in the GameGlobal class.
     **/
-    void Emote(const std::string &emote_name, vt_map::private_map::ANIM_DIRECTIONS dir = vt_map::private_map::ANIM_SOUTH);
+    void Emote(const std::string& emote_name, vt_map::private_map::ANIM_DIRECTIONS dir = vt_map::private_map::ANIM_SOUTH);
 
     //! \brief Indicates whether the given map object is using an emote animation.
     bool HasEmote() const {
@@ -330,18 +312,91 @@ public:
     //@}
 
 protected:
+    /** \brief An identification number for the object as it is represented in the map file.
+    *** Objects with an ID less than zero are invalid.
+    **/
+    int16 _object_id;
+
+    /** \brief Coordinates for the object's origin/position.
+    *** The origin of every map object is the bottom center point of the object. These
+    *** origin coordinates are used to determine where the object is on the map as well
+    *** as where the objects collision rectangle lies.
+    ***
+    *** The position coordinates point to the map grid tile that the object currently occupies
+    *** and may range from 0 to the number of columns or rows of grid tiles on the map.
+    **/
+    MapPosition _tile_position;
+
+    //! \brief The originally desired half-width and height of the image, in pixels
+    //! Used as a base value to later get the screen and tile corresponding values.
+    float _img_pixel_half_width;
+    float _img_pixel_height;
+
+    //! \brief The image half-width and height as seen on screen. (pixel value * zoom ratio).
+    float _img_screen_half_width;
+    float _img_screen_height;
+
+    //! \brief The half-width and height of the image, in map tile coordinates.
+    //! (A grid unit is half a tile).
+    float _img_grid_half_width;
+    float _img_grid_height;
+
+    /** \brief Determines the collision rectangle for the object in pixels.
+    *** The collision area determines what portion of the map object may not be overlapped
+    *** by other objects or unwalkable regions of the map.
+    ***
+    *** \note These members should always be positive and non-zero. Setting these members to
+    *** zero does <b>not</b> eliminate collision detection for the object.
+    ***
+    *** Used as a base value to later get the screen and tile corresponding values.
+    **/
+    float _coll_pixel_half_width;
+    float _coll_pixel_height;
+
+    //! \brief The collision half-width and height as seen on screen in the debug view.
+    //! (pixel value * zoom ratio).
+    float _coll_screen_half_width;
+    float _coll_screen_height;
+
+    //! \brief Determines the collision rectangle for the object in map grid coordinates.
+    //! (A grid unit is half a tile).
+    float _coll_grid_half_width;
+    float _coll_grid_height;
+
+    //! \brief When false, the Update() function will do nothing (default == true).
+    bool _updatable;
+
+    //! \brief When false, the Draw() function will do nothing (default == true).
+    bool _visible;
+
+    //! \brief The collision mask indicating what the object will collide with. (i.e.: walls + objects, nothing, ...)
+    //! \NOTE: COLLISION TYPE used as bitmask
+    uint32 _collision_mask;
+
+    /** \brief When true, objects in the ground object layer will be drawn after the pass objects
+    *** This member is only checked for objects that exist in the ground layer. It has no meaning
+    *** for objects in the pass or sky layers. Its purpose is so that objects (such as a bridge)
+    *** in the pass layer can be both walked over and walked under by sprites in the ground layer.
+    **/
+    bool _draw_on_second_pass;
+
     //! \brief This is used to identify the type of map object for inheriting classes.
     MAP_OBJECT_TYPE _object_type;
 
     //! \brief the emote animation to play
-    vt_video::AnimatedImage *_emote_animation;
+    vt_video::AnimatedImage* _emote_animation;
 
-    //! \brief The emote animation drawing offset (depending on the map object direction)
-    float _emote_offset_x;
-    float _emote_offset_y;
+    //! \brief The emote animation drawing offset in screen coordinates (pixel value * zoom ratio)
+    //! (depending on the map object direction)
+    float _emote_screen_offset_x;
+    float _emote_screen_offset_y;
 
-    //! \brief the time the emote animatio will last in milliseconds,
+    //! \brief the time the emote animation will last in milliseconds,
     int32 _emote_time;
+
+    //! \brief The object draw layer. Used to know where to register the MapObject,
+    //! and when to delete it in the ObjectSupervisor.
+    MapObjectDrawLayer _draw_layer;
 
     //! \brief Takes care of updating the emote animation and state.
     void _UpdateEmote();
@@ -356,8 +411,8 @@ protected:
 *** \note A simple '<' operator cannot be used with the sorting algorithm because it is sorting pointers.
 **/
 struct MapObject_Ptr_Less {
-    bool operator()(const MapObject *a, const MapObject *b) {
-        return (a->position.y) < (b->position.y);
+    bool operator()(const MapObject* a, const MapObject* b) {
+        return (a->GetYPosition()) < (b->GetYPosition());
     }
 };
 
@@ -375,21 +430,15 @@ struct MapObject_Ptr_Less {
 class PhysicalObject : public MapObject
 {
 public:
-    PhysicalObject();
+    PhysicalObject(MapObjectDrawLayer layer);
 
     ~PhysicalObject();
 
-    /** \brief The index to the animations vector that contains the current image to display
-    *** When modifying this member, take care not to exceed the bounds of the animations vector
-    **/
-    uint8 current_animation;
-
-    /** \brief A vector containing all the object's animations.
-    *** These need not be actual animations. If you just want a still image, add only a single
-    *** frame to the animation. Usually only need a single still image or animation will be
-    *** needed, but a vector is used here in case others are needed.
-    **/
-    std::vector<vt_video::AnimatedImage> animations;
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static PhysicalObject* Create(MapObjectDrawLayer layer);
 
     //! \brief Updates the object's current animation.
     virtual void Update();
@@ -405,26 +454,30 @@ public:
     *** \param animation_filename The name of the animation file to use for the animation
     *** \return The animation id that can later be used with SetCurrentAnimation() or -1 if invalid
     **/
-    int32 AddAnimation(const std::string &animation_filename);
+    int32 AddAnimation(const std::string& animation_filename);
 
     /** \brief Sets a new still animation using the image filename provided
     *** \param image_filename The name of the image file to use for the animation
     *** \return The animation id that can later be used with SetCurrentAnimation() or -1 if invalid
     **/
-    int32 AddStillFrame(const std::string &image_filename);
+    int32 AddStillFrame(const std::string& image_filename);
 
-    void AddAnimation(vt_video::AnimatedImage new_img) {
-        animations.push_back(new_img);
+    void AddAnimation(const vt_video::AnimatedImage& new_img) {
+        _animations.push_back(new_img);
     }
 
     void SetCurrentAnimation(uint32 animation_id);
 
     void SetAnimationProgress(uint32 progress) {
-        animations[current_animation].SetTimeProgress(progress);
+        _animations[_current_animation_id].SetTimeProgress(progress);
     }
 
-    uint32 GetCurrentAnimation() const {
-        return current_animation;
+    uint32 GetCurrentAnimationId() const {
+        return _current_animation_id;
+    }
+
+    void RandomizeCurrentAnimationFrame() {
+        _animations[_current_animation_id].RandomizeAnimationFrame();
     }
 
     /** \brief Adds an event triggered when talking to a physical object
@@ -446,7 +499,20 @@ public:
     }
     //@}
 
+protected:
+    /** \brief A vector containing all the object's animations.
+    *** These need not be actual animations. If you just want a still image, add only a single
+    *** frame to the animation. Usually only need a single still image or animation will be
+    *** needed, but a vector is used here in case others are needed.
+    **/
+    std::vector<vt_video::AnimatedImage> _animations;
+
 private:
+    /** \brief The index to the animations vector that contains the current image to display
+    *** When modifying this member, take care not to exceed the bounds of the animations vector
+    **/
+    uint32 _current_animation_id;
+
     //! \brief The event id triggered when talking to the sprite.
     std::string _event_when_talking;
 }; // class PhysicalObject : public MapObject
@@ -457,9 +523,15 @@ private:
 class ParticleObject : public MapObject
 {
 public:
-    ParticleObject(const std::string &filename, float x, float y);
+    ParticleObject(const std::string& filename, float x, float y, MapObjectDrawLayer layer);
 
     ~ParticleObject();
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static ParticleObject* Create(const std::string& filename, float x, float y, MapObjectDrawLayer layer);
 
     //! \brief Updates the object's current animation.
     //! \note the actual image resources is handled by the main map object.
@@ -475,9 +547,13 @@ public:
     //! \brief Stop the particle effect
     bool Start();
 
+    //! \brief Tells whether there are particles still alive,
+    //! even if the whole particle effect is stopping.
+    bool IsAlive() const;
+
 private:
     //! \brief A reference to the current map save animation.
-    vt_mode_manager::ParticleEffect *_particle_effect;
+    vt_mode_manager::ParticleEffect* _particle_effect;
 
     //@}
 }; // class ParticleObject : public MapObject
@@ -492,6 +568,12 @@ public:
 
     ~SavePoint()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static SavePoint* Create(float x, float y);
 
     //! \brief Updates the object's current animation.
     //! \note the actual image resources is handled by the main map object.
@@ -527,10 +609,17 @@ class Halo : public MapObject
 {
 public:
     //! \brief setup a halo on the map, using the given animation file.
-    Halo(const std::string &filename, float x, float y, const vt_video::Color &color);
+    Halo(const std::string& filename, float x, float y, const vt_video::Color& color);
 
     ~Halo()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static Halo* Create(const std::string& filename, float x, float y,
+                        const vt_video::Color& color);
 
     //! \brief Updates the object's current animation.
     //! \note the actual image resources is handled by the main map object.
@@ -567,6 +656,16 @@ public:
     ~Light()
     {}
 
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static Light* Create(const std::string &main_flare_filename,
+                         const std::string &secondary_flare_filename,
+                         float x, float y,
+                         const vt_video::Color &main_color,
+                         const vt_video::Color &secondary_color);
+
     //! \brief Updates the object's current animation and orientation
     //! \note the actual image resources is handled by the main map object.
     void Update();
@@ -578,7 +677,7 @@ public:
     /** \brief Returns the image rectangle for the current object
     *** \param rect A MapRectangle object storing the image rectangle data
     **/
-    MapRectangle GetImageRectangle() const;
+    MapRectangle GetGridImageRectangle() const;
 private:
     //! Updates the angle and distance from the camera viewpoint
     void _UpdateLightAngle();
@@ -620,7 +719,7 @@ private:
 class SoundObject : public MapObject
 {
 public:
-    /** \brief An environmental sound objet which sound is played looped and with a volume
+    /** \brief An environmental sound object which sound is played looped and with a volume
     *** computed against the distance of the object with the camera.
     *** \param sound_filename The sound filename to play.
     *** \param x, y The sound map location
@@ -628,10 +727,17 @@ public:
     in map tiles the sound can be heard within.
     *** The sound volume will be compute according that distance.
     **/
-    SoundObject(const std::string &sound_filename, float x, float y, float strength);
+    SoundObject(const std::string& sound_filename, float x, float y, float strength);
 
     ~SoundObject()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static SoundObject* Create(const std::string& sound_filename,
+                               float x, float y, float strength);
 
     //! \brief Updates the object's current volume.
     void Update();
@@ -640,13 +746,47 @@ public:
     void Draw()
     {}
 
+    //! \brief Stop the ambient sound
+    void Stop();
+
+    //! \brief Start the ambient sound
+    void Start();
+
+    //! \brief Tells whether the ambient sound is active
+    bool IsActive() const {
+        return _activated;
+    }
+
+    //! \brief Sets the max sound volume of the ambient sound.
+    //! From  0.0f to 1.0f
+    void SetMaxVolume(float max_volume);
+
+    //! \brief Gets the sound descriptor of the object.
+    //! Used to apply changes directly to the sound object.
+    vt_audio::SoundDescriptor& GetSoundDescriptor() {
+        return _sound;
+    }
+
 private:
     //! \brief The sound object.
     vt_audio::SoundDescriptor _sound;
-    //! The maximal distance in map tiles the sound can be heard within.
+
+    //! \brief The maximal distance in map tiles the sound can be heard within.
     float _strength;
-    //! The time remaining before next update
+
+    //! \brief The maximal strength of the sound object. (0.0f - 1.0f)
+    float _max_sound_volume;
+
+    //! \brief The time remaining before next update
     int32 _time_remaining;
+
+    //! \brief Tells whether the sound is activated.
+    bool _activated;
+
+    //! \brief Tells whether the sound is currently playing or not
+    //! This boolean is here to avoid calling fadeIn()/FadeOut()
+    //! repeatedly on sounds.
+    bool _playing;
 }; // class SoundObject : public MapObject
 
 /** ****************************************************************************
@@ -687,6 +827,7 @@ public:
     *** \param open_animation_file The animation file used to display the treasure when it is open.
     **/
     TreasureObject(const std::string &treasure_name,
+                   MapObjectDrawLayer layer,
                    const std::string &closed_animation_file,
                    const std::string &opening_animation_file,
                    const std::string &open_animation_file);
@@ -694,6 +835,16 @@ public:
     ~TreasureObject() {
         delete _treasure;
     }
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static TreasureObject* Create(const std::string &treasure_name,
+                                  MapObjectDrawLayer layer,
+                                  const std::string &closed_animation_file,
+                                  const std::string &opening_animation_file,
+                                  const std::string &open_animation_file);
 
     std::string GetTreasureName() const {
         return _treasure_name;
@@ -715,12 +866,12 @@ public:
         _treasure->SetDrunes(amount);
     }
 
-    /** \brief Adds an object to the contents of the TreasureObject
+    /** \brief Adds an item to the contents of the TreasureObject
     *** \param id The id of the GlobalObject to add
     *** \param quantity The number of the object to add (default == 1)
     *** \return True if the object was added successfully
     **/
-    bool AddObject(uint32 id, uint32 quantity = 1);
+    bool AddItem(uint32 id, uint32 quantity = 1);
 
     /** \brief Adds an event triggered at start of the treasure event.
     *** \param event_id The id of the event to add
@@ -766,12 +917,23 @@ public:
     *** \param off_event_id The event id to call when setting the trigger to off.
     *** \param on_event_id The event id to call when setting the trigger to on.
     **/
-    TriggerObject(const std::string &trigger_name, const std::string &off_animation_file,
-                   const std::string &on_animation_file, const std::string& off_event_id,
-                   const std::string& on_event_id);
+    TriggerObject(const std::string &trigger_name, MapObjectDrawLayer layer,
+                  const std::string &off_animation_file, const std::string &on_animation_file,
+                  const std::string& off_event_id, const std::string& on_event_id);
 
     ~TriggerObject()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static TriggerObject* Create(const std::string &trigger_name,
+                                 MapObjectDrawLayer layer,
+                                 const std::string &off_animation_file,
+                                 const std::string &on_animation_file,
+                                 const std::string& off_event_id,
+                                 const std::string& on_event_id);
 
     //! \brief Changes the current animation if the character collides with the trigger.
     void Update();
@@ -789,12 +951,30 @@ public:
     void ToggleState()
     { SetState(!_trigger_state); }
 
+    //! \brief Set whether the trigger can be toggled by the character.
+    void SetTriggerableByCharacter(bool triggerable)
+    { _triggerable_by_character = triggerable; }
+
+    //! \brief Set the new event name trigger when the trigger is pushed.
+    //! if the event is empty, the trigger event is disabled.
+    void SetOnEvent(const std::string& on_event)
+    { _on_event = on_event; }
+
+    //! \brief Set the new event name trigger when the trigger is set to not pushed.
+    //! if the event is empty, the trigger event is disabled.
+    void SetOffEvent(const std::string& off_event)
+    { _off_event = off_event; }
+
 private:
     //! \brief The treasure object name
     std::string _trigger_name;
 
     //! The trigger state (false == off)
     bool _trigger_state;
+
+    //! \brief Tells whether the character can toggle the state by stepping on it.
+    //! If not, only events can do that. (true by default)
+    bool _triggerable_by_character;
 
     //! \brief Event triggered when the trigger is set to on.
     std::string _on_event;
@@ -830,6 +1010,7 @@ public:
     ~ObjectSupervisor();
 
     //! \brief Returns a unique ID integer for an object to use
+    //! Every object Id must be > 0 since 0 is reserved for speakerless dialogues.
     uint16 GenerateObjectID() {
         return ++_last_id;
     }
@@ -839,26 +1020,43 @@ public:
         return _all_objects.size();
     }
 
-    /** \brief Retrieves an object by its position in the _all_objects container
-    *** \param index The index of the object to retrieve
-    *** \return A pointer to the object at this index, or NULL if no object exists at the given index
-    ***
-    *** \note It is uncommon to require the use of this function in a map. It exists for Lua to be able to access
-    *** all available map objects even when the IDs of those objects are unknown.
-    **/
-    MapObject *GetObjectByIndex(uint32 index);
-
     /** \brief Retrieves a pointer to an object on this map
-    *** \param object_id The id number of the object to retreive
-    *** \return A pointer to the map object, or NULL if no object with that ID was found
+    *** \param object_id The id number of the object to retrieve
+    *** \return A pointer to the map object, or nullptr if no object with that ID was found
     **/
-    MapObject *GetObject(uint32 object_id);
+    MapObject* GetObject(uint32 object_id);
 
     /** \brief Retrieves a pointer to a sprite on this map
-    *** \param object_id The id number of the sprite to retreive
-    *** \return A pointer to the sprite object, or NULL if the object was not found or was not a sprite type
+    *** \param object_id The id number of the sprite to retrieve
+    *** \return A pointer to the sprite object, or nullptr if the object was not found or was not a sprite type
     **/
-    VirtualSprite *GetSprite(uint32 object_id);
+    VirtualSprite* GetSprite(uint32 object_id);
+
+    //! \brief Wrapper to add an object in the all objects vector.
+    //! This should only be called by the MapObject constructor.
+    void RegisterObject(MapObject* object);
+
+    //! \brief Delete an object from memory.
+    void DeleteObject(MapObject* object);
+
+    //! \brief Add sound objects (Done within the sound object constructor)
+    void AddAmbientSound(SoundObject* object);
+
+    //! \brief Add a light object, often created through scripting.
+    //! Called by the Light object constructor
+    void AddLight(Light* light);
+
+    //! \brief Add a halo object, often created through scripting.
+    //! Called by the Halo object constructor
+    void AddHalo(Halo* halo);
+
+    //! \brief Add a save point.
+    //! Called by the SavePoint object constructor
+    void AddSavePoint(SavePoint* save_point);
+
+    //! \brief Adds a new zone.
+    // Called by the Mazone constructor.
+    void AddZone(MapZone* zone);
 
     //! \brief Sorts objects on all three layers according to their draw order
     void SortObjects();
@@ -896,7 +1094,7 @@ public:
     /** \brief Finds the nearest interactable map object within a certain distance of a sprite
     *** \param sprite The sprite who is trying to find its nearest object
     *** \param search_distance The maximum distance to search for an object from the sprite (default == 3.0f)
-    *** \return A pointer to the nearest map object, or NULL if no such object was found.
+    *** \return A pointer to the nearest map object, or nullptr if no such object was found.
     ***
     *** An interactable object must be in the same context as the function argument is. For an object
     *** to be valid, it's collision rectangle must be no greater than the search distance (in units of
@@ -934,7 +1132,7 @@ public:
     COLLISION_TYPE GetCollisionFromObjectType(MapObject *obj) const;
 
     /** \brief Tells the collision type of a sprite when it is at the given position
-    *** \param sprite A pointer to the map sprite to check
+    *** \param object A pointer to the map object to check
     *** \param x The collision point on the x axis
     *** \param y The collision point on the y axis
     *** \param coll_obj A pointer to the MapObject that the sprite has collided with, if any
@@ -944,13 +1142,16 @@ public:
     *** This method is invoked by a map sprite who wishes to check for its own collision.
     *** \See COLLISION_TYPE for more information.
     **/
-    COLLISION_TYPE DetectCollision(VirtualSprite *sprite, float x, float y,
-                                   MapObject **collision_object_ptr = NULL);
+    COLLISION_TYPE DetectCollision(MapObject* object, float x, float y,
+                                   MapObject **collision_object_ptr = nullptr);
 
     /** \brief Finds a path from a sprite's current position to a destination
     *** \param sprite A pointer of the sprite to find the path for
     *** \param dest The destination coordinates
     *** \param path A vector of PathNode objects storing the path
+    *** \param max_cost Tells how far a path node can be computed agains the starting path node.
+    *** This is used to avoid heavy computations.
+    *** If this param is equal to 0, there is no limitation.
     ***
     *** This algorithm uses the A* algorithm to find a path from a source to a destination.
     *** This function ignores the position of all other objects and only concerns itself with
@@ -958,15 +1159,9 @@ public:
     ***
     *** \note If an error is detected or a path could not be found, the function will empty the path vector before returning
     **/
-    Path FindPath(private_map::VirtualSprite *sprite, const MapPosition &destination);
+    Path FindPath(private_map::VirtualSprite *sprite, const MapPosition &destination, uint32 max_cost = 0);
 
-    /** \brief Returns the pointer to the virtual focus.
-    **/
-    private_map::VirtualSprite *VirtualFocus() {
-        return _virtual_focus;
-    }
-
-    /** Tells the object supervisor that the given sprite pointer
+    /** \brief Tells the object supervisor that the given sprite pointer
     *** is the party member object.
     *** This later permits to refresh the sprite shown based on the battle
     *** formation front party member.
@@ -1000,8 +1195,7 @@ public:
     //! external callers cannot modify the contents of the map_object;
 
     //! \brief get the number of rows and columns in the collision grid
-    void GetGridAxis(uint32 &x, uint32 &y) const
-    {
+    void GetGridAxis(uint32 &x, uint32 &y) const {
         x = _num_grid_x_axis;
         y = _num_grid_y_axis;
     }
@@ -1012,16 +1206,24 @@ public:
     //! \param x x location on collision grid
     //! \param y y location on collision grid
     //! \return whether the location would be a "wall" for the party or not
-    bool IsStaticCollision(uint32 x, uint32 y);
+    bool IsStaticCollision(float x, float y);
 
     //! \brief checks if the location on the grid has a simple map collision. This is different from
-    //! IsStaticCollision, int hat it DOES NOT check static objects, but only the collision value for the map
+    //! IsStaticCollision, in that it DOES NOT check static objects, but only the collision value for the map
     bool IsMapCollision(uint32 x, uint32 y)
     { return (_collision_grid[y][x] > 0); }
 
-    //! returns a const reference to the ground objects in
+    //! \brief returns a const reference to the ground objects in
     const std::vector<MapObject *>& GetGroundObjects() const
     { return _ground_objects; }
+
+    //! \brief Stops sounds objects such as ambient sounds.
+    //! Used when starting a battle for instance.
+    void StopSoundObjects();
+
+    //! \brief Restarts sounds objects that were previously stopped.
+    //! Used when leaving a battle for instance.
+    void RestartSoundObjects();
 
 private:
     //! \brief Returns the nearest save point. Used by FindNearestObject.
@@ -1036,7 +1238,10 @@ private:
     //! \brief Debug: Draws the map zones in orange
     void _DrawMapZones();
 
-    /** \brief The number of rows and columns in the collision gride
+    //! \brief Returns the MapObject vector corresponding to the draw layer.
+    std::vector<MapObject*>& _GetObjectsFromDrawLayer(MapObjectDrawLayer layer);
+
+    /** \brief The number of rows and columns in the collision grid
     *** The number of collision grid rows and columns is always equal to twice
     *** that of the number of rows and columns of tiles (stored in the TileManager).
     **/
@@ -1045,20 +1250,12 @@ private:
     //! \brief Holds the most recently generated object ID number
     uint16 _last_id;
 
-    /** \brief A "virtual sprite" that can serve as a focus point for the camera.
-    *** This sprite is not visible to the player nor does it have any collision
-    *** detection properties. Usually, the camera focuses on the player's sprite
-    *** rather than this object, but it is useful for scripted sequences and other
-    *** things.
-    **/
-    private_map::VirtualSprite *_virtual_focus;
-
     /** \brief The party member object is used to keep in memory the active member
     *** seen on map. This is later useful in "dungeon" maps for instance, where
     *** the party member in front of the battle formation is the one shown on map.
     *** Do not create or delete it in the code, this is just a reference.
     **/
-    private_map::MapSprite *_visible_party_member;
+    private_map::MapSprite* _visible_party_member;
 
     /** \brief A 2D vector indicating which grid element on the map sprites may be occupied by objects.
     *** Each bit of each element in this grid corresponds to a context. So all together this entire grid
@@ -1070,9 +1267,10 @@ private:
 
     /** \brief A map containing pointers to all of the sprites on a map.
     *** This map does not include a pointer to the _virtual_focus object. The
-    *** sprite's unique identifier integer is used as the map key.
+    *** sprite's unique identifier integer is used as the vector key.
+    *** MapObjects should only be deleted here.
     **/
-    std::map<uint16, MapObject *> _all_objects;
+    std::vector<MapObject *> _all_objects;
 
     /** \brief A container for all of the map objects located on the ground layer, and being flat.
     *** See this layer as a pre ground object layer
@@ -1083,10 +1281,6 @@ private:
     *** The ground object layer is where most objects and sprites exist in a typical map.
     **/
     std::vector<MapObject *> _ground_objects;
-
-    //! \brief A container for all of the save points, quite similar as the ground objects container.
-    //! \note Save points are not registered in _all_objects.
-    std::vector<SavePoint *> _save_points;
 
     /** \brief A container for all of the map objects located on the pass layer.
     *** The pass object layer is named so because objects on this layer can both be
@@ -1103,12 +1297,17 @@ private:
     **/
     std::vector<MapObject *> _sky_objects;
 
+    //! \brief A container for all of the save points, quite similar as the ground objects container.
+    std::vector<SavePoint *> _save_points;
+
     //! \brief Ambient sound objects, that plays a sound with a volume according
     //! to the distance with the camera.
     std::vector<SoundObject *> _sound_objects;
 
+    //! \brief The sound objects that can be restarted when the map is reset()
+    std::vector<SoundObject *> _sound_objects_to_restart;
+
     //! \brief Containers for all of the map source of light, quite similar as the ground objects container.
-    //! \note Halos and lights are not registered in _all_objects.
     std::vector<Halo *> _halos;
     std::vector<Light *> _lights;
 

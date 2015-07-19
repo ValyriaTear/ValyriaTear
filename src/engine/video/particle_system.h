@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -284,7 +284,7 @@ class ParticleSystem
 {
 public:
     /*!
-     *  \brief Constructor
+     * \brief Constructor
      */
     ParticleSystem(ParticleSystemDef *sys_def) {
         _Destroy();
@@ -295,22 +295,18 @@ public:
         _Destroy();
     }
 
-    /*!
-     *  \brief draws the system
-     * \return success/failure
-     */
-    bool Draw();
+    //! \brief draws the system
+    void Draw();
 
     /*!
-     *  \brief updates the system
+     * \brief updates the system
      * \param frame_time the current frame time
      * \param params the effect parameters to use for this update (orientation and attractor point)
-     * \return success/failure
      */
-    bool Update(float frame_time, const EffectParameters &params);
+    void Update(float frame_time, const EffectParameters &params);
 
     /*!
-     *  \brief returns true if system is still alive
+     * \brief returns true if system is still alive
      * \return true if alive, false if dead
      */
     bool IsAlive() const {
@@ -318,7 +314,7 @@ public:
     }
 
     /*!
-     *  \brief returns true if system has been stopped by a call to Stop()
+     * \brief returns true if system has been stopped by a call to Stop()
      * \return true if stopped, false if still going
      */
     bool IsStopped() const {

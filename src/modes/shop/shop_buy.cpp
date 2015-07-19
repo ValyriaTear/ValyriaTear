@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -19,11 +19,10 @@
 *** to see if it should have similar changes made.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "shop_buy.h"
 
 #include "shop.h"
-
-#include "utils.h"
 
 #include "engine/audio/audio.h"
 #include "engine/input.h"
@@ -52,7 +51,7 @@ namespace private_shop
 
 BuyInterface::BuyInterface() :
     _view_mode(SHOP_VIEW_MODE_INVALID),
-    _selected_object(NULL),
+    _selected_object(nullptr),
     _buy_deal_types(0),
     _current_category(0)
 {
@@ -203,13 +202,12 @@ void BuyInterface::Reinitialize()
     }
 
     // Populate the object_data containers
-    // Used to temporarily hold a pointer to a valid shop object
-    ShopObject *obj = NULL;
+
     // Pointer to the container of all objects that are bought/sold/traded in the shop
     std::map<uint32, ShopObject *>* buy_objects = ShopMode::CurrentInstance()->GetAvailableBuy();
 
     for(std::map<uint32, ShopObject *>::iterator it = buy_objects->begin(); it != buy_objects->end(); ++it) {
-        obj = it->second;
+        ShopObject* obj = it->second;
         switch(obj->GetObject()->GetObjectType()) {
         case GLOBAL_OBJECT_ITEM:
             object_data[type_index[0]].push_back(obj);
@@ -261,16 +259,14 @@ void BuyInterface::Reinitialize()
 
     if(_number_categories > 0)
         _selected_object = _list_displays[_current_category]->GetSelectedObject();
-    _ChangeViewMode(SHOP_VIEW_MODE_LIST);
-} // void BuyInterface::Initialize()
-
-
+    ChangeViewMode(SHOP_VIEW_MODE_LIST);
+}
 
 void BuyInterface::MakeActive()
 {
     Reinitialize();
 
-    if(_list_displays.size() == 0) {
+    if(_list_displays.empty()) {
         ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
         return;
     }
@@ -282,11 +278,9 @@ void BuyInterface::MakeActive()
     _category_display.SetSelectedObject(_selected_object);
 }
 
-
-
 void BuyInterface::TransactionNotification()
 {
-    for(uint32 i = 0; i < _list_displays.size(); i++) {
+    for(uint32 i = 0; i < _list_displays.size(); ++i) {
         _list_displays[i]->ReconstructList();
         _list_displays[i]->ResetSelection();
     }
@@ -295,65 +289,65 @@ void BuyInterface::TransactionNotification()
     _view_mode = SHOP_VIEW_MODE_LIST;
 }
 
-
-
 void BuyInterface::Update()
 {
-    if(_view_mode == SHOP_VIEW_MODE_LIST) {
+    ShopMode* shop = ShopMode::CurrentInstance();
+
+    if(_view_mode == SHOP_VIEW_MODE_LIST && shop->IsInputEnabled()) {
         if(InputManager->ConfirmPress()) {
-            _ChangeViewMode(SHOP_VIEW_MODE_INFO);
+            ChangeViewMode(SHOP_VIEW_MODE_INFO);
         } else if(InputManager->CancelPress()) {
-            ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
+            shop->ChangeState(SHOP_STATE_ROOT);
             GlobalManager->Media().PlaySound("cancel");
         }
 
         // Swap cycles through the object categories
         else if(InputManager->MenuPress() && (_number_categories > 1)) {
             if(_ChangeCategory(true) == true)
-                ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
+                shop->ObjectViewer()->SetSelectedObject(_selected_object);
             GlobalManager->Media().PlaySound("confirm");
         }
 
         // Up/down changes the selected object in the current list
         else if(InputManager->UpPress()) {
             if(_ChangeSelection(false) == true) {
-                ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-                GlobalManager->Media().PlaySound("confirm");
+                shop->ObjectViewer()->SetSelectedObject(_selected_object);
+                GlobalManager->Media().PlaySound("bump");
             }
         } else if(InputManager->DownPress()) {
             if(_ChangeSelection(true) == true) {
-                ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-                GlobalManager->Media().PlaySound("confirm");
+                shop->ObjectViewer()->SetSelectedObject(_selected_object);
+                GlobalManager->Media().PlaySound("bump");
             }
         }
     } // if (_view_mode == SHOP_VIEW_MODE_LIST)
 
-    else if(_view_mode == SHOP_VIEW_MODE_INFO) {
+    else if(_view_mode == SHOP_VIEW_MODE_INFO && shop->IsInputEnabled()) {
         if(InputManager->ConfirmPress()) {
-            _ChangeViewMode(SHOP_VIEW_MODE_LIST);
-            ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
-            ShopMode::CurrentInstance()->CompleteTransaction();
+            ChangeViewMode(SHOP_VIEW_MODE_LIST);
+            shop->ChangeState(SHOP_STATE_ROOT);
+            shop->CompleteTransaction();
             GlobalManager->Media().PlaySound("confirm");
-            ShopMode::CurrentInstance()->ClearOrder();
-            ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_SELL); //If the entire sell list is emptied, this somehow helps
-            ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_BUY);
+            shop->ClearOrder();
+            shop->ChangeState(SHOP_STATE_SELL); //If the entire sell list is emptied, this somehow helps
+            shop->ChangeState(SHOP_STATE_BUY);
         } else if(InputManager->CancelPress()) {
-            _ChangeViewMode(SHOP_VIEW_MODE_LIST);
+            ChangeViewMode(SHOP_VIEW_MODE_LIST);
             while(_list_displays[_current_category]->ChangeBuyQuantity(false) == true) {}
             GlobalManager->Media().PlaySound("cancel");
-            ShopMode::CurrentInstance()->ClearOrder();
+            shop->ClearOrder();
         }
 
         // Left/right change the quantity of the object to buy
         else if(InputManager->LeftPress()) {
             if(_list_displays[_current_category]->ChangeBuyQuantity(false) == true) {
-                ShopMode::CurrentInstance()->ObjectViewer()->UpdateCountText();
+                shop->ObjectViewer()->UpdateCountText();
                 GlobalManager->Media().PlaySound("confirm");
             } else
                 GlobalManager->Media().PlaySound("bump");
         } else if(InputManager->RightPress()) {
             if(_list_displays[_current_category]->ChangeBuyQuantity(true) == true) {
-                ShopMode::CurrentInstance()->ObjectViewer()->UpdateCountText();
+                shop->ObjectViewer()->UpdateCountText();
                 GlobalManager->Media().PlaySound("confirm");
             } else
                 GlobalManager->Media().PlaySound("bump");
@@ -362,10 +356,8 @@ void BuyInterface::Update()
 
     _category_display.Update();
     _list_displays[_current_category]->Update();
-    ShopMode::CurrentInstance()->ObjectViewer()->Update();
-} // void BuyInterface::Update()
-
-
+    shop->ObjectViewer()->Update();
+}
 
 void BuyInterface::Draw()
 {
@@ -400,9 +392,7 @@ void BuyInterface::Draw()
     ShopMode::CurrentInstance()->ObjectViewer()->Draw();
 }
 
-
-
-void BuyInterface::_ChangeViewMode(SHOP_VIEW_MODE new_mode)
+void BuyInterface::ChangeViewMode(SHOP_VIEW_MODE new_mode)
 {
     if(_view_mode == new_mode)
         return;
@@ -427,7 +417,10 @@ void BuyInterface::_ChangeViewMode(SHOP_VIEW_MODE new_mode)
         _selected_icon = _selected_object->GetObject()->GetIconImage();
         _selected_icon.SetDimensions(30.0f, 30.0f);
         _selected_properties.SetOptionText(0, MakeUnicodeString(NumberToString(_selected_object->GetBuyPrice())));
-        _selected_properties.SetOptionText(1, MakeUnicodeString("×" + NumberToString(_selected_object->GetStockCount())));
+        if (_selected_object->IsInfiniteAmount())
+            _selected_properties.SetOptionText(1, MakeUnicodeString("∞"));
+        else
+            _selected_properties.SetOptionText(1, MakeUnicodeString("×" + NumberToString(_selected_object->GetStockCount())));
         uint32 own_count = GlobalManager->HowManyObjectsInInventory(_selected_object->GetObject()->GetID());
         _selected_properties.SetOptionText(2, MakeUnicodeString("×" + NumberToString(own_count)));
 
@@ -496,9 +489,8 @@ void BuyListDisplay::ReconstructList()
     _identify_list.ClearOptions();
     _property_list.ClearOptions();
 
-    ShopObject *obj = NULL;
     for(uint32 i = 0; i < _objects.size(); i++) {
-        obj = _objects[i];
+        ShopObject* obj = _objects[i];
         // Add an entry with the icon image of the object (scaled down by 4x to 30x30 pixels) followed by the object name
         _identify_list.AddOption(MakeUnicodeString("<" + obj->GetObject()->GetIconImage().GetFilename() + "><30>")
                                  + obj->GetObject()->GetName());
@@ -506,7 +498,10 @@ void BuyListDisplay::ReconstructList()
 
         // Add an option for each object property in the order of: price, stock, and number owned.
         _property_list.AddOption(MakeUnicodeString(NumberToString(obj->GetBuyPrice())));
-        _property_list.AddOption(MakeUnicodeString("×" + NumberToString(obj->GetStockCount())));
+        if (obj->IsInfiniteAmount())
+            _property_list.AddOption(MakeUnicodeString("∞"));
+        else
+            _property_list.AddOption(MakeUnicodeString("×" + NumberToString(obj->GetStockCount())));
         uint32 own_count = GlobalManager->HowManyObjectsInInventory(obj->GetObject()->GetID());
         _property_list.AddOption(MakeUnicodeString("×" + NumberToString(own_count)));
     }
@@ -518,10 +513,10 @@ void BuyListDisplay::ReconstructList()
 }
 
 
-bool BuyListDisplay::ChangeBuyQuantity(bool less_or_more, uint32 amount)
+bool BuyListDisplay::ChangeBuyQuantity(bool more, uint32 amount)
 {
-    ShopObject *obj = GetSelectedObject();
-    if(obj == NULL) {
+    ShopObject* obj = GetSelectedObject();
+    if(obj == nullptr) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "function could not perform operation because list was empty" << std::endl;
         return false;
     }
@@ -530,7 +525,7 @@ bool BuyListDisplay::ChangeBuyQuantity(bool less_or_more, uint32 amount)
     // amount requested if there is an limitation such as shop stock or available funds
     uint32 change_amount = amount;
 
-    if(less_or_more == false) {
+    if(more == false) { // Decrement
         // Ensure that at least one count of this object is already marked for purchase
         if(obj->GetBuyCount() == 0) {
             return false;
@@ -544,31 +539,33 @@ bool BuyListDisplay::ChangeBuyQuantity(bool less_or_more, uint32 amount)
         obj->DecrementBuyCount(change_amount);
         ShopMode::CurrentInstance()->UpdateFinances(obj->GetBuyPrice() * change_amount);
         return true;
-    } else {
-        // Make sure that there is at least one more object in stock and the player has enough funds to purchase it
-        if((obj->GetBuyCount() >= obj->GetStockCount()) ||
-                (obj->GetBuyPrice() > ShopMode::CurrentInstance()->GetTotalRemaining())) {
-            return false;
-        }
-
-        // Determine if there's enough of the object in stock to buy. If not, buy as many left as possible
-        if((obj->GetStockCount() - obj->GetBuyCount()) < change_amount) {
-            change_amount = obj->GetStockCount() - obj->GetBuyCount();
-        }
-
-        // Determine how many of the possible amount to buy the player can actually afford
-        int32 total_cost = change_amount * obj->GetBuyPrice();
-        int32 total_remaining = static_cast<int32>(ShopMode::CurrentInstance()->GetTotalRemaining());
-        while(total_cost > total_remaining) {
-            change_amount--;
-            total_cost -= obj->GetBuyPrice();
-        }
-
-        obj->IncrementBuyCount(change_amount);
-        ShopMode::CurrentInstance()->UpdateFinances(-obj->GetBuyPrice() * change_amount);
-        return true;
     }
-} // bool BuyListDisplay::ChangeBuyQuantity(bool less_or_more, uint32 amount)
+
+    // increment
+
+    // Make sure that there is at least one more object in stock and the player has enough funds to purchase it
+    if((!obj->IsInfiniteAmount() && obj->GetBuyCount() >= obj->GetStockCount()) ||
+            (obj->GetBuyPrice() > ShopMode::CurrentInstance()->GetTotalRemaining())) {
+        return false;
+    }
+
+    // Determine if there's enough of the object in stock to buy. If not, buy as many left as possible
+    if(!obj->IsInfiniteAmount() && (obj->GetStockCount() - obj->GetBuyCount()) < change_amount) {
+        change_amount = obj->GetStockCount() - obj->GetBuyCount();
+    }
+
+    // Determine how many of the possible amount to buy the player can actually afford
+    int32 total_cost = change_amount * obj->GetBuyPrice();
+    int32 total_remaining = static_cast<int32>(ShopMode::CurrentInstance()->GetTotalRemaining());
+    while(total_cost > total_remaining) {
+        --change_amount;
+        total_cost -= obj->GetBuyPrice();
+    }
+
+    obj->IncrementBuyCount(change_amount);
+    ShopMode::CurrentInstance()->UpdateFinances(-obj->GetBuyPrice() * change_amount);
+    return true;
+} // bool BuyListDisplay::ChangeBuyQuantity(bool more, uint32 amount)
 
 } // namespace private_shop
 

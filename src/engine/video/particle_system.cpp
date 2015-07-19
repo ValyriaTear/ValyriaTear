@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,11 +15,13 @@
 *** \brief   Source file for particle system
 *** **************************************************************************/
 
-#include "video.h"
-
+#include "utils/utils_pch.h"
 #include "particle_system.h"
+
 #include "particle_keyframe.h"
 #include "engine/video/video.h"
+
+#include "utils/utils_random.h"
 
 using namespace vt_utils;
 using namespace vt_video;
@@ -65,50 +67,42 @@ bool ParticleSystem::_Create(ParticleSystemDef *sys_def)
     return true;
 }
 
-bool ParticleSystem::Draw()
+void ParticleSystem::Draw()
 {
-    if(!_alive || !_system_def->enabled || _age < _system_def->emitter._start_time)
-        return true;
+    if (!_alive || !_system_def->enabled || _age < _system_def->emitter._start_time || _num_particles <= 0)
+        return;
 
-    // set blending parameters
-    if(_system_def->blend_mode == VIDEO_NO_BLEND) {
+    // Set the blending parameters.
+    if (_system_def->blend_mode == VIDEO_NO_BLEND) {
         VideoManager->DisableBlending();
     } else {
         VideoManager->EnableBlending();
 
-        if(_system_def->blend_mode == VIDEO_BLEND)
+        if (_system_def->blend_mode == VIDEO_BLEND)
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         else
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE); // additive
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE); // Additive.
     }
 
-
-    if(_system_def->use_stencil) {
+    if (_system_def->use_stencil) {
         VideoManager->EnableStencilTest();
         glStencilFunc(GL_EQUAL, 1, 0xFFFFFFFF);
         glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-    } else if(_system_def->modify_stencil) {
+    } else if (_system_def->modify_stencil) {
         VideoManager->EnableStencilTest();
 
-        if(_system_def->stencil_op == VIDEO_STENCIL_OP_INCREASE)
+        if (_system_def->stencil_op == VIDEO_STENCIL_OP_INCREASE)
             glStencilOp(GL_INCR, GL_KEEP, GL_KEEP);
-        else if(_system_def->stencil_op == VIDEO_STENCIL_OP_DECREASE)
+        else if (_system_def->stencil_op == VIDEO_STENCIL_OP_DECREASE)
             glStencilOp(GL_DECR, GL_KEEP, GL_KEEP);
-        else if(_system_def->stencil_op == VIDEO_STENCIL_OP_ZERO)
+        else if (_system_def->stencil_op == VIDEO_STENCIL_OP_ZERO)
             glStencilOp(GL_ZERO, GL_KEEP, GL_KEEP);
         else
             glStencilOp(GL_REPLACE, GL_KEEP, GL_KEEP);
 
         glStencilFunc(GL_NEVER, 1, 0xFFFFFFFF);
-        VideoManager->EnableAlphaTest();
-        glAlphaFunc(GL_GREATER, 0.00f);
-        glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-
     } else {
         VideoManager->DisableStencilTest();
-        VideoManager->DisableAlphaTest();
-        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     }
 
     VideoManager->EnableTexture2D();
@@ -116,10 +110,9 @@ bool ParticleSystem::Draw()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    StillImage *id = _animation.GetFrame(_animation.GetCurrentFrameIndex());
-    private_video::ImageTexture *img = id->_image_texture;
+    StillImage* id = _animation.GetFrame(_animation.GetCurrentFrameIndex());
+    private_video::ImageTexture* img = id->_image_texture;
     TextureManager->_BindTexture(img->texture_sheet->tex_id);
-
 
     float frame_progress = _animation.GetPercentProgress();
 
@@ -134,37 +127,37 @@ bool ParticleSystem::Draw()
     float img_width_half = img_width * 0.5f;
     float img_height_half = img_height * 0.5f;
 
-    // fill the vertex array
-    if(_system_def->rotation_used) {
+    // Fill the vertex array.
+    if (_system_def->rotation_used) {
         int32 v = 0;
 
-        for(int32 j = 0; j < _num_particles; ++j) {
+        for (int32 j = 0; j < _num_particles; ++j) {
             float scaled_width_half  = img_width_half * _particles[j].size_x;
             float scaled_height_half = img_height_half * _particles[j].size_y;
 
             float rotation_angle = _particles[j].rotation_angle;
 
             if(_system_def->rotate_to_velocity) {
-                // calculate the angle based on the velocity
+                // Calculate the angle based on the velocity.
                 rotation_angle += UTILS_HALF_PI + atan2f(_particles[j].combined_velocity_y, _particles[j].combined_velocity_x);
 
-                // calculate the scaling due to speed
+                // Calculate the scaling due to speed.
                 if(_system_def->speed_scale_used) {
-                    // speed is magnitude of velocity
+                    // Speed is the magnitude of velocity.
                     float speed = sqrtf(_particles[j].combined_velocity_x * _particles[j].combined_velocity_x
                                         + _particles[j].combined_velocity_y * _particles[j].combined_velocity_y);
                     float scale_factor = _system_def->speed_scale * speed;
 
-                    if(scale_factor < _system_def->min_speed_scale)
+                    if (scale_factor < _system_def->min_speed_scale)
                         scale_factor = _system_def->min_speed_scale;
-                    if(scale_factor > _system_def->max_speed_scale)
+                    if (scale_factor > _system_def->max_speed_scale)
                         scale_factor = _system_def->max_speed_scale;
 
                     scaled_height_half *= scale_factor;
                 }
             }
 
-            // upper-left vertex
+            // The upper-left vertex.
             _particle_vertices[v]._x = -scaled_width_half;
             _particle_vertices[v]._y = -scaled_height_half;
             RotatePoint(_particle_vertices[v]._x, _particle_vertices[v]._y, rotation_angle);
@@ -172,7 +165,7 @@ bool ParticleSystem::Draw()
             _particle_vertices[v]._y += _particles[j].y;
             ++v;
 
-            // upper-right vertex
+            // The upper-right vertex.
             _particle_vertices[v]._x = scaled_width_half;
             _particle_vertices[v]._y = -scaled_height_half;
             RotatePoint(_particle_vertices[v]._x, _particle_vertices[v]._y, rotation_angle);
@@ -180,7 +173,7 @@ bool ParticleSystem::Draw()
             _particle_vertices[v]._y += _particles[j].y;
             ++v;
 
-            // lower-right vertex
+            // The lower-right vertex.
             _particle_vertices[v]._x = scaled_width_half;
             _particle_vertices[v]._y = scaled_height_half;
             RotatePoint(_particle_vertices[v]._x, _particle_vertices[v]._y, rotation_angle);
@@ -188,34 +181,32 @@ bool ParticleSystem::Draw()
             _particle_vertices[v]._y += _particles[j].y;
             ++v;
 
-            // lower-left vertex
+            // The lower-left vertex.
             _particle_vertices[v]._x = -scaled_width_half;
             _particle_vertices[v]._y = scaled_height_half;
             RotatePoint(_particle_vertices[v]._x, _particle_vertices[v]._y, rotation_angle);
             _particle_vertices[v]._x += _particles[j].x;
             _particle_vertices[v]._y += _particles[j].y;
             ++v;
-
-
         }
     } else {
         int32 v = 0;
 
-        for(int32 j = 0; j < _num_particles; ++j) {
+        for (int32 j = 0; j < _num_particles; ++j) {
             float scaled_width_half  = img_width_half * _particles[j].size_x;
             float scaled_height_half = img_height_half * _particles[j].size_y;
 
-            // upper-left vertex
+            // The upper-left vertex.
             _particle_vertices[v]._x = _particles[j].x - scaled_width_half;
             _particle_vertices[v]._y = _particles[j].y - scaled_height_half;
             ++v;
 
-            // upper-right vertex
+            // The upper-right vertex.
             _particle_vertices[v]._x = _particles[j].x + scaled_width_half;
             _particle_vertices[v]._y = _particles[j].y - scaled_height_half;
             ++v;
 
-            // lower-right vertex
+            // The lower-right vertex.
             _particle_vertices[v]._x = _particles[j].x + scaled_width_half;
             _particle_vertices[v]._y = _particles[j].y + scaled_height_half;
             ++v;
@@ -227,13 +218,13 @@ bool ParticleSystem::Draw()
         }
     }
 
-    // fill the color array
+    // Fill the color array.
 
     int32 c = 0;
-    for(int32 j = 0; j < _num_particles; ++j) {
+    for (int32 j = 0; j < _num_particles; ++j) {
         Color color = _particles[j].color;
 
-        if(_system_def->smooth_animation)
+        if (_system_def->smooth_animation)
             color = color * (1.0f - frame_progress);
 
         _particle_colors[c] = color;
@@ -246,41 +237,43 @@ bool ParticleSystem::Draw()
         ++c;
     }
 
-    // fill the texcoord array
+    // Fill the texture coordinate array.
 
     int32 t = 0;
-    for(int32 j = 0; j < _num_particles; ++j) {
-        // upper-left
+    for (int32 j = 0; j < _num_particles; ++j) {
+        // The upper-left vertex.
         _particle_texcoords[t]._t0 = u1;
         _particle_texcoords[t]._t1 = v1;
         ++t;
 
-        // upper-right
+        // The upper-right vertex.
         _particle_texcoords[t]._t0 = u2;
         _particle_texcoords[t]._t1 = v1;
         ++t;
 
-        // lower-right
+        // The lower-right vertex.
         _particle_texcoords[t]._t0 = u2;
         _particle_texcoords[t]._t1 = v2;
         ++t;
 
-        // lower-left
+        // The lower-left vertex.
         _particle_texcoords[t]._t0 = u1;
         _particle_texcoords[t]._t1 = v2;
         ++t;
     }
 
-    VideoManager->EnableVertexArray();
-    VideoManager->EnableColorArray();
-    VideoManager->EnableTextureCoordArray();
-    glVertexPointer(2, GL_FLOAT, 0, &_particle_vertices[0]);
-    glColorPointer(4, GL_FLOAT, 0, &_particle_colors[0]);
-    glTexCoordPointer(2, GL_FLOAT, 0, &_particle_texcoords[0]);
+    // Load the sprite shader program.
+    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
+    assert(shader_program != nullptr);
 
-    glDrawArrays(GL_QUADS, 0, _num_particles * 4);
+    // Draw the particle system.
+    VideoManager->DrawParticleSystem(shader_program,
+                                     reinterpret_cast<float*>(&_particle_vertices[0]),
+                                     reinterpret_cast<float*>(&_particle_texcoords[0]),
+                                     reinterpret_cast<float*>(&_particle_colors[0]),
+                                     _num_particles * 4);
 
-    if(_system_def->smooth_animation) {
+    if (_system_def->smooth_animation) {
         int findex = _animation.GetCurrentFrameIndex();
         findex = (findex + 1) % _animation.GetNumFrames();
 
@@ -294,30 +287,30 @@ bool ParticleSystem::Draw()
         v2 = img2->v2;
 
         t = 0;
-        for(int32 j = 0; j < _num_particles; ++j) {
-            // upper-left
+        for (int32 j = 0; j < _num_particles; ++j) {
+            // The upper-left vertex.
             _particle_texcoords[t]._t0 = u1;
             _particle_texcoords[t]._t1 = v1;
             ++t;
 
-            // upper-right
+            // The upper-right vertex.
             _particle_texcoords[t]._t0 = u2;
             _particle_texcoords[t]._t1 = v1;
             ++t;
 
-            // lower-right
+            // The lower-right vertex.
             _particle_texcoords[t]._t0 = u2;
             _particle_texcoords[t]._t1 = v2;
             ++t;
 
-            // lower-left
+            // The lower-left vertex.
             _particle_texcoords[t]._t0 = u1;
             _particle_texcoords[t]._t1 = v2;
             ++t;
         }
 
         c = 0;
-        for(int32 j = 0; j < _num_particles; ++j) {
+        for (int32 j = 0; j < _num_particles; ++j) {
             Color color = _particles[j].color;
             color = color * frame_progress;
 
@@ -331,30 +324,32 @@ bool ParticleSystem::Draw()
             ++c;
         }
 
-        glVertexPointer(2, GL_FLOAT, 0, &_particle_vertices[0]);
-        glColorPointer(4, GL_FLOAT, 0, &_particle_colors[0]);
-        glTexCoordPointer(2, GL_FLOAT, 0, &_particle_texcoords[0]);
-
-        glDrawArrays(GL_QUADS, 0, _num_particles * 4);
+        // Draw the particle system.
+        VideoManager->DrawParticleSystem(shader_program,
+                                         reinterpret_cast<float*>(&_particle_vertices[0]),
+                                         reinterpret_cast<float*>(&_particle_texcoords[0]),
+                                         reinterpret_cast<float*>(&_particle_colors[0]),
+                                         _num_particles * 4);
     }
 
-    return true;
+    // Unload the shader program.
+    VideoManager->UnloadShaderProgram();
 }
 
 //-----------------------------------------------------------------------------
 // Update: updates particle positions and properties, and emits/kills particles
 //-----------------------------------------------------------------------------
 
-bool ParticleSystem::Update(float frame_time, const EffectParameters &params)
+void ParticleSystem::Update(float frame_time, const EffectParameters &params)
 {
     if(!_alive || !_system_def->enabled)
-        return true;
+        return;
 
     _age += frame_time;
 
     if(_age < _system_def->emitter._start_time) {
         _last_update_time = _age;
-        return true;
+        return;
     }
 
     _animation.Update();
@@ -406,7 +401,6 @@ bool ParticleSystem::Update(float frame_time, const EffectParameters &params)
         _alive = false;
 
     _last_update_time = _age;
-    return true;
 }
 
 void ParticleSystem::_Destroy()
@@ -453,7 +447,7 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
                 // particle's time, then we are on the last one
                 if(k == num_keyframes) {
                     _particles[j].current_keyframe = &_system_def->keyframes[k - 1];
-                    _particles[j].next_keyframe = NULL;
+                    _particles[j].next_keyframe = nullptr;
 
                     // set all of the keyframed properties to the value stored in the last
                     // keyframe
@@ -685,6 +679,15 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
         _particles[i].y += emitter._y;
         break;
     }
+    case EMITTER_SHAPE_ELLIPSE: {
+        float angle = RandomFloat(0.0f, UTILS_2PI);
+        _particles[i].x = emitter._x * cosf(angle);
+        _particles[i].y = emitter._y * sinf(angle);
+        // Apply offset
+        _particles[i].x += emitter._x2;
+        _particles[i].y += emitter._y2;
+        break;
+    }
     case EMITTER_SHAPE_FILLED_CIRCLE: {
         float radius_squared = emitter._radius;
         radius_squared *= radius_squared;
@@ -735,7 +738,7 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
     if(_system_def->keyframes.size() > 1)
         _particles[i].next_keyframe = &_system_def->keyframes[1];
     else
-        _particles[i].next_keyframe = NULL;
+        _particles[i].next_keyframe = nullptr;
 
     float speed = _system_def->emitter._initial_speed;
     speed += RandomFloat(-emitter._initial_speed_variation, emitter._initial_speed_variation);
@@ -749,13 +752,16 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
     }
 
     // figure out the orientation
-
     float angle = 0.0f;
 
     if(emitter._omnidirectional) {
         angle = RandomFloat(0.0f, UTILS_2PI);
-    } else if(emitter._inner_cone == 0.0f && emitter._outer_cone == 0.0f) {
+    }
+    else {
         angle = emitter._orientation + params.orientation;
+
+        if(!IsFloatEqual(emitter._angle_variation, 0.0f))
+            angle += RandomFloat(-emitter._angle_variation, emitter._angle_variation);
     }
 
     _particles[i].velocity_x = speed * cosf(angle);

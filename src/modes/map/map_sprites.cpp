@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,12 +15,16 @@
 *** \brief   Source file for map mode sprites.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "modes/map/map_sprites.h"
 
 #include "modes/map/map_events.h"
 
 #include "modes/battle/battle.h"
 #include "common/global/global.h"
+
+#include "utils/utils_random.h"
+#include "utils/utils_files.h"
 
 using namespace vt_utils;
 using namespace vt_audio;
@@ -79,19 +83,20 @@ static uint16 CalculateOppositeDirection(const uint16 direction)
 // ********** VirtualSprite class methods
 // ****************************************************************************
 
-VirtualSprite::VirtualSprite() :
-    direction(SOUTH),
-    movement_speed(NORMAL_SPEED),
-    moving(false),
-    moved_position(false),
-    is_running(false),
-    control_event(NULL),
+VirtualSprite::VirtualSprite(MapObjectDrawLayer layer) :
+    MapObject(layer),
+    _direction(SOUTH),
+    _movement_speed(NORMAL_SPEED),
+    _moving(false),
+    _moved_position(false),
+    _is_running(false),
+    _control_event(nullptr),
     _state_saved(false),
     _saved_direction(0),
     _saved_movement_speed(0.0f),
     _saved_moving(false)
 {
-    MapObject::_object_type = VIRTUAL_TYPE;
+    _object_type = VIRTUAL_TYPE;
 }
 
 VirtualSprite::~VirtualSprite()
@@ -99,16 +104,115 @@ VirtualSprite::~VirtualSprite()
 
 void VirtualSprite::Update()
 {
-    moved_position = false;
+    _moved_position = false;
 
     // Update potential emote animation
     MapObject::_UpdateEmote();
 
-    if(!updatable || !moving)
+    if(!_updatable || !_moving)
         return;
 
     _SetNextPosition();
 } // void VirtualSprite::Update()
+
+bool VirtualSprite::_HandleWallEdges(float& next_pos_x, float& next_pos_y, float distance_moved,
+                                     MapObject* collision_object)
+{
+    // First we don't deal with sprites edges when it's not a physical sprite
+    if (collision_object && collision_object->GetObjectType() != PHYSICAL_TYPE)
+        return false;
+
+    // Handles soft edges for straight directions
+    // Set a walk-around direction when the straight one is blocking the sprite,
+    // and when the sprite is on the corner of the obstacle.
+    bool on_edge = false;
+    float edge_next_pos_x = 0.0f;
+    float edge_next_pos_y = 0.0f;
+
+    // Cap the actual distance moved when on an edge to a sane value according to the following checks.
+    // Without this cap, the distance moved is too high when running and/or with a high walk
+    // speed and can cause glitches.
+    float edge_distance_moved = distance_moved;
+    if (edge_distance_moved > 0.09f)
+        edge_distance_moved = 0.09f;
+
+    ObjectSupervisor *object_supervisor = MapMode::CurrentInstance()->GetObjectSupervisor();
+
+    if(_direction & NORTH) {
+        // Test both the north-east and north west cases
+        if(!object_supervisor->IsStaticCollision(_tile_position.x + _coll_grid_half_width,
+                                                 _tile_position.y - _coll_grid_height - distance_moved)) {
+            edge_next_pos_x = _tile_position.x + edge_distance_moved;
+            edge_next_pos_y = _tile_position.y;
+            on_edge = true;
+        }
+        else if (!object_supervisor->IsStaticCollision(_tile_position.x - _coll_grid_half_width,
+                                                       _tile_position.y - _coll_grid_height - distance_moved)) {
+            edge_next_pos_x = _tile_position.x - edge_distance_moved;
+            edge_next_pos_y = _tile_position.y;
+            on_edge = true;
+        }
+    }
+    else if(_direction & SOUTH) {
+        // Test both the south-east and south west cases
+        if(!object_supervisor->IsStaticCollision(_tile_position.x + _coll_grid_half_width,
+                                                 _tile_position.y + distance_moved)) {
+            edge_next_pos_x = _tile_position.x + edge_distance_moved;
+            edge_next_pos_y = _tile_position.y;
+            on_edge = true;
+        }
+        else if (!object_supervisor->IsStaticCollision(_tile_position.x - _coll_grid_half_width,
+                                                       _tile_position.y + distance_moved)) {
+            edge_next_pos_x = _tile_position.x - edge_distance_moved;
+            edge_next_pos_y = _tile_position.y;
+            on_edge = true;
+        }
+    }
+    else if(_direction & EAST) {
+        // Test both the north-east and south-east cases
+        if(!object_supervisor->IsStaticCollision(_tile_position.x + _coll_grid_half_width + distance_moved,
+                                                 _tile_position.y - _coll_grid_height)) {
+            edge_next_pos_x = _tile_position.x;
+            edge_next_pos_y = _tile_position.y - edge_distance_moved;
+            on_edge = true;
+        }
+        else if (!object_supervisor->IsStaticCollision(_tile_position.x + _coll_grid_half_width + distance_moved,
+                                                       _tile_position.y)) {
+            edge_next_pos_x = _tile_position.x;
+            edge_next_pos_y = _tile_position.y + edge_distance_moved;
+            on_edge = true;
+        }
+    }
+    else if(_direction & WEST) {
+        // Test both the north-west and south-west cases
+        if(!object_supervisor->IsStaticCollision(_tile_position.x - _coll_grid_half_width - distance_moved,
+                                                 _tile_position.y - _coll_grid_height)) {
+            edge_next_pos_x = _tile_position.x;
+            edge_next_pos_y = _tile_position.y - edge_distance_moved;
+            on_edge = true;
+        }
+        else if (!object_supervisor->IsStaticCollision(_tile_position.x - _coll_grid_half_width - distance_moved,
+                                                       _tile_position.y)) {
+            edge_next_pos_x = _tile_position.x;
+            edge_next_pos_y = _tile_position.y + edge_distance_moved;
+            on_edge = true;
+        }
+    }
+
+    // If no edge is found, we don't do anything.
+    if (!on_edge)
+        return false;
+
+    // Final check of the new position chosen
+    if (object_supervisor->DetectCollision(this, edge_next_pos_x, edge_next_pos_y, &collision_object) != NO_COLLISION)
+        return false;
+
+    // Set the new position once all the tests passed.
+    next_pos_x = edge_next_pos_x;
+    next_pos_y = edge_next_pos_y;
+
+    return true;
+}
 
 void VirtualSprite::_SetNextPosition()
 {
@@ -119,13 +223,13 @@ void VirtualSprite::_SetNextPosition()
     float distance_moved = CalculateDistanceMoved();
 
     // Move the sprite the appropriate distance in the appropriate Y and X direction
-    if(direction & (NORTH | MOVING_NORTHWEST | MOVING_NORTHEAST))
+    if(_direction & (NORTH | MOVING_NORTHWEST | MOVING_NORTHEAST))
         next_pos_y -= distance_moved;
-    else if(direction & (SOUTH | MOVING_SOUTHWEST | MOVING_SOUTHEAST))
+    else if(_direction & (SOUTH | MOVING_SOUTHWEST | MOVING_SOUTHEAST))
         next_pos_y += distance_moved;
-    if(direction & (WEST | MOVING_NORTHWEST | MOVING_SOUTHWEST))
+    if(_direction & (WEST | MOVING_NORTHWEST | MOVING_SOUTHWEST))
         next_pos_x -= distance_moved;
-    else if(direction & (EAST | MOVING_NORTHEAST | MOVING_SOUTHEAST))
+    else if(_direction & (EAST | MOVING_NORTHEAST | MOVING_SOUTHEAST))
         next_pos_x += distance_moved;
 
     // When not moving, do not check anything else.
@@ -137,33 +241,32 @@ void VirtualSprite::_SetNextPosition()
 
     // Used to know whether we could fall back to a straight move
     // in case of collision.
-    bool moving_diagonally = (direction & (MOVING_NORTHWEST | MOVING_NORTHEAST
+    bool moving_diagonally = (_direction & (MOVING_NORTHWEST | MOVING_NORTHEAST
                                            | MOVING_SOUTHEAST | MOVING_SOUTHWEST));
 
     // Handle collision with the first object encountered
-    MapObject *collision_object = NULL;
-    COLLISION_TYPE collision_type = NO_COLLISION;
-    MapMode *map = MapMode::CurrentInstance();
-    ObjectSupervisor *object_supervisor = map->GetObjectSupervisor();
-    collision_type = object_supervisor->DetectCollision(this, next_pos_x,
+    MapObject* collision_object = nullptr;
+    MapMode* map_mode = MapMode::CurrentInstance();
+    ObjectSupervisor* object_supervisor = map_mode->GetObjectSupervisor();
+    COLLISION_TYPE collision_type = object_supervisor->DetectCollision(this, next_pos_x,
                      next_pos_y,
                      &collision_object);
     // Try to fall back to straight direction
     if(moving_diagonally && collision_type != NO_COLLISION) {
         // Try on x axis
-        if(object_supervisor->DetectCollision(this, position.x, next_pos_y, &collision_object) == NO_COLLISION) {
-            next_pos_x = position.x;
+        if(object_supervisor->DetectCollision(this, _tile_position.x, next_pos_y, &collision_object) == NO_COLLISION) {
+            next_pos_x = _tile_position.x;
             collision_type = NO_COLLISION;
         } // and then on y axis
-        else if(object_supervisor->DetectCollision(this, next_pos_x, position.y, &collision_object) == NO_COLLISION) {
-            next_pos_y = position.y;
+        else if(object_supervisor->DetectCollision(this, next_pos_x, _tile_position.y, &collision_object) == NO_COLLISION) {
+            next_pos_y = _tile_position.y;
             collision_type = NO_COLLISION;
         }
     }
 
     // Handles special collision handling first
-    if(control_event) {
-        switch(control_event->GetEventType()) {
+    if(_control_event) {
+        switch(_control_event->GetEventType()) {
             // Don't stuck the player's character or a sprite being controlled by a prepared path.
             // Plus, it's better not to change a path with encountered beings once started
             // for simplification purpose.
@@ -187,21 +290,34 @@ void VirtualSprite::_SetNextPosition()
     default:
         break;
     case WALL_COLLISION:
-        // When the sprite is controlled by the camera, let the player handle the position correction.
-        if(this == map->GetCamera())
-            return;
-
         // When being blocked and moving diagonally, the npc is stuck.
         if(moving_diagonally)
             return;
 
+        // Don't consider physical objects with an event to avoid sliding on their edges,
+        // making them harder to "talk with".
+        if (collision_object && this == map_mode->GetCamera()) {
+            PhysicalObject *phs = reinterpret_cast<PhysicalObject *>(collision_object);
+            if(phs && !phs->GetEventIdWhenTalking().empty())
+                return;
+        }
+
+        // Fix the direction and destination to walk-around obstacles
+        if (_HandleWallEdges(next_pos_x, next_pos_y, distance_moved, collision_object))
+            break;
+        // We don't do any other checks for the player sprite.
+        else if (this == map_mode->GetCamera())
+            return;
+
+        // NPC sprites:
+
         // When it's a true wall, try against the collision grid
         if(!collision_object) {
             // Try a random diagonal to avoid the wall in straight direction
-            if(direction & (NORTH | SOUTH))
-                direction |= RandomBoundedInteger(0, 1) ? EAST : WEST;
-            else if(direction & (EAST | WEST))
-                direction |= RandomBoundedInteger(0, 1) ? NORTH : SOUTH;
+            if(_direction & (NORTH | SOUTH))
+                _direction |= RandomBoundedInteger(0, 1) ? EAST : WEST;
+            else if(_direction & (EAST | WEST))
+                _direction |= RandomBoundedInteger(0, 1) ? NORTH : SOUTH;
             return;
         }
         // Physical and treasure objects are the only other matching "fake" walls
@@ -210,32 +326,24 @@ void VirtualSprite::_SetNextPosition()
             // each one coords.
             float diff_x = GetXPosition() - collision_object->GetXPosition();
             float diff_y = GetYPosition() - collision_object->GetYPosition();
-            if(direction & (NORTH | SOUTH))
-                direction |= diff_x >= 0.0f ? EAST : WEST;
-            else if(direction & (EAST | WEST))
-                direction |= diff_y >= 0.0f ? SOUTH : NORTH;
+            if(_direction & (NORTH | SOUTH))
+                _direction |= diff_x >= 0.0f ? EAST : WEST;
+            else if(_direction & (EAST | WEST))
+                _direction |= diff_y >= 0.0f ? SOUTH : NORTH;
             return;
         }
         // Other cases shouldn't happen.
         break;
     case ENEMY_COLLISION:
         // Check only whether the player has collided with a monster
-        if(this == map->GetCamera() &&
+        if(this == map_mode->GetCamera() &&
                 collision_object && collision_object->GetObjectType() == ENEMY_TYPE) {
-            EnemySprite *enemy = reinterpret_cast<EnemySprite *>(collision_object);
+            EnemySprite* enemy = reinterpret_cast<EnemySprite *>(collision_object);
 
-            if(enemy && enemy->IsHostile() && map->AttackAllowed()) {
-                 // Check if the map is exiting. If so, we don't want to start a battle
-                 // NOTE: This case may need to be addressed in the future as it just checks if
-                 // the current state is "scene", which may be used in more cases than just exiting a map
-                 if (MapMode::CurrentInstance()->CurrentState() == STATE_SCENE) {
-                     return;
-                 }
-                 else {
-                     _StartBattleEncounter(enemy);
-                     return;
-                 }
-            }
+            // Check whether the player is actually playing. If not, we don't want to start a battle.
+            if (map_mode->CurrentState() == STATE_EXPLORE)
+                map_mode->StartEnemyEncounter(enemy);
+            return;
         }
 
         break;
@@ -243,31 +351,23 @@ void VirtualSprite::_SetNextPosition()
         // Check whether the sprite is tangled with another character, even without moving
         // For instance, when colliding with a path follower npc.
         // And let it through in that case.
-        if(object_supervisor->CheckObjectCollision(GetCollisionRectangle(), collision_object)) {
+        if(object_supervisor->CheckObjectCollision(GetGridCollisionRectangle(), collision_object)) {
             collision_type = NO_COLLISION;
             break;
         }
 
         // When the sprite is controlled by the camera, let the player handle the position correction.
-        if(this == map->GetCamera())
+        if(this == map_mode->GetCamera())
             return;
 
         // Check whether an enemy has collided with the player
-        if(this->GetType() == ENEMY_TYPE && collision_object == map->GetCamera()) {
-            EnemySprite *enemy = reinterpret_cast<EnemySprite *>(this);
+        if(this->GetType() == ENEMY_TYPE && collision_object == map_mode->GetCamera()) {
+            EnemySprite* enemy = reinterpret_cast<EnemySprite *>(this);
 
-            if(enemy && enemy->IsHostile() && map->AttackAllowed()) {
-                 // Check if the map is exiting. If so, we don't want to start a battle
-                 // NOTE: This case may need to be addressed in the future as it just checks if
-                 // the current state is "scene", which may be used in more cases than just exiting a map
-                 if (MapMode::CurrentInstance()->CurrentState() == STATE_SCENE) {
-                     return;
-                 }
-                 else {
-                     _StartBattleEncounter(enemy);
-                     return;
-                 }
-            }
+            // Check whether the player is actually playing. If not, we don't want to start a battle.
+            if (map_mode->CurrentState() == STATE_EXPLORE)
+                map_mode->StartEnemyEncounter(enemy, false, true); // The enemy gets a boost in agility.
+            return;
         }
 
         // When being blocked and moving diagonally, the npc is stuck.
@@ -281,28 +381,29 @@ void VirtualSprite::_SetNextPosition()
         // each one coords.
         float diff_x = GetXPosition() - collision_object->GetXPosition();
         float diff_y = GetYPosition() - collision_object->GetYPosition();
-        if(direction & (NORTH | SOUTH))
-            direction |= diff_x >= 0.0f ? EAST : WEST;
-        else if(direction & (EAST | WEST))
-            direction |= diff_y >= 0.0f ? SOUTH : NORTH;
+        if(_direction & (NORTH | SOUTH))
+            _direction |= diff_x >= 0.0f ? EAST : WEST;
+        else if(_direction & (EAST | WEST))
+            _direction |= diff_y >= 0.0f ? SOUTH : NORTH;
         return;
     }
 
     // Inform the overlay system of the parallax movement done if needed
-    if(this == map->GetCamera()) {
-        float x_parallax = !map->IsCameraXAxisInMapCorner() ?
+    if(this == map_mode->GetCamera()) {
+        float x_parallax = !map_mode->IsCameraXAxisInMapCorner() ?
                            (GetXPosition() - next_pos_x) / SCREEN_GRID_X_LENGTH * VIDEO_STANDARD_RES_WIDTH :
                            0.0f;
-        float y_parallax = !map->IsCameraYAxisInMapCorner() ?
-                           (next_pos_y - GetYPosition()) / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT :
+        float y_parallax = !map_mode->IsCameraYAxisInMapCorner() ?
+                           (GetYPosition() - next_pos_y) / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT :
                            0.0f;
 
-        map->GetEffectSupervisor().AddParallax(x_parallax, y_parallax);
+        map_mode->GetEffectSupervisor().AddParallax(x_parallax, y_parallax);
+        map_mode->GetIndicatorSupervisor().AddParallax(x_parallax, y_parallax);
     }
 
     // Make the sprite advance at the end
     SetPosition(next_pos_x, next_pos_y);
-    moved_position = true;
+    _moved_position = true;
 }
 
 
@@ -310,29 +411,29 @@ void VirtualSprite::SetDirection(uint16 dir)
 {
     // Nothing complicated needed for lateral directions
     if(dir & (NORTH | SOUTH | EAST | WEST)) {
-        direction = dir;
+        _direction = dir;
     }
     // Otherwise if the direction is diagonal we must figure out which way the sprite should face.
     else if(dir & MOVING_NORTHWEST) {
-        if(direction & (FACING_NORTH | FACING_EAST))
-            direction = NW_NORTH;
+        if(_direction & (FACING_NORTH | FACING_EAST))
+            _direction = NW_NORTH;
         else
-            direction = NW_WEST;
+            _direction = NW_WEST;
     } else if(dir & MOVING_SOUTHWEST) {
-        if(direction & (FACING_SOUTH | FACING_EAST))
-            direction = SW_SOUTH;
+        if(_direction & (FACING_SOUTH | FACING_EAST))
+            _direction = SW_SOUTH;
         else
-            direction = SW_WEST;
+            _direction = SW_WEST;
     } else if(dir & MOVING_NORTHEAST) {
-        if(direction & (FACING_NORTH | FACING_WEST))
-            direction = NE_NORTH;
+        if(_direction & (FACING_NORTH | FACING_WEST))
+            _direction = NE_NORTH;
         else
-            direction = NE_EAST;
+            _direction = NE_EAST;
     } else if(dir & MOVING_SOUTHEAST) {
-        if(direction & (FACING_SOUTH | FACING_WEST))
-            direction = SE_SOUTH;
+        if(_direction & (FACING_SOUTH | FACING_WEST))
+            _direction = SE_SOUTH;
         else
-            direction = SE_EAST;
+            _direction = SE_EAST;
     } else {
         IF_PRINT_WARNING(MAP_DEBUG) << "attempted to set an invalid direction: " << dir << std::endl;
     }
@@ -374,24 +475,23 @@ void VirtualSprite::SetRandomDirection()
 
 void VirtualSprite::LookAt(const MapPosition &pos)
 {
-
     // If the two positions are the same,
     // don't update the direction since it's only a matter of keeping
     // the previous one.
-    if(position.x == pos.x && position.y == pos.y)
+    if(_tile_position.x == pos.x && _tile_position.y == pos.y)
         return;
 
     // First handle simple cases
-    if(IsFloatEqual(position.x, pos.x, 0.5f)) {
-        if(position.y > pos.y)
+    if(IsFloatEqual(_tile_position.x, pos.x, 0.5f)) {
+        if(_tile_position.y > pos.y)
             SetDirection(NORTH);
         else
             SetDirection(SOUTH);
         return;
     }
 
-    if(IsFloatEqual(position.y, pos.y, 0.5f)) {
-        if(position.x > pos.x)
+    if(IsFloatEqual(_tile_position.y, pos.y, 0.5f)) {
+        if(_tile_position.x > pos.x)
             SetDirection(WEST);
         else
             SetDirection(EAST);
@@ -400,11 +500,11 @@ void VirtualSprite::LookAt(const MapPosition &pos)
 
     // Now let's handle diagonal cases
     // First, find the lower angle:
-    if(position.x < pos.x) {
+    if(_tile_position.x < pos.x) {
         // Up-right direction
-        if(position.y > pos.y) {
+        if(_tile_position.y > pos.y) {
             // Compute tan of the angle
-            if((position.y - pos.y) / (pos.x - position.x) < 1)
+            if((_tile_position.y - pos.y) / (pos.x - _tile_position.x) < 1)
                 // The angle is less than 45°, look to the right
                 SetDirection(EAST);
             else
@@ -412,7 +512,7 @@ void VirtualSprite::LookAt(const MapPosition &pos)
             return;
         } else { // Down-right
             // Compute tan of the angle
-            if((pos.y - position.y) / (pos.x - position.x) < 1)
+            if((pos.y - _tile_position.y) / (pos.x - _tile_position.x) < 1)
                 // The angle is less than 45°, look to the right
                 SetDirection(EAST);
             else
@@ -421,9 +521,9 @@ void VirtualSprite::LookAt(const MapPosition &pos)
         }
     } else {
         // Up-left direction
-        if(position.y > pos.y) {
+        if(_tile_position.y > pos.y) {
             // Compute tan of the angle
-            if((position.y - pos.y) / (position.x - pos.x) < 1)
+            if((_tile_position.y - pos.y) / (_tile_position.x - pos.x) < 1)
                 // The angle is less than 45°, look to the left
                 SetDirection(WEST);
             else
@@ -431,7 +531,7 @@ void VirtualSprite::LookAt(const MapPosition &pos)
             return;
         } else { // Down-left
             // Compute tan of the angle
-            if((pos.y - position.y) / (position.x - pos.x) < 1)
+            if((pos.y - _tile_position.y) / (_tile_position.x - pos.x) < 1)
                 // The angle is less than 45°, look to the left
                 SetDirection(WEST);
             else
@@ -443,64 +543,61 @@ void VirtualSprite::LookAt(const MapPosition &pos)
 
 float VirtualSprite::CalculateDistanceMoved()
 {
-    float distance_moved = static_cast<float>(SystemManager->GetUpdateTime()) / movement_speed;
+    float distance_moved = static_cast<float>(SystemManager->GetUpdateTime()) / _movement_speed;
 
     // Double the distance to move if the sprite is running
-    if(is_running == true)
+    if(_is_running == true)
         distance_moved *= 2.0f;
     // If the movement is diagonal, decrease the lateral movement distance by sin(45 degress)
-    if(direction & MOVING_DIAGONALLY)
+    if(_direction & MOVING_DIAGONALLY)
         distance_moved *= 0.707f;
+
+    // We cap the distance moved when in case of low FPS to avoid letting certain
+    // sprites jump across blocking areas.
+    if (distance_moved > 1.0f)
+        distance_moved = 1.0f;
 
     return distance_moved;
 }
 
-
-
-void VirtualSprite::AcquireControl(SpriteEvent *event)
+void VirtualSprite::AcquireControl(SpriteEvent* event)
 {
-    if(event == NULL) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << std::endl;
+    if(event == nullptr) {
+        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was nullptr" << std::endl;
         return;
     }
 
-    if(control_event != NULL) {
+    if(_control_event != nullptr) {
         IF_PRINT_WARNING(MAP_DEBUG) << "a new event is acquiring control when the previous event has not "
                                     "released control over this sprite, object id: " << GetObjectID() << std::endl;
     }
-    control_event = event;
+    _control_event = event;
 }
-
-
 
 void VirtualSprite::ReleaseControl(SpriteEvent *event)
 {
-    if(event == NULL) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << std::endl;
+    if(event == nullptr) {
+        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was nullptr" << std::endl;
         return;
     }
 
-    if(control_event == NULL) {
+    if(_control_event == nullptr) {
         IF_PRINT_WARNING(MAP_DEBUG) << "no event had control over this sprite, object id: " << GetObjectID() << std::endl;
-    } else if(control_event != event) {
+    } else if(_control_event != event) {
         IF_PRINT_WARNING(MAP_DEBUG) << "a different event has control of this sprite, object id: " << GetObjectID() << std::endl;
     } else {
-        control_event = NULL;
+        _control_event = nullptr;
     }
 }
-
-
 
 void VirtualSprite::SaveState()
 {
     _state_saved = true;
-    _saved_direction = direction;
-    _saved_movement_speed = movement_speed;
-    _saved_moving = moving;
+    _saved_direction = _direction;
+    _saved_movement_speed = _movement_speed;
+    _saved_moving = _moving;
     MapMode::CurrentInstance()->GetEventSupervisor()->PauseAllEvents(this);
 }
-
-
 
 void VirtualSprite::RestoreState()
 {
@@ -508,57 +605,18 @@ void VirtualSprite::RestoreState()
         IF_PRINT_WARNING(MAP_DEBUG) << "restoring state when no saved state was detected" << std::endl;
 
     _state_saved = false;
-    direction = _saved_direction;
-    movement_speed = _saved_movement_speed;
-    moving = _saved_moving;
+    _direction = _saved_direction;
+    _movement_speed = _saved_movement_speed;
+    _moving = _saved_moving;
     MapMode::CurrentInstance()->GetEventSupervisor()->ResumeAllEvents(this);
-}
-
-
-void VirtualSprite::_StartBattleEncounter(EnemySprite *enemy)
-{
-
-    // Start a map-to-battle transition animation sequence
-    BattleMode *BM = new BattleMode();
-
-    std::string battle_background = enemy->GetBattleBackground();
-    if(!battle_background.empty())
-        BM->GetMedia().SetBackgroundImage(battle_background);
-
-    std::string enemy_battle_music = enemy->GetBattleMusicTheme();
-    if(!enemy_battle_music.empty())
-        BM->GetMedia().SetBattleMusic(enemy_battle_music);
-
-    const std::vector<BattleEnemyInfo>& enemy_party = enemy->RetrieveRandomParty();
-    for(uint32 i = 0; i < enemy_party.size(); ++i) {
-        BM->AddEnemy(enemy_party[i].enemy_id,
-                     enemy_party[i].position_x,
-                     enemy_party[i].position_y);
-    }
-
-    std::vector<std::string> enemy_battle_scripts = enemy->GetBattleScripts();
-    if(!enemy_battle_scripts.empty())
-        BM->GetScriptSupervisor().SetScripts(enemy_battle_scripts);
-
-    TransitionToBattleMode *TM = new TransitionToBattleMode(BM, enemy->IsBoss());
-
-    // Indicates to the potential enemy zone that this spawn is dead.
-    EnemyZone *zone = enemy->GetEnemyZone();
-    if (zone)
-        zone->DecreaseSpawnsLeft();
-
-    // Make all enemy sprites disappear after creating the transition mode so that the player
-    // can't be cornerned and forced into multiple battles in succession.
-    MapMode::CurrentInstance()->GetObjectSupervisor()->SetAllEnemyStatesToDead();
-
-    ModeManager->Push(TM);
 }
 
 // ****************************************************************************
 // ********** MapSprite class methods
 // ****************************************************************************
 
-MapSprite::MapSprite() :
+MapSprite::MapSprite(MapObjectDrawLayer layer) :
+    VirtualSprite(layer),
     _face_portrait(0),
     _has_running_animations(false),
     _current_anim_direction(ANIM_SOUTH),
@@ -569,9 +627,10 @@ MapSprite::MapSprite() :
     _dialogue_started(false),
     _custom_animation_on(false),
     _custom_animation_time(0),
+    _infinite_custom_animation(false),
     _saved_current_anim_direction(ANIM_SOUTH)
 {
-    MapObject::_object_type = SPRITE_TYPE;
+    _object_type = SPRITE_TYPE;
 
     // Points the current animation to the standing animation vector by default
     _animation = &_standing_animations;
@@ -581,6 +640,13 @@ MapSprite::~MapSprite()
 {
     if(_face_portrait)
         delete _face_portrait;
+}
+
+MapSprite* MapSprite::Create(MapObjectDrawLayer layer)
+{
+    // The object auto register to the object supervisor
+    // and will later handle deletion.
+    return new MapSprite(layer);
 }
 
 bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std::string &filename)
@@ -705,7 +771,7 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
         }
 
         // Rescale to fit the map mode coordinates system.
-        MapMode::ScaleToMapCoords(animations[i]);
+        MapMode::ScaleToMapZoomRatio(animations[i]);
     }
 
     animations_script.CloseTable(); // sprite_animation table
@@ -725,6 +791,7 @@ void MapSprite::ClearAnimations()
     _current_custom_animation = 0;
     _custom_animation_on = false;
     _custom_animation_time = 0;
+    _infinite_custom_animation = false;
     _custom_animations.clear();
 }
 
@@ -754,15 +821,15 @@ bool MapSprite::LoadCustomAnimation(const std::string &animation_name, const std
 
     AnimatedImage animation;
     if(animation.LoadFromAnimationScript(filename)) {
-        MapMode::ScaleToMapCoords(animation);
+        MapMode::ScaleToMapZoomRatio(animation);
         _custom_animations.insert(std::make_pair(animation_name, animation));
         return true;
     }
 
     return false;
-} // bool MapSprite::LoadCustomAnimations()
+}
 
-void MapSprite::SetCustomAnimation(const std::string &animation_name, uint32 time)
+void MapSprite::SetCustomAnimation(const std::string &animation_name, int32 time)
 {
     // If there is no key, there will be no custom animation to display
     if(animation_name.empty()) {
@@ -781,18 +848,15 @@ void MapSprite::SetCustomAnimation(const std::string &animation_name, uint32 tim
 
     AnimatedImage &animation = it->second;
     animation.ResetAnimation();
-    if(time == 0) {
-        time = animation.GetAnimationLength();
-    }
-    // Still check the animation length
-    if(time == 0) {
-        _custom_animation_on = false;
-        PRINT_WARNING << "Zero-length custom animation '" << animation_name
-            << "' for sprite: " << GetSpriteName() << std::endl;
-        return;
-    }
 
-    _custom_animation_time = (int32)time;
+    _infinite_custom_animation = false;
+    if(time == -1)
+        time = animation.GetAnimationLength();
+    else if (time == 0)
+        _infinite_custom_animation = true;
+
+
+    _custom_animation_time = time;
     _current_custom_animation = &animation;
     _custom_animation_on = true;
 }
@@ -816,10 +880,10 @@ void MapSprite::ReloadSprite(const std::string& sprite_name)
 
     SetName(script.ReadString("name"));
     SetSpriteName(sprite_name);
-    SetCollHalfWidth(script.ReadFloat("coll_half_width"));
-    SetCollHeight(script.ReadFloat("coll_height"));
-    SetImgHalfWidth(script.ReadFloat("img_half_width"));
-    SetImgHeight(script.ReadFloat("img_height"));
+    SetCollPixelHalfWidth(script.ReadFloat("coll_half_width"));
+    SetCollPixelHeight(script.ReadFloat("coll_height"));
+    SetImgPixelHalfWidth(script.ReadFloat("img_half_width"));
+    SetImgPixelHeight(script.ReadFloat("img_height"));
     if (script.DoesStringExist("face_portrait"))
         LoadFacePortrait(script.ReadString("face_portrait"));
 
@@ -872,7 +936,7 @@ void MapSprite::LoadFacePortrait(const std::string &filename)
 void MapSprite::Update()
 {
     // Stores the last value of moved_position to determine when a change in sprite movement between calls to this function occurs
-    static bool was_moved = moved_position;
+    bool was_moved = _moved_position;
 
     // This call will update the sprite's position and perform collision detection
     VirtualSprite::Update();
@@ -880,16 +944,17 @@ void MapSprite::Update()
     // if it's a custom animation, just display that and ignore everything else
     if(_custom_animation_on && _current_custom_animation) {
         // Check whether the custom animation can be freed
-        if(_custom_animation_time <= 0) {
+        if(!_infinite_custom_animation && _custom_animation_time <= 0) {
             _custom_animation_on = false;
             _current_custom_animation = 0;
             _custom_animation_time = 0;
         } else {
-            _custom_animation_time -= SystemManager->GetUpdateTime();
+            if (!_infinite_custom_animation)
+                _custom_animation_time -= SystemManager->GetUpdateTime();
             _current_custom_animation->Update();
         }
 
-        was_moved = moved_position;
+        was_moved = _moved_position;
         return;
     }
 
@@ -898,22 +963,22 @@ void MapSprite::Update()
     std::vector<AnimatedImage>* last_animation = _animation;
 
     // Set the sprite's animation to the standing still position if movement has just stopped
-    if(!moved_position) {
+    if(!_moved_position) {
         // Set the current movement animation to zero progress
         if(was_moved)
             _animation->at(_current_anim_direction).ResetAnimation();
 
         // Determine the correct standing frame to display
-        if(!control_event || _state_saved) {
+        if(!_control_event || _state_saved) {
             _animation = &_standing_animations;
 
-            if(direction & FACING_NORTH) {
+            if(_direction & FACING_NORTH) {
                 _current_anim_direction = ANIM_NORTH;
-            } else if(direction & FACING_SOUTH) {
+            } else if(_direction & FACING_SOUTH) {
                 _current_anim_direction = ANIM_SOUTH;
-            } else if(direction & FACING_WEST) {
+            } else if(_direction & FACING_WEST) {
                 _current_anim_direction = ANIM_WEST;
-            } else if(direction & FACING_EAST) {
+            } else if(_direction & FACING_EAST) {
                 _current_anim_direction = ANIM_EAST;
             } else {
                 PRINT_ERROR << "invalid sprite direction, could not find proper standing animation to draw" << std::endl;
@@ -923,20 +988,20 @@ void MapSprite::Update()
 
     else { // then (moved_position)
         // Determine the correct animation to display
-        if(direction & FACING_NORTH) {
+        if(_direction & FACING_NORTH) {
             _current_anim_direction = ANIM_NORTH;
-        } else if(direction & FACING_SOUTH) {
+        } else if(_direction & FACING_SOUTH) {
             _current_anim_direction = ANIM_SOUTH;
-        } else if(direction & FACING_WEST) {
+        } else if(_direction & FACING_WEST) {
             _current_anim_direction = ANIM_WEST;
-        } else if(direction & FACING_EAST) {
+        } else if(_direction & FACING_EAST) {
             _current_anim_direction = ANIM_EAST;
         } else {
             PRINT_ERROR << "invalid sprite direction, could not find proper standing animation to draw" << std::endl;
         }
 
         // Increasing the animation index by four from the walking _animations leads to the running _animations
-        if(is_running && _has_running_animations) {
+        if(_is_running && _has_running_animations) {
             _animation = &_running_animations;
         } else {
             _animation = &_walking_animations;
@@ -954,12 +1019,12 @@ void MapSprite::Update()
     // Take care of adapting the update time according to the sprite speed when walking or running
     uint32 elapsed_time = 0;
     if(_animation == &_walking_animations || (_has_running_animations && _animation == &_running_animations)) {
-        elapsed_time = (uint32)(((float)vt_system::SystemManager->GetUpdateTime()) * NORMAL_SPEED / movement_speed);
+        elapsed_time = (uint32)(((float)vt_system::SystemManager->GetUpdateTime()) * NORMAL_SPEED / _movement_speed);
     }
 
     _animation->at(_current_anim_direction).Update(elapsed_time);
 
-    was_moved = moved_position;
+    was_moved = _moved_position;
 } // void MapSprite::Update()
 
 void MapSprite::_DrawDebugInfo()
@@ -967,21 +1032,21 @@ void MapSprite::_DrawDebugInfo()
     // Draw collision rectangle if the debug view is on.
     float x, y = 0.0f;
     VideoManager->GetDrawPosition(x, y);
-    MapRectangle rect = GetCollisionRectangle(x, y);
+    MapRectangle rect = GetScreenCollisionRectangle(x, y);
     VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 0.0f, 1.0f, 0.6f));
 
     // Show a potential active path
-    if(control_event && control_event->GetEventType() == PATH_MOVE_SPRITE_EVENT) {
-        PathMoveSpriteEvent *path_event = (PathMoveSpriteEvent *)control_event;
+    if(_control_event && _control_event->GetEventType() == PATH_MOVE_SPRITE_EVENT) {
+        PathMoveSpriteEvent *path_event = (PathMoveSpriteEvent *)_control_event;
         if(path_event) {
             Path path = path_event->GetPath();
-            MapMode *map = MapMode::CurrentInstance();
+            MapMode *map_mode = MapMode::CurrentInstance();
             for(uint32 i = 0; i < path.size(); ++i) {
-                float x_pos = path[i].x - map->GetMapFrame().screen_edges.left;
-                float y_pos = path[i].y - map->GetMapFrame().screen_edges.top;
+                float x_pos = map_mode->GetScreenXCoordinate(path[i].x);
+                float y_pos = map_mode->GetScreenYCoordinate(path[i].y);
                 VideoManager->Move(x_pos, y_pos);
 
-                VideoManager->DrawRectangle(0.2, 0.2f, Color(0.0f, 1.0f, 1.0f, 0.6f));
+                VideoManager->DrawRectangle(GRID_LENGTH / 2, GRID_LENGTH / 2, Color(0.0f, 1.0f, 1.0f, 0.6f));
             }
         }
     }
@@ -1029,13 +1094,13 @@ void MapSprite::DrawDialog()
         icon_alpha = 0.0f;
     icon_color.SetAlpha(icon_alpha);
 
-    VideoManager->MoveRelative(0, -GetImgHeight());
+    VideoManager->MoveRelative(0, -GetImgScreenHeight());
     map_mode->GetDialogueIcon().Draw(icon_color);
 }
 
-void MapSprite::AddDialogueReference(uint32 dialogue_id)
+void MapSprite::AddDialogueReference(SpriteDialogue* dialogue)
 {
-    _dialogue_references.push_back(dialogue_id);
+    _dialogue_references.push_back(dialogue->GetDialogueID());
     UpdateDialogueStatus();
 }
 
@@ -1045,8 +1110,9 @@ void MapSprite::ClearDialogueReferences()
     UpdateDialogueStatus();
 }
 
-void MapSprite::RemoveDialogueReference(uint32 dialogue_id)
+void MapSprite::RemoveDialogueReference(SpriteDialogue* dialogue)
 {
+    std::string dialogue_id = dialogue->GetDialogueID();
     // Remove all dialogues with the given reference (for the case, the same dialogue was add several times)
     for(uint32 i = 0; i < _dialogue_references.size(); i++) {
         if(_dialogue_references[i] == dialogue_id)
@@ -1058,15 +1124,15 @@ void MapSprite::RemoveDialogueReference(uint32 dialogue_id)
 void MapSprite::InitiateDialogue()
 {
     if(_dialogue_references.empty()) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "sprite: " << object_id << " has no dialogue referenced" << std::endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "sprite: " << _object_id << " has no dialogue referenced" << std::endl;
         return;
     }
 
     SaveState();
-    moving = false;
+    _moving = false;
     _dialogue_started = true;
     SetDirection(CalculateOppositeDirection(MapMode::CurrentInstance()->GetCamera()->GetDirection()));
-    MapMode::CurrentInstance()->GetDialogueSupervisor()->BeginDialogue(_dialogue_references[_next_dialogue]);
+    MapMode::CurrentInstance()->GetDialogueSupervisor()->StartDialogue(_dialogue_references[_next_dialogue]);
     IncrementNextDialogue();
 }
 
@@ -1075,12 +1141,10 @@ void MapSprite::UpdateDialogueStatus()
     _has_available_dialogue = false;
     _has_unseen_dialogue = false;
 
-    SpriteDialogue *dialogue = NULL;
-
     for(uint32 i = 0; i < _dialogue_references.size(); i++) {
-        dialogue = MapMode::CurrentInstance()->GetDialogueSupervisor()->GetDialogue(_dialogue_references[i]);
+        SpriteDialogue* dialogue = MapMode::CurrentInstance()->GetDialogueSupervisor()->GetDialogue(_dialogue_references[i]);
         if(!dialogue) {
-            PRINT_WARNING << "sprite: " << object_id << " is referencing unknown dialogue: "
+            PRINT_WARNING << "sprite: " << _object_id << " is referencing unknown dialogue: "
                           << _dialogue_references[i] << std::endl;
             continue;
         }
@@ -1152,54 +1216,63 @@ void MapSprite::RestoreState()
     _current_anim_direction = _saved_current_anim_direction;
 }
 
+const std::string& MapSprite::GetNextDialogueID() const
+{
+    if (_next_dialogue >= 0 && _next_dialogue < static_cast<int16>(_dialogue_references.size()))
+        return _dialogue_references[_next_dialogue];
+    else
+        return vt_utils::_empty_string;
+}
+
 // *****************************************************************************
 // ********** EnemySprite class methods
 // *****************************************************************************
 
 EnemySprite::EnemySprite() :
-    _zone(NULL),
+    MapSprite(GROUND_OBJECT),
+    _zone(nullptr),
     _color(1.0f, 1.0f, 1.0f, 0.0f),
     _aggro_range(8.0f),
-    _time_dir_change(2500),
+    _time_before_new_destination(1200),
     _time_to_spawn(STANDARD_ENEMY_FIRST_SPAWN_TIME),
-    _out_of_zone(false),
-    _is_boss(false)
+    _time_to_respawn(STANDARD_ENEMY_SPAWN_TIME),
+    _is_boss(false),
+    _use_path(false)
 {
-    MapObject::_object_type = ENEMY_TYPE;
-    moving = true;
+    _object_type = ENEMY_TYPE;
+    _moving = false;
     Reset();
 }
 
-
-
-EnemySprite::EnemySprite(const std::string &file) :
-    _zone(NULL),
-    _color(1.0f, 1.0f, 1.0f, 0.0f),
-    _aggro_range(8.0f),
-    _time_dir_change(2500),
-    _time_to_spawn(STANDARD_ENEMY_FIRST_SPAWN_TIME),
-    _out_of_zone(false),
-    _is_boss(false)
+EnemySprite* EnemySprite::Create()
 {
-    _filename = file;
-    MapObject::_object_type = ENEMY_TYPE;
-    moving = true;
-    Reset();
+    // The object auto register to the object supervisor
+    // and will later handle deletion.
+    return new EnemySprite();
 }
-
-
 
 void EnemySprite::Reset()
 {
-    updatable = false;
-    collision_mask = NO_COLLISION;
+    _updatable = false;
+    _collision_mask = NO_COLLISION;
     _state = DEAD;
     _time_elapsed = 0;
     _color.SetAlpha(0.0f);
-    _out_of_zone = false;
+
+    // Reset path finding info
+    _last_node_x_position = 0.0f;
+    _last_node_x_position = 0.0f;
+    _current_node_x = 0.0f;
+    _current_node_y = 0.0f;
+    _destination_x = 0.0f;
+    _destination_y = 0.0f;
+    _current_node_id = 0;
+    _path.clear();
+    _use_path = false;
+
+    // Reset the currently selected way point
+    _current_way_point_id = 0;
 }
-
-
 
 void EnemySprite::AddEnemy(uint32 enemy_id, float position_x, float position_y)
 {
@@ -1211,7 +1284,6 @@ void EnemySprite::AddEnemy(uint32 enemy_id, float position_x, float position_y)
     BattleEnemyInfo enemy_info(enemy_id, position_x, position_y);
     _enemy_parties.back().push_back(enemy_info);
 }
-
 
 // Static empty enemy party used to prevent temporary reference returns.
 static const std::vector<BattleEnemyInfo> empty_enemy_party;
@@ -1226,19 +1298,15 @@ const std::vector<BattleEnemyInfo>& EnemySprite::RetrieveRandomParty() const
     return _enemy_parties[rand() % _enemy_parties.size()];
 }
 
-
-
 void EnemySprite::ChangeStateHostile()
 {
-    updatable = true;
+    _updatable = true;
     _state = HOSTILE;
-    collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
+    _collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
     _color.SetAlpha(1.0);
-    // The next spawn time will be longer than the first one.
-    _time_to_spawn = STANDARD_ENEMY_SPAWN_TIME;
+    // Set the next spawn time, usually longer than the first one.
+    _time_to_spawn = _time_to_respawn;
 }
-
-
 
 void EnemySprite::Update()
 {
@@ -1254,78 +1322,10 @@ void EnemySprite::Update()
         break;
 
         // Set the sprite's direction so that it seeks to collide with the map camera's position
-    case HOSTILE: {
-        _time_elapsed += SystemManager->GetUpdateTime();
-
-        // Holds the x and y deltas between the sprite and map camera coordinate pairs
-        float xdelta, ydelta;
-        VirtualSprite *camera = MapMode::CurrentInstance()->GetCamera();
-        float camera_x = camera->GetXPosition();
-        float camera_y = camera->GetYPosition();
-
-        xdelta = GetXPosition() - camera_x;
-        ydelta = GetYPosition() - camera_y;
-
-        // Test whether the monster has spotted its target.
-        bool player_in_aggro_range = false;
-        if(fabs(xdelta) <= _aggro_range && fabs(ydelta) <= _aggro_range)
-            player_in_aggro_range = true;
-
-        // check whether the monster has the right to get out of the roaming zone
-        bool can_get_out_of_zone = false;
-        if(player_in_aggro_range && !_zone->IsAgressionRestrainedtoRoamingZone())
-            can_get_out_of_zone = true;
-        else if(!player_in_aggro_range && !_zone->IsRoamingRestrained())
-            can_get_out_of_zone = true;
-
-        // If the sprite has moved outside of its zone and it should not, reverse the sprite's direction
-        if(_zone && !_zone->IsInsideZone(GetXPosition(), GetYPosition())
-                && !can_get_out_of_zone) {
-            // Make sure it wasn't already out (stuck on boundaries fix)
-            if(!_out_of_zone) {
-                SetDirection(CalculateOppositeDirection(GetDirection()));
-                // The sprite is now finding its way back into the zone
-                _out_of_zone = true;
-            }
-        }
-        // Otherwise, determine the direction that the sprite should move if the camera is within the sprite's aggression range
-        else {
-            _out_of_zone = false;
-
-            // Enemies will only get aggressive if the camera is inside the zone, or the zone is non-restrictive
-            // The order of comparaisons here is important,
-            // the NULL check MUST come before the rest or a null pointer exception could happen if no zone is registered
-            if(MapMode::CurrentInstance()->AttackAllowed()
-                    && (_zone == NULL || (can_get_out_of_zone || _zone->IsInsideZone(camera_x, camera_y)))) {
-                if(xdelta > -0.5 && xdelta < 0.5 && ydelta < 0)
-                    SetDirection(SOUTH);
-                else if(xdelta > -0.5 && xdelta < 0.5 && ydelta > 0)
-                    SetDirection(NORTH);
-                else if(ydelta > -0.5 && ydelta < 0.5 && xdelta > 0)
-                    SetDirection(WEST);
-                else if(ydelta > -0.5 && ydelta < 0.5 && xdelta < 0)
-                    SetDirection(EAST);
-                else if(xdelta < 0 && ydelta < 0)
-                    SetDirection(MOVING_SOUTHEAST);
-                else if(xdelta < 0 && ydelta > 0)
-                    SetDirection(MOVING_NORTHEAST);
-                else if(xdelta > 0 && ydelta < 0)
-                    SetDirection(MOVING_SOUTHWEST);
-                else
-                    SetDirection(MOVING_NORTHWEST);
-            }
-            // If the sprite is not within the aggression range, pick a random direction to move
-            else {
-                if(_time_elapsed >= GetTimeToChange()) {
-                    SetRandomDirection();
-                    _time_elapsed = 0;
-                }
-            }
-        }
-
-        MapSprite::Update();
+    case HOSTILE:
+        _HandleHostileUpdate();
         break;
-    }
+
     // Do nothing if the sprite is in the DEAD state, or any other state
     case DEAD:
     default:
@@ -1333,23 +1333,306 @@ void EnemySprite::Update()
     }
 } // void EnemySprite::Update()
 
+void EnemySprite::_HandleHostileUpdate()
+{
+    // Holds the x and y deltas between the sprite and map camera coordinate pairs
+    VirtualSprite* camera = MapMode::CurrentInstance()->GetCamera();
+    float camera_x = camera->GetXPosition();
+    float camera_y = camera->GetYPosition();
 
+    float xdelta = GetXPosition() - camera_x;
+    float ydelta = GetYPosition() - camera_y;
+    float abs_xdelta = fabs(xdelta);
+    float abs_ydelta = fabs(ydelta);
+
+    // Don't update enemies that are too far away...
+    if (abs_xdelta > SCREEN_GRID_X_LENGTH || abs_ydelta > SCREEN_GRID_Y_LENGTH)
+        return;
+
+    // Updates sprite animation and collision fix.
+    MapSprite::Update();
+
+    // Test whether the monster has spotted its target.
+    bool player_in_aggro_range = false;
+    if(abs_xdelta <= _aggro_range && abs_ydelta <= _aggro_range)
+        player_in_aggro_range = true;
+
+    // Handle chasing the character
+    MapMode* map_mode = MapMode::CurrentInstance();
+    if (player_in_aggro_range && map_mode->AttackAllowed()) {
+        // We first cancel the potential previous path.
+        if (!_path.empty()) {
+            // We cancel any previous path
+            _path.clear();
+            // We set the correct mask before moving normally
+            _collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
+            _use_path = false;
+        }
+
+        // Check whether we're already colliding, so that even when not moving
+        // we can start a battle.
+        if (this->IsCollidingWith(camera))
+            map_mode->StartEnemyEncounter(this);
+
+        // Make the monster go toward the character
+        if(xdelta > -0.5 && xdelta < 0.5 && ydelta < 0)
+            SetDirection(SOUTH);
+        else if(xdelta > -0.5 && xdelta < 0.5 && ydelta > 0)
+            SetDirection(NORTH);
+        else if(ydelta > -0.5 && ydelta < 0.5 && xdelta > 0)
+            SetDirection(WEST);
+        else if(ydelta > -0.5 && ydelta < 0.5 && xdelta < 0)
+            SetDirection(EAST);
+        else if(xdelta < 0 && ydelta < 0)
+            SetDirection(MOVING_SOUTHEAST);
+        else if(xdelta < 0 && ydelta > 0)
+            SetDirection(MOVING_NORTHEAST);
+        else if(xdelta > 0 && ydelta < 0)
+            SetDirection(MOVING_SOUTHWEST);
+        else
+            SetDirection(MOVING_NORTHWEST);
+        _moving = true;
+
+        return;
+    }
+
+    // Handle monsters with way points.
+    if (!_way_points.empty()) {
+
+        // Update the wait time until next path between two way points.
+        if (!_use_path || !_moving)
+            _time_elapsed += SystemManager->GetUpdateTime();
+
+        if (_path.empty() && _time_elapsed >= _time_before_new_destination) {
+            if (!_SetPathToNextWayPoint()) {
+                // Fall back to simple movement mode
+                SetRandomDirection();
+                _moving = true;
+            }
+            // The sprite is now finding its way back into the zone
+            _time_elapsed = 0;
+        }
+
+        if (_use_path && _path.empty()) {
+            // The sprite is waiting for the next destination.
+            _moving = false;
+            // We then reset the correct walk mask
+            _collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
+        }
+
+        // Update the sprite direction according to the path
+        _UpdatePath();
+        return;
+    }
+
+    // Determine standard monster behavior regarding its zone.
+
+    // Update the wait time until two set destination.
+    _time_elapsed += SystemManager->GetUpdateTime();
+
+    // Check whether the monster can get out of the zone.
+    bool can_get_out_of_zone = true;
+    if (_zone && _zone->IsRoamingRestrained() && !player_in_aggro_range)
+        can_get_out_of_zone = false;
+
+    if (!can_get_out_of_zone) {
+        // Check whether the monster is inside its zone
+        bool out_of_zone = false;
+        if (_zone && !_zone->IsInsideZone(GetXPosition(), GetYPosition()))
+            out_of_zone = true;
+
+        if (out_of_zone && _time_elapsed >= _time_before_new_destination) {
+            // The sprite is now finding its way back into the zone
+            float x_dest;
+            float y_dest;
+            _zone->RandomPosition(x_dest, y_dest);
+            LookAt(x_dest, y_dest);
+            _moving = true;
+
+            _time_elapsed = 0;
+            return;
+        }
+    }
+
+    // Make the monster wander randomly in other cases
+    if (_time_elapsed >= _time_before_new_destination) {
+        SetRandomDirection();
+        _moving = true;
+        _time_elapsed = 0;
+    }
+}
 
 void EnemySprite::Draw()
 {
     // Otherwise, only draw it if it is not in the DEAD state
-    if (MapObject::ShouldDraw() == true && _state != DEAD) {
-        _animation->at(_current_anim_direction).Draw(_color);
+    if (!MapObject::ShouldDraw() || _state == DEAD)
+        return;
 
-        // Draw collision rectangle if the debug view is on.
-        if (VideoManager->DebugInfoOn()) {
-            float x, y = 0.0f;
-            VideoManager->GetDrawPosition(x, y);
-            MapRectangle rect = GetCollisionRectangle(x, y);
-            VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(1.0f, 0.0f, 0.0f, 0.6f));
+    _animation->at(_current_anim_direction).Draw(_color);
+
+    // Draw collision rectangle if the debug view is on.
+    if (!VideoManager->DebugInfoOn())
+        return;
+
+    float x, y = 0.0f;
+    VideoManager->GetDrawPosition(x, y);
+    MapRectangle rect = GetScreenCollisionRectangle(x, y);
+    VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(1.0f, 0.0f, 0.0f, 0.6f));
+}
+
+void EnemySprite::AddWayPoint(float destination_x, float destination_y)
+{
+    MapPosition destination(destination_x, destination_y);
+
+    // Check whether the way point is already existing
+    for (uint32 i = 0; i < _way_points.size(); ++i) {
+        if (_way_points[i].x == destination_x && _way_points[i].y == destination_y) {
+            PRINT_WARNING << "Way point already added: (" << destination_x << ", "
+                << destination_y << ")" << std::endl;
+            return;
         }
     }
+
+    _way_points.push_back(destination);
 }
+
+bool EnemySprite::_SetPathToNextWayPoint()
+{
+    //! Will be set to true if _SetDestination() is succeeding
+    _use_path = false;
+
+    // There must be at least two way points to permit supporting those.
+    if (_way_points.size() < 2)
+        return false;
+
+    if (_current_way_point_id >= _way_points.size())
+        _current_way_point_id = 0;
+
+    bool ret = _SetDestination(_way_points[_current_way_point_id].x, _way_points[_current_way_point_id].y, 0);
+    ++_current_way_point_id;
+
+    return ret;
+}
+
+void EnemySprite::_UpdatePath()
+{
+    if(!_use_path || _path.empty())
+        return;
+
+    float sprite_position_x = GetXPosition();
+    float sprite_position_y = GetYPosition();
+    float distance_moved = CalculateDistanceMoved();
+
+    // Check whether the sprite has arrived at the position of the current node
+    if(vt_utils::IsFloatEqual(sprite_position_x, _current_node_x, distance_moved)
+            && vt_utils::IsFloatEqual(sprite_position_y, _current_node_y, distance_moved)) {
+        ++_current_node_id;
+
+        if(_current_node_id < _path.size()) {
+            _current_node_x = _path[_current_node_id].x;
+            _current_node_y = _path[_current_node_id].y;
+        }
+    }
+    // If the sprite has moved to a new position other than the next node, adjust its direction so it is trying to move to the next node
+    else if((sprite_position_x != _last_node_x_position) || (sprite_position_y != _last_node_y_position)) {
+        _last_node_x_position = sprite_position_x;
+        _last_node_y_position = sprite_position_y;
+    }
+
+    _SetSpritePathDirection();
+
+    // End the path event
+    if(vt_utils::IsFloatEqual(sprite_position_x, _destination_x, distance_moved)
+            && vt_utils::IsFloatEqual(sprite_position_y, _destination_y, distance_moved)) {
+        _path.clear();
+    }
+}
+
+bool EnemySprite::_SetDestination(float destination_x, float destination_y, uint32 max_cost)
+{
+    _path.clear();
+    _use_path = false;
+
+    uint32 dest_x = (uint32) destination_x;
+    uint32 dest_y = (uint32) destination_y;
+    uint32 pos_x = (uint32) GetXPosition();
+    uint32 pos_y = (uint32) GetYPosition();
+
+    // Don't check the path if the sprite is there.
+    if (pos_x == dest_x && pos_y == dest_y)
+        return false;
+
+    MapPosition dest(destination_x, destination_y);
+    // We set the correct mask before finding the path
+    _collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
+    _path = MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(this, dest, max_cost);
+
+    if (_path.empty())
+        return false;
+
+    // But remove wall collision afterward to avoid making it stuck in corners.
+    // Note: this function is only called when hostile, son we don't deal with
+    // the spawning collision mask.
+    _collision_mask = CHARACTER_COLLISION;
+
+    _current_node_id = 0;
+    _last_node_x_position = GetXPosition();
+    _last_node_y_position = GetYPosition();
+    _destination_x = destination_x;
+    _destination_y = destination_y;
+
+    _current_node_x = _path[_current_node_id].x;
+    _current_node_y = _path[_current_node_id].y;
+
+    _moving = true;
+    _use_path = true;
+    return true;
+}
+
+void EnemySprite::_SetSpritePathDirection()
+{
+    if (!_use_path || _path.empty())
+        return;
+
+    uint16 direction = 0;
+
+    float sprite_position_x = GetXPosition();
+    float sprite_position_y = GetYPosition();
+    float distance_moved = CalculateDistanceMoved();
+
+    if(sprite_position_y - _current_node_y > distance_moved) {
+        direction |= NORTH;
+    } else if(sprite_position_y - _current_node_y < -distance_moved) {
+        direction |= SOUTH;
+    }
+
+    if(sprite_position_x - _current_node_x > distance_moved) {
+        direction |= WEST;
+    } else if(sprite_position_x - _current_node_x < -distance_moved) {
+        direction |= EAST;
+    }
+
+    // Determine if the sprite should move diagonally to the next node
+    if((direction & (NORTH | SOUTH)) && (direction & (WEST | EAST))) {
+        switch(direction) {
+        case(NORTH | WEST):
+            direction = MOVING_NORTHWEST;
+            break;
+        case(NORTH | EAST):
+            direction = MOVING_NORTHEAST;
+            break;
+        case(SOUTH | WEST):
+            direction = MOVING_SOUTHWEST;
+            break;
+        case(SOUTH | EAST):
+            direction = MOVING_SOUTHEAST;
+            break;
+        }
+    }
+
+    SetDirection(direction);
+}
+
 
 } // namespace private_map
 

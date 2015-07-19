@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -18,6 +18,11 @@
 *** \brief   Source file for battle mode interface.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
+#include "modes/battle/battle.h"
+
+#include "common/dialogue.h"
+
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"
@@ -26,11 +31,9 @@
 
 #include "modes/pause.h"
 
-#include "modes/battle/battle.h"
 #include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_actions.h"
 #include "modes/battle/battle_command.h"
-#include "modes/battle/battle_dialogue.h"
 #include "modes/battle/battle_finish.h"
 #include "modes/battle/battle_sequence.h"
 #include "modes/battle/battle_utils.h"
@@ -54,10 +57,13 @@ namespace vt_battle
 bool BATTLE_DEBUG = false;
 
 // Initialize static class variable
-BattleMode *BattleMode::_current_instance = NULL;
+BattleMode *BattleMode::_current_instance = nullptr;
 
 namespace private_battle
 {
+
+//! \brief This is the idle state wait time for the fastest actor, used to set idle state timers for all other actors
+const uint32 MIN_IDLE_WAIT_TIME = 10000;
 
 ////////////////////////////////////////////////////////////////////////////////
 // BattleMedia class
@@ -65,43 +71,43 @@ namespace private_battle
 
 // Filenames of the default music that is played when no specific music is requested
 //@{
-const char *DEFAULT_BATTLE_MUSIC   = "mus/heroism-OGA-Edward-J-Blakeley.ogg";
-const char *DEFAULT_VICTORY_MUSIC  = "mus/Fanfare.ogg";
-const char *DEFAULT_DEFEAT_MUSIC   = "mus/Battle_lost-OGA-Mumu.ogg";
+const std::string DEFAULT_BATTLE_MUSIC   = "data/music/heroism-OGA-Edward-J-Blakeley.ogg";
+const std::string DEFAULT_VICTORY_MUSIC  = "data/music/Fanfare.ogg";
+const std::string DEFAULT_DEFEAT_MUSIC   = "data/music/Battle_lost-OGA-Mumu.ogg";
 //@}
 
 BattleMedia::BattleMedia()
 {
-    if(!background_image.Load("img/backdrops/battle/desert_cave/desert_cave.png"))
+    if(!background_image.Load("data/battles/battle_scenes/desert_cave/desert_cave.png"))
         PRINT_ERROR << "failed to load default background image" << std::endl;
 
-    if(stamina_icon_selected.Load("img/menus/stamina_icon_selected.png") == false)
+    if(stamina_icon_selected.Load("data/gui/battle/stamina_icon_selected.png") == false)
         PRINT_ERROR << "failed to load stamina icon selected image" << std::endl;
 
     attack_point_indicator.SetDimensions(16.0f, 16.0f);
-    if(attack_point_indicator.LoadFromFrameGrid("img/icons/battle/attack_point_target.png",
+    if(attack_point_indicator.LoadFromFrameGrid("data/gui/battle/attack_point_target.png",
             std::vector<uint32>(4, 100), 1, 4) == false)
         PRINT_ERROR << "failed to load attack point indicator." << std::endl;
 
-    if(stamina_meter.Load("img/menus/stamina_bar.png") == false)
+    if(stamina_meter.Load("data/gui/battle/stamina_bar.png") == false)
         PRINT_ERROR << "failed to load time meter." << std::endl;
 
-    if(actor_selection_image.Load("img/icons/battle/character_selector.png") == false)
+    if(actor_selection_image.Load("data/gui/battle/character_selector.png") == false)
         PRINT_ERROR << "unable to load player selector image" << std::endl;
 
-    if(character_selected_highlight.Load("img/menus/battle_character_selection.png") == false)
+    if(character_selected_highlight.Load("data/gui/battle/battle_character_selection.png") == false)
         PRINT_ERROR << "failed to load character selection highlight image" << std::endl;
 
-    if(character_command_highlight.Load("img/menus/battle_character_command.png") == false)
+    if(character_command_highlight.Load("data/gui/battle/battle_character_command.png") == false)
         PRINT_ERROR << "failed to load character command highlight image" << std::endl;
 
-    if(bottom_menu_image.Load("img/menus/battle_bottom_menu.png") == false)
+    if(bottom_menu_image.Load("data/gui/battle/battle_bottom_menu.png") == false)
         PRINT_ERROR << "failed to load bottom menu image" << std::endl;
 
-    if(ImageDescriptor::LoadMultiImageFromElementGrid(character_action_buttons, "img/menus/battle_command_buttons.png", 2, 5) == false)
+    if(ImageDescriptor::LoadMultiImageFromElementGrid(character_action_buttons, "data/gui/battle/battle_command_buttons.png", 2, 5) == false)
         PRINT_ERROR << "failed to load character action buttons" << std::endl;
 
-    if(ImageDescriptor::LoadMultiImageFromElementGrid(_target_type_icons, "img/icons/effects/targets.png", 1, 8) == false)
+    if(ImageDescriptor::LoadMultiImageFromElementGrid(_target_type_icons, "data/skills/targets.png", 1, 8) == false)
         PRINT_ERROR << "failed to load character action buttons" << std::endl;
 
     character_HP_text.SetStyle(TextStyle("text18", Color::white));
@@ -109,17 +115,28 @@ BattleMedia::BattleMedia()
     character_SP_text.SetStyle(TextStyle("text18", Color::white));
     character_SP_text.SetText(Translate("SP"));
 
+    // Set the default battle music.
+    battle_music_filename = DEFAULT_BATTLE_MUSIC;
+    if (!AudioManager->LoadMusic(DEFAULT_BATTLE_MUSIC))
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load battle music file: " << DEFAULT_BATTLE_MUSIC << std::endl;
+
     if(victory_music.LoadAudio(DEFAULT_VICTORY_MUSIC) == false)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load victory music file: " << DEFAULT_VICTORY_MUSIC << std::endl;
 
     if(defeat_music.LoadAudio(DEFAULT_DEFEAT_MUSIC) == false)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load defeat music file: " << DEFAULT_DEFEAT_MUSIC << std::endl;
 
-    // Load the stunned icon
-    if(!_stunned_icon.Load("img/icons/effects/zzz.png"))
+    if(!_stunned_icon.Load("data/entities/emotes/zzz.png"))
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load stunned icon" << std::endl;
-}
 
+    if(!_escape_icon.Load("data/gui/battle/escape.png"))
+        PRINT_WARNING << "Failed to load escape icon image" << std::endl;
+
+    if(!_auto_battle_icon.Load("data/gui/battle/auto_battle.png"))
+        PRINT_WARNING << "Failed to load auto-battle icon image" << std::endl;
+
+    _auto_battle_activated.SetText(UTranslate("Auto-Battle"), TextStyle("text20", Color::white, vt_video::VIDEO_TEXT_SHADOW_NONE));
+}
 
 void BattleMedia::Update()
 {
@@ -127,7 +144,7 @@ void BattleMedia::Update()
 }
 
 
-void BattleMedia::SetBackgroundImage(const std::string &filename)
+void BattleMedia::SetBackgroundImage(const std::string& filename)
 {
     if(background_image.Load(filename) == false) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load background image: " << filename << std::endl;
@@ -135,11 +152,11 @@ void BattleMedia::SetBackgroundImage(const std::string &filename)
 }
 
 
-void BattleMedia::SetBattleMusic(const std::string &filename)
+void BattleMedia::SetBattleMusic(const std::string& filename)
 {
-    if(battle_music.LoadAudio(filename) == false) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load music file: " << filename << std::endl;
-    }
+    battle_music_filename = filename;
+    if (!AudioManager->LoadMusic(filename))
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load battle music file: " << filename << std::endl;
 }
 
 
@@ -147,7 +164,7 @@ StillImage *BattleMedia::GetCharacterActionButton(uint32 index)
 {
     if(index >= character_action_buttons.size()) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid index argument: " << index << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     return &(character_action_buttons[index]);
@@ -167,6 +184,7 @@ StillImage *BattleMedia::GetTargetTypeIcon(vt_global::GLOBAL_TARGET target_type)
         return &_target_type_icons[3];
     case GLOBAL_TARGET_ALLY:
     case GLOBAL_TARGET_ALLY_EVEN_DEAD:
+    case GLOBAL_TARGET_DEAD_ALLY_ONLY:
         return &_target_type_icons[4];
     case GLOBAL_TARGET_FOE:
         return &_target_type_icons[5];
@@ -176,7 +194,7 @@ StillImage *BattleMedia::GetTargetTypeIcon(vt_global::GLOBAL_TARGET target_type)
         return &_target_type_icons[7];
     default:
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid target type argument: " << target_type << std::endl;
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -186,12 +204,26 @@ StillImage *BattleMedia::GetTargetTypeIcon(vt_global::GLOBAL_TARGET target_type)
 // BattleMode class -- primary methods
 ////////////////////////////////////////////////////////////////////////////////
 
+// Fallback positions for enemies when not set by scripts
+const float DEFAULT_ENEMY_LOCATIONS[][2] = {
+    { 515.0f, 600.0f },
+    { 494.0f, 450.0f },
+    { 560.0f, 550.0f },
+    { 580.0f, 630.0f },
+    { 675.0f, 390.0f },
+    { 655.0f, 494.0f },
+    { 793.0f, 505.0f },
+    { 730.0f, 600.0f }
+}; // 8 positions are set [0-7]
+const uint32 NUM_DEFAULT_LOCATIONS = 8;
+
 BattleMode::BattleMode() :
+    GameMode(MODE_MANAGER_BATTLE_MODE),
     _state(BATTLE_STATE_INVALID),
-    _sequence_supervisor(NULL),
-    _command_supervisor(NULL),
-    _dialogue_supervisor(NULL),
-    _finish_supervisor(NULL),
+    _sequence_supervisor(nullptr),
+    _command_supervisor(nullptr),
+    _dialogue_supervisor(nullptr),
+    _finish_supervisor(nullptr),
     _current_number_swaps(0),
     _last_enemy_dying(false),
     _stamina_icon_alpha(1.0f),
@@ -199,19 +231,18 @@ BattleMode::BattleMode() :
     _scene_mode(false),
     _battle_type(BATTLE_TYPE_WAIT),
     _highest_agility(0),
-    _battle_type_time_factor(BATTLE_WAIT_FACTOR)
+    _battle_type_time_factor(BATTLE_WAIT_FACTOR),
+    _is_boss_battle(false),
+    _hero_init_boost(false),
+    _enemy_init_boost(false)
 {
     _current_instance = this;
 
-    mode_type = MODE_MANAGER_BATTLE_MODE;
-
     _sequence_supervisor = new SequenceSupervisor(this);
     _command_supervisor = new CommandSupervisor();
-    _dialogue_supervisor = new DialogueSupervisor();
+    _dialogue_supervisor = new vt_common::DialogueSupervisor();
     _finish_supervisor = new FinishSupervisor();
-} // BattleMode::BattleMode()
-
-
+}
 
 BattleMode::~BattleMode()
 {
@@ -234,7 +265,38 @@ BattleMode::~BattleMode()
     _enemy_party.clear();
 
     _ready_queue.clear();
-} // BattleMode::~BattleMode()
+}
+
+void BattleMode::_ResetMusicState()
+{
+    MusicDescriptor* music = AudioManager->RetrieveMusic(GetMedia().battle_music_filename);
+    MusicDescriptor* active_music = AudioManager->GetActiveMusic();
+
+    // Stop the current music if it's not the right one.
+    if (active_music != nullptr && music != active_music)
+        active_music->FadeOut(500);
+
+    // If there is no map music or the music is already in the correct state, don't do anything.
+    if (!music)
+        return;
+
+    switch(music->GetState()) {
+    case AUDIO_STATE_FADE_IN:
+    case AUDIO_STATE_PLAYING:
+        break;
+    case AUDIO_STATE_UNLOADED:
+    case AUDIO_STATE_FADE_OUT:
+    case AUDIO_STATE_PAUSED:
+    case AUDIO_STATE_STOPPED:
+    default:
+        // In case the music volume was modified, we fade it back in smoothly
+        if(music->GetVolume() < 1.0f)
+            music->FadeIn(1000);
+        else
+            music->Play();
+        break;
+    }
+}
 
 void BattleMode::Reset()
 {
@@ -242,12 +304,7 @@ void BattleMode::Reset()
 
     VideoManager->SetStandardCoordSys();
 
-    // Load the default battle music track if no other music has been added
-    if(_battle_media.battle_music.GetState() == AUDIO_STATE_UNLOADED) {
-        if(!_battle_media.battle_music.LoadAudio(DEFAULT_BATTLE_MUSIC)) {
-            IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load default battle music: " << DEFAULT_BATTLE_MUSIC << std::endl;
-        }
-    }
+    _ResetMusicState();
 
     if(_state == BATTLE_STATE_INVALID)
         _Initialize();
@@ -262,8 +319,8 @@ void BattleMode::RestartBattle()
     if (GetState() == BATTLE_STATE_INVALID)
         return;
 
-    // Reset potential battle scripts
-    GetScriptSupervisor().Reset();
+    // Restart potential battle scripts
+    GetScriptSupervisor().Restart();
 
     // Removes all enemies and readd only the ones that were present
     // at the beginning of the battle.
@@ -278,10 +335,7 @@ void BattleMode::RestartBattle()
 
     // Reset the state of all characters and enemies
     for(uint32 i = 0; i < _character_actors.size(); ++i)
-    {
         _character_actors[i]->ResetActor();
-        _ResetPassiveStatusEffects(*(_character_actors[i]));
-    }
 
     for(uint32 i = 0; i < _enemy_actors.size(); ++i)
         _enemy_actors[i]->ResetActor();
@@ -293,8 +347,9 @@ void BattleMode::RestartBattle()
     delete _command_supervisor;
     _command_supervisor = new CommandSupervisor();
 
-    _battle_media.battle_music.Rewind();
-    _battle_media.battle_music.Play();
+    MusicDescriptor* music = AudioManager->RetrieveMusic(GetMedia().battle_music_filename);
+    music->Rewind();
+    music->Play();
 
     ChangeState(BATTLE_STATE_INITIAL);
 }
@@ -322,6 +377,13 @@ void BattleMode::Update()
         return;
     }
 
+    if (InputManager->MenuPress() && !_scene_mode && (_state != BATTLE_STATE_COMMAND ||
+            _command_supervisor->GetState() == COMMAND_STATE_CATEGORY)) {
+        _battle_menu.Open();
+    }
+
+    _battle_menu.Update();
+
     if(_dialogue_supervisor->IsDialogueActive())
         _dialogue_supervisor->Update();
 
@@ -330,25 +392,22 @@ void BattleMode::Update()
     for(uint32 i = 0; i < _character_actors.size(); ++i) {
         _character_actors[i]->Update();
         _battle_objects.push_back(_character_actors[i]);
-        // Add also potential ammo objects
-        if(_character_actors[i]->GetAmmo().IsAmmoShown())
-            _battle_objects.push_back(&(_character_actors[i]->GetAmmo()));
     }
     for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
         _enemy_actors[i]->Update();
         _battle_objects.push_back(_enemy_actors[i]);
     }
 
-    // Add particle effects
-    for(std::vector<BattleParticleEffect *>::iterator it = _battle_particle_effects.begin();
-            it != _battle_particle_effects.end();) {
-        if((*it)->IsAlive()) {
+    // Add effects (particles and animations)
+    for(std::vector<BattleObject *>::iterator it = _battle_effects.begin();
+            it != _battle_effects.end();) {
+        if((*it)->CanBeRemoved()) {
+            delete (*it);
+            it = _battle_effects.erase(it);
+        } else {
             (*it)->Update();
             _battle_objects.push_back(*it);
             ++it;
-        } else {
-            delete (*it);
-            it = _battle_particle_effects.erase(it);
         }
     }
 
@@ -379,7 +438,7 @@ void BattleMode::Update()
         }
 
         // Holds a pointer to the character to select an action for
-        BattleCharacter *character_selection = NULL;
+        BattleCharacter *character_selection = nullptr;
 
         // The four keys below (up/down/left/right) correspond to each character, from top to bottom. Since the character party
         // does not always have four characters, for all but the first key we have to check that a character exists for the
@@ -387,27 +446,33 @@ void BattleMode::Update()
         // for it (characters can only have commands selected during certain states). If command selection is permitted, then we begin
         // the command supervisor.
 
-        if(InputManager->UpPress()) {
-            if(_character_actors.size() >= 1) {   // Should always evaluate to true
-                character_selection = _character_actors[0];
+        if (!_battle_menu.IsOpen()) {
+            if (InputManager->UpPress()) {
+                GlobalManager->Media().PlaySound("bump");
+                if (_character_actors.size() >= 1) {   // Should always evaluate to true
+                    character_selection = _character_actors[0];
+                }
             }
-        }
 
-        else if(InputManager->DownPress()) {
-            if(_character_actors.size() >= 2) {
-                character_selection = _character_actors[1];
+            else if (InputManager->DownPress()) {
+                GlobalManager->Media().PlaySound("bump");
+                if (_character_actors.size() >= 2) {
+                    character_selection = _character_actors[1];
+                }
             }
-        }
 
-        else if(InputManager->LeftPress()) {
-            if(_character_actors.size() >= 3) {
-                character_selection = _character_actors[2];
+            else if (InputManager->LeftPress()) {
+                GlobalManager->Media().PlaySound("bump");
+                if (_character_actors.size() >= 3) {
+                    character_selection = _character_actors[2];
+                }
             }
-        }
 
-        else if(InputManager->RightPress()) {
-            if(_character_actors.size() >= 4) {
-                character_selection = _character_actors[3];
+            else if (InputManager->RightPress()) {
+                GlobalManager->Media().PlaySound("bump");
+                if (_character_actors.size() >= 4) {
+                    character_selection = _character_actors[3];
+                }
             }
         }
 
@@ -418,13 +483,21 @@ void BattleMode::Update()
     // If the player is selecting a command for a character, the command supervisor has control
     else if(_state == BATTLE_STATE_COMMAND) {
         // If the last enemy is dying, there is no need to process command further
-        if(!_last_enemy_dying)
-            _command_supervisor->Update();
+        if (!_last_enemy_dying) {
+            // If auto-battle is active, cancel the current character command.
+            if (_battle_menu.IsAutoBattleActive())
+                _command_supervisor->CancelCurrentCommand();
+            else if (!_battle_menu.IsOpen())
+                _command_supervisor->Update();
+        }
         else
             ChangeState(BATTLE_STATE_NORMAL);
     }
     // If the battle is in either finish state, the finish supervisor has control
     else if((_state == BATTLE_STATE_VICTORY) || (_state == BATTLE_STATE_DEFEAT)) {
+        if (_battle_menu.IsOpen())
+            _battle_menu.Close();
+
         _finish_supervisor->Update();
 
         // Make the heroes and/or enemies stamina icons fade out
@@ -443,14 +516,16 @@ void BattleMode::Update()
     // we want to open the command menu for that character.
     // The battle will be paused until the player enters a command for all characters
     // that are in command state.
-    if(!_last_enemy_dying
-        && (_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE)) {
-        for(uint32 i = 0; i < _character_actors.size(); i++) {
+    if(!_last_enemy_dying) {
+        for(uint32 i = 0; i < _character_actors.size(); ++i) {
             if(_character_actors[i]->GetState() == ACTOR_STATE_COMMAND) {
-                if(_state != BATTLE_STATE_COMMAND) {
-                    OpenCommandMenu(_character_actors[i]);
+                if (_battle_menu.IsAutoBattleActive()) {
+                    _AutoCharacterCommand(_character_actors[i]);
                 }
-                return;
+                else if(_state != BATTLE_STATE_COMMAND) {
+                    if (_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE)
+                        OpenCommandMenu(_character_actors[i]);
+                }
             }
         }
     }
@@ -465,8 +540,12 @@ void BattleMode::Update()
         BattleActor *acting_actor = _ready_queue.front();
         switch(acting_actor->GetState()) {
         case ACTOR_STATE_READY:
+            acting_actor->ChangeState(ACTOR_STATE_SHOWNOTICE);
+            break;
+        case ACTOR_STATE_NOTICEDONE:
             acting_actor->ChangeState(ACTOR_STATE_ACTING);
             break;
+        case ACTOR_STATE_SHOWNOTICE:
         case ACTOR_STATE_ACTING:
             break;
         default:
@@ -475,8 +554,6 @@ void BattleMode::Update()
         }
     }
 } // void BattleMode::Update()
-
-
 
 void BattleMode::Draw()
 {
@@ -512,18 +589,28 @@ void BattleMode::DrawPostEffects()
 
 void BattleMode::AddEnemy(uint32 new_enemy_id, float position_x, float position_y)
 {
-    GlobalEnemy *new_enemy = new vt_global::GlobalEnemy(new_enemy_id);
-
-    // Don't add the enemy if its id was invalidated
-    if(new_enemy->GetID() == 0) {
-        PRINT_WARNING << "attempted to add a new enemy with an invalid id: "
-            << new_enemy->GetID() << std::endl;
-        delete new_enemy;
+    // Check for the enemy data validity
+    if (!vt_global::GlobalManager->DoesEnemyExist(new_enemy_id)) {
+        PRINT_WARNING << "Attempted to add a new enemy with an invalid id: "
+                      << new_enemy_id << std::endl;
         return;
     }
 
-    new_enemy->Initialize();
-    BattleEnemy *new_battle_enemy = new BattleEnemy(new_enemy);
+    BattleEnemy* new_battle_enemy = new BattleEnemy(new_enemy_id);
+
+    // Compute a position when needed.
+    if (position_x == 0.0f && position_y == 0.0f) {
+        uint32 default_pos_id = _enemy_actors.size();
+        position_x = DEFAULT_ENEMY_LOCATIONS[default_pos_id % NUM_DEFAULT_LOCATIONS][0];
+        position_y = DEFAULT_ENEMY_LOCATIONS[default_pos_id % NUM_DEFAULT_LOCATIONS][1];
+        // Add an artifical offset when cycling within the default positions.
+        // This will permit to still see all the enemies, even when there are more than 8 of them.
+        if(default_pos_id > NUM_DEFAULT_LOCATIONS - 1) {
+            position_x += default_pos_id * 3;
+            position_y += default_pos_id * 3;
+        }
+    }
+
     // Set the battleground position
     new_battle_enemy->SetXLocation(position_x);
     new_battle_enemy->SetYLocation(position_y);
@@ -532,6 +619,11 @@ void BattleMode::AddEnemy(uint32 new_enemy_id, float position_x, float position_
 
     _enemy_actors.push_back(new_battle_enemy);
     _enemy_party.push_back(new_battle_enemy);
+
+    // Sort the enemies based on their Y location.
+    // The player will then be able to target them in that order
+    // which is much more straight-forward.
+    std::sort(_enemy_party.begin(), _enemy_party.end(), CompareObjectsYCoord);
 
     if (GetState() == BATTLE_STATE_INVALID) {
         // When the enemy is added before the battle has begun, we can store it
@@ -560,12 +652,21 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         _actor_state_paused = false;
         // Reset the stamina icons alpha
         _stamina_icon_alpha = 1.0f;
-        // Start the music
-        _battle_media.battle_music.FadeIn(1000);
+
+        // Start the music if needed
+        _ResetMusicState();
 
         // Disable potential previous light effects
         VideoManager->DisableFadeEffect();
         GetEffectSupervisor().DisableEffects();
+
+        // Display a message about the agility bonus related event
+        if (_hero_init_boost && _enemy_init_boost)
+            GetIndicatorSupervisor().AddShortNotice(UTranslate("Double Rush!"), "data/gui/menus/star.png");
+        else if (_hero_init_boost)
+            GetIndicatorSupervisor().AddShortNotice(UTranslate("First Strike!"), "data/gui/menus/star.png");
+        else if (_enemy_init_boost)
+            GetIndicatorSupervisor().AddShortNotice(UTranslate("Ambush!"), "data/entities/emotes/exclamation.png");
         break;
     case BATTLE_STATE_NORMAL:
         if(_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE) {
@@ -579,7 +680,7 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         _actor_state_paused = false;
         break;
     case BATTLE_STATE_COMMAND:
-        if(_command_supervisor->GetCommandCharacter() == NULL) {
+        if(_command_supervisor->GetCommandCharacter() == nullptr) {
             IF_PRINT_WARNING(BATTLE_DEBUG) << "no character was selected when changing battle to the command state" << std::endl;
             ChangeState(BATTLE_STATE_NORMAL);
         }
@@ -615,21 +716,23 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
 
 bool BattleMode::OpenCommandMenu(BattleCharacter *character)
 {
-    if(character == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
+    if(character == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr argument" << std::endl;
         return false;
     }
+
     if(_state == BATTLE_STATE_COMMAND) {
         return false;
     }
 
-    if(character->CanSelectCommand() == true) {
-        _command_supervisor->Initialize(character);
-        ChangeState(BATTLE_STATE_COMMAND);
-        return true;
-    }
+    if(!character->CanSelectCommand())
+        return false;
 
-    return false;
+    _command_supervisor->Initialize(character);
+    // In case the auto-battle mode was active, we deactivate it.
+    _battle_menu.SetAutoBattleActive(false);
+    ChangeState(BATTLE_STATE_COMMAND);
+    return true;
 }
 
 
@@ -638,7 +741,7 @@ void BattleMode::NotifyCommandCancel()
     if(_state != BATTLE_STATE_COMMAND) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "battle was not in command state when function was called" << std::endl;
         return;
-    } else if(_command_supervisor->GetCommandCharacter() != NULL) {
+    } else if(_command_supervisor->GetCommandCharacter() != nullptr) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "command supervisor still had a character selected when function was called" << std::endl;
         return;
     }
@@ -650,8 +753,8 @@ void BattleMode::NotifyCommandCancel()
 
 void BattleMode::NotifyCharacterCommandComplete(BattleCharacter *character)
 {
-    if(character == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
+    if(character == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr argument" << std::endl;
         return;
     }
 
@@ -664,14 +767,15 @@ void BattleMode::NotifyCharacterCommandComplete(BattleCharacter *character)
         character->ChangeState(ACTOR_STATE_WARM_UP);
     }
 
-    ChangeState(BATTLE_STATE_NORMAL);
+    if (_command_supervisor->GetCommandCharacter() == nullptr)
+        ChangeState(BATTLE_STATE_NORMAL);
 }
 
 
 
 void BattleMode::NotifyActorReady(BattleActor *actor)
 {
-    for(std::list<BattleActor *>::iterator i = _ready_queue.begin(); i != _ready_queue.end(); i++) {
+    for(std::list<BattleActor *>::iterator i = _ready_queue.begin(); i != _ready_queue.end(); ++i) {
         if(actor == (*i)) {
             IF_PRINT_WARNING(BATTLE_DEBUG) << "actor was already present in the ready queue" << std::endl;
             return;
@@ -685,8 +789,8 @@ void BattleMode::NotifyActorReady(BattleActor *actor)
 
 void BattleMode::NotifyActorDeath(BattleActor *actor)
 {
-    if(actor == NULL) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received NULL argument" << std::endl;
+    if(actor == nullptr) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr argument" << std::endl;
         return;
     }
 
@@ -729,17 +833,23 @@ void BattleMode::_Initialize()
 
     // Construct all character battle actors from the active party, as well as the menus that populate the command supervisor
     GlobalParty *active_party = GlobalManager->GetActiveParty();
-    if(active_party->GetPartySize() == 0) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "no characters in the active party, exiting battle" << std::endl;
+    uint32 party_size = active_party->GetPartySize();
+    if(party_size == 0) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "No characters in the active party, exiting battle" << std::endl;
         ModeManager->Pop();
         return;
     }
 
-    for(uint32 i = 0; i < active_party->GetPartySize(); i++) {
+    for(uint32 i = 0; i < party_size; ++i) {
         BattleCharacter *new_actor = new BattleCharacter(active_party->GetCharacterAtIndex(i));
         _character_actors.push_back(new_actor);
         _character_party.push_back(new_actor);
-        _ResetPassiveStatusEffects(*new_actor);
+
+    // Sort the characters based on their Y location.
+    // The player will then be able to target them in that order
+    // which is much more straight-forward.
+    std::sort(_character_party.begin(), _character_party.end(), CompareObjectsYCoord);
+
         // Check whether the character is alive
         if(new_actor->GetHitPoints() == 0)
             new_actor->ChangeState(ACTOR_STATE_DEAD);
@@ -785,7 +895,7 @@ void BattleMode::_Initialize()
     else if(_battle_type == BATTLE_TYPE_SEMI_ACTIVE)
         _battle_type_time_factor = BATTLE_SEMI_ACTIVE_FACTOR;
 
-    for(uint32 i = 0; i < _character_actors.size(); i++) {
+    for(uint32 i = 0; i < _character_actors.size(); ++i) {
         if(_character_actors[i]->IsAlive()) {
             SetActorIdleStateTime(_character_actors[i]);
 
@@ -793,111 +903,40 @@ void BattleMode::_Initialize()
             _character_actors[i]->ChangeState(ACTOR_STATE_IDLE);
         }
     }
-    for(uint32 i = 0; i < _enemy_actors.size(); i++) {
+    for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
         SetActorIdleStateTime(_enemy_actors[i]);
         _enemy_actors[i]->ChangeState(ACTOR_STATE_IDLE);
     }
 
     // Randomize each actor's initial idle state progress to be somewhere in the lower half of their total
     // idle state time. This is performed so that every battle doesn't start will all stamina icons piled on top
-    // of one another at the bottom of the stamina bar
-    for(uint32 i = 0; i < _character_actors.size(); i++) {
-        if(_character_actors[i]->IsAlive()) {
-            uint32 max_init_timer = _character_actors[i]->GetIdleStateTime() / 2;
+    // of one another at the bottom of the stamina bar.
+    // Also, depending on who attacked first, the hero or enemy party will receive an agility boost at battle start.
+    for(uint32 i = 0; i < _character_actors.size(); ++i) {
+        if(!_character_actors[i]->IsAlive())
+            continue;
+
+        uint32 max_init_timer = _character_actors[i]->GetIdleStateTime() / 2;
+        if (_hero_init_boost)
+            _character_actors[i]->GetStateTimer().Update(RandomBoundedInteger(max_init_timer, max_init_timer * 2));
+        else
             _character_actors[i]->GetStateTimer().Update(RandomBoundedInteger(0, max_init_timer));
-        }
     }
-    for(uint32 i = 0; i < _enemy_actors.size(); i++) {
+    for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
         uint32 max_init_timer = _enemy_actors[i]->GetIdleStateTime() / 2;
-        _enemy_actors[i]->GetStateTimer().Update(RandomBoundedInteger(0, max_init_timer));
+        if (_enemy_init_boost)
+            _enemy_actors[i]->GetStateTimer().Update(RandomBoundedInteger(max_init_timer, max_init_timer * 2));
+        else
+            _enemy_actors[i]->GetStateTimer().Update(RandomBoundedInteger(0, max_init_timer));
     }
 
     // Init the script component.
     GetScriptSupervisor().Initialize(this);
 
     ChangeState(BATTLE_STATE_INITIAL);
-} // void BattleMode::_Initialize()
-
-void BattleMode::_ResetAttributesFromGlobalActor(private_battle::BattleActor &character)
-{
-    character.ResetAgility();
-    character.ResetEvade();
-    character.ResetFortitude();
-    character.ResetProtection();
-    character.ResetStrength();
-    character.ResetVigor();
 }
 
-//! \brief sets the max_effect at the proper index only if it is higher in value than the current one there
-static void SetEffectMaximum(GLOBAL_INTENSITY *max_effect, const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >&status_effects)
-{
-    for(size_t i = 0; i < status_effects.size(); ++i)
-    {
-        //we are only interested in attribute effects
-
-        if(status_effects[i].first == GLOBAL_STATUS_INVALID ||
-           status_effects[i].first > GLOBAL_STATUS_EVADE)
-            continue;
-        if(status_effects[i].second < GLOBAL_INTENSITY_NEG_EXTREME ||
-           status_effects[i].second > GLOBAL_INTENSITY_POS_EXTREME)
-            continue;
-
-        size_t index = (size_t) status_effects[i].first;
-        if((int)max_effect[index] < (int)(status_effects[i].second))
-            max_effect[index] = status_effects[i].second;
-    }
-}
-
-void BattleMode::_ApplyPassiveStatusEffects(private_battle::BattleActor &character,
-                                            const vt_global::GlobalWeapon* weapon,
-                                            const std::vector<vt_global::GlobalArmor *>& armors)
-{
-    //we only count the first 12 status effects as valid
-    //todo: allow a way for drain / regen
-    const static size_t MAX_VALID_STATUS  = 12;
-    //max value array for each of the status types.
-    GLOBAL_INTENSITY max_effect[MAX_VALID_STATUS] = {GLOBAL_INTENSITY_INVALID};
-
-    //adjust effects for the weapons
-    if (weapon)
-        SetEffectMaximum(max_effect, weapon->GetStatusEffects());
-
-    //adjust effects for armor
-    for(std::vector<vt_global::GlobalArmor *>::const_iterator itr = armors.begin(),
-            end = armors.end(); itr != end; ++itr) {
-        if((*itr))
-            SetEffectMaximum(max_effect, (*itr)->GetStatusEffects());
-    }
-
-    //go through each effect (as a pair) looking for the highest one.
-    for(size_t i = 0; i < MAX_VALID_STATUS; i += 2)
-    {
-        //no change for this status
-        if(max_effect[i] == GLOBAL_INTENSITY_INVALID && max_effect[i + 1] == GLOBAL_INTENSITY_INVALID)
-            continue;
-        GLOBAL_STATUS max_status;
-        GLOBAL_INTENSITY max_intensity;
-        max_status = (int)max_effect[i] > (int)max_effect[i + 1] ? (GLOBAL_STATUS)i : (GLOBAL_STATUS)(i + 1);
-        max_intensity = max_effect[(size_t)max_status];
-        if(max_intensity == GLOBAL_INTENSITY_NEUTRAL)
-            continue;
-        //now, we manually effect the player with a "permenant effect" by creating
-        //a battle effect and immediatly allowing it to modify the player.
-        //this effect does NOT go into the effect controller
-        private_battle::BattleStatusEffect scripted_effect(max_status, max_intensity, &character);
-        //immediatly apply the full effect
-        ScriptCallFunction<void>(scripted_effect.GetApplyFunction(), &scripted_effect);
-    }
-
-}
-
-void BattleMode::_ResetPassiveStatusEffects(vt_battle::private_battle::BattleCharacter &character)
-{
-   _ResetAttributesFromGlobalActor(character);
-   _ApplyPassiveStatusEffects(character, character.GetGlobalCharacter()->GetWeaponEquipped(), character.GetGlobalCharacter()->GetArmorsEquipped());
-}
-
-void BattleMode::SetActorIdleStateTime(BattleActor *actor)
+void BattleMode::SetActorIdleStateTime(BattleActor* actor)
 {
     if(!actor || actor->GetAgility() == 0)
         return;
@@ -920,24 +959,22 @@ void BattleMode::TriggerBattleParticleEffect(const std::string &effect_filename,
 
     effect->Start();
 
-    _battle_particle_effects.push_back(effect);
+    _battle_effects.push_back(effect);
+}
+
+private_battle::BattleAnimation* BattleMode::CreateBattleAnimation(const std::string& animation_filename)
+{
+    BattleAnimation* animation = new BattleAnimation(animation_filename);
+
+    // Set it invisible until an event make it usable
+    animation->SetVisible(false);
+
+    _battle_effects.push_back(animation);
+    return animation;
 }
 
 void BattleMode::_DetermineActorLocations()
 {
-    // Fallback positions for enemies when not set by scripts
-    const float DEFAULT_ENEMY_LOCATIONS[][2] = {
-        { 515.0f, 600.0f },
-        { 494.0f, 450.0f },
-        { 560.0f, 550.0f },
-        { 580.0f, 630.0f },
-        { 675.0f, 390.0f },
-        { 655.0f, 494.0f },
-        { 793.0f, 505.0f },
-        { 730.0f, 600.0f }
-    }; // 8 positions are set [0-7]
-    const uint32 NUM_DEFAULT_LOCATIONS = 8;
-
     float position_x, position_y;
 
     // Determine the default position of the first character in the party,
@@ -994,6 +1031,40 @@ void BattleMode::_DetermineActorLocations()
     }
 } // void BattleMode::_DetermineActorLocations()
 
+void BattleMode::_AutoCharacterCommand(BattleCharacter* character)
+{
+    if (character == nullptr) {
+        PRINT_ERROR << "AutoCharacterCommand was called with a null Character" << std::endl;
+        return;
+    }
+
+    if (character->IsActionSet() || _command_supervisor->GetCommandCharacter() == character)
+        return;
+
+    auto autoTarget = BattleTarget();
+    autoTarget.SetTarget(character, GLOBAL_TARGET_FOE);
+
+    GlobalSkill* attackSkill = character->GetSkills()[0];
+    auto wpnSkills = character->GetGlobalCharacter()->GetWeaponSkills();
+    for (auto skill : *wpnSkills) {
+        if (skill->GetSPRequired() == 0) {
+            attackSkill = skill;
+            break;
+        }
+    }
+    if (attackSkill == nullptr) {
+        PRINT_WARNING << "No valid attack skill was found for character: "
+            << vt_utils::MakeStandardString(character->GetGlobalCharacter()->GetName()) << std::endl;
+        return;
+    }
+
+    BattleAction* new_action = new SkillAction(character, autoTarget, attackSkill);
+    character->SetAction(new_action);
+    BattleMode::CurrentInstance()->NotifyCharacterCommandComplete(character);
+
+    _actor_state_paused = false;
+}
+
 
 
 uint32 BattleMode::_NumberEnemiesAlive() const
@@ -1012,9 +1083,8 @@ uint32 BattleMode::_NumberValidEnemies() const
 {
     uint32 enemy_count = 0;
     for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
-        if(_enemy_actors[i]->IsValid()) {
+        if(_enemy_actors[i]->CanFight())
             ++enemy_count;
-        }
     }
     return enemy_count;
 }
@@ -1024,9 +1094,8 @@ uint32 BattleMode::_NumberCharactersAlive() const
 {
     uint32 character_count = 0;
     for(uint32 i = 0; i < _character_actors.size(); ++i) {
-        if(_character_actors[i]->IsAlive()) {
+        if(_character_actors[i]->IsAlive())
             ++character_count;
-        }
     }
     return character_count;
 }
@@ -1061,7 +1130,7 @@ void BattleMode::_DrawSprites()
     bool draw_point_selection = false;
 
     BattleTarget target = _command_supervisor->GetSelectedTarget(); // The target that the player has selected
-    BattleActor *actor_target = target.GetActor(); // A pointer to an actor being targetted (value may be NULL if target is party)
+    BattleActor *actor_target = target.GetActor(); // A pointer to an actor being targeted.
 
     // Determine if selector graphics should be drawn
     if((_state == BATTLE_STATE_COMMAND)
@@ -1074,19 +1143,18 @@ void BattleMode::_DrawSprites()
     // Draw the actor selector graphic
     if(draw_actor_selection == true) {
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-        if(actor_target != NULL) {
-            VideoManager->Move(actor_target->GetXLocation(), actor_target->GetYLocation());
-            VideoManager->MoveRelative(0.0f, 20.0f);
-            _battle_media.actor_selection_image.Draw();
-        } else if(IsTargetParty(target.GetType()) == true) {
-            std::deque<BattleActor *>& party_target = *(target.GetParty());
+        if(IsTargetParty(target.GetType()) == true) {
+            const std::deque<BattleActor *>& party_target = target.GetPartyTarget();
             for(uint32 i = 0; i < party_target.size(); i++) {
                 VideoManager->Move(party_target[i]->GetXLocation(),  party_target[i]->GetYLocation());
                 VideoManager->MoveRelative(0.0f, 20.0f);
                 _battle_media.actor_selection_image.Draw();
             }
-            actor_target = NULL;
-            // TODO: add support for drawing graphic under multiple actors if the target is a party
+        }
+        else if(actor_target != nullptr) {
+            VideoManager->Move(actor_target->GetXLocation(), actor_target->GetYLocation());
+            VideoManager->MoveRelative(0.0f, 20.0f);
+            _battle_media.actor_selection_image.Draw();
         }
         // Else this target is invalid so don't draw anything
     }
@@ -1098,7 +1166,7 @@ void BattleMode::_DrawSprites()
 
     // Draw the attack point selector graphic
     if(draw_point_selection) {
-        uint32 point = target.GetPoint();
+        uint32 point = target.GetAttackPoint();
 
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
         VideoManager->Move(actor_target->GetXLocation(), actor_target->GetYLocation());
@@ -1114,15 +1182,25 @@ void BattleMode::_DrawGUI()
     _DrawBottomMenu();
     _DrawStaminaBar();
 
+    if (_battle_menu.IsAutoBattleActive()) {
+        VideoManager->Move(800.0f, 50.0f);
+        _battle_media.GetAutoBattleIcon().Draw();
+        VideoManager->MoveRelative(80.0f, 0.0f);
+        _battle_media.GetAutoBattleActiveText().Draw();
+    }
+
     // Don't draw battle actor indicators at battle ends
     if(_state != BATTLE_STATE_VICTORY && _state != BATTLE_STATE_DEFEAT)
-        _DrawIndicators();
+        GetIndicatorSupervisor().Draw();
 
     if(_command_supervisor->GetState() != COMMAND_STATE_INVALID) {
         // Do not draw the command selection GUI if the battle is in scene mode
         if(!IsInSceneMode() && !_last_enemy_dying)
             _command_supervisor->Draw();
     }
+
+    if (_battle_menu.IsOpen())
+        _battle_menu.Draw();
 
     if(_dialogue_supervisor->IsDialogueActive())
         _dialogue_supervisor->Draw();
@@ -1178,7 +1256,7 @@ void BattleMode::_DrawStaminaBar()
     // If true, the selected party is the enemy party
     bool is_party_enemy = false;
 
-    BattleActor *selected_actor = NULL; // A pointer to the selected actor
+    BattleActor *selected_actor = nullptr; // A pointer to the selected actor
 
     // Determine whether the selector graphics should be drawn
     if((_state == BATTLE_STATE_COMMAND)
@@ -1186,7 +1264,7 @@ void BattleMode::_DrawStaminaBar()
         BattleTarget target = _command_supervisor->GetSelectedTarget();
 
         draw_icon_selection = true;
-        selected_actor = target.GetActor(); // Will remain NULL if the target type is a party
+        selected_actor = target.GetActor(); // Will remain nullptr if the target type is a party
 
         if(target.GetType() == GLOBAL_TARGET_ALL_ALLIES) {
             is_party_selected = true;
@@ -1237,32 +1315,17 @@ void BattleMode::_DrawStaminaBar()
 } // void BattleMode::_DrawStaminaBar()
 
 
-
-void BattleMode::_DrawIndicators()
-{
-    // Draw all character sprites
-    for(uint32 i = 0; i < _character_actors.size(); ++i) {
-        _character_actors[i]->DrawIndicators();
-    }
-
-    // Draw all enemy sprites
-    for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
-        _enemy_actors[i]->DrawIndicators();
-    }
-}
-
-
 // Available encounter sounds
 static const std::string encounter_sound_filenames[] = {
-    "snd/battle_encounter_01.ogg",
-    "snd/battle_encounter_02.ogg",
-    "snd/battle_encounter_03.ogg"
+    "data/sounds/battle_encounter_01.ogg",
+    "data/sounds/battle_encounter_02.ogg",
+    "data/sounds/battle_encounter_03.ogg"
 };
 
 // Available encounter sounds
 static const std::string boss_encounter_sound_filenames[] = {
-    "snd/gong.wav",
-    "snd/gong2.wav"
+    "data/sounds/gong.wav",
+    "data/sounds/gong2.wav"
 };
 
 TransitionToBattleMode::TransitionToBattleMode(BattleMode *BM, bool is_boss):
@@ -1292,7 +1355,7 @@ void TransitionToBattleMode::Update()
     if(_BM && _transition_timer.IsFinished()) {
         ModeManager->Pop();
         ModeManager->Push(_BM, true, true);
-        _BM = NULL;
+        _BM = nullptr;
     }
 }
 
@@ -1323,8 +1386,10 @@ void TransitionToBattleMode::Reset()
     _transition_timer.Initialize(1500, SYSTEM_TIMER_NO_LOOPS);
     _transition_timer.Run();
 
-    // Stop the map music
-    AudioManager->StopAllMusic();
+    // Stop the current map music if it is not the same
+    std::string battle_music = _BM->GetMedia().battle_music_filename;
+    if (AudioManager->GetActiveMusic() != nullptr && battle_music != AudioManager->GetActiveMusic()->GetFilename())
+        AudioManager->GetActiveMusic()->FadeOut(2000);
 
     // Play a random encounter sound
     if (_is_boss) {

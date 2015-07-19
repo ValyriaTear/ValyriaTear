@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -19,11 +19,10 @@
 *** to see if it should have similar changes made.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "shop_sell.h"
 
 #include "shop.h"
-
-#include "utils.h"
 
 #include "engine/audio/audio.h"
 #include "engine/input.h"
@@ -52,7 +51,7 @@ namespace private_shop
 
 SellInterface::SellInterface() :
     _view_mode(SHOP_VIEW_MODE_INVALID),
-    _selected_object(NULL),
+    _selected_object(nullptr),
     _sell_deal_types(0),
     _current_category(0)
 {
@@ -194,14 +193,13 @@ void SellInterface::_PopulateLists()
         }
     }
 
-    // ---------- (2): Populate the object_data containers
-    // Used to temporarily hold a pointer to a valid shop object
-    ShopObject *obj = NULL;
+    // Populate the object_data containers
+
     // Pointer to the container of all objects that are bought/sold/traded in the ship
     std::map<uint32, ShopObject *>* shop_objects = ShopMode::CurrentInstance()->GetAvailableSell();
 
     for(std::map<uint32, ShopObject *>::iterator it = shop_objects->begin(); it != shop_objects->end(); ++it) {
-        obj = it->second;
+        ShopObject* obj = it->second;
 
         // Key items are not permitted to be sold
         if(!obj || obj->GetObject()->IsKeyItem())
@@ -272,16 +270,14 @@ void SellInterface::Reinitialize()
         _category_display.ChangeCategory(_category_names[_current_category], _category_icons[_current_category]);
         _selected_object = _list_displays[_current_category]->GetSelectedObject();
     }
-    _ChangeViewMode(SHOP_VIEW_MODE_LIST);
-} // void SellInterface::Initialize()
-
-
+    ChangeViewMode(SHOP_VIEW_MODE_LIST);
+}
 
 void SellInterface::MakeActive()
 {
     Reinitialize();
 
-    if(_list_displays.size() == 0) {
+    if(_list_displays.empty()) {
         ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
         return;
     }
@@ -293,71 +289,70 @@ void SellInterface::MakeActive()
     _category_display.SetSelectedObject(_selected_object);
 }
 
-
-
 void SellInterface::TransactionNotification()
 {
     Reinitialize();
 }
 
-
-
 void SellInterface::Update()
 {
-    if(_view_mode == SHOP_VIEW_MODE_LIST) {
-        if((InputManager->ConfirmPress()) && (_selected_object != NULL)) {
-            _ChangeViewMode(SHOP_VIEW_MODE_INFO);
+    ShopMode* shop = ShopMode::CurrentInstance();
+
+    if(_view_mode == SHOP_VIEW_MODE_LIST && shop->IsInputEnabled()) {
+        if((InputManager->ConfirmPress()) && (_selected_object != nullptr)) {
+            GlobalManager->Media().PlaySound("confirm");
+            ChangeViewMode(SHOP_VIEW_MODE_INFO);
         } else if(InputManager->CancelPress()) {
-            ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
+            shop->ChangeState(SHOP_STATE_ROOT);
             GlobalManager->Media().PlaySound("cancel");
         }
 
         // Swap cycles through the object categories
         else if(InputManager->MenuPress() && (_number_categories > 1)) {
             if(_ChangeCategory(true) == true)
-                ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
+                shop->ObjectViewer()->SetSelectedObject(_selected_object);
             GlobalManager->Media().PlaySound("confirm");
         }
 
         // Up/down changes the selected object in the current list
-        else if(InputManager->UpPress() && (_selected_object != NULL)) {
+        else if(InputManager->UpPress() && (_selected_object != nullptr)) {
             if(_ChangeSelection(false) == true) {
-                ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-                GlobalManager->Media().PlaySound("confirm");
+                shop->ObjectViewer()->SetSelectedObject(_selected_object);
+                GlobalManager->Media().PlaySound("bump");
             }
-        } else if(InputManager->DownPress() && (_selected_object != NULL)) {
+        } else if(InputManager->DownPress() && (_selected_object != nullptr)) {
             if(_ChangeSelection(true) == true) {
-                ShopMode::CurrentInstance()->ObjectViewer()->SetSelectedObject(_selected_object);
-                GlobalManager->Media().PlaySound("confirm");
+                shop->ObjectViewer()->SetSelectedObject(_selected_object);
+                GlobalManager->Media().PlaySound("bump");
             }
         }
     } // if (_view_mode == SHOP_VIEW_MODE_LIST)
 
-    else if(_view_mode == SHOP_VIEW_MODE_INFO) {
+    else if(_view_mode == SHOP_VIEW_MODE_INFO && shop->IsInputEnabled()) {
         if(InputManager->ConfirmPress()) {
-            _ChangeViewMode(SHOP_VIEW_MODE_LIST);
-            ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_ROOT);
-            ShopMode::CurrentInstance()->CompleteTransaction();
+            ChangeViewMode(SHOP_VIEW_MODE_LIST);
+            shop->ChangeState(SHOP_STATE_ROOT);
+            shop->CompleteTransaction();
             GlobalManager->Media().PlaySound("confirm");
-            ShopMode::CurrentInstance()->ClearOrder();
-            ShopMode::CurrentInstance()->ChangeState(SHOP_STATE_SELL);
+            shop->ClearOrder();
+            shop->ChangeState(SHOP_STATE_SELL);
         } else if(InputManager->CancelPress()) {
-            _ChangeViewMode(SHOP_VIEW_MODE_LIST);
+            ChangeViewMode(SHOP_VIEW_MODE_LIST);
             while(_list_displays[_current_category]->ChangeSellQuantity(false) == true) {}
             GlobalManager->Media().PlaySound("cancel");
-            ShopMode::CurrentInstance()->ClearOrder();
+            shop->ClearOrder();
         }
 
         // Left/right change the quantity of the object to sell
         else if(InputManager->LeftPress()) {
             if(_list_displays[_current_category]->ChangeSellQuantity(false) == true) {
-                ShopMode::CurrentInstance()->ObjectViewer()->UpdateCountText();
+                shop->ObjectViewer()->UpdateCountText();
                 GlobalManager->Media().PlaySound("confirm");
             } else
                 GlobalManager->Media().PlaySound("bump");
         } else if(InputManager->RightPress()) {
             if(_list_displays[_current_category]->ChangeSellQuantity(true) == true) {
-                ShopMode::CurrentInstance()->ObjectViewer()->UpdateCountText();
+                shop->ObjectViewer()->UpdateCountText();
                 GlobalManager->Media().PlaySound("confirm");
             } else
                 GlobalManager->Media().PlaySound("bump");
@@ -366,10 +361,8 @@ void SellInterface::Update()
 
     _category_display.Update();
     _list_displays[_current_category]->Update();
-    ShopMode::CurrentInstance()->ObjectViewer()->Update();
-} // void SellInterface::Update()
-
-
+    shop->ObjectViewer()->Update();
+}
 
 void SellInterface::Draw()
 {
@@ -404,8 +397,7 @@ void SellInterface::Draw()
     ShopMode::CurrentInstance()->ObjectViewer()->Draw();
 }
 
-
-void SellInterface::_ChangeViewMode(SHOP_VIEW_MODE new_mode)
+void SellInterface::ChangeViewMode(SHOP_VIEW_MODE new_mode)
 {
     if(_view_mode == new_mode)
         return;
@@ -492,9 +484,8 @@ void SellListDisplay::ReconstructList()
     _identify_list.ClearOptions();
     _property_list.ClearOptions();
 
-    ShopObject *obj = NULL;
     for(uint32 i = 0; i < _objects.size(); i++) {
-        obj = _objects[i];
+        ShopObject* obj = _objects[i];
         // Add an entry with the icon image of the object (scaled down by 4x to 30x30 pixels) followed by the object name
         _identify_list.AddOption(MakeUnicodeString("<" + obj->GetObject()->GetIconImage().GetFilename() + "><30>")
                                  + obj->GetObject()->GetName());

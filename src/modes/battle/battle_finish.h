@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -21,6 +21,7 @@
 #ifndef __BATTLE_FINISH_HEADER__
 #define __BATTLE_FINISH_HEADER__
 
+#include "common/global/global_actors.h"
 #include "common/gui/option.h"
 #include "common/gui/menu_window.h"
 #include "common/gui/textbox.h"

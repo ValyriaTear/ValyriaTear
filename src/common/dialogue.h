@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -18,7 +18,8 @@
 #ifndef __DIALOGUE_HEADER__
 #define __DIALOGUE_HEADER__
 
-#include "utils.h"
+#include "utils/ustring.h"
+#include "utils/utils_strings.h"
 
 #include "common/gui/textbox.h"
 #include "common/gui/option.h"
@@ -26,27 +27,56 @@
 namespace vt_common
 {
 
-class CommonDialogueOptions;
+class DialogueOptions;
+class DialogueSupervisor;
 
 //! \name Constants used among common dialogue classes
 //@{
 //! \brief Indicates that the next line to read should follow sequentially
-const int32 COMMON_DIALOGUE_NEXT_LINE        = -1;
+const int32 DIALOGUE_NEXT_LINE      = -1;
 //! \brief Indicates that the dialogue should end after the present line is finished
-const int32 COMMON_DIALOGUE_END              = -2;
+const int32 DIALOGUE_END            = -2;
 //! \brief Indicates that a line has no display timer enabled
-const int32 COMMON_DIALOGUE_NO_TIMER         = -1;
+const int32 DIALOGUE_NO_TIMER       = -1;
 //! \brief the default invalid value.
-const int32 COMMON_DIALOGUE_INVALID          = -1;
+const int32 DIALOGUE_INVALID        = -1;
 
 //! \brief The dialogue window should have no indicator (i.e. for automated text)
-const uint8 COMMON_DIALOGUE_NO_INDICATOR   = 0;
+const uint8 DIALOGUE_NO_INDICATOR   = 0;
 //! \brief The dialogue window should have the indicator that more lines exist
-const uint8 COMMON_DIALOGUE_NEXT_INDICATOR = 1;
+const uint8 DIALOGUE_NEXT_INDICATOR = 1;
 //! \brief The dialogue window should have the indicator that the last line is reached
-const uint8 COMMON_DIALOGUE_LAST_INDICATOR = 2;
+const uint8 DIALOGUE_LAST_INDICATOR = 2;
 //@}
 
+//! \brief Defines the different states the dialogue can be in.
+enum DIALOGUE_STATE {
+    DIALOGUE_STATE_INACTIVE =  0, //!< No dialogue is active
+    DIALOGUE_STATE_LINE     =  1, //!< Active when the dialogue window is in the process of displaying a line of text
+    DIALOGUE_STATE_OPTION   =  2, //!< Active when player-selectable options are present in the dialogue window
+};
+
+/** ****************************************************************************
+*** \brief Container for the data that represents a dialogue speaker
+***
+*** This is used only by the DialogueSupervisor to store its speaker data. No other
+*** classes use nor need to know about this class. The ID of the speaker is omitted because
+*** the supervisor class stores those values as keys to the std::map container that holds
+*** instances of this speaker class.
+*** *************************************************/
+class Speaker
+{
+public:
+    //! \brief The name of this speaker as it will appear to the player
+    vt_utils::ustring name;
+
+    /** \brief Holds a reference to the portrait image to use for this speaker
+    ***
+    *** \note Not all speakers will have portraits available. For those that don't, this
+    *** member will simply remain a blank image that is drawn to the screen.
+    **/
+    vt_video::StillImage portrait;
+}; // class Speaker
 
 /** ****************************************************************************
 *** \brief A collection of related text lines and options used in a dialogue
@@ -85,20 +115,28 @@ const uint8 COMMON_DIALOGUE_LAST_INDICATOR = 2;
 *** must be displayed for that amount of time and that the player can not force the dialogue to move
 *** faster.
 *** ***************************************************************************/
-class CommonDialogue
+class Dialogue
 {
 public:
-    //! \param id The id number to represent the dialogue, which should be unique to other dialogue ids within the same gamemode context
-    CommonDialogue(uint32 id);
+    //! \param id The id number to represent the dialogue,
+    //! which should be unique to other dialogue ids within the same game mode context
+    Dialogue(const std::string& dialogue_id);
 
-    ~CommonDialogue();
+    ~Dialogue();
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    //! This function also registers the dialogue to the dialogue manager.
+    static Dialogue* Create(DialogueSupervisor* dialogue_supervisor, const std::string& dialogue_id);
 
     /** \brief Adds a new line of text to the dialogue
     *** \param text The text to show on the screen
     ***
     *** Uses the default set of options for this line of text: proceed to next sequential line, no display timer.
     **/
-    void AddLine(const std::string &text);
+    void AddLine(const std::string& text);
 
     /** \brief Adds a new line of text to the dialogue
     *** \param text The text to show on the screen
@@ -106,7 +144,26 @@ public:
     ***
     *** No display timer is set for this version of AddText
     **/
-    void AddLine(const std::string &text, int32 next_line);
+    void AddLine(const std::string& text, int32 next_line);
+
+    /** \brief Adds a new line of text to the dialogue
+    *** \param text The text to show on the screen
+    *** \param speaker The ID of the speaker for this line
+    ***
+    *** The following line properties are set when using this call:
+    *** - proceed to next sequential line, no display time
+    **/
+    void AddLine(const std::string& text, const std::string& speaker_id);
+
+    /** \brief Adds a new line of text to the dialogue
+    *** \param text The text to show on the screen
+    *** \param speaker The ID of the speaker for this line
+    *** \param next_line The line of dialogue which should follow this one
+    ***
+    *** The following line properties are set when using this call:
+    *** - no display time
+    **/
+    void AddLine(const std::string& text, const std::string& speaker_id, int32 next_line);
 
     /** \brief Adds a new line of text to the dialogue that uses a display time
     *** \param text The text to show on the screen
@@ -114,7 +171,7 @@ public:
     ***
     *** The dialogue will proceed to the next sequential line for this line of text.
     **/
-    void AddLineTimed(const std::string &text, uint32 display_time);
+    void AddLineTimed(const std::string& text, uint32 display_time);
 
     /** \brief Adds a new line of text to the dialogue that uses a display time
     *** \param text The text to show on the screen
@@ -123,21 +180,39 @@ public:
     ***
     *** The dialogue will proceed to the next sequential line for this line of text.
     **/
-    void AddLineTimed(const std::string &text, int32 next_line, uint32 display_time);
+    void AddLineTimed(const std::string& text, int32 next_line, uint32 display_time);
+
+    /** \brief Adds a new line of text to the dialogue that uses a display time
+    *** \param text The text to show on the screen
+    *** \param speaker The ID of the speaker for this line
+    *** \param display_time The number of milliseconds that the line should be displayed for
+    ***
+    *** The following line properties are set when using this call:
+    *** - proceed to next sequential line
+    **/
+    void AddLineTimed(const std::string& text, const std::string& speaker_id, uint32 display_time);
+
+    /** \brief Adds a new line of text to the dialogue that uses a display time
+    *** \param text The text to show on the screen
+    *** \param speaker The ID of the speaker for this line
+    *** \param next_line The line of dialogue which should follow this one
+    *** \param display_time The number of milliseconds that the line should be displayed for
+    **/
+    void AddLineTimed(const std::string& text, const std::string& speaker_id, int32 next_line, uint32 display_time);
 
     /** \brief Adds an option to the most recently added line of text
     *** \param text The text for this particular option
     *** \note The next line will be the next sequential line should this option be selected
     *** \note If no lines have been added to the dialogue yet, this option will not be added and a warning will be issued
     **/
-    void AddOption(const std::string &text);
+    void AddOption(const std::string& text);
 
     /** \brief Adds an option to the most recently added line of text
     *** \param text The text for this particular option
     *** \param next_line The index value of the next line of dialogue to display should this option be selected
     *** \note If no lines have been added to the dialogue yet, this option will not be added and a warning will be issued
     **/
-    void AddOption(const std::string &text, int32 next_line);
+    void AddOption(const std::string& text, int32 next_line);
 
     /** \brief Checks all the data stored by the dialogue class to ensure that it is acceptable and ready for use
     *** \return True if the validation was successful, false if any problems were discovered
@@ -146,6 +221,8 @@ public:
     *** actually used. It checks that all data is valid and warns of potentially dangerous data, such as referring to a line index
     *** that doesn't exist. Any issues that raise concern will cause the function to return false. Additionally if debugging is enabled,
     *** messages will be printed to the console providing details about any bad data discovered.
+    *** \note This function should not be called until after all battle speakers have been added to the battle dialogue supervisor.
+    *** The function checks that each speaker reference is valid and stored in the supervisor class.
     **/
     bool Validate();
 
@@ -159,26 +236,32 @@ public:
 
     //! \brief Returns the line index that follows the line specified
     int32 GetLineNextLine(uint32 line) const {
-        if(line >= _line_count) return COMMON_DIALOGUE_INVALID;
+        if(line >= _line_count) return DIALOGUE_INVALID;
         else return _next_lines[line];
     }
 
     //! \brief Returns the display time of the line specified
     int32 GetLineDisplayTime(uint32 line) const {
-        if(line >= _line_count) return COMMON_DIALOGUE_INVALID;
+        if(line >= _line_count) return DIALOGUE_INVALID;
         else return _display_times[line];
     }
 
     //! \brief Returns the options container of the line specified
-    CommonDialogueOptions *GetLineOptions(uint32 line) const {
-        if(line >= _line_count) return NULL;
+    DialogueOptions* GetLineOptions(uint32 line) const {
+        if(line >= _line_count) return nullptr;
         else return _options[line];
     }
     //@}
 
+    //! \brief Returns the speaker ID for the line specified (or zero if the line index was invalid)
+    const std::string& GetLineSpeaker(uint32 line) const {
+        if(line >= _line_count) return vt_utils::_empty_string;
+        else return _speakers[line];
+    }
+
     //! \name Class Member Access Functions
     //@{
-    uint32 GetDialogueID() const {
+    const std::string& GetDialogueID() const {
         return _dialogue_id;
     }
 
@@ -188,8 +271,8 @@ public:
     //@}
 
 protected:
-    //! \brief A unique identification number that represents this dialogue
-    uint32 _dialogue_id;
+    //! \brief A unique identification string that represents this dialogue
+    std::string _dialogue_id;
 
     //! \brief Stores the amount of lines in the dialogue.
     uint32 _line_count;
@@ -206,8 +289,11 @@ protected:
     std::vector<int32> _display_times;
 
     //! \brief A set of dialogue options indexed according to the line of dialogue that they belong to
-    std::vector<CommonDialogueOptions *> _options;
-}; // class CommonDialogue
+    std::vector<DialogueOptions *> _options;
+
+    //! \brief Contains the speaker ID number corresponding to each line of text
+    std::vector<std::string> _speakers;
+}; // class Dialogue
 
 
 /** ***************************************************************************************
@@ -218,13 +304,13 @@ protected:
 *** that will follow. Objects of this class are stored and managed by the CommonDialogue class
 *** to allow options to occur duing a dialogue.
 *** **************************************************************************************/
-class CommonDialogueOptions
+class DialogueOptions
 {
 public:
-    CommonDialogueOptions()
+    DialogueOptions()
     {}
 
-    virtual ~CommonDialogueOptions()
+    virtual ~DialogueOptions()
     {}
 
     /** \brief Adds a new option to the set of options
@@ -250,7 +336,7 @@ public:
 
     //! \brief Returns the line index that follows the line when the given option is selected
     int32 GetOptionNextLine(uint32 option) const {
-        if(option >= GetNumberOptions()) return COMMON_DIALOGUE_INVALID;
+        if(option >= GetNumberOptions()) return DIALOGUE_INVALID;
         else return _next_lines[option];
     }
     //@}
@@ -266,36 +352,26 @@ protected:
 
     //! \brief A index containing the next line of dialogue that should follow each option
     std::vector<int32> _next_lines;
-}; // class CommonDialogueOptions
-
+}; // class DialogueOptions
 
 
 /** ****************************************************************************
 *** \brief A display window for all GUI controls and graphics necessary to execute a dialogue
 ***
-*** This class handles all graphical management of a dialgoue. It serves primarily
-*** as a container class for dialogue graphics and is not responsibile for tasks such
+*** This class handles all graphical management of a dialogue. It serves primarily
+*** as a container class for dialogue graphics and is not responsible for tasks such
 *** as updating the text box display or processing user input. This class operates in a 1024x768
 *** coordinate system (screen resolution), regardless of the coordinate system that is set by the
 *** game mode in where it is used. In other words, you don't need to concern yourself with changing
 *** the coordinate system prior to drawing the contents of this class since the class does this
 *** internally itself.
-***
-*** \todo This class does not use a MenuWindow as the background parchment image contains a
-*** window image directly. This means that we can not animate the appearance of the window
-*** and its contents via the standard GUI animation controls.
-***
-*** \todo This class needs to be made more flexible so that the GUI window size and position
-*** can be specified by the user. Currently the size and position of the window are static. We'll also
-*** likely need some options that adjust the drawing code for cases where we do not use a name or
-*** portrait.
 *** ***************************************************************************/
-class CommonDialogueWindow
+class DialogueWindow
 {
 public:
-    CommonDialogueWindow();
+    DialogueWindow();
 
-    ~CommonDialogueWindow()
+    ~DialogueWindow()
     {}
 
     /** \brief Sets the draw position for the window
@@ -374,41 +450,53 @@ private:
     //! \brief Holds the name of the speaker
     vt_video::TextImage _name_text;
 
-    //! \brief A pointer to a portrait image to display alongside the text. A NULL value will display no portrait
+    //! \brief A pointer to a portrait image to display alongside the text. A nullptr value will display no portrait
     vt_video::StillImage *_portrait_image;
-}; // class CommonDialogueWindow
+}; // class DialogueWindow
 
 
 /** ****************************************************************************
-*** \brief Abstract class that assists in the execution of dialogues
+*** \brief Handles the storage and execution of dialogues
 ***
-*** This abstract class is a skeleton that other modes may choose to utilize if
-*** they like in constructing their own supervisor-like classes for dialogue. The
-*** base class does little here except for maintaining the necessary data structures
-*** and processing dialogues. It does not implement any sort of update or draw
-*** methods to move through the dialogue as there is no appropriate means for doing
-*** so in an abstract, agnostic fashion that other classes are likely to adopt.
-***
-*** \note It may be the case that it is more appropriate to create a dialogue supervisor
-*** class that stands independent of this base class (ie, the class does not inherit this).
-*** This is perfectly acceptable, although the creator of such classes would be wise to try
-*** and follow the structure and API laid out in this base class as closely as is reasonable.
+*** This supervisor class retains two data containers. The first container holds
+*** all of the speakers while the second holds all of the dialogues.
 *** ***************************************************************************/
-class CommonDialogueSupervisor
+class DialogueSupervisor
 {
 public:
-    CommonDialogueSupervisor();
+    DialogueSupervisor();
 
-    ~CommonDialogueSupervisor();
+    virtual ~DialogueSupervisor();
 
     //! \brief Processes user input and updates the state of the dialogue
-    virtual void Update() = 0;
+    virtual void Update();
 
     //! \brief Draws the dialogue window, text, portraits, and other visuals to the screen
-    virtual void Draw() = 0;
+    virtual void Draw();
+
+    /** \brief Adds a new speaker using custom name and portrait data
+    *** \param id The unique ID number for this speaker
+    *** \param name The name of the speaker
+    *** \param portrait_filename The filename for the portrait to add
+    ***
+    *** Pass in an empty string to the arguments if you do not want the speaker to have a name or portrait image.
+    **/
+    virtual void AddSpeaker(const std::string& speaker_id, const std::string& name, const std::string& portrait);
+
+    /** \brief Changes the name for a speaker that was previously added
+    *** \param id The unique ID number for the speaker to change
+    *** \param name The text to change the speaker's name to
+    **/
+    virtual void ChangeSpeakerName(const std::string& speaker_id, const std::string& name);
+
+    /** \brief Changes the portrait image for a speaker that was previously added
+    *** \param id The unique ID number for the speaker to change
+    *** \param portrait The filename of the image to use as the speaker's portrait
+    **/
+    virtual void ChangeSpeakerPortrait(const std::string& speaker_id, const std::string& portrait);
 
     /** \brief Adds a new dialogue to be managed by the supervisor
-    *** \param dialogue Pointer to a CommonDialogue object that was created with the new operator
+    *** \param dialogue Pointer to a Dialogue object that was created with the new operator
     ***
     *** The dialogue to add must have a unique dialogue ID that is not already stored by this class
     *** instance. If a dialogue is found with the same ID, the dialogue will not be added and the
@@ -416,57 +504,107 @@ public:
     *** be later deleted when this class' destructor is invoked, so make sure you only pass in objects
     *** that were created with the "new" operator.
     **/
-    virtual void AddDialogue(CommonDialogue *dialogue);
+    virtual void AddDialogue(Dialogue *dialogue);
 
     /** \brief Prepares the dialogue manager to begin processing a new dialogue
     *** \param dialogue_id The id number of the dialogue to begin
     **/
-    virtual void BeginDialogue(uint32 dialogue_id);
+    virtual void StartDialogue(const std::string& dialogue_id);
 
     //! \brief Immediately ends any dialogue that is taking place
     virtual void EndDialogue();
 
-    /** \brief Returns a pointer to the CommonDialogue with the requested ID value
-    *** \param dialogue_id The identification number of the dialogue to retrieve
-    *** \return A pointer to the dialogue requested, or NULL if no such dialogue was found
-    **/
-    CommonDialogue *GetDialogue(uint32 dialogue_id);
+    //! \brief Forces the current dialogue to proceed to the next line immediately
+    virtual void ForceNextLine();
 
-    //! \name Class member access functions
-    //@{
-    CommonDialogue *GetCurrentDialogue() const {
+    /** \brief Returns a pointer to the Dialogue with the requested ID value
+    *** \param dialogue_id The identification number of the dialogue to retrieve
+    *** \return A pointer to the dialogue requested, or nullptr if no such dialogue was found
+    **/
+    Dialogue* GetDialogue(const std::string& dialogue_id);
+
+    /** \brief Returns a pointer to the BattleSpeaker with the requested ID value
+    *** \param speaker The unique ID number of the speaker to retrieve
+    *** \return A pointer to the stored speaker, or nullptr if no speaker was found with the specified ID
+    **/
+    Speaker* GetSpeaker(const std::string& speaker_id);
+
+    Dialogue* GetCurrentDialogue() const {
         return _current_dialogue;
     }
 
-    CommonDialogueOptions *GetCurrentOptions() const {
+    //! \brief Returns true if any dialogue is currently active at this time
+    bool IsDialogueActive() const {
+        return (_current_dialogue != nullptr);
+    }
+
+    DialogueOptions* GetCurrentOptions() const {
         return _current_options;
     }
 
-    vt_system::SystemTimer &GetLineTimer() {
+    vt_system::SystemTimer& GetLineTimer() {
         return _line_timer;
     }
 
     uint32 GetLineCounter() const {
         return _line_counter;
     }
-    //@}
+
+    //! \brief Sets the bottom center position of the dialogue window.
+    void SetDialoguePosition(float x, float y);
 
 protected:
+    //! \brief Retains the current state of the dialogue execution
+    DIALOGUE_STATE _state;
+
+    //! \brief Contains data for all of the speakers for every dialogue and each line. The speaker ID is the map key.
+    std::map<std::string, Speaker> _speakers;
+
     //! \brief Contains all dialogues managed by this class instance in a std::map structure. The dialogue ID is the map key
-    std::map<uint32, CommonDialogue *> _dialogues;
+    std::map<std::string, Dialogue *> _dialogues;
 
     //! \brief A pointer to the current piece of dialogue that is active
-    CommonDialogue *_current_dialogue;
+    Dialogue *_current_dialogue;
 
     //! \brief A pointer to the current set of options for the active dialogue line
-    CommonDialogueOptions *_current_options;
+    DialogueOptions *_current_options;
 
     //! \brief A timer that employed for dialogues which have a display time limit
     vt_system::SystemTimer _line_timer;
 
     //! \brief Keeps track of which line is active for the current dialogue
     uint32 _line_counter;
-}; // class CommonDialogueSupervisor
+
+    //! \brief Holds the text and graphics that should be displayed for the dialogue
+    DialogueWindow _dialogue_window;
+
+    //! \brief Updates the dialogue when it is in the line state
+    void _UpdateLine();
+
+    //! \brief Updates the dialogue when it is in the option state
+    void _UpdateOptions();
+
+    /** \brief Begins the display of the line indexed by the value of _line_counter
+    ***
+    *** This is called whenever a dialogue begins or is moved to the next line. Its duties include updating the
+    *** dialogue state, dialogue window displays with data from the new line, and setting up the line timer.
+    ***
+    *** \note This method does not check that the _line_counter member refers to a valid line. It is the caller's
+    *** responsibility to ensure that _line_counter is valid prior to calling this method.
+    **/
+    void _BeginLine();
+
+    /** \brief Finishes the current dialogue line and moves the dialogue forward to the next line
+    ***
+    *** This function determines the next line that the dialogue should proceed to based on the properties of the
+    *** current line. This includes "branching" to the appropriate next line based on the option selected by the player
+    *** when options were enabled on the current line. Should the line counter become invalid or the dialogue is to end
+    *** after the present line, this function will invoke the EndDialogue() method. In addition to proceeding to the next
+    *** line, this method is also responsible for invoking any events that were to occur at the conclusion of the present
+    *** line.
+    **/
+    void _EndLine();
+}; // class DialogueSupervisor
 
 } // namespace vt_common
 

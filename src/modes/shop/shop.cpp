@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -19,6 +19,7 @@
 *** shop keeper.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "shop.h"
 
 #include "shop_root.h"
@@ -26,19 +27,16 @@
 #include "shop_sell.h"
 #include "shop_trade.h"
 
-#include "utils.h"
-
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
 #include "engine/input.h"
 #include "engine/system.h"
 
 #include "common/global/global.h"
+#include "common/dialogue.h"
 
 #include "engine/mode_manager.h"
 #include "modes/pause.h"
-
-#include <iostream>
 
 using namespace vt_utils;
 using namespace vt_audio;
@@ -56,7 +54,7 @@ namespace vt_shop
 
 bool SHOP_DEBUG = false;
 // Initialize static class variable
-ShopMode *ShopMode::_current_instance = NULL;
+ShopMode *ShopMode::_current_instance = nullptr;
 
 namespace private_shop
 {
@@ -132,7 +130,7 @@ ustring *ShopMedia::GetCategoryName(GLOBAL_OBJECT object_type)
         index = 7;
         break;
     default:
-        return NULL;
+        return nullptr;
     }
 
     return &(_all_category_names[index]);
@@ -144,7 +142,7 @@ ustring *ShopMedia::GetCategoryName(GLOBAL_OBJECT object_type)
 
 ShopObjectViewer::ShopObjectViewer() :
     _view_mode(SHOP_VIEW_MODE_LIST),
-    _selected_object(NULL),
+    _selected_object(nullptr),
     _object_type(SHOP_OBJECT_INVALID),
     _is_weapon(false),
     _map_usable(false),
@@ -191,6 +189,7 @@ ShopObjectViewer::ShopObjectViewer() :
     _target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_SELF), TextStyle("text22")));
     _target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_ALLY), TextStyle("text22")));
     _target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_ALLY_EVEN_DEAD), TextStyle("text22")));
+    _target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_DEAD_ALLY_ONLY), TextStyle("text22")));
     _target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_FOE), TextStyle("text22")));
     _target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_ALL_ALLIES), TextStyle("text22")));
     _target_type_text.push_back(TextImage(GetTargetText(GLOBAL_TARGET_ALL_FOES), TextStyle("text22")));
@@ -220,7 +219,7 @@ ShopObjectViewer::ShopObjectViewer() :
     _conditions_name.SetVerticalWrapMode(VIDEO_WRAP_MODE_NONE);
 
     _conditions_number.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
-    _conditions_number.SetPosition(730.0f, 140.0f);
+    _conditions_number.SetPosition(720.0f, 140.0f);
     _conditions_number.SetDimensions(50.0f, 120.0f, 1, 255, 1, 4);
     _conditions_number.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _conditions_number.SetTextStyle(TextStyle("text22"));
@@ -285,7 +284,7 @@ void ShopObjectViewer::Update()
 
 void ShopObjectViewer::Draw()
 {
-    if(_selected_object == NULL) {
+    if(_selected_object == nullptr) {
         return;
     }
 
@@ -343,8 +342,8 @@ void ShopObjectViewer::Draw()
 
 void ShopObjectViewer::SetSelectedObject(ShopObject *object)
 {
-    if(object == NULL) {
-        _selected_object = NULL;
+    if(object == nullptr) {
+        _selected_object = nullptr;
         return;
     }
 
@@ -417,6 +416,9 @@ void ShopObjectViewer::_UpdateTradeConditions()
         uint32 item_id = trade_cond[i].first;
         uint32 item_number = trade_cond[i].second;
 
+        // Gets how many items the party has got
+        uint32 owned_number = GlobalManager->HowManyObjectsInInventory(item_id);
+
         // Create a global object to get info from.
         GlobalObject* obj = GlobalCreateNewObject(item_id, 1);
         if (!obj)
@@ -431,7 +433,19 @@ void ShopObjectViewer::_UpdateTradeConditions()
         if (img)
             img->SetDimensions(30.0f, 30.0f);
 
-        _conditions_number.AddOption(MakeUnicodeString("x" + NumberToString(item_number)));
+        // Show whether each conditions is met.
+        std::string conditions;
+        if (owned_number >= item_number)
+            conditions = "<data/gui/menus/green_check.png><20>";
+        else
+            conditions = "<data/gui/menus/red_x.png><20>";
+        conditions += NumberToString(owned_number) + " / " + NumberToString(item_number);
+
+        _conditions_number.AddOption(MakeUnicodeString(conditions));
+
+        StillImage* cnd_img = _conditions_number.GetEmbeddedImage(j);
+        if (cnd_img)
+            cnd_img->SetWidthKeepRatio(18.0f);
 
         ++j;
     }
@@ -484,8 +498,8 @@ void ShopObjectViewer::_SetEquipmentData()
     }
 
     // Determine whether the selected object is a weapon or piece of armor
-    GlobalWeapon *selected_weapon = NULL;
-    GlobalArmor *selected_armor = NULL;
+    GlobalWeapon *selected_weapon = nullptr;
+    GlobalArmor *selected_armor = nullptr;
     uint32 usable_status = 0; // This is a bit mask that will hold the selected object's usablility information
     uint32 armor_index = 0; // Will hold the correct index into a GlobalCharacter object's equipped armor container
 
@@ -524,17 +538,15 @@ void ShopObjectViewer::_SetEquipmentData()
         _phys_header.SetText(UTranslate("ATK:"));
         _mag_header.SetText(UTranslate("M.ATK:"));
         _phys_rating.SetText(NumberToString(selected_weapon->GetPhysicalAttack()));
-        _mag_rating.SetText(NumberToString(selected_weapon->GetMagicalAttack(GLOBAL_ELEMENTAL_NEUTRAL)));
+        _mag_rating.SetText(NumberToString(selected_weapon->GetMagicalAttack()));
         _spirit_number = selected_weapon->GetSpiritSlots().size();
-        _SetElementalIcons(selected_weapon->GetElementalEffects());
         _SetStatusIcons(selected_weapon->GetStatusEffects());
     } else if(selected_armor) {
         _phys_header.SetText(UTranslate("DEF:"));
         _mag_header.SetText(UTranslate("M.DEF:"));
         _phys_rating.SetText(NumberToString(selected_armor->GetPhysicalDefense()));
-        _mag_rating.SetText(NumberToString(selected_armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL)));
+        _mag_rating.SetText(NumberToString(selected_armor->GetMagicalDefense()));
         _spirit_number = selected_armor->GetSpiritSlots().size();
-        _SetElementalIcons(selected_armor->GetElementalEffects());
         _SetStatusIcons(selected_armor->GetStatusEffects());
     }
 
@@ -558,19 +570,17 @@ void ShopObjectViewer::_SetEquipmentData()
 
     // For each character, determine if they already have the selection equipped or determine the change in pricing
     std::vector<GlobalCharacter *>* party = GlobalManager->GetOrderedCharacters();
-    GlobalCharacter *character = NULL;
-    GlobalWeapon *equipped_weapon = NULL;
-    GlobalArmor *equipped_armor = NULL;
+    GlobalCharacter *character = nullptr;
     int32 phys_diff = 0, mag_diff = 0; // Holds the difference in attack power from equipped weapon/armor to selected weapon/armor
 
     // NOTE: In this block of code, entries to the _phys_change_text and _mag_change_text members are only modified if that information is to be
     // displayed for the character (meaning that the character can use the weapon/armor and does not already have it equipped). This means
     // that these two container members may contain stale data from previous objects. This is acceptable, however, as the stale data should
     // never be drawn. The stale data is allowed to remain so that we do not waste time re-rendering text for which we will not display.
-    if(selected_weapon != NULL) {
+    if(selected_weapon != nullptr) {
         for(uint32 i = 0; i < party->size(); ++i) {
             character = party->at(i);
-            equipped_weapon = character->GetWeaponEquipped();
+            GlobalWeapon* equipped_weapon = character->GetWeaponEquipped();
 
             // Initially assume that the character does not have this weapon equipped
             _character_equipped[i] = false;
@@ -586,9 +596,9 @@ void ShopObjectViewer::_SetEquipmentData()
                 continue;
             }
             // Case 2: if the player does not have any weapon equipped, the stat diff is equal to the selected weapon's ratings
-            if(equipped_weapon == NULL) {
+            if(equipped_weapon == nullptr) {
                 phys_diff = static_cast<int32>(selected_weapon->GetPhysicalAttack());
-                mag_diff = static_cast<int32>(selected_weapon->GetMagicalAttack(GLOBAL_ELEMENTAL_NEUTRAL));
+                mag_diff = static_cast<int32>(selected_weapon->GetMagicalAttack());
             }
             // Case 3: if the player already has this weapon equipped, indicate thus and move on to the next character
             else if(selected_weapon->GetID() == equipped_weapon->GetID()) {
@@ -599,17 +609,17 @@ void ShopObjectViewer::_SetEquipmentData()
             else {
                 phys_diff = static_cast<int32>(selected_weapon->GetPhysicalAttack()) -
                             static_cast<int32>(equipped_weapon->GetPhysicalAttack());
-                mag_diff = static_cast<int32>(selected_weapon->GetMagicalAttack(GLOBAL_ELEMENTAL_NEUTRAL)) -
-                            static_cast<int32>(equipped_weapon->GetMagicalAttack(GLOBAL_ELEMENTAL_NEUTRAL));
+                mag_diff = static_cast<int32>(selected_weapon->GetMagicalAttack()) -
+                            static_cast<int32>(equipped_weapon->GetMagicalAttack());
             }
 
             // If this line has been reached, either case (2) or case (4) were evaluated as true. Render the phys/meta stat variation text
             _SetChangeText(i, phys_diff, mag_diff);
         }
-    } else { // (selected_armor != NULL)
+    } else { // (selected_armor != nullptr)
         for(uint32 i = 0; i < party->size(); ++i) {
             character = party->at(i);
-            equipped_armor = character->GetArmorEquipped(armor_index);
+            GlobalArmor* equipped_armor = character->GetArmorEquipped(armor_index);
 
             // Initially assume that the character does not have this armor equipped
             _character_equipped[i] = false;
@@ -625,9 +635,9 @@ void ShopObjectViewer::_SetEquipmentData()
                 continue;
             }
             // Case 2: if the player does not have any armor equipped, the stat diff is equal to the selected armor's ratings
-            if(equipped_armor == NULL) {
+            if(equipped_armor == nullptr) {
                 phys_diff = static_cast<int32>(selected_armor->GetPhysicalDefense());
-                mag_diff = static_cast<int32>(selected_armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL));
+                mag_diff = static_cast<int32>(selected_armor->GetMagicalDefense());
             }
             // Case 3: if the player already has this armor equipped, indicate thus and move on to the next character
             else if(selected_armor->GetID() == equipped_armor->GetID()) {
@@ -638,8 +648,8 @@ void ShopObjectViewer::_SetEquipmentData()
             else {
                 phys_diff = static_cast<int32>(selected_armor->GetPhysicalDefense()) -
                             static_cast<int32>(equipped_armor->GetPhysicalDefense());
-                mag_diff = static_cast<int32>(selected_armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL)) -
-                            static_cast<int32>(equipped_armor->GetMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL));
+                mag_diff = static_cast<int32>(selected_armor->GetMagicalDefense()) -
+                            static_cast<int32>(equipped_armor->GetMagicalDefense());
             }
 
             // If this line has been reached, either case (2) or case (4) were evaluated as true. Render the phys/meta stat variation text
@@ -774,16 +784,6 @@ void ShopObjectViewer::_SetChangeText(uint32 index, int32 phys_diff, int32 mag_d
     }
 }
 
-void ShopObjectViewer::_SetElementalIcons(const std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >& elemental_effects)
-{
-    _elemental_icons.clear();
-    for(std::vector<std::pair<GLOBAL_ELEMENTAL, GLOBAL_INTENSITY> >::const_iterator it = elemental_effects.begin();
-            it != elemental_effects.end(); ++it) {
-        if(it->second != GLOBAL_INTENSITY_NEUTRAL)
-            _elemental_icons.push_back(GlobalManager->Media().GetElementalIcon(it->first, it->second));
-    }
-}
-
 void ShopObjectViewer::_SetStatusIcons(const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& status_effects)
 {
     _status_icons.clear();
@@ -796,12 +796,11 @@ void ShopObjectViewer::_SetStatusIcons(const std::vector<std::pair<GLOBAL_STATUS
 
 void ShopObjectViewer::_DrawItem()
 {
-    float move_offset = 0.0f; // Used to save image widths in determining relative movement
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, 0);
 
     VideoManager->MoveRelative(80.0f, -15.0f);
     _field_use_header.Draw();
-    move_offset = _field_use_header.GetWidth() + 5.0f; // 5.0f is a small buffer space between text and graphic
+    float move_offset = _field_use_header.GetWidth() + 5.0f; // 5.0f is a small buffer space between text and graphic
     VideoManager->MoveRelative(move_offset, 0.0f);
     if(_map_usable) {
         _check_icon->Draw();
@@ -870,29 +869,29 @@ void ShopObjectViewer::_DrawEquipment()
             j -= 25.0f;
         }
     }
-    VideoManager->MoveRelative(j, -35.0f);
-
-    // Draw elemental effect icons
-    uint32 element_size = _elemental_icons.size();
-    VideoManager->MoveRelative((18.0f * element_size) - 12.0f, 0.0f);
-    for(uint32 i = 0; i < element_size; ++i) {
-        _elemental_icons[i]->Draw();
-        VideoManager->MoveRelative(-18.0f, 0.0f);
-    }
-    VideoManager->MoveRelative(0.0f, -25.0f);
+    VideoManager->MoveRelative(j, -65.0f);
 
     // Draw status effects icons
-    element_size = _status_icons.size() > 9 ? 9 : _status_icons.size();
+    uint32 element_size = _status_icons.size() > 9 ? 9 : _status_icons.size();
     VideoManager->MoveRelative((18.0f * element_size), 0.0f);
     for(uint32 i = 0; i < element_size; ++i) {
         _status_icons[i]->Draw();
         VideoManager->MoveRelative(-18.0f, 0.0f);
     }
+    VideoManager->MoveRelative(0.0f, 20.0f);
+    if (_status_icons.size() > 9) {
+        element_size = _status_icons.size();
+        VideoManager->MoveRelative((18.0f * (element_size - 9)), 0.0f);
+        for(uint32 i = 9; i < element_size; ++i) {
+            _status_icons[i]->Draw();
+            VideoManager->MoveRelative(-18.0f, 0.0f);
+        }
+    }
 
     // Split character and skills display depending on the current view
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
         // In list view mode, draw the sprites to the right of the icons
-        VideoManager->MoveRelative(210.0f, -20.0f);
+        VideoManager->MoveRelative(210.0f, -30.0f);
     }
     else if(ShopMode::CurrentInstance()->GetState() == SHOP_STATE_TRADE) {
         // In info view mode, draw on the left side
@@ -979,6 +978,8 @@ void ShopObjectViewer::_DrawSpirit()
 // *****************************************************************************
 
 ShopMode::ShopMode() :
+    GameMode(MODE_MANAGER_SHOP_MODE),
+    _sell_mode_enabled(true),
     _initialized(false),
     _state(SHOP_STATE_ROOT),
     _buy_price_level(SHOP_PRICE_STANDARD),
@@ -986,38 +987,36 @@ ShopMode::ShopMode() :
     _total_costs(0),
     _total_sales(0),
     _total_change_amount(0),
-    _shop_media(NULL),
-    _object_viewer(NULL),
-    _root_interface(NULL),
-    _buy_interface(NULL),
-    _sell_interface(NULL),
-    _trade_interface(NULL)
+    _shop_media(nullptr),
+    _object_viewer(nullptr),
+    _root_interface(nullptr),
+    _buy_interface(nullptr),
+    _sell_interface(nullptr),
+    _trade_interface(nullptr),
+    _dialogue_supervisor(nullptr),
+    _input_enabled(true)
 {
-    mode_type = MODE_MANAGER_SHOP_MODE;
     _current_instance = this;
 
     // Create the menu windows and set their properties
     _top_window.Create(800.0f, 96.0f, ~VIDEO_MENU_EDGE_BOTTOM);
     _top_window.SetPosition(112.0f, 84.0f);
     _top_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _top_window.SetDisplayMode(VIDEO_MENU_INSTANT);
     _top_window.Show();
 
     _middle_window.Create(800.0f, 400.0f, VIDEO_MENU_EDGE_ALL, VIDEO_MENU_EDGE_TOP | VIDEO_MENU_EDGE_BOTTOM);
     _middle_window.SetPosition(112.0f, 164.0f);
     _middle_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _middle_window.SetDisplayMode(VIDEO_MENU_INSTANT);
     _middle_window.Show();
 
     _bottom_window.Create(800.0f, 140.0f, ~VIDEO_MENU_EDGE_TOP);
     _bottom_window.SetPosition(112.0f, 544.0f);
     _bottom_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _bottom_window.SetDisplayMode(VIDEO_MENU_INSTANT);
     _bottom_window.Show();
 
-    // Create the list of shop actions
+    // Create the list of shop actions.
     _action_options.SetOwner(&_top_window);
-    _action_options.SetPosition(80.0f, 6.0f);
+    _action_options.SetPosition(80.0f, 13.0f);
     _action_options.SetDimensions(640.0f, 30.0f, 3, 1, 3, 1);
     _action_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
     _action_options.SetTextStyle(TextStyle("title28"));
@@ -1055,6 +1054,7 @@ ShopMode::ShopMode() :
     _buy_interface = new BuyInterface();
     _sell_interface = new SellInterface();
     _trade_interface = new TradeInterface();
+    _dialogue_supervisor = new vt_common::DialogueSupervisor();
 
     try {
         _screen_backdrop = VideoManager->CaptureScreen();
@@ -1073,13 +1073,14 @@ ShopMode::~ShopMode()
     delete _buy_interface;
     delete _sell_interface;
     delete _trade_interface;
+    delete _dialogue_supervisor;
 
     _top_window.Destroy();
     _middle_window.Destroy();
     _bottom_window.Destroy();
 
     if(_current_instance == this) {
-        _current_instance = NULL;
+        _current_instance = nullptr;
     }
 }
 
@@ -1094,6 +1095,9 @@ void ShopMode::Reset()
 
     if(IsInitialized() == false)
         Initialize();
+
+    // Reset potential battle scripts
+    GetScriptSupervisor().Reset();
 }
 
 
@@ -1122,13 +1126,20 @@ void ShopMode::Initialize()
     _buy_interface->Reinitialize();
     _sell_interface->Reinitialize();
     _trade_interface->Reinitialize();
-} // void ShopMode::Initialize()
+
+    // Init the script component.
+    GetScriptSupervisor().Initialize(this);
+}
 
 
 void ShopMode::_UpdateAvailableObjectsToSell()
 {
     // Reinit the data
     _available_sell.clear();
+
+    // If sell mode is disabled, we can return now.
+    if (!_sell_mode_enabled)
+        return;
 
     std::map<uint32, GlobalObject *>* inventory = GlobalManager->GetInventory();
     for(std::map<uint32, GlobalObject *>::iterator it = inventory->begin(); it != inventory->end(); ++it) {
@@ -1158,20 +1169,19 @@ void ShopMode::_UpdateAvailableObjectsToSell()
 
 void ShopMode::_UpdateAvailableShopOptions()
 {
-
     // Test the available categories
     //Switch back to buy
-    if(_available_buy.size() > 0)
+    if(!_available_buy.empty())
         _action_options.EnableOption(0, true);
     else
         _action_options.EnableOption(0, false);
 
-    if(_available_sell.size() > 0)
+    if(!_available_sell.empty())
         _action_options.EnableOption(1, true);
     else
         _action_options.EnableOption(1, false);
 
-    if(_available_trade.size() > 0)
+    if(!_available_trade.empty())
         _action_options.EnableOption(2, true);
     else {
         _action_options.EnableOption(2, false);
@@ -1210,10 +1220,48 @@ void ShopMode::_UpdateAvailableShopOptions()
     }
 }
 
+void ShopMode::_HandleRootInterfaceInput()
+{
+    if (!_input_enabled)
+        return;
+
+    if(InputManager->ConfirmPress()) {
+        if(_action_options.GetSelection() < 0 || _action_options.GetSelection() > 3) {
+            IF_PRINT_WARNING(SHOP_DEBUG) << "invalid selection in action window: " << _action_options.GetSelection() << std::endl;
+            _action_options.SetSelection(0);
+            return;
+        }
+
+        _action_options.InputConfirm();
+        GlobalManager->Media().PlaySound("confirm");
+
+        if(_action_options.GetSelection() == 0 && _action_options.IsOptionEnabled(0)) {  // Buy
+            ChangeState(SHOP_STATE_BUY);
+        } else if(_action_options.GetSelection() == 1 && _action_options.IsOptionEnabled(1)) { // Sell
+            ChangeState(SHOP_STATE_SELL);
+        } else if(_action_options.GetSelection() == 2 && _action_options.IsOptionEnabled(2)) { // Trade
+            ChangeState(SHOP_STATE_TRADE);
+        } else if(_action_options.GetSelection() == 3) {
+            // Leave
+            ModeManager->Pop();
+        }
+    } else if(InputManager->CancelPress()) {
+        GlobalManager->Media().PlaySound("cancel");
+        // Leave shop
+        ModeManager->Pop();
+    } else if(InputManager->LeftPress()) {
+        GlobalManager->Media().PlaySound("bump");
+        _action_options.InputLeft();
+    } else if(InputManager->RightPress()) {
+        GlobalManager->Media().PlaySound("bump");
+        _action_options.InputRight();
+    }
+}
 
 void ShopMode::Update()
 {
-    // Pause and quit events have highest priority. If either type of event is detected, no other update processing will be done
+    // Pause and quit events have highest priority.
+    // If either type of event is detected, no other update processing will be done.
     if(InputManager->QuitPress() == true) {
         ModeManager->Push(new PauseMode(true));
         return;
@@ -1222,70 +1270,47 @@ void ShopMode::Update()
         return;
     }
 
-    // When the state is at the root interface ,ShopMode needs to process user input and possibly change state
-    if(_state == SHOP_STATE_ROOT) {
-        if(InputManager->ConfirmPress()) {
-            if(_action_options.GetSelection() < 0 || _action_options.GetSelection() > 3) {
-                IF_PRINT_WARNING(SHOP_DEBUG) << "invalid selection in action window: " << _action_options.GetSelection() << std::endl;
-                _action_options.SetSelection(0);
-                return;
-            }
+    GameMode::Update();
 
-            _action_options.InputConfirm();
-            GlobalManager->Media().PlaySound("confirm");
+    if(_dialogue_supervisor->IsDialogueActive())
+        _dialogue_supervisor->Update();
 
-            if(_action_options.GetSelection() == 0 && _action_options.IsOptionEnabled(0)) {  // Buy
-                ChangeState(SHOP_STATE_BUY);
-            } else if(_action_options.GetSelection() == 1 && _action_options.IsOptionEnabled(1)) { // Sell
-                ChangeState(SHOP_STATE_SELL);
-            } else if(_action_options.GetSelection() == 2 && _action_options.IsOptionEnabled(2)) { // Trade
-                ChangeState(SHOP_STATE_TRADE);
-            } else if(_action_options.GetSelection() == 3) {
-                // Leave
-                ModeManager->Pop();
-            }
-        } else if(InputManager->CancelPress()) {
-            // Leave shop
-            ModeManager->Pop();
-        } else if(InputManager->LeftPress()) {
-            _action_options.InputLeft();
-        } else if(InputManager->RightPress()) {
-            _action_options.InputRight();
-        }
-        _action_options.Update();
-
+    // Update the active interface
+    switch(_state) {
+    case SHOP_STATE_ROOT:
+    {
+        _HandleRootInterfaceInput();
         _root_interface->Update();
-    } // if (_state == SHOP_STATE_ROOT)
-    else {
-        // Update the active interface
-        switch(_state) {
-        case SHOP_STATE_BUY:
-            _buy_interface->Update();
-            break;
-        case SHOP_STATE_SELL:
-            _sell_interface->Update();
-            break;
-        case SHOP_STATE_TRADE:
-            _trade_interface->Update();
-            break;
-        default:
-            IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << ", reseting to root state" << std::endl;
-            _state = SHOP_STATE_ROOT;
-            break;
-        } // switch (_state)
+        _action_options.Update();
+        break;
     }
-} // void ShopMode::Update()
-
-
+    case SHOP_STATE_BUY:
+        _buy_interface->Update();
+        break;
+    case SHOP_STATE_SELL:
+        _sell_interface->Update();
+        break;
+    case SHOP_STATE_TRADE:
+        _trade_interface->Update();
+        break;
+    default:
+        IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state
+            << ", reseting to root state" << std::endl;
+        _state = SHOP_STATE_ROOT;
+        break;
+    }
+}
 
 void ShopMode::Draw()
 {
     // Draw the background image. Set the system coordinates to the size of the window (same as the screen backdrop)
-    VideoManager->SetCoordSys(0.0f, static_cast<float>(VideoManager->GetScreenWidth()),
-                              static_cast<float>(VideoManager->GetScreenHeight()), 0.0f);
+    VideoManager->SetCoordSys(0.0f, static_cast<float>(VideoManager->GetViewportWidth()),
+                              static_cast<float>(VideoManager->GetViewportHeight()), 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
     VideoManager->Move(0.0f, 0.0f);
     _screen_backdrop.Draw();
+
+    GetScriptSupervisor().DrawBackground();
 
     // Draw all menu windows
     // Restore the standard shop coordinate system before drawing the shop windows
@@ -1314,8 +1339,8 @@ void ShopMode::Draw()
         break;
     }
 
-    // Note that X and Y are centered at that moment, explaining the relative coordinates used below.
-    VideoManager->DrawLine(-315.0f, 20.0f, 315.0f, 20.0f, 1.0f, Color::white);
+    // Note: X and Y are centered at that moment, explaining the relative coordinates used below.
+    VideoManager->DrawLine(-315.0f, 20.0f, 1, 315.0f, 20.0f, 1, Color::white);
 
     _finance_table.Draw();
 
@@ -1337,14 +1362,21 @@ void ShopMode::Draw()
         IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << std::endl;
         break;
     }
+
+    GetScriptSupervisor().DrawForeground();
+
+    if(_dialogue_supervisor->IsDialogueActive())
+        _dialogue_supervisor->Draw();
+
+    GetScriptSupervisor().DrawPostEffects();
 } // void ShopMode::Draw()
 
 
 
 void ShopMode::AddObjectToBuyList(ShopObject *object)
 {
-    if(object == NULL) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
+    if(object == nullptr) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a nullptr argument" << std::endl;
         return;
     }
 
@@ -1364,8 +1396,8 @@ void ShopMode::AddObjectToBuyList(ShopObject *object)
 
 void ShopMode::RemoveObjectFromBuyList(ShopObject *object)
 {
-    if(object == NULL) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
+    if(object == nullptr) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a nullptr argument" << std::endl;
         return;
     }
 
@@ -1386,8 +1418,8 @@ void ShopMode::RemoveObjectFromBuyList(ShopObject *object)
 
 void ShopMode::AddObjectToSellList(ShopObject *object)
 {
-    if(object == NULL) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
+    if(object == nullptr) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a nullptr argument" << std::endl;
         return;
     }
 
@@ -1407,8 +1439,8 @@ void ShopMode::AddObjectToSellList(ShopObject *object)
 
 void ShopMode::RemoveObjectFromSellList(ShopObject *object)
 {
-    if(object == NULL) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
+    if(object == nullptr) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a nullptr argument" << std::endl;
         return;
     }
 
@@ -1428,8 +1460,8 @@ void ShopMode::RemoveObjectFromSellList(ShopObject *object)
 
 void ShopMode::AddObjectToTradeList(ShopObject *object)
 {
-    if(object == NULL) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
+    if(object == nullptr) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a nullptr argument" << std::endl;
         return;
     }
 
@@ -1449,8 +1481,8 @@ void ShopMode::AddObjectToTradeList(ShopObject *object)
 
 void ShopMode::RemoveObjectFromTradeList(ShopObject *object)
 {
-    if(object == NULL) {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a NULL argument" << std::endl;
+    if(object == nullptr) {
+        IF_PRINT_WARNING(SHOP_DEBUG) << "function was passed a nullptr argument" << std::endl;
         return;
     }
 
@@ -1471,11 +1503,11 @@ void ShopMode::RemoveObjectFromTradeList(ShopObject *object)
 
 void ShopMode::ClearOrder()
 {
-    for(std::map<uint32, ShopObject *>::iterator i = _buy_list.begin(); i != _buy_list.end(); i++)
+    for(std::map<uint32, ShopObject *>::iterator i = _buy_list.begin(); i != _buy_list.end(); ++i)
         i->second->ResetBuyCount();
-    for(std::map<uint32, ShopObject *>::iterator i = _sell_list.begin(); i != _sell_list.end(); i++)
+    for(std::map<uint32, ShopObject *>::iterator i = _sell_list.begin(); i != _sell_list.end(); ++i)
         i->second->ResetSellCount();
-    for(std::map<uint32, ShopObject *>::iterator i = _trade_list.begin(); i != _trade_list.end(); i++)
+    for(std::map<uint32, ShopObject *>::iterator i = _trade_list.begin(); i != _trade_list.end(); ++i)
         i->second->ResetTradeCount();
 
     _buy_list.clear();
@@ -1507,10 +1539,11 @@ void ShopMode::CompleteTransaction()
 
         it->second->ResetBuyCount();
         it->second->IncrementOwnCount(count);
-        it->second->DecrementStockCount(count);
+        if (!it->second->IsInfiniteAmount())
+            it->second->DecrementStockCount(count);
         GlobalManager->AddToInventory(id, count);
 
-        if(it->second->GetStockCount() == 0) {
+        if(!it->second->IsInfiniteAmount() && it->second->GetStockCount() == 0) {
             RemoveObjectToBuy(id);
         }
     }
@@ -1526,7 +1559,7 @@ void ShopMode::CompleteTransaction()
 
         it->second->ResetSellCount();
         it->second->DecrementOwnCount(count);
-        GlobalManager->DecrementObjectCount(id, count);
+        GlobalManager->DecrementItemCount(id, count);
 
         // When all owned instances of this object have been sold off, the object is automatically removed
         // from the player's inventory. If the object is not sold in the shop, this means it must be removed
@@ -1547,16 +1580,17 @@ void ShopMode::CompleteTransaction()
 
         it->second->ResetTradeCount();
         it->second->IncrementOwnCount(count);
-        it->second->DecrementStockCount(count);
+        if (!it->second->IsInfiniteAmount())
+            it->second->DecrementStockCount(count);
         GlobalManager->AddToInventory(id, count);
 
         //Remove trade condition items from inventory and possibly call RemoveObjectToSell
         for(uint32 i = 0; i < it->second->GetObject()->GetTradeConditions().size(); ++i) {
-            GlobalManager->DecrementObjectCount(it->second->GetObject()->GetTradeConditions()[i].first,
+            GlobalManager->DecrementItemCount(it->second->GetObject()->GetTradeConditions()[i].first,
                                                 it->second->GetObject()->GetTradeConditions()[i].second * count);
         }
 
-        if(it->second->GetStockCount() == 0) {
+        if(!it->second->IsInfiniteAmount() && it->second->GetStockCount() == 0) {
             RemoveObjectToTrade(id);
         }
 
@@ -1603,18 +1637,16 @@ void ShopMode::UpdateFinances(int32 change_amount)
 
     _finance_table.SetOptionText(0, UTranslate("Funds: ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
     if(_total_change_amount < 0) {
-        _finance_table.SetOptionText(1, UTranslate("Purchases: ") + MakeUnicodeString(NumberToString(_total_change_amount)));
-        _finance_table.SetOptionText(2, UTranslate("Total: ") + MakeUnicodeString(NumberToString(GetTotalRemaining())));
+        _finance_table.SetOptionText(1, UTranslate("Purchases: ") + MakeUnicodeString(NumberToString(-_total_change_amount)));
+        _finance_table.SetOptionText(2, UTranslate("Remaining: ") + MakeUnicodeString(NumberToString(GetTotalRemaining())));
     } else if(_total_change_amount > 0) {
         _finance_table.SetOptionText(1, UTranslate("Sales: +") + MakeUnicodeString(NumberToString(_total_change_amount)));
-        _finance_table.SetOptionText(2, UTranslate("Total: ") + MakeUnicodeString(NumberToString(GetTotalRemaining())));
+        _finance_table.SetOptionText(2, UTranslate("Remaining: ") + MakeUnicodeString(NumberToString(GetTotalRemaining())));
     } else {
         _finance_table.SetOptionText(1, vt_utils::ustring());
         _finance_table.SetOptionText(2, vt_utils::ustring());
     }
 }
-
-
 
 void ShopMode::ChangeState(SHOP_STATE new_state)
 {
@@ -1644,7 +1676,26 @@ void ShopMode::ChangeState(SHOP_STATE new_state)
     }
 }
 
-
+void ShopMode::ChangeViewMode(SHOP_VIEW_MODE new_mode)
+{
+    switch(_state) {
+    case SHOP_STATE_ROOT:
+        _root_interface->ChangeViewMode(new_mode);
+        break;
+    case SHOP_STATE_BUY:
+        _buy_interface->ChangeViewMode(new_mode);
+        break;
+    case SHOP_STATE_SELL:
+        _sell_interface->ChangeViewMode(new_mode);
+        break;
+    case SHOP_STATE_TRADE:
+        _trade_interface->ChangeViewMode(new_mode);
+        break;
+    default:
+        IF_PRINT_WARNING(SHOP_DEBUG) << "invalid shop state: " << _state << std::endl;
+        break;
+    }
+}
 
 void ShopMode::SetShopName(const ustring& name)
 {
@@ -1683,7 +1734,7 @@ void ShopMode::SetPriceLevels(SHOP_PRICE_LEVEL buy_level, SHOP_PRICE_LEVEL sell_
 
 
 
-void ShopMode::AddObject(uint32 object_id, uint32 stock)
+void ShopMode::AddItem(uint32 object_id, uint32 stock)
 {
     if(IsInitialized() == true) {
         PRINT_WARNING << "function called after shop was already initialized" << std::endl;
@@ -1701,9 +1752,12 @@ void ShopMode::AddObject(uint32 object_id, uint32 stock)
     }
 
     GlobalObject *new_object = GlobalCreateNewObject(object_id, 1);
-    if(new_object != NULL) {
+    if(new_object != nullptr) {
         ShopObject *new_shop_object = new ShopObject(new_object);
-        new_shop_object->IncrementStockCount(stock);
+        if (stock > 0)
+            new_shop_object->IncrementStockCount(stock);
+        else // When the stock is set to 0, it means there is an infinity amount of object to buy.
+            new_shop_object->SetInfiniteAmount(true);
         _available_buy.insert(std::make_pair(object_id, new_shop_object));
     }
 }
@@ -1728,9 +1782,12 @@ void ShopMode::AddTrade(uint32 object_id, uint32 stock)
     }
 
     GlobalObject *new_object = GlobalCreateNewObject(object_id, 1);
-    if(new_object != NULL) {
+    if(new_object != nullptr) {
         ShopObject *new_shop_object = new ShopObject(new_object);
-        new_shop_object->IncrementStockCount(stock);
+        if (stock > 0)
+            new_shop_object->IncrementStockCount(stock);
+        else // When the stock is set to 0, it means there is an infinity amount of object to trade.
+            new_shop_object->SetInfiniteAmount(true);
         _available_trade.insert(std::make_pair(object_id, new_shop_object));
     }
 }

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -13,12 +13,24 @@
 *** \brief   Source file for managing scriptable animated effects for any game mode.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "engine/script_supervisor.h"
 
 #include "engine/mode_manager.h"
 
 using namespace vt_video;
 using namespace vt_script;
+
+ScriptSupervisor::~ScriptSupervisor()
+{
+    // Free the created images before destruction.
+    for(uint32 i = 0; i < _text_images.size(); ++i)
+        delete _text_images[i];
+    for(uint32 i = 0; i < _still_images.size(); ++i)
+        delete _still_images[i];
+    for(uint32 i = 0; i < _animated_images.size(); ++i)
+        delete _animated_images[i];
+}
 
 void ScriptSupervisor::Initialize(vt_mode_manager::GameMode *gm)
 {
@@ -41,6 +53,7 @@ void ScriptSupervisor::Initialize(vt_mode_manager::GameMode *gm)
         }
 
         _reset_functions.push_back(scene_script.ReadFunctionPointer("Reset"));
+        _restart_functions.push_back(scene_script.ReadFunctionPointer("Restart"));
         _update_functions.push_back(scene_script.ReadFunctionPointer("Update"));
         _draw_background_functions.push_back(scene_script.ReadFunctionPointer("DrawBackground"));
         _draw_foreground_functions.push_back(scene_script.ReadFunctionPointer("DrawForeground"));
@@ -70,12 +83,15 @@ void ScriptSupervisor::Reset()
         ReadScriptDescriptor::RunScriptObject(_reset_functions[i]);
 }
 
+void ScriptSupervisor::Restart()
+{
+    // Updates custom scripts
+    for(uint32 i = 0; i < _restart_functions.size(); ++i)
+        ReadScriptDescriptor::RunScriptObject(_restart_functions[i]);
+}
+
 void ScriptSupervisor::Update()
 {
-    // Update custom animations
-    for(uint32 i = 0; i < _script_animations.size(); ++i)
-        _script_animations[i].Update();
-
     // Updates custom scripts
     for(uint32 i = 0; i < _update_functions.size(); ++i)
         ReadScriptDescriptor::RunScriptObject(_update_functions[i]);
@@ -100,79 +116,29 @@ void ScriptSupervisor::DrawPostEffects()
         ReadScriptDescriptor::RunScriptObject(_draw_post_effects_functions[i]);
 }
 
-int32 ScriptSupervisor::AddAnimation(const std::string &filename)
+// Images loading
+TextImage* ScriptSupervisor::CreateText(const vt_utils::ustring& text, const vt_video::TextStyle& style)
 {
-    AnimatedImage anim;
-    if(!anim.LoadFromAnimationScript(filename)) {
+    vt_video::TextImage* text_image = new vt_video::TextImage(text, style);
+    _text_images.push_back(text_image);
+    return text_image;
+}
+
+AnimatedImage* ScriptSupervisor::CreateAnimation(const std::string& filename)
+{
+    AnimatedImage* anim = new AnimatedImage();
+    if(!filename.empty() && !anim->LoadFromAnimationScript(filename))
         PRINT_WARNING << "The animation file could not be loaded: " << filename << std::endl;
-        return -1;
-    }
 
-    _script_animations.push_back(anim);
-
-    int32 id = _script_animations.size() - 1;
-    return id;
+    _animated_images.push_back(anim);
+    return anim;
 }
 
-int32 ScriptSupervisor::AddAnimation(const std::string &filename, float width,
-                                     float height)
+StillImage* ScriptSupervisor::CreateImage(const std::string& filename)
 {
-    int32 id = AddAnimation(filename);
-    if (id > -1)
-        _script_animations[id].SetDimensions(width, height);
-
-    return id;
-}
-
-void ScriptSupervisor::DrawAnimation(int32 id, float x, float y)
-{
-   DrawAnimation(id, x, y, Color::white);
-}
-
-void ScriptSupervisor::DrawAnimation(int32 id, float x, float y, const Color& color)
-{
-    if(id < 0 || id > static_cast<int32>(_script_animations.size()) - 1)
-        return;
-
-    VideoManager->Move(x, y);
-    _script_animations[id].Draw(color);
-}
-
-int32 ScriptSupervisor::AddImage(const std::string &filename, float width,
-                                 float height)
-{
-    StillImage img;
-    if(!img.Load(filename, width, height)) {
+    StillImage* img = new StillImage();
+    if(!filename.empty() && !img->Load(filename))
         PRINT_WARNING << "The image file could not be loaded: " << filename << std::endl;
-        return -1;
-    }
-
-    _script_images.push_back(img);
-
-    int32 id = _script_images.size() - 1;
-    return id;
-}
-
-void ScriptSupervisor::DrawImage(int32 id, float x, float y)
-{
-    DrawImage(id, x, y, Color::white);
-}
-
-void ScriptSupervisor::DrawImage(int32 id, float x, float y, const Color &color)
-{
-    if(id < 0 || id > static_cast<int32>(_script_images.size()) - 1)
-        return;
-
-    VideoManager->Move(x, y);
-    _script_images[id].Draw(color);
-}
-
-void ScriptSupervisor::DrawRotatedImage(int32 id, float x, float y, const Color &color, float angle)
-{
-    if(id < 0 || id > static_cast<int32>(_script_images.size()) - 1)
-        return;
-
-    VideoManager->Move(x, y);
-    VideoManager->Rotate(angle);
-    _script_images[id].Draw(color);
+    _still_images.push_back(img);
+    return img;
 }

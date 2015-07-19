@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -20,8 +20,6 @@
 #include "engine/video/color.h"
 #include "engine/video/image.h"
 #include "engine/video/shake.h"
-
-#include <deque>
 
 namespace vt_mode_manager
 {
@@ -54,22 +52,9 @@ struct AmbientLightInfo {
     vt_video::Color color;
 };
 
-// Lightnings
-struct LightningInfo {
-    //! true if a lightning effect is active
-    bool active;
-
-    //! Active lightning effect id;
-    int16 active_id;
-
-    //! tells whether the lightning effect has to loop
-    bool loop;
-};
-
 struct AmbientEffectsInfo {
     AmbientOverlayInfo overlay;
     AmbientLightInfo light;
-    LightningInfo lightning;
 };
 
 
@@ -82,13 +67,12 @@ public:
     ~EffectSupervisor()
     {}
 
-    /** \brief turn on the ligt color for the scene
-     * \param color the light color to use
-     */
+    /** \brief turn on the light color for the scene
+    *** \param color the light color to use
+    **/
     void EnableLightingOverlay(const vt_video::Color &color);
 
-    /** \brief disables scene lighting
-     */
+    //! \brief disables scene lighting
     void DisableLightingOverlay();
 
     /** \brief Load and enable the textured ambient overlay
@@ -103,7 +87,7 @@ public:
     //! \brief disables the textured ambient overlay
     void DisableAmbientOverlay();
 
-    //! \brief Adds to the ovleray parallax values. Used by the map mode when the camera is moving.
+    //! \brief Adds to the overlay parallax values. Used by the map mode when the camera is moving.
     void AddParallax(float x, float y) {
         _info.overlay.x_parallax += x;
         _info.overlay.y_parallax += y;
@@ -115,18 +99,6 @@ public:
     { return _info.overlay.x_parallax; }
     float GetCameraYMovement() const
     { return _info.overlay.y_parallax; }
-
-    /** \brief Enable the lightning overlay
-     * \param id the lighning effect id (See the lightning effect lua script)
-     * \param loop Whether the effect should be looped.
-     */
-    void EnableLightning(int16 id, bool loop = false);
-
-    /** \brief disables the lightning overlay
-     */
-    void DisableLightning() {
-        _info.lightning.active = false;
-    }
 
     /** \brief Update the timer-based ambient effects.
     *** \param frame_time the time in ms that has passed since the last call.
@@ -172,28 +144,9 @@ public:
     }
 
 private:
-    /** \brief Load the lightning effects lua script
-     *  \param script_file a lua script file which contains lightning intensities stored
-     *  as floats (0.0 - 1.0f). and sound events for several lightning effects.
-     * \return success/failure
-     */
-    bool _LoadLightnings(const std::string &script_file);
-
-    /** \brief call this every frame to draw any lightning effects. You should make
-     *         sure to place this call in an appropriate spot. In particular, you should
-     *         draw the lightning before drawing the GUI. The lightning is drawn by
-     *         using a fullscreen overlay.
-     */
-    void _DrawLightning();
-
-    /** \brief updated all the lightning related timers and trigger sounds events.
-    *** \param frame_time The number of milliseconds that have elapsed for the current rendering frame
-     */
-    void _UpdateLightning(uint32 frame_time);
-
     /** \brief updated all the ambient overlay related timers
     *** \param frame_time The number of milliseconds that have elapsed for the current rendering frame
-     */
+    **/
     void _UpdateAmbientOverlay(uint32 frame_time);
 
     //! Image used as ambient overlay
@@ -201,34 +154,6 @@ private:
 
     //! Image used as overlay for ambient lightning
     vt_video::StillImage _light_overlay_img;
-
-    struct LightningVideoManagerInfo {
-        //! Image used as overlay for lightning effects
-        vt_video::StillImage _lightning_overlay_img;
-
-        //! current time of currently active lightning effect (time since it started in ms)
-        int32 _lightning_current_time;
-
-        //! how many milliseconds to do the lightning effects for
-        std::vector<int32> _lightning_end_times;
-
-        //! intensity data for lightning effects
-        std::vector< std::vector <float> > _lightning_data;
-
-        struct lightning_sound_event {
-            // The time to trigger the sound at, in ms.
-            int32 time;
-            // The sound event filename
-            std::string sound_filename;
-        };
-        //! The sound events to play when displaying a lightning effect.
-        std::vector< std::vector<lightning_sound_event> > _lightning_sound_events;
-
-        /** the current lightning sound event vector, made for efficiency,
-        *** And used to play the sound for the current lightning effect.
-        **/
-        std::deque<lightning_sound_event> _current_lightning_sound_events;
-    } _lightning_inner_info;
 
     AmbientEffectsInfo _info;
 

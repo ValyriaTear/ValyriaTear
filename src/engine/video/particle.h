@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -26,31 +26,31 @@
 
 #include "particle_keyframe.h"
 
-
 namespace vt_mode_manager
 {
 
 /*!***************************************************************************
- *  \brief this is used in the vertex array for DrawArrays(). Every time
- *         the particle system is rendered, we need to iterate through all the
- *         particles in the system, and use the position, size, and rotation
- *         to generate 4 ParticleVertex's. This is pretty expensive, but
+ *  \brief Every time the particle system is rendered, we need to iterate through
+ *         all the particles in the system, and use the position, size, and
+ *         rotation to generate 4 ParticleVertex's. This is pretty expensive, but
  *         unfortunately it's necessary since the positions change every frame.
  *****************************************************************************/
 
 class ParticleVertex
 {
 public:
-    ParticleVertex():
+    ParticleVertex() :
         _x(0.0f),
-        _y(0.0f)
-    {}
+        _y(0.0f),
+        _z(0.0f)
+    {
+    }
 
-    //! position of 1 vertex of the particle's quad
+    //! The position of a vertex of the particle's quad.
     float _x;
     float _y;
+    float _z;
 };
-
 
 /*!***************************************************************************
  *  \brief this is used in texture coordinate array for DrawArrays()
@@ -63,18 +63,17 @@ public:
     ParticleTexCoord():
         _t0(0.0f),
         _t1(0.0f)
-    {}
+    {
+    }
 
-    //! texture coordinates for 1 vertex of the particle's quad
+    //! The texture coordinates of a vertex of the particle's quad.
     float _t0;
     float _t1;
 };
 
-
 /*!***************************************************************************
  *  \brief this is the structure we use to represent a particle
  *****************************************************************************/
-
 
 class Particle
 {
@@ -108,8 +107,8 @@ public:
         next_size_variation_y(0.0f),
         current_rotation_speed_variation(0.0f),
         next_rotation_speed_variation(0.0f),
-        current_keyframe(NULL),
-        next_keyframe(NULL)
+        current_keyframe(nullptr),
+        next_keyframe(nullptr)
     {}
 
     //! position

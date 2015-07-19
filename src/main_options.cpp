@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,16 +15,17 @@
 *** \brief   Implementations for functions that handle command-line arguments.
 *** **************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "main_options.h"
-
-#include "utils.h"
 
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
-#include "engine/script/script.h"
+#include "engine/script/script_write.h"
 #include "engine/input.h"
 #include "engine/system.h"
 #include "engine/mode_manager.h"
+
+#include "utils/utils_files.h"
 
 #include "common/global/global.h"
 
@@ -59,14 +60,7 @@ bool ParseProgramOptions(int32 &return_code, int32 argc, char **argv)
     return_code = 0;
 
     for(uint32 i = 1; i < options.size(); i++) {
-        if(options[i] == "-c" || options[i] == "--check") {
-            if(CheckFiles() == true) {
-                return_code = 0;
-            } else {
-                return_code = 1;
-            }
-            return false;
-        } else if(options[i] == "-d" || options[i] == "--debug") {
+        if(options[i] == "-d" || options[i] == "--debug") {
             if((i + 1) >= options.size()) {
                 std::cerr << "Option " << options[i] << " requires an argument." << std::endl;
                 PrintUsage();
@@ -110,8 +104,6 @@ bool ParseProgramOptions(int32 &return_code, int32 argc, char **argv)
     return true;
 } // bool ParseProgramOptions(int32_t &return_code, int32_t argc, char **argv)
 
-
-
 bool ParseSecondaryOptions(const std::string &vars, std::vector<std::string>& options)
 {
     uint32 sbegin = 0;
@@ -148,9 +140,8 @@ bool ParseSecondaryOptions(const std::string &vars, std::vector<std::string>& op
 void PrintUsage()
 {
     std::cout
-            << "usage: "APPSHORTNAME" [options]" << std::endl
-            << "  --check/-c        :: checks all files for integrity" << std::endl
-            << "  --debug/-d <args> :: enables debug statements in specifed sections of the" << std::endl
+            << "usage: " APPSHORTNAME " [options]" << std::endl
+            << "  --debug/-d <args> :: enables debug statements in specified sections of the" << std::endl
             << "                       program, where <args> can be:" << std::endl
             << "                       all, audio, battle, boot, data, global, input," << std::endl
             << "                       map, mode_manager, pause, quit, scene, system" << std::endl
@@ -160,8 +151,6 @@ void PrintUsage()
             << "  --info/-i         :: prints information about the user's system" << std::endl
             << "  --reset/-r        :: resets game configuration to use default settings" << std::endl;
 }
-
-
 
 bool PrintSystemInformation()
 {
@@ -174,19 +163,21 @@ bool PrintSystemInformation()
     }
     atexit(SDL_Quit);
 
-    printf("SDL version (compiled):  %d.%d.%d\n", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
-    printf("SDL version (linked):    %d.%d.%d\n", SDL_Linked_Version()->major, SDL_Linked_Version()->minor, SDL_Linked_Version()->patch);
+    SDL_version sdl_linked_ver;
+    SDL_GetVersion(&sdl_linked_ver);
 
-    SDL_Joystick *js_test;
+    printf("SDL version (compiled):  %d.%d.%d\n", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
+    printf("SDL version (linked):    %d.%d.%d\n", sdl_linked_ver.major, sdl_linked_ver.minor, sdl_linked_ver.patch);
+
     int32 js_num = SDL_NumJoysticks();
     printf("Number of joysticks found:  %d\n", js_num);
 
     // Print out information about each joystick
     for(int32 i = 0; i < js_num; i++) {
         printf("  Joystick #%d\n", i);
-        printf("    Joystick Name: %s\n", SDL_JoystickName(i));
-        js_test = SDL_JoystickOpen(i);
-        if(js_test == NULL)
+        //printf("    Joystick Name: %s\n", SDL_GameControllerNameForIndex(i));
+        SDL_Joystick* js_test = SDL_JoystickOpen(i);
+        if(js_test == nullptr)
             printf("    ERROR: SDL was unable to open joystick #%d!\n", i);
         else {
             printf("    Number Axes: %d\n", SDL_JoystickNumAxes(js_test));
@@ -213,8 +204,7 @@ bool PrintSystemInformation()
     // TODO: print the OpenGL version number here
 
     printf("SDL_ttf version (compiled): %d.%d.%d\n", SDL_TTF_MAJOR_VERSION, SDL_TTF_MINOR_VERSION, SDL_TTF_PATCHLEVEL);
-    // printf("SDL_ttf version (linked):   %d.%d.%d\n", Ttf_Linked_Version()->major, Ttf_Linked_Version()->minor, Ttf_Linked_Version()->patch);
-
+/*
     char video_driver[80];
     SDL_VideoDriverName(video_driver, 80);
     printf("Name of video driver: %s\n", video_driver);
@@ -269,7 +259,7 @@ bool PrintSystemInformation()
         std::cout << "no\n";
     std::cout << "    Total video memory: " << user_video->video_mem << " kilobytes" << std::endl;
     // std::cout << "    Best pixel format: " << user_video->vfmt << std::endl;
-
+*/
     printf("\n===== Audio Information\n");
 
     vt_audio::AudioManager = vt_audio::AudioEngine::SingletonCreate();
@@ -286,23 +276,16 @@ bool PrintSystemInformation()
     return true;
 } // bool PrintSystemInformation()
 
-
-
 bool ResetSettings()
 {
-    std::cout << "This option is not yet implemented." << std::endl;
+    std::string file = GetUserConfigPath() + "settings.lua";
+
+    // Copy the default file to the user location.
+    CopyFile(std::string("data/config/settings.lua"), file);
+    std::cout << "Copied default settings.lua file to: " << file << std::endl;
+
     return false;
 } // bool ResetSettings()
-
-
-
-bool CheckFiles()
-{
-    std::cout << "This option is not yet implemented." << std::endl;
-    return false;
-} // bool CheckFiles()
-
-
 
 bool EnableDebugging(const std::string &vars)
 {

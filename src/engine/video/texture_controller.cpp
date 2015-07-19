@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,29 +15,34 @@
 *** \brief   Source file for texture management code
 *** ***************************************************************************/
 
-#include "video.h"
-
+#include "utils/utils_pch.h"
 #include "texture_controller.h"
+#include "utils/utils_files.h"
 
-using namespace vt_utils;
+#include "engine/mode_manager.h"
+#include "engine/video/video.h"
+
 using namespace vt_video::private_video;
-
-template<> vt_video::TextureController *Singleton<vt_video::TextureController>::_singleton_reference = NULL;
 
 namespace vt_video
 {
 
-TextureController *TextureManager = NULL;
+//! \brief The temporary directory.
+const std::string DIRECTORY_TEMPORARY = "temporary/";
+
+//! \brief The temporary texture directory.
+const std::string DIRECTORY_TEMPORARY_TEXTURE = DIRECTORY_TEMPORARY + "texture/";
 
 
+//! \brief A pointer to the texture controller.
+TextureController* TextureManager = nullptr;
 
 TextureController::TextureController() :
-    debug_current_sheet(-1),
     _last_tex_id(INVALID_TEXTURE_ID),
+    _debug_current_sheet(-1),
     _debug_num_tex_switches(0)
-{}
-
-
+{
+}
 
 TextureController::~TextureController()
 {
@@ -52,7 +57,7 @@ TextureController::~TextureController()
     }
 
     IF_PRINT_DEBUG(VIDEO_DEBUG) << "Deleting all remaining texture sheets, a total of: " << _tex_sheets.size() << std::endl;
-    for(std::vector<TexSheet *>::iterator i = _tex_sheets.begin(); i != _tex_sheets.end(); i++) {
+    for(std::vector<TexSheet *>::iterator i = _tex_sheets.begin(); i != _tex_sheets.end(); ++i) {
         delete *i;
     }
 }
@@ -62,23 +67,23 @@ TextureController::~TextureController()
 bool TextureController::SingletonInitialize()
 {
     // Create a default set of texture sheets
-    if(_CreateTexSheet(512, 512, VIDEO_TEXSHEET_32x32, false) == NULL) {
+    if(_CreateTexSheet(512, 512, VIDEO_TEXSHEET_32x32, false) == nullptr) {
         PRINT_ERROR << "could not create default 32x32 texture sheet" << std::endl;
         return false;
     }
-    if(_CreateTexSheet(512, 512, VIDEO_TEXSHEET_32x64, false) == NULL) {
+    if(_CreateTexSheet(512, 512, VIDEO_TEXSHEET_32x64, false) == nullptr) {
         PRINT_ERROR << "could not create default 32x64 texture sheet" << std::endl;
         return false;
     }
-    if(_CreateTexSheet(512, 512, VIDEO_TEXSHEET_64x64, false) == NULL) {
+    if(_CreateTexSheet(512, 512, VIDEO_TEXSHEET_64x64, false) == nullptr) {
         PRINT_ERROR << "could not create default 64x64 texture sheet" << std::endl;
         return false;
     }
-    if(_CreateTexSheet(512, 512, VIDEO_TEXSHEET_ANY, true) == NULL) {
+    if(_CreateTexSheet(512, 512, VIDEO_TEXSHEET_ANY, true) == nullptr) {
         PRINT_ERROR << "could not create default static variable sized texture sheet" << std::endl;
         return false;
     }
-    if(_CreateTexSheet(512, 512, VIDEO_TEXSHEET_ANY, false) == NULL) {
+    if(_CreateTexSheet(512, 512, VIDEO_TEXSHEET_ANY, false) == nullptr) {
         PRINT_ERROR << "could not create default variable sized tex sheet" << std::endl;
         return false;
     }
@@ -103,44 +108,21 @@ bool TextureController::UnloadTextures()
     // Unload all texture sheets
     std::vector<TexSheet *>::iterator i = _tex_sheets.begin();
     while(i != _tex_sheets.end()) {
-        if(*i != NULL) {
+        if(*i != nullptr) {
             if((*i)->Unload() == false) {
                 IF_PRINT_WARNING(VIDEO_DEBUG) << "a TextureSheet::Unload() call failed" << std::endl;
                 success = false;
             }
         } else {
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "a NULL TextureSheet was found in the _tex_sheets container" << std::endl;
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "a nullptr TextureSheet was found in the _tex_sheets container" << std::endl;
             success = false;
         }
 
-        i++;
-    }
-
-    // Clear all font caches
-    std::map<std::string, FontProperties *>::iterator j = TextManager->_font_map.begin();
-    std::map<std::string, FontProperties *>::const_iterator j_end = TextManager->_font_map.end();
-    while(j != j_end) {
-        std::vector<FontGlyph *>* glyph_cache = j->second->glyph_cache;
-
-        if(glyph_cache) {
-            std::vector<vt_video::FontGlyph *>::iterator it_end = glyph_cache->end();
-            for(std::vector<FontGlyph *>::iterator k = glyph_cache->begin();
-                    k != it_end; ++k) {
-                if(*k)
-                    _DeleteTexture((*k)->texture);
-                delete *k;
-            }
-
-            glyph_cache->clear();
-        }
-
-        ++j;
+        ++i;
     }
 
     return success;
-} // bool TextureController::UnloadTextures()
-
-
+}
 
 bool TextureController::ReloadTextures()
 {
@@ -148,17 +130,17 @@ bool TextureController::ReloadTextures()
     std::vector<TexSheet *>::iterator i = _tex_sheets.begin();
 
     while(i != _tex_sheets.end()) {
-        if(*i != NULL) {
+        if(*i != nullptr) {
             if((*i)->Reload() == false) {
                 IF_PRINT_WARNING(VIDEO_DEBUG) << "a TextureSheet::Reload() call failed" << std::endl;
                 success = false;
             }
         } else {
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "a NULL TextureSheet was found in the _tex_sheets container" << std::endl;
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "a nullptr TextureSheet was found in the _tex_sheets container" << std::endl;
             success = false;
         }
 
-        i++;
+        ++i;
     }
 
     _DeleteTempTextures();
@@ -170,20 +152,20 @@ bool TextureController::ReloadTextures()
 
 void TextureController::DEBUG_NextTexSheet()
 {
-    debug_current_sheet++;
+    _debug_current_sheet++;
 
-    if(debug_current_sheet >= static_cast<int32>(_tex_sheets.size()))
-        debug_current_sheet = -1;  // Disables texture sheet display
+    if(_debug_current_sheet >= static_cast<int32>(_tex_sheets.size()))
+        _debug_current_sheet = -1;  // Disables texture sheet display
 }
 
 
 
 void TextureController::DEBUG_PrevTexSheet()
 {
-    debug_current_sheet--;
+    _debug_current_sheet--;
 
-    if(debug_current_sheet < -1)
-        debug_current_sheet = static_cast<int32>(_tex_sheets.size()) - 1;
+    if(_debug_current_sheet < -1)
+        _debug_current_sheet = static_cast<int32>(_tex_sheets.size()) - 1;
 }
 
 
@@ -191,7 +173,7 @@ void TextureController::DEBUG_PrevTexSheet()
 void TextureController::DEBUG_ShowTexSheet()
 {
     // Value less than zero means we shouldn't show any texture sheets
-    if(debug_current_sheet < 0) {
+    if(_debug_current_sheet < 0) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "function was called when debug_current_sheet was not a positive value" << std::endl;
         return;
     }
@@ -205,13 +187,13 @@ void TextureController::DEBUG_ShowTexSheet()
     // to look at a different sheet
     int32 num_sheets = static_cast<uint32>(_tex_sheets.size());
 
-    if(debug_current_sheet >= num_sheets) {
-        debug_current_sheet = num_sheets - 1;
+    if(_debug_current_sheet >= num_sheets) {
+        _debug_current_sheet = num_sheets - 1;
     }
 
-    TexSheet *sheet = _tex_sheets[debug_current_sheet];
-    if(sheet == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "discovered a NULL texture sheet in _tex_sheets container" << std::endl;
+    TexSheet *sheet = _tex_sheets[_debug_current_sheet];
+    if(sheet == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "discovered a nullptr texture sheet in _tex_sheets container" << std::endl;
         return;
     }
 
@@ -219,20 +201,20 @@ void TextureController::DEBUG_ShowTexSheet()
     VideoManager->SetDrawFlags(VIDEO_NO_BLEND, VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
     VideoManager->SetStandardCoordSys();
 
-    glPushMatrix();
+    VideoManager->PushMatrix();
     VideoManager->Move(0.0f, 368.0f);
-    glScalef(sheet->width / 2.0f, sheet->height / 2.0f, 1.0f);
+    VideoManager->Scale(sheet->width / 2.0f, sheet->height / 2.0f);
 
     sheet->DEBUG_Draw();
 
-    glPopMatrix();
+    VideoManager->PopMatrix();
 
     char buf[200];
 
     VideoManager->Move(20, 60);
     TextManager->Draw("Current Texture sheet:");
 
-    sprintf(buf, "  Sheet:   %d", debug_current_sheet);
+    sprintf(buf, "  Sheet:   %d", _debug_current_sheet);
     VideoManager->MoveRelative(0, 20);
     TextManager->Draw(buf);
 
@@ -240,13 +222,13 @@ void TextureController::DEBUG_ShowTexSheet()
     sprintf(buf, "  Size:    %dx%d", sheet->width, sheet->height);
     TextManager->Draw(buf);
 
-    if(sheet->type == VIDEO_TEXSHEET_32x32)
+    if (sheet->type == VIDEO_TEXSHEET_32x32)
         sprintf(buf, "  Type:    32x32");
-    else if(sheet->type == VIDEO_TEXSHEET_32x64)
+    else if (sheet->type == VIDEO_TEXSHEET_32x64)
         sprintf(buf, "  Type:    32x64");
-    else if(sheet->type == VIDEO_TEXSHEET_64x64)
+    else if (sheet->type == VIDEO_TEXSHEET_64x64)
         sprintf(buf, "  Type:    64x64");
-    else if(sheet->type == VIDEO_TEXSHEET_ANY)
+    else if (sheet->type == VIDEO_TEXSHEET_ANY)
         sprintf(buf, "  Type:    Any size");
     else
         sprintf(buf, "  Type:    Unknown");
@@ -263,9 +245,7 @@ void TextureController::DEBUG_ShowTexSheet()
     TextManager->Draw(buf);
 
     VideoManager->PopState();
-} // void TextureController::DEBUG_ShowTexSheet()
-
-
+}
 
 GLuint TextureController::_CreateBlankGLTexture(int32 width, int32 height)
 {
@@ -282,7 +262,7 @@ GLuint TextureController::_CreateBlankGLTexture(int32 width, int32 height)
 
     // If the binding was successful, initialize the texture with glTexImage2D()
     if(VideoManager->GetGLError() == GL_NO_ERROR) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
     }
 
     if(VideoManager->CheckGLError()) {
@@ -291,23 +271,18 @@ GLuint TextureController::_CreateBlankGLTexture(int32 width, int32 height)
         return INVALID_TEXTURE_ID;
     }
 
-    // Set linear texture interpolation based on the smooth option.
-    GLenum filtering_type = VideoManager->ShouldSmoothPixelArt() ? GL_LINEAR : GL_NEAREST;
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering_type);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering_type);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
     return tex_id;
 }
 
-
-
 void TextureController::_BindTexture(GLuint tex_id)
 {
-    // Return if this texture ID is already bound
-    if(tex_id == _last_tex_id)
+    // Return if this texture ID is already bound.
+    if (tex_id == _last_tex_id)
         return;
 
     _last_tex_id = tex_id;
@@ -315,63 +290,101 @@ void TextureController::_BindTexture(GLuint tex_id)
     ++_debug_num_tex_switches;
 }
 
-
-
 void TextureController::_DeleteTexture(GLuint tex_id)
 {
-    glDeleteTextures(1, &tex_id);
+    if (tex_id != 0) {
+        GLuint textures[] = { tex_id };
+        glDeleteTextures(1, textures);
+    }
 
-    if(_last_tex_id == tex_id)
+    if (_last_tex_id == tex_id)
         _last_tex_id = INVALID_TEXTURE_ID;
 }
-
-
 
 bool TextureController::_SaveTempTextures()
 {
     bool success = true;
 
-    for(std::map<std::string, ImageTexture *>::iterator i = _images.begin(); i != _images.end(); i++) {
+    // Create the temporary directory.
+    std::string path = vt_utils::GetUserDataPath() + DIRECTORY_TEMPORARY;
+    if (!vt_utils::DoesFileExist(path)) {
+        if (!vt_utils::MakeDirectory(path)) {
+            success = false;
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "Unable to create the temporary directory: " << path << std::endl;
+        }
+    }
+
+    // Create the temporary texture directory.
+    path = vt_utils::GetUserDataPath() + DIRECTORY_TEMPORARY_TEXTURE;
+    if (!vt_utils::DoesFileExist(path)) {
+        if (!vt_utils::MakeDirectory(path)) {
+            success = false;
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "Unable to create the temporary texture directory: " << path << std::endl;
+        }
+    }
+
+    for (std::map<std::string, ImageTexture *>::iterator i = _images.begin(); i != _images.end(); ++i) {
         ImageTexture *image = i->second;
 
-        // Check that this is a temporary texture and if so, save it to disk as a .png file
-        if(image->tags.find("<T>") != std::string::npos) {
-            IF_PRINT_DEBUG(VIDEO_DEBUG) << " saving temporary texture " << image->filename << std::endl;
+        // Check if the texture is temporary.
+        // If it is, save the texture to disk.
+        if (image->tags.find("<T>") != std::string::npos) {
+            IF_PRINT_DEBUG(VIDEO_DEBUG) << "saving temporary texture " << image->filename << std::endl;
+
             ImageMemory buffer;
             buffer.CopyFromImage(image);
-            std::string path = GetUserDataPath();
-            if(buffer.SaveImage(path + image->filename + ".png", true) == false) {
+
+            std::string path = vt_utils::GetUserDataPath() + DIRECTORY_TEMPORARY_TEXTURE;
+            if (buffer.SaveImage(path + image->filename + ".png") == false) {
                 success = false;
                 IF_PRINT_WARNING(VIDEO_DEBUG) << "call to ImageMemory::SaveImage() failed" << std::endl;
             }
         }
     }
+
     return success;
 }
 
+bool TextureController::_DeleteTempTextures()
+{
+    bool result = true;
 
+    // Remove the temporary texture directory.
+    std::string path = vt_utils::GetUserDataPath() + DIRECTORY_TEMPORARY_TEXTURE;
+    if (vt_utils::DoesFileExist(path)) {
+        if (!vt_utils::RemoveDirectory(path)) {
+            result = false;
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "Unable to remove the temporary texture directory: " << path << std::endl;
+        }
+    }
+
+    // Do not remove the temporary directory.  It is possible other
+    // sections of the code could use it in the future.
+
+    return result;
+}
 
 TexSheet *TextureController::_CreateTexSheet(int32 width, int32 height, TexSheetType type, bool is_static)
 {
     // Validate that the function arguments are appropriate values
-    if(!IsPowerOfTwo(width) || !IsPowerOfTwo(height)) {
+    if(!vt_utils::IsPowerOfTwo(width) || !vt_utils::IsPowerOfTwo(height)) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "non power-of-two width and/or height argument" << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     if(type <= VIDEO_TEXSHEET_INVALID || type >= VIDEO_TEXSHEET_TOTAL) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid TexSheetType argument" << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     // Create a blank texture for the sheet to use
     GLuint tex_id = _CreateBlankGLTexture(width, height);
     if(tex_id == INVALID_TEXTURE_ID) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to create a new blank OpenGL texture" << std::endl;
-        return NULL;
+        return nullptr;
     }
 
-    TexSheet *sheet = NULL;
+    TexSheet *sheet = nullptr;
     if(type == VIDEO_TEXSHEET_32x32)
         sheet = new FixedTexSheet(width, height, tex_id, type, is_static, 32, 32);
     else if(type == VIDEO_TEXSHEET_32x64)
@@ -389,8 +402,8 @@ TexSheet *TextureController::_CreateTexSheet(int32 width, int32 height, TexSheet
 
 void TextureController::_RemoveSheet(TexSheet *sheet)
 {
-    if(sheet == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL argument passed to function" << std::endl;
+    if(sheet == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr argument passed to function" << std::endl;
         return;
     }
 
@@ -407,7 +420,7 @@ void TextureController::_RemoveSheet(TexSheet *sheet)
             _tex_sheets.erase(i);
             return;
         }
-        i++;
+        ++i;
     }
 
     IF_PRINT_WARNING(VIDEO_DEBUG) << "could not find texture sheet to delete" << std::endl;
@@ -419,21 +432,21 @@ TexSheet *TextureController::_InsertImageInTexSheet(BaseTexture *image, ImageMem
 {
     // Image sizes larger than 512 in either dimension require their own texture sheet
     if(load_info.width > 512 || load_info.height > 512) {
-        int32 round_width = RoundUpPow2(load_info.width);
-        int32 round_height = RoundUpPow2(load_info.height);
+        int32 round_width = vt_utils::RoundUpPow2(load_info.width);
+        int32 round_height = vt_utils::RoundUpPow2(load_info.height);
         TexSheet *sheet = _CreateTexSheet(round_width, round_height, VIDEO_TEXSHEET_ANY, false);
 
         // Ran out of memory!
-        if(sheet == NULL) {
+        if(sheet == nullptr) {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "could not create new texture sheet for image" << std::endl;
-            return NULL;
+            return nullptr;
         }
 
         if(sheet->AddTexture(image, load_info) == true)
             return sheet;
         else {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "TexSheet::AddTexture returned false when trying to insert a large image" << std::endl;
-            return NULL;
+            return nullptr;
         }
     }
 
@@ -453,8 +466,8 @@ TexSheet *TextureController::_InsertImageInTexSheet(BaseTexture *image, ImageMem
     // match the type and static status that we are looking for
     for(uint32 i = 0; i < _tex_sheets.size(); i++) {
         TexSheet *sheet = _tex_sheets[i];
-        if(sheet == NULL) {
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "found a NULL texture sheet in the _tex_sheets container" << std::endl;
+        if(sheet == nullptr) {
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "found a nullptr texture sheet in the _tex_sheets container" << std::endl;
             continue;
         }
 
@@ -467,9 +480,9 @@ TexSheet *TextureController::_InsertImageInTexSheet(BaseTexture *image, ImageMem
 
     // We couldn't add it to any existing sheets, so we must create a new one for it
     TexSheet *sheet = _CreateTexSheet(512, 512, type, is_static);
-    if(sheet == NULL) {
+    if(sheet == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to create a new texture sheet for image" << std::endl;
-        return NULL;
+        return nullptr;
     }
 
     // AddTexture should always work here. If not, there is a serious problem
@@ -477,11 +490,9 @@ TexSheet *TextureController::_InsertImageInTexSheet(BaseTexture *image, ImageMem
         return sheet;
     } else {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "all attempts to add image to a texture sheet have failed" << std::endl;
-        return NULL;
+        return nullptr;
     }
-} // TexSheet* TextureController::_InsertImageInTexSheet(BaseImage *image, ImageMemory& load_info, bool is_static)
-
-
+}
 
 bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
 {
@@ -489,7 +500,7 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
     std::map<std::string, std::pair<ImageMemory, ImageMemory> > multi_image_info;
 
     bool success = true;
-    for(std::map<std::string, ImageTexture *>::iterator i = _images.begin(); i != _images.end(); i++) {
+    for(std::map<std::string, ImageTexture *>::iterator i = _images.begin(); i != _images.end(); ++i) {
         // Only operate on images which belong to the requested TexSheet
         if(i->second->texture_sheet != sheet) {
             continue;
@@ -516,8 +527,8 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
                 image.width = img->width;
                 image.pixels = malloc(image.height * image.width * 4);
 
-                if(image.pixels == NULL) {
-                    IF_PRINT_WARNING(VIDEO_DEBUG) << "call to malloc returned NULL" << std::endl;
+                if(image.pixels == nullptr) {
+                    IF_PRINT_WARNING(VIDEO_DEBUG) << "call to malloc returned nullptr" << std::endl;
                     success = false;
                     continue;
                 }
@@ -564,9 +575,10 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
             std::string fname = img->filename;
             IF_PRINT_DEBUG(VIDEO_DEBUG) << " Reloading image " << fname << std::endl;
 
-            // Check if it is a temporary image, and if so retrieve it from the img/temp directory
-            if(img->tags.find("<T>", 0) != img->tags.npos) {
-                fname = "img/temp/" + fname + ".png";
+            // Check if the image is temporary.
+            // If so, retrieve the image from the temporary image directory.
+            if (img->tags.find("<T>", 0) != img->tags.npos) {
+                fname = vt_utils::GetUserDataPath() + DIRECTORY_TEMPORARY_TEXTURE + fname + ".png";
             }
 
             if(load_info.LoadImage(fname) == false) {
@@ -585,7 +597,7 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
 
             if(load_info.pixels) {
                 free(load_info.pixels);
-                load_info.pixels = NULL;
+                load_info.pixels = nullptr;
             }
         }
     } // for (std::map<string, ImageTexture*>::iterator i = _images.begin(); i != _images.end(); i++)
@@ -593,13 +605,13 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
     for(std::map<std::string, std::pair<ImageMemory, ImageMemory> >::iterator i = multi_image_info.begin();
             i != multi_image_info.end(); ++i) {
         free(i->second.first.pixels);
-        i->second.first.pixels = NULL;
+        i->second.first.pixels = nullptr;
         free(i->second.second.pixels);
-        i->second.second.pixels = NULL;
+        i->second.second.pixels = nullptr;
     }
 
     // Regenerate all font textures
-    for(std::set<TextTexture *>::iterator i = _text_images.begin(); i != _text_images.end(); i++) {
+    for(std::set<TextTexture *>::iterator i = _text_images.begin(); i != _text_images.end(); ++i) {
         if((*i)->texture_sheet == sheet) {
             if((*i)->Reload() == false) {
                 IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to reload a TextTexture" << std::endl;
@@ -615,8 +627,8 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
 
 void TextureController::_RegisterImageTexture(ImageTexture *img)
 {
-    if(img == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL argument passed to function" << std::endl;
+    if(img == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr argument passed to function" << std::endl;
         return;
     }
 
@@ -633,8 +645,8 @@ void TextureController::_RegisterImageTexture(ImageTexture *img)
 
 void TextureController::_UnregisterImageTexture(ImageTexture *img)
 {
-    if(img == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL argument passed to function" << std::endl;
+    if(img == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr argument passed to function" << std::endl;
         return;
     }
 
@@ -651,8 +663,8 @@ void TextureController::_UnregisterImageTexture(ImageTexture *img)
 
 void TextureController::_RegisterTextTexture(TextTexture *tex)
 {
-    if(tex == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL argument passed to function" << std::endl;
+    if(tex == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr argument passed to function" << std::endl;
         return;
     }
 
@@ -668,8 +680,8 @@ void TextureController::_RegisterTextTexture(TextTexture *tex)
 
 void TextureController::_UnregisterTextTexture(TextTexture *tex)
 {
-    if(tex == NULL) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "NULL argument passed to function" << std::endl;
+    if(tex == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr argument passed to function" << std::endl;
         return;
     }
 

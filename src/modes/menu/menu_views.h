@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -37,19 +37,6 @@ class MenuMode;
 
 namespace private_menu
 {
-
-//! \brief The different item categories
-enum ITEM_CATEGORY {
-    ITEM_ALL = 0,
-    ITEM_ITEM = 1,
-    ITEM_WEAPON = 2,
-    ITEM_HEAD_ARMOR = 3,
-    ITEM_TORSO_ARMOR = 4,
-    ITEM_ARMS_ARMOR = 5,
-    ITEM_LEGS_ARMOR = 6,
-    ITEM_KEY = 7,
-    ITEM_CATEGORY_SIZE = 8
-};
 
 //! \brief The different skill types
 enum SKILL_CATEGORY {
@@ -124,13 +111,6 @@ enum CONFIRM_RESULT {
 *** ***************************************************************************/
 class CharacterWindow : public vt_gui::MenuWindow
 {
-private:
-    //! The name of the character that this window corresponds) to
-    uint32 _char_id;
-
-    //! The image of the character
-    vt_video::StillImage _portrait;
-
 public:
     CharacterWindow();
 
@@ -140,12 +120,32 @@ public:
     /** \brief Set the character for this window
     *** \param character the character to associate with this window
     **/
-    void SetCharacter(vt_global::GlobalCharacter *character);
+    void SetCharacter(vt_global::GlobalCharacter* character);
 
     /** \brief render this window to the screen
     *** \return success/failure
     **/
     void Draw();
+
+private:
+    //! The name of the character that this window corresponds) to
+    uint32 _char_id;
+
+    //! The image of the character
+    vt_video::StillImage _portrait;
+
+    //! The text along with the character portrait
+    vt_video::TextImage _character_name;
+    vt_video::TextImage _character_data;
+
+    //! The character active status effects images.
+    //! Do not delete them, as they are handled by the GlobalMedia class.
+    std::vector<vt_video::StillImage*> _active_status_effects;
+
+    /** Refreshes the active status effects images vector content.
+    *** \param character the character to check status effects for.
+    **/
+    void _UpdateActiveStatusEffects(vt_global::GlobalCharacter* character);
 }; // class CharacterWindow : public vt_video::MenuWindow
 
 
@@ -193,9 +193,6 @@ public:
     void Draw();
 
 private:
-    //! Used for char portraits in bottom menu
-    std::vector<vt_video::StillImage> _portraits;
-
     //! Used for the current dungeon
     vt_video::StillImage _location_graphic;
 
@@ -214,11 +211,14 @@ private:
     //! TextBox that holds the selected object's description
     vt_gui::TextBox _description;
 
+    //! Used to render the current object name.
+    vt_video::TextImage _object_name;
+
     //! Vector of GlobalObjects that corresponds to _inventory_items
     std::vector< vt_global::GlobalObject * > _item_objects;
 
     //! holds previous category. we were looking at
-    ITEM_CATEGORY _previous_category;
+    vt_global::ITEM_CATEGORY _previous_category;
 
     //! The currently selected object
     vt_global::GlobalObject* _object;
@@ -235,29 +235,24 @@ private:
     //! Tells whether the character can equip the item
     bool _can_equip;
 
-    /*!
-    * \brief Updates the item text in the inventory items
-    */
+    //! \brief Updates the item text in the inventory items.
     void _UpdateItemText();
 
-    //! \brief updates the selected item and character
+    //! \brief updates the selected item and character.
     //! \note this also updates calls _UpdateItemText();
     void _UpdateSelection();
 
-    /*!
-    * \brief Initializes inventory items option box
-    */
+    //! \brief Initializes inventory items option box.
     void _InitInventoryItems();
 
-    /*!
-    * \brief Initializes char select option box
-    */
+    //! \brief Initializes char select option box.
     void _InitCharSelect();
 
-    /*!
-    * \brief Initializes item category select option box
-    */
+    //! \brief Initializes item category select option box.
     void _InitCategory();
+
+    //! \brief Updates item category select option box option availability.
+    void _UpdateCategory();
 
     //! Draws the special item description and image
     //! on the icon bottom right part of the item icon.
@@ -267,7 +262,7 @@ private:
 
     void _DrawBottomInfo();
 
-    template <class T> std::vector<vt_global::GlobalObject *> _GetItemVector(std::vector<T *> *inv);
+    template <class T> std::vector<vt_global::GlobalObject *> _GetObjectVector(std::vector<T *> *inv);
 
 }; // class InventoryWindow : public vt_video::MenuWindow
 
@@ -581,11 +576,10 @@ class QuestListWindow : public vt_gui::MenuWindow {
     friend class QuestWindow;
 public:
     QuestListWindow();
-    ~QuestListWindow(){};
+    ~QuestListWindow() {}
 
     /*!
     * \brief Draws window
-    * \return success/failure
     */
     void Draw();
 
@@ -603,15 +597,7 @@ public:
         return _active_box;
     }
 
-    /*!
-    * \brief switch the active state of this window, and do any associated work
-    * \param activate or deactivate
-    */
-    void Activate(bool new_state);
-
-
 private:
-
     //! \brief the selectable list of quests
     vt_gui::OptionBox _quests_list;
 
@@ -638,9 +624,9 @@ class QuestWindow : public vt_gui::MenuWindow {
     friend class QuestState;
 
 public:
-
     QuestWindow();
-    ~QuestWindow(){}
+    ~QuestWindow() {}
+
     /*!
     * \brief Draws window
     */
@@ -660,8 +646,8 @@ public:
     {
         _location_name.ClearText();
         _location_subname.ClearText();
-        _location_image = NULL;
-        _location_subimage = NULL;
+        _location_image = nullptr;
+        _location_subimage = nullptr;
     }
 
     /*!
@@ -694,7 +680,6 @@ private:
     //! \brief the currently viewing location image and location subimage
     const vt_video::StillImage *_location_image;
     const vt_video::StillImage *_location_subimage;
-
 };
 
 /**
@@ -756,7 +741,7 @@ public:
 
     /*!
     * \brief gets the WorldMapLocation pointer to the currently pointing
-    * location, or NULL if it deson't exist
+    * location, or nullptr if it deson't exist
     * \return Pointer to the currently indexes WorldMapLocation
     */
     vt_global::WorldMapLocation *GetCurrentViewingLocation()
@@ -764,7 +749,7 @@ public:
         const std::vector<std::string> &current_location_ids = vt_global::GlobalManager->GetViewableLocationIds();
         const uint32 N = current_location_ids.size();
         if( N == 0 || _location_pointer_index > N)
-            return NULL;
+            return nullptr;
         return vt_global::GlobalManager->GetWorldLocation(current_location_ids[_location_pointer_index]);
     }
 
@@ -805,7 +790,7 @@ private:
 * \brief Converts a vector of GlobalItem*, etc. to a vector of GlobalObjects*
 * \return the same vector, with elements of type GlobalObject*
 */
-template <class T> std::vector<vt_global::GlobalObject *> InventoryWindow::_GetItemVector(std::vector<T *>* inv)
+template <class T> std::vector<vt_global::GlobalObject *> InventoryWindow::_GetObjectVector(std::vector<T *>* inv)
 {
     std::vector<vt_global::GlobalObject *> obj_vector;
 
@@ -817,37 +802,6 @@ template <class T> std::vector<vt_global::GlobalObject *> InventoryWindow::_GetI
 }
 
 } // namespace private_menu
-
-/** **************************************************************************
-*** \brief A window to display a message to the player
-*** Displays a message to the user in the center of the screen
-*** This class is not private because it's a handy message box and
-*** it could be used else where.
-*** **************************************************************************/
-class MessageWindow : public vt_gui::MenuWindow
-{
-public:
-    MessageWindow(const vt_utils::ustring &message, float w, float h);
-    ~MessageWindow();
-
-    //! \brief Set the text to display in the window
-    void SetText(const vt_utils::ustring &message) {
-        _message = message;
-        _textbox.SetDisplayText(message);
-    }
-
-    //! \brief Standard Window Functions
-    //@{
-    void Draw();
-    //@}
-
-private:
-    //! \brief the message to display
-    vt_utils::ustring _message;
-
-    //! \brief used to display the message
-    vt_gui::TextBox _textbox;
-}; // class MessageWindow
 
 } // namespace vt_menu
 

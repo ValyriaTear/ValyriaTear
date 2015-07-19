@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -19,11 +19,10 @@
 *** enables support for features such as customized looping.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "audio_stream.h"
 
 #include "audio_input.h"
-
-#include <cstdlib>
 
 namespace vt_audio
 {
@@ -41,8 +40,8 @@ AudioStream::AudioStream(AudioInput *input, bool loop) :
     _read_position(0),
     _end_of_stream(false)
 {
-    if(_audio_input == NULL) {
-        PRINT_ERROR << "input argument was NULL -- terminating program" << std::endl;
+    if(_audio_input == nullptr) {
+        PRINT_ERROR << "input argument was nullptr -- terminating program" << std::endl;
         exit(1);
     }
 

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -106,13 +106,12 @@ class MapEvent
     friend class EventSupervisor;
 public:
     //! \param id The ID for the map event (an empty() value is invalid)
-    MapEvent(const std::string &id, EVENT_TYPE type) :
-        _event_id(id), _event_type(type) {}
+    MapEvent(const std::string& id, EVENT_TYPE type);
 
     virtual ~MapEvent()
     {}
 
-    const std::string &GetEventID() const {
+    const std::string& GetEventID() const {
         return _event_id;
     }
 
@@ -123,7 +122,7 @@ public:
     /** \brief Declares a child event to be launched immediately at the start of this event
     *** \param child_event_id The event id of the child event
     **/
-    void AddEventLinkAtStart(const std::string &child_event_id) {
+    void AddEventLinkAtStart(const std::string& child_event_id) {
         _AddEventLink(child_event_id, true, 0);
     }
 
@@ -131,14 +130,14 @@ public:
     *** \param child_event_id The event id of the child event
     *** \param launch_time The number of milliseconds to wait before launching the child event
     **/
-    void AddEventLinkAtStart(const std::string &child_event_id, uint32 launch_time) {
+    void AddEventLinkAtStart(const std::string& child_event_id, uint32 launch_time) {
         _AddEventLink(child_event_id, true, launch_time);
     }
 
     /** \brief Declares a child event to be launched immediately at the end of this event
     *** \param child_event_id The event id of the child event
     **/
-    void AddEventLinkAtEnd(const std::string &child_event_id) {
+    void AddEventLinkAtEnd(const std::string& child_event_id) {
         _AddEventLink(child_event_id, false, 0);
     }
 
@@ -146,7 +145,7 @@ public:
     *** \param child_event_id The event id of the child event
     *** \param launch_time The number of milliseconds to wait before launching the child event
     **/
-    void AddEventLinkAtEnd(const std::string &child_event_id, uint32 launch_time) {
+    void AddEventLinkAtEnd(const std::string& child_event_id, uint32 launch_time) {
         _AddEventLink(child_event_id, false, launch_time);
     }
 
@@ -169,7 +168,7 @@ protected:
     *** \param launch_at_start The child starts relative to the start of the event if true, its finish if false
     *** \param launch_time The number of milliseconds to wait before launching the child event
     **/
-    void _AddEventLink(const std::string &child_event_id, bool launch_at_start, uint32 launch_time) {
+    void _AddEventLink(const std::string& child_event_id, bool launch_at_start, uint32 launch_time) {
         _event_links.push_back(EventLink(child_event_id, launch_at_start, launch_time));
     }
 
@@ -201,14 +200,18 @@ class DialogueEvent : public MapEvent
 {
 public:
     /** \param event_id The ID of this event
-    *** \param dialogue_id The ID of the dialogue to execute through this event
     *** \param dialogue The SpriteDialogue* to execute through this event
     **/
-    DialogueEvent(const std::string &event_id, uint32 dialogue_id);
-    DialogueEvent(const std::string &event_id, SpriteDialogue *dialogue);
+    DialogueEvent(const std::string& event_id, SpriteDialogue* dialogue);
 
     ~DialogueEvent()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static DialogueEvent* Create(const std::string& event_id, SpriteDialogue* dialogue);
 
     //! \brief Toggles whether or not camera movement should be stopped when the dialogue begins
     void SetStopCameraMovement(bool stop) {
@@ -217,7 +220,7 @@ public:
 
 protected:
     //! \brief The ID of the dialogue to invoke
-    uint32 _dialogue_id;
+    std::string _dialogue_id;
 
     //! \brief When true, any camera movement will be stopped when the event begins
     bool _stop_camera_movement;
@@ -232,36 +235,56 @@ protected:
 
 /** ****************************************************************************
 *** \brief An event that creates an instance of ShopMode when started
-***
-*** \todo Several future shop mode features will likely need to be added to this
-*** class. This includes limited availability of objects, market pricing, etc.
 *** ***************************************************************************/
 class ShopEvent : public MapEvent
 {
 public:
     //! \param event_id The ID of this event
-    ShopEvent(const std::string &event_id):
+    ShopEvent(const std::string& event_id):
         MapEvent(event_id, SHOP_EVENT),
         _buy_level(vt_shop::SHOP_PRICE_STANDARD),
-        _sell_level(vt_shop::SHOP_PRICE_STANDARD)
+        _sell_level(vt_shop::SHOP_PRICE_STANDARD),
+        _enable_sell_mode(true)
     {}
 
     ~ShopEvent()
     {}
 
-    /** \brief Adds an object to the list of objects for sale
-    *** \param object_id The ID of the GlobalObject to make available for purchase
-    *** \param stock The amount of the object to make available for purchase
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static ShopEvent* Create(const std::string& event_id);
+
+    //! \brief Set the Shop name
+    void SetShopName(const vt_utils::ustring& shop_name) {
+        _shop_name = shop_name;
+    }
+
+    //! \brief Set the Shop greetings text
+    void SetGreetingText(const vt_utils::ustring& greeting_text) {
+        _greeting_text = greeting_text;
+    }
+
+    void SetSellModeEnabled(bool sell_mode_enabled) {
+        _enable_sell_mode = sell_mode_enabled;
+    }
+
+    /** \brief Adds an object to the list of objects for sale.
+    *** \param object_id The ID of the GlobalObject to make available for purchase.
+    *** \param stock The amount of the object to make available for purchase.
+    *** If set to 0, the number of objects is infinite.
     *** \note All wares must be added before the _Start() method is called to ensure
     *** that the wares actually appear in shop mode.
     **/
-    void AddObject(uint32 object_id, uint32 stock) {
-        _objects.insert(std::make_pair(object_id, stock));
+    void AddItem(uint32 object_id, uint32 stock) {
+        _items.insert(std::make_pair(object_id, stock));
     }
 
-    /** \brief Adds an object to the list of objects for sale
-    *** \param object_id The ID of the GlobalObject to make available for purchase
-    *** \param stock The amount of the object to make available for purchase
+    /** \brief Adds an object to the list of objects for sale.
+    *** \param object_id The ID of the GlobalObject to make available for purchase.
+    *** \param stock The amount of the object to make available for purchase.
+    *** If set to 0, the number of objects is infinite.
     *** \note All wares must be added before the _Start() method is called to ensure
     *** that the wares actually appear in shop mode.
     **/
@@ -276,9 +299,14 @@ public:
         _sell_level = sell_level;
     }
 
+    //! \brief Adds potential scripts to trigger at shop event start
+    void AddScript(const std::string& script_file) {
+        _shop_scripts.push_back(script_file);
+    }
+
 protected:
-    //! \brief The GlobalObject IDs and stock count of all objects to be sold in the shop
-    std::set<std::pair<uint32, uint32> > _objects;
+    //! \brief The GlobalObject IDs and stock count of all items to be sold in the shop
+    std::set<std::pair<uint32, uint32> > _items;
 
     //! \brief The GlobalObject IDs and stock count of all objects to be sold in the shop
     std::set<std::pair<uint32, uint32> > _trades;
@@ -287,6 +315,16 @@ protected:
     vt_shop::SHOP_PRICE_LEVEL _buy_level;
     vt_shop::SHOP_PRICE_LEVEL _sell_level;
 
+    //! \brief Optional custom shop name and greeting text.
+    vt_utils::ustring _shop_name;
+    vt_utils::ustring _greeting_text;
+
+    //! \brief Tells whether the sell mode can be enabled
+    bool _enable_sell_mode;
+
+    //! \brief Stores potential scripts to trigger at shop event start
+    std::vector<std::string> _shop_scripts;
+
     //! \brief Creates an instance of ShopMode and pushes it to the game mode stack
     void _Start();
 
@@ -294,7 +332,7 @@ protected:
     bool _Update() {
         return true;
     }
-}; // class ShopEvent : public MapEvent
+};
 
 
 /** ****************************************************************************
@@ -327,10 +365,16 @@ public:
     /** \param event_id The ID of this event
     *** \param sound_filename The name of the sound file to load
     **/
-    SoundEvent(const std::string &event_id, const std::string &sound_filename);
+    SoundEvent(const std::string& event_id, const std::string& sound_filename);
 
     ~SoundEvent()
     { _sound.Stop(); }
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static SoundEvent* Create(const std::string& event_id, const std::string& sound_filename);
 
     //! \brief Accessor which allows the properties of the sound to be customized
     vt_audio::SoundDescriptor &GetSound()
@@ -362,12 +406,21 @@ public:
     *** \param data_filename The name of the map script file to use
     *** \param coming_from The transition origin.
     **/
-    MapTransitionEvent(const std::string &event_id,
-                       const std::string &data_filename,
-                       const std::string &script_filename,
-                       const std::string &coming_from);
+    MapTransitionEvent(const std::string& event_id,
+                       const std::string& data_filename,
+                       const std::string& script_filename,
+                       const std::string& coming_from);
 
     ~MapTransitionEvent() {};
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static MapTransitionEvent* Create(const std::string& event_id,
+                                      const std::string& data_filename,
+                                      const std::string& script_filename,
+                                      const std::string& coming_from);
 
 protected:
     //! \brief Begins the transition process by fading out the screen and music
@@ -391,29 +444,6 @@ protected:
 
 
 /** ****************************************************************************
-*** \brief
-***
-***
-*** ***************************************************************************/
-class JoinPartyEvent : public MapEvent
-{
-public:
-    /** \param event_id The ID of this event
-    **/
-    JoinPartyEvent(const std::string &event_id);
-
-    ~JoinPartyEvent();
-
-protected:
-    //! \brief
-    void _Start();
-
-    //! \brief
-    bool _Update();
-}; // class JoinPartyEvent : public MapEvent
-
-
-/** ****************************************************************************
 *** \brief Instantly starts a battle.
 ***
 ***
@@ -423,10 +453,16 @@ class BattleEncounterEvent : public MapEvent
 public:
     /** \param event_id The ID of this event
     **/
-    BattleEncounterEvent(const std::string &event_id);
+    BattleEncounterEvent(const std::string& event_id);
 
     ~BattleEncounterEvent()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static BattleEncounterEvent* Create(const std::string& event_id);
 
     void SetMusic(const std::string &filename) {
         _battle_music = filename;
@@ -441,6 +477,10 @@ public:
     }
 
     void AddEnemy(uint32 enemy_id, float position_x, float position_y);
+
+    void AddEnemy(uint32 enemy_id) {
+        AddEnemy(enemy_id, 0, 0);
+    }
 
     void AddScript(const std::string &filename) {
         _battle_scripts.push_back(filename);
@@ -473,6 +513,49 @@ protected:
     }
 }; // class BattleEncounterEvent : public MapEvent
 
+/** ****************************************************************************
+*** \brief An event thats starts an event or another based on a check function.
+*** ***************************************************************************/
+class IfEvent : public MapEvent
+{
+public:
+    /** \param event_id The ID of this event
+    *** \param check_function the map file's function to call to make the check requested
+    *** \param on_true_event the map to call when the check function returns true
+    *** \param on_false_event the map to call when the check function returns false
+    ***
+    *** \note An empty value for either the true or false event id arguments
+    *** will result in no event in this case
+    **/
+    IfEvent(const std::string& event_id, const std::string& check_function,
+            const std::string& on_true_event, const std::string& on_false_event);
+
+    ~IfEvent()
+    {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static IfEvent* Create(const std::string& event_id,
+                           const std::string& check_function,
+                           const std::string& on_true_event,
+                           const std::string& on_false_event);
+
+protected:
+    //! \brief A pointer to the Lua function that starts the event
+    ScriptObject _check_function;
+
+    std::string _true_event_id;
+    std::string _false_event_id;
+
+    //! \brief Calls the Lua _start_function, if one was defined
+    void _Start();
+
+    //! \brief Calls the Lua _update_function. If no update function was defined, does nothing and returns true
+    bool _Update()
+    { return true; }
+}; // class IfEvent : public MapEvent
 
 /** ****************************************************************************
 *** \brief An event with its _Start and _Update functions implemented in Lua.
@@ -496,11 +579,19 @@ public:
     *** update function being defined. If no update function is defined, the call to _Update() will always
     *** return true, meaning that this event will end immediately after it starts.
     **/
-    ScriptedEvent(const std::string &event_id, const std::string &start_function,
-                  const std::string &update_function);
+    ScriptedEvent(const std::string& event_id, const std::string& start_function,
+                  const std::string& update_function);
 
     ~ScriptedEvent()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static ScriptedEvent* Create(const std::string& event_id,
+                                 const std::string& start_function,
+                                 const std::string& update_function);
 
 protected:
     //! \brief A pointer to the Lua function that starts the event
@@ -542,20 +633,14 @@ class SpriteEvent : public MapEvent
 public:
     /** \param event_id The ID of this event
     *** \param event_type The type of this event
-    *** \param sprite_id The id of the sprite that this event will control
-    **/
-    SpriteEvent(const std::string &event_id, EVENT_TYPE event_type, uint16 sprite_id);
-
-    /** \param event_id The ID of this event
-    *** \param event_type The type of this event
     *** \param sprite A pointer to the sprite that this event will control
     **/
-    SpriteEvent(const std::string &event_id, EVENT_TYPE event_type, VirtualSprite *sprite);
+    SpriteEvent(const std::string& event_id, EVENT_TYPE event_type, VirtualSprite* sprite);
 
     ~SpriteEvent()
     {}
 
-    VirtualSprite *GetSprite() const {
+    VirtualSprite* GetSprite() const {
         return _sprite;
     }
 
@@ -564,7 +649,7 @@ public:
 
 protected:
     //! \brief A pointer to the map sprite that the event controls
-    VirtualSprite *_sprite;
+    VirtualSprite* _sprite;
 
     /** \brief Starts a sprite event.
     ***
@@ -593,18 +678,6 @@ class ScriptedSpriteEvent : public SpriteEvent
 {
 public:
     /** \param event_id The ID of this event
-    *** \param sprite_id The id of the sprite that will be passed to the Lua script functions
-    *** \param start_function the map file's function start function name to call
-    *** \param update_function the map file's function update function name to call
-    ***
-    *** \note A value of zero for either the start or update index arguments will result in no start or
-    *** update function being defined. If no update function is defined, the call to _Update() will always
-    *** return true, meaning that this event will end immediately after it starts.
-    **/
-    ScriptedSpriteEvent(const std::string &event_id, uint16 sprite_id,
-                        const std::string &start_function, const std::string &update_function);
-
-    /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite that will be passed to the Lua script functions
     *** \param start_function the map file's function start function name to call
     *** \param update_function the map file's function update function name to call
@@ -613,11 +686,18 @@ public:
     *** update function being defined. If no update function is defined, the call to _Update() will always
     *** return true, meaning that this event will end immediately after it starts.
     **/
-    ScriptedSpriteEvent(const std::string &event_id, VirtualSprite *sprite,
-                        const std::string &start_function, const std::string &update_function);
+    ScriptedSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
+                        const std::string& start_function, const std::string& update_function);
 
     ~ScriptedSpriteEvent()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static ScriptedSpriteEvent* Create(const std::string& event_id, VirtualSprite* sprite,
+                                       const std::string& start_function, const std::string& update_function);
 
 protected:
     //! \brief A pointer to the Lua function that starts the event
@@ -652,19 +732,21 @@ class ChangeDirectionSpriteEvent : public SpriteEvent
 {
 public:
     /** \param event_id The ID of this event
-    *** \param sprite _id The ID of the sprite to change the direction of
-    *** \param direction The direction to face the sprite
-    **/
-    ChangeDirectionSpriteEvent(const std::string &event_id, uint16 sprite_id, uint16 direction);
-
-    /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite that this event will effect
     *** \param direction The direction to face the sprite
     **/
-    ChangeDirectionSpriteEvent(const std::string &event_id, VirtualSprite *sprite, uint16 direction);
+    ChangeDirectionSpriteEvent(const std::string& event_id, VirtualSprite* sprite, uint16 direction);
 
     ~ChangeDirectionSpriteEvent()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static ChangeDirectionSpriteEvent* Create(const std::string& event_id,
+                                              VirtualSprite* sprite,
+                                              uint16 direction);
 
 protected:
     //! \brief Retains the direction to move the sprite when the event starts
@@ -693,25 +775,30 @@ class LookAtSpriteEvent : public SpriteEvent
 {
 public:
     /** \param event_id The ID of this event
-    *** \param sprite_id The ID of the sprite to change the direction of
-    *** \param second_sprite_id The ID of the sprite to make the first look at
-    **/
-    LookAtSpriteEvent(const std::string &event_id, uint16 sprite_id, uint16 second_sprite_id);
-
-    /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite that this event will effect
     *** \param sprite A pointer to the sprite to look at.
     **/
-    LookAtSpriteEvent(const std::string &event_id, VirtualSprite *sprite, VirtualSprite *other_sprite);
+    LookAtSpriteEvent(const std::string& event_id, VirtualSprite* sprite, VirtualSprite* other_sprite);
 
     /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite that this event will effect
     *** \param x, y map coodinates to look at.
     **/
-    LookAtSpriteEvent(const std::string &event_id, VirtualSprite *sprite, float x, float y);
+    LookAtSpriteEvent(const std::string& event_id, VirtualSprite* sprite, float x, float y);
 
     ~LookAtSpriteEvent()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static LookAtSpriteEvent* Create(const std::string& event_id,
+                                     VirtualSprite* sprite,
+                                     VirtualSprite* other_sprite);
+    static LookAtSpriteEvent* Create(const std::string& event_id,
+                                     VirtualSprite* sprite,
+                                     float x, float y);
 
 protected:
     //! \brief Retains the position to look at when the event starts.
@@ -722,7 +809,7 @@ protected:
     *** the position may have changed between the event declaration (map load time)
     *** and its start.
     **/
-    VirtualSprite *_target_sprite;
+    VirtualSprite* _target_sprite;
 
     //! \brief Immediately changes the sprite's direction
     void _Start();
@@ -747,30 +834,35 @@ class PathMoveSpriteEvent : public SpriteEvent
 
 public:
     /** \param event_id The ID of this event
-    *** \param sprite_id The ID of the sprite that is to be moved
-    *** \param x_coord The X coordinate to move the sprite to
-    *** \param y_coord The Y coordinate to move the sprite to
-    *** \param run whether the character has to go there by walking or running
-    **/
-    PathMoveSpriteEvent(const std::string &event_id, uint16 sprite_id, float x_coord, float y_coord, bool run);
-
-    /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite to move
     *** \param x_coord The X coordinate to move the sprite to
     *** \param y_coord The Y coordinate to move the sprite to
     *** \param run whether the character has to go there by walking or running
     **/
-    PathMoveSpriteEvent(const std::string &event_id, VirtualSprite *sprite, float x_coord, float y_coord, bool run);
+    PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite, float x_coord, float y_coord, bool run);
 
     /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite to move
     *** \param target_sprite The target sprite to move the sprite to
     *** \param run whether the character has to go there by walking or running
     **/
-    PathMoveSpriteEvent(const std::string &event_id, VirtualSprite *sprite, VirtualSprite *target_sprite, bool run);
+    PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite, VirtualSprite* target_sprite, bool run);
 
     ~PathMoveSpriteEvent()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static PathMoveSpriteEvent* Create(const std::string& event_id,
+                                       VirtualSprite* sprite,
+                                       float x, float y,
+                                       bool run);
+    static PathMoveSpriteEvent* Create(const std::string& event_id,
+                                       VirtualSprite* sprite,
+                                       VirtualSprite* target_sprite,
+                                       bool run);
 
     /** \brief Used to change the destination coordinates after the class object has been constructed
     *** \param x_coord The X coordinate to move the sprite to
@@ -784,7 +876,7 @@ public:
     *** changed between the event declaration (at map load time) and the event actual start.
     **/
     void SetDestination(float x_coord, float y_coord, bool run);
-    void SetDestination(VirtualSprite *target_sprite, bool run);
+    void SetDestination(VirtualSprite* target_sprite, bool run);
 
     Path GetPath() const {
         return _path;
@@ -798,7 +890,7 @@ protected:
     float _destination_x, _destination_y;
 
     //! \brief The destination target, useful when willing to reach a moving point.
-    VirtualSprite *_target_sprite;
+    VirtualSprite* _target_sprite;
 
     //! \brief Used to store the previous coordinates of the sprite during path movement, so as to set the proper direction of the sprite as it moves
     float _last_x_position, _last_y_position;
@@ -839,10 +931,19 @@ public:
     *** \param move_time The total amount of time that this event should take
     *** \param direction_time The amount of time to wait before changing the sprite's direction randomly
     **/
-    RandomMoveSpriteEvent(const std::string &event_id, VirtualSprite *sprite,
+    RandomMoveSpriteEvent(const std::string &event_id, VirtualSprite* sprite,
                           uint32 move_time = 10000, uint32 direction_time = 2000);
 
     ~RandomMoveSpriteEvent();
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static RandomMoveSpriteEvent* Create(const std::string& event_id,
+                                         VirtualSprite* sprite,
+                                         uint32 move_time,
+                                         uint32 direction_time);
 
     //! \brief Stops and frees the sprite from the control_event
     void Terminate();
@@ -892,12 +993,23 @@ class AnimateSpriteEvent : public SpriteEvent
 public:
     /** \param event_id The ID of this event
     *** \param sprite A pointer to the sprite to move
+    *** \param animation_name The name of the custom animation to play
+    *** \param animation_time The custom animation time, 0 if infinite, and -1 is default time used.
     **/
-    AnimateSpriteEvent(const std::string &event_id, VirtualSprite *sprite,
-                       const std::string &animation_name, uint32 animation_time);
+    AnimateSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
+                       const std::string& animation_name, int32 animation_time);
 
     ~AnimateSpriteEvent()
     {}
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static AnimateSpriteEvent* Create(const std::string& event_id,
+                                      VirtualSprite* sprite,
+                                      const std::string& animation_name,
+                                      int32 animation_time);
 
     //! \brief Stops the custom animation and frees the sprite from the control_event
     void Terminate();
@@ -907,10 +1019,10 @@ protected:
     std::string _animation_name;
 
     //! The custom animation time.
-    uint32 _animation_time;
+    int32 _animation_time;
 
     //! A reference to the map sprite object
-    MapSprite *_map_sprite;
+    MapSprite* _map_sprite;
 
     //! \brief Triggers the custom animation for the given time
     void _Start();
@@ -929,11 +1041,17 @@ class TreasureEvent : public MapEvent
 public:
     /** \param event_id The ID of this event
     **/
-    TreasureEvent(const std::string &event_id);
+    TreasureEvent(const std::string& event_id);
 
     ~TreasureEvent() {
         delete _treasure;
     }
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static TreasureEvent* Create(const std::string& event_id);
 
     MapTreasure *GetTreasure() const {
         return _treasure;
@@ -944,12 +1062,12 @@ public:
         _treasure->SetDrunes(amount);
     }
 
-    /** \brief Adds an object to the contents of the TreasureEvent
+    /** \brief Adds an item to the contents of the TreasureEvent
     *** \param id The id of the GlobalObject to add
     *** \param quantity The number of the object to add (default == 1)
     *** \return True if the object was added successfully
     **/
-    bool AddObject(uint32 id, uint32 quantity = 1);
+    bool AddItem(uint32 id, uint32 quantity = 1);
 
     /** \brief Adds an event triggered at start of the treasure event.
     *** \param event_id The id of the event to add
@@ -958,7 +1076,7 @@ public:
 
 protected:
     //! \brief A pointer to the treasure content, used by the TreasureSupervisor.
-    MapTreasure *_treasure;
+    MapTreasure* _treasure;
 
     //! \brief Events triggered at the start of the treasure event.
     std::vector<std::string> _events;
@@ -999,18 +1117,13 @@ protected:
 *** ***************************************************************************/
 class EventSupervisor
 {
+    friend class MapEvent;
 public:
     EventSupervisor():
         _is_updating(false)
     {}
 
     ~EventSupervisor();
-
-    /** \brief Registers a map event object with the event supervisor
-    *** \param new_event A pointer to the new event
-    *** \note This function should be called for all events that are created
-    **/
-    void RegisterEvent(MapEvent *new_event);
 
     /** \brief Marks a specified event as active and starts the event
     *** \param event_id The ID of the event to activate
@@ -1019,8 +1132,8 @@ public:
     *** If the event has no children, it will activate only the single event requested. Otherwise
     *** all events in the chain will become activated at the appropriate time.
     **/
-    void StartEvent(const std::string &event_id);
-    void StartEvent(const std::string &event_id, uint32 launch_time);
+    void StartEvent(const std::string& event_id);
+    void StartEvent(const std::string& event_id, uint32 launch_time);
 
     /** \brief Marks a specified event as active and starts the event
     *** \param event A pointer to the event to begin
@@ -1029,32 +1142,32 @@ public:
     *** If the event has no children, it will activate only the single event requested. Otherwise
     *** all events in the chain will become activated at the appropriate time.
     **/
-    void StartEvent(MapEvent *event);
-    void StartEvent(MapEvent *event, uint32 launch_time);
+    void StartEvent(MapEvent* event);
+    void StartEvent(MapEvent* event, uint32 launch_time);
 
     /** \brief Pauses the active events by preventing them from updating
     *** \param event_id The ID of the active event(s) to pause
     *** If the event corresponding to the ID is not active, a warning will be issued and no change
     *** will occur.
     **/
-    void PauseEvents(const std::string &event_id);
+    void PauseEvent(const std::string& event_id);
 
     /** \brief Pauses the given sprite events
     *** \param sprite The sprite to pause the sprite events from
     **/
-    void PauseAllEvents(VirtualSprite *sprite);
+    void PauseAllEvents(VirtualSprite* sprite);
 
     /** \brief Resumes a paused event
     *** \param event_id The ID of the active event(s) to resume
     *** If the event corresponding to the ID is not paused, a warning will be issued and no change
     *** will occur.
     **/
-    void ResumeEvents(const std::string &event_id);
+    void ResumeEvent(const std::string& event_id);
 
     /** \brief Resumes the given sprite events
     *** \param sprite The sprite to resume the sprite events from
     **/
-    void ResumeAllEvents(VirtualSprite *sprite);
+    void ResumeAllEvents(VirtualSprite* sprite);
 
     /** \brief Terminates an event if it is active
     *** \param event_id The ID of the event(s) to terminate
@@ -1062,8 +1175,8 @@ public:
     *** \param trigger_event_links Tells whether the launching of any of the events' children should occur, true by default.
     *** \note If there is no active event that corresponds to the event ID, the function will do nothing.
     **/
-    void TerminateEvents(const std::string &event_id, bool trigger_event_links = true);
-    void TerminateEvents(MapEvent *event, bool trigger_event_links = true);
+    void EndEvent(const std::string& event_id, bool trigger_event_links = true);
+    void EndEvent(MapEvent* event, bool trigger_event_links = true);
 
     /** \brief Terminates all the SpriteEvents (active, paused, or incoming) for the given sprite.
     ***
@@ -1071,8 +1184,7 @@ public:
     *** and liberate it for something else.
     *** Note that you should start the new sprite event chain *after* this call.
     **/
-    void TerminateAllEvents(VirtualSprite *sprite);
-
+    void EndAllEvents(VirtualSprite* sprite);
 
     //! \brief Updates the state of all active and launch events
     void Update();
@@ -1081,7 +1193,7 @@ public:
     *** \param event_id The ID of the event to check
     *** \return True if the event is active, false if it is not or the event could not be found
     **/
-    bool IsEventActive(const std::string &event_id) const;
+    bool IsEventActive(const std::string& event_id) const;
 
     //! \brief Returns true if any events are active
     bool HasActiveEvent() const {
@@ -1095,30 +1207,33 @@ public:
 
     /** \brief Returns a pointer to a specified event stored by this class
     *** \param event_id The ID of the event to retrieve
-    *** \return A MapEvent pointer (which may need to be casted to the proper event type), or NULL if no event was found
+    *** \return A MapEvent pointer (which may need to be casted to the proper event type), or nullptr if no event was found
     **/
-    MapEvent *GetEvent(const std::string &event_id) const;
+    MapEvent* GetEvent(const std::string& event_id) const;
+
+    bool DoesEventExist(const std::string& event_id) const
+    { return !(GetEvent(event_id) == nullptr); }
 
 private:
     //! \brief A container for all map events, where the event's ID serves as the key to the std::map
-    std::map<std::string, MapEvent *> _all_events;
+    std::map<std::string, MapEvent*> _all_events;
 
     //! \brief A list of all events which have started but are not yet finished
-    std::vector<MapEvent *> _active_events;
+    std::vector<MapEvent*> _active_events;
 
     //! \brief A list of all events which have been paused
-    std::vector<MapEvent *> _paused_events;
+    std::vector<MapEvent*> _paused_events;
 
     /** \brief A list of all events that are waiting on their launch timers to expire before being started
     *** The interger part of this std::pair is the countdown timer for this event to be launched
     **/
-    std::vector<std::pair<int32, MapEvent *> > _active_delayed_events;
+    std::vector<std::pair<int32, MapEvent*> > _active_delayed_events;
 
     /** \brief A list of all events that are waiting on their launch timers to expire before being started
     *** The interger part of this std::pair is the countdown timer for this event to be launched
-    *** Those ones are put on hold by PauseAllEvents() and PauseEvents();
+    *** Those ones are put on hold by PauseAllEvents() and PauseEvent();
     **/
-    std::vector<std::pair<int32, MapEvent *> > _paused_delayed_events;
+    std::vector<std::pair<int32, MapEvent*> > _paused_delayed_events;
 
     /** States whether the event supervisor is parsing the active events queue, thus any modifications
     *** there on active events should be avoided.
@@ -1129,7 +1244,14 @@ private:
     *** \param parent_event The event that has just started or finished
     *** \param event_start The event has just started if this member is true, or if it just finished it will be false
     **/
-    void _ExamineEventLinks(MapEvent *parent_event, bool event_start);
+    void _ExamineEventLinks(MapEvent* parent_event, bool event_start);
+
+    /** \brief Registers a map event object with the event supervisor
+    *** \param new_event A pointer to the new event
+    *** \return whether the event was successfully registered.
+    *** \note This function should be called by the MapEvent constructor only
+    **/
+    bool _RegisterEvent(MapEvent* new_event);
 }; // class EventSupervisor
 
 } // namespace private_map

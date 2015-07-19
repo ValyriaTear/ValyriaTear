@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -83,17 +83,16 @@ public:
     bool rgb_format;
 
     /** \brief Loads raw image data from a file and stores the data in the class members
-    *** \param file_name The filename of the image to load, which should have a .png or .jpg extension
+    *** \param filename The name of the image file to load.
     *** \return True if the image was loaded successfully, false if it was not
     **/
     bool LoadImage(const std::string &filename);
 
     /** \brief Saves raw image data to a file
-    *** \param file_name The full filename of the image to load
-    *** \param png_image Set to true if this is a PNG image, or false if it is a JPG image
+    *** \param filename The full filename of the image to save in PNG format.
     *** \return True if the image was saved successfully, false if it was not
     **/
-    bool SaveImage(const std::string &filename, bool png_image);
+    bool SaveImage(const std::string &filename);
 
     /** \brief Converts the image data to grayscale format
     *** \note Calling this function when the image data is already grayscaled will create the
@@ -124,19 +123,6 @@ public:
     *** This function effectively copies an image (in video memory) to a system-side memory buffer
     **/
     void CopyFromImage(BaseTexture *img);
-
-private:
-    /** \brief Saves image data to a PNG file
-    *** \param filename Name of the file, without the extension
-    *** \return True if the process was carried out with no problem, false otherwise
-    **/
-    bool _SavePngImage(const std::string &filename) const;
-
-    /** \brief Saves image data to a JPG file
-    *** \param filename Name of the file, without the extension
-    *** \return True if the process was carried out with no problem, false otherwise
-    **/
-    bool _SaveJpgImage(const std::string &filename) const;
 }; // class ImageMemory
 
 

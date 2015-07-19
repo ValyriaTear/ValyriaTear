@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,6 +15,7 @@
 *** \brief   Source file for map mode treasures.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "modes/map/map_treasure.h"
 
 #include "modes/map/map_mode.h"
@@ -53,21 +54,21 @@ MapTreasure::MapTreasure() :
 
 MapTreasure::~MapTreasure()
 {
-    for(uint32 i = 0; i < _objects_list.size(); i++) {
-        delete _objects_list[i];
+    for(uint32 i = 0; i < _items_list.size(); i++) {
+        delete _items_list[i];
     }
 }
 
-bool MapTreasure::AddObject(uint32 id, uint32 quantity)
+bool MapTreasure::AddItem(uint32 id, uint32 quantity)
 {
     vt_global::GlobalObject *obj = GlobalCreateNewObject(id, quantity);
 
-    if(obj == NULL) {
+    if(obj == nullptr) {
         IF_PRINT_WARNING(MAP_DEBUG) << "invalid object id argument passed to function: " << id << std::endl;
         return false;
     }
 
-    _objects_list.push_back(obj);
+    _items_list.push_back(obj);
     return true;
 }
 
@@ -76,11 +77,11 @@ bool MapTreasure::AddObject(uint32 id, uint32 quantity)
 // -----------------------------------------------------------------------------
 
 TreasureSupervisor::TreasureSupervisor() :
-    _treasure(NULL),
+    _treasure(nullptr),
     _selection(ACTION_SELECTED),
     _window_title(UTranslate("You obtain"), TextStyle("title24", Color::white, VIDEO_TEXT_SHADOW_DARK, 1, -2)),
     _selection_name(),
-    _selection_icon(NULL),
+    _selection_icon(nullptr),
     _is_key_item(false)
 {
     // Create the menu windows and option boxes used for the treasure menu and
@@ -88,12 +89,10 @@ TreasureSupervisor::TreasureSupervisor() :
     _action_window.Create(768.0f, 64.0f, ~VIDEO_MENU_EDGE_BOTTOM);
     _action_window.SetPosition(512.0f, 460.0f);
     _action_window.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
-    _action_window.SetDisplayMode(VIDEO_MENU_INSTANT);
 
     _list_window.Create(768.0f, 236.0f);
     _list_window.SetPosition(512.0f, 516.0f);
     _list_window.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
-    _list_window.SetDisplayMode(VIDEO_MENU_INSTANT);
 
     _action_options.SetPosition(30.0f, 18.0f);
     _action_options.SetDimensions(726.0f, 32.0f, 1, 1, 1, 1);
@@ -119,7 +118,7 @@ TreasureSupervisor::TreasureSupervisor() :
 
     _detail_textbox.SetPosition(20.0f, 90.0f);
     _detail_textbox.SetDimensions(726.0f, 128.0f);
-    _detail_textbox.SetDisplaySpeed(50);
+    _detail_textbox.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _detail_textbox.SetTextStyle(TextStyle("text22", Color::white, VIDEO_TEXT_SHADOW_DARK, 1, -2));
     _detail_textbox.SetDisplayMode(VIDEO_TEXT_REVEAL);
     _detail_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
@@ -136,8 +135,8 @@ TreasureSupervisor::~TreasureSupervisor()
 
 void TreasureSupervisor::Initialize(TreasureObject *map_object)
 {
-    if(map_object == NULL) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << std::endl;
+    if(map_object == nullptr) {
+        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was nullptr" << std::endl;
         return;
     }
 
@@ -147,7 +146,7 @@ void TreasureSupervisor::Initialize(TreasureObject *map_object)
 void TreasureSupervisor::Initialize(MapTreasure *treasure)
 {
     if(!treasure) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was NULL" << std::endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "function argument was nullptr" << std::endl;
         return;
     }
     _treasure = treasure;
@@ -155,7 +154,7 @@ void TreasureSupervisor::Initialize(MapTreasure *treasure)
 
     // Construct the object list, including any drunes that were contained within the treasure
     if(_treasure->_drunes != 0) {
-        _list_options.AddOption(MakeUnicodeString("<img/icons/drunes.png>       ") +
+        _list_options.AddOption(MakeUnicodeString("<data/inventory/drunes.png>       ") +
                                 UTranslate("Drunes") +
                                 MakeUnicodeString("<R>" + NumberToString(_treasure->_drunes)));
         GlobalManager->Media().PlaySound("coins");
@@ -163,14 +162,14 @@ void TreasureSupervisor::Initialize(MapTreasure *treasure)
         GlobalManager->Media().PlaySound("item_pickup");
     }
 
-    for(uint32 i = 0; i < _treasure->_objects_list.size(); i++) {
-        if(_treasure->_objects_list[i]->GetCount() > 1) {
-            _list_options.AddOption(MakeUnicodeString("<" + _treasure->_objects_list[i]->GetIconImage().GetFilename() + ">       ") +
-                                    _treasure->_objects_list[i]->GetName() +
-                                    MakeUnicodeString("<R>x" + NumberToString(_treasure->_objects_list[i]->GetCount())));
+    for(uint32 i = 0; i < _treasure->_items_list.size(); i++) {
+        if(_treasure->_items_list[i]->GetCount() > 1) {
+            _list_options.AddOption(MakeUnicodeString("<" + _treasure->_items_list[i]->GetIconImage().GetFilename() + ">       ") +
+                                    _treasure->_items_list[i]->GetName() +
+                                    MakeUnicodeString("<R>x" + NumberToString(_treasure->_items_list[i]->GetCount())));
         } else {
-            _list_options.AddOption(MakeUnicodeString("<" + _treasure->_objects_list[i]->GetIconImage().GetFilename() + ">       ") +
-                                    _treasure->_objects_list[i]->GetName());
+            _list_options.AddOption(MakeUnicodeString("<" + _treasure->_items_list[i]->GetIconImage().GetFilename() + ">       ") +
+                                    _treasure->_items_list[i]->GetName());
         }
     }
 
@@ -190,16 +189,16 @@ void TreasureSupervisor::Initialize(MapTreasure *treasure)
     // Immediately add the drunes and objects to the player's inventory
     GlobalManager->AddDrunes(_treasure->_drunes);
 
-    for(uint32 i = 0; i < _treasure->_objects_list.size(); ++i) {
-        GlobalObject *obj = _treasure->_objects_list[i];
+    for(uint32 i = 0; i < _treasure->_items_list.size(); ++i) {
+        GlobalObject *obj = _treasure->_items_list[i];
         if(!obj)
             continue;
-        if(!GlobalManager->IsObjectInInventory(obj->GetID())) {
+        if(!GlobalManager->IsItemInInventory(obj->GetID())) {
             // Pass a copy to the inventory, the treasure object will delete its content on destruction.
             vt_global::GlobalObject *obj_copy = GlobalCreateNewObject(obj->GetID(), obj->GetCount());
             GlobalManager->AddToInventory(obj_copy);
         } else {
-            GlobalManager->IncrementObjectCount(obj->GetID(), obj->GetCount());
+            GlobalManager->IncrementItemCount(obj->GetID(), obj->GetCount());
         }
     }
 } // void TreasureSupervisor::Initialize(MapTreasure* treasure)
@@ -333,11 +332,11 @@ void TreasureSupervisor::_UpdateList()
         } else { // Otherwise, a GlobalObject is selected
             if(_treasure->_drunes != 0)
                 list_selection--;
-            _selection_name.SetText(_treasure->_objects_list[list_selection]->GetName());
-            _is_key_item = _treasure->_objects_list[list_selection]->IsKeyItem();
+            _selection_name.SetText(_treasure->_items_list[list_selection]->GetName());
+            _is_key_item = _treasure->_items_list[list_selection]->IsKeyItem();
             // TODO: this is not good practice. We should probably either remove the const status from the GetIconImage() call
-            _selection_icon = const_cast<StillImage *>(&_treasure->_objects_list[list_selection]->GetIconImage());
-            _detail_textbox.SetDisplayText(_treasure->_objects_list[list_selection]->GetDescription());
+            _selection_icon = const_cast<StillImage *>(&_treasure->_items_list[list_selection]->GetIconImage());
+            _detail_textbox.SetDisplayText(_treasure->_items_list[list_selection]->GetDescription());
         }
     } else if(InputManager->UpPress()) {
         if(_list_options.GetSelection() == 0) {

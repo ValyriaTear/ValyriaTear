@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -84,16 +84,20 @@ public:
     *** \note No set functions are defined because the class members should only be intialized within Lua
     **/
     //@{
-    const vt_utils::ustring &GetName() const {
+    const vt_utils::ustring& GetName() const {
         return _name;
     }
 
-    const vt_utils::ustring &GetDescription() const {
+    const vt_utils::ustring& GetDescription() const {
         return _description;
     }
 
-    const std::string &GetIconFilename() const {
+    const std::string& GetIconFilename() const {
         return _icon_filename;
+    }
+
+    bool ShouldShowSkillNotice() const {
+        return _show_skill_notice;
     }
 
     uint32 GetID() const {
@@ -129,7 +133,7 @@ public:
     }
 
     /** \brief Returns a pointer to the ScriptObject of the battle execution function
-    *** \note This function will return NULL if the skill is not executable in battle
+    *** \note This function will return nullptr if the skill is not executable in battle
     **/
     const ScriptObject &GetBattleExecuteFunction() const {
         return _battle_execute_function;
@@ -139,7 +143,7 @@ public:
     bool ExecuteBattleFunction(vt_battle::private_battle::BattleActor *user, vt_battle::private_battle::BattleTarget target);
 
     /** \brief Returns a pointer to the ScriptObject of the menu execution function
-    *** \note This function will return NULL if the skill is not executable in menus
+    *** \note This function will return nullptr if the skill is not executable in menus
     **/
     const ScriptObject &GetFieldExecuteFunction() const {
         return _field_execute_function;
@@ -164,8 +168,11 @@ private:
     **/
     vt_utils::ustring _description;
 
-    //! The potential skill icon filename
+    //! \brief The potential skill icon filename
     std::string _icon_filename;
+
+    //! \brief Whether to show a skill short notice before executing the action.
+    bool _show_skill_notice;
 
     //! \brief The type identifier for the skill
     GLOBAL_SKILL _type;
@@ -196,7 +203,7 @@ private:
 
     /** \brief The animation name played before dealing the battle_execute_function.
     *** When a character is ready to attack, it will first play an attack animation for instance
-    *** before delaing damage.
+    *** before dealing damage.
     **/
     std::string _action_name;
 

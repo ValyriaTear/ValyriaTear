@@ -55,10 +55,10 @@
 
 namespace luabind {
 
-namespace detail 
+namespace detail
 {
   namespace mpl = boost::mpl;
-  
+
   template<class T, class ConverterGenerator>
   void push_aux(lua_State* interpreter, T& value, ConverterGenerator*)
   {
@@ -102,21 +102,21 @@ namespace detail
 namespace adl
 {
   namespace mpl = boost::mpl;
-  
+
   template <class T>
   class object_interface;
-  
+
   namespace is_object_interface_aux
   {
     typedef char (&yes)[1];
     typedef char (&no)[2];
-    
+
     template <class T>
     yes check(object_interface<T>*);
     no check(void*);
 
     template <class T>
-    struct impl 
+    struct impl
     {
         BOOST_STATIC_CONSTANT(bool, value =
             sizeof(is_object_interface_aux::check((T*)0)) == sizeof(yes)
@@ -167,7 +167,7 @@ namespace adl
        if (L == 0) return 1;
        return 0;
   }
-	
+
   template<class T, class U>
   int binary_interpreter(lua_State*& L, T const& x, U const&
     , boost::mpl::true_, boost::mpl::false_)
@@ -248,21 +248,21 @@ LUABIND_BINARY_OP_DEF(<, LUA_OPLT)
   }
 
   template<class LHS, class RHS>
-  typename enable_binary<bool,LHS,RHS>::type 
+  typename enable_binary<bool,LHS,RHS>::type
   operator<=(LHS const& lhs, RHS const& rhs)
   {
       return lhs < rhs || lhs == rhs;
   }
 
   template<class LHS, class RHS>
-  typename enable_binary<bool,LHS,RHS>::type 
+  typename enable_binary<bool,LHS,RHS>::type
   operator>=(LHS const& lhs, RHS const& rhs)
   {
       return !(lhs < rhs);
   }
 
   template<class LHS, class RHS>
-  typename enable_binary<bool,LHS,RHS>::type 
+  typename enable_binary<bool,LHS,RHS>::type
   operator!=(LHS const& lhs, RHS const& rhs)
   {
       return !(lhs == rhs);
@@ -275,7 +275,7 @@ LUABIND_BINARY_OP_DEF(<, LUA_OPLT)
   class index_proxy;
 
   class object;
-  
+
   template<class Derived>
   class object_interface
   {
@@ -346,7 +346,7 @@ LUABIND_BINARY_OP_DEF(<, LUA_OPLT)
 #ifdef LUABIND_USE_VALUE_WRAPPER_TAG
   struct iterator_proxy_tag;
 #endif
-  
+
   template<class AccessPolicy>
   class iterator_proxy
     : public object_interface<iterator_proxy<AccessPolicy> >
@@ -416,9 +416,11 @@ LUABIND_BINARY_OP_DEF(<, LUA_OPLT)
       // TODO: Why is it non-const?
       void push(lua_State* interpreter)
       {
-          assert(interpreter == m_interpreter);
-          lua_pushvalue(m_interpreter, m_key_index);
-          AccessPolicy::get(m_interpreter, m_table_index);
+          if (interpreter) {
+              assert(interpreter == m_interpreter);
+              lua_pushvalue(m_interpreter, m_key_index);
+              AccessPolicy::get(m_interpreter, m_table_index);
+          }
       }
 
   private:
@@ -458,7 +460,7 @@ namespace detail
   };
 
   template<class AccessPolicy>
-  class basic_iterator 
+  class basic_iterator
     : public boost::iterator_facade<
         basic_iterator<AccessPolicy>
       , adl::iterator_proxy<AccessPolicy>
@@ -534,7 +536,7 @@ namespace detail
           return lua_compare(m_interpreter, -2, -1, LUA_OPEQ) != 0;
       }
 
-      adl::iterator_proxy<AccessPolicy> dereference() const 
+      adl::iterator_proxy<AccessPolicy> dereference() const
       {
           return adl::iterator_proxy<AccessPolicy>(m_interpreter, m_table, m_key);
       }
@@ -543,6 +545,9 @@ namespace detail
       handle m_table;
       handle m_key;
   };
+
+// Not used anymore with boost 1.57
+#if BOOST_VERSION < 105700
 
 // Needed because of some strange ADL issues.
 
@@ -565,14 +570,16 @@ namespace detail
   LUABIND_OPERATOR_ADL_WKND(!=)
 
 #undef LUABIND_OPERATOR_ADL_WKND
- 
+
+#endif // BOOST_VERSION < 105700
+
 } // namespace detail
 
 namespace adl
 {
- 
+
 #ifdef LUABIND_USE_VALUE_WRAPPER_TAG
-  struct index_proxy_tag;    
+  struct index_proxy_tag;
 #endif
 
   template<class Next>
@@ -623,7 +630,7 @@ namespace adl
           lua_settable(m_interpreter, -3);
           return *this;
 		}
-		
+
       template<class T>
       this_type& operator=(T const& value)
       {
@@ -662,7 +669,7 @@ namespace adl
 
   private:
 		struct hidden_type {};
-		
+
 //      this_type& operator=(index_proxy<Next> const&);
 
       mutable lua_State* m_interpreter;
@@ -901,13 +908,15 @@ struct value_wrapper_traits<argument>
 template<class Next>
 inline void adl::index_proxy<Next>::push(lua_State* interpreter)
 {
-    assert(interpreter == m_interpreter);
+    if (interpreter) {
+        assert(interpreter == m_interpreter);
 
-    value_wrapper_traits<Next>::unwrap(m_interpreter, m_next);
+        value_wrapper_traits<Next>::unwrap(m_interpreter, m_next);
 
-    lua_pushvalue(m_interpreter, m_key_index);
-    lua_gettable(m_interpreter, -2);
-    lua_remove(m_interpreter, -2);
+        lua_pushvalue(m_interpreter, m_key_index);
+        lua_gettable(m_interpreter, -2);
+        lua_remove(m_interpreter, -2);
+    }
 }
 
 template<class Next>
@@ -933,7 +942,7 @@ object detail::basic_iterator<AccessPolicy>::key() const
     return object(m_key);
 }
 
-namespace detail 
+namespace detail
 {
 
   template<
@@ -956,7 +965,7 @@ namespace detail
       );
 
 #ifndef LUABIND_NO_ERROR_CHECKING
-      if (!interpreter) 
+      if (!interpreter)
           return ErrorPolicy::handle_error(interpreter, typeid(void));
 #endif
 
@@ -1075,14 +1084,14 @@ namespace detail
   struct push_args_from_tuple
   {
       template<class H, class T, class Policies>
-      inline static void apply(lua_State* L, const boost::tuples::cons<H, T>& x, const Policies& p) 
+      inline static void apply(lua_State* L, const boost::tuples::cons<H, T>& x, const Policies& p)
       {
           convert_to_lua_p<Index>(L, *x.get_head(), p);
           push_args_from_tuple<Index+1>::apply(L, x.get_tail(), p);
       }
 
       template<class H, class T>
-      inline static void apply(lua_State* L, const boost::tuples::cons<H, T>& x) 
+      inline static void apply(lua_State* L, const boost::tuples::cons<H, T>& x)
       {
           convert_to_lua(L, *x.get_head());
           push_args_from_tuple<Index+1>::apply(L, x.get_tail());
@@ -1250,7 +1259,7 @@ inline void settable(ValueWrapper const& table, K const& key, T const& value)
     );
 
     // TODO: Exception safe?
-    
+
     value_wrapper_traits<ValueWrapper>::unwrap(interpreter, table);
     detail::stack_pop pop(interpreter, 1);
     detail::push(interpreter, key);
@@ -1280,7 +1289,7 @@ inline void rawset(ValueWrapper const& table, K const& key, T const& value)
     );
 
     // TODO: Exception safe?
-    
+
     value_wrapper_traits<ValueWrapper>::unwrap(interpreter, table);
     detail::stack_pop pop(interpreter, 1);
     detail::push(interpreter, key);

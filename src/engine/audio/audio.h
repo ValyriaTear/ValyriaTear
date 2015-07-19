@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -25,21 +25,10 @@
 #ifndef __AUDIO_HEADER__
 #define __AUDIO_HEADER__
 
-#include "utils.h"
+#include "utils/singleton.h"
 
 #include "audio_descriptor.h"
 #include "audio_effects.h"
-
-#ifdef __APPLE__
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#else
-#include "al.h"
-#include "alc.h"
-#endif
-
-#include <map>
-#include <cstring>
 
 //! \brief All related audio engine code is wrapped within this namespace
 namespace vt_audio
@@ -143,22 +132,22 @@ public:
     //@{
     void PauseAudio() {
         PauseAllSounds();
-        PauseAllMusic();
+        PauseActiveMusic();
     }
 
     void ResumeAudio() {
         ResumeAllSounds();
-        ResumeAllMusic();
+        ResumeActiveMusic();
     }
 
     void StopAudio() {
         StopAllSounds();
-        StopAllMusic();
+        StopActiveMusic();
     }
 
     void RewindAudio() {
         RewindAllSounds();
-        RewindAllMusic();
+        RewindActiveMusic();
     }
     //@}
 
@@ -179,10 +168,10 @@ public:
     *** the MusicDescriptor which currently has posession of the source.
     **/
     //@{
-    void PauseAllMusic();
-    void ResumeAllMusic();
-    void StopAllMusic();
-    void RewindAllMusic();
+    void PauseActiveMusic();
+    void ResumeActiveMusic();
+    void StopActiveMusic();
+    void RewindActiveMusic();
     //@}
 
     /** \name Three Dimensional Audio Properties Functions
@@ -213,8 +202,8 @@ public:
     /** \brief Fades in or out every audio entry of the given type.
     *** \param time the time in ms to fade in/out.
     **/
-    void FadeOutAllMusic(float time = 1000.0f);
-    void FadeInAllMusic(float time = 1000.0f);
+    void FadeOutActiveMusic(float time = 1000.0f);
+    void FadeInActiveMusic(float time = 1000.0f);
     void FadeOutAllSounds(float time = 1000.0f);
     //@}
 
@@ -249,13 +238,13 @@ public:
     *** \param gm The game mode owning the audio descriptor to load.
     *** \return True if the sound was loaded into the cache successfully
     **/
-    bool LoadSound(const std::string &filename, vt_mode_manager::GameMode *gm = NULL);
+    bool LoadSound(const std::string &filename, vt_mode_manager::GameMode *gm = nullptr);
 
     /** \brief Creates a new MusicDescriptor using the given filename and loads it into the audio cache
     *** \param gm The game mode owning the audio descriptor to load.
     *** \return True if the music was loaded into the cache successfully
     **/
-    bool LoadMusic(const std::string &filename, vt_mode_manager::GameMode *gm = NULL);
+    bool LoadMusic(const std::string &filename, vt_mode_manager::GameMode *gm = nullptr);
 
     //! \brief Plays a sound that is contained within the audio cache
     void PlaySound(const std::string &filename);
@@ -287,10 +276,10 @@ public:
         ResumeSound(filename);
     }
 
-    //! \return A pointer to the SoundDescriptor contained within the cache, or NULL if it could not be found
+    //! \return A pointer to the SoundDescriptor contained within the cache, or nullptr if it could not be found
     SoundDescriptor *RetrieveSound(const std::string &filename);
 
-    //! \return A pointer to the MusicDescriptor contained within the cache, or NULL if it could not be found
+    //! \return A pointer to the MusicDescriptor contained within the cache, or nullptr if it could not be found
     MusicDescriptor *RetrieveMusic(const std::string &filename);
 
     //! \returns A pointer of the active music descriptor (the one playing or ready to be played.)
@@ -303,7 +292,7 @@ public:
     *** Thus, permitting to check whether the audio descriptors owned by the mode can be freed
     *** from memory.
     **/
-    void RemoveOwner(vt_mode_manager::GameMode *gm);
+    void RemoveGameModeOwner(vt_mode_manager::GameMode *gm);
 
     /** \name Error Detection and Processing methods
     *** Code external to the audio engine should not need to make use of the following methods,
@@ -414,18 +403,20 @@ private:
     uint16 _max_cache_size;
 
     /** \brief Acquires an available audio source that may be used
-    *** \return A pointer to the available source, or NULL if no available source could be found
-    *** \todo Add an algoihtm to give priority to some sounds/music over others.
+    *** \return A pointer to the available source, or nullptr if no available source could be found
+    *** \todo Add an algoihtm to give priority to some data/sounds/music over others.
     **/
     private_audio::AudioSource *_AcquireAudioSource();
 
     /** \brief A helper function to LoadSound and LoadMusic that takes care of the messy details of cache managment
-    *** \param audio A pointer to a newly created, unitialized AudioDescriptor object to load into the cache
     *** \param filename The filename of the audio to load
-    *** \return True if the audio was successfully added to the cache, false if it was not.
-    *** \note If this function returns false, you should delete the pointer that you passed to it.
+    *** \param is_music Tells whether the audio member to load is some music or sound object.
+    *** \param The potential game mode "owning" the sound, permitting the engine to later free the sound
+    *** if no more game modes own it.
+    *** \return True if the audio was successfully loaded and added to the audio cache, false if it was not.
     **/
-    bool _LoadAudio(AudioDescriptor *audio, const std::string &filename);
+    bool _LoadAudio(const std::string &filename, bool is_music, vt_mode_manager::GameMode *gm = nullptr);
+
 }; // class AudioEngine : public vt_utils::Singleton<AudioEngine>
 
 } // namespace vt_audio

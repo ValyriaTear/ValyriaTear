@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -17,10 +17,9 @@
 *** \brief   Source file for the scripting engine.
 *** ***************************************************************************/
 
-#include <iostream>
-#include <stdarg.h>
-
+#include "utils/utils_pch.h"
 #include "script.h"
+
 #include "script_read.h"
 
 using namespace luabind;
@@ -28,12 +27,10 @@ using namespace luabind;
 using namespace vt_utils;
 using namespace vt_script::private_script;
 
-template<> vt_script::ScriptEngine *Singleton<vt_script::ScriptEngine>::_singleton_reference = NULL;
-
 namespace vt_script
 {
 
-ScriptEngine *ScriptManager = NULL;
+ScriptEngine *ScriptManager = nullptr;
 bool SCRIPT_DEBUG = false;
 
 //-----------------------------------------------------------------------------
@@ -58,7 +55,7 @@ ScriptEngine::~ScriptEngine()
 
     _open_files.clear();
     lua_close(_global_state);
-    _global_state = NULL;
+    _global_state = nullptr;
 }
 
 
@@ -129,7 +126,7 @@ lua_State *ScriptEngine::_CheckForPreviousLuaState(const std::string &filename)
     if(_open_threads.find(filename) != _open_threads.end())
         return _open_threads[filename];
     else
-        return NULL;
+        return nullptr;
 }
 
 

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -15,6 +15,7 @@
 *** \brief   Source file for save mode interface.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "save_mode.h"
 
 #include "common/global/global.h"
@@ -23,6 +24,7 @@
 #include "engine/input.h"
 #include "modes/boot/boot.h"
 #include "modes/map/map_mode.h"
+#include "utils/utils_files.h"
 
 using namespace vt_utils;
 using namespace vt_audio;
@@ -59,28 +61,23 @@ const uint8 SAVE_MODE_NO_VALID_SAVES  = 6;
 //@}
 
 SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
-    GameMode(),
+    GameMode(MODE_MANAGER_SAVE_MODE),
     _current_state(SAVE_MODE_LOADING),
     _dim_color(0.35f, 0.35f, 0.35f, 1.0f), // A grayish opaque color
     _x_position(x_position),
     _y_position(y_position),
     _save_mode(save_mode)
 {
-    mode_type = MODE_MANAGER_SAVE_MODE;
-
     _window.Create(600.0f, 500.0f);
     _window.SetPosition(212.0f, 138.0f);
-    _window.SetDisplayMode(VIDEO_MENU_EXPAND_FROM_CENTER);
     _window.Hide();
 
     _left_window.Create(150.0f, 500.0f);
     _left_window.SetPosition(212.0f, 138.0f);
-    _left_window.SetDisplayMode(VIDEO_MENU_EXPAND_FROM_CENTER);
     _left_window.Show();
 
     _title_window.Create(600.0f, 50.0f);
     _title_window.SetPosition(212.0f, 88.0f);
-    _title_window.SetDisplayMode(VIDEO_MENU_EXPAND_FROM_CENTER);
     _title_window.Show();
 
     // Initialize the save successful message box
@@ -95,7 +92,6 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
 
     for(uint32 i = 0; i < 4; ++i) {
         _character_window[i].Create(450.0f, 100.0f);
-        _character_window[i].SetDisplayMode(VIDEO_MENU_EXPAND_FROM_CENTER);
         _character_window[i].Show();
     }
 
@@ -161,7 +157,7 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
     _no_valid_saves_message.SetDisplayText(UTranslate("No valid saves found!"));
 
     // Initialize the save preview text boxes
-    _map_name_textbox.SetPosition(600.0f, 553.0f);
+    _map_name_textbox.SetPosition(600.0f, 558.0f);
     _map_name_textbox.SetDimensions(300.0f, 26.0f);
     _map_name_textbox.SetTextStyle(TextStyle("title22"));
     _map_name_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -173,14 +169,14 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
     _time_textbox.SetTextStyle(TextStyle("title22"));
     _time_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _time_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _time_textbox.SetDisplayText(" ");
+    _time_textbox.ClearText();
 
     _drunes_textbox.SetPosition(600.0f, 613.0f);
     _drunes_textbox.SetDimensions(250.0f, 26.0f);
     _drunes_textbox.SetTextStyle(TextStyle("title22"));
     _drunes_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _drunes_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-    _drunes_textbox.SetDisplayText(" ");
+    _drunes_textbox.ClearText();
 
     _clock_icon = vt_global::GlobalManager->Media().GetClockIcon();
     _clock_icon->SetWidthKeepRatio(30.0f);
@@ -250,8 +246,11 @@ void SaveMode::Update()
     _file_list.Update();
     _confirm_save_optionbox.Update();
 
+    GlobalMedia& media = GlobalManager->Media();
+
     // Otherwise, it's time to start handling events.
     if(InputManager->ConfirmPress()) {
+        media.PlaySound("confirm");
         switch(_current_state) {
         case SAVE_MODE_SAVING:
             if(_file_list.GetSelection() > -1) {
@@ -270,10 +269,10 @@ void SaveMode::Update()
                 // now, attempt to save the game.  If failure, we need to tell the user that!
                 if(GlobalManager->SaveGame(filename, id, _x_position, _y_position)) {
                     _current_state = SAVE_MODE_SAVE_COMPLETE;
-                    AudioManager->PlaySound("snd/save_successful_nick_bowler_oga.wav");
+                    AudioManager->PlaySound("data/sounds/save_successful_nick_bowler_oga.wav");
                 } else {
                     _current_state = SAVE_MODE_SAVE_FAILED;
-                    AudioManager->PlaySound("snd/cancel.wav");
+                    AudioManager->PlaySound("data/sounds/cancel.wav");
                 }
             } else {
                 _current_state = SAVE_MODE_SAVING;
@@ -304,6 +303,7 @@ void SaveMode::Update()
     } // end if (InputManager->ConfirmPress())
 
     else if(InputManager->CancelPress()) {
+        media.PlaySound("cancel");
         switch(_current_state) {
         default:
         case SAVE_MODE_NO_VALID_SAVES:
@@ -321,6 +321,7 @@ void SaveMode::Update()
     } // end if (InputManager->CancelPress())
 
     else if(InputManager->UpPress()) {
+        media.PlaySound("bump");
         switch(_current_state) {
         case SAVE_MODE_SAVING:
         case SAVE_MODE_LOADING:
@@ -339,6 +340,7 @@ void SaveMode::Update()
     } // end if (InputManager->UpPress())
 
     else if(InputManager->DownPress()) {
+        media.PlaySound("bump");
         switch(_current_state) {
         case SAVE_MODE_SAVING:
         case SAVE_MODE_LOADING:
@@ -393,13 +395,16 @@ void SaveMode::DrawPostEffects()
         if (!_location_image.GetFilename().empty())
             _location_image.Draw(Color(1.0f, 1.0f, 1.0f, 0.4f));
 
+        _map_name_textbox.Draw();
+
+        if (_time_textbox.IsEmpty() || _drunes_textbox.IsEmpty())
+            break;
+
         VideoManager->MoveRelative(15.0f, -35.0f);
         _clock_icon->Draw();
+        _time_textbox.Draw();
         VideoManager->MoveRelative(0.0f, 30.0f);
         _drunes_icon->Draw();
-
-        _map_name_textbox.Draw();
-        _time_textbox.Draw();
         _drunes_textbox.Draw();
         break;
     case SAVE_MODE_CONFIRMING_SAVE:
@@ -428,7 +433,7 @@ bool SaveMode::_LoadGame(uint32 id)
 
     if(DoesFileExist(filename)) {
         _current_state = SAVE_MODE_FADING_OUT;
-        AudioManager->StopAllMusic();
+        AudioManager->StopActiveMusic();
 
         GlobalManager->LoadGame(filename, id);
 
@@ -461,11 +466,11 @@ void SaveMode::_ClearSaveData(bool selected_file_exists)
         _map_name_textbox.SetDisplayText(UTranslate("Invalid data!"));
     else
         _map_name_textbox.SetDisplayText(UTranslate("No data"));
-    _time_textbox.SetDisplayText(" ");
-    _drunes_textbox.SetDisplayText(" ");
+    _time_textbox.ClearText();
+    _drunes_textbox.ClearText();
     _location_image.Clear();
     for (uint32 i = 0; i < 4; ++i)
-        _character_window[i].SetCharacter(NULL);
+        _character_window[i].SetCharacter(nullptr);
 }
 
 
@@ -520,6 +525,21 @@ bool SaveMode::_PreviewGame(uint32 id)
         std::string map_common_name = map_data_filename.substr(0, map_data_filename.length() - 4);
         map_data_filename = map_common_name + "_map.lua";
         map_script_filename = map_common_name + "_script.lua";
+    }
+
+    // DEPRECATED: Remove in one release
+    // test whether the beginning of the filepath is 'dat/maps/' and replace with 'data/story/'
+    if (map_data_filename.substr(0, 9) == "dat/maps/")
+        map_data_filename = std::string("data/story/") + map_data_filename.substr(9, map_data_filename.length() - 9);
+    if (map_script_filename.substr(0, 9) == "dat/maps/")
+        map_script_filename = std::string("data/story/") + map_script_filename.substr(9, map_script_filename.length() - 9);
+
+    // Check whether the map data file is available
+    if (map_data_filename.empty() || !vt_utils::DoesFileExist(map_data_filename)) {
+        file.CloseTable(); // save_game1
+        file.CloseFile();
+        _ClearSaveData(true);
+        return false;
     }
 
     // Used to store temp data to populate text boxes
@@ -656,12 +676,29 @@ void SmallCharacterWindow::SetCharacter(GlobalCharacter *character)
     delete _character;
     _character = character;
 
-    if(character) {
-        _portrait = character->GetPortrait();
-        // Only size up valid portraits
-        if(!_portrait.GetFilename().empty())
-            _portrait.SetDimensions(100.0f, 100.0f);
+    if(!_character || _character->GetID() == vt_global::GLOBAL_CHARACTER_INVALID) {
+        _character_name.Clear();
+        _character_data.Clear();
+        _portrait = StillImage();
+        return;
     }
+
+    _portrait = character->GetPortrait();
+    // Only size up valid portraits
+    if(!_portrait.GetFilename().empty())
+        _portrait.SetDimensions(100.0f, 100.0f);
+
+    // the characters' name is already translated.
+    _character_name.SetText(_character->GetName(), TextStyle("title22"));
+
+    // And the rest of the data
+    ustring char_data = UTranslate("Lv: ") + MakeUnicodeString(NumberToString(_character->GetExperienceLevel()) + "\n");
+    char_data += UTranslate("HP: ") + MakeUnicodeString(NumberToString(_character->GetHitPoints()) +
+                               " / " + NumberToString(_character->GetMaxHitPoints()) + "\n");
+    char_data += UTranslate("SP: ") + MakeUnicodeString(NumberToString(_character->GetSkillPoints()) +
+                               " / " + NumberToString(_character->GetMaxSkillPoints()));
+
+    _character_data.SetText(char_data, TextStyle("text20"));
 } // void SmallCharacterWindow::SetCharacter(GlobalCharacter *character)
 
 
@@ -672,17 +709,9 @@ void SmallCharacterWindow::Draw()
     // Call parent Draw method, if failed pass on fail result
     MenuWindow::Draw();
 
-    // check to see if this window is an actual character
-    if(_character == NULL)
-        return;
-
-    if(_character->GetID() == vt_global::GLOBAL_CHARACTER_INVALID)
-        return;
-
     // Get the window metrics
-    float x, y, w, h;
+    float x, y;
     GetPosition(x, y);
-    GetDimensions(w, h);
     // Adjust the current position to make it look better
     y -= 5;
 
@@ -691,24 +720,12 @@ void SmallCharacterWindow::Draw()
     _portrait.Draw();
 
     // Write character name
-    VideoManager->MoveRelative(125, -75);
-    VideoManager->Text()->Draw(_character->GetName(), TextStyle("title22"));
+    VideoManager->MoveRelative(125, -70);
+    _character_name.Draw();
 
-    // Level
+    // Level, HP, SP
     VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("Lv: ") + MakeUnicodeString(NumberToString(_character->GetExperienceLevel())), TextStyle("text20"));
-
-    // HP
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("HP: ") + MakeUnicodeString(NumberToString(_character->GetHitPoints()) +
-                               " / " + NumberToString(_character->GetMaxHitPoints())), TextStyle("text20"));
-
-    // SP
-    VideoManager->MoveRelative(0, 20);
-    VideoManager->Text()->Draw(UTranslate("SP: ") + MakeUnicodeString(NumberToString(_character->GetSkillPoints()) +
-                               " / " + NumberToString(_character->GetMaxSkillPoints())), TextStyle("text20"));
-
-    return;
+    _character_data.Draw();
 }
 
 } // namespace vt_save

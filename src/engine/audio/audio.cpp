@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -20,24 +20,24 @@
 ***
 *** \note This code uses the OpenAL audio library. See http://www.openal.com/
 *** ***************************************************************************/
-#include <iostream>
 
+#include "utils/utils_pch.h"
 #include "engine/audio/audio.h"
+
 #include "engine/system.h"
 #include "engine/mode_manager.h"
+
+#include "utils/utils_strings.h"
+#include "utils/utils_files.h"
 
 using namespace vt_utils;
 using namespace vt_system;
 using namespace vt_audio::private_audio;
 
-
-template<> vt_audio::AudioEngine *Singleton<vt_audio::AudioEngine>::_singleton_reference = 0;
-
-
 namespace vt_audio
 {
 
-AudioEngine *AudioManager = NULL;
+AudioEngine *AudioManager = nullptr;
 bool AUDIO_DEBUG = false;
 bool AUDIO_ENABLE = true;
 
@@ -47,7 +47,7 @@ AudioEngine::AudioEngine() :
     _device(0),
     _context(0),
     _max_sources(MAX_DEFAULT_AUDIO_SOURCES),
-    _active_music(NULL),
+    _active_music(nullptr),
     _max_cache_size(MAX_DEFAULT_AUDIO_SOURCES / 4)
 {}
 
@@ -62,7 +62,7 @@ bool AudioEngine::SingletonInitialize()
     CheckALCError(); // Clears errors
 
     // Find the highest-version device available, if the extension for device enumeration is present
-    if(alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT") == AL_TRUE) {
+    if(alcIsExtensionPresent(nullptr, "ALC_ENUMERATION_EXT") == AL_TRUE) {
         const ALCchar *device_list = 0;
         device_list = alcGetString(0, ALC_DEVICE_SPECIFIER); // Get list of all devices (terminated with two '0')
         if(CheckALCError() == true) {
@@ -75,7 +75,7 @@ bool AudioEngine::SingletonInitialize()
 
             // Open a temporary device for reading in its version number
             ALCdevice *temp_device = alcOpenDevice(device_list);
-            if(CheckALCError() || temp_device == NULL) {  // If we couldn't open the device, just move on to the next
+            if(CheckALCError() || temp_device == nullptr) {  // If we couldn't open the device, just move on to the next
                 IF_PRINT_WARNING(AUDIO_DEBUG) << "couldn't open device for version checking: " << device_list << std::endl;
                 device_list += strlen(device_list) + 1;
                 continue;
@@ -83,7 +83,7 @@ bool AudioEngine::SingletonInitialize()
 
             // Create a temporary context for the device
             ALCcontext *temp_context = alcCreateContext(temp_device, 0);
-            if(CheckALCError() || temp_context == NULL) {  // If we couldn't create the context, move on to the next device
+            if(CheckALCError() || temp_context == nullptr) {  // If we couldn't create the context, move on to the next device
                 IF_PRINT_WARNING(AUDIO_DEBUG) << "couldn't create a temporary context for device: " << device_list << std::endl;
                 alcCloseDevice(temp_device);
                 device_list += strlen(device_list) + 1;
@@ -106,19 +106,19 @@ bool AudioEngine::SingletonInitialize()
             }
             device_list += strlen(device_list) + 1; // Go to the next device name in the list
         } // while (*device_name != 0)
-    } // if (alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT") == AL_TRUE)
+    } // if (alcIsExtensionPresent(nullptr, "ALC_ENUMERATION_EXT") == AL_TRUE)
 
     // Open the 'best' device we found above. If no devices were previously found,
     // it will try opening the default device (= 0)
     _device = alcOpenDevice(best_device);
-    if(CheckALCError() || _device == NULL) {
+    if(CheckALCError() || _device == nullptr) {
         PRINT_ERROR << "failed to open an OpenAL audio device: " << CreateALCErrorString() << std::endl;
         return false;
     }
 
     // Create an OpenAL context
-    _context = alcCreateContext(_device, NULL);
-    if(CheckALCError() || _context == NULL) {
+    _context = alcCreateContext(_device, nullptr);
+    if(CheckALCError() || _context == nullptr) {
         PRINT_ERROR << "failed to create an OpenAL context: " << CreateALCErrorString() << std::endl;
         alcCloseDevice(_device);
         return false;
@@ -130,7 +130,7 @@ bool AudioEngine::SingletonInitialize()
 
     // Create as many sources as possible (we fix an upper bound of MAX_DEFAULT_AUDIO_SOURCES)
     ALuint source;
-    for(uint16 i = 0; i < _max_sources; i++) {
+    for(uint16 i = 0; i < _max_sources; ++i) {
         alGenSources(1, &source);
         if(CheckALError() == true) {
             _max_sources = i;
@@ -154,13 +154,13 @@ AudioEngine::~AudioEngine()
         return;
 
     // Delete all entries in the sound cache
-    for(std::map<std::string, private_audio::AudioCacheElement>::iterator i = _audio_cache.begin(); i != _audio_cache.end(); i++) {
+    for(std::map<std::string, private_audio::AudioCacheElement>::iterator i = _audio_cache.begin(); i != _audio_cache.end(); ++i) {
         delete i->second.audio;
     }
     _audio_cache.clear();
 
     // Delete all audio sources
-    for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); i++) {
+    for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); ++i) {
         delete(*i);
     }
     _audio_sources.clear();
@@ -212,7 +212,7 @@ void AudioEngine::Update()
     if(!AUDIO_ENABLE)
         return;
 
-    for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); i++) {
+    for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); ++i) {
         if((*i)->owner) {
             (*i)->owner->_Update();
         }
@@ -231,8 +231,8 @@ void AudioEngine::SetSoundVolume(float volume)
         _sound_volume = volume;
     }
 
-    for(std::vector<SoundDescriptor *>::iterator i = _registered_sounds.begin(); i != _registered_sounds.end(); i++) {
-        if((*i)->_source != NULL) {
+    for(std::vector<SoundDescriptor *>::iterator i = _registered_sounds.begin(); i != _registered_sounds.end(); ++i) {
+        if((*i)->_source != nullptr) {
             alSourcef((*i)->_source->source, AL_GAIN, _sound_volume * (*i)->GetVolume());
         }
     }
@@ -250,8 +250,8 @@ void AudioEngine::SetMusicVolume(float volume)
         _music_volume = volume;
     }
 
-    for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin(); i != _registered_music.end(); i++) {
-        if((*i)->_source != NULL) {
+    for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin(); i != _registered_music.end(); ++i) {
+        if((*i)->_source != nullptr) {
             alSourcef((*i)->_source->source, AL_GAIN, _music_volume * (*i)->GetVolume());
         }
     }
@@ -260,7 +260,7 @@ void AudioEngine::SetMusicVolume(float volume)
 void AudioEngine::PauseAllSounds()
 {
     for(std::vector<SoundDescriptor *>::iterator i = _registered_sounds.begin();
-            i != _registered_sounds.end(); i++) {
+            i != _registered_sounds.end(); ++i) {
         (*i)->Pause();
     }
 }
@@ -268,7 +268,7 @@ void AudioEngine::PauseAllSounds()
 void AudioEngine::ResumeAllSounds()
 {
     for(std::vector<SoundDescriptor *>::iterator i = _registered_sounds.begin();
-            i != _registered_sounds.end(); i++) {
+            i != _registered_sounds.end(); ++i) {
         (*i)->Resume();
     }
 }
@@ -276,7 +276,7 @@ void AudioEngine::ResumeAllSounds()
 void AudioEngine::StopAllSounds()
 {
     for(std::vector<SoundDescriptor *>::iterator i = _registered_sounds.begin();
-            i != _registered_sounds.end(); i++) {
+            i != _registered_sounds.end(); ++i) {
         (*i)->Stop();
     }
 }
@@ -284,59 +284,51 @@ void AudioEngine::StopAllSounds()
 void AudioEngine::RewindAllSounds()
 {
     for(std::vector<SoundDescriptor *>::iterator i = _registered_sounds.begin();
-            i != _registered_sounds.end(); i++) {
+            i != _registered_sounds.end(); ++i) {
         (*i)->Rewind();
     }
 }
 
-void AudioEngine::PauseAllMusic()
+void AudioEngine::PauseActiveMusic()
 {
-    for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin();
-            i != _registered_music.end(); i++) {
-        (*i)->Pause();
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->Pause();
 }
 
-void AudioEngine::ResumeAllMusic()
+void AudioEngine::ResumeActiveMusic()
 {
-    for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin();
-            i != _registered_music.end(); i++) {
-        (*i)->Resume();
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->Resume();
 }
 
-void AudioEngine::StopAllMusic()
+void AudioEngine::StopActiveMusic()
 {
-    for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin();
-            i != _registered_music.end(); i++) {
-        (*i)->Stop();
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->Stop();
 }
 
-void AudioEngine::RewindAllMusic()
+void AudioEngine::RewindActiveMusic()
 {
-    for(std::vector<MusicDescriptor *>::iterator i = _registered_music.begin();
-            i != _registered_music.end(); i++) {
-        (*i)->Rewind();
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->Rewind();
 }
 
-void AudioEngine::FadeOutAllMusic(float time)
+void AudioEngine::FadeOutActiveMusic(float time)
 {
-    for(std::vector<MusicDescriptor *>::iterator it = _registered_music.begin();
-            it != _registered_music.end(); ++it) {
-        if(*it)
-            (*it)->FadeOut(time);
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->FadeOut(time);
 }
 
-void AudioEngine::FadeInAllMusic(float time)
+void AudioEngine::FadeInActiveMusic(float time)
 {
-    for(std::vector<MusicDescriptor *>::iterator it = _registered_music.begin();
-            it != _registered_music.end(); ++it) {
-        if(*it)
-            (*it)->FadeIn(time);
-    }
+    MusicDescriptor* music = GetActiveMusic();
+    if (music)
+        music->FadeIn(time);
 }
 
 void AudioEngine::FadeOutAllSounds(float time)
@@ -368,53 +360,12 @@ void AudioEngine::SetListenerOrientation(const float orientation[3])
 
 bool AudioEngine::LoadSound(const std::string &filename, vt_mode_manager::GameMode *gm)
 {
-    if(!DoesFileExist(filename))
-        return false;
-
-    SoundDescriptor *new_sound = new SoundDescriptor();
-
-    // Add potential ownership of the sound descriptor
-    if(gm)
-        new_sound->AddOwner(gm);
-
-    if(!_LoadAudio(new_sound, filename)) {
-        delete new_sound;
-
-        // When the sound is used by multiple modes, simply add the ownership there.
-        std::map<std::string, private_audio::AudioCacheElement>::iterator it = _audio_cache.find(filename);
-        if(it != _audio_cache.end()) {
-            it->second.audio->AddOwner(gm);
-            return true;
-        }
-
-        return false;
-    }
-
-    return true;
+    return _LoadAudio(filename, false, gm);
 }
 
 bool AudioEngine::LoadMusic(const std::string &filename, vt_mode_manager::GameMode *gm)
 {
-    MusicDescriptor *new_music = new MusicDescriptor();
-
-    // Add potential ownership of the sound descriptor
-    if(gm)
-        new_music->AddOwner(gm);
-
-    if(!_LoadAudio(new_music, filename)) {
-        delete new_music;
-
-        // When the music is used by multiple modes, simply add the ownership there.
-        std::map<std::string, private_audio::AudioCacheElement>::iterator it = _audio_cache.find(filename);
-        if(it != _audio_cache.end()) {
-            it->second.audio->AddOwner(gm);
-            return true;
-        }
-
-        return false;
-    }
-
-    return true;
+    return _LoadAudio(filename, true, gm);
 }
 
 void AudioEngine::PlaySound(const std::string &filename)
@@ -508,10 +459,10 @@ SoundDescriptor *AudioEngine::RetrieveSound(const std::string &filename)
     std::map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
 
     if(element == _audio_cache.end()) {
-        return NULL;
+        return nullptr;
     } else if(element->second.audio->IsSound() == false) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "incorrectly requested to retrieve a sound for a music filename: " << filename << std::endl;
-        return NULL;
+        return nullptr;
     } else {
         return dynamic_cast<SoundDescriptor *>(element->second.audio);
     }
@@ -522,16 +473,16 @@ MusicDescriptor *AudioEngine::RetrieveMusic(const std::string &filename)
     std::map<std::string, AudioCacheElement>::iterator element = _audio_cache.find(filename);
 
     if(element == _audio_cache.end()) {
-        return NULL;
+        return nullptr;
     } else if(element->second.audio->IsSound() == true) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "incorrectly requested to retrieve music for a sound filename: " << filename << std::endl;
-        return NULL;
+        return nullptr;
     } else {
         return dynamic_cast<MusicDescriptor *>(element->second.audio);
     }
 }
 
-void AudioEngine::RemoveOwner(vt_mode_manager::GameMode *gm)
+void AudioEngine::RemoveGameModeOwner(vt_mode_manager::GameMode* gm)
 {
     if(!gm)
         return;
@@ -540,7 +491,7 @@ void AudioEngine::RemoveOwner(vt_mode_manager::GameMode *gm)
     std::map<std::string, AudioCacheElement>::iterator it = _audio_cache.begin();
     for(; it != _audio_cache.end();) {
         // If the audio buffers are erased, we can remove the descriptor from the cache.
-        if(it->second.audio->RemoveOwner(gm)) {
+        if(it->second.audio->RemoveGameModeOwner(gm)) {
             delete it->second.audio;
             // Make sure the iterator doesn't get flawed after erase.
             _audio_cache.erase(it++);
@@ -628,44 +579,59 @@ void AudioEngine::DEBUG_PrintInfo()
 private_audio::AudioSource *AudioEngine::_AcquireAudioSource()
 {
     // (1) Find and return the first source that does not have an owner
-    for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); i++) {
-        if((*i)->owner == NULL) {
+    for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); ++i) {
+        if((*i)->owner == nullptr) {
             return *i;
         }
     }
 
     // (2) If all sources are owned, find one that is in the initial or stopped state and change its ownership
-    for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); i++) {
+    for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); ++i) {
         ALint state;
         alGetSourcei((*i)->source, AL_SOURCE_STATE, &state);
         if(state == AL_INITIAL || state == AL_STOPPED) {
-            (*i)->owner->_source = NULL;
-            (*i)->Reset(); // this call sets the source owner pointer to NULL
+            (*i)->owner->_source = nullptr;
+            (*i)->Reset(); // this call sets the source owner pointer to nullptr
             return *i;
         }
     }
 
-    // (3) Return NULL in the (extremely rare) case that all sources are owned and actively playing or paused
-    return NULL;
+    // (3) Return nullptr in the (extremely rare) case that all sources are owned and actively playing or paused
+    return nullptr;
 }
 
 
 
-bool AudioEngine::_LoadAudio(AudioDescriptor *audio, const std::string &filename)
+bool AudioEngine::_LoadAudio(const std::string &filename, bool is_music, vt_mode_manager::GameMode *gm)
 {
+    if(!DoesFileExist(filename))
+        return false;
+
     std::map<std::string, private_audio::AudioCacheElement>::iterator it = _audio_cache.find(filename);
     if(it != _audio_cache.end()) {
-        it->second.audio->AddOwners(*audio->GetOwners());
-        // Once the owners have been copied, we don't need the given descriptor anymore.
-        delete audio;
+
+        if (gm)
+            it->second.audio->AddGameModeOwner(gm);
+
         // Return a success since basically everything will keep on working as expected.
         return true;
     }
+
+    // Creates the new audio object and adds its potential game mode owner.
+    AudioDescriptor *audio = nullptr;
+    if (is_music)
+        audio = new MusicDescriptor();
+    else
+        audio = new SoundDescriptor();
+
+    if (gm)
+        audio->AddGameModeOwner(gm);
 
     // (1) If the cache is not full, try loading the audio and adding it in
     if(_audio_cache.size() < _max_cache_size) {
         if(audio->LoadAudio(filename) == false) {
             IF_PRINT_WARNING(AUDIO_DEBUG) << "could not add new audio file into cache because load operation failed: " << filename << std::endl;
+            delete audio;
             return false;
         }
 
@@ -675,7 +641,7 @@ bool AudioEngine::_LoadAudio(AudioDescriptor *audio, const std::string &filename
 
     // (2) The cache is full, so find an element to remove. First make sure that at least one piece of audio is stopped
     std::map<std::string, AudioCacheElement>::iterator lru_element = _audio_cache.end();
-    for(std::map<std::string, AudioCacheElement>::iterator i = _audio_cache.begin(); i != _audio_cache.end(); i++) {
+    for(std::map<std::string, AudioCacheElement>::iterator i = _audio_cache.begin(); i != _audio_cache.end(); ++i) {
         if(i->second.audio->GetState() == AUDIO_STATE_STOPPED) {
             lru_element = i;
             break;
@@ -684,10 +650,11 @@ bool AudioEngine::_LoadAudio(AudioDescriptor *audio, const std::string &filename
 
     if(lru_element == _audio_cache.end()) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "failed to remove element from cache because no piece of audio was in the stopped state" << std::endl;
+        delete audio;
         return false;
     }
 
-    for(std::map<std::string, AudioCacheElement>::iterator i = _audio_cache.begin(); i != _audio_cache.end(); i++) {
+    for(std::map<std::string, AudioCacheElement>::iterator i = _audio_cache.begin(); i != _audio_cache.end(); ++i) {
         if(i->second.audio->GetState() == AUDIO_STATE_STOPPED && i->second.last_update_time < lru_element->second.last_update_time) {
             lru_element = i;
         }
@@ -698,6 +665,7 @@ bool AudioEngine::_LoadAudio(AudioDescriptor *audio, const std::string &filename
 
     if(audio->LoadAudio(filename) == false) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "could not add new audio file into cache because load operation failed: " << filename << std::endl;
+        delete audio;
         return false;
     }
 

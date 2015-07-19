@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -22,33 +22,21 @@
 #ifndef __TEXTURE_CONTROLLER_HEADER__
 #define __TEXTURE_CONTROLLER_HEADER__
 
-#include "utils.h"
+#include "utils/singleton.h"
 
 #include "texture.h"
 #include "image_base.h"
 
-// OpenGL includes
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#else
-#include <GL/gl.h>
-#include <GL/glu.h>
-#endif
-
-#include <map>
+namespace vt_mode_manager {
+class ParticleSystem;
+}
 
 namespace vt_video
 {
 
-class TextureController;
-
 namespace private_video {
 class TextTexture;
 }
-
-//! \brief The singleton pointer for the instance of the texture controller
-extern TextureController *TextureManager;
 
 class TextureController : public vt_utils::Singleton<TextureController>
 {
@@ -100,9 +88,6 @@ public:
     **/
     void DEBUG_ShowTexSheet();
 
-    //! \brief An index to _tex_sheets of the current texture sheet being shown in debug mode. -1 indicates no sheet
-    int32 debug_current_sheet;
-
 private:
     ~TextureController();
 
@@ -117,6 +102,9 @@ private:
 
     //! \brief A STL set containing all of the text images currently being managed by this class
     std::set<private_video::TextTexture *> _text_images;
+
+    //! \brief An index to _tex_sheets of the current texture sheet being shown in debug mode. -1 indicates no sheet
+    int32 _debug_current_sheet;
 
     //! \brief Keeps track of the number of texture switches per frame
     uint32 _debug_num_tex_switches;
@@ -143,21 +131,19 @@ private:
      */
     void _DeleteTexture(GLuint tex_id);
 
-    /** \brief Saves all temporary textures (textures not loaded from a file) to disk
-    *** \return True only if all temporary textures were successfully saved to a file
+    /** \brief Saves all temporary textures.
+    *** \return True only if all temporary textures were successfully saved.
     ***
-    *** This is used when the GL context is being destroyed, perhaps because we are
-    *** switching from windowed to fullscreen. We must save all textures to disk so
+    *** This is used when the GL context is being destroyed.  Perhaps because we are
+    *** switching from windowed to fullscreen.  We must save all textures to disk so
     *** that we can reload them after the new GL context is created.
     **/
     bool _SaveTempTextures();
 
-    /** \brief Deletes any temporary textures that were saved in the "img/temp" directory
-    *** \return True if the "img/temp" directory was successfully emptied
+    /** \brief Deletes any temporary textures.
+    *** \return True if successful.
     **/
-    bool _DeleteTempTextures() {
-        return vt_utils::CleanDirectory("img/temp");
-    }
+    bool _DeleteTempTextures();
     //@}
 
     //! \name Texture Sheet Operations
@@ -167,7 +153,7 @@ private:
     *** \param height The height of the sheet, in pixels
     *** \param type Specifies what type of images this texture sheet manages (e.g. 32x32 images, 64x64 images, variable size, etc)
     *** \param is_static If true, this texture sheet is meant to manage images which are not expected to be loaded and unloaded very often
-    *** \return A pointer to the newly created TexSheet, or NULL if a new should could not be created
+    *** \return A pointer to the newly created TexSheet, or nullptr if a new should could not be created
     **/
     private_video::TexSheet *_CreateTexSheet(int32 width, int32 height, private_video::TexSheetType type, bool is_static);
 
@@ -180,7 +166,7 @@ private:
     *** \param image A pointer to the image to insert
     *** \param load_info The attributes of the image to be inserted
     *** \param is_static Indicates whether the image is static or not
-    *** \return A new texsheet with the image contained within it, or NULL if an error occured and the image could not be added to any sheet
+    *** \return A new texsheet with the image contained within it, or nullptr if an error occured and the image could not be added to any sheet
     ***
     *** A new texture sheet will be created by this function in one of two cases. First, if there was no room for the image in any existing
     *** compatible texture sheets. Second, if the image is very large (either height or width of the image exceeds 512 pixels), it will
@@ -216,11 +202,11 @@ private:
     }
 
     /** \brief Return the ImageTexture stored under the given nametag (filename + tag)
-    *** \return A pointer to the registered ImageTexture object, or NULL if the nametag could not be found
+    *** \return A pointer to the registered ImageTexture object, or nullptr if the nametag could not be found
      **/
     vt_video::private_video::ImageTexture *_GetImageTexture(std::string nametag) {
         if(_IsImageTextureRegistered(nametag) == true) return _images[nametag];
-        else return NULL;
+        else return nullptr;
     }
     //@}
 
@@ -245,6 +231,9 @@ private:
     }
     //@}
 }; // class TextureController : public vt_utils::Singleton<TextureController>
+
+//! \brief The singleton pointer for the instance of the texture controller
+extern TextureController *TextureManager;
 
 } // namespace vt_video
 

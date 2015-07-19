@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -16,9 +16,12 @@
 #ifndef __SCRIPT_SUPERVISOR_HEADER__
 #define __SCRIPT_SUPERVISOR_HEADER__
 
-#include "utils.h"
 #include "engine/script/script_read.h"
 #include "engine/video/video.h"
+
+namespace vt_video {
+enum VIDEO_DRAW_FLAGS;
+}
 
 namespace vt_mode_manager {
 class GameMode;
@@ -30,13 +33,12 @@ public:
     ScriptSupervisor()
     {}
 
-    ~ScriptSupervisor()
-    {}
+    ~ScriptSupervisor();
 
     /** \brief Sets the name of the script to execute during the game mode
     *** \param filename The filename of the Lua script to load
     **/
-    void AddScript(const std::string &filename) {
+    void AddScript(const std::string& filename) {
         if(!filename.empty()) _script_filenames.push_back(filename);
     }
 
@@ -56,6 +58,10 @@ public:
     ///! \brief calls the reset function of each scripts.
     void Reset();
 
+    ///! \brief calls the Restart function of each scripts.
+    //! Used only when restarting a lost battle at the moment.
+    void Restart();
+
     /** \brief Draws all background images and animations
     *** The images and effects drawn by this function will never be drawn over anything else
     *** (sprites, menus, etc.).
@@ -74,50 +80,42 @@ public:
     **/
     void DrawPostEffects();
 
+    /** \brief Loads a custom image, to be drawn through scripting
+    *** \param filename The filename of the new image to load
+    *** \return The image pointer.
+    *** \note the object life cycle is handled by the engine, not the script.
+    **/
+    vt_video::StillImage* CreateImage(const std::string& filename);
 
     /** \brief Loads a custom lua animation files, to be drawn through scripting
-    *** \param filename The filename of the new background image to load
-    *** \param width, height The animation image dimensions.
+    *** \param filename The filename of the new animated image to load
     *** \return id the id used to invoke the animation through scripted draw calls.
+    *** \note the object life cycle is handled by the engine, not the script.
     **/
-    int32 AddAnimation(const std::string &filename);
-    int32 AddAnimation(const std::string &filename, float width, float height);
+    vt_video::AnimatedImage* CreateAnimation(const std::string& filename);
 
-    /** \brief Draws a custom animation.
-    *** \param custom image id, obtained through AddCustomAnimation()
-    *** \param position screen position to draw at.
-    *** \param color to blend the image at.
+    /** \brief Loads a custom TextImage, to be drawn by calling :Draw(Color&)
+    *** \param text The text to display.
+    *** \param style The TextStyle to use.
+    *** \return The TextImage reference to use.
     **/
-    void DrawAnimation(int32 id, float x, float y);
-    void DrawAnimation(int32 id, float x, float y, const vt_video::Color &color);
-
-    /** \brief Loads a custom images, to be drawn through scripting
-    *** \param filename The filename of the new background image to load
-    *** \return id the id used to invoke the animation through scripted draw calls.
-    **/
-    int32 AddImage(const std::string &filename, float width, float height);
-
-    /** \brief Draws a custom image.
-    *** \param custom image id, obtained through AddCustomImage()
-    *** \param position screen position to draw at.
-    *** \param color to blend the image at.
-    **/
-    void DrawImage(int32 id, float x, float y);
-    void DrawImage(int32 id, float x, float y, const vt_video::Color &color);
-
-    //! \brief Same than @DrawImage but with a given rotation.
-    void DrawRotatedImage(int32 id, float x, float y, const vt_video::Color &color, float angle);
+    vt_video::TextImage* CreateText(const vt_utils::ustring& text, const vt_video::TextStyle& style);
+    vt_video::TextImage* CreateText(const std::string& text, const vt_video::TextStyle& style) {
+        return CreateText(vt_utils::MakeUnicodeString(text), style);
+    }
 
     //! \brief Used to permit changing a draw flag at boot time. Use with caution.
     void SetDrawFlag(vt_video::VIDEO_DRAW_FLAGS draw_flag);
 
 private:
+    //! \brief Contains a collection of custom created images
+    std::vector<vt_video::TextImage*> _text_images;
 
-    //! \brief Contains a collection of custom loaded images, usable to be drawn through scripting.
-    std::vector<vt_video::StillImage> _script_images;
+    //! \brief Contains a collection of custom created images
+    std::vector<vt_video::StillImage*> _still_images;
 
-    //! \brief Contains a collection of custom loaded animations, usable to be drawn through scripting.
-    std::vector<vt_video::AnimatedImage> _script_animations;
+    //! \brief Contains a collection of custom created animations
+    std::vector<vt_video::AnimatedImage*> _animated_images;
 
     //! \name Script data
     //@{
@@ -129,6 +127,11 @@ private:
     *** one common operation is to reset the scene state when coming back to a given mode from another.
     **/
     std::vector<ScriptObject> _reset_functions;
+
+    /** \brief Script functions which assists with the #Restart method
+    *** This function is called when a battle is restarted
+    **/
+    std::vector<ScriptObject> _restart_functions;
 
     /** \brief Script functions which assists with the #Update method
     *** Those functions execute any code that needs to be performed on an update call. An example of

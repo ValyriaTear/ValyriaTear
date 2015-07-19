@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -40,9 +40,6 @@ enum SHOP_PRICE_LEVEL {
     SHOP_PRICE_TOTAL     =  5
 };
 
-namespace private_shop
-{
-
 //! \brief Used to indicate what window has control of user input
 enum SHOP_STATE {
     SHOP_STATE_INVALID   = -1,
@@ -60,6 +57,9 @@ enum SHOP_VIEW_MODE {
     SHOP_VIEW_MODE_INFO      =  1, //!< Display detailed information about a particular object/selection
     SHOP_VIEW_MODE_TOTAL     =  2
 };
+
+namespace private_shop
+{
 
 /** \brief Type identifiers for representing different categories of shop objects
 *** GlobalObject classes already have their own type member, so why create a type for ShopObject classes?
@@ -224,6 +224,14 @@ public:
         return _trade_count;
     }
 
+    bool IsInfiniteAmount() const {
+        return _infinite_buy_amount;
+    }
+
+    void SetInfiniteAmount(bool infinite) {
+        _infinite_buy_amount = infinite;
+    }
+
     void ResetBuyCount() {
         _buy_count = 0;
     }
@@ -283,6 +291,9 @@ private:
     //! \brief The stock of this object that the shop
     uint32 _stock_count;
 
+    //! \brief Tells whether there is an infinite amount of this object to buy.
+    bool _infinite_buy_amount;
+
     //! \brief The amount of this object that the player plans to purchase
     uint32 _buy_count;
 
@@ -332,7 +343,7 @@ public:
     void ChangeViewMode(SHOP_VIEW_MODE new_mode);
 
     /** \brief Sets the selected object and may also render a new text image
-    *** \param shop_object A pointer to the new object. A NULL pointer is acceptable
+    *** \param shop_object A pointer to the new object. A nullptr pointer is acceptable
     **/
     void SetSelectedObject(ShopObject *shop_object);
 
@@ -341,7 +352,7 @@ public:
     *** \param icon A pointer to the new image to represent the category's icon
     *** \note This function does not check whether or not the new name/icon are not
     *** the same as the previous name/icon
-    *** \note It is safe to pass a NULL pointer for the icon argument
+    *** \note It is safe to pass a nullptr pointer for the icon argument
     **/
     void ChangeCategory(vt_utils::ustring &name, const vt_video::StillImage *icon);
 
@@ -419,7 +430,7 @@ public:
     virtual void ReconstructList() = 0;
 
     /** \brief Returns a pointer to the currently selected shop object
-    *** This method may return NULL if the current selection is invalid or the _objects container is empty
+    *** This method may return nullptr if the current selection is invalid or the _objects container is empty
     **/
     ShopObject *GetSelectedObject();
 

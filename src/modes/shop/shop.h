@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -32,6 +32,10 @@
 
 namespace vt_audio {
 class SoundDescriptor;
+}
+
+namespace vt_common {
+class DialogueSupervisor;
 }
 
 //! \brief All calls to shop mode are wrapped in this namespace.
@@ -81,7 +85,7 @@ public:
 
     /** \brief Retrieves the category name that represents the specified object type
     *** \param object_type The type of the global object to retrieve the name for
-    *** \return A pointer to the ustring holding the category's name. NULL if the argument was invalid.
+    *** \return A pointer to the ustring holding the category's name. nullptr if the argument was invalid.
     *** \note GLOBAL_OBJECT_TOTAL will return the name for "all wares"
     **/
     vt_utils::ustring *GetCategoryName(vt_global::GLOBAL_OBJECT object_type);
@@ -141,7 +145,7 @@ public:
     void Draw();
 
     /** \brief Changes the selected object to the function argument
-    *** \param object A pointer to the shop object to change (NULL-safe)
+    *** \param object A pointer to the shop object to change (nullptr-safe)
     *** \note The code using this class should always use this function to change the selected object rather than
     *** changing the public _selected_object member directly. This method updates all of the relevent graphics and
     *** data displays in addition to changing the pointer member.
@@ -239,9 +243,6 @@ private:
     //! \brief The number of spirit the equipment can support.
     uint32 _spirit_number;
 
-    //! \brief Icon images representing elemental effects and intensity properties of the selected object
-    std::vector<vt_video::StillImage *> _elemental_icons;
-
     //! \brief Icon images representing status effects and intensity properties of the selected object
     std::vector<vt_video::StillImage *> _status_icons;
 
@@ -298,15 +299,6 @@ private:
     *** \param mag_diff The magical change amount
     **/
     void _SetChangeText(uint32 index, int32 phys_diff, int32 mag_diff);
-
-    /** \brief Sets all elemental icons to the proper image when given a container
-    *** \param elemental_effects A const reference to a map of elemental effect types and their associated intensities
-    ***
-    *** The argument is presumed to have an entrity for each type of element. This condition is not checked by the function.
-    *** The format of the parameter comes from the global object code, as object classes return a const std::map reference
-    *** of this type to indicate their elemental effects.
-    **/
-    void _SetElementalIcons(const std::vector<std::pair<vt_global::GLOBAL_ELEMENTAL, vt_global::GLOBAL_INTENSITY> >& elemental_effects);
 
     /** \brief Sets all statusicons to the proper image when given a container
     *** \param status_effects A const reference to a map of status effect types and their associated intensities
@@ -454,7 +446,12 @@ public:
     /** \brief Changes the active state of shop mode and prepares the interface of the new state
     *** \param new_state The state to change the shop to
     **/
-    void ChangeState(private_shop::SHOP_STATE new_state);
+    void ChangeState(SHOP_STATE new_state);
+
+    /** \brief Changes the view mode of the active shop interface.
+    *** \param new_mode The view mode needed to be shown.
+    **/
+    void ChangeViewMode(SHOP_VIEW_MODE new_mode);
 
     //! \brief Returns true if the user has indicated they wish to buy or sell any items
     bool HasPreparedTransaction() const {
@@ -472,7 +469,7 @@ public:
     **/
     //@{
     /** \brief Sets the name of the store that should be displayed to the player
-    *** \param greeting The name of the shop
+    *** \param name The name of the shop
     *** \note This method will only work if it is called before the shop is initialized. Calling it afterwards will
     *** result in no operation and a warning message
     **/
@@ -485,6 +482,11 @@ public:
     **/
     void SetGreetingText(const vt_utils::ustring& greeting);
 
+    //! \brief Sets whether the player can sell item in this shop.
+    void SetSellModeEnabled(bool enable_sell_mode) {
+        _sell_mode_enabled = enable_sell_mode;
+    }
+
     /** \brief Sets the buy and sell price levels for the shop
     *** \param buy_level The price level to set for wares that the player would buy from the shop
     *** \param sell_level The price level to set for wares that the player would sell to the shop
@@ -493,19 +495,21 @@ public:
     **/
     void SetPriceLevels(SHOP_PRICE_LEVEL buy_level, SHOP_PRICE_LEVEL sell_level);
 
-    /** \brief Adds a new object for the shop to sell
+    /** \brief Adds a new item for the shop to sell
     *** \param object_id The id number of the object to add
-    *** \param stock The amount of the object to make available for sale at the shop
+    *** \param stock The amount of the object to make available for sale at the shop.
+    *** If set to 0, the number of objects to buy is infinite.
     ***
     *** Adding an object after the shop mode instance has already been initialized (by being made the active game state)
     *** this call will add the object but will not be visible to the player.
     **/
-    void AddObject(uint32 object_id, uint32 stock);
+    void AddItem(uint32 object_id, uint32 stock);
     //@}
 
     /** \brief Adds a new trade for the shop to sell
     *** \param object_id The id number of the object to add
-    *** \param stock The amount of the object to make available for sale at the shop
+    *** \param stock The amount of the object to make available for sale at the shop.
+    *** If set to 0, the number of objects is infinite.
     ***
     *** Adding an object after the shop mode instance has already been initialized (by being made the active game state)
     *** this call will add the object but will not be visible to the player.
@@ -513,11 +517,17 @@ public:
     void AddTrade(uint32 object_id, uint32 stock);
     //@}
 
-
-    //TODO add comment here
+    /** \brief Deletes an object from the shop sell list
+    *** \param object_id The id number of the object to remove
+    ***
+    *** This function should be used in only one specific case. This case is when the player buys all instances
+    *** of one object type.
+    *** Trying to remove an object that the shop sells to the player or trying to remove an object
+    *** that still remains in the shop's inventory will result in a warning message and the object will not be removed.
+    **/
     void RemoveObjectToBuy(uint32 object_id);
 
-    /** \brief Deletes an object from the shop
+    /** \brief Deletes an object from the shop sell list
     *** \param object_id The id number of the object to remove
     ***
     *** This function should be used in only one specific case. This case is when the player owns this object and
@@ -543,7 +553,7 @@ public:
         return _initialized;
     }
 
-    private_shop::SHOP_STATE GetState() const {
+    SHOP_STATE GetState() const {
         return _state;
     }
 
@@ -606,6 +616,25 @@ public:
     }
     //@}
 
+    vt_common::DialogueSupervisor* GetDialogueSupervisor() {
+        return _dialogue_supervisor;
+    }
+
+    //! \brief Get/Set whether the shop user input is enabled.
+    bool IsInputEnabled() const {
+        return _input_enabled;
+    }
+    void SetInputEnabled(bool input_enabled) {
+        _input_enabled = input_enabled;
+    }
+
+    //! \brief Tells whether input in dialogues is enabled.
+    //! By Default, input in dialogues is enabled when the input
+    //! is disabled for the shop.
+    bool AcceptUserInputInDialogues() const {
+        return !_input_enabled;
+    }
+
 private:
     //! \brief update (enable, disable) the available shop options (buy, sell, ...)
     void _UpdateAvailableShopOptions();
@@ -613,17 +642,23 @@ private:
     //! \brief updates the available items the user can sell
     void _UpdateAvailableObjectsToSell();
 
+    //! \brief Handles any key input made on the shop root interface.
+    void _HandleRootInterfaceInput();
+
     /** \brief A reference to the current instance of ShopMode
-    *** This is used by other shop clases to be able to refer to the shop that they exist in. This member
-    *** is NULL when no shop is active
+    *** This is used by other shop classes to be able to refer to the shop that they exist in. This member
+    *** is nullptr when no shop is active
     **/
-    static ShopMode *_current_instance;
+    static ShopMode* _current_instance;
+
+    //! \brief Tells whether the sell mode is enabled in this shop, thus whether the player can sell items.
+    bool _sell_mode_enabled;
 
     //! \brief Set to true only after the shop has been initialized and is ready to be used by the player
     bool _initialized;
 
     //! \brief Keeps track of what windows are open to determine how to handle user input.
-    private_shop::SHOP_STATE _state;
+    SHOP_STATE _state;
 
     //! \brief The shop's price level of objects that the player buys from the shop
     SHOP_PRICE_LEVEL _buy_price_level;
@@ -702,6 +737,13 @@ private:
 
     //! \brief Table-formatted text containing the financial information about the current purchases and sales
     vt_gui::OptionBox _finance_table;
+
+    //! \brief Stores and processes any dialogue that is to occur within the shop mode.
+    vt_common::DialogueSupervisor* _dialogue_supervisor;
+
+    //! \brief Tells whether input should be processed.
+    //! \note Useful for certain dialogues and other events such as tutorial
+    bool _input_enabled;
 }; // class ShopMode : public vt_mode_manager::GameMode
 
 } // namespace vt_shop

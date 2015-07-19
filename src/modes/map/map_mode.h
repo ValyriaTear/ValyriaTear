@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2013 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2015 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -34,6 +34,7 @@
 
 #include "map_utils.h"
 #include "map_minimap.h"
+#include "map_status_effects.h"
 
 #include "engine/audio/audio_descriptor.h"
 
@@ -50,13 +51,18 @@ class GlobalObject;
 namespace vt_map
 {
 
+//! The stamina maximum value.
+const uint32 STAMINA_FULL = 10000;
+
 //! An internal namespace to be used only within the map code. Don't use this namespace anywhere else!
 namespace private_map
 {
-class DialogueSupervisor;
+class MapDialogueSupervisor;
 class EventSupervisor;
 class Light;
 class MapObject;
+class MapSprite;
+class EnemySprite;
 class MapZone;
 class Minimap;
 class ObjectSupervisor;
@@ -108,7 +114,9 @@ class MapMode : public vt_mode_manager::GameMode
 public:
     //! \param data_filename The name of the Lua file that retains all data about the map to create
     //! \param script_filename The name of the Lua file that retains all data about script to load
-    MapMode(const std::string &data_filename, const std::string& script_filename);
+    //! \param stamina The amount of stamina the map character sprite will start with.
+    //! \note the last parameter is usually set to carry the current stamina value from one map to another.
+    MapMode(const std::string &data_filename, const std::string& script_filename, uint32 stamina = STAMINA_FULL);
 
     ~MapMode();
 
@@ -146,39 +154,8 @@ public:
     **/
     private_map::MAP_STATE CurrentState();
 
-    //! \brief Adds a new object to the layer before ground object layer
-    void AddFlatGroundObject(private_map::MapObject *obj);
-
-    //! \brief Adds a new object to the ground object layer
-    void AddGroundObject(private_map::MapObject *obj);
-
-    //! \brief Adds a new object to the pass object layer
-    void AddPassObject(private_map::MapObject *obj);
-
-    //! \brief Adds a new object to the sky object layer
-    void AddSkyObject(private_map::MapObject *obj);
-
-    //! \brief Adds a new ambient sound object
-    void AddAmbientSoundObject(private_map::SoundObject *obj);
-
-    //! \brief Adds a new zone to the map
-    void AddZone(private_map::MapZone *zone);
-
-    //! \brief Adds a save point (Map Object) at the given coordinates.
-    void AddSavePoint(float x, float y);
-
-    //! \brief Adds a halo light (as Map Object) at the given coordinates.
-    void AddHalo(const std::string &filename, float x, float y, const vt_video::Color &color);
-
-    //! \brief Add a light source at the given coordinates.
-    void AddLight(const std::string &main_flare_filename,
-                  const std::string &secondary_flare_filename,
-                  float x, float y,
-                  const vt_video::Color &main_color,
-                  const vt_video::Color &secondary_color);
-
-    //! \brief Add a light object, often created through scripting
-    void AddLight(private_map::Light *light);
+    //! \brief Removes an object from memory
+    void DeleteMapObject(private_map::MapObject* obj);
 
     //! \brief Vectors containing the save points animations (when the character is in or not).
     std::vector<vt_video::AnimatedImage> active_save_point_animations;
@@ -191,7 +168,31 @@ public:
     }
 
     const vt_utils::ustring &GetMapHudName() const {
-        return _map_hud_name;
+        return _map_hud_name.GetString();
+    }
+
+    uint32 GetStamina() const {
+        return _run_stamina;
+    }
+
+    void SetStamina(uint32 new_stamina) {
+        _run_stamina = new_stamina;
+    }
+
+    bool IsStaminaUnlimited() const {
+        return _unlimited_stamina;
+    }
+
+    void SetUnlimitedStamina(bool unlimited) {
+        _unlimited_stamina = unlimited;
+    }
+
+    bool IsRunningEnabled() const {
+        return _running_enabled;
+    }
+
+    void SetRunningEnabled(bool enabled) {
+        _running_enabled = enabled;
     }
 
     // Note: The map script is only valid while in loading the map file.
@@ -208,45 +209,45 @@ public:
         return _map_script.OpenTable(_map_script_tablespace, use_global);
     }
 
-    const std::string &GetMapScriptFilename() const {
+    const std::string& GetMapScriptFilename() const {
         return _map_script_filename;
     }
 
-    private_map::TileSupervisor *GetTileSupervisor() const {
+    private_map::TileSupervisor* GetTileSupervisor() const {
         return _tile_supervisor;
     }
 
-    private_map::ObjectSupervisor *GetObjectSupervisor() const {
+    private_map::ObjectSupervisor* GetObjectSupervisor() const {
         return _object_supervisor;
     }
 
-    private_map::EventSupervisor *GetEventSupervisor() const {
+    private_map::EventSupervisor* GetEventSupervisor() const {
         return _event_supervisor;
     }
 
-    private_map::DialogueSupervisor *GetDialogueSupervisor() const {
+    private_map::MapDialogueSupervisor* GetDialogueSupervisor() const {
         return _dialogue_supervisor;
     }
 
-    private_map::TreasureSupervisor *GetTreasureSupervisor() const {
+    private_map::TreasureSupervisor* GetTreasureSupervisor() const {
         return _treasure_supervisor;
     }
 
-    const private_map::MapFrame &GetMapFrame() const {
+    const private_map::MapFrame& GetMapFrame() const {
         return _map_frame;
     }
 
-    private_map::VirtualSprite *GetCamera() const {
+    private_map::VirtualSprite* GetCamera() const {
         return _camera;
     }
 
-    void SetCamera(private_map::VirtualSprite *sprite) {
+    void SetCamera(private_map::VirtualSprite* sprite) {
         _camera = sprite;
     }
 
-    void SetCamera(private_map::VirtualSprite *sprite, uint32 duration);
+    void SetCamera(private_map::VirtualSprite* sprite, uint32 duration);
 
-    void MoveVirtualFocus(float loc_x, float loc_y);;
+    void MoveVirtualFocus(float loc_x, float loc_y);
 
     void MoveVirtualFocus(float loc_x, float loc_y, uint32 duration);
 
@@ -262,6 +263,25 @@ public:
 
     bool IsCameraYAxisInMapCorner() const {
         return _camera_y_in_map_corner;
+    }
+
+    /** \brief Tells the object supervisor that the given sprite pointer
+    *** is the party member object.
+    *** This later permits to refresh the sprite shown based on the battle
+    *** formation front party member.
+    **/
+    void SetPartyMemberVisibleSprite(private_map::MapSprite* sprite);
+
+    /** \brief Changes the state of every registered enemy sprite to 'dead'
+    *** Typically used just before a battle begins so that when the player returns to the map, they
+    *** are not swarmed by nearby enemies and quickly forced into another battle. This applies to enemies
+    *** on all object layers and in any context. Exercise caution when invoking this method.
+    **/
+    void SetAllEnemyStatesToDead();
+
+    //! \brief Returns the virtual focus sprite.
+    private_map::VirtualSprite* GetVirtualFocus() {
+        return _virtual_focus;
     }
 
     bool IsShowGUI() const {
@@ -283,38 +303,143 @@ public:
     //! \brief Tells whether a battle can start
     bool AttackAllowed();
 
-    /**
-     * \brief Since the map coords are non standard, this function
-     * permits to quickly adapt the images to the map scale.
-     */
-    static void ScaleToMapCoords(vt_video::ImageDescriptor &img) {
-        img.SetDimensions(img.GetWidth() / (private_map::GRID_LENGTH / 2),
-                          img.GetHeight() / (private_map::GRID_LENGTH / 2));
+    //! \brief Applies a potential malus when the map stamina is low.
+    //! This is applied as an active status effect on agility.
+    void ApplyPotentialStaminaMalus();
+
+    //! \brief This function permits to quickly adapt the images to the map scale.
+    static void ScaleToMapZoomRatio(vt_video::ImageDescriptor &img) {
+        img.SetDimensions(img.GetWidth() * vt_map::private_map::MAP_ZOOM_RATIO,
+                          img.GetHeight() * vt_map::private_map::MAP_ZOOM_RATIO);
     }
 
     //! \brief Returns in standard screen coordinates (1024x768),
     //! the x position of a tile position on the X axis.
+    // NOTE: We round the value to a multiple of the current pixel size.
+    // See MapMode::_UpdateMapFrame() for a better explanation.
     float GetScreenXCoordinate(float tile_position_x) const;
 
     //! \brief Returns in standard screen coordinates (1024x768),
     //! the x position of a tile position on the Y axis.
+    // NOTE: We round the value to a multiple of the current pixel size.
+    // See MapMode::_UpdateMapFrame() for a better explanation.
     float GetScreenYCoordinate(float tile_position_y) const;
+
+    //! \brief Returns the tile offset x value,
+    float GetMapXOffset() const {
+        return _map_frame.screen_edges.left;
+    }
+
+    //! \brief Returns the tile offset y value,
+    float GetMapYOffset() const {
+        return _map_frame.screen_edges.top;
+    }
+
+    //! \brief Returns the map x size in tiles,
+    uint16 GetMapWidth() const;
+
+    //! \brief Returns the map y size in tiles,
+    uint16 GetMapHeight() const;
+
+    //! \brief Gives the current map pixel lengths.
+    //! Used to properly place sprites and avoid glitches.
+    //! \see _UpdateMapFrame() for a better explanation.
+    float GetMapPixelXLength() const {
+        return _pixel_length_x;
+    }
+
+    float GetMapPixelYLength() const {
+        return _pixel_length_y;
+    }
 
     //! \brief toggles visibility of the minimap
     //! \param the new state of the minimap visibility
-    //! \return the previous state of visibility before changing
-    bool ShowMinimap(bool visibility) {
-        bool previous_visibility = _show_minimap;
+    void ShowMinimap(bool visibility) {
         _show_minimap = visibility;
-        return previous_visibility;
     }
+
+    //! \brief Tells the system to load a custom minimap image.
+    void SetMinimapImage(const std::string& filename) {
+        _minimap_custom_image_file = filename;
+        // Force reloading the minimap at the end of map load time
+        if (_minimap) {
+            delete _minimap;
+            _minimap = nullptr;
+        }
+
+        // This also implies the minimap will be shown
+        ShowMinimap(true);
+    }
+
+    //! \brief A function telling the engine the minimap should be reloaded if visible.
+    void ReloadMinimap() {
+        if (_show_minimap && !_minimap)
+            _CreateMinimap();
+    }
+
+    //! \brief Sets whether the menu mode is available from the map mode.
+    void SetMenuEnabled(bool enabled) {
+        _menu_enabled = enabled;
+    }
+
+    //! \brief Tells whether the menu mode is available from the map mode.
+    bool IsMenuEnabled() const {
+        return _menu_enabled;
+    }
+
+    //! \brief Sets whether the save points are enabled in the map mode.
+    void SetSavePointsEnabled(bool enabled) {
+        _save_points_enabled = enabled;
+    }
+
+    //! \brief Tells whether the save points are enabled in the map mode.
+    bool AreSavePointsEnabled() const {
+        return _save_points_enabled;
+    }
+
+    //! \brief Sets whether the status effects can run in the map mode.
+    void SetStatusEffectsEnabled(bool enabled) {
+        _status_effects_enabled = enabled;
+    }
+
+    //! \brief Tells whether the status effects can run in the map mode.
+    bool AreStatusEffectsEnabled() const {
+        return _status_effects_enabled;
+    }
+
+    //! \brief Proxy function used to set up a character status effect from the map mode.
+    bool ChangeActiveStatusEffect(vt_global::GlobalCharacter* character,
+                                  vt_global::GLOBAL_STATUS status_type,
+                                  vt_global::GLOBAL_INTENSITY intensity,
+                                  uint32 duration) {
+        return _status_effect_supervisor.ChangeActiveStatusEffect(character,
+                                                                  status_type,
+                                                                  intensity,
+                                                                  duration,
+                                                                  0, true);
+    }
+
+    //! \brief Proxy function used to obtain the currently applied intensity
+    //! of an active status effect applied on the character.
+    vt_global::GLOBAL_INTENSITY GetActiveStatusEffectIntensity(vt_global::GlobalCharacter* character,
+                                                                         vt_global::GLOBAL_STATUS status_type) const {
+        return _status_effect_supervisor.GetActiveStatusEffectIntensity(character, status_type);
+    }
+
+    /** \brief Starts a enemy encounter battle or event with a given enemy
+    *** \param enemy The enemy sprite the character has collided or spoken with.
+    *** \param hero_init_boost Hero agility boost applied when the team took the initiative to "talk" to enemy first.
+    *** \param enemy_init_boost Enemy agility boost applied when the enemy sprite caught the heroes by surprise.
+    **/
+    void StartEnemyEncounter(vt_map::private_map::EnemySprite* enemy,
+                             bool hero_init_boost = false, bool enemy_init_boost = false);
     //@}
 
 private:
     // ----- Members : Names and Identifiers -----
 
     /** \brief A reference to the current instance of MapMode
-    *** This is used by other map clases to be able to refer to the map that they exist in.
+    *** This is used by other map classes to be able to refer to the map that they exist in.
     **/
     static MapMode *_current_instance;
 
@@ -338,11 +463,9 @@ private:
     //! \brief The map's script unique name as it is used to identify a Lua namespace table
     std::string _map_script_tablespace;
 
-    //! \brief The name of the map, as it will be read by the player in the game.
-    vt_utils::ustring _map_hud_name;
-
-    //! \brief The map sub-part hud name. Shown in every cases.
-    vt_utils::ustring _map_hud_subname;
+    //! \brief The TextImages used to render the map hud names and subnames
+    vt_video::TextImage _map_hud_name;
+    vt_video::TextImage _map_hud_subname;
 
     /** \brief The interface to the file which contains all the map's stored data and subroutines.
     *** This class generally performs a large amount of communication with this script continuously.
@@ -353,19 +476,19 @@ private:
     // ----- Members : Supervisor Class Objects and Script Functions -----
 
     //! \brief Instance of helper class to map mode. Responsible for tile related operations.
-    private_map::TileSupervisor *_tile_supervisor;
+    private_map::TileSupervisor* _tile_supervisor;
 
     //! \brief Instance of helper class to map mode. Responsible for object and sprite related operations.
-    private_map::ObjectSupervisor *_object_supervisor;
+    private_map::ObjectSupervisor* _object_supervisor;
 
     //! \brief Instance of helper class to map mode. Responsible for updating and managing active map events.
-    private_map::EventSupervisor *_event_supervisor;
+    private_map::EventSupervisor* _event_supervisor;
 
     //! \brief Instance of helper class to map mode. Responsible for dialogue execution and display operations.
-    private_map::DialogueSupervisor *_dialogue_supervisor;
+    private_map::MapDialogueSupervisor* _dialogue_supervisor;
 
     //! \brief Instance of helper class to map mode. Responsible for processing all information related to treasure discovery.
-    private_map::TreasureSupervisor *_treasure_supervisor;
+    private_map::TreasureSupervisor* _treasure_supervisor;
 
     /** \brief A script function which assists with the MapMode#Update method
     *** This function implements any custom update code that the specific map needs to be performed.
@@ -387,7 +510,18 @@ private:
     bool _camera_y_in_map_corner;
 
     //! \brief A pointer to the map sprite that the map camera will focus on
-    private_map::VirtualSprite *_camera;
+    private_map::VirtualSprite* _camera;
+
+    /** \brief A "virtual sprite" that can serve as a focus point for the camera.
+    *** This sprite is not visible to the player nor does it have any collision
+    *** detection properties. Usually, the camera focuses on the player's sprite
+    *** rather than this object, but it is useful for scripted sequences and other
+    *** things.
+    **/
+    private_map::VirtualSprite* _virtual_focus;
+
+    //! \brief the camera position debug text
+    vt_video::TextImage _debug_camera_position;
 
     //! \brief The way in x-direction, the camera will move
     float _delta_x;
@@ -398,11 +532,19 @@ private:
     //! \brief A time for camera movement
     vt_system::SystemTimer _camera_timer;
 
-    //! \brief The number of contexts that this map uses (at least 1, at most 32)
-    uint8 _num_map_contexts;
+    //! \brief The pixel length depending on the current resolution.
+    //! This is used to avoid seeing jumping objects when scrolling the map view
+    //! and/or sprite's vibrating edges by using only scrolling values which are
+    //! a multiple of the pixel size.
+    //! \note Those are computed once at the first map tile frame update
+    //! and kept in memory to avoid useless recomputations.
+    //! This also should be dropped once the map mode uses a standard coordinate system.
+    //! \see _UpdateMapFrame() for more info.
+    float _pixel_length_x;
+    float _pixel_length_y;
 
-    //! \brief If true, the player is not allowed to run.
-    bool _running_disabled;
+    //! \brief If true, the player is allowed to run.
+    bool _running_enabled;
 
     //! \brief If true, the player's stamina will not drain for actions and the stamina bar will not be shown
     bool _unlimited_stamina;
@@ -411,7 +553,7 @@ private:
     bool _show_gui;
 
     /** \brief A counter for the player's stamina
-    *** This value ranges from STAMINA_EMPTY to STAMINA_FULL. It takes twice as long to regenerate stamina as
+    *** This value ranges from 0 to STAMINA_FULL. It takes twice as long to regenerate stamina as
     *** it does to consume it when running.
     **/
     uint32 _run_stamina;
@@ -442,10 +584,16 @@ private:
     vt_video::AnimatedImage _dialogue_icon;
 
     //! \brief Image which underlays the stamina bar for running
-    vt_video::StillImage _stamina_bar_background;
+    //! \note This pointer is a reference handled by the GlobalMedia class, don't delete it!
+    vt_video::StillImage* _stamina_bar_background;
+
+    //! \brief The stamina bar representing the current stamina
+    //! \note This pointer is a reference handled by the GlobalMedia class, don't delete it!
+    vt_video::StillImage* _stamina_bar;
 
     //! \brief Image which overlays the stamina bar to show that the player has unlimited running
-    vt_video::StillImage _stamina_bar_infinite_overlay;
+    //! \note This pointer is a reference handled by the GlobalMedia class, don't delete it!
+    vt_video::StillImage* _stamina_bar_infinite_overlay;
 
     // ----- Members : Containers -----
     /** \brief A container for the various foes which may appear on this map
@@ -460,7 +608,8 @@ private:
     *** NOTE: Other audio handling will have to be used through scripting.
     **/
     std::string _music_filename;
-    vt_audio::AUDIO_STATE _audio_state;
+    vt_audio::AUDIO_STATE _music_audio_state;
+    uint32 _music_audio_sample;
 
     //! \brief the minimap for the current map instance
     private_map::Minimap *_minimap;
@@ -468,18 +617,30 @@ private:
     //! \brief flag that enables minimap rendering or not
     bool _show_minimap;
 
+    //! \brief Stores the potential custom minimap image filename
+    std::string _minimap_custom_image_file;
+
+    //! \brief The character party status effects supervisor
+    private_map::MapStatusEffectsSupervisor _status_effect_supervisor;
+
+    //! \brief Tells whether the menu mode is available from the map mode.
+    bool _menu_enabled;
+
+    //! \brief Tells whether the save points are enabled in the map mode.
+    bool _save_points_enabled;
+
+    //! \brief Tells whether the status effects can run in the map mode.
+    bool _status_effects_enabled;
+
     // ----- Methods -----
 
     //! \brief Loads all map data contained in the Lua file that defines the map
     bool _Load();
 
-    /** \brief Auto-generates the Collision mini-map for the current location.
-    *** This is done by using the collision markers in the current map context and setting up an image where
-    *** areas that cannot be moved onto, and mapping them as "white" blocks into a black image
-    *** actual rendering is done through SDL, as we currently don't have off-screen rendering / render
-    *** to texture available throught he vt_engine
+    /** Triggers the minimap creation either by trying to load the minimap file given.
+    *** Or by creating a minimap procedurally.
     **/
-    bool _CreateMinimap();
+    void _CreateMinimap();
 
     //! \brief A helper function to Update() that is called only when the map is in the explore state
     void _UpdateExplore();
@@ -498,6 +659,9 @@ private:
 
     //! \brief Draws the map layer tile and collision grid.
     void _DrawDebugGrid();
+
+    //! \brief Restores the music state on ::Reset() calls.
+    void _ResetMusicState();
 }; // class MapMode
 
 } // namespace vt_map;
