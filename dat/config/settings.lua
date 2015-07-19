@@ -5,7 +5,6 @@ settings.language = "en@quot"
 
 settings.video_settings = {}
 settings.video_settings.full_screen = false
-settings.video_settings.fullscreen_monitor = 0
 settings.video_settings.screen_resx = 800
 settings.video_settings.screen_resy = 600
 settings.video_settings.smooth_graphics = true

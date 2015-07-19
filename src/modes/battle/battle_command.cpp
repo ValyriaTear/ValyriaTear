@@ -409,9 +409,9 @@ void ItemCommand::ConstructList()
 
         _item_list.AddOption();
         if (!_items[i].GetItem().GetIconImage().GetFilename().empty()) {
-            _item_list.AddOptionElementImage(option_index, _items[i].GetItem().GetIconImage().GetFilename());
-            _item_list.GetEmbeddedImage(option_index)->SetHeightKeepRatio(25);
-            _item_list.AddOptionElementPosition(option_index, 30);
+            _item_list.AddOptionElementImage(i, _items[i].GetItem().GetIconImage().GetFilename());
+            _item_list.GetEmbeddedImage(i)->SetHeightKeepRatio(25);
+            _item_list.AddOptionElementPosition(i, 30);
         }
         _item_list.AddOptionElementText(option_index, _items[i].GetItem().GetName());
 
@@ -420,7 +420,7 @@ void ItemCommand::ConstructList()
         _item_target_list.AddOptionElementPosition(option_index, 45);
         _item_target_list.AddOptionElementText(option_index, MakeUnicodeString(NumberToString(_items[i].GetBattleCount())));
 
-        _item_mappings[option_index] = i;
+        _item_mappings[i] = option_index;
         option_index++;
     }
 
@@ -509,8 +509,8 @@ uint32 ItemCommand::GetItemIndex() const
 
     int32 selection = _item_list.GetSelection();
     for(uint32 i = 0; i < _items.size(); i++) {
-        if(_item_mappings[selection] == i) {
-            return static_cast<uint32>(_item_mappings[selection]);
+        if(_item_mappings[i] == selection) {
+            return static_cast<uint32>(selection);
         }
     }
 
@@ -527,7 +527,7 @@ bool ItemCommand::IsSelectedItemAvailable() const
     if(index == 0xFFFFFFFF)
         return false;
     else
-        return (_items[_item_mappings[index]].GetBattleCount() > 0);
+        return (_items[index].GetBattleCount() > 0);
 }
 
 

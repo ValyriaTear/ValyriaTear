@@ -253,7 +253,6 @@ private:
     //@{
     void _OnToggleFullscreen();
     void _OnTogglePixelArtSmoothed();
-    void _OnFullscreenMonitor();
     void _OnResolution();
     void _OnResolution640x480();
     void _OnResolution800x600();

@@ -194,14 +194,6 @@ public:
         return _map_hud_name;
     }
 
-    uint32 GetStamina(){
-        return _run_stamina;
-    }
-
-    void SetStamina(uint32 new_stamina){
-        _run_stamina = new_stamina;
-    }
-
     // Note: The map script is only valid while in loading the map file.
     // The file is closed afterward to permit the save menu to open it, for instance.
     vt_script::ReadScriptDescriptor &GetMapScript() {

@@ -77,7 +77,7 @@ class JoystickState
 {
 public:
     //! A pointer to the active joystick.
-    SDL_Joystick *js[256];
+    SDL_Joystick *js;
 
     //! An index to the SDL joystick which should be made active.
     int32 joy_index;
@@ -164,8 +164,6 @@ class InputEngine : public vt_utils::Singleton<InputEngine>
 
 private:
     InputEngine();
-
-    uint8 _numjoysticks;
 
     //! Holds the current user-defined key settings
     private_input::KeyState _key;

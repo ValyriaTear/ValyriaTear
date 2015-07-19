@@ -71,18 +71,15 @@ InputEngine::InputEngine()
     _pause_press          = false;
     _quit_press           = false;
     _help_press           = false;
-    
-    _numjoysticks         = 0;
 
     _joysticks_enabled    = true;
     _joyaxis_x_first      = true;
     _joyaxis_y_first      = true;
-    //_joystick.js          = NULL;
+    _joystick.js          = NULL;
     _joystick.x_axis      = 0;
     _joystick.y_axis      = 1;
     _joystick.threshold   = 8192;
     _joystick.joy_index   = 0; // the first joystick
-    
 }
 
 
@@ -110,9 +107,8 @@ void InputEngine::InitializeJoysticks()
         return;
     }
 
-    _numjoysticks =  SDL_NumJoysticks();
     // Test the number of joystick available
-    if(_numjoysticks == 0) {  // No joysticks found
+    if(SDL_NumJoysticks() == 0) {  // No joysticks found
         SDL_JoystickEventState(SDL_IGNORE);
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
         _joysticks_enabled = false;
@@ -120,18 +116,16 @@ void InputEngine::InitializeJoysticks()
     }
     else { // At least one joystick exists
         SDL_JoystickEventState(SDL_ENABLE);
-
-        for(uint8 i=0; i < _numjoysticks; i++)
-            _joystick.js[i] = SDL_JoystickOpen(i);
+        // TODO: need to allow user to specify which joystick to open, if multiple exist
+        _joystick.js = SDL_JoystickOpen(_joystick.joy_index);
     }
 }
 
 void InputEngine::DeinitializeJoysticks()
 {
     // If a joystick is open, close it before exiting
-    for(uint i=0; i<_numjoysticks; i++)
-        if(_joystick.js[i])
-            SDL_JoystickClose(_joystick.js[i]);
+    if(_joystick.js)
+        SDL_JoystickClose(_joystick.js);
 
     SDL_JoystickEventState(SDL_IGNORE);
     SDL_QuitSubSystem(SDL_INIT_JOYSTICK);

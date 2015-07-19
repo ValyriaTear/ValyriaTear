@@ -26,7 +26,7 @@
 *** -# Update the main loop timer.
 *** -# Update the game status based on how much time expired from the last update.
 *** ***************************************************************************/
-#include "boost/lexical_cast.hpp"
+
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"
@@ -183,7 +183,6 @@ bool LoadSettings()
     int32 resy = settings.ReadInt("screen_resy");
     VideoManager->SetInitialResolution(resx, resy);
     VideoManager->SetFullscreen(settings.ReadBool("full_screen"));
-    VideoManager->SetFullscreenMonitor(settings.ReadInt("fullscreen_monitor"));
     settings.CloseTable(); // video_settings
 
     // Load Audio settings
@@ -379,12 +378,16 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
 **/
 void InitializeEngine() throw(Exception)
 {
-    VideoManager = VideoEngine::SingletonCreate();
+    // Initialize SDL. The video, audio, and joystick subsystems are initialized elsewhere.
+    if(SDL_Init(SDL_INIT_TIMER) != 0) {
+        throw Exception("MAIN ERROR: Unable to initialize SDL: ", __FILE__, __LINE__, __FUNCTION__);
+    }
 
     // Create and initialize singleton class managers
     AudioManager = AudioEngine::SingletonCreate();
     InputManager = InputEngine::SingletonCreate();
     ScriptManager = ScriptEngine::SingletonCreate();
+    VideoManager = VideoEngine::SingletonCreate();
     SystemManager = SystemEngine::SingletonCreate();
     ModeManager = ModeEngine::SingletonCreate();
     GUIManager = GUISystem::SingletonCreate();
@@ -417,34 +420,14 @@ void InitializeEngine() throw(Exception)
     }
 
     // Set the window icon
+    // NOTE: Seems to be working only under WinXP for now.
+    SDL_WM_SetIcon(IMG_Load("img/logos/program_icon.png"), NULL);
+
     // Load all the settings from lua. This includes some engine configuration settings.
     if(!LoadSettings())
         throw Exception("ERROR: Unable to load settings file", __FILE__, __LINE__, __FUNCTION__);
 
-    // use display #0 unless already specified
-    // behavior of fullscreen mode is eratic without this value set
-#ifndef _WIN32
-std::string msetting = boost::lexical_cast<std::string>(VideoManager->GetFullscreenMonitor()).c_str();
-    setenv("SDL_VIDEO_FULLSCREEN_DISPLAY",msetting.c_str(),0); 
-#else
-    _putenv_s("SDL_VIDEO_FULLSCREEN_DISPLAY", "0");
-#endif
-    // NOTE: Seems to be working only under WinXP for now.
-
-
-    // Initialize SDL. The video, audio, and joystick subsystems are initialized elsewhere.
-    if(SDL_Init(SDL_INIT_TIMER) != 0) {
-        throw Exception("MAIN ERROR: Unable to initialize SDL: ", __FILE__, __LINE__, __FUNCTION__);
-    }
-
-  if(SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
-        PRINT_ERROR << "SDL video initialization failed" << std::endl;
-        return;
-    }
-  
-  SDL_WM_SetIcon(IMG_Load("img/logos/program_icon.png"), NULL);
-
-  // Enforce smooth tiles graphics
+    // Enforce smooth tiles graphics
     VideoManager->SetPixelArtSmoothed(true);
 
     // Apply engine configuration settings with delayed initialization calls to the managers
