@@ -329,6 +329,7 @@ void BattleMode::RestartBattle()
 
     _enemy_actors.clear();
     _enemy_party.clear();
+    _ready_queue.clear();
 
     for(uint32 i = 0; i < _initial_enemy_actors_info.size(); ++i)
         AddEnemy(_initial_enemy_actors_info[i].id, _initial_enemy_actors_info[i].pos_x, _initial_enemy_actors_info[i].pos_y);
