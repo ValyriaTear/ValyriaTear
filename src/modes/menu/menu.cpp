@@ -729,6 +729,7 @@ MenuMode::MenuMode() :
     _equip_state(this),
     _quests_state(this),
     _world_map_state(this),
+    _inventory_window(this),
     _message_window(nullptr),
     _object(nullptr),
     _character(nullptr),
