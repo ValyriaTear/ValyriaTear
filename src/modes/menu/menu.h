@@ -540,7 +540,8 @@ private:
     **/
     //@{
     //! \brief The selected object instance
-    vt_global::GlobalObject* _object;
+protected: vt_global::GlobalObject* _object;
+private:
 
     //! \brief The selected character
     vt_global::GlobalCharacter* _character;

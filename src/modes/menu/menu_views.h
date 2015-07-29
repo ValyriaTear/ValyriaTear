@@ -161,7 +161,7 @@ class InventoryWindow : public vt_gui::MenuWindow
     friend class InventoryState;
 
 public:
-    InventoryWindow();
+    InventoryWindow(MenuMode *);
 
     ~InventoryWindow()
     {}
@@ -193,6 +193,10 @@ public:
     void Draw();
 
 private:
+    InventoryWindow();
+    
+    MenuMode *_menu_mode;
+    
     //! Used for the current dungeon
     vt_video::StillImage _location_graphic;
 
