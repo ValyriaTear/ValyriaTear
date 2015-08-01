@@ -504,6 +504,9 @@ void InventoryWindow::Update()
                                     delete item;
                                     item = nullptr;
                                     // Now the item is used, we can remove it from the inventory.
+                                    if(_object->GetCount() == 1 && _object == _menu_mode->_object){
+                                        _menu_mode->_object = nullptr;
+                                    }
                                     GlobalManager->DecrementItemCount(_object->GetID(), 1);
                                     media.PlaySound("confirm");
                                 }
@@ -536,6 +539,9 @@ void InventoryWindow::Update()
                                     delete item;
                                     item = nullptr;
                                     // Now the item is used, we can remove it from the inventory.
+                                    if(_object->GetCount() == 1 && _object == _menu_mode->_object){
+                                        _menu_mode->_object = nullptr;
+                                    }
                                     GlobalManager->DecrementItemCount(_object->GetID(), 1);
                                     media.PlaySound("confirm");
                                 }
@@ -592,6 +598,9 @@ void InventoryWindow::Update()
                     //set the item select to by lightened
                     _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
                     // Remove the selected one from inventory
+                    if(_object->GetCount() == 1 && _object == _menu_mode->_object){
+                        _menu_mode->_object = nullptr;
+                    }
                     GlobalManager->DecrementItemCount(_object->GetID(), 1);
                     media.PlaySound("confirm");
                 }
