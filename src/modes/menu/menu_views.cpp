@@ -416,8 +416,8 @@ void InventoryWindow::Update()
                 }
 
                 // Check first whether the item is usable from the menu
-                GlobalItem *item = (GlobalItem *)GlobalManager->GetGlobalObject(_object->GetID());
-                if (!item || !item->IsUsableInField()) {
+                GlobalItem *item = dynamic_cast<GlobalItem *>(GlobalManager->GetGlobalObject(_object->GetID()));
+                if (item && !item->IsUsableInField()) {
                     media.PlaySound("cancel");
                     break;
                 }
