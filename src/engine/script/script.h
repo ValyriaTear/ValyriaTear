@@ -267,6 +267,21 @@ public:
         return tablespace;
     }
 
+    //! \brief Dump the lua stack content for each  on output for debug purpose.
+    void DEBUG_DumpScriptsState();
+
+    /** \brief Prints out the contents of the Lua stack mechanism to standard output
+    *** The elements are printed from stack top to stack bottom.
+    *** Based on: http://www.lua.org/pil/24.2.3.html
+    **/
+    static void DEBUG_PrintLuaStack(lua_State* luaState);
+
+    //! \brief Prints out all global variable names to standard output
+    static void DEBUG_PrintGlobals(lua_State* luaState);
+
+    //! \brief Prints out a specific table
+    static void DEBUG_PrintTable(luabind::object table, int tab = 0);
+
 private:
     ScriptEngine();
 

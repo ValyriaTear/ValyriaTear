@@ -462,13 +462,16 @@ public:
     /** \brief Prints out the contents of the Lua stack mechanism to standard output
     *** The elements are printed from stack top to stack bottom.
     **/
-    void DEBUG_PrintLuaStack();
+    void DEBUG_PrintLuaStack()
+    {
+        ScriptEngine::DEBUG_PrintLuaStack(_lstack);
+    }
 
     //! \brief Prints out all global variable names to standard output
-    void DEBUG_PrintGlobals();
-
-    //! \brief Prints out a specific table
-    void DEBUG_PrintTable(luabind::object table, int tab = 0);
+    void DEBUG_PrintGlobals()
+    {
+        ScriptEngine::DEBUG_PrintGlobals(_lstack);
+    }
 
 protected:
     //! \brief The Lua stack, which handles all data sharing between C++ and Lua.

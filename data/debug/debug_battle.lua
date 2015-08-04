@@ -41,4 +41,6 @@ function BootBattleTest()
     battle:SetBattleType(vt_battle.BattleMode.BATTLE_TYPE_ACTIVE);
 
     ModeManager:Push(battle, false, false);
+
+    ScriptManager:DEBUG_DumpScriptsState()
 end

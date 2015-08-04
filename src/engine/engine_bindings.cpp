@@ -179,8 +179,6 @@ void BindEngineCode()
 
     } // End using mode manager namespaces
 
-
-
     // ----- Script Engine Bindings
     {
         using namespace vt_script;
@@ -188,6 +186,7 @@ void BindEngineCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_script")
         [
             luabind::class_<ScriptEngine>("GameScript")
+            .def("DEBUG_DumpScriptsState", &ScriptEngine::DEBUG_DumpScriptsState)
         ];
 
     } // End using script namespaces
