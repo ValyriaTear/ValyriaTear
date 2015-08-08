@@ -349,8 +349,11 @@ void BattleMode::RestartBattle()
     _command_supervisor = new CommandSupervisor();
 
     MusicDescriptor* music = AudioManager->RetrieveMusic(GetMedia().battle_music_filename);
-    music->Rewind();
-    music->Play();
+    if(music)
+    {
+        music->Rewind();
+        music->Play();
+    }
 
     ChangeState(BATTLE_STATE_INITIAL);
 }
