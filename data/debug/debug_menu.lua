@@ -1,5 +1,5 @@
-function BootMenuTest()
-    print("BootMenuTest");
+function TestFunction()
+    print("Party Menu Test");
 
     GlobalManager:AddCharacter(BRONANN);
     GlobalManager:AddCharacter(KALYA);

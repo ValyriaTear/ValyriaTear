@@ -1,6 +1,6 @@
 -- Debug shop script
-function BootShopTest()
-    print("BootShopTest");
+function TestFunction()
+    print("Shop Test");
 
     GlobalManager:AddCharacter(BRONANN);
     GlobalManager:AddCharacter(KALYA);

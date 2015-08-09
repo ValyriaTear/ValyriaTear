@@ -163,15 +163,26 @@ private:
     void _OnQuit();
 
 #ifdef DEBUG_FEATURES
-    void _DEBUG_OnBattle();
-    void _DEBUG_OnMenu();
-    void _DEBUG_OnShop();
+    //! \brief Open the debug script menu.
+    void _DEBUG_OnDebugScriptList();
+
+    //! \brief Run the selected debug script. The test function must be named 'TestFunction'.
+    void _DEBUG_OnDebugScriptRun();
+
+    //! \brief The option box listing available scripts.
+    vt_gui::OptionBox _debug_script_menu;
+
+    //! \brief The list of available files
+    std::vector<std::string> _debug_scripts;
+
+    //! \brief The debug scripts open.
+    bool _debug_script_menu_open;
 #endif
     //@}
 
     //! \brief Tests whether the language selection and the welcome help window should be shown.
     void _ShowLanguageSelectionWindow();
-}; // class BootMode : public vt_mode_manager::GameMode
+};
 
 } // namespace vt_boot
 

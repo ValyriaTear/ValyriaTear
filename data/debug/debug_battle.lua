@@ -1,5 +1,5 @@
-function BootBattleTest()
-    print("BootBattleTest");
+function TestFunction()
+    print("Battle Test");
 
     GlobalManager:AddCharacter(BRONANN);
     GlobalManager:AddCharacter(KALYA);

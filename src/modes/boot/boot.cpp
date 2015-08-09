@@ -27,13 +27,6 @@
 #include "modes/mode_help_window.h"
 #include "modes/save/save_mode.h"
 
-#ifdef DEBUG_FEATURES
-// Files below are used for boot mode to do a test launch of other modes
-#include "modes/battle/battle.h"
-#include "modes/menu/menu.h"
-#include "modes/shop/shop.h"
-#endif
-
 #include "utils/utils_files.h"
 
 using namespace vt_utils;
@@ -69,6 +62,28 @@ BootMode::BootMode() :
     _help_text_alpha(0.0f)
 {
     _current_instance = this;
+
+#ifdef DEBUG_FEATURES
+    _debug_script_menu_open = false;
+
+    // List the debug scripts
+    _debug_scripts = vt_utils::ListDirectory("data/debug", ".lua");
+
+    _debug_script_menu.SetPosition(512.0f, 388.0f);
+    _debug_script_menu.SetTextStyle(TextStyle("text24"));
+    _debug_script_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _debug_script_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _debug_script_menu.SetSelectMode(VIDEO_SELECT_SINGLE);
+    _debug_script_menu.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
+    _debug_script_menu.SetCursorOffset(-50.0f, -28.0f);
+    _debug_script_menu.SetSkipDisabled(true);
+
+    _debug_script_menu.ClearOptions();
+    _debug_script_menu.SetDimensions(300.0f, 20.0f * static_cast<float>(_debug_scripts.size()),
+                                     1, 255, 1, _debug_scripts.size());
+    for (std::string file : _debug_scripts)
+        _debug_script_menu.AddOption(vt_utils::MakeUnicodeString(file));
+#endif
 
     // Remove potential previous ambient overlays
     VideoManager->DisableFadeEffect();
@@ -120,9 +135,7 @@ BootMode::BootMode() :
 
     // Preload new game sound
     AudioManager->LoadSound("data/sounds/new_game.wav", this);
-} // BootMode::BootMode()
-
-
+}
 
 BootMode::~BootMode()
 {
@@ -220,8 +233,25 @@ void BootMode::Update()
             _menu_bar_alpha = 0.6f;
     }
 
-    if(is_menu_active)
+    if (is_menu_active)
         return;
+
+#ifdef DEBUG_FEATURES
+    if (_debug_script_menu_open) {
+        _debug_script_menu.Update();
+
+        // Check whether we can quit the debug menu.
+        if (InputManager->UpPress())
+            _debug_script_menu.InputUp();
+        else if (InputManager->DownPress())
+            _debug_script_menu.InputDown();
+        else if (InputManager->CancelPress())
+            _debug_script_menu_open = false;
+        else if (InputManager->ConfirmPress())
+            _DEBUG_OnDebugScriptRun();
+        return;
+    }
+#endif
 
     // Handles the main menu input.
 
@@ -261,18 +291,12 @@ void BootMode::Update()
     case 2:
         _OnOptions();
         break;
-    // Insert the debug options.
 #ifdef DEBUG_FEATURES
+    // Insert the debug option.
     case 3:
-        _DEBUG_OnBattle();
+        _DEBUG_OnDebugScriptList();
         break;
     case 4:
-        _DEBUG_OnMenu();
-        break;
-    case 5:
-        _DEBUG_OnShop();
-        break;
-    case 6:
         _OnQuit();
         break;
 #else
@@ -316,6 +340,11 @@ void BootMode::DrawPostEffects()
         _version_text.Draw();
 
         _main_menu.Draw();
+
+#ifdef DEBUG_FEATURES
+        if (_debug_script_menu_open)
+            _debug_script_menu.Draw();
+#endif
 
         if (_menu_handler.IsActive())
             _menu_handler.Draw();
@@ -363,13 +392,12 @@ void BootMode::_SetupMainMenu()
     _main_menu.AddOption(UTranslate("New Game"));
     _main_menu.AddOption(UTranslate("Load Game"));
     _main_menu.AddOption(UTranslate("Options"));
-
     // Insert the debug options
 #ifdef DEBUG_FEATURES
-    _main_menu.SetDimensions(1000.0f, 50.0f, 7, 1, 7, 1);
-    _main_menu.AddOption(UTranslate("Battle"));
-    _main_menu.AddOption(UTranslate("Menu"));
-    _main_menu.AddOption(UTranslate("Shop"));
+    _main_menu.SetDimensions(1000.0f, 50.0f, 5, 1, 5, 1);
+    _main_menu.AddOption(vt_utils::MakeUnicodeString("Debug scripts"));
+    if (_debug_scripts.empty())
+        _main_menu.EnableOption(3, false);
 #else
     _main_menu.SetDimensions(800.0f, 50.0f, 4, 1, 4, 1);
 #endif
@@ -417,26 +445,21 @@ void BootMode::_OnQuit()
 }
 
 #ifdef DEBUG_FEATURES
-void BootMode::_DEBUG_OnBattle()
+void BootMode::_DEBUG_OnDebugScriptList()
 {
-    ReadScriptDescriptor read_data;
-    read_data.RunScriptFunction("data/debug/debug_battle.lua",
-                                "BootBattleTest", true);
+    _debug_script_menu_open = true;
 }
 
-void BootMode::_DEBUG_OnMenu()
+void BootMode::_DEBUG_OnDebugScriptRun()
 {
+    if (_debug_script_menu.GetNumberOptions() == 0)
+        return;
+
+    std::string debug_script = "data/debug/" + _debug_scripts[_debug_script_menu.GetSelection()];
     ReadScriptDescriptor read_data;
-    read_data.RunScriptFunction("data/debug/debug_menu.lua",
-                                "BootMenuTest", true);
+    read_data.RunScriptFunction(debug_script, "TestFunction", true);
 }
 
-void BootMode::_DEBUG_OnShop()
-{
-    ReadScriptDescriptor read_data;
-    read_data.RunScriptFunction("data/debug/debug_shop.lua",
-                                "BootShopTest", true);
-}
 #endif // #ifdef DEBUG_FEATURES
 
 // ****************************************************************************
