@@ -116,6 +116,11 @@ uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor, uint3
 uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor, uint32 add_atk);
 uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor);
 
+uint32 RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor);
+uint32 RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, uint32 add_atk);
+uint32 RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, uint32 add_atk, float mul_atk);
+uint32 RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, uint32 add_atk, float mul_atk, int32 attack_point);
+
 /** \brief Determines the amount of damage caused with a magical attack
 *** \param attacker A pointer to the attacker who is causing the damage
 *** \param target A pointer to the target that will be receiving the damage
