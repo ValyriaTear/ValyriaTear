@@ -54,18 +54,17 @@ function Initialize(_character, _target, _skill)
         return;
     end
 
-    -- Set the arrow flying height members
+    -- Set the stone flying height members
     stone_height = (character:GetSpriteHeight() / 2.0) + 5.0;
     total_distance = math.abs(target_actor:GetXLocation() - character:GetXLocation());
     height_diff = stone_height - (target_actor:GetSpriteHeight() / 2.0);
     height_min = math.min(stone_height, (target_actor:GetSpriteHeight() / 2.0));
 
-    -- Set the arrow starting position
+    -- Set the stone starting position
     stone_pos_x = character:GetXLocation() + character:GetSpriteWidth() / 2.0;
     stone_pos_y = character:GetYLocation() - stone_height;
-    character:SetAmmoPosition(stone_pos_x, stone_pos_y);
 
-    -- Make the arrow reach the enemy center
+    -- Make the stone reach the enemy center
     enemy_pos_x = target_actor:GetXLocation();
     enemy_pos_y = target_actor:GetYLocation() - target_actor:GetSpriteHeight() / 2.0;
 
@@ -96,8 +95,9 @@ function Initialize(_character, _target, _skill)
 
     Battle = ModeManager:GetTop();
     -- The stone and shadow battle animations.
-    stone = Battle:CreateBattleAnimation("data/entities/battle/ammo/rock_ammo.lua");
-    stone_shadow = Battle:CreateBattleAnimation("data/entities/battle/ammo/rock_ammo.lua");
+    local ammo_filename = "data/entities/battle/ammo/rock_ammo.lua";
+    stone = Battle:CreateBattleAnimation(ammo_filename);
+    stone_shadow = Battle:CreateBattleAnimation(ammo_filename);
     stone_shadow:GetAnimatedImage():EnableGrayScale();
     stone:SetVisible(false);
     stone_shadow:SetVisible(false);
