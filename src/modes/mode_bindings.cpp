@@ -677,6 +677,11 @@ void BindModeCode()
             luabind::def("RndPhysicalDamage", (uint32(*)(BattleActor*, BattleActor*, uint32, float))&RndPhysicalDamage),
             luabind::def("RndPhysicalDamage", (uint32(*)(BattleActor*, BattleActor*, uint32))&RndPhysicalDamage),
             luabind::def("RndPhysicalDamage", (uint32(*)(BattleActor*, BattleActor*))&RndPhysicalDamage),
+            
+            luabind::def("RndPhysicalDamage", (uint32(*)(BattleActor*, BattleTarget*))&RndPhysicalDamage),
+            luabind::def("RndPhysicalDamage", (uint32(*)(BattleActor*, BattleTarget*, uint32))&RndPhysicalDamage),
+            luabind::def("RndPhysicalDamage", (uint32(*)(BattleActor*, BattleTarget*, uint32, float))&RndPhysicalDamage),
+            luabind::def("RndPhysicalDamage", (uint32(*)(BattleActor*, BattleTarget*, uint32, float, int32))&RndPhysicalDamage),
 
             luabind::def("RndMagicalDamage", (uint32(*)(BattleActor*, BattleActor*, vt_global::GLOBAL_ELEMENTAL, uint32, float, int32))&RndMagicalDamage),
             luabind::def("RndMagicalDamage", (uint32(*)(BattleActor*, BattleActor*, vt_global::GLOBAL_ELEMENTAL, uint32, float))&RndMagicalDamage),
