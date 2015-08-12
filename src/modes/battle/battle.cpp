@@ -1049,13 +1049,22 @@ void BattleMode::_AutoCharacterCommand(BattleCharacter* character)
     autoTarget.SetTarget(character, GLOBAL_TARGET_FOE);
 
     GlobalSkill* attackSkill = character->GetSkills()[0];
-    auto wpnSkills = character->GetGlobalCharacter()->GetWeaponSkills();
-    for (auto skill : *wpnSkills) {
-        if (skill->GetSPRequired() == 0) {
-            attackSkill = skill;
-            break;
+    
+    auto global_character = character->GetGlobalCharacter();
+    if(global_character->GetWeaponEquipped()) {
+        auto wpnSkills = global_character->GetWeaponSkills();
+        for (auto skill : *wpnSkills) {
+            if (skill->GetSPRequired() == 0) {
+                attackSkill = skill;
+                break;
+            }
         }
+    } else {
+        auto handSkills = global_character->GetBareHandsSkills();
+        if (handSkills->size() > 0)
+            attackSkill = (*handSkills)[0];
     }
+    
     if (attackSkill == nullptr) {
         PRINT_WARNING << "No valid attack skill was found for character: "
             << vt_utils::MakeStandardString(character->GetGlobalCharacter()->GetName()) << std::endl;
