@@ -194,9 +194,10 @@ public:
 
 private:
     InventoryWindow();
-    
-    MenuMode *_menu_mode;
-    
+
+    //! \brief The parent menu mode.
+    MenuMode* _menu_mode;
+
     //! Used for the current dungeon
     vt_video::StillImage _location_graphic;
 

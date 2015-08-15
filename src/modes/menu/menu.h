@@ -539,8 +539,11 @@ private:
     /** \brief Equipment view data used to display a common equipment view
     **/
     //@{
+
+protected:
     //! \brief The selected object instance
-protected: vt_global::GlobalObject* _object;
+    vt_global::GlobalObject* _object;
+
 private:
 
     //! \brief The selected character

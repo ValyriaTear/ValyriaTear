@@ -463,8 +463,8 @@ void AudioDescriptor::SetLoopEnd(uint32 loop_end)
 
 void AudioDescriptor::SeekSample(uint32 sample)
 {
-	if(!_input)
-		return;
+    if(!_input)
+        return;
     if(sample >= _input->GetTotalNumberSamples()) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because requested seek time fell outside the valid range of samples: " << sample << std::endl;
         return;
