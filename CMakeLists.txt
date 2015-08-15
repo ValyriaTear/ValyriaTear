@@ -5,7 +5,6 @@ PROJECT(VALYRIATEAR)
 
 OPTION(EDITOR_SUPPORT "Compile the Qt editor along with the game" OFF)
 OPTION(DEBUG_FEATURES "Compile the game with the debug features" OFF)
-OPTION(USE_SYSTEM_LUABIND "Use the luabind headers and lib provided by the system (Linux only)" OFF)
 OPTION(DISABLE_TRANSLATIONS "Disable gettext / l10n support" OFF)
 OPTION(USE_PCH_COMPILATION "Using precompiled header for compilation for GCC" ON)
 

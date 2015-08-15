@@ -12,12 +12,6 @@ FIND_PACKAGE(PNG REQUIRED)
 FIND_PACKAGE(Gettext REQUIRED)
 FIND_PACKAGE(Boost 1.46.1 REQUIRED)
 
-IF (UNIX AND USE_SYSTEM_LUABIND)
-    # Find the luabind package
-    FIND_PACKAGE(Luabind REQUIRED)
-    MESSAGE(STATUS "Using system luabind")
-ENDIF()
-
 # Set the release mode if not told otherwise
 IF(NOT CMAKE_BUILD_TYPE)
     SET(CMAKE_BUILD_TYPE "Release")
@@ -126,10 +120,8 @@ INCLUDE_DIRECTORIES(
     ${Boost_INCLUDE_DIRS}
     )
 
-IF (NOT UNIX OR NOT USE_SYSTEM_LUABIND)
-    INCLUDE_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}/luabind")
-    MESSAGE(STATUS "Using included luabind files")
-ENDIF()
+INCLUDE_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}/luabind")
+MESSAGE(STATUS "Using included luabind files")
 
 # enable rc-handling with mingw
 # most likely this part can be kicked out with some later cmake version
@@ -172,6 +164,7 @@ luabind/src/link_compatibility.cpp
 luabind/src/exception_handler.cpp
 luabind/src/wrapper_base.cpp
 luabind/src/open.cpp
+luabind/src/lua51compat.cpp
 luabind/luabind/prefix.hpp
 luabind/luabind/operator.hpp
 luabind/luabind/back_reference_fwd.hpp
@@ -222,31 +215,23 @@ luabind/luabind/detail/stack_utils.hpp
 luabind/luabind/detail/open.hpp
 luabind/luabind/detail/property.hpp
 luabind/luabind/detail/other.hpp
-luabind/luabind/detail/object_funs.hpp
-luabind/luabind/detail/is_indirect_const.hpp
 luabind/luabind/detail/link_compatibility.hpp
 luabind/luabind/detail/typetraits.hpp
 luabind/luabind/detail/has_get_pointer.hpp
-luabind/luabind/detail/conversion_storage.hpp
-luabind/luabind/detail/ref.hpp
 luabind/luabind/detail/debug.hpp
 luabind/luabind/detail/garbage_collector.hpp
 luabind/luabind/detail/instance_holder.hpp
 luabind/luabind/detail/class_rep.hpp
 luabind/luabind/detail/signature_match.hpp
-luabind/luabind/detail/class_cache.hpp
 luabind/luabind/detail/call_member.hpp
 luabind/luabind/detail/pointee_sizeof.hpp
 luabind/luabind/detail/policy.hpp
 luabind/luabind/detail/deduce_signature.hpp
 luabind/luabind/detail/class_registry.hpp
-luabind/luabind/detail/pointee_typeid.hpp
 luabind/luabind/detail/yes_no.hpp
 luabind/luabind/detail/operator_id.hpp
-luabind/luabind/detail/calc_arity.hpp
 luabind/luabind/detail/make_instance.hpp
 luabind/luabind/detail/pcall.hpp
-luabind/luabind/detail/compute_score.hpp
 luabind/luabind/detail/call.hpp
 luabind/luabind/detail/call_operator_iterate.hpp
 luabind/luabind/yield_policy.hpp
@@ -481,18 +466,7 @@ IF (CMAKE_COMPILER_IS_GNUCXX AND USE_PCH_COMPILATION)
     ADD_PCH_RULE(${CMAKE_CURRENT_SOURCE_DIR}/utils/utils_pch.h SRCS)
 ENDIF()
 
-# Don't add the luabind static lib files if requested.
-IF (UNIX AND USE_SYSTEM_LUABIND)
-    ADD_EXECUTABLE(valyriatear WIN32 ${SRCS} ${SRCS_COMMON}
-        # The system include files.
-        ${LUABIND_INCLUDE_DIRS}
-    )
-
-    # In that case the luabind system headers will be needed
-    TARGET_LINK_LIBRARIES(valyriatear ${LUABIND_LIBRARIES})
-ELSE()
-    ADD_EXECUTABLE(valyriatear WIN32 ${SRCS} ${SRCS_COMMON} ${SRCS_LUABIND})
-ENDIF()
+ADD_EXECUTABLE(valyriatear WIN32 ${SRCS} ${SRCS_COMMON} ${SRCS_LUABIND})
 
 # Vorbis, vorbisfile and ogg are explcitely needed on OpenBSD
 IF (CMAKE_SYSTEM_NAME STREQUAL "OpenBSD")
@@ -597,26 +571,12 @@ IF (EDITOR_SUPPORT)
 
     SET (PROGRAMS vt-editor)
 
-    # Don't add the static luabind source if requested.
-    IF (UNIX AND USE_SYSTEM_LUABIND)
-            ADD_EXECUTABLE(vt-editor
-                ${SRCS_EDITOR}
-                ${EDITOR_QT_HEADERS_MOC}
-                ${SRCS_COMMON}
-                # The system include files.
-                ${LUABIND_INCLUDE_DIRS}
-            )
-
-        # In that case the luabind system headers will be needed
-        TARGET_LINK_LIBRARIES(vt-editor ${LUABIND_LIBRARIES})
-    ELSE()
-            ADD_EXECUTABLE(vt-editor
-                ${SRCS_EDITOR}
-                ${SRCS_LUABIND}
-                ${EDITOR_QT_HEADERS_MOC}
-                ${SRCS_COMMON}
-            )
-    ENDIF()
+    ADD_EXECUTABLE(vt-editor
+        ${SRCS_EDITOR}
+        ${SRCS_LUABIND}
+        ${EDITOR_QT_HEADERS_MOC}
+        ${SRCS_COMMON}
+    )
 
     TARGET_LINK_LIBRARIES(vt-editor
         ${INTERNAL_LIBRARIES}
