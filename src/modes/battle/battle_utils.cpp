@@ -313,7 +313,13 @@ bool BattleTarget::SetTarget(BattleActor* attacker, vt_global::GLOBAL_TARGET typ
 
     _party_target.clear();
     for (size_t i = 0; i < party_target->size(); ++i) {
-        _party_target.push_back(party_target->at(i));
+        if (type != GLOBAL_TARGET_ALL_FOES) {
+            _party_target.push_back(party_target->at(i));
+        } else {
+            if (party_target->at(i)->CanFight()) {
+                _party_target.push_back(party_target->at(i));
+            }
+        }
     }
 
     _attack_point = attack_point;
@@ -321,7 +327,7 @@ bool BattleTarget::SetTarget(BattleActor* attacker, vt_global::GLOBAL_TARGET typ
         _attack_point = 0;
 
     // If the target is not a party and not the user themselves, select the first valid actor
-    if(!IsValid() && !SelectNextActor()) {
+    if (type != GLOBAL_TARGET_ALL_FOES && (!IsValid() && !SelectNextActor())) {
         InvalidateTarget();
 
         PRINT_WARNING << "Could not find an initial actor that was a valid target" << std::endl;
