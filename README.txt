@@ -9,7 +9,7 @@
 
 
 **Development blog:** http://valyriatear.blogspot.com
-**Bug Tracker:** https://github.com/Bertram25/ValyriaTear/issues
+**Bug Tracker:** https://github.com/ValyriaTearValyriaTear/issues
 **Forums:** http://forum.freegamedev.net/viewforum.php?f=76
 
 Valyria Tear is an open-source single-player medieval-fantasy 2D J-RPG based on an extended Hero of Allacrost engine
@@ -31,7 +31,7 @@ modify it and/or redistribute it under the terms of this license.
 See http://www.gnu.org/copyleft/gpl.html for details.
 
 The graphics, sounds, musics and script files are licensed according to the LICENSES file:
-https://raw.githubusercontent.com/Bertram25/ValyriaTear/master/LICENSES
+https://raw.githubusercontent.com/ValyriaTear/ValyriaTear/master/LICENSES
 
 While the scripts are under the GNU GPL, the story concept is copyrighted
 and cannot be reused as is or part of it in another project without the author's consent.
@@ -44,8 +44,11 @@ data/ po/
 ## Compilation procedure ##
 
 **Linux compilation**
-Once you've unpacked the tarball or checked it out of Git repository,
-just run `cmake . && make ` from the top-level directory at the prompt.
+Once you've unpacked the tarball, just run `cmake . && make` from the top-level directory at the prompt.
+
+If you have checked it out from the Git repository, run this first to get the latest luabind code:
+`git submodule update --init --remote`
+and then the usual `cmake . && make`
 
 You'll then be able to play by typing: `src/valyriatear`
 
@@ -79,8 +82,7 @@ You will need the following in order to compile and run the game:
 - **Boost headers** (Tested from 1.42 to 1.55)
 (make sure that the boost headers used to compile Luabind are the same version used to compile Valyria Tear)
 - **GNU Gettext** - (libiconv, libintl)
-- **lua** (5.1.x - 5.2.x) - (liblua)
-- **Luabind 0.9.1** (Also provided as a static library)
+- **lua** (5.1.x - 5.2.x - 5.3.x) - (liblua)
 - **libz**
 - **libpng** (1.2 to 1.6)
 - **Ogg/Vorbis** - (libogg, libvorbis, libvorbisenc, libvorbisfile)
