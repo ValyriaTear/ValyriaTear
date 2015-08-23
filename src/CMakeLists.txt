@@ -126,6 +126,9 @@ MESSAGE(STATUS "Using included luabind files")
 CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/luabind/build_information.hpp.cmake_in" "${CMAKE_CURRENT_SOURCE_DIR}/luabind/luabind/build_information.hpp")
 MESSAGE(STATUS "Configured luabind information file...")
 
+# Enable C++11 in luabind
+SET(FLAGS "${FLAGS} -DLUABIND_USE_CXX11")
+
 # enable rc-handling with mingw
 # most likely this part can be kicked out with some later cmake version
 IF (MINGW)
