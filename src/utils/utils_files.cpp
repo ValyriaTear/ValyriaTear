@@ -103,7 +103,12 @@ bool CleanDirectory(const std::string &dir_name)
         } while (FindNextFileA(handle, &info));
     }
 
-    FindClose(handle);
+    if (handle != nullptr &&
+        handle != INVALID_HANDLE_VALUE)
+    {
+        FindClose(handle);
+    }
+
 #else
     //--- NOT WINDOWS ----------------------------------------------------------
 
@@ -175,6 +180,7 @@ std::vector<std::string> ListDirectory(const std::string &dir_name, const std::s
     memset(file_found, 0, sizeof(file_found));
     sprintf(file_found, "%s\\*.*", dir_name.c_str());
 
+    handle = FindFirstFileA(file_found, &info);
     if (handle != INVALID_HANDLE_VALUE) {
         // List each file from the directory.
         do {
@@ -188,7 +194,12 @@ std::vector<std::string> ListDirectory(const std::string &dir_name, const std::s
         } while (FindNextFileA(handle, &info));
     }
 
-    FindClose(handle);
+    if (handle != nullptr &&
+        handle != INVALID_HANDLE_VALUE)
+    {
+        FindClose(handle);
+    }
+
 #else
     //Not Windows
     DIR *dir;
