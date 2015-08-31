@@ -346,7 +346,7 @@ public:
     //! \brief Supply the constructor with "true" if you want this to represent a grayscale image
     explicit StillImage(const bool grayscale = false);
 
-    ~StillImage();
+    virtual ~StillImage() override;
 
     //! \brief Resets the image's properties and removes any references to image data that it maintains
     void Clear();
@@ -863,10 +863,12 @@ class CompositeImage : public ImageDescriptor
 {
 public:
     CompositeImage()
-    {}
+    {
+    }
 
-    ~CompositeImage()
-    {}
+    virtual ~CompositeImage() override
+    {
+    }
 
     //! \brief Removes all image elements held by this class
     void Clear();

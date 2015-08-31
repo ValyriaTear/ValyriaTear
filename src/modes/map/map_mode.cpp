@@ -230,7 +230,7 @@ void MapMode::Reset()
     // if the game in in the default mode.
     // Still, we won't change the sprite in the middle of a scene for instance.
     // I.e: When going out of the menu mode.
-    if(CurrentState() == private_map::STATE_EXPLORE)
+    if (CurrentState() == private_map::STATE_EXPLORE)
         _object_supervisor->ReloadVisiblePartyMember();
 }
 
@@ -387,6 +387,7 @@ void MapMode::DrawPostEffects()
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
+
     // Halos are additive blending made, so they should be applied
     // as post-effects but before the GUI.
     _object_supervisor->DrawLights();
@@ -402,6 +403,7 @@ void MapMode::DrawPostEffects()
     // Draw the treasure menu if necessary
     if(CurrentState() == STATE_TREASURE)
         _treasure_supervisor->Draw();
+
     VideoManager->PopState();
 }
 

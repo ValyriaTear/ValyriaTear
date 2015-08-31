@@ -196,13 +196,11 @@ void ModeEngine::Pop(bool fade_out, bool fade_in)
     }
 }
 
-
 // Pop off all game modes
 void ModeEngine::PopAll()
 {
     _pop_count = static_cast<uint32>(_game_stack.size());
 }
-
 
 // Push a new game mode onto the stack
 void ModeEngine::Push(GameMode *gm, bool fade_out, bool fade_in)
@@ -258,16 +256,18 @@ GameMode *ModeEngine::GetTop()
         return _game_stack.back();
 }
 
-
 // Returns a pointer to a game mode on the stack
 GameMode *ModeEngine::Get(uint32 index)
 {
-    if(_game_stack.size() < index)
-        return nullptr;
-    else
-        return _game_stack.at(_game_stack.size() - index);
-}
+    GameMode* result = nullptr;
 
+    assert(_game_stack.size() > index);
+    if (_game_stack.size() > index) {
+        result = _game_stack.at(_game_stack.size() - index - 1);
+    }
+
+    return result;
+}
 
 // Checks if any game modes need to be pushed or popped off the stack, then updates the top stack mode.
 void ModeEngine::Update()

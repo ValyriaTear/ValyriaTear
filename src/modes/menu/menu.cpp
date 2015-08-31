@@ -174,7 +174,6 @@ void AbstractMenuState::Draw()
     _OnDrawSideWindow();
     // Draw currently active options box
     _options.Draw();
-
 }
 
 void AbstractMenuState::_OnDrawSideWindow()
@@ -767,10 +766,12 @@ MenuMode::MenuMode() :
     else
         _locale_graphic.SetDimensions(0, 0);
 
+    // Save a copy of the current screen to use as the backdrop.
     try {
         _saved_screen = VideoManager->CaptureScreen();
-    } catch(const Exception &e) {
-        PRINT_ERROR << e.ToString() << std::endl;
+    }
+    catch (const Exception &e) {
+        IF_PRINT_WARNING(MENU_DEBUG) << e.ToString() << std::endl;
     }
 
     GlobalMedia& media = GlobalManager->Media();
@@ -901,7 +902,7 @@ MenuMode::MenuMode() :
 
     _equip_skills_header.SetStyle(TextStyle("title20"));
     _equip_skills_header.SetText(UTranslate("Skills obtained:"));
-} // MenuMode::MenuMode()
+}
 
 MenuMode::~MenuMode()
 {
@@ -927,14 +928,14 @@ MenuMode::~MenuMode()
 
     if(_message_window != nullptr)
         delete _message_window;
-} // MenuMode::~MenuMode()
+}
 
 void MenuMode::Reset()
 {
     _current_instance = this;
 
-    // Reload characters information,
-    // as active status effects may have changed.
+    // Reload the characters' information since
+    // active status effects may have changed.
     ReloadCharacterWindows();
 }
 

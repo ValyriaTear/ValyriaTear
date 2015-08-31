@@ -75,10 +75,9 @@ ShopMedia::ShopMedia()
     _all_category_names.push_back(UTranslate("Key Items"));
     _all_category_names.push_back(UTranslate("All Wares"));
 
-    // Initialize the character's prites images.
+    // Initialize the characters' sprites' images.
     _InitializeCharacters();
 }
-
 
 void ShopMedia::_InitializeCharacters()
 {
@@ -1057,14 +1056,14 @@ ShopMode::ShopMode() :
     _trade_interface = new TradeInterface();
     _dialogue_supervisor = new vt_common::DialogueSupervisor();
 
+    // Save a copy of the current screen to use as the backdrop.
     try {
         _screen_backdrop = VideoManager->CaptureScreen();
-    } catch(const Exception& e) {
+    }
+    catch (const Exception& e) {
         IF_PRINT_WARNING(SHOP_DEBUG) << e.ToString() << std::endl;
     }
-} // ShopMode::ShopMode()
-
-
+}
 
 ShopMode::~ShopMode()
 {
@@ -1085,8 +1084,6 @@ ShopMode::~ShopMode()
     }
 }
 
-
-
 void ShopMode::Reset()
 {
     _current_instance = this;
@@ -1094,14 +1091,13 @@ void ShopMode::Reset()
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
 
-    if(IsInitialized() == false)
+    if (IsInitialized() == false) {
         Initialize();
+    }
 
     // Reset potential battle scripts
     GetScriptSupervisor().Reset();
 }
-
-
 
 void ShopMode::Initialize()
 {

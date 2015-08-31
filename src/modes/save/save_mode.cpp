@@ -214,11 +214,9 @@ SaveMode::~SaveMode()
 
 }
 
-
-
 void SaveMode::Reset()
 {
-    // Save a copy of the current screen to use as the backdrop
+    // Save a copy of the current screen to use as the backdrop.
     try {
         _screen_capture = VideoManager->CaptureScreen();
     } catch(const Exception &e) {
@@ -228,8 +226,6 @@ void SaveMode::Reset()
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
 }
-
-
 
 void SaveMode::Update()
 {

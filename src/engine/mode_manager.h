@@ -68,8 +68,9 @@ class GameMode
 
 public:
     GameMode();
+
     //! \param mt The mode_type to set the new GameMode object to.
-    GameMode(uint8 mt);
+    explicit GameMode(uint8 mt);
 
     virtual ~GameMode();
 
