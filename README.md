@@ -65,8 +65,7 @@ To build on Windows with Visual Studio 2013, do this:
 
 You will need the following in order to compile and run the game:
 
-- **Boost headers** (Tested from 1.42 to 1.55)
-(make sure that the boost headers used to compile Luabind are the same version used to compile Valyria Tear)
+- **Boost headers** (Tested from 1.42 to 1.58)
 - **GNU Gettext** - (libiconv, libintl)
 - **lua** (5.1.x - 5.2.x - 5.3.x) - (liblua)
 - **libz**
@@ -78,26 +77,14 @@ You will need the following in order to compile and run the game:
 - **SDL_ttf** (2.0.12+)
 - **SDL_image** (2.0.0)
 
-**Map editor only:**
-- **Qt 4.8.x** (only if you wish to compile the map editor)
-
-## Map editor or debug feature support compilation
+## Debug feature support compilation
 
 - **Using Cmake:**
 Use the `-D` parameter when invoking cmake to add **compilation flags**.
 
-- **Add Editor compilation** (Requires QT 4.8.x headers)
-`cmake -DEDITOR_SUPPORT=on .`
-
 - **Add debug menus, and debug commands:**
 `cmake -DDEBUG_FEATURES=on .`
-
-- **Add both:**
-`cmake -DDEBUG_FEATURES=on -DEDITOR_SUPPORT=on .`
 
 - On **Code::Blocks:**
 Go to Project->Build options, and add the flags in the `#defines` tab, i.e.:
 `DEBUG_MENU`
-
-Note that the editor can't be built using C::B. Use **Qt-Creator** and the **MapEditor.pro** file for that.
-Be sure also to read the instructions within that file, as **RTTI support** must be **enabled**, and **unicode disabled** in the **compile flags**.

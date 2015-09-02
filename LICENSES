@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2015.07.09
+Last update: 2015.09.02
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -160,20 +160,6 @@ data/gui/themes/elvish_feather/cursor.png                                     CC
 data/gui/themes/elvish_feather/win_background.png                             CC by SA 3.0 / GPLv2+    Allacrost + Bertram modifications
 data/gui/themes/elvish_feather/win_border.png                                 CC by SA 3.0             Bertram - with help from Mumu (OGA) - http://opengameart.org/content/40x56-card-frames-revised-again
 data/gui/themes/elvish_feather/scroll_arrows.png                              GPLv2+                   Allacrost + Modifications by Bertram
-
-data/editor/stock-tool-rect-select-22.png                                     GPLv2                    Allacrost
-data/editor/arrow-left.png                                                    GPLv2                    Allacrost
-data/editor/stock-tool-arrow.png                                              GPLv2                    Allacrost
-data/editor/stock-tool-pencil-22.png                                          GPLv2                    Allacrost
-data/editor/stock-tool-color-picker-22.png                                    GPLv2                    Allacrost
-data/editor/arrow-right.png                                                   GPLv2                    Allacrost
-data/editor/stock-tool-eraser-22.png                                          GPLv2                    Allacrost
-data/editor/stock-tool-bucket-fill-22.png                                     GPLv2                    Allacrost
-data/editor/document-new.png                                                  GPLv2+                   Tiled (Bjorn lindeijer - mapeditor.org)
-data/editor/edit-delete.png                                                   GPLv2+                   Tiled (Bjorn lindeijer - mapeditor.org)
-data/editor/eye.png                                                           GPLv2+                   Tiled (Bjorn lindeijer - mapeditor.org)
-data/editor/go-down.png                                                       GPLv2+                   Tiled (Bjorn lindeijer - mapeditor.org)
-data/editor/go-up.png                                                         GPLv2+                   Tiled (Bjorn lindeijer - mapeditor.org)
 
 data/entities/characters.lua                                                  GPLv2+                   Allacrost + Bertram
 data/entities/enemies.lua                                                     GPLv2+                   Allacrost + Bertram (Merged from former files: enemies_set_01.lua + enemies_set_02.lua)

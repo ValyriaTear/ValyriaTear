@@ -71,19 +71,15 @@
 #endif
 
 #ifdef __APPLE__
-#ifndef EDITOR_BUILD
 #   include <OpenAL/al.h>
 #   include <OpenAL/alc.h>
-#endif
 #   include <OpenGL/gl.h>
 #   include <OpenGL/glu.h>
 #   include <unistd.h>
 #   undef check
 #else
-#ifndef EDITOR_BUILD
 #   include "al.h"
 #   include "alc.h"
-#endif
 #   include <GL/glew.h>
 #   include <GL/gl.h>
 #   include <GL/glu.h>
@@ -106,9 +102,7 @@
 #include <iostream>
 
 #ifndef DISABLE_TRANSLATIONS
-#ifndef EDITOR_BUILD
 #   include <libintl.h>
-#endif
 #endif
 
 #include <list>
@@ -143,7 +137,6 @@ extern "C" {
 # define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
 #endif
 
-#ifndef EDITOR_BUILD
 #include <png.h>
 
 // We include SDL_config.h, which compensates for non ISO C99 compilers.
@@ -178,7 +171,6 @@ extern "C" {
 #endif
 
 #include <vorbis/vorbisfile.h>
-#endif // ifndef EDITOR_BUILD
 
 // The Windows API defines GetMessage and CreateSemaphore.
 // Undefine it here to prevent conflicts within the code base.

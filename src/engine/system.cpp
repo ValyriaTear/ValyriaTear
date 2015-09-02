@@ -492,7 +492,6 @@ void SystemEngine::UpdateTimers()
         (*i)->_AutoUpdate();
 }
 
-// Avoid a useless dependency on the mode manager for the editor build
 void SystemEngine::ExamineSystemTimers()
 {
     GameMode* active_mode = ModeManager->GetTop();
