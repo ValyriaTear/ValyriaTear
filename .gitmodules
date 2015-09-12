@@ -1,3 +1,4 @@
 [submodule "src/luabind"]
 	path = src/luabind
-	url = git://github.com/ValyriaTear/luabind.git master
+	url = https://github.com/ValyriaTear/luabind.git
+	branch = master
