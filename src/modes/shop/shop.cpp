@@ -87,8 +87,33 @@ void ShopMedia::_InitializeCharacters()
     for(uint32 i = 0; i < characters->size(); ++i) {
         GlobalCharacter *character = characters->at(i);
 
-        if(!character) {
-            _character_sprites.push_back(new AnimatedImage());
+        //
+        // TODO: Remove all of these comments.
+        //
+
+        //
+        // TODO: Someone should review this change.
+        //
+        //       '_character_sprites' stores 'vt_video::AnimatedImage's (not pointers to 'vt_video::AnimatedImage's).
+        //       The original code took 'new AnimatedImage()' as input.  I think the pointer
+        //       was being implicitly converted in a constructor to an 'AnimatedImage'.  I changed the code to what is shown below.
+        //       I think this is what was originally intended.
+        //
+        //
+
+        if (!character) {
+
+            //
+            // TODO: Original code.  It no longer compiles with explicit constructors.
+            //
+            // _character_sprites.push_back(new AnimatedImage());
+            //
+            // I think the compiler was implicitly doing the following:
+            //
+            // _character_sprites.push_back(AnimatedImage((bool)(new AnimatedImage())));
+            //
+
+            _character_sprites.push_back(AnimatedImage());
             continue;
         }
 

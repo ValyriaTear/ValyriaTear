@@ -550,10 +550,10 @@ class AnimatedImage : public ImageDescriptor
 
 public:
     //! \brief Supply the constructor with "true" if you want this to represent a grayscale image.
-    AnimatedImage(bool grayscale = false);
+    explicit AnimatedImage(bool grayscale = false);
 
     //! \brief A constructor which also sets the image's dimensions
-    AnimatedImage(float width, float height, bool grayscale = false);
+    explicit AnimatedImage(float width, float height, bool grayscale = false);
 
     //! \brief Resets the image's properties and removes any references to image data that it maintains
     void Clear();
