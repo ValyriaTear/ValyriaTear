@@ -85,10 +85,11 @@ void ShopMedia::_InitializeCharacters()
     // Grab the sprite frames for all characters in the active party
     std::vector<GlobalCharacter *>* characters = GlobalManager->GetOrderedCharacters();
     for(uint32 i = 0; i < characters->size(); ++i) {
-        GlobalCharacter *character = characters->at(i);
 
-        if(!character) {
-            _character_sprites.push_back(new AnimatedImage());
+        GlobalCharacter *character = characters->at(i);
+        if (!character) {
+
+            _character_sprites.push_back(AnimatedImage());
             continue;
         }
 
