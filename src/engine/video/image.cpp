@@ -20,6 +20,7 @@
 
 #include "engine/script/script_read.h"
 #include "engine/system.h"
+#include "engine/video/color.h"
 
 #include "utils/utils_files.h"
 #include "utils/utils_random.h"
@@ -1701,8 +1702,6 @@ void CompositeImage::AddImage(const StillImage &img, float x_offset, float y_off
         _height = max_y;
 } // void CompositeImage::AddImage(const StillImage& img, float x_offset, float y_offset, float u1, float v1, float u2, float v2)
 
-
-
 // void CompositeImage::ConstructCompositeImage(const std::vector<StillImage>& tiles, const std::vector<std::vector<uint32> >& indeces) {
 // 	if (tiles.empty() == true || indeces.empty() == true) {
 // 		IF_PRINT_WARNING(VIDEO_DEBUG) << "either the tiles or indeces vector function arguments were empty" << std::endl;
@@ -1741,5 +1740,30 @@ void CompositeImage::AddImage(const StillImage &img, float x_offset, float y_off
 // 	}
 // } // void CompositeImage::ConstructCompositeImage(const std::vector<StillImage>& tiles, const std::vector<std::vector<uint32> >& indeces)
 
+void DrawCapturedBackgroundImage(const ImageDescriptor& image, float x, float y)
+{
+    DrawCapturedBackgroundImage(image, x, y, vt_video::Color::white);
+}
+
+void DrawCapturedBackgroundImage(const ImageDescriptor& image, float x, float y, const vt_video::Color& color)
+{
+    int32 width_viewport = VideoManager->GetViewportWidth();
+    int32 height_viewport = VideoManager->GetViewportHeight();
+
+    float width_image = image.GetWidth();
+    float height_image = image.GetHeight();
+
+    assert(width_image > 0.0f);
+    assert(height_image > 0.0f);
+
+    float scale = width_viewport / width_image;
+    if (width_viewport < height_viewport) {
+        scale = height_viewport / height_image;
+    }
+
+    VideoManager->Move(x, y);
+    VideoManager->Scale(scale, scale);
+    image.Draw(color);
+}
 
 }  // namespace vt_video

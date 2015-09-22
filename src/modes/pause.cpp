@@ -216,8 +216,7 @@ void PauseMode::DrawPostEffects()
                               static_cast<float>(VideoManager->GetViewportHeight()), 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
 
-    VideoManager->Move(0.0f, 0.0f);
-    _screen_capture.Draw(_dim_color);
+    vt_video::DrawCapturedBackgroundImage(_screen_capture, 0.0f, 0.0f, _dim_color);
 
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, VIDEO_BLEND, 0);

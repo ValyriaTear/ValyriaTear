@@ -276,7 +276,7 @@ protected:
     bool _unichrome_vertices;
 
     //! \brief Indicates whether the image being loaded should be loaded into a non-volatile area of texture memory.
-    bool  _is_static;
+    bool _is_static;
 
     //! \brief True if this image is grayscale.
     bool _grayscale;
@@ -965,8 +965,23 @@ public:
 private:
     //! \brief A container for each element in the composite image
     std::vector<private_video::ImageElement> _elements;
-}; // class CompositeImage : public ImageDescriptor
+};
 
-}  // namespace vt_video
+/** \brief A helper function to draw a captured, background image.
+*** \param image The captured, background image to draw.
+*** \param x The 'X' position.
+*** \param y The 'Y' position.
+**/
+void DrawCapturedBackgroundImage(const ImageDescriptor& image, float x, float y);
+
+/** \brief A helper function to draw a captured, background image.
+*** \param image The captured, background image to draw.
+*** \param x The 'X' position.
+*** \param y The 'Y' position.
+*** \param color An overlay color.
+**/
+void DrawCapturedBackgroundImage(const ImageDescriptor& image, float x, float y, const vt_video::Color& color);
+
+} // namespace vt_video
 
 #endif // __IMAGE_HEADER__

@@ -153,13 +153,11 @@ void AbstractMenuState::Draw()
     int32 width = VideoManager->GetViewportWidth();
     int32 height = VideoManager->GetViewportHeight();
     VideoManager->SetCoordSys(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
+    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
 
-    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
+    vt_video::DrawCapturedBackgroundImage(_menu_mode->_saved_screen, 0.0f, 0.0f);
 
-    VideoManager->Move(0.0f, 0.0f);
-    _menu_mode->_saved_screen.Draw();
-
-    // Restore the Coordinate system (that one is menu mode coordinate system)
+    // Restore the Coordinate system (that one is menu mode coordinate system).
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
 

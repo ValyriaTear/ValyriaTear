@@ -1379,19 +1379,16 @@ void TransitionToBattleMode::Update()
 void TransitionToBattleMode::Draw()
 {
     // Draw the battle transition effect.
-    VideoManager->SetStandardCoordSys();
-    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
+    int32 width = VideoManager->GetViewportWidth();
+    int32 height = VideoManager->GetViewportHeight();
+    VideoManager->SetCoordSys(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
+    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
 
-    VideoManager->Move(0.0f, 0.0f);
-    _screen_capture.Draw();
-    VideoManager->Move(_position, _position);
-    _screen_capture.Draw(Color(1.0f, 1.0f, 1.0f, 0.3f));
-    VideoManager->Move(-_position, _position);
-    _screen_capture.Draw(Color(1.0f, 1.0f, 1.0f, 0.3f));
-    VideoManager->Move(-_position, -_position);
-    _screen_capture.Draw(Color(1.0f, 1.0f, 1.0f, 0.3f));
-    VideoManager->Move(_position, -_position);
-    _screen_capture.Draw(Color(1.0f, 1.0f, 1.0f, 0.3f));
+    vt_video::DrawCapturedBackgroundImage(_screen_capture, 0.0f, 0.0f);
+    vt_video::DrawCapturedBackgroundImage(_screen_capture, _position, _position, Color(1.0f, 1.0f, 1.0f, 0.3f));
+    vt_video::DrawCapturedBackgroundImage(_screen_capture, -_position, _position, Color(1.0f, 1.0f, 1.0f, 0.3f));
+    vt_video::DrawCapturedBackgroundImage(_screen_capture, -_position, -_position, Color(1.0f, 1.0f, 1.0f, 0.3f));
+    vt_video::DrawCapturedBackgroundImage(_screen_capture, _position, -_position, Color(1.0f, 1.0f, 1.0f, 0.3f));
 }
 
 void TransitionToBattleMode::Reset()
