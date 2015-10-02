@@ -648,7 +648,10 @@ CommandSupervisor::CommandSupervisor() :
     if(_category_icons[3].Load("data/gui/battle/item.png") == false)
         PRINT_ERROR << "failed to load category icon" << std::endl;
 
-    _category_text.resize(4, TextImage("", TextStyle("title22")));
+    _category_text.resize(4);
+    for (TextImage& text_img : _category_text)
+        text_img.SetStyle(TextStyle("title22"));
+
     _category_text[0].SetText(Translate("Weapon"));
     _category_text[1].SetText(Translate("Magic"));
     _category_text[2].SetText(""); // Default empty text
