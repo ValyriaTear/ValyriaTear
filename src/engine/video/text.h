@@ -353,7 +353,7 @@ public:
         Clear();
     }
 
-    explicit TextImage(const TextImage &copy);
+    TextImage(const TextImage &copy);
     TextImage &operator=(const TextImage &copy);
 
     // ---------- Public methods
