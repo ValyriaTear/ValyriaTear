@@ -1262,11 +1262,13 @@ bool GameOptionsMenuHandler::_ChangeResolution(int32 width, int32 height)
     VideoManager->SetResolution(width, height);
 
     bool ret_value = VideoManager->ApplySettings();
-    if (ret_value)
+    if (ret_value) {
         _has_modified_settings = true;
+    }
 
     _RefreshVideoOptions();
     _SetupResolutionMenu();
+
     return ret_value;
 }
 

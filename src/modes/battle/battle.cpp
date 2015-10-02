@@ -1258,8 +1258,6 @@ void BattleMode::_DrawBottomMenu()
     }
 }
 
-
-
 void BattleMode::_DrawStaminaBar()
 {
     // Used to determine whether or not an icon selector graphic needs to be drawn
@@ -1346,8 +1344,14 @@ TransitionToBattleMode::TransitionToBattleMode(BattleMode *BM, bool is_boss):
     _is_boss(is_boss),
     _BM(BM)
 {
-    _screen_capture = VideoManager->CaptureScreen();
-    _screen_capture.SetDimensions(VIDEO_STANDARD_RES_WIDTH, VIDEO_STANDARD_RES_HEIGHT);
+    // Save a copy of the current screen to use as the backdrop.
+    try {
+        _screen_capture = VideoManager->CaptureScreen();
+        _screen_capture.SetDimensions(VIDEO_STANDARD_RES_WIDTH, VIDEO_STANDARD_RES_HEIGHT);
+    }
+    catch (const Exception &e) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << e.ToString() << std::endl;
+    }
 }
 
 void TransitionToBattleMode::Update()
@@ -1374,9 +1378,10 @@ void TransitionToBattleMode::Update()
 
 void TransitionToBattleMode::Draw()
 {
-    // Draw the battle transition effect
+    // Draw the battle transition effect.
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
+
     VideoManager->Move(0.0f, 0.0f);
     _screen_capture.Draw();
     VideoManager->Move(_position, _position);
@@ -1392,7 +1397,7 @@ void TransitionToBattleMode::Draw()
 void TransitionToBattleMode::Reset()
 {
     // Don't reset a transition in progress
-    if(_transition_timer.IsRunning())
+    if (_transition_timer.IsRunning())
         return;
 
     _position = 0.0f;

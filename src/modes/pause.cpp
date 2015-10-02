@@ -60,6 +60,14 @@ PauseMode::PauseMode(bool quit_state, bool pause_audio) :
     _option_selected(false),
     _options_handler(this)
 {
+    // Save a copy of the current screen to use as the backdrop.
+    try {
+        _screen_capture = VideoManager->CaptureScreen();
+    }
+    catch (const Exception &e) {
+        IF_PRINT_WARNING(PAUSE_DEBUG) << e.ToString() << std::endl;
+    }
+
     // Render the paused string in white text
     _paused_text.SetStyle(TextStyle("title28", Color::white, VIDEO_TEXT_SHADOW_BLACK));
     _paused_text.SetText(UTranslate("Paused"));
@@ -107,8 +115,9 @@ PauseMode::~PauseMode()
 
 void PauseMode::Reset()
 {
-    if(_audio_paused)
+    if (_audio_paused) {
         AudioManager->PauseAudio();
+    }
     else {
         MusicDescriptor *active_music = AudioManager->GetActiveMusic();
         if (active_music) {
@@ -119,13 +128,6 @@ void PauseMode::Reset()
         else {
             _music_volume = 0.0f;
         }
-    }
-
-    // Save a copy of the current screen to use as the backdrop
-    try {
-        _screen_capture = VideoManager->CaptureScreen();
-    } catch(const Exception &e) {
-        IF_PRINT_WARNING(PAUSE_DEBUG) << e.ToString() << std::endl;
     }
 
     VideoManager->DisableFadeEffect();
@@ -205,7 +207,7 @@ void PauseMode::Update()
         media.PlaySound("bump");
         _quit_options.InputDown();
     }
-} // void PauseMode::Update()
+}
 
 void PauseMode::DrawPostEffects()
 {
@@ -213,6 +215,7 @@ void PauseMode::DrawPostEffects()
     VideoManager->SetCoordSys(0.0f, static_cast<float>(VideoManager->GetViewportWidth()),
                               static_cast<float>(VideoManager->GetViewportHeight()), 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
+
     VideoManager->Move(0.0f, 0.0f);
     _screen_capture.Draw(_dim_color);
 

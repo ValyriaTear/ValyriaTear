@@ -64,7 +64,7 @@ public:
     void Draw();
 
 private:
-    //! The name of the character that this window corresponds) to
+    //! The name of the character that this window corresponds to.
     vt_global::GlobalCharacter *_character;
 
     //! The image of the character

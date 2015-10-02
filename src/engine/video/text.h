@@ -275,9 +275,9 @@ class TextElement : public ImageDescriptor
 public:
     TextElement();
 
-    TextElement(TextTexture *texture);
+    explicit TextElement(TextTexture *texture);
 
-    ~TextElement();
+    virtual ~TextElement() override;
 
     // ---------- Public members
 
@@ -343,17 +343,17 @@ public:
     TextImage();
 
     //! \brief Constructs rendered string of specified ustring
-    TextImage(const vt_utils::ustring& text, const TextStyle& style = TextStyle());
+    explicit TextImage(const vt_utils::ustring& text, const TextStyle& style = TextStyle());
 
     //! \brief Constructs rendered string of specified std::string
-    TextImage(const std::string& text, const TextStyle& style = TextStyle());
+    explicit TextImage(const std::string& text, const TextStyle& style = TextStyle());
 
     //! \brief Destructs TextImage, lowering reference counts on all contained timages.
-    ~TextImage() {
+    virtual ~TextImage() override {
         Clear();
     }
 
-    TextImage(const TextImage &copy);
+    explicit TextImage(const TextImage &copy);
     TextImage &operator=(const TextImage &copy);
 
     // ---------- Public methods

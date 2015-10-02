@@ -111,10 +111,13 @@ VideoEngine::VideoEngine():
     _current_context.x_flip = 0;
     _current_context.y_flip = 0;
     _current_context.coordinate_system = CoordSys(0.0f, VIDEO_STANDARD_RES_WIDTH,
-                                         0.0f, VIDEO_STANDARD_RES_HEIGHT);
-    _current_context.viewport = ScreenRect(0, 0, VIDEO_STANDARD_RES_WIDTH, VIDEO_STANDARD_RES_HEIGHT);
-    _current_context.scissor_rectangle = ScreenRect(0, 0, VIDEO_STANDARD_RES_WIDTH,
-                                         VIDEO_STANDARD_RES_HEIGHT);
+                                                  0.0f, VIDEO_STANDARD_RES_HEIGHT);
+    _current_context.viewport = ScreenRect(0, 0,
+                                           VIDEO_STANDARD_RES_WIDTH,
+                                           VIDEO_STANDARD_RES_HEIGHT);
+    _current_context.scissor_rectangle = ScreenRect(0, 0,
+                                                    VIDEO_STANDARD_RES_WIDTH,
+                                                    VIDEO_STANDARD_RES_HEIGHT);
     _current_context.scissoring_enabled = false;
 
     _transform_stack.push(gl::Transform());
@@ -546,16 +549,18 @@ bool VideoEngine::ApplySettings()
         // Swap tearing failed, attempt VSync.
         _vsync_mode = 1;
     }
+
     // Try VSync
     if (_vsync_mode == 1 && SDL_GL_SetSwapInterval(1) != 0) {
         // VSync failed, fall-back to none.
         _vsync_mode = 0;
     }
+
     // No VSync
     if (_vsync_mode == 0)
         SDL_GL_SetSwapInterval(0);
 
-    if(TextureManager)
+    if (TextureManager)
         TextureManager->ReloadTextures();
 
     return true;
@@ -567,30 +572,42 @@ void VideoEngine::_UpdateViewportMetrics()
     float width = _screen_width;
     float height = _screen_height;
     float scr_ratio = height > 0.2f ? width / height : 1.33f;
+
+    // Handle the 4:3 case.
     if (vt_utils::IsFloatEqual(scr_ratio, 1.33f, 0.2f)) { // 1.33f == 4:3
-        // 4:3: No offsets
+        // 4:3: No offsets.
         _viewport_x_offset = 0;
         _viewport_y_offset = 0;
         _viewport_width = _screen_width;
         _viewport_height = _screen_height;
-        return;
+    }
+    else
+    {
+        // Handle the non 4:3 cases.
+        if (width >= height) {
+            float ideal_width = height / 3.0f * 4.0f;
+            _viewport_width = ideal_width;
+            _viewport_height = _screen_height;
+            _viewport_x_offset = (int32)((width - ideal_width) / 2.0f);
+            _viewport_y_offset = 0;
+        }
+        else {
+            float ideal_height = width / 3.0f * 4.0f;
+            _viewport_height = ideal_height;
+            _viewport_width = _screen_width;
+            _viewport_x_offset = 0;
+            _viewport_y_offset = (int32)((height - ideal_height) / 2.0f);
+        }
     }
 
-    // Handle non 4:3 cases
-    if (width >= height) {
-        float ideal_width = height / 3.0f * 4.0f;
-        _viewport_width = ideal_width;
-        _viewport_height = _screen_height;
-        _viewport_x_offset = (int32)((width - ideal_width) / 2.0f);
-        _viewport_y_offset = 0;
-    }
-    else {
-        float ideal_height = width / 3.0f * 4.0f;
-        _viewport_height = ideal_height;
-        _viewport_width = _screen_width;
-        _viewport_x_offset = 0;
-        _viewport_y_offset = (int32)((height - ideal_height) / 2.0f);
-    }
+    // Update the viewport.
+    SetViewport(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
+
+    // Update the current context.
+    _current_context.viewport.left = _viewport_x_offset;
+    _current_context.viewport.top = _viewport_y_offset;
+    _current_context.viewport.width = _viewport_width;
+    _current_context.viewport.height = _viewport_height;
 }
 
 //-----------------------------------------------------------------------------
@@ -637,7 +654,7 @@ void VideoEngine::GetCurrentViewport(float &x, float &y, float &width, float &he
 
 void VideoEngine::SetViewport(float x, float y, float width, float height)
 {
-    if(width <= 0 || height <= 0)
+    if (width <= 0 || height <= 0)
     {
         PRINT_WARNING << "attempted to set an invalid viewport size: " << x << "," << y
             << " at " << width << ":" << height << std::endl;
@@ -648,6 +665,7 @@ void VideoEngine::SetViewport(float x, float y, float width, float height)
     _viewport_y_offset = y;
     _viewport_width = width;
     _viewport_height = height;
+
     glViewport(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
 }
 
@@ -909,35 +927,49 @@ StillImage VideoEngine::CaptureScreen() throw(Exception)
     // Static variable used to make sure the capture has a unique name in the texture image map
     static uint32 capture_id = 0;
 
+    // Get the viewport.
+    float viewport_x = 0.0f;
+    float viewport_y = 0.0f;
+    float viewport_width = 0.0f;
+    float viewport_height = 0.0f;
+    vt_video::VideoManager->GetCurrentViewport(viewport_x, viewport_y,
+                                               viewport_width, viewport_height);
+
     StillImage screen_image;
+    screen_image.SetDimensions(viewport_width, viewport_height);
 
-    // Retrieve width/height of the viewport. viewport_dimensions[2] is the width, [3] is the height
-    GLint viewport_dimensions[4];
-    glGetIntegerv(GL_VIEWPORT, viewport_dimensions);
-    screen_image.SetDimensions((float)viewport_dimensions[2], (float)viewport_dimensions[3]);
-
-    // Set up the screen rectangle to copy
-    ScreenRect screen_rect(viewport_dimensions[0], viewport_dimensions[1], viewport_dimensions[2], viewport_dimensions[3]);
+    // Set up the screen rectangle to copy.
+    ScreenRect screen_rect(static_cast<int32>(viewport_x),
+                           static_cast<int32>(viewport_y),
+                           static_cast<int32>(viewport_width),
+                           static_cast<int32>(viewport_height));
 
     // Create a new ImageTexture with a unique filename for this newly captured screen
-    ImageTexture *new_image = new ImageTexture("capture_screen" + NumberToString(capture_id), "<T>", viewport_dimensions[2], viewport_dimensions[3]);
+    ImageTexture *new_image = new ImageTexture("capture_screen" + NumberToString(capture_id), "<T>",
+                                               static_cast<int32>(viewport_width),
+                                               static_cast<int32>(viewport_height));
     new_image->AddReference();
 
     // Create a texture sheet of an appropriate size that can retain the capture
-    TexSheet *temp_sheet = TextureManager->_CreateTexSheet(RoundUpPow2(viewport_dimensions[2]), RoundUpPow2(viewport_dimensions[3]), VIDEO_TEXSHEET_ANY, false);
+    TexSheet *temp_sheet = TextureManager->_CreateTexSheet(RoundUpPow2(static_cast<uint32>(viewport_width)),
+                                                           RoundUpPow2(static_cast<uint32>(viewport_height)),
+                                                           VIDEO_TEXSHEET_ANY,
+                                                           false);
     VariableTexSheet *sheet = dynamic_cast<VariableTexSheet *>(temp_sheet);
 
     // Ensure that texture sheet creation succeeded, insert the texture image into the sheet, and copy the screen into the sheet
-    if(sheet == nullptr) {
+    if (sheet == nullptr) {
         delete new_image;
         throw Exception("could not create texture sheet to store captured screen", __FILE__, __LINE__, __FUNCTION__);
     }
-    if(sheet->InsertTexture(new_image) == false) {
+
+    if (sheet->InsertTexture(new_image) == false) {
         TextureManager->_RemoveSheet(sheet);
         delete new_image;
         throw Exception("could not insert captured screen image into texture sheet", __FILE__, __LINE__, __FUNCTION__);
     }
-    if(sheet->CopyScreenRect(0, 0, screen_rect) == false) {
+
+    if (sheet->CopyScreenRect(0, 0, screen_rect) == false) {
         TextureManager->_RemoveSheet(sheet);
         delete new_image;
         throw Exception("call to TexSheet::CopyScreenRect() failed", __FILE__, __LINE__, __FUNCTION__);
