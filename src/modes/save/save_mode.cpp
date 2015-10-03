@@ -356,18 +356,17 @@ void SaveMode::Update()
     } // end if (InputManager->DownPress())
 } // void SaveMode::Update()
 
-
-
 void SaveMode::DrawPostEffects()
 {
     // Set the coordinate system for the background and draw
     float width = _screen_capture.GetWidth();
     float height = _screen_capture.GetHeight();
     VideoManager->SetCoordSys(0, width, 0, height);
-    VideoManager->Move(0.0f, 0.0f);
-    _screen_capture.Draw(_dim_color);
+    VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
 
-    // Re-set the coordinate system for everything else
+    vt_video::DrawCapturedBackgroundImage(_screen_capture, 0.0f, 0.0f, _dim_color);
+
+    // Reset the coordinate system for everything else
     VideoManager->SetStandardCoordSys();
 
     _window.Draw();

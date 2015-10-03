@@ -1300,12 +1300,12 @@ void ShopMode::Update()
 
 void ShopMode::Draw()
 {
-    // Draw the background image. Set the system coordinates to the size of the window (same as the screen backdrop)
+    // Draw the background image. Set the system coordinates to the size of the window (same as the screen backdrop).
     VideoManager->SetCoordSys(0.0f, static_cast<float>(VideoManager->GetViewportWidth()),
                               static_cast<float>(VideoManager->GetViewportHeight()), 0.0f);
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-    VideoManager->Move(0.0f, 0.0f);
-    _screen_backdrop.Draw();
+
+    vt_video::DrawCapturedBackgroundImage(_screen_backdrop, 0.0f, 0.0f);
 
     GetScriptSupervisor().DrawBackground();
 
