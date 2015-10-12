@@ -69,7 +69,7 @@ BootMode::BootMode() :
     // List the debug scripts
     _debug_scripts = vt_utils::ListDirectory("data/debug", ".lua");
 
-    _debug_script_menu.SetPosition(512.0f, 388.0f);
+    _debug_script_menu.SetPosition(512.0f, 128.0f);
     _debug_script_menu.SetTextStyle(TextStyle("text24"));
     _debug_script_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _debug_script_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -79,10 +79,16 @@ BootMode::BootMode() :
     _debug_script_menu.SetSkipDisabled(true);
 
     _debug_script_menu.ClearOptions();
-    _debug_script_menu.SetDimensions(300.0f, 20.0f * static_cast<float>(_debug_scripts.size()),
+    float debug_win_height = 20.0f * static_cast<float>(_debug_scripts.size());
+    _debug_script_menu.SetDimensions(300.0f, debug_win_height > 600.0f ? 600.0f : debug_win_height,
                                      1, 255, 1, _debug_scripts.size());
     for (std::string file : _debug_scripts)
         _debug_script_menu.AddOption(vt_utils::MakeUnicodeString(file));
+
+    // Create the debug window used as background
+    _debug_scripts_window.Create(400.0f, 550.0f);
+    _debug_scripts_window.SetPosition(310.0f, 58.0f);
+    _debug_scripts_window.Hide();
 #endif
 
     // Remove potential previous ambient overlays
@@ -241,14 +247,19 @@ void BootMode::Update()
         _debug_script_menu.Update();
 
         // Check whether we can quit the debug menu.
-        if (InputManager->UpPress())
+        if (InputManager->UpPress()) {
             _debug_script_menu.InputUp();
-        else if (InputManager->DownPress())
+        }
+        else if (InputManager->DownPress()) {
             _debug_script_menu.InputDown();
-        else if (InputManager->CancelPress())
+        }
+        else if (InputManager->CancelPress()) {
             _debug_script_menu_open = false;
-        else if (InputManager->ConfirmPress())
+            _debug_scripts_window.Hide();
+        }
+        else if (InputManager->ConfirmPress()) {
             _DEBUG_OnDebugScriptRun();
+        }
         return;
     }
 #endif
@@ -342,8 +353,10 @@ void BootMode::DrawPostEffects()
         _main_menu.Draw();
 
 #ifdef DEBUG_FEATURES
-        if (_debug_script_menu_open)
+        if (_debug_script_menu_open){
+            _debug_scripts_window.Draw();
             _debug_script_menu.Draw();
+        }
 #endif
 
         if (_menu_handler.IsActive())
@@ -448,6 +461,7 @@ void BootMode::_OnQuit()
 void BootMode::_DEBUG_OnDebugScriptList()
 {
     _debug_script_menu_open = true;
+    _debug_scripts_window.Show();
 }
 
 void BootMode::_DEBUG_OnDebugScriptRun()

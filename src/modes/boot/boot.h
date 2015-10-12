@@ -177,6 +177,9 @@ private:
 
     //! \brief The debug scripts open.
     bool _debug_script_menu_open;
+
+    //! \brief A simple menu window where the debug script list is displayed.
+    vt_gui::MenuWindow _debug_scripts_window;
 #endif
     //@}
 
