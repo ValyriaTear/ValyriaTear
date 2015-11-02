@@ -102,7 +102,7 @@ public:
 
     //! \brief Returns true if this class object holds a reference to a valid OpenAL buffer
     bool IsValid() const {
-        return (alIsBuffer(buffer) == AL_TRUE);
+        return (buffer != 0 && alIsBuffer(buffer) == AL_TRUE);
     }
 
     //! \brief The ID of the OpenAL buffer
