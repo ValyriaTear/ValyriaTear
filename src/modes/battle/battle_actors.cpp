@@ -27,7 +27,6 @@
 #include "modes/battle/battle_utils.h"
 
 #include "engine/input.h"
-#include "engine/script/script.h"
 
 using namespace vt_utils;
 using namespace vt_audio;
@@ -152,6 +151,14 @@ void BattleActor::_InitStats()
 
 BattleActor::~BattleActor()
 {
+    // Reset the luabind objects so their lua counterparts can be freed
+    // when the lua script coroutine is removed from stack,
+    // to avoid a potential segfault.
+    _ai_decide_action = ScriptObject();
+    _death_init = ScriptObject();
+    _death_update = ScriptObject();
+    _death_draw_on_sprite = ScriptObject();
+
     // If the actor did not get a chance to execute their action, delete it
     if(_action != nullptr) {
         delete _action;
@@ -201,9 +208,9 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
     switch(_state) {
     case ACTOR_STATE_COMMAND:
         // If an AI is used, it will change itself the actor state.
-        if (_ai_script.is_valid()) {
+        if (_ai_decide_action.is_valid()) {
             try {
-                ScriptCallFunction<void>(_ai_script, BattleMode::CurrentInstance(), this);
+                ScriptCallFunction<void>(_ai_decide_action, BattleMode::CurrentInstance(), this);
             } catch(const luabind::error &e) {
                 PRINT_ERROR << "Error while triggering DecideAction() function of actor id: " << _global_actor->GetID() << std::endl;
                 ScriptManager->HandleLuaError(e);
@@ -804,21 +811,19 @@ void BattleActor::_LoadDeathAnimationScript()
     std::string tablespace = ScriptEngine::GetTableSpace(filename);
     ScriptManager->DropGlobalTable(tablespace);
 
-    ReadScriptDescriptor death_script;
-    if(!death_script.OpenFile(filename))
+    if(!_death_script.OpenFile(filename))
         return;
 
-    if(death_script.OpenTablespace().empty()) {
+    if(_death_script.OpenTablespace().empty()) {
         PRINT_ERROR << "The actor death script file: " << filename
                     << "has got no valid namespace" << std::endl;
-        death_script.CloseFile();
+        _death_script.CloseFile();
         return;
     }
 
-    _death_init = death_script.ReadFunctionPointer("Initialize");
-    _death_update = death_script.ReadFunctionPointer("Update");
-    _death_draw_on_sprite = death_script.ReadFunctionPointer("DrawOnSprite");
-    death_script.CloseFile();
+    _death_init = _death_script.ReadFunctionPointer("Initialize");
+    _death_update = _death_script.ReadFunctionPointer("Update");
+    _death_draw_on_sprite = _death_script.ReadFunctionPointer("DrawOnSprite");
 }
 
 void BattleActor::_LoadAIScript()
@@ -831,19 +836,17 @@ void BattleActor::_LoadAIScript()
     std::string tablespace = ScriptEngine::GetTableSpace(filename);
     ScriptManager->DropGlobalTable(tablespace);
 
-    ReadScriptDescriptor ai_script;
-    if(!ai_script.OpenFile(filename))
+    if(!_ai_script.OpenFile(filename))
         return;
 
-    if(ai_script.OpenTablespace().empty()) {
+    if(_ai_script.OpenTablespace().empty()) {
         PRINT_ERROR << "The actor battle AI script file: " << filename
                     << "has got no valid namespace" << std::endl;
-        ai_script.CloseFile();
+        _ai_script.CloseFile();
         return;
     }
 
-    _ai_script = ai_script.ReadFunctionPointer("DecideAction");
-    ai_script.CloseFile();
+    _ai_decide_action = _ai_script.ReadFunctionPointer("DecideAction");
 }
 
 void BattleActor::_DecideAction()

@@ -157,6 +157,10 @@ private:
     *** This permits custom effects just below the gui.
     **/
     std::vector<ScriptObject> _draw_post_effects_functions;
+
+    /** \brief Scripts objects keeping the corresponding lua coroutines alive.
+    **/
+    std::vector<vt_script::ReadScriptDescriptor*> _scene_scripts;
 };
 
 #endif

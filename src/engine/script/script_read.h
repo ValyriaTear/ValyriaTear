@@ -475,6 +475,8 @@ public:
 
 protected:
     //! \brief The Lua stack, which handles all data sharing between C++ and Lua.
+    //! \note In that case, it is representing a coroutine state because it was opened
+    //! through a lua new "thread".
     lua_State *_lstack;
 
     /** \name Data Existence Check Functions

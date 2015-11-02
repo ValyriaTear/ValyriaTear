@@ -30,6 +30,8 @@
 #include "engine/video/text.h"
 #include "engine/video/particle_effect.h"
 
+#include "engine/script/script_read.h"
+
 namespace vt_battle
 {
 
@@ -559,13 +561,16 @@ protected:
 
     //! \brief Script object used when playing the death sequence.
     //! A default sequence is played one of those is invalid.
+    vt_script::ReadScriptDescriptor _death_script;
     ScriptObject _death_update;
     ScriptObject _death_init;
     //! This function permits to draw something along with the Battle enemy sprite
     ScriptObject _death_draw_on_sprite;
 
-    //! \brief The battle AI script
-    ScriptObject _ai_script;
+    //! \brief The battle AI script.
+    vt_script::ReadScriptDescriptor _ai_script;
+    //! \brief The "DecideAction" ai script.
+    ScriptObject _ai_decide_action;
 
     //! \brief Loads the potential death animation scripted functions.
     void _LoadDeathAnimationScript();

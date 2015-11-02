@@ -34,10 +34,7 @@ namespace vt_script
 
 ReadScriptDescriptor::~ReadScriptDescriptor()
 {
-    if(IsFileOpen()) {
-        IF_PRINT_WARNING(SCRIPT_DEBUG) << "destructor was called when file was still open: " << _filename << std::endl;
-        CloseFile();
-    }
+    CloseFile();
 }
 
 //-----------------------------------------------------------------------------
@@ -53,17 +50,9 @@ bool ReadScriptDescriptor::OpenFile(const std::string &filename)
         return false;
     }
 
-    if(ScriptManager->IsFileOpen(filename)) {
-        PRINT_ERROR << "Attempted to open file that is already opened: "
-                    << filename << std::endl;
-        return false;
-    }
-
-    // Check that the thread stack is in sync with open files.
-    assert(ScriptManager->_CheckForPreviousLuaState(filename) == nullptr);
-
     // Increases the global stack size by 1 element. That is needed because the new thread will be pushed in the
     // stack and we have to be sure there is enough space there.
+    // TODO: check whether the check stack succeed and whether this has an impact on the game.
     lua_checkstack(ScriptManager->GetGlobalState(), 1);
     _lstack = lua_newthread(ScriptManager->GetGlobalState());
 
@@ -81,7 +70,7 @@ bool ReadScriptDescriptor::OpenFile(const std::string &filename)
     ScriptManager->_AddOpenFile(this);
 
     return true;
-} // bool ReadScriptDescriptor::OpenFile(string file_name, bool force_reload)
+}
 
 
 
@@ -99,11 +88,8 @@ bool ReadScriptDescriptor::OpenFile()
 
 void ReadScriptDescriptor::CloseFile()
 {
-    if(!IsFileOpen()) {
-        PRINT_WARNING << "Could not close the file: " << _filename
-                      << " because it was not open." << std::endl;
+    if(!IsFileOpen())
         return;
-    }
 
     // Probably not needed. Script errors should be printed immediately.
     if(IsErrorDetected()) {
@@ -112,10 +98,22 @@ void ReadScriptDescriptor::CloseFile()
                 << std::endl << _error_messages.str() << std::endl;
     }
 
-    _lstack = nullptr;
     _error_messages.clear();
     _open_tables.clear();
     _access_mode = SCRIPT_CLOSED;
+
+    // We free the thread (coroutine) so it can be garbage collected, or the app will end in a memory overflow.
+    lua_State* global_state = ScriptManager->GetGlobalState();
+    for (int i = 1, n = lua_gettop(global_state); i <= n; ++i) {
+        if ((lua_type(global_state, i) == LUA_TTHREAD) && (lua_tothread(global_state, i) == _lstack)) {
+            lua_remove(global_state, i);
+            break;
+        }
+    }
+    _lstack = nullptr;
+
+    ScriptManager->_TriggerLuaGarbageCollector();
+
     ScriptManager->_RemoveOpenFile(this);
 }
 

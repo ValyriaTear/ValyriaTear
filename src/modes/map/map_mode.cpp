@@ -174,6 +174,15 @@ MapMode::~MapMode()
     delete(_dialogue_supervisor);
     delete(_treasure_supervisor);
     if(_minimap) delete _minimap;
+
+    // Remove the reference to the luabind object
+    // to avoid a potential crash when freeing the lua coroutine
+    // when closing the script.
+    _update_function = ScriptObject();
+
+    // Free the map script file when closing the map.
+    _map_script.CloseAllTables();
+    _map_script.CloseFile();
 }
 
 void MapMode::Deactivate()
@@ -676,9 +685,6 @@ bool MapMode::_Load()
     }
 
     _update_function = _map_script.ReadFunctionPointer("Update");
-
-    _map_script.CloseAllTables();
-    _map_script.CloseFile(); // Free the map script file once everything is loaded
 
     return true;
 } // bool MapMode::_Load()

@@ -85,29 +85,37 @@ SkillAction::SkillAction(BattleActor *actor, BattleTarget target, GlobalSkill *s
     std::string tablespace = ScriptEngine::GetTableSpace(animation_script_file);
     ScriptManager->DropGlobalTable(tablespace);
 
-    ReadScriptDescriptor anim_script;
-    if(!anim_script.OpenFile(animation_script_file)) {
-        anim_script.CloseFile();
+    if(!_anim_script.OpenFile(animation_script_file)) {
+        _anim_script.CloseFile();
         return;
     }
 
-    if(anim_script.OpenTablespace().empty()) {
+    if(_anim_script.OpenTablespace().empty()) {
         PRINT_ERROR << "No namespace found in file: " << animation_script_file << std::endl;
-        anim_script.CloseFile();
+        _anim_script.CloseFile();
         return;
     }
 
-    _init_function = anim_script.ReadFunctionPointer("Initialize");
+    _init_function = _anim_script.ReadFunctionPointer("Initialize");
 
     if(!_init_function.is_valid()) {
-        anim_script.CloseFile();
+        _anim_script.CloseFile();
         return;
     }
 
     // Attempt to load a possible update function.
-    _update_function = anim_script.ReadFunctionPointer("Update");
+    _update_function = _anim_script.ReadFunctionPointer("Update");
     _is_scripted = true;
-    anim_script.CloseFile();
+}
+
+SkillAction::~SkillAction()
+{
+    // Remove reference from the init and update function
+    // to permit their deletion when freeing the lua coroutine.
+    _init_function = ScriptObject();
+    _update_function = ScriptObject();
+
+    _anim_script.CloseFile();
 }
 
 bool SkillAction::ShouldShowSkillNotice() const
@@ -271,29 +279,37 @@ ItemAction::ItemAction(BattleActor *source, BattleTarget target, BattleItem *ite
     std::string tablespace = ScriptEngine::GetTableSpace(animation_script_file);
     ScriptManager->DropGlobalTable(tablespace);
 
-    ReadScriptDescriptor anim_script;
-    if(!anim_script.OpenFile(animation_script_file)) {
-        anim_script.CloseFile();
+    if(!_anim_script.OpenFile(animation_script_file)) {
+        _anim_script.CloseFile();
         return;
     }
 
-    if(anim_script.OpenTablespace().empty()) {
+    if(_anim_script.OpenTablespace().empty()) {
         PRINT_ERROR << "No namespace found in file: " << animation_script_file << std::endl;
-        anim_script.CloseFile();
+        _anim_script.CloseFile();
         return;
     }
 
-    _init_function = anim_script.ReadFunctionPointer("Initialize");
+    _init_function = _anim_script.ReadFunctionPointer("Initialize");
 
     if(!_init_function.is_valid()) {
-        anim_script.CloseFile();
+        _anim_script.CloseFile();
         return;
     }
 
     // Attempt to load a possible update function.
-    _update_function = anim_script.ReadFunctionPointer("Update");
+    _update_function = _anim_script.ReadFunctionPointer("Update");
     _is_scripted = true;
-    anim_script.CloseFile();
+}
+
+ItemAction::~ItemAction()
+{
+    // Remove reference from the init and update function
+    // to permit their deletion when freeing the lua coroutine.
+    _init_function = ScriptObject();
+    _update_function = ScriptObject();
+
+    _anim_script.CloseFile();
 }
 
 bool ItemAction::Initialize()

@@ -288,12 +288,6 @@ private:
     //! \brief Maintains a list of all script files that are currently open
     std::map<std::string, ScriptDescriptor *> _open_files;
 
-    /** \brief Maintains a cache of opened lua threads
-    *** This is done so that the thread state is kept in memory
-    *** until the data aren't needed anymore.
-    **/
-    std::map<std::string, lua_State *> _open_threads;
-
     //! \brief The lua state shared globally by all files
     lua_State *_global_state;
 
@@ -302,15 +296,6 @@ private:
 
     //! \brief Removes an open file from the list of open files
     void _RemoveOpenFile(ScriptDescriptor *sd);
-
-    /** \brief Checks for the existence of a previously opened lua state from that filename.
-    *** The filename contains the full path.
-    *** Note that a thread should only be used once per file opening and its reference removed
-    *** at file closure. This way, the lua garbage collector can remove it safely.
-    ***
-    *** \return A pointer to the thread's lua_State for the file, or nullptr if the file has never been opened.
-    **/
-    lua_State *_CheckForPreviousLuaState(const std::string &filename);
 
     /** \brief Triggers the Lua garbage collector, dropping all orphaned lua references
     *** from the stack. This is automatically done by lua to free memory on the long-term.

@@ -30,6 +30,20 @@ ScriptSupervisor::~ScriptSupervisor()
         delete _still_images[i];
     for(uint32 i = 0; i < _animated_images.size(); ++i)
         delete _animated_images[i];
+
+    // Free every luabind object pointers before freeing the scripts,
+    // so that no object may trigger a segmentation fault
+    // when the lua coroutine is deleted.
+    _reset_functions.clear();
+    _restart_functions.clear();
+    _update_functions.clear();
+    _draw_background_functions.clear();
+    _draw_foreground_functions.clear();
+    _draw_post_effects_functions.clear();
+
+    // Close every loaded scripts to free their threads
+    for(uint32 i = 0; i < _scene_scripts.size(); ++i)
+        delete _scene_scripts[i];
 }
 
 void ScriptSupervisor::Initialize(vt_mode_manager::GameMode *gm)
@@ -41,33 +55,36 @@ void ScriptSupervisor::Initialize(vt_mode_manager::GameMode *gm)
         std::string tablespace = ScriptEngine::GetTableSpace(_script_filenames[i]);
         ScriptManager->DropGlobalTable(tablespace);
 
-        ReadScriptDescriptor scene_script;
-        if(!scene_script.OpenFile(_script_filenames[i]))
-            continue;
-
-        if(scene_script.OpenTablespace().empty()) {
-            PRINT_ERROR << "The scene script file: " << _script_filenames[i]
-                        << "has not set a correct namespace" << std::endl;
-            scene_script.CloseFile();
+        ReadScriptDescriptor* scene_script = new ReadScriptDescriptor();
+        if(!scene_script->OpenFile(_script_filenames[i])) {
+            delete scene_script;
             continue;
         }
 
-        _reset_functions.push_back(scene_script.ReadFunctionPointer("Reset"));
-        _restart_functions.push_back(scene_script.ReadFunctionPointer("Restart"));
-        _update_functions.push_back(scene_script.ReadFunctionPointer("Update"));
-        _draw_background_functions.push_back(scene_script.ReadFunctionPointer("DrawBackground"));
-        _draw_foreground_functions.push_back(scene_script.ReadFunctionPointer("DrawForeground"));
-        _draw_post_effects_functions.push_back(scene_script.ReadFunctionPointer("DrawPostEffects"));
+        if(scene_script->OpenTablespace().empty()) {
+            PRINT_ERROR << "The scene script file: " << _script_filenames[i]
+                        << "has not set a correct namespace" << std::endl;
+            scene_script->CloseFile();
+            delete scene_script;
+            continue;
+        }
+
+        _reset_functions.push_back(scene_script->ReadFunctionPointer("Reset"));
+        _restart_functions.push_back(scene_script->ReadFunctionPointer("Restart"));
+        _update_functions.push_back(scene_script->ReadFunctionPointer("Update"));
+        _draw_background_functions.push_back(scene_script->ReadFunctionPointer("DrawBackground"));
+        _draw_foreground_functions.push_back(scene_script->ReadFunctionPointer("DrawForeground"));
+        _draw_post_effects_functions.push_back(scene_script->ReadFunctionPointer("DrawPostEffects"));
+
+        // Add the script to the list now it is valid.
+        _scene_scripts.push_back(scene_script);
 
         // Trigger the Initialize functions in the loading order.
-        ScriptObject init_function = scene_script.ReadFunctionPointer("Initialize");
+        ScriptObject init_function = scene_script->ReadFunctionPointer("Initialize");
         if(init_function.is_valid() && gm)
             ScriptCallFunction<void>(init_function, gm);
         else
             PRINT_ERROR << "Couldn't initialize the scene component" << std::endl; // Should never happen
-
-        scene_script.CloseTable(); // The tablespace
-        scene_script.CloseFile();
     }
 }
 

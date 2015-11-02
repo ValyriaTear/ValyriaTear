@@ -131,6 +131,9 @@ protected:
     ScriptObject _init_function;
     ScriptObject _update_function;
 
+    //! \brief The Animation script, used when the skill is animated.
+    vt_script::ReadScriptDescriptor _anim_script;
+
     //! \brief Tells whether the battle action animation is scripted.
     bool _is_scripted;
 
@@ -151,6 +154,8 @@ class SkillAction : public BattleAction
 {
 public:
     SkillAction(BattleActor *actor, BattleTarget target, vt_global::GlobalSkill *skill);
+
+    virtual ~SkillAction();
 
     bool IsItemAction() const {
         return false;
@@ -208,6 +213,8 @@ class ItemAction : public BattleAction
 {
 public:
     ItemAction(BattleActor *source, BattleTarget target, BattleItem *item);
+
+    virtual ~ItemAction();
 
     bool IsItemAction() const {
         return true;

@@ -54,9 +54,6 @@ ScriptEngine::~ScriptEngine()
     for (std::pair<std::string, vt_script::ScriptDescriptor*> openedFile : _open_files)
         PRINT_WARNING << "Script file still open when quitting application: " << openedFile.first << std::endl;
 
-    if (!_open_threads.empty())
-        PRINT_WARNING << "Lua threads still open when quitting application: " << _open_threads.size() << std::endl;
-
     lua_close(_global_state);
     _global_state = nullptr;
 }
@@ -91,31 +88,12 @@ void ScriptEngine::HandleCastError(const luabind::cast_failed &err)
 
 void ScriptEngine::_AddOpenFile(ScriptDescriptor *sd)
 {
-    // NOTE: This function assumes that the file is not already open
     _open_files.insert(std::make_pair(sd->_filename, sd));
-    // Add the lua_State to the list of opened lua states if it is not already present
-    if(sd->GetAccessMode() == SCRIPT_READ) {
-        ReadScriptDescriptor *rsd = dynamic_cast<ReadScriptDescriptor *>(sd);
-        if(_open_threads.find(rsd->GetFilename()) == _open_threads.end())
-            _open_threads[rsd->GetFilename()] = rsd->_lstack;
-    }
 }
 
 void ScriptEngine::_RemoveOpenFile(ScriptDescriptor *sd)
 {
-    // NOTE: Function assumes that the ScriptDescriptor file is already open
     _open_files.erase(sd->_filename);
-
-    // Remove the thread reference from memory, permitting lua to later drop it.
-    _open_threads.erase(sd->_filename);
-}
-
-lua_State* ScriptEngine::_CheckForPreviousLuaState(const std::string &filename)
-{
-    if(_open_threads.find(filename) != _open_threads.end())
-        return _open_threads[filename];
-    else
-        return nullptr;
 }
 
 void ScriptEngine::DEBUG_PrintLuaStack(lua_State* luaState)
@@ -205,7 +183,6 @@ void ScriptEngine::DEBUG_PrintTable(luabind::object table, int tab)
 
 void ScriptEngine::DEBUG_DumpScriptsState()
 {
-    std::cout << "Lua script states/threads open: " << _open_threads.size() << std::endl;
     std::cout << "Script files open: " << _open_files.size() << std::endl;
 
     std::cout << "-----------------" << std::endl
