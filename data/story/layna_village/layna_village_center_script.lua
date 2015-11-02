@@ -328,7 +328,7 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent.Create("Quest1: Make Orlinn run and hide", "Quest1OrlinnRunAndHide", "");
     event:AddEventLinkAtEnd("Quest1: Make Orlinn run");
 
-    event = vt_map.PathMoveSpriteEvent.Create("Quest1: Make Orlinn run", orlinn, 30, 79, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest1: Make Orlinn run", orlinn, 67, 79, true);
     event:AddEventLinkAtEnd("Quest1: Make Orlinn disappear");
 
     event = vt_map.ScriptedSpriteEvent.Create("Quest1: Make Orlinn disappear", orlinn, "MakeInvisible", "");
