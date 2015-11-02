@@ -127,6 +127,8 @@ data/gui/battle/battle_character_command.png                                  GP
 data/gui/battle/battle_character_selection.png                                GPLv2+                   Allacrost
 data/gui/battle/battle_command_buttons.png                                    CC by SA 3.0             Unknown Horizons (OGA) - http://opengameart.org/content/250-hud-and-interface-icons-unknown-horizons
 data/gui/battle/escape.png                                                    GPLv2                    Allacrost
+data/gui/battle/exclamation.png                                               CC by SA 3.0             Bertram
+data/gui/battle/interrogation.png                                             CC by SA 3.0             Bertram
 
 data/gui/map/minimap_arrows.png                                               CC by SA 3.0             Unknown Horizons (OGA) - http://opengameart.org/content/250-hud-and-interface-icons-unknown-horizons
 data/gui/map/minimap_background.png                                           GPLv2+                   Allacrost + Modifications by Bertram
@@ -282,8 +284,8 @@ data/entities/battle/enemies/beetle.png                                       CC
 
 data/entities/emotes/sweat_drop.png                                           CC by SA 3.0             Bertram
 data/entities/emotes/thinking_dots.png                                        CC by SA 3.0             Bertram
-data/entities/emotes/exclamation.png                                          CC by SA 3.0             Bertram
-data/entities/emotes/interrogation.png                                        CC by SA 3.0             Bertram
+data/entities/emotes/dialogue_exclamation.png                                 CC by SA 3.0             Bertram
+data/entities/emotes/dialogue_interrogation.png                               CC by SA 3.0             Bertram
 data/entities/emotes/popping_veins.png                                        CC by SA 3.0             Bertram
 data/entities/emotes/dialogue_icon.png                                        GPLv2                    Allacrost
 

@@ -2280,7 +2280,7 @@ void EquipWindow::Draw()
 ////////////////////////////////////////////////////////////////////////////////
 
 static const ustring spacing = MakeUnicodeString("<20>");
-static const ustring exclamation_file = MakeUnicodeString("<data/entities/emotes/exclamation.png>") + spacing;
+static const ustring exclamation_file = MakeUnicodeString("<data/gui/menus/star.png>") + spacing;
 static const ustring check_file = MakeUnicodeString("<data/gui/menus/green_check.png>") + spacing;
 static const ustring cross_file = MakeUnicodeString("<data/gui/menus/red_x.png>") + spacing;
 

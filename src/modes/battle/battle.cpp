@@ -670,7 +670,7 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         else if (_hero_init_boost)
             GetIndicatorSupervisor().AddShortNotice(UTranslate("First Strike!"), "data/gui/menus/star.png");
         else if (_enemy_init_boost)
-            GetIndicatorSupervisor().AddShortNotice(UTranslate("Ambush!"), "data/entities/emotes/exclamation.png");
+            GetIndicatorSupervisor().AddShortNotice(UTranslate("Ambush!"), "data/gui/battle/exclamation.png");
         break;
     case BATTLE_STATE_NORMAL:
         if(_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE) {
