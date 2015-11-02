@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2015.09.02
+Last update: 2015.11.02
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -126,6 +126,7 @@ data/gui/battle/stamina_icon_selected.png                                     GP
 data/gui/battle/battle_character_command.png                                  GPLv2+                   Allacrost
 data/gui/battle/battle_character_selection.png                                GPLv2+                   Allacrost
 data/gui/battle/battle_command_buttons.png                                    CC by SA 3.0             Unknown Horizons (OGA) - http://opengameart.org/content/250-hud-and-interface-icons-unknown-horizons
+data/gui/battle/escape.png                                                    GPLv2                    Allacrost
 
 data/gui/map/minimap_arrows.png                                               CC by SA 3.0             Unknown Horizons (OGA) - http://opengameart.org/content/250-hud-and-interface-icons-unknown-horizons
 data/gui/map/minimap_background.png                                           GPLv2+                   Allacrost + Modifications by Bertram
