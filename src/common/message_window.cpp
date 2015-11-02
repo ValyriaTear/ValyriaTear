@@ -82,6 +82,9 @@ ShortNoticeWindow::ShortNoticeWindow(const vt_utils::ustring& message,
         // Adapt the image to the text
         if (_icon_image.GetHeight() > _text_image.GetHeight())
             _icon_image.SetHeightKeepRatio(_text_image.GetHeight());
+        else if (_icon_image.GetHeight() < _text_image.GetHeight() / 2.0f)
+            _icon_image.SetHeightKeepRatio(_text_image.GetHeight() / 2.0f);
+
         if (_icon_image.GetWidth() > 50.0f)
             _icon_image.SetWidthKeepRatio(50.0f);
 
