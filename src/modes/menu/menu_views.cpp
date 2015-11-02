@@ -2279,8 +2279,8 @@ void EquipWindow::Draw()
 // QuestListWindow Class
 ////////////////////////////////////////////////////////////////////////////////
 
-static const ustring spacing = MakeUnicodeString("<20>");
-static const ustring exclamation_file = MakeUnicodeString("<data/gui/menus/star.png>") + spacing;
+static const ustring spacing = MakeUnicodeString("<30>");
+static const ustring new_quest_file = MakeUnicodeString("<data/gui/menus/star.png>") + spacing;
 static const ustring check_file = MakeUnicodeString("<data/gui/menus/green_check.png>") + spacing;
 static const ustring cross_file = MakeUnicodeString("<data/gui/menus/red_x.png>") + spacing;
 
@@ -2439,7 +2439,7 @@ void QuestListWindow::_SetupQuestsList() {
         else if(entry->IsRead())
             _quests_list.AddOption(spacing + title);
         else
-            _quests_list.AddOption(exclamation_file + title);
+            _quests_list.AddOption(new_quest_file + title);
     }
 }
 
