@@ -57,9 +57,9 @@ function Initialize(battle, _enemy)
     death_particles_triggered = false;
     rumble_triggered = false;
 
-    light1_image = Script:CreateImage("data/battles/enemies_animations/death_light_1.png");
-    light2_image = Script:CreateImage("data/battles/enemies_animations/death_light_2.png");
-    light3_image = Script:CreateImage("data/battles/enemies_animations/death_light_3.png");
+    light1_image = Script:CreateImage("data/battles/enemies_animations/fenrir/death_light_1.png");
+    light2_image = Script:CreateImage("data/battles/enemies_animations/fenrir/death_light_2.png");
+    light3_image = Script:CreateImage("data/battles/enemies_animations/fenrir/death_light_3.png");
 
     -- Fade out the battle music to make the event more dramatic
     AudioManager:FadeOutActiveMusic(2000);
