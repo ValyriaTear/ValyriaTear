@@ -52,13 +52,16 @@ bool ReadScriptDescriptor::OpenFile(const std::string &filename)
 
     // Increases the global stack size by 1 element. That is needed because the new thread will be pushed in the
     // stack and we have to be sure there is enough space there.
-    // TODO: check whether the check stack succeed and whether this has an impact on the game.
-    lua_checkstack(ScriptManager->GetGlobalState(), 1);
+    if (lua_checkstack(ScriptManager->GetGlobalState(), 1) == 0) {
+        PRINT_ERROR << "Couldn't add stack space for script file: " << filename << std::endl;
+        return false;
+    }
+
     _lstack = lua_newthread(ScriptManager->GetGlobalState());
 
     // Attempt to load and execute the Lua file
     if(luaL_loadfile(_lstack, filename.c_str()) != 0 || lua_pcall(_lstack, 0, 0, 0)) {
-        PRINT_ERROR << "could not open script file: " << filename << ", error message:" << std::endl
+        PRINT_ERROR << "Could not open script file: " << filename << ", error message:" << std::endl
                     << lua_tostring(_lstack, private_script::STACK_TOP) << std::endl;
         _access_mode = SCRIPT_CLOSED;
         return false;
