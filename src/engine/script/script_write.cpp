@@ -77,13 +77,11 @@ bool WriteScriptDescriptor::OpenFile(const std::string &file_name)
     _access_mode = SCRIPT_WRITE;
     ScriptManager->_AddOpenFile(this);
     return true;
-} // bool WriteScriptDescriptor::OpenFile(string file_name)
-
-
+}
 
 bool WriteScriptDescriptor::OpenFile()
 {
-    if(_filename == "") {
+    if(_filename.empty()) {
         IF_PRINT_WARNING(SCRIPT_DEBUG)
                 << "SCRIPT ERROR: WriteScriptDescriptor::OpenFile() could not open file "
                 << "because of an invalid file name (empty string)." << std::endl;
@@ -92,8 +90,6 @@ bool WriteScriptDescriptor::OpenFile()
 
     return OpenFile(_filename);
 }
-
-
 
 void WriteScriptDescriptor::CloseFile()
 {
@@ -117,8 +113,6 @@ void WriteScriptDescriptor::CloseFile()
     ScriptManager->_RemoveOpenFile(this);
 }
 
-
-
 bool WriteScriptDescriptor::SaveFile()
 {
     if(IsFileOpen() == false) {
@@ -139,20 +133,15 @@ bool WriteScriptDescriptor::SaveFile()
 //-----------------------------------------------------------------------------
 // Comment Write Functions
 //-----------------------------------------------------------------------------
-
 void WriteScriptDescriptor::InsertNewLine()
 {
     _outfile << std::endl;
 }
 
-
-
 void WriteScriptDescriptor::WriteComment(const std::string &comment)
 {
     _outfile << "-- " << comment << std::endl;
 }
-
-
 
 void WriteScriptDescriptor::BeginCommentBlock()
 {
@@ -166,8 +155,6 @@ void WriteScriptDescriptor::BeginCommentBlock()
     _outfile << "--[[" << std::endl;
 }
 
-
-
 void WriteScriptDescriptor::EndCommentBlock()
 {
     if(_inside_comment_block == false) {
@@ -179,8 +166,6 @@ void WriteScriptDescriptor::EndCommentBlock()
     _inside_comment_block = false;
     _outfile << "--]]" << std::endl;
 }
-
-
 
 void WriteScriptDescriptor::WriteLine(const std::string &comment, bool new_line)
 {
@@ -213,8 +198,6 @@ void WriteScriptDescriptor::WriteBool(const std::string &key, bool value)
     }
 }
 
-
-
 void WriteScriptDescriptor::WriteBool(const int32_t key, bool value)
 {
     if(_open_tables.empty()) {
@@ -244,8 +227,6 @@ void WriteScriptDescriptor::WriteString(const std::string &key, const std::strin
     }
 }
 
-
-
 void WriteScriptDescriptor::WriteString(const int32_t key, const std::string &value)
 {
     if(_open_tables.empty()) {
@@ -264,8 +245,6 @@ void WriteScriptDescriptor::WriteUString(const std::string &key, const std::stri
 {
     WriteString(key, value);
 }
-
-
 
 void WriteScriptDescriptor::WriteUString(const int32_t key, const std::string &value)
 {
@@ -305,8 +284,6 @@ void WriteScriptDescriptor::WriteBoolVector(const std::string &key, std::vector<
     }
     _outfile << " }" << std::endl;
 }
-
-
 
 void WriteScriptDescriptor::WriteBoolVector(const int32_t key, std::vector<bool>& vect)
 {
@@ -357,8 +334,6 @@ void WriteScriptDescriptor::WriteStringVector(const std::string &key, std::vecto
     _outfile << " }" << std::endl;
 }
 
-
-
 void WriteScriptDescriptor::WriteStringVector(const int32_t key, std::vector<std::string>& vect)
 {
     if(vect.empty()) {
@@ -382,16 +357,12 @@ void WriteScriptDescriptor::WriteStringVector(const int32_t key, std::vector<std
     _outfile << " }" << std::endl;
 }
 
-
-
 // WriteUString can not use the _WriteData helper because it needs to do additional
 // checking and add quotation marks around its value.
 void WriteScriptDescriptor::WriteUStringVector(const std::string &key, std::vector<std::string>& vect)
 {
     WriteStringVector(key, vect);
 }
-
-
 
 void WriteScriptDescriptor::WriteUStringVector(const int32_t key, std::vector<std::string>& vect)
 {
@@ -409,7 +380,6 @@ void WriteScriptDescriptor::WriteNamespace(const std::string &ns)
 //-----------------------------------------------------------------------------
 // Table Write Functions
 //-----------------------------------------------------------------------------
-
 void WriteScriptDescriptor::BeginTable(const std::string &key)
 {
     if(_open_tables.size() == 0) {
@@ -422,8 +392,6 @@ void WriteScriptDescriptor::BeginTable(const std::string &key)
     _open_tables.push_back(key);
 }
 
-
-
 void WriteScriptDescriptor::BeginTable(int32_t key)
 {
     if(_open_tables.size() == 0)
@@ -435,7 +403,6 @@ void WriteScriptDescriptor::BeginTable(int32_t key)
 
     _open_tables.push_back(NumberToString<int32_t>(key));
 }
-
 
 // This doesn't actually do any file write operations, but the user still needs to call it.
 void WriteScriptDescriptor::EndTable()

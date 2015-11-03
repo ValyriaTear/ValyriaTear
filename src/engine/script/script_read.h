@@ -575,9 +575,7 @@ template <class T> T ReadScriptDescriptor::_ReadData(const std::string &key, T d
         }
     }
     return default_value;
-} // template <class T> T ReadScriptDescriptor::_ReadData(const char *key, T default_value)
-
-
+}
 
 template <class T> T ReadScriptDescriptor::_ReadData(int32_t key, T default_value)
 {
@@ -602,9 +600,7 @@ template <class T> T ReadScriptDescriptor::_ReadData(int32_t key, T default_valu
     }
 
     return default_value;
-} // template <class T> T ReadScriptDescriptor::_ReadData(int32_t key, T default_value)
-
-
+}
 
 template <class T> void ReadScriptDescriptor::_ReadDataVector(const std::string &key, std::vector<T>& vect)
 {
@@ -615,9 +611,7 @@ template <class T> void ReadScriptDescriptor::_ReadDataVector(const std::string 
     OpenTable(key);
     _ReadDataVectorHelper(vect);
     CloseTable();
-} // template <class T> void ReadScriptDescriptor::_ReadDataVector(std::string key, std::vector<T> &vect)
-
-
+}
 
 template <class T> void ReadScriptDescriptor::_ReadDataVector(int32_t key, std::vector<T>& vect)
 {
@@ -634,9 +628,7 @@ template <class T> void ReadScriptDescriptor::_ReadDataVector(int32_t key, std::
     OpenTable(key);
     _ReadDataVectorHelper(vect);
     CloseTable();
-} // template <class T> void ReadScriptDescriptor::_ReadDataVector(int32_t key, std::vector<T> &vect)
-
-
+}
 
 template <class T> void ReadScriptDescriptor::_ReadDataVectorHelper(std::vector<T>& vect)
 {
@@ -655,9 +647,7 @@ template <class T> void ReadScriptDescriptor::_ReadDataVectorHelper(std::vector<
             IF_PRINT_WARNING(SCRIPT_DEBUG) << "failed due to a type cast failure when reading the table" << std::endl;
         }
     }
-} // template <class T> void ReadScriptDescriptor::_ReadDataVectorHelper(std::vector<T>& vect)
-
-
+}
 
 template <class T> void ReadScriptDescriptor::_ReadTableKeys(std::vector<T>& keys)
 {
@@ -684,7 +674,7 @@ template <class T> void ReadScriptDescriptor::_ReadTableKeys(std::vector<T>& key
             return;
         }
     }
-} // template <class T> void ReadScriptDescriptor::ReadTableKeys(std::vector<T>& keys) {
+}
 
 } // namespace vt_script
 

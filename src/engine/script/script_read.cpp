@@ -75,8 +75,6 @@ bool ReadScriptDescriptor::OpenFile(const std::string &filename)
     return true;
 }
 
-
-
 bool ReadScriptDescriptor::OpenFile()
 {
     if(_filename.empty()) {
@@ -86,8 +84,6 @@ bool ReadScriptDescriptor::OpenFile()
 
     return OpenFile(_filename);
 }
-
-
 
 void ReadScriptDescriptor::CloseFile()
 {
@@ -127,7 +123,7 @@ void ReadScriptDescriptor::CloseFile()
 bool ReadScriptDescriptor::_DoesDataExist(const std::string &key, int32_t type)
 {
     // Check whether the user is trying to read a global variable or one stored in a table
-    if(_open_tables.size() == 0) {  // Variable is a global
+    if(_open_tables.empty()) {  // Variable is a global
         lua_getglobal(_lstack, key.c_str());
         luabind::object o(luabind::from_stack(_lstack, private_script::STACK_TOP));
         return _CheckDataType(type, o);
@@ -146,11 +142,9 @@ bool ReadScriptDescriptor::_DoesDataExist(const std::string &key, int32_t type)
     }
 }
 
-
-
 bool ReadScriptDescriptor::_DoesDataExist(int32_t key, int32_t type)
 {
-    if(_open_tables.size() == 0) {
+    if(_open_tables.empty()) {
         IF_PRINT_WARNING(SCRIPT_DEBUG) << "failed because no tables were open when trying to "
                                        << "examine the table member: " << key << std::endl;
         return false;
@@ -166,8 +160,6 @@ bool ReadScriptDescriptor::_DoesDataExist(int32_t key, int32_t type)
     luabind::object obj(o[key]);
     return _CheckDataType(type, obj);
 }
-
-
 
 bool ReadScriptDescriptor::_CheckDataType(int32_t type, luabind::object &obj_check)
 {
@@ -217,15 +209,15 @@ bool ReadScriptDescriptor::_CheckDataType(int32_t type, luabind::object &obj_che
     else {
         return false;
     }
-} // bool ReadScriptDescriptor::_CheckDataType(int32_t type, luabind::object& obj_check)
+}
 
 //-----------------------------------------------------------------------------
 // Function Pointer Read Functions
 //-----------------------------------------------------------------------------
 
-object ReadScriptDescriptor::ReadFunctionPointer(const std::string &key)
+luabind::object ReadScriptDescriptor::ReadFunctionPointer(const std::string &key)
 {
-    if(_open_tables.size() == 0) {  // The function should be in the global space
+    if(_open_tables.empty()) {  // The function should be in the global space
         lua_getglobal(_lstack, key.c_str());
 
         luabind::object o(from_stack(_lstack, STACK_TOP));
@@ -261,11 +253,9 @@ object ReadScriptDescriptor::ReadFunctionPointer(const std::string &key)
 
         return o[key];
     }
-} // object ReadScriptDescriptor::ReadFunctionPointer(string key)
+}
 
-
-
-object ReadScriptDescriptor::ReadFunctionPointer(int32_t key)
+luabind::object ReadScriptDescriptor::ReadFunctionPointer(int32_t key)
 {
     // Fucntion is always a table element for integer keys
     luabind::object o(from_stack(_lstack, STACK_TOP));
@@ -282,7 +272,7 @@ object ReadScriptDescriptor::ReadFunctionPointer(int32_t key)
     }
 
     return o[key];
-} // object ReadScriptDescriptor::ReadFunctionPointer(int32_t key)
+}
 
 //-----------------------------------------------------------------------------
 // Table Operation Functions
@@ -290,7 +280,7 @@ object ReadScriptDescriptor::ReadFunctionPointer(int32_t key)
 
 bool ReadScriptDescriptor::OpenTable(const std::string &table_name, bool use_global)
 {
-    if(_open_tables.size() == 0 || use_global) {  // Fetch the table from the global space
+    if(_open_tables.empty() || use_global) {  // Fetch the table from the global space
         lua_getglobal(_lstack, table_name.c_str());
         if(!lua_istable(_lstack, STACK_TOP)) {
             IF_PRINT_WARNING(SCRIPT_DEBUG) << "failed because the data retrieved was not a table "
@@ -314,14 +304,12 @@ bool ReadScriptDescriptor::OpenTable(const std::string &table_name, bool use_glo
         _open_tables.push_back(table_name);
     }
     return true;
-} // bool ReadScriptDescriptor::OpenTable(string key)
-
-
+}
 
 bool ReadScriptDescriptor::OpenTable(int32_t table_name)
 {
     // At least one table must be open to use a numerical key
-    if(_open_tables.size() == 0) {
+    if(_open_tables.empty()) {
         IF_PRINT_WARNING(SCRIPT_DEBUG) << "failed because there were no tables open when trying "
                                        << "to open the with the element key " << table_name << std::endl;
         return false;
@@ -349,8 +337,7 @@ bool ReadScriptDescriptor::OpenTable(int32_t table_name)
 
     _open_tables.push_back(NumberToString(table_name));
     return true;
-} // bool ReadScriptDescriptor::OpenTable(int32_t key)
-
+}
 
 std::string ReadScriptDescriptor::OpenTablespace()
 {
@@ -372,10 +359,9 @@ std::string ReadScriptDescriptor::OpenTablespace()
         return std::string();
 }
 
-
 void ReadScriptDescriptor::CloseTable()
 {
-    if(_open_tables.size() == 0) {
+    if(_open_tables.empty()) {
         IF_PRINT_WARNING(SCRIPT_DEBUG) << "failed because there were no open tables to close" << std::endl;
         return;
     }
@@ -384,16 +370,12 @@ void ReadScriptDescriptor::CloseTable()
     lua_pop(_lstack, 1);
 }
 
-
-
 void ReadScriptDescriptor::CloseAllTables()
 {
     while(_open_tables.size() != 0) {
         CloseTable();
     }
 }
-
-
 
 uint32_t ReadScriptDescriptor::GetTableSize(const std::string &table_name)
 {
@@ -413,7 +395,6 @@ void ReadScriptDescriptor::ClearStack(uint32_t levels_to_clear)
         lua_remove(_lstack, 0);
 }
 
-
 uint32_t ReadScriptDescriptor::GetTableSize(int32_t table_name)
 {
     uint32_t size = 0;
@@ -426,11 +407,9 @@ uint32_t ReadScriptDescriptor::GetTableSize(int32_t table_name)
     return size;
 }
 
-
-// Attempts to get the size of the most recently opened table
 uint32_t ReadScriptDescriptor::GetTableSize()
 {
-    if(_open_tables.size() == 0) {
+    if(_open_tables.empty()) {
         IF_PRINT_WARNING(SCRIPT_DEBUG) << "failed because there were no open tables to get the size of" << std::endl;
         return 0;
     }
@@ -452,7 +431,6 @@ uint32_t ReadScriptDescriptor::GetTableSize()
 
     return table_size;
 }
-
 
 bool ReadScriptDescriptor::RunScriptFunction(const std::string &filename,
         const std::string &function_name,
@@ -477,7 +455,6 @@ bool ReadScriptDescriptor::RunScriptFunction(const std::string &filename,
     return ran;
 }
 
-
 bool ReadScriptDescriptor::RunScriptFunction(const std::string &function_name)
 {
     if(!IsFileOpen()) {
@@ -498,7 +475,6 @@ bool ReadScriptDescriptor::RunScriptFunction(const std::string &function_name)
 
     return true;
 }
-
 
 bool ReadScriptDescriptor::RunScriptObject(const luabind::object &object)
 {
