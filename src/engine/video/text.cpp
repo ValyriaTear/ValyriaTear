@@ -1054,7 +1054,7 @@ void TextSupervisor::_RenderText(const uint16_t* text, FontProperties* font_prop
     }
 
     // Retrieve the size of the text.
-    int font_width = 0, font_height = 0;
+    int32_t font_width = 0, font_height = 0;
     if (TTF_SizeUNICODE(font_properties->ttf_font, text, &font_width, &font_height) != 0) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_SizeUNICODE() failed" << std::endl;
         SDL_FreeSurface(surface);
@@ -1184,7 +1184,7 @@ void TextSupervisor::_RenderText(const uint16_t* text, FontProperties* font_prop
     }
 
     // Retrieve the size of the text.
-    int font_width = 0, font_height = 0;
+    int32_t font_width = 0, font_height = 0;
     if (TTF_SizeUNICODE(font_properties->ttf_font, text, &font_width, &font_height) != 0) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TTF_SizeUNICODE() failed" << std::endl;
         SDL_FreeSurface(surface);

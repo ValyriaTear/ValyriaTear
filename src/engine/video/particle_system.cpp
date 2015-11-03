@@ -274,7 +274,7 @@ void ParticleSystem::Draw()
                                      _num_particles * 4);
 
     if (_system_def->smooth_animation) {
-        int findex = _animation.GetCurrentFrameIndex();
+        uint32_t findex = _animation.GetCurrentFrameIndex();
         findex = (findex + 1) % _animation.GetNumFrames();
 
         StillImage *id2 = _animation.GetFrame(findex);
@@ -420,7 +420,7 @@ void ParticleSystem::_Destroy()
 
 void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
 {
-    for(int j = 0; j < _num_particles; ++j) {
+    for(int32_t j = 0; j < _num_particles; ++j) {
         // calculate a time for the particle from 0 to 1 since this is what
         // the keyframes are based on
         float scaled_time = _particles[j].time / _particles[j].lifetime;
@@ -606,7 +606,7 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
 void ParticleSystem::_KillParticles(int32_t &num, const EffectParameters &params)
 {
     // check each active particle to see if it is expired
-    for(int j = 0; j < _num_particles; ++j) {
+    for(int32_t j = 0; j < _num_particles; ++j) {
         if(_particles[j].time > _particles[j].lifetime) {
             if(num > 0) {
                 // if we still have particles to emit, then instead of killing the particle,

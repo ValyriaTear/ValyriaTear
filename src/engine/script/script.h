@@ -280,7 +280,7 @@ public:
     static void DEBUG_PrintGlobals(lua_State* luaState);
 
     //! \brief Prints out a specific table
-    static void DEBUG_PrintTable(luabind::object table, int tab = 0);
+    static void DEBUG_PrintTable(luabind::object table, uint32_t tab = 0);
 
 private:
     ScriptEngine();

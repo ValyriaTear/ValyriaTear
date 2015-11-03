@@ -170,10 +170,10 @@ void ScriptEngine::DEBUG_PrintGlobals(lua_State* luaState)
     lua_pop(luaState, 1);
 }
 
-void ScriptEngine::DEBUG_PrintTable(luabind::object table, int tab)
+void ScriptEngine::DEBUG_PrintTable(luabind::object table, uint32_t tab)
 {
     for(luabind::iterator it(table), end; it != end; ++it) {
-        for(int i = 0; i < tab; ++i)
+        for(uint32_t i = 0; i < tab; ++i)
             std::cout << '\t';
         std::cout << it.key() << " = " << (*it) << " (Type: " << luabind::type(*it) << ")" << std::endl;
         if(type(*it) == LUA_TTABLE)

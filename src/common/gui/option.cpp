@@ -882,7 +882,7 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
     bool bounds_exceeded = false;
 
     // Determine if the movement selection will exceed a column or row bondary
-    int new_row = (row + offset) * _number_columns;
+    int32_t new_row = (row + offset) * _number_columns;
     if((horizontal == true && ((col + offset < 0) || (col + offset >= _number_columns) ||
                                (col + offset >= static_cast<int32_t>(GetNumberOptions())))) ||
             (horizontal == false && ((new_row < 0) || (new_row >= _number_rows) ||

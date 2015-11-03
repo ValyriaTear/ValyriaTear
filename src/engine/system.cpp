@@ -516,7 +516,7 @@ void SystemEngine::WaitForThread(Thread *thread)
 }
 
 
-Semaphore *SystemEngine::CreateSemaphore(int max)
+Semaphore *SystemEngine::CreateSemaphore(uint32_t max)
 {
 #if (THREAD_TYPE == SDL_THREADS)
     return SDL_CreateSemaphore(max);

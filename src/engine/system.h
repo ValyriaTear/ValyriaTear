@@ -475,7 +475,7 @@ public:
 
     void LockThread(Semaphore *);
     void UnlockThread(Semaphore *);
-    Semaphore *CreateSemaphore(int max);
+    Semaphore *CreateSemaphore(uint32_t max);
     void DestroySemaphore(Semaphore *);
 
     //! \brief Get the dialogue text message growth in characters per second.

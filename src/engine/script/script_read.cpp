@@ -107,7 +107,7 @@ void ReadScriptDescriptor::CloseFile()
 
     // We free the thread (coroutine) so it can be garbage collected, or the app will end in a memory overflow.
     lua_State* global_state = ScriptManager->GetGlobalState();
-    for (int i = 1, n = lua_gettop(global_state); i <= n; ++i) {
+    for (int32_t i = 1, n = lua_gettop(global_state); i <= n; ++i) {
         if ((lua_type(global_state, i) == LUA_TTHREAD) && (lua_tothread(global_state, i) == _lstack)) {
             lua_remove(global_state, i);
             break;

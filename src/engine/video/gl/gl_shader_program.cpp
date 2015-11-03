@@ -195,7 +195,7 @@ bool ShaderProgram::UpdateUniform(const std::string& uniform, float value)
     return result;
 }
 
-bool ShaderProgram::UpdateUniform(const std::string& uniform, int value)
+bool ShaderProgram::UpdateUniform(const std::string& uniform, int32_t value)
 {
     bool result = true;
 
@@ -214,7 +214,7 @@ bool ShaderProgram::UpdateUniform(const std::string& uniform, int value)
     return result;
 }
 
-bool ShaderProgram::UpdateUniform(const std::string& uniform, const float* data, unsigned length)
+bool ShaderProgram::UpdateUniform(const std::string& uniform, const float* data, uint32_t length)
 {
     bool result = false;
 

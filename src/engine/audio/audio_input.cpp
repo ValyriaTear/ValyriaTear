@@ -294,7 +294,7 @@ void OggFile::Seek(uint32_t cursor)
 
 uint32_t OggFile::Read(uint8_t *buffer, uint32_t size, bool &end)
 {
-    int current_section;
+    int32_t current_section = 0;
     uint32_t read = 0;
     end = false;
 

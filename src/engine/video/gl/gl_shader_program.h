@@ -36,8 +36,8 @@ public:
     bool Load();
 
     bool UpdateUniform(const std::string& uniform, float value);
-    bool UpdateUniform(const std::string& uniform, int value);
-    bool UpdateUniform(const std::string& uniform, const float* data, unsigned length);
+    bool UpdateUniform(const std::string& uniform, int32_t value);
+    bool UpdateUniform(const std::string& uniform, const float* data, uint32_t length);
 
 private:
     GLint _program;
