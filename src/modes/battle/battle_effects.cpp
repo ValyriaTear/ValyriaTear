@@ -239,7 +239,7 @@ void BattleStatusEffectsSupervisor::_UpdatePassive()
 
             // Call the update passive function
             try {
-                ScriptCallFunction<void>(effect.GetUpdatePassiveFunction(), _actor, effect.GetIntensity());
+                luabind::call_function<void>(effect.GetUpdatePassiveFunction(), _actor, effect.GetIntensity());
             } catch(const luabind::error& e) {
                 PRINT_ERROR << "Error while loading status effect BattleUpdatePassive() function" << std::endl;
                 ScriptManager->HandleLuaError(e);
@@ -312,7 +312,7 @@ void BattleStatusEffectsSupervisor::Update()
             if (effect.GetUpdateFunction().is_valid()) {
 
                 try {
-                    ScriptCallFunction<void>(effect.GetUpdateFunction(), _actor, effect);
+                    luabind::call_function<void>(effect.GetUpdateFunction(), _actor, effect);
                 } catch(const luabind::error& e) {
                     PRINT_ERROR << "Error while loading status effect BattleUpdate() function" << std::endl;
                     ScriptManager->HandleLuaError(e);
@@ -469,7 +469,7 @@ void BattleStatusEffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBA
 
     // Call the apply script function now that this new status is active on the actor
     try {
-        ScriptCallFunction<void>(new_effect.GetApplyFunction(), _actor, new_effect);
+        luabind::call_function<void>(new_effect.GetApplyFunction(), _actor, new_effect);
     } catch(const luabind::error& e) {
         PRINT_ERROR << "Error while loading status effect BattleApply() function" << std::endl;
         ScriptManager->HandleLuaError(e);
@@ -488,7 +488,7 @@ void BattleStatusEffectsSupervisor::RemoveActiveStatusEffect(GLOBAL_STATUS statu
 
     if (status_effect.GetRemoveFunction().is_valid()) {
         try {
-            ScriptCallFunction<void>(status_effect.GetRemoveFunction(), _actor, status_effect);
+            luabind::call_function<void>(status_effect.GetRemoveFunction(), _actor, status_effect);
         } catch(const luabind::error& e) {
             PRINT_ERROR << "Error while loading status effect BattleRemove() function" << std::endl;
             ScriptManager->HandleLuaError(e);

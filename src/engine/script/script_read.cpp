@@ -463,7 +463,7 @@ bool ReadScriptDescriptor::RunScriptFunction(const std::string &function_name)
     }
 
     try {
-        ScriptCallFunction<void>(GetLuaState(), function_name.c_str());
+        luabind::call_function<void>(GetLuaState(), function_name.c_str());
     } catch(const luabind::error &e) {
         PRINT_ERROR << "Error while loading :" << function_name << std::endl;
         ScriptManager->HandleLuaError(e);
@@ -485,7 +485,7 @@ bool ReadScriptDescriptor::RunScriptObject(const luabind::object &object)
         return true;
 
     try {
-        ScriptCallFunction<void>(object);
+        luabind::call_function<void>(object);
     } catch(const luabind::error &e) {
         PRINT_ERROR << "Error while loading script object." << std::endl;
         ScriptManager->HandleLuaError(e);

@@ -126,37 +126,37 @@ private:
     *** Those functions execute any code that needs to be performed on a reset call. An example of
     *** one common operation is to reset the scene state when coming back to a given mode from another.
     **/
-    std::vector<ScriptObject> _reset_functions;
+    std::vector<luabind::object> _reset_functions;
 
     /** \brief Script functions which assists with the #Restart method
     *** This function is called when a battle is restarted
     **/
-    std::vector<ScriptObject> _restart_functions;
+    std::vector<luabind::object> _restart_functions;
 
     /** \brief Script functions which assists with the #Update method
     *** Those functions execute any code that needs to be performed on an update call. An example of
     *** one common operation is to detect certain conditions and respond appropriately, such as
     *** triggering a dialogue.
     **/
-    std::vector<ScriptObject> _update_functions;
+    std::vector<luabind::object> _update_functions;
 
     /** \brief Script functions which assists with the #DrawBackground method
     *** Those functions execute any code that needs to be performed on a draw call.
     *** This permits custom background effects.
     **/
-    std::vector<ScriptObject> _draw_background_functions;
+    std::vector<luabind::object> _draw_background_functions;
 
     /** \brief Script functions which assists with the #DrawForeground method
     *** Those functions execute any code that needs to be performed on a draw call.
     *** This permits custom visual effects over the characters and enemies sprites.
     **/
-    std::vector<ScriptObject> _draw_foreground_functions;
+    std::vector<luabind::object> _draw_foreground_functions;
 
     /** \brief Script functions which assists with the #DrawEffects methods
     *** Those functions execute any code that needs to be performed on a draw call.
     *** This permits custom effects just below the gui.
     **/
-    std::vector<ScriptObject> _draw_post_effects_functions;
+    std::vector<luabind::object> _draw_post_effects_functions;
 
     /** \brief Scripts objects keeping the corresponding lua coroutines alive.
     **/

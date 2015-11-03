@@ -386,7 +386,7 @@ void MapStatusEffectsSupervisor::_UpdatePassive()
 
             // Call the update passive function
             try {
-                ScriptCallFunction<void>(effect.GetUpdatePassiveFunction(), effect.GetAffectedCharacter(), effect.GetIntensity());
+                luabind::call_function<void>(effect.GetUpdatePassiveFunction(), effect.GetAffectedCharacter(), effect.GetIntensity());
             } catch(const luabind::error& e) {
                 PRINT_ERROR << "Error while loading status effect MapUpdatePassive() function" << std::endl;
                 vt_script::ScriptManager->HandleLuaError(e);
@@ -462,7 +462,7 @@ void MapStatusEffectsSupervisor::UpdateEffects()
             if (effect.GetUpdateFunction().is_valid()) {
 
                 try {
-                    ScriptCallFunction<void>(effect.GetUpdateFunction(), effect);
+                    luabind::call_function<void>(effect.GetUpdateFunction(), effect);
                 } catch(const luabind::error& e) {
                     PRINT_ERROR << "Error while loading status effect Update function" << std::endl;
                     vt_script::ScriptManager->HandleLuaError(e);
@@ -665,7 +665,7 @@ void MapStatusEffectsSupervisor::_AddActiveStatusEffect(GlobalCharacter* charact
 
     // Call the apply script function now that this new status is active on the actor
     try {
-        ScriptCallFunction<void>(new_effect.GetApplyFunction(), new_effect);
+        luabind::call_function<void>(new_effect.GetApplyFunction(), new_effect);
     } catch(const luabind::error& e) {
         PRINT_ERROR << "Error while loading status effect Apply function" << std::endl;
         vt_script::ScriptManager->HandleLuaError(e);
@@ -683,7 +683,7 @@ void MapStatusEffectsSupervisor::_RemoveActiveStatusEffect(ActiveMapStatusEffect
     // Remove the status effect from the active effects list if it registered there.
     if (status_effect.GetRemoveFunction().is_valid()) {
         try {
-            ScriptCallFunction<void>(status_effect.GetRemoveFunction(), status_effect);
+            luabind::call_function<void>(status_effect.GetRemoveFunction(), status_effect);
         } catch(const luabind::error& e) {
             PRINT_ERROR << "Error while loading status effect Remove function" << std::endl;
             vt_script::ScriptManager->HandleLuaError(e);

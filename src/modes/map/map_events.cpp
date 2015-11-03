@@ -304,7 +304,7 @@ void IfEvent::_Start()
     try {
         // We had a timer of 100ms her to avoid launching an event within an event
         // for the sake of the engine loop. That time is unnoticeable, anyway.
-        if (ScriptCallFunction<bool>(_check_function)
+        if (luabind::call_function<bool>(_check_function)
             && !_true_event_id.empty() && !events->IsEventActive(_true_event_id)) {
             events->StartEvent(_true_event_id, 100);
         }
@@ -358,7 +358,7 @@ void ScriptedEvent::_Start()
         return;
 
     try {
-        ScriptCallFunction<void>(_start_function);
+        luabind::call_function<void>(_start_function);
     } catch(const luabind::error &e) {
         PRINT_ERROR << "Error while loading ScriptedEvent start function" << std::endl;
         ScriptManager->HandleLuaError(e);
@@ -374,7 +374,7 @@ bool ScriptedEvent::_Update()
         return true;
 
     try {
-        return ScriptCallFunction<bool>(_update_function);
+        return luabind::call_function<bool>(_update_function);
     } catch(const luabind::error &e) {
         PRINT_ERROR << "Error while loading ScriptedEvent update function" << std::endl;
         ScriptManager->HandleLuaError(e);
@@ -459,14 +459,14 @@ void ScriptedSpriteEvent::_Start()
 {
     SpriteEvent::_Start();
     if(_start_function.is_valid())
-        ScriptCallFunction<void>(_start_function, _sprite);
+        luabind::call_function<void>(_start_function, _sprite);
 }
 
 bool ScriptedSpriteEvent::_Update()
 {
     bool finished = false;
     if(_update_function.is_valid()) {
-        finished = ScriptCallFunction<bool>(_update_function, _sprite);
+        finished = luabind::call_function<bool>(_update_function, _sprite);
     } else {
         finished = true;
     }

@@ -132,20 +132,20 @@ public:
         return _target_type;
     }
 
-    /** \brief Returns a pointer to the ScriptObject of the battle execution function
+    /** \brief Returns a pointer to the luabind::object of the battle execution function
     *** \note This function will return nullptr if the skill is not executable in battle
     **/
-    const ScriptObject &GetBattleExecuteFunction() const {
+    const luabind::object &GetBattleExecuteFunction() const {
         return _battle_execute_function;
     }
 
     //! Execute the corresponding skill Battle function
     bool ExecuteBattleFunction(vt_battle::private_battle::BattleActor *user, vt_battle::private_battle::BattleTarget target);
 
-    /** \brief Returns a pointer to the ScriptObject of the menu execution function
+    /** \brief Returns a pointer to the luabind::object of the menu execution function
     *** \note This function will return nullptr if the skill is not executable in menus
     **/
-    const ScriptObject &GetFieldExecuteFunction() const {
+    const luabind::object &GetFieldExecuteFunction() const {
         return _field_execute_function;
     }
 
@@ -213,10 +213,10 @@ private:
     GLOBAL_TARGET _target_type;
 
     //! \brief A reference to the skill's execution function for battles
-    ScriptObject _battle_execute_function;
+    luabind::object _battle_execute_function;
 
     //! \brief A reference to the skill's execution function for menus
-    ScriptObject _field_execute_function;
+    luabind::object _field_execute_function;
 
     //! \brief map containing the animation scripts names linked to each characters id for the given skill.
     std::map <uint32_t, std::string> _animation_scripts;

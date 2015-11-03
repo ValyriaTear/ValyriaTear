@@ -178,7 +178,7 @@ MapMode::~MapMode()
     // Remove the reference to the luabind object
     // to avoid a potential crash when freeing the lua coroutine
     // when closing the script.
-    _update_function = ScriptObject();
+    _update_function = luabind::object();
 
     // Free the map script file when closing the map.
     _map_script.CloseAllTables();
@@ -302,7 +302,7 @@ void MapMode::Update()
 
     // Call the map script's update function
     if(_update_function.is_valid())
-        ScriptCallFunction<void>(_update_function);
+        luabind::call_function<void>(_update_function);
 
     // Update all animated tile images
     _tile_supervisor->Update();
@@ -656,13 +656,13 @@ bool MapMode::_Load()
         _music_audio_state = AUDIO_STATE_PLAYING; // Set the default music state to "playing".
 
     // Call the map script's custom load function and get a reference to all other script function pointers
-    ScriptObject map_table(luabind::from_stack(_map_script.GetLuaState(), vt_script::private_script::STACK_TOP));
-    ScriptObject function = map_table["Load"];
+    luabind::object map_table(luabind::from_stack(_map_script.GetLuaState(), vt_script::private_script::STACK_TOP));
+    luabind::object function = map_table["Load"];
 
     bool loading_succeeded = true;
     if(function.is_valid()) {
         try {
-            ScriptCallFunction<void>(function, this);
+            luabind::call_function<void>(function, this);
         } catch(const luabind::error &e) {
             ScriptManager->HandleLuaError(e);
             loading_succeeded = false;

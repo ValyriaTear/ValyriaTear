@@ -128,8 +128,8 @@ protected:
     /** The functions of the possible animation.
     *** When valid, the Update function should be called until the function returns true.
     **/
-    ScriptObject _init_function;
-    ScriptObject _update_function;
+    luabind::object _init_function;
+    luabind::object _update_function;
 
     //! \brief The Animation script, used when the skill is animated.
     vt_script::ReadScriptDescriptor _anim_script;

@@ -154,10 +154,10 @@ BattleActor::~BattleActor()
     // Reset the luabind objects so their lua counterparts can be freed
     // when the lua script coroutine is removed from stack,
     // to avoid a potential segfault.
-    _ai_decide_action = ScriptObject();
-    _death_init = ScriptObject();
-    _death_update = ScriptObject();
-    _death_draw_on_sprite = ScriptObject();
+    _ai_decide_action = luabind::object();
+    _death_init = luabind::object();
+    _death_update = luabind::object();
+    _death_draw_on_sprite = luabind::object();
 
     // If the actor did not get a chance to execute their action, delete it
     if(_action != nullptr) {
@@ -210,7 +210,7 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
         // If an AI is used, it will change itself the actor state.
         if (_ai_decide_action.is_valid()) {
             try {
-                ScriptCallFunction<void>(_ai_decide_action, BattleMode::CurrentInstance(), this);
+                luabind::call_function<void>(_ai_decide_action, BattleMode::CurrentInstance(), this);
             } catch(const luabind::error &e) {
                 PRINT_ERROR << "Error while triggering DecideAction() function of actor id: " << _global_actor->GetID() << std::endl;
                 ScriptManager->HandleLuaError(e);
@@ -271,7 +271,7 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
         // Init the death animation script when valid.
         if (_death_init.is_valid()) {
             try {
-                ScriptCallFunction<void>(_death_init, BattleMode::CurrentInstance(), this);
+                luabind::call_function<void>(_death_init, BattleMode::CurrentInstance(), this);
             } catch(const luabind::error &e) {
                 PRINT_ERROR << "Error while triggering Initialize() function of actor id: " << _global_actor->GetID() << std::endl;
                 ScriptManager->HandleLuaError(e);
@@ -573,7 +573,7 @@ void BattleActor::Update()
         if (_death_init.is_valid() && _death_update.is_valid()) {
             // Change the state when the animation has finished.
             try {
-                if (ScriptCallFunction<bool>(_death_update))
+                if (luabind::call_function<bool>(_death_update))
                     ChangeState(ACTOR_STATE_DEAD);
             } catch(const luabind::error &e) {
                 PRINT_ERROR << "Error while triggering Update() function of actor id: " << _global_actor->GetID() << std::endl;
@@ -1309,7 +1309,7 @@ void BattleCharacter::DrawSprite()
     if(_state == ACTOR_STATE_DYING) {
         try {
             if (_death_draw_on_sprite.is_valid())
-                ScriptCallFunction<void>(_death_draw_on_sprite);
+                luabind::call_function<void>(_death_draw_on_sprite);
         } catch(const luabind::error &e) {
             PRINT_ERROR << "Error while triggering DrawOnSprite() function of actor id: " << _global_actor->GetID() << std::endl;
             ScriptManager->HandleLuaError(e);
@@ -1592,7 +1592,7 @@ void BattleEnemy::ChangeState(ACTOR_STATE new_state)
         // Trigger the death sequence if it is valid
         if (_death_init.is_valid()) {
             try {
-                ScriptCallFunction<void>(_death_init, BattleMode::CurrentInstance(), this);
+                luabind::call_function<void>(_death_init, BattleMode::CurrentInstance(), this);
             } catch(const luabind::error &e) {
                 PRINT_ERROR << "Error while triggering Initialize() function of enemy id: " << _global_actor->GetID() << std::endl;
                 ScriptManager->HandleLuaError(e);
@@ -1721,7 +1721,7 @@ void BattleEnemy::DrawSprite()
 
         try {
             if (_death_draw_on_sprite.is_valid())
-                ScriptCallFunction<void>(_death_draw_on_sprite);
+                luabind::call_function<void>(_death_draw_on_sprite);
         } catch(const luabind::error &e) {
             PRINT_ERROR << "Error while triggering DrawOnSprite() function of actor id: " << _global_actor->GetID() << std::endl;
             ScriptManager->HandleLuaError(e);

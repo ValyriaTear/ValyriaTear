@@ -132,7 +132,7 @@ GlobalSkill::GlobalSkill(const GlobalSkill &copy):
     _cooldown_time = copy._cooldown_time;
     _target_type = copy._target_type;
 
-    // Make copies of valid ScriptObject function pointers
+    // Make copies of valid luabind::object function pointers
     _battle_execute_function = copy._battle_execute_function;
     _field_execute_function = copy._field_execute_function;
 }
@@ -156,7 +156,7 @@ GlobalSkill &GlobalSkill::operator=(const GlobalSkill &copy)
     _action_name = copy._action_name;
     _target_type = copy._target_type;
 
-    // Make copies of valid ScriptObject function pointers
+    // Make copies of valid luabind::object function pointers
     _battle_execute_function = copy._battle_execute_function;
     _field_execute_function = copy._field_execute_function;
     _animation_scripts = copy._animation_scripts;
@@ -172,7 +172,7 @@ bool GlobalSkill::ExecuteBattleFunction(private_battle::BattleActor *user, priva
     }
 
     try {
-        ScriptCallFunction<void>(_battle_execute_function, user, target);
+        luabind::call_function<void>(_battle_execute_function, user, target);
     } catch(const luabind::error &err) {
         ScriptManager->HandleLuaError(err);
         return false;

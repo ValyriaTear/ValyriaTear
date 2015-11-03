@@ -80,9 +80,9 @@ void ScriptSupervisor::Initialize(vt_mode_manager::GameMode *gm)
         _scene_scripts.push_back(scene_script);
 
         // Trigger the Initialize functions in the loading order.
-        ScriptObject init_function = scene_script->ReadFunctionPointer("Initialize");
+        luabind::object init_function = scene_script->ReadFunctionPointer("Initialize");
         if(init_function.is_valid() && gm)
-            ScriptCallFunction<void>(init_function, gm);
+            luabind::call_function<void>(init_function, gm);
         else
             PRINT_ERROR << "Couldn't initialize the scene component" << std::endl; // Should never happen
     }

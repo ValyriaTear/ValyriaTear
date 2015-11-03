@@ -180,7 +180,7 @@ GlobalItem::GlobalItem(const GlobalItem &copy) :
     _warmup_time = copy._warmup_time;
     _cooldown_time = copy._cooldown_time;
 
-    // Make copies of valid ScriptObject function pointers
+    // Make copies of valid luabind::object function pointers
     _battle_use_function = copy._battle_use_function;
     _field_use_function = copy._field_use_function;
     _animation_script_file = copy._animation_script_file;
@@ -198,7 +198,7 @@ GlobalItem &GlobalItem::operator=(const GlobalItem &copy)
     _warmup_time = copy._warmup_time;
     _cooldown_time = copy._cooldown_time;
 
-    // Make copies of valid ScriptObject function pointers
+    // Make copies of valid luabind::object function pointers
     _battle_use_function = copy._battle_use_function;
     _field_use_function = copy._field_use_function;
     _animation_script_file = copy._animation_script_file;

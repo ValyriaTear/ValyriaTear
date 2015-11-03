@@ -544,7 +544,7 @@ public:
 
 protected:
     //! \brief A pointer to the Lua function that starts the event
-    ScriptObject _check_function;
+    luabind::object _check_function;
 
     std::string _true_event_id;
     std::string _false_event_id;
@@ -595,10 +595,10 @@ public:
 
 protected:
     //! \brief A pointer to the Lua function that starts the event
-    ScriptObject _start_function;
+    luabind::object _start_function;
 
     //! \brief A pointer to the Lua function that returns a boolean value if the event is finished
-    ScriptObject _update_function;
+    luabind::object _update_function;
 
     //! \brief Calls the Lua _start_function, if one was defined
     void _Start();
@@ -701,10 +701,10 @@ public:
 
 protected:
     //! \brief A pointer to the Lua function that starts the event
-    ScriptObject _start_function;
+    luabind::object _start_function;
 
     //! \brief A pointer to the Lua function that returns a boolean value if the event is finished
-    ScriptObject _update_function;
+    luabind::object _update_function;
 
     //! \brief Calls the Lua _start_function, if one was defined
     void _Start();

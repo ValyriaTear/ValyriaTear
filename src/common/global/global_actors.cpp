@@ -1090,7 +1090,7 @@ void GlobalCharacter::_UpdateEquipmentStatusEffects()
                 continue;
             }
 
-            ScriptObject remove_passive_function = script_file.ReadFunctionPointer("RemovePassive");
+            luabind::object remove_passive_function = script_file.ReadFunctionPointer("RemovePassive");
             script_file.CloseTable(); // effect id
 
             if (!remove_passive_function.is_valid()) {
@@ -1099,7 +1099,7 @@ void GlobalCharacter::_UpdateEquipmentStatusEffects()
             }
 
             try {
-                ScriptCallFunction<void>(remove_passive_function, this);
+                luabind::call_function<void>(remove_passive_function, this);
             } catch(const luabind::error &e) {
                 PRINT_ERROR << "Error while loading status effect RemovePassive() function" << std::endl;
                 ScriptManager->HandleLuaError(e);
@@ -1116,7 +1116,7 @@ void GlobalCharacter::_UpdateEquipmentStatusEffects()
                 continue;
             }
 
-            ScriptObject apply_passive_function = script_file.ReadFunctionPointer("ApplyPassive");
+            luabind::object apply_passive_function = script_file.ReadFunctionPointer("ApplyPassive");
             script_file.CloseTable(); // effect id
 
             if (!apply_passive_function.is_valid()) {
@@ -1125,7 +1125,7 @@ void GlobalCharacter::_UpdateEquipmentStatusEffects()
             }
 
             try {
-                ScriptCallFunction<void>(apply_passive_function, this, intensity);
+                luabind::call_function<void>(apply_passive_function, this, intensity);
             } catch(const luabind::error &e) {
                 PRINT_ERROR << "Error while loading status effect ApplyPassive() function" << std::endl;
                 ScriptManager->HandleLuaError(e);
@@ -1293,7 +1293,7 @@ void GlobalCharacter::AcknowledgeGrowth() {
 
     try {
         // Update Growth data and set XP for next level
-        ScriptCallFunction<void>(character_script.GetLuaState(), "DetermineLevelGrowth", this);
+        luabind::call_function<void>(character_script.GetLuaState(), "DetermineLevelGrowth", this);
     } catch(const luabind::error& e) {
         ScriptManager->HandleLuaError(e);
     } catch(const luabind::cast_failed& e) {
@@ -1303,7 +1303,7 @@ void GlobalCharacter::AcknowledgeGrowth() {
     // Reset the skills learned container and add any skills learned at this level
     _new_skills_learned.clear();
     try {
-        ScriptCallFunction<void>(character_script.GetLuaState(), "DetermineNewSkillsLearned", this);
+        luabind::call_function<void>(character_script.GetLuaState(), "DetermineNewSkillsLearned", this);
     } catch(const luabind::error& e) {
         ScriptManager->HandleLuaError(e);
     } catch(const luabind::cast_failed& e) {

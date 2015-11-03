@@ -457,7 +457,7 @@ public:
     /** \brief  Generic function running a lua script using an object pointer with the usual checks.
     *** \note that this function can only call fonctions without parameters atm.
     **/
-    static bool RunScriptObject(const ScriptObject &object);
+    static bool RunScriptObject(const luabind::object &object);
 
     /** \brief Prints out the contents of the Lua stack mechanism to standard output
     *** The elements are printed from stack top to stack bottom.

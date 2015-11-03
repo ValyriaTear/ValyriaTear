@@ -470,7 +470,7 @@ void InventoryWindow::Update()
                         if (!item)
                             break;
 
-                        const ScriptObject& script_function = item->GetFieldUseFunction();
+                        const luabind::object& script_function = item->GetFieldUseFunction();
                         if(!script_function.is_valid()) {
                             IF_PRINT_WARNING(MENU_DEBUG) << "item did not have a menu use function" << std::endl;
                         } else {
@@ -479,7 +479,7 @@ void InventoryWindow::Update()
 
                                 bool success = false;
                                 try {
-                                    success = ScriptCallFunction<bool>(script_function, ch_party);
+                                    success = luabind::call_function<bool>(script_function, ch_party);
                                 } catch(const luabind::error& e) {
                                     PRINT_ERROR << "Error while loading FieldUse() function" << std::endl;
                                     vt_script::ScriptManager->HandleLuaError(e);
@@ -514,7 +514,7 @@ void InventoryWindow::Update()
                             else { // Use on a single character only
                                 bool success = false;
                                 try {
-                                    success = ScriptCallFunction<bool>(script_function, _character);
+                                    success = luabind::call_function<bool>(script_function, _character);
                                 } catch(const luabind::error& e) {
                                     PRINT_ERROR << "Error while loading FieldUse() function" << std::endl;
                                     vt_script::ScriptManager->HandleLuaError(e);
@@ -1405,7 +1405,7 @@ void SkillsWindow::Update()
             GlobalCharacter* user = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_skillset);
             GlobalCharacter* target = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
 
-            const ScriptObject &script_function = skill->GetFieldExecuteFunction();
+            const luabind::object &script_function = skill->GetFieldExecuteFunction();
 
             if(!script_function.is_valid()) {
                 media.PlaySound("cancel");
@@ -1418,7 +1418,7 @@ void SkillsWindow::Update()
 
             bool success = false;
             try {
-                success = ScriptCallFunction<bool>(script_function, user, target);
+                success = luabind::call_function<bool>(script_function, user, target);
             } catch(const luabind::error& e) {
                 PRINT_ERROR << "Error while loading FieldExecute() function" << std::endl;
                 vt_script::ScriptManager->HandleLuaError(e);

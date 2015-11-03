@@ -266,17 +266,17 @@ public:
         return _target_type;
     }
 
-    /** \brief Returns a pointer to the ScriptObject of the battle use function
+    /** \brief Returns a pointer to the luabind::object of the battle use function
     *** \note This function will return nullptr if the skill is not usable in battle
     **/
-    const ScriptObject &GetBattleUseFunction() const {
+    const luabind::object &GetBattleUseFunction() const {
         return _battle_use_function;
     }
 
-    /** \brief Returns a pointer to the ScriptObject of the field use function
+    /** \brief Returns a pointer to the luabind::object of the field use function
     *** \note This function will return nullptr if the skill is not usable in the field
     **/
-    const ScriptObject &GetFieldUseFunction() const {
+    const luabind::object &GetFieldUseFunction() const {
         return _field_use_function;
     }
 
@@ -301,10 +301,10 @@ private:
     GLOBAL_TARGET _target_type;
 
     //! \brief A reference to the script function that performs the item's effect while in battle
-    ScriptObject _battle_use_function;
+    luabind::object _battle_use_function;
 
     //! \brief A reference to the script function that performs the item's effect while in a menu
-    ScriptObject _field_use_function;
+    luabind::object _field_use_function;
 
     //! \brief The warmup time in milliseconds needed before using this item in battles.
     uint32_t _warmup_time;

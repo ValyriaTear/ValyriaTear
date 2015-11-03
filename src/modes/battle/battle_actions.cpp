@@ -112,8 +112,8 @@ SkillAction::~SkillAction()
 {
     // Remove reference from the init and update function
     // to permit their deletion when freeing the lua coroutine.
-    _init_function = ScriptObject();
-    _update_function = ScriptObject();
+    _init_function = luabind::object();
+    _update_function = luabind::object();
 
     _anim_script.CloseFile();
 }
@@ -129,7 +129,7 @@ bool SkillAction::ShouldShowSkillNotice() const
 void SkillAction::_InitAnimationScript()
 {
     try {
-        ScriptCallFunction<void>(_init_function, _actor, _target, _skill);
+        luabind::call_function<void>(_init_function, _actor, _target, _skill);
     } catch(const luabind::error &err) {
         ScriptManager->HandleLuaError(err);
         // Fall back to hard-coded mode
@@ -175,7 +175,7 @@ bool SkillAction::Update()
         return true;
 
     try {
-        return ScriptCallFunction<bool>(_update_function);
+        return luabind::call_function<bool>(_update_function);
     } catch(const luabind::error &err) {
         ScriptManager->HandleLuaError(err);
         return true;
@@ -306,8 +306,8 @@ ItemAction::~ItemAction()
 {
     // Remove reference from the init and update function
     // to permit their deletion when freeing the lua coroutine.
-    _init_function = ScriptObject();
-    _update_function = ScriptObject();
+    _init_function = luabind::object();
+    _update_function = luabind::object();
 
     _anim_script.CloseFile();
 }
@@ -326,7 +326,7 @@ bool ItemAction::Update()
         return true;
 
     try {
-        return ScriptCallFunction<bool>(_update_function);
+        return luabind::call_function<bool>(_update_function);
     } catch(const luabind::error& err) {
         ScriptManager->HandleLuaError(err);
         return true;
@@ -342,7 +342,7 @@ bool ItemAction::Update()
 bool ItemAction::Execute()
 {
     // Note that the battle item is already removed from the item list at that step.
-    const ScriptObject &script_function = _item->GetGlobalItem().GetBattleUseFunction();
+    const luabind::object &script_function = _item->GetGlobalItem().GetBattleUseFunction();
     if(!script_function.is_valid()) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "item did not have a battle use function" << std::endl;
 
@@ -352,7 +352,7 @@ bool ItemAction::Execute()
 
     bool ret = false;
     try {
-        ret = ScriptCallFunction<bool>(script_function, _actor, _target);
+        ret = luabind::call_function<bool>(script_function, _actor, _target);
     } catch(const luabind::error &err) {
         ScriptManager->HandleLuaError(err);
         ret = false;
@@ -414,7 +414,7 @@ uint32_t ItemAction::GetCoolDownTime() const
 void ItemAction::_InitAnimationScript()
 {
     try {
-        ScriptCallFunction<void>(_init_function, _actor, _target, _item);
+        luabind::call_function<void>(_init_function, _actor, _target, _item);
     } catch(const luabind::error& err) {
         ScriptManager->HandleLuaError(err);
         // Fall back to hard-coded mode

@@ -87,15 +87,15 @@ public:
         return _affected_character;
     }
 
-    const ScriptObject& GetApplyFunction() const {
+    const luabind::object& GetApplyFunction() const {
         return _apply_function;
     }
 
-    const ScriptObject& GetUpdateFunction() const {
+    const luabind::object& GetUpdateFunction() const {
         return _update_function;
     }
 
-    const ScriptObject& GetRemoveFunction() const {
+    const luabind::object& GetRemoveFunction() const {
         return _remove_function;
     }
 
@@ -122,13 +122,13 @@ private:
     std::string _name;
 
     //! \brief A pointer to the script function that applies the initial effect
-    ScriptObject _apply_function;
+    luabind::object _apply_function;
 
     //! \brief A pointer to the script function that updates any necessary changes caused by the effect
-    ScriptObject _update_function;
+    luabind::object _update_function;
 
     //! \brief A pointer to the script function that removes the effect and restores the actor to their original state
-    ScriptObject _remove_function;
+    luabind::object _remove_function;
 
     //! \brief A pointer to the character that is affected by this status effect.
     vt_global::GlobalCharacter* _affected_character;
@@ -183,7 +183,7 @@ public:
     }
 
     //! \brief Returns the update script function of this passive effect.
-    const ScriptObject& GetUpdatePassiveFunction() const {
+    const luabind::object& GetUpdatePassiveFunction() const {
         return _update_passive_function;
     }
 
@@ -197,7 +197,7 @@ private:
     std::string _name;
 
     //! The UpdatePassive() scripted function of this effect when used as passive one (from equipment)
-    ScriptObject _update_passive_function;
+    luabind::object _update_passive_function;
 
     //! \brief A pointer to the character that is affected by this status effect.
     vt_global::GlobalCharacter* _affected_character;

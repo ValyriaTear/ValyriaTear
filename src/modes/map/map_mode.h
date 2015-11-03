@@ -495,7 +495,7 @@ private:
     *** The most common operation that this script function performs is to check for trigger conditions
     *** that cause map events to occur
     **/
-    ScriptObject _update_function;
+    luabind::object _update_function;
 
     // ----- Members : Properties and State -----
 
