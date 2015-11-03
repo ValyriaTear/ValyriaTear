@@ -93,7 +93,7 @@ public:
     *** \param sheet_type The type of texture data that the texture sheet should hold
     *** \param sheet_static Whether the sheet should be labeled static or not
     **/
-    TexSheet(uint32 sheet_width, uint32 sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static);
+    TexSheet(uint32_t sheet_width, uint32_t sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static);
     virtual ~TexSheet();
 
     // ---------- Public methods
@@ -140,7 +140,7 @@ public:
     virtual void RestoreTexture(BaseTexture *img) = 0;
 
     //! \brief Returns the number of textures that are contained on this texture sheet
-    virtual uint32 GetNumberTextures() = 0;
+    virtual uint32_t GetNumberTextures() = 0;
 
     /** \brief Unloads all texture memory used by OpenGL for this sheet
     *** \return Success/failure
@@ -164,7 +164,7 @@ public:
     *** area is now occupied; that must be done externally by the caller (through the use
     *** of creating a new BaseTexture class).
     **/
-    bool CopyRect(int32 x, int32 y, private_video::ImageMemory &data);
+    bool CopyRect(int32_t x, int32_t y, private_video::ImageMemory &data);
 
     /** \brief Copies a portion of the current contents of the screen into the texture sheet
     *** \param x X coordinate of rectangle to copy screen to
@@ -178,7 +178,7 @@ public:
     *** area is now occupied; that must be done externally by the caller (through the use
     *** of creating a new BaseTexture class).
     **/
-    bool CopyScreenRect(int32 x, int32 y, const ScreenRect &screen_rect);
+    bool CopyScreenRect(int32_t x, int32_t y, const ScreenRect &screen_rect);
 
     /** \brief Enables (GL_LINEAR) or disables (GL_NEAREST) smoothing for this texture sheet
     *** \param flag True enables smoothing while false disables it. Default value is true.
@@ -194,7 +194,7 @@ public:
     // ---------- Public members
 
     //! \brief The width and height of the texsheet
-    uint32 width, height;
+    uint32_t width, height;
 
     //! \brief The interger that OpenGL uses to refer to this texture
     GLuint tex_id;
@@ -213,7 +213,7 @@ public:
 
 protected:
     //! \brief The width and height of the sheet in number of texture blocks
-    int32 _block_width, _block_height;
+    int32_t _block_width, _block_height;
 }; // class TexSheet
 
 
@@ -240,7 +240,7 @@ public:
     FixedTexNode *next;
 
     //! \brief The block index.
-    int32 block_index;
+    int32_t block_index;
 };
 
 
@@ -284,7 +284,7 @@ public:
     *** \note The block_width and block_height parameters must evenly divide into the sheet_width and
     *** sheet_height parameters. Otherwise the constructor will throw an exception
     **/
-    FixedTexSheet(int32 sheet_width, int32 sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static, int32 img_width, int32 img_height);
+    FixedTexSheet(int32_t sheet_width, int32_t sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static, int32_t img_width, int32_t img_height);
     virtual ~FixedTexSheet();
 
     //! \name Methods inherited from TexSheet
@@ -299,12 +299,12 @@ public:
 
     void RestoreTexture(BaseTexture *img);
 
-    uint32 GetNumberTextures();
+    uint32_t GetNumberTextures();
     //@}
 
 private:
     //! \brief The width and height of each texture block, in number of pixels
-    int32 _texture_width, _texture_height;
+    int32_t _texture_width, _texture_height;
 
     //! \brief Head of the list of open texture blocks
     FixedTexNode *_open_list_head;
@@ -322,7 +322,7 @@ private:
     *** \param img The image to look for
     *** \return The block index for that image
     **/
-    int32 _CalculateBlockIndex(BaseTexture *img);
+    int32_t _CalculateBlockIndex(BaseTexture *img);
 
     /** \brief Adds a node onto the tail of the open list
     *** \param node A pointer to the node to add to the open list
@@ -373,7 +373,7 @@ public:
     *** \param sheet_type The type of texture data that the texture sheet should hold
     *** \param sheet_static Whether the sheet should be labeled static or not
     **/
-    VariableTexSheet(int32 sheet_width, int32 sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static);
+    VariableTexSheet(int32_t sheet_width, int32_t sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static);
     virtual ~VariableTexSheet();
 
     //! \name Methods inherited from TexSheet
@@ -392,7 +392,7 @@ public:
         _SetBlockProperties(img, img, false);
     }
 
-    uint32 GetNumberTextures() {
+    uint32_t GetNumberTextures() {
         return _textures.size();
     }
     //@}

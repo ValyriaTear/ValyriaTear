@@ -32,7 +32,7 @@ namespace private_video
 // TexSheet class
 // -----------------------------------------------------------------------------
 
-TexSheet::TexSheet(uint32 sheet_width, uint32 sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static) :
+TexSheet::TexSheet(uint32_t sheet_width, uint32_t sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static) :
     width(sheet_width),
     height(sheet_height),
     tex_id(sheet_id),
@@ -98,7 +98,7 @@ bool TexSheet::Reload()
 
 
 
-bool TexSheet::CopyRect(int32 x, int32 y, ImageMemory &data)
+bool TexSheet::CopyRect(int32_t x, int32_t y, ImageMemory &data)
 {
     TextureManager->_BindTexture(tex_id);
 
@@ -122,7 +122,7 @@ bool TexSheet::CopyRect(int32 x, int32 y, ImageMemory &data)
     return true;
 }
 
-bool TexSheet::CopyScreenRect(int32 x, int32 y, const ScreenRect &screen_rect)
+bool TexSheet::CopyScreenRect(int32_t x, int32_t y, const ScreenRect &screen_rect)
 {
     TextureManager->_BindTexture(tex_id);
 
@@ -217,7 +217,7 @@ void TexSheet::DEBUG_Draw() const
 // FixedTexSheet class
 // -----------------------------------------------------------------------------
 
-FixedTexSheet::FixedTexSheet(int32 sheet_width, int32 sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static, int32 img_width, int32 img_height) :
+FixedTexSheet::FixedTexSheet(int32_t sheet_width, int32_t sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static, int32_t img_width, int32_t img_height) :
     TexSheet(sheet_width, sheet_height, sheet_id, sheet_type, sheet_static),
     _texture_width(img_width),
     _texture_height(img_height)
@@ -227,14 +227,14 @@ FixedTexSheet::FixedTexSheet(int32 sheet_width, int32 sheet_height, GLuint sheet
     _block_height = height / _texture_height;
 
     // Allocate the blocks array
-    int32 num_blocks = _block_width * _block_height;
+    int32_t num_blocks = _block_width * _block_height;
     _blocks = new FixedTexNode[num_blocks];
 
     // Construct the linked list of open blocks
     _open_list_head = &_blocks[0];
     _open_list_tail = &_blocks[num_blocks - 1];
 
-    for(int32 i = 0; i < num_blocks - 1; i++) {
+    for(int32_t i = 0; i < num_blocks - 1; i++) {
         _blocks[i].image = nullptr;
         _blocks[i].next = &_blocks[i + 1];
         _blocks[i].block_index = i;
@@ -316,7 +316,7 @@ void FixedTexSheet::RemoveTexture(BaseTexture *img)
         return;
     }
 
-    int32 block_index = _CalculateBlockIndex(img);
+    int32_t block_index = _CalculateBlockIndex(img);
 
     // Check to make sure the block is actually owned by this image
     if(_blocks[block_index].image != img) {
@@ -337,7 +337,7 @@ void FixedTexSheet::FreeTexture(BaseTexture *img)
         return;
     }
 
-    int32 block_index = _CalculateBlockIndex(img);
+    int32_t block_index = _CalculateBlockIndex(img);
 
     // Check to make sure the block is actually owned by this image
     if(_blocks[block_index].image != img) {
@@ -385,11 +385,11 @@ void FixedTexSheet::RestoreTexture(BaseTexture *img)
 
 
 
-uint32 FixedTexSheet::GetNumberTextures()
+uint32_t FixedTexSheet::GetNumberTextures()
 {
-    uint32 num_blocks = 0;
+    uint32_t num_blocks = 0;
 
-    for(int32 i = 0; i < _block_width * _block_height; i++) {
+    for(int32_t i = 0; i < _block_width * _block_height; i++) {
         if(_blocks[i].image != nullptr) {
             num_blocks++;
         }
@@ -400,10 +400,10 @@ uint32 FixedTexSheet::GetNumberTextures()
 
 
 
-int32 FixedTexSheet::_CalculateBlockIndex(BaseTexture *img)
+int32_t FixedTexSheet::_CalculateBlockIndex(BaseTexture *img)
 {
-    int32 block_x = img->x / _texture_width;
-    int32 block_y = img->y / _texture_height;
+    int32_t block_x = img->x / _texture_width;
+    int32_t block_y = img->y / _texture_height;
 
     return (block_x + _block_width * block_y);
 }
@@ -446,7 +446,7 @@ FixedTexNode *FixedTexSheet::_RemoveOpenNode()
 // VariableTexSheet class
 // -----------------------------------------------------------------------------
 
-VariableTexSheet::VariableTexSheet(int32 sheet_width, int32 sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static) :
+VariableTexSheet::VariableTexSheet(int32_t sheet_width, int32_t sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static) :
     TexSheet(sheet_width, sheet_height, sheet_id, sheet_type, sheet_static)
 {
     _block_width = width / 16;
@@ -496,20 +496,20 @@ bool VariableTexSheet::InsertTexture(BaseTexture *img)
     }
 
     // Attempt to find an open region in the texture sheet to fit this texture
-    int32 block_x = -1, block_y = -1;
-    int32 w = (img->width + 15) / 16;
-    int32 h = (img->height + 15) / 16;
+    int32_t block_x = -1, block_y = -1;
+    int32_t w = (img->width + 15) / 16;
+    int32_t h = (img->height + 15) / 16;
 
     // This is a brute force algorithm to try and find space to allocate the texture.
     // If this becomes a bottleneck, we may wish to use a more intellegent algorithm here.
     bool continue_search = true;
-    for(int32 y = 0; y < _block_height - h + 1 && continue_search; y++) {
-        for(int32 x = 0; x < _block_width - w + 1; x++) {
-            int32 furthest_blocker = -1;
+    for(int32_t y = 0; y < _block_height - h + 1 && continue_search; y++) {
+        for(int32_t x = 0; x < _block_width - w + 1; x++) {
+            int32_t furthest_blocker = -1;
 
             bool continue_neighbor_search = true;
-            for(int32 dy = 0; dy < h && continue_neighbor_search; dy++) {
-                for(int32 dx = 0; dx < w; dx++) {
+            for(int32_t dy = 0; dy < h && continue_neighbor_search; dy++) {
+                for(int32_t dx = 0; dx < w; dx++) {
                     if(_blocks[(x + dx) + ((y + dy) * _block_width)].free_image == false) {
                         furthest_blocker = x + dx;
                         continue_neighbor_search = false;
@@ -532,9 +532,9 @@ bool VariableTexSheet::InsertTexture(BaseTexture *img)
         return false;
 
     // Go through each block that is to be occupied by the new texture and set its properties
-    for(int32 y = block_y; y < block_y + h; y++) {
-        for(int32 x = block_x; x < block_x + w; x++) {
-            int32 index = x + (y * _block_width);
+    for(int32_t y = block_y; y < block_y + h; y++) {
+        for(int32_t x = block_x; x < block_x + w; x++) {
+            int32_t index = x + (y * _block_width);
 
             // If the texture pointer for the block is not nullptr, this means it contains a freed texture.
             // Now we must remove that texture entirely since we are overwriting at least one of its blocks.
@@ -587,16 +587,16 @@ void VariableTexSheet::_SetBlockProperties(BaseTexture *tex, BaseTexture *new_te
     }
 
     // Calculate upper-left corner in blocks
-    int32 block_x = tex->x / 16;
-    int32 block_y = tex->y / 16;
+    int32_t block_x = tex->x / 16;
+    int32_t block_y = tex->y / 16;
 
     // Calculate width and height in blocks
-    int32 w = (tex->width  + 15) / 16;
-    int32 h = (tex->height + 15) / 16;
+    int32_t w = (tex->width  + 15) / 16;
+    int32_t h = (tex->height + 15) / 16;
 
-    for(int32 y = block_y; y < block_y + h; y++) {
-        for(int32 x = block_x; x < block_x + w; x++) {
-            int32 index = x + y * _block_width;
+    for(int32_t y = block_y; y < block_y + h; y++) {
+        for(int32_t x = block_x; x < block_x + w; x++) {
+            int32_t index = x + y * _block_width;
             if(_blocks[index].image == tex) {
                 _blocks[index].free_image = free;
                 _blocks[index].image = new_tex;

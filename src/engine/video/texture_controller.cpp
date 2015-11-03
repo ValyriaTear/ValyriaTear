@@ -154,7 +154,7 @@ void TextureController::DEBUG_NextTexSheet()
 {
     _debug_current_sheet++;
 
-    if(_debug_current_sheet >= static_cast<int32>(_tex_sheets.size()))
+    if(_debug_current_sheet >= static_cast<int32_t>(_tex_sheets.size()))
         _debug_current_sheet = -1;  // Disables texture sheet display
 }
 
@@ -165,7 +165,7 @@ void TextureController::DEBUG_PrevTexSheet()
     _debug_current_sheet--;
 
     if(_debug_current_sheet < -1)
-        _debug_current_sheet = static_cast<int32>(_tex_sheets.size()) - 1;
+        _debug_current_sheet = static_cast<int32_t>(_tex_sheets.size()) - 1;
 }
 
 
@@ -185,7 +185,7 @@ void TextureController::DEBUG_ShowTexSheet()
 
     // If we were viewing a particular texture sheet and it happened to get deleted, we change
     // to look at a different sheet
-    int32 num_sheets = static_cast<uint32>(_tex_sheets.size());
+    int32_t num_sheets = static_cast<uint32_t>(_tex_sheets.size());
 
     if(_debug_current_sheet >= num_sheets) {
         _debug_current_sheet = num_sheets - 1;
@@ -247,7 +247,7 @@ void TextureController::DEBUG_ShowTexSheet()
     VideoManager->PopState();
 }
 
-GLuint TextureController::_CreateBlankGLTexture(int32 width, int32 height)
+GLuint TextureController::_CreateBlankGLTexture(int32_t width, int32_t height)
 {
     GLuint tex_id;
     glGenTextures(1, &tex_id);
@@ -364,7 +364,7 @@ bool TextureController::_DeleteTempTextures()
     return result;
 }
 
-TexSheet *TextureController::_CreateTexSheet(int32 width, int32 height, TexSheetType type, bool is_static)
+TexSheet *TextureController::_CreateTexSheet(int32_t width, int32_t height, TexSheetType type, bool is_static)
 {
     // Validate that the function arguments are appropriate values
     if(!vt_utils::IsPowerOfTwo(width) || !vt_utils::IsPowerOfTwo(height)) {
@@ -432,8 +432,8 @@ TexSheet *TextureController::_InsertImageInTexSheet(BaseTexture *image, ImageMem
 {
     // Image sizes larger than 512 in either dimension require their own texture sheet
     if(load_info.width > 512 || load_info.height > 512) {
-        int32 round_width = vt_utils::RoundUpPow2(load_info.width);
-        int32 round_height = vt_utils::RoundUpPow2(load_info.height);
+        int32_t round_width = vt_utils::RoundUpPow2(load_info.width);
+        int32_t round_height = vt_utils::RoundUpPow2(load_info.height);
         TexSheet *sheet = _CreateTexSheet(round_width, round_height, VIDEO_TEXSHEET_ANY, false);
 
         // Ran out of memory!
@@ -464,7 +464,7 @@ TexSheet *TextureController::_InsertImageInTexSheet(BaseTexture *image, ImageMem
 
     // Look through all existing texture sheets and see if the image will fit in any of the ones which
     // match the type and static status that we are looking for
-    for(uint32 i = 0; i < _tex_sheets.size(); i++) {
+    for(uint32_t i = 0; i < _tex_sheets.size(); i++) {
         TexSheet *sheet = _tex_sheets[i];
         if(sheet == nullptr) {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "found a nullptr texture sheet in the _tex_sheets container" << std::endl;
@@ -539,9 +539,9 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
                 image = multi_image_info[img->filename].second;
             }
 
-            uint16 pos0, pos1; // Used to find the start and end positions of a sub-string
-            uint32 x, y; //
-            uint32 rows, cols;
+            uint16_t pos0, pos1; // Used to find the start and end positions of a sub-string
+            uint32_t x, y; //
+            uint32_t rows, cols;
 
             pos0 = img->tags.find("<X", 0);
             pos1 = img->tags.find('_', pos0);
@@ -554,8 +554,8 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
             rows = load_info.height / image.height;
             cols = load_info.width / image.width;
 
-            for(uint32 row = 0; row < image.height; ++row) {
-                memcpy((uint8 *)image.pixels + 4 * image.width * row, (uint8 *)load_info.pixels + (((x * load_info.height / rows) + row)
+            for(uint32_t row = 0; row < image.height; ++row) {
+                memcpy((uint8_t *)image.pixels + 4 * image.width * row, (uint8_t *)load_info.pixels + (((x * load_info.height / rows) + row)
                         * load_info.width + y * load_info.width / cols) * 4, 4 * image.width);
             }
 

@@ -37,7 +37,7 @@ namespace private_gui
 {
 
 //! \brief Assume this many characters per line of text when calculating display speed for textboxes
-const uint32 CHARS_PER_LINE = 30;
+const uint32_t CHARS_PER_LINE = 30;
 
 } // namespace private_gui
 
@@ -88,7 +88,7 @@ public:
     *** \param frame_time The amount of milliseconds that have transpired since the last frame.
     *** This must be called every frame in order to update the gradual display of text.
     **/
-    void Update(uint32 frame_time = vt_system::SystemManager->GetUpdateTime());
+    void Update(uint32_t frame_time = vt_system::SystemManager->GetUpdateTime());
 
     /** \brief Renders the textbox to the screen back buffer.
     *** Note that the rendering is not affected by any draw flags or coordinate system settings,.
@@ -116,7 +116,7 @@ public:
     *** \param xalign The x alignment, e.g. VIDEO_X_LEFT
     *** \param yalign The y alignment, e.g. VIDEO_Y_TOP
     **/
-    void SetTextAlignment(int32 xalign, int32 yalign);
+    void SetTextAlignment(int32_t xalign, int32_t yalign);
 
     /** \brief Sets the text style to use for this textbox.
     *** \param style The style intended \see #TextStyle
@@ -157,7 +157,7 @@ public:
     *** \param xalign The member to hold the x alignment (e.g. VIDEO_X_LEFT).
     *** \param yalign The member to hold the y alignment (e.g. VIDEO_Y_TOP).
     **/
-    void GetTextAlignment(int32 &xalign, int32 &yalign) {
+    void GetTextAlignment(int32_t &xalign, int32_t &yalign) {
         xalign = _text_xalign;
         yalign = _text_yalign;
     }
@@ -202,19 +202,19 @@ private:
     float _display_speed;
 
     //! \brief Alignment flags for the textbox.
-    int32 _text_xalign, _text_yalign;
+    int32_t _text_xalign, _text_yalign;
 
     //! \brief Hold the number of characters in the entire text.
-    uint32 _num_chars;
+    uint32_t _num_chars;
 
     //! \brief True if the text being drawn by SetDisplayText() is done (in the case of gradual rendering).
     bool _finished;
 
     //! \brief The number of milliseconds that have passed since SetDisplayText() was called.
-    uint32 _current_time;
+    uint32_t _current_time;
 
     //! \brief The number of milliseconds remaining until the gradual text display will be complete.
-    uint32 _end_time;
+    uint32_t _end_time;
 
     //! \brief The rendered image of the text stored in the text box
     vt_video::TextImage _text_image;

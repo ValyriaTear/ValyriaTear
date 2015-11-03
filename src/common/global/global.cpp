@@ -39,7 +39,7 @@ bool GLOBAL_DEBUG = false;
 // GlobalEventGroup class
 ////////////////////////////////////////////////////////////////////////////////
 
-void GlobalEventGroup::AddNewEvent(const std::string &event_name, int32 event_value)
+void GlobalEventGroup::AddNewEvent(const std::string &event_name, int32_t event_value)
 {
     if(DoesEventExist(event_name)) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "an event with the desired name \"" << event_name << "\" already existed in this group: "
@@ -49,9 +49,9 @@ void GlobalEventGroup::AddNewEvent(const std::string &event_name, int32 event_va
     _events.insert(std::make_pair(event_name, event_value));
 }
 
-int32 GlobalEventGroup::GetEvent(const std::string &event_name)
+int32_t GlobalEventGroup::GetEvent(const std::string &event_name)
 {
-    std::map<std::string, int32>::iterator event_iter = _events.find(event_name);
+    std::map<std::string, int32_t>::iterator event_iter = _events.find(event_name);
     if(event_iter == _events.end()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "an event with the specified name \"" << event_name << "\" did not exist in this group: "
                                        << _group_name << std::endl;
@@ -60,9 +60,9 @@ int32 GlobalEventGroup::GetEvent(const std::string &event_name)
     return event_iter->second;
 }
 
-void GlobalEventGroup::SetEvent(const std::string &event_name, int32 event_value)
+void GlobalEventGroup::SetEvent(const std::string &event_name, int32_t event_value)
 {
-    std::map<std::string, int32>::iterator event_iter = _events.find(event_name);
+    std::map<std::string, int32_t>::iterator event_iter = _events.find(event_name);
     if(event_iter == _events.end()) {
         AddNewEvent(event_name, event_value);
         return;
@@ -226,7 +226,7 @@ bool GameGlobal::_LoadGlobalScripts()
 void GameGlobal::ClearAllData()
 {
     // Delete all inventory objects
-    for(std::map<uint32, GlobalObject *>::iterator it = _inventory.begin(); it != _inventory.end(); ++it) {
+    for(std::map<uint32_t, GlobalObject *>::iterator it = _inventory.begin(); it != _inventory.end(); ++it) {
         delete it->second;
     }
     _inventory.clear();
@@ -240,7 +240,7 @@ void GameGlobal::ClearAllData()
     _inventory_key_items.clear();
 
     // Delete all characters
-    for(std::map<uint32, GlobalCharacter *>::iterator it = _characters.begin(); it != _characters.end(); ++it) {
+    for(std::map<uint32_t, GlobalCharacter *>::iterator it = _characters.begin(); it != _characters.end(); ++it) {
         delete it->second;
     }
     _characters.clear();
@@ -341,9 +341,9 @@ WorldMapLocation::WorldMapLocation(float x, float y, const std::string& location
 // GameGlobal class - Character Functions
 ////////////////////////////////////////////////////////////////////////////////
 
-void GameGlobal::AddCharacter(uint32 id)
+void GameGlobal::AddCharacter(uint32_t id)
 {
-    std::map<uint32, GlobalCharacter *>::iterator it = _characters.find(id);
+    std::map<uint32_t, GlobalCharacter *>::iterator it = _characters.find(id);
     if(it != _characters.end()) {
         if(it->second->IsEnabled()) {
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add a character that already existed: " << id << std::endl;
@@ -400,9 +400,9 @@ void GameGlobal::AddCharacter(GlobalCharacter *ch)
 
 
 
-void GameGlobal::RemoveCharacter(uint32 id, bool erase)
+void GameGlobal::RemoveCharacter(uint32_t id, bool erase)
 {
-    std::map<uint32, GlobalCharacter *>::iterator it = _characters.find(id);
+    std::map<uint32_t, GlobalCharacter *>::iterator it = _characters.find(id);
     if(it == _characters.end()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to remove a character that did not exist: " << id << std::endl;
         return;
@@ -420,7 +420,7 @@ void GameGlobal::RemoveCharacter(uint32 id, bool erase)
 
     // Reform the active party in case the removed character was a member of it
     _active_party.RemoveAllCharacters();
-    for(uint32 j = 0; j < _ordered_characters.size() && j < GLOBAL_MAX_PARTY_SIZE; j++) {
+    for(uint32_t j = 0; j < _ordered_characters.size() && j < GLOBAL_MAX_PARTY_SIZE; j++) {
         _active_party.AddCharacter(_ordered_characters[j]);
     }
 
@@ -432,9 +432,9 @@ void GameGlobal::RemoveCharacter(uint32 id, bool erase)
 }
 
 
-GlobalCharacter *GameGlobal::GetCharacter(uint32 id)
+GlobalCharacter *GameGlobal::GetCharacter(uint32_t id)
 {
-    std::map<uint32, GlobalCharacter *>::iterator ch = _characters.find(id);
+    std::map<uint32_t, GlobalCharacter *>::iterator ch = _characters.find(id);
     if(ch == _characters.end())
         return nullptr;
     else
@@ -442,7 +442,7 @@ GlobalCharacter *GameGlobal::GetCharacter(uint32 id)
 }
 
 
-void GameGlobal::SwapCharactersByIndex(uint32 first_index, uint32 second_index)
+void GameGlobal::SwapCharactersByIndex(uint32_t first_index, uint32_t second_index)
 {
     // Deal with the ordered characters
     if(first_index == second_index) {
@@ -467,7 +467,7 @@ void GameGlobal::SwapCharactersByIndex(uint32 first_index, uint32 second_index)
     _active_party.SwapCharactersByIndex(first_index, second_index);
 }
 
-bool GameGlobal::DoesEnemyExist(uint32 enemy_id)
+bool GameGlobal::DoesEnemyExist(uint32_t enemy_id)
 {
     if(enemy_id == 0)
         return false;
@@ -485,7 +485,7 @@ bool GameGlobal::DoesEnemyExist(uint32 enemy_id)
 // GameGlobal class - Inventory Functions
 ////////////////////////////////////////////////////////////////////////////////
 
-void GameGlobal::AddToInventory(uint32 obj_id, uint32 obj_count)
+void GameGlobal::AddToInventory(uint32_t obj_id, uint32_t obj_count)
 {
     // Don't add object instance without at least one actual item.
     if (obj_count == 0)
@@ -551,8 +551,8 @@ void GameGlobal::AddToInventory(GlobalObject *object)
         return;
     }
 
-    uint32 obj_id = object->GetID();
-    uint32 obj_count = object->GetCount();
+    uint32_t obj_id = object->GetID();
+    uint32_t obj_count = object->GetCount();
 
     // Don't add object instance without at least one actual item.
     if (obj_count == 0) {
@@ -608,9 +608,9 @@ void GameGlobal::AddToInventory(GlobalObject *object)
         _inventory_key_items.push_back(object);
 }
 
-void GameGlobal::RemoveFromInventory(uint32 obj_id)
+void GameGlobal::RemoveFromInventory(uint32_t obj_id)
 {
-    std::map<uint32, GlobalObject *>::iterator it = _inventory.find(obj_id);
+    std::map<uint32_t, GlobalObject *>::iterator it = _inventory.find(obj_id);
     if(it == _inventory.end()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to remove an object from inventory that didn't exist with id: " << obj_id << std::endl;
         return;
@@ -657,7 +657,7 @@ void GameGlobal::RemoveFromInventory(uint32 obj_id)
     }
 }
 
-GlobalObject* GameGlobal::GetGlobalObject(uint32 obj_id)
+GlobalObject* GameGlobal::GetGlobalObject(uint32_t obj_id)
 {
     if(_inventory.find(obj_id) == _inventory.end()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to retrieve an object from inventory that didn't exist with id: " << obj_id << std::endl;
@@ -702,7 +702,7 @@ GlobalObject* GameGlobal::GetGlobalObject(uint32 obj_id)
     return return_object;
 }
 
-void GameGlobal::IncrementItemCount(uint32 obj_id, uint32 count)
+void GameGlobal::IncrementItemCount(uint32_t obj_id, uint32_t count)
 {
     // Do nothing if the item does not exist in the inventory
     if(_inventory.find(obj_id) == _inventory.end()) {
@@ -715,7 +715,7 @@ void GameGlobal::IncrementItemCount(uint32 obj_id, uint32 count)
 
 
 
-void GameGlobal::DecrementItemCount(uint32 obj_id, uint32 count)
+void GameGlobal::DecrementItemCount(uint32_t obj_id, uint32_t count)
 {
     // Do nothing if the item does not exist in the inventory
     if(_inventory.find(obj_id) == _inventory.end()) {
@@ -746,7 +746,7 @@ bool GameGlobal::DoesEventExist(const std::string &group_name, const std::string
     if(group_iter == _event_groups.end())
         return false;
 
-    std::map<std::string, int32>::const_iterator event_iter = group_iter->second->GetEvents().find(event_name);
+    std::map<std::string, int32_t>::const_iterator event_iter = group_iter->second->GetEvents().find(event_name);
     if(event_iter == group_iter->second->GetEvents().end())
         return false;
 
@@ -781,20 +781,20 @@ GlobalEventGroup *GameGlobal::GetEventGroup(const std::string &group_name) const
 
 
 
-int32 GameGlobal::GetEventValue(const std::string &group_name, const std::string &event_name) const
+int32_t GameGlobal::GetEventValue(const std::string &group_name, const std::string &event_name) const
 {
     std::map<std::string, GlobalEventGroup *>::const_iterator group_iter = _event_groups.find(group_name);
     if(group_iter == _event_groups.end())
         return 0;
 
-    std::map<std::string, int32>::const_iterator event_iter = group_iter->second->GetEvents().find(event_name);
+    std::map<std::string, int32_t>::const_iterator event_iter = group_iter->second->GetEvents().find(event_name);
     if(event_iter == group_iter->second->GetEvents().end())
         return 0;
 
     return event_iter->second;
 }
 
-void GameGlobal::SetEventValue(const std::string &group_name, const std::string &event_name, int32 event_value)
+void GameGlobal::SetEventValue(const std::string &group_name, const std::string &event_name, int32_t event_value)
 {
     GlobalEventGroup *geg = 0;
     std::map<std::string, GlobalEventGroup *>::const_iterator group_iter = _event_groups.find(group_name);
@@ -808,7 +808,7 @@ void GameGlobal::SetEventValue(const std::string &group_name, const std::string 
     geg->SetEvent(event_name, event_value);
 }
 
-uint32 GameGlobal::GetNumberEvents(const std::string &group_name) const
+uint32_t GameGlobal::GetNumberEvents(const std::string &group_name) const
 {
     std::map<std::string, GlobalEventGroup *>::const_iterator group_iter = _event_groups.find(group_name);
     if(group_iter == _event_groups.end()) {
@@ -860,7 +860,7 @@ void GameGlobal::NewGame()
     _global_script.RunScriptFunction("NewGame");
 }
 
-bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_position, uint32 y_position)
+bool GameGlobal::SaveGame(const std::string &filename, uint32_t slot_id, uint32_t x_position, uint32_t y_position)
 {
     WriteScriptDescriptor file;
     if(file.OpenFile(filename) == false) {
@@ -898,7 +898,7 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_
     file.WriteLine("characters = {");
     // First save the order of the characters in the party
     file.WriteLine("\t[\"order\"] = {");
-    for(uint32 i = 0; i < _ordered_characters.size(); ++i) {
+    for(uint32_t i = 0; i < _ordered_characters.size(); ++i) {
         if(i == 0)
             file.WriteLine("\t\t" + NumberToString(_ordered_characters[i]->GetID()), false);
         else
@@ -907,7 +907,7 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_
     file.WriteLine("\n\t},"); // order
 
     // Now save each individual character's data
-    for(uint32 i = 0; i < _ordered_characters.size(); i++) {
+    for(uint32_t i = 0; i < _ordered_characters.size(); i++) {
         if((i + 1) == _ordered_characters.size())
             _SaveCharacter(file, _ordered_characters[i], true);
         else
@@ -956,7 +956,7 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32 slot_id, uint32 x_
 
 
 
-bool GameGlobal::LoadGame(const std::string &filename, uint32 slot_id)
+bool GameGlobal::LoadGame(const std::string &filename, uint32_t slot_id)
 {
     ReadScriptDescriptor file;
     if(!file.OpenFile(filename))
@@ -1000,7 +1000,7 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32 slot_id)
     // Load a potential saved position
     _x_save_map_position = file.ReadUInt("location_x");
     _y_save_map_position = file.ReadUInt("location_y");
-    uint8 hours, minutes, seconds;
+    uint8_t hours, minutes, seconds;
     hours = file.ReadUInt("play_hours");
     minutes = file.ReadUInt("play_minutes");
     seconds = file.ReadUInt("play_seconds");
@@ -1032,7 +1032,7 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32 slot_id)
         return false;
     }
 
-    std::vector<uint32> char_ids;
+    std::vector<uint32_t> char_ids;
     file.ReadUIntVector("order", char_ids);
 
     if (char_ids.empty()) {
@@ -1042,7 +1042,7 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32 slot_id)
         return false;
     }
 
-    for(uint32 i = 0; i < char_ids.size(); i++) {
+    for(uint32_t i = 0; i < char_ids.size(); i++) {
         _LoadCharacter(file, char_ids[i]);
     }
     file.CloseTable(); // characters
@@ -1058,7 +1058,7 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32 slot_id)
     std::vector<std::string> group_names;
     if (file.OpenTable("event_groups")) {
         file.ReadTableKeys(group_names);
-        for(uint32 i = 0; i < group_names.size(); i++)
+        for(uint32_t i = 0; i < group_names.size(); i++)
             _LoadEvents(file, group_names[i]);
         file.CloseTable();
     }
@@ -1067,7 +1067,7 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32 slot_id)
     std::vector<std::string> quest_keys;
     if (file.OpenTable("quest_log")) {
         file.ReadTableKeys(quest_keys);
-        for(uint32 i = 0; i < quest_keys.size(); ++i)
+        for(uint32_t i = 0; i < quest_keys.size(); ++i)
             _LoadQuests(file, quest_keys[i]);
         file.CloseTable();
     }
@@ -1111,7 +1111,7 @@ void GameGlobal::LoadEmotes(const std::string &emotes_filename)
 
     // Read all the values
     emotes_script.OpenTable("emotes");
-    for(uint32 i = 0; i < emotes_id.size(); ++i) {
+    for(uint32_t i = 0; i < emotes_id.size(); ++i) {
 
         if(!emotes_script.DoesTableExist(emotes_id[i]))
             continue;
@@ -1132,7 +1132,7 @@ void GameGlobal::LoadEmotes(const std::string &emotes_filename)
             emote_offsets.resize(vt_map::private_map::NUM_ANIM_DIRECTIONS);
 
             // For each directions
-            for(uint32 j = 0; j < vt_map::private_map::NUM_ANIM_DIRECTIONS; ++j) {
+            for(uint32_t j = 0; j < vt_map::private_map::NUM_ANIM_DIRECTIONS; ++j) {
                 emotes_script.OpenTable(j);
 
                 std::pair<float, float> offsets;
@@ -1211,11 +1211,11 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     file.WriteLine("\t\tevade = " + NumberToString(character->GetEvadeBase()) + ",");
 
     // ----- (2): Write out the character's equipment
-    uint32 weapon_id = 0;
-    uint32 head_id = 0;
-    uint32 torso_id = 0;
-    uint32 arm_id = 0;
-    uint32 leg_id = 0;
+    uint32_t weapon_id = 0;
+    uint32_t head_id = 0;
+    uint32_t torso_id = 0;
+    uint32_t arm_id = 0;
+    uint32_t leg_id = 0;
     GlobalObject *obj_tmp = nullptr;
 
     obj_tmp = character->GetWeaponEquipped();
@@ -1251,9 +1251,9 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     // The equipment skills will be reloaded through equipment.
     file.InsertNewLine();
     file.WriteLine("\t\tskills = {");
-    const std::vector<uint32>& skill_vector = character->GetPermanentSkills();
-    for(uint32 i = 0; i < skill_vector.size(); i++) {
-        uint32 skill_id = skill_vector.at(i);
+    const std::vector<uint32_t>& skill_vector = character->GetPermanentSkills();
+    for(uint32_t i = 0; i < skill_vector.size(); i++) {
+        uint32_t skill_id = skill_vector.at(i);
 
         if(i == 0)
             file.WriteLine("\t\t\t", false);
@@ -1267,15 +1267,15 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     file.InsertNewLine();
     file.WriteLine("\t\tactive_status_effects = {");
     const std::vector<ActiveStatusEffect>& status_effects = character->GetActiveStatusEffects();
-    for(uint32 i = 0; i < status_effects.size(); ++i) {
+    for(uint32_t i = 0; i < status_effects.size(); ++i) {
         const ActiveStatusEffect& effect = status_effects.at(i);
         if (!effect.IsActive())
             continue;
 
-        std::string effect_str = "\t\t\t[" + NumberToString((int32)effect.GetEffect()) + "] = { ";
-        effect_str += "intensity = " + NumberToString((int32)effect.GetIntensity()) + ", ";
-        effect_str += "duration = " + NumberToString((int32)effect.GetEffectTime()) + ", ";
-        effect_str += "elapsed_time = " + NumberToString((int32)effect.GetElapsedTime()) + "},";
+        std::string effect_str = "\t\t\t[" + NumberToString((int32_t)effect.GetEffect()) + "] = { ";
+        effect_str += "intensity = " + NumberToString((int32_t)effect.GetIntensity()) + ", ";
+        effect_str += "duration = " + NumberToString((int32_t)effect.GetEffectTime()) + ", ";
+        effect_str += "elapsed_time = " + NumberToString((int32_t)effect.GetElapsedTime()) + "},";
 
         file.WriteLine(effect_str);
     }
@@ -1302,8 +1302,8 @@ void GameGlobal::_SaveEvents(WriteScriptDescriptor &file, GlobalEventGroup *even
 
     file.WriteLine("\t" + event_group->GetGroupName() + " = {");
 
-    uint32 i = 0;
-    for(std::map<std::string, int32>::const_iterator it = event_group->GetEvents().begin(); it != event_group->GetEvents().end(); ++it) {
+    uint32_t i = 0;
+    for(std::map<std::string, int32_t>::const_iterator it = event_group->GetEvents().begin(); it != event_group->GetEvents().end(); ++it) {
         if(it == event_group->GetEvents().begin())
             file.WriteLine("\t\t", false);
         else
@@ -1365,7 +1365,7 @@ void GameGlobal::_SaveWorldMap(vt_script::WriteScriptDescriptor &file)
 
     //write the viewable locations
     file.WriteLine("\tviewable_locations = {");
-    for(uint32 i = 0; i < _viewable_world_locations.size(); ++i)
+    for(uint32_t i = 0; i < _viewable_world_locations.size(); ++i)
         file.WriteLine("\t\t\"" + _viewable_world_locations[i]+"\",");
     file.WriteLine("\t},");
     file.InsertNewLine();
@@ -1385,9 +1385,9 @@ void GameGlobal::_LoadInventory(ReadScriptDescriptor &file, const std::string &c
 
     // The table keys are the inventory object ID numbers. The value of each key is the count of that object
     if (file.OpenTable(category_name)) {
-        std::vector<uint32> object_ids;
+        std::vector<uint32_t> object_ids;
         file.ReadTableKeys(object_ids);
-        for(uint32 i = 0; i < object_ids.size(); i++) {
+        for(uint32_t i = 0; i < object_ids.size(); i++) {
             AddToInventory(object_ids[i], file.ReadUInt(object_ids[i]));
         }
         file.CloseTable();
@@ -1396,7 +1396,7 @@ void GameGlobal::_LoadInventory(ReadScriptDescriptor &file, const std::string &c
 
 
 
-void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
+void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32_t id)
 {
     if(!file.IsFileOpen()) {
         PRINT_WARNING << "Can't load character, the file " << file.GetFilename()
@@ -1440,7 +1440,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
 
     // Read the character's equipment and load it onto the character
     if (file.OpenTable("equipment")) {
-        uint32 equip_id;
+        uint32_t equip_id;
 
         // Equip the objects on the character as long as valid equipment IDs were read
         equip_id = file.ReadUInt("weapon");
@@ -1472,11 +1472,11 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
     }
 
     // Read the character's skills and pass those onto the character object
-    std::vector<uint32> skill_ids;
+    std::vector<uint32_t> skill_ids;
 
     skill_ids.clear();
     file.ReadUIntVector("skills", skill_ids);
-    for(uint32 i = 0; i < skill_ids.size(); i++) {
+    for(uint32_t i = 0; i < skill_ids.size(); i++) {
         // DEPRECATED HACK: Remove that in one release.
         // Turn old bare hands skills id into new ones at load time.
         if (skill_ids[i] == 999)
@@ -1490,7 +1490,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
     //DEPRECATED: Will be removed in one release!
     skill_ids.clear();
     file.ReadUIntVector("weapon_skills", skill_ids);
-    for(uint32 i = 0; i < skill_ids.size(); i++) {
+    for(uint32_t i = 0; i < skill_ids.size(); i++) {
         // DEPRECATED HACK: Remove that in one release.
         // Turn old bare hands skills id into new ones at load time.
         if (skill_ids[i] == 999)
@@ -1503,68 +1503,68 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
     //DEPRECATED: Will be removed in one release!
     skill_ids.clear();
     file.ReadUIntVector("magic_skills", skill_ids);
-    for(uint32 i = 0; i < skill_ids.size(); ++i) {
+    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
         character->AddSkill(skill_ids[i]);
     }
     //DEPRECATED: Will be removed in one release!
     skill_ids.clear();
     file.ReadUIntVector("special_skills", skill_ids);
-    for(uint32 i = 0; i < skill_ids.size(); ++i) {
+    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
         character->AddSkill(skill_ids[i]);
     }
     //DEPRECATED: Will be removed in one release!
     skill_ids.clear();
     file.ReadUIntVector("bare_hands_skills", skill_ids);
-    for(uint32 i = 0; i < skill_ids.size(); ++i) {
+    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
         character->AddSkill(skill_ids[i]);
     }
 
     // DEPRECATED: Remove in one release
     skill_ids.clear();
     file.ReadUIntVector("defense_skills", skill_ids);
-    for(uint32 i = 0; i < skill_ids.size(); ++i) {
+    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
         character->AddSkill(skill_ids[i]);
     }
     // DEPRECATED: Remove in one release
     file.ReadUIntVector("attack_skills", skill_ids);
-    for(uint32 i = 0; i < skill_ids.size(); i++) {
+    for(uint32_t i = 0; i < skill_ids.size(); i++) {
         character->AddSkill(skill_ids[i]);
     }
     // DEPRECATED: Remove in one release
     skill_ids.clear();
     file.ReadUIntVector("support_skills", skill_ids);
-    for(uint32 i = 0; i < skill_ids.size(); ++i) {
+    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
         character->AddSkill(skill_ids[i]);
     }
 
     // Read the character's active status effects data
     character->ResetActiveStatusEffects();
-    std::vector<int32> status_effects_ids;
+    std::vector<int32_t> status_effects_ids;
     file.ReadTableKeys("active_status_effects", status_effects_ids);
 
     if (file.OpenTable("active_status_effects")) {
 
-        for(uint32 i = 0; i < status_effects_ids.size(); ++i) {
-            int32 status_effect = status_effects_ids[i];
+        for(uint32_t i = 0; i < status_effects_ids.size(); ++i) {
+            int32_t status_effect = status_effects_ids[i];
 
             if (!file.OpenTable(status_effect))
                 continue;
 
             // Check the status effect validity
-            if (status_effect <= (int32)GLOBAL_STATUS_INVALID || status_effect >= (int32)GLOBAL_STATUS_TOTAL) {
+            if (status_effect <= (int32_t)GLOBAL_STATUS_INVALID || status_effect >= (int32_t)GLOBAL_STATUS_TOTAL) {
                 file.CloseTable(); // status_effect
                 continue;
             }
 
             // Check the status intensity validity
-            int32 intensity = file.ReadInt("intensity");
+            int32_t intensity = file.ReadInt("intensity");
             if (intensity <= GLOBAL_INTENSITY_INVALID || intensity >= GLOBAL_INTENSITY_TOTAL) {
                 file.CloseTable(); // status_effect
                 continue;
             }
 
-            uint32 duration = file.ReadInt("duration");
-            uint32 elapsed_time = file.ReadInt("elapsed_time");
+            uint32_t duration = file.ReadInt("duration");
+            uint32_t elapsed_time = file.ReadInt("elapsed_time");
 
             character->SetActiveStatusEffect((GLOBAL_STATUS)status_effect,
                                              (GLOBAL_INTENSITY)intensity,
@@ -1579,7 +1579,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32 id)
     file.CloseTable(); // character id
 
     AddCharacter(character);
-} // void GameGlobal::_LoadCharacter(ReadScriptDescriptor& file, uint32 id);
+} // void GameGlobal::_LoadCharacter(ReadScriptDescriptor& file, uint32_t id);
 
 
 
@@ -1597,7 +1597,7 @@ void GameGlobal::_LoadEvents(ReadScriptDescriptor &file, const std::string &grou
 
     if (file.OpenTable(group_name)) {
         file.ReadTableKeys(event_names);
-        for(uint32 i = 0; i < event_names.size(); i++) {
+        for(uint32_t i = 0; i < event_names.size(); i++) {
             new_group->AddNewEvent(event_names[i], file.ReadInt(event_names[i]));
         }
         file.CloseTable();
@@ -1625,7 +1625,7 @@ void GameGlobal::_LoadQuests(ReadScriptDescriptor &file, const std::string &ques
 
     //conversion of the log number from string int. We need to do thing because ReadStringVector assumes that
     //all items are the same type.
-    uint32 quest_log_number = ::atoi(quest_info[0].c_str());
+    uint32_t quest_log_number = ::atoi(quest_info[0].c_str());
     //conversion from string to bool for is_read flag
     bool is_read = quest_info[1].compare("true") == 0;
 
@@ -1654,7 +1654,7 @@ void GameGlobal::_LoadWorldMap(vt_script::ReadScriptDescriptor &file)
 
         std::vector<std::string> location_ids;
         file.ReadStringVector("viewable_locations", location_ids);
-        for(uint32 i = 0; i < location_ids.size(); ++i)
+        for(uint32_t i = 0; i < location_ids.size(); ++i)
             ShowWorldLocation(location_ids[i]);
         return;
     }
@@ -1669,7 +1669,7 @@ void GameGlobal::_LoadWorldMap(vt_script::ReadScriptDescriptor &file)
 
     std::vector<std::string> location_ids;
     file.ReadStringVector("viewable_locations", location_ids);
-    for(uint32 i = 0; i < location_ids.size(); ++i)
+    for(uint32_t i = 0; i < location_ids.size(); ++i)
         ShowWorldLocation(location_ids[i]);
 
     std::string current_location = file.ReadString("current_location");
@@ -1706,7 +1706,7 @@ bool GameGlobal::_LoadWorldLocationsScript(const std::string &world_locations_fi
     }
 
     world_locations_script.OpenTable("world_locations");
-    for(uint32 i = 0; i < world_location_ids.size(); ++i)
+    for(uint32_t i = 0; i < world_location_ids.size(); ++i)
     {
         const std::string &id = world_location_ids[i];
         std::vector<std::string> values;
@@ -1762,7 +1762,7 @@ bool GameGlobal::_LoadQuestsScript(const std::string& quests_script_filename)
     }
 
     quests_script.OpenTable("quests");
-    for(uint32 i = 0; i < quest_ids.size(); ++i)
+    for(uint32_t i = 0; i < quest_ids.size(); ++i)
     {
         const std::string& quest_id = quest_ids[i];
         std::vector<std::string> quest_info;

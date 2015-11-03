@@ -94,15 +94,15 @@ template<typename T> std::string _VTranslate(const std::string &text, const T& a
     return translation;
 }
 
-std::string VTranslate(const std::string &text, int32 arg1)
+std::string VTranslate(const std::string &text, int32_t arg1)
 { return _VTranslate(text, arg1); }
-std::string VTranslate(const std::string &text, uint32 arg1)
+std::string VTranslate(const std::string &text, uint32_t arg1)
 { return _VTranslate(text, arg1); }
 std::string VTranslate(const std::string &text, const std::string& arg1)
 { return _VTranslate(text, arg1.c_str()); }
 std::string VTranslate(const std::string &text, float arg1)
 { return _VTranslate(text, arg1); }
-std::string VTranslate(const std::string &text, uint32 arg1, uint32 arg2)
+std::string VTranslate(const std::string &text, uint32_t arg1, uint32_t arg2)
 { return _VTranslate(text, arg1, arg2); }
 std::string VTranslate(const std::string &text, const std::string &arg1, const std::string &arg2)
 { return _VTranslate(text, arg1.c_str(), arg2.c_str()); }
@@ -122,7 +122,7 @@ SystemTimer::SystemTimer() :
     _times_completed(0)
 {}
 
-SystemTimer::SystemTimer(uint32 duration, int32 loops) :
+SystemTimer::SystemTimer(uint32_t duration, int32_t loops) :
     _state(SYSTEM_TIMER_INITIAL),
     _auto_update(false),
     _duration(duration),
@@ -139,7 +139,7 @@ SystemTimer::~SystemTimer()
     }
 }
 
-void SystemTimer::Initialize(uint32 duration, int32 number_loops)
+void SystemTimer::Initialize(uint32_t duration, int32_t number_loops)
 {
     _state = SYSTEM_TIMER_INITIAL;
     _duration = duration;
@@ -177,7 +177,7 @@ void SystemTimer::Update()
     Update(SystemManager->GetUpdateTime());
 }
 
-void SystemTimer::Update(uint32 time)
+void SystemTimer::Update(uint32_t time)
 {
     if(_auto_update == true) {
         IF_PRINT_WARNING(SYSTEM_DEBUG) << "update failed because timer is in automatic update mode" << std::endl;
@@ -207,7 +207,7 @@ float SystemTimer::PercentComplete() const
     }
 }
 
-void SystemTimer::SetDuration(uint32 duration)
+void SystemTimer::SetDuration(uint32_t duration)
 {
     if(IsInitial() == false) {
         IF_PRINT_WARNING(SYSTEM_DEBUG) << "function called when the timer was not in the initial state" << std::endl;
@@ -217,7 +217,7 @@ void SystemTimer::SetDuration(uint32 duration)
     _duration = duration;
 }
 
-void SystemTimer::SetTimeExpired(uint32 time_expired)
+void SystemTimer::SetTimeExpired(uint32_t time_expired)
 {
     if (time_expired <= _duration)
         _time_expired = time_expired;
@@ -225,7 +225,7 @@ void SystemTimer::SetTimeExpired(uint32 time_expired)
         _time_expired = _duration;
 }
 
-void SystemTimer::SetNumberLoops(int32 loops)
+void SystemTimer::SetNumberLoops(int32_t loops)
 {
     if(IsInitial() == false) {
         IF_PRINT_WARNING(SYSTEM_DEBUG) << "function called when the timer was not in the initial state" << std::endl;
@@ -258,7 +258,7 @@ void SystemTimer::_AutoUpdate()
     _UpdateTimer(SystemManager->GetUpdateTime());
 }
 
-void SystemTimer::_UpdateTimer(uint32 time)
+void SystemTimer::_UpdateTimer(uint32_t time)
 {
     _time_expired += time;
 
@@ -270,7 +270,7 @@ void SystemTimer::_UpdateTimer(uint32 time)
             _time_expired -= _duration;
         }
         // Check if the last loop has been completed
-        else if(_times_completed >= static_cast<uint32>(_number_loops)) {
+        else if(_times_completed >= static_cast<uint32_t>(_number_loops)) {
             _time_expired = 0;
             _state = SYSTEM_TIMER_FINISHED;
         }
@@ -401,7 +401,7 @@ void SystemEngine::SetMessageSpeed(float message_speed)
         _message_speed = 600.0f;
 }
 
-void SystemEngine::SetGameDifficulty(uint32 game_difficulty)
+void SystemEngine::SetGameDifficulty(uint32_t game_difficulty)
 {
         _game_difficulty = game_difficulty;
         if (_game_difficulty > 3)
@@ -468,7 +468,7 @@ void SystemEngine::RemoveAutoTimer(SystemTimer *timer)
 void SystemEngine::UpdateTimers()
 {
     // Update the update game timer
-    uint32 tmp = _last_update;
+    uint32_t tmp = _last_update;
     _last_update = SDL_GetTicks();
     _update_time = _last_update - tmp;
 

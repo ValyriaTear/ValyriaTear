@@ -234,7 +234,7 @@ public:
     }
 
     // Use a set of COLLISION_TYPE bitmask values
-    void SetCollisionMask(uint32 collision_types) {
+    void SetCollisionMask(uint32_t collision_types) {
         _collision_mask = collision_types;
     }
 
@@ -247,7 +247,7 @@ public:
         return _draw_layer;
     }
 
-    int16 GetObjectID() const {
+    int16_t GetObjectID() const {
         return _object_id;
     }
 
@@ -288,7 +288,7 @@ public:
         return _visible;
     }
 
-    uint32 GetCollisionMask() const {
+    uint32_t GetCollisionMask() const {
         return _collision_mask;
     }
 
@@ -315,7 +315,7 @@ protected:
     /** \brief An identification number for the object as it is represented in the map file.
     *** Objects with an ID less than zero are invalid.
     **/
-    int16 _object_id;
+    int16_t _object_id;
 
     /** \brief Coordinates for the object's origin/position.
     *** The origin of every map object is the bottom center point of the object. These
@@ -371,7 +371,7 @@ protected:
 
     //! \brief The collision mask indicating what the object will collide with. (i.e.: walls + objects, nothing, ...)
     //! \NOTE: COLLISION TYPE used as bitmask
-    uint32 _collision_mask;
+    uint32_t _collision_mask;
 
     /** \brief When true, objects in the ground object layer will be drawn after the pass objects
     *** This member is only checked for objects that exist in the ground layer. It has no meaning
@@ -392,7 +392,7 @@ protected:
     float _emote_screen_offset_y;
 
     //! \brief the time the emote animation will last in milliseconds,
-    int32 _emote_time;
+    int32_t _emote_time;
 
     //! \brief The object draw layer. Used to know where to register the MapObject,
     //! and when to delete it in the ObjectSupervisor.
@@ -454,25 +454,25 @@ public:
     *** \param animation_filename The name of the animation file to use for the animation
     *** \return The animation id that can later be used with SetCurrentAnimation() or -1 if invalid
     **/
-    int32 AddAnimation(const std::string& animation_filename);
+    int32_t AddAnimation(const std::string& animation_filename);
 
     /** \brief Sets a new still animation using the image filename provided
     *** \param image_filename The name of the image file to use for the animation
     *** \return The animation id that can later be used with SetCurrentAnimation() or -1 if invalid
     **/
-    int32 AddStillFrame(const std::string& image_filename);
+    int32_t AddStillFrame(const std::string& image_filename);
 
     void AddAnimation(const vt_video::AnimatedImage& new_img) {
         _animations.push_back(new_img);
     }
 
-    void SetCurrentAnimation(uint32 animation_id);
+    void SetCurrentAnimation(uint32_t animation_id);
 
-    void SetAnimationProgress(uint32 progress) {
+    void SetAnimationProgress(uint32_t progress) {
         _animations[_current_animation_id].SetTimeProgress(progress);
     }
 
-    uint32 GetCurrentAnimationId() const {
+    uint32_t GetCurrentAnimationId() const {
         return _current_animation_id;
     }
 
@@ -511,7 +511,7 @@ private:
     /** \brief The index to the animations vector that contains the current image to display
     *** When modifying this member, take care not to exceed the bounds of the animations vector
     **/
-    uint32 _current_animation_id;
+    uint32_t _current_animation_id;
 
     //! \brief The event id triggered when talking to the sprite.
     std::string _event_when_talking;
@@ -778,7 +778,7 @@ private:
     float _max_sound_volume;
 
     //! \brief The time remaining before next update
-    int32 _time_remaining;
+    int32_t _time_remaining;
 
     //! \brief Tells whether the sound is activated.
     bool _activated;
@@ -862,7 +862,7 @@ public:
     }
 
     //! \brief Sets the number of drunes present in the chest's contents.
-    void SetDrunes(uint32 amount) {
+    void SetDrunes(uint32_t amount) {
         _treasure->SetDrunes(amount);
     }
 
@@ -871,7 +871,7 @@ public:
     *** \param quantity The number of the object to add (default == 1)
     *** \return True if the object was added successfully
     **/
-    bool AddItem(uint32 id, uint32 quantity = 1);
+    bool AddItem(uint32_t id, uint32_t quantity = 1);
 
     /** \brief Adds an event triggered at start of the treasure event.
     *** \param event_id The id of the event to add
@@ -1011,12 +1011,12 @@ public:
 
     //! \brief Returns a unique ID integer for an object to use
     //! Every object Id must be > 0 since 0 is reserved for speakerless dialogues.
-    uint16 GenerateObjectID() {
+    uint16_t GenerateObjectID() {
         return ++_last_id;
     }
 
     //! \brief Returns the number of objects stored by the supervisor, regardless of what layer they exist on
-    uint32 GetNumberObjects() const {
+    uint32_t GetNumberObjects() const {
         return _all_objects.size();
     }
 
@@ -1024,13 +1024,13 @@ public:
     *** \param object_id The id number of the object to retrieve
     *** \return A pointer to the map object, or nullptr if no object with that ID was found
     **/
-    MapObject* GetObject(uint32 object_id);
+    MapObject* GetObject(uint32_t object_id);
 
     /** \brief Retrieves a pointer to a sprite on this map
     *** \param object_id The id number of the sprite to retrieve
     *** \return A pointer to the sprite object, or nullptr if the object was not found or was not a sprite type
     **/
-    VirtualSprite* GetSprite(uint32 object_id);
+    VirtualSprite* GetSprite(uint32_t object_id);
 
     //! \brief Wrapper to add an object in the all objects vector.
     //! This should only be called by the MapObject constructor.
@@ -1159,7 +1159,7 @@ public:
     ***
     *** \note If an error is detected or a path could not be found, the function will empty the path vector before returning
     **/
-    Path FindPath(private_map::VirtualSprite *sprite, const MapPosition &destination, uint32 max_cost = 0);
+    Path FindPath(private_map::VirtualSprite *sprite, const MapPosition &destination, uint32_t max_cost = 0);
 
     /** \brief Tells the object supervisor that the given sprite pointer
     *** is the party member object.
@@ -1195,7 +1195,7 @@ public:
     //! external callers cannot modify the contents of the map_object;
 
     //! \brief get the number of rows and columns in the collision grid
-    void GetGridAxis(uint32 &x, uint32 &y) const {
+    void GetGridAxis(uint32_t &x, uint32_t &y) const {
         x = _num_grid_x_axis;
         y = _num_grid_y_axis;
     }
@@ -1210,7 +1210,7 @@ public:
 
     //! \brief checks if the location on the grid has a simple map collision. This is different from
     //! IsStaticCollision, in that it DOES NOT check static objects, but only the collision value for the map
-    bool IsMapCollision(uint32 x, uint32 y)
+    bool IsMapCollision(uint32_t x, uint32_t y)
     { return (_collision_grid[y][x] > 0); }
 
     //! \brief returns a const reference to the ground objects in
@@ -1245,10 +1245,10 @@ private:
     *** The number of collision grid rows and columns is always equal to twice
     *** that of the number of rows and columns of tiles (stored in the TileManager).
     **/
-    uint16 _num_grid_x_axis, _num_grid_y_axis;
+    uint16_t _num_grid_x_axis, _num_grid_y_axis;
 
     //! \brief Holds the most recently generated object ID number
-    uint16 _last_id;
+    uint16_t _last_id;
 
     /** \brief The party member object is used to keep in memory the active member
     *** seen on map. This is later useful in "dungeon" maps for instance, where
@@ -1263,7 +1263,7 @@ private:
     *** \Note A position in this member is stored like this:
     *** _collision_grid[y][x]
     **/
-    std::vector<std::vector<uint32> > _collision_grid;
+    std::vector<std::vector<uint32_t> > _collision_grid;
 
     /** \brief A map containing pointers to all of the sprites on a map.
     *** This map does not include a pointer to the _virtual_focus object. The

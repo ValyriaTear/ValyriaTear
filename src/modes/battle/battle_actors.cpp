@@ -43,7 +43,7 @@ namespace private_battle
 {
 
 // Used to make the hardcoded action movement more or less wide.
-const uint32 MOVEMENT_SIZE = 64;
+const uint32_t MOVEMENT_SIZE = 64;
 
 //! \brief The bottom most position of the stamina bar
 const float STAMINA_LOCATION_BOTTOM = 640.0f;
@@ -251,7 +251,7 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
         break;
     case ACTOR_STATE_COOL_DOWN:
     {
-        uint32 cool_down_time = 1000; // Default value, overridden by valid actions
+        uint32_t cool_down_time = 1000; // Default value, overridden by valid actions
         if(_action)
             cool_down_time = _action->GetCoolDownTime() * GetAgilityModifier();
 
@@ -286,12 +286,12 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
     }
 }
 
-void BattleActor::RegisterDamage(uint32 amount)
+void BattleActor::RegisterDamage(uint32_t amount)
 {
     RegisterDamage(amount, nullptr);
 }
 
-void BattleActor::RegisterDamage(uint32 amount, BattleTarget *target)
+void BattleActor::RegisterDamage(uint32_t amount, BattleTarget *target)
 {
     if(amount == 0) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function called with a zero value argument" << std::endl;
@@ -320,7 +320,7 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget *target)
 
     // Apply a stun to the actor timer depending on the amount of damage dealt
     float damage_percent = static_cast<float>(amount) / static_cast<float>(GetMaxHitPoints());
-    uint32 hurt_time = 0;
+    uint32_t hurt_time = 0;
     if(damage_percent < 0.10f)
         hurt_time = 250;
     else if(damage_percent < 0.25f)
@@ -354,7 +354,7 @@ void BattleActor::RegisterDamage(uint32 amount, BattleTarget *target)
     }
 }
 
-vt_video::TextStyle BattleActor::_GetDamageTextStyle(uint32 amount, bool is_sp_damage)
+vt_video::TextStyle BattleActor::_GetDamageTextStyle(uint32_t amount, bool is_sp_damage)
 {
     const Color low_red(1.0f, 0.75f, 0.0f, 1.0f);
     const Color mid_red(1.0f, 0.50f, 0.0f, 1.0f);
@@ -399,7 +399,7 @@ vt_video::TextStyle BattleActor::_GetDamageTextStyle(uint32 amount, bool is_sp_d
     return style;
 }
 
-void BattleActor::RegisterSPDamage(uint32 amount)
+void BattleActor::RegisterSPDamage(uint32_t amount)
 {
     if(amount == 0) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function called with a zero value argument" << std::endl;
@@ -420,7 +420,7 @@ void BattleActor::RegisterSPDamage(uint32 amount)
     indicator.AddDamageIndicator(GetXLocation(), GetYLocation(), amount, _GetDamageTextStyle(amount, true));
 }
 
-void BattleActor::RegisterHealing(uint32 amount, bool hit_points)
+void BattleActor::RegisterHealing(uint32_t amount, bool hit_points)
 {
     if(amount == 0) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function called with a zero value argument" << std::endl;
@@ -445,7 +445,7 @@ void BattleActor::RegisterHealing(uint32 amount, bool hit_points)
     indicator.AddHealingIndicator(GetXLocation(), y_pos, amount, _GetHealingTextStyle(amount, hit_points));
 }
 
-void BattleActor::RegisterRevive(uint32 amount)
+void BattleActor::RegisterRevive(uint32_t amount)
 {
     if(amount == 0) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function called with a zero value argument" << std::endl;
@@ -472,7 +472,7 @@ void BattleActor::RegisterRevive(uint32 amount)
     ChangeState(ACTOR_STATE_REVIVE);
 }
 
-vt_video::TextStyle BattleActor::_GetHealingTextStyle(uint32 amount, bool is_hp)
+vt_video::TextStyle BattleActor::_GetHealingTextStyle(uint32_t amount, bool is_hp)
 {
     const Color low_green(0.0f, 1.0f, 0.60f, 1.0f);
     const Color mid_green(0.0f, 1.0f, 0.30f, 1.0f);
@@ -519,7 +519,7 @@ void BattleActor::RegisterMiss(bool was_attacked)
         ChangeSpriteAnimation("dodge");
 }
 
-void BattleActor::ApplyActiveStatusEffect(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity, uint32 duration)
+void BattleActor::ApplyActiveStatusEffect(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity, uint32_t duration)
 {
     _effects_supervisor->ChangeActiveStatusEffect(status, intensity, duration);
 }
@@ -714,13 +714,13 @@ void BattleActor::SetAction(BattleAction* action)
     _action = action;
 }
 
-void BattleActor::SetAction(uint32 skill_id, BattleActor* target_actor)
+void BattleActor::SetAction(uint32_t skill_id, BattleActor* target_actor)
 {
     const std::vector<GlobalSkill *>& actor_skills = _global_actor->GetSkills();
 
     GlobalSkill* skill = nullptr;
 
-    for (uint32 i = 0; i < actor_skills.size(); ++i) {
+    for (uint32_t i = 0; i < actor_skills.size(); ++i) {
         if (actor_skills[i]->GetID() == skill_id && actor_skills[i]->IsExecutableInBattle()) {
             skill = actor_skills[i];
             break;
@@ -766,8 +766,8 @@ void BattleActor::SetAction(uint32 skill_id, BattleActor* target_actor)
     case GLOBAL_TARGET_FOE_POINT:
     case GLOBAL_TARGET_ALLY_POINT: {
         // Select a random attack point on the target
-        uint32 num_points = target_actor->GetAttackPoints().size();
-        uint32 point_target = 0;
+        uint32_t num_points = target_actor->GetAttackPoints().size();
+        uint32_t point_target = 0;
         if(num_points == 1)
             point_target = 0;
         else
@@ -788,7 +788,7 @@ void BattleActor::SetAction(uint32 skill_id, BattleActor* target_actor)
     ChangeState(ACTOR_STATE_WARM_UP);
 }
 
-void BattleActor::SetAgility(uint32 agility)
+void BattleActor::SetAgility(uint32_t agility)
 {
     GlobalActor::SetAgility(agility);
     BattleMode::CurrentInstance()->SetActorIdleStateTime(this);
@@ -906,7 +906,7 @@ void BattleActor::_DecideAction()
     BattleActor* actor_target = nullptr;
 
     // Select a random skill to use
-    uint32 skill_index = 0;
+    uint32_t skill_index = 0;
     if(usable_skills.size() > 1)
         skill_index = RandomBoundedInteger(0, usable_skills.size() - 1);
     GlobalSkill* skill = usable_skills.at(skill_index);
@@ -971,8 +971,8 @@ void BattleActor::_DecideAction()
     case GLOBAL_TARGET_FOE_POINT:
     case GLOBAL_TARGET_ALLY_POINT: {
         // Select a random attack point on the target
-        uint32 num_points = actor_target->GetAttackPoints().size();
-        uint32 point_target = 0;
+        uint32_t num_points = actor_target->GetAttackPoints().size();
+        uint32_t point_target = 0;
         if(num_points == 1)
             point_target = 0;
         else
@@ -1046,7 +1046,7 @@ BattleCharacter::BattleCharacter(GlobalCharacter *character) :
 
     // Apply passive status effect from equipment
     const std::vector<GLOBAL_INTENSITY>& passive_effects = _global_character->GetEquipementStatusEffects();
-    for (uint32 i = 0; i < passive_effects.size(); ++i) {
+    for (uint32_t i = 0; i < passive_effects.size(); ++i) {
         GLOBAL_INTENSITY intensity = passive_effects.at(i);
 
         if (intensity == GLOBAL_INTENSITY_NEUTRAL)
@@ -1260,7 +1260,7 @@ void BattleCharacter::Update()
         else
             ChangeSpriteAnimation("idle");
     } else if(_sprite_animation_alias == "attack") {
-        uint32 dist = _state_timer.GetDuration() > 0 ?
+        uint32_t dist = _state_timer.GetDuration() > 0 ?
                       120 * _state_timer.GetTimeExpired() / _state_timer.GetDuration() :
                       0;
         _x_location = _x_origin + dist;
@@ -1346,7 +1346,7 @@ void BattleCharacter::ChangeSpriteAnimation(const std::string &alias)
 
     _current_sprite_animation->ResetAnimation();
     _current_weapon_animation.ResetAnimation();
-    uint32 timer_length = _current_sprite_animation->GetAnimationLength();
+    uint32_t timer_length = _current_sprite_animation->GetAnimationLength();
 
     _animation_timer.Reset();
     _animation_timer.SetDuration(timer_length);
@@ -1416,7 +1416,7 @@ void BattleCharacter::DrawPortrait()
     }
 }
 
-void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_command)
+void BattleCharacter::DrawStatus(uint32_t order, BattleCharacter* character_command)
 {
     // Used to determine where to draw the character's status
     float y_offset = 0.0f;
@@ -1513,7 +1513,7 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
     // If this character can be issued a command, draw the appropriate command button to indicate this. The type of button drawn depends on
     // whether or not the character already has an action set. Characters that can not be issued a command have no button drawn
     if(CanSelectCommand() == true) {
-        uint32 button_index = 0;
+        uint32_t button_index = 0;
         if(IsActionSet() == false)
             button_index = 1;
         else
@@ -1533,7 +1533,7 @@ void BattleCharacter::DrawStatus(uint32 order, BattleCharacter* character_comman
 // BattleEnemy class
 // /////////////////////////////////////////////////////////////////////////////
 
-BattleEnemy::BattleEnemy(uint32 enemy_id) :
+BattleEnemy::BattleEnemy(uint32_t enemy_id) :
     BattleActor(new vt_global::GlobalEnemy(enemy_id)),
     _sprite_animation_alias("idle"),
     _action_finished(false)
@@ -1634,7 +1634,7 @@ void BattleEnemy::Update()
     _animation_timer.Update();
 
     // Updates the sprites animations
-    for (uint32 i = 0; i < _sprite_animations->size(); ++i)
+    for (uint32_t i = 0; i < _sprite_animations->size(); ++i)
         _sprite_animations->at(i).Update();
 
     // In scene mode, only the animations are updated

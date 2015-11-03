@@ -28,7 +28,7 @@ namespace vt_utils
 {
 
 /** ****************************************************************************
-*** \brief Implements unicode strings with uint16 as the character type
+*** \brief Implements unicode strings with uint16_t as the character type
 ***
 *** This class functions identically to the std::string class provided in the C++
 *** standard library. The critical difference is that each character is 2 bytes
@@ -45,7 +45,7 @@ namespace vt_utils
 *** in the exact same manner that the C++ string class does.
 ***
 *** \note There are some libstdc++ compatability problems with simply defining
-*** basic_string<uint16>, so this class is a custom version of it.
+*** basic_string<uint16_t>, so this class is a custom version of it.
 ***
 *** \note Currently not all functionality of basic_string has been implemented, but
 *** instead only the functions that we typically use in the game. If you need a
@@ -59,7 +59,7 @@ class ustring
 public:
     ustring();
 
-    ustring(const uint16 *);
+    ustring(const uint16_t *);
 
     static const size_t npos;
 
@@ -82,11 +82,11 @@ public:
         return length();
     }
 
-    const uint16 *c_str() const {
+    const uint16_t *c_str() const {
         return &_str[0];
     }
 
-    size_t find(uint16 c, size_t pos = 0) const;
+    size_t find(uint16_t c, size_t pos = 0) const;
 
     size_t find(const ustring &s, size_t pos = 0) const;
 
@@ -94,7 +94,7 @@ public:
 
     ustring operator + (const ustring &s) const;
 
-    ustring &operator += (uint16 c);
+    ustring &operator += (uint16_t c);
 
     ustring &operator += (const ustring &s);
 
@@ -102,17 +102,17 @@ public:
 
     bool operator == (const ustring &s) const;
 
-    uint16 &operator [](size_t pos) {
+    uint16_t &operator [](size_t pos) {
         return _str[pos];
     }
 
-    const uint16 &operator [](size_t pos) const {
+    const uint16_t &operator [](size_t pos) const {
         return _str[pos];
     }
 
 private:
     //! \brief The structure containing the unicode string data.
-    std::vector<uint16> _str;
+    std::vector<uint16_t> _str;
 }; // class ustring
 
 /** \brief Creates a ustring from a standard string

@@ -59,7 +59,7 @@ bool RndEvade(BattleActor* target_actor, float add_eva = 0.0f, float mul_eva = 1
     return RndEvade(target_actor, add_eva, mul_eva, -1);
 }
 
-bool RndEvade(BattleActor* target_actor, float add_eva, float mul_eva, int32 attack_point)
+bool RndEvade(BattleActor* target_actor, float add_eva, float mul_eva, int32_t attack_point)
 {
     if (!target_actor)
         return true;
@@ -93,45 +93,45 @@ bool RndEvade(BattleActor* target_actor, float add_eva, float mul_eva, int32 att
         return false;
 }
 
-uint32 RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor)
+uint32_t RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor)
 {
     return RndPhysicalDamage(attacker, target_actor->GetActor(), 0, 1.0f, -1);
 }
 
-uint32 RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, uint32 add_atk)
+uint32_t RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, uint32_t add_atk)
 {
     return RndPhysicalDamage(attacker, target_actor->GetActor(), add_atk, 1.0f, -1);
 }
 
-uint32 RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, uint32 add_atk, float mul_atk)
+uint32_t RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, uint32_t add_atk, float mul_atk)
 {
     return RndPhysicalDamage(attacker, target_actor->GetActor(), add_atk, mul_atk, -1);
 }
 
-uint32 RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, uint32 add_atk, float mul_atk, int32 attack_point)
+uint32_t RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, uint32_t add_atk, float mul_atk, int32_t attack_point)
 {
     return RndPhysicalDamage(attacker, target_actor->GetActor(), add_atk, mul_atk, attack_point);
 }
 
-uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor)
+uint32_t RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor)
 {
     return RndPhysicalDamage(attacker, target_actor, 0, 1.0f, -1);
 }
 
-uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
-                         uint32 add_atk)
+uint32_t RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
+                         uint32_t add_atk)
 {
     return RndPhysicalDamage(attacker, target_actor, add_atk, 1.0f, -1);
 }
 
-uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
-                         uint32 add_atk, float mul_atk)
+uint32_t RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
+                         uint32_t add_atk, float mul_atk)
 {
     return RndPhysicalDamage(attacker, target_actor, add_atk, mul_atk, -1);
 }
 
-uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
-                         uint32 add_atk, float mul_atk, int32 attack_point)
+uint32_t RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
+                         uint32_t add_atk, float mul_atk, int32_t attack_point)
 {
     if(attacker == nullptr) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr attacker argument" << std::endl;
@@ -143,17 +143,17 @@ uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
     }
 
     // Holds the total physical attack of the attacker and modifier
-    int32 total_phys_atk = attacker->GetTotalPhysicalAttack() + add_atk;
-    total_phys_atk = static_cast<int32>(static_cast<float>(total_phys_atk) * mul_atk);
+    int32_t total_phys_atk = attacker->GetTotalPhysicalAttack() + add_atk;
+    total_phys_atk = static_cast<int32_t>(static_cast<float>(total_phys_atk) * mul_atk);
     // Randomize the damage a bit.
-    int32 phys_atk_diff = total_phys_atk / 10;
+    int32_t phys_atk_diff = total_phys_atk / 10;
     total_phys_atk = RandomBoundedInteger(total_phys_atk - phys_atk_diff, total_phys_atk + phys_atk_diff);
 
     if(total_phys_atk < 0)
         total_phys_atk = 0;
 
     // Holds the total physical defense of the target
-    int32 total_phys_def = 0;
+    int32_t total_phys_def = 0;
 
     if(attack_point > -1) {
         GlobalAttackPoint* atk_point = target_actor->GetAttackPoint(attack_point);
@@ -164,34 +164,34 @@ uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
     }
 
     // Holds the total damage dealt
-    int32 total_dmg = total_phys_atk - total_phys_def;
+    int32_t total_dmg = total_phys_atk - total_phys_def;
 
     // If the total damage is zero, fall back to causing a small non-zero damage value
     if(total_dmg <= 0)
-        return static_cast<uint32>(RandomBoundedInteger(1, 5 + attacker->GetStrength() / 10));
+        return static_cast<uint32_t>(RandomBoundedInteger(1, 5 + attacker->GetStrength() / 10));
 
-    return static_cast<uint32>(total_dmg);
+    return static_cast<uint32_t>(total_dmg);
 }
 
-uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element)
+uint32_t RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element)
 {
     return RndMagicalDamage(attacker, target_actor, element, 0, 1.0f, -1);
 }
 
-uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOBAL_ELEMENTAL element,
-                        uint32 add_atk)
+uint32_t RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOBAL_ELEMENTAL element,
+                        uint32_t add_atk)
 {
     return RndMagicalDamage(attacker, target_actor, element, add_atk, 1.0f, -1);
 }
 
-uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOBAL_ELEMENTAL element,
-                        uint32 add_atk, float mul_atk)
+uint32_t RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOBAL_ELEMENTAL element,
+                        uint32_t add_atk, float mul_atk)
 {
     return RndMagicalDamage(attacker, target_actor, element, add_atk, mul_atk, -1);
 }
 
-uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOBAL_ELEMENTAL element,
-                        uint32 add_atk, float mul_atk, int32 attack_point)
+uint32_t RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOBAL_ELEMENTAL element,
+                        uint32_t add_atk, float mul_atk, int32_t attack_point)
 {
     if(attacker == nullptr) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received nullptr attacker argument" << std::endl;
@@ -203,17 +203,17 @@ uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOBAL
     }
 
     // Holds the total physical attack of the attacker and modifier
-    int32 total_mag_atk = attacker->GetTotalMagicalAttack(element) + add_atk;
-    total_mag_atk = static_cast<int32>(static_cast<float>(total_mag_atk) * mul_atk);
+    int32_t total_mag_atk = attacker->GetTotalMagicalAttack(element) + add_atk;
+    total_mag_atk = static_cast<int32_t>(static_cast<float>(total_mag_atk) * mul_atk);
     // Randomize the damage a bit.
-    int32 mag_atk_diff = total_mag_atk / 10;
+    int32_t mag_atk_diff = total_mag_atk / 10;
     total_mag_atk = RandomBoundedInteger(total_mag_atk - mag_atk_diff, total_mag_atk + mag_atk_diff);
 
     if(total_mag_atk < 0)
         total_mag_atk = 0;
 
     // Holds the total physical defense of the target
-    int32 total_mag_def = 0;
+    int32_t total_mag_def = 0;
 
     if(attack_point > -1) {
         GlobalAttackPoint* atk_point = target_actor->GetAttackPoint(attack_point);
@@ -224,15 +224,15 @@ uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOBAL
     }
 
     // Holds the total damage dealt
-    int32 total_dmg = total_mag_atk - total_mag_def;
+    int32_t total_dmg = total_mag_atk - total_mag_def;
     if(total_dmg < 0)
         total_dmg = 0;
 
     // If the total damage is zero, fall back to causing a small non-zero damage value
     if(total_dmg <= 0)
-        return static_cast<uint32>(RandomBoundedInteger(1, 5 + attacker->GetVigor() / 10));
+        return static_cast<uint32_t>(RandomBoundedInteger(1, 5 + attacker->GetVigor() / 10));
 
-    return static_cast<uint32>(total_dmg);
+    return static_cast<uint32_t>(total_dmg);
 }
 
 
@@ -254,7 +254,7 @@ void BattleTarget::InvalidateTarget()
     _party_target.clear();
 }
 
-bool BattleTarget::SetTarget(BattleActor* attacker, vt_global::GLOBAL_TARGET type, BattleActor* target, uint32 attack_point)
+bool BattleTarget::SetTarget(BattleActor* attacker, vt_global::GLOBAL_TARGET type, BattleActor* target, uint32_t attack_point)
 {
     if((type <= GLOBAL_TARGET_INVALID) || (type >= GLOBAL_TARGET_TOTAL)) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid target type argument: " << type << std::endl;
@@ -378,7 +378,7 @@ bool BattleTarget::SelectNextPoint(bool direction)
     }
 
     // If the actor has only a single attack point, there's no way to select another attack point
-    uint32 num_points = _actor_target->GetAttackPoints().size();
+    uint32_t num_points = _actor_target->GetAttackPoints().size();
     if(num_points == 1)
         return true;
 
@@ -417,8 +417,8 @@ bool BattleTarget::SelectNextActor(bool direction)
     }
 
     // Determine the index of the current actor in the target party
-    uint32 original_target_index = 0xFFFFFFFF; // Initially set to an impossibly high index for error checking
-    for(uint32 i = 0; i < _party_target.size(); ++i) {
+    uint32_t original_target_index = 0xFFFFFFFF; // Initially set to an impossibly high index for error checking
+    for(uint32_t i = 0; i < _party_target.size(); ++i) {
         if(_party_target.at(i) == _actor_target) {
             original_target_index = i;
             break;
@@ -431,7 +431,7 @@ bool BattleTarget::SelectNextActor(bool direction)
 
     // Starting from the index of the original actor, select the next available actor
     BattleActor* original_actor = _actor_target;
-    uint32 new_target_index = original_target_index;
+    uint32_t new_target_index = original_target_index;
     while(true) {
         // Increment or decrement the target index based on the direction argument
         if(direction == true) {
@@ -454,7 +454,7 @@ bool BattleTarget::SelectNextActor(bool direction)
     }
 }
 
-BattleActor* BattleTarget::GetPartyActor(uint32 index)
+BattleActor* BattleTarget::GetPartyActor(uint32_t index)
 {
     if (index >= _party_target.size())
         return nullptr;
@@ -498,7 +498,7 @@ BattleTarget& BattleTarget::operator=(const BattleTarget& copy)
     _actor_target = copy._actor_target;
 
     std::deque<BattleActor *> _party_target;
-    for (uint32 i = 0; i < copy._party_target.size(); ++i) {
+    for (uint32_t i = 0; i < copy._party_target.size(); ++i) {
         _party_target.push_back(copy._party_target[i]);
     }
 

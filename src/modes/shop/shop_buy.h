@@ -79,13 +79,13 @@ private:
     ShopObject *_selected_object;
 
     //! \brief A bit vector that represents the types of merchandise that the shop deals in (items, weapons, etc)
-    uint8 _buy_deal_types;
+    uint8_t _buy_deal_types;
 
     //! \brief Retains the number of object categories for sale
-    uint32 _number_categories;
+    uint32_t _number_categories;
 
     //! \brief Serves as an index to the following containers: _category_names, _category_icons, and _list_displays
-    uint32 _current_category;
+    uint32_t _current_category;
 
     //! \brief Header text for the category field
     vt_video::TextImage _category_header;
@@ -170,7 +170,7 @@ public:
     *** the shop only has 6 instances of the selected object in stock, the function will increase
     *** the quantity by 6 (not 10) and return true.
     **/
-    bool ChangeBuyQuantity(bool less_or_more, uint32 amount = 1);
+    bool ChangeBuyQuantity(bool less_or_more, uint32_t amount = 1);
 }; // class BuyListDisplay : public ObjectListDisplay
 
 } // namespace private_shop

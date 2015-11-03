@@ -71,10 +71,10 @@ public:
     ~ImageMemory();
 
     //! \brief The width of the image data (in pixels)
-    uint32 width;
+    uint32_t width;
 
     //! \brief The height of the image dat (in pixels)
-    uint32 height;
+    uint32_t height;
 
     //! \brief Buffer of data, usually of size width * height * 4 (RGBA, 8 bits per component)
     void *pixels;
@@ -154,9 +154,9 @@ class BaseTexture
 public:
     BaseTexture();
 
-    BaseTexture(uint32 width_, uint32 height_);
+    BaseTexture(uint32_t width_, uint32_t height_);
 
-    BaseTexture(TexSheet *texture_sheet_, uint32 width_, uint32 height_);
+    BaseTexture(TexSheet *texture_sheet_, uint32_t width_, uint32_t height_);
 
     virtual ~BaseTexture();
 
@@ -166,10 +166,10 @@ public:
     TexSheet *texture_sheet;
 
     //! \brief The image's width and height as stored in the texture sheet, in pixels
-    uint32 width, height;
+    uint32_t width, height;
 
     //! \brief The coordiates of where the image is located in the texture sheet (in pixels)
-    int32 x, y;
+    int32_t x, y;
 
     /** \brief The actual uv coordinates.
     *** This is a little redundant, but saves effort on floating point calcuations.
@@ -184,7 +184,7 @@ public:
     /** \brief The number of times that this image is refereced by ImageDescriptors
     *** This is used to determine when the image may be safely deleted.
     **/
-    int32 ref_count;
+    int32_t ref_count;
 
     // ---------- Public methods
 
@@ -228,9 +228,9 @@ private:
 class ImageTexture : public BaseTexture
 {
 public:
-    ImageTexture(const std::string &filename_, const std::string &tags_, int32 width_, int32 height_);
+    ImageTexture(const std::string &filename_, const std::string &tags_, int32_t width_, int32_t height_);
 
-    ImageTexture(TexSheet *texture_sheet_, const std::string &filename_, const std::string &tags_, int32 width_, int32 height_);
+    ImageTexture(TexSheet *texture_sheet_, const std::string &filename_, const std::string &tags_, int32_t width_, int32_t height_);
 
     virtual ~ImageTexture();
 

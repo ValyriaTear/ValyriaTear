@@ -80,7 +80,7 @@ public:
     SDL_Joystick *js;
 
     //! An index to the SDL joystick which should be made active.
-    int32 joy_index;
+    int32_t joy_index;
 
     //! \name Generic button names.
     /**
@@ -88,21 +88,21 @@ public:
     **/
     //@{
     //! \brief Each member retains the index that refers to the joystick button registered to the event.
-    uint8 confirm;
-    uint8 cancel;
-    uint8 menu;
-    uint8 minimap;
-    uint8 pause;
-    uint8 help;
-    uint8 quit;
+    uint8_t confirm;
+    uint8_t cancel;
+    uint8_t menu;
+    uint8_t minimap;
+    uint8_t pause;
+    uint8_t help;
+    uint8_t quit;
     //@}
 
     //! \brief Identify which axes to use for x and y.
-    int8 x_axis;
-    int8 y_axis;
+    int8_t x_axis;
+    int8_t y_axis;
 
     //! \brief The threshold value we use to partition the range of joystick values into on and off
-    uint16 threshold;
+    uint16_t threshold;
 }; // class JoystickState
 
 } // namespace private_input
@@ -188,7 +188,7 @@ private:
     bool _any_joystick_key_press;
 
     //! Any joystick axis moved
-    int8 _last_axis_moved;
+    int8_t _last_axis_moved;
 
     /** \name  Input State Members
     *** \brief Retain whether an input key/button is currently being held down
@@ -271,7 +271,7 @@ private:
     *** \param old_button to be replaced (_joystick.confirm for example)
     *** \param new_button button to replace the old value
     **/
-    void _SetNewJoyButton(uint8 &old_button, uint8 new_button);
+    void _SetNewJoyButton(uint8_t &old_button, uint8_t new_button);
 public:
     ~InputEngine();
 
@@ -323,7 +323,7 @@ public:
     /** \brief Returns the last joystick axis that has moved
     *** \return True if any joystick axis has moved
     **/
-    uint8 GetLastAxisMoved() {
+    uint8_t GetLastAxisMoved() {
         return _last_axis_moved;
     }
 
@@ -533,15 +533,15 @@ public:
     *** \return axis number or threshold value
     **/
     //@{
-    int8 GetXAxisJoy() const {
+    int8_t GetXAxisJoy() const {
         return _joystick.x_axis;
     }
 
-    int8 GetYAxisJoy() const {
+    int8_t GetYAxisJoy() const {
         return _joystick.y_axis;
     }
 
-    int16 GetThresholdJoy() const {
+    int16_t GetThresholdJoy() const {
         return _joystick.threshold;
     }
     //@}
@@ -550,31 +550,31 @@ public:
     *** \return Joystick button number for the action
     **/
     //@{
-    int32 GetConfirmJoy() const {
+    int32_t GetConfirmJoy() const {
         return _joystick.confirm;
     }
 
-    int32 GetCancelJoy() const {
+    int32_t GetCancelJoy() const {
         return _joystick.cancel;
     }
 
-    int32 GetMenuJoy() const {
+    int32_t GetMenuJoy() const {
         return _joystick.menu;
     }
 
-    int32 GetMinimapJoy() const {
+    int32_t GetMinimapJoy() const {
         return _joystick.minimap;
     }
 
-    int32 GetPauseJoy() const {
+    int32_t GetPauseJoy() const {
         return _joystick.pause;
     }
 
-    int32 GetQuitJoy() const {
+    int32_t GetQuitJoy() const {
         return _joystick.quit;
     }
 
-    int32 GetHelpJoy() const {
+    int32_t GetHelpJoy() const {
         return _joystick.help;
     }
     //@}
@@ -631,47 +631,47 @@ public:
     *** \param	key New button for the action
     **/
     //@{
-    void SetJoyIndex(int32 joy_index) {
+    void SetJoyIndex(int32_t joy_index) {
         _joystick.joy_index = joy_index;
     }
 
-    void SetConfirmJoy(uint8 button) {
+    void SetConfirmJoy(uint8_t button) {
         _SetNewJoyButton(_joystick.confirm, button);
     }
 
-    void SetCancelJoy(uint8 button) {
+    void SetCancelJoy(uint8_t button) {
         _SetNewJoyButton(_joystick.cancel, button);
     }
 
-    void SetMenuJoy(uint8 button) {
+    void SetMenuJoy(uint8_t button) {
         _SetNewJoyButton(_joystick.menu, button);
     }
 
-    void SetMinimapJoy(uint8 button) {
+    void SetMinimapJoy(uint8_t button) {
         _SetNewJoyButton(_joystick.minimap, button);
     }
 
-    void SetPauseJoy(uint8 button) {
+    void SetPauseJoy(uint8_t button) {
         _SetNewJoyButton(_joystick.pause, button);
     }
 
-    void SetQuitJoy(uint8 button) {
+    void SetQuitJoy(uint8_t button) {
         _SetNewJoyButton(_joystick.quit, button);
     }
 
-    void SetHelpJoy(uint8 button) {
+    void SetHelpJoy(uint8_t button) {
         _SetNewJoyButton(_joystick.help, button);
     }
 
-    void SetXAxisJoy(int8 axis) {
+    void SetXAxisJoy(int8_t axis) {
         _joystick.x_axis = axis;
     }
 
-    void SetYAxisJoy(int8 axis) {
+    void SetYAxisJoy(int8_t axis) {
         _joystick.y_axis = axis;
     }
 
-    void SetThresholdJoy(int16 threshold) {
+    void SetThresholdJoy(int16_t threshold) {
         _joystick.threshold = threshold;
     }
     //@}
@@ -680,39 +680,39 @@ public:
     *** \return Integer according to the currently set key
     **/
     //@{
-    int32 GetUpKey() const {
+    int32_t GetUpKey() const {
         return _key.up;
     }
 
-    int32 GetDownKey() const {
+    int32_t GetDownKey() const {
         return _key.down;
     }
 
-    int32 GetLeftKey() const {
+    int32_t GetLeftKey() const {
         return _key.left;
     }
 
-    int32 GetRightKey() const {
+    int32_t GetRightKey() const {
         return _key.right;
     }
 
-    int32 GetConfirmKey() const {
+    int32_t GetConfirmKey() const {
         return _key.confirm;
     }
 
-    int32 GetCancelKey() const {
+    int32_t GetCancelKey() const {
         return _key.cancel;
     }
 
-    int32 GetMenuKey() const {
+    int32_t GetMenuKey() const {
         return _key.menu;
     }
 
-    int32 GetMinimapKey() const {
+    int32_t GetMinimapKey() const {
         return _key.minimap;
     }
 
-    int32 GetPauseKey() const {
+    int32_t GetPauseKey() const {
         return _key.pause;
     }
     //@}

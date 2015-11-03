@@ -143,7 +143,7 @@ bool LoadSettings()
     // settings.key_settings.down = 1073741905
     // settings.key_settings.left = 1073741904
     // settings.key_settings.right = 1073741903
-    int32 key_code = settings.ReadInt("up");
+    int32_t key_code = settings.ReadInt("up");
     if (key_code == 273) key_code = 1073741906;
     InputManager->SetUpKey(static_cast<SDL_Keycode>(key_code));
     key_code = settings.ReadInt("down");
@@ -172,26 +172,26 @@ bool LoadSettings()
     }
 
     InputManager->SetJoysticksEnabled(!settings.ReadBool("input_disabled"));
-    InputManager->SetJoyIndex(static_cast<int32>(settings.ReadInt("index")));
-    InputManager->SetConfirmJoy(static_cast<uint8>(settings.ReadInt("confirm")));
-    InputManager->SetCancelJoy(static_cast<uint8>(settings.ReadInt("cancel")));
-    InputManager->SetMenuJoy(static_cast<uint8>(settings.ReadInt("menu")));
-    InputManager->SetMinimapJoy(static_cast<uint8>(settings.ReadInt("minimap")));
-    InputManager->SetPauseJoy(static_cast<uint8>(settings.ReadInt("pause")));
-    InputManager->SetQuitJoy(static_cast<uint8>(settings.ReadInt("quit")));
+    InputManager->SetJoyIndex(static_cast<int32_t>(settings.ReadInt("index")));
+    InputManager->SetConfirmJoy(static_cast<uint8_t>(settings.ReadInt("confirm")));
+    InputManager->SetCancelJoy(static_cast<uint8_t>(settings.ReadInt("cancel")));
+    InputManager->SetMenuJoy(static_cast<uint8_t>(settings.ReadInt("menu")));
+    InputManager->SetMinimapJoy(static_cast<uint8_t>(settings.ReadInt("minimap")));
+    InputManager->SetPauseJoy(static_cast<uint8_t>(settings.ReadInt("pause")));
+    InputManager->SetQuitJoy(static_cast<uint8_t>(settings.ReadInt("quit")));
     // DEPRECATED: Remove the hack in one or two releases...
     if(settings.DoesIntExist("help"))
-        InputManager->SetHelpJoy(static_cast<uint8>(settings.ReadInt("help")));
+        InputManager->SetHelpJoy(static_cast<uint8_t>(settings.ReadInt("help")));
     else
         InputManager->SetHelpJoy(15); // A high value to avoid getting in the way
 
     if(settings.DoesIntExist("x_axis"))
-        InputManager->SetXAxisJoy(static_cast<int8>(settings.ReadInt("x_axis")));
+        InputManager->SetXAxisJoy(static_cast<int8_t>(settings.ReadInt("x_axis")));
     if(settings.DoesIntExist("y_axis"))
-        InputManager->SetYAxisJoy(static_cast<int8>(settings.ReadInt("y_axis")));
+        InputManager->SetYAxisJoy(static_cast<int8_t>(settings.ReadInt("y_axis")));
 
     if(settings.DoesIntExist("threshold"))
-        InputManager->SetThresholdJoy(static_cast<uint16>(settings.ReadInt("threshold")));
+        InputManager->SetThresholdJoy(static_cast<uint16_t>(settings.ReadInt("threshold")));
 
     settings.CloseTable(); // joystick_settings
 
@@ -204,8 +204,8 @@ bool LoadSettings()
     }
 
     // Load video settings
-    int32 resx = settings.ReadInt("screen_resx");
-    int32 resy = settings.ReadInt("screen_resy");
+    int32_t resx = settings.ReadInt("screen_resx");
+    int32_t resy = settings.ReadInt("screen_resy");
     VideoManager->SetResolution(resx, resy);
     VideoManager->SetFullscreen(settings.ReadBool("full_screen"));
     if (settings.DoesUIntExist("vsync_mode"))
@@ -302,7 +302,7 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
 
     bool default_theme_found = false;
 
-    for(uint32 i = 0; i < theme_ids.size(); ++i) {
+    for(uint32_t i = 0; i < theme_ids.size(); ++i) {
         // Skip the default theme value
         if (theme_ids[i] == "default_theme")
             continue;
@@ -521,10 +521,10 @@ int main(int argc, char *argv[])
         srand(static_cast<unsigned int>(time(nullptr)));
 
         // This variable will be set by the ParseProgramOptions function
-        int32 return_code = EXIT_FAILURE;
+        int32_t return_code = EXIT_FAILURE;
 
         // Parse command lines and exit out of the game if needed
-        if(vt_main::ParseProgramOptions(return_code, static_cast<int32>(argc), argv) == false) {
+        if(vt_main::ParseProgramOptions(return_code, static_cast<int32_t>(argc), argv) == false) {
             return static_cast<int>(return_code);
         }
 
@@ -552,10 +552,10 @@ int main(int argc, char *argv[])
     ModeManager->Push(new BootMode(), false, true);
 
     // Used for a variable game speed, sleeping when on sufficiently fast hardware, and max FPS.
-    const uint32 UPDATES_PER_SECOND = 60;
-    const uint32 SKIP_UPDATE_TICKS = 1000 / UPDATES_PER_SECOND; // 25
-    uint32 update_tick = SDL_GetTicks();
-    uint32 next_update_tick = update_tick;
+    const uint32_t UPDATES_PER_SECOND = 60;
+    const uint32_t SKIP_UPDATE_TICKS = 1000 / UPDATES_PER_SECOND; // 25
+    uint32_t update_tick = SDL_GetTicks();
+    uint32_t next_update_tick = update_tick;
 
     bool cpu_gentle_update_mode = true;
 

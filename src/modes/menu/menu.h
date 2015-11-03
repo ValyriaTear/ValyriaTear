@@ -99,7 +99,7 @@ public:
     *** \note nullptr actions do not lead to a crash, but the assumption is that the state has some state-specific
     *** actions, such as activitaing a MenuView that take place
     **/
-    virtual AbstractMenuState *GetTransitionState(uint32 selection) = 0;
+    virtual AbstractMenuState *GetTransitionState(uint32_t selection) = 0;
 
     //! \brief returns the name of the state
     const char *GetStateName()
@@ -117,7 +117,7 @@ protected:
     void _OnCancel();
 
     //! \brief returns the default selection to use when we first load the menu after MenuMode is at the top of stack
-    virtual uint32 _GetDefaultSelection()
+    virtual uint32_t _GetDefaultSelection()
     { return 0; }
 
     //! \brief handles updating the state when it is claimed as "active"
@@ -176,7 +176,7 @@ public:
     ~MainMenuState()
     {};
 
-    AbstractMenuState *GetTransitionState(uint32 selection);
+    AbstractMenuState *GetTransitionState(uint32_t selection);
 
 protected:
     void _OnDrawMainWindow();
@@ -208,7 +208,7 @@ public:
 
     void Reset();
 
-    AbstractMenuState *GetTransitionState(uint32 selection);
+    AbstractMenuState *GetTransitionState(uint32_t selection);
 
 protected:
     void _OnDrawMainWindow();
@@ -237,7 +237,7 @@ public:
 
     ~PartyState(){}
     void Reset();
-    AbstractMenuState *GetTransitionState(uint32 selection);
+    AbstractMenuState *GetTransitionState(uint32_t selection);
 protected:
     void _DrawBottomMenu();
     void _OnDrawMainWindow();
@@ -265,7 +265,7 @@ public:
 
     ~SkillsState(){}
     void Reset();
-    AbstractMenuState *GetTransitionState(uint32 selection);
+    AbstractMenuState *GetTransitionState(uint32_t selection);
 protected:
     void _DrawBottomMenu();
     void _OnDrawMainWindow();
@@ -293,7 +293,7 @@ public:
 
     void Reset();
 
-    AbstractMenuState* GetTransitionState(uint32 /*selection*/)
+    AbstractMenuState* GetTransitionState(uint32_t /*selection*/)
     { return nullptr; }
 
 protected:
@@ -325,7 +325,7 @@ public:
 
     void Reset();
 
-    AbstractMenuState *GetTransitionState(uint32 /*selection*/)
+    AbstractMenuState *GetTransitionState(uint32_t /*selection*/)
     { return nullptr; }
 protected:
     void _OnDrawMainWindow();
@@ -351,7 +351,7 @@ public:
 
     void Reset();
 
-    AbstractMenuState *GetTransitionState(uint32 /*selection*/)
+    AbstractMenuState *GetTransitionState(uint32_t /*selection*/)
     { return nullptr; }
 protected:
     void _OnDrawMainWindow();
@@ -576,7 +576,7 @@ private:
     std::vector<vt_video::StillImage *> _status_icons;
 
     //! \brief The number of spirit the equipment can support.
-    uint32 _spirit_number;
+    uint32_t _spirit_number;
 
     //! \brief The skills earned when equipping info
     vt_video::TextImage _equip_skills_header;

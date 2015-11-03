@@ -90,7 +90,7 @@ private:
     bool _one_is_dead;
 
     //! \brief Used to represent the state of which "step" we are on in producing a particular sequence
-    uint32 _sequence_step;
+    uint32_t _sequence_step;
 
     //! \brief A timer utilized for many different purposes when playing out a sequence
     vt_system::SystemTimer _sequence_timer;

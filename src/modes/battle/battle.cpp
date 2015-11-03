@@ -63,7 +63,7 @@ namespace private_battle
 {
 
 //! \brief This is the idle state wait time for the fastest actor, used to set idle state timers for all other actors
-const uint32 MIN_IDLE_WAIT_TIME = 10000;
+const uint32_t MIN_IDLE_WAIT_TIME = 10000;
 
 ////////////////////////////////////////////////////////////////////////////////
 // BattleMedia class
@@ -86,7 +86,7 @@ BattleMedia::BattleMedia()
 
     attack_point_indicator.SetDimensions(16.0f, 16.0f);
     if(attack_point_indicator.LoadFromFrameGrid("data/gui/battle/attack_point_target.png",
-            std::vector<uint32>(4, 100), 1, 4) == false)
+            std::vector<uint32_t>(4, 100), 1, 4) == false)
         PRINT_ERROR << "failed to load attack point indicator." << std::endl;
 
     if(stamina_meter.Load("data/gui/battle/stamina_bar.png") == false)
@@ -160,7 +160,7 @@ void BattleMedia::SetBattleMusic(const std::string& filename)
 }
 
 
-StillImage *BattleMedia::GetCharacterActionButton(uint32 index)
+StillImage *BattleMedia::GetCharacterActionButton(uint32_t index)
 {
     if(index >= character_action_buttons.size()) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid index argument: " << index << std::endl;
@@ -215,7 +215,7 @@ const float DEFAULT_ENEMY_LOCATIONS[][2] = {
     { 793.0f, 505.0f },
     { 730.0f, 600.0f }
 }; // 8 positions are set [0-7]
-const uint32 NUM_DEFAULT_LOCATIONS = 8;
+const uint32_t NUM_DEFAULT_LOCATIONS = 8;
 
 BattleMode::BattleMode() :
     GameMode(MODE_MANAGER_BATTLE_MODE),
@@ -252,13 +252,13 @@ BattleMode::~BattleMode()
     delete _finish_supervisor;
 
     // Delete all character and enemy actors
-    for(uint32 i = 0; i < _character_actors.size(); i++) {
+    for(uint32_t i = 0; i < _character_actors.size(); i++) {
         delete _character_actors[i];
     }
     _character_actors.clear();
     _character_party.clear();
 
-    for(uint32 i = 0; i < _enemy_actors.size(); i++) {
+    for(uint32_t i = 0; i < _enemy_actors.size(); i++) {
         delete _enemy_actors[i];
     }
     _enemy_actors.clear();
@@ -324,21 +324,21 @@ void BattleMode::RestartBattle()
 
     // Removes all enemies and readd only the ones that were present
     // at the beginning of the battle.
-    for(uint32 i = 0; i < _enemy_actors.size(); ++i)
+    for(uint32_t i = 0; i < _enemy_actors.size(); ++i)
         delete _enemy_actors[i];
 
     _enemy_actors.clear();
     _enemy_party.clear();
     _ready_queue.clear();
 
-    for(uint32 i = 0; i < _initial_enemy_actors_info.size(); ++i)
+    for(uint32_t i = 0; i < _initial_enemy_actors_info.size(); ++i)
         AddEnemy(_initial_enemy_actors_info[i].id, _initial_enemy_actors_info[i].pos_x, _initial_enemy_actors_info[i].pos_y);
 
     // Reset the state of all characters and enemies
-    for(uint32 i = 0; i < _character_actors.size(); ++i)
+    for(uint32_t i = 0; i < _character_actors.size(); ++i)
         _character_actors[i]->ResetActor();
 
-    for(uint32 i = 0; i < _enemy_actors.size(); ++i)
+    for(uint32_t i = 0; i < _enemy_actors.size(); ++i)
         _enemy_actors[i]->ResetActor();
 
     // Setup the default actor locations when necessary
@@ -393,11 +393,11 @@ void BattleMode::Update()
 
     // Update all actors animations and y-sorting
     _battle_objects.clear();
-    for(uint32 i = 0; i < _character_actors.size(); ++i) {
+    for(uint32_t i = 0; i < _character_actors.size(); ++i) {
         _character_actors[i]->Update();
         _battle_objects.push_back(_character_actors[i]);
     }
-    for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
+    for(uint32_t i = 0; i < _enemy_actors.size(); ++i) {
         _enemy_actors[i]->Update();
         _battle_objects.push_back(_enemy_actors[i]);
     }
@@ -521,7 +521,7 @@ void BattleMode::Update()
     // The battle will be paused until the player enters a command for all characters
     // that are in command state.
     if(!_last_enemy_dying) {
-        for(uint32 i = 0; i < _character_actors.size(); ++i) {
+        for(uint32_t i = 0; i < _character_actors.size(); ++i) {
             if(_character_actors[i]->GetState() == ACTOR_STATE_COMMAND) {
                 if (_battle_menu.IsAutoBattleActive()) {
                     _AutoCharacterCommand(_character_actors[i]);
@@ -591,7 +591,7 @@ void BattleMode::DrawPostEffects()
 // BattleMode class -- secondary methods
 ////////////////////////////////////////////////////////////////////////////////
 
-void BattleMode::AddEnemy(uint32 new_enemy_id, float position_x, float position_y)
+void BattleMode::AddEnemy(uint32_t new_enemy_id, float position_x, float position_y)
 {
     // Check for the enemy data validity
     if (!vt_global::GlobalManager->DoesEnemyExist(new_enemy_id)) {
@@ -604,7 +604,7 @@ void BattleMode::AddEnemy(uint32 new_enemy_id, float position_x, float position_
 
     // Compute a position when needed.
     if (position_x == 0.0f && position_y == 0.0f) {
-        uint32 default_pos_id = _enemy_actors.size();
+        uint32_t default_pos_id = _enemy_actors.size();
         position_x = DEFAULT_ENEMY_LOCATIONS[default_pos_id % NUM_DEFAULT_LOCATIONS][0];
         position_y = DEFAULT_ENEMY_LOCATIONS[default_pos_id % NUM_DEFAULT_LOCATIONS][1];
         // Add an artifical offset when cycling within the default positions.
@@ -674,7 +674,7 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         break;
     case BATTLE_STATE_NORMAL:
         if(_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE) {
-            for(uint32 i = 0; i < _character_actors.size(); i++) {
+            for(uint32_t i = 0; i < _character_actors.size(); i++) {
                 if(_character_actors[i]->GetState() == ACTOR_STATE_COMMAND)
                     return;
             }
@@ -692,7 +692,7 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
     case BATTLE_STATE_VICTORY:
         // Official victory:
         // Cancel all character actions to free possible involved objects
-        for(uint32 i = 0; i < _character_actors.size(); ++i) {
+        for(uint32_t i = 0; i < _character_actors.size(); ++i) {
             BattleAction *action = _character_actors[i]->GetAction();
             if(action)
                 action->Cancel();
@@ -837,14 +837,14 @@ void BattleMode::_Initialize()
 
     // Construct all character battle actors from the active party, as well as the menus that populate the command supervisor
     GlobalParty *active_party = GlobalManager->GetActiveParty();
-    uint32 party_size = active_party->GetPartySize();
+    uint32_t party_size = active_party->GetPartySize();
     if(party_size == 0) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "No characters in the active party, exiting battle" << std::endl;
         ModeManager->Pop();
         return;
     }
 
-    for(uint32 i = 0; i < party_size; ++i) {
+    for(uint32_t i = 0; i < party_size; ++i) {
         BattleCharacter *new_actor = new BattleCharacter(active_party->GetCharacterAtIndex(i));
         _character_actors.push_back(new_actor);
         _character_party.push_back(new_actor);
@@ -865,12 +865,12 @@ void BattleMode::_Initialize()
 
     // Find the actor with the highext agility rating
     _highest_agility = 0;
-    for(uint32 i = 0; i < _character_actors.size(); ++i) {
+    for(uint32_t i = 0; i < _character_actors.size(); ++i) {
         if(_character_actors[i]->GetAgility() > _highest_agility)
             _highest_agility = _character_actors[i]->GetAgility();
     }
 
-    for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
+    for(uint32_t i = 0; i < _enemy_actors.size(); ++i) {
         if(_enemy_actors[i]->GetAgility() > _highest_agility)
             _highest_agility = _enemy_actors[i]->GetAgility();
     }
@@ -899,7 +899,7 @@ void BattleMode::_Initialize()
     else if(_battle_type == BATTLE_TYPE_SEMI_ACTIVE)
         _battle_type_time_factor = BATTLE_SEMI_ACTIVE_FACTOR;
 
-    for(uint32 i = 0; i < _character_actors.size(); ++i) {
+    for(uint32_t i = 0; i < _character_actors.size(); ++i) {
         if(_character_actors[i]->IsAlive()) {
             SetActorIdleStateTime(_character_actors[i]);
 
@@ -907,7 +907,7 @@ void BattleMode::_Initialize()
             _character_actors[i]->ChangeState(ACTOR_STATE_IDLE);
         }
     }
-    for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
+    for(uint32_t i = 0; i < _enemy_actors.size(); ++i) {
         SetActorIdleStateTime(_enemy_actors[i]);
         _enemy_actors[i]->ChangeState(ACTOR_STATE_IDLE);
     }
@@ -916,18 +916,18 @@ void BattleMode::_Initialize()
     // idle state time. This is performed so that every battle doesn't start will all stamina icons piled on top
     // of one another at the bottom of the stamina bar.
     // Also, depending on who attacked first, the hero or enemy party will receive an agility boost at battle start.
-    for(uint32 i = 0; i < _character_actors.size(); ++i) {
+    for(uint32_t i = 0; i < _character_actors.size(); ++i) {
         if(!_character_actors[i]->IsAlive())
             continue;
 
-        uint32 max_init_timer = _character_actors[i]->GetIdleStateTime() / 2;
+        uint32_t max_init_timer = _character_actors[i]->GetIdleStateTime() / 2;
         if (_hero_init_boost)
             _character_actors[i]->GetStateTimer().Update(RandomBoundedInteger(max_init_timer, max_init_timer * 2));
         else
             _character_actors[i]->GetStateTimer().Update(RandomBoundedInteger(0, max_init_timer));
     }
-    for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
-        uint32 max_init_timer = _enemy_actors[i]->GetIdleStateTime() / 2;
+    for(uint32_t i = 0; i < _enemy_actors.size(); ++i) {
+        uint32_t max_init_timer = _enemy_actors[i]->GetIdleStateTime() / 2;
         if (_enemy_init_boost)
             _enemy_actors[i]->GetStateTimer().Update(RandomBoundedInteger(max_init_timer, max_init_timer * 2));
         else
@@ -951,10 +951,10 @@ void BattleMode::SetActorIdleStateTime(BattleActor* actor)
     float proportion = static_cast<float>(_highest_agility)
                        / static_cast<float>(actor->GetAgility() * _battle_type_time_factor);
 
-    actor->SetIdleStateTime(static_cast<uint32>(MIN_IDLE_WAIT_TIME * proportion));
+    actor->SetIdleStateTime(static_cast<uint32_t>(MIN_IDLE_WAIT_TIME * proportion));
 }
 
-void BattleMode::TriggerBattleParticleEffect(const std::string &effect_filename, uint32 x, uint32 y)
+void BattleMode::TriggerBattleParticleEffect(const std::string &effect_filename, uint32_t x, uint32_t y)
 {
     BattleParticleEffect *effect = new BattleParticleEffect(effect_filename);
 
@@ -1004,7 +1004,7 @@ void BattleMode::_DetermineActorLocations()
     }
 
     // Set all characters in their proper positions
-    for(uint32 i = 0; i < _character_actors.size(); i++) {
+    for(uint32_t i = 0; i < _character_actors.size(); i++) {
         _character_actors[i]->SetXOrigin(position_x);
         _character_actors[i]->SetYOrigin(position_y);
         _character_actors[i]->SetXLocation(position_x);
@@ -1014,8 +1014,8 @@ void BattleMode::_DetermineActorLocations()
     }
 
     // Assign static locations to enemies
-    uint32 default_pos_id = 0;
-    for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
+    uint32_t default_pos_id = 0;
+    for(uint32_t i = 0; i < _enemy_actors.size(); ++i) {
         // If no position was set for the enemy, pick a default one.
         if(_enemy_actors[i]->GetXLocation() == 0.0f && _enemy_actors[i]->GetYLocation() == 0.0f) {
             position_x = DEFAULT_ENEMY_LOCATIONS[default_pos_id % NUM_DEFAULT_LOCATIONS][0];
@@ -1080,10 +1080,10 @@ void BattleMode::_AutoCharacterCommand(BattleCharacter* character)
 
 
 
-uint32 BattleMode::_NumberEnemiesAlive() const
+uint32_t BattleMode::_NumberEnemiesAlive() const
 {
-    uint32 enemy_count = 0;
-    for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
+    uint32_t enemy_count = 0;
+    for(uint32_t i = 0; i < _enemy_actors.size(); ++i) {
         if(_enemy_actors[i]->IsAlive()) {
             ++enemy_count;
         }
@@ -1092,10 +1092,10 @@ uint32 BattleMode::_NumberEnemiesAlive() const
 }
 
 
-uint32 BattleMode::_NumberValidEnemies() const
+uint32_t BattleMode::_NumberValidEnemies() const
 {
-    uint32 enemy_count = 0;
-    for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
+    uint32_t enemy_count = 0;
+    for(uint32_t i = 0; i < _enemy_actors.size(); ++i) {
         if(_enemy_actors[i]->CanFight())
             ++enemy_count;
     }
@@ -1103,10 +1103,10 @@ uint32 BattleMode::_NumberValidEnemies() const
 }
 
 
-uint32 BattleMode::_NumberCharactersAlive() const
+uint32_t BattleMode::_NumberCharactersAlive() const
 {
-    uint32 character_count = 0;
-    for(uint32 i = 0; i < _character_actors.size(); ++i) {
+    uint32_t character_count = 0;
+    for(uint32_t i = 0; i < _character_actors.size(); ++i) {
         if(_character_actors[i]->IsAlive())
             ++character_count;
     }
@@ -1158,7 +1158,7 @@ void BattleMode::_DrawSprites()
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
         if(IsTargetParty(target.GetType()) == true) {
             const std::deque<BattleActor *>& party_target = target.GetPartyTarget();
-            for(uint32 i = 0; i < party_target.size(); i++) {
+            for(uint32_t i = 0; i < party_target.size(); i++) {
                 VideoManager->Move(party_target[i]->GetXLocation(),  party_target[i]->GetYLocation());
                 VideoManager->MoveRelative(0.0f, 20.0f);
                 _battle_media.actor_selection_image.Draw();
@@ -1174,12 +1174,12 @@ void BattleMode::_DrawSprites()
 
     // Draw sprites in order based on their x and y coordinates on the screen (bottom to top)
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    for(uint32 i = 0; i < _battle_objects.size(); ++i)
+    for(uint32_t i = 0; i < _battle_objects.size(); ++i)
         _battle_objects[i]->DrawSprite();
 
     // Draw the attack point selector graphic
     if(draw_point_selection) {
-        uint32 point = target.GetAttackPoint();
+        uint32_t point = target.GetAttackPoint();
 
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
         VideoManager->Move(actor_target->GetXLocation(), actor_target->GetYLocation());
@@ -1241,7 +1241,7 @@ void BattleMode::_DrawBottomMenu()
         // is being selected for (if any) and/or any characters.
         // that are in the "command" state. The latter indicates that
         // these characters needs a command selected as soon as possible
-        for(uint32 i = 0; i < _character_actors.size(); ++i) {
+        for(uint32_t i = 0; i < _character_actors.size(); ++i) {
             if(_character_actors[i] == _command_supervisor->GetCommandCharacter()) {
                 VideoManager->Move(148.0f, 683.0f + (25.0f * i));
                 _battle_media.character_selected_highlight.Draw();
@@ -1253,7 +1253,7 @@ void BattleMode::_DrawBottomMenu()
     }
 
     // Draw the status information of all character actors
-    for(uint32 i = 0; i < _character_actors.size(); i++) {
+    for(uint32_t i = 0; i < _character_actors.size(); i++) {
         _character_actors[i]->DrawStatus(i, _command_supervisor->GetCommandCharacter());
     }
 }
@@ -1296,7 +1296,7 @@ void BattleMode::_DrawStaminaBar()
     // Draw all stamina icons in order along with the selector graphic
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
 
-    for(uint32 i = 0; i < _character_actors.size(); ++i) {
+    for(uint32_t i = 0; i < _character_actors.size(); ++i) {
         if(!_character_actors[i]->IsAlive())
             continue;
 
@@ -1310,7 +1310,7 @@ void BattleMode::_DrawStaminaBar()
             _battle_media.stamina_icon_selected.Draw();
     }
 
-    for(uint32 i = 0; i < _enemy_actors.size(); ++i) {
+    for(uint32_t i = 0; i < _enemy_actors.size(); ++i) {
         if(!_enemy_actors[i]->IsAlive())
             continue;
 
@@ -1379,8 +1379,8 @@ void TransitionToBattleMode::Update()
 void TransitionToBattleMode::Draw()
 {
     // Draw the battle transition effect.
-    int32 width = VideoManager->GetViewportWidth();
-    int32 height = VideoManager->GetViewportHeight();
+    int32_t width = VideoManager->GetViewportWidth();
+    int32_t height = VideoManager->GetViewportHeight();
     VideoManager->SetCoordSys(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
 
@@ -1408,11 +1408,11 @@ void TransitionToBattleMode::Reset()
 
     // Play a random encounter sound
     if (_is_boss) {
-        uint32 file_id = vt_utils::RandomBoundedInteger(0, 1);
+        uint32_t file_id = vt_utils::RandomBoundedInteger(0, 1);
         vt_audio::AudioManager->PlaySound(boss_encounter_sound_filenames[file_id]);
     }
     else {
-        uint32 file_id = vt_utils::RandomBoundedInteger(0, 2);
+        uint32_t file_id = vt_utils::RandomBoundedInteger(0, 2);
         vt_audio::AudioManager->PlaySound(encounter_sound_filenames[file_id]);
     }
 }

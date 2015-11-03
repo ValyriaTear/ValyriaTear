@@ -63,16 +63,16 @@ public:
     *** \param size The total number of samples to read
     *** \return The number of samples which were read, which may be different from size
     **/
-    uint32 FillBuffer(uint8 *buffer, uint32 size);
+    uint32_t FillBuffer(uint8_t *buffer, uint32_t size);
 
     /** \brief Seeks the audio stream to the specified sample
     *** \param sample The sample number to seek the stream to
     *** \note This will also automatically invoke the Seek method on the AudioInput object
     **/
-    void Seek(uint32 sample);
+    void Seek(uint32_t sample);
 
     //! \brief Tells the current sample position.
-    uint32 GetCurrentSamplePosition() const {
+    uint32_t GetCurrentSamplePosition() const {
         return _read_position;
     }
 
@@ -92,12 +92,12 @@ public:
     /** \brief Sets the sample to serve as the start position for looping
     *** \param sample The sample number to be the new starting position
     **/
-    void SetLoopStart(uint32 sample);
+    void SetLoopStart(uint32_t sample);
 
     /** \brief Sets the sample to serve as the end position for looping
     *** \param sample The sample number to be the new ending position
     **/
-    void SetLoopEnd(uint32 sample);
+    void SetLoopEnd(uint32_t sample);
 
     //! \brief Returns true if the stream has finished playing
     bool GetEndOfStream() const {
@@ -112,13 +112,13 @@ private:
     bool _looping;
 
     //! \brief The sample that represents the start position of the loop
-    uint32 _loop_start_position;
+    uint32_t _loop_start_position;
 
     //! \brief The sample that represents the end position of the loop
-    uint32 _loop_end_position;
+    uint32_t _loop_end_position;
 
     //! \brief The sample position from where the next read operation will be performed
-    uint32 _read_position;
+    uint32_t _read_position;
 
     //! \brief True if the end of the stream was reached, false otherwise
     bool _end_of_stream;

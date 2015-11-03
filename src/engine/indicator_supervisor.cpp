@@ -33,10 +33,10 @@ namespace vt_mode_manager
 {
 
 //! \brief The amount of time (in milliseconds) that indicator elements fade at the beginning of the display sequence
-const uint32 INDICATOR_FADEIN_TIME = 500;
+const uint32_t INDICATOR_FADEIN_TIME = 500;
 
 //! \brief The amount of time (in milliseconds) that indicator elements fade at the end of the display sequence
-const uint32 INDICATOR_FADEOUT_TIME = 1000;
+const uint32_t INDICATOR_FADEOUT_TIME = 1000;
 
 //! \brief Represents the initial y (up) force applied on the indicator effect
 const float INITIAL_FORCE = 12.0f;
@@ -283,15 +283,15 @@ void IndicatorBlendedImage::Draw()
 
 IndicatorSupervisor::~IndicatorSupervisor()
 {
-    for(uint32 i = 0; i < _wait_queue.size(); ++i)
+    for(uint32_t i = 0; i < _wait_queue.size(); ++i)
         delete _wait_queue[i];
     _wait_queue.clear();
 
-    for(uint32 i = 0; i < _active_queue.size(); ++i)
+    for(uint32_t i = 0; i < _active_queue.size(); ++i)
         delete _active_queue[i];
     _active_queue.clear();
 
-    for(uint32 i = 0; i < _short_notices.size(); ++i)
+    for(uint32_t i = 0; i < _short_notices.size(); ++i)
         delete _short_notices[i];
     _short_notices.clear();
 }
@@ -304,7 +304,7 @@ static bool IndicatorCompare(IndicatorElement *one, IndicatorElement *another)
 void IndicatorSupervisor::Update()
 {
     // Update all active elements
-    for(uint32 i = 0; i < _active_queue.size(); i++)
+    for(uint32_t i = 0; i < _active_queue.size(); i++)
         _active_queue[i]->Update();
 
     // Remove all expired elements from the active queue
@@ -389,7 +389,7 @@ bool IndicatorSupervisor::_FixPotentialIndicatorOverlapping(IndicatorElement *el
 
 void IndicatorSupervisor::Draw()
 {
-    for(uint32 i = 0; i < _active_queue.size(); i++)
+    for(uint32_t i = 0; i < _active_queue.size(); i++)
         _active_queue[i]->Draw();
 
     if (_short_notices.empty())
@@ -398,7 +398,7 @@ void IndicatorSupervisor::Draw()
 }
 
 void IndicatorSupervisor::AddDamageIndicator(float x_position, float y_position,
-                                             uint32 amount, const TextStyle& style, bool use_parallax)
+                                             uint32_t amount, const TextStyle& style, bool use_parallax)
 {
     if (amount == 0)
         return;
@@ -414,7 +414,7 @@ void IndicatorSupervisor::AddDamageIndicator(float x_position, float y_position,
 
 
 void IndicatorSupervisor::AddHealingIndicator(float x_position, float y_position,
-                                              uint32 amount, const TextStyle& style, bool use_parallax)
+                                              uint32_t amount, const TextStyle& style, bool use_parallax)
 {
     if(amount == 0)
         return;

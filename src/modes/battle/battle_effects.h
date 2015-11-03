@@ -97,7 +97,7 @@ public:
     **/
     ActiveBattleStatusEffect(vt_global::GLOBAL_STATUS type,
                              vt_global::GLOBAL_INTENSITY intensity,
-                             uint32 duration = 0);
+                             uint32_t duration = 0);
 
     ~ActiveBattleStatusEffect()
     {}
@@ -106,14 +106,14 @@ public:
     *** \param amount The number of intensity levels to increase the status effect by
     *** \return True if the intensity level was modified
     **/
-    bool IncrementIntensity(uint8 amount);
+    bool IncrementIntensity(uint8_t amount);
 
     /** \brief Decrements the status effect intensity by a negative amount
     *** \param amount The number of intensity levels to decrement the status effect by
     *** \return True if the intensity level was modified
     *** \note Intensity will not be decremented below GLOBAL_INTENSITY_NEUTRAL
     **/
-    bool DecrementIntensity(uint8 amount);
+    bool DecrementIntensity(uint8_t amount);
 
     //! \brief Class Member Access Functions
     //@{
@@ -250,7 +250,7 @@ public:
     *** the effect to be added has an opposite effect that is currently active.
     **/
     bool ChangeActiveStatusEffect(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity,
-                                  uint32 duration = 0, uint32 elapsed_time = 0);
+                                  uint32_t duration = 0, uint32_t elapsed_time = 0);
 
     //! \brief Adds a passive (neverending) status effect and only updates it,
     //! calling the respective UpdatePassive() script function.
@@ -291,7 +291,7 @@ private:
     *** memory leaks and other problems may arise.
     **/
     void _CreateNewStatus(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity,
-                          uint32 duration = 0, uint32 elapsed_time = 0);
+                          uint32_t duration = 0, uint32_t elapsed_time = 0);
 
     //! \brief Updates the passive (equipment) status effects
     //! \note This method is called from within Update()

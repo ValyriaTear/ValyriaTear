@@ -33,20 +33,20 @@ class DialogueSupervisor;
 //! \name Constants used among common dialogue classes
 //@{
 //! \brief Indicates that the next line to read should follow sequentially
-const int32 DIALOGUE_NEXT_LINE      = -1;
+const int32_t DIALOGUE_NEXT_LINE      = -1;
 //! \brief Indicates that the dialogue should end after the present line is finished
-const int32 DIALOGUE_END            = -2;
+const int32_t DIALOGUE_END            = -2;
 //! \brief Indicates that a line has no display timer enabled
-const int32 DIALOGUE_NO_TIMER       = -1;
+const int32_t DIALOGUE_NO_TIMER       = -1;
 //! \brief the default invalid value.
-const int32 DIALOGUE_INVALID        = -1;
+const int32_t DIALOGUE_INVALID        = -1;
 
 //! \brief The dialogue window should have no indicator (i.e. for automated text)
-const uint8 DIALOGUE_NO_INDICATOR   = 0;
+const uint8_t DIALOGUE_NO_INDICATOR   = 0;
 //! \brief The dialogue window should have the indicator that more lines exist
-const uint8 DIALOGUE_NEXT_INDICATOR = 1;
+const uint8_t DIALOGUE_NEXT_INDICATOR = 1;
 //! \brief The dialogue window should have the indicator that the last line is reached
-const uint8 DIALOGUE_LAST_INDICATOR = 2;
+const uint8_t DIALOGUE_LAST_INDICATOR = 2;
 //@}
 
 //! \brief Defines the different states the dialogue can be in.
@@ -144,7 +144,7 @@ public:
     ***
     *** No display timer is set for this version of AddText
     **/
-    void AddLine(const std::string& text, int32 next_line);
+    void AddLine(const std::string& text, int32_t next_line);
 
     /** \brief Adds a new line of text to the dialogue
     *** \param text The text to show on the screen
@@ -163,7 +163,7 @@ public:
     *** The following line properties are set when using this call:
     *** - no display time
     **/
-    void AddLine(const std::string& text, const std::string& speaker_id, int32 next_line);
+    void AddLine(const std::string& text, const std::string& speaker_id, int32_t next_line);
 
     /** \brief Adds a new line of text to the dialogue that uses a display time
     *** \param text The text to show on the screen
@@ -171,7 +171,7 @@ public:
     ***
     *** The dialogue will proceed to the next sequential line for this line of text.
     **/
-    void AddLineTimed(const std::string& text, uint32 display_time);
+    void AddLineTimed(const std::string& text, uint32_t display_time);
 
     /** \brief Adds a new line of text to the dialogue that uses a display time
     *** \param text The text to show on the screen
@@ -180,7 +180,7 @@ public:
     ***
     *** The dialogue will proceed to the next sequential line for this line of text.
     **/
-    void AddLineTimed(const std::string& text, int32 next_line, uint32 display_time);
+    void AddLineTimed(const std::string& text, int32_t next_line, uint32_t display_time);
 
     /** \brief Adds a new line of text to the dialogue that uses a display time
     *** \param text The text to show on the screen
@@ -190,7 +190,7 @@ public:
     *** The following line properties are set when using this call:
     *** - proceed to next sequential line
     **/
-    void AddLineTimed(const std::string& text, const std::string& speaker_id, uint32 display_time);
+    void AddLineTimed(const std::string& text, const std::string& speaker_id, uint32_t display_time);
 
     /** \brief Adds a new line of text to the dialogue that uses a display time
     *** \param text The text to show on the screen
@@ -198,7 +198,7 @@ public:
     *** \param next_line The line of dialogue which should follow this one
     *** \param display_time The number of milliseconds that the line should be displayed for
     **/
-    void AddLineTimed(const std::string& text, const std::string& speaker_id, int32 next_line, uint32 display_time);
+    void AddLineTimed(const std::string& text, const std::string& speaker_id, int32_t next_line, uint32_t display_time);
 
     /** \brief Adds an option to the most recently added line of text
     *** \param text The text for this particular option
@@ -212,7 +212,7 @@ public:
     *** \param next_line The index value of the next line of dialogue to display should this option be selected
     *** \note If no lines have been added to the dialogue yet, this option will not be added and a warning will be issued
     **/
-    void AddOption(const std::string& text, int32 next_line);
+    void AddOption(const std::string& text, int32_t next_line);
 
     /** \brief Checks all the data stored by the dialogue class to ensure that it is acceptable and ready for use
     *** \return True if the validation was successful, false if any problems were discovered
@@ -229,32 +229,32 @@ public:
     //! \name Methods for retrieving properties of a specific line
     //@{
     //! \brief Returns the text of the line specified
-    vt_utils::ustring GetLineText(uint32 line) const {
+    vt_utils::ustring GetLineText(uint32_t line) const {
         if(line >= _line_count) return vt_utils::ustring();
         else return _text[line];
     }
 
     //! \brief Returns the line index that follows the line specified
-    int32 GetLineNextLine(uint32 line) const {
+    int32_t GetLineNextLine(uint32_t line) const {
         if(line >= _line_count) return DIALOGUE_INVALID;
         else return _next_lines[line];
     }
 
     //! \brief Returns the display time of the line specified
-    int32 GetLineDisplayTime(uint32 line) const {
+    int32_t GetLineDisplayTime(uint32_t line) const {
         if(line >= _line_count) return DIALOGUE_INVALID;
         else return _display_times[line];
     }
 
     //! \brief Returns the options container of the line specified
-    DialogueOptions* GetLineOptions(uint32 line) const {
+    DialogueOptions* GetLineOptions(uint32_t line) const {
         if(line >= _line_count) return nullptr;
         else return _options[line];
     }
     //@}
 
     //! \brief Returns the speaker ID for the line specified (or zero if the line index was invalid)
-    const std::string& GetLineSpeaker(uint32 line) const {
+    const std::string& GetLineSpeaker(uint32_t line) const {
         if(line >= _line_count) return vt_utils::_empty_string;
         else return _speakers[line];
     }
@@ -265,7 +265,7 @@ public:
         return _dialogue_id;
     }
 
-    uint32 GetLineCount() const {
+    uint32_t GetLineCount() const {
         return _line_count;
     }
     //@}
@@ -275,7 +275,7 @@ protected:
     std::string _dialogue_id;
 
     //! \brief Stores the amount of lines in the dialogue.
-    uint32 _line_count;
+    uint32_t _line_count;
 
     //! \brief The text of the conversation, split up into multiple lines
     std::vector<vt_utils::ustring> _text;
@@ -283,10 +283,10 @@ protected:
     /** \brief Holds indeces pointing to which line should follow each line of text
     *** \note When a line contains options, the value stored in this container for that line is never used
     **/
-    std::vector<int32> _next_lines;
+    std::vector<int32_t> _next_lines;
 
     //! \brief The display time for each line in the dialogue
-    std::vector<int32> _display_times;
+    std::vector<int32_t> _display_times;
 
     //! \brief A set of dialogue options indexed according to the line of dialogue that they belong to
     std::vector<DialogueOptions *> _options;
@@ -324,25 +324,25 @@ public:
     *** \param text The text for the new option
     *** \param next_line An integer index of the next line of dialogue should this option be selected.
     **/
-    virtual void AddOption(const std::string &text, int32 next_line);
+    virtual void AddOption(const std::string &text, int32_t next_line);
 
     //! \name Methods for retrieving properties of a specific line
     //@{
     //! \brief Returns the text of the option specified
-    vt_utils::ustring GetOptionText(uint32 option) const {
+    vt_utils::ustring GetOptionText(uint32_t option) const {
         if(option >= GetNumberOptions()) return vt_utils::ustring();
         else return _text[option];
     }
 
     //! \brief Returns the line index that follows the line when the given option is selected
-    int32 GetOptionNextLine(uint32 option) const {
+    int32_t GetOptionNextLine(uint32_t option) const {
         if(option >= GetNumberOptions()) return DIALOGUE_INVALID;
         else return _next_lines[option];
     }
     //@}
 
     //! \brief Returns the number of options stored by this class
-    uint32 GetNumberOptions() const {
+    uint32_t GetNumberOptions() const {
         return _text.size();
     }
 
@@ -351,7 +351,7 @@ protected:
     std::vector<vt_utils::ustring> _text;
 
     //! \brief A index containing the next line of dialogue that should follow each option
-    std::vector<int32> _next_lines;
+    std::vector<int32_t> _next_lines;
 }; // class DialogueOptions
 
 
@@ -411,7 +411,7 @@ public:
         _portrait_image = image;
     }
 
-    void SetIndicator(uint8 type) {
+    void SetIndicator(uint8_t type) {
         _indicator_symbol = type;
     }
     //@}
@@ -433,10 +433,10 @@ private:
     vt_video::StillImage _last_line_image;
 
     //! \brief The indicator symbol to use (arrow, end_of_dialogue_symbol, or none)
-    uint8 _indicator_symbol;
+    uint8_t _indicator_symbol;
 
     //! \brief The counter for the blinking indicators
-    uint16 _blink_time;
+    uint16_t _blink_time;
 
     //! \brief The status of the blinking indicators
     bool _blink_state;
@@ -546,7 +546,7 @@ public:
         return _line_timer;
     }
 
-    uint32 GetLineCounter() const {
+    uint32_t GetLineCounter() const {
         return _line_counter;
     }
 
@@ -573,7 +573,7 @@ protected:
     vt_system::SystemTimer _line_timer;
 
     //! \brief Keeps track of which line is active for the current dialogue
-    uint32 _line_counter;
+    uint32_t _line_counter;
 
     //! \brief Holds the text and graphics that should be displayed for the dialogue
     DialogueWindow _dialogue_window;

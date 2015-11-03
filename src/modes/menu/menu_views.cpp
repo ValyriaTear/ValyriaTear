@@ -110,8 +110,8 @@ void CharacterWindow::Draw()
 
     // Active status effects
     VideoManager->MoveRelative(-30, -17);
-    uint32 nb_effects = _active_status_effects.size();
-    for (uint32 i = 0; i < nb_effects && i < 6; ++i) {
+    uint32_t nb_effects = _active_status_effects.size();
+    for (uint32_t i = 0; i < nb_effects && i < 6; ++i) {
         if (_active_status_effects[i])
             _active_status_effects[i]->Draw();
         VideoManager->MoveRelative(0, 15);
@@ -122,7 +122,7 @@ void CharacterWindow::Draw()
 
     // Show a second column when there are more than 6 active status effects
     VideoManager->MoveRelative(-15, -6 * 15);
-    for (uint32 i = 6; i < nb_effects && i < 12; ++i) {
+    for (uint32_t i = 6; i < nb_effects && i < 12; ++i) {
         if (_active_status_effects[i])
             _active_status_effects[i]->Draw();
         VideoManager->MoveRelative(0, 15);
@@ -133,7 +133,7 @@ void CharacterWindow::Draw()
 
     // Show a third column when there are more than 12 active status effects (max 15)
     VideoManager->MoveRelative(-15, -6 * 15);
-    for (uint32 i = 12; i < nb_effects; ++i) {
+    for (uint32_t i = 12; i < nb_effects; ++i) {
         if (_active_status_effects[i])
             _active_status_effects[i]->Draw();
         VideoManager->MoveRelative(0, 15);
@@ -149,7 +149,7 @@ void CharacterWindow::_UpdateActiveStatusEffects(vt_global::GlobalCharacter* cha
     GlobalMedia& media = GlobalManager->Media();
 
     const std::vector<ActiveStatusEffect> effects = character->GetActiveStatusEffects();
-    for (uint32 i = 0; i < effects.size(); ++i) {
+    for (uint32_t i = 0; i < effects.size(); ++i) {
         GLOBAL_STATUS status = effects[i].GetEffect();
         GLOBAL_INTENSITY intensity = effects[i].GetIntensity();
         if (status != GLOBAL_STATUS_INVALID && intensity != GLOBAL_INTENSITY_NEUTRAL) {
@@ -229,7 +229,7 @@ void InventoryWindow::_InitCharSelect()
 {
     //character selection set up
     std::vector<ustring> options;
-    uint32 size = GlobalManager->GetActiveParty()->GetPartySize();
+    uint32_t size = GlobalManager->GetActiveParty()->GetPartySize();
 
     _char_select.SetPosition(72.0f, 109.0f);
     _char_select.SetDimensions(360.0f, 432.0f, 1, 4, 1, 4);
@@ -241,7 +241,7 @@ void InventoryWindow::_InitCharSelect()
 
     //Use a blank string so the cursor has somewhere to point
     //String is overdrawn by char portraits, so no matter
-    for(uint32 i = 0; i < size; i++) {
+    for(uint32_t i = 0; i < size; i++) {
         options.push_back(MakeUnicodeString(" "));
     }
 
@@ -265,7 +265,7 @@ void InventoryWindow::_InitCategory()
     _item_categories.SetSkipDisabled(true);
 
     // Add an option for every category + 1 (All items)
-    for (uint32 i = 0; i < ITEM_CATEGORY_SIZE + 1; ++i)
+    for (uint32_t i = 0; i < ITEM_CATEGORY_SIZE + 1; ++i)
         _item_categories.AddOption();
 
     _item_categories.SetSelection(ITEM_ALL);
@@ -363,7 +363,7 @@ void InventoryWindow::Update()
     if (InputManager->AnyRegisteredKeyPress())
         _UpdateSelection();
 
-    uint32 event = active_option->GetEvent();
+    uint32_t event = active_option->GetEvent();
     active_option->Update();
     // Handle confirm/cancel presses differently for each window
     switch(_active_box) {
@@ -403,8 +403,8 @@ void InventoryWindow::Update()
             }
             // Test whether the inventory cursor is out of bound after using
             // the item. Can happen when using/equipping the last item of the list.
-            else if(_inventory_items.GetSelection() >= (int32)_inventory_items.GetNumberOptions()) {
-                _inventory_items.SetSelection((uint32)_inventory_items.GetNumberOptions() - 1);
+            else if(_inventory_items.GetSelection() >= (int32_t)_inventory_items.GetNumberOptions()) {
+                _inventory_items.SetSelection((uint32_t)_inventory_items.GetNumberOptions() - 1);
             }
 
             // Activate the character select for application
@@ -666,7 +666,7 @@ void InventoryWindow::_UpdateSelection()
         _inventory_items.SetSelection(0);
 
     // Upper bound check to avoid crashes when selecting the last item at list's end.
-    if (static_cast<uint32>(_inventory_items.GetSelection()) >= _item_objects.size())
+    if (static_cast<uint32_t>(_inventory_items.GetSelection()) >= _item_objects.size())
         _inventory_items.SetSelection(_item_objects.size() - 1);
 
     _object = _item_objects[ _inventory_items.GetSelection() ];
@@ -681,7 +681,7 @@ void InventoryWindow::_UpdateSelection()
         case GLOBAL_OBJECT_WEAPON:
         {
             GlobalWeapon* selected_weapon = dynamic_cast<GlobalWeapon *>(_object);
-            uint32 usability_bitmask = selected_weapon->GetUsableBy();
+            uint32_t usability_bitmask = selected_weapon->GetUsableBy();
             _is_equipment = true;
             _can_equip = usability_bitmask & _character->GetID();
             MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, EQUIP_VIEW_EQUIPPING);
@@ -693,7 +693,7 @@ void InventoryWindow::_UpdateSelection()
         case GLOBAL_OBJECT_LEG_ARMOR:
         {
             GlobalArmor* selected_armor = dynamic_cast<GlobalArmor *>(_object);
-            uint32 usability_bitmask = selected_armor->GetUsableBy();
+            uint32_t usability_bitmask = selected_armor->GetUsableBy();
             _is_equipment = true;
             _can_equip = usability_bitmask & _character->GetID();
             MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, EQUIP_VIEW_EQUIPPING);
@@ -725,8 +725,8 @@ void InventoryWindow::_UpdateItemText()
     ITEM_CATEGORY current_selected_category = static_cast<ITEM_CATEGORY>(_item_categories.GetSelection());
     switch(current_selected_category) {
         case ITEM_ALL: {
-            std::map<uint32, GlobalObject *>* inv = GlobalManager->GetInventory();
-            for(std::map<uint32, GlobalObject *>::iterator it = inv->begin(); it != inv->end(); ++it) {
+            std::map<uint32_t, GlobalObject *>* inv = GlobalManager->GetInventory();
+            for(std::map<uint32_t, GlobalObject *>::iterator it = inv->begin(); it != inv->end(); ++it) {
                 _item_objects.push_back(it->second);
             }
             break;
@@ -781,14 +781,14 @@ void InventoryWindow::_UpdateItemText()
     }
 
     _inventory_items.SetOptions(inv_names);
-    for (uint32 i = 0; i < _inventory_items.GetNumberOptions(); ++i) {
+    for (uint32_t i = 0; i < _inventory_items.GetNumberOptions(); ++i) {
         StillImage *image = _inventory_items.GetEmbeddedImage(i);
         if (image)
             image->SetWidthKeepRatio(32);
     }
 
     // Upper bound check to avoid a crash at when selecting the last item of the list's end.
-    if (static_cast<uint32>(_inventory_items.GetSelection()) >= _item_objects.size())
+    if (static_cast<uint32_t>(_inventory_items.GetSelection()) >= _item_objects.size())
         _inventory_items.SetSelection(_item_objects.size() - 1);
 
     if(current_selected_category != _previous_category)
@@ -819,8 +819,8 @@ void InventoryWindow::Draw()
 void InventoryWindow::_DrawSpecialItemDescription(vt_video::StillImage* special_image,
                                                   vt_gui::TextBox& description)
 {
-    int32 key_pos_x = 100 + _object->GetIconImage().GetWidth() - special_image->GetWidth() - 3;
-    int32 key_pos_y = 600 + _object->GetIconImage().GetHeight() - special_image->GetHeight() - 3;
+    int32_t key_pos_x = 100 + _object->GetIconImage().GetWidth() - special_image->GetWidth() - 3;
+    int32_t key_pos_y = 600 + _object->GetIconImage().GetHeight() - special_image->GetHeight() - 3;
     VideoManager->Move(key_pos_x, key_pos_y);
     special_image->Draw();
     VideoManager->Move(185, 600);
@@ -881,11 +881,11 @@ PartyWindow::PartyWindow() :
     _focused_mdef_icon(nullptr)
 {
     // Get party size for iteration
-    uint32 partysize = GlobalManager->GetActiveParty()->GetPartySize();
+    uint32_t partysize = GlobalManager->GetActiveParty()->GetPartySize();
     StillImage portrait;
 
     // Set up the full body portrait
-    for(uint32 i = 0; i < partysize; i++) {
+    for(uint32_t i = 0; i < partysize; i++) {
         GlobalCharacter* ch = GlobalManager->GetActiveParty()->GetCharacterAtIndex(i);
         _full_portraits.push_back(ch->GetFullPortrait());
     }
@@ -915,7 +915,7 @@ void PartyWindow::_InitCharSelect()
 {
     //character selection set up
     std::vector<ustring> options;
-    uint32 size = GlobalManager->GetActiveParty()->GetPartySize();
+    uint32_t size = GlobalManager->GetActiveParty()->GetPartySize();
 
     _char_select.SetPosition(72.0f, 109.0f);
     _char_select.SetDimensions(360.0f, 432.0f, 1, 4, 1, 4);
@@ -934,7 +934,7 @@ void PartyWindow::_InitCharSelect()
     _second_char_select.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
 
     // Use blank string so cursor can point somewhere
-    for(uint32 i = 0; i < size; i++) {
+    for(uint32_t i = 0; i < size; i++) {
         options.push_back(MakeUnicodeString(" "));
     }
 
@@ -1021,7 +1021,7 @@ void PartyWindow::Update()
         active_option->InputDown();
     }
 
-    uint32 event = active_option->GetEvent();
+    uint32_t event = active_option->GetEvent();
     active_option->Update();
 
     switch(_char_select_active) {
@@ -1179,7 +1179,7 @@ void PartyWindow::_DrawBottomEquipmentInfo()
     VideoManager->MoveRelative(80.0f, 20.0f);
     _focused_def_category_icons.Draw();
     VideoManager->MoveRelative(25.0f, 0.0f);
-    for (uint32 i = 0; i < 4; ++i) {
+    for (uint32_t i = 0; i < 4; ++i) {
          _focused_def_armor_icons[i].Draw();
          VideoManager->MoveRelative(0.0f, 20.0f);
     }
@@ -1301,7 +1301,7 @@ void SkillsWindow::_InitCharSelect()
 {
     //character selection set up
     std::vector<ustring> options;
-    uint32 size = GlobalManager->GetActiveParty()->GetPartySize();
+    uint32_t size = GlobalManager->GetActiveParty()->GetPartySize();
 
     _char_select.SetPosition(72.0f, 109.0f);
     _char_select.SetDimensions(360.0f, 432.0f, 1, 4, 1, 4);
@@ -1313,7 +1313,7 @@ void SkillsWindow::_InitCharSelect()
 
 
     //Use blank strings....won't be seen anyway
-    for(uint32 i = 0; i < size; i++) {
+    for(uint32_t i = 0; i < size; i++) {
         options.push_back(MakeUnicodeString(" "));
     }
 
@@ -1392,7 +1392,7 @@ void SkillsWindow::Update()
             _skill_cost_list.InputDown();
     }
 
-    uint32 event = active_option->GetEvent();
+    uint32_t event = active_option->GetEvent();
     active_option->Update();
     if (active_option == &_skills_list)
         _skill_cost_list.Update();
@@ -1514,7 +1514,7 @@ void SkillsWindow::Update()
 
     // If the selection is invalid, we clear up the list and return
     if(_skills_list.GetNumberOptions() <= 0 || _skills_list.GetSelection() < 0
-            || static_cast<int32>(_skills_list.GetNumberOptions()) <= _skills_list.GetSelection()) {
+            || static_cast<int32_t>(_skills_list.GetNumberOptions()) <= _skills_list.GetSelection()) {
         _skill_icon.Clear();
         _description.ClearText();
         return;
@@ -1681,7 +1681,7 @@ void SkillsWindow::_UpdateSkillList()
 
 
     // Resize icons if necessary
-    for (uint32 i = 0; i < _skills_list.GetNumberOptions(); ++i) {
+    for (uint32_t i = 0; i < _skills_list.GetNumberOptions(); ++i) {
         if (StillImage *image = _skills_list.GetEmbeddedImage(i))
             image->SetHeightKeepRatio(45);
     }
@@ -1784,7 +1784,7 @@ void EquipWindow::_InitCharSelect()
 {
     //character selection set up
     std::vector<ustring> options;
-    uint32 size = GlobalManager->GetActiveParty()->GetPartySize();
+    uint32_t size = GlobalManager->GetActiveParty()->GetPartySize();
 
     _char_select.SetPosition(72.0f, 109.0f);
     _char_select.SetDimensions(360.0f, 432.0f, 1, 4, 1, 4);
@@ -1795,7 +1795,7 @@ void EquipWindow::_InitCharSelect()
     _char_select.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
 
     //Use blank strings....won't be seen anyway
-    for(uint32 i = 0; i < size; i++) {
+    for(uint32_t i = 0; i < size; i++) {
         options.push_back(MakeUnicodeString(" "));
     }
 
@@ -1874,7 +1874,7 @@ void EquipWindow::Update()
     if (InputManager->AnyRegisteredKeyPress())
         _character = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
 
-    uint32 event = active_option->GetEvent();
+    uint32_t event = active_option->GetEvent();
     active_option->Update();
     switch(_active_box) {
     //Choose character
@@ -1944,9 +1944,9 @@ void EquipWindow::Update()
     case EQUIP_ACTIVE_LIST:
         if(event == VIDEO_OPTION_CONFIRM) {
             // Equipment global Id.
-            uint32 id_num = 0;
+            uint32_t id_num = 0;
             // Get the actual inventory index.
-            uint32 inventory_id = _equip_list_inv_index[_equip_list.GetSelection()];
+            uint32_t inventory_id = _equip_list_inv_index[_equip_list.GetSelection()];
 
             switch(_equip_select.GetSelection()) {
             case EQUIP_WEAPON: {
@@ -2040,7 +2040,7 @@ void EquipWindow::_UpdateEquipList()
     std::vector<ustring> options;
 
     if(_active_box == EQUIP_ACTIVE_LIST) {
-        uint32 gearsize = 0;
+        uint32_t gearsize = 0;
         std::vector<GlobalObject *>* equipment_list = nullptr;
 
         switch(_equip_select.GetSelection()) {
@@ -2067,8 +2067,8 @@ void EquipWindow::_UpdateEquipList()
         // Clear the replacer ids
         _equip_list_inv_index.clear();
         // Add the options
-        for(uint32 j = 0; j < gearsize; j++) {
-            uint32 usability_bitmask = 0;
+        for(uint32_t j = 0; j < gearsize; j++) {
+            uint32_t usability_bitmask = 0;
             if(_equip_select.GetSelection() == EQUIP_WEAPON) {
                 GlobalWeapon *selected_weapon = dynamic_cast<GlobalWeapon *>(equipment_list->at(j));
                 usability_bitmask = selected_weapon->GetUsableBy();
@@ -2176,7 +2176,7 @@ void EquipWindow::_UpdateSelectedObject()
     // EQUIP_ACTIVE_LIST, we're choosing a new piece of equipment.
 
     // Get the actual inventory index.
-    uint32 inventory_id = _equip_list_inv_index[_equip_list.GetSelection()];
+    uint32_t inventory_id = _equip_list_inv_index[_equip_list.GetSelection()];
 
     switch(_equip_select.GetSelection()) {
         default:
@@ -2264,7 +2264,7 @@ void EquipWindow::Draw()
 
         VideoManager->MoveRelative(150.0f, -370.0f);
 
-        for(uint32 i = 0; i < _equip_images.size(); ++i) {
+        for(uint32_t i = 0; i < _equip_images.size(); ++i) {
             VideoManager->MoveRelative(0.0f, 70.0f);
             _equip_images[i].Draw();
         }
@@ -2341,7 +2341,7 @@ void QuestListWindow::Update()
         _quests_list.InputDown();
     }
 
-    uint32 event = _quests_list.GetEvent();
+    uint32_t event = _quests_list.GetEvent();
 
     // Cancel and exit.
     if (event == VIDEO_OPTION_CONFIRM) {
@@ -2376,7 +2376,7 @@ void QuestListWindow::_UpdateQuestList()
     }
 
     // Get the cursor selection.
-    int32 selection = _quests_list.GetSelection();
+    int32_t selection = _quests_list.GetSelection();
 
     QuestLogEntry *entry = _quest_entries[selection];
     const std::string& quest_id = entry->GetQuestId();
@@ -2419,7 +2419,7 @@ void QuestListWindow::_SetupQuestsList() {
     std::sort(_quest_entries.begin(), _quest_entries.end(), sort_by_number_reverse);
 
     // Check whether some should be set as completed.
-    for(uint32 i = 0; i < _quest_entries.size(); ++i)
+    for(uint32_t i = 0; i < _quest_entries.size(); ++i)
     {
         QuestLogEntry *entry = _quest_entries[i];
         const std::string& quest_id = entry->GetQuestId();
@@ -2593,8 +2593,8 @@ void WorldMapWindow::Draw()
 void WorldMapWindow::_DrawViewableLocations(float window_position_x, float window_position_y)
 {
     const std::vector<std::string> &current_location_ids = GlobalManager->GetViewableLocationIds();
-    const uint32 N = current_location_ids.size();
-    for(uint32 i = 0; i < N; ++i)
+    const uint32_t N = current_location_ids.size();
+    for(uint32_t i = 0; i < N; ++i)
     {
         const WorldMapLocation *location = GlobalManager->GetWorldLocation(current_location_ids[i]);
         if(location == nullptr)
@@ -2680,7 +2680,7 @@ void WorldMapWindow::Update()
 void WorldMapWindow::_SetSelectedLocation(WORLDMAP_NAVIGATION worldmap_goto)
 {
     const std::vector<std::string> &current_location_ids = GlobalManager->GetViewableLocationIds();
-    const uint32 N = current_location_ids.size();
+    const uint32_t N = current_location_ids.size();
     if(N == 0)
         return;
     if(worldmap_goto == WORLDMAP_LEFT)

@@ -220,7 +220,7 @@ void BootMode::Update()
     }
 
     // Update also the bar and f1 help text alpha
-    uint32 time_expired = SystemManager->GetUpdateTime();
+    uint32_t time_expired = SystemManager->GetUpdateTime();
     _boot_timer.Update(time_expired);
     if (_boot_timer.GetTimeExpired() >= 4000.0 && _boot_timer.GetTimeExpired() < 12000.0) {
         _help_text_alpha += 0.001f * time_expired;
@@ -289,7 +289,7 @@ void BootMode::Update()
         return;
 
     // Confirm press
-    int32 selection = _main_menu.GetSelection();
+    int32_t selection = _main_menu.GetSelection();
     switch(selection) {
     default:
         break;
@@ -368,10 +368,10 @@ void BootMode::DrawPostEffects()
 // ****************************************************************************
 // ***** BootMode menu setup and refresh methods
 // ****************************************************************************
-bool BootMode::_SavesAvailable(int32 maxId)
+bool BootMode::_SavesAvailable(int32_t maxId)
 {
     assert(maxId > 0);
-    int32 savesAvailable = 0;
+    int32_t savesAvailable = 0;
     std::string data_path = GetUserDataPath();
     for(int id = 0; id < maxId; ++id) {
         std::ostringstream f;

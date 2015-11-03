@@ -90,13 +90,13 @@ void EffectSupervisor::DisableLightingOverlay()
     _info.light.active = false;
 }
 
-void EffectSupervisor::Update(uint32 frame_time)
+void EffectSupervisor::Update(uint32_t frame_time)
 {
     _UpdateAmbientOverlay(frame_time);
     _UpdateShake(frame_time);
 }
 
-void EffectSupervisor::_UpdateAmbientOverlay(uint32 frame_time)
+void EffectSupervisor::_UpdateAmbientOverlay(uint32_t frame_time)
 {
     if(!_info.overlay.active) {
         // Just reset the parallax values in this case
@@ -175,7 +175,7 @@ void EffectSupervisor::DisableEffects()
     StopShaking();
 }
 
-void EffectSupervisor::ShakeScreen(float force, uint32 falloff_time, ShakeFalloff falloff_method)
+void EffectSupervisor::ShakeScreen(float force, uint32_t falloff_time, ShakeFalloff falloff_method)
 {
     if(force < 0.0f) {
         IF_PRINT_WARNING(VIDEO_DEBUG)
@@ -247,9 +247,9 @@ void EffectSupervisor::ShakeScreen(float force, uint32 falloff_time, ShakeFallof
 **/
 static float _RoundForce(float force)
 {
-    int32 fraction_percent = static_cast<int32>(force * 100.0f) - (static_cast<int32>(force) * 100);
+    int32_t fraction_percent = static_cast<int32_t>(force * 100.0f) - (static_cast<int32_t>(force) * 100);
 
-    int32 random_percent = rand() % 100;
+    int32_t random_percent = rand() % 100;
     if(fraction_percent > random_percent)
         force = ceilf(force);
     else
@@ -258,9 +258,9 @@ static float _RoundForce(float force)
     return force;
 }
 
-void EffectSupervisor::_UpdateShake(uint32 frame_time)
+void EffectSupervisor::_UpdateShake(uint32_t frame_time)
 {
-    const uint32 TIME_BETWEEN_SHAKE_UPDATES = 50;
+    const uint32_t TIME_BETWEEN_SHAKE_UPDATES = 50;
 
     if(_shake_forces.empty()) {
         _x_shake = 0.0f;
@@ -268,7 +268,7 @@ void EffectSupervisor::_UpdateShake(uint32 frame_time)
         return;
     }
 
-    static uint32 time_til_next_update = 0; // Used to cap the maximum update frequency
+    static uint32_t time_til_next_update = 0; // Used to cap the maximum update frequency
     time_til_next_update += frame_time;
 
     // Return if not enough time has expired to do a shake update

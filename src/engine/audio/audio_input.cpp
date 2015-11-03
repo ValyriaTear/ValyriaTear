@@ -64,7 +64,7 @@ AudioInput::AudioInput() :
 
 bool WavFile::Initialize()
 {
-    uint32 size;
+    uint32_t size;
 
     char buffer[4];
 
@@ -134,7 +134,7 @@ bool WavFile::Initialize()
     SWAP_U32_FROM_LITTLE(_samples_per_second);
 
     // Get byte rate -- 4 bytes
-    uint32 byte_rate;
+    uint32_t byte_rate;
     _file_input.read(buffer, 4);
     memcpy(&byte_rate, buffer, 4);
     SWAP_U32_FROM_LITTLE(byte_rate);
@@ -173,9 +173,9 @@ bool WavFile::Initialize()
 
 
 
-void WavFile::Seek(uint32 sample_position)
+void WavFile::Seek(uint32_t sample_position)
 {
-    uint32 sample = sample_position * _sample_size;
+    uint32_t sample = sample_position * _sample_size;
 
     if(sample >= _data_size) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because desired seek position exceeded the range of samples: " << sample << std::endl;
@@ -188,18 +188,18 @@ void WavFile::Seek(uint32 sample_position)
 
 
 
-uint32 WavFile::Read(uint8 *buffer, uint32 size, bool &end)
+uint32_t WavFile::Read(uint8_t *buffer, uint32_t size, bool &end)
 {
     _file_input.read(reinterpret_cast<char *>(buffer), size * _sample_size);
 
-    uint32 read = _file_input.gcount() / _sample_size;
+    uint32_t read = _file_input.gcount() / _sample_size;
     end = (read != size);
 
 #ifdef __BIG_ENDIAN__
     if(_bits_per_sample == 16) {
-        uint8 tmp;
+        uint8_t tmp;
         // iterate through
-        for(uint32 i = 0; i < read * _sample_size; i += 2) {
+        for(uint32_t i = 0; i < read * _sample_size; i += 2) {
             tmp = buffer[i];
             buffer[i] = buffer[i + 1];
             buffer[i + 1] = tmp;
@@ -265,7 +265,7 @@ bool OggFile::Initialize()
     _number_channels = _vorbis_file.vi->channels;
     _samples_per_second = _vorbis_file.vi->rate;
     _bits_per_sample = 16;
-    _total_number_samples = static_cast<uint32>(ov_pcm_total(&_vorbis_file, -1));
+    _total_number_samples = static_cast<uint32_t>(ov_pcm_total(&_vorbis_file, -1));
     _play_time = static_cast<float>(ov_time_total(&_vorbis_file, -1));
     _sample_size = _number_channels * _bits_per_sample / 8;
     _data_size = _total_number_samples * _sample_size;
@@ -276,7 +276,7 @@ bool OggFile::Initialize()
 
 
 
-void OggFile::Seek(uint32 cursor)
+void OggFile::Seek(uint32_t cursor)
 {
     if(ov_seekable(&_vorbis_file) == 0) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "failed because Ogg file was not seekable: " << _filename << std::endl;
@@ -292,10 +292,10 @@ void OggFile::Seek(uint32 cursor)
 
 
 
-uint32 OggFile::Read(uint8 *buffer, uint32 size, bool &end)
+uint32_t OggFile::Read(uint8_t *buffer, uint32_t size, bool &end)
 {
     int current_section;
-    uint32 read = 0;
+    uint32_t read = 0;
     end = false;
 
     // First get data from the temporary buffer if it holds any
@@ -312,7 +312,7 @@ uint32 OggFile::Read(uint8 *buffer, uint32 size, bool &end)
 
     while((read < (size * _sample_size)) && !end) {
         _read_buffer_position = 0;
-        int32 num_bytes_read = 0;
+        int32_t num_bytes_read = 0;
 
 #ifdef __BIG_ENDIAN__
         num_bytes_read = ov_read(&_vorbis_file, (char *)_read_buffer, 4096, 1, _bits_per_sample / 8, 1, &current_section);
@@ -335,7 +335,7 @@ uint32 OggFile::Read(uint8 *buffer, uint32 size, bool &end)
         } else {
             //! \todo Take into account differences of sample rate when reading OGG
             _read_buffer_size = num_bytes_read;
-            num_bytes_read = ((size * _sample_size) - read > static_cast<uint32>(num_bytes_read)) ? num_bytes_read : (size * _sample_size) - read;
+            num_bytes_read = ((size * _sample_size) - read > static_cast<uint32_t>(num_bytes_read)) ? num_bytes_read : (size * _sample_size) - read;
             memcpy(buffer + read, _read_buffer + _read_buffer_position, num_bytes_read);
             read += num_bytes_read;
             _read_buffer_size -= num_bytes_read;
@@ -344,7 +344,7 @@ uint32 OggFile::Read(uint8 *buffer, uint32 size, bool &end)
     }
 
     return read / _sample_size;
-} // uint32 OggFile::Read(uint8* buffer, uint32 size, bool& end)
+} // uint32_t OggFile::Read(uint8_t* buffer, uint32_t size, bool& end)
 
 
 #ifdef _WIN32
@@ -372,13 +372,13 @@ AudioMemory::AudioMemory(AudioInput *input) :
     _filename = input->GetFilename();
     _samples_per_second = input->GetSamplesPerSecond();
     _bits_per_sample = input->GetBitsPerSample();
-    _number_channels = static_cast<uint8>(input->GetNumberChannels());
+    _number_channels = static_cast<uint8_t>(input->GetNumberChannels());
     _total_number_samples = input->GetTotalNumberSamples();
     _sample_size = input->GetSampleSize();
     _play_time = input->GetPlayTime();
     _data_size = input->GetDataSize();
 
-    _audio_data = new uint8[input->GetDataSize()];
+    _audio_data = new uint8_t[input->GetDataSize()];
     bool all_data_read = false;
     input->Read(_audio_data, input->GetTotalNumberSamples(), all_data_read);
     if(all_data_read == false) {
@@ -394,13 +394,13 @@ AudioMemory::AudioMemory(const AudioMemory &audio_memory) :
     _filename = audio_memory._filename;
     _samples_per_second = audio_memory.GetSamplesPerSecond();
     _bits_per_sample = audio_memory.GetBitsPerSample();
-    _number_channels = static_cast<uint8>(audio_memory.GetNumberChannels());
+    _number_channels = static_cast<uint8_t>(audio_memory.GetNumberChannels());
     _total_number_samples = audio_memory.GetTotalNumberSamples();
     _sample_size = audio_memory.GetSampleSize();
     _play_time = audio_memory.GetPlayTime();
     _data_size = audio_memory.GetDataSize();
 
-    _audio_data = new uint8[_data_size];
+    _audio_data = new uint8_t[_data_size];
     memcpy(_audio_data, audio_memory._audio_data, _data_size);
 }
 
@@ -416,14 +416,14 @@ AudioMemory &AudioMemory::operator=(const AudioMemory &audio_memory)
     _filename = audio_memory._filename;
     _samples_per_second = audio_memory.GetSamplesPerSecond();
     _bits_per_sample = audio_memory.GetBitsPerSample();
-    _number_channels = static_cast<uint8>(audio_memory.GetNumberChannels());
+    _number_channels = static_cast<uint8_t>(audio_memory.GetNumberChannels());
     _total_number_samples = audio_memory.GetTotalNumberSamples();
     _sample_size = audio_memory.GetSampleSize();
     _play_time = audio_memory.GetPlayTime();
     _data_size = audio_memory.GetDataSize();
 
     _data_position = audio_memory._data_position;
-    _audio_data = new uint8[_data_size];
+    _audio_data = new uint8_t[_data_size];
     memcpy(_audio_data, audio_memory._audio_data, _data_size);
 
     return *this;
@@ -440,7 +440,7 @@ AudioMemory::~AudioMemory()
 
 
 
-void AudioMemory::Seek(uint32 sample_position)
+void AudioMemory::Seek(uint32_t sample_position)
 {
     if(_data_position >= _total_number_samples) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "attempted to seek postion beyond the maximum number of samples: "
@@ -453,10 +453,10 @@ void AudioMemory::Seek(uint32 sample_position)
 
 
 
-uint32 AudioMemory::Read(uint8 *buffer, uint32 size, bool &end)
+uint32_t AudioMemory::Read(uint8_t *buffer, uint32_t size, bool &end)
 {
     // Clamp the number of samples to read in case there are not enough because of end of stream
-    uint32 read = (_total_number_samples - _data_position >= size) ? size : (_total_number_samples - _data_position);
+    uint32_t read = (_total_number_samples - _data_position >= size) ? size : (_total_number_samples - _data_position);
 
     // Copy the data in the buffer and move the read cursor
     memcpy(buffer, buffer + _data_position * _sample_size, read * _sample_size);

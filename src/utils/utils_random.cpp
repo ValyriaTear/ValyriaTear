@@ -38,9 +38,9 @@ float RandomFloat(float a, float b)
     return a + (b - a) * r / 10000.0f;
 }
 
-int32 RandomBoundedInteger(int32 lower_bound, int32 upper_bound)
+int32_t RandomBoundedInteger(int32_t lower_bound, int32_t upper_bound)
 {
-    int32 range;  // The number of possible values we may return
+    int32_t range;  // The number of possible values we may return
     float result;
 
     range = upper_bound - lower_bound + 1;
@@ -50,17 +50,17 @@ int32 RandomBoundedInteger(int32 lower_bound, int32 upper_bound)
     result = range * RandomFloat();
     result = result + lower_bound;
 
-    return static_cast<int32>(result);
+    return static_cast<int32_t>(result);
 }
 
-int32 RandomDiffValue(int32 base_value, uint32 max_diff)
+int32_t RandomDiffValue(int32_t base_value, uint32_t max_diff)
 {
     if (max_diff == 0)
         return base_value;
 
-    int32 lower_bound = base_value - static_cast<int32>(max_diff);
-    int32 upper_bound = base_value + static_cast<int32>(max_diff);
-    return static_cast<int32>(RandomFloat(static_cast<float>(lower_bound), static_cast<float>(upper_bound)));
+    int32_t lower_bound = base_value - static_cast<int32_t>(max_diff);
+    int32_t upper_bound = base_value + static_cast<int32_t>(max_diff);
+    return static_cast<int32_t>(RandomFloat(static_cast<float>(lower_bound), static_cast<float>(upper_bound)));
 }
 
 } // namespace utils

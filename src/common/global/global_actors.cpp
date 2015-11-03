@@ -51,7 +51,7 @@ GlobalAttackPoint::GlobalAttackPoint(GlobalActor *owner) :
     _total_physical_defense(0),
     _total_evade_rating(0)
 {
-    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
+    for (uint32_t i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
         _total_magical_defense[i] = 0;
 }
 
@@ -72,9 +72,9 @@ bool GlobalAttackPoint::LoadData(ReadScriptDescriptor &script)
     if(script.DoesTableExist("status_effects") == true) {
         script.OpenTable("status_effects");
 
-        std::vector<int32> table_keys;
+        std::vector<int32_t> table_keys;
         script.ReadTableKeys(table_keys);
-        for(uint32 i = 0; i < table_keys.size(); ++i) {
+        for(uint32_t i = 0; i < table_keys.size(); ++i) {
             float probability = script.ReadFloat(table_keys[i]);
             _status_effects.push_back(std::make_pair(static_cast<GLOBAL_STATUS>(table_keys[i]), probability));
         }
@@ -106,24 +106,24 @@ void GlobalAttackPoint::CalculateTotalDefense(const GlobalArmor* equipped_armor)
     if(_fortitude_modifier <= -1.0f)  // If the modifier is less than or equal to -100%, set the total defense to zero
         _total_physical_defense = 0;
     else
-        _total_physical_defense = _actor_owner->GetFortitude() + static_cast<int32>(_actor_owner->GetFortitude() * _fortitude_modifier);
+        _total_physical_defense = _actor_owner->GetFortitude() + static_cast<int32_t>(_actor_owner->GetFortitude() * _fortitude_modifier);
 
     // If the modifier is less than or equal to -100%, set the total defense to zero
-    uint32 magical_base = 0;
+    uint32_t magical_base = 0;
     if(_protection_modifier > -1.0f)
-        magical_base = _actor_owner->GetProtection() + static_cast<int32>(_actor_owner->GetProtection() * _protection_modifier);
+        magical_base = _actor_owner->GetProtection() + static_cast<int32_t>(_actor_owner->GetProtection() * _protection_modifier);
 
     // If present, add defense ratings from the armor equipped
     if(equipped_armor) {
         _total_physical_defense += equipped_armor->GetPhysicalDefense();
 
-        for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
+        for (uint32_t i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
             _total_magical_defense[i] = (magical_base + equipped_armor->GetMagicalDefense())
                                         * _actor_owner->GetElementalModifier((GLOBAL_ELEMENTAL) i);
         }
     }
     else {
-        for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
+        for (uint32_t i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
             _total_magical_defense[i] = magical_base * _actor_owner->GetElementalModifier((GLOBAL_ELEMENTAL) i);
     }
 }
@@ -160,20 +160,20 @@ GlobalActor::GlobalActor() :
     // Init the elemental strength intensity container
     _elemental_modifier.resize(GLOBAL_ELEMENTAL_TOTAL, 1.0f);
 
-    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
+    for (uint32_t i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
         _total_magical_attack[i] = 0;
 }
 
 GlobalActor::~GlobalActor()
 {
     // Delete all attack points
-    for(uint32 i = 0; i < _attack_points.size(); ++i) {
+    for(uint32_t i = 0; i < _attack_points.size(); ++i) {
         delete _attack_points[i];
     }
     _attack_points.clear();
 
     // Delete all skills
-    for(uint32 i = 0; i < _skills.size(); ++i)
+    for(uint32_t i = 0; i < _skills.size(); ++i)
         delete _skills[i];
     //_skills.clear();
     //_skill_ids.clear();
@@ -211,19 +211,19 @@ GlobalActor::GlobalActor(const GlobalActor &copy):
     _total_physical_attack = copy._total_physical_attack;
     // init the elemental modifier size to avoid a segfault
     _elemental_modifier.resize(GLOBAL_ELEMENTAL_TOTAL, 1.0f);
-    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
+    for (uint32_t i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
         _total_magical_attack[i] = copy._total_magical_attack[i];
         _elemental_modifier[i] = copy._elemental_modifier[i];
     }
 
     // Copy all attack points
-    for(uint32 i = 0; i < copy._attack_points.size(); ++i) {
+    for(uint32_t i = 0; i < copy._attack_points.size(); ++i) {
         _attack_points.push_back(new GlobalAttackPoint(*copy._attack_points[i]));
         _attack_points[i]->SetActorOwner(this);
     }
 
     // Copy all skills
-    for (uint32 i = 0; i < copy._skills.size(); ++i) {
+    for (uint32_t i = 0; i < copy._skills.size(); ++i) {
         // Create a new instance as the skill is deleted on an actor object basis.
         _skills.push_back(new GlobalSkill(*copy._skills[i]));
         _skills_id.push_back(copy._skills_id[i]);
@@ -266,19 +266,19 @@ GlobalActor &GlobalActor::operator=(const GlobalActor &copy)
 
     _total_physical_attack = copy._total_physical_attack;
     _elemental_modifier.resize(GLOBAL_ELEMENTAL_TOTAL, 1.0f);
-    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
+    for (uint32_t i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
         _total_magical_attack[i] = copy._total_magical_attack[i];
         _elemental_modifier[i] = copy._elemental_modifier[i];
     }
 
     // Copy all attack points
-    for(uint32 i = 0; i < copy._attack_points.size(); ++i) {
+    for(uint32_t i = 0; i < copy._attack_points.size(); ++i) {
         _attack_points.push_back(new GlobalAttackPoint(*_attack_points[i]));
         _attack_points[i]->SetActorOwner(this);
     }
 
     // Copy all skills
-    for (uint32 i = 0; i < copy._skills.size(); ++i) {
+    for (uint32_t i = 0; i < copy._skills.size(); ++i) {
         // Create a new instance as the skill is deleted on an actor object basis.
         _skills.push_back(new GlobalSkill(*copy._skills[i]));
         _skills_id.push_back(copy._skills_id[i]);
@@ -291,16 +291,16 @@ GlobalActor &GlobalActor::operator=(const GlobalActor &copy)
     return *this;
 }
 
-bool GlobalActor::HasSkill(uint32 skill_id)
+bool GlobalActor::HasSkill(uint32_t skill_id)
 {
-    for (uint32 i = 0; i < _skills_id.size(); ++i) {
+    for (uint32_t i = 0; i < _skills_id.size(); ++i) {
         if (_skills_id.at(i) == skill_id)
             return true;
     }
     return false;
 }
 
-uint32 GlobalActor::GetTotalPhysicalDefense(uint32 index) const
+uint32_t GlobalActor::GetTotalPhysicalDefense(uint32_t index) const
 {
     if(index >= _attack_points.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of attack points: " << index << std::endl;
@@ -310,7 +310,7 @@ uint32 GlobalActor::GetTotalPhysicalDefense(uint32 index) const
     return _attack_points[index]->GetTotalPhysicalDefense();
 }
 
-uint32 GlobalActor::GetTotalMagicalDefense(uint32 index, GLOBAL_ELEMENTAL element) const
+uint32_t GlobalActor::GetTotalMagicalDefense(uint32_t index, GLOBAL_ELEMENTAL element) const
 {
     if(index >= _attack_points.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of attack points: " << index << std::endl;
@@ -323,7 +323,7 @@ uint32 GlobalActor::GetTotalMagicalDefense(uint32 index, GLOBAL_ELEMENTAL elemen
     return _attack_points[index]->GetTotalMagicalDefense(element);
 }
 
-float GlobalActor::GetTotalEvadeRating(uint32 index) const
+float GlobalActor::GetTotalEvadeRating(uint32_t index) const
 {
     if(index >= _attack_points.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of attack points: " << index << std::endl;
@@ -333,28 +333,28 @@ float GlobalActor::GetTotalEvadeRating(uint32 index) const
     return _attack_points[index]->GetTotalEvadeRating();
 }
 
-uint32 GlobalActor::GetAverageDefense()
+uint32_t GlobalActor::GetAverageDefense()
 {
     if (_attack_points.empty())
         return 0;
 
-    uint32 phys_defense = 0;
+    uint32_t phys_defense = 0;
 
-    for(uint32 i = 0; i < _attack_points.size(); ++i)
+    for(uint32_t i = 0; i < _attack_points.size(); ++i)
         phys_defense += _attack_points[i]->GetTotalPhysicalDefense();
     phys_defense /= _attack_points.size();
 
     return phys_defense;
 }
 
-uint32 GlobalActor::GetAverageMagicalDefense(GLOBAL_ELEMENTAL element)
+uint32_t GlobalActor::GetAverageMagicalDefense(GLOBAL_ELEMENTAL element)
 {
     if (_attack_points.empty())
         return 0;
 
-    uint32 mag_defense = 0;
+    uint32_t mag_defense = 0;
 
-    for(uint32 i = 0; i < _attack_points.size(); ++i)
+    for(uint32_t i = 0; i < _attack_points.size(); ++i)
         mag_defense += _attack_points[i]->GetTotalMagicalDefense(element);
     mag_defense /= _attack_points.size();
     return mag_defense;
@@ -367,14 +367,14 @@ float GlobalActor::GetAverageEvadeRating()
 
     float evade = 0.0f;
 
-    for(uint32 i = 0; i < _attack_points.size(); ++i)
+    for(uint32_t i = 0; i < _attack_points.size(); ++i)
         evade += _attack_points[i]->GetTotalEvadeRating();
     evade /= static_cast<float>(_attack_points.size());
 
     return evade;
 }
 
-GlobalAttackPoint *GlobalActor::GetAttackPoint(uint32 index) const
+GlobalAttackPoint *GlobalActor::GetAttackPoint(uint32_t index) const
 {
     if(index >= _attack_points.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of attack points: " << index << std::endl;
@@ -384,7 +384,7 @@ GlobalAttackPoint *GlobalActor::GetAttackPoint(uint32 index) const
     return _attack_points[index];
 }
 
-void GlobalActor::AddHitPoints(uint32 amount)
+void GlobalActor::AddHitPoints(uint32_t amount)
 {
     if((0xFFFFFFFF - amount) < _hit_points) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
@@ -399,7 +399,7 @@ void GlobalActor::AddHitPoints(uint32 amount)
 
 
 
-void GlobalActor::SubtractHitPoints(uint32 amount)
+void GlobalActor::SubtractHitPoints(uint32_t amount)
 {
     if(amount >= _hit_points)
         _hit_points = 0;
@@ -409,7 +409,7 @@ void GlobalActor::SubtractHitPoints(uint32 amount)
 
 
 
-void GlobalActor::AddMaxHitPoints(uint32 amount)
+void GlobalActor::AddMaxHitPoints(uint32_t amount)
 {
     if((0xFFFFFFFF - amount) < _max_hit_points) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
@@ -421,7 +421,7 @@ void GlobalActor::AddMaxHitPoints(uint32 amount)
 
 
 
-void GlobalActor::SubtractMaxHitPoints(uint32 amount)
+void GlobalActor::SubtractMaxHitPoints(uint32_t amount)
 {
     if(amount > _max_hit_points) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "argument value will cause max hit points to decrease to zero: " << amount << std::endl;
@@ -436,7 +436,7 @@ void GlobalActor::SubtractMaxHitPoints(uint32 amount)
 
 
 
-void GlobalActor::AddSkillPoints(uint32 amount)
+void GlobalActor::AddSkillPoints(uint32_t amount)
 {
     if((0xFFFFFFFF - amount) < _skill_points) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
@@ -451,7 +451,7 @@ void GlobalActor::AddSkillPoints(uint32 amount)
 
 
 
-void GlobalActor::SubtractSkillPoints(uint32 amount)
+void GlobalActor::SubtractSkillPoints(uint32_t amount)
 {
     if(amount >= _skill_points)
         _skill_points = 0;
@@ -461,7 +461,7 @@ void GlobalActor::SubtractSkillPoints(uint32 amount)
 
 
 
-void GlobalActor::AddMaxSkillPoints(uint32 amount)
+void GlobalActor::AddMaxSkillPoints(uint32_t amount)
 {
     if((0xFFFFFFFF - amount) < _max_skill_points) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "integer overflow condition detected: " << amount << std::endl;
@@ -473,7 +473,7 @@ void GlobalActor::AddMaxSkillPoints(uint32 amount)
 
 
 
-void GlobalActor::SubtractMaxSkillPoints(uint32 amount)
+void GlobalActor::SubtractMaxSkillPoints(uint32_t amount)
 {
     if(amount > _max_skill_points) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "argument value will cause max skill points to decrease to zero: " << amount << std::endl;
@@ -488,7 +488,7 @@ void GlobalActor::SubtractMaxSkillPoints(uint32 amount)
 
 
 
-void GlobalActor::AddStrength(uint32 amount)
+void GlobalActor::AddStrength(uint32_t amount)
 {
     _strength.SetBase(_strength.GetBase() + (float)amount);
     _CalculateAttackRatings();
@@ -496,7 +496,7 @@ void GlobalActor::AddStrength(uint32 amount)
 
 
 
-void GlobalActor::SubtractStrength(uint32 amount)
+void GlobalActor::SubtractStrength(uint32_t amount)
 {
     float new_base = _strength.GetBase() - (float)amount;
     _strength.SetBase(new_base < 0.0f ? 0.0f : new_base);
@@ -505,7 +505,7 @@ void GlobalActor::SubtractStrength(uint32 amount)
 
 
 
-void GlobalActor::AddVigor(uint32 amount)
+void GlobalActor::AddVigor(uint32_t amount)
 {
     _vigor.SetBase(_vigor.GetBase() + (float)amount);
     _CalculateAttackRatings();
@@ -513,7 +513,7 @@ void GlobalActor::AddVigor(uint32 amount)
 
 
 
-void GlobalActor::SubtractVigor(uint32 amount)
+void GlobalActor::SubtractVigor(uint32_t amount)
 {
     float new_base = _vigor.GetBase() - (float)amount;
     _vigor.SetBase(new_base < 0.0f ? 0.0f : new_base);
@@ -522,7 +522,7 @@ void GlobalActor::SubtractVigor(uint32 amount)
 
 
 
-void GlobalActor::AddFortitude(uint32 amount)
+void GlobalActor::AddFortitude(uint32_t amount)
 {
     _fortitude.SetBase(_fortitude.GetBase() + (float)amount);
     _CalculateDefenseRatings();
@@ -530,7 +530,7 @@ void GlobalActor::AddFortitude(uint32 amount)
 
 
 
-void GlobalActor::SubtractFortitude(uint32 amount)
+void GlobalActor::SubtractFortitude(uint32_t amount)
 {
     float new_base = _fortitude.GetBase() - (float)amount;
     _fortitude.SetBase(new_base < 0.0f ? 0.0f : new_base);
@@ -539,7 +539,7 @@ void GlobalActor::SubtractFortitude(uint32 amount)
 
 
 
-void GlobalActor::AddProtection(uint32 amount)
+void GlobalActor::AddProtection(uint32_t amount)
 {
     _protection.SetBase(_protection.GetBase() + (float)amount);
     _CalculateDefenseRatings();
@@ -547,7 +547,7 @@ void GlobalActor::AddProtection(uint32 amount)
 
 
 
-void GlobalActor::SubtractProtection(uint32 amount)
+void GlobalActor::SubtractProtection(uint32_t amount)
 {
     float new_base = _protection.GetBase() - (float)amount;
     _protection.SetBase(new_base < 0.0f ? 0.0f : new_base);
@@ -556,14 +556,14 @@ void GlobalActor::SubtractProtection(uint32 amount)
 
 
 
-void GlobalActor::AddAgility(uint32 amount)
+void GlobalActor::AddAgility(uint32_t amount)
 {
     _agility.SetBase(_agility.GetBase() + (float)amount);
 }
 
 
 
-void GlobalActor::SubtractAgility(uint32 amount)
+void GlobalActor::SubtractAgility(uint32_t amount)
 {
     float new_base = _agility.GetBase() - (float)amount;
     _agility.SetBase(new_base < 0.0f ? 0.0f : new_base);
@@ -591,7 +591,7 @@ void GlobalActor::SubtractEvade(float amount)
 void GlobalActor::_CalculateAttackRatings()
 {
     _total_physical_attack = _strength.GetValue();
-    for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
+    for (uint32_t i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
         _total_magical_attack[i] = _vigor.GetValue() * _elemental_modifier[i];
 }
 
@@ -600,7 +600,7 @@ void GlobalActor::_CalculateAttackRatings()
 void GlobalActor::_CalculateDefenseRatings()
 {
     // Re-calculate the defense ratings for all attack points
-    for(uint32 i = 0; i < _attack_points.size(); ++i)
+    for(uint32_t i = 0; i < _attack_points.size(); ++i)
         _attack_points[i]->CalculateTotalDefense(nullptr);
 }
 
@@ -609,7 +609,7 @@ void GlobalActor::_CalculateDefenseRatings()
 void GlobalActor::_CalculateEvadeRatings()
 {
     // Re-calculate the evade ratings for all attack points
-    for(uint32 i = 0; i < _attack_points.size(); ++i) {
+    for(uint32_t i = 0; i < _attack_points.size(); ++i) {
         _attack_points[i]->CalculateTotalEvade();
     }
 }
@@ -618,7 +618,7 @@ void GlobalActor::_CalculateEvadeRatings()
 // GlobalCharacter class
 ////////////////////////////////////////////////////////////////////////////////
 
-GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
+GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
     _experience_level(0),
     _enabled(true),
     _weapon_equipped(nullptr),
@@ -683,7 +683,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 
     // Load the character's battle portraits from a multi image
     _battle_portraits.assign(5, StillImage());
-    for(uint32 i = 0; i < _battle_portraits.size(); ++i) {
+    for(uint32_t i = 0; i < _battle_portraits.size(); ++i) {
         _battle_portraits[i].SetDimensions(100.0f, 100.0f);
     }
     std::string battle_portraits_filename = char_script.ReadString("battle_portraits");
@@ -691,7 +691,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
             !ImageDescriptor::LoadMultiImageFromElementGrid(_battle_portraits,
                     battle_portraits_filename, 1, 5)) {
         // Load empty portraits when they don't exist.
-        for(uint32 i = 0; i < _battle_portraits.size(); ++i) {
+        for(uint32_t i = 0; i < _battle_portraits.size(); ++i) {
             _battle_portraits[i].Clear();
             _battle_portraits[i].Load("", 1.0f, 1.0f);
         }
@@ -706,9 +706,9 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 
     // Load the bare hand skills available
     if (char_script.DoesTableExist("bare_hands_skills")) {
-        std::vector<uint32> bare_skills;
+        std::vector<uint32_t> bare_skills;
         char_script.ReadUIntVector("bare_hands_skills", bare_skills);
-        for (uint32 i = 0; i < bare_skills.size(); ++i)
+        for (uint32_t i = 0; i < bare_skills.size(); ++i)
             AddSkill(bare_skills[i]);
     }
 
@@ -716,7 +716,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
     std::vector<std::string> keys_vect;
     char_script.ReadTableKeys("battle_animations", keys_vect);
     if (char_script.OpenTable("battle_animations")) {
-        for(uint32 i = 0; i < keys_vect.size(); ++i) {
+        for(uint32_t i = 0; i < keys_vect.size(); ++i) {
             AnimatedImage animation;
             animation.LoadFromAnimationScript(char_script.ReadString(keys_vect[i]));
             _battle_animation[keys_vect[i]] = animation;
@@ -748,7 +748,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
         _evade.SetBase(char_script.ReadFloat("evade"));
 
         // Add the character's initial equipment. If any equipment ids are zero, that indicates nothing is to be equipped.
-        uint32 equipment_id = 0;
+        uint32_t equipment_id = 0;
         equipment_id = char_script.ReadUInt("weapon");
         if(equipment_id != 0)
             _weapon_equipped = new GlobalWeapon(equipment_id);
@@ -796,7 +796,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 
     // Setup the character's attack points
     if (char_script.OpenTable("attack_points")) {
-        for(uint32 i = GLOBAL_POSITION_HEAD; i <= GLOBAL_POSITION_LEGS; ++i) {
+        for(uint32_t i = GLOBAL_POSITION_HEAD; i <= GLOBAL_POSITION_LEGS; ++i) {
             _attack_points.push_back(new GlobalAttackPoint(this));
             if (char_script.OpenTable(i)) {
                 if(_attack_points[i]->LoadData(char_script) == false) {
@@ -819,7 +819,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
     if(initial) {
         if (char_script.OpenTable("skills")) {
             // The skills table contains key/value pairs. The key indicate the level required to learn the skill and the value is the skill's id
-            std::vector<uint32> skill_levels;
+            std::vector<uint32_t> skill_levels;
             char_script.ReadTableKeys(skill_levels);
 
             // We want to add the skills beginning with the first learned to the last. ReadTableKeys does not guarantee returing the keys in a sorted order,
@@ -827,7 +827,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
             std::sort(skill_levels.begin(), skill_levels.end());
 
             // Only add the skills for which the experience level requirements are met
-            for(uint32 i = 0; i < skill_levels.size(); ++i) {
+            for(uint32_t i = 0; i < skill_levels.size(); ++i) {
                 if(skill_levels[i] <= _experience_level) {
                     AddSkill(char_script.ReadUInt(skill_levels[i]));
                 }
@@ -848,7 +848,7 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
 
         if (char_script.OpenTable("growth")) {
             // If initial, determine the character's XP for next level.
-            std::vector<int32> xp_per_levels;
+            std::vector<int32_t> xp_per_levels;
             char_script.ReadIntVector("experience_for_next_level", xp_per_levels);
             if (_experience_level <= xp_per_levels.size()) {
                 _experience_for_next_level = xp_per_levels[_experience_level - 1];
@@ -886,14 +886,14 @@ GlobalCharacter::GlobalCharacter(uint32 id, bool initial) :
     _CalculateAttackRatings();
     _CalculateDefenseRatings();
     _CalculateEvadeRatings();
-} // GlobalCharacter::GlobalCharacter(uint32 id, bool initial)
+} // GlobalCharacter::GlobalCharacter(uint32_t id, bool initial)
 
 GlobalCharacter::~GlobalCharacter()
 {
     // Delete all equipment
     if(_weapon_equipped != nullptr)
         delete _weapon_equipped;
-    for(uint32 i = 0; i < _armor_equipped.size(); ++i) {
+    for(uint32_t i = 0; i < _armor_equipped.size(); ++i) {
         if(_armor_equipped[i] != nullptr)
             delete _armor_equipped[i];
     }
@@ -901,59 +901,59 @@ GlobalCharacter::~GlobalCharacter()
 }
 
 
-bool GlobalCharacter::AddExperiencePoints(uint32 xp)
+bool GlobalCharacter::AddExperiencePoints(uint32_t xp)
 {
     _experience_points += xp;
     _experience_for_next_level -= xp;
     return ReachedNewExperienceLevel();
 }
 
-void GlobalCharacter::AddStrength(uint32 amount)
+void GlobalCharacter::AddStrength(uint32_t amount)
 {
     _strength.SetBase(_strength.GetBase() + (float)amount);
     _CalculateAttackRatings();
 }
 
-void GlobalCharacter::SubtractStrength(uint32 amount)
+void GlobalCharacter::SubtractStrength(uint32_t amount)
 {
     float new_base = _strength.GetBase() - (float)amount;
     _strength.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateAttackRatings();
 }
 
-void GlobalCharacter::AddVigor(uint32 amount)
+void GlobalCharacter::AddVigor(uint32_t amount)
 {
     _vigor.SetBase(_vigor.GetBase() + (float)amount);
     _CalculateAttackRatings();
 }
 
-void GlobalCharacter::SubtractVigor(uint32 amount)
+void GlobalCharacter::SubtractVigor(uint32_t amount)
 {
     float new_base = _vigor.GetBase() - (float)amount;
     _vigor.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateAttackRatings();
 }
 
-void GlobalCharacter::AddFortitude(uint32 amount)
+void GlobalCharacter::AddFortitude(uint32_t amount)
 {
     _fortitude.SetBase(_fortitude.GetBase() + (float)amount);
     _CalculateDefenseRatings();
 }
 
-void GlobalCharacter::SubtractFortitude(uint32 amount)
+void GlobalCharacter::SubtractFortitude(uint32_t amount)
 {
     float new_base = _fortitude.GetBase() - (float)amount;
     _fortitude.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateDefenseRatings();
 }
 
-void GlobalCharacter::AddProtection(uint32 amount)
+void GlobalCharacter::AddProtection(uint32_t amount)
 {
     _protection.SetBase(_protection.GetBase() + (float)amount);
     _CalculateDefenseRatings();
 }
 
-void GlobalCharacter::SubtractProtection(uint32 amount)
+void GlobalCharacter::SubtractProtection(uint32_t amount)
 {
     float new_base = _protection.GetBase() - (float)amount;
     _protection.SetBase(new_base < 0.0f ? 0.0f : new_base);
@@ -974,7 +974,7 @@ GlobalWeapon *GlobalCharacter::EquipWeapon(GlobalWeapon *weapon)
     return old_weapon;
 }
 
-GlobalArmor *GlobalCharacter::_EquipArmor(GlobalArmor *armor, uint32 index)
+GlobalArmor *GlobalCharacter::_EquipArmor(GlobalArmor *armor, uint32_t index)
 {
     if(index >= _armor_equipped.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << std::endl;
@@ -1001,7 +1001,7 @@ GlobalArmor *GlobalCharacter::_EquipArmor(GlobalArmor *armor, uint32 index)
     return old_armor;
 }
 
-GlobalArmor *GlobalCharacter::GetArmorEquipped(uint32 index) const
+GlobalArmor *GlobalCharacter::GetArmorEquipped(uint32_t index) const
 {
     if(index >= _armor_equipped.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << std::endl;
@@ -1016,7 +1016,7 @@ bool GlobalCharacter::HasEquipment() const
     if (_weapon_equipped)
         return true;
 
-    for (uint32 i = 0; i < _armor_equipped.size(); ++i) {
+    for (uint32_t i = 0; i < _armor_equipped.size(); ++i) {
         if (_armor_equipped.at(i) != nullptr)
             return true;
     }
@@ -1026,7 +1026,7 @@ bool GlobalCharacter::HasEquipment() const
 void GlobalCharacter::_UpdateEquipmentStatusEffects()
 {
     // Reset the status effect intensities
-    for (uint32 i = 0; i < _equipment_status_effects.size(); ++i)
+    for (uint32_t i = 0; i < _equipment_status_effects.size(); ++i)
         _equipment_status_effects[i] = GLOBAL_INTENSITY_NEUTRAL;
 
     // For each piece of equipment, we add the intensity of the given status
@@ -1034,7 +1034,7 @@ void GlobalCharacter::_UpdateEquipmentStatusEffects()
     if (_weapon_equipped) {
         const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& _effects = _weapon_equipped->GetStatusEffects();
 
-        for (uint32 i = 0; i < _effects.size(); ++i) {
+        for (uint32_t i = 0; i < _effects.size(); ++i) {
 
             GLOBAL_STATUS effect = _effects[i].first;
             GLOBAL_INTENSITY intensity = _effects[i].second;
@@ -1050,13 +1050,13 @@ void GlobalCharacter::_UpdateEquipmentStatusEffects()
     }
 
     // armors
-    for (uint32 i = 0; i < _armor_equipped.size(); ++i) {
+    for (uint32_t i = 0; i < _armor_equipped.size(); ++i) {
         if (!_armor_equipped[i])
             continue;
 
         const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& _effects = _armor_equipped[i]->GetStatusEffects();
 
-        for (uint32 j = 0; j < _effects.size(); ++j) {
+        for (uint32_t j = 0; j < _effects.size(); ++j) {
 
             GLOBAL_STATUS effect = _effects[j].first;
             GLOBAL_INTENSITY intensity = _effects[j].second;
@@ -1073,7 +1073,7 @@ void GlobalCharacter::_UpdateEquipmentStatusEffects()
 
     // Actually apply the effects on the character now
     ReadScriptDescriptor &script_file = vt_global::GlobalManager->GetStatusEffectsScript();
-    for (uint32 i = 0; i < _equipment_status_effects.size(); ++i) {
+    for (uint32_t i = 0; i < _equipment_status_effects.size(); ++i) {
         GLOBAL_INTENSITY intensity = _equipment_status_effects[i];
 
         if (!script_file.OpenTable(i)) {
@@ -1137,7 +1137,7 @@ void GlobalCharacter::_UpdateEquipmentStatusEffects()
     } // For each equipment status effect
 }
 
-bool GlobalCharacter::AddSkill(uint32 skill_id, bool permanently)
+bool GlobalCharacter::AddSkill(uint32_t skill_id, bool permanently)
 {
     if(skill_id == 0) {
         PRINT_WARNING << "function received an invalid skill_id argument: " << skill_id << std::endl;
@@ -1155,7 +1155,7 @@ bool GlobalCharacter::AddSkill(uint32 skill_id, bool permanently)
         //Test whether the skill should become permanent
         if (permanently) {
             bool found = false;
-            for (uint32 i = 0; i < _permanent_skills.size(); ++i) {
+            for (uint32_t i = 0; i < _permanent_skills.size(); ++i) {
                 if (_permanent_skills[i] == skill_id) {
                     found = true;
                     i = _permanent_skills.size();
@@ -1200,7 +1200,7 @@ bool GlobalCharacter::AddSkill(uint32 skill_id, bool permanently)
     return true;
 }
 
-bool GlobalCharacter::AddNewSkillLearned(uint32 skill_id)
+bool GlobalCharacter::AddNewSkillLearned(uint32_t skill_id)
 {
     if(skill_id == 0) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received an invalid skill_id argument: " << skill_id << std::endl;
@@ -1227,7 +1227,7 @@ bool GlobalCharacter::AddNewSkillLearned(uint32 skill_id)
 void GlobalCharacter::_UpdatesAvailableSkills()
 {
     // Clears out the skills <and parse the current equipment to tells which ones are available.
-    for (uint32 i = 0; i < _skills.size(); ++i) {
+    for (uint32_t i = 0; i < _skills.size(); ++i) {
         delete _skills[i];
     }
     _skills.clear();
@@ -1239,26 +1239,26 @@ void GlobalCharacter::_UpdatesAvailableSkills()
     _special_skills.clear();
 
     // First readd the permanent ones
-    for (uint32 i = 0; i < _permanent_skills.size(); ++i) {
+    for (uint32_t i = 0; i < _permanent_skills.size(); ++i) {
         // As the skill is already permanent, don't readd it as one.
         AddSkill(_permanent_skills[i], false);
     }
 
     // Now, add skill obtained through current equipment.
     if (_weapon_equipped) {
-        const std::vector<uint32>& wpn_skills = _weapon_equipped->GetEquipmentSkills();
+        const std::vector<uint32_t>& wpn_skills = _weapon_equipped->GetEquipmentSkills();
 
-        for (uint32 i = 0; i < wpn_skills.size(); ++i)
+        for (uint32_t i = 0; i < wpn_skills.size(); ++i)
             AddSkill(wpn_skills[i], false);
     }
 
-    for (uint32 i = 0; i < _armor_equipped.size(); ++i) {
+    for (uint32_t i = 0; i < _armor_equipped.size(); ++i) {
         if (!_armor_equipped[i])
             continue;
 
-        const std::vector<uint32>& armor_skills = _armor_equipped[i]->GetEquipmentSkills();
+        const std::vector<uint32_t>& armor_skills = _armor_equipped[i]->GetEquipmentSkills();
 
-        for (uint32 j = 0; j < armor_skills.size(); ++j)
+        for (uint32_t j = 0; j < armor_skills.size(); ++j)
             AddSkill(armor_skills[j], false);
     }
 }
@@ -1339,7 +1339,7 @@ void GlobalCharacter::AcknowledgeGrowth() {
 
 void GlobalCharacter::ApplyActiveStatusEffect(GLOBAL_STATUS status_effect,
                                               GLOBAL_INTENSITY intensity,
-                                              uint32 duration)
+                                              uint32_t duration)
 {
     if (status_effect == GLOBAL_STATUS_INVALID || status_effect == GLOBAL_STATUS_TOTAL)
         return;
@@ -1357,7 +1357,7 @@ void GlobalCharacter::ApplyActiveStatusEffect(GLOBAL_STATUS status_effect,
     }
 
     // If a previous one was active, we must take in account the previous effect intensity
-    int32 new_intensity = intensity + effect.GetIntensity();
+    int32_t new_intensity = intensity + effect.GetIntensity();
     // We also check bounds
     if (new_intensity >= GLOBAL_INTENSITY_TOTAL)
         new_intensity = GLOBAL_INTENSITY_POS_EXTREME;
@@ -1373,13 +1373,13 @@ void GlobalCharacter::_CalculateAttackRatings()
 
     if(_weapon_equipped) {
         _total_physical_attack += _weapon_equipped->GetPhysicalAttack();
-        for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
+        for (uint32_t i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
             _total_magical_attack[i] = (_vigor.GetValue() + _weapon_equipped->GetMagicalAttack())
                                        * GetElementalModifier((GLOBAL_ELEMENTAL) i);
         }
     }
     else {
-        for (uint32 i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
+        for (uint32_t i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
             _total_magical_attack[i] = _vigor.GetValue() * GetElementalModifier((GLOBAL_ELEMENTAL) i);
         }
     }
@@ -1388,7 +1388,7 @@ void GlobalCharacter::_CalculateAttackRatings()
 void GlobalCharacter::_CalculateDefenseRatings()
 {
     // Re-calculate the defense ratings for all attack points
-    for(uint32 i = 0; i < _attack_points.size(); ++i) {
+    for(uint32_t i = 0; i < _attack_points.size(); ++i) {
         if((i < _armor_equipped.size()) && (_armor_equipped[i] != nullptr))
             _attack_points[i]->CalculateTotalDefense(_armor_equipped[i]);
         else
@@ -1400,7 +1400,7 @@ void GlobalCharacter::_CalculateDefenseRatings()
 // GlobalEnemy class
 ////////////////////////////////////////////////////////////////////////////////
 
-GlobalEnemy::GlobalEnemy(uint32 id) :
+GlobalEnemy::GlobalEnemy(uint32_t id) :
     GlobalActor(),
     _sprite_width(0),
     _sprite_height(0),
@@ -1429,10 +1429,10 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
     _battle_animations.assign(GLOBAL_ENEMY_HURT_TOTAL, AnimatedImage());
     if (enemy_data.OpenTable("battle_animations" )) {
 
-        std::vector<uint32> animations_id;
+        std::vector<uint32_t> animations_id;
         enemy_data.ReadTableKeys(animations_id);
-        for (uint32 i = 0; i < animations_id.size(); ++i) {
-            uint32 anim_id = animations_id[i];
+        for (uint32_t i = 0; i < animations_id.size(); ++i) {
+            uint32_t anim_id = animations_id[i];
             if (anim_id >= GLOBAL_ENEMY_HURT_TOTAL) {
                 PRINT_WARNING << "Invalid table id in 'battle_animations' table for enemy: "
                     << _id << std::endl;
@@ -1491,8 +1491,8 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 
     // Create the attack points for the enemy
     if (enemy_data.OpenTable("attack_points")) {
-        uint32 ap_size = enemy_data.GetTableSize();
-        for(uint32 i = 1; i <= ap_size; ++i) {
+        uint32_t ap_size = enemy_data.GetTableSize();
+        for(uint32_t i = 1; i <= ap_size; ++i) {
             _attack_points.push_back(new GlobalAttackPoint(this));
             if (enemy_data.OpenTable(i)) {
                 if(_attack_points.back()->LoadData(enemy_data) == false) {
@@ -1507,7 +1507,7 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 
     // Add the set of skills for the enemy
     if (enemy_data.OpenTable("skills")) {
-        for(uint32 i = 1; i <= enemy_data.GetTableSize(); ++i) {
+        for(uint32_t i = 1; i <= enemy_data.GetTableSize(); ++i) {
             _skill_set.push_back(enemy_data.ReadUInt(i));
         }
         enemy_data.CloseTable();
@@ -1515,7 +1515,7 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
 
     // Load the possible items that the enemy may drop
     if (enemy_data.OpenTable("drop_objects")) {
-        for(uint32 i = 1; i <= enemy_data.GetTableSize(); ++i) {
+        for(uint32_t i = 1; i <= enemy_data.GetTableSize(); ++i) {
             enemy_data.OpenTable(i);
             _dropped_objects.push_back(enemy_data.ReadUInt(1));
             _dropped_chance.push_back(enemy_data.ReadFloat(2));
@@ -1537,11 +1537,11 @@ GlobalEnemy::GlobalEnemy(uint32 id) :
     _CalculateAttackRatings();
     _CalculateDefenseRatings();
     _CalculateEvadeRatings();
-} // GlobalEnemy::GlobalEnemy(uint32 id)
+} // GlobalEnemy::GlobalEnemy(uint32_t id)
 
 
 
-bool GlobalEnemy::AddSkill(uint32 skill_id)
+bool GlobalEnemy::AddSkill(uint32_t skill_id)
 {
     if(skill_id == 0) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received an invalid skill_id argument: " << skill_id << std::endl;
@@ -1572,7 +1572,7 @@ void GlobalEnemy::_Initialize()
 {
     // Add all new skills that should be available at the current experience level
     _skills.clear();
-    for(uint32 i = 0; i < _skill_set.size(); ++i)
+    for(uint32_t i = 0; i < _skill_set.size(); ++i)
         AddSkill(_skill_set[i]);
 
     if(_skills.empty())
@@ -1597,7 +1597,7 @@ void GlobalEnemy::_Initialize()
     // Set the current hit points and skill points to their new maximum values
     _hit_points = _max_hit_points;
     _skill_points = _max_skill_points;
-} // void GlobalEnemy::Initialize(uint32 xp_level)
+} // void GlobalEnemy::Initialize(uint32_t xp_level)
 
 
 
@@ -1605,7 +1605,7 @@ void GlobalEnemy::DetermineDroppedObjects(std::vector<GlobalObject *>& objects)
 {
     objects.clear();
 
-    for(uint32 i = 0; i < _dropped_objects.size(); ++i) {
+    for(uint32_t i = 0; i < _dropped_objects.size(); ++i) {
         if(RandomFloat() < _dropped_chance[i]) {
             objects.push_back(GlobalCreateNewObject(_dropped_objects[i]));
         }
@@ -1616,7 +1616,7 @@ void GlobalEnemy::DetermineDroppedObjects(std::vector<GlobalObject *>& objects)
 // GlobalParty class
 ////////////////////////////////////////////////////////////////////////////////
 
-void GlobalParty::AddCharacter(GlobalCharacter *character, int32 index)
+void GlobalParty::AddCharacter(GlobalCharacter *character, int32_t index)
 {
     if(character == nullptr) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a nullptr character argument" << std::endl;
@@ -1625,7 +1625,7 @@ void GlobalParty::AddCharacter(GlobalCharacter *character, int32 index)
 
     if(_allow_duplicates == false) {
         // Check that this character is not already in the party
-        for(uint32 i = 0; i < _characters.size(); ++i) {
+        for(uint32_t i = 0; i < _characters.size(); ++i) {
             if(character->GetID() == _characters[i]->GetID()) {
                 IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add an character that was already in the party "
                                                << "when duplicates were not allowed: " << character->GetID() << std::endl;
@@ -1641,20 +1641,20 @@ void GlobalParty::AddCharacter(GlobalCharacter *character, int32 index)
     }
 
     // Check that the requested index does not exceed the size of the container
-    if(static_cast<uint32>(index) >= _characters.size()) {
+    if(static_cast<uint32_t>(index) >= _characters.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded the current party size: " << index << std::endl;
         _characters.push_back(character); // Add the character to the end of the party instead
         return;
     } else {
         std::vector<GlobalCharacter *>::iterator position = _characters.begin();
-        for(int32 i = 0; i < index; ++i, ++position);
+        for(int32_t i = 0; i < index; ++i, ++position);
         _characters.insert(position, character);
     }
 }
 
 
 
-GlobalCharacter *GlobalParty::RemoveCharacterAtIndex(uint32 index)
+GlobalCharacter *GlobalParty::RemoveCharacterAtIndex(uint32_t index)
 {
     if(index >= _characters.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: "
@@ -1664,7 +1664,7 @@ GlobalCharacter *GlobalParty::RemoveCharacterAtIndex(uint32 index)
 
     GlobalCharacter *removed_character = _characters[index];
     std::vector<GlobalCharacter *>::iterator position = _characters.begin();
-    for(uint32 i = 0; i < index; ++i, ++position);
+    for(uint32_t i = 0; i < index; ++i, ++position);
     _characters.erase(position);
 
     return removed_character;
@@ -1672,7 +1672,7 @@ GlobalCharacter *GlobalParty::RemoveCharacterAtIndex(uint32 index)
 
 
 
-GlobalCharacter *GlobalParty::RemoveCharacterByID(uint32 id)
+GlobalCharacter *GlobalParty::RemoveCharacterByID(uint32_t id)
 {
     if(_allow_duplicates) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to remove character when duplicates were allowed in the party: " << id << std::endl;
@@ -1697,7 +1697,7 @@ GlobalCharacter *GlobalParty::RemoveCharacterByID(uint32 id)
 
 
 
-GlobalCharacter *GlobalParty::GetCharacterAtIndex(uint32 index) const
+GlobalCharacter *GlobalParty::GetCharacterAtIndex(uint32_t index) const
 {
     if(index >= _characters.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: " << index << std::endl;
@@ -1709,14 +1709,14 @@ GlobalCharacter *GlobalParty::GetCharacterAtIndex(uint32 index) const
 
 
 
-GlobalCharacter *GlobalParty::GetCharacterByID(uint32 id) const
+GlobalCharacter *GlobalParty::GetCharacterByID(uint32_t id) const
 {
     if(_allow_duplicates) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to retrieve character when duplicates were allowed in the party: " << id << std::endl;
         return nullptr;
     }
 
-    for(uint32 i = 0; i < _characters.size(); ++i) {
+    for(uint32_t i = 0; i < _characters.size(); ++i) {
         if(_characters[i]->GetID() == id) {
             return _characters[i];
         }
@@ -1728,7 +1728,7 @@ GlobalCharacter *GlobalParty::GetCharacterByID(uint32 id) const
 
 
 
-void GlobalParty::SwapCharactersByIndex(uint32 first_index, uint32 second_index)
+void GlobalParty::SwapCharactersByIndex(uint32_t first_index, uint32_t second_index)
 {
     if(first_index == second_index) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_index and second_index arguments had the same value: " << first_index << std::endl;
@@ -1750,7 +1750,7 @@ void GlobalParty::SwapCharactersByIndex(uint32 first_index, uint32 second_index)
 
 
 
-void GlobalParty::SwapCharactersByID(uint32 first_id, uint32 second_id)
+void GlobalParty::SwapCharactersByID(uint32_t first_id, uint32_t second_id)
 {
     if(first_id == second_id) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_id and second_id arguments had the same value: " << first_id << std::endl;
@@ -1788,7 +1788,7 @@ void GlobalParty::SwapCharactersByID(uint32 first_id, uint32 second_id)
 
 
 
-GlobalCharacter *GlobalParty::ReplaceCharacterByIndex(uint32 index, GlobalCharacter *new_character)
+GlobalCharacter *GlobalParty::ReplaceCharacterByIndex(uint32_t index, GlobalCharacter *new_character)
 {
     if(new_character == nullptr) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a nullptr new_character argument" << std::endl;
@@ -1806,7 +1806,7 @@ GlobalCharacter *GlobalParty::ReplaceCharacterByIndex(uint32 index, GlobalCharac
 
 
 
-GlobalCharacter *GlobalParty::ReplaceCharacterByID(uint32 id, GlobalCharacter *new_character)
+GlobalCharacter *GlobalParty::ReplaceCharacterByID(uint32_t id, GlobalCharacter *new_character)
 {
     if(_allow_duplicates) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to replace character when duplicates were allowed in the party: " << id << std::endl;
@@ -1841,14 +1841,14 @@ float GlobalParty::AverageExperienceLevel() const
         return 0.0f;
 
     float xp_level_sum = 0.0f;
-    for(uint32 i = 0; i < _characters.size(); ++i)
+    for(uint32_t i = 0; i < _characters.size(); ++i)
         xp_level_sum += static_cast<float>(_characters[i]->GetExperienceLevel());
     return (xp_level_sum / static_cast<float>(_characters.size()));
 }
 
 
 
-void GlobalParty::AddHitPoints(uint32 hp)
+void GlobalParty::AddHitPoints(uint32_t hp)
 {
     for(std::vector<GlobalCharacter *>::iterator i = _characters.begin(); i != _characters.end(); ++i) {
         (*i)->AddHitPoints(hp);
@@ -1857,7 +1857,7 @@ void GlobalParty::AddHitPoints(uint32 hp)
 
 
 
-void GlobalParty::AddSkillPoints(uint32 sp)
+void GlobalParty::AddSkillPoints(uint32_t sp)
 {
     for(std::vector<GlobalCharacter *>::iterator i = _characters.begin(); i != _characters.end(); ++i) {
         (*i)->AddSkillPoints(sp);

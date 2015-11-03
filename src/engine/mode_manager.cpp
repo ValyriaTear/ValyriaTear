@@ -36,7 +36,7 @@ namespace vt_mode_manager
 ModeEngine *ModeManager = nullptr;
 bool MODE_MANAGER_DEBUG = false;
 
-const uint32 FADE_IN_OUT_TIME = 800;
+const uint32_t FADE_IN_OUT_TIME = 800;
 
 // ****************************************************************************
 // ***** GameMode class
@@ -52,7 +52,7 @@ GameMode::GameMode()
 }
 
 
-GameMode::GameMode(uint8 mt)
+GameMode::GameMode(uint8_t mt)
 {
     IF_PRINT_WARNING(MODE_MANAGER_DEBUG)
             << "MODE MANAGER: GameMode constructor invoked" << std::endl;
@@ -72,7 +72,7 @@ GameMode::~GameMode()
 
 void GameMode::Update()
 {
-    uint32 frame_time = vt_system::SystemManager->GetUpdateTime();
+    uint32_t frame_time = vt_system::SystemManager->GetUpdateTime();
 
     _script_supervisor.Update();
     _effect_supervisor.Update(frame_time);
@@ -199,7 +199,7 @@ void ModeEngine::Pop(bool fade_out, bool fade_in)
 // Pop off all game modes
 void ModeEngine::PopAll()
 {
-    _pop_count = static_cast<uint32>(_game_stack.size());
+    _pop_count = static_cast<uint32_t>(_game_stack.size());
 }
 
 // Push a new game mode onto the stack
@@ -228,7 +228,7 @@ void ModeEngine::Push(GameMode *gm, bool fade_out, bool fade_in)
 
 
 // Returns the mode type of the game mode on the top of the stack
-uint8 ModeEngine::GetGameType()
+uint8_t ModeEngine::GetGameType()
 {
     if(_game_stack.empty())
         return MODE_MANAGER_DUMMY_MODE;
@@ -238,7 +238,7 @@ uint8 ModeEngine::GetGameType()
 
 
 // Returns the mode type of a game mode on the stack
-uint8 ModeEngine::GetGameType(uint32 index)
+uint8_t ModeEngine::GetGameType(uint32_t index)
 {
     if(_game_stack.size() < index)
         return MODE_MANAGER_DUMMY_MODE;
@@ -257,7 +257,7 @@ GameMode *ModeEngine::GetTop()
 }
 
 // Returns a pointer to a game mode on the stack
-GameMode *ModeEngine::Get(uint32 index)
+GameMode *ModeEngine::Get(uint32_t index)
 {
     GameMode* result = nullptr;
 
@@ -371,7 +371,7 @@ void ModeEngine::DEBUG_PrintStack()
     }
 
     PRINT_WARNING << "***top of stack***" << std::endl;
-    for(int32 i = static_cast<int32>(_game_stack.size()) - 1; i >= 0; i--)
+    for(int32_t i = static_cast<int32_t>(_game_stack.size()) - 1; i >= 0; i--)
         PRINT_WARNING << " index: " << i << " type: " << _game_stack[i]->GetGameType() << std::endl;
     PRINT_WARNING << "***bottom of stack***" << std::endl;
 }

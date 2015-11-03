@@ -66,7 +66,7 @@ struct BattleEnemyInfo;
 class EventLink
 {
 public:
-    EventLink(const std::string &child_id, bool start, uint32 time) :
+    EventLink(const std::string &child_id, bool start, uint32_t time) :
         child_event_id(child_id), launch_at_start(start), launch_timer(time) {}
 
     ~EventLink()
@@ -79,7 +79,7 @@ public:
     bool launch_at_start;
 
     //! \brief The amount of milliseconds to wait before launching the event (0 means launch instantly)
-    uint32 launch_timer;
+    uint32_t launch_timer;
 }; // class EventLink
 
 
@@ -130,7 +130,7 @@ public:
     *** \param child_event_id The event id of the child event
     *** \param launch_time The number of milliseconds to wait before launching the child event
     **/
-    void AddEventLinkAtStart(const std::string& child_event_id, uint32 launch_time) {
+    void AddEventLinkAtStart(const std::string& child_event_id, uint32_t launch_time) {
         _AddEventLink(child_event_id, true, launch_time);
     }
 
@@ -145,7 +145,7 @@ public:
     *** \param child_event_id The event id of the child event
     *** \param launch_time The number of milliseconds to wait before launching the child event
     **/
-    void AddEventLinkAtEnd(const std::string& child_event_id, uint32 launch_time) {
+    void AddEventLinkAtEnd(const std::string& child_event_id, uint32_t launch_time) {
         _AddEventLink(child_event_id, false, launch_time);
     }
 
@@ -168,7 +168,7 @@ protected:
     *** \param launch_at_start The child starts relative to the start of the event if true, its finish if false
     *** \param launch_time The number of milliseconds to wait before launching the child event
     **/
-    void _AddEventLink(const std::string& child_event_id, bool launch_at_start, uint32 launch_time) {
+    void _AddEventLink(const std::string& child_event_id, bool launch_at_start, uint32_t launch_time) {
         _event_links.push_back(EventLink(child_event_id, launch_at_start, launch_time));
     }
 
@@ -277,7 +277,7 @@ public:
     *** \note All wares must be added before the _Start() method is called to ensure
     *** that the wares actually appear in shop mode.
     **/
-    void AddItem(uint32 object_id, uint32 stock) {
+    void AddItem(uint32_t object_id, uint32_t stock) {
         _items.insert(std::make_pair(object_id, stock));
     }
 
@@ -288,7 +288,7 @@ public:
     *** \note All wares must be added before the _Start() method is called to ensure
     *** that the wares actually appear in shop mode.
     **/
-    void AddTrade(uint32 object_id, uint32 stock) {
+    void AddTrade(uint32_t object_id, uint32_t stock) {
         _trades.insert(std::make_pair(object_id, stock));
     }
 
@@ -306,10 +306,10 @@ public:
 
 protected:
     //! \brief The GlobalObject IDs and stock count of all items to be sold in the shop
-    std::set<std::pair<uint32, uint32> > _items;
+    std::set<std::pair<uint32_t, uint32_t> > _items;
 
     //! \brief The GlobalObject IDs and stock count of all objects to be sold in the shop
-    std::set<std::pair<uint32, uint32> > _trades;
+    std::set<std::pair<uint32_t, uint32_t> > _trades;
 
     //! \brief The Shop quality levels. The more the level is, the worse it is for the player.
     vt_shop::SHOP_PRICE_LEVEL _buy_level;
@@ -476,9 +476,9 @@ public:
         _is_boss = is_boss;
     }
 
-    void AddEnemy(uint32 enemy_id, float position_x, float position_y);
+    void AddEnemy(uint32_t enemy_id, float position_x, float position_y);
 
-    void AddEnemy(uint32 enemy_id) {
+    void AddEnemy(uint32_t enemy_id) {
         AddEnemy(enemy_id, 0, 0);
     }
 
@@ -735,7 +735,7 @@ public:
     *** \param sprite A pointer to the sprite that this event will effect
     *** \param direction The direction to face the sprite
     **/
-    ChangeDirectionSpriteEvent(const std::string& event_id, VirtualSprite* sprite, uint16 direction);
+    ChangeDirectionSpriteEvent(const std::string& event_id, VirtualSprite* sprite, uint16_t direction);
 
     ~ChangeDirectionSpriteEvent()
     {}
@@ -746,11 +746,11 @@ public:
     //! give the object ownership at construction time.
     static ChangeDirectionSpriteEvent* Create(const std::string& event_id,
                                               VirtualSprite* sprite,
-                                              uint16 direction);
+                                              uint16_t direction);
 
 protected:
     //! \brief Retains the direction to move the sprite when the event starts
-    uint16 _direction;
+    uint16_t _direction;
 
     //! \brief Immediately changes the sprite's direction
     void _Start();
@@ -899,7 +899,7 @@ protected:
     float _current_node_x, _current_node_y;
 
     //! \brief An index to the path vector containing the node that the sprite currently occupies
-    uint32 _current_node;
+    uint32_t _current_node;
 
     //! \brief Holds the path needed to traverse from source to destination
     Path _path;
@@ -932,7 +932,7 @@ public:
     *** \param direction_time The amount of time to wait before changing the sprite's direction randomly
     **/
     RandomMoveSpriteEvent(const std::string &event_id, VirtualSprite* sprite,
-                          uint32 move_time = 10000, uint32 direction_time = 2000);
+                          uint32_t move_time = 10000, uint32_t direction_time = 2000);
 
     ~RandomMoveSpriteEvent();
 
@@ -942,8 +942,8 @@ public:
     //! give the object ownership at construction time.
     static RandomMoveSpriteEvent* Create(const std::string& event_id,
                                          VirtualSprite* sprite,
-                                         uint32 move_time,
-                                         uint32 direction_time);
+                                         uint32_t move_time,
+                                         uint32_t direction_time);
 
     //! \brief Stops and frees the sprite from the control_event
     void Terminate();
@@ -953,18 +953,18 @@ protected:
     *** Set this member to vt_system::INFINITE_TIME in order to continue the random movement
     *** forever. The default value of this member will be set to 10 seconds if it is not specified.
     **/
-    uint32 _total_movement_time;
+    uint32_t _total_movement_time;
 
     /** \brief The amount of time (in milliseconds) that the sprite should continue moving in its current direction
     *** The default value for this timer is 1.5 seconds (1500ms).
     **/
-    uint32 _total_direction_time;
+    uint32_t _total_direction_time;
 
     //! \brief A timer which keeps track of how long the sprite has been in random movement
-    uint32 _movement_timer;
+    uint32_t _movement_timer;
 
     //! \brief A timer which keeps track of how long the sprite has been moving around since the last change in direction.
-    uint32 _direction_timer;
+    uint32_t _direction_timer;
 
     //! \brief Calculates a path for the sprite to move to the destination
     void _Start();
@@ -997,7 +997,7 @@ public:
     *** \param animation_time The custom animation time, 0 if infinite, and -1 is default time used.
     **/
     AnimateSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
-                       const std::string& animation_name, int32 animation_time);
+                       const std::string& animation_name, int32_t animation_time);
 
     ~AnimateSpriteEvent()
     {}
@@ -1009,7 +1009,7 @@ public:
     static AnimateSpriteEvent* Create(const std::string& event_id,
                                       VirtualSprite* sprite,
                                       const std::string& animation_name,
-                                      int32 animation_time);
+                                      int32_t animation_time);
 
     //! \brief Stops the custom animation and frees the sprite from the control_event
     void Terminate();
@@ -1019,7 +1019,7 @@ protected:
     std::string _animation_name;
 
     //! The custom animation time.
-    int32 _animation_time;
+    int32_t _animation_time;
 
     //! A reference to the map sprite object
     MapSprite* _map_sprite;
@@ -1058,7 +1058,7 @@ public:
     }
 
     //! \brief Sets the number of drunes present in the chest's contents.
-    void SetDrunes(uint32 amount) {
+    void SetDrunes(uint32_t amount) {
         _treasure->SetDrunes(amount);
     }
 
@@ -1067,7 +1067,7 @@ public:
     *** \param quantity The number of the object to add (default == 1)
     *** \return True if the object was added successfully
     **/
-    bool AddItem(uint32 id, uint32 quantity = 1);
+    bool AddItem(uint32_t id, uint32_t quantity = 1);
 
     /** \brief Adds an event triggered at start of the treasure event.
     *** \param event_id The id of the event to add
@@ -1133,7 +1133,7 @@ public:
     *** all events in the chain will become activated at the appropriate time.
     **/
     void StartEvent(const std::string& event_id);
-    void StartEvent(const std::string& event_id, uint32 launch_time);
+    void StartEvent(const std::string& event_id, uint32_t launch_time);
 
     /** \brief Marks a specified event as active and starts the event
     *** \param event A pointer to the event to begin
@@ -1143,7 +1143,7 @@ public:
     *** all events in the chain will become activated at the appropriate time.
     **/
     void StartEvent(MapEvent* event);
-    void StartEvent(MapEvent* event, uint32 launch_time);
+    void StartEvent(MapEvent* event, uint32_t launch_time);
 
     /** \brief Pauses the active events by preventing them from updating
     *** \param event_id The ID of the active event(s) to pause
@@ -1227,13 +1227,13 @@ private:
     /** \brief A list of all events that are waiting on their launch timers to expire before being started
     *** The interger part of this std::pair is the countdown timer for this event to be launched
     **/
-    std::vector<std::pair<int32, MapEvent*> > _active_delayed_events;
+    std::vector<std::pair<int32_t, MapEvent*> > _active_delayed_events;
 
     /** \brief A list of all events that are waiting on their launch timers to expire before being started
     *** The interger part of this std::pair is the countdown timer for this event to be launched
     *** Those ones are put on hold by PauseAllEvents() and PauseEvent();
     **/
-    std::vector<std::pair<int32, MapEvent*> > _paused_delayed_events;
+    std::vector<std::pair<int32_t, MapEvent*> > _paused_delayed_events;
 
     /** States whether the event supervisor is parsing the active events queue, thus any modifications
     *** there on active events should be avoided.

@@ -70,12 +70,12 @@ public:
     *** \param b The end value of interpolation
     *** \param milliseconds The amount of time, in milliseconds, to interpolate over
     **/
-    void Start(float a, float b, uint32 milliseconds);
+    void Start(float a, float b, uint32_t milliseconds);
 
     /** \brief Updates the interpolation timer and value
     *** \param frame_time The amount of milliseconds to update the time value by
     **/
-    void Update(uint32 frame_time);
+    void Update(uint32_t frame_time);
 
     //! \brief Returns true if the interpolation is complete
     bool IsFinished() const {
@@ -95,10 +95,10 @@ private:
     float _a, _b;
 
     //! \brief The current time in the interpolation
-    uint32 _current_time;
+    uint32_t _current_time;
 
     //! \brief The end of the interpolation
-    uint32 _end_time;
+    uint32_t _end_time;
 
     //! \brief The current interpolated value
     float _current_value;

@@ -47,12 +47,12 @@ public:
     *** \param time The number of milliseconds that the fade should last for.
     *** \param transitional whether the fading is done between two game modes.
     **/
-    void BeginFade(const Color &final, uint32 time, bool transitional = false);
+    void BeginFade(const Color &final, uint32_t time, bool transitional = false);
 
     /** \brief Updates the amount of fading for the screen
     *** \param time The number of milliseconds that have passed since last update.
     **/
-    void Update(uint32 time);
+    void Update(uint32_t time);
 
     bool IsFading() const {
         return _is_fading;
@@ -61,17 +61,17 @@ public:
     /** \brief start a fade used as a transition between two game modes.
     *** It's a simple fade but flagged as special to let the mode manager handle it.
     **/
-    void StartTransitionFadeOut(const Color &final, uint32 time) {
+    void StartTransitionFadeOut(const Color &final, uint32_t time) {
         BeginFade(final, time, true);
     }
 
     //! \brief A shortcut function used to make a fade in more explicitely.
-    void TransitionalFadeIn(uint32 time) {
+    void TransitionalFadeIn(uint32_t time) {
         BeginFade(Color::clear, time, true);
     }
 
     //! \brief A shortcut function used to make a fade in more explicitely.
-    void FadeIn(uint32 time) {
+    void FadeIn(uint32_t time) {
         BeginFade(Color::clear, time);
     }
 
@@ -94,10 +94,10 @@ private:
     Color _final_color;
 
     //! \brief The number of milliseconds that have passed since the fading began.
-    uint32 _current_time;
+    uint32_t _current_time;
 
     //! \brief The number of milliseconds that this fade was set to last for.
-    uint32 _end_time;
+    uint32_t _end_time;
 
     //! \brief True if the class is currently in the process of fading
     bool _is_fading;

@@ -129,7 +129,7 @@ public:
 
 private:
     //! The name of the character that this window corresponds) to
-    uint32 _char_id;
+    uint32_t _char_id;
 
     //! The image of the character
     vt_video::StillImage _portrait;
@@ -202,7 +202,7 @@ private:
     vt_video::StillImage _location_graphic;
 
     //! Flag to specify the active option box
-    uint32 _active_box;
+    uint32_t _active_box;
 
     //! OptionBox to display all of the items
     vt_gui::OptionBox _inventory_items;
@@ -306,7 +306,7 @@ public:
     * \brief Get status window active state
     * \return the char select value when active, or zero if inactive
     */
-    inline uint32 GetActiveState() {
+    inline uint32_t GetActiveState() {
         return _char_select_active;
     }
 
@@ -324,7 +324,7 @@ private:
     std::vector<vt_video::StillImage> _full_portraits;
 
     //! if the window is active or not
-    uint32 _char_select_active;
+    uint32_t _char_select_active;
 
     //! character selection option box
     vt_gui::OptionBox _char_select;
@@ -417,7 +417,7 @@ public:
 
 private:
     //! Flag to specify the active option box
-    uint32 _active_box;
+    uint32_t _active_box;
 
     //! The character select option box
     vt_gui::OptionBox _char_select;
@@ -438,7 +438,7 @@ private:
     vt_video::StillImage _skill_icon;
 
     //! Track which character's skillset was chosen
-    int32 _char_skillset;
+    int32_t _char_skillset;
 
     /*!
     * \brief Initializes the skills category chooser
@@ -531,10 +531,10 @@ private:
 
     //! \brief the items actual index in the replacor list
     //! Since not all the items are displayed in this list.
-    std::vector<uint32> _equip_list_inv_index;
+    std::vector<uint32_t> _equip_list_inv_index;
 
     //! Flag to specify the active option box
-    uint32 _active_box;
+    uint32_t _active_box;
 
     //! equipment images
     std::vector<vt_video::StillImage> _equip_images;
@@ -752,7 +752,7 @@ public:
     vt_global::WorldMapLocation *GetCurrentViewingLocation()
     {
         const std::vector<std::string> &current_location_ids = vt_global::GlobalManager->GetViewableLocationIds();
-        const uint32 N = current_location_ids.size();
+        const uint32_t N = current_location_ids.size();
         if( N == 0 || _location_pointer_index > N)
             return nullptr;
         return vt_global::GlobalManager->GetWorldLocation(current_location_ids[_location_pointer_index]);
@@ -784,7 +784,7 @@ private:
     float _current_image_y_offset;
 
     //! \brief the current index to the location the pointer should be on
-    uint32 _location_pointer_index;
+    uint32_t _location_pointer_index;
 
     //! \brief indicates whether this window is active or not
     bool _active;

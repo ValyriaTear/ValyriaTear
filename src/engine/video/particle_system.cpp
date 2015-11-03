@@ -53,7 +53,7 @@ bool ParticleSystem::_Create(ParticleSystemDef *sys_def)
     size_t num_frames = _system_def->animation_frame_filenames.size();
 
     for(size_t j = 0; j < num_frames; ++j) {
-        int32 frame_time;
+        int32_t frame_time;
         if(j < _system_def->animation_frame_times.size())
             frame_time = _system_def->animation_frame_times[j];
         else if(_system_def->animation_frame_times.empty())
@@ -129,9 +129,9 @@ void ParticleSystem::Draw()
 
     // Fill the vertex array.
     if (_system_def->rotation_used) {
-        int32 v = 0;
+        int32_t v = 0;
 
-        for (int32 j = 0; j < _num_particles; ++j) {
+        for (int32_t j = 0; j < _num_particles; ++j) {
             float scaled_width_half  = img_width_half * _particles[j].size_x;
             float scaled_height_half = img_height_half * _particles[j].size_y;
 
@@ -190,9 +190,9 @@ void ParticleSystem::Draw()
             ++v;
         }
     } else {
-        int32 v = 0;
+        int32_t v = 0;
 
-        for (int32 j = 0; j < _num_particles; ++j) {
+        for (int32_t j = 0; j < _num_particles; ++j) {
             float scaled_width_half  = img_width_half * _particles[j].size_x;
             float scaled_height_half = img_height_half * _particles[j].size_y;
 
@@ -220,8 +220,8 @@ void ParticleSystem::Draw()
 
     // Fill the color array.
 
-    int32 c = 0;
-    for (int32 j = 0; j < _num_particles; ++j) {
+    int32_t c = 0;
+    for (int32_t j = 0; j < _num_particles; ++j) {
         Color color = _particles[j].color;
 
         if (_system_def->smooth_animation)
@@ -239,8 +239,8 @@ void ParticleSystem::Draw()
 
     // Fill the texture coordinate array.
 
-    int32 t = 0;
-    for (int32 j = 0; j < _num_particles; ++j) {
+    int32_t t = 0;
+    for (int32_t j = 0; j < _num_particles; ++j) {
         // The upper-left vertex.
         _particle_texcoords[t]._t0 = u1;
         _particle_texcoords[t]._t1 = v1;
@@ -287,7 +287,7 @@ void ParticleSystem::Draw()
         v2 = img2->v2;
 
         t = 0;
-        for (int32 j = 0; j < _num_particles; ++j) {
+        for (int32_t j = 0; j < _num_particles; ++j) {
             // The upper-left vertex.
             _particle_texcoords[t]._t0 = u1;
             _particle_texcoords[t]._t1 = v1;
@@ -310,7 +310,7 @@ void ParticleSystem::Draw()
         }
 
         c = 0;
-        for (int32 j = 0; j < _num_particles; ++j) {
+        for (int32_t j = 0; j < _num_particles; ++j) {
             Color color = _particles[j].color;
             color = color * frame_progress;
 
@@ -358,7 +358,7 @@ void ParticleSystem::Update(float frame_time, const EffectParameters &params)
     _UpdateParticles(frame_time, params);
 
     // figure out how many particles need to be emitted this frame
-    int32 num_particles_to_emit = 0;
+    int32_t num_particles_to_emit = 0;
     if(!_stopped) {
         if(_system_def->emitter._emitter_mode == EMITTER_MODE_ALWAYS) {
             num_particles_to_emit = _system_def->max_particles - _num_particles;
@@ -369,7 +369,7 @@ void ParticleSystem::Update(float frame_time, const EffectParameters &params)
             time_low  = floorf(time_low);
             time_high = ceilf(time_high);
 
-            num_particles_to_emit = static_cast<int32>(time_high - time_low) - 1;
+            num_particles_to_emit = static_cast<int32_t>(time_high - time_low) - 1;
 
             if(num_particles_to_emit + _num_particles > _system_def->max_particles)
                 num_particles_to_emit = _system_def->max_particles - _num_particles;
@@ -466,7 +466,7 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
                     _particles[j].current_size_variation_y = _particles[j].next_size_variation_y;
                 } else {
                     _particles[j].current_rotation_speed_variation = RandomFloat(-_particles[j].current_keyframe->rotation_speed_variation, _particles[j].current_keyframe->rotation_speed_variation);
-                    for(int32 c = 0; c < 4; ++c)
+                    for(int32_t c = 0; c < 4; ++c)
                         _particles[j].current_color_variation[c] = RandomFloat(-_particles[j].current_keyframe->color_variation[c], _particles[j].current_keyframe->color_variation[c]);
                     _particles[j].current_size_variation_x = RandomFloat(-_particles[j].current_keyframe->size_variation_x, _particles[j].current_keyframe->size_variation_x);
                     _particles[j].current_size_variation_y = RandomFloat(-_particles[j].current_keyframe->size_variation_y, _particles[j].current_keyframe->size_variation_y);
@@ -475,7 +475,7 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
                 // if there is a next keyframe, generate variations for it
                 if(_particles[j].next_keyframe) {
                     _particles[j].next_rotation_speed_variation = RandomFloat(-_particles[j].next_keyframe->rotation_speed_variation, _particles[j].next_keyframe->rotation_speed_variation);
-                    for(int32 c = 0; c < 4; ++c)
+                    for(int32_t c = 0; c < 4; ++c)
                         _particles[j].next_color_variation[c] = RandomFloat(-_particles[j].next_keyframe->color_variation[c], _particles[j].next_keyframe->color_variation[c]);
                     _particles[j].next_size_variation_x = RandomFloat(-_particles[j].next_keyframe->size_variation_x, _particles[j].next_keyframe->size_variation_x);
                     _particles[j].next_size_variation_y = RandomFloat(-_particles[j].next_keyframe->size_variation_y, _particles[j].next_keyframe->size_variation_y);
@@ -603,7 +603,7 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
 //                 and then emitting, because it is much more efficient.
 //-----------------------------------------------------------------------------
 
-void ParticleSystem::_KillParticles(int32 &num, const EffectParameters &params)
+void ParticleSystem::_KillParticles(int32_t &num, const EffectParameters &params)
 {
     // check each active particle to see if it is expired
     for(int j = 0; j < _num_particles; ++j) {
@@ -629,10 +629,10 @@ void ParticleSystem::_KillParticles(int32 &num, const EffectParameters &params)
 // _EmitParticles: helper function, emits new particles
 //-----------------------------------------------------------------------------
 
-void ParticleSystem::_EmitParticles(int32 num, const EffectParameters &params)
+void ParticleSystem::_EmitParticles(int32_t num, const EffectParameters &params)
 {
     // respawn 'num' new particles at the end of the array
-    for(int32 j = 0; j < num; ++j) {
+    for(int32_t j = 0; j < num; ++j) {
         _RespawnParticle(_num_particles, params);
         ++_num_particles;
     }
@@ -644,7 +644,7 @@ void ParticleSystem::_EmitParticles(int32 num, const EffectParameters &params)
 //                to dest index in the array
 //-----------------------------------------------------------------------------
 
-void ParticleSystem::_MoveParticle(int32 src, int32 dest)
+void ParticleSystem::_MoveParticle(int32_t src, int32_t dest)
 {
     _particles[dest] = _particles[src];
 }
@@ -655,7 +655,7 @@ void ParticleSystem::_MoveParticle(int32 src, int32 dest)
 //                   the properties for a newly spawned particle
 //-----------------------------------------------------------------------------
 
-void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
+void ParticleSystem::_RespawnParticle(int32_t i, const EffectParameters &params)
 {
     const ParticleEmitter &emitter = _system_def->emitter;
 
@@ -774,7 +774,7 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
     _particles[i].current_size_variation_y  = RandomFloat(-_system_def->keyframes[0].size_variation_y,
             _system_def->keyframes[0].size_variation_y);
 
-    for(int32 j = 0; j < 4; ++j) {
+    for(int32_t j = 0; j < 4; ++j) {
         _particles[i].current_color_variation[j] = RandomFloat(-_system_def->keyframes[0].color_variation[j],
                 _system_def->keyframes[0].color_variation[j]);
     }
@@ -789,7 +789,7 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
         _particles[i].next_size_variation_y  = RandomFloat(-_system_def->keyframes[1].size_variation_y,
                                                _system_def->keyframes[1].size_variation_y);
 
-        for(int32 j = 0; j < 4; ++j) {
+        for(int32_t j = 0; j < 4; ++j) {
             _particles[i].next_color_variation[j] = RandomFloat(-_system_def->keyframes[1].color_variation[j],
                                                     _system_def->keyframes[1].color_variation[j]);
         }
@@ -798,7 +798,7 @@ void ParticleSystem::_RespawnParticle(int32 i, const EffectParameters &params)
                 _system_def->keyframes[1].rotation_speed_variation);
     } else {
         // if there's only 1 keyframe, then apply the variations now
-        for(int32 j = 0; j < 4; ++j) {
+        for(int32_t j = 0; j < 4; ++j) {
             _particles[i].color[j] += RandomFloat(-_particles[i].current_color_variation[j],
                                                   _particles[i].current_color_variation[j]);
         }

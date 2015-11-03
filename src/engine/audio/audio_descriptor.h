@@ -69,10 +69,10 @@ namespace private_audio
 class AudioEffect;
 
 //! \brief The default buffer size (in bytes) for streaming buffers
-const uint32 DEFAULT_BUFFER_SIZE = 8192;
+const uint32_t DEFAULT_BUFFER_SIZE = 8192;
 
 //! \brief The number of buffers to use for streaming audio descriptors
-const uint32 NUMBER_STREAMING_BUFFERS = 4;
+const uint32_t NUMBER_STREAMING_BUFFERS = 4;
 
 /** ****************************************************************************
 *** \brief Represents an OpenAL buffer
@@ -96,7 +96,7 @@ public:
     *** \param size The size of the data in number of bytes
     *** \param frequency The audio frequency of the data in samples per second
     **/
-    void FillBuffer(uint8 *data, ALenum format, uint32 size, uint32 frequency) {
+    void FillBuffer(uint8_t *data, ALenum format, uint32_t size, uint32_t frequency) {
         alBufferData(buffer, format, data, size, frequency);
     }
 
@@ -213,7 +213,7 @@ public:
     *** The action taken by this function depends on the load type selected. For static sounds, a single OpenAL buffer is
     *** filled. For streaming, the file/memory is prepared.
     **/
-    virtual bool LoadAudio(const std::string &filename, AUDIO_LOAD load_type = AUDIO_LOAD_STATIC, uint32 stream_buffer_size = private_audio::DEFAULT_BUFFER_SIZE);
+    virtual bool LoadAudio(const std::string &filename, AUDIO_LOAD load_type = AUDIO_LOAD_STATIC, uint32_t stream_buffer_size = private_audio::DEFAULT_BUFFER_SIZE);
 
     /** \brief Frees all data resources and resets class parameters
     ***
@@ -265,18 +265,18 @@ public:
     *** \param loop_start The sample position for the start loop point
     *** \note This function is only valid if the audio has been loaded with streaming support
     **/
-    void SetLoopStart(uint32 loop_start);
+    void SetLoopStart(uint32_t loop_start);
 
     /** \brief Sets the ending loop point, used for customized looping
     *** \param loop_start The sample position for the end loop point
     *** \note This function is only valid if the audio has been loaded with streaming support
     **/
-    void SetLoopEnd(uint32 loop_end);
+    void SetLoopEnd(uint32_t loop_end);
 
     /** \brief Seeks to the requested sample position
     *** \param sample The sample position to seek to
     **/
-    void SeekSample(uint32 sample);
+    void SeekSample(uint32_t sample);
 
     /** \brief Seeks to the requested playback time
     *** \param second The time to seek to, in seconds (e.g. 4.5f == 4.5 second mark)
@@ -286,7 +286,7 @@ public:
     void SeekSecond(float second);
 
     //! \brief Gets the current sample number (track offset)
-    uint32 GetCurrentSampleNumber() const;
+    uint32_t GetCurrentSampleNumber() const;
 
     //! \brief Returns the volume level for this audio
     float GetVolume() const {
@@ -386,7 +386,7 @@ protected:
     private_audio::AudioStream *_stream;
 
     //! \brief A pointer to where the data is streamed to
-    uint8 *_data;
+    uint8_t *_data;
 
     //! \brief The format of the audio (mono/stereo, 8/16 bits per second).
     ALenum _format;
@@ -395,7 +395,7 @@ protected:
     bool _looping;
 
     //! \brief The audio position that was last seeked, in samples.
-    uint32 _offset;
+    uint32_t _offset;
 
     /** \brief The volume of the audio, ranging from 0.0f to 1.0f
     *** This isn't actually the true volume of the audio, but rather the modulation
@@ -413,7 +413,7 @@ protected:
     float _original_volume;
 
     //! \brief Size of the streaming buffer, if the audio was loaded for streaming
-    uint32 _stream_buffer_size;
+    uint32_t _stream_buffer_size;
 
     //! \brief The 3D orientation properties of the audio
     //@{
@@ -520,7 +520,7 @@ public:
 
     MusicDescriptor(const MusicDescriptor &copy);
 
-    bool LoadAudio(const std::string &filename, AUDIO_LOAD load_type = AUDIO_LOAD_STREAM_FILE, uint32 stream_buffer_size = private_audio::DEFAULT_BUFFER_SIZE);
+    bool LoadAudio(const std::string &filename, AUDIO_LOAD load_type = AUDIO_LOAD_STREAM_FILE, uint32_t stream_buffer_size = private_audio::DEFAULT_BUFFER_SIZE);
 
     bool IsSound() const {
         return false;

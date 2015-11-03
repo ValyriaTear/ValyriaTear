@@ -32,11 +32,11 @@ class SpriteEvent;
 //! Standard time values for spawning enemies on a map. All values are in number of milliseconds.
 //@{
 //! \brief The time to spawn an enemy when the player first enters a map
-const uint32 STANDARD_ENEMY_FIRST_SPAWN_TIME = 1000;
+const uint32_t STANDARD_ENEMY_FIRST_SPAWN_TIME = 1000;
 //! \brief The standard amount of time it takes an enemy to change state from "spawning" to "hostile"
-const uint32 STANDARD_ENEMY_SPAWN_TIME = 5000;
+const uint32_t STANDARD_ENEMY_SPAWN_TIME = 5000;
 //! \brief The duration that an enemy stays in the dead state after it has been defeated
-const uint32 STANDARD_ENEMY_DEAD_TIME = 5000;
+const uint32_t STANDARD_ENEMY_DEAD_TIME = 5000;
 //@}
 
 /** ****************************************************************************
@@ -74,7 +74,7 @@ public:
     *** and this function indicates that the sprite should move northwest, it will face north
     *** during the northwest movement.
     **/
-    void SetDirection(uint16 dir);
+    void SetDirection(uint16_t dir);
 
     /** \brief Sets the sprite's direction to a random value
     *** This function is used mostly for the ActionRandomMove class.
@@ -155,7 +155,7 @@ public:
         return _moving;
     }
 
-    uint16 GetDirection() const {
+    uint16_t GetDirection() const {
         return _direction;
     }
 
@@ -182,7 +182,7 @@ protected:
     *** which way the sprite is facing (4 directions). See the Sprite direction
     *** constants for the values that this member may be set to.
     **/
-    uint16 _direction;
+    uint16_t _direction;
 
     //! \brief The speed at which the sprite moves around the map.
     float _movement_speed;
@@ -213,7 +213,7 @@ protected:
     //@{
     //! \brief Indicates if the other saved members are valid because the state has recently been saved
     bool _state_saved;
-    uint16 _saved_direction;
+    uint16_t _saved_direction;
     float _saved_movement_speed;
     bool _saved_moving;
     //@}
@@ -332,7 +332,7 @@ public:
     *** \param next The index value of the dialogue_references vector to set the next_dialogue member to
     *** \note You can not set the next_dialogue member to a negative number. This could cause run-time errors if it was supported here.
     **/
-    void SetNextDialogue(uint16 next);
+    void SetNextDialogue(uint16_t next);
 
     /** \brief This method will save the state of a sprite.
     *** Attributes saved: direction, speed, moving state, name
@@ -359,11 +359,11 @@ public:
         _name = vt_utils::MakeUnicodeString(name);
     }
 
-    void SetCurrentAnimationDirection(uint8 anim_direction) {
+    void SetCurrentAnimationDirection(uint8_t anim_direction) {
         _current_anim_direction = anim_direction;
     }
 
-    uint8 GetCurrentAnimationDirection() const {
+    uint8_t GetCurrentAnimationDirection() const {
         return _current_anim_direction;
     }
 
@@ -384,7 +384,7 @@ public:
     }
 
     //! \brief Returns the next dialogue to reference (negative value returned if no dialogues are referenced)
-    int16 GetNextDialogue() const {
+    int16_t GetNextDialogue() const {
         return _next_dialogue;
     }
 
@@ -392,7 +392,7 @@ public:
     const std::string& GetNextDialogueID() const;
 
     //! \brief Returns the number of dialogues referenced by the sprite (including duplicates)
-    uint16 GetNumberDialogueReferences() const {
+    uint16_t GetNumberDialogueReferences() const {
         return _dialogue_references.size();
     }
 
@@ -401,7 +401,7 @@ public:
     *** You can set the animation key to empty to disable the custom animation.
     *** \param The time to display the given animation, -1 for the default time and 0 for an infinite amount of time.
     **/
-    void SetCustomAnimation(const std::string &animaton_name, int32 time);
+    void SetCustomAnimation(const std::string &animaton_name, int32_t time);
 
     bool IsAnimationCustom() const {
         return _custom_animation_on;
@@ -456,7 +456,7 @@ protected:
     bool _has_running_animations;
 
     //! \brief The current sprite direction. (for animation)
-    uint8 _current_anim_direction;
+    uint8_t _current_anim_direction;
 
     //! \brief A map containing all four directions of the sprite's various animations.
     std::vector<vt_video::AnimatedImage> _standing_animations;
@@ -478,7 +478,7 @@ protected:
     /** \brief An index to the dialogue_references vector, representing the next dialogue the sprite should reference
     *** A negative value indicates that the sprite has no dialogue.
     **/
-    int16 _next_dialogue;
+    int16_t _next_dialogue;
 
     //! \brief True if the sprite references at least one dialogue
     bool _has_available_dialogue;
@@ -493,7 +493,7 @@ protected:
     bool _custom_animation_on;
 
     //! \brief Tells how much time left the custom animation will have to be drawn
-    int32 _custom_animation_time;
+    int32_t _custom_animation_time;
 
     //! Tells whether the animation has got an infinite duration
     bool _infinite_custom_animation;
@@ -502,7 +502,7 @@ protected:
     *** These attributes are used to save and load the state of a VirtualSprite
     **/
     //@{
-    uint8 _saved_current_anim_direction;
+    uint8_t _saved_current_anim_direction;
     //@}
 
     //! \brief Draws debug information, used for pathfinding mostly.
@@ -517,14 +517,14 @@ struct BattleEnemyInfo {
         position_y(0.0f)
     {}
 
-    BattleEnemyInfo(uint32 id, float x, float y):
+    BattleEnemyInfo(uint32_t id, float x, float y):
         enemy_id(id),
         position_x(x),
         position_y(y)
     {}
 
     //! \brief  The enemy id see in enemies.lua
-    uint32 enemy_id;
+    uint32_t enemy_id;
 
     //! \brief The enemy position in the battle ground, in pixels.
     float position_x;
@@ -588,9 +588,9 @@ public:
     *** \note MapMode should have already loaded a GlobalEnemy with this ID and retained it within the MapMode#_enemies member.
     *** If this is not the case, this function will print a warning message.
     **/
-    void AddEnemy(uint32 enemy_id, float position_x, float position_y);
+    void AddEnemy(uint32_t enemy_id, float position_x, float position_y);
     //! \brief A simpler function used to auto set default enemy position on the battle ground
-    void AddEnemy(uint32 enemy_id) {
+    void AddEnemy(uint32_t enemy_id) {
         AddEnemy(enemy_id, 0.0f, 0.0f);
     }
 
@@ -615,11 +615,11 @@ public:
         return _aggro_range;
     }
 
-    uint32 GetTimeBeforeNewDestination() const {
+    uint32_t GetTimeBeforeNewDestination() const {
         return _time_before_new_destination;
     }
 
-    uint32 GetTimeToSpawn() const {
+    uint32_t GetTimeToSpawn() const {
         return _time_to_spawn;
     }
 
@@ -663,11 +663,11 @@ public:
         _aggro_range = range;
     }
 
-    void SetTimeBeforeNewDestination(uint32 time) {
+    void SetTimeBeforeNewDestination(uint32_t time) {
         _time_before_new_destination = time;
     }
 
-    void SetTimeToRespawn(uint32 time) {
+    void SetTimeToRespawn(uint32_t time) {
         _time_to_respawn = time;
     }
 
@@ -714,7 +714,7 @@ private:
     vt_video::Color _color;
 
     //! \brief A timer used for spawning
-    uint32 _time_elapsed;
+    uint32_t _time_elapsed;
 
     //! \brief The state that the enemy sprite is in
     STATE _state;
@@ -723,13 +723,13 @@ private:
     float _aggro_range;
 
     //! \brief Tells the time the sprite is waiting before going to a new destination.
-    uint32 _time_before_new_destination;
+    uint32_t _time_before_new_destination;
 
     //! \brief Tells the actual time in milliseconds the sprite will use to respawn. This will set up the fade in speed.
-    uint32 _time_to_spawn;
+    uint32_t _time_to_spawn;
 
     //! \brief the default time used to respawn (Set to STANDARD_ENEMY_SPAWN_TIME by default)
-    uint32 _time_to_respawn;
+    uint32_t _time_to_respawn;
 
     //! \brief The default battle music theme for the monster
     std::string _music_theme;
@@ -763,7 +763,7 @@ private:
     float _current_node_x, _current_node_y;
 
     //! \brief An index to the path vector containing the node that the sprite currently occupies
-    uint32 _current_node_id;
+    uint32_t _current_node_id;
 
     //! \brief The current destination of the sprite.
     float _destination_x, _destination_y;
@@ -773,7 +773,7 @@ private:
 
     //! \brief Way points used by the enemy when not hostile
     std::vector<MapPosition> _way_points;
-    uint32 _current_way_point_id;
+    uint32_t _current_way_point_id;
 
     //! \brief Set the new path destination of the sprite.
     //! \param destination_x The pixel x destination to find a path to.
@@ -781,7 +781,7 @@ private:
     //! \param max_cost More or less the path max length in nodes or 0 if no limitations.
     //! Use this to avoid heavy computations.
     //! \return whether it failed.
-    bool _SetDestination(float destination_x, float destination_y, uint32 max_cost = 20);
+    bool _SetDestination(float destination_x, float destination_y, uint32_t max_cost = 20);
 
     //! \brief Set the actual sprite direction according to the current path node.
     void _SetSpritePathDirection();

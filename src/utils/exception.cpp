@@ -22,7 +22,7 @@ template <typename T>
 std::string _NumberToString(const T t)
 {
     std::ostringstream text("");
-    text << static_cast<int32>(t);
+    text << static_cast<int32_t>(t);
     return text.str();
 }
 

@@ -78,19 +78,19 @@ class ShortNoticeWindow : public vt_gui::MenuWindow
 public:
     ShortNoticeWindow(const vt_utils::ustring& message,
                        const std::string& image_filename = std::string(),
-                       uint32 display_time = 3000,
+                       uint32_t display_time = 3000,
                        float x = -1.0f, float y = 50.0f);
     ~ShortNoticeWindow();
 
     //! \brief Updates the time displayed.
-    void Update(uint32 update_time);
+    void Update(uint32_t update_time);
 
     //! \brief Draw the message window with text centered.
     void Draw();
 
 private:
     //! \brief The amount of time to display the message in milliseconds.
-    uint32 _display_time;
+    uint32_t _display_time;
 
     //! \brief used to display the message
     vt_video::TextImage _text_image;

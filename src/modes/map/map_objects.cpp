@@ -282,7 +282,7 @@ void PhysicalObject::Draw()
     VideoManager->DrawRectangle(rect.right - rect.left, rect.bottom - rect.top, Color(0.0f, 1.0f, 0.0f, 0.6f));
 }
 
-int32 PhysicalObject::AddAnimation(const std::string& animation_filename)
+int32_t PhysicalObject::AddAnimation(const std::string& animation_filename)
 {
     AnimatedImage new_animation;
     if(!new_animation.LoadFromAnimationScript(animation_filename)) {
@@ -293,10 +293,10 @@ int32 PhysicalObject::AddAnimation(const std::string& animation_filename)
     new_animation.SetDimensions(_img_screen_half_width * 2, _img_screen_height);
 
     _animations.push_back(new_animation);
-    return (int32)_animations.size() - 1;
+    return (int32_t)_animations.size() - 1;
 }
 
-int32 PhysicalObject::AddStillFrame(const std::string& image_filename)
+int32_t PhysicalObject::AddStillFrame(const std::string& image_filename)
 {
     AnimatedImage new_animation;
     // Adds a frame with a zero length: Making it last forever
@@ -308,10 +308,10 @@ int32 PhysicalObject::AddStillFrame(const std::string& image_filename)
     new_animation.SetDimensions(_img_screen_half_width * 2, _img_screen_height);
 
     _animations.push_back(new_animation);
-    return (int32)_animations.size() - 1;
+    return (int32_t)_animations.size() - 1;
 }
 
-void PhysicalObject::SetCurrentAnimation(uint32 animation_id)
+void PhysicalObject::SetCurrentAnimation(uint32_t animation_id)
 {
     if(animation_id < _animations.size()) {
         _animations[_current_animation_id].SetTimeProgress(0);
@@ -458,7 +458,7 @@ void SavePoint::Update()
     if(!_animations || !_updatable)
         return;
 
-    for(uint32 i = 0; i < _animations->size(); ++i)
+    for(uint32_t i = 0; i < _animations->size(); ++i)
         _animations->at(i).Update();
 }
 
@@ -468,7 +468,7 @@ void SavePoint::Draw()
     if(!_animations || !MapObject::ShouldDraw())
         return;
 
-    for(uint32 i = 0; i < _animations->size(); ++i)
+    for(uint32_t i = 0; i < _animations->size(); ++i)
         _animations->at(i).Draw();
 }
 
@@ -761,7 +761,7 @@ void SoundObject::Update()
         return;
 
     // Update the volume only every 100ms
-    _time_remaining -= (int32)vt_system::SystemManager->GetUpdateTime();
+    _time_remaining -= (int32_t)vt_system::SystemManager->GetUpdateTime();
     if (_time_remaining > 0)
         return;
     _time_remaining = 100;
@@ -936,7 +936,7 @@ void TreasureObject::Update()
 
     if (!_events_triggered) {
         // Trigger potential events after opening
-        for (uint32 i = 0; i < _events.size(); ++i) {
+        for (uint32_t i = 0; i < _events.size(); ++i) {
             if (!event_manager->IsEventActive(_events[i]))
                  MapMode::CurrentInstance()->GetEventSupervisor()->StartEvent(_events[i]);
         }
@@ -963,7 +963,7 @@ void TreasureObject::Update()
     }
 }
 
-bool TreasureObject::AddItem(uint32 id, uint32 quantity)
+bool TreasureObject::AddItem(uint32_t id, uint32_t quantity)
 {
     if(!_treasure)
         return false;
@@ -1110,16 +1110,16 @@ ObjectSupervisor::ObjectSupervisor() :
 ObjectSupervisor::~ObjectSupervisor()
 {
     // Delete all the map objects
-    for(uint32 i = 0; i < _all_objects.size(); ++i) {
+    for(uint32_t i = 0; i < _all_objects.size(); ++i) {
         delete(_all_objects[i]);
     }
 
-    for(uint32 i = 0; i < _zones.size(); ++i) {
+    for(uint32_t i = 0; i < _zones.size(); ++i) {
         delete(_zones[i]);
     }
 }
 
-MapObject* ObjectSupervisor::GetObject(uint32 object_id)
+MapObject* ObjectSupervisor::GetObject(uint32_t object_id)
 {
     if(object_id >= _all_objects.size())
         return nullptr;
@@ -1127,7 +1127,7 @@ MapObject* ObjectSupervisor::GetObject(uint32 object_id)
         return _all_objects[object_id];
 }
 
-VirtualSprite* ObjectSupervisor::GetSprite(uint32 object_id)
+VirtualSprite* ObjectSupervisor::GetSprite(uint32_t object_id)
 {
     MapObject* object = GetObject(object_id);
 
@@ -1150,7 +1150,7 @@ void ObjectSupervisor::RegisterObject(MapObject* object)
         return;
     }
 
-    uint32 obj_id = (uint32)object->GetObjectID();
+    uint32_t obj_id = (uint32_t)object->GetObjectID();
     // Adds the object to the all object collection.
     if (obj_id >= _all_objects.size())
         _all_objects.resize(obj_id + 1, nullptr);
@@ -1229,7 +1229,7 @@ void ObjectSupervisor::DeleteObject(MapObject* object)
     if (!object)
         return;
 
-    for (uint32 i = 0; i < _all_objects.size(); ++i) {
+    for (uint32_t i = 0; i < _all_objects.size(); ++i) {
         // We only set it to nullptr without removing its place in memory
         // to avoid breaking the vector key used as object id,
         // so that in: _all_objects[key]: key = object_id.
@@ -1297,8 +1297,8 @@ bool ObjectSupervisor::Load(ReadScriptDescriptor &map_file)
     // Construct the collision grid
     map_file.OpenTable("map_grid");
     _num_grid_y_axis = map_file.GetTableSize();
-    for(uint16 y = 0; y < _num_grid_y_axis; ++y) {
-        _collision_grid.push_back(std::vector<uint32>());
+    for(uint16_t y = 0; y < _num_grid_y_axis; ++y) {
+        _collision_grid.push_back(std::vector<uint32_t>());
         map_file.ReadUIntVector(y, _collision_grid.back());
     }
     map_file.CloseTable();
@@ -1308,21 +1308,21 @@ bool ObjectSupervisor::Load(ReadScriptDescriptor &map_file)
 
 void ObjectSupervisor::Update()
 {
-    for(uint32 i = 0; i < _flat_ground_objects.size(); ++i)
+    for(uint32_t i = 0; i < _flat_ground_objects.size(); ++i)
         _flat_ground_objects[i]->Update();
-    for(uint32 i = 0; i < _ground_objects.size(); ++i)
+    for(uint32_t i = 0; i < _ground_objects.size(); ++i)
         _ground_objects[i]->Update();
     // Update save point animation and activeness.
     _UpdateSavePoints();
-    for(uint32 i = 0; i < _pass_objects.size(); ++i)
+    for(uint32_t i = 0; i < _pass_objects.size(); ++i)
         _pass_objects[i]->Update();
-    for(uint32 i = 0; i < _sky_objects.size(); ++i)
+    for(uint32_t i = 0; i < _sky_objects.size(); ++i)
         _sky_objects[i]->Update();
-    for(uint32 i = 0; i < _halos.size(); ++i)
+    for(uint32_t i = 0; i < _halos.size(); ++i)
         _halos[i]->Update();
-    for(uint32 i = 0; i < _lights.size(); ++i)
+    for(uint32_t i = 0; i < _lights.size(); ++i)
         _lights[i]->Update();
-    for(uint32 i = 0; i < _zones.size(); ++i)
+    for(uint32_t i = 0; i < _zones.size(); ++i)
         _zones[i]->Update();
 
     _UpdateAmbientSounds();
@@ -1330,21 +1330,21 @@ void ObjectSupervisor::Update()
 
 void ObjectSupervisor::DrawSavePoints()
 {
-    for(uint32 i = 0; i < _save_points.size(); ++i) {
+    for(uint32_t i = 0; i < _save_points.size(); ++i) {
         _save_points[i]->Draw();
     }
 }
 
 void ObjectSupervisor::DrawFlatGroundObjects()
 {
-    for(uint32 i = 0; i < _flat_ground_objects.size(); ++i) {
+    for(uint32_t i = 0; i < _flat_ground_objects.size(); ++i) {
         _flat_ground_objects[i]->Draw();
     }
 }
 
 void ObjectSupervisor::DrawGroundObjects(const bool second_pass)
 {
-    for(uint32 i = 0; i < _ground_objects.size(); i++) {
+    for(uint32_t i = 0; i < _ground_objects.size(); i++) {
         if(_ground_objects[i]->IsDrawOnSecondPass() == second_pass) {
             _ground_objects[i]->Draw();
         }
@@ -1353,30 +1353,30 @@ void ObjectSupervisor::DrawGroundObjects(const bool second_pass)
 
 void ObjectSupervisor::DrawPassObjects()
 {
-    for(uint32 i = 0; i < _pass_objects.size(); i++) {
+    for(uint32_t i = 0; i < _pass_objects.size(); i++) {
         _pass_objects[i]->Draw();
     }
 }
 
 void ObjectSupervisor::DrawSkyObjects()
 {
-    for(uint32 i = 0; i < _sky_objects.size(); i++) {
+    for(uint32_t i = 0; i < _sky_objects.size(); i++) {
         _sky_objects[i]->Draw();
     }
 }
 
 void ObjectSupervisor::DrawLights()
 {
-    for(uint32 i = 0; i < _halos.size(); ++i)
+    for(uint32_t i = 0; i < _halos.size(); ++i)
         _halos[i]->Draw();
-    for(uint32 i = 0; i < _lights.size(); ++i)
+    for(uint32_t i = 0; i < _lights.size(); ++i)
         _lights[i]->Draw();
 }
 
 void ObjectSupervisor::DrawDialogIcons()
 {
     MapSprite *mapSprite;
-    for(uint32 i = 0; i < _ground_objects.size(); i++) {
+    for(uint32_t i = 0; i < _ground_objects.size(); i++) {
         if(_ground_objects[i]->GetObjectType() == SPRITE_TYPE) {
             mapSprite = static_cast<MapSprite *>(_ground_objects[i]);
             mapSprite->DrawDialog();
@@ -1417,7 +1417,7 @@ void ObjectSupervisor::_UpdateAmbientSounds()
 
 void ObjectSupervisor::_DrawMapZones()
 {
-    for(uint32 i = 0; i < _zones.size(); ++i)
+    for(uint32_t i = 0; i < _zones.size(); ++i)
         _zones[i]->Draw();
 }
 
@@ -1536,7 +1536,7 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
     float min_distance = fabs(source_x - closest_obj->GetXPosition()) +
                          fabs(source_y - closest_obj->GetYPosition());
 
-    for(uint32 i = 1; i < valid_objects.size(); i++) {
+    for(uint32_t i = 1; i < valid_objects.size(); i++) {
         float dist = fabs(source_x - valid_objects[i]->GetXPosition()) +
                      fabs(source_y - valid_objects[i]->GetYPosition());
         if(dist < min_distance) {
@@ -1624,8 +1624,8 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(MapObject* object,
         // Determine if the object's collision rectangle overlaps any unwalkable tiles
         // Note that because the sprite's collision rectangle was previously determined to be within the map bounds,
         // the map grid tile indeces referenced in this loop are all valid entries and do not need to be checked for out-of-bounds conditions
-        for(uint32 y = static_cast<uint32>(sprite_rect.top); y <= static_cast<uint32>(sprite_rect.bottom); ++y) {
-            for(uint32 x = static_cast<uint32>(sprite_rect.left); x <= static_cast<uint32>(sprite_rect.right); ++x) {
+        for(uint32_t y = static_cast<uint32_t>(sprite_rect.top); y <= static_cast<uint32_t>(sprite_rect.bottom); ++y) {
+            for(uint32_t x = static_cast<uint32_t>(sprite_rect.left); x <= static_cast<uint32_t>(sprite_rect.right); ++x) {
                 // Checks the collision grid at the row-column at the object's current context
                 if(_collision_grid[y][x] > 0)
                     return WALL_COLLISION;
@@ -1666,11 +1666,11 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(MapObject* object,
     return NO_COLLISION;
 } // bool ObjectSupervisor::DetectCollision(VirtualSprite* sprite, float x, float y, MapObject** collision_object_ptr)
 
-Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const MapPosition &destination, uint32 max_cost)
+Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const MapPosition &destination, uint32_t max_cost)
 {
     // NOTE: Refer to the implementation of the A* algorithm to understand
     // what all these lists and score values are for.
-    static const uint32 basic_gcost = 10;
+    static const uint32_t basic_gcost = 10;
 
     // NOTE(bis): On the outer scope, we'll use float based positions,
     // but we still use integer positions for path finding.
@@ -1691,9 +1691,9 @@ Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const MapPosition &destin
     }
 
     // The starting node of this path discovery
-    PathNode source_node(static_cast<int16>(sprite->GetXPosition()), static_cast<int16>(sprite->GetYPosition()));
+    PathNode source_node(static_cast<int16_t>(sprite->GetXPosition()), static_cast<int16_t>(sprite->GetYPosition()));
     // The ending node.
-    PathNode dest(static_cast<int16>(destination.x), static_cast<int16>(destination.y));
+    PathNode dest(static_cast<int16_t>(destination.x), static_cast<int16_t>(destination.y));
 
     // Check that the source node is not the same as the destination node
     if(source_node == dest) {
@@ -1711,9 +1711,9 @@ Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const MapPosition &destin
     PathNode nodes[8];
 
     // Temporary delta variables used in calculation of a node's heuristic (h score)
-    uint32 x_delta, y_delta;
+    uint32_t x_delta, y_delta;
     // The number to add to a node's g_score, depending on whether it is a lateral or diagonal movement
-    int16 g_add;
+    int16_t g_add;
 
     open_list.push_back(source_node);
 
@@ -1750,7 +1750,7 @@ Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const MapPosition &destin
         nodes[7].tile_y = best_node.tile_y + 1;
 
         // Check the eight adjacent nodes
-        for(uint8 i = 0; i < 8; ++i) {
+        for(uint8_t i = 0; i < 8; ++i) {
             // ---------- (A): Check if all tiles are walkable
             // Don't use 0.0f here for both since errors at the border between
             // two positions may occure, especially when running.
@@ -1777,7 +1777,7 @@ Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const MapPosition &destin
                 g_add += basic_gcost * 2;
 
             // If the path has reached the maximum length requested, we abort the path
-            if (max_cost > 0 && (uint32)(best_node.g_score + g_add) >= max_cost * basic_gcost)
+            if (max_cost > 0 && (uint32_t)(best_node.g_score + g_add) >= max_cost * basic_gcost)
                 return path;
 
             // ---------- (C): Check if the node is already in the closed list
@@ -1813,7 +1813,7 @@ Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const MapPosition &destin
                 nodes[i].f_score = nodes[i].g_score + nodes[i].h_score;
                 open_list.push_back(nodes[i]);
             }
-        } // for (uint8 i = 0; i < 8; ++i)
+        } // for (uint8_t i = 0; i < 8; ++i)
     } // while (open_list.empty() == false)
 
     if(open_list.empty() == true) {
@@ -1825,8 +1825,8 @@ Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const MapPosition &destin
     path.push_back(destination);
 
     // Retain the last node parent, and remove it from the closed list
-    int16 parent_x = best_node.parent_x;
-    int16 parent_y = best_node.parent_y;
+    int16_t parent_x = best_node.parent_x;
+    int16_t parent_y = best_node.parent_y;
     closed_list.pop_back();
 
     // Go backwards through the closed list following the parent nodes to construct the path
@@ -1860,7 +1860,7 @@ void ObjectSupervisor::ReloadVisiblePartyMember()
 
 void ObjectSupervisor::SetAllEnemyStatesToDead()
 {
-    for(uint32 i = 0; i < _all_objects.size(); ++i) {
+    for(uint32_t i = 0; i < _all_objects.size(); ++i) {
         if (_all_objects[i] && _all_objects[i]->GetObjectType() == ENEMY_TYPE) {
             EnemySprite* enemy = dynamic_cast<EnemySprite*>(_all_objects[i]);
             enemy->ChangeStateDead();
@@ -1884,10 +1884,10 @@ void ObjectSupervisor::DrawCollisionArea(const MapFrame *frame)
 {
     VideoManager->Move(GRID_LENGTH * (frame->tile_x_offset - 0.5f), GRID_LENGTH * (frame->tile_y_offset - 1.0f));
 
-    for (uint32 y = static_cast<uint32>(frame->tile_y_start * 2);
-         y < static_cast<uint32>((frame->tile_y_start + frame->num_draw_y_axis) * 2); ++y) {
-        for(uint32 x = static_cast<uint32>(frame->tile_x_start * 2);
-            x < static_cast<uint32>((frame->tile_x_start + frame->num_draw_x_axis) * 2); ++x) {
+    for (uint32_t y = static_cast<uint32_t>(frame->tile_y_start * 2);
+         y < static_cast<uint32_t>((frame->tile_y_start + frame->num_draw_y_axis) * 2); ++y) {
+        for(uint32_t x = static_cast<uint32_t>(frame->tile_x_start * 2);
+            x < static_cast<uint32_t>((frame->tile_x_start + frame->num_draw_x_axis) * 2); ++x) {
 
             // Draw the collision rectangle.
             if (_collision_grid[y][x] > 0)
@@ -1905,7 +1905,7 @@ bool ObjectSupervisor::IsStaticCollision(float x, float y)
         return true;
 
     //if the map's collision context is set to 1, we can return since we know there is a collision
-    if (IsMapCollision(static_cast<uint32>(x), static_cast<uint32>(y)))
+    if (IsMapCollision(static_cast<uint32_t>(x), static_cast<uint32_t>(y)))
         return true;
 
     std::vector<vt_map::private_map::MapObject *>::const_iterator it, it_end;
@@ -1933,7 +1933,7 @@ bool ObjectSupervisor::IsStaticCollision(float x, float y)
 void ObjectSupervisor::StopSoundObjects()
 {
     _sound_objects_to_restart.clear();
-    for (uint32 i = 0; i < _sound_objects.size(); ++i) {
+    for (uint32_t i = 0; i < _sound_objects.size(); ++i) {
         vt_audio::SoundDescriptor& sound = _sound_objects[i]->GetSoundDescriptor();
         if (sound.GetState() == vt_audio::AUDIO_STATE_PLAYING
                 || sound.GetState() == vt_audio::AUDIO_STATE_FADE_IN) {
@@ -1945,7 +1945,7 @@ void ObjectSupervisor::StopSoundObjects()
 
 void ObjectSupervisor::RestartSoundObjects()
 {
-    for (uint32 i = 0; i < _sound_objects_to_restart.size(); ++i) {
+    for (uint32_t i = 0; i < _sound_objects_to_restart.size(); ++i) {
         vt_audio::SoundDescriptor& sound = _sound_objects_to_restart[i]->GetSoundDescriptor();
         if (sound.GetState() == vt_audio::AUDIO_STATE_STOPPED)
             sound.Play();

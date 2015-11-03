@@ -71,7 +71,7 @@ public:
         _trade_price(0)
     {}
 
-    GlobalObject(uint32 id, uint32 count = 1) :
+    GlobalObject(uint32_t id, uint32_t count = 1) :
         _id(id),
         _is_key_item(false),
         _count(count),
@@ -100,7 +100,7 @@ public:
     /** \brief Increments the number of objects represented by this class
     *** \param count The count increment value (default value == 1)
     **/
-    void IncrementCount(uint32 count = 1) {
+    void IncrementCount(uint32_t count = 1) {
         _count += count;
     }
 
@@ -109,14 +109,14 @@ public:
     *** \note When the count reaches zero, this class object does <i>not</i> self-destruct. It is the user's
     *** responsiblity to check if the count becomes zero, and to destroy the object if it is appropriate to do so.
     **/
-    void DecrementCount(uint32 count = 1) {
+    void DecrementCount(uint32_t count = 1) {
         if(count > _count) _count = 0;
         else _count -= count;
     }
 
     //! \name Class Member Access Functions
     //@{
-    uint32 GetID() const {
+    uint32_t GetID() const {
         return _id;
     }
 
@@ -128,23 +128,23 @@ public:
         return _description;
     }
 
-    void SetCount(uint32 count) {
+    void SetCount(uint32_t count) {
         _count = count;
     }
 
-    uint32 GetCount() const {
+    uint32_t GetCount() const {
         return _count;
     }
 
-    uint32 GetPrice() const {
+    uint32_t GetPrice() const {
         return _price;
     }
 
-    uint32 GetTradingPrice() const {
+    uint32_t GetTradingPrice() const {
         return _trade_price;
     }
 
-    const std::vector<std::pair<uint32, uint32> >& GetTradeConditions() const {
+    const std::vector<std::pair<uint32_t, uint32_t> >& GetTradeConditions() const {
         return _trade_conditions;
     }
 
@@ -161,7 +161,7 @@ protected:
     /** \brief An identification number for each unique item
     *** \note An ID number of zero indicates an invalid object
     **/
-    uint32 _id;
+    uint32_t _id;
 
     //! \brief The name of the object as it would be displayed on a screen
     vt_utils::ustring _name;
@@ -173,17 +173,17 @@ protected:
     bool _is_key_item;
 
     //! \brief Retains how many occurences of the object are represented by this class object instance
-    uint32 _count;
+    uint32_t _count;
 
     //! \brief The base price of the object for purchase/sale in the game
-    uint32 _price;
+    uint32_t _price;
 
     //! \brief The additional price of the object requested when trading it.
-    uint32 _trade_price;
+    uint32_t _trade_price;
 
     //! \brief The trade conditions of the item <item_id, number>
     //! There is an exception: If the item_id is zero, the second value is the trade price.
-    std::vector<std::pair<uint32, uint32> > _trade_conditions;
+    std::vector<std::pair<uint32_t, uint32_t> > _trade_conditions;
 
     //! \brief A loaded icon image of the object at its original size of 60x60 pixels
     vt_video::StillImage _icon_image;
@@ -194,7 +194,7 @@ protected:
     std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> > _status_effects;
 
     //! \brief The skills that can be learned when equipping that piece of equipment.
-    std::vector<uint32> _equipment_skills;
+    std::vector<uint32_t> _equipment_skills;
 
     //! \brief Causes the object to become invalid due to a loading error or other significant issue
     void _InvalidateObject() {
@@ -237,7 +237,7 @@ public:
     /** \param id The unique ID number of the item
     *** \param count The number of items to initialize this class object as representing (default value == 1)
     **/
-    GlobalItem(uint32 id, uint32 count = 1);
+    GlobalItem(uint32_t id, uint32_t count = 1);
 
     ~GlobalItem()
     {}
@@ -281,12 +281,12 @@ public:
     }
 
     //! \brief Returns Warmup time needed before using this item in battles.
-    inline uint32 GetWarmUpTime() const {
+    inline uint32_t GetWarmUpTime() const {
         return _warmup_time;
     }
 
     //! \brief Returns Warmup time needed before using this item in battles.
-    inline uint32 GetCoolDownTime() const {
+    inline uint32_t GetCoolDownTime() const {
         return _cooldown_time;
     }
 
@@ -307,10 +307,10 @@ private:
     ScriptObject _field_use_function;
 
     //! \brief The warmup time in milliseconds needed before using this item in battles.
-    uint32 _warmup_time;
+    uint32_t _warmup_time;
 
     //! \brief The cooldown time in milliseconds needed after using this item in battles.
-    uint32 _cooldown_time;
+    uint32_t _cooldown_time;
 
     //! \brief The animation script file used to animate the item use in battles.
     std::string _animation_script_file;
@@ -336,7 +336,7 @@ public:
     /** \param id The unique ID number of the weapon
     *** \param count The number of weapons to initialize this class object as representing (default value == 1)
     **/
-    GlobalWeapon(uint32 id, uint32 count = 1);
+    GlobalWeapon(uint32_t id, uint32_t count = 1);
 
     ~GlobalWeapon()
     {}
@@ -347,15 +347,15 @@ public:
 
     //! \name Class Member Access Functions
     //@{
-    uint32 GetPhysicalAttack() const {
+    uint32_t GetPhysicalAttack() const {
         return _physical_attack;
     }
 
-    uint32 GetMagicalAttack() const {
+    uint32_t GetMagicalAttack() const {
         return _magical_attack;
     }
 
-    uint32 GetUsableBy() const {
+    uint32_t GetUsableBy() const {
         return _usable_by;
     }
 
@@ -369,10 +369,10 @@ public:
 
     //! \brief Get the animation filename corresponding to the character weapon animation
     //! requested.
-    const std::string& GetWeaponAnimationFile(uint32 character_id, const std::string& animation_alias);
+    const std::string& GetWeaponAnimationFile(uint32_t character_id, const std::string& animation_alias);
 
     //! \brief Gives the list of learned skill thanks to this piece of equipment.
-    const std::vector<uint32>& GetEquipmentSkills() const {
+    const std::vector<uint32_t>& GetEquipmentSkills() const {
         return _equipment_skills;
     }
     //@}
@@ -382,19 +382,19 @@ private:
     std::string _ammo_animation_file;
 
     //! \brief The amount of physical damage that the weapon causes
-    uint32 _physical_attack;
+    uint32_t _physical_attack;
 
     //! \brief The amount of magical damage that the weapon causes for each elements.
-    uint32 _magical_attack;
+    uint32_t _magical_attack;
 
     /** \brief A bit-mask that determines which characters can use or equip the object
     *** See the game character ID constants in global_actors.h for more information
     **/
-    uint32 _usable_by;
+    uint32_t _usable_by;
 
     //! \brief The info about weapon animations for each global character.
     //! map < character_id, map < animation alias, animation filename > >
-    std::map <uint32, std::map<std::string, std::string> > _weapon_animations;
+    std::map <uint32_t, std::map<std::string, std::string> > _weapon_animations;
 
     /** \brief Spirit slots which may be used to place spirits on the weapon
     *** Weapons may have no slots, so it is not uncommon for the size of this vector to be zero.
@@ -427,7 +427,7 @@ private:
 class GlobalArmor : public GlobalObject
 {
 public:
-    GlobalArmor(uint32 id, uint32 count = 1);
+    GlobalArmor(uint32_t id, uint32_t count = 1);
 
     ~GlobalArmor()
     {}
@@ -435,15 +435,15 @@ public:
     //! \brief Returns the approriate armor type (head, torso, arm, leg) depending on the object ID
     GLOBAL_OBJECT GetObjectType() const;
 
-    uint32 GetPhysicalDefense() const {
+    uint32_t GetPhysicalDefense() const {
         return _physical_defense;
     }
 
-    uint32 GetMagicalDefense() const {
+    uint32_t GetMagicalDefense() const {
         return _magical_defense;
     }
 
-    uint32 GetUsableBy() const {
+    uint32_t GetUsableBy() const {
         return _usable_by;
     }
 
@@ -452,21 +452,21 @@ public:
     }
 
     //! \brief Gives the list of learned skill thanks to this piece of equipment.
-    const std::vector<uint32>& GetEquipmentSkills() const {
+    const std::vector<uint32_t>& GetEquipmentSkills() const {
         return _equipment_skills;
     }
 
 private:
     //! \brief The amount of physical defense that the armor provides
-    uint32 _physical_defense;
+    uint32_t _physical_defense;
 
     //! \brief The amount of magical defense that the armor provides against each elements
-    uint32 _magical_defense;
+    uint32_t _magical_defense;
 
     /** \brief A bit-mask that determines which characters can use or equip the object
     *** See the game character ID constants in global_actors.h for more information
     **/
-    uint32 _usable_by;
+    uint32_t _usable_by;
 
     /** \brief Sockets which may be used to place spirits on the armor
     *** Armor may have no sockets, so it is not uncommon for the size of this vector to be zero.
@@ -490,7 +490,7 @@ private:
 class GlobalSpirit : public GlobalObject
 {
 public:
-    GlobalSpirit(uint32 id, uint32 count = 1);
+    GlobalSpirit(uint32_t id, uint32_t count = 1);
 
     GLOBAL_OBJECT GetObjectType() const {
         return GLOBAL_OBJECT_SPIRIT;

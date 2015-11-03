@@ -107,27 +107,27 @@ public:
     /** \note No checking of array bounds are done here for efficiency reasons. If safety is a concern, use the
     *** class member access functions instead.
     **/
-    float &operator[](int32 i) {
+    float &operator[](int32_t i) {
         return _colors[i];
     }
 
     /** \note No checking of array bounds are done here for efficiency reasons. If safety is a concern, use the
     *** class member access functions instead.
     **/
-    const float &operator[](int32 i) const {
+    const float &operator[](int32_t i) const {
         return _colors[i];
     }
     //@}
 
     /** \brief Converts the color into a SDL_Color structure
-    *** \return A new SDL_Color with the four uint8 values ranging from 0 to 255
+    *** \return A new SDL_Color with the four uint8_t values ranging from 0 to 255
     **/
     SDL_Color CreateSDLColor() {
         SDL_Color sdl_color;
-        sdl_color.r = static_cast<uint8>(_colors[0] * 0xFF);
-        sdl_color.g = static_cast<uint8>(_colors[1] * 0xFF);
-        sdl_color.b = static_cast<uint8>(_colors[2] * 0xFF);
-        sdl_color.a = static_cast<uint8>(_colors[3] * 0xFF);
+        sdl_color.r = static_cast<uint8_t>(_colors[0] * 0xFF);
+        sdl_color.g = static_cast<uint8_t>(_colors[1] * 0xFF);
+        sdl_color.b = static_cast<uint8_t>(_colors[2] * 0xFF);
+        sdl_color.a = static_cast<uint8_t>(_colors[3] * 0xFF);
         return sdl_color;
     }
 

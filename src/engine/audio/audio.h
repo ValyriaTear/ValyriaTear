@@ -49,7 +49,7 @@ namespace private_audio
 {
 
 //! \brief The maximum default number of audio sources that the engine tries to create
-const uint16 MAX_DEFAULT_AUDIO_SOURCES = 64;
+const uint16_t MAX_DEFAULT_AUDIO_SOURCES = 64;
 
 
 
@@ -57,11 +57,11 @@ const uint16 MAX_DEFAULT_AUDIO_SOURCES = 64;
 class AudioCacheElement
 {
 public:
-    AudioCacheElement(uint32 time, AudioDescriptor *aud) :
+    AudioCacheElement(uint32_t time, AudioDescriptor *aud) :
         last_update_time(time), audio(aud) {}
 
     //! \brief Retains the time that the audio was last updated through any operation
-    uint32 last_update_time;
+    uint32_t last_update_time;
 
     //! \brief A pointer to the audio descriptor described by the cache element
     AudioDescriptor *audio;
@@ -359,7 +359,7 @@ private:
     ALCenum _alc_error_code;
 
     //! \brief Contains the maximum number of available audio sources that can exist simultaneously
-    uint16 _max_sources;
+    uint16_t _max_sources;
 
     //! \brief The listener properties used by audio which plays in a multi-dimensional space
     //@{
@@ -400,7 +400,7 @@ private:
     /** \brief The maximum number of entries that are allowed within the audio cache
     *** The default size is set to 1/4th of _max_sources
     **/
-    uint16 _max_cache_size;
+    uint16_t _max_cache_size;
 
     /** \brief Acquires an available audio source that may be used
     *** \return A pointer to the available source, or nullptr if no available source could be found

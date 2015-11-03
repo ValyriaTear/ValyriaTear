@@ -49,19 +49,19 @@ extern bool SYSTEM_DEBUG;
 *** unsigned integer (2^32 - 1). This value will only be reached after ~49.7 consecutive
 *** days of the game running.
 **/
-const uint32 SYSTEM_INFINITE_TIME = 0xFFFFFFFF;
+const uint32_t SYSTEM_INFINITE_TIME = 0xFFFFFFFF;
 
 /** \brief A constant to pass to any "loops" function argument in the TimerSystem class
 *** Passing this constant to a TimerSystem object will instruct the timer to run indefinitely
 *** and never finish.
 **/
-const int32 SYSTEM_TIMER_NO_LOOPS = 0;
+const int32_t SYSTEM_TIMER_NO_LOOPS = 0;
 
 /** \brief A constant to pass to any "loops" function argument in the TimerSystem class
 *** Passing this constant to a TimerSystem object will instruct the timer to run indefinitely
 *** and never finish.
 **/
-const int32 SYSTEM_TIMER_INFINITE_LOOP = -1;
+const int32_t SYSTEM_TIMER_INFINITE_LOOP = -1;
 
 //! \brief All of the possible states which a SystemTimer classs object may be in
 enum SYSTEM_TIMER_STATE {
@@ -108,12 +108,12 @@ vt_utils::ustring CUTranslate(const std::string &text);
 *** \param text The text to transform containing c-format argument
 *** \param arg1 The text argument.
 **/
-std::string VTranslate(const std::string &text, int32 arg1);
-std::string VTranslate(const std::string &text, uint32 arg1);
+std::string VTranslate(const std::string &text, int32_t arg1);
+std::string VTranslate(const std::string &text, uint32_t arg1);
 std::string VTranslate(const std::string &text, const std::string& arg1);
 std::string VTranslate(const std::string &text, float arg1);
 // Example with 2 args, used in the treasure supervisor
-std::string VTranslate(const std::string &text, uint32 arg1, uint32 arg2);
+std::string VTranslate(const std::string &text, uint32_t arg1, uint32_t arg2);
 std::string VTranslate(const std::string &text, const std::string &arg1, const std::string &arg2);
 
 
@@ -153,7 +153,7 @@ public:
     *** \param duration The duration (in milliseconds) that the timer should count for
     *** \param loops The number of times that the timer should loop for. Default value is set to no looping.
     **/
-    SystemTimer(uint32 duration, int32 loops = 0);
+    SystemTimer(uint32_t duration, int32_t loops = 0);
 
     virtual ~SystemTimer();
 
@@ -163,7 +163,7 @@ public:
     ***
     *** Invoking this method will instantly halt the timer and reset it to the initial state so use it with care.
     **/
-    void Initialize(uint32 duration, int32 loops = 0);
+    void Initialize(uint32_t duration, int32_t loops = 0);
 
     /** \brief Enables the auto update feature for the timer
     *** \param owner A pointer to the GameMode which owns this class. Default value is set to nullptr (no owner).
@@ -179,7 +179,7 @@ public:
     /** \brief Updates the timer by an arbitrary amount
     *** \param time The amount of time to increment the timer by
     **/
-    virtual void Update(uint32 time);
+    virtual void Update(uint32_t time);
 
     //! \brief Resets the timer to its initial state
     virtual void Reset() {
@@ -228,12 +228,12 @@ public:
     *** This will always return a number greater than zero. So if the timer is on the first loop this
     *** function will return 1, and so on.
     **/
-    uint32 CurrentLoop() const {
+    uint32_t CurrentLoop() const {
         return (_times_completed + 1);
     }
 
     //! \brief Returns the time remaining for the current loop to end
-    uint32 TimeLeft() const {
+    uint32_t TimeLeft() const {
         return (_duration - _time_expired);
     }
 
@@ -252,12 +252,12 @@ public:
     *** any of these members when in any other state will yield no change and print a warning message.
     **/
     //@{
-    void SetDuration(uint32 duration);
+    void SetDuration(uint32_t duration);
 
     //! \brief Forces the timer to be at a given elapsed time.
-    void SetTimeExpired(uint32 time_expired);
+    void SetTimeExpired(uint32_t time_expired);
 
-    void SetNumberLoops(int32 loops);
+    void SetNumberLoops(int32_t loops);
 
     void SetModeOwner(vt_mode_manager::GameMode *owner);
     //@}
@@ -268,11 +268,11 @@ public:
         return _state;
     }
 
-    uint32 GetDuration() const {
+    uint32_t GetDuration() const {
         return _duration;
     }
 
-    int32 GetNumberLoops() const {
+    int32_t GetNumberLoops() const {
         return _number_loops;
     }
 
@@ -284,11 +284,11 @@ public:
         return _mode_owner;
     }
 
-    uint32 GetTimeExpired() const {
+    uint32_t GetTimeExpired() const {
         return _time_expired;
     }
 
-    uint32 GetTimesCompleted() const {
+    uint32_t GetTimesCompleted() const {
         return _times_completed;
     }
     //@}
@@ -301,19 +301,19 @@ protected:
     bool _auto_update;
 
     //! \brief The duration (in milliseconds) that the timer should run for
-    uint32 _duration;
+    uint32_t _duration;
 
     //! \brief The number of loops the timer should run for. -1 indicates infinite looping.
-    int32 _number_loops;
+    int32_t _number_loops;
 
     //! \brief A pointer to the game mode object which owns this timer, or nullptr if it is unowned
     vt_mode_manager::GameMode *_mode_owner;
 
     //! \brief The amount of time that has expired on the current timer loop (counts up from 0 to _duration)
-    uint32 _time_expired;
+    uint32_t _time_expired;
 
     //! \brief Incremented by one each time the timer reaches the finished state
-    uint32 _times_completed;
+    uint32_t _times_completed;
 
     /** \brief Updates the timer if it is running and has auto updating enabled
     *** This method can only be invoked by the SystemEngine class.
@@ -330,7 +330,7 @@ protected:
     *** before calling this method. The method intentionally does not do any state or error-checking
     *** by itself; It simply updates the timer without complaint.
     **/
-    void _UpdateTimer(uint32 amount);
+    void _UpdateTimer(uint32_t amount);
 }; // class SystemTimer
 
 
@@ -404,7 +404,7 @@ public:
     *** function returns at least one, but I'm not sure there exists a computer fast enough
     *** that we have to worry about it.
     **/
-    inline uint32 GetUpdateTime() const {
+    inline uint32_t GetUpdateTime() const {
         return _update_time;
     }
 
@@ -415,7 +415,7 @@ public:
     ***
     *** This function is meant to be called whenever the user loads a saved game.
     **/
-    void SetPlayTime(const uint8 h, const uint8 m, const uint8 s) {
+    void SetPlayTime(const uint8_t h, const uint8_t m, const uint8_t s) {
         _hours_played = h;
         _minutes_played = m;
         _seconds_played = s;
@@ -426,15 +426,15 @@ public:
     *** \return The number of hours, minutes, or seconds of play time.
     **/
     //@{
-    uint8 GetPlayHours() const {
+    uint8_t GetPlayHours() const {
         return _hours_played;
     }
 
-    uint8 GetPlayMinutes() const {
+    uint8_t GetPlayMinutes() const {
         return _minutes_played;
     }
 
-    uint8 GetPlaySeconds() const {
+    uint8_t GetPlaySeconds() const {
         return _seconds_played;
     }
     //@}
@@ -501,32 +501,32 @@ public:
 
     //! \brief Tells whether the last battle target should be kept in memory between two actions
     //! for battle characters.
-    uint32 GetGameDifficulty() const {
+    uint32_t GetGameDifficulty() const {
         return _game_difficulty;
     }
 
     //! \brief Sets whether the last battle target should be kept in memory between two actions
     //! for battle characters.
-    void SetGameDifficulty(uint32 game_difficulty);
+    void SetGameDifficulty(uint32_t game_difficulty);
 
 private:
     SystemEngine();
 
     //! \brief The last time that the UpdateTimers function was called, in milliseconds.
-    uint32 _last_update;
+    uint32_t _last_update;
 
     //! \brief The number of milliseconds that have transpired on the last timer update.
-    uint32 _update_time;
+    uint32_t _update_time;
 
     /** \name Play time members
     *** \brief Timers that retain the total amount of time that the user has been playing
     *** When the player starts a new game or loads an existing game, these timers are reset.
     **/
     //@{
-    uint8 _hours_played;
-    uint8 _minutes_played;
-    uint8 _seconds_played;
-    uint16 _milliseconds_played; //!< \note Milliseconds are not retained when saving or loading a saved game file.
+    uint8_t _hours_played;
+    uint8_t _minutes_played;
+    uint8_t _seconds_played;
+    uint16_t _milliseconds_played; //!< \note Milliseconds are not retained when saving or loading a saved game file.
     //@}
 
     //! \brief When this member is set to false, the program will exit.
@@ -545,7 +545,7 @@ private:
     //! \brief Tells the game difficulty. 1: Easy, 2: Normal, 3: Hard.
     //! The difficulty will change how much XP you win and will taint the enemies stats.
     //! Certain scripted events may also change according to the current difficulty when entering a new map/battle.
-    uint32 _game_difficulty;
+    uint32_t _game_difficulty;
 
     /** \brief A set container for all SystemTimer objects that have automatic updating enabled
     *** The timers in this container are updated on each call to UpdateTimers().

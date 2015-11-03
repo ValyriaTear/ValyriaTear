@@ -81,7 +81,7 @@ TradeInterface::TradeInterface() :
 
 TradeInterface::~TradeInterface()
 {
-    for(uint32 i = 0; i < _list_displays.size(); ++i) {
+    for(uint32_t i = 0; i < _list_displays.size(); ++i) {
         delete _list_displays[i];
     }
 }
@@ -91,8 +91,8 @@ void TradeInterface::_UpdateAvailableTradeDealTypes()
     _trade_deal_types = 0;
 
     // Determine what types of objects the shop deals in based on the managed object list
-    std::map<uint32, ShopObject *>* trade_objects = ShopMode::CurrentInstance()->GetAvailableTrade();
-    for(std::map<uint32, ShopObject *>::iterator it = trade_objects->begin(); it != trade_objects->end(); ++it) {
+    std::map<uint32_t, ShopObject *>* trade_objects = ShopMode::CurrentInstance()->GetAvailableTrade();
+    for(std::map<uint32_t, ShopObject *>::iterator it = trade_objects->begin(); it != trade_objects->end(); ++it) {
         vt_global::GLOBAL_OBJECT object_type = it->second->GetObject()->GetObjectType();
         switch(object_type) {
         case GLOBAL_OBJECT_ITEM:
@@ -139,8 +139,8 @@ void TradeInterface::_RefreshItemCategories()
     // Determine which categories are used in this shop and populate the true containers with that data
     _UpdateAvailableTradeDealTypes();
 
-    uint8 bit_x = 0x01; // Used to do a bit-by-bit analysis of the obj_types variable
-    for(uint8 i = 0; i < GLOBAL_OBJECT_TOTAL; ++i, bit_x <<= 1) {
+    uint8_t bit_x = 0x01; // Used to do a bit-by-bit analysis of the obj_types variable
+    for(uint8_t i = 0; i < GLOBAL_OBJECT_TOTAL; ++i, bit_x <<= 1) {
         // Check whether the type is available by doing a bit-wise comparison
         if(_trade_deal_types & bit_x) {
             _category_names.push_back(all_category_names->at(i));
@@ -171,16 +171,16 @@ void TradeInterface::Reinitialize()
     // Containers of object data used to populate the display lists
     std::vector<std::vector<ShopObject *> > object_data;
 
-    for(uint32 i = 0; i < _number_categories; ++i) {
+    for(uint32_t i = 0; i < _number_categories; ++i) {
         object_data.push_back(std::vector<ShopObject *>());
     }
 
     // Holds the index to the _object_data vector where the container for a specific object type is located
-    std::vector<uint32> type_index(GLOBAL_OBJECT_TOTAL, 0);
+    std::vector<uint32_t> type_index(GLOBAL_OBJECT_TOTAL, 0);
     // Used to set the appropriate data in the type_index vector
-    uint32 next_index = 0;
+    uint32_t next_index = 0;
     // Used to do a bit-by-bit analysis of the deal_types variable
-    uint8 bit_x = 0x01;
+    uint8_t bit_x = 0x01;
 
     // This loop determines where each type of object should be placed in the object_data container. For example,
     // if the available categories in the shop are items, weapons, spirits, and all wares, the size of object_data
@@ -188,7 +188,7 @@ void TradeInterface::Reinitialize()
     // to know the correct index for each type of object. These indeces are stored in the type_index vector. The
     // size of this vector is the number of object types, so it becomes simple to map each object type to its correct
     // location in object_data.
-    for(uint8 i = 0; i < GLOBAL_OBJECT_TOTAL; ++i, bit_x <<= 1) {
+    for(uint8_t i = 0; i < GLOBAL_OBJECT_TOTAL; ++i, bit_x <<= 1) {
         // Check if the type is available by doing a bit-wise comparison
         if(_trade_deal_types & bit_x) {
             type_index[i] = next_index++;
@@ -198,9 +198,9 @@ void TradeInterface::Reinitialize()
     // Populate the object_data containers
 
     // Pointer to the container of all objects that are bought/sold/traded in the shop
-    std::map<uint32, ShopObject *>* trade_objects = ShopMode::CurrentInstance()->GetAvailableTrade();
+    std::map<uint32_t, ShopObject *>* trade_objects = ShopMode::CurrentInstance()->GetAvailableTrade();
 
-    for(std::map<uint32, ShopObject *>::iterator it = trade_objects->begin(); it != trade_objects->end(); ++it) {
+    for(std::map<uint32_t, ShopObject *>::iterator it = trade_objects->begin(); it != trade_objects->end(); ++it) {
         ShopObject* obj = it->second;
         switch(obj->GetObject()->GetObjectType()) {
         case GLOBAL_OBJECT_ITEM:
@@ -236,12 +236,12 @@ void TradeInterface::Reinitialize()
     }
 
     // Create the buy displays using the object data that is now ready
-    for(uint32 i = 0; i < _list_displays.size(); ++i) {
+    for(uint32_t i = 0; i < _list_displays.size(); ++i) {
         delete _list_displays[i];
     }
     _list_displays.clear();
 
-    for(uint32 i = 0; i < object_data.size(); ++i) {
+    for(uint32_t i = 0; i < object_data.size(); ++i) {
         TradeListDisplay *new_list = new TradeListDisplay();
         new_list->PopulateList(object_data[i]);
         _list_displays.push_back(new_list);
@@ -265,7 +265,7 @@ void TradeInterface::MakeActive()
 
 void TradeInterface::TransactionNotification()
 {
-    for(uint32 i = 0; i < _list_displays.size(); ++i) {
+    for(uint32_t i = 0; i < _list_displays.size(); ++i) {
         _list_displays[i]->ReconstructList();
         _list_displays[i]->ResetSelection();
     }
@@ -474,7 +474,7 @@ void TradeListDisplay::ReconstructList()
     _identify_list.ClearOptions();
     _property_list.ClearOptions();
 
-    for(uint32 i = 0; i < _objects.size(); ++i) {
+    for(uint32_t i = 0; i < _objects.size(); ++i) {
         ShopObject* obj = _objects[i];
         // Add an entry with the icon image of the object (scaled down by 4x to 30x30 pixels) followed by the object name
         _identify_list.AddOption(MakeUnicodeString("<" + obj->GetObject()->GetIconImage().GetFilename() + "><30>")
@@ -486,7 +486,7 @@ void TradeListDisplay::ReconstructList()
             _property_list.AddOption(MakeUnicodeString("∞"));
         else
             _property_list.AddOption(MakeUnicodeString("×" + NumberToString(obj->GetStockCount())));
-        uint32 own_count = GlobalManager->HowManyObjectsInInventory(obj->GetObject()->GetID());
+        uint32_t own_count = GlobalManager->HowManyObjectsInInventory(obj->GetObject()->GetID());
         _property_list.AddOption(MakeUnicodeString("×" + NumberToString(own_count)));
     }
 
@@ -497,7 +497,7 @@ void TradeListDisplay::ReconstructList()
 }
 
 
-bool TradeListDisplay::ChangeTradeQuantity(bool more, uint32 amount)
+bool TradeListDisplay::ChangeTradeQuantity(bool more, uint32_t amount)
 {
     ShopObject *obj = GetSelectedObject();
     if(obj == nullptr) {
@@ -507,7 +507,7 @@ bool TradeListDisplay::ChangeTradeQuantity(bool more, uint32 amount)
 
     // Holds the amount that the quantity will actually increase or decrease by. May be less than the
     // amount requested if there is an limitation such as shop stock or available funds
-    uint32 change_amount = amount;
+    uint32_t change_amount = amount;
 
     // Remove an item case
     if(more == false) {
@@ -535,7 +535,7 @@ bool TradeListDisplay::ChangeTradeQuantity(bool more, uint32 amount)
     if(change_amount == 0)
         return false;
 
-    uint32 new_trade_amount = obj->GetTradeCount() + change_amount;
+    uint32_t new_trade_amount = obj->GetTradeCount() + change_amount;
 
     // check party's finances.
     if (obj->GetTradePrice() * new_trade_amount > ShopMode::CurrentInstance()->GetTotalRemaining())
@@ -545,12 +545,12 @@ bool TradeListDisplay::ChangeTradeQuantity(bool more, uint32 amount)
         return false;
 
     // Make sure  and the player has enough funds to purchase it
-    for(uint32 i = 0; i < obj->GetObject()->GetTradeConditions().size(); ++i) {
+    for(uint32_t i = 0; i < obj->GetObject()->GetTradeConditions().size(); ++i) {
         if(!GlobalManager->IsItemInInventory(obj->GetObject()->GetTradeConditions()[i].first))
             return false;
 
-        uint32 item_possessed = GlobalManager->HowManyObjectsInInventory(obj->GetObject()->GetTradeConditions()[i].first);
-        uint32 item_needed_number = new_trade_amount * obj->GetObject()->GetTradeConditions()[i].second;
+        uint32_t item_possessed = GlobalManager->HowManyObjectsInInventory(obj->GetObject()->GetTradeConditions()[i].first);
+        uint32_t item_needed_number = new_trade_amount * obj->GetObject()->GetTradeConditions()[i].second;
 
         if(item_possessed < item_needed_number)
             return false;
@@ -559,7 +559,7 @@ bool TradeListDisplay::ChangeTradeQuantity(bool more, uint32 amount)
     obj->IncrementTradeCount(change_amount);
     ShopMode::CurrentInstance()->UpdateFinances(-obj->GetTradePrice() * change_amount);
     return true;
-} // bool TradeListDisplay::ChangeTradeQuantity(bool more, uint32 amount)
+} // bool TradeListDisplay::ChangeTradeQuantity(bool more, uint32_t amount)
 
 } // namespace private_shop
 

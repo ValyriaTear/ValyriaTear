@@ -56,7 +56,7 @@ class GlobalSkill
 {
 public:
     //! \param id The identification number of the skill to construct
-    GlobalSkill(uint32 id);
+    GlobalSkill(uint32_t id);
 
     ~GlobalSkill()
     {}
@@ -100,7 +100,7 @@ public:
         return _show_skill_notice;
     }
 
-    uint32 GetID() const {
+    uint32_t GetID() const {
         return _id;
     }
 
@@ -108,15 +108,15 @@ public:
         return _type;
     }
 
-    uint32 GetSPRequired() const {
+    uint32_t GetSPRequired() const {
         return _sp_required;
     }
 
-    uint32 GetWarmupTime() const {
+    uint32_t GetWarmupTime() const {
         return _warmup_time;
     }
 
-    uint32 GetCooldownTime() const {
+    uint32_t GetCooldownTime() const {
         return _cooldown_time;
     }
 
@@ -152,12 +152,12 @@ public:
     /** \brief Tells the animation script filename linked to the skill for the given character,
     *** Or an empty value otherwise;
     **/
-    std::string GetAnimationScript(uint32 character_id);
+    std::string GetAnimationScript(uint32_t character_id);
     //@}
 
 private:
     //! \brief The unique identifier number of the skill.
-    uint32 _id;
+    uint32_t _id;
 
     //! \brief The name of the skill as it will be displayed on the screen.
     vt_utils::ustring _name;
@@ -181,20 +181,20 @@ private:
     *** Zero is a valid value for this member and means that no skill points are required to use the
     *** skill. Skills with this property are known as "innate skills".
     **/
-    uint32 _sp_required;
+    uint32_t _sp_required;
 
     /** \brief The amount of time (in milliseconds) that must expire before a skill can be used after it is selected
     *** When a character or enemy has selected to use the skill in a battle, this value instructs how
     *** much time must pass before the skill may be executed. It is acceptable for this member to be zero.
     **/
-    uint32 _warmup_time;
+    uint32_t _warmup_time;
 
     /** \brief The amount of time (in milliseconds) that must expire after a skill hase been used
     *** After a character or enemy uses a skill, this value instructs how much time must pass before
     *** the actor who executed the skill can recover and begin recharging their battle stamina bar.
     *** It is acceptable for this member to be zero.
     **/
-    uint32 _cooldown_time;
+    uint32_t _cooldown_time;
 
     /** \brief The animation name played at warmup time, if any.
     *** If none is given, the idle animation will be played.
@@ -219,7 +219,7 @@ private:
     ScriptObject _field_execute_function;
 
     //! \brief map containing the animation scripts names linked to each characters id for the given skill.
-    std::map <uint32, std::string> _animation_scripts;
+    std::map <uint32_t, std::string> _animation_scripts;
 }; // class GlobalSkill
 
 } // namespace vt_global

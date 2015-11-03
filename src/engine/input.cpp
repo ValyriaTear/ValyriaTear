@@ -206,13 +206,13 @@ bool InputEngine::RestoreDefaultJoyButtons()
     // Load all default buttons from the table
     restore_settings_file.OpenTable("settings_defaults");
     restore_settings_file.OpenTable("joystick_defaults");
-    _joystick.confirm      = static_cast<uint8>(restore_settings_file.ReadInt("confirm"));
-    _joystick.cancel       = static_cast<uint8>(restore_settings_file.ReadInt("cancel"));
-    _joystick.menu         = static_cast<uint8>(restore_settings_file.ReadInt("menu"));
-    _joystick.minimap      = static_cast<uint8>(restore_settings_file.ReadInt("minimap"));
-    _joystick.pause        = static_cast<uint8>(restore_settings_file.ReadInt("pause"));
-    _joystick.help         = static_cast<uint8>(restore_settings_file.ReadInt("help"));
-    _joystick.quit         = static_cast<uint8>(restore_settings_file.ReadInt("quit"));
+    _joystick.confirm      = static_cast<uint8_t>(restore_settings_file.ReadInt("confirm"));
+    _joystick.cancel       = static_cast<uint8_t>(restore_settings_file.ReadInt("cancel"));
+    _joystick.menu         = static_cast<uint8_t>(restore_settings_file.ReadInt("menu"));
+    _joystick.minimap      = static_cast<uint8_t>(restore_settings_file.ReadInt("minimap"));
+    _joystick.pause        = static_cast<uint8_t>(restore_settings_file.ReadInt("pause"));
+    _joystick.help         = static_cast<uint8_t>(restore_settings_file.ReadInt("help"));
+    _joystick.quit         = static_cast<uint8_t>(restore_settings_file.ReadInt("quit"));
     restore_settings_file.CloseTable();
     restore_settings_file.CloseTable();
 
@@ -310,10 +310,10 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
                 _quit_press = true;
             } else if(key_event.keysym.sym == SDLK_s) {
                 // Take a screenshot of the current game
-                static uint32 i = 1;
+                static uint32_t i = 1;
                 std::string path = "";
                 while(true) {
-                    path = vt_utils::GetUserDataPath() + "screenshot_" + NumberToString<uint32>(i) + ".png";
+                    path = vt_utils::GetUserDataPath() + "screenshot_" + NumberToString<uint32_t>(i) + ".png";
                     if(!DoesFileExist(path))
                         break;
                     i++;
@@ -681,7 +681,7 @@ void InputEngine::_SetNewKey(SDL_Keycode &old_key, SDL_Keycode new_key)
 
 
 // Sets a new joystick button over an older one. If the same button is used elsewhere, the older one is removed
-void InputEngine::_SetNewJoyButton(uint8 &old_button, uint8 new_button)
+void InputEngine::_SetNewJoyButton(uint8_t &old_button, uint8_t new_button)
 {
     if(_joystick.confirm == new_button) {  // confirm button used already
         _joystick.confirm = old_button;
@@ -710,6 +710,6 @@ void InputEngine::_SetNewJoyButton(uint8 &old_button, uint8 new_button)
     }
 
     old_button = new_button; // Otherwise simply overwrite the old value
-} // end InputEngine::_SetNewJoyButton(uint8 & old_button, uint8 new_button)
+} // end InputEngine::_SetNewJoyButton(uint8_t & old_button, uint8_t new_button)
 
 } // namespace vt_input

@@ -103,7 +103,7 @@ public:
     /** \brief Update the timer-based ambient effects.
     *** \param frame_time the time in ms that has passed since the last call.
     **/
-    void Update(uint32 frame_time);
+    void Update(uint32_t frame_time);
 
     /** \brief call after all map images are drawn to apply lighting and texture overlays.
      *         All menu and text rendering should occur AFTER this call, so that
@@ -124,7 +124,7 @@ public:
     *** \note If you want to manually control when the shaking stops, set the falloff_time to zero
     *** and the falloff_method to VIDEO_FALLOFF_NONE.
     **/
-    void ShakeScreen(float force, uint32 falloff_time, ShakeFalloff falloff_method = SHAKE_FALLOFF_NONE);
+    void ShakeScreen(float force, uint32_t falloff_time, ShakeFalloff falloff_method = SHAKE_FALLOFF_NONE);
 
     //! \brief Terminates all current screen shake effects
     void StopShaking() {
@@ -147,7 +147,7 @@ private:
     /** \brief updated all the ambient overlay related timers
     *** \param frame_time The number of milliseconds that have elapsed for the current rendering frame
     **/
-    void _UpdateAmbientOverlay(uint32 frame_time);
+    void _UpdateAmbientOverlay(uint32_t frame_time);
 
     //! Image used as ambient overlay
     vt_video::StillImage _ambient_overlay_img;
@@ -171,7 +171,7 @@ private:
     *** \param frame_time The number of milliseconds that have elapsed
     *** for the current rendering frame
     **/
-    void _UpdateShake(uint32 frame_time);
+    void _UpdateShake(uint32_t frame_time);
 };
 
 } // namespace vt_mode_manager

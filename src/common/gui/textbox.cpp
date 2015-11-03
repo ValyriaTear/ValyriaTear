@@ -31,7 +31,7 @@ namespace vt_gui
 {
 
 //! \brief The unicode version of the newline character, used for string parsing
-const uint16 NEWLINE_CHARACTER = static_cast<uint16>('\n');
+const uint16_t NEWLINE_CHARACTER = static_cast<uint16_t>('\n');
 
 TextBox::TextBox() :
     _display_speed(DEFAULT_MESSAGE_SPEED),
@@ -82,7 +82,7 @@ void TextBox::ClearText()
 
 
 
-void TextBox::Update(uint32 time)
+void TextBox::Update(uint32_t time)
 {
     if (_finished)
         return;
@@ -147,7 +147,7 @@ void TextBox::SetDimensions(float w, float h)
 
 
 
-void TextBox::SetTextAlignment(int32 xalign, int32 yalign)
+void TextBox::SetTextAlignment(int32_t xalign, int32_t yalign)
 {
     _text_xalign = xalign;
     _text_yalign = yalign;
@@ -232,12 +232,12 @@ void TextBox::SetDisplayText(const ustring &text)
     case VIDEO_TEXT_REVEAL:
         // We desire the total number of milliseconds to render the string.
         // Display speed is in character per second, so cancel the character term and multiply by 1000 to get ms
-        _end_time = static_cast<int32>(1000.0f * _num_chars / _display_speed);
+        _end_time = static_cast<int32_t>(1000.0f * _num_chars / _display_speed);
         break;
 
     case VIDEO_TEXT_FADELINE:   // Displays one line at a time
         // Instead of _num_chars in the other calculation, we use number of lines times CHARS_PER_LINE
-        _end_time = static_cast<int32>(1000.0f * (_text.size() * CHARS_PER_LINE) / _display_speed);
+        _end_time = static_cast<int32_t>(1000.0f * (_text.size() * CHARS_PER_LINE) / _display_speed);
         break;
     };
 
@@ -271,7 +271,7 @@ void TextBox::_ReformatText()
         // Compute the number of chars
         const size_t temp_length = _text_save.length();
         size_t startline_pos = 0;
-        uint32 new_lines = 0;
+        uint32_t new_lines = 0;
         while(startline_pos < temp_length) {
             size_t newline_pos = _text_save.find(NEWLINE_CHARACTER, startline_pos);
             if(newline_pos == ustring::npos)
@@ -297,12 +297,12 @@ void TextBox::_ReformatText()
     VideoManager->PopState();
 
     // Create a screen rectangle for the position and apply any scissoring.
-    int32 x = 0, y = 0, w = 0, h = 0;
+    int32_t x = 0, y = 0, w = 0, h = 0;
 
-    x = static_cast<int32>(left < right ? left : right);
-    y = static_cast<int32>(top < bottom ? top : bottom);
-    w = static_cast<int32>(right - left);
-    h = static_cast<int32>(top - bottom);
+    x = static_cast<int32_t>(left < right ? left : right);
+    y = static_cast<int32_t>(top < bottom ? top : bottom);
+    w = static_cast<int32_t>(right - left);
+    h = static_cast<int32_t>(top - bottom);
 
     if (w < 0)
         w = -w;
@@ -356,7 +356,7 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
 {
     FontProperties* fp = _text_style.GetFontProperties();
     TTF_Font* ttf_font = fp->ttf_font;
-    int32 num_chars_drawn = 0;
+    int32_t num_chars_drawn = 0;
 
     // Calculate the fraction of the text to display
     float percent_complete;
@@ -366,15 +366,15 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
         percent_complete = static_cast<float>(_current_time) / static_cast<float>(_end_time);
 
     // Iterate through the loop for every line of text and draw it
-    for(int32 line = 0; line < static_cast<int32>(_text.size()); ++line) {
+    for(int32_t line = 0; line < static_cast<int32_t>(_text.size()); ++line) {
         // (1): Calculate the x draw offset for this line and move to that position
         float line_width = static_cast<float>(TextManager->CalculateTextWidth(ttf_font, _text[line]));
-        int32 x_align = VideoManager->_ConvertXAlign(_text_xalign);
+        int32_t x_align = VideoManager->_ConvertXAlign(_text_xalign);
         float x_offset = text_x + ((x_align + 1) * line_width) * 0.5f * VideoManager->_current_context.coordinate_system.GetHorizontalDirection();
 
         VideoManager->MoveRelative(x_offset, 0.0f);
 
-        int32 line_size = static_cast<int32>(_text[line].size());
+        int32_t line_size = static_cast<int32_t>(_text[line].size());
 
         // (2): Draw the text depending on the display mode and whether or not the gradual display is finished
         if(_finished || _mode == VIDEO_TEXT_INSTANT) {
@@ -382,7 +382,7 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
         }
         else if(_mode == VIDEO_TEXT_CHAR) {
             // Determine which character is currently being rendered
-            int32 cur_char = static_cast<int32>(percent_complete * _num_chars);
+            int32_t cur_char = static_cast<int32_t>(percent_complete * _num_chars);
 
             // If the current character to draw is after this line, render the entire line
             if(num_chars_drawn + line_size < cur_char) {
@@ -390,7 +390,7 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
             }
             // The current character to draw is on this line: figure out which characters on this line should be drawn
             else {
-                int32 num_completed_chars = cur_char - num_chars_drawn;
+                int32_t num_completed_chars = cur_char - num_chars_drawn;
                 if(num_completed_chars > 0) {
                     ustring substring = _text[line].substr(0, num_completed_chars);
                     TextManager->Draw(substring);
@@ -401,7 +401,7 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
         else if(_mode == VIDEO_TEXT_FADECHAR) {
             // Figure out which character is currently being rendered
             float fade_cur_char = percent_complete * _num_chars;
-            int32 cur_char = static_cast<int32>(fade_cur_char);
+            int32_t cur_char = static_cast<int32_t>(fade_cur_char);
             float cur_percent = fade_cur_char - cur_char;
 
             // If the current character to draw is after this line, draw the whole line
@@ -410,7 +410,7 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
             }
             // The current character is on this line: draw any previous characters on this line as well as the current character
             else {
-                int32 num_completed_chars = cur_char - num_chars_drawn;
+                int32_t num_completed_chars = cur_char - num_chars_drawn;
 
                 // Continue only if this line has at least one character that should be drawn
                 if(num_completed_chars >= 0) {
@@ -438,7 +438,7 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
         else if(_mode == VIDEO_TEXT_FADELINE) {
             // Deteremine which line is currently being rendered
             float fade_lines = percent_complete * _text.size();
-            int32 lines = static_cast<int32>(fade_lines);
+            int32_t lines = static_cast<int32_t>(fade_lines);
             float cur_percent = fade_lines - lines;
 
             // If this line comes before the line being rendered, simply draw the line and be done with it
@@ -460,9 +460,9 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
         else if(_mode == VIDEO_TEXT_REVEAL) {
             // Determine which character is currently being rendered
             float fade_cur_char = percent_complete * _num_chars;
-            int32 cur_char = static_cast<int32>(fade_cur_char);
+            int32_t cur_char = static_cast<int32_t>(fade_cur_char);
             float cur_percent = fade_cur_char - cur_char;
-            int32 num_completed_chars = cur_char - num_chars_drawn;
+            int32_t num_completed_chars = cur_char - num_chars_drawn;
 
             // If the current character comes after this line, simply render the entire line
             if(num_chars_drawn + line_size <= cur_char) {
@@ -482,23 +482,23 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
                 ustring cur_char_string = _text[line].substr(num_completed_chars, 1);
 
                 // Create a rectangle for the current character, in window coordinates
-                int32 char_x, char_y, char_w, char_h;
-                char_x = static_cast<int32>(x_offset + VideoManager->_current_context.coordinate_system.GetHorizontalDirection()
+                int32_t char_x, char_y, char_w, char_h;
+                char_x = static_cast<int32_t>(x_offset + VideoManager->_current_context.coordinate_system.GetHorizontalDirection()
                                             * TextManager->CalculateTextWidth(ttf_font, substring));
-                char_y = static_cast<int32>(text_y - VideoManager->_current_context.coordinate_system.GetVerticalDirection()
+                char_y = static_cast<int32_t>(text_y - VideoManager->_current_context.coordinate_system.GetVerticalDirection()
                                             * (fp->height + fp->descent));
 
                 if(VideoManager->_current_context.coordinate_system.GetHorizontalDirection() < 0.0f)
-                    char_y = static_cast<int32>(VideoManager->_current_context.coordinate_system.GetBottom()) - char_y;
+                    char_y = static_cast<int32_t>(VideoManager->_current_context.coordinate_system.GetBottom()) - char_y;
 
                 if(VideoManager->_current_context.coordinate_system.GetVerticalDirection() < 0.0f)
-                    char_x = static_cast<int32>(VideoManager->_current_context.coordinate_system.GetLeft()) - char_x;
+                    char_x = static_cast<int32_t>(VideoManager->_current_context.coordinate_system.GetLeft()) - char_x;
 
                 char_w = TextManager->CalculateTextWidth(ttf_font, cur_char_string);
                 char_h = fp->height;
 
                 // Multiply the width by percentage done to determine the scissoring dimensions
-                char_w = static_cast<int32>(cur_percent * char_w);
+                char_w = static_cast<int32_t>(cur_percent * char_w);
                 VideoManager->MoveRelative(VideoManager->_current_context.coordinate_system.GetHorizontalDirection()
                                            * TextManager->CalculateTextWidth(ttf_font, substring), 0.0f);
 
@@ -511,10 +511,10 @@ void TextBox::_DrawTextLines(float text_x, float text_y, ScreenRect scissor_rect
                 VideoManager->EnableScissoring();
 
                 // Convert to screen coordinates.
-                scissor_rect.left = static_cast<int32>(scissor_rect.left / VIDEO_STANDARD_RES_WIDTH * VideoManager->_current_context.viewport.width);
-                scissor_rect.top = static_cast<int32>(scissor_rect.top / VIDEO_STANDARD_RES_HEIGHT * VideoManager->_current_context.viewport.height);
-                scissor_rect.width = static_cast<int32>(scissor_rect.width / VIDEO_STANDARD_RES_WIDTH * VideoManager->_current_context.viewport.width);
-                scissor_rect.height = static_cast<int32>(scissor_rect.height / VIDEO_STANDARD_RES_HEIGHT * VideoManager->_current_context.viewport.height);
+                scissor_rect.left = static_cast<int32_t>(scissor_rect.left / VIDEO_STANDARD_RES_WIDTH * VideoManager->_current_context.viewport.width);
+                scissor_rect.top = static_cast<int32_t>(scissor_rect.top / VIDEO_STANDARD_RES_HEIGHT * VideoManager->_current_context.viewport.height);
+                scissor_rect.width = static_cast<int32_t>(scissor_rect.width / VIDEO_STANDARD_RES_WIDTH * VideoManager->_current_context.viewport.width);
+                scissor_rect.height = static_cast<int32_t>(scissor_rect.height / VIDEO_STANDARD_RES_HEIGHT * VideoManager->_current_context.viewport.height);
                 VideoManager->SetScissorRect(scissor_rect);
 
                 TextManager->Draw(cur_char_string, _text_style);
@@ -554,11 +554,11 @@ void TextBox::_DEBUG_DrawOutline()
 
     // Draw the inner boundaries for each line of text.
     FontProperties* fp = _text_style.GetFontProperties();
-    uint32 possible_lines = _height / fp->line_skip;
+    uint32_t possible_lines = _height / fp->line_skip;
     float line_height = fp->line_skip * -VideoManager->_current_context.coordinate_system.GetVerticalDirection();
     float line_offset = top;
 
-    for (uint32 i = 1; i <= possible_lines; ++i) {
+    for (uint32_t i = 1; i <= possible_lines; ++i) {
         line_offset += line_height;
         VideoManager->DrawLine(left, line_offset, 3, right, line_offset, 3, alpha_black);
         VideoManager->DrawLine(left, line_offset, 1, right, line_offset, 1, alpha_white);

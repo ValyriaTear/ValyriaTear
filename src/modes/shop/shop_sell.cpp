@@ -84,7 +84,7 @@ SellInterface::SellInterface() :
 
 SellInterface::~SellInterface()
 {
-    for(uint32 i = 0; i < _list_displays.size(); i++) {
+    for(uint32_t i = 0; i < _list_displays.size(); i++) {
         delete _list_displays[i];
     }
 }
@@ -95,8 +95,8 @@ void SellInterface::_UpdateAvailableSellDealTypes()
     _sell_deal_types = 0;
 
     // Determine what types of objects the shop deals in based on the managed object list
-    std::map<uint32, ShopObject *>* shop_objects = ShopMode::CurrentInstance()->GetAvailableSell();
-    for(std::map<uint32, ShopObject *>::iterator it = shop_objects->begin(); it != shop_objects->end(); ++it) {
+    std::map<uint32_t, ShopObject *>* shop_objects = ShopMode::CurrentInstance()->GetAvailableSell();
+    for(std::map<uint32_t, ShopObject *>::iterator it = shop_objects->begin(); it != shop_objects->end(); ++it) {
         // Key items can't be sold.
         if (it->second->GetObject()->IsKeyItem())
             continue;
@@ -144,8 +144,8 @@ void SellInterface::_RefreshItemCategories()
     // Determine which categories are used in this shop and populate the true containers with that data
     _UpdateAvailableSellDealTypes();
 
-    uint8 bit_x = 0x01; // Used to do a bit-by-bit analysis of the obj_types variable
-    for(uint8 i = 0; i < GLOBAL_OBJECT_TOTAL; i++, bit_x <<= 1) {
+    uint8_t bit_x = 0x01; // Used to do a bit-by-bit analysis of the obj_types variable
+    for(uint8_t i = 0; i < GLOBAL_OBJECT_TOTAL; i++, bit_x <<= 1) {
         // Check whether the type is available by doing a bit-wise comparison
         if(_sell_deal_types & bit_x) {
             _category_names.push_back(all_category_names->at(i));
@@ -169,16 +169,16 @@ void SellInterface::_PopulateLists()
     // Containers of object data used to populate the display lists
     std::vector<std::vector<ShopObject *> > object_data;
 
-    for(uint32 i = 0; i < _number_categories; i++) {
+    for(uint32_t i = 0; i < _number_categories; i++) {
         object_data.push_back(std::vector<ShopObject *>());
     }
 
     // Holds the index to the object_data vector where the container for a specific object type is located
-    std::vector<uint32> type_index(GLOBAL_OBJECT_TOTAL, 0);
+    std::vector<uint32_t> type_index(GLOBAL_OBJECT_TOTAL, 0);
     // Used to set the appropriate data in the type_index vector
-    uint32 next_index = 0;
+    uint32_t next_index = 0;
     // Used to do a bit-by-bit analysis of the deal_types variable
-    uint8 bit_x = 0x01;
+    uint8_t bit_x = 0x01;
 
     // This loop determines where each type of object should be placed in the object_data container. For example,
     // if the available categories in the shop are items, weapons, spirits, and all wares, the size of object_data
@@ -186,7 +186,7 @@ void SellInterface::_PopulateLists()
     // to know the correct index for each type of object. These indeces are stored in the type_index vector. The
     // size of this vector is the number of object types, so it becomes simple to map each object type to its correct
     // location in object_data.
-    for(uint8 i = 0; i < GLOBAL_OBJECT_TOTAL; i++, bit_x <<= 1) {
+    for(uint8_t i = 0; i < GLOBAL_OBJECT_TOTAL; i++, bit_x <<= 1) {
         // Check if the type is available by doing a bit-wise comparison
         if(_sell_deal_types & bit_x) {
             type_index[i] = next_index++;
@@ -196,9 +196,9 @@ void SellInterface::_PopulateLists()
     // Populate the object_data containers
 
     // Pointer to the container of all objects that are bought/sold/traded in the ship
-    std::map<uint32, ShopObject *>* shop_objects = ShopMode::CurrentInstance()->GetAvailableSell();
+    std::map<uint32_t, ShopObject *>* shop_objects = ShopMode::CurrentInstance()->GetAvailableSell();
 
-    for(std::map<uint32, ShopObject *>::iterator it = shop_objects->begin(); it != shop_objects->end(); ++it) {
+    for(std::map<uint32_t, ShopObject *>::iterator it = shop_objects->begin(); it != shop_objects->end(); ++it) {
         ShopObject* obj = it->second;
 
         // Key items are not permitted to be sold
@@ -241,7 +241,7 @@ void SellInterface::_PopulateLists()
     }
 
     // ---------- (3): Create the sell displays using the object data that is now ready
-    for(uint32 i = 0; i < object_data.size(); i++) {
+    for(uint32_t i = 0; i < object_data.size(); i++) {
         _list_displays[i]->PopulateList(object_data[i]);
     }
 } // void SellInterface::_PopulateLists()
@@ -252,11 +252,11 @@ void SellInterface::Reinitialize()
     _RefreshItemCategories();
 
     // (Re)create the sell displays and populate them with the object data
-    for(uint32 i = 0; i < _list_displays.size(); ++i)
+    for(uint32_t i = 0; i < _list_displays.size(); ++i)
         delete _list_displays[i];
     _list_displays.clear();
 
-    for(uint32 i = 0; i < _number_categories; ++i)
+    for(uint32_t i = 0; i < _number_categories; ++i)
         _list_displays.push_back(new SellListDisplay());
 
     _PopulateLists();
@@ -484,7 +484,7 @@ void SellListDisplay::ReconstructList()
     _identify_list.ClearOptions();
     _property_list.ClearOptions();
 
-    for(uint32 i = 0; i < _objects.size(); i++) {
+    for(uint32_t i = 0; i < _objects.size(); i++) {
         ShopObject* obj = _objects[i];
         // Add an entry with the icon image of the object (scaled down by 4x to 30x30 pixels) followed by the object name
         _identify_list.AddOption(MakeUnicodeString("<" + obj->GetObject()->GetIconImage().GetFilename() + "><30>")
@@ -503,7 +503,7 @@ void SellListDisplay::ReconstructList()
 }
 
 
-bool SellListDisplay::ChangeSellQuantity(bool more, uint32 amount)
+bool SellListDisplay::ChangeSellQuantity(bool more, uint32_t amount)
 {
     ShopObject *obj = GetSelectedObject();
     if(!obj) {
@@ -514,7 +514,7 @@ bool SellListDisplay::ChangeSellQuantity(bool more, uint32 amount)
 
     // Holds the amount that the quantity will actually increase or decrease by. May be less than the
     // amount requested if there is an limitation such as shop stock or available funds
-    uint32 change_amount = amount;
+    uint32_t change_amount = amount;
 
     if(!more) {
         // Make sure that there is at least one more count to sell and that the player has enough funds to return it
@@ -531,8 +531,8 @@ bool SellListDisplay::ChangeSellQuantity(bool more, uint32 amount)
         // Determine how many of the possible amount to sell the player can actually perform. This is necessary to check
         // because by reducing sales revenue, its possible that marked costs exceed what the player can afford with this
         // lost revenue.
-        int32 total_lost_revenue = change_amount * obj->GetSellPrice();
-        int32 total_remaining = static_cast<int32>(ShopMode::CurrentInstance()->GetTotalRemaining());
+        int32_t total_lost_revenue = change_amount * obj->GetSellPrice();
+        int32_t total_remaining = static_cast<int32_t>(ShopMode::CurrentInstance()->GetTotalRemaining());
         while(total_lost_revenue > total_remaining) {
             change_amount--;
             total_lost_revenue -= obj->GetSellPrice();
@@ -558,7 +558,7 @@ bool SellListDisplay::ChangeSellQuantity(bool more, uint32 amount)
         ShopMode::CurrentInstance()->UpdateFinances(obj->GetSellPrice() * change_amount);
         return true;
     }
-} // bool SellListDisplay::ChangeSellQuantity(bool less_or_more, uint32 amount)
+} // bool SellListDisplay::ChangeSellQuantity(bool less_or_more, uint32_t amount)
 
 } // namespace private_shop
 

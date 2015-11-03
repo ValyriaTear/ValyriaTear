@@ -45,7 +45,7 @@ namespace private_map
 *** \return A direction that faces opposite to the argument direction
 *** \note This is mostly used as an helper function to make sprites face each other in a conversation.
 **/
-static uint16 CalculateOppositeDirection(const uint16 direction)
+static uint16_t CalculateOppositeDirection(const uint16_t direction)
 {
     switch(direction) {
     case NORTH:
@@ -407,7 +407,7 @@ void VirtualSprite::_SetNextPosition()
 }
 
 
-void VirtualSprite::SetDirection(uint16 dir)
+void VirtualSprite::SetDirection(uint16_t dir)
 {
     // Nothing complicated needed for lateral directions
     if(dir & (NORTH | SOUTH | EAST | WEST)) {
@@ -437,7 +437,7 @@ void VirtualSprite::SetDirection(uint16 dir)
     } else {
         IF_PRINT_WARNING(MAP_DEBUG) << "attempted to set an invalid direction: " << dir << std::endl;
     }
-} // void VirtualSprite::SetDirection(uint16 dir)
+} // void VirtualSprite::SetDirection(uint16_t dir)
 
 
 
@@ -655,7 +655,7 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
 
     // In case of reloading
     animations.clear();
-    for(uint8 i = 0; i < NUM_ANIM_DIRECTIONS; ++i)
+    for(uint8_t i = 0; i < NUM_ANIM_DIRECTIONS; ++i)
         animations.push_back(AnimatedImage());
 
     vt_script::ReadScriptDescriptor animations_script;
@@ -678,8 +678,8 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
         animations_script.CloseFile();
         return false;
     }
-    uint32 rows = animations_script.ReadUInt("rows");
-    uint32 columns = animations_script.ReadUInt("columns");
+    uint32_t rows = animations_script.ReadUInt("rows");
+    uint32_t columns = animations_script.ReadUInt("columns");
 
     if(!animations_script.DoesTableExist("frames")) {
         animations_script.CloseAllTables();
@@ -698,37 +698,37 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
         return false;
     }
 
-    std::vector <uint32> frames_directions_ids;
+    std::vector <uint32_t> frames_directions_ids;
     animations_script.ReadTableKeys("frames", frames_directions_ids);
 
     // open the frames table
     animations_script.OpenTable("frames");
 
-    for(uint32 i = 0; i < frames_directions_ids.size(); ++i) {
+    for(uint32_t i = 0; i < frames_directions_ids.size(); ++i) {
         if(frames_directions_ids[i] >= NUM_ANIM_DIRECTIONS) {
             PRINT_WARNING << "Invalid direction id(" << frames_directions_ids[i]
                           << ") in file: " << filename << std::endl;
             continue;
         }
 
-        uint32 anim_direction = frames_directions_ids[i];
+        uint32_t anim_direction = frames_directions_ids[i];
 
         // Opens frames[ANIM_DIRECTION]
         animations_script.OpenTable(anim_direction);
 
         // Loads the frames data
-        std::vector<uint32> frames_ids;
-        std::vector<uint32> frames_duration;
+        std::vector<uint32_t> frames_ids;
+        std::vector<uint32_t> frames_duration;
 
-        uint32 num_frames = animations_script.GetTableSize();
-        for(uint32 frames_table_id = 0;  frames_table_id < num_frames; ++frames_table_id) {
+        uint32_t num_frames = animations_script.GetTableSize();
+        for(uint32_t frames_table_id = 0;  frames_table_id < num_frames; ++frames_table_id) {
             // Opens frames[ANIM_DIRECTION][frame_table_id]
             animations_script.OpenTable(frames_table_id);
 
-            int32 frame_id = animations_script.ReadInt("id");
-            int32 frame_duration = animations_script.ReadInt("duration");
+            int32_t frame_id = animations_script.ReadInt("id");
+            int32_t frame_duration = animations_script.ReadInt("duration");
 
-            if(frame_id < 0 || frame_duration < 0 || frame_id >= (int32)image_frames.size()) {
+            if(frame_id < 0 || frame_duration < 0 || frame_id >= (int32_t)image_frames.size()) {
                 PRINT_WARNING << "Invalid frame (" << frames_table_id << ") in file: "
                               << filename << std::endl;
                 PRINT_WARNING << "Request for frame id: " << frame_id << ", duration: "
@@ -736,8 +736,8 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
                 continue;
             }
 
-            frames_ids.push_back((uint32)frame_id);
-            frames_duration.push_back((uint32)frame_duration);
+            frames_ids.push_back((uint32_t)frame_id);
+            frames_duration.push_back((uint32_t)frame_duration);
 
             animations_script.CloseTable(); // frames[ANIM_DIRECTION][frame_table_id] table
         }
@@ -745,7 +745,7 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
         // Actually create the animation data
         animations[anim_direction].Clear();
         animations[anim_direction].ResetAnimation();
-        for(uint32 j = 0; j < frames_ids.size(); ++j) {
+        for(uint32_t j = 0; j < frames_ids.size(); ++j) {
             // Set the dimension of the requested frame
             animations[anim_direction].AddFrame(image_frames[frames_ids[j]], frames_duration[j]);
         }
@@ -762,7 +762,7 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
     float frame_height = animations_script.ReadFloat("frame_height");
 
     // Load requested dimensions
-    for(uint8 i = 0; i < NUM_ANIM_DIRECTIONS; ++i) {
+    for(uint8_t i = 0; i < NUM_ANIM_DIRECTIONS; ++i) {
         if(frame_width > 0.0f && frame_height > 0.0f) {
             animations[i].SetDimensions(frame_width, frame_height);
         } else if(IsFloatEqual(animations[i].GetWidth(), 0.0f) && IsFloatEqual(animations[i].GetHeight(), 0.0f)) {
@@ -829,7 +829,7 @@ bool MapSprite::LoadCustomAnimation(const std::string &animation_name, const std
     return false;
 }
 
-void MapSprite::SetCustomAnimation(const std::string &animation_name, int32 time)
+void MapSprite::SetCustomAnimation(const std::string &animation_name, int32_t time)
 {
     // If there is no key, there will be no custom animation to display
     if(animation_name.empty()) {
@@ -912,7 +912,7 @@ void MapSprite::ReloadSprite(const std::string& sprite_name)
     script.ReadTableKeys("custom_animations", anim_names);
     script.OpenTable("custom_animations");
 
-    for (uint32 i = 0; i < anim_names.size(); ++i)
+    for (uint32_t i = 0; i < anim_names.size(); ++i)
         LoadCustomAnimation(anim_names[i], script.ReadString(anim_names[i]));
 
     // Put the tabl in the state we found it.
@@ -959,7 +959,7 @@ void MapSprite::Update()
     }
 
     // Save the previous animation state
-    uint8 last_anim_direction = _current_anim_direction;
+    uint8_t last_anim_direction = _current_anim_direction;
     std::vector<AnimatedImage>* last_animation = _animation;
 
     // Set the sprite's animation to the standing still position if movement has just stopped
@@ -1017,9 +1017,9 @@ void MapSprite::Update()
     }
 
     // Take care of adapting the update time according to the sprite speed when walking or running
-    uint32 elapsed_time = 0;
+    uint32_t elapsed_time = 0;
     if(_animation == &_walking_animations || (_has_running_animations && _animation == &_running_animations)) {
-        elapsed_time = (uint32)(((float)vt_system::SystemManager->GetUpdateTime()) * NORMAL_SPEED / _movement_speed);
+        elapsed_time = (uint32_t)(((float)vt_system::SystemManager->GetUpdateTime()) * NORMAL_SPEED / _movement_speed);
     }
 
     _animation->at(_current_anim_direction).Update(elapsed_time);
@@ -1041,7 +1041,7 @@ void MapSprite::_DrawDebugInfo()
         if(path_event) {
             Path path = path_event->GetPath();
             MapMode *map_mode = MapMode::CurrentInstance();
-            for(uint32 i = 0; i < path.size(); ++i) {
+            for(uint32_t i = 0; i < path.size(); ++i) {
                 float x_pos = map_mode->GetScreenXCoordinate(path[i].x);
                 float y_pos = map_mode->GetScreenYCoordinate(path[i].y);
                 VideoManager->Move(x_pos, y_pos);
@@ -1114,7 +1114,7 @@ void MapSprite::RemoveDialogueReference(SpriteDialogue* dialogue)
 {
     std::string dialogue_id = dialogue->GetDialogueID();
     // Remove all dialogues with the given reference (for the case, the same dialogue was add several times)
-    for(uint32 i = 0; i < _dialogue_references.size(); i++) {
+    for(uint32_t i = 0; i < _dialogue_references.size(); i++) {
         if(_dialogue_references[i] == dialogue_id)
             _dialogue_references.erase(_dialogue_references.begin() + i);
     }
@@ -1141,7 +1141,7 @@ void MapSprite::UpdateDialogueStatus()
     _has_available_dialogue = false;
     _has_unseen_dialogue = false;
 
-    for(uint32 i = 0; i < _dialogue_references.size(); i++) {
+    for(uint32_t i = 0; i < _dialogue_references.size(); i++) {
         SpriteDialogue* dialogue = MapMode::CurrentInstance()->GetDialogueSupervisor()->GetDialogue(_dialogue_references[i]);
         if(!dialogue) {
             PRINT_WARNING << "sprite: " << _object_id << " is referencing unknown dialogue: "
@@ -1170,11 +1170,11 @@ void MapSprite::IncrementNextDialogue()
         return;
     }
 
-    int16 last_dialogue = _next_dialogue;
+    int16_t last_dialogue = _next_dialogue;
 
     while(true) {
         ++_next_dialogue;
-        if(static_cast<uint16>(_next_dialogue) >= _dialogue_references.size()) {
+        if(static_cast<uint16_t>(_next_dialogue) >= _dialogue_references.size()) {
             --_next_dialogue;
             return;
         }
@@ -1192,13 +1192,13 @@ void MapSprite::IncrementNextDialogue()
     }
 }
 
-void MapSprite::SetNextDialogue(uint16 next)
+void MapSprite::SetNextDialogue(uint16_t next)
 {
     // If a negative value is passed in, this means the user wants to disable
     if(next >= _dialogue_references.size()) {
         IF_PRINT_WARNING(MAP_DEBUG) << "tried to set _next_dialogue to an value that was invalid (exceeds maximum bounds): " << next << std::endl;
     } else {
-        _next_dialogue = static_cast<int16>(next);
+        _next_dialogue = static_cast<int16_t>(next);
     }
 }
 
@@ -1218,7 +1218,7 @@ void MapSprite::RestoreState()
 
 const std::string& MapSprite::GetNextDialogueID() const
 {
-    if (_next_dialogue >= 0 && _next_dialogue < static_cast<int16>(_dialogue_references.size()))
+    if (_next_dialogue >= 0 && _next_dialogue < static_cast<int16_t>(_dialogue_references.size()))
         return _dialogue_references[_next_dialogue];
     else
         return vt_utils::_empty_string;
@@ -1274,7 +1274,7 @@ void EnemySprite::Reset()
     _current_way_point_id = 0;
 }
 
-void EnemySprite::AddEnemy(uint32 enemy_id, float position_x, float position_y)
+void EnemySprite::AddEnemy(uint32_t enemy_id, float position_x, float position_y)
 {
     if(_enemy_parties.empty()) {
         IF_PRINT_WARNING(MAP_DEBUG) << "can not add new enemy when no parties have been declared" << std::endl;
@@ -1485,7 +1485,7 @@ void EnemySprite::AddWayPoint(float destination_x, float destination_y)
     MapPosition destination(destination_x, destination_y);
 
     // Check whether the way point is already existing
-    for (uint32 i = 0; i < _way_points.size(); ++i) {
+    for (uint32_t i = 0; i < _way_points.size(); ++i) {
         if (_way_points[i].x == destination_x && _way_points[i].y == destination_y) {
             PRINT_WARNING << "Way point already added: (" << destination_x << ", "
                 << destination_y << ")" << std::endl;
@@ -1548,15 +1548,15 @@ void EnemySprite::_UpdatePath()
     }
 }
 
-bool EnemySprite::_SetDestination(float destination_x, float destination_y, uint32 max_cost)
+bool EnemySprite::_SetDestination(float destination_x, float destination_y, uint32_t max_cost)
 {
     _path.clear();
     _use_path = false;
 
-    uint32 dest_x = (uint32) destination_x;
-    uint32 dest_y = (uint32) destination_y;
-    uint32 pos_x = (uint32) GetXPosition();
-    uint32 pos_y = (uint32) GetYPosition();
+    uint32_t dest_x = (uint32_t) destination_x;
+    uint32_t dest_y = (uint32_t) destination_y;
+    uint32_t pos_x = (uint32_t) GetXPosition();
+    uint32_t pos_y = (uint32_t) GetYPosition();
 
     // Don't check the path if the sprite is there.
     if (pos_x == dest_x && pos_y == dest_y)
@@ -1594,7 +1594,7 @@ void EnemySprite::_SetSpritePathDirection()
     if (!_use_path || _path.empty())
         return;
 
-    uint16 direction = 0;
+    uint16_t direction = 0;
 
     float sprite_position_x = GetXPosition();
     float sprite_position_y = GetYPosition();

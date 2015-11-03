@@ -38,14 +38,14 @@ extern bool MODE_MANAGER_DEBUG;
 //! \name Game States/Modes
 //@{
 //! \brief Different modes of operation that the game can be in.
-const uint8 MODE_MANAGER_DUMMY_MODE  = 0;
-const uint8 MODE_MANAGER_BOOT_MODE   = 1;
-const uint8 MODE_MANAGER_MAP_MODE    = 2;
-const uint8 MODE_MANAGER_BATTLE_MODE = 3;
-const uint8 MODE_MANAGER_MENU_MODE   = 4;
-const uint8 MODE_MANAGER_SHOP_MODE   = 5;
-const uint8 MODE_MANAGER_PAUSE_MODE  = 6;
-const uint8 MODE_MANAGER_SAVE_MODE   = 7;
+const uint8_t MODE_MANAGER_DUMMY_MODE  = 0;
+const uint8_t MODE_MANAGER_BOOT_MODE   = 1;
+const uint8_t MODE_MANAGER_MAP_MODE    = 2;
+const uint8_t MODE_MANAGER_BATTLE_MODE = 3;
+const uint8_t MODE_MANAGER_MENU_MODE   = 4;
+const uint8_t MODE_MANAGER_SHOP_MODE   = 5;
+const uint8_t MODE_MANAGER_PAUSE_MODE  = 6;
+const uint8_t MODE_MANAGER_SAVE_MODE   = 7;
 //@}
 
 /** ***************************************************************************
@@ -70,11 +70,11 @@ public:
     GameMode();
 
     //! \param mt The mode_type to set the new GameMode object to.
-    explicit GameMode(uint8 mt);
+    explicit GameMode(uint8_t mt);
 
     virtual ~GameMode();
 
-    uint8 GetGameType() const {
+    uint8_t GetGameType() const {
         return _mode_type;
     }
 
@@ -129,7 +129,7 @@ public:
 
 protected:
     //! Indicates what 'mode' this object is in (what type of inherited class).
-    uint8 _mode_type;
+    uint8_t _mode_type;
 
 private:
     //! \brief Handles all the custom scripted animation for the given mode.
@@ -195,7 +195,7 @@ private:
     bool _state_change;
 
     //! The number of game modes to pop from the back of the stack on the next call to ModeEngine#Update().
-    uint32 _pop_count;
+    uint32_t _pop_count;
 
     /** \brief Tells whether there is a transitional fade out has to be triggered
     *** The new game modes will be pushed or popped afterward.
@@ -242,12 +242,12 @@ public:
     /**  \brief  Gets the type of the currently active game mode.
     ***  \return The value of the mode_type member of the GameMode object on the top of the stack.
     **/
-    uint8 GetGameType();
+    uint8_t GetGameType();
 
     /**  \brief  Gets the type of a game mode in the stack.
     ***  \return The value of the mode_type member of the GameMode object on the top of the stack.
     **/
-    uint8 GetGameType(uint32 index);
+    uint8_t GetGameType(uint32_t index);
 
     /** \brief Gets a pointer to the top game stack object.
     *** \return A pointer to the GameMode object on the top of the stack.
@@ -257,7 +257,7 @@ public:
     /** \brief Gets a pointer to a game stack object.
     *** \return A pointer to the GameMode object at (index) from the top.
     **/
-    GameMode *Get(uint32 index);
+    GameMode *Get(uint32_t index);
 
     //! \brief Checks if the game stack needs modes pushed or popped, then calls Update on the active game mode.
     void Update();

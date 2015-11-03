@@ -203,7 +203,7 @@ public:
     *** \param bpp The number of bits per pixel of the image
     *** \returns whether the info were successfully obtained.
     **/
-    static bool GetImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp);
+    static bool GetImageInfo(const std::string &filename, uint32_t &rows, uint32_t &cols, uint32_t &bpp);
 
     /** \brief Loads a multi image into a vector of StillImage objects
     *** \param images Reference to the vector of StillImages to be loaded with elements from the multi image
@@ -219,7 +219,7 @@ public:
     *** \note All image elements within the multi image should be of the same size
      */
     static bool LoadMultiImageFromElementSize(std::vector<StillImage>& images, const std::string &filename,
-            const uint32 elem_width, const uint32 elem_height);
+            const uint32_t elem_width, const uint32_t elem_height);
 
     /** \brief Loads a multi image into a vector of StillImage objects
     *** \param images Reference to the vector of StillImages to be loaded with elements from the multi image
@@ -234,7 +234,7 @@ public:
     *** \note All image elements within the multi image should be of the same size
     **/
     static bool LoadMultiImageFromElementGrid(std::vector<StillImage>& images, const std::string &filename,
-            const uint32 grid_rows, const uint32 grid_cols);
+            const uint32_t grid_rows, const uint32_t grid_cols);
 
     /** \brief Saves a vector of images into a single image file (a multi image)
     *** \param images A reference to the vector of StillImage pointers to save into a multi image
@@ -245,7 +245,7 @@ public:
     *** \note All images within the images vector should be of the same size
     **/
     static bool SaveMultiImage(const std::vector<StillImage *>& images, const std::string &filename,
-                               const uint32 grid_rows, const uint32 grid_cols);
+                               const uint32_t grid_rows, const uint32_t grid_cols);
     //@}
 
     //! \brief A debug function which prints the image's information to the screen
@@ -322,7 +322,7 @@ private:
     *** \return True if the image file was loaded and parsed successfully, false if there was an error.
     **/
     static bool _LoadMultiImage(std::vector<StillImage>& images, const std::string &filename,
-                                const uint32 grid_rows, const uint32 grid_cols);
+                                const uint32_t grid_rows, const uint32_t grid_cols);
 }; // class ImageDescriptor
 
 
@@ -399,7 +399,7 @@ public:
     *** \param index The vertex index of the color to fetch
     *** \note If an invalid index value is used, the function will return with no warning.
     **/
-    void GetVertexColor(Color &c, uint8 index) {
+    void GetVertexColor(Color &c, uint8_t index) {
         if(index > 3) return;
         else c = _color[index];
     }
@@ -499,7 +499,7 @@ class AnimationFrame
 {
 public:
     //! \brief The amount of time to display this frame, in milliseconds
-    uint32 frame_time;
+    uint32_t frame_time;
 
     //! \brief The StillImage used for this frame in the animation
     StillImage image;
@@ -570,7 +570,7 @@ public:
     *** The size of the timings vector must be at least (# of frames in multi image - trim). It may
     *** be larger than this, but the rest of the elements beyond the minimum size will be ignored.
     **/
-    bool LoadFromFrameSize(const std::string &filename, const std::vector<uint32>& timings, const uint32 frame_width, const uint32 frame_height, const uint32 trim = 0);
+    bool LoadFromFrameSize(const std::string &filename, const std::vector<uint32_t>& timings, const uint32_t frame_width, const uint32_t frame_height, const uint32_t trim = 0);
 
     /** \brief Loads an AnimatedImage from a multi image file
     *** \param filename The name of the image file to load.
@@ -592,7 +592,7 @@ public:
     *** than this minimum size, but only the first (frame_rows * frame_cols - trim) elements will
     *** be used, and the rest of the vector ignored.
     **/
-    bool LoadFromFrameGrid(const std::string &filename, const std::vector<uint32>& timings, const uint32 frame_rows, const uint32 frame_cols, const uint32 trim = 0);
+    bool LoadFromFrameGrid(const std::string &filename, const std::vector<uint32_t>& timings, const uint32_t frame_rows, const uint32_t frame_cols, const uint32_t trim = 0);
 
     /** \brief Loads an animated image from a lua script
     *** \param filename The name of the multi image lua script to load the image data from
@@ -622,7 +622,7 @@ public:
     *** \note No frame images should contain more than one image element. Support for saving of
     *** composite (multi-element) images is not yet supported.
     **/
-    bool Save(const std::string &filename, const uint32 grid_rows = 0, const uint32 grid_cols = 0) const;
+    bool Save(const std::string &filename, const uint32_t grid_rows = 0, const uint32_t grid_cols = 0) const;
 
     //! \brief Enables grayscale for all image frames
     void EnableGrayScale();
@@ -646,7 +646,7 @@ public:
     *** \note This method will do nothing if there are no frames contained in the animation,
     *** or if the _loops_finished member is set to true.
     **/
-    void Update(uint32 elapsed_time);
+    void Update(uint32_t elapsed_time);
     void Update() {
         Update(0);
     }
@@ -662,7 +662,7 @@ public:
     *** you always will want. For example, if your coordinate system is in terms of 32x32 pixel
     *** tiles, then a tile image would have a width and height of 1, not 32.
     **/
-    bool AddFrame(const std::string &frame, uint32 frame_time);
+    bool AddFrame(const std::string &frame, uint32_t frame_time);
 
     /** \brief Adds an animation frame by using an existing static image.
     *** \param frame The still image to use as the frame image.
@@ -672,12 +672,12 @@ public:
     *** The frame argument should have at least one element prepared. Passing a StillImage
     *** that does not contain any image data will result in failure for this call.
     **/
-    bool AddFrame(const StillImage &frame, uint32 frame_time);
+    bool AddFrame(const StillImage &frame, uint32_t frame_time);
 
     //! \name Class Member Access Functions
     //@{
     //! \brief Returns the number of frames in this animation
-    uint32 GetNumFrames() const {
+    uint32_t GetNumFrames() const {
         return _frames.size();
     }
 
@@ -687,7 +687,7 @@ public:
     }
 
     //! \brief Returns the index number of the current frame in the animation.
-    uint32 GetCurrentFrameIndex() const {
+    uint32_t GetCurrentFrameIndex() const {
         return _frame_index;
     }
 
@@ -699,13 +699,13 @@ public:
     *** If you find yourself in constant need of using this function, think twice about
     *** what you are doing.
     **/
-    StillImage *GetFrame(uint32 index) const {
+    StillImage *GetFrame(uint32_t index) const {
         if(index >= _frames.size()) return nullptr;
         else return const_cast<StillImage *>(&(_frames[index].image));
     }
 
     //! \brief Returns the number of milliseconds that the current frame has been shown for.
-    uint32 GetTimeProgress() const {
+    uint32_t GetTimeProgress() const {
         return _frame_counter;
     }
 
@@ -719,7 +719,7 @@ public:
     }
 
     //! \brief Returns the total time used to play the animation in milliseconds.
-    uint32 GetAnimationLength() const {
+    uint32_t GetAnimationLength() const {
         return _animation_time;
     }
 
@@ -770,7 +770,7 @@ public:
     *** \param index The index of the frame to access
     *** \note Passing in an invalid value for the index will not change the current frame
     **/
-    void SetFrameIndex(const uint32 index) {
+    void SetFrameIndex(const uint32_t index) {
         if(index > _frames.size()) return;
         _frame_index = index;
         _frame_counter = 0;
@@ -786,7 +786,7 @@ public:
     *** \param time The time to set the frame counter
     *** \note This does not set the frame timer for the current frame
     **/
-    void SetTimeProgress(uint32 time) {
+    void SetTimeProgress(uint32_t time) {
         _frame_counter = time;
     }
 
@@ -795,7 +795,7 @@ public:
     *** animation from beginning to end and stop.
     ***	\param loops Number of loops for the animation
     **/
-    void SetNumberLoops(int32 loops) {
+    void SetNumberLoops(int32_t loops) {
         _number_loops = loops;
         if(_loop_counter >= _number_loops && _number_loops >= 0) _loops_finished = true;
     }
@@ -803,7 +803,7 @@ public:
     /** \brief Set the current number of loops that the animation has completed.
     *** \param loops The urrent loop count
     **/
-    void SetLoopCounter(int32 loops) {
+    void SetLoopCounter(int32_t loops) {
         _loop_counter = loops;
         if(_loop_counter >= _number_loops && _number_loops >= 0) _loops_finished = true;
     }
@@ -819,18 +819,18 @@ public:
 
 private:
     //! \brief The index of which animation frame to display.
-    uint32 _frame_index;
+    uint32_t _frame_index;
 
     //! \brief Counts how long each frame has been shown for.
-    uint32 _frame_counter;
+    uint32_t _frame_counter;
 
     /** \brief The number of times to loop the animation frames.
     *** A negative value indicates to loop forever, which is the default.
     **/
-    int32 _number_loops;
+    int32_t _number_loops;
 
     //! \brief Counts the number of loops remaining for the animation.
-    int32 _loop_counter;
+    int32_t _loop_counter;
 
     /** \brief Set to true when the loop counter has expired.
     *** This member will remain eternally false if the looping is set to infinite mode.
@@ -841,7 +841,7 @@ private:
     std::vector<private_video::AnimationFrame> _frames;
 
     //! \brief The total time used to play the animation
-    uint32 _animation_time;
+    uint32_t _animation_time;
 }; // class AnimatedImage : public ImageDescriptor
 
 
@@ -960,7 +960,7 @@ public:
     *** \note Every vector row in indeces must be the same size
     *** \note Every index element (indices[y][x]) should range from 0 to tiles.size() - 1
     **/
-// 	void ConstructCompositeImage(const std::vector<ImageElement>& tiles, const std::vector<std::vector<uint32> >& indeces);
+// 	void ConstructCompositeImage(const std::vector<ImageElement>& tiles, const std::vector<std::vector<uint32_t> >& indeces);
 
 private:
     //! \brief A container for each element in the composite image

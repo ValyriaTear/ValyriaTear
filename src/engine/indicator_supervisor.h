@@ -36,7 +36,7 @@ namespace vt_mode_manager
 {
 
 //! \brief The total amount of time (in milliseconds) that the display sequence lasts for indicator elements
-const uint32 INDICATOR_TIME = 3000;
+const uint32_t INDICATOR_TIME = 3000;
 
 /** \brief the indicator types.
 *** According to the indicator type, the draw position computation won't be the same
@@ -371,7 +371,7 @@ public:
     *** maximum hit points determines the color and size of the text rendered.
     **/
     void AddDamageIndicator(float x_position, float y_position,
-                            uint32 amount, const vt_video::TextStyle& style,
+                            uint32_t amount, const vt_video::TextStyle& style,
                             bool use_parallax = false);
 
     /** \brief Creates indicator text representing a numeric amount of healing dealt
@@ -383,7 +383,7 @@ public:
     *** hit points are not modified by this function). The degree of healing relative to the character's
     *** maximum hit points determines the color and size of the text rendered.
     **/
-    void AddHealingIndicator(float x_position, float y_position, uint32 amount,
+    void AddHealingIndicator(float x_position, float y_position, uint32_t amount,
                              const vt_video::TextStyle& style, bool use_parallax = false);
 
     /** \brief Creates indicator text showing a miss on the actor

@@ -107,10 +107,10 @@ ShopEvent* ShopEvent::Create(const std::string& event_id)
 void ShopEvent::_Start()
 {
     ShopMode *shop = new ShopMode();
-    for(std::set<std::pair<uint32, uint32> >::iterator it = _items.begin(); it != _items.end(); ++it)
+    for(std::set<std::pair<uint32_t, uint32_t> >::iterator it = _items.begin(); it != _items.end(); ++it)
         shop->AddItem((*it).first, (*it).second);
 
-    for(std::set<std::pair<uint32, uint32> >::iterator it = _trades.begin(); it != _trades.end(); ++it)
+    for(std::set<std::pair<uint32_t, uint32_t> >::iterator it = _trades.begin(); it != _trades.end(); ++it)
         shop->AddTrade((*it).first, (*it).second);
 
     // Adds optional custom shop name and greetings text
@@ -226,7 +226,7 @@ BattleEncounterEvent* BattleEncounterEvent::Create(const std::string& event_id)
     return new BattleEncounterEvent(event_id);
 }
 
-void BattleEncounterEvent::AddEnemy(uint32 enemy_id, float position_x, float position_y)
+void BattleEncounterEvent::AddEnemy(uint32_t enemy_id, float position_x, float position_y)
 {
     _enemies.push_back(BattleEnemyInfo(enemy_id, position_x, position_y));
 }
@@ -240,12 +240,12 @@ void BattleEncounterEvent::_Start()
             MM->ApplyPotentialStaminaMalus();
 
         BattleMode *BM = new BattleMode();
-        for(uint32 i = 0; i < _enemies.size(); ++i)
+        for(uint32_t i = 0; i < _enemies.size(); ++i)
             BM->AddEnemy(_enemies.at(i).enemy_id, _enemies.at(i).position_x, _enemies.at(i).position_y);
 
         BM->GetMedia().SetBackgroundImage(_battle_background);
         BM->GetMedia().SetBattleMusic(_battle_music);
-        for(uint32 i = 0; i < _battle_scripts.size(); ++i)
+        for(uint32_t i = 0; i < _battle_scripts.size(); ++i)
             BM->GetScriptSupervisor().AddScript(_battle_scripts[i]);
 
         BM->SetBossBattle(_is_boss);
@@ -481,7 +481,7 @@ bool ScriptedSpriteEvent::_Update()
 // ---------- ChangeDirectionSpriteEvent Class Methods
 // -----------------------------------------------------------------------------
 
-ChangeDirectionSpriteEvent::ChangeDirectionSpriteEvent(const std::string& event_id, VirtualSprite* sprite, uint16 direction) :
+ChangeDirectionSpriteEvent::ChangeDirectionSpriteEvent(const std::string& event_id, VirtualSprite* sprite, uint16_t direction) :
     SpriteEvent(event_id, CHANGE_DIRECTION_SPRITE_EVENT, sprite),
     _direction(direction)
 {
@@ -493,7 +493,7 @@ ChangeDirectionSpriteEvent::ChangeDirectionSpriteEvent(const std::string& event_
 
 ChangeDirectionSpriteEvent* ChangeDirectionSpriteEvent::Create(const std::string& event_id,
                                                                VirtualSprite* sprite,
-                                                               uint16 direction)
+                                                               uint16_t direction)
 {
     return new ChangeDirectionSpriteEvent(event_id, sprite, direction);
 }
@@ -659,8 +659,8 @@ void PathMoveSpriteEvent::_Start()
     MapPosition dest(_destination_x, _destination_y);
 
     // If the sprite is at the destination, we don't have to compute anything
-    if ((uint32)_sprite->GetXPosition() == (uint32)_destination_x
-            && (uint32)_sprite->GetYPosition() == (uint32)_destination_y)
+    if ((uint32_t)_sprite->GetXPosition() == (uint32_t)_destination_x
+            && (uint32_t)_sprite->GetYPosition() == (uint32_t)_destination_y)
         return;
 
     _path = MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(_sprite, dest);
@@ -725,7 +725,7 @@ void PathMoveSpriteEvent::Terminate()
 
 void PathMoveSpriteEvent::_SetSpriteDirection()
 {
-    uint16 direction = 0;
+    uint16_t direction = 0;
 
     float sprite_position_x = _sprite->GetXPosition();
     float sprite_position_y = _sprite->GetYPosition();
@@ -769,7 +769,7 @@ void PathMoveSpriteEvent::_SetSpriteDirection()
 // -----------------------------------------------------------------------------
 
 RandomMoveSpriteEvent::RandomMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
-        uint32 move_time, uint32 direction_time) :
+        uint32_t move_time, uint32_t direction_time) :
     SpriteEvent(event_id, RANDOM_MOVE_SPRITE_EVENT, sprite),
     _total_movement_time(move_time),
     _total_direction_time(direction_time),
@@ -782,7 +782,7 @@ RandomMoveSpriteEvent::~RandomMoveSpriteEvent()
 
 RandomMoveSpriteEvent* RandomMoveSpriteEvent::Create(const std::string& event_id,
                                                      VirtualSprite* sprite,
-                                                     uint32 move_time, uint32 direction_time)
+                                                     uint32_t move_time, uint32_t direction_time)
 {
     return new RandomMoveSpriteEvent(event_id, sprite, move_time, direction_time);
 }
@@ -825,7 +825,7 @@ void RandomMoveSpriteEvent::Terminate()
 // -----------------------------------------------------------------------------
 
 AnimateSpriteEvent::AnimateSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
-                                       const std::string& animation_name, int32 animation_time) :
+                                       const std::string& animation_name, int32_t animation_time) :
     SpriteEvent(event_id, ANIMATE_SPRITE_EVENT, sprite),
     _animation_name(animation_name),
     _animation_time(animation_time)
@@ -836,7 +836,7 @@ AnimateSpriteEvent::AnimateSpriteEvent(const std::string& event_id, VirtualSprit
 AnimateSpriteEvent* AnimateSpriteEvent::Create(const std::string& event_id,
                                                VirtualSprite* sprite,
                                                const std::string& animation_name,
-                                               int32 animation_time)
+                                               int32_t animation_time)
 {
     return new AnimateSpriteEvent(event_id, sprite, animation_name, animation_time);
 }
@@ -888,7 +888,7 @@ TreasureEvent* TreasureEvent::Create(const std::string& event_id)
 void TreasureEvent::_Start()
 {
     if (_events.size() > 0) {
-        for (uint32 i = 0; i < _events.size(); ++i) {
+        for (uint32_t i = 0; i < _events.size(); ++i) {
             MapMode::CurrentInstance()->GetEventSupervisor()->StartEvent(_events[i]);
         }
     }
@@ -904,7 +904,7 @@ bool TreasureEvent::_Update()
     return false;
 }
 
-bool TreasureEvent::AddItem(uint32 id, uint32 quantity)
+bool TreasureEvent::AddItem(uint32_t id, uint32_t quantity)
 {
     return _treasure->AddItem(id, quantity);
 }
@@ -945,7 +945,7 @@ void EventSupervisor::StartEvent(const std::string &event_id)
     StartEvent(event);
 }
 
-void EventSupervisor::StartEvent(const std::string &event_id, uint32 launch_time)
+void EventSupervisor::StartEvent(const std::string &event_id, uint32_t launch_time)
 {
     MapEvent *event = GetEvent(event_id);
     if(event == nullptr) {
@@ -958,10 +958,10 @@ void EventSupervisor::StartEvent(const std::string &event_id, uint32 launch_time
     if(launch_time == 0)
         StartEvent(event);
     else
-        _active_delayed_events.push_back(std::make_pair(static_cast<int32>(launch_time), event));
+        _active_delayed_events.push_back(std::make_pair(static_cast<int32_t>(launch_time), event));
 }
 
-void EventSupervisor::StartEvent(MapEvent *event, uint32 launch_time)
+void EventSupervisor::StartEvent(MapEvent *event, uint32_t launch_time)
 {
     if(event == nullptr) {
         IF_PRINT_WARNING(MAP_DEBUG) << "nullptr argument passed to function"
@@ -972,7 +972,7 @@ void EventSupervisor::StartEvent(MapEvent *event, uint32 launch_time)
     if(launch_time == 0)
         StartEvent(event);
     else
-        _active_delayed_events.push_back(std::make_pair(static_cast<int32>(launch_time), event));
+        _active_delayed_events.push_back(std::make_pair(static_cast<int32_t>(launch_time), event));
 }
 
 void EventSupervisor::StartEvent(MapEvent *event)
@@ -1029,7 +1029,7 @@ void EventSupervisor::PauseEvent(const std::string &event_id)
     }
 
     // and for the delayed ones
-    for(std::vector<std::pair<int32, MapEvent *> >::iterator it = _active_delayed_events.begin();
+    for(std::vector<std::pair<int32_t, MapEvent *> >::iterator it = _active_delayed_events.begin();
             it != _active_delayed_events.end();) {
         if((*it).second->_event_id == event_id) {
             _paused_delayed_events.push_back(*it);
@@ -1067,7 +1067,7 @@ void EventSupervisor::PauseAllEvents(VirtualSprite *sprite)
     }
 
     // Looking at incoming ones.
-    for(std::vector<std::pair<int32, MapEvent *> >::iterator it = _active_delayed_events.begin();
+    for(std::vector<std::pair<int32_t, MapEvent *> >::iterator it = _active_delayed_events.begin();
             it != _active_delayed_events.end();) {
         SpriteEvent *event = dynamic_cast<SpriteEvent *>((*it).second);
         if(event && event->GetSprite() == sprite) {
@@ -1101,7 +1101,7 @@ void EventSupervisor::ResumeEvent(const std::string &event_id)
     }
 
     // and the delayed ones
-    for(std::vector<std::pair<int32, MapEvent *> >::iterator it = _paused_delayed_events.begin();
+    for(std::vector<std::pair<int32_t, MapEvent *> >::iterator it = _paused_delayed_events.begin();
             it != _paused_delayed_events.end();) {
         if((*it).second->_event_id == event_id) {
             _active_delayed_events.push_back(*it);
@@ -1139,7 +1139,7 @@ void EventSupervisor::ResumeAllEvents(VirtualSprite *sprite)
     }
 
     // Looking at incoming ones.
-    for(std::vector<std::pair<int32, MapEvent *> >::iterator it = _paused_delayed_events.begin();
+    for(std::vector<std::pair<int32_t, MapEvent *> >::iterator it = _paused_delayed_events.begin();
             it != _paused_delayed_events.end();) {
         SpriteEvent *event = dynamic_cast<SpriteEvent *>((*it).second);
         if(event && event->GetSprite() == sprite) {
@@ -1183,7 +1183,7 @@ void EventSupervisor::EndEvent(const std::string &event_id, bool trigger_event_l
     }
 
     // Looking at incoming ones.
-    for(std::vector<std::pair<int32, MapEvent *> >::iterator it = _active_delayed_events.begin();
+    for(std::vector<std::pair<int32_t, MapEvent *> >::iterator it = _active_delayed_events.begin();
             it != _active_delayed_events.end();) {
         if((*it).second->_event_id == event_id) {
             MapEvent *terminated_event = (*it).second;
@@ -1215,7 +1215,7 @@ void EventSupervisor::EndEvent(const std::string &event_id, bool trigger_event_l
         }
     }
 
-    for(std::vector<std::pair<int32, MapEvent *> >::iterator it = _paused_delayed_events.begin();
+    for(std::vector<std::pair<int32_t, MapEvent *> >::iterator it = _paused_delayed_events.begin();
             it != _paused_delayed_events.end();) {
         if((*it).second->_event_id == event_id) {
             MapEvent *terminated_event = (*it).second;
@@ -1278,7 +1278,7 @@ void EventSupervisor::EndAllEvents(VirtualSprite *sprite)
     }
 
     // Looking at incoming ones.
-    for(std::vector<std::pair<int32, MapEvent *> >::iterator it = _active_delayed_events.begin();
+    for(std::vector<std::pair<int32_t, MapEvent *> >::iterator it = _active_delayed_events.begin();
             it != _active_delayed_events.end();) {
         SpriteEvent *event = dynamic_cast<SpriteEvent *>((*it).second);
         if(event && event->GetSprite() == sprite)
@@ -1301,7 +1301,7 @@ void EventSupervisor::EndAllEvents(VirtualSprite *sprite)
         }
     }
 
-    for(std::vector<std::pair<int32, MapEvent *> >::iterator it = _paused_delayed_events.begin();
+    for(std::vector<std::pair<int32_t, MapEvent *> >::iterator it = _paused_delayed_events.begin();
             it != _paused_delayed_events.end();) {
         SpriteEvent *event = dynamic_cast<SpriteEvent *>((*it).second);
         if(event && event->GetSprite() == sprite)
@@ -1317,7 +1317,7 @@ void EventSupervisor::Update()
     std::vector<MapEvent *> events_to_start;
 
     // Update all launch event timers and start all events whose timers have finished
-    for(std::vector<std::pair<int32, MapEvent *> >::iterator it = _active_delayed_events.begin();
+    for(std::vector<std::pair<int32_t, MapEvent *> >::iterator it = _active_delayed_events.begin();
             it != _active_delayed_events.end();) {
         it->first -= SystemManager->GetUpdateTime();
 
@@ -1406,7 +1406,7 @@ bool EventSupervisor::_RegisterEvent(MapEvent* new_event)
 
 void EventSupervisor::_ExamineEventLinks(MapEvent *parent_event, bool event_start)
 {
-    for(uint32 i = 0; i < parent_event->_event_links.size(); ++i) {
+    for(uint32_t i = 0; i < parent_event->_event_links.size(); ++i) {
         EventLink &link = parent_event->_event_links[i];
 
         // Case 1: Start/finish launch member is not equal to the start/finish status of the parent event, so ignore this link
@@ -1428,7 +1428,7 @@ void EventSupervisor::_ExamineEventLinks(MapEvent *parent_event, bool event_star
                               << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
                 continue;
             } else {
-                _active_delayed_events.push_back(std::make_pair(static_cast<int32>(link.launch_timer), child));
+                _active_delayed_events.push_back(std::make_pair(static_cast<int32_t>(link.launch_timer), child));
             }
         }
     }

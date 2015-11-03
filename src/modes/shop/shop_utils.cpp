@@ -151,23 +151,23 @@ void ShopObject::SetPricing(SHOP_PRICE_LEVEL buy_level, SHOP_PRICE_LEVEL sell_le
 
 
 
-void ShopObject::IncrementOwnCount(uint32 inc)
+void ShopObject::IncrementOwnCount(uint32_t inc)
 {
     _own_count += inc;
 }
 
 
 
-void ShopObject::IncrementStockCount(uint32 inc)
+void ShopObject::IncrementStockCount(uint32_t inc)
 {
     _stock_count += inc;
 }
 
 
 
-void ShopObject::IncrementBuyCount(uint32 inc)
+void ShopObject::IncrementBuyCount(uint32_t inc)
 {
-    uint32 old_count = _buy_count;
+    uint32_t old_count = _buy_count;
     if(inc == 0) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "function received an argument with a value of zero" << std::endl;
         return;
@@ -186,9 +186,9 @@ void ShopObject::IncrementBuyCount(uint32 inc)
 
 
 
-void ShopObject::IncrementSellCount(uint32 inc)
+void ShopObject::IncrementSellCount(uint32_t inc)
 {
-    uint32 old_count = _sell_count;
+    uint32_t old_count = _sell_count;
     if(inc == 0) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "function received an argument with a value of zero" << std::endl;
         return;
@@ -207,9 +207,9 @@ void ShopObject::IncrementSellCount(uint32 inc)
 
 
 
-void ShopObject::IncrementTradeCount(uint32 inc)
+void ShopObject::IncrementTradeCount(uint32_t inc)
 {
-    uint32 old_count = _trade_count;
+    uint32_t old_count = _trade_count;
     if(inc == 0) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "function received an argument with a value of zero" << std::endl;
         return;
@@ -228,7 +228,7 @@ void ShopObject::IncrementTradeCount(uint32 inc)
 
 
 
-void ShopObject::DecrementOwnCount(uint32 dec)
+void ShopObject::DecrementOwnCount(uint32_t dec)
 {
     if(dec > _own_count) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to decrement own count below zero" << std::endl;
@@ -245,7 +245,7 @@ void ShopObject::DecrementOwnCount(uint32 dec)
 
 
 
-void ShopObject::DecrementStockCount(uint32 dec)
+void ShopObject::DecrementStockCount(uint32_t dec)
 {
     // Doesn't apply when there is an infinity of such items.
     if (IsInfiniteAmount())
@@ -266,7 +266,7 @@ void ShopObject::DecrementStockCount(uint32 dec)
 
 
 
-void ShopObject::DecrementBuyCount(uint32 dec)
+void ShopObject::DecrementBuyCount(uint32_t dec)
 {
     if(dec == 0) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "function received an argument with a value of zero" << std::endl;
@@ -286,7 +286,7 @@ void ShopObject::DecrementBuyCount(uint32 dec)
 
 
 
-void ShopObject::DecrementSellCount(uint32 dec)
+void ShopObject::DecrementSellCount(uint32_t dec)
 {
     if(dec == 0) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "function received an argument with a value of zero" << std::endl;
@@ -305,7 +305,7 @@ void ShopObject::DecrementSellCount(uint32 dec)
 }
 
 
-void ShopObject::DecrementTradeCount(uint32 dec)
+void ShopObject::DecrementTradeCount(uint32_t dec)
 {
     if(dec == 0) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "function received an argument with a value of zero" << std::endl;
@@ -328,7 +328,7 @@ void ShopObject::DecrementTradeCount(uint32 dec)
 // *****************************************************************************
 
 // The time it takes to transition graphics to a new category (in milliseconds)
-const uint32 TRANSITION_TIME_ICON = 500;
+const uint32_t TRANSITION_TIME_ICON = 500;
 // Represents the display speed when transitioning to new category text
 const float TRANSITION_TIME_TEXT = 25.0f;
 
@@ -515,7 +515,7 @@ ShopObject *ObjectListDisplay::GetSelectedObject()
     if(IsListEmpty() == true)
         return nullptr;
 
-    if(static_cast<uint32>(_identify_list.GetSelection()) >= _objects.size()) {
+    if(static_cast<uint32_t>(_identify_list.GetSelection()) >= _objects.size()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "current selection index exceeds available objects: " << _identify_list.GetSelection() << std::endl;
         return nullptr;
     }
@@ -535,12 +535,12 @@ void ObjectListDisplay::ResetSelection()
 
 
 
-uint32 ObjectListDisplay::GetCurrentSelection()
+uint32_t ObjectListDisplay::GetCurrentSelection()
 {
     if(IsListEmpty() == true)
         return 0;
     else
-        return static_cast<uint32>(_identify_list.GetSelection());
+        return static_cast<uint32_t>(_identify_list.GetSelection());
 }
 
 

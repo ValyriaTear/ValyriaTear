@@ -45,10 +45,10 @@ bool PAUSE_DEBUG = false;
 *** presented to the player while the _quit_state member is active.
 **/
 //@{
-const uint8 QUIT_CANCEL    = 0;
-const uint8 QUIT_OPTIONS   = 1;
-const uint8 QUIT_TO_BOOT   = 2;
-const uint8 QUIT_GAME      = 3;
+const uint8_t QUIT_CANCEL    = 0;
+const uint8_t QUIT_OPTIONS   = 1;
+const uint8_t QUIT_TO_BOOT   = 2;
+const uint8_t QUIT_GAME      = 3;
 //@}
 
 PauseMode::PauseMode(bool quit_state, bool pause_audio) :

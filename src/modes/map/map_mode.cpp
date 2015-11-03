@@ -59,7 +59,7 @@ MapMode *MapMode::_current_instance = nullptr;
 // ********** MapMode Public Class Methods
 // ****************************************************************************
 
-MapMode::MapMode(const std::string& data_filename, const std::string& script_filename, uint32 stamina) :
+MapMode::MapMode(const std::string& data_filename, const std::string& script_filename, uint32_t stamina) :
     GameMode(MODE_MANAGER_MAP_MODE),
     _activated(false),
     _map_data_filename(data_filename),
@@ -117,10 +117,10 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     inactive_save_point_animations.push_back(anim);
 
     // Transform the animation size to correspond to the map zoom ratio.
-    for(uint32 i = 0; i < active_save_point_animations.size(); ++i)
+    for(uint32_t i = 0; i < active_save_point_animations.size(); ++i)
         ScaleToMapZoomRatio(active_save_point_animations[i]);
 
-    for(uint32 i = 0; i < inactive_save_point_animations.size(); ++i)
+    for(uint32_t i = 0; i < inactive_save_point_animations.size(); ++i)
         ScaleToMapZoomRatio(inactive_save_point_animations[i]);
 
     _tile_supervisor = new TileSupervisor();
@@ -453,7 +453,7 @@ void MapMode::DeleteMapObject(private_map::MapObject* object)
     _object_supervisor->DeleteObject(object);
 }
 
-void MapMode::SetCamera(private_map::VirtualSprite *sprite, uint32 duration)
+void MapMode::SetCamera(private_map::VirtualSprite *sprite, uint32_t duration)
 {
     if(_camera == sprite) {
         IF_PRINT_WARNING(MAP_DEBUG) << "Camera was moved to the same sprite"
@@ -475,7 +475,7 @@ void MapMode::MoveVirtualFocus(float loc_x, float loc_y)
     _virtual_focus->SetPosition(loc_x, loc_y);
 }
 
-void MapMode::MoveVirtualFocus(float loc_x, float loc_y, uint32 duration)
+void MapMode::MoveVirtualFocus(float loc_x, float loc_y, uint32_t duration)
 {
     if(_camera != _virtual_focus) {
         IF_PRINT_WARNING(MAP_DEBUG)
@@ -527,7 +527,7 @@ void MapMode::ApplyPotentialStaminaMalus()
 
     std::vector<GlobalCharacter*>* characters = GlobalManager->GetOrderedCharacters();
     // We only apply the effect on characters that will be present in battle
-    for (uint32 i = 0; i < characters->size() && i < GLOBAL_MAX_PARTY_SIZE; ++i) {
+    for (uint32_t i = 0; i < characters->size() && i < GLOBAL_MAX_PARTY_SIZE; ++i) {
         // Apply the effect only on living characters.
         if (characters->at(i)->IsAlive()) {
             _status_effect_supervisor.ChangeActiveStatusEffect(characters->at(i), GLOBAL_STATUS_AGILITY,
@@ -553,12 +553,12 @@ float MapMode::GetScreenYCoordinate(float tile_position_y) const
     return tile_position_y;
 }
 
-uint16 MapMode::GetMapWidth() const
+uint16_t MapMode::GetMapWidth() const
 {
     return _tile_supervisor->_num_tile_on_x_axis;
 }
 
-uint16 MapMode::GetMapHeight() const
+uint16_t MapMode::GetMapHeight() const
 {
     return _tile_supervisor->_num_tile_on_y_axis;
 }
@@ -865,7 +865,7 @@ void MapMode::StartEnemyEncounter(EnemySprite* enemy, bool hero_init_boost, bool
         BM->GetMedia().SetBattleMusic(enemy_battle_music);
 
     const std::vector<BattleEnemyInfo>& enemy_party = enemy->RetrieveRandomParty();
-    for(uint32 i = 0; i < enemy_party.size(); ++i) {
+    for(uint32_t i = 0; i < enemy_party.size(); ++i) {
         BM->AddEnemy(enemy_party[i].enemy_id,
                      enemy_party[i].position_x,
                      enemy_party[i].position_y);
@@ -909,8 +909,8 @@ void MapMode::_UpdateMapFrame()
     }
 
     // Actual position of the view, either the camera sprite or a point on the camera movement path
-    uint16 current_x = GetFloatInteger(camera_x);
-    uint16 current_y = GetFloatInteger(camera_y);
+    uint16_t current_x = GetFloatInteger(camera_x);
+    uint16_t current_y = GetFloatInteger(camera_y);
 
     // Update the pixel length.
     VideoManager->GetPixelSize(_pixel_length_x, _pixel_length_y);
@@ -968,7 +968,7 @@ void MapMode::_UpdateMapFrame()
     }
     // Camera exceeds the right boundary of the map
     else if(_map_frame.tile_x_start + TILES_ON_X_AXIS >= _tile_supervisor->_num_tile_on_x_axis) {
-        _map_frame.tile_x_start = static_cast<int16>(_tile_supervisor->_num_tile_on_x_axis - TILES_ON_X_AXIS);
+        _map_frame.tile_x_start = static_cast<int16_t>(_tile_supervisor->_num_tile_on_x_axis - TILES_ON_X_AXIS);
         _map_frame.tile_x_offset = vt_utils::FloorToFloatMultiple(1.0f, _pixel_length_x);
         _map_frame.screen_edges.right = static_cast<float>(_object_supervisor->_num_grid_x_axis);
         _map_frame.screen_edges.left = _map_frame.screen_edges.right - SCREEN_GRID_X_LENGTH;
@@ -987,7 +987,7 @@ void MapMode::_UpdateMapFrame()
     }
     // Camera exceeds the bottom boundary of the map
     else if(_map_frame.tile_y_start + TILES_ON_Y_AXIS >= _tile_supervisor->_num_tile_on_y_axis) {
-        _map_frame.tile_y_start = static_cast<int16>(_tile_supervisor->_num_tile_on_y_axis - TILES_ON_Y_AXIS);
+        _map_frame.tile_y_start = static_cast<int16_t>(_tile_supervisor->_num_tile_on_y_axis - TILES_ON_Y_AXIS);
         _map_frame.tile_y_offset = vt_utils::FloorToFloatMultiple(2.0f, _pixel_length_y);
         _map_frame.screen_edges.bottom = static_cast<float>(_object_supervisor->_num_grid_y_axis);
         _map_frame.screen_edges.top = _map_frame.screen_edges.bottom - SCREEN_GRID_Y_LENGTH;
@@ -1132,7 +1132,7 @@ void MapMode::_DrawGUI()
 {
     // Draw the introductory location name and graphic if necessary
     if(!_intro_timer.IsFinished()) {
-        uint32 time = _intro_timer.GetTimeExpired();
+        uint32_t time = _intro_timer.GetTimeExpired();
 
         Color blend(1.0f, 1.0f, 1.0f, 1.0f);
         if(time < 1000) {  // Fade in

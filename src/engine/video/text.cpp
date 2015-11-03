@@ -40,8 +40,8 @@ namespace vt_video
 TextSupervisor *TextManager = nullptr;
 
 // Useful character types for text formatting
-const uint16 NEW_LINE = '\n';
-const uint16 SPACE_CHAR = 0x20;
+const uint16_t NEW_LINE = '\n';
+const uint16_t SPACE_CHAR = 0x20;
 
 // -----------------------------------------------------------------------------
 // FontProperties class
@@ -170,7 +170,7 @@ TextStyle::TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_ST
     _UpdateTextShadowColor();
 }
 
-TextStyle::TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style, int32 shadow_x, int32 shadow_y)
+TextStyle::TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style, int32_t shadow_x, int32_t shadow_y)
 {
     _font = font;
     _color = color;
@@ -221,15 +221,15 @@ namespace private_video
 
 // Endian-dependent bit masks for the different color channels
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-static const uint32 RMASK = 0xFF000000;
-static const uint32 GMASK = 0x00FF0000;
-static const uint32 BMASK = 0x0000FF00;
-static const uint32 AMASK = 0x000000FF;
+static const uint32_t RMASK = 0xFF000000;
+static const uint32_t GMASK = 0x00FF0000;
+static const uint32_t BMASK = 0x0000FF00;
+static const uint32_t AMASK = 0x000000FF;
 #else
-static const uint32 RMASK = 0x000000FF;
-static const uint32 GMASK = 0x0000FF00;
-static const uint32 BMASK = 0x00FF0000;
-static const uint32 AMASK = 0xFF000000;
+static const uint32_t RMASK = 0x000000FF;
+static const uint32_t GMASK = 0x0000FF00;
+static const uint32_t BMASK = 0x00FF0000;
+static const uint32_t AMASK = 0xFF000000;
 #endif
 
 // -----------------------------------------------------------------------------
@@ -446,7 +446,7 @@ TextImage::TextImage(const TextImage &copy) :
     _style(copy._style),
     _max_width(copy._max_width)
 {
-    for(uint32 i = 0; i < copy._text_sections.size(); i++) {
+    for(uint32_t i = 0; i < copy._text_sections.size(); i++) {
         _text_sections.push_back(new TextElement(*(copy._text_sections[i])));
     }
 }
@@ -460,7 +460,7 @@ TextImage &TextImage::operator=(const TextImage &copy)
         return *this;
 
     // Remove references to any existing text sections
-    for(uint32 i = 0; i < _text_sections.size(); ++i)
+    for(uint32_t i = 0; i < _text_sections.size(); ++i)
         delete _text_sections[i];
 
     _text_sections.clear();
@@ -468,7 +468,7 @@ TextImage &TextImage::operator=(const TextImage &copy)
     _text = copy._text;
     _style = copy._style;
     _max_width = copy._max_width;
-    for(uint32 i = 0; i < copy._text_sections.size(); ++i)
+    for(uint32_t i = 0; i < copy._text_sections.size(); ++i)
         _text_sections.push_back(new TextElement(*(copy._text_sections[i])));
 
     return *this;
@@ -478,7 +478,7 @@ void TextImage::Clear()
 {
     ImageDescriptor::Clear();
     _text.clear();
-    for(uint32 i = 0; i < _text_sections.size(); ++i)
+    for(uint32_t i = 0; i < _text_sections.size(); ++i)
         delete _text_sections[i];
 
     _text_sections.clear();
@@ -497,7 +497,7 @@ void TextImage::Draw(const Color& draw_color) const
     // Save the draw cursor position before drawing this text.
     VideoManager->PushMatrix();
 
-    for (uint32 i = 0; i < _text_sections.size(); ++i) {
+    for (uint32_t i = 0; i < _text_sections.size(); ++i) {
         if (_style.GetShadowStyle() != VIDEO_TEXT_SHADOW_NONE) {
             // Draw the text's shadow.
             const float dx = VideoManager->_current_context.coordinate_system.GetHorizontalDirection() * _style.GetShadowOffsetX();
@@ -523,7 +523,7 @@ void TextImage::_Regenerate()
     _width = 0.0f;
     _height = 0.0f;
 
-    for (uint32 i = 0; i < _text_sections.size(); ++i)
+    for (uint32_t i = 0; i < _text_sections.size(); ++i)
         delete _text_sections[i];
 
     _text_sections.clear();
@@ -653,7 +653,7 @@ bool TextSupervisor::LoadFonts(const std::string& locale_name)
     bool specific_locale_array_found = false;
 
     // We only keep the array we need: the default one and the locale specific one.
-    for(uint32 j = 0; j < locale_names.size(); ++j) {
+    for(uint32_t j = 0; j < locale_names.size(); ++j) {
         std::string locale = locale_names[j];
         // Keep the default array
         if (!strcasecmp(locale.c_str(), "default")) {
@@ -683,7 +683,7 @@ bool TextSupervisor::LoadFonts(const std::string& locale_name)
         locale_names.push_back(locale_name);
 
     // We now parse the wanted tables only, and the (re)load the fonts accordingly.
-    for(uint32 j = 0; j < locale_names.size(); ++j) {
+    for(uint32_t j = 0; j < locale_names.size(); ++j) {
         std::string locale = locale_names[j];
 
         std::vector<std::string> style_names;
@@ -702,7 +702,7 @@ bool TextSupervisor::LoadFonts(const std::string& locale_name)
             return false;
         }
 
-        for(uint32 i = 0; i < style_names.size(); ++i) {
+        for(uint32_t i = 0; i < style_names.size(); ++i) {
 
             if (!font_script.OpenTable(style_names[i])) { // Text style
                 PRINT_ERROR << "Can't open text style table '" << style_names[i] << "' of locale: '" << locale << "' in file: "
@@ -712,7 +712,7 @@ bool TextSupervisor::LoadFonts(const std::string& locale_name)
             }
 
             std::string font_file = font_script.ReadString("font");
-            uint32 font_size = font_script.ReadInt("size");
+            uint32_t font_size = font_script.ReadInt("size");
 
             if(!_LoadFont(style_names[i], font_file, font_size)) {
                 // Check whether the default font is invalid
@@ -745,7 +745,7 @@ bool TextSupervisor::LoadFonts(const std::string& locale_name)
     return true;
 }
 
-bool TextSupervisor::_LoadFont(const std::string& textstyle_name, const std::string& font_filename, uint32 font_size)
+bool TextSupervisor::_LoadFont(const std::string& textstyle_name, const std::string& font_filename, uint32_t font_size)
 {
     if(font_size == 0) {
         PRINT_ERROR << "Attempted to load a text style of size zero: " << textstyle_name << std::endl;
@@ -841,7 +841,7 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
     VideoManager->PushState();
 
     // Break the string into lines and render the shadow and text for each line
-    uint16 buffer[2048];
+    uint16_t buffer[2048];
     size_t last_line = 0;
     do {
         // Find the next new line character in the string and save the line
@@ -884,14 +884,14 @@ void TextSupervisor::Draw(const ustring &text, const TextStyle &style)
     VideoManager->PopState();
 }
 
-int32 TextSupervisor::CalculateTextWidth(TTF_Font* ttf_font, const vt_utils::ustring &text)
+int32_t TextSupervisor::CalculateTextWidth(TTF_Font* ttf_font, const vt_utils::ustring &text)
 {
     if(ttf_font == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "Invalid font" << std::endl;
         return -1;
     }
 
-    int32 width;
+    int32_t width;
     if(TTF_SizeUNICODE(ttf_font, text.c_str(), &width, nullptr) == -1) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "Call to TTF_SizeUNICODE failed with TTF error: " << TTF_GetError() << std::endl;
         return -1;
@@ -902,14 +902,14 @@ int32 TextSupervisor::CalculateTextWidth(TTF_Font* ttf_font, const vt_utils::ust
 
 
 
-int32 TextSupervisor::CalculateTextWidth(TTF_Font* ttf_font, const std::string &text)
+int32_t TextSupervisor::CalculateTextWidth(TTF_Font* ttf_font, const std::string &text)
 {
     if(ttf_font == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "Invalid font" << std::endl;
         return -1;
     }
 
-    int32 width;
+    int32_t width;
     if(TTF_SizeText(ttf_font, text.c_str(), &width, nullptr) == -1) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "Call to TTF_SizeText failed with TTF error: " << TTF_GetError() << std::endl;
         return -1;
@@ -920,7 +920,7 @@ int32 TextSupervisor::CalculateTextWidth(TTF_Font* ttf_font, const std::string &
 
 std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring& text,
                                                         TTF_Font* ttf_font,
-                                                        uint32 max_width)
+                                                        uint32_t max_width)
 {
     std::vector<vt_utils::ustring> lines_array;
     if (text.empty() || max_width == 0) {
@@ -930,9 +930,9 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
 
     // We split the text using new lines in a first row
     ustring temp_text = text;
-    uint32 text_length = temp_text.length();
+    uint32_t text_length = temp_text.length();
 
-    for (uint32 i = 0; i < text_length; ++i) {
+    for (uint32_t i = 0; i < text_length; ++i) {
         if(!(temp_text[i] == NEW_LINE))
             continue;
 
@@ -961,8 +961,8 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
     // We then perform word wrapping in a loop until all the text is added
     // And copy it into the new vector
     std::vector<vt_utils::ustring> wrapped_lines_array;
-    uint32 num_lines = lines_array.size();
-    for (uint32 line_index = 0; line_index < num_lines; ++line_index) {
+    uint32_t num_lines = lines_array.size();
+    for (uint32_t line_index = 0; line_index < num_lines; ++line_index) {
         ustring temp_line = lines_array[line_index];
 
         // If it's an empty string, we add a blank line.
@@ -972,10 +972,10 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
         }
 
         while(!temp_line.empty()) {
-            int32 text_width = TextManager->CalculateTextWidth(ttf_font, temp_line);
+            int32_t text_width = TextManager->CalculateTextWidth(ttf_font, temp_line);
 
             // If the text can fit in the text box, add the whole line and return
-            if(text_width < (int32)max_width) {
+            if(text_width < (int32_t)max_width) {
                 wrapped_lines_array.push_back(temp_line);
                 break;
             }
@@ -983,16 +983,16 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
             // Otherwise, find the maximum number of words which can fit and make that substring a line
             // Word boundaries are found by calling the == 0x20 test
             ustring wrapped_line;
-            int32 num_wrapped_chars = 0;
-            int32 last_breakable_index = -1;
-            int32 line_length = static_cast<int32>(temp_line.length());
+            int32_t num_wrapped_chars = 0;
+            int32_t last_breakable_index = -1;
+            int32_t line_length = static_cast<int32_t>(temp_line.length());
             while (num_wrapped_chars < line_length) {
                 wrapped_line += temp_line[num_wrapped_chars];
                 // If we meet a space character (0x20), we can wrap the text
                 if(temp_line[num_wrapped_chars] == SPACE_CHAR) {
-                    int32 text_width = TextManager->CalculateTextWidth(ttf_font, wrapped_line);
+                    int32_t text_width = TextManager->CalculateTextWidth(ttf_font, wrapped_line);
 
-                    if(text_width < (int32)max_width) {
+                    if(text_width < (int32_t)max_width) {
                         // We haven't gone past the breaking point: mark this as a possible breaking point
                         last_breakable_index = num_wrapped_chars;
                     } else {
@@ -1009,7 +1009,7 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
 
             // Figure out the number of characters in the wrapped line and construct the wrapped line
             text_width = TextManager->CalculateTextWidth(ttf_font, wrapped_line);
-            if(text_width >= (int32)max_width && last_breakable_index != -1) {
+            if(text_width >= (int32_t)max_width && last_breakable_index != -1) {
                 num_wrapped_chars = last_breakable_index;
             }
             wrapped_line = temp_line.substr(0, num_wrapped_chars);
@@ -1030,7 +1030,7 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
     return wrapped_lines_array;
 }
 
-void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_properties, const Color& color)
+void TextSupervisor::_RenderText(const uint16_t* text, FontProperties* font_properties, const Color& color)
 {
     if (text == nullptr || *text == 0) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid argument, empty or null string" << std::endl;
@@ -1157,7 +1157,7 @@ void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_proper
     }
 }
 
-void TextSupervisor::_RenderText(const uint16* text, FontProperties* font_properties,
+void TextSupervisor::_RenderText(const uint16_t* text, FontProperties* font_properties,
                                  const Color& color,
                                  float shadow_offset_x, float shadow_offset_y,
                                  const Color& color_shadow)
@@ -1331,13 +1331,13 @@ bool TextSupervisor::_RenderText(const vt_utils::ustring& text, TextStyle& style
     }
 
     // Copy the text to the buffer.
-    buffer.pixels = static_cast<uint8*>(calloc(surface->w * surface->h, 4));
-    uint32 num_bytes = surface->w * surface->h * 4;
-    for (uint32 j = 0; j < num_bytes; j += 4) {
-        ((uint8*)buffer.pixels)[j + 0] = ((uint8*)surface->pixels)[j + 0]; // r
-        ((uint8*)buffer.pixels)[j + 1] = ((uint8*)surface->pixels)[j + 1]; // g
-        ((uint8*)buffer.pixels)[j + 2] = ((uint8*)surface->pixels)[j + 2]; // b
-        ((uint8*)buffer.pixels)[j + 3] = ((uint8*)surface->pixels)[j + 3]; // alpha
+    buffer.pixels = static_cast<uint8_t*>(calloc(surface->w * surface->h, 4));
+    uint32_t num_bytes = surface->w * surface->h * 4;
+    for (uint32_t j = 0; j < num_bytes; j += 4) {
+        ((uint8_t*)buffer.pixels)[j + 0] = ((uint8_t*)surface->pixels)[j + 0]; // r
+        ((uint8_t*)buffer.pixels)[j + 1] = ((uint8_t*)surface->pixels)[j + 1]; // g
+        ((uint8_t*)buffer.pixels)[j + 2] = ((uint8_t*)surface->pixels)[j + 2]; // b
+        ((uint8_t*)buffer.pixels)[j + 3] = ((uint8_t*)surface->pixels)[j + 3]; // alpha
     }
 
     buffer.width = surface->w;

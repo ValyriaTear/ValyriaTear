@@ -163,11 +163,11 @@ public:
         return _actor_owner;
     }
 
-    int16 GetXPosition() const {
+    int16_t GetXPosition() const {
         return _x_position;
     }
 
-    int16 GetYPosition() const {
+    int16_t GetYPosition() const {
         return _y_position;
     }
 
@@ -183,11 +183,11 @@ public:
         return _evade_modifier;
     }
 
-    uint16 GetTotalPhysicalDefense() const {
+    uint16_t GetTotalPhysicalDefense() const {
         return _total_physical_defense;
     }
 
-    uint16 GetTotalMagicalDefense(GLOBAL_ELEMENTAL element) const {
+    uint16_t GetTotalMagicalDefense(GLOBAL_ELEMENTAL element) const {
         if (element <= GLOBAL_ELEMENTAL_INVALID || element >= GLOBAL_ELEMENTAL_TOTAL)
             element = GLOBAL_ELEMENTAL_NEUTRAL;
 
@@ -224,7 +224,7 @@ private:
     *** location of the attack point. The units of these two members are in number of pixels. The _y_position
     *** member should always be positive, by _x_position may be either positive or negative.
     **/
-    int16 _x_position, _y_position;
+    int16_t _x_position, _y_position;
 
     /** \brief The defense and evasion percentage modifiers for this attack point
     ***
@@ -248,9 +248,9 @@ private:
     *** armor that is equipped on the attack point.
     **/
     //@{
-    uint32 _total_physical_defense;
+    uint32_t _total_physical_defense;
     //! \brief The magical defense is computed against each elements.
-    uint32 _total_magical_defense[GLOBAL_ELEMENTAL_TOTAL];
+    uint32_t _total_magical_defense[GLOBAL_ELEMENTAL_TOTAL];
     float _total_evade_rating;
     //@}
 
@@ -289,11 +289,11 @@ public:
     *** No skill may be added more than once. If this case is detected or an error occurs when trying
     *** to load the skill data, it will not be added.
     **/
-    virtual bool AddSkill(uint32 /*skill_id*/)
+    virtual bool AddSkill(uint32_t /*skill_id*/)
     { return false; }
 
     //! \brief Tells whether the actor has already learned the given skill.
-    bool HasSkill(uint32 skill_id);
+    bool HasSkill(uint32_t skill_id);
 
     /** \brief Determines if the actor is "alive" and able to perform actions
     *** \return True if the character has a non-zero amount of hit points
@@ -308,7 +308,7 @@ public:
     *** or nullptr value will be returned.
     **/
     //@{
-    uint32 GetID() const {
+    uint32_t GetID() const {
         return _id;
     }
 
@@ -332,60 +332,60 @@ public:
         return _stamina_icon;
     }
 
-    uint32 GetHitPoints() const {
+    uint32_t GetHitPoints() const {
         return _hit_points;
     }
 
-    uint32 GetMaxHitPoints() const {
+    uint32_t GetMaxHitPoints() const {
         return _max_hit_points;
     }
 
-    uint32 GetSkillPoints() const {
+    uint32_t GetSkillPoints() const {
         return _skill_points;
     }
 
-    uint32 GetMaxSkillPoints() const {
+    uint32_t GetMaxSkillPoints() const {
         return _max_skill_points;
     }
 
-    uint32 GetExperiencePoints() const {
+    uint32_t GetExperiencePoints() const {
         return _experience_points;
     }
 
-    uint32 GetStrength() const {
-        return (uint32)_strength.GetValue();
+    uint32_t GetStrength() const {
+        return (uint32_t)_strength.GetValue();
     }
 
     float GetStrengthModifier() const {
         return _strength.GetModifier();
     }
 
-    uint32 GetVigor() const {
-        return (uint32)_vigor.GetValue();
+    uint32_t GetVigor() const {
+        return (uint32_t)_vigor.GetValue();
     }
 
     float GetVigorModifier() const {
         return _vigor.GetModifier();
     }
 
-    uint32 GetFortitude() const {
-        return (uint32)_fortitude.GetValue();
+    uint32_t GetFortitude() const {
+        return (uint32_t)_fortitude.GetValue();
     }
 
     float GetFortitudeModifier() const {
         return _fortitude.GetModifier();
     }
 
-    uint32 GetProtection() const {
-        return (uint32)_protection.GetValue();
+    uint32_t GetProtection() const {
+        return (uint32_t)_protection.GetValue();
     }
 
     float GetProtectionModifier() const {
         return _protection.GetModifier();
     }
 
-    uint32 GetAgility() const {
-        return (uint32)_agility.GetValue();
+    uint32_t GetAgility() const {
+        return (uint32_t)_agility.GetValue();
     }
 
     float GetAgilityModifier() const {
@@ -400,35 +400,35 @@ public:
         return _evade.GetModifier();
     }
 
-    uint32 GetTotalPhysicalAttack() const {
+    uint32_t GetTotalPhysicalAttack() const {
         return _total_physical_attack;
     }
 
-    uint32 GetTotalMagicalAttack(GLOBAL_ELEMENTAL element) const {
+    uint32_t GetTotalMagicalAttack(GLOBAL_ELEMENTAL element) const {
         if (element <= GLOBAL_ELEMENTAL_INVALID || element >= GLOBAL_ELEMENTAL_TOTAL)
             element = GLOBAL_ELEMENTAL_NEUTRAL;
         return _total_magical_attack[element];
     }
 
-    uint32 GetTotalPhysicalDefense(uint32 index) const;
+    uint32_t GetTotalPhysicalDefense(uint32_t index) const;
 
     //! \brief Get the magical defense of a body point against the given element.
-    uint32 GetTotalMagicalDefense(uint32 index, GLOBAL_ELEMENTAL element) const;
+    uint32_t GetTotalMagicalDefense(uint32_t index, GLOBAL_ELEMENTAL element) const;
 
-    float GetTotalEvadeRating(uint32 index) const;
+    float GetTotalEvadeRating(uint32_t index) const;
 
     /** \brief Returns the average defense/evasion totals
     *** of all of the actor's attack points. It used against global attacks.
     **/
-    uint32 GetAverageDefense();
-    uint32 GetAverageMagicalDefense(GLOBAL_ELEMENTAL element);
+    uint32_t GetAverageDefense();
+    uint32_t GetAverageMagicalDefense(GLOBAL_ELEMENTAL element);
     float GetAverageEvadeRating();
 
     const std::vector<GlobalAttackPoint *>& GetAttackPoints() {
         return _attack_points;
     }
 
-    GlobalAttackPoint *GetAttackPoint(uint32 index) const;
+    GlobalAttackPoint *GetAttackPoint(uint32_t index) const;
 
     const std::vector<GlobalSkill *>& GetSkills() {
         return _skills;
@@ -449,31 +449,31 @@ public:
     *** re-calculated when an appropriately related stat is changed.
     **/
     //@{
-    void SetExperiencePoints(uint32 xp_points) {
+    void SetExperiencePoints(uint32_t xp_points) {
         _experience_points = xp_points;
     }
 
-    void SetHitPoints(uint32 hp) {
+    void SetHitPoints(uint32_t hp) {
         if(hp > _max_hit_points) _hit_points = _max_hit_points;
         else _hit_points = hp;
     }
 
-    void SetMaxHitPoints(uint32 hp) {
+    void SetMaxHitPoints(uint32_t hp) {
         _max_hit_points = hp;
         if(_hit_points > _max_hit_points) _hit_points = _max_hit_points;
     }
 
-    void SetSkillPoints(uint32 sp) {
+    void SetSkillPoints(uint32_t sp) {
         if(sp > _max_skill_points) _skill_points = _max_skill_points;
         else _skill_points = sp;
     }
 
-    void SetMaxSkillPoints(uint32 sp) {
+    void SetMaxSkillPoints(uint32_t sp) {
         _max_skill_points = sp;
         if(_skill_points > _max_skill_points) _skill_points = _max_skill_points;
     }
 
-    virtual void SetStrength(uint32 st) {
+    virtual void SetStrength(uint32_t st) {
         _strength.SetBase((float) st);
         _CalculateAttackRatings();
     }
@@ -483,7 +483,7 @@ public:
         _CalculateAttackRatings();
     }
 
-    virtual void SetVigor(uint32 vi) {
+    virtual void SetVigor(uint32_t vi) {
         _vigor.SetBase((float) vi);
         _CalculateAttackRatings();
     }
@@ -493,7 +493,7 @@ public:
         _CalculateAttackRatings();
     }
 
-    virtual void SetFortitude(uint32 fo) {
+    virtual void SetFortitude(uint32_t fo) {
         _fortitude.SetBase((float) fo);
         _CalculateDefenseRatings();
     }
@@ -503,7 +503,7 @@ public:
         _CalculateDefenseRatings();
     }
 
-    virtual void SetProtection(uint32 pr) {
+    virtual void SetProtection(uint32_t pr) {
         _protection.SetBase((float) pr);
         _CalculateDefenseRatings();
     }
@@ -514,7 +514,7 @@ public:
     }
 
     //! Made virtual to permit Battle Actors to recompute the idle state time.
-    virtual void SetAgility(uint32 ag) {
+    virtual void SetAgility(uint32_t ag) {
         _agility.SetBase((float) ag);
     }
 
@@ -560,43 +560,43 @@ public:
     *** exceed the current values.
     **/
     //@{
-    void AddHitPoints(uint32 amount);
+    void AddHitPoints(uint32_t amount);
 
-    void SubtractHitPoints(uint32 amount);
+    void SubtractHitPoints(uint32_t amount);
 
-    void AddMaxHitPoints(uint32 amount);
+    void AddMaxHitPoints(uint32_t amount);
 
     //! \note The number of hit points will be decreased if they are greater than the new maximum
-    void SubtractMaxHitPoints(uint32 amount);
+    void SubtractMaxHitPoints(uint32_t amount);
 
-    void AddSkillPoints(uint32 amount);
+    void AddSkillPoints(uint32_t amount);
 
-    void SubtractSkillPoints(uint32 amount);
+    void SubtractSkillPoints(uint32_t amount);
 
-    void AddMaxSkillPoints(uint32 amount);
+    void AddMaxSkillPoints(uint32_t amount);
 
     //! \note The number of skill points will be decreased if they are greater than the new maximum
-    void SubtractMaxSkillPoints(uint32 amount);
+    void SubtractMaxSkillPoints(uint32_t amount);
 
-    virtual void AddStrength(uint32 amount);
+    virtual void AddStrength(uint32_t amount);
 
-    virtual void SubtractStrength(uint32 amount);
+    virtual void SubtractStrength(uint32_t amount);
 
-    virtual void AddVigor(uint32 amount);
+    virtual void AddVigor(uint32_t amount);
 
-    virtual void SubtractVigor(uint32 amount);
+    virtual void SubtractVigor(uint32_t amount);
 
-    virtual void AddFortitude(uint32 amount);
+    virtual void AddFortitude(uint32_t amount);
 
-    virtual void SubtractFortitude(uint32 amount);
+    virtual void SubtractFortitude(uint32_t amount);
 
-    virtual void AddProtection(uint32 amount);
+    virtual void AddProtection(uint32_t amount);
 
-    virtual void SubtractProtection(uint32 amount);
+    virtual void SubtractProtection(uint32_t amount);
 
-    void AddAgility(uint32 amount);
+    void AddAgility(uint32_t amount);
 
-    void SubtractAgility(uint32 amount);
+    void SubtractAgility(uint32_t amount);
 
     void AddEvade(float amount);
 
@@ -605,7 +605,7 @@ public:
 
 protected:
     //! \brief An identification number to represent the actor
-    uint32 _id;
+    uint32_t _id;
 
     //! \brief The name of the actor as it will be displayed on the screen
     vt_utils::ustring _name;
@@ -625,19 +625,19 @@ protected:
     //! \name Base Actor Statistics
     //@{
     //! \brief The number of experience points the actor has earned
-    uint32 _experience_points;
+    uint32_t _experience_points;
 
     //! \brief The current number of hit points that the actor has
-    uint32 _hit_points;
+    uint32_t _hit_points;
 
     //! \brief The maximum number of hit points that the actor may have
-    uint32 _max_hit_points;
+    uint32_t _max_hit_points;
 
     //! \brief The current number of skill points that the actor has
-    uint32 _skill_points;
+    uint32_t _skill_points;
 
     //! \brief The maximum number of skill points that the actor may have
-    uint32 _max_skill_points;
+    uint32_t _max_skill_points;
 
     //! \brief Used to determine the actor's physical attack rating
     GlobalStat _strength;
@@ -659,10 +659,10 @@ protected:
     //@}
 
     //! \brief The sum of the character's strength and their weapon's physical attack
-    uint32 _total_physical_attack;
+    uint32_t _total_physical_attack;
 
     //! \brief The sum of the character's vigor and their weapon's magical attack for each elements.
-    uint32 _total_magical_attack[GLOBAL_ELEMENTAL_TOTAL];
+    uint32_t _total_magical_attack[GLOBAL_ELEMENTAL_TOTAL];
 
     //! \brief Tells the current mag atk/def stats modifier of the actor against each elemental.
     //! \note The modifier is multiplied to the current magical atk/def for the given elemental.
@@ -680,7 +680,7 @@ protected:
     std::vector<GlobalSkill *> _skills;
 
     //! A vector keeping all the skills ids learned. Used for fast id requests.
-    std::vector<uint32> _skills_id;
+    std::vector<uint32_t> _skills_id;
 
     //! \brief Stores the animation script filename used when the actor dies.
     std::string _death_script_filename;
@@ -751,7 +751,7 @@ class GlobalCharacter : public GlobalActor
     // the GameGlobal::_SaveCharacter and GameGlobal::_LoadCharacter methods instead.
     friend class GameGlobal;
 //     friend void GameGlobal::_SaveCharacter(vt_script::WriteScriptDescriptor &file, GlobalCharacter *character, bool last);
-//     friend void GameGlobal::_LoadCharacter(vt_script::ReadScriptDescriptor &file, uint32 id);
+//     friend void GameGlobal::_LoadCharacter(vt_script::ReadScriptDescriptor &file, uint32_t id);
 public:
     /** \brief Constructs a new character from its definition in a script file
     *** \param id The integer ID of the character to create
@@ -760,7 +760,7 @@ public:
     *** \note If initial is set to false, the character's stats, equipment, and skills
     *** must be set by external code, otherwise they will remain 0/nullptr/empty.
     **/
-    GlobalCharacter(uint32 id, bool initial = true);
+    GlobalCharacter(uint32_t id, bool initial = true);
 
     virtual ~GlobalCharacter();
 
@@ -773,31 +773,31 @@ public:
         return _enabled;
     }
 
-    void SetExperienceLevel(uint32 xp_level) {
+    void SetExperienceLevel(uint32_t xp_level) {
         _experience_level = xp_level;
     }
 
-    uint32 GetStrengthBase() const {
-        return (uint32) _strength.GetBase();
+    uint32_t GetStrengthBase() const {
+        return (uint32_t) _strength.GetBase();
     }
-    uint32 GetVigorBase() const {
-        return (uint32) _vigor.GetBase();
+    uint32_t GetVigorBase() const {
+        return (uint32_t) _vigor.GetBase();
     }
-    uint32 GetFortitudeBase() const {
-        return (uint32) _fortitude.GetBase();
+    uint32_t GetFortitudeBase() const {
+        return (uint32_t) _fortitude.GetBase();
     }
-    uint32 GetProtectionBase() const {
-        return (uint32) _protection.GetBase();
+    uint32_t GetProtectionBase() const {
+        return (uint32_t) _protection.GetBase();
     }
-    uint32 GetAgilityBase() const {
-        return (uint32) _agility.GetBase();
+    uint32_t GetAgilityBase() const {
+        return (uint32_t) _agility.GetBase();
     }
     float GetEvadeBase() const {
         return _evade.GetBase();
     }
 
     // Character's stats changers, taking equipment in account
-    virtual void SetStrength(uint32 st) {
+    virtual void SetStrength(uint32_t st) {
         _strength.SetBase(st);
         _CalculateAttackRatings();
     }
@@ -807,7 +807,7 @@ public:
         _CalculateAttackRatings();
     }
 
-    virtual void SetVigor(uint32 vi) {
+    virtual void SetVigor(uint32_t vi) {
         _vigor.SetBase(vi);
         _CalculateAttackRatings();
     }
@@ -817,7 +817,7 @@ public:
         _CalculateAttackRatings();
     }
 
-    virtual void SetFortitude(uint32 fo) {
+    virtual void SetFortitude(uint32_t fo) {
         _fortitude.SetBase(fo);
         _CalculateDefenseRatings();
     }
@@ -827,7 +827,7 @@ public:
         _CalculateDefenseRatings();
     }
 
-    virtual void SetProtection(uint32 pr) {
+    virtual void SetProtection(uint32_t pr) {
         _protection.SetBase(pr);
         _CalculateDefenseRatings();
     }
@@ -837,27 +837,27 @@ public:
         _CalculateDefenseRatings();
     }
 
-    virtual void AddStrength(uint32 amount);
+    virtual void AddStrength(uint32_t amount);
 
-    virtual void SubtractStrength(uint32 amount);
+    virtual void SubtractStrength(uint32_t amount);
 
-    virtual void AddVigor(uint32 amount);
+    virtual void AddVigor(uint32_t amount);
 
-    virtual void SubtractVigor(uint32 amount);
+    virtual void SubtractVigor(uint32_t amount);
 
-    virtual void AddFortitude(uint32 amount);
+    virtual void AddFortitude(uint32_t amount);
 
-    virtual void SubtractFortitude(uint32 amount);
+    virtual void SubtractFortitude(uint32_t amount);
 
-    virtual void AddProtection(uint32 amount);
+    virtual void AddProtection(uint32_t amount);
 
-    virtual void SubtractProtection(uint32 amount);
+    virtual void SubtractProtection(uint32_t amount);
 
     /** \brief Adds experience points to the character
     *** \param xp The amount of experience points to add
     *** \return True if the new experience points triggered character growth
     **/
-    bool AddExperiencePoints(uint32 xp);
+    bool AddExperiencePoints(uint32_t xp);
 
     GlobalArmor *EquipHeadArmor(GlobalArmor *armor) {
         return _EquipArmor(armor, GLOBAL_POSITION_HEAD);
@@ -879,7 +879,7 @@ public:
         return _armor_equipped;
     }
 
-    GlobalArmor *GetArmorEquipped(uint32 index) const;
+    GlobalArmor *GetArmorEquipped(uint32_t index) const;
 
     GlobalWeapon *GetWeaponEquipped() const {
         return _weapon_equipped;
@@ -898,7 +898,7 @@ public:
 
     //! \brief Permanently adds a new skill to the character (inherited from GlobalActor)
     //! \returns whether the skill was successfully added.
-    bool AddSkill(uint32 skill_id) {
+    bool AddSkill(uint32_t skill_id) {
         return AddSkill(skill_id, true);
     }
 
@@ -907,7 +907,7 @@ public:
     //! This is usually the case for skill learned when levelling, but not for skills
     //! available through equipment.
     //! \returns whether the skill was successfully added.
-    bool AddSkill(uint32 skill_id, bool permanently);
+    bool AddSkill(uint32_t skill_id, bool permanently);
 
     /** \brief Adds a new skill for the character to learn once the next experience level is gained
     *** \param skill_id The ID number of the skill to add
@@ -918,7 +918,7 @@ public:
     *** _new_skills_learned container. This allows external code to easily know what skill or skills have
     *** been added to the character.
     **/
-    bool AddNewSkillLearned(uint32 skill_id);
+    bool AddNewSkillLearned(uint32_t skill_id);
 
     //! \brief Returns true if the character has earned enough experience points to reach the next level
     bool ReachedNewExperienceLevel() const
@@ -940,7 +940,7 @@ public:
 
     //! \name Public Member Access Functions
     //@{
-    uint32 GetExperienceLevel() const {
+    uint32_t GetExperienceLevel() const {
         return _experience_level;
     }
 
@@ -949,11 +949,11 @@ public:
     *** be factored in to reducing the amount of experience required for the next level. This is possible because
     *** the _experience_for_next_level member is allowed to become a negative value.
     **/
-    void AddExperienceForNextLevel(uint32 xp) {
+    void AddExperienceForNextLevel(uint32_t xp) {
         _experience_for_next_level += xp;
     }
 
-    int32 GetExperienceForNextLevel() const {
+    int32_t GetExperienceForNextLevel() const {
         return _experience_for_next_level;
     }
 
@@ -992,7 +992,7 @@ public:
 
     //! The permanent skills are saved between two game sessions.
     //! whereas the equipment skills are reloaded through equipment.
-    std::vector<uint32>& GetPermanentSkills() {
+    std::vector<uint32_t>& GetPermanentSkills() {
         return _permanent_skills;
     }
 
@@ -1013,13 +1013,13 @@ public:
 
     //! Sets the given active status effect state on the global actor.
     void SetActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity,
-                               uint32 duration, uint32 elapsed_time) {
+                               uint32_t duration, uint32_t elapsed_time) {
         _active_status_effects[status_effect] = ActiveStatusEffect(status_effect, intensity, duration, elapsed_time);
     }
 
     //! Sets a newly active status effect on the global actor, but taking in account a possible previous active one.
     void ApplyActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity,
-                                 uint32 duration);
+                                 uint32_t duration);
 
     //! \brief Tells the intensity of the active status effect currently applied on the character.
     vt_global::GLOBAL_INTENSITY GetActiveStatusEffectIntensity(vt_global::GLOBAL_STATUS status_effect) const {
@@ -1032,31 +1032,31 @@ public:
         _active_status_effects[status_effect] = ActiveStatusEffect();
     }
 
-    uint32 GetHitPointsGrowth() const {
+    uint32_t GetHitPointsGrowth() const {
         return _hit_points_growth;
     }
 
-    uint32 GetSkillPointsGrowth() const {
+    uint32_t GetSkillPointsGrowth() const {
         return _skill_points_growth;
     }
 
-    uint32 GetStrengthGrowth() const {
+    uint32_t GetStrengthGrowth() const {
         return _strength_growth;
     }
 
-    uint32 GetVigorGrowth() const {
+    uint32_t GetVigorGrowth() const {
         return _vigor_growth;
     }
 
-    uint32 GetFortitudeGrowth() const {
+    uint32_t GetFortitudeGrowth() const {
         return _fortitude_growth;
     }
 
-    uint32 GetProtectionGrowth() const {
+    uint32_t GetProtectionGrowth() const {
         return _protection_growth;
     }
 
-    uint32 GetAgilityGrowth() const {
+    uint32_t GetAgilityGrowth() const {
         return _agility_growth;
     }
 
@@ -1093,7 +1093,7 @@ public:
 
 protected:
     //! \brief The current experience level of the actor
-    uint32 _experience_level;
+    uint32_t _experience_level;
 
     /** \brief Sortable skill containers
     *** Skills are divided into three types: weapon, magic, and special. There is really no functional
@@ -1110,7 +1110,7 @@ protected:
 
     //! A vector storing only the skills that are permanently learned. This is useful when recomputing
     //! the available skills, on equip/unequip.
-    std::vector<uint32> _permanent_skills;
+    std::vector<uint32_t> _permanent_skills;
     //@}
 
     //! \brief The script filename used to trigger a battle character animation when dealing with a particular skill.
@@ -1207,7 +1207,7 @@ protected:
     *** for the attack point that the armor was equipped on. If the index argument is invalid (out-of-bounds),
     *** the function will return the armor argument.
     **/
-    GlobalArmor *_EquipArmor(GlobalArmor *armor, uint32 index);
+    GlobalArmor *_EquipArmor(GlobalArmor *armor, uint32_t index);
 
     //! \brief Updates the equipment status effects.
     void _UpdateEquipmentStatusEffects();
@@ -1226,7 +1226,7 @@ private:
     *** experience level growth easier.
     ***
     **/
-    int32 _experience_for_next_level;
+    int32_t _experience_for_next_level;
 
     /** \brief The amount of growth that should be added to each of the character's stats
     *** These members are incremented by the _ProcessPeriodicGrowth() function, which detects when a character
@@ -1238,13 +1238,13 @@ private:
     *** defined in data/entities/characters.lua
     **/
     //@{
-    uint32 _hit_points_growth;
-    uint32 _skill_points_growth;
-    uint32 _strength_growth;
-    uint32 _vigor_growth;
-    uint32 _fortitude_growth;
-    uint32 _protection_growth;
-    uint32 _agility_growth;
+    uint32_t _hit_points_growth;
+    uint32_t _skill_points_growth;
+    uint32_t _strength_growth;
+    uint32_t _vigor_growth;
+    uint32_t _fortitude_growth;
+    uint32_t _protection_growth;
+    uint32_t _agility_growth;
     float _evade_growth;
     //@}
 
@@ -1299,7 +1299,7 @@ private:
 class GlobalEnemy : public GlobalActor
 {
 public:
-    GlobalEnemy(uint32 id);
+    GlobalEnemy(uint32_t id);
 
     virtual ~GlobalEnemy()
     {}
@@ -1314,7 +1314,7 @@ public:
     *** and gain access to new skills after certain criteria are met. Normally you would want to define
     *** any skills that you wish an enemy to be able to use within their Lua definition file.
     **/
-    bool AddSkill(uint32 skill_id);
+    bool AddSkill(uint32_t skill_id);
 
     /** \brief Uses random variables to calculate which objects, if any, the enemy dropped
     *** \param objects A reference to a vector to hold the GlobalObject pointers
@@ -1328,15 +1328,15 @@ public:
 
     //! \name Class member access functions
     //@{
-    uint32 GetDrunesDropped() const {
+    uint32_t GetDrunesDropped() const {
         return _drunes_dropped;
     }
 
-    uint32 GetSpriteWidth() const {
+    uint32_t GetSpriteWidth() const {
         return _sprite_width;
     }
 
-    uint32 GetSpriteHeight() const {
+    uint32_t GetSpriteHeight() const {
         return _sprite_height;
     }
 
@@ -1347,10 +1347,10 @@ public:
 
 protected:
     //! \brief The dimensions of the enemy's battle sprite in pixels
-    uint32 _sprite_width, _sprite_height;
+    uint32_t _sprite_width, _sprite_height;
 
     //! \brief The amount of drunes that the enemy will drop
-    uint32 _drunes_dropped;
+    uint32_t _drunes_dropped;
 
     /** \brief Dropped object containers
     *** These two vectors are of the same size. _dropped_objects contains the IDs of the objects that the enemy
@@ -1358,7 +1358,7 @@ protected:
     *** enemy dropping that object.
     **/
     //@{
-    std::vector<uint32> _dropped_objects;
+    std::vector<uint32_t> _dropped_objects;
     std::vector<float> _dropped_chance;
     //@}
 
@@ -1366,7 +1366,7 @@ protected:
     *** This container holds the IDs of all skills that the enemy may execute in battle.
     *** The Initialize() function uses this data to populates the GlobalActor _skills container.
     **/
-    std::vector<uint32> _skill_set;
+    std::vector<uint32_t> _skill_set;
 
     /** \brief The battle sprite animations for the enemy
     *** Each enemy has four animations representing damage levels of 0%, 33%, 66%, and 100%. This vector thus
@@ -1424,19 +1424,19 @@ public:
     *** \param index The index where the character should be inserted. If negative, character is added to the end
     *** \note The character will not be added if it is already in the party and duplicates are not allowed
     **/
-    void AddCharacter(GlobalCharacter *character, int32 index = -1);
+    void AddCharacter(GlobalCharacter *character, int32_t index = -1);
 
     /** \brief Removes an character from the party
     *** \param index The index of the character in the party to remove
     *** \return A pointer to the character that was removed, or nullptr if the index provided was invalid
     **/
-    GlobalCharacter *RemoveCharacterAtIndex(uint32 index);
+    GlobalCharacter *RemoveCharacterAtIndex(uint32_t index);
 
     /** \brief Removes an character from the party
     *** \param id The id value of the character to remove
     *** \return A pointer to the character that was removed, or nullptr if the character was not found in the party
     **/
-    GlobalCharacter *RemoveCharacterByID(uint32 id);
+    GlobalCharacter *RemoveCharacterByID(uint32_t id);
 
     /** \brief Clears the party of all characters
     *** \note This function does not return the character pointers, so if you wish to get the
@@ -1450,13 +1450,13 @@ public:
     *** \param index The index where the character may be found in the party
     *** \return A pointer to the character at the specified index, or nullptr if the index argument was invalid
     **/
-    GlobalCharacter *GetCharacterAtIndex(uint32 index) const;
+    GlobalCharacter *GetCharacterAtIndex(uint32_t index) const;
 
     /** \brief Retrieves a poitner to the character in the party with the spefified id
     *** \param id The id of the character to return
     *** \return A pointer to the character with the requested ID, or nullptr if the character was not found
     **/
-    GlobalCharacter *GetCharacterByID(uint32 id) const;
+    GlobalCharacter *GetCharacterByID(uint32_t id) const;
 
     // ---------- Character swap and replacement methods
 
@@ -1464,27 +1464,27 @@ public:
     *** \param first_index The index of the first character to swap
     *** \param second_index The index of the second character to swap
     **/
-    void SwapCharactersByIndex(uint32 first_index, uint32 second_index);
+    void SwapCharactersByIndex(uint32_t first_index, uint32_t second_index);
 
     /** \brief Swaps the location of two characters in the party by looking up their IDs
     *** \param first_id The id of the first character to swap
     *** \param second_id The id of the second character to swap
     **/
-    void SwapCharactersByID(uint32 first_id, uint32 second_id);
+    void SwapCharactersByID(uint32_t first_id, uint32_t second_id);
 
     /** \brief Replaces an character in the party at a specified index with a new character
     *** \param index The index of the character to be replaced
     *** \param new_character A pointer to the character that will replace the existing character
     *** \return A pointer to the replaced character, or nullptr if the operation did not take place
     **/
-    GlobalCharacter *ReplaceCharacterByIndex(uint32 index, GlobalCharacter *new_character);
+    GlobalCharacter *ReplaceCharacterByIndex(uint32_t index, GlobalCharacter *new_character);
 
     /** \brief Replaces an character in the party with the specified id with a new character
     *** \param id The id of the character to be replaced
     *** \param new_character A pointer to the character that will replace the existing character
     *** \return A pointer to the replaced character, or nullptr if the operation did not take place
     **/
-    GlobalCharacter *ReplaceCharacterByID(uint32 id, GlobalCharacter *new_character);
+    GlobalCharacter *ReplaceCharacterByID(uint32_t id, GlobalCharacter *new_character);
 
     // ---------- Other methods
 
@@ -1496,12 +1496,12 @@ public:
     /** \brief Adds a certain amount of hit points to all characters in the party
     *** \param hp The number of health points to add
     **/
-    void AddHitPoints(uint32 hp);
+    void AddHitPoints(uint32_t hp);
 
     /** \brief Adds a certain amount of skill points to all characters in the party
     *** \param sp The number of skill points to add
     **/
-    void AddSkillPoints(uint32 sp);
+    void AddSkillPoints(uint32_t sp);
 
     //! \name Class member accessor methods
     //@{
@@ -1513,7 +1513,7 @@ public:
         return _characters.empty();
     }
 
-    uint32 GetPartySize() const {
+    uint32_t GetPartySize() const {
         return _characters.size();
     }
 

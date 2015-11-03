@@ -198,7 +198,7 @@ public:
      *  \brief return the number of active particles in this effect
      * \return number of particles in the system
      */
-    int32 GetNumParticles() const {
+    int32_t GetNumParticles() const {
         return _num_particles;
     }
 
@@ -297,7 +297,7 @@ private:
     float _age;
 
     //! number of active particles (this is updated on each call to Update())
-    int32 _num_particles;
+    int32_t _num_particles;
 }; // class ParticleEffect
 
 }  // namespace vt_mode_manager

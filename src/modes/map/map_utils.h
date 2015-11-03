@@ -51,15 +51,15 @@ const float SCREEN_GRID_Y_LENGTH = 48.0f / MAP_ZOOM_RATIO;
 const float HALF_SCREEN_GRID_X_LENGTH = SCREEN_GRID_X_LENGTH / 2;
 const float HALF_SCREEN_GRID_Y_LENGTH = SCREEN_GRID_Y_LENGTH / 2;
 
-const uint16 TILES_ON_X_AXIS = (uint16)SCREEN_GRID_X_LENGTH / 2; // Number of tile columns that fit on the screen
-const uint16 TILES_ON_Y_AXIS = (uint16)SCREEN_GRID_Y_LENGTH / 2; // Number of tile rows that fit on the screen
-const uint16 HALF_TILES_ON_X_AXIS = TILES_ON_X_AXIS / 2;
-const uint16 HALF_TILES_ON_Y_AXIS = TILES_ON_Y_AXIS / 2;
+const uint16_t TILES_ON_X_AXIS = (uint16_t)SCREEN_GRID_X_LENGTH / 2; // Number of tile columns that fit on the screen
+const uint16_t TILES_ON_Y_AXIS = (uint16_t)SCREEN_GRID_Y_LENGTH / 2; // Number of tile rows that fit on the screen
+const uint16_t HALF_TILES_ON_X_AXIS = TILES_ON_X_AXIS / 2;
+const uint16_t HALF_TILES_ON_Y_AXIS = TILES_ON_Y_AXIS / 2;
 
 // Length of a grid element in pixels (taken from the grid to screen width ratio)
-const uint16 GRID_LENGTH = vt_video::VIDEO_STANDARD_RES_WIDTH / SCREEN_GRID_X_LENGTH;
+const uint16_t GRID_LENGTH = vt_video::VIDEO_STANDARD_RES_WIDTH / SCREEN_GRID_X_LENGTH;
 // Length of a tile in pixels
-const uint16 TILE_LENGTH = GRID_LENGTH * 2;
+const uint16_t TILE_LENGTH = GRID_LENGTH * 2;
 //@}
 
 
@@ -78,7 +78,7 @@ enum MAP_STATE {
 //@}
 
 //! \brief The number of tiles that are found in a tileset image (512x512 pixel image containing 32x32 pixel tiles)
-const uint32 TILES_PER_TILESET = 256;
+const uint32_t TILES_PER_TILESET = 256;
 
 //! \brief Used to identify the type of map object
 enum MAP_OBJECT_TYPE {
@@ -128,34 +128,34 @@ const float VERY_FAST_SPEED  = 75.0f;
 *** to check for movement and facing directions.
 **/
 //@{
-const uint16 NORTH     = 0x0001;
-const uint16 SOUTH     = 0x0002;
-const uint16 WEST      = 0x0004;
-const uint16 EAST      = 0x0008;
-const uint16 NW_NORTH  = 0x0010;
-const uint16 NW_WEST   = 0x0020;
-const uint16 NE_NORTH  = 0x0040;
-const uint16 NE_EAST   = 0x0080;
-const uint16 SW_SOUTH  = 0x0100;
-const uint16 SW_WEST   = 0x0200;
-const uint16 SE_SOUTH  = 0x0400;
-const uint16 SE_EAST   = 0x0800;
+const uint16_t NORTH     = 0x0001;
+const uint16_t SOUTH     = 0x0002;
+const uint16_t WEST      = 0x0004;
+const uint16_t EAST      = 0x0008;
+const uint16_t NW_NORTH  = 0x0010;
+const uint16_t NW_WEST   = 0x0020;
+const uint16_t NE_NORTH  = 0x0040;
+const uint16_t NE_EAST   = 0x0080;
+const uint16_t SW_SOUTH  = 0x0100;
+const uint16_t SW_WEST   = 0x0200;
+const uint16_t SE_SOUTH  = 0x0400;
+const uint16_t SE_EAST   = 0x0800;
 // Used to check for movement direction regardless of facing direction
-const uint16 MOVING_NORTHWARD = NORTH | NW_NORTH | NW_WEST | NE_NORTH | NE_EAST;
-const uint16 MOVING_SOUTHWARD = SOUTH | SW_SOUTH | SW_WEST | SE_SOUTH | SE_EAST;
-const uint16 MOVING_EASTWARD = EAST | NE_EAST | NE_NORTH | SE_EAST | SE_SOUTH;
-const uint16 MOVING_WESTWARD = WEST | NW_WEST | NW_NORTH | SW_WEST | SW_SOUTH;
-const uint16 MOVING_NORTHWEST = NW_NORTH | NW_WEST;
-const uint16 MOVING_NORTHEAST = NE_NORTH | NE_EAST;
-const uint16 MOVING_SOUTHWEST = SW_SOUTH | SW_WEST;
-const uint16 MOVING_SOUTHEAST = SE_SOUTH | SE_EAST;
-const uint16 MOVING_ORTHOGONALLY = NORTH | SOUTH | EAST | WEST;
-const uint16 MOVING_DIAGONALLY = MOVING_NORTHWEST | MOVING_NORTHEAST | MOVING_SOUTHWEST | MOVING_SOUTHEAST;
+const uint16_t MOVING_NORTHWARD = NORTH | NW_NORTH | NW_WEST | NE_NORTH | NE_EAST;
+const uint16_t MOVING_SOUTHWARD = SOUTH | SW_SOUTH | SW_WEST | SE_SOUTH | SE_EAST;
+const uint16_t MOVING_EASTWARD = EAST | NE_EAST | NE_NORTH | SE_EAST | SE_SOUTH;
+const uint16_t MOVING_WESTWARD = WEST | NW_WEST | NW_NORTH | SW_WEST | SW_SOUTH;
+const uint16_t MOVING_NORTHWEST = NW_NORTH | NW_WEST;
+const uint16_t MOVING_NORTHEAST = NE_NORTH | NE_EAST;
+const uint16_t MOVING_SOUTHWEST = SW_SOUTH | SW_WEST;
+const uint16_t MOVING_SOUTHEAST = SE_SOUTH | SE_EAST;
+const uint16_t MOVING_ORTHOGONALLY = NORTH | SOUTH | EAST | WEST;
+const uint16_t MOVING_DIAGONALLY = MOVING_NORTHWEST | MOVING_NORTHEAST | MOVING_SOUTHWEST | MOVING_SOUTHEAST;
 // Used to check for facing direction regardless of moving direction
-const uint16 FACING_NORTH = NORTH | NW_NORTH | NE_NORTH;
-const uint16 FACING_SOUTH = SOUTH | SW_SOUTH | SE_SOUTH;
-const uint16 FACING_WEST = WEST | NW_WEST | SW_WEST;
-const uint16 FACING_EAST = EAST | NE_EAST | SE_EAST;
+const uint16_t FACING_NORTH = NORTH | NW_NORTH | NE_NORTH;
+const uint16_t FACING_SOUTH = SOUTH | SW_SOUTH | SE_SOUTH;
+const uint16_t FACING_WEST = WEST | NW_WEST | SW_WEST;
+const uint16_t FACING_EAST = EAST | NE_EAST | SE_EAST;
 //@}
 
 /** \name Map Sprite Animation Constants
@@ -182,7 +182,7 @@ enum COLLISION_TYPE {
     WALL_COLLISION =      4, //! Indicates a collision with a wall. (Sky objects will have a wall collision on the map bounds)
     COLLISION_TYPES =     4
 };
-const uint32 ALL_COLLISION = CHARACTER_COLLISION | ENEMY_COLLISION | WALL_COLLISION;
+const uint32_t ALL_COLLISION = CHARACTER_COLLISION | ENEMY_COLLISION | WALL_COLLISION;
 
 //! \brief Identifiers for the similarly named classes of map events
 enum EVENT_TYPE {
@@ -214,10 +214,10 @@ enum DIALOGUE_STATE {
 };
 
 //! \brief The maximum number of options that a line of dialogue can present to the player
-const uint32 MAX_DIALOGUE_OPTIONS = 5;
+const uint32_t MAX_DIALOGUE_OPTIONS = 5;
 
 //! \brief The number of milliseconds to take to fade out the map
-const uint32 MAP_FADE_OUT_TIME = 800;
+const uint32_t MAP_FADE_OUT_TIME = 800;
 
 /** ****************************************************************************
 *** \brief Represents a rectangular section of a map
@@ -270,13 +270,13 @@ class MapFrame
 {
 public:
     //! \brief The x and y indeces of the starting tile to draw (the top-left tile).
-    int16 tile_x_start, tile_y_start;
+    int16_t tile_x_start, tile_y_start;
 
     //! \brief The x and y position screen coordinates to start drawing tiles from.
     float tile_x_offset, tile_y_offset;
 
     //! \brief The number of tiles to draw on the x and y axes on the screen.
-    uint8 num_draw_x_axis, num_draw_y_axis;
+    uint8_t num_draw_x_axis, num_draw_y_axis;
 
     /** \brief The position coordinates of the screen edges.
     *** These members are in terms of the map grid 16x16 pixel coordinates that map objects use.
@@ -303,29 +303,29 @@ public:
     *** These coordinates correspond to the collision grid, where each element
     *** is a 16x16 pixel space on the map.
     **/
-    int16 tile_x, tile_y;
+    int16_t tile_x, tile_y;
 
     //! \name Path Scoring Members
     //@{
     //! \brief The total score for this node (f = g + h).
-    int16 f_score;
+    int16_t f_score;
 
     //! \brief The score for this node relative to the source.
-    int16 g_score;
+    int16_t g_score;
 
     //! \brief The Manhattan distance from this node to the destination.
-    int16 h_score;
+    int16_t h_score;
     //@}
 
     //! \brief The grid coordinates for the parent of this node
-    int16 parent_x, parent_y;
+    int16_t parent_x, parent_y;
 
     // ---------- Methods
 
     PathNode() : tile_x(-1), tile_y(-1), f_score(0), g_score(0), h_score(0), parent_x(0), parent_y(0)
     {}
 
-    PathNode(int16 x_, int16 y_) : tile_x(x_), tile_y(y_), f_score(0), g_score(0), h_score(0), parent_x(0), parent_y(0)
+    PathNode(int16_t x_, int16_t y_) : tile_x(x_), tile_y(y_), f_score(0), g_score(0), h_score(0), parent_x(0), parent_y(0)
     {}
 
     //! \brief Overloaded comparison operator, only checks that the tile_x and tile_y members are equal

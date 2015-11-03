@@ -64,7 +64,7 @@ void MessageWindow::Draw()
 
 ShortNoticeWindow::ShortNoticeWindow(const vt_utils::ustring& message,
                                        const std::string& image_filename,
-                                       uint32 display_time,
+                                       uint32_t display_time,
                                        float x, float y):
     _display_time(display_time)
 {
@@ -118,7 +118,7 @@ ShortNoticeWindow::~ShortNoticeWindow()
     MenuWindow::Destroy();
 }
 
-void ShortNoticeWindow::Update(uint32 update_time)
+void ShortNoticeWindow::Update(uint32_t update_time)
 {
     if (_display_time > update_time) {
         _display_time -= update_time;

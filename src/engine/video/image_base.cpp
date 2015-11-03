@@ -88,13 +88,13 @@ bool ImageMemory::LoadImage(const std::string &filename)
     rgb_format = false;
 
     // convert the data so that it works in our format
-    uint8 *img_pixel = nullptr;
-    uint8 *dst_pixel = nullptr;
+    uint8_t *img_pixel = nullptr;
+    uint8_t *dst_pixel = nullptr;
 
-    for(uint32 y = 0; y < height; ++y) {
-        for(uint32 x = 0; x < width; ++x) {
-            img_pixel = (uint8 *)alpha_surf->pixels + y * alpha_surf->pitch + x * alpha_surf->format->BytesPerPixel;
-            dst_pixel = ((uint8 *)pixels) + ((y * width) + x) * 4;
+    for(uint32_t y = 0; y < height; ++y) {
+        for(uint32_t x = 0; x < width; ++x) {
+            img_pixel = (uint8_t *)alpha_surf->pixels + y * alpha_surf->pitch + x * alpha_surf->format->BytesPerPixel;
+            dst_pixel = ((uint8_t *)pixels) + ((y * width) + x) * 4;
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
             if(alpha_format) {
                 dst_pixel[0] = img_pixel[0];
@@ -189,7 +189,7 @@ bool ImageMemory::SaveImage(const std::string &filename)
     png_init_io(png_ptr, fp);
 
     // write the header
-    int32 color_type = rgb_format ? PNG_COLOR_TYPE_RGB : PNG_COLOR_TYPE_RGBA;
+    int32_t color_type = rgb_format ? PNG_COLOR_TYPE_RGB : PNG_COLOR_TYPE_RGBA;
     png_set_IHDR(png_ptr, info_ptr, width, height, 8, color_type,
                  PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
@@ -207,8 +207,8 @@ bool ImageMemory::SaveImage(const std::string &filename)
         return false;
     }
 
-    int32 bytes_per_row = rgb_format ? width * 3 : width * 4;
-    for(uint32 i = 0; i < height; ++i) {
+    int32_t bytes_per_row = rgb_format ? width * 3 : width * 4;
+    for(uint32_t i = 0; i < height; ++i) {
         row_pointers[i] = (png_bytep)pixels + bytes_per_row * i;
     }
 
@@ -241,12 +241,12 @@ void ImageMemory::ConvertToGrayscale()
         return;
     }
 
-    uint8 format_bytes = (rgb_format ? 3 : 4);
-    uint8 *end_position = static_cast<uint8 *>(pixels) + (width * height * format_bytes);
+    uint8_t format_bytes = (rgb_format ? 3 : 4);
+    uint8_t *end_position = static_cast<uint8_t *>(pixels) + (width * height * format_bytes);
 
-    for(uint8 *i = static_cast<uint8 *>(pixels); i < end_position; i += format_bytes) {
+    for(uint8_t *i = static_cast<uint8_t *>(pixels); i < end_position; i += format_bytes) {
         // Compute the grayscale value for this pixel based on RGB values: 0.30R + 0.59G + 0.11B
-        uint8 value = static_cast<uint8>((30 * *(i) + 59 * *(i + 1) + 11 * *(i + 2)) * 0.01f);
+        uint8_t value = static_cast<uint8_t>((30 * *(i) + 59 * *(i + 1) + 11 * *(i + 2)) * 0.01f);
         *i = value;
         *(i + 1) = value;
         *(i + 2) = value;
@@ -272,11 +272,11 @@ void ImageMemory::RGBAToRGB()
         return;
     }
 
-    uint8 *pixel_index = static_cast<uint8 *>(pixels);
-    uint8 *pixel_source = pixel_index;
+    uint8_t *pixel_index = static_cast<uint8_t *>(pixels);
+    uint8_t *pixel_source = pixel_index;
 
-    for(uint32 i = 0; i < height * width; ++i, pixel_index += 4) {
-        int32 index = 3 * i;
+    for(uint32_t i = 0; i < height * width; ++i, pixel_index += 4) {
+        int32_t index = 3 * i;
         pixel_source[index] = *pixel_index;
         pixel_source[index + 1] = *(pixel_index + 1);
         pixel_source[index + 2] = *(pixel_index + 2);
@@ -319,18 +319,18 @@ void ImageMemory::CopyFromImage(BaseTexture *img)
     // Check that the image to copy is smaller than its texture sheet (usually true).
     // If so, then copy over only the sub-rectangle area of the image from its texture
     if(height > img->height || width > img->width) {
-        uint8 format_bytes = (rgb_format ? 3 : 4);
-        uint32 src_bytes = width * format_bytes;
-        uint32 dst_bytes = img->width * format_bytes;
-        uint32 src_offset = img->y * width * format_bytes + img->x * format_bytes;
+        uint8_t format_bytes = (rgb_format ? 3 : 4);
+        uint32_t src_bytes = width * format_bytes;
+        uint32_t dst_bytes = img->width * format_bytes;
+        uint32_t src_offset = img->y * width * format_bytes + img->x * format_bytes;
         void *img_pixels = malloc(img->width * img->height * format_bytes);
         if(img_pixels == nullptr) {
             PRINT_ERROR << "failed to malloc enough memory to copy the image" << std::endl;
             return;
         }
 
-        for(uint32 i = 0; i < img->height; ++i) {
-            memcpy((uint8 *)img_pixels + i * dst_bytes, (uint8 *)pixels + i * src_bytes + src_offset, dst_bytes);
+        for(uint32_t i = 0; i < img->height; ++i) {
+            memcpy((uint8_t *)img_pixels + i * dst_bytes, (uint8_t *)pixels + i * src_bytes + src_offset, dst_bytes);
         }
 
         // Delete the memory used for the texture sheet and replace it with the memory for the image
@@ -363,7 +363,7 @@ BaseTexture::BaseTexture() :
 
 
 
-BaseTexture::BaseTexture(uint32 width_, uint32 height_) :
+BaseTexture::BaseTexture(uint32_t width_, uint32_t height_) :
     texture_sheet(nullptr),
     width(width_),
     height(height_),
@@ -379,7 +379,7 @@ BaseTexture::BaseTexture(uint32 width_, uint32 height_) :
 
 
 
-BaseTexture::BaseTexture(TexSheet *texture_sheet_, uint32 width_, uint32 height_) :
+BaseTexture::BaseTexture(TexSheet *texture_sheet_, uint32_t width_, uint32_t height_) :
     texture_sheet(texture_sheet_),
     width(width_),
     height(height_),
@@ -421,7 +421,7 @@ bool BaseTexture::RemoveReference()
 // ImageTexture class
 // -----------------------------------------------------------------------------
 
-ImageTexture::ImageTexture(const std::string &filename_, const std::string &tags_, int32 width_, int32 height_) :
+ImageTexture::ImageTexture(const std::string &filename_, const std::string &tags_, int32_t width_, int32_t height_) :
     BaseTexture(width_, height_),
     filename(filename_),
     tags(tags_)
@@ -436,7 +436,7 @@ ImageTexture::ImageTexture(const std::string &filename_, const std::string &tags
 
 
 
-ImageTexture::ImageTexture(TexSheet *texture_sheet_, const std::string &filename_, const std::string &tags_, int32 width_, int32 height_) :
+ImageTexture::ImageTexture(TexSheet *texture_sheet_, const std::string &filename_, const std::string &tags_, int32_t width_, int32_t height_) :
     BaseTexture(texture_sheet_, width_, height_),
     filename(filename_),
     tags(tags_)

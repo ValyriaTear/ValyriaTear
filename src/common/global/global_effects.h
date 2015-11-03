@@ -88,14 +88,14 @@ public:
     *** \return True if the intensity level was modified
     *** \note Intensity will not be incremented beyond the maximum valid intensity value
     **/
-    virtual bool IncrementIntensity(uint8 amount);
+    virtual bool IncrementIntensity(uint8_t amount);
 
     /** \brief Decrements the status effect intensity by a negative amount
     *** \param amount The number of intensity levels to decrement the status effect by
     *** \return True if the intensity level was modified
     *** \note Intensity will not be decremented below GLOBAL_INTENSITY_NEUTRAL
     **/
-    virtual bool DecrementIntensity(uint8 amount);
+    virtual bool DecrementIntensity(uint8_t amount);
 
     vt_system::SystemTimer *GetUpdateTimer() {
         return &_update_timer;

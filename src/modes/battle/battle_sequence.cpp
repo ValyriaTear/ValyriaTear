@@ -45,12 +45,12 @@ namespace private_battle
 *** These constants should not need to be used in any other area of the battle code.
 **/
 //@{
-static const uint32 INIT_STEP_BACKGROUND_FADE  =  1;
-static const uint32 INIT_STEP_SPRITE_MOVEMENT  =  2;
-static const uint32 INIT_STEP_GUI_POSITIONING  =  3;
+static const uint32_t INIT_STEP_BACKGROUND_FADE  =  1;
+static const uint32_t INIT_STEP_SPRITE_MOVEMENT  =  2;
+static const uint32_t INIT_STEP_GUI_POSITIONING  =  3;
 
-static const uint32 EXIT_STEP_GUI_POSITIONING  =  1;
-static const uint32 EXIT_STEP_SCREEN_FADE      =  2;
+static const uint32_t EXIT_STEP_GUI_POSITIONING  =  1;
+static const uint32_t EXIT_STEP_SCREEN_FADE      =  2;
 //@}
 
 
@@ -119,9 +119,9 @@ void SequenceSupervisor::DrawPostEffects()
 void SequenceSupervisor::_UpdateInitialSequence()
 {
     // Constants that define the time duration of each step in the sequence
-    const uint32 STEP_01_TIME = 500;
-    const uint32 STEP_02_TIME = 500;
-    const uint32 STEP_03_TIME = 500;
+    const uint32_t STEP_01_TIME = 500;
+    const uint32_t STEP_02_TIME = 500;
+    const uint32_t STEP_03_TIME = 500;
 
     // The furthest position offset we place the GUI objects when bringing them into view
     const float MAX_GUI_OFFSET = 150.0f;
@@ -140,7 +140,7 @@ void SequenceSupervisor::_UpdateInitialSequence()
 
         // The characters can't run when one of them is dead,
         // as they wouldn't let him behind.
-        for(uint32 i = 0; i < _battle->_character_actors.size(); i++) {
+        for(uint32_t i = 0; i < _battle->_character_actors.size(); i++) {
             if(_one_is_dead) {
                 _battle->_character_actors[i]->SetXLocation(_battle->_character_actors[i]->GetXOrigin());
                 if(_battle->_character_actors[i]->IsAlive())
@@ -153,7 +153,7 @@ void SequenceSupervisor::_UpdateInitialSequence()
             }
         }
 
-        for(uint32 i = 0; i < _battle->_enemy_actors.size(); i++) {
+        for(uint32_t i = 0; i < _battle->_enemy_actors.size(); i++) {
             _battle->_enemy_actors[i]->SetXLocation(_battle->_enemy_actors[i]->GetXOrigin() + MAX_ENEMY_OFFSET);
         }
 
@@ -175,25 +175,25 @@ void SequenceSupervisor::_UpdateInitialSequence()
 
         float percent_incomplete = 1.0f - _sequence_timer.PercentComplete();
         if(!_one_is_dead) {
-            for(uint32 i = 0; i < _battle->_character_actors.size(); i++) {
+            for(uint32_t i = 0; i < _battle->_character_actors.size(); i++) {
                 _battle->_character_actors[i]->SetXLocation(_battle->_character_actors[i]->GetXOrigin() - (MAX_CHARACTER_OFFSET * percent_incomplete));
             }
         }
 
-        for(uint32 i = 0; i < _battle->_enemy_actors.size(); i++) {
+        for(uint32_t i = 0; i < _battle->_enemy_actors.size(); i++) {
             _battle->_enemy_actors[i]->SetXLocation(_battle->_enemy_actors[i]->GetXOrigin() + (MAX_ENEMY_OFFSET * percent_incomplete));
         }
 
         if(_sequence_timer.IsFinished() == true) {
             // Done to ensure that all actors are at their correct locations
-            for(uint32 i = 0; i < _battle->_character_actors.size(); i++) {
+            for(uint32_t i = 0; i < _battle->_character_actors.size(); i++) {
                 _battle->_character_actors[i]->SetXLocation(_battle->_character_actors[i]->GetXOrigin());
                 if(_battle->_character_actors[i]->IsAlive())
                     _battle->_character_actors[i]->ChangeSpriteAnimation("idle");
                 else
                     _battle->_character_actors[i]->ChangeSpriteAnimation("dead");
             }
-            for(uint32 i = 0; i < _battle->_enemy_actors.size(); i++) {
+            for(uint32_t i = 0; i < _battle->_enemy_actors.size(); i++) {
                 _battle->_enemy_actors[i]->SetXLocation(_battle->_enemy_actors[i]->GetXOrigin());
             }
 
@@ -226,8 +226,8 @@ void SequenceSupervisor::_UpdateInitialSequence()
 void SequenceSupervisor::_UpdateExitingSequence()
 {
     // Constants that define the time duration of each step in the sequence
-    const uint32 STEP_01_TIME = 500;
-    const uint32 STEP_02_TIME = 1200;
+    const uint32_t STEP_01_TIME = 500;
+    const uint32_t STEP_02_TIME = 1200;
 
     // The furthest position offset we place the GUI objects when bringing them out of view
     const float GUI_OFFSCREEN_OFFSET = 150.0f;
@@ -254,7 +254,7 @@ void SequenceSupervisor::_UpdateExitingSequence()
             _sequence_step = EXIT_STEP_SCREEN_FADE;
 
             if(!_one_is_dead) {
-                for(uint32 i = 0; i < _battle->_character_actors.size(); i++) {
+                for(uint32_t i = 0; i < _battle->_character_actors.size(); i++) {
                     _battle->_character_actors[i]->ChangeSpriteAnimation("run_after_victory");
                 }
             }
@@ -269,7 +269,7 @@ void SequenceSupervisor::_UpdateExitingSequence()
 
         // Make the character run only if they're all alive.
         if(!_one_is_dead) {
-            for(uint32 i = 0; i < _battle->_character_actors.size(); i++) {
+            for(uint32_t i = 0; i < _battle->_character_actors.size(); i++) {
                 _battle->_character_actors[i]->SetXLocation(_battle->_character_actors[i]->GetXOrigin() +
                         _sequence_timer.GetTimeExpired());
             }

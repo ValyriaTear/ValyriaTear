@@ -105,8 +105,8 @@ void ScriptEngine::DEBUG_PrintLuaStack(lua_State* luaState)
 
     std::cout << "SCRIPT DEBUG: Printing script's lua stack:" << std::endl;
     // Print each element starting from the top of the stack
-    for(int32 i = lua_gettop(luaState); i > 0; --i) {
-        int32 type = lua_type(luaState, i);
+    for(int32_t i = lua_gettop(luaState); i > 0; --i) {
+        int32_t type = lua_type(luaState, i);
         switch(type) {
         case LUA_TNIL:
             std::cout << "* " << i << "= NIL" << std::endl;

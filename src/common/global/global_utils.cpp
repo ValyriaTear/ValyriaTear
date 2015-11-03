@@ -30,7 +30,7 @@ using namespace vt_global::private_global;
 namespace vt_global
 {
 
-uint32 GetEquipmentPositionFromObjectType(GLOBAL_OBJECT object_type)
+uint32_t GetEquipmentPositionFromObjectType(GLOBAL_OBJECT object_type)
 {
     switch (object_type) {
     default:
@@ -145,7 +145,7 @@ bool IsTargetFoe(GLOBAL_TARGET target)
 
 
 
-GlobalObject *GlobalCreateNewObject(uint32 id, uint32 count)
+GlobalObject *GlobalCreateNewObject(uint32_t id, uint32_t count)
 {
     GlobalObject *new_object = nullptr;
 
@@ -172,7 +172,7 @@ GlobalObject *GlobalCreateNewObject(uint32 id, uint32 count)
 
 
 
-bool IncrementIntensity(GLOBAL_INTENSITY &intensity, uint8 amount)
+bool IncrementIntensity(GLOBAL_INTENSITY &intensity, uint8_t amount)
 {
     if(amount == 0)
         return false;
@@ -198,7 +198,7 @@ bool IncrementIntensity(GLOBAL_INTENSITY &intensity, uint8 amount)
 
 
 
-bool DecrementIntensity(GLOBAL_INTENSITY &intensity, uint8 amount)
+bool DecrementIntensity(GLOBAL_INTENSITY &intensity, uint8_t amount)
 {
     if(amount == 0)
         return false;
@@ -346,10 +346,10 @@ vt_video::StillImage* GlobalMedia::GetStatusIcon(GLOBAL_STATUS status_type, GLOB
     if (status_type <= GLOBAL_STATUS_INVALID || status_type >= GLOBAL_STATUS_TOTAL)
         return nullptr;
 
-    const uint32 NUMBER_INTENSITY_LEVELS = 9;
+    const uint32_t NUMBER_INTENSITY_LEVELS = 9;
 
     // col coordinate for where the specific icon can be found in the multi image array
-    uint32 col = 0;
+    uint32_t col = 0;
 
     // Intensity determines the icon's column
     switch(intensity) {
@@ -385,12 +385,12 @@ vt_video::StillImage* GlobalMedia::GetStatusIcon(GLOBAL_STATUS status_type, GLOB
         return nullptr;
     }
 
-    return &(_status_icons[(((uint32) status_type) * NUMBER_INTENSITY_LEVELS) + col]);
+    return &(_status_icons[(((uint32_t) status_type) * NUMBER_INTENSITY_LEVELS) + col]);
 }
 
 vt_video::StillImage* GlobalMedia::GetItemCategoryIcon(GLOBAL_OBJECT object_type)
 {
-    uint32 index = 0;
+    uint32_t index = 0;
 
     switch(object_type) {
     case GLOBAL_OBJECT_ITEM:
@@ -426,7 +426,7 @@ vt_video::StillImage* GlobalMedia::GetItemCategoryIcon(GLOBAL_OBJECT object_type
 
 vt_video::StillImage* GlobalMedia::GetSmallItemCategoryIcon(ITEM_CATEGORY object_category)
 {
-    uint32 index = 0;
+    uint32_t index = 0;
 
     switch(object_category) {
     case ITEM_LEGS_ARMOR:

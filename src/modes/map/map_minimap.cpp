@@ -180,10 +180,10 @@ vt_video::StillImage Minimap::_CreateProcedurally()
         return vt_video::StillImage();
     }
 
-    for(uint32 row = 0; row < _grid_width; ++row)
+    for(uint32_t row = 0; row < _grid_width; ++row)
     {
         r.y = 0;
-        for(uint32 col = 0; col < _grid_height; ++col)
+        for(uint32_t col = 0; col < _grid_height; ++col)
         {
             if(!map_object_supervisor->IsStaticCollision(row, col))
             {
@@ -376,8 +376,8 @@ void Minimap::_DEV_CreateXPMFromCollisionMap(const std::string& output_file)
     }
 
     ObjectSupervisor *map_object_supervisor = MapMode::CurrentInstance()->GetObjectSupervisor();
-    uint32 grid_width = 0;
-    uint32 grid_height = 0;
+    uint32_t grid_width = 0;
+    uint32_t grid_height = 0;
     map_object_supervisor->GetGridAxis(grid_width, grid_height);
 
     xpm_file.WriteLine("/* XPM */");
@@ -388,12 +388,12 @@ void Minimap::_DEV_CreateXPMFromCollisionMap(const std::string& output_file)
     xpm_file.WriteLine("\"1 c None\",");
     xpm_file.WriteLine("\"0 c #FFFFFF\",");
 
-    for(uint32 col = 0; col < grid_height; ++col)
+    for(uint32_t col = 0; col < grid_height; ++col)
     {
         std::ostringstream text("");
         text << "\"";
 
-        for(uint32 row = 0; row < grid_width; ++row)
+        for(uint32_t row = 0; row < grid_width; ++row)
         {
             if(map_object_supervisor->IsStaticCollision(row, col))
                 text << "1";

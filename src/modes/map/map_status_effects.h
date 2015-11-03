@@ -56,7 +56,7 @@ public:
     ActiveMapStatusEffect(vt_global::GlobalCharacter* character,
                           vt_global::GLOBAL_STATUS type,
                           vt_global::GLOBAL_INTENSITY intensity,
-                          uint32 duration = 0);
+                          uint32_t duration = 0);
 
     ~ActiveMapStatusEffect()
     {}
@@ -65,14 +65,14 @@ public:
     *** \param amount The number of intensity levels to increase the status effect by
     *** \return True if the intensity level was modified
     **/
-    bool IncrementIntensity(uint8 amount);
+    bool IncrementIntensity(uint8_t amount);
 
     /** \brief Decrements the status effect intensity by a negative amount
     *** \param amount The number of intensity levels to decrement the status effect by
     *** \return True if the intensity level was modified
     *** \note Intensity will not be decremented below GLOBAL_INTENSITY_NEUTRAL
     **/
-    bool DecrementIntensity(uint8 amount);
+    bool DecrementIntensity(uint8_t amount);
 
     //! \brief Class Member Access Functions
     //@{
@@ -220,7 +220,7 @@ public:
     {}
 
     //! Make the portrait fade in/out
-    void FadeIn(uint32 display_time) {
+    void FadeIn(uint32_t display_time) {
         _fade_in = true;
         _fade_out = false;
         // We overwrite the time to display the effect
@@ -251,7 +251,7 @@ private:
     bool _fade_out;
 
     //! \brief The time the portrait should be displayed.
-    int32 _display_time;
+    int32_t _display_time;
 
     //! \brief The corresponding global character
     vt_global::GlobalCharacter* _global_character;
@@ -307,14 +307,14 @@ public:
     **/
     bool ChangeActiveStatusEffect(ActiveMapStatusEffect& active_effect,
                                   vt_global::GLOBAL_INTENSITY intensity,
-                                  uint32 duration = 0, uint32 elapsed_time = 0, bool display_change = true);
+                                  uint32_t duration = 0, uint32_t elapsed_time = 0, bool display_change = true);
 
     //! \brief The same function but searching and/or creating the effect when necessary
     //! before applying it.
     bool ChangeActiveStatusEffect(vt_global::GlobalCharacter* character,
                                   vt_global::GLOBAL_STATUS status_type,
                                   vt_global::GLOBAL_INTENSITY intensity,
-                                  uint32 duration = 0, uint32 elapsed_time = 0, bool display_change = true);
+                                  uint32_t duration = 0, uint32_t elapsed_time = 0, bool display_change = true);
 
     //! \brief Tells the current active status effect intensity applied on the given character.
     //! \note As the map mode is not syncing the status effects with the global characters
@@ -351,7 +351,7 @@ private:
     **/
     void _AddActiveStatusEffect(vt_global::GlobalCharacter* character,
                                 vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity,
-                                uint32 duration = 0, uint32 elapsed_time = 0);
+                                uint32_t duration = 0, uint32_t elapsed_time = 0);
 
     /** \brief Removes an existing status effect from the actor
     *** \param status_effect A reference to the status effect to be removed (disabled)
@@ -375,7 +375,7 @@ private:
     //! \brief Check whether certain portraits should appear for a brief period of time.
     //! If the function is called several times, the portrait will simply keep on appearing
     //! for the latest desired duration
-    void _MakeCharacterPortraitAppear(vt_global::GlobalCharacter* character, uint32 time);
+    void _MakeCharacterPortraitAppear(vt_global::GlobalCharacter* character, uint32_t time);
 
     //! \brief Gives where the effect should be displayed (on bottom of the screen)
     //! according to the character it is applied on.

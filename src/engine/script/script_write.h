@@ -117,21 +117,21 @@ public:
     **/
     //@{
     void WriteBool(const std::string &key, bool value);
-    void WriteBool(const int32 key, bool value);
+    void WriteBool(const int32_t key, bool value);
 
-    void WriteInt(const std::string &key, int32 value) {
+    void WriteInt(const std::string &key, int32_t value) {
         _WriteData(key, value);
     }
 
-    void WriteInt(const int32 key, int32 value) {
+    void WriteInt(const int32_t key, int32_t value) {
         _WriteData(key, value);
     }
 
-    void WriteUInt(const std::string &key, uint32 value) {
+    void WriteUInt(const std::string &key, uint32_t value) {
         _WriteData(key, value);
     }
 
-    void WriteUInt(const int32 key, uint32 value) {
+    void WriteUInt(const int32_t key, uint32_t value) {
         _WriteData(key, value);
     }
 
@@ -139,12 +139,12 @@ public:
         _WriteData(key, value);
     }
 
-    void WriteFloat(const int32 key, float value) {
+    void WriteFloat(const int32_t key, float value) {
         _WriteData(key, value);
     }
 
     void WriteString(const std::string &key, const std::string &value);
-    void WriteString(const int32 key, const std::string &value);
+    void WriteString(const int32_t key, const std::string &value);
 
     /** The WriteUString functions actually take standard strings, not ustrings, for their value.
     *** What these methods do is write the string to the Lua file with the gettext translation
@@ -152,7 +152,7 @@ public:
     *** is returned from gettext instead of the actual base string contained in the file.
     **/
     void WriteUString(const std::string &key, const std::string &value);
-    void WriteUString(const int32 key, const std::string &value);
+    void WriteUString(const int32_t key, const std::string &value);
     //@}
 
     /** \name Vector Write Functions
@@ -162,21 +162,21 @@ public:
     **/
     //@{
     void WriteBoolVector(const std::string &key, std::vector<bool> &vect);
-    void WriteBoolVector(const int32 key, std::vector<bool> &vect);
+    void WriteBoolVector(const int32_t key, std::vector<bool> &vect);
 
-    void WriteIntVector(const std::string &key, std::vector<int32> &vect) {
+    void WriteIntVector(const std::string &key, std::vector<int32_t> &vect) {
         _WriteDataVector(key, vect);
     }
 
-    void WriteIntVector(const int32 key, std::vector<int32> &vect) {
+    void WriteIntVector(const int32_t key, std::vector<int32_t> &vect) {
         _WriteDataVector(key, vect);
     }
 
-    void WriteUIntVector(const std::string &key, std::vector<uint32> &vect) {
+    void WriteUIntVector(const std::string &key, std::vector<uint32_t> &vect) {
         _WriteDataVector(key, vect);
     }
 
-    void WriteUIntVector(const int32 key, std::vector<uint32> &vect) {
+    void WriteUIntVector(const int32_t key, std::vector<uint32_t> &vect) {
         _WriteDataVector(key, vect);
     }
 
@@ -184,14 +184,14 @@ public:
         _WriteDataVector(key, vect);
     }
 
-    void WriteFloatVector(const int32 key, std::vector<float> &vect) {
+    void WriteFloatVector(const int32_t key, std::vector<float> &vect) {
         _WriteDataVector(key, vect);
     }
 
     void WriteStringVector(const std::string &key, std::vector<std::string> &vect);
-    void WriteStringVector(const int32 key, std::vector<std::string> &vect);
+    void WriteStringVector(const int32_t key, std::vector<std::string> &vect);
     void WriteUStringVector(const std::string &key, std::vector<std::string> &vect);
-    void WriteUStringVector(const int32 key, std::vector<std::string> &vect);
+    void WriteUStringVector(const int32_t key, std::vector<std::string> &vect);
     //@}
 
     /** \brief Write out the namespace header
@@ -208,7 +208,7 @@ public:
     **/
     //@{
     void BeginTable(const std::string &key);
-    void BeginTable(int32 key);
+    void BeginTable(int32_t key);
     void EndTable();
     //@}
 
@@ -227,7 +227,7 @@ private:
     **/
     //@{
     template <class T> void _WriteData(const std::string &key, T value);
-    template <class T> void _WriteData(const int32 key, T value);
+    template <class T> void _WriteData(const int32_t key, T value);
     //@}
 
     /** \name Vector Read Templates
@@ -238,7 +238,7 @@ private:
     **/
     //@{
     template <class T> void _WriteDataVector(const std::string &key, std::vector<T> &vect);
-    template <class T> void _WriteDataVector(const int32 key, std::vector<T> &vect);
+    template <class T> void _WriteDataVector(const int32_t key, std::vector<T> &vect);
     //@}
 
     //! \brief Writes the pathname of all open tables (i.e., table1[table2][table3])
@@ -260,7 +260,7 @@ template <class T> void WriteScriptDescriptor::_WriteData(const std::string &key
 }
 
 
-template <class T> void WriteScriptDescriptor::_WriteData(const int32 key, T value)
+template <class T> void WriteScriptDescriptor::_WriteData(const int32_t key, T value)
 {
     if(_open_tables.empty()) {
         _error_messages << "* WriteScriptDescriptor::_WriteData() failed because there were no "
@@ -293,7 +293,7 @@ template <class T> void WriteScriptDescriptor::_WriteDataVector(const std::strin
     }
 
     _outfile << vect[0];
-    for(uint32 i = 1; i < vect.size(); i++) {
+    for(uint32_t i = 1; i < vect.size(); i++) {
         _outfile << ", " << vect[i];
     }
     _outfile << " }" << std::endl;
@@ -301,7 +301,7 @@ template <class T> void WriteScriptDescriptor::_WriteDataVector(const std::strin
 
 
 
-template <class T> void WriteScriptDescriptor::_WriteDataVector(const int32 key, std::vector<T>& vect)
+template <class T> void WriteScriptDescriptor::_WriteDataVector(const int32_t key, std::vector<T>& vect)
 {
     if(_open_tables.empty()) {
         _error_messages << "* WriteScriptDescriptor::_WriteDataVector() failed because there were no "
@@ -313,7 +313,7 @@ template <class T> void WriteScriptDescriptor::_WriteDataVector(const int32 key,
     _outfile << '[' << key << "] = { ";
 
     _outfile << vect[0];
-    for(uint32 i = 1; i < vect.size(); i++) {
+    for(uint32_t i = 1; i < vect.size(); i++) {
         _outfile << ", " << vect[i];
     }
     _outfile << " }" << std::endl;

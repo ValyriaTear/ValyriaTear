@@ -48,20 +48,20 @@ float Lerp(float alpha, float initial, float final_value);
 *** \param x The number to round up.
 *** \return The nearest power of two rounded up from the argument.
 **/
-uint32 RoundUpPow2(uint32 x);
+uint32_t RoundUpPow2(uint32_t x);
 
 /** \brief Determines if an unsigned integer is a power of two or not.
 *** \param x The number to examine.
 *** \return True if the number if a power of two, false otherwise.
 **/
-bool IsPowerOfTwo(uint32 x);
+bool IsPowerOfTwo(uint32_t x);
 
 /** \brief Determines if an integer is an odd number or not.
 *** \param x The unsigned integer to examine.
 *** \return True if the number is odd, false if it is not.
 *** \note Using a signed integer with this function will yield the same result.
 **/
-bool IsOddNumber(uint32 x);
+bool IsOddNumber(uint32_t x);
 
 /** \brief Determines if a floating point number is within a range of two numbers.
 *** \param value The floating point value to compare.

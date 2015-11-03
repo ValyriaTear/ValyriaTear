@@ -44,15 +44,15 @@ class EnemySprite;
 class ZoneSection
 {
 public:
-    ZoneSection(uint16 left, uint16 right, uint16 top, uint16 bottom) :
+    ZoneSection(uint16_t left, uint16_t right, uint16_t top, uint16_t bottom) :
         left_col(left), right_col(right), top_row(top), bottom_row(bottom)
     {}
 
     //! \brief Collision grid columns for the top and bottom section of the area
-    uint16 left_col, right_col;
+    uint16_t left_col, right_col;
 
     //! \brief Collision grid rows for the top and bottom section of the area
-    uint16 top_row, bottom_row;
+    uint16_t top_row, bottom_row;
 }; // class ZoneSection
 
 
@@ -81,7 +81,7 @@ public:
     *** \param top_row The top edge of the section to add
     *** \param bottom_row The bottom edge of the section to add
     **/
-    MapZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
+    MapZone(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row);
 
     virtual ~MapZone()
     {}
@@ -90,7 +90,7 @@ public:
     //! without letting Lua handling the object life-cycle.
     //! \note We don't permit luabind to use constructors here as it can't currently
     //! give the object ownership at construction time.
-    static MapZone* Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
+    static MapZone* Create(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row);
 
     /** \brief Adds a new zone section to the map zone
     *** \param left_col The left edge of the section to add
@@ -102,7 +102,7 @@ public:
     *** bottom. If these conditions are not true, a warning will be printed and the section
     *** will not be added.
     **/
-    virtual void AddSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
+    virtual void AddSection(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row);
 
     //! \brief Updates the state of the zone
     virtual void Update()
@@ -162,7 +162,7 @@ public:
     *** \param top_row The top edge of the section to add
     *** \param bottom_row The bottom edge of the section to add
     **/
-    CameraZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
+    CameraZone(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row);
 
     virtual ~CameraZone()
     {}
@@ -171,7 +171,7 @@ public:
     //! without letting Lua handling the object life-cycle.
     //! \note We don't permit luabind to use constructors here as it can't currently
     //! give the object ownership at construction time.
-    static CameraZone* Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
+    static CameraZone* Create(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row);
 
     //! \brief Updates the state of the zone by checking the current camera position
     void Update();
@@ -229,8 +229,8 @@ public:
     *** \param top_row The top edge of the section to add
     *** \param bottom_row The bottom edge of the section to add
     **/
-    EnemyZone(uint16 left_col, uint16 right_col,
-              uint16 top_row, uint16 bottom_row);
+    EnemyZone(uint16_t left_col, uint16_t right_col,
+              uint16_t top_row, uint16_t bottom_row);
 
     ~EnemyZone() {
         if(_spawn_zone != nullptr) delete _spawn_zone;
@@ -240,7 +240,7 @@ public:
     //! without letting Lua handling the object life-cycle.
     //! \note We don't permit luabind to use constructors here as it can't currently
     //! give the object ownership at construction time.
-    static EnemyZone* Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
+    static EnemyZone* Create(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row);
 
     //! \brief Enables/disables the enemy zone.
     void SetEnabled(bool is_enabled) {
@@ -251,7 +251,7 @@ public:
     *** \param enemy A pointer to the EnemySprite object instance to add
     *** \param count The number of copies of this enemy to add
     **/
-    void AddEnemy(EnemySprite *enemy, uint8 count = 1);
+    void AddEnemy(EnemySprite *enemy, uint8_t count = 1);
 
     /** \brief Adds a new zone section to the zone where enemies may spawn
     *** \param left_col The left edge of the section to add
@@ -271,7 +271,7 @@ public:
     *** bottom. If these conditions are not true, a warning will be printed and the section
     *** will not be added.
     **/
-    void AddSpawnSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row);
+    void AddSpawnSection(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row);
 
     //! \brief Decrements the number of active enemies by one
     void EnemyDead();
@@ -293,7 +293,7 @@ public:
         return _roaming_restrained;
     }
 
-    uint32 GetSpawnTime() const {
+    uint32_t GetSpawnTime() const {
         return _spawn_timer.GetDuration();
     }
 
@@ -302,18 +302,18 @@ public:
     }
 
     //! \note Calling this function will reset the elapsed spawn time
-    void SetSpawnTime(uint32 time) {
+    void SetSpawnTime(uint32_t time) {
         _spawn_timer.Reset();
         _spawn_timer.SetDuration(time);
         _spawn_timer.Run();
     }
 
     //! Set the number of times an enemy can spawn in this enemy zone.
-    void SetSpawnsLeft(int32 spawns)
+    void SetSpawnsLeft(int32_t spawns)
     { _spawns_left = spawns; }
 
     //! Set the number of times left an enemy can spawn in this enemy zone.
-    int32 GetSpawnsLeft() const
+    int32_t GetSpawnsLeft() const
     { return _spawns_left; }
 
     //! Decrease enemy spawns left to do. Should be triggered upon enemy death.
@@ -330,13 +330,13 @@ private:
     bool _roaming_restrained;
 
     //! \brief The number of enemies that are currently not in the DEAD state
-    uint8 _active_enemies;
+    uint8_t _active_enemies;
 
     //! \brief The number of times an enemy can (re)spawn in this enemy zone.
     //! By default, this value is equal to -1 meaning an infinite amount of time.
     //! This permits to set special spawn points where enemies can only be seen once,
     //! for special bosses or puzzles.
-    int32 _spawns_left;
+    int32_t _spawns_left;
 
     //! \brief Used for the respawning of enemies within the zone
     vt_system::SystemTimer _spawn_timer;

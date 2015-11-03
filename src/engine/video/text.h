@@ -74,13 +74,13 @@ public:
     void ClearFont();
 
     //! \brief The maximum height of all of the glyphs for this font.
-    int32 height;
+    int32_t height;
 
     //! \brief SDL_ttf's recommended amount of spacing between lines.
-    int32 line_skip;
+    int32_t line_skip;
 
     //! \brief The height above and below baseline of font
-    int32 ascent, descent;
+    int32_t ascent, descent;
 
     //! \brief A pointer to SDL_TTF's font structure.
     TTF_Font* ttf_font;
@@ -89,7 +89,7 @@ public:
     std::string font_filename;
 
     //! \brief Used to know the font size currently used.
-    uint32 font_size;
+    uint32_t font_size;
 
 private:
     //
@@ -144,7 +144,7 @@ public:
     TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style);
 
     //! \brief Full constructor requiring initialization data arguments for all class members.
-    TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style, int32 shadow_x, int32 shadow_y);
+    TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style, int32_t shadow_x, int32_t shadow_y);
 
     //! Sets the font name and updates the font properties.
     void SetFont(const std::string& font);
@@ -162,7 +162,7 @@ public:
     }
 
     //! Sets the shadow offsets from the given text.
-    void SetShadowOffsets(int32 xoffset, int32 yoffset) {
+    void SetShadowOffsets(int32_t xoffset, int32_t yoffset) {
         _shadow_offset_x = xoffset;
         _shadow_offset_y = yoffset;
     }
@@ -188,11 +188,11 @@ public:
         return _shadow_style;
     }
 
-    int32 GetShadowOffsetX() const {
+    int32_t GetShadowOffsetX() const {
         return _shadow_offset_x;
     }
 
-    int32 GetShadowOffsetY() const {
+    int32_t GetShadowOffsetY() const {
         return _shadow_offset_y;
     }
 
@@ -209,8 +209,8 @@ private:
     Color _shadow_color;
 
     //! \brief The x and y offsets of the shadow.
-    int32 _shadow_offset_x;
-    int32 _shadow_offset_y;
+    int32_t _shadow_offset_x;
+    int32_t _shadow_offset_y;
 
     //! \brief A pointer to the FontProperty object.
     //! This acts as reference cache, thus it must not be deleted here!
@@ -444,7 +444,7 @@ public:
         SetText(vt_utils::MakeUnicodeString(text), text_style);
     }
 
-    void SetWordWrapWidth(uint32 width) {
+    void SetWordWrapWidth(uint32_t width) {
         _max_width = width;
     }
 
@@ -462,7 +462,7 @@ public:
         return _width;
     }
 
-    uint32 GetWordWrapWidth() const {
+    uint32_t GetWordWrapWidth() const {
         return _max_width;
     }
     //@}
@@ -475,7 +475,7 @@ private:
     TextStyle _style;
 
     //! \brief The text max width, used for word wrapping
-    uint32 _max_width;
+    uint32_t _max_width;
 
     //! \brief The TextTexture elements representing rendered text portions, usually lines.
     std::vector<private_video::TextElement *> _text_sections;
@@ -559,20 +559,20 @@ public:
     *** \param text The text string in unicode format
     *** \return The width of the text as it would be rendered, or -1 if there was an error
     **/
-    int32 CalculateTextWidth(TTF_Font* ttf_font, const vt_utils::ustring& text);
+    int32_t CalculateTextWidth(TTF_Font* ttf_font, const vt_utils::ustring& text);
 
     /** \brief Calculates what the width would be for a standard string of text if it were rendered
     *** \param ttf_font The True Type SDL font object
     *** \param text The text string in standard format
     *** \return The width of the text as it would be rendered, or -1 if there was an error
     **/
-    int32 CalculateTextWidth(TTF_Font* ttf_font, const std::string& text);
+    int32_t CalculateTextWidth(TTF_Font* ttf_font, const std::string& text);
 
     /** \brief Returns the text as a vector of lines which text width is inferior or equal to the given pixel max width.
     *** \param text The ustring text
     *** \param ttf_font The True Type SDL font object
     **/
-    std::vector<vt_utils::ustring> WrapText(const vt_utils::ustring& text, TTF_Font* ttf_font, uint32 max_width);
+    std::vector<vt_utils::ustring> WrapText(const vt_utils::ustring& text, TTF_Font* ttf_font, uint32_t max_width);
     //@}
 
     //! \name Class member access methods
@@ -616,7 +616,7 @@ private:
     *** \param size The point size to set the font after it is loaded
     *** \return True if the font was successfully loaded, or false if there was an error
     **/
-    bool _LoadFont(const std::string& textstyle_name, const std::string& font_filename, uint32 size);
+    bool _LoadFont(const std::string& textstyle_name, const std::string& font_filename, uint32_t size);
 
     /** \brief Removes a loaded font from memory and frees up associated resources
     *** \param font_name The reference name of the font to unload
@@ -636,7 +636,7 @@ private:
     ***
     *** This method is intended for drawing only a single line of text.
     **/
-    void _RenderText(const uint16* text, FontProperties* font_properties, const Color& color);
+    void _RenderText(const uint16_t* text, FontProperties* font_properties, const Color& color);
 
     /** \brief Renders a unicode, shadowed string to the screen.
     *** \param text A pointer to a unicode string to draw.
@@ -648,7 +648,7 @@ private:
     ***
     *** This method is intended for drawing only a single line of text.
     **/
-    void _RenderText(const uint16* text, FontProperties* font_properties,
+    void _RenderText(const uint16_t* text, FontProperties* font_properties,
                      const Color& color,
                      float shadow_offset_x, float shadow_offset_y,
                      const Color& color_shadow);

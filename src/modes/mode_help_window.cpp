@@ -114,7 +114,7 @@ void HelpWindow::_RefreshText()
     _text_continue.SetText(VTranslate("Press '%s' anytime to show/hide help.",
                            vt_input::InputManager->GetHelpKeyName()));
 
-    uint8 game_type = ModeManager->GetGameType();
+    uint8_t game_type = ModeManager->GetGameType();
 
     if(game_type == MODE_MANAGER_BOOT_MODE) {
         _text_header.SetStyle(TextStyle("text24"));

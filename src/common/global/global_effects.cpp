@@ -55,7 +55,7 @@ std::string GetElementName(GLOBAL_ELEMENTAL type)
 std::string GetStatusName(GLOBAL_STATUS type)
 {
     std::string result;
-    int32 table_id = static_cast<int32>(type);
+    int32_t table_id = static_cast<int32_t>(type);
 
     ReadScriptDescriptor &script_file = GlobalManager->GetStatusEffectsScript();
     if(script_file.DoesTableExist(table_id) == true) {
@@ -97,14 +97,14 @@ GlobalStatusEffect::GlobalStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
     }
 
     // Make sure that a table entry exists for this status element
-    uint32 table_id = static_cast<uint32>(type);
+    uint32_t table_id = static_cast<uint32_t>(type);
     ReadScriptDescriptor &script_file = GlobalManager->GetStatusEffectsScript();
     if(!script_file.OpenTable(table_id)) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "Lua definition file contained no entry for status effect: " << table_id << std::endl;
         return;
     }
 
-    uint32 update_every = script_file.ReadUInt("update_every");
+    uint32_t update_every = script_file.ReadUInt("update_every");
     if (update_every > 0)
         _update_timer.SetDuration(update_every);
 
@@ -119,12 +119,12 @@ GlobalStatusEffect::GlobalStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
     }
 }
 
-bool GlobalStatusEffect::IncrementIntensity(uint8 amount)
+bool GlobalStatusEffect::IncrementIntensity(uint8_t amount)
 {
     return vt_global::IncrementIntensity(_intensity, amount);
 }
 
-bool GlobalStatusEffect::DecrementIntensity(uint8 amount)
+bool GlobalStatusEffect::DecrementIntensity(uint8_t amount)
 {
     return vt_global::DecrementIntensity(_intensity, amount);
 }

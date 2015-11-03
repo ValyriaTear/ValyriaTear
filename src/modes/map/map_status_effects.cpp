@@ -32,7 +32,7 @@ namespace private_map
 {
 
 //! \brief Gives the X effect position from the given index
-float _GetEffectXPositionFromCharacterIndex(uint32 index)
+float _GetEffectXPositionFromCharacterIndex(uint32_t index)
 {
     return 90.0f + (float)(index * 130);
 }
@@ -66,7 +66,7 @@ PassiveMapStatusEffect::PassiveMapStatusEffect(vt_global::GlobalCharacter* chara
     }
 
     // Make sure that a table entry exists for this status element
-    uint32 table_id = static_cast<uint32>(type);
+    uint32_t table_id = static_cast<uint32_t>(type);
     vt_script::ReadScriptDescriptor &script_file = vt_global::GlobalManager->GetStatusEffectsScript();
     if(!script_file.OpenTable(table_id)) {
         PRINT_WARNING << "Lua definition file contained no entry for status effect: " << table_id << std::endl;
@@ -99,7 +99,7 @@ PassiveMapStatusEffect::PassiveMapStatusEffect(vt_global::GlobalCharacter* chara
 ActiveMapStatusEffect::ActiveMapStatusEffect(vt_global::GlobalCharacter* character,
                                              vt_global::GLOBAL_STATUS type,
                                              vt_global::GLOBAL_INTENSITY intensity,
-                                             uint32 duration) :
+                                             uint32_t duration) :
     GlobalStatusEffect(type, intensity),
     _affected_character(character),
     _timer(0),
@@ -121,7 +121,7 @@ ActiveMapStatusEffect::ActiveMapStatusEffect(vt_global::GlobalCharacter* charact
     }
 
     // Make sure that a table entry exists for this status element
-    uint32 table_id = static_cast<uint32>(type);
+    uint32_t table_id = static_cast<uint32_t>(type);
     vt_script::ReadScriptDescriptor &script_file = vt_global::GlobalManager->GetStatusEffectsScript();
     if(!script_file.OpenTable(table_id)) {
         PRINT_WARNING << "Lua definition file contained no entry for status effect: " << table_id << std::endl;
@@ -180,14 +180,14 @@ void ActiveMapStatusEffect::SetIntensity(vt_global::GLOBAL_INTENSITY intensity)
     _ProcessIntensityChange(no_intensity_change);
 }
 
-bool ActiveMapStatusEffect::IncrementIntensity(uint8 amount)
+bool ActiveMapStatusEffect::IncrementIntensity(uint8_t amount)
 {
     bool change = GlobalStatusEffect::IncrementIntensity(amount);
     _ProcessIntensityChange(!change);
     return change;
 }
 
-bool ActiveMapStatusEffect::DecrementIntensity(uint8 amount)
+bool ActiveMapStatusEffect::DecrementIntensity(uint8_t amount)
 {
     bool change = GlobalStatusEffect::DecrementIntensity(amount);
     _ProcessIntensityChange(!change);
@@ -230,7 +230,7 @@ CharacterIndication::CharacterIndication(vt_global::GlobalCharacter* character,
 
 void CharacterIndication::Update()
 {
-    uint32 elapsed_time = vt_system::SystemManager->GetUpdateTime();
+    uint32_t elapsed_time = vt_system::SystemManager->GetUpdateTime();
     // Apply fading
     if (_fade_out) {
         _image_alpha -= 0.005f * (float)elapsed_time;
@@ -255,7 +255,7 @@ void CharacterIndication::Update()
     }
 
     // Update display time otherwise
-    _display_time -= (int32)elapsed_time;
+    _display_time -= (int32_t)elapsed_time;
 }
 
 void CharacterIndication::Draw() {
@@ -294,7 +294,7 @@ void MapStatusEffectsSupervisor::LoadStatusEffects()
         return;
 
     // For each character, we load the status effects data
-    for (uint32 i = 0; i < characters->size(); ++i) {
+    for (uint32_t i = 0; i < characters->size(); ++i) {
         GlobalCharacter* character = (*characters)[i];
 
         if (!character)
@@ -306,7 +306,7 @@ void MapStatusEffectsSupervisor::LoadStatusEffects()
 
         // passive effects
         const std::vector<GLOBAL_INTENSITY>& passives = character->GetEquipementStatusEffects();
-        for (uint32 j = 0; j < passives.size(); ++j) {
+        for (uint32_t j = 0; j < passives.size(); ++j) {
             GLOBAL_STATUS status = (vt_global::GLOBAL_STATUS)j;
             GLOBAL_INTENSITY intensity = passives.at(j);
 
@@ -319,7 +319,7 @@ void MapStatusEffectsSupervisor::LoadStatusEffects()
 
         // active effects
         const std::vector<ActiveStatusEffect>& actives = character->GetActiveStatusEffects();
-        for (uint32 j = 0; j < actives.size(); ++j) {
+        for (uint32_t j = 0; j < actives.size(); ++j) {
             GLOBAL_STATUS status = actives.at(j).GetEffect();
             GLOBAL_INTENSITY intensity = actives.at(j).GetIntensity();
 
@@ -341,7 +341,7 @@ void MapStatusEffectsSupervisor::SaveActiveStatusEffects()
     if (!characters)
         return;
 
-    for (uint32 i = 0; i < characters->size(); ++i) {
+    for (uint32_t i = 0; i < characters->size(); ++i) {
         GlobalCharacter* character = (*characters)[i];
 
         if (!character)
@@ -351,7 +351,7 @@ void MapStatusEffectsSupervisor::SaveActiveStatusEffects()
     }
 
     // Then, we copy every active status effects back to the affected character.
-    for (uint32 i = 0; i < _active_status_effects.size(); ++i) {
+    for (uint32_t i = 0; i < _active_status_effects.size(); ++i) {
         ActiveMapStatusEffect& effect = _active_status_effects[i];
         if (effect.GetType() == GLOBAL_STATUS_INVALID)
             continue;
@@ -368,7 +368,7 @@ void MapStatusEffectsSupervisor::SaveActiveStatusEffects()
 
 void MapStatusEffectsSupervisor::_UpdatePassive()
 {
-    for(uint32 i = 0; i < _equipment_status_effects.size(); ++i) {
+    for(uint32_t i = 0; i < _equipment_status_effects.size(); ++i) {
         PassiveMapStatusEffect& effect = _equipment_status_effects.at(i);
 
         if (!effect.GetUpdatePassiveFunction().is_valid())
@@ -378,7 +378,7 @@ void MapStatusEffectsSupervisor::_UpdatePassive()
         vt_system::SystemTimer *update_timer = effect.GetUpdateTimer();
         bool use_update_timer = effect.IsUsingUpdateTimer();
         if (use_update_timer) {
-            uint32 update_time = vt_system::SystemManager->GetUpdateTime();
+            uint32_t update_time = vt_system::SystemManager->GetUpdateTime();
             update_timer->Update(update_time);
         }
 
@@ -422,7 +422,7 @@ void MapStatusEffectsSupervisor::UpdateEffects()
         vt_system::SystemTimer* update_timer = effect.GetUpdateTimer();
 
         // Update the effect time while taking in account the battle speed
-        uint32 update_time = vt_system::SystemManager->GetUpdateTime();
+        uint32_t update_time = vt_system::SystemManager->GetUpdateTime();
         effect_timer->Update(update_time);
 
         // Update the update timer if it is running
@@ -440,7 +440,7 @@ void MapStatusEffectsSupervisor::UpdateEffects()
             // As the effect is fading, we divide the effect duration time per 2, with at least 1 second of duration.
             // This is done to give more a fading out style onto the effect and not to advantage/disadvantage the target
             // too much.
-            uint32 duration = effect_timer->GetDuration() / 2;
+            uint32_t duration = effect_timer->GetDuration() / 2;
             effect_timer->SetDuration(duration < 1000 ? 1000 : duration);
 
             if (effect.GetIntensity() > GLOBAL_INTENSITY_NEUTRAL) {
@@ -500,21 +500,21 @@ void MapStatusEffectsSupervisor::UpdateEffects()
 void MapStatusEffectsSupervisor::UpdatePortraits()
 {
     // Update portrait indicators
-    for (uint32 i = 0; i < _characters_portraits.size(); ++i)
+    for (uint32_t i = 0; i < _characters_portraits.size(); ++i)
         _characters_portraits[i].Update();
 }
 
 void MapStatusEffectsSupervisor::Draw()
 {
     // Draw character portraits shown when effects changes are triggered.
-    for (uint32 i = 0; i < _characters_portraits.size(); ++i)
+    for (uint32_t i = 0; i < _characters_portraits.size(); ++i)
         _characters_portraits[i].Draw();
 }
 
 bool MapStatusEffectsSupervisor::ChangeActiveStatusEffect(GlobalCharacter* character,
                                                           vt_global::GLOBAL_STATUS status_type,
                                                           vt_global::GLOBAL_INTENSITY intensity,
-                                                          uint32 duration, uint32 elapsed_time,
+                                                          uint32_t duration, uint32_t elapsed_time,
                                                           bool display_change)
 {
     if (!character)
@@ -525,7 +525,7 @@ bool MapStatusEffectsSupervisor::ChangeActiveStatusEffect(GlobalCharacter* chara
             || intensity >= GLOBAL_INTENSITY_TOTAL)
         return false;
 
-    for (uint32 i = 0; i < _active_status_effects.size(); ++i) {
+    for (uint32_t i = 0; i < _active_status_effects.size(); ++i) {
         ActiveMapStatusEffect& active_effect = _active_status_effects[i];
 
         if (active_effect.GetType() != status_type)
@@ -552,7 +552,7 @@ bool MapStatusEffectsSupervisor::ChangeActiveStatusEffect(GlobalCharacter* chara
 
 bool MapStatusEffectsSupervisor::ChangeActiveStatusEffect(ActiveMapStatusEffect& active_effect,
                                                           GLOBAL_INTENSITY intensity,
-                                                          uint32 duration, uint32 elapsed_time,
+                                                          uint32_t duration, uint32_t elapsed_time,
                                                           bool display_change)
 {
     if (!active_effect.IsActive())
@@ -564,7 +564,7 @@ bool MapStatusEffectsSupervisor::ChangeActiveStatusEffect(ActiveMapStatusEffect&
         increase_intensity = true;
 
     // Holds the unsigned amount of change in intensity in either a positive or negative degree
-    uint8 intensity_change = abs(static_cast<int8>(intensity));
+    uint8_t intensity_change = abs(static_cast<int8_t>(intensity));
 
     // variables used to determine the intensity change of the effect.
     GLOBAL_INTENSITY previous_intensity = GLOBAL_INTENSITY_INVALID;
@@ -623,7 +623,7 @@ GLOBAL_INTENSITY MapStatusEffectsSupervisor::GetActiveStatusEffectIntensity(Glob
     if (status_type == GLOBAL_STATUS_INVALID || status_type == GLOBAL_STATUS_TOTAL)
         return GLOBAL_INTENSITY_INVALID;
 
-    for (uint32 i = 0; i < _active_status_effects.size(); ++i) {
+    for (uint32_t i = 0; i < _active_status_effects.size(); ++i) {
         const ActiveMapStatusEffect& effect = _active_status_effects[i];
         if (effect.GetType() != status_type)
             continue;
@@ -639,7 +639,7 @@ GLOBAL_INTENSITY MapStatusEffectsSupervisor::GetActiveStatusEffectIntensity(Glob
 
 void MapStatusEffectsSupervisor::_AddActiveStatusEffect(GlobalCharacter* character,
                                                         GLOBAL_STATUS status, GLOBAL_INTENSITY intensity,
-                                                        uint32 duration, uint32 elapsed_time)
+                                                        uint32_t duration, uint32_t elapsed_time)
 {
     if((status <= GLOBAL_STATUS_INVALID) || (status >= GLOBAL_STATUS_TOTAL)) {
         PRINT_WARNING << "Function received invalid status argument: " << status << std::endl;
@@ -727,9 +727,9 @@ void MapStatusEffectsSupervisor::_AddPassiveStatusEffect(vt_global::GlobalCharac
     _equipment_status_effects.push_back(effect);
 }
 
-void MapStatusEffectsSupervisor::_MakeCharacterPortraitAppear(vt_global::GlobalCharacter* character, uint32 time)
+void MapStatusEffectsSupervisor::_MakeCharacterPortraitAppear(vt_global::GlobalCharacter* character, uint32_t time)
 {
-    for (uint32 i = 0; i < _characters_portraits.size(); ++i) {
+    for (uint32_t i = 0; i < _characters_portraits.size(); ++i) {
         if (_characters_portraits[i].GetCharacter() == character) {
             _characters_portraits[i].FadeIn(time);
             return;
@@ -740,7 +740,7 @@ void MapStatusEffectsSupervisor::_MakeCharacterPortraitAppear(vt_global::GlobalC
 float MapStatusEffectsSupervisor::_GetEffectAnimationXPosition(vt_global::GlobalCharacter* character)
 {
     float x_pos = 90.0; // default position.
-    for (uint32 i = 0; i < _characters_portraits.size(); ++i) {
+    for (uint32_t i = 0; i < _characters_portraits.size(); ++i) {
         if (_characters_portraits[i].GetCharacter() == character) {
             x_pos = _GetEffectXPositionFromCharacterIndex(i) + 5.0f; // We add an offset to avoid cluttering
             break;

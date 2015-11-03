@@ -44,7 +44,7 @@ Dialogue::Dialogue(const std::string& dialogue_id) :
 
 Dialogue::~Dialogue()
 {
-    for(uint32 i = 0; i < _options.size(); i++) {
+    for(uint32_t i = 0; i < _options.size(); i++) {
         if(_options[i] != nullptr) {
             delete _options[i];
             _options[i] = nullptr;
@@ -70,7 +70,7 @@ void Dialogue::AddLine(const std::string& text)
     AddLine(text, DIALOGUE_NEXT_LINE);
 }
 
-void Dialogue::AddLine(const std::string& text, int32 next_line)
+void Dialogue::AddLine(const std::string& text, int32_t next_line)
 {
     ++_line_count;
     _text.push_back(MakeUnicodeString(text));
@@ -84,17 +84,17 @@ void Dialogue::AddLine(const std::string& text, const std::string& speaker_id)
     AddLineTimed(text, speaker_id, DIALOGUE_NEXT_LINE, DIALOGUE_NO_TIMER);
 }
 
-void Dialogue::AddLine(const std::string& text, const std::string& speaker_id, int32 next_line)
+void Dialogue::AddLine(const std::string& text, const std::string& speaker_id, int32_t next_line)
 {
     AddLineTimed(text, speaker_id, next_line, DIALOGUE_NO_TIMER);
 }
 
-void Dialogue::AddLineTimed(const std::string& text, uint32 display_time)
+void Dialogue::AddLineTimed(const std::string& text, uint32_t display_time)
 {
     AddLineTimed(text, DIALOGUE_NEXT_LINE, display_time);
 }
 
-void Dialogue::AddLineTimed(const std::string& text, int32 next_line, uint32 display_time)
+void Dialogue::AddLineTimed(const std::string& text, int32_t next_line, uint32_t display_time)
 {
     ++_line_count;
     _text.push_back(MakeUnicodeString(text));
@@ -103,12 +103,12 @@ void Dialogue::AddLineTimed(const std::string& text, int32 next_line, uint32 dis
     _options.push_back(nullptr);
 }
 
-void Dialogue::AddLineTimed(const std::string& text, const std::string& speaker_id, uint32 display_time)
+void Dialogue::AddLineTimed(const std::string& text, const std::string& speaker_id, uint32_t display_time)
 {
     AddLineTimed(text, speaker_id, DIALOGUE_NEXT_LINE, display_time);
 }
 
-void Dialogue::AddLineTimed(const std::string &text, const std::string& speaker_id, int32 next_line, uint32 display_time)
+void Dialogue::AddLineTimed(const std::string &text, const std::string& speaker_id, int32_t next_line, uint32_t display_time)
 {
     AddLineTimed(text, next_line, display_time);
     _speakers.push_back(speaker_id);
@@ -119,14 +119,14 @@ void Dialogue::AddOption(const std::string& text)
     AddOption(text, DIALOGUE_NEXT_LINE);
 }
 
-void Dialogue::AddOption(const std::string& text, int32 next_line)
+void Dialogue::AddOption(const std::string& text, int32_t next_line)
 {
     if(_line_count == 0) {
         IF_PRINT_WARNING(COMMON_DEBUG) << "Attempted to add an option to a dialogue with no lines" << std::endl;
         return;
     }
 
-    uint32 current_line = _line_count - 1;
+    uint32_t current_line = _line_count - 1;
 
     // If the line the options will be added to currently has no options, create a new instance of the CommonDialogueOptions class to store the options in.
     if(_options[current_line] == nullptr) {
@@ -144,8 +144,8 @@ bool Dialogue::Validate()
     }
 
     // Check that all next lines with positive values point to valid indeces
-    for(uint32 i = 0; i < _line_count; ++i) {
-        if((_next_lines[i] >= 0) && (static_cast<uint32>(_next_lines[i]) >= _line_count)) {
+    for(uint32_t i = 0; i < _line_count; ++i) {
+        if((_next_lines[i] >= 0) && (static_cast<uint32_t>(_next_lines[i]) >= _line_count)) {
             IF_PRINT_WARNING(COMMON_DEBUG) << "Validation failed for dialogue #" << _dialogue_id
                                            << ": next line referred to an invalid line index: " << _next_lines[i] << std::endl;
             return false;
@@ -159,9 +159,9 @@ bool Dialogue::Validate()
                 return false;
             }
 
-            for(uint32 j = 0; j < _options[i]->GetNumberOptions(); ++j) {
-                int32 option_next_line = _options[i]->GetOptionNextLine(j);
-                if((option_next_line >= 0) && (static_cast<uint32>(option_next_line) >= _line_count)) {
+            for(uint32_t j = 0; j < _options[i]->GetNumberOptions(); ++j) {
+                int32_t option_next_line = _options[i]->GetOptionNextLine(j);
+                if((option_next_line >= 0) && (static_cast<uint32_t>(option_next_line) >= _line_count)) {
                     IF_PRINT_WARNING(COMMON_DEBUG) << "Validation failed for dialogue #" << _dialogue_id
                                                    << ": option's next line referred to an invalid line index: " << option_next_line << std::endl;
                     return false;
@@ -172,14 +172,14 @@ bool Dialogue::Validate()
 
     // Construct containers that hold all unique sprite and event ids for this dialogue
     std::set<std::string> speaker_ids;
-    for(uint32 i = 0; i < _line_count; ++i) {
+    for(uint32_t i = 0; i < _line_count; ++i) {
         speaker_ids.insert(_speakers[i]);
     }
 
     // Check that all sprites and events referenced by the dialogue exist
     // FIXME: Move the check into the dialogue supervisor
     /*
-    for(std::set<uint32>::iterator i = speaker_ids.begin(); i != speaker_ids.end(); ++i) {
+    for(std::set<uint32_t>::iterator i = speaker_ids.begin(); i != speaker_ids.end(); ++i) {
         if(BattleMode::CurrentInstance()->GetDialogueSupervisor()->GetSpeaker(*i) == nullptr) {
             PRINT_WARNING << "Validation failed for dialogue #" << _dialogue_id
                           << ": dialogue referenced invalid speaker with id: " << *i << std::endl;
@@ -200,7 +200,7 @@ void DialogueOptions::AddOption(const std::string& text)
     AddOption(text, DIALOGUE_NEXT_LINE);
 }
 
-void DialogueOptions::AddOption(const std::string& text, int32 next_line)
+void DialogueOptions::AddOption(const std::string& text, int32_t next_line)
 {
     _text.push_back(MakeUnicodeString(text));
     _next_lines.push_back(next_line);
@@ -589,7 +589,7 @@ void DialogueSupervisor::_BeginLine()
     _dialogue_window.Clear();
     _dialogue_window.GetDisplayTextBox().SetDisplayText(_current_dialogue->GetLineText(_line_counter));
     if(_current_options != nullptr) {
-        for(uint32 i = 0; i < _current_options->GetNumberOptions(); ++i) {
+        for(uint32_t i = 0; i < _current_options->GetNumberOptions(); ++i) {
             _dialogue_window.GetDisplayOptionBox().AddOption(_current_options->GetOptionText(i));
         }
 
@@ -611,16 +611,16 @@ void DialogueSupervisor::_BeginLine()
 void DialogueSupervisor::_EndLine()
 {
     // Determine the next line to read
-    int32 next_line = _current_dialogue->GetLineNextLine(_line_counter);
+    int32_t next_line = _current_dialogue->GetLineNextLine(_line_counter);
     // If this line had options, the selected option next line overrides the line's next line that we set above
     if(_current_options != nullptr) {
-        uint32 selected_option = _dialogue_window.GetDisplayOptionBox().GetSelection();
+        uint32_t selected_option = _dialogue_window.GetDisplayOptionBox().GetSelection();
         next_line = _current_options->GetOptionNextLine(selected_option);
     }
 
     // --- Case 1: Explicitly setting the next line. Warn and end the dialogue if the line to move to is invalid
     if(next_line >= 0) {
-        if(static_cast<uint32>(next_line) >= _current_dialogue->GetLineCount()) {
+        if(static_cast<uint32_t>(next_line) >= _current_dialogue->GetLineCount()) {
             IF_PRINT_WARNING(COMMON_DEBUG) << "dialogue #" << _current_dialogue->GetDialogueID()
                                            << " tried to set dialogue to invalid line. Current/next line values: {" << _line_counter
                                            << ", " << next_line << "}" << std::endl;
@@ -630,7 +630,7 @@ void DialogueSupervisor::_EndLine()
     // --- Case 2: Request to incrementing the current line. If we're incrementing past the last line, end the dialogue
     else if(next_line == DIALOGUE_NEXT_LINE) {
         next_line = _line_counter + 1;
-        if(static_cast<uint32>(next_line) >= _current_dialogue->GetLineCount())
+        if(static_cast<uint32_t>(next_line) >= _current_dialogue->GetLineCount())
             next_line = DIALOGUE_END;
     }
     // --- Case 3: Request to end the current dialogue

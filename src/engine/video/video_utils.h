@@ -33,7 +33,7 @@ const float VIDEO_STANDARD_RES_WIDTH  = 1024.0f;
 const float VIDEO_STANDARD_RES_HEIGHT = 768.0f;
 
 //! \brief The number of FPS samples to retain across frames
-const uint32 FPS_SAMPLES = 250;
+const uint32_t FPS_SAMPLES = 250;
 
 //! \brief Draw flags to control x and y alignment, flipping, and texture blending.
 enum VIDEO_DRAW_FLAGS {

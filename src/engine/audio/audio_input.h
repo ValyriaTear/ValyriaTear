@@ -63,7 +63,7 @@ public:
     *** If the cursor exceeds the maximum sample position, the read cursor will
     *** not change.
     **/
-    virtual void Seek(uint32 sample_position) = 0;
+    virtual void Seek(uint32_t sample_position) = 0;
 
     /** \brief Reads data up to a specified number of samples
     *** \param data_buffer The buffer to store the read audio data in
@@ -73,7 +73,7 @@ public:
     *** Reads up to the specified number of samples, and stores it in a buffer. It can store from 0 to
     *** the spcified number of samples. The buffer must hold enough information for the data.
     **/
-    virtual uint32 Read(uint8 *data_buffer, uint32 number_samples, bool &end) = 0;
+    virtual uint32_t Read(uint8_t *data_buffer, uint32_t number_samples, bool &end) = 0;
 
     //! \name Class member access functions
     //@{
@@ -81,23 +81,23 @@ public:
         return _filename;
     }
 
-    uint32 GetSamplesPerSecond() const {
+    uint32_t GetSamplesPerSecond() const {
         return _samples_per_second;
     }
 
-    uint16 GetBitsPerSample() const {
+    uint16_t GetBitsPerSample() const {
         return _bits_per_sample;
     }
 
-    uint16 GetNumberChannels() const {
+    uint16_t GetNumberChannels() const {
         return _number_channels;
     }
 
-    uint32 GetTotalNumberSamples() const {
+    uint32_t GetTotalNumberSamples() const {
         return _total_number_samples;
     }
 
-    uint32 GetDataSize() const {
+    uint32_t GetDataSize() const {
         return _data_size;
     }
 
@@ -105,7 +105,7 @@ public:
         return _play_time;
     }
 
-    uint16 GetSampleSize() const {
+    uint16_t GetSampleSize() const {
         return _sample_size;
     }
     //@}
@@ -115,22 +115,22 @@ protected:
     std::string _filename;
 
     //! \brief The number of samples per second (typically 11025, 22050, 44100)
-    uint32 _samples_per_second;
+    uint32_t _samples_per_second;
 
     //! \brief The number of bits per sample (typically 8 or 16)
-    uint16 _bits_per_sample;
+    uint16_t _bits_per_sample;
 
     //! \brief Channels of the sound (1 = mono, 2 = stereo)
-    uint16 _number_channels;
+    uint16_t _number_channels;
 
     //! \brief The total number of samples of the audio piece
-    uint32 _total_number_samples;
+    uint32_t _total_number_samples;
 
     //! \brief The size of the audio data in bytes
-    uint32 _data_size;
+    uint32_t _data_size;
 
     //! \brief The size of an individual sample in bytes (_bits_per_sample * _channels / 8)
-    uint16 _sample_size;
+    uint16_t _sample_size;
 
     //! \brief The total play ime of the audio piece in seconds (_samples / _samples_per_second)
     float _play_time;
@@ -160,9 +160,9 @@ public:
     //! \todo Enable this function to handle loading of more complex WAV files
     bool Initialize();
 
-    void Seek(uint32 sample_position);
+    void Seek(uint32_t sample_position);
 
-    uint32 Read(uint8 *data_buffer, uint32 number_samples, bool &end);
+    uint32_t Read(uint8_t *data_buffer, uint32_t number_samples, bool &end);
     //@}
 
 private:
@@ -202,9 +202,9 @@ public:
     //@{
     bool Initialize();
 
-    void Seek(uint32 sample_position);
+    void Seek(uint32_t sample_position);
 
-    uint32 Read(uint8 *data_buffer, uint32 number_samples, bool &end);
+    uint32_t Read(uint8_t *data_buffer, uint32_t number_samples, bool &end);
     //@}
 
 private:
@@ -215,10 +215,10 @@ private:
     unsigned char _read_buffer[4096];
 
     //! \brief Position of previous read data (for the emporal buffer).
-    uint16 _read_buffer_position;
+    uint16_t _read_buffer_position;
 
     //! \brief Size of available data on the buffer (for the emporal buffer).
-    uint16 _read_buffer_size;
+    uint16_t _read_buffer_size;
 
     //! \brief Tells whether the ogg/vorbis structures are successfully allocated.
     //! It is used to know whether they can be deallocated.
@@ -270,17 +270,17 @@ public:
         return true;
     }
 
-    void Seek(uint32 sample_position);
+    void Seek(uint32_t sample_position);
 
-    uint32 Read(uint8 *buffer, uint32 size, bool &end);
+    uint32_t Read(uint8_t *buffer, uint32_t size, bool &end);
     //@}
 
 private:
     //! \brief The memory location where all the audio is stored
-    uint8 *_audio_data;
+    uint8_t *_audio_data;
 
     //! \brief Position in the data where the next read operation will be performed
-    uint32 _data_position;
+    uint32_t _data_position;
 }; // class AudioMemory : public AudioInput
 
 } // namespace private_audio

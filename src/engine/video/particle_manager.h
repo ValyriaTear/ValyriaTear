@@ -63,7 +63,7 @@ public:
      * \brief updates all active effects
      * \param frame_time The elapsed time since last call.
      */
-    void Update(int32 frame_time);
+    void Update(int32_t frame_time);
 
     /*!
      *  \brief stops all registered effects
@@ -79,7 +79,7 @@ public:
      *  \brief returns the total number of particles among all active registered effects
      * \return number of particles in the effect
      */
-    int32 GetNumParticles() {
+    int32_t GetNumParticles() {
         return _num_particles;
     }
 
@@ -102,7 +102,7 @@ private:
     //! Total number of particles among all the active effects. This is updated
     //! during each call to Update(), so that when GetNumParticles() is called,
     //! we can just return this value instead of having to calculate it
-    int32 _num_particles;
+    int32_t _num_particles;
 };
 
 }  // namespace vt_mode_manager

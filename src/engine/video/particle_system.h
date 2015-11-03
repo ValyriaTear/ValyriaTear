@@ -141,7 +141,7 @@ public:
 
     //! How to blend the particles: VIDEO_NO_BLEND, VIDEO_BLEND, or VIDEO_BLEND_ADD
     //! For most effects, we want VIDEO_BLEND_ADD
-    int32 blend_mode;
+    int32_t blend_mode;
 
     //! How many seconds the system should live for before it dies out. This is only
     //! meaningful if our emitter mode is EMITTER_MODE_ONE_SHOT. The other modes
@@ -157,7 +157,7 @@ public:
     float particle_lifetime_variation;
 
     //! Maximum number of particles this system can have at one time
-    int32 max_particles;
+    int32_t max_particles;
 
     //! A number below 1.0 (but generally pretty close to 1.0). A damp of .99 means that
     //! each second, particle velocity drops by 1%
@@ -271,7 +271,7 @@ public:
     bool random_initial_angle;
 
     //! Array telling how long each animation should last for
-    std::vector<int32> animation_frame_times;
+    std::vector<int32_t> animation_frame_times;
 
     //! Array of filenames for each frame of animation
     std::vector<std::string> animation_frame_filenames;
@@ -332,7 +332,7 @@ public:
      *  \brief returns how many particles are alive in this system
      * \return the number of particles in this system
      */
-    int32 GetNumParticles() const {
+    int32_t GetNumParticles() const {
         return _num_particles;
     }
 
@@ -377,7 +377,7 @@ private:
      *         kill 2, and for the other 8, we respawn them immediately.
      * \param params the effect parameters to use for this update (orientation and attractor point)
      */
-    void _KillParticles(int32 &num_particles, const EffectParameters &params);
+    void _KillParticles(int32_t &num_particles, const EffectParameters &params);
 
     /*!
      *  \brief helper function that emits whatever particles still need to be
@@ -385,7 +385,7 @@ private:
      * \param num_particles the number of particles that need to be emitted
      * \param params the effect parameters to use for this update (orientation and attractor point)
      */
-    void _EmitParticles(int32 num_particles, const EffectParameters &params);
+    void _EmitParticles(int32_t num_particles, const EffectParameters &params);
 
     /*!
      *  \brief helper function to move a particle from element src to element dest
@@ -394,14 +394,14 @@ private:
      * \param src where to move the particle from
      * \param dest where to move the particle to
      */
-    void _MoveParticle(int32 src, int32 dest);
+    void _MoveParticle(int32_t src, int32_t dest);
 
     /*!
      *  \brief creates a new particle at element i in the particle array
      * \param i index of the particle to respawn
      * \param params the effect parameters to use for this update (orientation and attractor point)
      */
-    void _RespawnParticle(int32 i, const EffectParameters &params);
+    void _RespawnParticle(int32_t i, const EffectParameters &params);
 
     //! The system definition, contains information like the emitter properties, lifetime of
     //! particles, particle keyframes, etc. Basically everything which isn't instance-specific
@@ -414,7 +414,7 @@ private:
 
     //! Number of active particles in this system. (The size of the vectors may be larger, since
     //! we might set a particle quota for the system which is higher than what's actually there.)
-    int32 _num_particles;
+    int32_t _num_particles;
 
     //! The array of particle vertices. Note that this array contains FOUR vertices per particle.
     //! This is used for rendering the particles with OpenGL

@@ -47,10 +47,10 @@ namespace private_battle
 /** \name Action Type Constants
 *** \brief Identifications for the types of actions a player's characters may perform
 **/
-const int32 CATEGORY_WEAPON    = 0;
-const int32 CATEGORY_MAGIC     = 1;
-const int32 CATEGORY_SPECIAL   = 2;
-const int32 CATEGORY_ITEM      = 3;
+const int32_t CATEGORY_WEAPON    = 0;
+const int32_t CATEGORY_MAGIC     = 1;
+const int32_t CATEGORY_SPECIAL   = 2;
+const int32_t CATEGORY_ITEM      = 3;
 
 const float HEADER_POSITION_X = 140.0f;
 const float HEADER_POSITION_Y = -12.0f;
@@ -68,7 +68,7 @@ const float TARGET_SIZE_X = 450.0f;
 const float TARGET_SIZE_Y = 100.0f;
 
 // Offset used to properly align the target icons in the skill and item selection lists
-const uint32 TARGET_ICON_OFFSET = 288;
+const uint32_t TARGET_ICON_OFFSET = 288;
 
 ////////////////////////////////////////////////////////////////////////////////
 // CharacterCommandSettings class
@@ -158,7 +158,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
         skill_list = _character->GetGlobalCharacter()->GetWeaponSkills();
     else
         skill_list = _character->GetGlobalCharacter()->GetBareHandsSkills();
-    for(uint32 i = 0; i < skill_list->size(); i++) {
+    for(uint32_t i = 0; i < skill_list->size(); i++) {
         _weapon_skill_list.AddOption(ustring());
         if (!skill_list->at(i)->GetIconFilename().empty()) {
             _weapon_skill_list.AddOptionElementImage(i, skill_list->at(i)->GetIconFilename());
@@ -196,7 +196,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     }
 
     skill_list = _character->GetGlobalCharacter()->GetMagicSkills();
-    for(uint32 i = 0; i < skill_list->size(); i++) {
+    for(uint32_t i = 0; i < skill_list->size(); i++) {
         _magic_skill_list.AddOption(ustring());
         if (!skill_list->at(i)->GetIconFilename().empty()) {
             _magic_skill_list.AddOptionElementImage(i, skill_list->at(i)->GetIconFilename());
@@ -220,7 +220,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
     }
 
     skill_list = _character->GetGlobalCharacter()->GetSpecialSkills();
-    for(uint32 i = 0; i < skill_list->size(); i++) {
+    for(uint32_t i = 0; i < skill_list->size(); i++) {
         _special_skill_list.AddOption(ustring());
         if (!skill_list->at(i)->GetIconFilename().empty()) {
             _special_skill_list.AddOptionElementImage(i, skill_list->at(i)->GetIconFilename());
@@ -248,12 +248,12 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
 
 void CharacterCommandSettings::RefreshLists()
 {
-    uint32 require_sp = 0xFFFFFFFF;
-    uint32 current_sp = _character->GetSkillPoints();
+    uint32_t require_sp = 0xFFFFFFFF;
+    uint32_t current_sp = _character->GetSkillPoints();
     std::vector<GlobalSkill *>* skill_list = nullptr;
 
     skill_list = _character->GetGlobalCharacter()->GetWeaponSkills();
-    for(uint32 i = 0; i < skill_list->size(); ++i) {
+    for(uint32_t i = 0; i < skill_list->size(); ++i) {
         require_sp = skill_list->at(i)->GetSPRequired();
         if(require_sp > current_sp) {
             _weapon_skill_list.EnableOption(i, false);
@@ -266,7 +266,7 @@ void CharacterCommandSettings::RefreshLists()
     }
 
     skill_list = _character->GetGlobalCharacter()->GetMagicSkills();
-    for(uint32 i = 0; i < skill_list->size(); ++i) {
+    for(uint32_t i = 0; i < skill_list->size(); ++i) {
         require_sp = skill_list->at(i)->GetSPRequired();
         if(require_sp > current_sp) {
             _magic_skill_list.EnableOption(i, false);
@@ -279,7 +279,7 @@ void CharacterCommandSettings::RefreshLists()
     }
 
     skill_list = _character->GetGlobalCharacter()->GetSpecialSkills();
-    for(uint32 i = 0; i < skill_list->size(); ++i) {
+    for(uint32_t i = 0; i < skill_list->size(); ++i) {
         require_sp = skill_list->at(i)->GetSPRequired();
         if(require_sp > current_sp) {
             _special_skill_list.EnableOption(i, false);
@@ -363,7 +363,7 @@ void ItemCommand::ResetItemList()
 {
     _battle_items.clear();
     std::vector<GlobalItem *>* inv_items = GlobalManager->GetInventoryItems();
-    for(uint32 i = 0; i < inv_items->size(); ++i) {
+    for(uint32_t i = 0; i < inv_items->size(); ++i) {
         // Only add non key and valid items as items available at battle start.
         if(inv_items->at(i)->GetCount() == 0)
             continue;
@@ -386,8 +386,8 @@ void ItemCommand::ConstructList()
 
     _menu_items.clear();
 
-    uint32 option_index = 0;
-    for(uint32 i = 0; i < _battle_items.size(); ++i) {
+    uint32_t option_index = 0;
+    for(uint32_t i = 0; i < _battle_items.size(); ++i) {
         BattleItem* item = &_battle_items[i];
         // Don't add any items with a zero count
         if(item->GetBattleCount() == 0)
@@ -428,7 +428,7 @@ void ItemCommand::ConstructList()
 
 
 
-void ItemCommand::Initialize(uint32 battle_item_index)
+void ItemCommand::Initialize(uint32_t battle_item_index)
 {
     // If there is no more usable items in the inventory,
     // we can set the selection as invalid.
@@ -448,9 +448,9 @@ void ItemCommand::Initialize(uint32 battle_item_index)
     }
 
     // Find the corresponding item in the menu list and select it.
-    uint32 selection = 0; // First item in the list per default
+    uint32_t selection = 0; // First item in the list per default
     BattleItem* selected_item = &_battle_items[battle_item_index];
-    for (uint32 i = 0; i < _menu_items.size(); ++i) {
+    for (uint32_t i = 0; i < _menu_items.size(); ++i) {
         if (_menu_items[i] == selected_item) {
             selection = i;
             break;
@@ -466,8 +466,8 @@ void ItemCommand::Initialize(uint32 battle_item_index)
 
 BattleItem *ItemCommand::GetSelectedItem()
 {
-    int32 selection = _item_list.GetSelection();
-    if (selection == -1 || selection >= (int32)_menu_items.size())
+    int32_t selection = _item_list.GetSelection();
+    if (selection == -1 || selection >= (int32_t)_menu_items.size())
         return nullptr;
 
     return _menu_items[selection];
@@ -475,8 +475,8 @@ BattleItem *ItemCommand::GetSelectedItem()
 
 bool ItemCommand::IsSelectedItemAvailable() const
 {
-    int32 selection = _item_list.GetSelection();
-    if (selection == -1 || selection >= (int32)_menu_items.size())
+    int32_t selection = _item_list.GetSelection();
+    if (selection == -1 || selection >= (int32_t)_menu_items.size())
         return false;
 
     return (_menu_items[selection]->GetBattleCount() > 0);
@@ -507,15 +507,15 @@ void ItemCommand::DrawList()
 
 void ItemCommand::CommitChangesToInventory()
 {
-    for(uint32 i = 0; i < _battle_items.size(); ++i) {
+    for(uint32_t i = 0; i < _battle_items.size(); ++i) {
         // Get the global item id
-        uint32 id = _battle_items[i].GetGlobalItem().GetID();
+        uint32_t id = _battle_items[i].GetGlobalItem().GetID();
 
         // Remove slots totally used
         if(_battle_items[i].GetBattleCount() == 0) {
             GlobalManager->RemoveFromInventory(id);
         } else {
-            int32 diff = _battle_items[i].GetBattleCount() - _battle_items[i].GetInventoryCount();
+            int32_t diff = _battle_items[i].GetBattleCount() - _battle_items[i].GetInventoryCount();
             if(diff > 0) {
                 // Somehow the character have more than before the battle.
                 GlobalManager->IncrementItemCount(id, diff);
@@ -569,7 +569,7 @@ GlobalSkill *SkillCommand::GetSelectedSkill() const
     if((_skills == nullptr) || (_skill_list == nullptr))
         return nullptr;
 
-    uint32 selection = _skill_list->GetSelection();
+    uint32_t selection = _skill_list->GetSelection();
     // The skills object needs to be returned even if not enabled due to low SP
     // in order to print information of both, enabled and disabled skills.
     return _skills->at(selection);
@@ -580,7 +580,7 @@ bool SkillCommand::GetSelectedSkillEnabled()
     if((_skills == nullptr) || (_skill_list == nullptr))
         return false;
 
-    uint32 selection = _skill_list->GetSelection();
+    uint32_t selection = _skill_list->GetSelection();
     return _skill_list->IsOptionEnabled(selection);
 }
 
@@ -704,7 +704,7 @@ void CommandSupervisor::ConstructMenus()
     _item_command.ConstructList();
 
     std::deque<BattleCharacter *>& characters = BattleMode::CurrentInstance()->GetCharacterActors();
-    for(uint32 i = 0; i < characters.size(); i++)
+    for(uint32_t i = 0; i < characters.size(); i++)
         _CreateCharacterSettings(characters[i]);
 }
 
@@ -794,7 +794,7 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
         _category_options.EnableOption(CATEGORY_ITEM, true);
 
     // Warn if there are no enabled options in the category list
-    for(uint32 i = 0; i < _category_options.GetNumberOptions(); i++) {
+    for(uint32_t i = 0; i < _category_options.GetNumberOptions(); i++) {
         if(_category_options.IsOptionEnabled(i) == true)
             return;
     }
@@ -899,7 +899,7 @@ void CommandSupervisor::CancelCurrentCommand()
 
 bool CommandSupervisor::_IsSkillCategorySelected() const
 {
-    int32 category = _category_options.GetSelection();
+    int32_t category = _category_options.GetSelection();
     if((category == CATEGORY_WEAPON) || (category == CATEGORY_MAGIC) || (category == CATEGORY_SPECIAL))
         return true;
     else
@@ -908,7 +908,7 @@ bool CommandSupervisor::_IsSkillCategorySelected() const
 
 bool CommandSupervisor::_IsItemCategorySelected() const
 {
-    int32 category = _category_options.GetSelection();
+    int32_t category = _category_options.GetSelection();
     if(category == CATEGORY_ITEM)
         return true;
     else
@@ -1219,10 +1219,10 @@ void CommandSupervisor::_UpdateAttackPointTarget()
     _target_options.Update();
 }
 
-std::string _TurnIntoSeconds(uint32 milliseconds)
+std::string _TurnIntoSeconds(uint32_t milliseconds)
 {
-    uint32 seconds = milliseconds / 1000;
-    uint32 dec = (milliseconds / 100) - (seconds * 10);
+    uint32_t seconds = milliseconds / 1000;
+    uint32_t dec = (milliseconds / 100) - (seconds * 10);
     std::string formatted_seconds = NumberToString(seconds) + "." + NumberToString(dec);
     /// TRANSLATORS: this is about displaying a time: eg 4.2s
     formatted_seconds = VTranslate("%ss", formatted_seconds);
@@ -1236,7 +1236,7 @@ void CommandSupervisor::_UpdateActionInformation()
     if (_state == COMMAND_STATE_POINT) {
         // Show the target points information.
         BattleActor* actor = _selected_target.GetActor();
-        uint32 selected_point = _selected_target.GetAttackPoint();
+        uint32_t selected_point = _selected_target.GetAttackPoint();
         GlobalAttackPoint* attack_point = actor->GetAttackPoint(selected_point);
 
         _info_header.SetText(attack_point->GetName());
@@ -1292,7 +1292,7 @@ void CommandSupervisor::_UpdateActionInformation()
         _selected_attack_point_status_effects.clear();
         const std::vector<std::pair<GLOBAL_STATUS, float> >& effects = attack_point->GetStatusEffects();
         // Only show the first effects, in case of bad config.
-        for (uint32 i = 0; i < effects.size() && i < 2; ++i) {
+        for (uint32_t i = 0; i < effects.size() && i < 2; ++i) {
             _selected_attack_point_status_effects.push_back(GlobalManager->Media().GetStatusIcon(effects[i].first, GLOBAL_INTENSITY_NEG_LESSER));
             info_text += MakeUnicodeString("      -> " + NumberToString(effects[i].second) + "%\n");
         }
@@ -1325,7 +1325,7 @@ void CommandSupervisor::_DrawCategory()
 
 void CommandSupervisor::_DrawAction()
 {
-    uint32 category_index = _category_options.GetSelection();
+    uint32_t category_index = _category_options.GetSelection();
 
     // Draw the corresponding category icon and text to the left side of the window
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
@@ -1358,7 +1358,7 @@ void CommandSupervisor::_DrawActorTarget()
     // Draw relevant active status effect icons
     float width = _selected_target_name.GetWidth() < 130.0f ? 130.0f : _selected_target_name.GetWidth() + 10.0f;
     VideoManager->MoveRelative(width, 0.0f);
-    for (uint32 i = 0; i < _selected_target_status_effects.size(); ++i) {
+    for (uint32_t i = 0; i < _selected_target_status_effects.size(); ++i) {
         _selected_target_status_effects[i]->Draw();
         VideoManager->MoveRelative(25.0f, 0.0f);
     }
@@ -1395,7 +1395,7 @@ void CommandSupervisor::_DrawActionInformation()
     VideoManager->MoveRelative(-160.0f, 60.0f);
 
     // Draw the status effect applied next to their percentage.
-    for (uint32 i = 0; i < _selected_attack_point_status_effects.size(); ++i) {
+    for (uint32_t i = 0; i < _selected_attack_point_status_effects.size(); ++i) {
         _selected_attack_point_status_effects[i]->Draw();
         VideoManager->MoveRelative(0.0f, 20.0f);
     }
@@ -1415,7 +1415,7 @@ void CommandSupervisor::_UpdateActorTargetText()
     } else if(IsTargetSelf(_selected_target.GetType()) == true) {
         _target_options.AddOption(_selected_target.GetActor()->GetName());
     } else if(IsTargetAlly(_selected_target.GetType()) == true) {
-        for(uint32 i = 0; i < BattleMode::CurrentInstance()->GetCharacterActors().size(); i++) {
+        for(uint32_t i = 0; i < BattleMode::CurrentInstance()->GetCharacterActors().size(); i++) {
             _target_options.AddOption(BattleMode::CurrentInstance()->GetCharacterActors().at(i)->GetName());
             if(_selected_target.GetType() != GLOBAL_TARGET_ALLY_EVEN_DEAD
                     && !BattleMode::CurrentInstance()->GetCharacterActors().at(i)->IsAlive()) {
@@ -1423,7 +1423,7 @@ void CommandSupervisor::_UpdateActorTargetText()
             }
         }
     } else if(IsTargetFoe(_selected_target.GetType()) == true) {
-        for(uint32 i = 0; i < BattleMode::CurrentInstance()->GetEnemyActors().size(); i++) {
+        for(uint32_t i = 0; i < BattleMode::CurrentInstance()->GetEnemyActors().size(); i++) {
             _target_options.AddOption(BattleMode::CurrentInstance()->GetEnemyActors().at(i)->GetName());
             if(BattleMode::CurrentInstance()->GetEnemyActors().at(i)->IsAlive() == false) {
                 _target_options.EnableOption(i, false);
@@ -1446,7 +1446,7 @@ void CommandSupervisor::_UpdateActorTargetText()
         _selected_target_name.SetText(_selected_target.GetActor()->GetName());
 
         // Get every non neutral status effects.
-        for (uint32 i = 0; i < GLOBAL_STATUS_TOTAL; ++i) {
+        for (uint32_t i = 0; i < GLOBAL_STATUS_TOTAL; ++i) {
             GLOBAL_STATUS status = static_cast<GLOBAL_STATUS>(i);
             GLOBAL_INTENSITY intensity = _selected_target.GetActor()->GetActiveStatusEffectIntensity(status);
             if (intensity == GLOBAL_INTENSITY_NEUTRAL ||
@@ -1465,7 +1465,7 @@ void CommandSupervisor::_CreateAttackPointTargetText()
     _window_header.SetText(UTranslate("Select Attack Point"));
 
     BattleActor* actor = _selected_target.GetActor();
-    uint32 selected_point = _selected_target.GetAttackPoint();
+    uint32_t selected_point = _selected_target.GetAttackPoint();
 
     if (actor == nullptr) {
         PRINT_ERROR << "nullptr actor when selection target attack points!" << std::endl;
@@ -1473,7 +1473,7 @@ void CommandSupervisor::_CreateAttackPointTargetText()
     }
 
     _target_options.ClearOptions();
-    for(uint32 i = 0; i < actor->GetAttackPoints().size(); i++) {
+    for(uint32_t i = 0; i < actor->GetAttackPoints().size(); i++) {
         _target_options.AddOption(actor->GetAttackPoints().at(i)->GetName());
     }
 

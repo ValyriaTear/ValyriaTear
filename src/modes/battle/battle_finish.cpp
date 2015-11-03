@@ -113,7 +113,7 @@ void CharacterGrowth::UpdateGrowthData() {
         // Note that the character's new skills learned container will be cleared upon the next
         // call to AcknowledgeGrowth, so skills will not be duplicated in the skills_learned container
         std::vector<GlobalSkill*>* skills = _character->GetNewSkillsLearned();
-        for (uint32 i = 0; i < skills->size(); i++) {
+        for (uint32_t i = 0; i < skills->size(); i++) {
             skills_learned.push_back(skills->at(i));
         }
     }
@@ -203,7 +203,7 @@ void FinishDefeatAssistant::Update()
             } else {
                 _state = FINISH_DEFEAT_CONFIRM;
                 // Set default confirm option to "No"
-                if(_options.GetSelection() == (int32)DEFEAT_OPTION_END)
+                if(_options.GetSelection() == (int32_t)DEFEAT_OPTION_END)
                     _confirm_options.SetSelection(1);
                 else
                     _confirm_options.SetSelection(0);
@@ -364,7 +364,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     _header_total_drunes.SetTextStyle(TextStyle("text20", Color::white));
     _header_total_drunes.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
-    for(uint32 i = 0; i < 4; i++) {
+    for(uint32_t i = 0; i < 4; i++) {
         _growth_list[i].SetOwner(&(_character_window[i]));
         _raw_xp_given[i] = true;
         _raw_xp_won[i] = false;
@@ -396,12 +396,12 @@ FinishVictoryAssistant::~FinishVictoryAssistant()
     _header_window.Destroy();
     _spoils_window.Destroy();
 
-    for(uint32 i = 0; i < _number_character_windows_created; ++i) {
+    for(uint32_t i = 0; i < _number_character_windows_created; ++i) {
         _character_window[i].Destroy();
     }
 
     // Add all the objects that were dropped by enemies to the party's inventory
-    for(std::map<GlobalObject *, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
+    for(std::map<GlobalObject *, int32_t>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
         GlobalManager->AddToInventory(i->first->GetID(), i->second);
     }
 
@@ -416,11 +416,11 @@ void FinishVictoryAssistant::Initialize()
     // Prepare all character data
     std::deque<BattleCharacter *>& all_characters = BattleMode::CurrentInstance()->GetCharacterActors();
     // Reinit the number of living characters
-    uint32 alive_characters_number = 0;
+    uint32_t alive_characters_number = 0;
 
     _characters_number = all_characters.size();
 
-    for(uint32 i = 0; i < _characters_number; ++i) {
+    for(uint32_t i = 0; i < _characters_number; ++i) {
         _characters.push_back(all_characters[i]->GetGlobalCharacter());
         _character_growths.push_back(CharacterGrowth(_characters[i]));
         _character_portraits[i] = all_characters[i]->GetPortrait();
@@ -443,15 +443,15 @@ void FinishVictoryAssistant::Initialize()
     // Collect the XP, drunes, and dropped objects for each defeated enemy
     std::deque<BattleEnemy *>& all_enemies = BattleMode::CurrentInstance()->GetEnemyActors();
     std::vector<GlobalObject *> objects;
-    std::map<GlobalObject *, int32>::iterator iter;
+    std::map<GlobalObject *, int32_t>::iterator iter;
 
-    for(uint32 i = 0; i < all_enemies.size(); ++i) {
+    for(uint32_t i = 0; i < all_enemies.size(); ++i) {
         GlobalEnemy* enemy = all_enemies[i]->GetGlobalEnemy();
         _xp_earned += enemy->GetExperiencePoints();
         _drunes_dropped += enemy->GetDrunesDropped();
         enemy->DetermineDroppedObjects(objects);
 
-        for(uint32 j = 0; j < objects.size(); ++j) {
+        for(uint32_t j = 0; j < objects.size(); ++j) {
             // Check if the object to add is already in our list. If so, just increase the quantity of that object.
             // iter = _objects_dropped.find(objects[j]); // Will not work since each item is created with new.
             // Need to search for the item ID instead.
@@ -476,7 +476,7 @@ void FinishVictoryAssistant::Initialize()
         _xp_earned /= 4; // Should never happen.
 
     // Compute the raw fighting XP bonus for each characters (20% of character's XP)
-    for(uint32 i = 0; i < _characters.size() && i < 4; ++i) {
+    for(uint32_t i = 0; i < _characters.size() && i < 4; ++i) {
         if (_characters[i]->HasEquipment()) {
             _raw_xp_won[i] = false;
             _raw_xp_given[i] = true;
@@ -490,7 +490,7 @@ void FinishVictoryAssistant::Initialize()
     _CreateCharacterGUIObjects();
     _CreateObjectList();
     _SetHeaderText();
-} // void FinishVictoryAssistant::Initialize(uint32 retries_used)
+} // void FinishVictoryAssistant::Initialize(uint32_t retries_used)
 
 
 
@@ -522,7 +522,7 @@ void FinishVictoryAssistant::Draw()
 
     if(_state == FINISH_VICTORY_GROWTH) {
         _header_growth.Draw();
-        for(uint32 i = 0; i < _characters_number; ++i) {
+        for(uint32_t i = 0; i < _characters_number; ++i) {
             _character_window[i].Draw();
             _DrawGrowth(i);
         }
@@ -555,7 +555,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
 {
     // Create the character windows. The lowest one does not have its lower border removed
     float next_ypos = CHAR_WINDOW_YPOS;
-    for(uint32 i = 0; i < _characters_number; ++i) {
+    for(uint32_t i = 0; i < _characters_number; ++i) {
         _number_character_windows_created++;
         if((i + 1) >= _characters_number) {
             _character_window[i].Create(CHAR_WINDOW_WIDTH, CHAR_WINDOW_HEIGHT);
@@ -570,7 +570,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
     }
 
     // Construct GUI objects that will fill each character window
-    for(uint32 i = 0; i < _characters_number; ++i) {
+    for(uint32_t i = 0; i < _characters_number; ++i) {
         _growth_list[i].SetOwner(&_character_window[i]);
         _growth_list[i].SetPosition(340.0f, 15.0f);
         _growth_list[i].SetDimensions(200.0f, 70.0f, 4, 4, 4, 4);
@@ -578,7 +578,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
         _growth_list[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
         _growth_list[i].SetOptionAlignment(VIDEO_X_RIGHT, VIDEO_Y_CENTER);
         _growth_list[i].SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
-        for(uint32 j = 0; j < 16; ++j) {
+        for(uint32_t j = 0; j < 16; ++j) {
             _growth_list[i].AddOption();
         }
 
@@ -627,14 +627,14 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
 
 void FinishVictoryAssistant::_CreateObjectList()
 {
-    for(std::map<vt_global::GlobalObject *, int32>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
+    for(std::map<vt_global::GlobalObject *, int32_t>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
         GlobalObject *obj = i->first;
         _object_list.AddOption(MakeUnicodeString("<" + obj->GetIconImage().GetFilename() + "><30>")
                                + obj->GetName() + MakeUnicodeString("<R>x" + NumberToString(i->second)));
     }
 
     // Resize all icon images so that they are the same height as the text
-    for(uint32 i = 0; i < _object_list.GetNumberOptions(); ++i) {
+    for(uint32_t i = 0; i < _object_list.GetNumberOptions(); ++i) {
         _object_list.GetEmbeddedImage(i)->SetDimensions(30.0f, 30.0f);
     }
 }
@@ -659,12 +659,12 @@ void FinishVictoryAssistant::_SetCharacterStatus()
 void FinishVictoryAssistant::_UpdateGrowth()
 {
     // The number of milliseconds that we wait in between updating the XP count
-    const uint32 UPDATE_PERIOD = 50;
+    const uint32_t UPDATE_PERIOD = 50;
     // A simple counter used to keep track of when the next XP count should begin
-    static uint32 time_counter = 0;
+    static uint32_t time_counter = 0;
 
     // The amount of XP to add to each character this update cycle
-    uint32 xp_to_add = 0;
+    uint32_t xp_to_add = 0;
 
     // Process confirm press inputs.
     if(InputManager->ConfirmPress()) {
@@ -712,7 +712,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
 
     // Add the XP amount to the characters appropriately
     std::deque<BattleCharacter *>& battle_characters = BattleMode::CurrentInstance()->GetCharacterActors();
-    for(uint32 i = 0; i < _characters_number; ++i) {
+    for(uint32_t i = 0; i < _characters_number; ++i) {
         // Don't add experience points to dead characters
         if(!battle_characters[i]->IsAlive())
             continue;
@@ -724,7 +724,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
         if(battle_characters[i]->GetGlobalCharacter()->GetExperienceLevel() >= GlobalManager->GetMaxExperienceLevel())
             level_maxed_out = true;
 
-        uint32 xp_added = xp_to_add;
+        uint32_t xp_added = xp_to_add;
         // Add the raw bonus when not given yet (+20% XP)
         if (_raw_xp_given[i] == false) {
             if (_xp_earned > 100) {
@@ -742,7 +742,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
         if(!level_maxed_out && _characters[i]->AddExperiencePoints(xp_added) == true) {
             _character_growths[i].UpdateGrowthData();
             // Only add text for the stats that experienced growth
-            uint32 line = 0;
+            uint32_t line = 0;
 
             // HP
             if(_character_growths[i].hit_points > 0) {
@@ -824,11 +824,11 @@ void FinishVictoryAssistant::_UpdateGrowth()
 void FinishVictoryAssistant::_UpdateSpoils()
 {
     // The number of milliseconds that we wait in between updating the drunes count
-    const uint32 UPDATE_PERIOD = 50;
+    const uint32_t UPDATE_PERIOD = 50;
     // A simple counter used to keep track of when the next drunes count should begin
-    static uint32 time_counter = 0;
+    static uint32_t time_counter = 0;
     // TODO: Add drunes gradually instead of all at once
-    static uint32 drunes_to_add = 0;
+    static uint32_t drunes_to_add = 0;
 
     // ---------- (1): Process confirm press inputs.
     if(InputManager->ConfirmPress()) {
@@ -884,7 +884,7 @@ void FinishVictoryAssistant::_UpdateSpoils()
 
 
 
-void FinishVictoryAssistant::_DrawGrowth(uint32 index)
+void FinishVictoryAssistant::_DrawGrowth(uint32_t index)
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
     VideoManager->Move(CHAR_WINDOW_XPOS - (CHAR_WINDOW_WIDTH / 2) + 20.0f, (CHAR_WINDOW_YPOS + 17.0f) + (CHAR_WINDOW_HEIGHT * index));

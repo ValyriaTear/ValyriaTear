@@ -50,7 +50,7 @@ class Layer
 public:
     LAYER_TYPE layer_type;
     // Represents the tile indeces: i.e: tiles[y][x] = tile_id at (x,y)
-    std::vector< std::vector<int16> > tiles;
+    std::vector< std::vector<int16_t> > tiles;
 
     Layer():
         layer_type(GROUND_LAYER)
@@ -103,12 +103,12 @@ private:
     /** \brief The number of columns of tiles in the map.
     *** This number must be greater than or equal to 32 for the map to be valid.
     **/
-    uint16 _num_tile_on_x_axis;
+    uint16_t _num_tile_on_x_axis;
 
     /** \brief The number of rows of tiles in the map.
     *** This number must be greater than or equal to 24 for the map to be valid.
     **/
-    uint16 _num_tile_on_y_axis;
+    uint16_t _num_tile_on_y_axis;
 
     //! \brief The map tile layers
     std::vector<Layer> _tile_grid;

@@ -184,10 +184,10 @@ private:
     void (GameOptionsMenuHandler::*_key_setting_function)(const SDL_Keycode &);
 
     //! \brief A pointer to the function to call when a joystick button has been pressed when we're waiting for one
-    void (GameOptionsMenuHandler::*_joy_setting_function)(uint8 button);
+    void (GameOptionsMenuHandler::*_joy_setting_function)(uint8_t button);
 
     //! \brief A pointer to the function to call when a joystick axis has been moved when we're waiting for one
-    void (GameOptionsMenuHandler::*_joy_axis_setting_function)(int8 axis);
+    void (GameOptionsMenuHandler::*_joy_axis_setting_function)(int8_t axis);
 
     //! \brief Window display message for "select a key".
     vt_common::MessageWindow _message_window;
@@ -304,7 +304,7 @@ private:
     *** \param height The height of the new resolution in pixels
     *** \return whether the resolution was applied.
     **/
-    bool _ChangeResolution(int32 width, int32 height);
+    bool _ChangeResolution(int32_t width, int32_t height);
 
     /** \brief Saves the settings to a file specified by the user
     *** \param filename the name of the file for the settings to be saved to, if a blank string is
@@ -362,16 +362,16 @@ private:
     *** pointers directly access the InputManager caused heap corruption.
     **/
     //@{
-    void _SetXAxisJoy(int8 axis);
-    void _SetYAxisJoy(int8 axis);
-    void _SetJoyThreshold(int16 threshold);
-    void _SetConfirmJoy(uint8 button);
-    void _SetCancelJoy(uint8 button);
-    void _SetMenuJoy(uint8 button);
-    void _SetMinimapJoy(uint8 button);
-    void _SetPauseJoy(uint8 button);
-    void _SetHelpJoy(uint8 button);
-    void _SetQuitJoy(uint8 button);
+    void _SetXAxisJoy(int8_t axis);
+    void _SetYAxisJoy(int8_t axis);
+    void _SetJoyThreshold(int16_t threshold);
+    void _SetConfirmJoy(uint8_t button);
+    void _SetCancelJoy(uint8_t button);
+    void _SetMenuJoy(uint8_t button);
+    void _SetMinimapJoy(uint8_t button);
+    void _SetPauseJoy(uint8_t button);
+    void _SetHelpJoy(uint8_t button);
+    void _SetQuitJoy(uint8_t button);
     //@}
 };
 

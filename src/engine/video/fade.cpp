@@ -46,7 +46,7 @@ ScreenFader::ScreenFader() :
 }
 
 
-void ScreenFader::BeginFade(const Color &final_color, uint32 duration, bool transitional)
+void ScreenFader::BeginFade(const Color &final_color, uint32_t duration, bool transitional)
 {
     // If last fade is made by the system, don't permit to fade:
     if(!transitional && _is_fading && _transitional_fading)
@@ -77,11 +77,11 @@ void ScreenFader::BeginFade(const Color &final_color, uint32 duration, bool tran
     }
 
     Update(0); // Do an initial update
-} // void ScreenFader::BeginFade(const Color &final, uint32 time)
+} // void ScreenFader::BeginFade(const Color &final, uint32_t time)
 
 
 
-void ScreenFader::Update(uint32 time)
+void ScreenFader::Update(uint32_t time)
 {
     if(!_is_fading)
         return;

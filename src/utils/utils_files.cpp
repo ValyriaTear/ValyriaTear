@@ -64,9 +64,9 @@ bool MakeDirectory(const std::string &dir_name)
     // all other operating systems do.
 
 #ifdef _WIN32
-    int32 success = mkdir(dir_name.c_str());
+    int32_t success = mkdir(dir_name.c_str());
 #else
-    int32 success = mkdir(dir_name.c_str(), S_IRWXG | S_IRWXO | S_IRWXU);
+    int32_t success = mkdir(dir_name.c_str(), S_IRWXG | S_IRWXO | S_IRWXU);
 #endif
 
     if(success == -1) {
@@ -149,7 +149,7 @@ bool RemoveDirectory(const std::string &dir_name)
     CleanDirectory(dir_name);
 
     // Finally, remove the folder itself with rmdir()
-    int32 success = rmdir(dir_name.c_str());
+    int32_t success = rmdir(dir_name.c_str());
 
     if(success == -1) {
         std::cerr << "UTILS ERROR: could not delete directory: " << dir_name << std::endl;
@@ -269,7 +269,7 @@ static void _CopyOldSaveFiles(const std::string &destination_path)
 #endif
 
 #ifndef __APPLE__
-    for (uint32 i = 0; i < 6; ++i) {
+    for (uint32_t i = 0; i < 6; ++i) {
         std::stringstream save_filename;
         save_filename << "saved_game_" << i << ".lua";
         std::string old_file = old_path + save_filename.str();

@@ -83,7 +83,7 @@ void ShopMedia::_InitializeCharacters()
 {
     // Grab the sprite frames for all characters in the active party
     std::vector<GlobalCharacter *>* characters = GlobalManager->GetOrderedCharacters();
-    for(uint32 i = 0; i < characters->size(); ++i) {
+    for(uint32_t i = 0; i < characters->size(); ++i) {
 
         GlobalCharacter *character = characters->at(i);
         if (!character) {
@@ -102,7 +102,7 @@ void ShopMedia::_InitializeCharacters()
 
 ustring *ShopMedia::GetCategoryName(GLOBAL_OBJECT object_type)
 {
-    uint32 index = 0;
+    uint32_t index = 0;
 
     switch(object_type) {
     case GLOBAL_OBJECT_ITEM:
@@ -250,9 +250,9 @@ void ShopObjectViewer::Initialize()
     _hint_text.SetOwner(ShopMode::CurrentInstance()->GetMiddleWindow());
 
     std::vector<vt_video::AnimatedImage>* animations = ShopMode::CurrentInstance()->Media()->GetCharacterSprites();
-    uint32 number_character = animations->size();
+    uint32_t number_character = animations->size();
 
-    for(uint32 i = 0; i < number_character; ++i) {
+    for(uint32_t i = 0; i < number_character; ++i) {
         _character_sprites.push_back(&animations->at(i));
         _character_equipped.push_back(false);
         _phys_change_text.push_back(TextImage());
@@ -408,16 +408,16 @@ void ShopObjectViewer::_UpdateTradeConditions()
         return;
 
     // The option box current index
-    uint32 j = 0;
+    uint32_t j = 0;
     // The trade conditions
-    const std::vector<std::pair<uint32, uint32> >& trade_cond = _selected_object->GetObject()->GetTradeConditions();
+    const std::vector<std::pair<uint32_t, uint32_t> >& trade_cond = _selected_object->GetObject()->GetTradeConditions();
 
-    for(uint32 i = 0; i < trade_cond.size(); ++i) {
-        uint32 item_id = trade_cond[i].first;
-        uint32 item_number = trade_cond[i].second;
+    for(uint32_t i = 0; i < trade_cond.size(); ++i) {
+        uint32_t item_id = trade_cond[i].first;
+        uint32_t item_number = trade_cond[i].second;
 
         // Gets how many items the party has got
-        uint32 owned_number = GlobalManager->HowManyObjectsInInventory(item_id);
+        uint32_t owned_number = GlobalManager->HowManyObjectsInInventory(item_id);
 
         // Create a global object to get info from.
         GlobalObject* obj = GlobalCreateNewObject(item_id, 1);
@@ -481,7 +481,7 @@ void ShopObjectViewer::_SetItemData()
 
     // Determine the target type text to display for this item
     GLOBAL_TARGET target_type = item->GetTargetType();
-    _target_type_index = static_cast<uint32>(target_type);
+    _target_type_index = static_cast<uint32_t>(target_type);
     if(_target_type_index >= _target_type_text.size()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "unknown/invalid target type, defaulting to 'Self': " << target_type << std::endl;
         _target_type_index = 0;
@@ -500,8 +500,8 @@ void ShopObjectViewer::_SetEquipmentData()
     // Determine whether the selected object is a weapon or piece of armor
     GlobalWeapon *selected_weapon = nullptr;
     GlobalArmor *selected_armor = nullptr;
-    uint32 usable_status = 0; // This is a bit mask that will hold the selected object's usablility information
-    uint32 armor_index = 0; // Will hold the correct index into a GlobalCharacter object's equipped armor container
+    uint32_t usable_status = 0; // This is a bit mask that will hold the selected object's usablility information
+    uint32_t armor_index = 0; // Will hold the correct index into a GlobalCharacter object's equipped armor container
 
     if(_selected_object->GetObject()->GetObjectType() == GLOBAL_OBJECT_WEAPON) {
         selected_weapon = dynamic_cast<GlobalWeapon *>(_selected_object->GetObject());
@@ -551,12 +551,12 @@ void ShopObjectViewer::_SetEquipmentData()
     }
 
     // Updates Equipment skills
-    const std::vector<uint32>& equip_skills = selected_weapon ? selected_weapon->GetEquipmentSkills() :
+    const std::vector<uint32_t>& equip_skills = selected_weapon ? selected_weapon->GetEquipmentSkills() :
                                               selected_armor->GetEquipmentSkills();
     _equip_skills.clear();
     _equip_skill_icons.clear();
     // Display a max of 5 skills
-    for (uint32 i = 0; i < equip_skills.size() && i < 5; ++i) {
+    for (uint32_t i = 0; i < equip_skills.size() && i < 5; ++i) {
         GlobalSkill *skill = new GlobalSkill(equip_skills[i]);
         if (skill && skill->IsValid()) {
             _equip_skills.push_back(vt_video::TextImage(skill->GetName(), TextStyle("text20")));
@@ -571,14 +571,14 @@ void ShopObjectViewer::_SetEquipmentData()
     // For each character, determine if they already have the selection equipped or determine the change in pricing
     std::vector<GlobalCharacter *>* party = GlobalManager->GetOrderedCharacters();
     GlobalCharacter *character = nullptr;
-    int32 phys_diff = 0, mag_diff = 0; // Holds the difference in attack power from equipped weapon/armor to selected weapon/armor
+    int32_t phys_diff = 0, mag_diff = 0; // Holds the difference in attack power from equipped weapon/armor to selected weapon/armor
 
     // NOTE: In this block of code, entries to the _phys_change_text and _mag_change_text members are only modified if that information is to be
     // displayed for the character (meaning that the character can use the weapon/armor and does not already have it equipped). This means
     // that these two container members may contain stale data from previous objects. This is acceptable, however, as the stale data should
     // never be drawn. The stale data is allowed to remain so that we do not waste time re-rendering text for which we will not display.
     if(selected_weapon != nullptr) {
-        for(uint32 i = 0; i < party->size(); ++i) {
+        for(uint32_t i = 0; i < party->size(); ++i) {
             character = party->at(i);
             GlobalWeapon* equipped_weapon = character->GetWeaponEquipped();
 
@@ -597,8 +597,8 @@ void ShopObjectViewer::_SetEquipmentData()
             }
             // Case 2: if the player does not have any weapon equipped, the stat diff is equal to the selected weapon's ratings
             if(equipped_weapon == nullptr) {
-                phys_diff = static_cast<int32>(selected_weapon->GetPhysicalAttack());
-                mag_diff = static_cast<int32>(selected_weapon->GetMagicalAttack());
+                phys_diff = static_cast<int32_t>(selected_weapon->GetPhysicalAttack());
+                mag_diff = static_cast<int32_t>(selected_weapon->GetMagicalAttack());
             }
             // Case 3: if the player already has this weapon equipped, indicate thus and move on to the next character
             else if(selected_weapon->GetID() == equipped_weapon->GetID()) {
@@ -607,17 +607,17 @@ void ShopObjectViewer::_SetEquipmentData()
             }
             // Case 4: the player can use this weapon and does not already have it equipped
             else {
-                phys_diff = static_cast<int32>(selected_weapon->GetPhysicalAttack()) -
-                            static_cast<int32>(equipped_weapon->GetPhysicalAttack());
-                mag_diff = static_cast<int32>(selected_weapon->GetMagicalAttack()) -
-                            static_cast<int32>(equipped_weapon->GetMagicalAttack());
+                phys_diff = static_cast<int32_t>(selected_weapon->GetPhysicalAttack()) -
+                            static_cast<int32_t>(equipped_weapon->GetPhysicalAttack());
+                mag_diff = static_cast<int32_t>(selected_weapon->GetMagicalAttack()) -
+                            static_cast<int32_t>(equipped_weapon->GetMagicalAttack());
             }
 
             // If this line has been reached, either case (2) or case (4) were evaluated as true. Render the phys/meta stat variation text
             _SetChangeText(i, phys_diff, mag_diff);
         }
     } else { // (selected_armor != nullptr)
-        for(uint32 i = 0; i < party->size(); ++i) {
+        for(uint32_t i = 0; i < party->size(); ++i) {
             character = party->at(i);
             GlobalArmor* equipped_armor = character->GetArmorEquipped(armor_index);
 
@@ -636,8 +636,8 @@ void ShopObjectViewer::_SetEquipmentData()
             }
             // Case 2: if the player does not have any armor equipped, the stat diff is equal to the selected armor's ratings
             if(equipped_armor == nullptr) {
-                phys_diff = static_cast<int32>(selected_armor->GetPhysicalDefense());
-                mag_diff = static_cast<int32>(selected_armor->GetMagicalDefense());
+                phys_diff = static_cast<int32_t>(selected_armor->GetPhysicalDefense());
+                mag_diff = static_cast<int32_t>(selected_armor->GetMagicalDefense());
             }
             // Case 3: if the player already has this armor equipped, indicate thus and move on to the next character
             else if(selected_armor->GetID() == equipped_armor->GetID()) {
@@ -646,10 +646,10 @@ void ShopObjectViewer::_SetEquipmentData()
             }
             // Case 4: the player can use this armor and does not already have it equipped
             else {
-                phys_diff = static_cast<int32>(selected_armor->GetPhysicalDefense()) -
-                            static_cast<int32>(equipped_armor->GetPhysicalDefense());
-                mag_diff = static_cast<int32>(selected_armor->GetMagicalDefense()) -
-                            static_cast<int32>(equipped_armor->GetMagicalDefense());
+                phys_diff = static_cast<int32_t>(selected_armor->GetPhysicalDefense()) -
+                            static_cast<int32_t>(equipped_armor->GetPhysicalDefense());
+                mag_diff = static_cast<int32_t>(selected_armor->GetMagicalDefense()) -
+                            static_cast<int32_t>(equipped_armor->GetMagicalDefense());
             }
 
             // If this line has been reached, either case (2) or case (4) were evaluated as true. Render the phys/meta stat variation text
@@ -752,7 +752,7 @@ void ShopObjectViewer::ScrollDownTradeConditions()
     _conditions_number.InputDown();
 }
 
-void ShopObjectViewer::_SetChangeText(uint32 index, int32 phys_diff, int32 mag_diff)
+void ShopObjectViewer::_SetChangeText(uint32_t index, int32_t phys_diff, int32_t mag_diff)
 {
     if(index >= _character_sprites.size()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "index argument was out of bounds: " << index << std::endl;
@@ -858,7 +858,7 @@ void ShopObjectViewer::_DrawEquipment()
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
     VideoManager->MoveRelative(20.0f, 0.0f);
     float j = 0;
-    for (uint32 i = 0; i < _spirit_number; ++i) {
+    for (uint32_t i = 0; i < _spirit_number; ++i) {
         _spirit_slot_icon->Draw();
         if (i % 2 == 0) {
             VideoManager->MoveRelative(15.0f , 0.0f);
@@ -872,9 +872,9 @@ void ShopObjectViewer::_DrawEquipment()
     VideoManager->MoveRelative(j, -65.0f);
 
     // Draw status effects icons
-    uint32 element_size = _status_icons.size() > 9 ? 9 : _status_icons.size();
+    uint32_t element_size = _status_icons.size() > 9 ? 9 : _status_icons.size();
     VideoManager->MoveRelative((18.0f * element_size), 0.0f);
-    for(uint32 i = 0; i < element_size; ++i) {
+    for(uint32_t i = 0; i < element_size; ++i) {
         _status_icons[i]->Draw();
         VideoManager->MoveRelative(-18.0f, 0.0f);
     }
@@ -882,7 +882,7 @@ void ShopObjectViewer::_DrawEquipment()
     if (_status_icons.size() > 9) {
         element_size = _status_icons.size();
         VideoManager->MoveRelative((18.0f * (element_size - 9)), 0.0f);
-        for(uint32 i = 9; i < element_size; ++i) {
+        for(uint32_t i = 9; i < element_size; ++i) {
             _status_icons[i]->Draw();
             VideoManager->MoveRelative(-18.0f, 0.0f);
         }
@@ -910,7 +910,7 @@ void ShopObjectViewer::_DrawEquipment()
     if (element_size > 0)
         _equip_skills_header.Draw();
     VideoManager->MoveRelative(10.0f, 20.0f);
-    for (uint32 i = 0; i < element_size; ++i) {
+    for (uint32_t i = 0; i < element_size; ++i) {
         _equip_skills[i].Draw();
         VideoManager->MoveRelative(-20.0f, 0.0f);
         _equip_skill_icons[i].Draw();
@@ -939,12 +939,12 @@ void ShopObjectViewer::_DrawEquipment()
     // Draws character
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_TOP, 0);
 
-    uint32 max_characters = _character_sprites.size();
+    uint32_t max_characters = _character_sprites.size();
     // There's only enough room to show 4 sprites
     if (max_characters > 4)
         max_characters = 4;
 
-    for(uint32 i = 0; i < max_characters; ++i) {
+    for(uint32_t i = 0; i < max_characters; ++i) {
         _character_sprites[i]->Draw();
 
         // Case 1: Draw the equip icon below the character sprite
@@ -1044,7 +1044,7 @@ ShopMode::ShopMode() :
     _finance_table.SetTextStyle(TextStyle("text22"));
     _finance_table.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
     // Initialize all three options with an empty string that will be overwritten by the following method call
-    for(uint32 i = 0; i < 3; i++)
+    for(uint32_t i = 0; i < 3; i++)
         _finance_table.AddOption(ustring());
     UpdateFinances(0);
 
@@ -1113,7 +1113,7 @@ void ShopMode::Initialize()
     _UpdateAvailableShopOptions();
 
     // Initialize pricing for all buy shop objects
-    for(std::map<uint32, ShopObject *>::iterator it = _available_buy.begin(); it != _available_buy.end(); ++it) {
+    for(std::map<uint32_t, ShopObject *>::iterator it = _available_buy.begin(); it != _available_buy.end(); ++it) {
         it->second->SetPricing(_buy_price_level, _sell_price_level);
     }
     _object_viewer->Initialize();
@@ -1138,8 +1138,8 @@ void ShopMode::_UpdateAvailableObjectsToSell()
     if (!_sell_mode_enabled)
         return;
 
-    std::map<uint32, GlobalObject *>* inventory = GlobalManager->GetInventory();
-    for(std::map<uint32, GlobalObject *>::iterator it = inventory->begin(); it != inventory->end(); ++it) {
+    std::map<uint32_t, GlobalObject *>* inventory = GlobalManager->GetInventory();
+    for(std::map<uint32_t, GlobalObject *>::iterator it = inventory->begin(); it != inventory->end(); ++it) {
         // Don't consider 0 worth objects.
         if(it->second->GetPrice() == 0)
             continue;
@@ -1149,7 +1149,7 @@ void ShopMode::_UpdateAvailableObjectsToSell()
             continue;
 
         // Check if the object already exists in the shop list and if so, set its ownership count
-        std::map<uint32, ShopObject *>::iterator shop_obj_iter = _available_sell.find(it->second->GetID());
+        std::map<uint32_t, ShopObject *>::iterator shop_obj_iter = _available_sell.find(it->second->GetID());
         if(shop_obj_iter != _available_sell.end()) {
             shop_obj_iter->second->IncrementOwnCount(it->second->GetCount());
         }
@@ -1381,8 +1381,8 @@ void ShopMode::AddObjectToBuyList(ShopObject *object)
         IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added had a buy count of zero" << std::endl;
     }
 
-    uint32 object_id = object->GetObject()->GetID();
-    std::pair<std::map<uint32, ShopObject *>::iterator, bool> ret_val;
+    uint32_t object_id = object->GetObject()->GetID();
+    std::pair<std::map<uint32_t, ShopObject *>::iterator, bool> ret_val;
     ret_val = _buy_list.insert(std::make_pair(object_id, object));
     if(ret_val.second == false) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added already existed in buy list" << std::endl;
@@ -1402,8 +1402,8 @@ void ShopMode::RemoveObjectFromBuyList(ShopObject *object)
         IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed had a buy count that was non-zero" << std::endl;
     }
 
-    uint32 object_id = object->GetObject()->GetID();
-    std::map<uint32, ShopObject *>::iterator object_entry = _buy_list.find(object_id);
+    uint32_t object_id = object->GetObject()->GetID();
+    std::map<uint32_t, ShopObject *>::iterator object_entry = _buy_list.find(object_id);
     if(object_entry == _buy_list.end()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed did not exist on the buy list" << std::endl;
     } else {
@@ -1424,8 +1424,8 @@ void ShopMode::AddObjectToSellList(ShopObject *object)
         IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added had a sell count of zero" << std::endl;
     }
 
-    uint32 object_id = object->GetObject()->GetID();
-    std::pair<std::map<uint32, ShopObject *>::iterator, bool> ret_val;
+    uint32_t object_id = object->GetObject()->GetID();
+    std::pair<std::map<uint32_t, ShopObject *>::iterator, bool> ret_val;
     ret_val = _sell_list.insert(std::make_pair(object_id, object));
     if(ret_val.second == false) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added already existed in sell list" << std::endl;
@@ -1445,8 +1445,8 @@ void ShopMode::RemoveObjectFromSellList(ShopObject *object)
         IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed had a sell count that was non-zero" << std::endl;
     }
 
-    uint32 object_id = object->GetObject()->GetID();
-    std::map<uint32, ShopObject *>::iterator object_entry = _sell_list.find(object_id);
+    uint32_t object_id = object->GetObject()->GetID();
+    std::map<uint32_t, ShopObject *>::iterator object_entry = _sell_list.find(object_id);
     if(object_entry == _sell_list.end()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed did not exist on the sell list" << std::endl;
     } else {
@@ -1466,8 +1466,8 @@ void ShopMode::AddObjectToTradeList(ShopObject *object)
         IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added had a buy count of zero" << std::endl;
     }
 
-    uint32 object_id = object->GetObject()->GetID();
-    std::pair<std::map<uint32, ShopObject *>::iterator, bool> ret_val;
+    uint32_t object_id = object->GetObject()->GetID();
+    std::pair<std::map<uint32_t, ShopObject *>::iterator, bool> ret_val;
     ret_val = _trade_list.insert(std::make_pair(object_id, object));
     if(ret_val.second == false) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "object to be added already existed in buy list" << std::endl;
@@ -1487,8 +1487,8 @@ void ShopMode::RemoveObjectFromTradeList(ShopObject *object)
         IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed had a buy count that was non-zero" << std::endl;
     }
 
-    uint32 object_id = object->GetObject()->GetID();
-    std::map<uint32, ShopObject *>::iterator object_entry = _trade_list.find(object_id);
+    uint32_t object_id = object->GetObject()->GetID();
+    std::map<uint32_t, ShopObject *>::iterator object_entry = _trade_list.find(object_id);
     if(object_entry == _trade_list.end()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "object to be removed did not exist on the buy list" << std::endl;
     } else {
@@ -1500,11 +1500,11 @@ void ShopMode::RemoveObjectFromTradeList(ShopObject *object)
 
 void ShopMode::ClearOrder()
 {
-    for(std::map<uint32, ShopObject *>::iterator i = _buy_list.begin(); i != _buy_list.end(); ++i)
+    for(std::map<uint32_t, ShopObject *>::iterator i = _buy_list.begin(); i != _buy_list.end(); ++i)
         i->second->ResetBuyCount();
-    for(std::map<uint32, ShopObject *>::iterator i = _sell_list.begin(); i != _sell_list.end(); ++i)
+    for(std::map<uint32_t, ShopObject *>::iterator i = _sell_list.begin(); i != _sell_list.end(); ++i)
         i->second->ResetSellCount();
-    for(std::map<uint32, ShopObject *>::iterator i = _trade_list.begin(); i != _trade_list.end(); ++i)
+    for(std::map<uint32_t, ShopObject *>::iterator i = _trade_list.begin(); i != _trade_list.end(); ++i)
         i->second->ResetTradeCount();
 
     _buy_list.clear();
@@ -1521,11 +1521,11 @@ void ShopMode::ClearOrder()
 
 void ShopMode::CompleteTransaction()
 {
-    uint32 count = 0;
-    uint32 id = 0;
+    uint32_t count = 0;
+    uint32_t id = 0;
 
     // Add all objects on the buy list to inventory and update shop object status
-    for(std::map<uint32, ShopObject *>::iterator it = _buy_list.begin(); it != _buy_list.end(); ++it) {
+    for(std::map<uint32_t, ShopObject *>::iterator it = _buy_list.begin(); it != _buy_list.end(); ++it) {
         count = it->second->GetBuyCount();
         id = it->second->GetObject()->GetID();
 
@@ -1547,7 +1547,7 @@ void ShopMode::CompleteTransaction()
     _buy_list.clear();
 
     // Remove all objects on the sell list from the inventory and update shop object status
-    for(std::map<uint32, ShopObject *>::iterator it = _sell_list.begin(); it != _sell_list.end(); ++it) {
+    for(std::map<uint32_t, ShopObject *>::iterator it = _sell_list.begin(); it != _sell_list.end(); ++it) {
         count = it->second->GetSellCount();
         id = it->second->GetObject()->GetID();
 
@@ -1568,7 +1568,7 @@ void ShopMode::CompleteTransaction()
     _sell_list.clear();
 
     // Remove all objects on the trade list from the inventory and update shop object status
-    for(std::map<uint32, ShopObject *>::iterator it = _trade_list.begin(); it != _trade_list.end(); ++it) {
+    for(std::map<uint32_t, ShopObject *>::iterator it = _trade_list.begin(); it != _trade_list.end(); ++it) {
         count = it->second->GetTradeCount();
         id = it->second->GetObject()->GetID();
 
@@ -1582,7 +1582,7 @@ void ShopMode::CompleteTransaction()
         GlobalManager->AddToInventory(id, count);
 
         //Remove trade condition items from inventory and possibly call RemoveObjectToSell
-        for(uint32 i = 0; i < it->second->GetObject()->GetTradeConditions().size(); ++i) {
+        for(uint32_t i = 0; i < it->second->GetObject()->GetTradeConditions().size(); ++i) {
             GlobalManager->DecrementItemCount(it->second->GetObject()->GetTradeConditions()[i].first,
                                                 it->second->GetObject()->GetTradeConditions()[i].second * count);
         }
@@ -1621,11 +1621,11 @@ void ShopMode::CompleteTransaction()
 
 
 
-void ShopMode::UpdateFinances(int32 change_amount)
+void ShopMode::UpdateFinances(int32_t change_amount)
 {
-    int32 updated_change_amount = _total_change_amount + change_amount;
+    int32_t updated_change_amount = _total_change_amount + change_amount;
 
-    if((static_cast<int32>(GlobalManager->GetDrunes()) + updated_change_amount) < 0) {
+    if((static_cast<int32_t>(GlobalManager->GetDrunes()) + updated_change_amount) < 0) {
         PRINT_WARNING << "updated costs and sales values cause negative balance" << std::endl;
         return;
     }
@@ -1731,7 +1731,7 @@ void ShopMode::SetPriceLevels(SHOP_PRICE_LEVEL buy_level, SHOP_PRICE_LEVEL sell_
 
 
 
-void ShopMode::AddItem(uint32 object_id, uint32 stock)
+void ShopMode::AddItem(uint32_t object_id, uint32_t stock)
 {
     if(IsInitialized() == true) {
         PRINT_WARNING << "function called after shop was already initialized" << std::endl;
@@ -1761,7 +1761,7 @@ void ShopMode::AddItem(uint32 object_id, uint32 stock)
 
 
 
-void ShopMode::AddTrade(uint32 object_id, uint32 stock)
+void ShopMode::AddTrade(uint32_t object_id, uint32_t stock)
 {
     if(IsInitialized() == true) {
         PRINT_WARNING << "function called after shop was already initialized" << std::endl;
@@ -1790,9 +1790,9 @@ void ShopMode::AddTrade(uint32 object_id, uint32 stock)
 }
 
 
-void ShopMode::RemoveObjectToBuy(uint32 object_id)
+void ShopMode::RemoveObjectToBuy(uint32_t object_id)
 {
-    std::map<uint32, ShopObject *>::iterator shop_iter = _available_buy.find(object_id);
+    std::map<uint32_t, ShopObject *>::iterator shop_iter = _available_buy.find(object_id);
     if(shop_iter == _available_buy.end()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to remove object that did not exist: " << object_id << std::endl;
         return;
@@ -1806,9 +1806,9 @@ void ShopMode::RemoveObjectToBuy(uint32 object_id)
     _available_buy.erase(shop_iter);
 }
 
-void ShopMode::RemoveObjectToSell(uint32 object_id)
+void ShopMode::RemoveObjectToSell(uint32_t object_id)
 {
-    std::map<uint32, ShopObject *>::iterator shop_iter = _available_sell.find(object_id);
+    std::map<uint32_t, ShopObject *>::iterator shop_iter = _available_sell.find(object_id);
     if(shop_iter == _available_sell.end()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to remove object that did not exist: " << object_id << std::endl;
         return;
@@ -1822,9 +1822,9 @@ void ShopMode::RemoveObjectToSell(uint32 object_id)
     _available_sell.erase(shop_iter);
 }
 
-void ShopMode::RemoveObjectToTrade(uint32 object_id)
+void ShopMode::RemoveObjectToTrade(uint32_t object_id)
 {
-    std::map<uint32, ShopObject *>::iterator shop_iter = _available_trade.find(object_id);
+    std::map<uint32_t, ShopObject *>::iterator shop_iter = _available_trade.find(object_id);
     if(shop_iter == _available_trade.end()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to remove object that did not exist: " << object_id << std::endl;
         return;

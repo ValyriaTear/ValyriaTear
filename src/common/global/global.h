@@ -98,24 +98,24 @@ public:
     *** \note If an event by the given name already exists, a warning will be printed and no addition
     *** or modification of any kind will take place
     **/
-    void AddNewEvent(const std::string &event_name, int32 event_value = 0);
+    void AddNewEvent(const std::string &event_name, int32_t event_value = 0);
 
     /** \brief Retrieves the value of a specific event in the group
     *** \param event_name The name of the event to retrieve
     *** \return The value of the event, or 0 if there is no event corresponding to
     *** the requested event named
     **/
-    int32 GetEvent(const std::string &event_name);
+    int32_t GetEvent(const std::string &event_name);
 
     /** \brief Sets the value for an existing event
     *** \param event_name The name of the event whose value should be changed
     *** \param event_value The value to set for the event.
     *** \note If the event by the given name is not found, the event group will be created.
     **/
-    void SetEvent(const std::string &event_name, int32 event_value);
+    void SetEvent(const std::string &event_name, int32_t event_value);
 
     //! \brief Returns the number of events currently stored within the group
-    uint32 GetNumberEvents() const {
+    uint32_t GetNumberEvents() const {
         return _events.size();
     }
 
@@ -125,7 +125,7 @@ public:
     }
 
     //! \brief Returns an immutable reference to the private _events container
-    const std::map<std::string, int32>& GetEvents() const {
+    const std::map<std::string, int32_t>& GetEvents() const {
         return _events;
     }
 
@@ -138,7 +138,7 @@ private:
     *** represents the event's state and can take on multiple meanings depending on the context
     *** of this specific event.
     **/
-    std::map<std::string, int32> _events;
+    std::map<std::string, int32_t> _events;
 }; // class GlobalEventGroup
 
 /** ****************************************************************************
@@ -167,7 +167,7 @@ public:
     //! \param set whether or not the log entry is read or not. Defaults to false.
     //! this flag is manipulated by the game internals as opposed to the scripting side
     QuestLogEntry(const std::string &quest_id,
-                  uint32 quest_number,
+                  uint32_t quest_number,
                   bool is_read = false):
         _quest_id(quest_id),
         _quest_log_number(quest_number),
@@ -183,7 +183,7 @@ public:
     const std::string& GetQuestId() const
     { return _quest_id; }
 
-    uint32 GetQuestLogNumber() const
+    uint32_t GetQuestLogNumber() const
     { return _quest_log_number; }
 
 private:
@@ -191,7 +191,7 @@ private:
     const std::string _quest_id;
 
     //! the quest log number for this quest
-    const uint32 _quest_log_number;
+    const uint32_t _quest_log_number;
 
     //! flag to indicate whether or not this entry has been read
     bool _is_read;
@@ -335,7 +335,7 @@ public:
     *** \note If the number of characters is less than four when this function is called,
     *** the new character will automatically be added to the active party.
     **/
-    void AddCharacter(uint32 id);
+    void AddCharacter(uint32_t id);
 
     /** \brief Adds a new pre-initialized character to the party
     *** \param ch A pointer to the initialized GlobalCharacter object to add
@@ -355,31 +355,31 @@ public:
     *** \param erase Tells whether the character should be completely remove
     	or just from the active party.
     **/
-    void RemoveCharacter(uint32 id, bool erase = false);
+    void RemoveCharacter(uint32_t id, bool erase = false);
 
     /** \brief Returns a pointer to a character currently in the party.
     *** \param id The ID number of the character to retrieve.
     *** \return A pointer to the character, or nullptr if the character was not found.
     ***/
-    GlobalCharacter *GetCharacter(uint32 id);
+    GlobalCharacter *GetCharacter(uint32_t id);
 
     /** \brief Swaps the location of two character in the party by their indeces
     *** \param first_index The index of the first character to swap
     *** \param second_index The index of the second character to swap
     **/
-    void SwapCharactersByIndex(uint32 first_index, uint32 second_index);
+    void SwapCharactersByIndex(uint32_t first_index, uint32_t second_index);
 
     /** \brief Checks whether or not a character is in the party
     *** \param id The id of the character to check for
     *** \return True if the character was found to be in the party, or false if they were not found.
     **/
-    bool IsCharacterInParty(uint32 id) {
+    bool IsCharacterInParty(uint32_t id) {
         if(_characters.find(id) != _characters.end()) return true;
         else return false;
     }
 
     //! \brief Tells whether an enemy id is existing in the enemy data.
-    bool DoesEnemyExist(uint32 enemy_id);
+    bool DoesEnemyExist(uint32_t enemy_id);
     //@}
 
     //! \name Inventory Methods
@@ -390,7 +390,7 @@ public:
     *** If the item already exists in the inventory, then instead the GlobalObject#_count member is used to
     *** increment the count of the stored item.
     **/
-    void AddToInventory(uint32 obj_id, uint32 obj_count = 1);
+    void AddToInventory(uint32_t obj_id, uint32_t obj_count = 1);
 
     /** \brief Adds a new object to the inventory
     *** \param object A pointer to the pre-created GlobalObject-type class to add
@@ -412,13 +412,13 @@ public:
     *** If you want to remove only a certain number of instances of the object, use the function
     *** GameGlobal#DecrementItemCount.
     **/
-    void RemoveFromInventory(uint32 obj_id);
+    void RemoveFromInventory(uint32_t obj_id);
 
     /** \brief Gets a copy of an object from the inventory
     *** \param obj_id The identifier value of the item to obtain
     *** \return A newly instantiated copy of the object, or nullptr if the object was not found in the inventory
     **/
-    GlobalObject* GetGlobalObject(uint32 obj_id);
+    GlobalObject* GetGlobalObject(uint32_t obj_id);
 
     /** \brief Increments the number (count) of an object in the inventory
     *** \param item_id The integer identifier of the item that will have its count incremented
@@ -429,7 +429,7 @@ public:
     ***
     *** \note The callee can not assume that the function call succeeded, but rather has to check this themselves.
     **/
-    void IncrementItemCount(uint32 obj_id, uint32 obj_count = 1);
+    void IncrementItemCount(uint32_t obj_id, uint32_t obj_count = 1);
 
     /** \brief Decrements the number (count) of an object in the inventory
     *** \param item_id The integer identifier of the item that will have its count decremented
@@ -441,13 +441,13 @@ public:
     ***
     *** \note The callee can not assume that the function call succeeded, but rather has to check this themselves.
     **/
-    void DecrementItemCount(uint32 obj_id, uint32 obj_count = 1);
+    void DecrementItemCount(uint32_t obj_id, uint32_t obj_count = 1);
 
     /** \brief Checks whether or a given object is currently stored in the inventory
     *** \param id The id of the object (item, weapon, armor, etc.) to check for
     *** \return True if the object was found in the inventor, or false if it was not found
     **/
-    bool IsItemInInventory(uint32 id) {
+    bool IsItemInInventory(uint32_t id) {
         return (_inventory.find(id) != _inventory.end());
     }
 
@@ -455,7 +455,7 @@ public:
     *** \param id The id of the object (item, weapon, armor, etc.) to check for
     *** \return The number of the object found in the inventory
     **/
-    uint32 HowManyObjectsInInventory(uint32 id) {
+    uint32_t HowManyObjectsInInventory(uint32_t id) {
         return (_inventory.find(id) != _inventory.end()) ? _inventory.at(id)->GetCount() : 0;
     }
     //@}
@@ -503,7 +503,7 @@ public:
     *** \param event_name The name of the event whose value should be retrieved
     *** \return The value of the requested event, or 0 if the event was not found
     **/
-    int32 GetEventValue(const std::string &group_name, const std::string &event_name) const;
+    int32_t GetEventValue(const std::string &group_name, const std::string &event_name) const;
 
     /** \brief Set the value of an event inside of a specified group
     *** \param group_name The name of the event group where the event is contained
@@ -511,10 +511,10 @@ public:
     *** \return The event value.
     *** \note Events and event groups will be created when necessary.
     **/
-    void SetEventValue(const std::string &group_name, const std::string &event_name, int32 event_value);
+    void SetEventValue(const std::string &group_name, const std::string &event_name, int32_t event_value);
 
     //! \brief Returns the number of event groups stored in the class
-    uint32 GetNumberEventGroups() const {
+    uint32_t GetNumberEventGroups() const {
         return _event_groups.size();
     }
 
@@ -522,7 +522,7 @@ public:
     *** \param group_name The name of the event group to retrieve the number of events for
     *** \return The number of events in the group, or zero if no such group name existed
     **/
-    uint32 GetNumberEvents(const std::string &group_name) const;
+    uint32_t GetNumberEvents(const std::string &group_name) const;
     //@}
 
     //! \name Quest Log Entry methods
@@ -569,7 +569,7 @@ public:
     /** \brief gets the number of quest log entries
     *** \return number of log entries
     **/
-    uint32 GetNumberQuestLogEntries() const
+    uint32_t GetNumberQuestLogEntries() const
     {
         return _quest_log_entries.size();
     }
@@ -596,12 +596,12 @@ public:
     //@}
 
     //! \note The overflow condition is not checked here: we just assume it will never occur
-    void AddDrunes(uint32 amount) {
+    void AddDrunes(uint32_t amount) {
         _drunes += amount;
     }
 
     //! \note The amount is only subtracted if the current funds is equal to or exceeds the amount to subtract
-    void SubtractDrunes(uint32 amount) {
+    void SubtractDrunes(uint32_t amount) {
         if(_drunes >= amount) _drunes -= amount;
     }
 
@@ -609,8 +609,8 @@ public:
     *** \return The average (integer) experience level of all members in the active party
     *** This is used for determining the level of growth for enemies in battle.
     **/
-    uint32 AverageActivePartyExperienceLevel() const {
-        return static_cast<uint32>(_active_party.AverageExperienceLevel());
+    uint32_t AverageActivePartyExperienceLevel() const {
+        return static_cast<uint32_t>(_active_party.AverageExperienceLevel());
     }
 
     /** \brief Sets the name and graphic for the current location
@@ -764,7 +764,7 @@ public:
     *** \param positions When used in a save point, the save map tile positions are given there.
     *** \return True if the game was successfully saved, false if it was not
     **/
-    bool SaveGame(const std::string &filename, uint32 slot_id, uint32 x_position = 0, uint32 y_position = 0);
+    bool SaveGame(const std::string &filename, uint32_t slot_id, uint32_t x_position = 0, uint32_t y_position = 0);
 
     /** \brief Loads all global data from a saved game file
     *** \param filename The filename of the saved game file where to read the data from
@@ -772,27 +772,27 @@ public:
     *** when further saving.
     *** \return True if the game was successfully loaded, false if it was not
     **/
-    bool LoadGame(const std::string &filename, uint32 slot_id);
+    bool LoadGame(const std::string &filename, uint32_t slot_id);
 
-    uint32 GetGameSlotId() const {
+    uint32_t GetGameSlotId() const {
         return _game_slot_id;
     }
 
     //! \name Class Member Access Functions
     //@{
-    void SetDrunes(uint32 amount) {
+    void SetDrunes(uint32_t amount) {
         _drunes = amount;
     }
 
-    void SetMaxExperienceLevel(uint32 level) {
+    void SetMaxExperienceLevel(uint32_t level) {
         _max_experience_level = level;
     }
 
-    uint32 GetMaxExperienceLevel() const {
+    uint32_t GetMaxExperienceLevel() const {
         return _max_experience_level;
     }
 
-    uint32 GetDrunes() const {
+    uint32_t GetDrunes() const {
         return _drunes;
     }
 
@@ -804,11 +804,11 @@ public:
         return _map_script_filename;
     }
 
-    uint32 GetSaveLocationX() {
+    uint32_t GetSaveLocationX() {
         return _x_save_map_position;
     }
 
-    uint32 GetSaveLocationY() {
+    uint32_t GetSaveLocationY() {
         return _y_save_map_position;
     }
 
@@ -849,8 +849,8 @@ public:
     }
 
     // Returns the character party position
-    uint32 GetPartyPosition(GlobalCharacter* character) {
-        for (uint32 i = 0; i < _ordered_characters.size(); ++i) {
+    uint32_t GetPartyPosition(GlobalCharacter* character) {
+        for (uint32_t i = 0; i < _ordered_characters.size(); ++i) {
             if (_ordered_characters[i] == character)
                 return i;
         }
@@ -862,7 +862,7 @@ public:
         return &_active_party;
     }
 
-    std::map<uint32, GlobalObject *>* GetInventory() {
+    std::map<uint32_t, GlobalObject *>* GetInventory() {
         return &_inventory;
     }
 
@@ -987,22 +987,22 @@ private:
     GameGlobal();
 
     //! \brief The slot id the game was loaded from/saved to, or 0 if none.
-    uint32 _game_slot_id;
+    uint32_t _game_slot_id;
 
     //! \brief The amount of financial resources (drunes) that the party currently has
-    uint32 _drunes;
+    uint32_t _drunes;
 
     /** \brief Set the max level that can be reached by a character
     *** This equals 100 by default, @see Set/GetMaxExperienceLevel()
     **/
-    uint32 _max_experience_level;
+    uint32_t _max_experience_level;
 
     //! \brief The map data and script filename the current party is on.
     std::string _map_data_filename;
     std::string _map_script_filename;
 
     //! \brief last save point map tile location.
-    uint32 _x_save_map_position, _y_save_map_position;
+    uint32_t _x_save_map_position, _y_save_map_position;
 
     //! \brief The graphical image which represents the current location
     vt_video::StillImage _map_image;
@@ -1033,7 +1033,7 @@ private:
     *** This map contains all characters that the player has met with, regardless of whether or not they are in the active party.
     *** The map key is the character's unique ID number.
     **/
-    std::map<uint32, GlobalCharacter *> _characters;
+    std::map<uint32_t, GlobalCharacter *> _characters;
 
     /** \brief A vector whose purpose is to maintain the order of characters
     *** The first four characters in this vector are in the active party; the rest are in reserve.
@@ -1052,7 +1052,7 @@ private:
     *** is simply increased instead of adding an entire new class object. When the object count becomes zero, the object
     *** is removed from the inventory. Duplicates of all objects are retained in the various inventory containers below.
     **/
-    std::map<uint32, GlobalObject *> _inventory;
+    std::map<uint32_t, GlobalObject *> _inventory;
 
     /** \brief Inventory containers
     *** These vectors contain the inventory of the entire party. The vectors are sorted according to the player's personal preferences.
@@ -1152,7 +1152,7 @@ private:
     /** \brief counter that is updated as quest log entries are added. we use this to
     *** order the quest logs from recent (high number) to older (low number)
     **/
-    uint32 _quest_log_count;
+    uint32_t _quest_log_count;
 
     //! \brief A map containing all the emote animations
     std::map<std::string, vt_video::AnimatedImage> _emotes;
@@ -1176,14 +1176,14 @@ private:
     *** \param inv The vector container of the appropriate inventory type
     *** \return True if the object was successfully removed, or false if it was not
     **/
-    template <class T> bool _RemoveFromInventory(uint32 obj_id, std::vector<T *>& inv);
+    template <class T> bool _RemoveFromInventory(uint32_t obj_id, std::vector<T *>& inv);
 
     /** \brief A helper template function that finds and returns a copy of an object from the inventory
     *** \param obj_id The ID of the object to obtain from the inventory
     *** \param inv The vector container of the appropriate inventory type
     *** \return A pointer to the newly created copy of the object, or nullptr if the object could not be found
     **/
-    template <class T> T *_GetFromInventory(uint32 obj_id, std::vector<T *>& inv);
+    template <class T> T *_GetFromInventory(uint32_t obj_id, std::vector<T *>& inv);
 
     /** \brief A helper function to GameGlobal::SaveGame() that stores the contents of a type of inventory to the saved game file
     *** \param file A reference to the open and valid file where to write the inventory list
@@ -1215,7 +1215,7 @@ private:
     *** \return true if the entry was added. false if the entry already exists
     **/
     bool _AddQuestLog(const std::string &quest_id,
-                      uint32 quest_log_number,
+                      uint32_t quest_log_number,
                       bool is_read = false)
     {
         if(_quest_log_entries.find(quest_id) != _quest_log_entries.end())
@@ -1247,7 +1247,7 @@ private:
     *** \param file A reference to the open and valid file from where to read the character from
     *** \param id The character's integer ID, used to find and restore the character data
     **/
-    void _LoadCharacter(vt_script::ReadScriptDescriptor &file, uint32 id);
+    void _LoadCharacter(vt_script::ReadScriptDescriptor &file, uint32_t id);
 
     /** \brief A helper function to GameGlobal::LoadGame() that loads a group of game events from a saved game file
     *** \param file A reference to the open and valid file from where to read the event data from
@@ -1288,7 +1288,7 @@ private:
 // Template Function Definitions
 //-----------------------------------------------------------------------------
 
-template <class T> bool GameGlobal::_RemoveFromInventory(uint32 obj_id, std::vector<T *>& inv)
+template <class T> bool GameGlobal::_RemoveFromInventory(uint32_t obj_id, std::vector<T *>& inv)
 {
     for(typename std::vector<T *>::iterator i = inv.begin(); i != inv.end(); i++) {
         if((*i)->GetID() == obj_id) {
@@ -1301,9 +1301,9 @@ template <class T> bool GameGlobal::_RemoveFromInventory(uint32 obj_id, std::vec
     }
 
     return false;
-} // template <class T> bool GameGlobal::_RemoveFromInventory(uint32 obj_id, std::vector<T*>& inv)
+} // template <class T> bool GameGlobal::_RemoveFromInventory(uint32_t obj_id, std::vector<T*>& inv)
 
-template <class T> T *GameGlobal::_GetFromInventory(uint32 obj_id, std::vector<T *>& inv)
+template <class T> T *GameGlobal::_GetFromInventory(uint32_t obj_id, std::vector<T *>& inv)
 {
     for(typename std::vector<T*>::iterator it = inv.begin(); it != inv.end(); ++it) {
         if((*it)->GetID() != obj_id)
@@ -1326,7 +1326,7 @@ template <class T> void GameGlobal::_SaveInventory(vt_script::WriteScriptDescrip
 
     file.InsertNewLine();
     file.WriteLine(name + " = {");
-    for(uint32 i = 0; i < inv.size(); i++) {
+    for(uint32_t i = 0; i < inv.size(); i++) {
         // Don't save inventory items with 0 count
         if(inv[i]->GetCount() == 0)
             continue;

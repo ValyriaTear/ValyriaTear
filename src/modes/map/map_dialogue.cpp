@@ -72,7 +72,7 @@ SpriteDialogue::SpriteDialogue(const std::string& dialogue_event_name) :
     if (_event_name.empty())
         return;
 
-    int32 seen = vt_global::GlobalManager->GetEventValue("dialogues", _event_name);
+    int32_t seen = vt_global::GlobalManager->GetEventValue("dialogues", _event_name);
     if (seen > 0)
         _dialogue_seen = true;
 
@@ -102,7 +102,7 @@ void SpriteDialogue::SetAsSeen(bool seen)
         return;
 
     // Stores the dialogue state in the save data
-    int32 event_value = 0;
+    int32_t event_value = 0;
     if (_dialogue_seen)
         event_value = 1;
 
@@ -124,21 +124,21 @@ void SpriteDialogue::AddLineEmote(const std::string &text, MapSprite *speaker,
                       std::string(), std::string(), emote_id);
 }
 
-void SpriteDialogue::AddLine(const std::string &text, MapSprite *speaker, int32 next_line)
+void SpriteDialogue::AddLine(const std::string &text, MapSprite *speaker, int32_t next_line)
 {
     AddLineTimedEvent(text, speaker,
                       next_line, DIALOGUE_NO_TIMER,
                       std::string(), std::string(), std::string());
 }
 
-void SpriteDialogue::AddLineTimed(const std::string &text, MapSprite *speaker, uint32 display_time)
+void SpriteDialogue::AddLineTimed(const std::string &text, MapSprite *speaker, uint32_t display_time)
 {
     AddLineTimedEvent(text, speaker,
                       DIALOGUE_NEXT_LINE, display_time,
                       std::string(), std::string(), std::string());
 }
 
-void SpriteDialogue::AddLineTimed(const std::string &text, MapSprite *speaker, int32 next_line, uint32 display_time)
+void SpriteDialogue::AddLineTimed(const std::string &text, MapSprite *speaker, int32_t next_line, uint32_t display_time)
 {
     AddLineTimedEvent(text, speaker,
                       next_line, display_time,
@@ -164,7 +164,7 @@ void SpriteDialogue::AddLineEventEmote(const std::string &text,
                       begin_event_id, end_event_id, emote_id);
 }
 
-void SpriteDialogue::AddLineEvent(const std::string &text, MapSprite *speaker, int32 next_line,
+void SpriteDialogue::AddLineEvent(const std::string &text, MapSprite *speaker, int32_t next_line,
                                   const std::string &begin_event_id, const std::string &end_event_id)
 {
     AddLineTimedEvent(text, speaker,
@@ -172,7 +172,7 @@ void SpriteDialogue::AddLineEvent(const std::string &text, MapSprite *speaker, i
                       begin_event_id, end_event_id, std::string());
 }
 
-void SpriteDialogue::AddLineTimedEvent(const std::string &text, MapSprite *speaker, uint32 display_time,
+void SpriteDialogue::AddLineTimedEvent(const std::string &text, MapSprite *speaker, uint32_t display_time,
                                        const std::string &begin_event_id, const std::string &end_event_id)
 {
     AddLineTimedEvent(text, speaker,
@@ -181,7 +181,7 @@ void SpriteDialogue::AddLineTimedEvent(const std::string &text, MapSprite *speak
 }
 
 void SpriteDialogue::AddLineTimedEvent(const std::string &text, MapSprite *speaker,
-                                       int32 next_line, uint32 display_time,
+                                       int32_t next_line, uint32_t display_time,
                                        const std::string &begin_event_id, const std::string &end_event_id,
                                        const std::string& emote_id)
 {
@@ -197,7 +197,7 @@ void SpriteDialogue::AddOption(const std::string &text)
     AddOptionEvent(text, DIALOGUE_NEXT_LINE, std::string());
 }
 
-void SpriteDialogue::AddOption(const std::string &text, int32 next_line)
+void SpriteDialogue::AddOption(const std::string &text, int32_t next_line)
 {
     AddOptionEvent(text, next_line, std::string());
 }
@@ -207,14 +207,14 @@ void SpriteDialogue::AddOptionEvent(const std::string &text, const std::string &
     AddOptionEvent(text, DIALOGUE_NEXT_LINE, event_id);
 }
 
-void SpriteDialogue::AddOptionEvent(const std::string &text, int32 next_line, const std::string &event_id)
+void SpriteDialogue::AddOptionEvent(const std::string &text, int32_t next_line, const std::string &event_id)
 {
     if(_line_count == 0) {
         IF_PRINT_WARNING(MAP_DEBUG) << "Attempted to add an option to a dialogue with no lines" << std::endl;
         return;
     }
 
-    uint32 current_line = _line_count - 1;
+    uint32_t current_line = _line_count - 1;
 
     // If the line the options will be added to currently has no options, create a new instance of the MapDialogueOptions class to store the options in.
     if(_options[current_line] == nullptr) {
@@ -235,7 +235,7 @@ bool SpriteDialogue::Validate()
 
     // Construct containers that hold all unique sprite and event ids for this dialogue
     std::set<std::string> event_ids;
-    for(uint32 i = 0; i < _line_count; i++) {
+    for(uint32_t i = 0; i < _line_count; i++) {
         event_ids.insert(_end_events[i]);
     }
 
@@ -262,7 +262,7 @@ void MapDialogueOptions::AddOption(const std::string &text)
     AddOptionEvent(text, DIALOGUE_NEXT_LINE, std::string());
 }
 
-void MapDialogueOptions::AddOption(const std::string &text, int32 next_line)
+void MapDialogueOptions::AddOption(const std::string &text, int32_t next_line)
 {
     AddOptionEvent(text, next_line, std::string());
 }
@@ -272,7 +272,7 @@ void MapDialogueOptions::AddOptionEvent(const std::string &text, const std::stri
     AddOptionEvent(text, DIALOGUE_NEXT_LINE, event_id);
 }
 
-void MapDialogueOptions::AddOptionEvent(const std::string &text, int32 next_line, const std::string &event_id)
+void MapDialogueOptions::AddOptionEvent(const std::string &text, int32_t next_line, const std::string &event_id)
 {
     DialogueOptions::AddOption(text, next_line);
     _events.push_back(event_id);
@@ -392,7 +392,7 @@ void MapDialogueSupervisor::EndDialogue()
 
     // Get a unique set of all sprites that participated in the dialogue
     std::set<MapSprite *> speakers;
-    for(uint32 i = 0; i < _current_dialogue->GetLineCount(); ++i) {
+    for(uint32_t i = 0; i < _current_dialogue->GetLineCount(); ++i) {
         MapSprite* speaker = _current_dialogue->GetLineSpeaker(i);
         speakers.insert(speaker);
     }
@@ -548,7 +548,7 @@ void MapDialogueSupervisor::_BeginLine()
     }
 
     if(_current_options) {
-        for(uint32 i = 0; i < _current_options->GetNumberOptions(); ++i)
+        for(uint32_t i = 0; i < _current_options->GetNumberOptions(); ++i)
             _dialogue_window.GetDisplayOptionBox().AddOption(_current_options->GetOptionText(i));
 
         _dialogue_window.GetDisplayOptionBox().SetSelection(0);
@@ -565,7 +565,7 @@ void MapDialogueSupervisor::_EndLine()
     }
 
     if(_current_options != nullptr) {
-        uint32 selected_option = _dialogue_window.GetDisplayOptionBox().GetSelection();
+        uint32_t selected_option = _dialogue_window.GetDisplayOptionBox().GetSelection();
         std::string selected_event = _current_options->GetOptionEvent(selected_option);
         if(!selected_event.empty()) {
             MapMode::CurrentInstance()->GetEventSupervisor()->StartEvent(selected_event);
@@ -573,16 +573,16 @@ void MapDialogueSupervisor::_EndLine()
     }
 
     // Determine the next line to read
-    int32 next_line = _current_dialogue->GetLineNextLine(_line_counter);
+    int32_t next_line = _current_dialogue->GetLineNextLine(_line_counter);
     // If this line had options, the selected option next line overrides the line's next line that we set above
     if(_current_options != nullptr) {
-        uint32 selected_option = _dialogue_window.GetDisplayOptionBox().GetSelection();
+        uint32_t selected_option = _dialogue_window.GetDisplayOptionBox().GetSelection();
         next_line = _current_options->GetOptionNextLine(selected_option);
     }
 
     // --- Case 1: Explicitly setting the next line. Warn and end the dialogue if the line to move to is invalid
     if(next_line >= 0) {
-        if(static_cast<uint32>(next_line) >= _current_dialogue->GetLineCount()) {
+        if(static_cast<uint32_t>(next_line) >= _current_dialogue->GetLineCount()) {
             IF_PRINT_WARNING(MAP_DEBUG) << "dialogue #" << _current_dialogue->GetDialogueID()
                                         << " tried to set dialogue to invalid line. Current/next line values: {" << _line_counter
                                         << ", " << next_line << "}" << std::endl;
@@ -592,7 +592,7 @@ void MapDialogueSupervisor::_EndLine()
     // --- Case 2: Request to incrementing the current line. If we're incrementing past the last line, end the dialogue
     else if(next_line == DIALOGUE_NEXT_LINE) {
         next_line = _line_counter + 1;
-        if(static_cast<uint32>(next_line) >= _current_dialogue->GetLineCount())
+        if(static_cast<uint32_t>(next_line) >= _current_dialogue->GetLineCount())
             next_line = DIALOGUE_END;
     }
     // --- Case 3: Request to end the current dialogue

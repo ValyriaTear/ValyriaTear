@@ -64,7 +64,7 @@ void GUIElement::SetDimensions(float w, float h)
     _height = h;
 }
 
-void GUIElement::SetAlignment(int32 xalign, int32 yalign)
+void GUIElement::SetAlignment(int32_t xalign, int32_t yalign)
 {
     if(_xalign != VIDEO_X_LEFT && _xalign != VIDEO_X_CENTER && _xalign != VIDEO_X_RIGHT) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid xalign value: " << xalign << std::endl;
@@ -146,7 +146,7 @@ void GUIControl::CalculateAlignedRect(float &left, float &right, float &bottom, 
     menu_top = menu_height;
     VideoManager->PushState();
 
-    int32 xalign, yalign;
+    int32_t xalign, yalign;
     _owner->GetAlignment(xalign, yalign);
 
     VideoManager->SetDrawFlags(xalign, yalign, 0);
@@ -203,7 +203,7 @@ GUISystem::~GUISystem()
     // Determine if any MenuWindows have not yet been deleted, and delete them if they exist
     if(!_menu_windows.empty()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "there were undestroyed MenuWindows in GUISystem destructor" << std::endl;
-        for(uint32 i = 0; i < _menu_windows.size(); ++i)
+        for(uint32_t i = 0; i < _menu_windows.size(); ++i)
             _menu_windows[i]->Destroy();
 
         _menu_windows.clear();
@@ -425,7 +425,7 @@ void GUISystem::DeleteMenuSkin(const std::string &skin_id)
 
     MenuSkin *dead_skin = &_menu_skins[skin_id];
 
-    for (uint32 i = 0; i < _menu_windows.size(); ++i) {
+    for (uint32_t i = 0; i < _menu_windows.size(); ++i) {
         if(dead_skin == _menu_windows[i]->_skin) {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "the MenuSkin \"" << skin_id << "\" was not deleted because a MenuWindow object was found to be using it" << std::endl;
             return;

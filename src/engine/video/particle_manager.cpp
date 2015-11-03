@@ -74,7 +74,7 @@ void ParticleManager::Draw() const
     VideoManager->PopState();
 }
 
-void ParticleManager::Update(int32 frame_time)
+void ParticleManager::Update(int32_t frame_time)
 {
     float frame_time_seconds = static_cast<float>(frame_time) / 1000.0f;
 

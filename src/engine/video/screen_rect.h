@@ -26,7 +26,7 @@ namespace vt_video
 *** \brief A structure used for storing rectangles with pixel coordinates
 *** This class is used in storing the current scissoring rectangles, viewport
 *** rectangles, etc. It is based on standard screen coordinates, where (0,0)
-*** is the top-left and the unit is 1 pixel (hence int32 coordinates instead of
+*** is the top-left and the unit is 1 pixel (hence int32_t coordinates instead of
 *** floats)
 *** ***************************************************************************/
 class ScreenRect
@@ -39,14 +39,14 @@ public:
         height(0)
     {}
 
-    ScreenRect(int32 l, int32 t, int32 w, int32 h):
+    ScreenRect(int32_t l, int32_t t, int32_t w, int32_t h):
         left(l),
         top(t),
         width(w),
         height(h)
     {}
 
-    void Set(int32 l, int32 t, int32 w, int32 h)
+    void Set(int32_t l, int32_t t, int32_t w, int32_t h)
     { left = l; top = t; width = w; height = h; }
 
 
@@ -66,8 +66,8 @@ public:
             top = rect.top;
 
         // Find min right and bottom coordinates
-        int32 right = left + width - 1;
-        int32 bottom = top + height - 1;
+        int32_t right = left + width - 1;
+        int32_t bottom = top + height - 1;
         if(rect.left + rect.width - 1 < right)
             right = rect.left + rect.width - 1;
         if(rect.top + rect.height - 1 < bottom)
@@ -82,10 +82,10 @@ public:
     }
 
     //! \brief Coordinates for the top left corner of the rectangle
-    int32 left, top;
+    int32_t left, top;
 
     //! \brief Stores the dimensions for this rectangle
-    int32 width, height;
+    int32_t width, height;
 }; // class ScreenRect
 
 }  // namespace vt_video

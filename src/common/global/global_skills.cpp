@@ -41,7 +41,7 @@ using namespace private_global;
 // GlobalSkill class
 ////////////////////////////////////////////////////////////////////////////////
 
-GlobalSkill::GlobalSkill(uint32 id) :
+GlobalSkill::GlobalSkill(uint32_t id) :
     _id(id),
     _show_skill_notice(false),
     _type(GLOBAL_SKILL_INVALID),
@@ -98,11 +98,11 @@ GlobalSkill::GlobalSkill(uint32 id) :
 
     // Read all the battle animation scripts linked to this skill, if any
     if(skill_script->DoesTableExist("animation_scripts")) {
-        std::vector<uint32> characters_ids;
+        std::vector<uint32_t> characters_ids;
         _animation_scripts.clear();
         skill_script->ReadTableKeys("animation_scripts", characters_ids);
         skill_script->OpenTable("animation_scripts");
-        for(uint32 i = 0; i < characters_ids.size(); ++i) {
+        for(uint32_t i = 0; i < characters_ids.size(); ++i) {
             _animation_scripts[characters_ids[i]] = skill_script->ReadString(characters_ids[i]);
         }
         skill_script->CloseTable(); // animation_scripts table
@@ -183,11 +183,11 @@ bool GlobalSkill::ExecuteBattleFunction(private_battle::BattleActor *user, priva
     return true;
 }
 
-std::string GlobalSkill::GetAnimationScript(uint32 character_id)
+std::string GlobalSkill::GetAnimationScript(uint32_t character_id)
 {
     std::string script_file; // Empty by default
 
-    std::map<uint32, std::string>::const_iterator it = _animation_scripts.find(character_id);
+    std::map<uint32_t, std::string>::const_iterator it = _animation_scripts.find(character_id);
     if(it != _animation_scripts.end())
         script_file = it->second;
     return script_file;

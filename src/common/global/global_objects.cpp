@@ -55,8 +55,8 @@ void GlobalObject::_LoadObjectData(vt_script::ReadScriptDescriptor &script)
 //! \brief Compares the status effect id, used to sort them.
 static bool CompareStatusEffects(std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> one, std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> other)
 {
-    uint32 status1 = one.first;
-    uint32 status2 = other.first;
+    uint32_t status1 = one.first;
+    uint32_t status2 = other.first;
     return (status1 < status2);
 }
 
@@ -65,7 +65,7 @@ void GlobalObject::_LoadStatusEffects(vt_script::ReadScriptDescriptor &script)
     if(!script.DoesTableExist("status_effects"))
         return;
 
-    std::vector<int32> status_effects;
+    std::vector<int32_t> status_effects;
     script.ReadTableKeys("status_effects", status_effects);
 
     if(status_effects.empty())
@@ -73,13 +73,13 @@ void GlobalObject::_LoadStatusEffects(vt_script::ReadScriptDescriptor &script)
 
     script.OpenTable("status_effects");
 
-    for(uint32 i = 0; i < status_effects.size(); ++i) {
+    for(uint32_t i = 0; i < status_effects.size(); ++i) {
 
-        int32 key = status_effects[i];
+        int32_t key = status_effects[i];
         if(key <= GLOBAL_STATUS_INVALID || key >= GLOBAL_STATUS_TOTAL)
             continue;
 
-        int32 intensity = script.ReadInt(key);
+        int32_t intensity = script.ReadInt(key);
         // Note: The intensity of a status effect can only be positive
         if(intensity <= GLOBAL_INTENSITY_INVALID || intensity >= GLOBAL_INTENSITY_TOTAL)
             continue;
@@ -97,7 +97,7 @@ void GlobalObject::_LoadTradeConditions(vt_script::ReadScriptDescriptor &script)
     if(!script.DoesTableExist("trade_conditions"))
         return;
 
-    std::vector<uint32> temp;
+    std::vector<uint32_t> temp;
     script.ReadTableKeys("trade_conditions", temp);
 
     if(temp.empty())
@@ -105,15 +105,15 @@ void GlobalObject::_LoadTradeConditions(vt_script::ReadScriptDescriptor &script)
 
     script.OpenTable("trade_conditions");
 
-    for(uint32 i = 0; i < temp.size(); ++i) {
-        uint32 key = temp[i];
-        uint32 quantity = script.ReadInt(key);
+    for(uint32_t i = 0; i < temp.size(); ++i) {
+        uint32_t key = temp[i];
+        uint32_t quantity = script.ReadInt(key);
 
         // Set the trade price
         if (key == 0)
             _trade_price = quantity;
         else // Or the conditions.
-            _trade_conditions.push_back(std::pair<uint32, uint32>(key, quantity));
+            _trade_conditions.push_back(std::pair<uint32_t, uint32_t>(key, quantity));
     }
 
     script.CloseTable(); // trade_conditions
@@ -134,7 +134,7 @@ void GlobalObject::_LoadEquipmentSkills(vt_script::ReadScriptDescriptor &script)
 // GlobalItem class
 ////////////////////////////////////////////////////////////////////////////////
 
-GlobalItem::GlobalItem(uint32 id, uint32 count) :
+GlobalItem::GlobalItem(uint32_t id, uint32_t count) :
     GlobalObject(id, count),
     _target_type(GLOBAL_TARGET_INVALID),
     _warmup_time(0),
@@ -210,7 +210,7 @@ GlobalItem &GlobalItem::operator=(const GlobalItem &copy)
 // GlobalWeapon class
 ////////////////////////////////////////////////////////////////////////////////
 
-GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
+GlobalWeapon::GlobalWeapon(uint32_t id, uint32_t count) :
     GlobalObject(id, count)
 {
     if((_id <= MAX_ITEM_ID) || (_id > MAX_WEAPON_ID)) {
@@ -238,7 +238,7 @@ GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
 
     _usable_by = script_file.ReadUInt("usable_by");
 
-    uint32 spirits_number = script_file.ReadUInt("slots");
+    uint32_t spirits_number = script_file.ReadUInt("slots");
     // Only permit a max of 5 spirits for equipment
     if (spirits_number > 5) {
         spirits_number = 5;
@@ -261,9 +261,9 @@ GlobalWeapon::GlobalWeapon(uint32 id, uint32 count) :
         }
         _InvalidateObject();
     }
-} // void GlobalWeapon::GlobalWeapon(uint32 id, uint32 count = 1)
+} // void GlobalWeapon::GlobalWeapon(uint32_t id, uint32_t count = 1)
 
-const std::string& GlobalWeapon::GetWeaponAnimationFile(uint32 character_id, const std::string& animation_alias)
+const std::string& GlobalWeapon::GetWeaponAnimationFile(uint32_t character_id, const std::string& animation_alias)
 {
     if (_weapon_animations.find(character_id) == _weapon_animations.end())
         return _empty_string;
@@ -277,11 +277,11 @@ const std::string& GlobalWeapon::GetWeaponAnimationFile(uint32 character_id, con
 
 void GlobalWeapon::_LoadWeaponBattleAnimations(ReadScriptDescriptor& script)
 {
-    //std::map <uint32, std::map<std::string, std::string> > _weapon_animations;
+    //std::map <uint32_t, std::map<std::string, std::string> > _weapon_animations;
     _weapon_animations.clear();
 
     // The character id keys
-    std::vector<uint32> char_ids;
+    std::vector<uint32_t> char_ids;
 
     script.ReadTableKeys("battle_animations", char_ids);
     if (char_ids.empty())
@@ -290,8 +290,8 @@ void GlobalWeapon::_LoadWeaponBattleAnimations(ReadScriptDescriptor& script)
     if (!script.OpenTable("battle_animations"))
         return;
 
-    for (uint32 i = 0; i < char_ids.size(); ++i) {
-        uint32 char_id = char_ids[i];
+    for (uint32_t i = 0; i < char_ids.size(); ++i) {
+        uint32_t char_id = char_ids[i];
 
         // Read all the animation aliases
         std::vector<std::string> anim_aliases;
@@ -303,7 +303,7 @@ void GlobalWeapon::_LoadWeaponBattleAnimations(ReadScriptDescriptor& script)
         if (!script.OpenTable(char_id))
             continue;
 
-        for (uint32 j = 0; j < anim_aliases.size(); ++j) {
+        for (uint32_t j = 0; j < anim_aliases.size(); ++j) {
             std::string anim_alias = anim_aliases[j];
             std::string anim_file = script.ReadString(anim_alias);
             _weapon_animations[char_id].insert(std::make_pair(anim_alias, anim_file));
@@ -319,7 +319,7 @@ void GlobalWeapon::_LoadWeaponBattleAnimations(ReadScriptDescriptor& script)
 // GlobalArmor class
 ////////////////////////////////////////////////////////////////////////////////
 
-GlobalArmor::GlobalArmor(uint32 id, uint32 count) :
+GlobalArmor::GlobalArmor(uint32_t id, uint32_t count) :
     GlobalObject(id, count)
 {
     if((_id <= MAX_WEAPON_ID) || (_id > MAX_LEG_ARMOR_ID)) {
@@ -367,7 +367,7 @@ GlobalArmor::GlobalArmor(uint32 id, uint32 count) :
 
     _usable_by = script_file->ReadUInt("usable_by");
 
-    uint32 spirits_number = script_file->ReadUInt("slots");
+    uint32_t spirits_number = script_file->ReadUInt("slots");
     // Only permit a max of 5 spirits for equipment
     if (spirits_number > 5) {
         spirits_number = 5;
@@ -383,7 +383,7 @@ GlobalArmor::GlobalArmor(uint32 id, uint32 count) :
         }
         _InvalidateObject();
     }
-} // void GlobalArmor::GlobalArmor(uint32 id, uint32 count = 1)
+} // void GlobalArmor::GlobalArmor(uint32_t id, uint32_t count = 1)
 
 
 
@@ -405,7 +405,7 @@ GLOBAL_OBJECT GlobalArmor::GetObjectType() const
 // GlobalSpirit class
 ////////////////////////////////////////////////////////////////////////////////
 
-GlobalSpirit::GlobalSpirit(uint32 id, uint32 count) :
+GlobalSpirit::GlobalSpirit(uint32_t id, uint32_t count) :
     GlobalObject(id, count)
 {
     if((_id <= MAX_LEG_ARMOR_ID) || (_id > MAX_SPIRIT_ID)) {
@@ -432,6 +432,6 @@ GlobalSpirit::GlobalSpirit(uint32 id, uint32 count) :
 
         _InvalidateObject();
     }
-} // void GlobalSpirit::GlobalSpirit(uint32 id, uint32 count = 1)
+} // void GlobalSpirit::GlobalSpirit(uint32_t id, uint32_t count = 1)
 
 } // namespace vt_global

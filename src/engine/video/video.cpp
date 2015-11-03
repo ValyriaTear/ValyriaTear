@@ -122,7 +122,7 @@ VideoEngine::VideoEngine():
 
     _transform_stack.push(gl::Transform());
 
-    for(uint32 sample = 0; sample < FPS_SAMPLES; sample++)
+    for(uint32_t sample = 0; sample < FPS_SAMPLES; sample++)
         _fps_samples[sample] = 0;
 }
 
@@ -137,20 +137,20 @@ void VideoEngine::_UpdateFPS()
 
     //! \brief Maximum milliseconds that the current frame time and our averaged frame time must vary
     //! before we begin trying to catch up
-    const uint32 MAX_FTIME_DIFF = 5;
+    const uint32_t MAX_FTIME_DIFF = 5;
 
     //! \brief The number of samples to take if we need to play catchup with the current FPS
-    const uint32 FPS_CATCHUP = 20;
+    const uint32_t FPS_CATCHUP = 20;
 
-    uint32 frame_time = vt_system::SystemManager->GetUpdateTime();
+    uint32_t frame_time = vt_system::SystemManager->GetUpdateTime();
 
     // Calculate the FPS for the current frame
-    uint32 current_fps = 1000;
+    uint32_t current_fps = 1000;
     if(frame_time)
         current_fps /= frame_time;
 
     // The number of times to insert the current FPS sample into the fps_samples array
-    uint32 number_insertions;
+    uint32_t number_insertions;
 
     if(_number_samples == 0) {
         // If the FPS display is uninitialized, set the entire FPS array to the current FPS
@@ -163,26 +163,26 @@ void VideoEngine::_UpdateFPS()
         // Find if there's a discrepancy between the current frame time and the averaged one.
         // If there's a large difference, add extra samples so the FPS display "catches up" more quickly.
         float avg_frame_time = 1000.0f * FPS_SAMPLES / _fps_sum;
-        int32 time_difference = static_cast<int32>(avg_frame_time) - static_cast<int32>(frame_time);
+        int32_t time_difference = static_cast<int32_t>(avg_frame_time) - static_cast<int32_t>(frame_time);
 
         if(time_difference < 0)
             time_difference = -time_difference;
 
-        if(time_difference <= static_cast<int32>(MAX_FTIME_DIFF))
+        if(time_difference <= static_cast<int32_t>(MAX_FTIME_DIFF))
             number_insertions = 1;
         else
             number_insertions = FPS_CATCHUP; // Take more samples to catch up to the current FPS
     }
 
     // Insert the current_fps samples into the fps_samples array for the number of times specified
-    for(uint32 j = 0; j < number_insertions; j++) {
+    for(uint32_t j = 0; j < number_insertions; j++) {
         _fps_sum -= _fps_samples[_current_sample];
         _fps_sum += current_fps;
         _fps_samples[_current_sample] = current_fps;
         _current_sample = (_current_sample + 1) % FPS_SAMPLES;
     }
 
-    uint32 avg_fps = _fps_sum / FPS_SAMPLES;
+    uint32_t avg_fps = _fps_sum / FPS_SAMPLES;
 
     // The text to display to the screen
     _FPS_textimage->SetText("FPS: " + NumberToString(avg_fps));
@@ -341,9 +341,9 @@ bool VideoEngine::FinalizeInitialization()
 // VideoEngine class - General methods
 //-----------------------------------------------------------------------------
 
-void VideoEngine::SetDrawFlags(int32 first_flag, ...)
+void VideoEngine::SetDrawFlags(int32_t first_flag, ...)
 {
-    int32 flag = first_flag;
+    int32_t flag = first_flag;
     va_list args;
 
     va_start(args, first_flag);
@@ -397,7 +397,7 @@ void VideoEngine::SetDrawFlags(int32 first_flag, ...)
             IF_PRINT_WARNING(VIDEO_DEBUG) << "Unknown flag in argument list: " << flag << std::endl;
             break;
         }
-        flag = va_arg(args, int32);
+        flag = va_arg(args, int32_t);
     }
     va_end(args);
 }
@@ -420,7 +420,7 @@ void VideoEngine::Clear(const Color& c)
 
 void VideoEngine::Update()
 {
-    uint32 frame_time = vt_system::SystemManager->GetUpdateTime();
+    uint32_t frame_time = vt_system::SystemManager->GetUpdateTime();
 
     _screen_fader.Update(frame_time);
 
@@ -490,7 +490,7 @@ bool VideoEngine::ApplySettings()
     if (_temp_fullscreen && !_fullscreen) {
         // We want to go in fullscreen mode
         // Get desktop resolution and adapt the current resolution
-        int32 display_index = SDL_GetWindowDisplayIndex(_sdl_window);
+        int32_t display_index = SDL_GetWindowDisplayIndex(_sdl_window);
         if (display_index < 0) {
             if(TextureManager)
                 TextureManager->ReloadTextures();
@@ -588,7 +588,7 @@ void VideoEngine::_UpdateViewportMetrics()
             float ideal_width = height / 3.0f * 4.0f;
             _viewport_width = ideal_width;
             _viewport_height = _screen_height;
-            _viewport_x_offset = (int32)((width - ideal_width) / 2.0f);
+            _viewport_x_offset = (int32_t)((width - ideal_width) / 2.0f);
             _viewport_y_offset = 0;
         }
         else {
@@ -596,7 +596,7 @@ void VideoEngine::_UpdateViewportMetrics()
             _viewport_height = ideal_height;
             _viewport_width = _screen_width;
             _viewport_x_offset = 0;
-            _viewport_y_offset = (int32)((height - ideal_height) / 2.0f);
+            _viewport_y_offset = (int32_t)((height - ideal_height) / 2.0f);
         }
     }
 
@@ -925,7 +925,7 @@ void VideoEngine::DisableFadeEffect()
 StillImage VideoEngine::CaptureScreen() throw(Exception)
 {
     // Static variable used to make sure the capture has a unique name in the texture image map
-    static uint32 capture_id = 0;
+    static uint32_t capture_id = 0;
 
     // Get the viewport.
     float viewport_x = 0.0f;
@@ -939,20 +939,20 @@ StillImage VideoEngine::CaptureScreen() throw(Exception)
     screen_image.SetDimensions(viewport_width, viewport_height);
 
     // Set up the screen rectangle to copy.
-    ScreenRect screen_rect(static_cast<int32>(viewport_x),
-                           static_cast<int32>(viewport_y),
-                           static_cast<int32>(viewport_width),
-                           static_cast<int32>(viewport_height));
+    ScreenRect screen_rect(static_cast<int32_t>(viewport_x),
+                           static_cast<int32_t>(viewport_y),
+                           static_cast<int32_t>(viewport_width),
+                           static_cast<int32_t>(viewport_height));
 
     // Create a new ImageTexture with a unique filename for this newly captured screen
     ImageTexture *new_image = new ImageTexture("capture_screen" + NumberToString(capture_id), "<T>",
-                                               static_cast<int32>(viewport_width),
-                                               static_cast<int32>(viewport_height));
+                                               static_cast<int32_t>(viewport_width),
+                                               static_cast<int32_t>(viewport_height));
     new_image->AddReference();
 
     // Create a texture sheet of an appropriate size that can retain the capture
-    TexSheet *temp_sheet = TextureManager->_CreateTexSheet(RoundUpPow2(static_cast<uint32>(viewport_width)),
-                                                           RoundUpPow2(static_cast<uint32>(viewport_height)),
+    TexSheet *temp_sheet = TextureManager->_CreateTexSheet(RoundUpPow2(static_cast<uint32_t>(viewport_width)),
+                                                           RoundUpPow2(static_cast<uint32_t>(viewport_height)),
                                                            VIDEO_TEXSHEET_ANY,
                                                            false);
     VariableTexSheet *sheet = dynamic_cast<VariableTexSheet *>(temp_sheet);
@@ -1110,9 +1110,9 @@ void VideoEngine::MakeScreenshot(const std::string &filename)
 
     // Vertically flip the image, then swap the flipped and original images
     void *buffer_temp = malloc(buffer.width * buffer.height * 3);
-    for(uint32 i = 0; i < buffer.height; ++i) {
-        memcpy((uint8 *)buffer_temp + i * buffer.width * 3,
-               (uint8 *)buffer.pixels + (buffer.height - i - 1) * buffer.width * 3, buffer.width * 3);
+    for(uint32_t i = 0; i < buffer.height; ++i) {
+        memcpy((uint8_t *)buffer_temp + i * buffer.width * 3,
+               (uint8_t *)buffer.pixels + (buffer.height - i - 1) * buffer.width * 3, buffer.width * 3);
     }
     void *temp = buffer.pixels;
     buffer.pixels = buffer_temp;
@@ -1125,7 +1125,7 @@ void VideoEngine::MakeScreenshot(const std::string &filename)
     buffer.pixels = nullptr;
 }
 
-int32 VideoEngine::_ConvertYAlign(int32 y_align)
+int32_t VideoEngine::_ConvertYAlign(int32_t y_align)
 {
     switch(y_align) {
     case VIDEO_Y_BOTTOM:
@@ -1140,7 +1140,7 @@ int32 VideoEngine::_ConvertYAlign(int32 y_align)
     }
 }
 
-int32 VideoEngine::_ConvertXAlign(int32 x_align)
+int32_t VideoEngine::_ConvertXAlign(int32_t x_align)
 {
     switch(x_align) {
     case VIDEO_X_LEFT:

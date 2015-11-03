@@ -43,14 +43,14 @@ float RandomFloat(float a, float b);
 *** \note If the user specifies a lower bound that is greater than the upper bound, the two bounds
 *** are switched.
 **/
-int32 RandomBoundedInteger(int32 lower_bound, int32 upper_bound);
+int32_t RandomBoundedInteger(int32_t lower_bound, int32_t upper_bound);
 
 /** \brief Returns a random value with a given deviation.
 *** \param base_value The base value.
 *** \param max_diff The maximum difference with the base value.
 *** \return A value between (base - diff) and (base + diff)
 **/
-int32 RandomDiffValue(int32 base_value, uint32 max_diff);
+int32_t RandomDiffValue(int32_t base_value, uint32_t max_diff);
 //@}
 
 } // namespace vt_utils

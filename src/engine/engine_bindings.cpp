@@ -173,8 +173,8 @@ void BindEngineCode()
             .def("PopAll", &ModeEngine::PopAll)
             .def("GetTop", &ModeEngine::GetTop)
             .def("Get", &ModeEngine::Get)
-            .def("GetGameType", (uint8(ModeEngine:: *)(uint32))&ModeEngine::GetGameType)
-            .def("GetGameType", (uint8(ModeEngine:: *)())&ModeEngine::GetGameType)
+            .def("GetGameType", (uint8_t(ModeEngine:: *)(uint32_t))&ModeEngine::GetGameType)
+            .def("GetGameType", (uint8_t(ModeEngine:: *)())&ModeEngine::GetGameType)
         ];
 
     } // End using mode manager namespaces
@@ -205,19 +205,19 @@ void BindEngineCode()
             luabind::def("CUTranslate", &vt_system::CUTranslate),
 
             // Specializaton of c-formatted translation bounds
-            luabind::def("VTranslate", (std::string(*)(const std::string&, uint32)) &vt_system::VTranslate),
-            luabind::def("VTranslate", (std::string(*)(const std::string&, int32)) &vt_system::VTranslate),
+            luabind::def("VTranslate", (std::string(*)(const std::string&, uint32_t)) &vt_system::VTranslate),
+            luabind::def("VTranslate", (std::string(*)(const std::string&, int32_t)) &vt_system::VTranslate),
             luabind::def("VTranslate", (std::string(*)(const std::string&, float)) &vt_system::VTranslate),
             luabind::def("VTranslate", (std::string(*)(const std::string&, const std::string&)) &vt_system::VTranslate),
 
             luabind::class_<SystemTimer>("SystemTimer")
             .def(luabind::constructor<>())
-            .def(luabind::constructor<uint32, int32>())
+            .def(luabind::constructor<uint32_t, int32_t>())
             .def("Initialize", &SystemTimer::Initialize)
             .def("EnableAutoUpdate", &SystemTimer::EnableAutoUpdate)
             .def("EnableManualUpdate", &SystemTimer::EnableManualUpdate)
             .def("Update", (void(SystemTimer:: *)(void)) &SystemTimer::Update)
-            .def("Update", (void(SystemTimer:: *)(uint32)) &SystemTimer::Update)
+            .def("Update", (void(SystemTimer:: *)(uint32_t)) &SystemTimer::Update)
             .def("Reset", &SystemTimer::Reset)
             .def("Run", &SystemTimer::Run)
             .def("Pause", &SystemTimer::Pause)
@@ -292,7 +292,7 @@ void BindEngineCode()
             .def("EnableGrayScale", &AnimatedImage::EnableGrayScale)
             .def("DisableGrayScale", &AnimatedImage::DisableGrayScale)
             .def("Update", (void(AnimatedImage::*)())&AnimatedImage::Update)
-            .def("Update", (void(AnimatedImage::*)(uint32))&AnimatedImage::Update)
+            .def("Update", (void(AnimatedImage::*)(uint32_t))&AnimatedImage::Update)
             .def("ResetAnimation", &AnimatedImage::ResetAnimation)
             .def("GetAnimationLength", &AnimatedImage::GetAnimationLength)
             .def("RandomizeAnimationFrame", &AnimatedImage::RandomizeAnimationFrame)

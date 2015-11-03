@@ -74,7 +74,7 @@ bool IsStringNumeric(const std::string &text)
     // Check each character of the string one at a time
     for(size_t c = 0; c < len; ++c) {
         // The only non numeric characters allowed are a - or + as the first character, and one decimal point anywhere
-        bool numeric_char = (isdigit(static_cast<int32>(text[c]))) || (c == 0 && (text[c] == '-' || text[c] == '+'));
+        bool numeric_char = (isdigit(static_cast<int32_t>(text[c]))) || (c == 0 && (text[c] == '-' || text[c] == '+'));
 
         if(!numeric_char) {
             // Check if the 'bad' character is a decimal point first before labeling the string invalid

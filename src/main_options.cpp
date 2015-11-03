@@ -53,13 +53,13 @@ using namespace vt_utils;
 namespace vt_main
 {
 
-bool ParseProgramOptions(int32 &return_code, int32 argc, char **argv)
+bool ParseProgramOptions(int32_t &return_code, int32_t argc, char **argv)
 {
     // Convert the argument list to a vector of strings for convenience
     std::vector<std::string> options(argv, argv + argc);
     return_code = 0;
 
-    for(uint32 i = 1; i < options.size(); i++) {
+    for(uint32_t i = 1; i < options.size(); i++) {
         if(options[i] == "-d" || options[i] == "--debug") {
             if((i + 1) >= options.size()) {
                 std::cerr << "Option " << options[i] << " requires an argument." << std::endl;
@@ -106,7 +106,7 @@ bool ParseProgramOptions(int32 &return_code, int32 argc, char **argv)
 
 bool ParseSecondaryOptions(const std::string &vars, std::vector<std::string>& options)
 {
-    uint32 sbegin = 0;
+    uint32_t sbegin = 0;
 
     if(vars.empty()) {
         std::cerr << "ERROR: debug specifier string is empty" << std::endl;
@@ -125,7 +125,7 @@ bool ParseSecondaryOptions(const std::string &vars, std::vector<std::string>& op
 
     // Parse the vars string on white-space characters and fill the args vector
     // TODO: this loop needs to be made more robust to errors
-    for(uint32 i = sbegin; i < vars.size(); i++) {
+    for(uint32_t i = sbegin; i < vars.size(); i++) {
         if(vars[i] == ' ' || vars[i] == '\t') {
             options.push_back(vars.substr(sbegin, i - sbegin));
             sbegin = i + 1;
@@ -169,11 +169,11 @@ bool PrintSystemInformation()
     printf("SDL version (compiled):  %d.%d.%d\n", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
     printf("SDL version (linked):    %d.%d.%d\n", sdl_linked_ver.major, sdl_linked_ver.minor, sdl_linked_ver.patch);
 
-    int32 js_num = SDL_NumJoysticks();
+    int32_t js_num = SDL_NumJoysticks();
     printf("Number of joysticks found:  %d\n", js_num);
 
     // Print out information about each joystick
-    for(int32 i = 0; i < js_num; i++) {
+    for(int32_t i = 0; i < js_num; i++) {
         printf("  Joystick #%d\n", i);
         //printf("    Joystick Name: %s\n", SDL_GameControllerNameForIndex(i));
         SDL_Joystick* js_test = SDL_JoystickOpen(i);
@@ -294,7 +294,7 @@ bool EnableDebugging(const std::string &vars)
     ParseSecondaryOptions(vars, args);
 
     // Enable all specified debug variables
-    for(uint32 i = 0; i < args.size(); i++) {
+    for(uint32_t i = 0; i < args.size(); i++) {
         if(args[i] == "all") {
             // This causes every call to SDL_SetError to also print an error message on stderr.
             // NOTE: commented out because apparently SDL_putenv is not yet an available function on some systems
@@ -349,7 +349,7 @@ bool EnableDebugging(const std::string &vars)
             std::cerr << "ERROR: invalid debug argument: " << args[i] << std::endl;
             return false;
         }
-    } // for (uint32 i = 0; i < args.size(); i++)
+    } // for (uint32_t i = 0; i < args.size(); i++)
 
     return true;
 } // bool EnableDebugging(string vars)

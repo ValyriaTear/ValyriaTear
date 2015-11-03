@@ -74,7 +74,7 @@ void OptionMenu::InputConfirm()
 {
     OptionBox::InputConfirm();
 
-    int32 selection = OptionBox::GetSelection();
+    int32_t selection = OptionBox::GetSelection();
     if((selection != -1) && (_confirm_handlers.empty() == false)) {
         void (GameOptionsMenuHandler::*confirm_function)() = _confirm_handlers.at(selection);
         if(confirm_function != nullptr)
@@ -86,7 +86,7 @@ void OptionMenu::InputUp()
 {
     OptionBox::InputUp();
 
-    int32 selection = OptionBox::GetSelection();
+    int32_t selection = OptionBox::GetSelection();
     if((selection != -1) && (_up_handlers.empty() == false)) {
         void (GameOptionsMenuHandler::*up_function)() = _up_handlers.at(selection);
         if(up_function != nullptr)
@@ -98,7 +98,7 @@ void OptionMenu::InputDown()
 {
     OptionBox::InputDown();
 
-    int32 selection = OptionBox::GetSelection();
+    int32_t selection = OptionBox::GetSelection();
     if((selection != -1) && (_down_handlers.empty() == false)) {
         void (GameOptionsMenuHandler::*down_function)() = _down_handlers.at(selection);
         if(down_function != nullptr)
@@ -110,7 +110,7 @@ void OptionMenu::InputLeft()
 {
     OptionBox::InputLeft();
 
-    int32 selection = OptionBox::GetSelection();
+    int32_t selection = OptionBox::GetSelection();
     if((selection != -1) && (_left_handlers.empty() == false)) {
         void (GameOptionsMenuHandler::*left_function)() = _left_handlers.at(selection);
         if(left_function != nullptr)
@@ -122,7 +122,7 @@ void OptionMenu::InputRight()
 {
     OptionBox::InputRight();
 
-    int32 selection = OptionBox::GetSelection();
+    int32_t selection = OptionBox::GetSelection();
     if((selection != -1) && (_right_handlers.empty() == false)) {
         void (GameOptionsMenuHandler::*right_function)() = _right_handlers.at(selection);
         if(right_function != nullptr)
@@ -131,7 +131,7 @@ void OptionMenu::InputRight()
 }
 
 const std::string _LANGUAGE_FILE = "data/config/languages.lua";
-const uint16 SKIN_MENU_INDEX = 5;
+const uint16_t SKIN_MENU_INDEX = 5;
 
 GameOptionsMenuHandler::GameOptionsMenuHandler(vt_mode_manager::GameMode* parent_mode):
     _first_run(false),
@@ -246,7 +246,7 @@ void GameOptionsMenuHandler::Update()
     }
 
     if(_joy_axis_setting_function != nullptr) {
-        int8 x = InputManager->GetLastAxisMoved();
+        int8_t x = InputManager->GetLastAxisMoved();
         if(x != -1) {
             (this->*_joy_axis_setting_function)(x);
             _joy_axis_setting_function = nullptr;
@@ -486,7 +486,7 @@ void GameOptionsMenuHandler::_SetupGameOptions()
                                  &GameOptionsMenuHandler::_OnGameDifficultyConfirm,
                                  &GameOptionsMenuHandler::_OnGameDifficultyConfirm);
 
-    text = MakeUnicodeString(VTranslate("Dialogue text speed: %i", static_cast<int32>(SystemManager->GetMessageSpeed())));
+    text = MakeUnicodeString(VTranslate("Dialogue text speed: %i", static_cast<int32_t>(SystemManager->GetMessageSpeed())));
     _game_options_menu.AddOption(text, this, nullptr, nullptr, nullptr,
                                  &GameOptionsMenuHandler::_OnDialogueSpeedLeft,
                                  &GameOptionsMenuHandler::_OnDialogueSpeedRight);
@@ -604,7 +604,7 @@ void GameOptionsMenuHandler::_SetupResolutionMenu()
 
            // dups check
            bool duplicate_found = false;
-           for (uint32 i = 0; i < _resolution_list.size(); ++i) {
+           for (uint32_t i = 0; i < _resolution_list.size(); ++i) {
                if (_resolution_list[i].w == mode.w && _resolution_list[i].h == mode.h) {
                    duplicate_found = true;
                    break;
@@ -653,7 +653,7 @@ void GameOptionsMenuHandler::_SetupResolutionMenu()
 
     _resolution_menu.ClearOptions();
 
-    for (uint32 i = 0; i < _resolution_list.size(); ++i) {
+    for (uint32_t i = 0; i < _resolution_list.size(); ++i) {
         _resolution_menu.AddOption(ustring(), this, &GameOptionsMenuHandler::_OnResolutionConfirm);
         // Show the current selection
         if (mode.w == _resolution_list[i].w && mode.h == _resolution_list[i].h) {
@@ -686,7 +686,7 @@ void GameOptionsMenuHandler::_RefreshVideoOptions()
 
     // Update brightness
     float curr_brightness = VideoManager->GetBrightness();
-    uint32 brightness = IsFloatEqual(curr_brightness * 50.0f, 0.0f) ? 0 : (uint32)(curr_brightness * 50.0f + 0.5f);
+    uint32_t brightness = IsFloatEqual(curr_brightness * 50.0f, 0.0f) ? 0 : (uint32_t)(curr_brightness * 50.0f + 0.5f);
     _video_options_menu.SetOptionText(2, UTranslate("Brightness: ") + MakeUnicodeString(NumberToString(brightness) + " %"));
 
     // Update the Vsync mode
@@ -743,7 +743,7 @@ void GameOptionsMenuHandler::_RefreshLanguageOptions()
         return;
     }
 
-    uint32 table_size = read_data.GetTableSize();
+    uint32_t table_size = read_data.GetTableSize();
 
     // Set up the dimensions of the window according to how many languages are available.
     _language_options_menu.ClearOptions();
@@ -754,7 +754,7 @@ void GameOptionsMenuHandler::_RefreshLanguageOptions()
 
     _po_files.clear();
     std::string current_language = vt_system::SystemManager->GetLanguage();
-    for(uint32 i = 1; i <= table_size; ++i) {
+    for(uint32_t i = 1; i <= table_size; ++i) {
         read_data.OpenTable(i);
         _po_files.push_back(read_data.ReadString(2));
 
@@ -803,8 +803,8 @@ void GameOptionsMenuHandler::_RefreshLanguageOptions()
 
 void GameOptionsMenuHandler::_RefreshAudioOptions()
 {
-    _audio_options_menu.SetOptionText(0, UTranslate("Sound Volume: ") + MakeUnicodeString(NumberToString(static_cast<int32>(AudioManager->GetSoundVolume() * 100.0f + 0.5f)) + " %"));
-    _audio_options_menu.SetOptionText(1, UTranslate("Music Volume: ") + MakeUnicodeString(NumberToString(static_cast<int32>(AudioManager->GetMusicVolume() * 100.0f + 0.5f)) + " %"));
+    _audio_options_menu.SetOptionText(0, UTranslate("Sound Volume: ") + MakeUnicodeString(NumberToString(static_cast<int32_t>(AudioManager->GetSoundVolume() * 100.0f + 0.5f)) + " %"));
+    _audio_options_menu.SetOptionText(1, UTranslate("Music Volume: ") + MakeUnicodeString(NumberToString(static_cast<int32_t>(AudioManager->GetMusicVolume() * 100.0f + 0.5f)) + " %"));
 }
 
 void GameOptionsMenuHandler::_RefreshGameOptions()
@@ -827,7 +827,7 @@ void GameOptionsMenuHandler::_RefreshGameOptions()
     ustring text = MakeUnicodeString(VTranslate("Game Difficulty: %s", difficulty_text));
     _game_options_menu.SetOptionText(0, text);
 
-    text = MakeUnicodeString(VTranslate("Dialogue text speed: %i", static_cast<int32>(SystemManager->GetMessageSpeed())));
+    text = MakeUnicodeString(VTranslate("Dialogue text speed: %i", static_cast<int32_t>(SystemManager->GetMessageSpeed())));
     _game_options_menu.SetOptionText(1, text);
 
     text = MakeUnicodeString(VTranslate("Battle target cursor memory: %s", (SystemManager->GetBattleTargetMemory() ? Translate("Yes") : Translate("No"))));
@@ -850,7 +850,7 @@ void GameOptionsMenuHandler::_RefreshKeySettings()
 
 void GameOptionsMenuHandler::_RefreshJoySettings()
 {
-    int32 i = 0;
+    int32_t i = 0;
     if(InputManager->GetJoysticksEnabled())
         _joy_settings_menu.SetOptionText(i++, UTranslate("Input enabled: ") + MakeUnicodeString("<r>") +  UTranslate("Yes"));
     else
@@ -927,7 +927,7 @@ void GameOptionsMenuHandler::_OnResolutionConfirm()
     if (_resolution_list.empty())
         return;
 
-    uint32 index = static_cast<uint32>(_resolution_menu.GetSelection());
+    uint32_t index = static_cast<uint32_t>(_resolution_menu.GetSelection());
 
     if (index >= _resolution_list.size())
         index = 0;
@@ -949,7 +949,7 @@ void GameOptionsMenuHandler::_OnBrightnessRight()
 
 void GameOptionsMenuHandler::_OnChangeVSyncLeft()
 {
-    uint32 vsync_mode = VideoManager->GetVSyncMode();
+    uint32_t vsync_mode = VideoManager->GetVSyncMode();
     if (vsync_mode == 0)
         vsync_mode = 2;
     else
@@ -962,7 +962,7 @@ void GameOptionsMenuHandler::_OnChangeVSyncLeft()
 
 void GameOptionsMenuHandler::_OnChangeVSyncRight()
 {
-    uint32 vsync_mode = VideoManager->GetVSyncMode();
+    uint32_t vsync_mode = VideoManager->GetVSyncMode();
     if (vsync_mode == 2)
         vsync_mode = 0;
     else
@@ -1055,7 +1055,7 @@ void GameOptionsMenuHandler::_OnLanguageSelect()
 
 void GameOptionsMenuHandler::_OnGameDifficultyConfirm()
 {
-    uint32 difficulty = SystemManager->GetGameDifficulty();
+    uint32_t difficulty = SystemManager->GetGameDifficulty();
     if (difficulty == 0) // Invalid
         difficulty = 2; // Normal
     if (difficulty >= 3) // Cycle through values.
@@ -1253,7 +1253,7 @@ void GameOptionsMenuHandler::_UpdateExplanationText()
     }
 }
 
-bool GameOptionsMenuHandler::_ChangeResolution(int32 width, int32 height)
+bool GameOptionsMenuHandler::_ChangeResolution(int32_t width, int32_t height)
 {
     if (VideoManager->GetScreenWidth() == width &&
             VideoManager->GetScreenHeight() == height)
@@ -1594,47 +1594,47 @@ void GameOptionsMenuHandler::_RedefineQuitJoy()
     _ShowMessageWindow(true);
 }
 
-void GameOptionsMenuHandler::_SetXAxisJoy(int8 axis)
+void GameOptionsMenuHandler::_SetXAxisJoy(int8_t axis)
 {
     InputManager->SetXAxisJoy(axis);
 }
 
-void GameOptionsMenuHandler::_SetYAxisJoy(int8 axis)
+void GameOptionsMenuHandler::_SetYAxisJoy(int8_t axis)
 {
     InputManager->SetYAxisJoy(axis);
 }
 
-void GameOptionsMenuHandler::_SetConfirmJoy(uint8 button)
+void GameOptionsMenuHandler::_SetConfirmJoy(uint8_t button)
 {
     InputManager->SetConfirmJoy(button);
 }
 
-void GameOptionsMenuHandler::_SetCancelJoy(uint8 button)
+void GameOptionsMenuHandler::_SetCancelJoy(uint8_t button)
 {
     InputManager->SetCancelJoy(button);
 }
 
-void GameOptionsMenuHandler::_SetMenuJoy(uint8 button)
+void GameOptionsMenuHandler::_SetMenuJoy(uint8_t button)
 {
     InputManager->SetMenuJoy(button);
 }
 
-void GameOptionsMenuHandler::_SetMinimapJoy(uint8 button)
+void GameOptionsMenuHandler::_SetMinimapJoy(uint8_t button)
 {
     InputManager->SetMinimapJoy(button);
 }
 
-void GameOptionsMenuHandler::_SetPauseJoy(uint8 button)
+void GameOptionsMenuHandler::_SetPauseJoy(uint8_t button)
 {
     InputManager->SetPauseJoy(button);
 }
 
-void GameOptionsMenuHandler::_SetHelpJoy(uint8 button)
+void GameOptionsMenuHandler::_SetHelpJoy(uint8_t button)
 {
     InputManager->SetHelpJoy(button);
 }
 
-void GameOptionsMenuHandler::_SetQuitJoy(uint8 button)
+void GameOptionsMenuHandler::_SetQuitJoy(uint8_t button)
 {
     InputManager->SetQuitJoy(button);
 }

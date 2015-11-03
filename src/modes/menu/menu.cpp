@@ -44,7 +44,7 @@ namespace vt_menu
 namespace private_menu {
 
 //! A static variable permitting to update the displayed game time only every 900ms
-static int32 _update_of_time = 0;
+static int32_t _update_of_time = 0;
 
 //! \brief Functions that initialize the numerous option boxes
 static void SetupOptionBoxCommonSettings(OptionBox *ob)
@@ -109,14 +109,14 @@ void AbstractMenuState::Update()
         _options.InputConfirm();
     }
     // return the event type from the option
-    int32 event = _options.GetEvent();
+    int32_t event = _options.GetEvent();
     // update the current option box for this state, thus clearing the event flag
     // if we don't do this, then upon return we enter right back into the state we wanted
     // to return from
     _options.Update();
 
     if(event == VIDEO_OPTION_CONFIRM) {
-        uint32 selection = _options.GetSelection();
+        uint32_t selection = _options.GetSelection();
         AbstractMenuState *next_state = GetTransitionState(selection);
         // if the next state is the state we came from, it is similar to "cancel"
         if(next_state == _from_state)
@@ -150,8 +150,8 @@ void AbstractMenuState::Draw()
 {
     // Draw the saved screen background
     // For that, set the system coordinates to the size of the window (same with the save-screen)
-    int32 width = VideoManager->GetViewportWidth();
-    int32 height = VideoManager->GetViewportHeight();
+    int32_t width = VideoManager->GetViewportWidth();
+    int32_t height = VideoManager->GetViewportHeight();
     VideoManager->SetCoordSys(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
 
@@ -255,7 +255,7 @@ MainMenuState::MainMenuState(MenuMode *menu_mode):
     quest_view_message = UTranslate("Select to view Quest Log.");
 }
 
-AbstractMenuState* MainMenuState::GetTransitionState(uint32 selection)
+AbstractMenuState* MainMenuState::GetTransitionState(uint32_t selection)
 {
     switch(selection)
     {
@@ -284,7 +284,7 @@ AbstractMenuState* MainMenuState::GetTransitionState(uint32 selection)
 
 void MainMenuState::_OnUpdateState()
 {
-    uint32 draw_window = _options.GetSelection();
+    uint32_t draw_window = _options.GetSelection();
     switch(draw_window) {
     case MAIN_OPTIONS_WORLDMAP:
     {
@@ -298,7 +298,7 @@ void MainMenuState::_OnUpdateState()
 
 void MainMenuState::_OnDrawMainWindow()
 {
-    uint32 draw_window = _options.GetSelection();
+    uint32_t draw_window = _options.GetSelection();
 
     // Draw the chosen window
     switch(draw_window) {
@@ -365,7 +365,7 @@ void InventoryState::Reset()
     _options.SetSelection(INV_OPTIONS_USE);
 }
 
-AbstractMenuState* InventoryState::GetTransitionState(uint32 selection)
+AbstractMenuState* InventoryState::GetTransitionState(uint32_t selection)
 {
     switch(selection)
     {
@@ -396,7 +396,7 @@ bool InventoryState::_IsActive()
 void InventoryState::_OnDrawMainWindow()
 {
 
-    uint32 draw_window = _options.GetSelection();
+    uint32_t draw_window = _options.GetSelection();
     // Inventory state has multiple state types to draw, including the Equip transition state.
     switch(draw_window)
     {
@@ -450,7 +450,7 @@ void PartyState::Reset()
     _menu_mode->_party_window.UpdateStatus();
 }
 
-AbstractMenuState* PartyState::GetTransitionState(uint32 selection)
+AbstractMenuState* PartyState::GetTransitionState(uint32_t selection)
 {
     switch(selection)
     {
@@ -509,7 +509,7 @@ void SkillsState::Reset()
     _options.SetSelection(SKILLS_OPTIONS_USE);
 }
 
-AbstractMenuState* SkillsState::GetTransitionState(uint32 selection)
+AbstractMenuState* SkillsState::GetTransitionState(uint32_t selection)
 {
 
     switch(selection)
@@ -709,9 +709,9 @@ bool MENU_DEBUG = false;
 MenuMode *MenuMode::_current_instance = nullptr;
 
 // Window size helpers
-const uint32 win_start_x = (1024 - 800) / 2 - 40;
-const uint32 win_start_y = (768 - 600) / 2 + 15;
-const uint32 win_width = 208;
+const uint32_t win_start_x = (1024 - 800) / 2 - 40;
+const uint32_t win_start_y = (768 - 600) / 2 + 15;
+const uint32_t win_width = 208;
 
 ////////////////////////////////////////////////////////////////////////////////
 // MenuMode class
@@ -940,18 +940,18 @@ void MenuMode::Reset()
 void MenuMode::UpdateTimeAndDrunes()
 {
     // Only update the time every 900ms
-    _update_of_time -= (int32) vt_system::SystemManager->GetUpdateTime();
+    _update_of_time -= (int32_t) vt_system::SystemManager->GetUpdateTime();
     if (_update_of_time > 0)
         return;
     _update_of_time = 900;
 
     std::ostringstream os_time;
-    uint8 hours = SystemManager->GetPlayHours();
-    uint8 minutes = SystemManager->GetPlayMinutes();
-    uint8 seconds = SystemManager->GetPlaySeconds();
-    os_time << (hours < 10 ? "0" : "") << static_cast<uint32>(hours) << ":";
-    os_time << (minutes < 10 ? "0" : "") << static_cast<uint32>(minutes) << ":";
-    os_time << (seconds < 10 ? "0" : "") << static_cast<uint32>(seconds);
+    uint8_t hours = SystemManager->GetPlayHours();
+    uint8_t minutes = SystemManager->GetPlayMinutes();
+    uint8_t seconds = SystemManager->GetPlaySeconds();
+    os_time << (hours < 10 ? "0" : "") << static_cast<uint32_t>(hours) << ":";
+    os_time << (minutes < 10 ? "0" : "") << static_cast<uint32_t>(minutes) << ":";
+    os_time << (seconds < 10 ? "0" : "") << static_cast<uint32_t>(seconds);
 
     _time_text.SetDisplayText(MakeUnicodeString(os_time.str()));
     _drunes_text.SetDisplayText(MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
@@ -1033,8 +1033,8 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
             _status_icons.push_back(GlobalManager->Media().GetStatusIcon(it->first, it->second));
     }
 
-    uint32 equip_phys_stat = 0;
-    uint32 equip_mag_stat = 0;
+    uint32_t equip_phys_stat = 0;
+    uint32_t equip_mag_stat = 0;
 
     switch (_object->GetObjectType()) {
         default: // Should never happen
@@ -1052,11 +1052,11 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
             equip_phys_stat = wpn ? wpn->GetPhysicalAttack() : 0;
             equip_mag_stat = wpn ? wpn->GetMagicalAttack() : 0;
 
-            const std::vector<uint32>& equip_skills = wpn->GetEquipmentSkills();
+            const std::vector<uint32_t>& equip_skills = wpn->GetEquipmentSkills();
             _equip_skills.clear();
             _equip_skill_icons.clear();
             // Display a max of 5 skills
-            for (uint32 i = 0; i < equip_skills.size() && i < 5; ++i) {
+            for (uint32_t i = 0; i < equip_skills.size() && i < 5; ++i) {
                 GlobalSkill *skill = new GlobalSkill(equip_skills[i]);
                 if (skill && skill->IsValid()) {
                     _equip_skills.push_back(vt_video::TextImage(skill->GetName(), TextStyle("text20")));
@@ -1080,7 +1080,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
 
             // If character view or unequipping, we take the character current armor as a base
             if (view_type == EQUIP_VIEW_CHAR || view_type == EQUIP_VIEW_UNEQUIPPING) {
-                uint32 equip_index = GetEquipmentPositionFromObjectType(_object->GetObjectType());
+                uint32_t equip_index = GetEquipmentPositionFromObjectType(_object->GetObjectType());
                 armor = _character ? _character->GetArmorEquipped(equip_index) : nullptr;
             }
             else { // We can take the given object as a base
@@ -1091,11 +1091,11 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
             equip_phys_stat = armor ? armor->GetPhysicalDefense() : 0;
             equip_mag_stat = armor ? armor->GetMagicalDefense() : 0;
 
-            const std::vector<uint32>& equip_skills = armor->GetEquipmentSkills();
+            const std::vector<uint32_t>& equip_skills = armor->GetEquipmentSkills();
             _equip_skills.clear();
             _equip_skill_icons.clear();
             // Display a max of 5 skills
-            for (uint32 i = 0; i < equip_skills.size() && i < 5; ++i) {
+            for (uint32_t i = 0; i < equip_skills.size() && i < 5; ++i) {
                 GlobalSkill *skill = new GlobalSkill(equip_skills[i]);
                 if (skill && skill->IsValid()) {
                     _equip_skills.push_back(vt_video::TextImage(skill->GetName(), TextStyle("text20")));
@@ -1127,14 +1127,14 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
     if (!_character || view_type == EQUIP_VIEW_CHAR)
         return;
 
-    int32 phys_stat_diff = 0;
-    int32 mag_stat_diff = 0;
+    int32_t phys_stat_diff = 0;
+    int32_t mag_stat_diff = 0;
 
     if (_is_weapon) {
         // Get the character's current attack
         GlobalWeapon* wpn = _character->GetWeaponEquipped();
-        uint32 char_phys_stat = 0;
-        uint32 char_mag_stat = 0;
+        uint32_t char_phys_stat = 0;
+        uint32_t char_mag_stat = 0;
         if (_equip_view_type == EQUIP_VIEW_EQUIPPING) {
             char_phys_stat = (wpn ? wpn->GetPhysicalAttack() : 0);
             char_mag_stat = (wpn ? wpn->GetMagicalAttack() : 0);
@@ -1148,10 +1148,10 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         }
     }
     else { // armors
-        uint32 equip_index = GetEquipmentPositionFromObjectType(_object->GetObjectType());
+        uint32_t equip_index = GetEquipmentPositionFromObjectType(_object->GetObjectType());
         GlobalArmor* armor = _character->GetArmorEquipped(equip_index);
-        uint32 char_phys_stat = 0;
-        uint32 char_mag_stat = 0;
+        uint32_t char_phys_stat = 0;
+        uint32_t char_mag_stat = 0;
         if (_equip_view_type == EQUIP_VIEW_EQUIPPING) {
             char_phys_stat = (armor ? armor->GetPhysicalDefense() : 0);
             char_mag_stat = (armor ? armor->GetMagicalDefense() : 0);
@@ -1215,8 +1215,8 @@ void MenuMode::DrawEquipmentInfo()
 
     // Key item/spirit part
     if (_object->IsKeyItem()) {
-        int32 key_pos_x = obj_icon.GetWidth() - _key_item_icon->GetWidth() - 3;
-        int32 key_pos_y = obj_icon.GetHeight() - _key_item_icon->GetHeight() - 3;
+        int32_t key_pos_x = obj_icon.GetWidth() - _key_item_icon->GetWidth() - 3;
+        int32_t key_pos_y = obj_icon.GetHeight() - _key_item_icon->GetHeight() - 3;
         VideoManager->MoveRelative(key_pos_x, key_pos_y);
         _key_item_icon->Draw();
         VideoManager->MoveRelative(-key_pos_x, -key_pos_y);
@@ -1254,7 +1254,7 @@ void MenuMode::DrawEquipmentInfo()
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, 0);
     VideoManager->MoveRelative(20.0f, 0.0f);
     float j = 0;
-    for (uint32 i = 0; i < _spirit_number; ++i) {
+    for (uint32_t i = 0; i < _spirit_number; ++i) {
         _spirit_icon->Draw();
         if (i % 2 == 0) {
             VideoManager->MoveRelative(15.0f , 0.0f);
@@ -1268,9 +1268,9 @@ void MenuMode::DrawEquipmentInfo()
     VideoManager->MoveRelative(j, -55.0f);
 
     // Draw status effects icons
-    uint32 element_size = _status_icons.size() > 9 ? 9 : _status_icons.size();
+    uint32_t element_size = _status_icons.size() > 9 ? 9 : _status_icons.size();
     VideoManager->MoveRelative((18.0f * element_size), 0.0f);
-    for(uint32 i = 0; i < element_size; ++i) {
+    for(uint32_t i = 0; i < element_size; ++i) {
         _status_icons[i]->Draw();
         VideoManager->MoveRelative(-18.0f, 0.0f);
     }
@@ -1278,7 +1278,7 @@ void MenuMode::DrawEquipmentInfo()
     if (_status_icons.size() > 9) {
         element_size = _status_icons.size();
         VideoManager->MoveRelative((18.0f * (element_size - 9)), 0.0f);
-        for(uint32 i = 9; i < element_size; ++i) {
+        for(uint32_t i = 9; i < element_size; ++i) {
             _status_icons[i]->Draw();
             VideoManager->MoveRelative(-18.0f, 0.0f);
         }
@@ -1290,7 +1290,7 @@ void MenuMode::DrawEquipmentInfo()
     if (element_size > 0)
         _equip_skills_header.Draw();
     VideoManager->MoveRelative(10.0f, 20.0f);
-    for (uint32 i = 0; i < element_size; ++i) {
+    for (uint32_t i = 0; i < element_size; ++i) {
         _equip_skills[i].Draw();
         VideoManager->MoveRelative(-20.0f, 5.0f);
         _equip_skill_icons[i].Draw();

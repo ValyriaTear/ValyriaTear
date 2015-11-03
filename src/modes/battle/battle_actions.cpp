@@ -231,7 +231,7 @@ std::string SkillAction::GetActionName() const
         return _skill->GetActionName();
 }
 
-uint32 SkillAction::GetWarmUpTime() const
+uint32_t SkillAction::GetWarmUpTime() const
 {
     if(_skill == nullptr)
         return 0;
@@ -239,7 +239,7 @@ uint32 SkillAction::GetWarmUpTime() const
         return _skill->GetWarmupTime();
 }
 
-uint32 SkillAction::GetCoolDownTime() const
+uint32_t SkillAction::GetCoolDownTime() const
 {
     if(_skill == nullptr)
         return 0;
@@ -395,7 +395,7 @@ std::string ItemAction::GetIconFilename() const
     return std::string();
 }
 
-uint32 ItemAction::GetWarmUpTime() const
+uint32_t ItemAction::GetWarmUpTime() const
 {
     if(_item == nullptr)
         return 0;
@@ -403,7 +403,7 @@ uint32 ItemAction::GetWarmUpTime() const
         return _item->GetWarmUpTime();
 }
 
-uint32 ItemAction::GetCoolDownTime() const
+uint32_t ItemAction::GetCoolDownTime() const
 {
     if(_item == nullptr)
         return 0;

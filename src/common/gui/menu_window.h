@@ -32,11 +32,11 @@ namespace vt_gui
 *** you could pass the complement of that bit flag (~VIDEO_MENU_EDGE_LEFT).
 **/
 //@{
-const int32 VIDEO_MENU_EDGE_LEFT   = 0x1;
-const int32 VIDEO_MENU_EDGE_RIGHT  = 0x2;
-const int32 VIDEO_MENU_EDGE_TOP    = 0x4;
-const int32 VIDEO_MENU_EDGE_BOTTOM = 0x8;
-const int32 VIDEO_MENU_EDGE_ALL    = 0xF;
+const int32_t VIDEO_MENU_EDGE_LEFT   = 0x1;
+const int32_t VIDEO_MENU_EDGE_RIGHT  = 0x2;
+const int32_t VIDEO_MENU_EDGE_TOP    = 0x4;
+const int32_t VIDEO_MENU_EDGE_BOTTOM = 0x8;
+const int32_t VIDEO_MENU_EDGE_ALL    = 0xF;
 //@}
 
 /** \brief These enums are used to tell the visiblity state of a menu window.
@@ -164,10 +164,10 @@ public:
     *** \return False and print an error message on failure. Otherwise return true upon success.
     *** \note This function <b>must</b> be called before you attempt to draw the window.
     **/
-    bool Create(const std::string &skin_name, float w, float h, int32 visible_flags = VIDEO_MENU_EDGE_ALL, int32 shared_flags = 0);
+    bool Create(const std::string &skin_name, float w, float h, int32_t visible_flags = VIDEO_MENU_EDGE_ALL, int32_t shared_flags = 0);
 
     //! \note This version of the create function does not take a skin_name argument. It uses the default menu skin.
-    bool Create(float w, float h, int32 visible_flags = VIDEO_MENU_EDGE_ALL, int32 shared_flags = 0);
+    bool Create(float w, float h, int32_t visible_flags = VIDEO_MENU_EDGE_ALL, int32_t shared_flags = 0);
 
     /** \brief You <b>must</b> call this method when you are finished using a menu.
     *** Failure to neglect this call may result in problems like texture memory not being freed.
@@ -177,7 +177,7 @@ public:
     /** \brief This version is for the subclasses of menu window (allows us to use a single MenuWindow variable
     *** to track the active window.
     **/
-    void Update(uint32 /*frame_time*/)
+    void Update(uint32_t /*frame_time*/)
     {}
     virtual void Update()
     {}
@@ -222,13 +222,13 @@ public:
     void SetDimensions(float w, float h);
 
     //! \note This call is somewhat expensive since it has to recreate the menu window image.
-    void SetEdgeVisibleFlags(int32 flags) {
+    void SetEdgeVisibleFlags(int32_t flags) {
         _edge_visible_flags = flags;
         _RecreateImage();
     }
 
     //! \note This call is somewhat expensive since it has to recreate the menu window image.
-    void SetEdgeSharedFlags(int32 flags) {
+    void SetEdgeSharedFlags(int32_t flags) {
         _edge_shared_flags = flags;
         _RecreateImage();
     }
@@ -242,10 +242,10 @@ private:
     float _inner_width, _inner_height;
 
     //! \brief Flags used to tell which edges of the menu window are visible.
-    int32 _edge_visible_flags;
+    int32_t _edge_visible_flags;
 
     //! \brief Flags used to tell which edges are shared with other windows.
-    int32 _edge_shared_flags;
+    int32_t _edge_shared_flags;
 
     //! \brief A pointer to the menu skin that the menu window currently uses
     private_gui::MenuSkin *_skin;

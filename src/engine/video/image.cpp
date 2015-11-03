@@ -199,7 +199,7 @@ void ImageDescriptor::SetVertexColors(const Color &tl, const Color &tr, const Co
         _unichrome_vertices = false;
 }
 
-bool ImageDescriptor::GetImageInfo(const std::string &filename, uint32 &rows, uint32 &cols, uint32 &bpp)
+bool ImageDescriptor::GetImageInfo(const std::string &filename, uint32_t &rows, uint32_t &cols, uint32_t &bpp)
 {
     // Init with invalid data to ease early returns,
     rows = 0;
@@ -222,10 +222,10 @@ bool ImageDescriptor::GetImageInfo(const std::string &filename, uint32 &rows, ui
 }
 
 bool ImageDescriptor::LoadMultiImageFromElementSize(std::vector<StillImage>& images, const std::string &filename,
-        const uint32 elem_width, const uint32 elem_height)
+        const uint32_t elem_width, const uint32_t elem_height)
 {
     // First retrieve the dimensions of the multi image (in pixels)
-    uint32 img_height, img_width, bpp;
+    uint32_t img_height, img_width, bpp;
     if (!GetImageInfo(filename, img_height, img_width, bpp)) {
         PRINT_WARNING << "Couldn't load image file info: " << filename << std::endl;
         return false;
@@ -238,8 +238,8 @@ bool ImageDescriptor::LoadMultiImageFromElementSize(std::vector<StillImage>& ima
     }
 
     // Determine the number of rows and columns of element images inside the multi image
-    uint32 grid_rows = img_height / elem_height;
-    uint32 grid_cols = img_width / elem_width;
+    uint32_t grid_rows = img_height / elem_height;
+    uint32_t grid_cols = img_width / elem_width;
 
     // If necessary, resize the images vector so that it is the same size as the number of element images which
     // we will soon extract from the multi image
@@ -261,14 +261,14 @@ bool ImageDescriptor::LoadMultiImageFromElementSize(std::vector<StillImage>& ima
 
 
 bool ImageDescriptor::LoadMultiImageFromElementGrid(std::vector<StillImage>& images, const std::string &filename,
-        const uint32 grid_rows, const uint32 grid_cols)
+        const uint32_t grid_rows, const uint32_t grid_cols)
 {
     if(!DoesFileExist(filename)) {
         PRINT_WARNING << "Multi-image file not found: " << filename << std::endl;
         return false;
     }
     // First retrieve the dimensions of the multi image (in pixels)
-    uint32 img_height, img_width, bpp;
+    uint32_t img_height, img_width, bpp;
     if (!GetImageInfo(filename, img_height, img_width, bpp)) {
         PRINT_WARNING << "Couldn't load image file info: " << filename << std::endl;
         return false;
@@ -303,7 +303,7 @@ bool ImageDescriptor::LoadMultiImageFromElementGrid(std::vector<StillImage>& ima
 
 
 bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, const std::string &filename,
-                                     const uint32 grid_rows, const uint32 grid_columns)
+                                     const uint32_t grid_rows, const uint32_t grid_columns)
 {
     // Check there are elements to store
     if(images.empty()) {
@@ -323,7 +323,7 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     // Check that all the images are non-nullptr and are of the same size
     float img_width = images[0]->_width;
     float img_height = images[0]->_height;
-    for(uint32 i = 0; i < images.size(); i++) {
+    for(uint32_t i = 0; i < images.size(); i++) {
         if(images[i] == nullptr || images[i]->_image_texture == nullptr) {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr StillImage or ImageElement was present in images vector argument when saving file: " << filename << std::endl;
             return false;
@@ -351,8 +351,8 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     // Structure for the image buffer to save
     ImageMemory save;
 
-    save.height = static_cast<int32>(grid_rows * img_height);
-    save.width = static_cast<int32>(grid_columns * img_width);
+    save.height = static_cast<int32_t>(grid_rows * img_height);
+    save.width = static_cast<int32_t>(grid_columns * img_width);
     save.pixels = malloc(save.width * save.height * 4);
 
     if(save.pixels == nullptr) {
@@ -380,9 +380,9 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     TextureManager->_BindTexture(tex_id);
     glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.pixels);
 
-    uint32 i = 0; // i is used to count through the images vector to get the image to save
-    for(uint32 x = 0; x < grid_rows; x++) {
-        for(uint32 y = 0; y < grid_columns; y++) {
+    uint32_t i = 0; // i is used to count through the images vector to get the image to save
+    for(uint32_t x = 0; x < grid_rows; x++) {
+        for(uint32_t y = 0; y < grid_columns; y++) {
             img = images[i]->_image_texture;
 
             // Check if this image has a different texture ID than the last. If it does, we need to re-grab the texture
@@ -409,20 +409,20 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
             }
 
             // Determine the part of the texture that we are interested in (the part that contains the current image we're saving)
-            uint32 src_offset = img->y * texture.width * 4 + img->x * 4;
-            uint32 dst_offset = static_cast<uint32>(x * img_height * img_width * grid_columns * 4 + y * img_width * 4);
-            uint32 src_bytes = texture.width * 4;
-            uint32 dst_bytes = static_cast<uint32>(img_width * grid_columns * 4);
-            uint32 copy_bytes = static_cast<uint32>(img_width * 4);
+            uint32_t src_offset = img->y * texture.width * 4 + img->x * 4;
+            uint32_t dst_offset = static_cast<uint32_t>(x * img_height * img_width * grid_columns * 4 + y * img_width * 4);
+            uint32_t src_bytes = texture.width * 4;
+            uint32_t dst_bytes = static_cast<uint32_t>(img_width * grid_columns * 4);
+            uint32_t copy_bytes = static_cast<uint32_t>(img_width * 4);
 
             // Copy each row of image pixels over the the save.pixels buffer one at a time
-            for(int32 j = 0; j < img_height; j++) {
-                memcpy((uint8 *)save.pixels + j * dst_bytes + dst_offset, (uint8 *)texture.pixels + j * src_bytes + src_offset, copy_bytes);
+            for(int32_t j = 0; j < img_height; j++) {
+                memcpy((uint8_t *)save.pixels + j * dst_bytes + dst_offset, (uint8_t *)texture.pixels + j * src_bytes + src_offset, copy_bytes);
             }
 
             i++;
-        } // for (uint32 y = 0; y < grid_columns; y++)
-    } // for (uint32 x = 0; x < grid_rows; x++)
+        } // for (uint32_t y = 0; y < grid_columns; y++)
+    } // for (uint32_t x = 0; x < grid_rows; x++)
 
     // save.pixels now contains all the image data we wish to save, so write it out to the new image file
     bool success = save.SaveImage(filename);
@@ -666,10 +666,10 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
 }
 
 bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std::string &filename,
-                                      const uint32 grid_rows, const uint32 grid_cols)
+                                      const uint32_t grid_rows, const uint32_t grid_cols)
 {
-    uint32 current_image;
-    uint32 x, y;
+    uint32_t current_image;
+    uint32_t x, y;
 
     bool need_load = false;
 
@@ -746,8 +746,8 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
             else {
                 images.at(current_image)._filename = filename;
 
-                for(uint32 i = 0; i < sub_image.height; ++i) {
-                    memcpy((uint8 *)sub_image.pixels + 4 * sub_image.width * i, (uint8 *)multi_image.pixels + (((x * multi_image.height / grid_rows) + i) *
+                for(uint32_t i = 0; i < sub_image.height; ++i) {
+                    memcpy((uint8_t *)sub_image.pixels + 4 * sub_image.width * i, (uint8_t *)multi_image.pixels + (((x * multi_image.height / grid_rows) + i) *
                             multi_image.width + y * multi_image.width / grid_cols) * 4, 4 * sub_image.width);
                 }
 
@@ -1140,8 +1140,8 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
         return false;
     }
 
-    uint32 rows = image_script.ReadUInt("rows");
-    uint32 columns = image_script.ReadUInt("columns");
+    uint32_t rows = image_script.ReadUInt("rows");
+    uint32_t columns = image_script.ReadUInt("columns");
 
     if(!image_script.DoesTableExist("frames")) {
         image_script.CloseTable();
@@ -1168,17 +1168,17 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
         frame_height = image_frames.begin()->GetHeight();
     }
 
-    std::vector<uint32> frames_ids;
-    std::vector<uint32> frames_duration;
+    std::vector<uint32_t> frames_ids;
+    std::vector<uint32_t> frames_duration;
     std::vector<std::pair<float, float> > frames_offsets;
 
     image_script.OpenTable("frames");
-    uint32 num_frames = image_script.GetTableSize();
-    for(uint32 frames_table_id = 0;  frames_table_id < num_frames; ++frames_table_id) {
+    uint32_t num_frames = image_script.GetTableSize();
+    for(uint32_t frames_table_id = 0;  frames_table_id < num_frames; ++frames_table_id) {
         image_script.OpenTable(frames_table_id);
 
-        int32 frame_id = image_script.ReadInt("id");
-        int32 frame_duration = image_script.ReadInt("duration");
+        int32_t frame_id = image_script.ReadInt("id");
+        int32_t frame_duration = image_script.ReadInt("duration");
 
         // Loads the frame offsets
         float x_offset = 0.0f;
@@ -1188,7 +1188,7 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
         if (image_script.DoesFloatExist("y_offset"))
             y_offset = image_script.ReadFloat("y_offset");
 
-        if(frame_id < 0 || frame_duration < 0 || frame_id >= (int32)image_frames.size()) {
+        if(frame_id < 0 || frame_duration < 0 || frame_id >= (int32_t)image_frames.size()) {
             PRINT_WARNING << "Invalid frame (" << frames_table_id << ") in file: "
                           << filename << std::endl;
             PRINT_WARNING << "Request for frame id: " << frame_id << ", duration: "
@@ -1196,8 +1196,8 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
             continue;
         }
 
-        frames_ids.push_back((uint32)frame_id);
-        frames_duration.push_back((uint32)frame_duration);
+        frames_ids.push_back((uint32_t)frame_id);
+        frames_duration.push_back((uint32_t)frame_duration);
         frames_offsets.push_back(std::make_pair(x_offset, y_offset));
 
         image_script.CloseTable(); // frames[frame_table_id] table
@@ -1211,13 +1211,13 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
     _frames.clear();
     ResetAnimation();
     // First copy the image data raw
-    for(uint32 i = 0; i < frames_ids.size(); ++i)
+    for(uint32_t i = 0; i < frames_ids.size(); ++i)
         AddFrame(image_frames[frames_ids[i]], frames_duration[i]);
 
     // Once copied and only at that time, setup the data offsets to avoid the case
     // where the offsets might be applied several times on the same origin image,
     // breaking the offset resizing when the dimensions are different from the original image.
-    for (uint32 i = 0; i < _frames.size(); ++i)
+    for (uint32_t i = 0; i < _frames.size(); ++i)
         _frames[i].image.SetDrawOffsets(frames_offsets[i].first, frames_offsets[i].second);
 
     // Then only, set the dimensions
@@ -1227,8 +1227,8 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
 }
 
 
-bool AnimatedImage::LoadFromFrameSize(const std::string &filename, const std::vector<uint32>& timings,
-                                      const uint32 frame_width, const uint32 frame_height, const uint32 trim)
+bool AnimatedImage::LoadFromFrameSize(const std::string &filename, const std::vector<uint32_t>& timings,
+                                      const uint32_t frame_width, const uint32_t frame_height, const uint32_t trim)
 {
     // Make the multi image call
     // TODO: Handle the case where the _grayscale member is true so all frames are loaded in grayscale format
@@ -1251,7 +1251,7 @@ bool AnimatedImage::LoadFromFrameSize(const std::string &filename, const std::ve
     ResetAnimation();
 
     // Add the loaded frame image and timing information
-    for(uint32 i = 0; i < image_frames.size() - trim; i++) {
+    for(uint32_t i = 0; i < image_frames.size() - trim; i++) {
         image_frames[i].SetDimensions(_width, _height);
         AddFrame(image_frames[i], timings[i]);
         if(timings[i] == 0) {
@@ -1264,8 +1264,8 @@ bool AnimatedImage::LoadFromFrameSize(const std::string &filename, const std::ve
 
 
 
-bool AnimatedImage::LoadFromFrameGrid(const std::string &filename, const std::vector<uint32>& timings,
-                                      const uint32 frame_rows, const uint32 frame_cols, const uint32 trim)
+bool AnimatedImage::LoadFromFrameGrid(const std::string &filename, const std::vector<uint32_t>& timings,
+                                      const uint32_t frame_rows, const uint32_t frame_cols, const uint32_t trim)
 {
     if(trim >= frame_rows * frame_cols) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "attempt to trim away more frames than requested to load for file: " << filename << std::endl;
@@ -1298,7 +1298,7 @@ bool AnimatedImage::LoadFromFrameGrid(const std::string &filename, const std::ve
     }
 
     // Add the loaded frame image and timing information
-    for(uint32 i = 0; i < frame_rows * frame_cols - trim; i++) {
+    for(uint32_t i = 0; i < frame_rows * frame_cols - trim; i++) {
         image_frames[i].SetDimensions(_width, _height);
         AddFrame(image_frames[i], timings[i]);
         if(timings[i] == 0) {
@@ -1322,10 +1322,10 @@ void AnimatedImage::Draw(const Color &draw_color) const
 
 
 
-bool AnimatedImage::Save(const std::string &filename, uint32 grid_rows, uint32 grid_cols) const
+bool AnimatedImage::Save(const std::string &filename, uint32_t grid_rows, uint32_t grid_cols) const
 {
     std::vector<StillImage *> image_frames;
-    for(uint32 i = 0; i < _frames.size(); i++) {
+    for(uint32_t i = 0; i < _frames.size(); i++) {
         image_frames.push_back(const_cast<StillImage *>(&(_frames[i].image)));
     }
 
@@ -1346,7 +1346,7 @@ void AnimatedImage::EnableGrayScale()
     }
 
     _grayscale = true;
-    for(uint32 i = 0; i < _frames.size(); i++) {
+    for(uint32_t i = 0; i < _frames.size(); i++) {
         _frames[i].image.EnableGrayScale();
     }
 }
@@ -1361,14 +1361,14 @@ void AnimatedImage::DisableGrayScale()
     }
 
     _grayscale = false;
-    for(uint32 i = 0; i < _frames.size(); i++) {
+    for(uint32_t i = 0; i < _frames.size(); i++) {
         _frames[i].image.DisableGrayScale();
     }
 }
 
 
 
-void AnimatedImage::Update(uint32 elapsed_time)
+void AnimatedImage::Update(uint32_t elapsed_time)
 {
     if(_frames.size() <= 1)
         return;
@@ -1384,7 +1384,7 @@ void AnimatedImage::Update(uint32 elapsed_time)
     }
 
     // Get the amount of milliseconds that have pass since the last display
-    uint32 ms_change = (elapsed_time == 0) ? vt_system::SystemManager->GetUpdateTime() : elapsed_time;
+    uint32_t ms_change = (elapsed_time == 0) ? vt_system::SystemManager->GetUpdateTime() : elapsed_time;
     _frame_counter += ms_change;
 
     // If the frame time has expired, update the frame index and counter.
@@ -1415,7 +1415,7 @@ void AnimatedImage::Update(uint32 elapsed_time)
     }
 } // void AnimatedImage::Update()
 
-bool AnimatedImage::AddFrame(const std::string &frame, uint32 frame_time)
+bool AnimatedImage::AddFrame(const std::string &frame, uint32_t frame_time)
 {
     StillImage img;
     img.SetStatic(_is_static);
@@ -1432,7 +1432,7 @@ bool AnimatedImage::AddFrame(const std::string &frame, uint32 frame_time)
     return true;
 }
 
-bool AnimatedImage::AddFrame(const StillImage &frame, uint32 frame_time)
+bool AnimatedImage::AddFrame(const StillImage &frame, uint32_t frame_time)
 {
     if(!frame._image_texture) {
         PRINT_WARNING << "The StillImage argument did not contain any image elements" << std::endl;
@@ -1452,7 +1452,7 @@ void AnimatedImage::SetWidth(float width)
 {
     _width = width;
 
-    for(uint32 i = 0; i < _frames.size(); ++i) {
+    for(uint32_t i = 0; i < _frames.size(); ++i) {
         _frames[i].image.SetWidth(width);
     }
 }
@@ -1461,7 +1461,7 @@ void AnimatedImage::SetHeight(float height)
 {
     _height = height;
 
-    for(uint32 i = 0; i < _frames.size(); i++) {
+    for(uint32_t i = 0; i < _frames.size(); i++) {
         _frames[i].image.SetHeight(height);
     }
 }
@@ -1473,7 +1473,7 @@ void AnimatedImage::SetDimensions(float width, float height)
     _width = width;
     _height = height;
 
-    for(uint32 i = 0; i < _frames.size(); i++) {
+    for(uint32_t i = 0; i < _frames.size(); i++) {
         _frames[i].image.SetDimensions(width, height);
     }
 }
@@ -1482,7 +1482,7 @@ void AnimatedImage::SetColor(const Color &color)
 {
     ImageDescriptor::SetColor(color);
 
-    for(uint32 i = 0; i < _frames.size(); i++) {
+    for(uint32_t i = 0; i < _frames.size(); i++) {
         _frames[i].image.SetColor(color);
     }
 }
@@ -1491,18 +1491,18 @@ void AnimatedImage::SetVertexColors(const Color &tl, const Color &tr, const Colo
 {
     ImageDescriptor::SetVertexColors(tl, tr, bl, br);
 
-    for(uint32 i = 0; i < _frames.size(); i++) {
+    for(uint32_t i = 0; i < _frames.size(); i++) {
         _frames[i].image.SetVertexColors(tl, tr, bl, br);
     }
 }
 
 void AnimatedImage::RandomizeAnimationFrame() {
 
-    uint32 nb_frames = _frames.size();
+    uint32_t nb_frames = _frames.size();
     if (nb_frames <= 1)
         return;
 
-    uint32 index = vt_utils::RandomBoundedInteger(0, nb_frames - 1);
+    uint32_t index = vt_utils::RandomBoundedInteger(0, nb_frames - 1);
     _frame_index = index;
     _frame_counter = 0;
 }
@@ -1545,7 +1545,7 @@ void CompositeImage::Draw(const Color &draw_color) const
 
     VideoManager->MoveRelative(x_align_offset, y_align_offset);
 
-    for(uint32 i = 0; i < _elements.size(); ++i) {
+    for(uint32_t i = 0; i < _elements.size(); ++i) {
         float x_off, y_off;
 
         if(VideoManager->_current_context.x_flip) {
@@ -1660,7 +1660,7 @@ void CompositeImage::SetColor(const Color &color)
 {
     ImageDescriptor::SetColor(color);
 
-    for(uint32 i = 0; i < _elements.size(); ++i) {
+    for(uint32_t i = 0; i < _elements.size(); ++i) {
         _elements[i].image.SetColor(color);
     }
 }
@@ -1671,7 +1671,7 @@ void CompositeImage::SetVertexColors(const Color &tl, const Color &tr, const Col
 {
     ImageDescriptor::SetVertexColors(tl, tr, bl, br);
 
-    for(uint32 i = 0; i < _elements.size(); i++) {
+    for(uint32_t i = 0; i < _elements.size(); i++) {
         _elements[i].image.SetVertexColors(tl, tr, bl, br);
     }
 }
@@ -1702,20 +1702,20 @@ void CompositeImage::AddImage(const StillImage &img, float x_offset, float y_off
         _height = max_y;
 } // void CompositeImage::AddImage(const StillImage& img, float x_offset, float y_offset, float u1, float v1, float u2, float v2)
 
-// void CompositeImage::ConstructCompositeImage(const std::vector<StillImage>& tiles, const std::vector<std::vector<uint32> >& indeces) {
+// void CompositeImage::ConstructCompositeImage(const std::vector<StillImage>& tiles, const std::vector<std::vector<uint32_t> >& indeces) {
 // 	if (tiles.empty() == true || indeces.empty() == true) {
 // 		IF_PRINT_WARNING(VIDEO_DEBUG) << "either the tiles or indeces vector function arguments were empty" << std::endl;
 // 		return;
 // 	}
 //
-// 	for (uint32 i = 1; i < tiles.size(); i++) {
+// 	for (uint32_t i = 1; i < tiles.size(); i++) {
 // 		if (tiles[0]._width != tiles[i]._width || tiles[0]._height != tiles[i]._height) {
 // 			IF_PRINT_WARNING(VIDEO_DEBUG) << "images within the tiles argument had unequal dimensions" << std::endl;
 // 			return;
 // 		}
 // 	}
 //
-// 	for (uint32 i = 1; i < indeces.size(); i++) {
+// 	for (uint32_t i = 1; i < indeces.size(); i++) {
 // 		if (indeces[0].size() != indeces[i].size()) {
 // 			IF_PRINT_WARNING(VIDEO_DEBUG) << "the row sizes in the indices 2D vector argument did not match" << std::endl;
 // 			return;
@@ -1730,15 +1730,15 @@ void CompositeImage::AddImage(const StillImage &img, float x_offset, float y_off
 // 	_is_static = tiles[0]._is_static;
 //
 // 	// Add each tile at the image at the appropriate offset
-// 	for (uint32 y = 0; y < indeces.size(); ++y) {
-// 		for (uint32 x = 0; x < indeces[0].size(); ++x) {
+// 	for (uint32_t y = 0; y < indeces.size(); ++y) {
+// 		for (uint32_t x = 0; x < indeces[0].size(); ++x) {
 // 			// NOTE: we did not check that all the entries in indeces were within the
 // 			// correct range for the size of the tiles vector, so this may cause a out-of-bounds
 // 			// run-time error.
 // 			AddImage(tiles[indeces[y][x]], x * tiles[0]._width, y * tiles[0]._height);
 // 		}
 // 	}
-// } // void CompositeImage::ConstructCompositeImage(const std::vector<StillImage>& tiles, const std::vector<std::vector<uint32> >& indeces)
+// } // void CompositeImage::ConstructCompositeImage(const std::vector<StillImage>& tiles, const std::vector<std::vector<uint32_t> >& indeces)
 
 void DrawCapturedBackgroundImage(const ImageDescriptor& image, float x, float y)
 {
@@ -1747,8 +1747,8 @@ void DrawCapturedBackgroundImage(const ImageDescriptor& image, float x, float y)
 
 void DrawCapturedBackgroundImage(const ImageDescriptor& image, float x, float y, const vt_video::Color& color)
 {
-    int32 width_viewport = VideoManager->GetViewportWidth();
-    int32 height_viewport = VideoManager->GetViewportHeight();
+    int32_t width_viewport = VideoManager->GetViewportWidth();
+    int32_t height_viewport = VideoManager->GetViewportHeight();
 
     float width_image = image.GetWidth();
     float height_image = image.GetHeight();

@@ -29,7 +29,7 @@ namespace vt_gui
 {
 
 //! \brief The number of milliseconds it takes to scroll when the cursor goes past the end of an option box
-const int32 VIDEO_OPTION_SCROLL_TIME = 100;
+const int32_t VIDEO_OPTION_SCROLL_TIME = 100;
 
 //! \brief These are the types of events that an option box can generate
 enum OptionBoxEvent {
@@ -135,14 +135,14 @@ namespace private_gui
 *** and construct the options from that text.
 **/
 //@{
-const uint16 OPEN_TAG     = static_cast<uint16>('<');
-const uint16 END_TAG      = static_cast<uint16>('>');
-const uint16 LEFT_TAG1    = static_cast<uint16>('l');
-const uint16 CENTER_TAG1  = static_cast<uint16>('c');
-const uint16 RIGHT_TAG1   = static_cast<uint16>('r');
-const uint16 LEFT_TAG2    = static_cast<uint16>('L');
-const uint16 CENTER_TAG2  = static_cast<uint16>('C');
-const uint16 RIGHT_TAG2   = static_cast<uint16>('R');
+const uint16_t OPEN_TAG     = static_cast<uint16_t>('<');
+const uint16_t END_TAG      = static_cast<uint16_t>('>');
+const uint16_t LEFT_TAG1    = static_cast<uint16_t>('l');
+const uint16_t CENTER_TAG1  = static_cast<uint16_t>('c');
+const uint16_t RIGHT_TAG1   = static_cast<uint16_t>('r');
+const uint16_t LEFT_TAG2    = static_cast<uint16_t>('L');
+const uint16_t CENTER_TAG2  = static_cast<uint16_t>('C');
+const uint16_t RIGHT_TAG2   = static_cast<uint16_t>('R');
 //@}
 
 
@@ -162,7 +162,7 @@ public:
     OptionElementType type;
 
     //! \brief A simple integer value used for various purposes such as offsets
-    int32 value;
+    int32_t value;
 };
 
 
@@ -255,7 +255,7 @@ public:
     *** to be processed by the option box. Therefore it is recommended that
     *** this method be called on every frame while it is active.
     **/
-    void Update(uint32 frame_time = vt_system::SystemManager->GetUpdateTime());
+    void Update(uint32_t frame_time = vt_system::SystemManager->GetUpdateTime());
 
     //! \brief Draws each enabled option to the screen
     void Draw();
@@ -273,7 +273,7 @@ public:
     *** because it is silly to try to represent a structure of 2 columns and 2 rows in a layout of 4 columns and 4 rows. Failure
     *** to observe this requirement will result in no changes being made by this function.
     **/
-    void SetDimensions(float width, float height, uint8 num_cols, uint8 num_rows, uint8 cell_cols, uint8 cell_rows);
+    void SetDimensions(float width, float height, uint8_t num_cols, uint8_t num_rows, uint8_t cell_cols, uint8_t cell_rows);
 
     /** \brief Sets the options to display in this option box
     *** \param option_text A vector of unicode strings which contain the text for each item, along with any formatting tags
@@ -304,19 +304,19 @@ public:
     *** \note This string is treated as pure text and formatting options embedded in the string will
     *** <b>not</b> be processed by this function.
     **/
-    void AddOptionElementText(uint32 option_index, const vt_utils::ustring &text);
+    void AddOptionElementText(uint32_t option_index, const vt_utils::ustring &text);
 
     /** \brief Appends an image element to an existing option
     *** \param option_index The index of the option to append the image element to
     *** \param filename The name of the image file to load for use in this option
     **/
-    void AddOptionElementImage(uint32 option_index, const std::string &image_filename);
+    void AddOptionElementImage(uint32_t option_index, const std::string &image_filename);
 
     /** \brief Appends an image element to an existing option
     *** \param option_index The index of the option to append the image element to
     *** \param image A pointer to the image to create a copy of for the option (must be non-nullptr)
     **/
-    void AddOptionElementImage(uint32 option_index, const vt_video::StillImage *image);
+    void AddOptionElementImage(uint32_t option_index, const vt_video::StillImage *image);
 
     /** \brief Appends an alignment element to an existing option
     *** \param option_index The index of the option to append the alignment element to
@@ -324,20 +324,20 @@ public:
     *** VIDEO_OPTION_ELEMENT_CENTER_ALIGN, and VIDEO_OPTION_ELEMENT_RIGHT_ALIGN. All other values will be
     *** ignored.
     **/
-    void AddOptionElementAlignment(uint32 option_index, OptionElementType position_type);
+    void AddOptionElementAlignment(uint32_t option_index, OptionElementType position_type);
 
     /** \brief Appends a position element to an existing option
     *** \param option_index The index of the option to append the alignment element to
     *** \param postion_length The number of pixels to move the draw cursor position
     **/
-    void AddOptionElementPosition(uint32 option_index, uint32 position_length);
+    void AddOptionElementPosition(uint32_t option_index, uint32_t position_length);
 
     /** \brief Changes the stored information of a particular option
     *** \param index The index of the option to change
     *** \param text The text to change the option to
     *** \return False if the option text could not be changed
     **/
-    bool SetOptionText(uint32 index, const vt_utils::ustring &text);
+    bool SetOptionText(uint32_t index, const vt_utils::ustring &text);
 
     /** \brief Sets the currently selected option (0 to # of options - 1)
     *** \param index The desired selection index in the list of options
@@ -345,25 +345,25 @@ public:
     *** If no options are currently stored when this method is called, the
     *** method will print a warning message and return.
     **/
-    void SetSelection(uint32 index);
+    void SetSelection(uint32_t index);
 
     /** \brief Enables or disables the option located at a specified index
     *** \param index The index of the option to enable or disable
     *** \param enable Set to true to enable, false to disable
     **/
-    void EnableOption(uint32 index, bool enable);
+    void EnableOption(uint32_t index, bool enable);
 
     /** \brief Determines if an option is enabled or not
     *** \param index The index of the option in the list to check
     *** \return True if the option is enabled, false if it is not
     **/
-    bool IsOptionEnabled(uint32 index) const;
+    bool IsOptionEnabled(uint32_t index) const;
 
     /** \brief Retrieves a pointer to the image embedded within the option
     *** \param index The index of the option to retrieve the image
     *** \return nullptr if the index is invalid or the option does not embed an image, otherwise a valid pointer to a StillImage
     **/
-    vt_video::StillImage *GetEmbeddedImage(uint32 index) const;
+    vt_video::StillImage *GetEmbeddedImage(uint32_t index) const;
 
     /** \brief resets the viewing selection to the top-most option.
     *** this essentially forces the draw top and draw left to be set to zero
@@ -393,7 +393,7 @@ public:
     *** \param xalign Left/center/right alignment of text in the cell
     *** \param yalign Top/center/bottom alignment of text in the cell
     **/
-    void SetOptionAlignment(int32 xalign, int32 yalign) {
+    void SetOptionAlignment(int32_t xalign, int32_t yalign) {
         _option_xalign = xalign;
         _option_yalign = yalign;
     }
@@ -479,29 +479,29 @@ public:
     *** \return An integer int representing an option box event (i.e. cancel, confirm, left, right, etc.)
     *** \note Calling the Update() method will clear any registered events
     **/
-    int32 GetEvent() {
+    int32_t GetEvent() {
         return _event;
     }
 
     /** \brief Returns the index of the currently selected option
     *** \return The current selection index, or -1 if nothing is selected
     **/
-    int32 GetSelection() const {
+    int32_t GetSelection() const {
         return _selection;
     }
 
     //! \brief Returns the number of rows of options
-    int32 GetNumberRows() const {
+    int32_t GetNumberRows() const {
         return _number_rows;
     }
 
     //! \brief Returns the number of columns of options
-    int32 GetNumberColumns() const {
+    int32_t GetNumberColumns() const {
         return _number_columns;
     }
 
     //! \brief Retreives the number of options in the option box
-    uint32 GetNumberOptions() const {
+    uint32_t GetNumberOptions() const {
         return _options.size();
     }
     //@}
@@ -517,10 +517,10 @@ private:
     std::vector<private_gui::Option> _options;
 
     //! \brief The total number of rows and columns of data represented by the box
-    int32 _number_rows, _number_columns;
+    int32_t _number_rows, _number_columns;
 
     //! \brief How many rows and columns of cells can fit in the option box dimensions
-    int32 _number_cell_rows, _number_cell_columns;
+    int32_t _number_cell_rows, _number_cell_columns;
 
     //! \brief The dimenions of each cell within the option box
     float _cell_width, _cell_height;
@@ -544,19 +544,19 @@ private:
     vt_video::TextStyle _text_style;
 
     //! \brief The column of row of data that is drawn in the top-left cell
-    uint32 _draw_left_column, _draw_top_row;
+    uint32_t _draw_left_column, _draw_top_row;
 
     //! \brief Retains the x and y offsets for where the cursor should be drawn relative to the selected option
     float _cursor_xoffset, _cursor_yoffset;
 
     //! \brief A draw offset used for the option box when it is scrolling
-    int32 _scroll_offset;
+    int32_t _scroll_offset;
 
     //! \brief The horizontal alignment type for option cell contents
-    int32 _option_xalign;
+    int32_t _option_xalign;
 
     //! \brief The vertical alignment type for option cell contents
-    int32 _option_yalign;
+    int32_t _option_yalign;
 
     //! \brief When true the scroll arrows for the horizontal and vertical directions will be drawn
     bool _draw_horizontal_arrows, _draw_vertical_arrows;
@@ -568,15 +568,15 @@ private:
     //! \name Active State Members
     //@{
     //! \brief Holds the most recent OptionBox event that occurred
-    int32 _event;
+    int32_t _event;
 
     //! \brief The index of the currently selected option
-    int32 _selection;
+    int32_t _selection;
 
     /** \brief The first selection that the player made when in double-confirm selection mode
     *** \note This is set to -1 when no first selection has been made
     **/
-    int32 _first_selection;
+    int32_t _first_selection;
 
     //! \brief The current cursor state (blinking, visible, hidden, etc)
     CursorState _cursor_state;
@@ -585,10 +585,10 @@ private:
     bool _scrolling;
 
     //! \brief The timer used for controlling option scrolling
-    int32 _scroll_time;
+    int32_t _scroll_time;
 
     //! \brief Indicates the scrolling direction; 1 for down or -1 for up
-    int32 _scroll_direction;
+    int32_t _scroll_direction;
 
     //! \brief Tells whether the scrolling should be animated.
     bool _scrolling_animated;
@@ -615,7 +615,7 @@ private:
     *** \param horizontal true if moving horizontally, false if moving vertically
     *** \return False if the selection does not change
     **/
-    bool _ChangeSelection(int32 offset, bool horizontal);
+    bool _ChangeSelection(int32_t offset, bool horizontal);
 
     /** \brief Sets draw flags and determines the x and y coordinates for rendering an option inside a cell
     *** \param xalign The x alignement for the cell contents
@@ -626,7 +626,7 @@ private:
     ***
     *** This function also moves the draw cursor to the position specified by the alignment and the cell boundaries.
     **/
-    void _SetupAlignment(int32 xalign, int32 yalign, const private_gui::OptionCellBounds &bounds, float &x, float &y);
+    void _SetupAlignment(int32_t xalign, int32_t yalign, const private_gui::OptionCellBounds &bounds, float &x, float &y);
 
     /** \brief Calling this method will re-examine which scroll arrow boolean members need to be set
     *** This should be called whenever the data or cell columns/rows changed, whenever the selection in changed,

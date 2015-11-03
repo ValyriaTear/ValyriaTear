@@ -66,16 +66,16 @@ namespace private_global
 *** - Key Items:    70001-80000 // Old, now any kind of item can be a key item.
 **/
 //@{
-const uint32 OBJECT_ID_INVALID   = 0;
-const uint32 MAX_ITEM_ID         = 10000;
-const uint32 MAX_WEAPON_ID       = 20000;
-const uint32 MAX_HEAD_ARMOR_ID   = 30000;
-const uint32 MAX_TORSO_ARMOR_ID  = 40000;
-const uint32 MAX_ARM_ARMOR_ID    = 50000;
-const uint32 MAX_LEG_ARMOR_ID    = 60000;
-const uint32 MAX_SPIRIT_ID       = 70000;
-const uint32 MAX_KEY_ITEM_ID     = 80000;
-const uint32 OBJECT_ID_EXCEEDS   = 80001;
+const uint32_t OBJECT_ID_INVALID   = 0;
+const uint32_t MAX_ITEM_ID         = 10000;
+const uint32_t MAX_WEAPON_ID       = 20000;
+const uint32_t MAX_HEAD_ARMOR_ID   = 30000;
+const uint32_t MAX_TORSO_ARMOR_ID  = 40000;
+const uint32_t MAX_ARM_ARMOR_ID    = 50000;
+const uint32_t MAX_LEG_ARMOR_ID    = 60000;
+const uint32_t MAX_SPIRIT_ID       = 70000;
+const uint32_t MAX_KEY_ITEM_ID     = 80000;
+const uint32_t OBJECT_ID_EXCEEDS   = 80001;
 //@}
 
 /** \name Skill ID Range Constants
@@ -87,10 +87,10 @@ const uint32 OBJECT_ID_EXCEEDS   = 80001;
 *** - Bare-hands: 30001-40000
 **/
 //@{
-const uint32 MAX_WEAPON_SKILL_ID     = 10000;
-const uint32 MAX_MAGIC_SKILL_ID      = 20000;
-const uint32 MAX_SPECIAL_SKILL_ID    = 30000;
-const uint32 MAX_BARE_HANDS_SKILL_ID = 40000;
+const uint32_t MAX_WEAPON_SKILL_ID     = 10000;
+const uint32_t MAX_MAGIC_SKILL_ID      = 20000;
+const uint32_t MAX_SPECIAL_SKILL_ID    = 30000;
+const uint32_t MAX_BARE_HANDS_SKILL_ID = 40000;
 //@}
 
 } // namespace private_global
@@ -143,23 +143,23 @@ enum GLOBAL_USE {
 *** \note The IDs for each character are defined in the data/global.lua file.
 **/
 //@{
-const uint32 GLOBAL_CHARACTER_INVALID     = 0x00000000;
-const uint32 GLOBAL_CHARACTER_ALL         = 0xFFFFFFFF;
+const uint32_t GLOBAL_CHARACTER_INVALID     = 0x00000000;
+const uint32_t GLOBAL_CHARACTER_ALL         = 0xFFFFFFFF;
 //@}
 
 /** \name Character Attack Point Positions
 *** \brief Integers that represent the index location of the four attack points and armor types for characters
 **/
 //@{
-const uint32 GLOBAL_POSITION_HEAD     = 0;
-const uint32 GLOBAL_POSITION_TORSO    = 1;
-const uint32 GLOBAL_POSITION_ARMS     = 2;
-const uint32 GLOBAL_POSITION_LEGS     = 3;
-const uint32 GLOBAL_POSITION_INVALID  = 4;
+const uint32_t GLOBAL_POSITION_HEAD     = 0;
+const uint32_t GLOBAL_POSITION_TORSO    = 1;
+const uint32_t GLOBAL_POSITION_ARMS     = 2;
+const uint32_t GLOBAL_POSITION_LEGS     = 3;
+const uint32_t GLOBAL_POSITION_INVALID  = 4;
 //@}
 
 //! \brief The maximum number of characters that can be in the active party
-const uint32 GLOBAL_MAX_PARTY_SIZE = 4;
+const uint32_t GLOBAL_MAX_PARTY_SIZE = 4;
 
 /** \name GlobalObject Types
 *** \brief Used for identification of different game object types
@@ -177,7 +177,7 @@ enum GLOBAL_OBJECT {
 };
 
 //! \brief translate the object type into the object position.
-uint32 GetEquipmentPositionFromObjectType(GLOBAL_OBJECT object_type);
+uint32_t GetEquipmentPositionFromObjectType(GLOBAL_OBJECT object_type);
 
 /** \name Elemental Effect Types
 *** \brief Used to identify the eight different types of elementals
@@ -261,7 +261,7 @@ public:
         _elapsed_time(0)
     {}
 
-    ActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity, uint32 effect_time):
+    ActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity, uint32_t effect_time):
         _status_effect(status_effect),
         _intensity(intensity),
         _effect_time(effect_time),
@@ -269,7 +269,7 @@ public:
     {}
 
     ActiveStatusEffect(GLOBAL_STATUS status_effect, GLOBAL_INTENSITY intensity,
-                       uint32 effect_time, uint32 elapsed_time):
+                       uint32_t effect_time, uint32_t elapsed_time):
         _status_effect(status_effect),
         _intensity(intensity),
         _effect_time(effect_time),
@@ -284,11 +284,11 @@ public:
         _intensity = intensity;
     }
 
-    void SetEffectTime(uint32 effect_time) {
+    void SetEffectTime(uint32_t effect_time) {
         _effect_time = effect_time;
     }
 
-    void SetElapsedTime(uint32 elapsed_time) {
+    void SetElapsedTime(uint32_t elapsed_time) {
         _elapsed_time = elapsed_time;
     }
 
@@ -300,11 +300,11 @@ public:
         return _intensity;
     }
 
-    uint32 GetEffectTime() const {
+    uint32_t GetEffectTime() const {
         return _effect_time;
     }
 
-    uint32 GetElapsedTime() const {
+    uint32_t GetElapsedTime() const {
         return _elapsed_time;
     }
 
@@ -332,11 +332,11 @@ private:
     //! in milliseconds.
     //! Once the time has passed, the intensity goes one step toward the neutral
     //! intensity and its total time of appliance is halved.
-    uint32 _effect_time;
+    uint32_t _effect_time;
 
     //! The active status effect current intensity time of appliance
     //! already elapsed in milliseconds.
-    uint32 _elapsed_time;
+    uint32_t _elapsed_time;
 };
 
 /** \name Skill Types
@@ -404,7 +404,7 @@ bool IsTargetFoe(GLOBAL_TARGET target);
 *** This function does not actually create a GlobalObject (it can't since its an abstract class).
 *** It creates one of the derived object class types depending on the value of the id argument.
 **/
-GlobalObject *GlobalCreateNewObject(uint32 id, uint32 count = 1);
+GlobalObject *GlobalCreateNewObject(uint32_t id, uint32_t count = 1);
 
 /** \brief Increments a GLOBAL_INTENSITY enumerated value
 *** \param intensity A reference to the intensity data to modify
@@ -412,7 +412,7 @@ GlobalObject *GlobalCreateNewObject(uint32 id, uint32 count = 1);
 *** \return True if the intensity data was modified or false if it was left unchanged
 *** \note The intensity will not be allowed to increase beyond the valid intensity range
 **/
-bool IncrementIntensity(GLOBAL_INTENSITY &intensity, uint8 amount = 1);
+bool IncrementIntensity(GLOBAL_INTENSITY &intensity, uint8_t amount = 1);
 
 /** \brief Decrements a GLOBAL_INTENSITY enumerated value
 *** \param intensity A reference to the intensity data to modify
@@ -420,7 +420,7 @@ bool IncrementIntensity(GLOBAL_INTENSITY &intensity, uint8 amount = 1);
 *** \return True if the intensity data was modified or false if it was left unchanged
 *** \note The intensity will not be allowed to decrease beyond the valid intensity range
 **/
-bool DecrementIntensity(GLOBAL_INTENSITY &intensity, uint8 amount = 1);
+bool DecrementIntensity(GLOBAL_INTENSITY &intensity, uint8_t amount = 1);
 
 //! Gives the opposite effect intensity if there is one of GLOBAL_INTENSITY_INVALID if none.
 GLOBAL_INTENSITY GetOppositeIntensity(GLOBAL_INTENSITY intensity);

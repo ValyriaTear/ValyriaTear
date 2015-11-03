@@ -143,7 +143,7 @@ public:
     *** \param ... Additional draw flags. The list must terminate with a 0.
     *** \note Refer to the VIDEO_DRAW_FLAGS enum for a list of valid flags that this function will accept
     **/
-    void SetDrawFlags(int32 first_flag, ...);
+    void SetDrawFlags(int32_t first_flag, ...);
 
     /** \brief Clears the contents of the screen
     *** This method should be called at the beginning of every frame, before any draw operations
@@ -182,26 +182,26 @@ public:
     // ---------- Screen size and resolution methods
 
     //! \brief Returns the width of the screen, in pixels
-    int32 GetScreenWidth() const {
+    int32_t GetScreenWidth() const {
         return _screen_width;
     }
 
     //! \brief Returns the height of the screen, in pixels
-    int32 GetScreenHeight() const {
+    int32_t GetScreenHeight() const {
         return _screen_height;
     }
 
     //! \brief Returns the viewport current offsets/width/height
-    int32 GetViewportXOffset() const {
+    int32_t GetViewportXOffset() const {
         return _viewport_x_offset;
     }
-    int32 GetViewportYOffset() const {
+    int32_t GetViewportYOffset() const {
         return _viewport_y_offset;
     }
-    int32 GetViewportWidth() const {
+    int32_t GetViewportWidth() const {
         return _viewport_width;
     }
-    int32 GetViewportHeight() const {
+    int32_t GetViewportHeight() const {
         return _viewport_height;
     }
 
@@ -220,7 +220,7 @@ public:
     ***
     *** \note  you must call ApplySettings() to actually apply the change
     **/
-    void SetResolution(uint32 width, uint32 height) {
+    void SetResolution(uint32_t width, uint32_t height) {
         _temp_width = width;
         _temp_height = height;
     }
@@ -243,13 +243,13 @@ public:
 
     //! \brief Sets VSync mode support.
     //! \param mode 0 or > 2: None, 1: VSync, 2: Swap Tearing
-    void SetVSyncMode(uint32 mode) {
+    void SetVSyncMode(uint32_t mode) {
         _vsync_mode = mode;
     }
 
     //! \brief Gets current VSync mode support.
     //! \return 0 or > 2: None, 1: VSync, 2: Swap Tearing
-    inline uint32 GetVSyncMode() const {
+    inline uint32_t GetVSyncMode() const {
         return _vsync_mode;
     }
 
@@ -499,7 +499,7 @@ public:
     *** \param color The color to fade the screen to
     *** \param time The fading process will take this number of milliseconds
     **/
-    void FadeScreen(const Color &color, uint32 time) {
+    void FadeScreen(const Color &color, uint32_t time) {
         _screen_fader.BeginFade(color, time);
     }
 
@@ -509,7 +509,7 @@ public:
     }
 
     //! \brief A shortcut function used to make a fade in more explicitely.
-    void FadeIn(uint32 time) {
+    void FadeIn(uint32_t time) {
         _screen_fader.FadeIn(time);
     }
 
@@ -622,11 +622,11 @@ private:
     // and the MapTransition MapEvent.
     friend class vt_mode_manager::ModeEngine;
     friend class vt_map::private_map::MapTransitionEvent;
-    void _StartTransitionFadeOut(const Color &final, uint32 time) {
+    void _StartTransitionFadeOut(const Color &final, uint32_t time) {
         _screen_fader.StartTransitionFadeOut(final, time);
     }
 
-    void _TransitionalFadeIn(uint32 time) {
+    void _TransitionalFadeIn(uint32_t time) {
         _screen_fader.TransitionalFadeIn(time);
     }
 
@@ -639,22 +639,22 @@ private:
     bool _fps_display;
 
     //! \brief A circular array of FPS samples used for calculating average FPS
-    uint32 _fps_samples[FPS_SAMPLES];
+    uint32_t _fps_samples[FPS_SAMPLES];
 
     /** \brief Keeps track of the sum of FPS values over the last VIDEO_FPS_SAMPLES frames
     *** This is used to simplify the calculation of average frames per second.
     **/
-    uint32 _fps_sum;
+    uint32_t _fps_sum;
 
     //! \brief An index variable to keep track of the start of the circular fps_samples array.
-    uint32 _current_sample;
+    uint32_t _current_sample;
 
     /** \brief The number of FPS samples currently recorded.
     *** This value should always be VIDEO_FPS_SAMPLES, unless the game has just started, in which
     *** case it could be anywhere from 0 to VIDEO_FPS_SAMPLES depending on how many frames have
     *** been displayed.
     **/
-    uint32 _number_samples;
+    uint32_t _number_samples;
 
     //! The FPS text
     TextImage* _FPS_textimage;
@@ -678,14 +678,14 @@ private:
 
     //! \brief The x/y offsets, width and height of the current viewport (the drawn part), in pixels
     //! \note the viewport is different from the screen size when in non-4:3 modes.
-    int32 _viewport_x_offset;
-    int32 _viewport_y_offset;
-    int32 _viewport_width;
-    int32 _viewport_height;
+    int32_t _viewport_x_offset;
+    int32_t _viewport_y_offset;
+    int32_t _viewport_width;
+    int32_t _viewport_height;
 
     //! \brief The width and height of the current screen (window), in pixels
-    int32 _screen_width;
-    int32 _screen_height;
+    int32_t _screen_width;
+    int32_t _screen_height;
 
     //! \brief True if the game is currently running fullscreen
     bool _fullscreen;
@@ -721,13 +721,13 @@ private:
     bool _temp_fullscreen;
 
     //! holds the desired screen width. Not actually applied until ApplySettings() is called
-    int32 _temp_width;
+    int32_t _temp_width;
 
     //! holds the desired screen height. Not actually applied until ApplySettings() is called
-    int32 _temp_height;
+    int32_t _temp_height;
 
     //! \brief Stores the current vsync mode.
-    uint32 _vsync_mode;
+    uint32_t _vsync_mode;
 
     //! \brief The game main loop update mode.
     //! \note update_mode true for performance, false for the CPU-gentle loop.
@@ -767,13 +767,13 @@ private:
     * \param xalign the draw flag
     * \return the numerical offset
     */
-    int32 _ConvertXAlign(int32 xalign);
+    int32_t _ConvertXAlign(int32_t xalign);
 
     /** \brief converts VIDEO_DRAW_TOP or VIDEO_DRAW_BOTTOM flags to a numerical offset
     * \param yalign the draw flag
     * \return the numerical offset
     */
-    int32 _ConvertYAlign(int32 yalign);
+    int32_t _ConvertYAlign(int32_t yalign);
 
     //! \brief Updates the viewport metrics according to the current screen width/height.
     //! \note it also centers the viewport when the resolution isn't a 4:3 one.

@@ -34,14 +34,6 @@
 ***   - Big endian      if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
 ***   - Little endian   if (SDL_BYTEORDER == SDL_LITTLE_ENDIAN)
 ***
-*** \note Use the following integer types throughout the entire code.
-***   - int32
-***   - uint32
-***   - int16
-***   - uint16
-***   - int8
-***   - uint8
-***
 *** \note Use the following string types througout the entire code.
 ***   - ustring   Unicode strings, meant only for text to be rendered on the screen.
 ***   - string    Standard C++ strings, used for all text that is not to be rendered to the screen.
@@ -215,22 +207,6 @@ extern "C" {
 #define APPFULLNAME "Valyria Tear"
 #define APPSHORTNAME "valyriatear"
 #define APPUPCASEDIRNAME "ValyriaTear"
-
-/** \name Integer Types
-*** \brief These are the integer types used throughout the source code.
-*** These types are created by redefining the ANSI C types.
-*** Use of the standard int, long, etc. is forbidden in the source code! Don't attempt to use any
-*** 64-bit types either, since a large population of PCs in our target audience are not a 64-bit
-*** architecture.
-**/
-//@{
-typedef int32_t   int32;
-typedef uint32_t  uint32;
-typedef int16_t   int16;
-typedef uint16_t  uint16;
-typedef int8_t    int8;
-typedef uint8_t   uint8;
-//@}
 
 //! Contains utility code used across the entire source code
 namespace vt_utils

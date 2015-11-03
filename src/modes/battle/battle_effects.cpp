@@ -54,7 +54,7 @@ PassiveBattleStatusEffect::PassiveBattleStatusEffect(GLOBAL_STATUS type,
         return;
 
     // Make sure that a table entry exists for this status element
-    uint32 table_id = static_cast<uint32>(type);
+    uint32_t table_id = static_cast<uint32_t>(type);
     ReadScriptDescriptor &script_file = GlobalManager->GetStatusEffectsScript();
     if(!script_file.OpenTable(table_id)) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "Lua definition file contained no entry for status effect: " << table_id << std::endl;
@@ -89,7 +89,7 @@ ActiveBattleStatusEffect::ActiveBattleStatusEffect():
     _intensity_changed(false)
 {}
 
-ActiveBattleStatusEffect::ActiveBattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity, uint32 duration) :
+ActiveBattleStatusEffect::ActiveBattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity, uint32_t duration) :
     GlobalStatusEffect(type, intensity),
     _timer(0),
     _icon_image(nullptr),
@@ -100,7 +100,7 @@ ActiveBattleStatusEffect::ActiveBattleStatusEffect(GLOBAL_STATUS type, GLOBAL_IN
         return;
 
     // Make sure that a table entry exists for this status element
-    uint32 table_id = static_cast<uint32>(type);
+    uint32_t table_id = static_cast<uint32_t>(type);
     ReadScriptDescriptor &script_file = GlobalManager->GetStatusEffectsScript();
     if(!script_file.OpenTable(table_id)) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "Lua definition file contained no entry for status effect: " << table_id << std::endl;
@@ -159,14 +159,14 @@ void ActiveBattleStatusEffect::SetIntensity(vt_global::GLOBAL_INTENSITY intensit
     _ProcessIntensityChange(no_intensity_change);
 }
 
-bool ActiveBattleStatusEffect::IncrementIntensity(uint8 amount)
+bool ActiveBattleStatusEffect::IncrementIntensity(uint8_t amount)
 {
     bool change = GlobalStatusEffect::IncrementIntensity(amount);
     _ProcessIntensityChange(!change);
     return change;
 }
 
-bool ActiveBattleStatusEffect::DecrementIntensity(uint8 amount)
+bool ActiveBattleStatusEffect::DecrementIntensity(uint8_t amount)
 {
     bool change = GlobalStatusEffect::DecrementIntensity(amount);
     _ProcessIntensityChange(!change);
@@ -220,7 +220,7 @@ void BattleStatusEffectsSupervisor::SetActiveStatusEffects(GlobalCharacter* char
 
 void BattleStatusEffectsSupervisor::_UpdatePassive()
 {
-    for(uint32 i = 0; i < _equipment_status_effects.size(); ++i) {
+    for(uint32_t i = 0; i < _equipment_status_effects.size(); ++i) {
         PassiveBattleStatusEffect& effect = _equipment_status_effects.at(i);
 
         if (!effect.GetUpdatePassiveFunction().is_valid())
@@ -231,7 +231,7 @@ void BattleStatusEffectsSupervisor::_UpdatePassive()
         bool use_update_timer = effect.IsUsingUpdateTimer();
         if (use_update_timer) {
             BattleMode *BM = BattleMode::CurrentInstance();
-            uint32 update_time = SystemManager->GetUpdateTime() * BM->GetBattleTypeTimeFactor();
+            uint32_t update_time = SystemManager->GetUpdateTime() * BM->GetBattleTypeTimeFactor();
             update_timer->Update(update_time);
         }
 
@@ -265,7 +265,7 @@ void BattleStatusEffectsSupervisor::Update()
         return;
 
     // Update the timers and state for all active status effects
-    for(uint32 i = 0; i < _active_status_effects.size(); ++i) {
+    for(uint32_t i = 0; i < _active_status_effects.size(); ++i) {
         ActiveBattleStatusEffect& effect = _active_status_effects[i];
         if(!effect.IsActive())
             continue;
@@ -276,7 +276,7 @@ void BattleStatusEffectsSupervisor::Update()
         vt_system::SystemTimer* update_timer = effect.GetUpdateTimer();
 
         // Update the effect time while taking in account the battle speed
-        uint32 update_time = SystemManager->GetUpdateTime() * BM->GetBattleTypeTimeFactor();
+        uint32_t update_time = SystemManager->GetUpdateTime() * BM->GetBattleTypeTimeFactor();
         effect_timer->Update(update_time);
 
         // Update the update timer if it is running
@@ -295,7 +295,7 @@ void BattleStatusEffectsSupervisor::Update()
             // As the effect is fading, we divide the effect duration time per 2, with at least 1 second of duration.
             // This is done to give more a fading out style onto the effect and not to advantage/disadvantage the target
             // too much.
-            uint32 duration = effect_timer->GetDuration() / 2;
+            uint32_t duration = effect_timer->GetDuration() / 2;
             effect_timer->SetDuration(duration < 1000 ? 1000 : duration);
 
             if (effect.GetIntensity() > GLOBAL_INTENSITY_NEUTRAL)
@@ -371,13 +371,13 @@ void BattleStatusEffectsSupervisor::DrawVertical()
 
 void BattleStatusEffectsSupervisor::RemoveAllActiveStatusEffects()
 {
-    for(uint32 i = 0; i < _active_status_effects.size(); ++i) {
+    for(uint32_t i = 0; i < _active_status_effects.size(); ++i) {
         RemoveActiveStatusEffect((GLOBAL_STATUS)i);
     }
 }
 
 bool BattleStatusEffectsSupervisor::ChangeActiveStatusEffect(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity,
-                                                 uint32 duration, uint32 elapsed_time)
+                                                 uint32_t duration, uint32_t elapsed_time)
 {
     if((status <= GLOBAL_STATUS_INVALID) || (status >= GLOBAL_STATUS_TOTAL)) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid status argument: " << status << std::endl;
@@ -396,7 +396,7 @@ bool BattleStatusEffectsSupervisor::ChangeActiveStatusEffect(GLOBAL_STATUS statu
     }
 
     // Holds the unsigned amount of change in intensity in either a positive or negative degree
-    uint8 intensity_change = abs(static_cast<int8>(intensity));
+    uint8_t intensity_change = abs(static_cast<int8_t>(intensity));
 
     // Determine if this status (or its opposite) is already active on the actor
     // Holds a reference to the active status
@@ -442,7 +442,7 @@ void BattleStatusEffectsSupervisor::AddPassiveStatusEffect(vt_global::GLOBAL_STA
 }
 
 void BattleStatusEffectsSupervisor::_CreateNewStatus(GLOBAL_STATUS status, GLOBAL_INTENSITY intensity,
-                                         uint32 duration, uint32 elapsed_time)
+                                         uint32_t duration, uint32_t elapsed_time)
 {
     if((status <= GLOBAL_STATUS_INVALID) || (status >= GLOBAL_STATUS_TOTAL)) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid status argument: " << status << std::endl;

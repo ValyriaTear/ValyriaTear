@@ -70,7 +70,7 @@ Interpolator::Interpolator() :
 
 
 
-void Interpolator::Start(float a, float b, uint32 milliseconds)
+void Interpolator::Start(float a, float b, uint32_t milliseconds)
 {
     if(_ValidMethod() == false) {
         IF_PRINT_WARNING(MODE_MANAGER_DEBUG)
@@ -107,7 +107,7 @@ void Interpolator::SetMethod(InterpolationMethod method)
 
 
 
-void Interpolator::Update(uint32 frame_time)
+void Interpolator::Update(uint32_t frame_time)
 {
     if(_ValidMethod() == false) {
         IF_PRINT_WARNING(MODE_MANAGER_DEBUG)
@@ -165,6 +165,6 @@ void Interpolator::Update(uint32 frame_time)
     };
 
     _current_value = vt_utils::Lerp(progress, _a, _b);
-} // void Interpolator::Update(uint32 frame_time)
+} // void Interpolator::Update(uint32_t frame_time)
 
 }  // namespace vt_video

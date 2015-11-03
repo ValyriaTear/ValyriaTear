@@ -93,20 +93,20 @@ struct BattleEnemyInfo {
         pos_y(0.0f)
     {}
 
-    BattleEnemyInfo(uint32 _id):
+    BattleEnemyInfo(uint32_t _id):
         id(_id),
         pos_x(0.0f),
         pos_y(0.0f)
     {}
 
-    BattleEnemyInfo(uint32 _id, float x, float y):
+    BattleEnemyInfo(uint32_t _id, float x, float y):
         id(_id),
         pos_x(x),
         pos_y(y)
     {}
 
     //! \brief the battle enemy id
-    uint32 id;
+    uint32_t id;
     //! \brief The x enemy position on the battle field, or 0 if default one.
     float pos_x;
     //! \brief The y enemy position on the battle field, or 0 if default one.
@@ -150,7 +150,7 @@ public:
     *** \param index The index of the button to retrieve
     *** \return A pointer to the appropriate button image, or nullptr if the index argument was out of bounds
     **/
-    vt_video::StillImage *GetCharacterActionButton(uint32 index);
+    vt_video::StillImage *GetCharacterActionButton(uint32_t index);
 
     /** \brief Retrieves the appropriate icon image given a valid target type
     *** \param target_type The enumerated value that represents the type of target
@@ -315,8 +315,8 @@ public:
     *** defined somewhere else, it is better to pass it in to the alternative definition of this
     *** function.
     **/
-    void AddEnemy(uint32 new_enemy_id, float position_x, float position_y);
-    void AddEnemy(uint32 new_enemy_id) {
+    void AddEnemy(uint32_t new_enemy_id, float position_x, float position_y);
+    void AddEnemy(uint32_t new_enemy_id) {
         AddEnemy(new_enemy_id, 0.0f, 0.0f);
     }
 
@@ -377,12 +377,12 @@ public:
     }
 
     //! \brief Returns the number of character actors in the battle, both living and dead
-    uint32 GetNumberOfCharacters() const {
+    uint32_t GetNumberOfCharacters() const {
         return _character_actors.size();
     }
 
     //! \brief Returns the number of enemy actors in the battle, both living and dead
-    uint32 GetNumberOfEnemies() const {
+    uint32_t GetNumberOfEnemies() const {
         return _enemy_actors.size();
     }
 
@@ -436,7 +436,7 @@ public:
         return _character_actors;
     }
 
-    private_battle::BattleCharacter* GetCharacterActor(uint32 index) {
+    private_battle::BattleCharacter* GetCharacterActor(uint32_t index) {
         if (index >= _character_actors.size())
             return nullptr;
         return _character_actors[index];
@@ -446,7 +446,7 @@ public:
         return _enemy_actors;
     }
 
-    private_battle::BattleEnemy* GetEnemyActor(uint32 index) {
+    private_battle::BattleEnemy* GetEnemyActor(uint32_t index) {
         if (index >= _enemy_actors.size())
             return nullptr;
         return _enemy_actors[index];
@@ -480,7 +480,7 @@ public:
     //! \param The effect filename is the particle effect definition file.
     //! \param x the x coordinates of the particle effect in pixels.
     //! \param y the y coordinates of the particle effect in pixels.
-    void TriggerBattleParticleEffect(const std::string& effect_filename, uint32 x, uint32 y);
+    void TriggerBattleParticleEffect(const std::string& effect_filename, uint32_t x, uint32_t y);
 
     //! \brief Creates a battle animation object.
     //! Those objects are also drawn sorted by their Y coordinate value.
@@ -599,7 +599,7 @@ private:
     *** The maximum number of swaps ever allowed is four, thus the value of this class member will always have the range [0, 4].
     *** This member is also used to determine how many swap cards to draw on the battle screen.
     **/
-    uint8 _current_number_swaps;
+    uint8_t _current_number_swaps;
 
     /** \brief Tells whether the last enemy is dying.
     *** In that case, the battle character action must be canceled, and the command made unavailable
@@ -623,7 +623,7 @@ private:
     vt_battle::private_battle::BATTLE_TYPE _battle_type;
 
     //! \brief Setup at battle start, and used to factorize the battle actors speed in battle.
-    uint32 _highest_agility;
+    uint32_t _highest_agility;
 
     //! \brief the battle type time factor, speeding the battle actors depending on the battle type.
     float _battle_type_time_factor;
@@ -661,18 +661,18 @@ private:
     void _DetermineActorLocations();
 
     //! \brief Returns the number of enemies that are still alive in the battle
-    uint32 _NumberEnemiesAlive() const;
+    uint32_t _NumberEnemiesAlive() const;
 
     /** \brief Returns the number of enemies that are still capable to fight in the battle.
     *** Which isn't the number of alive enemies, since that function can tell whether an enemy
     *** is currently dying.
     **/
-    uint32 _NumberValidEnemies() const;
+    uint32_t _NumberValidEnemies() const;
 
     /** \brief Returns the number of characters that are still alive in the battle
     *** \note This function only counts the characters on the screen, not characters in the party reserves
     **/
-    uint32 _NumberCharactersAlive() const;
+    uint32_t _NumberCharactersAlive() const;
 
 
     //! \name Draw assistant functions

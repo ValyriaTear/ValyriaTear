@@ -84,13 +84,13 @@ private:
     ShopObject *_selected_object;
 
     //! \brief A bit vector that represents the types of merchandise that the player can sell.
-    uint8 _sell_deal_types;
+    uint8_t _sell_deal_types;
 
     //! \brief Retains the number of object categories available to sell
-    uint32 _number_categories;
+    uint32_t _number_categories;
 
     //! \brief Serves as an index to the following containers: _object_data, _category_names, _category_icons, and _list_displays
-    uint32 _current_category;
+    uint32_t _current_category;
 
     //! \brief Header text for the category field
     vt_video::TextImage _category_header;
@@ -186,7 +186,7 @@ public:
     *** the player only has 3 instances of the selected object in inventory, the function will increase
     *** the quantity by 3 (not 8) and return true.
     **/
-    bool ChangeSellQuantity(bool more, uint32 amount = 1);
+    bool ChangeSellQuantity(bool more, uint32_t amount = 1);
 }; // class SellListDisplay : public ObjectListDisplay
 
 } // namespace private_shop

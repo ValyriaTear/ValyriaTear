@@ -78,8 +78,8 @@ private:
     float _current_position_y;
 
     //! \brief the current box length for this collision map
-    uint32 _box_x_length;
-    uint32 _box_y_length;
+    uint32_t _box_x_length;
+    uint32_t _box_y_length;
 
     //! \brief map offset information
     float _x_offset, _y_offset;
@@ -87,8 +87,8 @@ private:
     float _x_half_len, _y_half_len;
 
     //! \brief grid height and width
-    uint32 _grid_width;
-    uint32 _grid_height;
+    uint32_t _grid_width;
+    uint32_t _grid_height;
 
     //! \brief opacities for when the character is under the map location
     const vt_video::Color* _current_opacity;

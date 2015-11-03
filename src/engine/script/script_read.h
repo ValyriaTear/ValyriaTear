@@ -37,9 +37,9 @@ namespace private_script
 *** (which as of Lua 5.0, go from -1 to 8).
 **/
 //@{
-const int32 INTEGER_TYPE    = 0x12345678;
-const int32 UINTEGER_TYPE   = 0x87654321;
-const int32 FLOAT_TYPE      = 0x12344321;
+const int32_t INTEGER_TYPE    = 0x12345678;
+const int32_t UINTEGER_TYPE   = 0x87654321;
+const int32_t FLOAT_TYPE      = 0x12344321;
 //@}
 
 } // namespace private_script
@@ -108,7 +108,7 @@ public:
         return _DoesDataExist(key, LUA_TNIL);
     }
 
-    bool DoesVariableExist(int32 key) {
+    bool DoesVariableExist(int32_t key) {
         return _DoesDataExist(key, LUA_TNIL);
     }
 
@@ -116,7 +116,7 @@ public:
         return _DoesDataExist(key, LUA_TNUMBER);
     }
 
-    bool DoesNumberExist(int32 key) {
+    bool DoesNumberExist(int32_t key) {
         return _DoesDataExist(key, LUA_TNUMBER);
     }
 
@@ -124,7 +124,7 @@ public:
         return _DoesDataExist(key, LUA_TBOOLEAN);
     }
 
-    bool DoesBoolExist(int32 key) {
+    bool DoesBoolExist(int32_t key) {
         return _DoesDataExist(key, LUA_TBOOLEAN);
     }
 
@@ -132,7 +132,7 @@ public:
         return _DoesDataExist(key, private_script::INTEGER_TYPE);
     }
 
-    bool DoesIntExist(int32 key) {
+    bool DoesIntExist(int32_t key) {
         return _DoesDataExist(key, private_script::INTEGER_TYPE);
     }
 
@@ -140,7 +140,7 @@ public:
         return _DoesDataExist(key, private_script::UINTEGER_TYPE);
     }
 
-    bool DoesUIntExist(int32 key) {
+    bool DoesUIntExist(int32_t key) {
         return _DoesDataExist(key, private_script::UINTEGER_TYPE);
     }
 
@@ -148,7 +148,7 @@ public:
         return _DoesDataExist(key, private_script::FLOAT_TYPE);
     }
 
-    bool DoesFloatExist(int32 key) {
+    bool DoesFloatExist(int32_t key) {
         return _DoesDataExist(key, private_script::FLOAT_TYPE);
     }
 
@@ -156,7 +156,7 @@ public:
         return _DoesDataExist(key, LUA_TSTRING);
     }
 
-    bool DoesStringExist(int32 key) {
+    bool DoesStringExist(int32_t key) {
         return _DoesDataExist(key, LUA_TSTRING);
     }
 
@@ -164,7 +164,7 @@ public:
         return _DoesDataExist(key, LUA_TFUNCTION);
     }
 
-    bool DoesFunctionExist(int32 key) {
+    bool DoesFunctionExist(int32_t key) {
         return _DoesDataExist(key, LUA_TFUNCTION);
     }
 
@@ -172,7 +172,7 @@ public:
         return _DoesDataExist(key, LUA_TTABLE);
     }
 
-    bool DoesTableExist(int32 key) {
+    bool DoesTableExist(int32_t key) {
         return _DoesDataExist(key, LUA_TTABLE);
     }
     //@}
@@ -190,31 +190,31 @@ public:
         return _ReadData<bool>(key, false);
     }
 
-    bool ReadBool(int32 key) {
+    bool ReadBool(int32_t key) {
         return _ReadData<bool>(key, false);
     }
 
-    int32 ReadInt(const std::string &key) {
-        return _ReadData<int32>(key, 0);
+    int32_t ReadInt(const std::string &key) {
+        return _ReadData<int32_t>(key, 0);
     }
 
-    int32 ReadInt(int32 key) {
-        return _ReadData<uint32>(key, 0);
+    int32_t ReadInt(int32_t key) {
+        return _ReadData<uint32_t>(key, 0);
     }
 
-    uint32 ReadUInt(const std::string &key) {
-        return _ReadData<int32>(key, 0);
+    uint32_t ReadUInt(const std::string &key) {
+        return _ReadData<int32_t>(key, 0);
     }
 
-    uint32 ReadUInt(int32 key) {
-        return _ReadData<uint32>(key, 0);
+    uint32_t ReadUInt(int32_t key) {
+        return _ReadData<uint32_t>(key, 0);
     }
 
     float ReadFloat(const std::string &key) {
         return _ReadData<float>(key, 0.0f);
     }
 
-    float ReadFloat(int32 key) {
+    float ReadFloat(int32_t key) {
         return _ReadData<float>(key, 0.0f);
     }
 
@@ -222,7 +222,7 @@ public:
         return _ReadData<std::string>(key, "");
     }
 
-    std::string ReadString(int32 key) {
+    std::string ReadString(int32_t key) {
         return _ReadData<std::string>(key, "");
     }
 
@@ -230,7 +230,7 @@ public:
         return _ReadData<vt_utils::ustring>(key, vt_utils::MakeUnicodeString(""));
     }
 
-    vt_utils::ustring ReadUString(int32 key) {
+    vt_utils::ustring ReadUString(int32_t key) {
         return _ReadData<vt_utils::ustring>(key, vt_utils::MakeUnicodeString(""));
     }
     //@}
@@ -252,31 +252,31 @@ public:
         _ReadDataVector<bool>(key, vect);
     }
 
-    void ReadBoolVector(int32 key, std::vector<bool>& vect) {
+    void ReadBoolVector(int32_t key, std::vector<bool>& vect) {
         _ReadDataVector<bool>(key, vect);
     }
 
-    void ReadIntVector(const std::string &key, std::vector<int32>& vect) {
-        _ReadDataVector<int32>(key, vect);
+    void ReadIntVector(const std::string &key, std::vector<int32_t>& vect) {
+        _ReadDataVector<int32_t>(key, vect);
     }
 
-    void ReadIntVector(int32 key, std::vector<int32>& vect) {
-        _ReadDataVector<int32>(key, vect);
+    void ReadIntVector(int32_t key, std::vector<int32_t>& vect) {
+        _ReadDataVector<int32_t>(key, vect);
     }
 
-    void ReadUIntVector(const std::string &key, std::vector<uint32>& vect) {
-        _ReadDataVector<uint32>(key, vect);
+    void ReadUIntVector(const std::string &key, std::vector<uint32_t>& vect) {
+        _ReadDataVector<uint32_t>(key, vect);
     }
 
-    void ReadUIntVector(int32 key, std::vector<uint32>& vect) {
-        _ReadDataVector<uint32>(key, vect);
+    void ReadUIntVector(int32_t key, std::vector<uint32_t>& vect) {
+        _ReadDataVector<uint32_t>(key, vect);
     }
 
     void ReadFloatVector(const std::string &key, std::vector<float>& vect) {
         _ReadDataVector<float>(key, vect);
     }
 
-    void ReadFloatVector(int32 key, std::vector<float>& vect) {
+    void ReadFloatVector(int32_t key, std::vector<float>& vect) {
         _ReadDataVector<float>(key, vect);
     }
 
@@ -284,7 +284,7 @@ public:
         _ReadDataVector<std::string>(key, vect);
     }
 
-    void ReadStringVector(int32 key, std::vector<std::string>& vect) {
+    void ReadStringVector(int32_t key, std::vector<std::string>& vect) {
         _ReadDataVector<std::string>(key, vect);
     }
 
@@ -292,7 +292,7 @@ public:
         _ReadDataVector<vt_utils::ustring>(key, vect);
     }
 
-    void ReadUStringVector(int32 key, std::vector<vt_utils::ustring>& vect) {
+    void ReadUStringVector(int32_t key, std::vector<vt_utils::ustring>& vect) {
         _ReadDataVector<vt_utils::ustring>(key, vect);
     }
     //@}
@@ -307,7 +307,7 @@ public:
     luabind::object ReadFunctionPointer(const std::string &key);
 
     //! \note The calling function may <b>not</b> be contained within the global space for an integer key.
-    luabind::object ReadFunctionPointer(int32 key);
+    luabind::object ReadFunctionPointer(int32_t key);
     //@}
 
     /** \name Table Operation Functions
@@ -325,7 +325,7 @@ public:
     /** \param table_name The integer key of the table to open
     *** \note This function will only work when there is at least one other table already open
     **/
-    bool OpenTable(int32 table_name);
+    bool OpenTable(int32_t table_name);
 
     /** Opens the lua file own tablespace. It's useful to permit having several lua files
     *** with their own function without worrying too much about the global naming collisions.
@@ -352,19 +352,19 @@ public:
     /** \brief Returns the number of elements stored in an un-opened table
     *** \param table_name The name of the (un-open) table to get the size of
     **/
-    uint32 GetTableSize(const std::string &table_name);
+    uint32_t GetTableSize(const std::string &table_name);
 
     /** \brief Returns the number of elements stored in an un-opened table
     *** \param table_name The integer key of the (un-open) table to get the size of
     *** \note This function will only work when there is at least one other table already open
     **/
-    uint32 GetTableSize(int32 table_name);
+    uint32_t GetTableSize(int32_t table_name);
 
     //! \brief Returns the number of elements stored in the most recently opened table
-    uint32 GetTableSize();
+    uint32_t GetTableSize();
 
     //! \brief Emptys all values off the lua stack
-    void ClearStack(uint32 levels_to_clear);
+    void ClearStack(uint32_t levels_to_clear);
 
     /** \brief Fills a vector with all of the keys of a table
     *** \param table_name The name of the table to open and retrieve the keys from
@@ -386,11 +386,11 @@ public:
         _ReadTableKeys(keys);
     }
 
-    void ReadTableKeys(std::vector<int32>& keys) {
+    void ReadTableKeys(std::vector<int32_t>& keys) {
         _ReadTableKeys(keys);
     }
 
-    void ReadTableKeys(std::vector<uint32>& keys) {
+    void ReadTableKeys(std::vector<uint32_t>& keys) {
         _ReadTableKeys(keys);
     }
 
@@ -401,35 +401,35 @@ public:
         }
     }
 
-    void ReadTableKeys(const std::string &table_name, std::vector<int32>& keys) {
+    void ReadTableKeys(const std::string &table_name, std::vector<int32_t>& keys) {
         if (OpenTable(table_name)) {
             _ReadTableKeys(keys);
             CloseTable();
         }
     }
 
-    void ReadTableKeys(const std::string &table_name, std::vector<uint32>& keys) {
+    void ReadTableKeys(const std::string &table_name, std::vector<uint32_t>& keys) {
         if (OpenTable(table_name)) {
             _ReadTableKeys(keys);
             CloseTable();
         }
     }
 
-    void ReadTableKeys(int32 table_name, std::vector<std::string>& keys) {
+    void ReadTableKeys(int32_t table_name, std::vector<std::string>& keys) {
         if (OpenTable(table_name)) {
             _ReadTableKeys(keys);
             CloseTable();
         }
     }
 
-    void ReadTableKeys(int32 table_name, std::vector<int32>& keys) {
+    void ReadTableKeys(int32_t table_name, std::vector<int32_t>& keys) {
         if (OpenTable(table_name)) {
             _ReadTableKeys(keys);
             CloseTable();
         }
     }
 
-    void ReadTableKeys(int32 table_name, std::vector<uint32>& keys) {
+    void ReadTableKeys(int32_t table_name, std::vector<uint32_t>& keys) {
         if (OpenTable(table_name)) {
             _ReadTableKeys(keys);
             CloseTable();
@@ -487,15 +487,15 @@ protected:
     *** \note The integer keys are only valid for variables stored in a table, not for global variables.
     **/
     //@{
-    bool _DoesDataExist(const std::string &key, int32 type);
-    bool _DoesDataExist(int32 key, int32 type);
+    bool _DoesDataExist(const std::string &key, int32_t type);
+    bool _DoesDataExist(int32_t key, int32_t type);
 
     /** \brief A helper function for the _DoesDataExist functions that performs the data type check
     *** \param type An integer type to compare with the type of the object
     *** \param obj_check The Luabind object whose type to compare to the integer type
     *** \return True if the two types are equivalent
     **/
-    bool _CheckDataType(int32 type, luabind::object &obj_check);
+    bool _CheckDataType(int32_t type, luabind::object &obj_check);
     //@}
 
     /** \name Variable Read Templates
@@ -507,7 +507,7 @@ protected:
     **/
     //@{
     template <class T> T _ReadData(const std::string &key, T default_value);
-    template <class T> T _ReadData(int32 key, T default_value);
+    template <class T> T _ReadData(int32_t key, T default_value);
     //@}
 
     /** \name Vector Read Templates
@@ -518,7 +518,7 @@ protected:
     **/
     //@{
     template <class T> void _ReadDataVector(const std::string &key, std::vector<T>& vect);
-    template <class T> void _ReadDataVector(int32 key, std::vector<T>& vect);
+    template <class T> void _ReadDataVector(int32_t key, std::vector<T>& vect);
     //! \brief This template method is a helper function for the other two
     template <class T> void _ReadDataVectorHelper(std::vector<T>& vect);
     //@}
@@ -579,7 +579,7 @@ template <class T> T ReadScriptDescriptor::_ReadData(const std::string &key, T d
 
 
 
-template <class T> T ReadScriptDescriptor::_ReadData(int32 key, T default_value)
+template <class T> T ReadScriptDescriptor::_ReadData(int32_t key, T default_value)
 {
     if(_open_tables.size() == 0) {
         IF_PRINT_WARNING(SCRIPT_DEBUG) << "failed because no tables were open when trying to access the table variable: "
@@ -602,7 +602,7 @@ template <class T> T ReadScriptDescriptor::_ReadData(int32 key, T default_value)
     }
 
     return default_value;
-} // template <class T> T ReadScriptDescriptor::_ReadData(int32 key, T default_value)
+} // template <class T> T ReadScriptDescriptor::_ReadData(int32_t key, T default_value)
 
 
 
@@ -619,7 +619,7 @@ template <class T> void ReadScriptDescriptor::_ReadDataVector(const std::string 
 
 
 
-template <class T> void ReadScriptDescriptor::_ReadDataVector(int32 key, std::vector<T>& vect)
+template <class T> void ReadScriptDescriptor::_ReadDataVector(int32_t key, std::vector<T>& vect)
 {
     if(_open_tables.size() == 0) {
         IF_PRINT_WARNING(SCRIPT_DEBUG) << "failed because no tables were open when trying to access the table variable: "
@@ -634,7 +634,7 @@ template <class T> void ReadScriptDescriptor::_ReadDataVector(int32 key, std::ve
     OpenTable(key);
     _ReadDataVectorHelper(vect);
     CloseTable();
-} // template <class T> void ReadScriptDescriptor::_ReadDataVector(int32 key, std::vector<T> &vect)
+} // template <class T> void ReadScriptDescriptor::_ReadDataVector(int32_t key, std::vector<T> &vect)
 
 
 

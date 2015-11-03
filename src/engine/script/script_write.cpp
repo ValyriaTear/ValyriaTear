@@ -215,7 +215,7 @@ void WriteScriptDescriptor::WriteBool(const std::string &key, bool value)
 
 
 
-void WriteScriptDescriptor::WriteBool(const int32 key, bool value)
+void WriteScriptDescriptor::WriteBool(const int32_t key, bool value)
 {
     if(_open_tables.empty()) {
         _error_messages << "* WriteScriptDescriptor::WriteBool() failed because there were no "
@@ -246,7 +246,7 @@ void WriteScriptDescriptor::WriteString(const std::string &key, const std::strin
 
 
 
-void WriteScriptDescriptor::WriteString(const int32 key, const std::string &value)
+void WriteScriptDescriptor::WriteString(const int32_t key, const std::string &value)
 {
     if(_open_tables.empty()) {
         _error_messages << "* WriteScriptDescriptor::WriteString() failed because there were no "
@@ -267,7 +267,7 @@ void WriteScriptDescriptor::WriteUString(const std::string &key, const std::stri
 
 
 
-void WriteScriptDescriptor::WriteUString(const int32 key, const std::string &value)
+void WriteScriptDescriptor::WriteUString(const int32_t key, const std::string &value)
 {
     WriteString(key, value);
 }
@@ -297,7 +297,7 @@ void WriteScriptDescriptor::WriteBoolVector(const std::string &key, std::vector<
         _outfile << "true";
     else
         _outfile << "false";
-    for(uint32 i = 1; i < vect.size(); i++) {
+    for(uint32_t i = 1; i < vect.size(); i++) {
         if(vect[i])
             _outfile << ", true";
         else
@@ -308,7 +308,7 @@ void WriteScriptDescriptor::WriteBoolVector(const std::string &key, std::vector<
 
 
 
-void WriteScriptDescriptor::WriteBoolVector(const int32 key, std::vector<bool>& vect)
+void WriteScriptDescriptor::WriteBoolVector(const int32_t key, std::vector<bool>& vect)
 {
     if(_open_tables.empty()) {
         _error_messages << "* WriteScriptDescriptor::WriteBoolVector() failed because there were no "
@@ -323,7 +323,7 @@ void WriteScriptDescriptor::WriteBoolVector(const int32 key, std::vector<bool>& 
         _outfile << "true";
     else
         _outfile << "false";
-    for(uint32 i = 1; i < vect.size(); i++) {
+    for(uint32_t i = 1; i < vect.size(); i++) {
         if(vect[i])
             _outfile << ", true";
         else
@@ -351,7 +351,7 @@ void WriteScriptDescriptor::WriteStringVector(const std::string &key, std::vecto
     }
 
     _outfile << "\"" << vect[0] << "\"";
-    for(uint32 i = 1; i < vect.size(); i++) {
+    for(uint32_t i = 1; i < vect.size(); i++) {
         _outfile << ", \"" << vect[i] << "\"";
     }
     _outfile << " }" << std::endl;
@@ -359,7 +359,7 @@ void WriteScriptDescriptor::WriteStringVector(const std::string &key, std::vecto
 
 
 
-void WriteScriptDescriptor::WriteStringVector(const int32 key, std::vector<std::string>& vect)
+void WriteScriptDescriptor::WriteStringVector(const int32_t key, std::vector<std::string>& vect)
 {
     if(vect.empty()) {
         _error_messages << "* WriteScriptDescriptor::WriteStringVector() failed because there were no "
@@ -376,7 +376,7 @@ void WriteScriptDescriptor::WriteStringVector(const int32 key, std::vector<std::
     _outfile << '[' << key << "] = { ";
 
     _outfile << "\"" << vect[0] << "\"";
-    for(uint32 i = 1; i < vect.size(); i++) {
+    for(uint32_t i = 1; i < vect.size(); i++) {
         _outfile << ", \"" << vect[i] << "\"";
     }
     _outfile << " }" << std::endl;
@@ -393,7 +393,7 @@ void WriteScriptDescriptor::WriteUStringVector(const std::string &key, std::vect
 
 
 
-void WriteScriptDescriptor::WriteUStringVector(const int32 key, std::vector<std::string>& vect)
+void WriteScriptDescriptor::WriteUStringVector(const int32_t key, std::vector<std::string>& vect)
 {
     WriteStringVector(key, vect);
 }
@@ -424,7 +424,7 @@ void WriteScriptDescriptor::BeginTable(const std::string &key)
 
 
 
-void WriteScriptDescriptor::BeginTable(int32 key)
+void WriteScriptDescriptor::BeginTable(int32_t key)
 {
     if(_open_tables.size() == 0)
         _outfile << key << " = {}" << std::endl;
@@ -433,7 +433,7 @@ void WriteScriptDescriptor::BeginTable(int32 key)
         _outfile << '[' << key << "] = {}" << std::endl;
     }
 
-    _open_tables.push_back(NumberToString<int32>(key));
+    _open_tables.push_back(NumberToString<int32_t>(key));
 }
 
 
@@ -461,7 +461,7 @@ void WriteScriptDescriptor::_WriteTablePath()
     }
 
     _outfile << _open_tables[0];
-    for(uint32 i = 1; i < _open_tables.size(); i++) {
+    for(uint32_t i = 1; i < _open_tables.size(); i++) {
         if(IsStringNumeric(_open_tables[i]))
             _outfile << '[' << _open_tables[i] << ']';
         else

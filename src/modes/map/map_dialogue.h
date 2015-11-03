@@ -85,7 +85,7 @@ public:
     *** The following line properties are set when using this call:
     *** - no display time, no event
     **/
-    void AddLine(const std::string &text, MapSprite *speaker, int32 next_line);
+    void AddLine(const std::string &text, MapSprite *speaker, int32_t next_line);
 
     /** \brief Adds a new line of text to the dialogue that uses a display time
     *** \param text The text to show on the screen
@@ -95,7 +95,7 @@ public:
     *** The following line properties are set when using this call:
     *** - proceed to next sequential line, no event
     **/
-    void AddLineTimed(const std::string &text, MapSprite *speaker, uint32 display_time);
+    void AddLineTimed(const std::string &text, MapSprite *speaker, uint32_t display_time);
 
     /** \brief Adds a new line of text to the dialogue that uses a display time
     *** \param text The text to show on the screen
@@ -106,7 +106,7 @@ public:
     *** The following line properties are set when using this call:
     *** - no event
     **/
-    void AddLineTimed(const std::string &text, MapSprite *speaker, int32 next_line, uint32 display_time);
+    void AddLineTimed(const std::string &text, MapSprite *speaker, int32_t next_line, uint32_t display_time);
 
     /** \brief Adds a new line of text to the dialogue that uses a map event
     *** \param text The text to show on the screen
@@ -133,7 +133,7 @@ public:
     *** The following line properties are set when using this call:
     *** - no event
     **/
-    void AddLineEvent(const std::string &text, MapSprite *speaker, int32 next_line,
+    void AddLineEvent(const std::string &text, MapSprite *speaker, int32_t next_line,
                       const std::string &begin_event_id, const std::string &end_event_id);
 
     /** \brief Adds a new line of text to the dialogue that uses a map event
@@ -146,7 +146,7 @@ public:
     *** The following line properties are set when using this call:
     *** - proceed to next sequential line
     **/
-    void AddLineTimedEvent(const std::string &text, MapSprite *speaker, uint32 display_time,
+    void AddLineTimedEvent(const std::string &text, MapSprite *speaker, uint32_t display_time,
                            const std::string &begin_event_id, const std::string &end_event_id);
 
     /** \brief Adds a new line of text to the dialogue that uses a map event
@@ -158,7 +158,7 @@ public:
     *** \param end_event_id The ID of the event to execute after this line finishes
     *** \param emote_id The ID of the emote to trigger on the speaker map sprite.
     **/
-    void AddLineTimedEvent(const std::string &text, MapSprite *speaker, int32 next_line, uint32 display_time,
+    void AddLineTimedEvent(const std::string &text, MapSprite *speaker, int32_t next_line, uint32_t display_time,
                            const std::string &begin_event_id, const std::string &end_event_id, const std::string& emote_id);
 
     /** \brief Adds an option to the most recently added line of text
@@ -178,7 +178,7 @@ public:
     *** The following option properties are set when using this call:
     *** - no event
     **/
-    void AddOption(const std::string &text, int32 next_line);
+    void AddOption(const std::string &text, int32_t next_line);
 
     /** \brief Adds an option to the most recently added line of text
     *** \param text The text for this particular option
@@ -196,7 +196,7 @@ public:
     *** \param event_id The ID of the event to execute should this option be selected
     *** \note If no lines have been added to the dialogue yet, this option will not be added and a warning will be issued
     **/
-    void AddOptionEvent(const std::string &text, int32 next_line, const std::string &event_id);
+    void AddOptionEvent(const std::string &text, int32_t next_line, const std::string &event_id);
 
     /** \brief Checks all the data stored by the dialogue class to ensure that it is acceptable and ready for use
     *** \return True if the validation was successful, false if any problems were discovered
@@ -210,24 +210,24 @@ public:
     //! \name Methods for retrieving properties of a specific line
     //@{
     //! \brief Returns the object ID of the speaker for the line specified (or zero if the line index was invalid)
-    MapSprite* GetLineSpeaker(uint32 line) const {
+    MapSprite* GetLineSpeaker(uint32_t line) const {
         if(line >= _line_count) return nullptr;
         else return _speakers[line];
     }
 
     //! \brief Returns the ID of the event to execute for the line specified (or zero if the line index was invalid)
-    std::string GetLineEndEvent(uint32 line) const {
+    std::string GetLineEndEvent(uint32_t line) const {
         if(line >= _line_count) return std::string();
         else return _end_events[line];
     }
 
     //! \brief Returns the ID of the event to execute for the line specified (or zero if the line index was invalid)
-    std::string GetLineBeginEvent(uint32 line) const {
+    std::string GetLineBeginEvent(uint32_t line) const {
         if(line >= _line_count) return std::string();
         else return _begin_events[line];
     }
 
-    std::string GetLineEmote(uint32 line) const {
+    std::string GetLineEmote(uint32_t line) const {
         if(line >= _line_count) return std::string();
         else return _emote_events[line];
     }
@@ -329,7 +329,7 @@ public:
     *** The following option properties are set when using this call:
     *** - no event
     **/
-    void AddOption(const std::string &text, int32 next_line);
+    void AddOption(const std::string &text, int32_t next_line);
 
     /** \brief Adds a new option to the set of options with the addition of a map event to be executed
     *** \param text The text for the new option
@@ -345,18 +345,18 @@ public:
     *** \param next_line An integer index of the next line of dialogue should this option be selected.
     *** \param event_id The ID of the event to execute should this option be selected
     **/
-    void AddOptionEvent(const std::string &text, int32 next_line, const std::string &event_id);
+    void AddOptionEvent(const std::string &text, int32_t next_line, const std::string &event_id);
 
     //! \name Methods for retrieving properties of a specific line
     //@{
-    std::string GetOptionEvent(uint32 option) const {
+    std::string GetOptionEvent(uint32_t option) const {
         if(option >= GetNumberOptions()) return std::string();
         else return _events[option];
     }
     //@}
 
     //! \brief Returns the number of options stored by this class
-    uint32 GetNumberOptions() const {
+    uint32_t GetNumberOptions() const {
         return _text.size();
     }
 
@@ -430,7 +430,7 @@ public:
         return _line_timer;
     }
 
-    uint32 GetLineCounter() const {
+    uint32_t GetLineCounter() const {
         return _line_counter;
     }
 
@@ -445,7 +445,7 @@ private:
     DIALOGUE_STATE _state;
 
     //! \brief A numeric value used to generate unique dialogue ids.
-    uint32 _next_dialogue_id;
+    uint32_t _next_dialogue_id;
 
     //! \brief Contains all dialogues used in the map in a std::map structure. The dialogue IDs serve as the map keys
     std::map<std::string, SpriteDialogue *> _dialogues;
@@ -460,7 +460,7 @@ private:
     vt_system::SystemTimer _line_timer;
 
     //! \brief Keeps track of which line is active for the current dialogue
-    uint32 _line_counter;
+    uint32_t _line_counter;
 
     //! \brief Holds the text and graphics that should be displayed for the dialogue
     vt_common::DialogueWindow _dialogue_window;

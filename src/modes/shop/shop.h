@@ -217,7 +217,7 @@ private:
     bool _map_usable, _battle_usable;
 
     //! \brief Index into the _target_type_text vector to get the appropriate descriptor for this item
-    uint32 _target_type_index;
+    uint32_t _target_type_index;
     //@}
 
     //! \name Data used only for weapon and armor object types
@@ -241,7 +241,7 @@ private:
     vt_video::StillImage *_mdef_icon;
 
     //! \brief The number of spirit the equipment can support.
-    uint32 _spirit_number;
+    uint32_t _spirit_number;
 
     //! \brief Icon images representing status effects and intensity properties of the selected object
     std::vector<vt_video::StillImage *> _status_icons;
@@ -298,7 +298,7 @@ private:
     *** \param phys_diff The physical change amount
     *** \param mag_diff The magical change amount
     **/
-    void _SetChangeText(uint32 index, int32 phys_diff, int32 mag_diff);
+    void _SetChangeText(uint32_t index, int32_t phys_diff, int32_t mag_diff);
 
     /** \brief Sets all statusicons to the proper image when given a container
     *** \param status_effects A const reference to a map of status effect types and their associated intensities
@@ -441,7 +441,7 @@ public:
     *** it also has to update the finance text. Thus the function does not just modify integer values but in fact
     *** does have a small amount of computational overhead
     **/
-    void UpdateFinances(int32 change_amount);
+    void UpdateFinances(int32_t change_amount);
 
     /** \brief Changes the active state of shop mode and prepares the interface of the new state
     *** \param new_state The state to change the shop to
@@ -459,7 +459,7 @@ public:
     }
 
     //! \brief Returns the number of drunes that the party would be left with after the marked purchases and sales
-    uint32 GetTotalRemaining() const {
+    uint32_t GetTotalRemaining() const {
         return (vt_global::GlobalManager->GetDrunes() + _total_change_amount);
     }
 
@@ -503,7 +503,7 @@ public:
     *** Adding an object after the shop mode instance has already been initialized (by being made the active game state)
     *** this call will add the object but will not be visible to the player.
     **/
-    void AddItem(uint32 object_id, uint32 stock);
+    void AddItem(uint32_t object_id, uint32_t stock);
     //@}
 
     /** \brief Adds a new trade for the shop to sell
@@ -514,7 +514,7 @@ public:
     *** Adding an object after the shop mode instance has already been initialized (by being made the active game state)
     *** this call will add the object but will not be visible to the player.
     **/
-    void AddTrade(uint32 object_id, uint32 stock);
+    void AddTrade(uint32_t object_id, uint32_t stock);
     //@}
 
     /** \brief Deletes an object from the shop sell list
@@ -525,7 +525,7 @@ public:
     *** Trying to remove an object that the shop sells to the player or trying to remove an object
     *** that still remains in the shop's inventory will result in a warning message and the object will not be removed.
     **/
-    void RemoveObjectToBuy(uint32 object_id);
+    void RemoveObjectToBuy(uint32_t object_id);
 
     /** \brief Deletes an object from the shop sell list
     *** \param object_id The id number of the object to remove
@@ -535,7 +535,7 @@ public:
     *** an object that the shop sells to the player or trying to remove an object that still remains in the party's
     *** inventory will result in a warning message and the object will not be removed.
     **/
-    void RemoveObjectToSell(uint32 object_id);
+    void RemoveObjectToSell(uint32_t object_id);
 
     /** \brief Deletes an object from the shop
     *** \param object_id The id number of the object to remove
@@ -545,7 +545,7 @@ public:
     *** an object that the shop sells to the player or trying to remove an object that still remains in the party's
     *** inventory will result in a warning message and the object will not be removed.
     **/
-    void RemoveObjectToTrade(uint32 object_id);
+    void RemoveObjectToTrade(uint32_t object_id);
 
     //! \name Class member access functions
     //@{
@@ -565,41 +565,41 @@ public:
         return _sell_price_level;
     }
 
-    uint32 GetTotalCosts() const {
+    uint32_t GetTotalCosts() const {
         return _total_costs;
     }
 
-    uint32 GetTotalSales() const {
+    uint32_t GetTotalSales() const {
         return _total_sales;
     }
 
     //! Returns the available list of item for sale.
-    std::map<uint32, private_shop::ShopObject *>* GetAvailableBuy() {
+    std::map<uint32_t, private_shop::ShopObject *>* GetAvailableBuy() {
         return &_available_buy;
     }
 
     //! Returns the available list of item that can be sold by the character
-    std::map<uint32, private_shop::ShopObject *>* GetAvailableSell() {
+    std::map<uint32_t, private_shop::ShopObject *>* GetAvailableSell() {
         return &_available_sell;
     }
 
     //! Returns the available list of item that can be traded for
-    std::map<uint32, private_shop::ShopObject *>* GetAvailableTrade() {
+    std::map<uint32_t, private_shop::ShopObject *>* GetAvailableTrade() {
         return &_available_trade;
     }
 
     //!  Returns the list of items the player has currently reserved for acquisition.
-    std::map<uint32, private_shop::ShopObject *>* GetBuyList() {
+    std::map<uint32_t, private_shop::ShopObject *>* GetBuyList() {
         return &_buy_list;
     }
 
     //! Returns the list of items the player is currently willing to sell.
-    std::map<uint32, private_shop::ShopObject *>* GetSellList() {
+    std::map<uint32_t, private_shop::ShopObject *>* GetSellList() {
         return &_sell_list;
     }
 
     //! Returns the list of items the player is currently willing to sell.
-    std::map<uint32, private_shop::ShopObject *>* GetTradeList() {
+    std::map<uint32_t, private_shop::ShopObject *>* GetTradeList() {
         return &_trade_list;
     }
 
@@ -667,35 +667,35 @@ private:
     SHOP_PRICE_LEVEL _sell_price_level;
 
     //! \brief The total cost of all marked purchases.
-    uint32 _total_costs;
+    uint32_t _total_costs;
 
     //! \brief The total revenue that will be earned from all marked sales.
-    uint32 _total_sales;
+    uint32_t _total_sales;
 
     //! \brief The total revenue that will be earned from all marked sales.
-    int32 _total_change_amount;
+    int32_t _total_change_amount;
 
     /** \brief Holds all objects that can be bought, or sold in the shop
     *** The integer key to this map is the global object ID represented by the ShopObject.
     **/
-    std::map<uint32, private_shop::ShopObject *> _available_buy;
-    std::map<uint32, private_shop::ShopObject *> _available_sell;
-    std::map<uint32, private_shop::ShopObject *> _available_trade;
+    std::map<uint32_t, private_shop::ShopObject *> _available_buy;
+    std::map<uint32_t, private_shop::ShopObject *> _available_sell;
+    std::map<uint32_t, private_shop::ShopObject *> _available_trade;
 
     /** \brief Holds pointers to all objects that the player plans to purchase
     *** The integer key to this map is the global object ID represented by the ShopObject.
     **/
-    std::map<uint32, private_shop::ShopObject *> _buy_list;
+    std::map<uint32_t, private_shop::ShopObject *> _buy_list;
 
     /** \brief Holds pointers to all objects that the player plans to sell
     *** The integer key to this map is the global object ID represented by the ShopObject.
     **/
-    std::map<uint32, private_shop::ShopObject *> _sell_list;
+    std::map<uint32_t, private_shop::ShopObject *> _sell_list;
 
     /** \brief Holds pointers to all objects that the player plans to sell
     *** The integer key to this map is the global object ID represented by the ShopObject.
     **/
-    std::map<uint32, private_shop::ShopObject *> _trade_list;
+    std::map<uint32_t, private_shop::ShopObject *> _trade_list;
 
     //! \brief A pointer to the ShopMedia object created to coincide with this instance of ShopMode
     private_shop::ShopMedia *_shop_media;

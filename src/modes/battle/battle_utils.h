@@ -92,7 +92,7 @@ enum COMMAND_STATE {
 *** \param attack_point The attack point target on the given actor. -1 if a standard attack is used.
 *** \return True if the target evasion was successful
 **/
-bool RndEvade(BattleActor* target_actor, float add_eva, float mul_eva, int32 attack_point);
+bool RndEvade(BattleActor* target_actor, float add_eva, float mul_eva, int32_t attack_point);
 
 // Aliases
 //! Useful to make it work with luabind, as it doesn't function with default parameters.
@@ -108,18 +108,18 @@ bool RndEvade(BattleActor* target_actor);
 *** \param attack_point The attack point target on the given actor. -1 if a standard attack is used.
 *** \return The amount of damage dealt, which will always be a non-zero value unless there was an error
 **/
-uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor, uint32 add_atk = 0, float mul_atk = 1.0f, int32 attack_point = -1);
+uint32_t RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor, uint32_t add_atk = 0, float mul_atk = 1.0f, int32_t attack_point = -1);
 
 // Aliases
 //! Useful to make it work with luabind, as it doesn't function with default parameters.
-uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor, uint32 add_atk, float mul_atk);
-uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor, uint32 add_atk);
-uint32 RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor);
+uint32_t RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor, uint32_t add_atk, float mul_atk);
+uint32_t RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor, uint32_t add_atk);
+uint32_t RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor);
 
-uint32 RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor);
-uint32 RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, uint32 add_atk);
-uint32 RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, uint32 add_atk, float mul_atk);
-uint32 RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, uint32 add_atk, float mul_atk, int32 attack_point);
+uint32_t RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor);
+uint32_t RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, uint32_t add_atk);
+uint32_t RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, uint32_t add_atk, float mul_atk);
+uint32_t RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, uint32_t add_atk, float mul_atk, int32_t attack_point);
 
 /** \brief Determines the amount of damage caused with a magical attack
 *** \param attacker A pointer to the attacker who is causing the damage
@@ -130,16 +130,16 @@ uint32 RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, uint
 *** \param attack_point The attack point target on the given actor. -1 if a standard attack is used.
 *** \return The amount of damage dealt, which will always be a non-zero value unless there was an error
 **/
-uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element,
-                        uint32 add_atk, float mul_atk, int32 attack_point);
+uint32_t RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element,
+                        uint32_t add_atk, float mul_atk, int32_t attack_point);
 
 // Aliases
 //! Useful to make it work with luabind, as it doesn't function with default parameters.
-uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element,
-                        uint32 add_atk, float mul_atk);
-uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element,
-                        uint32 add_atk);
-uint32 RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element);
+uint32_t RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element,
+                        uint32_t add_atk, float mul_atk);
+uint32_t RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element,
+                        uint32_t add_atk);
+uint32_t RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element);
 
 
 /** ****************************************************************************
@@ -185,7 +185,7 @@ public:
     *** GLOBAL_TARGET_INVALID. The initial attack point is always the first available point on the
     *** target (index 0). The initial target will always be the first valid actor in its party (index 0).
     **/
-    bool SetTarget(BattleActor* attacker, vt_global::GLOBAL_TARGET type, BattleActor* target = nullptr, uint32 attack_point = 0);
+    bool SetTarget(BattleActor* attacker, vt_global::GLOBAL_TARGET type, BattleActor* target = nullptr, uint32_t attack_point = 0);
 
     /** \brief Returns true if the target is valid
     *** This method assumes that a valid target is one that is alive (non-zero HP). If the target type
@@ -232,7 +232,7 @@ public:
     *** (std::deque<BattleActor*>). To retrieve each actor, Lua code starts at index 0 and makes repeated calls to this
     *** function while incrementing the index by 1 until it returns a nullptr value.
     **/
-    BattleActor* GetPartyActor(uint32 index);
+    BattleActor* GetPartyActor(uint32_t index);
 
     /** \brief Returns the name of the target
     ***
@@ -248,7 +248,7 @@ public:
         return _type;
     }
 
-    inline uint32 GetAttackPoint() const {
+    inline uint32_t GetAttackPoint() const {
         return _attack_point;
     }
 
@@ -266,7 +266,7 @@ private:
     vt_global::GLOBAL_TARGET _type;
 
     //! \brief The attack point to target, as an index to the proper point on the _actor_target
-    uint32 _attack_point;
+    uint32_t _attack_point;
 
     //! \brief The current actor to target
     BattleActor* _actor_target;
@@ -300,7 +300,7 @@ public:
         return _item;
     }
 
-    inline uint32 GetBattleCount() const {
+    inline uint32_t GetBattleCount() const {
         return _battle_count;
     }
     //@}
@@ -324,7 +324,7 @@ public:
     *** Note that the battle and inventory counts are separated because the changes are only committed
     *** when the battle is won.
     **/
-    uint32 GetInventoryCount() const {
+    uint32_t GetInventoryCount() const {
         return _item.GetCount();
     }
 
@@ -336,12 +336,12 @@ public:
     }
 
     //! \brief A wrapper function retrieving the warmup time needed to use the item in battles.
-    uint32 GetWarmUpTime() const {
+    uint32_t GetWarmUpTime() const {
         return _item.GetWarmUpTime();
     }
 
     //! \brief A wrapper function retrieving the cooldown time needed after the item use in battles.
-    uint32 GetCoolDownTime() const {
+    uint32_t GetCoolDownTime() const {
         return _item.GetCoolDownTime();
     }
 
@@ -350,7 +350,7 @@ private:
     vt_global::GlobalItem _item;
 
     //! \brief The number of instances of this item that are available to be selected to be used
-    uint32 _battle_count;
+    uint32_t _battle_count;
 }; // class BattleItem
 
 } // namespace private_battle

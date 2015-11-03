@@ -68,7 +68,7 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
     }
 
     particle_script.OpenTable("systems");
-    uint32 system_size = particle_script.GetTableSize();
+    uint32_t system_size = particle_script.GetTableSize();
     if(system_size < 1) {
         PRINT_WARNING << "No valid particle systems defined in the particle effect "
                       << particle_file << std::endl;
@@ -79,7 +79,7 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
         return false;
     }
 
-    for(uint32 sys = 0; sys < system_size; ++sys) {
+    for(uint32_t sys = 0; sys < system_size; ++sys) {
         // open the table for the sys'th system
         if(!particle_script.DoesTableExist(sys)) {
             PRINT_WARNING << "Could not find system #" << sys
@@ -171,10 +171,10 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
         }
         particle_script.OpenTable("keyframes");
 
-        uint32 num_keyframes = particle_script.GetTableSize();
+        uint32_t num_keyframes = particle_script.GetTableSize();
         sys_def.keyframes.resize(num_keyframes);
 
-        for(uint32 kf = 0; kf < num_keyframes; ++kf) {
+        for(uint32_t kf = 0; kf < num_keyframes; ++kf) {
             // get the kf'th keyframe table
             // unamed tables starts at offset 1 in lua.
             particle_script.OpenTable(kf + 1);

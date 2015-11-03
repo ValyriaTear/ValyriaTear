@@ -52,7 +52,7 @@ TileSupervisor::~TileSupervisor()
 {
     // Delete all objects in _tile_images but *not* _animated_tile_images.
     // This is because _animated_tile_images is a subset of _tile_images.
-    for(uint32 i = 0; i < _tile_images.size(); i++)
+    for(uint32_t i = 0; i < _tile_images.size(); i++)
         delete(_tile_images[i]);
 
     _tile_grid.clear();
@@ -75,7 +75,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
 
     map_file.ReadStringVector("tileset_filenames", tileset_filenames);
 
-    for(uint32 i = 0; i < tileset_filenames.size(); i++) {
+    for(uint32_t i = 0; i < tileset_filenames.size(); i++) {
         std::string tileset_file = tileset_filenames[i];
 
         ReadScriptDescriptor tileset_script;
@@ -101,7 +101,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
             return false;
         }
 
-        for(uint32 j = 0; j < TILES_PER_TILESET; j++) {
+        for(uint32_t j = 0; j < TILES_PER_TILESET; j++) {
             tileset_images[i][j].SetDimensions(TILE_LENGTH, TILE_LENGTH);
         }
     }
@@ -119,14 +119,14 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
     // Clears out the tiles grid
     _tile_grid.clear();
 
-    std::vector<int32> table_x_indeces; // Used to temporarily store a row of table indeces
+    std::vector<int32_t> table_x_indeces; // Used to temporarily store a row of table indeces
 
     map_file.OpenTable("layers");
 
-    uint32 layers_number = map_file.GetTableSize();
+    uint32_t layers_number = map_file.GetTableSize();
 
     // layers[0]-[n]
-    for(uint32 layer_id = 0; layer_id < layers_number; ++layer_id) {
+    for(uint32_t layer_id = 0; layer_id < layers_number; ++layer_id) {
         // Opens the sub-table: layers[layer_id]
         if(!map_file.DoesTableExist(layer_id))
             continue;
@@ -151,7 +151,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
         _tile_grid[layer_id].tiles.resize(_num_tile_on_y_axis);
 
         // Read the tile data
-        for(uint32 y = 0; y < _num_tile_on_y_axis; ++y) {
+        for(uint32_t y = 0; y < _num_tile_on_y_axis; ++y) {
             table_x_indeces.clear();
 
             // Check to make sure tables are of the proper size
@@ -173,7 +173,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
             // Prepare the columns (x axis)
             _tile_grid[layer_id].tiles[y].resize(_num_tile_on_x_axis);
 
-            for(uint32 x = 0; x < _num_tile_on_x_axis; ++x) {
+            for(uint32_t x = 0; x < _num_tile_on_x_axis; ++x) {
                 _tile_grid[layer_id].tiles[y][x] = table_x_indeces[x];
             }
         }
@@ -185,15 +185,15 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
     // Determine which tiles in each tileset are referenced in this map
 
     // Used to determine whether each tile is used by the map or not. An entry of -1 indicates that particular tile is not used
-    std::vector<int16> tile_references;
+    std::vector<int16_t> tile_references;
     // Set size to be equal to the total number of tiles and initialize all entries to -1 (unreferenced)
     tile_references.assign(tileset_filenames.size() * TILES_PER_TILESET, -1);
 
     // For each layer
-    for(uint32 layer_id = 0; layer_id < layers_number; ++layer_id) {
+    for(uint32_t layer_id = 0; layer_id < layers_number; ++layer_id) {
         // For each tile id
-        for(uint32 y = 0; y < _num_tile_on_y_axis; ++y) {
-            for(uint32 x = 0; x < _num_tile_on_x_axis; ++x) {
+        for(uint32_t y = 0; y < _num_tile_on_y_axis; ++y) {
+            for(uint32_t x = 0; x < _num_tile_on_x_axis; ++x) {
                 if(_tile_grid[layer_id].tiles[y][x] >= 0)
                     tile_references[_tile_grid[layer_id].tiles[y][x] ] = 0;
             }
@@ -207,9 +207,9 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
     // so that they serve as an index to the MapMode::_tile_images vector, where the tile images will soon be stored.
 
     // Keeps track of the next translated index number to assign
-    uint32 next_index = 0;
+    uint32_t next_index = 0;
 
-    for(uint32 i = 0; i < tile_references.size(); ++i) {
+    for(uint32_t i = 0; i < tile_references.size(); ++i) {
         if(tile_references[i] >= 0) {
             tile_references[i] = next_index;
             next_index++;
@@ -218,10 +218,10 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
 
     // Now, go back and re-assign all tile layer indeces with the translated indeces
     // For each layer
-    for(uint32 layer_id = 0; layer_id < layers_number; ++layer_id) {
+    for(uint32_t layer_id = 0; layer_id < layers_number; ++layer_id) {
         // For each tile id
-        for(uint32 y = 0; y < _num_tile_on_y_axis; ++y) {
-            for(uint32 x = 0; x < _num_tile_on_x_axis; ++x) {
+        for(uint32_t y = 0; y < _num_tile_on_y_axis; ++y) {
+            for(uint32_t x = 0; x < _num_tile_on_x_axis; ++x) {
                 if(_tile_grid[layer_id].tiles[y][x] >= 0)
                     _tile_grid[layer_id].tiles[y][x] = tile_references[_tile_grid[layer_id].tiles[y][x] ];
             }
@@ -233,11 +233,11 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
     // Used to access the tileset definition file
     ReadScriptDescriptor tileset_script;
     // Temporarily retains the animation data (every two elements corresponds to a pair of tile frame index and display time)
-    std::vector<uint32> animation_info;
+    std::vector<uint32_t> animation_info;
     // Temporarily holds all animated tile images. The map key is the value of the tile index, before reference translation is done in the next step
-    std::map<uint32, AnimatedImage *> tile_animations;
+    std::map<uint32_t, AnimatedImage *> tile_animations;
 
-    for(uint32 i = 0; i < tileset_filenames.size(); i++) {
+    for(uint32_t i = 0; i < tileset_filenames.size(); i++) {
         if (!tileset_script.OpenFile(tileset_filenames[i])) {
             PRINT_ERROR << "map failed to load because it could not open a tileset definition file: "
                 << tileset_filenames[i] << std::endl;
@@ -253,12 +253,12 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
 
         if(tileset_script.DoesTableExist("animated_tiles")) {
             tileset_script.OpenTable("animated_tiles");
-            for(uint32 j = 1; j <= tileset_script.GetTableSize(); j++) {
+            for(uint32_t j = 1; j <= tileset_script.GetTableSize(); j++) {
                 animation_info.clear();
                 tileset_script.ReadUIntVector(j, animation_info);
 
                 // The index of the first frame in the animation. (i * TILES_PER_TILESET) factors in which tileset the frame comes from
-                uint32 first_frame_index = animation_info[0] + (i * TILES_PER_TILESET);
+                uint32_t first_frame_index = animation_info[0] + (i * TILES_PER_TILESET);
 
                 // If the first tile frame index of this animation was not referenced anywhere in the map, then the animation is unused and
                 // we can safely skip over it and move on to the next one. Otherwise if it is referenced, we have to construct the animated image
@@ -270,7 +270,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
                 new_animation->SetDimensions(TILE_LENGTH, TILE_LENGTH);
 
                 // Each pair of entries in the animation info indicate the tile frame index (k) and the time (k+1)
-                for(uint32 k = 0; k < animation_info.size(); k += 2) {
+                for(uint32_t k = 0; k < animation_info.size(); k += 2) {
                     new_animation->AddFrame(tileset_images[i][animation_info[k]], animation_info[k + 1]);
                 }
                 tile_animations.insert(std::make_pair(first_frame_index, new_animation));
@@ -280,13 +280,13 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
 
         tileset_script.CloseTable();
         tileset_script.CloseFile();
-    } // for (uint32 i = 0; i < tileset_filenames.size(); i++)
+    } // for (uint32_t i = 0; i < tileset_filenames.size(); i++)
 
     // Add all referenced tiles to the _tile_images vector, in the proper order
 
-    for(uint32 i = 0; i < tileset_images.size(); i++) {
-        for(uint32 j = 0; j < TILES_PER_TILESET; j++) {
-            uint32 reference = (i * TILES_PER_TILESET) + j;
+    for(uint32_t i = 0; i < tileset_images.size(); i++) {
+        for(uint32_t j = 0; j < TILES_PER_TILESET; j++) {
+            uint32_t reference = (i * TILES_PER_TILESET) + j;
 
             if(tile_references[reference] >= 0) {
                 // Add the tile as a StillImage
@@ -316,7 +316,7 @@ bool TileSupervisor::Load(ReadScriptDescriptor &map_file)
 
 void TileSupervisor::Update()
 {
-    for(uint32 i = 0; i < _animated_tile_images.size(); i++) {
+    for(uint32_t i = 0; i < _animated_tile_images.size(); i++) {
         _animated_tile_images[i]->Update();
     }
 }
@@ -327,11 +327,11 @@ void TileSupervisor::DrawLayers(const MapFrame *frame, const LAYER_TYPE &layer_t
     VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
 
     // Map frame ends
-    uint32 y_end = static_cast<uint32>(frame->tile_y_start + frame->num_draw_y_axis);
-    uint32 x_end = static_cast<uint32>(frame->tile_x_start + frame->num_draw_x_axis);
+    uint32_t y_end = static_cast<uint32_t>(frame->tile_y_start + frame->num_draw_y_axis);
+    uint32_t x_end = static_cast<uint32_t>(frame->tile_x_start + frame->num_draw_x_axis);
 
-    uint32 layer_number = _tile_grid.size();
-    for(uint32 layer_id = 0; layer_id < layer_number; ++layer_id) {
+    uint32_t layer_number = _tile_grid.size();
+    for(uint32_t layer_id = 0; layer_id < layer_number; ++layer_id) {
 
         const Layer &layer = _tile_grid.at(layer_id);
         if(layer.layer_type != layer_type)
@@ -342,8 +342,8 @@ void TileSupervisor::DrawLayers(const MapFrame *frame, const LAYER_TYPE &layer_t
         // top left coordinates to avoid a position computation flaw when specifying the tile
         // coordinates from the bottom center point, as the engine does for everything else.
         VideoManager->Move(GRID_LENGTH * (frame->tile_x_offset - 1.0f), GRID_LENGTH * (frame->tile_y_offset - 2.0f));
-        for(uint32 y = static_cast<uint32>(frame->tile_y_start); y < y_end; ++y) {
-            for(uint32 x = static_cast<uint32>(frame->tile_x_start); x < x_end; ++x) {
+        for(uint32_t y = static_cast<uint32_t>(frame->tile_y_start); y < y_end; ++y) {
+            for(uint32_t x = static_cast<uint32_t>(frame->tile_x_start); x < x_end; ++x) {
                 // Draw a tile image if it exists at this location
                 if(layer.tiles[y][x] >= 0)
                     _tile_images[ layer.tiles[y][x] ]->Draw();

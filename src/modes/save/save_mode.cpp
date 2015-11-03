@@ -45,22 +45,22 @@ bool SAVE_DEBUG = false;
 
 //! \name Save Options Constants
 //@{
-const uint8 SAVE_GAME           = 0;
-const uint8 SAVE_LOAD_GAME      = 1;
+const uint8_t SAVE_GAME           = 0;
+const uint8_t SAVE_LOAD_GAME      = 1;
 //@}
 
 //! \name SaveMode States
 //@{
-const uint8 SAVE_MODE_SAVING          = 0;
-const uint8 SAVE_MODE_LOADING         = 1;
-const uint8 SAVE_MODE_CONFIRMING_SAVE = 2;
-const uint8 SAVE_MODE_SAVE_COMPLETE   = 3;
-const uint8 SAVE_MODE_SAVE_FAILED     = 4;
-const uint8 SAVE_MODE_FADING_OUT      = 5;
-const uint8 SAVE_MODE_NO_VALID_SAVES  = 6;
+const uint8_t SAVE_MODE_SAVING          = 0;
+const uint8_t SAVE_MODE_LOADING         = 1;
+const uint8_t SAVE_MODE_CONFIRMING_SAVE = 2;
+const uint8_t SAVE_MODE_SAVE_COMPLETE   = 3;
+const uint8_t SAVE_MODE_SAVE_FAILED     = 4;
+const uint8_t SAVE_MODE_FADING_OUT      = 5;
+const uint8_t SAVE_MODE_NO_VALID_SAVES  = 6;
 //@}
 
-SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
+SaveMode::SaveMode(bool save_mode, uint32_t x_position, uint32_t y_position) :
     GameMode(MODE_MANAGER_SAVE_MODE),
     _current_state(SAVE_MODE_LOADING),
     _dim_color(0.35f, 0.35f, 0.35f, 1.0f), // A grayish opaque color
@@ -90,7 +90,7 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
     else
         _title_textbox.SetDisplayText(UTranslate("Load Game"));
 
-    for(uint32 i = 0; i < 4; ++i) {
+    for(uint32_t i = 0; i < 4; ++i) {
         _character_window[i].Create(450.0f, 100.0f);
         _character_window[i].Show();
     }
@@ -118,7 +118,7 @@ SaveMode::SaveMode(bool save_mode, uint32 x_position, uint32 y_position) :
     _file_list.AddOption(UTranslate("Slot 6"));
 
     // Restore the cursor position to the last load/save position.
-    uint32 slot_id = GlobalManager->GetGameSlotId();
+    uint32_t slot_id = GlobalManager->GetGameSlotId();
 
     _file_list.SetSelection(slot_id);
 
@@ -208,7 +208,7 @@ SaveMode::~SaveMode()
     _left_window.Destroy();
     _title_window.Destroy();
 
-    for(uint32 i = 0; i < 4; ++i) {
+    for(uint32_t i = 0; i < 4; ++i) {
         _character_window[i].Destroy();
     }
 
@@ -256,9 +256,9 @@ void SaveMode::Update()
 
         case SAVE_MODE_CONFIRMING_SAVE:
             if(_confirm_save_optionbox.GetSelection() == 0) {
-                // note: using int here, because uint8 will NOT work
+                // note: using int here, because uint8_t will NOT work
                 // do not change unless you understand this and can test it properly!
-                uint32 id = (uint32)_file_list.GetSelection();
+                uint32_t id = (uint32_t)_file_list.GetSelection();
                 std::ostringstream f;
                 f << GetUserDataPath() + "saved_game_" << id << ".lua";
                 std::string filename = f.str();
@@ -380,7 +380,7 @@ void SaveMode::DrawPostEffects()
     case SAVE_MODE_LOADING:
         _left_window.Draw(); // draw a panel on the left for the file list
         if(_file_list.GetSelection() > -1) {
-            for(uint32 i = 0; i < 4; i++) {
+            for(uint32_t i = 0; i < 4; i++) {
                 _character_window[i].Draw();
             }
         }
@@ -420,7 +420,7 @@ void SaveMode::DrawPostEffects()
     }
 }
 
-bool SaveMode::_LoadGame(uint32 id)
+bool SaveMode::_LoadGame(uint32_t id)
 {
     std::ostringstream f;
     f << GetUserDataPath() + "saved_game_" << id << ".lua";
@@ -464,12 +464,12 @@ void SaveMode::_ClearSaveData(bool selected_file_exists)
     _time_textbox.ClearText();
     _drunes_textbox.ClearText();
     _location_image.Clear();
-    for (uint32 i = 0; i < 4; ++i)
+    for (uint32_t i = 0; i < 4; ++i)
         _character_window[i].SetCharacter(nullptr);
 }
 
 
-bool SaveMode::_PreviewGame(uint32 id)
+bool SaveMode::_PreviewGame(uint32_t id)
 {
     std::ostringstream f;
     f << GetUserDataPath() + "saved_game_" << id << ".lua";
@@ -538,10 +538,10 @@ bool SaveMode::_PreviewGame(uint32 id)
     }
 
     // Used to store temp data to populate text boxes
-    int32 hours = file.ReadInt("play_hours");
-    int32 minutes = file.ReadInt("play_minutes");
-    int32 seconds = file.ReadInt("play_seconds");
-    int32 drunes = file.ReadInt("drunes");
+    int32_t hours = file.ReadInt("play_hours");
+    int32_t minutes = file.ReadInt("play_minutes");
+    int32_t seconds = file.ReadInt("play_seconds");
+    int32_t drunes = file.ReadInt("drunes");
 
     if(!file.DoesTableExist("characters")) {
         file.CloseTable(); // save_game1
@@ -551,12 +551,12 @@ bool SaveMode::_PreviewGame(uint32 id)
     }
 
     file.OpenTable("characters");
-    std::vector<uint32> char_ids;
+    std::vector<uint32_t> char_ids;
     file.ReadUIntVector("order", char_ids);
     GlobalCharacter *character[4];
 
     // Loads only up to the first four slots (Visible battle characters)
-    for(uint32 i = 0; i < 4 && i < char_ids.size(); ++i) {
+    for(uint32_t i = 0; i < 4 && i < char_ids.size(); ++i) {
         // Create a new GlobalCharacter object using the provided id
         // This loads all of the character's "static" data, such as their name, etc.
         character[i] = new GlobalCharacter(char_ids[i], false);
@@ -589,14 +589,14 @@ bool SaveMode::_PreviewGame(uint32 id)
     file.CloseTable(); // save_game1
     file.CloseFile();
 
-    for(uint32 i = 0; i < 4 && i < char_ids.size(); ++i) {
+    for(uint32_t i = 0; i < 4 && i < char_ids.size(); ++i) {
         _character_window[i].SetCharacter(character[i]);
     }
 
     std::ostringstream time_text;
-    time_text << (hours < 10 ? "0" : "") << static_cast<uint32>(hours) << ":";
-    time_text << (minutes < 10 ? "0" : "") << static_cast<uint32>(minutes) << ":";
-    time_text << (seconds < 10 ? "0" : "") << static_cast<uint32>(seconds);
+    time_text << (hours < 10 ? "0" : "") << static_cast<uint32_t>(hours) << ":";
+    time_text << (minutes < 10 ? "0" : "") << static_cast<uint32_t>(minutes) << ":";
+    time_text << (seconds < 10 ? "0" : "") << static_cast<uint32_t>(seconds);
     _time_textbox.SetDisplayText(MakeUnicodeString(time_text.str()));
 
     std::ostringstream drunes_amount;
@@ -641,12 +641,12 @@ bool SaveMode::_PreviewGame(uint32 id)
 bool SaveMode::_CheckSavesValidity() {
     // check all available slots
     bool available_saves = false;
-    for (uint32 i = 0; i < _file_list.GetNumberOptions(); ++i) {
+    for (uint32_t i = 0; i < _file_list.GetNumberOptions(); ++i) {
         if (!_PreviewGame(i)) {
             _file_list.EnableOption(i, false);
 
             // If the current selection is disabled, reset it.
-            if ((int32)i == _file_list.GetSelection())
+            if ((int32_t)i == _file_list.GetSelection())
                 _file_list.SetSelection(i + 1);
         }
         else {

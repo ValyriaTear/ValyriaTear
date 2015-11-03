@@ -65,7 +65,7 @@ namespace private_script
 {
 
 //! \brief Used to reference to the top of a Lua stack.
-const int32 STACK_TOP = -1;
+const int32_t STACK_TOP = -1;
 
 //! \brief Used to represent the end of a Lua table that is being iterated
 const luabind::iterator TABLE_END;
@@ -167,8 +167,8 @@ public:
     //! \brief Create an auto namespace tablename out of the filename
     //! For example, 'data/story/demo.lua' will a tablespace name of 'demo'.
     std::string GetTableSpace() {
-        int32 period = _filename.find(".");
-        int32 last_slash = _filename.find_last_of("/");
+        int32_t period = _filename.find(".");
+        int32_t last_slash = _filename.find_last_of("/");
         std::string tablespace = _filename.substr(last_slash + 1, period - (last_slash + 1));
         return tablespace;
     }
@@ -261,8 +261,8 @@ public:
         if (filename.empty())
             return std::string();
 
-        int32 period = filename.find(".");
-        int32 last_slash = filename.find_last_of("/");
+        int32_t period = filename.find(".");
+        int32_t last_slash = filename.find_last_of("/");
         std::string tablespace = filename.substr(last_slash + 1, period - (last_slash + 1));
         return tablespace;
     }

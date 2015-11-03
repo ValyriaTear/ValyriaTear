@@ -51,10 +51,10 @@ AudioStream::AudioStream(AudioInput *input, bool loop) :
 
 
 
-uint32 AudioStream::FillBuffer(uint8 *buffer, uint32 size)
+uint32_t AudioStream::FillBuffer(uint8_t *buffer, uint32_t size)
 {
-    uint32 num_samples_read = 0; // The number of samples which have been read
-    uint32 read_samples; // The number of samples to request the audio input to read
+    uint32_t num_samples_read = 0; // The number of samples which have been read
+    uint32_t read_samples; // The number of samples to request the audio input to read
 
     while(num_samples_read < size) {
         // If looping is enabled and the end of the stream has been reached, seek to the starting position
@@ -64,7 +64,7 @@ uint32 AudioStream::FillBuffer(uint8 *buffer, uint32 size)
         }
 
         // Determine the number of samples we should request for the input to read
-        uint32 remaining_data = (_looping == true) ? _loop_end_position : _audio_input->GetTotalNumberSamples();
+        uint32_t remaining_data = (_looping == true) ? _loop_end_position : _audio_input->GetTotalNumberSamples();
         remaining_data -= _read_position;
         read_samples = (size - num_samples_read < remaining_data) ? size - num_samples_read : remaining_data;
         num_samples_read += _audio_input->Read(buffer + num_samples_read * _audio_input->GetSampleSize(), read_samples, _end_of_stream);
@@ -81,7 +81,7 @@ uint32 AudioStream::FillBuffer(uint8 *buffer, uint32 size)
 
 
 
-void AudioStream::Seek(uint32 sample)
+void AudioStream::Seek(uint32_t sample)
 {
     if(sample >= _audio_input->GetTotalNumberSamples()) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to seek to position beyond sample range: " << sample << std::endl;
@@ -94,7 +94,7 @@ void AudioStream::Seek(uint32 sample)
 
 
 
-void AudioStream::SetLoopStart(uint32 sample)
+void AudioStream::SetLoopStart(uint32_t sample)
 {
     if(sample >= _audio_input->GetTotalNumberSamples()) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set loop start point beyond sample range: " << sample << std::endl;
@@ -106,7 +106,7 @@ void AudioStream::SetLoopStart(uint32 sample)
 
 
 
-void AudioStream::SetLoopEnd(uint32 sample)
+void AudioStream::SetLoopEnd(uint32_t sample)
 {
     if(sample >= _audio_input->GetTotalNumberSamples()) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "tried to set loop end point beyond sample range: " << sample << std::endl;

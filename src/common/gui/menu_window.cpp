@@ -36,7 +36,7 @@ MenuWindow::MenuWindow() :
 
 
 
-bool MenuWindow::Create(const std::string &skin_name, float w, float h, int32 visible_flags, int32 shared_flags)
+bool MenuWindow::Create(const std::string &skin_name, float w, float h, int32_t visible_flags, int32_t shared_flags)
 {
     _skin = GUIManager->_GetMenuSkin(skin_name);
     if(_skin == nullptr) {
@@ -49,7 +49,7 @@ bool MenuWindow::Create(const std::string &skin_name, float w, float h, int32 vi
 
 
 
-bool MenuWindow::Create(float w, float h, int32 visible_flags, int32 shared_flags)
+bool MenuWindow::Create(float w, float h, int32_t visible_flags, int32_t shared_flags)
 {
     if(w <= 0 || h <= 0) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "width and/or height argument was invalid: "
@@ -178,8 +178,8 @@ bool MenuWindow::_RecreateImage()
     float num_x_tiles = _inner_width  / top_width;
     float num_y_tiles = _inner_height / left_height;
 
-    int32 inum_x_tiles = static_cast<int32>(num_x_tiles);
-    int32 inum_y_tiles = static_cast<int32>(num_y_tiles);
+    int32_t inum_x_tiles = static_cast<int32_t>(num_x_tiles);
+    int32_t inum_y_tiles = static_cast<int32_t>(num_y_tiles);
 
     // Ideally, the border sizes should evenly divide into the window sizes but the person who
     // created the window might have passed in a width and height that is not a multiple of
@@ -328,7 +328,7 @@ bool MenuWindow::_RecreateImage()
         _menu_image.AddImage(_skin->borders[1][1], max_x, max_y);
 
     // Iterate from left to right and fill in the horizontal borders
-    for(int32 tile_x = 0; tile_x < inum_x_tiles; ++tile_x) {
+    for(int32_t tile_x = 0; tile_x < inum_x_tiles; ++tile_x) {
         if(_edge_visible_flags & VIDEO_MENU_EDGE_TOP)
             _menu_image.AddImage(_skin->borders[0][1], left_border_size + top_width * tile_x, max_y);
         else if(!background_loaded)
@@ -341,7 +341,7 @@ bool MenuWindow::_RecreateImage()
     }
 
     // Iterate from bottom to top and fill in the vertical borders
-    for(int32 tile_y = 0; tile_y < inum_y_tiles; ++tile_y) {
+    for(int32_t tile_y = 0; tile_y < inum_y_tiles; ++tile_y) {
         if(_edge_visible_flags & VIDEO_MENU_EDGE_LEFT)
             _menu_image.AddImage(_skin->borders[1][0], 0.0f, bottom_border_size + left_height * tile_y);
         else if(!background_loaded)

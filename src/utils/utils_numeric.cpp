@@ -26,7 +26,7 @@ float Lerp(float alpha, float initial, float final_value)
     return alpha * final_value + (1.0f - alpha) * initial;
 }
 
-uint32 RoundUpPow2(uint32 x)
+uint32_t RoundUpPow2(uint32_t x)
 {
     x -= 1;
     x |= x >>  1;
@@ -37,12 +37,12 @@ uint32 RoundUpPow2(uint32 x)
     return x + 1;
 }
 
-bool IsPowerOfTwo(uint32 x)
+bool IsPowerOfTwo(uint32_t x)
 {
     return ((x & (x - 1)) == 0);
 }
 
-bool IsOddNumber(uint32 x)
+bool IsOddNumber(uint32_t x)
 {
     // NOTE: this happens to work for both little and big endian systems
     return (x & 0x00000001);

@@ -130,7 +130,7 @@ bool AudioEngine::SingletonInitialize()
 
     // Create as many sources as possible (we fix an upper bound of MAX_DEFAULT_AUDIO_SOURCES)
     ALuint source;
-    for(uint16 i = 0; i < _max_sources; ++i) {
+    for(uint16_t i = 0; i < _max_sources; ++i) {
         alGenSources(1, &source);
         if(CheckALError() == true) {
             _max_sources = i;

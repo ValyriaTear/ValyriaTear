@@ -24,11 +24,11 @@ using namespace vt_script;
 ScriptSupervisor::~ScriptSupervisor()
 {
     // Free the created images before destruction.
-    for(uint32 i = 0; i < _text_images.size(); ++i)
+    for(uint32_t i = 0; i < _text_images.size(); ++i)
         delete _text_images[i];
-    for(uint32 i = 0; i < _still_images.size(); ++i)
+    for(uint32_t i = 0; i < _still_images.size(); ++i)
         delete _still_images[i];
-    for(uint32 i = 0; i < _animated_images.size(); ++i)
+    for(uint32_t i = 0; i < _animated_images.size(); ++i)
         delete _animated_images[i];
 
     // Free every luabind object pointers before freeing the scripts,
@@ -42,14 +42,14 @@ ScriptSupervisor::~ScriptSupervisor()
     _draw_post_effects_functions.clear();
 
     // Close every loaded scripts to free their threads
-    for(uint32 i = 0; i < _scene_scripts.size(); ++i)
+    for(uint32_t i = 0; i < _scene_scripts.size(); ++i)
         delete _scene_scripts[i];
 }
 
 void ScriptSupervisor::Initialize(vt_mode_manager::GameMode *gm)
 {
     // Open every possible scene script files registered and process them.
-    for(uint32 i = 0; i < _script_filenames.size(); ++i) {
+    for(uint32_t i = 0; i < _script_filenames.size(); ++i) {
 
         // Clears out old script data
         std::string tablespace = ScriptEngine::GetTableSpace(_script_filenames[i]);
@@ -96,40 +96,40 @@ void ScriptSupervisor::SetDrawFlag(vt_video::VIDEO_DRAW_FLAGS draw_flag)
 void ScriptSupervisor::Reset()
 {
     // Updates custom scripts
-    for(uint32 i = 0; i < _reset_functions.size(); ++i)
+    for(uint32_t i = 0; i < _reset_functions.size(); ++i)
         ReadScriptDescriptor::RunScriptObject(_reset_functions[i]);
 }
 
 void ScriptSupervisor::Restart()
 {
     // Updates custom scripts
-    for(uint32 i = 0; i < _restart_functions.size(); ++i)
+    for(uint32_t i = 0; i < _restart_functions.size(); ++i)
         ReadScriptDescriptor::RunScriptObject(_restart_functions[i]);
 }
 
 void ScriptSupervisor::Update()
 {
     // Updates custom scripts
-    for(uint32 i = 0; i < _update_functions.size(); ++i)
+    for(uint32_t i = 0; i < _update_functions.size(); ++i)
         ReadScriptDescriptor::RunScriptObject(_update_functions[i]);
 }
 
 void ScriptSupervisor::DrawBackground()
 {
     // Handles custom scripted draw before sprites
-    for(uint32 i = 0; i < _draw_background_functions.size(); ++i)
+    for(uint32_t i = 0; i < _draw_background_functions.size(); ++i)
         ReadScriptDescriptor::RunScriptObject(_draw_background_functions[i]);
 }
 
 void ScriptSupervisor::DrawForeground()
 {
-    for(uint32 i = 0; i < _draw_foreground_functions.size(); ++i)
+    for(uint32_t i = 0; i < _draw_foreground_functions.size(); ++i)
         ReadScriptDescriptor::RunScriptObject(_draw_foreground_functions[i]);
 }
 
 void ScriptSupervisor::DrawPostEffects()
 {
-    for(uint32 i = 0; i < _draw_post_effects_functions.size(); ++i)
+    for(uint32_t i = 0; i < _draw_post_effects_functions.size(); ++i)
         ReadScriptDescriptor::RunScriptObject(_draw_post_effects_functions[i]);
 }
 

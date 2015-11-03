@@ -53,14 +53,14 @@ const vt_video::Color alpha_white(1.0f, 1.0f, 1.0f, 0.5f);
 
 //! \brief Constants used as indeces to access the GUISystem#_scroll_arrows vector
 //@{
-const uint32 SCROLL_UP           = 0;
-const uint32 SCROLL_DOWN         = 1;
-const uint32 SCROLL_LEFT         = 2;
-const uint32 SCROLL_RIGHT        = 3;
-const uint32 SCROLL_UP_GREY      = 4;
-const uint32 SCROLL_DOWN_GREY    = 5;
-const uint32 SCROLL_LEFT_GREY    = 6;
-const uint32 SCROLL_RIGHT_GREY   = 7;
+const uint32_t SCROLL_UP           = 0;
+const uint32_t SCROLL_DOWN         = 1;
+const uint32_t SCROLL_LEFT         = 2;
+const uint32_t SCROLL_RIGHT        = 3;
+const uint32_t SCROLL_UP_GREY      = 4;
+const uint32_t SCROLL_DOWN_GREY    = 5;
+const uint32_t SCROLL_LEFT_GREY    = 6;
+const uint32_t SCROLL_RIGHT_GREY   = 7;
 //@}
 
 
@@ -83,7 +83,7 @@ public:
     /** \brief Updates the state of the element.
     *** \param frame_time The time that has elapsed since the last frame was drawn, in milliseconds
     **/
-    virtual void Update(uint32 frame_time) = 0;
+    virtual void Update(uint32_t frame_time) = 0;
 
     /** \brief Sets the width and height of the element
     *** \param w The width to set for the element
@@ -108,7 +108,7 @@ public:
     *** \param xalign Valid values include VIDEO_X_LEFT, VIDEO_X_CENTER, or VIDEO_X_RIGHT.
     *** \param yalign Valid values include VIDEO_Y_TOP, VIDEO_Y_CENTER, or VIDEO_Y_BOTTOM.
     **/
-    void SetAlignment(int32 xalign, int32 yalign);
+    void SetAlignment(int32_t xalign, int32_t yalign);
 
     /** \brief Returns the width and height of the GUI element
     *** \param w Reference to a variable to hold the width
@@ -153,7 +153,7 @@ public:
     *** \param xalign - x alignment of the object
     *** \param yalign - y alignment of the object
     **/
-    void GetAlignment(int32 &xalign, int32 &yalign) const {
+    void GetAlignment(int32_t &xalign, int32_t &yalign) const {
         xalign = _xalign;
         yalign = _yalign;
     }
@@ -174,7 +174,7 @@ public:
 
 protected:
     //! \brief Members for determining the element's draw alignment.
-    int32 _xalign, _yalign;
+    int32_t _xalign, _yalign;
 
     //! \brief The x and y position of the gui element.
     float _x_position, _y_position;

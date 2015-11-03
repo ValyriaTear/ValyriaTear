@@ -139,7 +139,7 @@ OptionBox::OptionBox() :
     _height = 1.0f;
 }
 
-void OptionBox::Update(uint32 frame_time)
+void OptionBox::Update(uint32_t frame_time)
 {
     _event = 0; // Clear all events
 
@@ -205,15 +205,15 @@ void OptionBox::Draw()
 
 
     // ---------- (3) Iterate through all the visible option cells and draw them and the draw cursor
-    for(uint32 row = _draw_top_row; row < _draw_top_row + _number_cell_rows && finished == false; row++) {
+    for(uint32_t row = _draw_top_row; row < _draw_top_row + _number_cell_rows && finished == false; row++) {
 
         bounds.x_left = left;
         bounds.x_center = bounds.x_left + (0.5f * _cell_width * cs.GetHorizontalDirection());
         bounds.x_right = (bounds.x_center * 2.0f) - bounds.x_left;
 
         // Draw the columns of options
-        for(uint32 col = _draw_left_column; col < _draw_left_column + _number_cell_columns; ++col) {
-            uint32 index = row * _number_cell_columns + col;
+        for(uint32_t col = _draw_left_column; col < _draw_left_column + _number_cell_columns; ++col) {
+            uint32_t index = row * _number_cell_columns + col;
 
             // If there are more visible cells than there are options available we leave those cells empty
             if(index >= GetNumberOptions()) {
@@ -225,10 +225,10 @@ void OptionBox::Draw()
             _DrawOption(_options.at(index), bounds, left_edge);
 
             // Draw the cursor if the previously drawn option was or is selected
-            if((static_cast<int32>(index) == _selection || static_cast<int32>(index) == _first_selection) &&
+            if((static_cast<int32_t>(index) == _selection || static_cast<int32_t>(index) == _first_selection) &&
                     _cursor_state != VIDEO_CURSOR_STATE_HIDDEN) {
                 // If this option was the first selection, draw it darkened so that it has a different appearance
-                bool darken = (static_cast<int32>(index) == _first_selection) ? true : false;
+                bool darken = (static_cast<int32_t>(index) == _first_selection) ? true : false;
                 // Also darken when requested
                 if(_cursor_state == VIDEO_CURSOR_STATE_DARKEN)
                     darken = true;
@@ -238,12 +238,12 @@ void OptionBox::Draw()
             bounds.x_left += xoff;
             bounds.x_center += xoff;
             bounds.x_right += xoff;
-        } // for (int32 col = 0; col < _number_columns; ++col)
+        } // for (int32_t col = 0; col < _number_columns; ++col)
 
         bounds.y_top += yoff;
         bounds.y_center += yoff;
         bounds.y_bottom += yoff;
-    } // for (int32 row = row_min; row < row_max; row++)
+    } // for (int32_t row = row_min; row < row_max; row++)
 
     // ---------- (4) Draw scroll arrows where appropriate
     _DetermineScrollArrows();
@@ -295,7 +295,7 @@ void OptionBox::Draw()
 
 
 
-void OptionBox::SetDimensions(float width, float height, uint8 num_cols, uint8 num_rows, uint8 cell_cols, uint8 cell_rows)
+void OptionBox::SetDimensions(float width, float height, uint8_t num_cols, uint8_t num_rows, uint8_t cell_cols, uint8_t cell_rows)
 {
     if(num_rows == 0 || num_cols == 0) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "num_rows/num_cols argument was zero" << std::endl;
@@ -379,7 +379,7 @@ void OptionBox::AddOption(const vt_utils::ustring &text)
 
 
 
-void OptionBox::AddOptionElementText(uint32 option_index, const ustring &text)
+void OptionBox::AddOptionElementText(uint32_t option_index, const ustring &text)
 {
     if(option_index >= GetNumberOptions()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << std::endl;
@@ -390,7 +390,7 @@ void OptionBox::AddOptionElementText(uint32 option_index, const ustring &text)
     OptionElement new_element;
 
     new_element.type = VIDEO_OPTION_ELEMENT_TEXT;
-    new_element.value = static_cast<int32>(this_option.text.size());
+    new_element.value = static_cast<int32_t>(this_option.text.size());
 
     TextImage text_image(text, _text_style);
     this_option.text.push_back(text_image);
@@ -399,7 +399,7 @@ void OptionBox::AddOptionElementText(uint32 option_index, const ustring &text)
 
 
 
-void OptionBox::AddOptionElementImage(uint32 option_index, const std::string &image_filename)
+void OptionBox::AddOptionElementImage(uint32_t option_index, const std::string &image_filename)
 {
     if(option_index >= GetNumberOptions()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << std::endl;
@@ -425,7 +425,7 @@ void OptionBox::AddOptionElementImage(uint32 option_index, const std::string &im
 
 
 
-void OptionBox::AddOptionElementImage(uint32 option_index, const StillImage *image)
+void OptionBox::AddOptionElementImage(uint32_t option_index, const StillImage *image)
 {
     if(option_index >= GetNumberOptions()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << std::endl;
@@ -448,7 +448,7 @@ void OptionBox::AddOptionElementImage(uint32 option_index, const StillImage *ima
 
 
 
-void OptionBox::AddOptionElementAlignment(uint32 option_index, OptionElementType position_type)
+void OptionBox::AddOptionElementAlignment(uint32_t option_index, OptionElementType position_type)
 {
     if(option_index >= GetNumberOptions()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << std::endl;
@@ -470,7 +470,7 @@ void OptionBox::AddOptionElementAlignment(uint32 option_index, OptionElementType
 
 
 
-void OptionBox::AddOptionElementPosition(uint32 option_index, uint32 position_length)
+void OptionBox::AddOptionElementPosition(uint32_t option_index, uint32_t position_length)
 {
     if(option_index >= GetNumberOptions()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << std::endl;
@@ -487,7 +487,7 @@ void OptionBox::AddOptionElementPosition(uint32 option_index, uint32 position_le
 
 
 
-bool OptionBox::SetOptionText(uint32 index, const vt_utils::ustring &text)
+bool OptionBox::SetOptionText(uint32_t index, const vt_utils::ustring &text)
 {
     if(index >= GetNumberOptions()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "argument was invalid (out of bounds): " << index << std::endl;
@@ -500,7 +500,7 @@ bool OptionBox::SetOptionText(uint32 index, const vt_utils::ustring &text)
 
 
 
-void OptionBox::SetSelection(uint32 index)
+void OptionBox::SetSelection(uint32_t index)
 {
     if(index >= GetNumberOptions()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "argument was invalid (out of bounds): " << index << std::endl;
@@ -508,13 +508,13 @@ void OptionBox::SetSelection(uint32 index)
     }
 
     _selection = index;
-    int32 select_row = _selection / _number_columns;
+    int32_t select_row = _selection / _number_columns;
 
     // If the new selection isn't currently being displayed, instantly scroll to it
     if(select_row < _scroll_offset || select_row > (_scroll_offset + _number_rows - 1)) {
         _scroll_offset = select_row - _number_rows + 1;
 
-        int32 total_num_rows = (GetNumberOptions() + _number_columns - 1) / _number_columns;
+        int32_t total_num_rows = (GetNumberOptions() + _number_columns - 1) / _number_columns;
 
         if(_scroll_offset + _number_rows >= total_num_rows) {
             _scroll_offset = total_num_rows - _number_rows;
@@ -524,7 +524,7 @@ void OptionBox::SetSelection(uint32 index)
 
 
 
-void OptionBox::EnableOption(uint32 index, bool enable)
+void OptionBox::EnableOption(uint32_t index, bool enable)
 {
     if(index >= GetNumberOptions()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "argument index was invalid: " << index << std::endl;
@@ -536,7 +536,7 @@ void OptionBox::EnableOption(uint32 index, bool enable)
 
 
 
-bool OptionBox::IsOptionEnabled(uint32 index) const
+bool OptionBox::IsOptionEnabled(uint32_t index) const
 {
     if(index >= GetNumberOptions()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "argument index was invalid: " << index << std::endl;
@@ -547,7 +547,7 @@ bool OptionBox::IsOptionEnabled(uint32 index) const
 }
 
 
-StillImage *OptionBox::GetEmbeddedImage(uint32 index) const
+StillImage *OptionBox::GetEmbeddedImage(uint32_t index) const
 {
     if(index >= GetNumberOptions()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "argument index was invalid: " << index << std::endl;
@@ -564,7 +564,7 @@ StillImage *OptionBox::GetEmbeddedImage(uint32 index) const
 void OptionBox::InputConfirm()
 {
     // Abort if an invalid option is selected
-    if(_selection < 0 || _selection >= static_cast<int32>(GetNumberOptions())) {
+    if(_selection < 0 || _selection >= static_cast<int32_t>(GetNumberOptions())) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "an invalid (out of bounds) option was selected: " << _selection << std::endl;
         return;
     }
@@ -625,7 +625,7 @@ void OptionBox::InputUp()
     if(_ChangeSelection(-1, false) == false)
         return;
 
-    int32 row = _selection / _number_columns;
+    int32_t row = _selection / _number_columns;
 
     if(_skip_disabled) {
         while(_options[_selection].disabled == true) {
@@ -650,7 +650,7 @@ void OptionBox::InputDown()
     if(_ChangeSelection(1, false) == false)
         return;
 
-    int32 row = _selection / _number_columns;
+    int32_t row = _selection / _number_columns;
 
     if(_skip_disabled) {
         while(_options[_selection].disabled == true) {
@@ -675,7 +675,7 @@ void OptionBox::InputLeft()
     if(_ChangeSelection(-1, true) == false)
         return;
 
-    int32 col = _selection % _number_columns;
+    int32_t col = _selection % _number_columns;
 
     if(_skip_disabled) {
         while(_options[_selection].disabled == true) {
@@ -700,7 +700,7 @@ void OptionBox::InputRight()
     if(_ChangeSelection(1, true) == false)
         return;
 
-    int32 col = _selection % _number_columns;
+    int32_t col = _selection % _number_columns;
 
     if(_skip_disabled) {
         while(_options[_selection].disabled == true) {
@@ -728,8 +728,8 @@ void OptionBox::SetTextStyle(const TextStyle &style)
     _text_style = style;
 
     // Update any existing TextImage texts with new font style
-    for (uint32 i = 0; i < _options.size(); ++i) {
-        for (uint32 j = 0; j < _options[i].text.size(); ++j) {
+    for (uint32_t i = 0; i < _options.size(); ++i) {
+        for (uint32_t j = 0; j < _options[i].text.size(); ++j) {
             _options[i].text[j].SetStyle(style);
         }
     }
@@ -842,7 +842,7 @@ bool OptionBox::_ConstructOption(const ustring &format_string, Option &op)
 
         else { // If this isn't a tag, then it is raw text that should be added to the option
             new_element.type = VIDEO_OPTION_ELEMENT_TEXT;
-            new_element.value = static_cast<int32>(op.text.size());
+            new_element.value = static_cast<int32_t>(op.text.size());
 
             // find the distance until the next tag
             size_t tag_begin = tmp.find(OPEN_TAG);
@@ -866,7 +866,7 @@ bool OptionBox::_ConstructOption(const ustring &format_string, Option &op)
 
 
 
-bool OptionBox::_ChangeSelection(int32 offset, bool horizontal)
+bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
 {
     // Do nothing if the movement is horizontal and there is only one column with no horizontal wrap shifting
     if((horizontal == true) && (_number_cell_columns == 1) && (_horizontal_wrap_mode != VIDEO_WRAP_MODE_SHIFTED))
@@ -877,16 +877,16 @@ bool OptionBox::_ChangeSelection(int32 offset, bool horizontal)
         return false;
 
     // Get the row, column coordinates for the current selection
-    int32 row = _selection / _number_columns;
-    int32 col = _selection % _number_columns;
+    int32_t row = _selection / _number_columns;
+    int32_t col = _selection % _number_columns;
     bool bounds_exceeded = false;
 
     // Determine if the movement selection will exceed a column or row bondary
     int new_row = (row + offset) * _number_columns;
     if((horizontal == true && ((col + offset < 0) || (col + offset >= _number_columns) ||
-                               (col + offset >= static_cast<int32>(GetNumberOptions())))) ||
+                               (col + offset >= static_cast<int32_t>(GetNumberOptions())))) ||
             (horizontal == false && ((new_row < 0) || (new_row >= _number_rows) ||
-                                     (new_row >= static_cast<int32>(GetNumberOptions()))))) {
+                                     (new_row >= static_cast<int32_t>(GetNumberOptions()))))) {
         bounds_exceeded = true;
     }
 
@@ -954,10 +954,10 @@ bool OptionBox::_ChangeSelection(int32 offset, bool horizontal)
     }
 
     // Determine if the new selection is not displayed in any cells. If so, scroll it into view.
-    int32 selection_row = _selection / _number_columns;
-    int32 selection_col = _selection % _number_columns;
+    int32_t selection_row = _selection / _number_columns;
+    int32_t selection_col = _selection % _number_columns;
 
-    if((static_cast<uint32>(selection_row) < _draw_top_row)) {
+    if((static_cast<uint32_t>(selection_row) < _draw_top_row)) {
         _scrolling = true;
         _scroll_time = 0;
         _draw_top_row = selection_row;
@@ -970,7 +970,7 @@ bool OptionBox::_ChangeSelection(int32 offset, bool horizontal)
         _scroll_offset += _scroll_direction;
     }
 
-    else if((static_cast<uint32>(selection_row) >= (_draw_top_row + _number_cell_rows))) {
+    else if((static_cast<uint32_t>(selection_row) >= (_draw_top_row + _number_cell_rows))) {
         _scrolling = true;
         _scroll_time = 0;
         _draw_top_row = selection_row - _number_cell_rows + 1;
@@ -983,7 +983,7 @@ bool OptionBox::_ChangeSelection(int32 offset, bool horizontal)
         _scroll_offset += _scroll_direction;
     }
 
-    else if((static_cast<uint32>(selection_col) < _draw_left_column)) {
+    else if((static_cast<uint32_t>(selection_col) < _draw_left_column)) {
         _scrolling = true;
         _scroll_time = 0;
         _draw_left_column = selection_col;
@@ -996,7 +996,7 @@ bool OptionBox::_ChangeSelection(int32 offset, bool horizontal)
         _scroll_offset += _scroll_direction;
     }
 
-    else if((static_cast<uint32>(selection_col) >= (_draw_left_column + _number_cell_columns))) {
+    else if((static_cast<uint32_t>(selection_col) >= (_draw_left_column + _number_cell_columns))) {
         _scrolling = true;
         _scroll_time = 0;
         _draw_left_column = selection_col - _number_cell_columns + 1;
@@ -1025,11 +1025,11 @@ bool OptionBox::_ChangeSelection(int32 offset, bool horizontal)
 
     _event = VIDEO_OPTION_SELECTION_CHANGE;
     return true;
-} // bool OptionBox::_ChangeSelection(int32 offset, bool horizontal)
+} // bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
 
 
 
-void OptionBox::_SetupAlignment(int32 xalign, int32 yalign, const OptionCellBounds &bounds, float &x, float &y)
+void OptionBox::_SetupAlignment(int32_t xalign, int32_t yalign, const OptionCellBounds &bounds, float &x, float &y)
 {
     VideoManager->SetDrawFlags(xalign, yalign, 0);
 
@@ -1058,7 +1058,7 @@ void OptionBox::_SetupAlignment(int32 xalign, int32 yalign, const OptionCellBoun
     }
 
     VideoManager->Move(x, y);
-} // void OptionBox::_SetupAlignment(int32 xalign, int32 yalign, const OptionCellBounds& bounds, float& x, float& y)
+} // void OptionBox::_SetupAlignment(int32_t xalign, int32_t yalign, const OptionCellBounds& bounds, float& x, float& y)
 
 
 
@@ -1069,24 +1069,24 @@ void OptionBox::_DetermineScrollArrows()
     _grey_left_arrow = false;
     _grey_right_arrow = false;
 
-    _draw_horizontal_arrows = (_number_cell_columns < _number_columns) && (static_cast<int32>(GetNumberOptions()) > _number_cell_columns);
-    _draw_vertical_arrows = (_number_cell_rows < _number_rows) && (static_cast<int32>(GetNumberOptions()) > _number_columns * _number_cell_rows);
+    _draw_horizontal_arrows = (_number_cell_columns < _number_columns) && (static_cast<int32_t>(GetNumberOptions()) > _number_cell_columns);
+    _draw_vertical_arrows = (_number_cell_rows < _number_rows) && (static_cast<int32_t>(GetNumberOptions()) > _number_columns * _number_cell_rows);
 
     if(_horizontal_wrap_mode == VIDEO_WRAP_MODE_NONE) {
         if(_draw_left_column == 0)
             _grey_left_arrow = true;
-        if(static_cast<int32>(_draw_left_column + _number_cell_columns) >= _number_columns)
+        if(static_cast<int32_t>(_draw_left_column + _number_cell_columns) >= _number_columns)
             _grey_right_arrow = true;
-        if(_selection >= static_cast<int32>(_options.size() - 1))
+        if(_selection >= static_cast<int32_t>(_options.size() - 1))
             _grey_right_arrow = true;
     }
 
     if(_vertical_wrap_mode == VIDEO_WRAP_MODE_NONE) {
         if(_draw_top_row == 0)
             _grey_up_arrow = true;
-        if(static_cast<int32>(_draw_top_row + _number_cell_rows) > _number_rows)
+        if(static_cast<int32_t>(_draw_top_row + _number_cell_rows) > _number_rows)
             _grey_down_arrow = true;
-        if(_selection + _number_cell_columns >= static_cast<int32>(_options.size()))
+        if(_selection + _number_cell_columns >= static_cast<int32_t>(_options.size()))
             _grey_down_arrow = true;
     }
 }
@@ -1096,14 +1096,14 @@ void OptionBox::_DetermineScrollArrows()
 void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, float &left_edge)
 {
     float x, y;
-    int32 xalign = _option_xalign;
-    int32 yalign = _option_yalign;
+    int32_t xalign = _option_xalign;
+    int32_t yalign = _option_yalign;
     CoordSys &cs = VideoManager->_current_context.coordinate_system;
 
     _SetupAlignment(xalign, yalign, bounds, x, y);
 
     // Iterate through all option elements in the current option
-    for(int32 element = 0; element < static_cast<int32>(op.elements.size()); ++element) {
+    for(int32_t element = 0; element < static_cast<int32_t>(op.elements.size()); ++element) {
         switch(op.elements[element].type) {
         case VIDEO_OPTION_ELEMENT_LEFT_ALIGN: {
             xalign = VIDEO_X_LEFT;
@@ -1142,9 +1142,9 @@ void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, fl
             break;
         }
         case VIDEO_OPTION_ELEMENT_TEXT: {
-            int32 text_index = op.elements[element].value;
+            int32_t text_index = op.elements[element].value;
 
-            if(text_index >= 0 && text_index < static_cast<int32>(op.text.size())) {
+            if(text_index >= 0 && text_index < static_cast<int32_t>(op.text.size())) {
                 float width = op.text[text_index].GetWidth();
                 float edge = x - bounds.x_left; // edge value for VIDEO_X_LEFT
 
@@ -1171,7 +1171,7 @@ void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, fl
             break;
         }
         } // switch (op.elements[element].type)
-    } // for (int32 element = 0; element < static_cast<int32>(op.elements.size()); element++)
+    } // for (int32_t element = 0; element < static_cast<int32_t>(op.elements.size()); element++)
 } // void OptionBox::_DrawOption(const Option& op, const OptionCellBounds &bounds, float scroll_offset, float& left_edge)
 
 
@@ -1226,7 +1226,7 @@ void OptionBox::_DEBUG_DrawOutline()
 
     // Draw outline for inner cell rows.
     float cell_row = top;
-    for (int32 i = 1; i < _number_cell_rows; ++i) {
+    for (int32_t i = 1; i < _number_cell_rows; ++i) {
         cell_row += _cell_height;
         VideoManager->DrawLine(left, cell_row, 3, right, cell_row, 3, alpha_black);
         VideoManager->DrawLine(left, cell_row, 1, right, cell_row, 1, alpha_white);
@@ -1234,7 +1234,7 @@ void OptionBox::_DEBUG_DrawOutline()
 
     // Draw outline for inner cell columns.
     float cell_col = left;
-    for (int32 i = 1; i < _number_cell_columns; ++i) {
+    for (int32_t i = 1; i < _number_cell_columns; ++i) {
         cell_col += _cell_width;
         VideoManager->DrawLine(cell_col, bottom, 3, cell_col, top, 3, alpha_black);
         VideoManager->DrawLine(cell_col, bottom, 1, cell_col, top, 1, alpha_white);

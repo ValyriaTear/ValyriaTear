@@ -104,10 +104,10 @@ private:
     std::set<private_video::TextTexture *> _text_images;
 
     //! \brief An index to _tex_sheets of the current texture sheet being shown in debug mode. -1 indicates no sheet
-    int32 _debug_current_sheet;
+    int32_t _debug_current_sheet;
 
     //! \brief Keeps track of the number of texture switches per frame
-    uint32 _debug_num_tex_switches;
+    uint32_t _debug_num_tex_switches;
 
     // ---------- Private methods
 
@@ -118,7 +118,7 @@ private:
     *** \param height The desired height of the texture
     *** \return The OpenGL ID for this texture, or INVALID_TEXTURE_ID if the texture could not be created
     **/
-    GLuint _CreateBlankGLTexture(int32 width, int32 height);
+    GLuint _CreateBlankGLTexture(int32_t width, int32_t height);
 
     /** \brief A wrapper to glBindTexture() that also adds checking to eliminate redundant texture binding
     *** \param tex_id The integer handle to the OpenGL texture to bind
@@ -155,7 +155,7 @@ private:
     *** \param is_static If true, this texture sheet is meant to manage images which are not expected to be loaded and unloaded very often
     *** \return A pointer to the newly created TexSheet, or nullptr if a new should could not be created
     **/
-    private_video::TexSheet *_CreateTexSheet(int32 width, int32 height, private_video::TexSheetType type, bool is_static);
+    private_video::TexSheet *_CreateTexSheet(int32_t width, int32_t height, private_video::TexSheetType type, bool is_static);
 
     /** \brief Removes references to a texture sheet and deletes it from memory
     *** \param sheet A pointer to the sheet we wish to remove

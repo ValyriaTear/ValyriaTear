@@ -46,13 +46,13 @@ class Context
 {
 public:
     //! \brief Flag to indicate whether normal alpha blending is to take place.
-    int8 blend;
+    int8_t blend;
 
     //! \brief Draw alignment flags to determine where an element is drawn relative to the cursor.
-    int8 x_align, y_align;
+    int8_t x_align, y_align;
 
     //! \brief Draw flip flags to determine if an element should be drawn flipped across an axis.
-    int8 x_flip, y_flip;
+    int8_t x_flip, y_flip;
 
     //! \brief The coordinate system being used by this context.
     CoordSys coordinate_system;

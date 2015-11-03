@@ -87,7 +87,7 @@ public:
     *** \param enable_saving Tells whether the save mode permits saving.
     *** \param positions When used in a save point, the save map tile positions are given there.
     **/
-    SaveMode(bool save_mode, uint32 x_position = 0, uint32 y_position = 0);
+    SaveMode(bool save_mode, uint32_t x_position = 0, uint32_t y_position = 0);
 
     ~SaveMode();
 
@@ -106,10 +106,10 @@ public:
 
 private:
     //! \brief Attempts to load a game. returns true on success, false on fail
-    bool _LoadGame(uint32 id);
+    bool _LoadGame(uint32_t id);
 
     //! \brief Loads preview data for the highlighted game
-    bool _PreviewGame(uint32 id);
+    bool _PreviewGame(uint32_t id);
 
     //! \brief Clears out the data saves. Used especially when the data is invalid.
     //! \param selected_file_exists Tells whether the selected file exists.
@@ -133,7 +133,7 @@ private:
     vt_save::SmallCharacterWindow _character_window[4];
 
     //! \brief Current state of SaveMode
-    uint8 _current_state;
+    uint8_t _current_state;
 
     //! \brief A screen capture of the last frame rendered on the screen before SaveMode was invoked
     vt_video::StillImage _screen_capture;
@@ -167,7 +167,7 @@ private:
     vt_video::StillImage* _drunes_icon;
 
     //! \brief Used to know whether a save position has to be saved.
-    uint32 _x_position, _y_position;
+    uint32_t _x_position, _y_position;
 
     //! \brief Tells whether we're in save or load mode.
     bool _save_mode;

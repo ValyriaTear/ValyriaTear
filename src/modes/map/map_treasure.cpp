@@ -54,12 +54,12 @@ MapTreasure::MapTreasure() :
 
 MapTreasure::~MapTreasure()
 {
-    for(uint32 i = 0; i < _items_list.size(); i++) {
+    for(uint32_t i = 0; i < _items_list.size(); i++) {
         delete _items_list[i];
     }
 }
 
-bool MapTreasure::AddItem(uint32 id, uint32 quantity)
+bool MapTreasure::AddItem(uint32_t id, uint32_t quantity)
 {
     vt_global::GlobalObject *obj = GlobalCreateNewObject(id, quantity);
 
@@ -162,7 +162,7 @@ void TreasureSupervisor::Initialize(MapTreasure *treasure)
         GlobalManager->Media().PlaySound("item_pickup");
     }
 
-    for(uint32 i = 0; i < _treasure->_items_list.size(); i++) {
+    for(uint32_t i = 0; i < _treasure->_items_list.size(); i++) {
         if(_treasure->_items_list[i]->GetCount() > 1) {
             _list_options.AddOption(MakeUnicodeString("<" + _treasure->_items_list[i]->GetIconImage().GetFilename() + ">       ") +
                                     _treasure->_items_list[i]->GetName() +
@@ -173,7 +173,7 @@ void TreasureSupervisor::Initialize(MapTreasure *treasure)
         }
     }
 
-    for(uint32 i = 0; i < _list_options.GetNumberOptions(); i++) {
+    for(uint32_t i = 0; i < _list_options.GetNumberOptions(); i++) {
         _list_options.GetEmbeddedImage(i)->SetDimensions(30.0f, 30.0f);
     }
 
@@ -189,7 +189,7 @@ void TreasureSupervisor::Initialize(MapTreasure *treasure)
     // Immediately add the drunes and objects to the player's inventory
     GlobalManager->AddDrunes(_treasure->_drunes);
 
-    for(uint32 i = 0; i < _treasure->_items_list.size(); ++i) {
+    for(uint32_t i = 0; i < _treasure->_items_list.size(); ++i) {
         GlobalObject *obj = _treasure->_items_list[i];
         if(!obj)
             continue;
@@ -320,7 +320,7 @@ void TreasureSupervisor::_UpdateList()
         _selection = DETAIL_SELECTED;
         _list_options.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 
-        uint32 list_selection = _list_options.GetSelection();
+        uint32_t list_selection = _list_options.GetSelection();
         if(list_selection == 0 && _treasure->_drunes != 0) {
             // If true, the drunes have been selected
             _selection_name.SetText(UTranslate("Drunes"));
@@ -347,7 +347,7 @@ void TreasureSupervisor::_UpdateList()
             _list_options.InputUp();
         }
     } else if(InputManager->DownPress()) {
-        if(static_cast<uint32>(_list_options.GetSelection()) == (_list_options.GetNumberOptions() - 1)) {
+        if(static_cast<uint32_t>(_list_options.GetSelection()) == (_list_options.GetNumberOptions() - 1)) {
             _selection = ACTION_SELECTED;
             _action_options.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
             _list_options.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);

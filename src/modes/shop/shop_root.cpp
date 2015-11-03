@@ -71,8 +71,8 @@ void RootInterface::Reinitialize()
 {
     // ---------- (1): Create the price level graphics
     // Holds the number of stars to display that represent the price levels
-    int8 num_buy_stars = 0;
-    int8 num_sell_stars = 0;
+    int8_t num_buy_stars = 0;
+    int8_t num_sell_stars = 0;
 
     // Determine the number of stars based on the price level
     switch(ShopMode::CurrentInstance()->GetBuyPriceLevel()) {
@@ -128,7 +128,7 @@ void RootInterface::Reinitialize()
     _sell_price_rating.SetDimensions(200.0f, 30.0f);
 
     float offset = 0.0f;
-    for(uint8 count = 5; count > 0; count--) {
+    for(uint8_t count = 5; count > 0; count--) {
         if(num_buy_stars > 0) {
             _buy_price_rating.AddImage(star, offset, 0.0f);
         } else {
@@ -140,7 +140,7 @@ void RootInterface::Reinitialize()
     }
 
     offset = 0.0f;
-    for(uint8 count = 5; count > 0; count--, num_sell_stars--) {
+    for(uint8_t count = 5; count > 0; count--, num_sell_stars--) {
         if(num_sell_stars > 0) {
             _sell_price_rating.AddImage(star, offset, 0.0f);
         } else {

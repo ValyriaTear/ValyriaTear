@@ -52,7 +52,7 @@ namespace vt_map
 {
 
 //! The stamina maximum value.
-const uint32 STAMINA_FULL = 10000;
+const uint32_t STAMINA_FULL = 10000;
 
 //! An internal namespace to be used only within the map code. Don't use this namespace anywhere else!
 namespace private_map
@@ -116,7 +116,7 @@ public:
     //! \param script_filename The name of the Lua file that retains all data about script to load
     //! \param stamina The amount of stamina the map character sprite will start with.
     //! \note the last parameter is usually set to carry the current stamina value from one map to another.
-    MapMode(const std::string &data_filename, const std::string& script_filename, uint32 stamina = STAMINA_FULL);
+    MapMode(const std::string &data_filename, const std::string& script_filename, uint32_t stamina = STAMINA_FULL);
 
     ~MapMode();
 
@@ -171,11 +171,11 @@ public:
         return _map_hud_name.GetString();
     }
 
-    uint32 GetStamina() const {
+    uint32_t GetStamina() const {
         return _run_stamina;
     }
 
-    void SetStamina(uint32 new_stamina) {
+    void SetStamina(uint32_t new_stamina) {
         _run_stamina = new_stamina;
     }
 
@@ -245,11 +245,11 @@ public:
         _camera = sprite;
     }
 
-    void SetCamera(private_map::VirtualSprite* sprite, uint32 duration);
+    void SetCamera(private_map::VirtualSprite* sprite, uint32_t duration);
 
     void MoveVirtualFocus(float loc_x, float loc_y);
 
-    void MoveVirtualFocus(float loc_x, float loc_y, uint32 duration);
+    void MoveVirtualFocus(float loc_x, float loc_y, uint32_t duration);
 
     bool IsCameraOnVirtualFocus();
 
@@ -336,10 +336,10 @@ public:
     }
 
     //! \brief Returns the map x size in tiles,
-    uint16 GetMapWidth() const;
+    uint16_t GetMapWidth() const;
 
     //! \brief Returns the map y size in tiles,
-    uint16 GetMapHeight() const;
+    uint16_t GetMapHeight() const;
 
     //! \brief Gives the current map pixel lengths.
     //! Used to properly place sprites and avoid glitches.
@@ -411,7 +411,7 @@ public:
     bool ChangeActiveStatusEffect(vt_global::GlobalCharacter* character,
                                   vt_global::GLOBAL_STATUS status_type,
                                   vt_global::GLOBAL_INTENSITY intensity,
-                                  uint32 duration) {
+                                  uint32_t duration) {
         return _status_effect_supervisor.ChangeActiveStatusEffect(character,
                                                                   status_type,
                                                                   intensity,
@@ -556,7 +556,7 @@ private:
     *** This value ranges from 0 to STAMINA_FULL. It takes twice as long to regenerate stamina as
     *** it does to consume it when running.
     **/
-    uint32 _run_stamina;
+    uint32_t _run_stamina;
 
     /** \brief the alpha value used to create fade in/out of the map GUI when switching in
     *** or out of the STATE_SCENE or DIALOGUE state.
@@ -609,7 +609,7 @@ private:
     **/
     std::string _music_filename;
     vt_audio::AUDIO_STATE _music_audio_state;
-    uint32 _music_audio_sample;
+    uint32_t _music_audio_sample;
 
     //! \brief the minimap for the current map instance
     private_map::Minimap *_minimap;

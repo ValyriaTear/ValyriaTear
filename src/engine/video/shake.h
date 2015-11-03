@@ -61,10 +61,10 @@ public:
     Interpolator interpolator;
 
     //! milliseconds that passed since this shake started
-    uint32 current_time;
+    uint32_t current_time;
 
     //! milliseconds that this shake was set to last for
-    uint32 end_time;
+    uint32_t end_time;
 };
 
 }  // namespace vt_mode_manager

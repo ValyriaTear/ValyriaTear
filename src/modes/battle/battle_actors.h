@@ -294,10 +294,10 @@ public:
     *** If the amount of damage dealt is greater than the actor's current hit points, the actor will be placed
     *** in the ACTOR_STATE_DEAD state.
     **/
-    virtual void RegisterDamage(uint32 amount);
+    virtual void RegisterDamage(uint32_t amount);
 
     //! \brief Steals the actor skill points
-    void RegisterSPDamage(uint32 amount);
+    void RegisterSPDamage(uint32_t amount);
 
     /** \brief Deals damage to the actor by reducing its hit points by a certain amount
     *** \param amount The number of hit points to decrease on the actor
@@ -309,7 +309,7 @@ public:
     *** case, then it applies the status effect to the actor if the random probability calculation determines
     *** that the effect has been triggered.
     **/
-    void RegisterDamage(uint32 amount, BattleTarget *target);
+    void RegisterDamage(uint32_t amount, BattleTarget *target);
 
     /** \brief Heals the actor by restoring a certain amount of points
     *** \param amount The number of points to add to the actor.
@@ -319,12 +319,12 @@ public:
     *** The number of hit points on the actor are not allowed to increase beyond the actor's maximum hit
     *** points.
     **/
-    void RegisterHealing(uint32 amount, bool hit_points = true);
+    void RegisterHealing(uint32_t amount, bool hit_points = true);
 
     /** \brief Heals a dead actor and permits him to go back in shape for the battle.
     *** \param amount The number of points to add to the actor. Must be > 0.
     **/
-    void RegisterRevive(uint32 amount);
+    void RegisterRevive(uint32_t amount);
 
     /** \brief Indicates that an action failed to connect on this target
     *** \param was_attacked Tells whether the miss is due to a missed attack
@@ -365,7 +365,7 @@ public:
     *** to be displayed representing the change in status.
     **/
     void ApplyActiveStatusEffect(vt_global::GLOBAL_STATUS status, vt_global::GLOBAL_INTENSITY intensity,
-                                 uint32 duration = 0);
+                                 uint32_t duration = 0);
 
     //! \brief Removes the given status effect, calling the according BattleRemove() script function.
     void RemoveActiveStatusEffect(vt_global::GLOBAL_STATUS status_effect);
@@ -384,7 +384,7 @@ public:
     *** be drawn to the screen near the actor's sprite. If the value of the amount argument is zero,
     *** the word "Miss" will be drawn instead;
     **/
-    void ChangeSkillPoints(int32 amount);
+    void ChangeSkillPoints(int32_t amount);
 
     //! \brief Stuns the BattleActor, preventing its state timer to update.
     //! \param stun Whether the actor should be stunned.
@@ -420,12 +420,12 @@ public:
 
     //! \brief Convenience wrapper for all targets type skills
     //! This one useful for self target-type skills, and all allies/enemies target-type skills.
-    void SetAction(uint32 skill_id) {
+    void SetAction(uint32_t skill_id) {
         SetAction(skill_id, nullptr);
     }
 
     //! \brief Convenience wrapper for single target type skills
-    void SetAction(uint32 skill_id, BattleActor* target_actor);
+    void SetAction(uint32_t skill_id, BattleActor* target_actor);
 
     //! \brief Resets actor stats to their original values
     //@{
@@ -471,7 +471,7 @@ public:
     }
 
     //! SetAgility() overloading the GlobalActor one, to permit updating the idle State timer also.
-    void SetAgility(uint32 agility);
+    void SetAgility(uint32_t agility);
 
     //! SetAgilityModifier() overloading the GlobalActor one, to permit updating the idle State timer also.
     void SetAgilityModifier(float modifier);
@@ -504,7 +504,7 @@ public:
         return (_action != nullptr);
     }
 
-    uint32 GetIdleStateTime() const {
+    uint32_t GetIdleStateTime() const {
         return _idle_state_time;
     }
 
@@ -517,7 +517,7 @@ public:
     }
 
     //! \note If the actor is in the idle state, this will not affect the state timer
-    void SetIdleStateTime(uint32 time) {
+    void SetIdleStateTime(uint32_t time) {
         _idle_state_time = time;
     }
     //@}
@@ -536,7 +536,7 @@ protected:
     BattleAction* _action;
 
     //! \brief The amount of time (in milliseconds) that the actor needs to wait to pass through the idle state
-    uint32 _idle_state_time;
+    uint32_t _idle_state_time;
 
     //! \brief A timer used as the character progresses through the standard series of actor states
     vt_system::SystemTimer _state_timer;
@@ -598,8 +598,8 @@ protected:
     void _InitStats();
 
     //! Returns the text style corresponding to the damage/healing type and amount
-    vt_video::TextStyle _GetDamageTextStyle(uint32 amount, bool is_sp_damage);
-    vt_video::TextStyle _GetHealingTextStyle(uint32 amount, bool is_hp);
+    vt_video::TextStyle _GetDamageTextStyle(uint32_t amount, bool is_sp_damage);
+    vt_video::TextStyle _GetHealingTextStyle(uint32_t amount, bool is_hp);
 }; // class BattleActor
 
 
@@ -663,7 +663,7 @@ public:
     *** \param order The order position of the character [0-3] used to determine draw positions
     *** \param character_command Tells which character the command menu is open for, if any. (can be nullptr)
     **/
-    void DrawStatus(uint32 order, BattleCharacter* character_command);
+    void DrawStatus(uint32_t order, BattleCharacter* character_command);
 
     vt_global::GlobalCharacter *GetGlobalCharacter() {
         return _global_character;
@@ -678,7 +678,7 @@ protected:
     vt_global::GlobalCharacter* _global_character;
 
     //! \brief Retrains the last HP and SP values that were rendered to text
-    uint32 _last_rendered_hp, _last_rendered_sp;
+    uint32_t _last_rendered_hp, _last_rendered_sp;
 
     //! \brief Contains the identifier text of the current sprite animation
     std::string _sprite_animation_alias;
@@ -720,7 +720,7 @@ protected:
 class BattleEnemy : public BattleActor
 {
 public:
-    BattleEnemy(uint32 enemy_id);
+    BattleEnemy(uint32_t enemy_id);
 
     ~BattleEnemy();
 

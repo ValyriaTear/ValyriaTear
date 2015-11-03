@@ -96,10 +96,10 @@ public:
     virtual bool ShouldShowSkillNotice() const = 0;
 
     //! \brief Returns the number of milliseconds that the owner actor must wait in the warm up state
-    virtual uint32 GetWarmUpTime() const = 0;
+    virtual uint32_t GetWarmUpTime() const = 0;
 
     //! \brief Returns the number of milliseconds that the owner actor must wait in the cool down state
-    virtual uint32 GetCoolDownTime() const = 0;
+    virtual uint32_t GetCoolDownTime() const = 0;
 
     //! \brief Returns the character action name played before at warmup time.
     virtual std::string GetWarmupActionName() const = 0;
@@ -178,9 +178,9 @@ public:
 
     bool ShouldShowSkillNotice() const;
 
-    uint32 GetWarmUpTime() const;
+    uint32_t GetWarmUpTime() const;
 
-    uint32 GetCoolDownTime() const;
+    uint32_t GetCoolDownTime() const;
 
     std::string GetWarmupActionName() const;
 
@@ -237,9 +237,9 @@ public:
         return true;
     }
 
-    uint32 GetWarmUpTime() const;
+    uint32_t GetWarmUpTime() const;
 
-    uint32 GetCoolDownTime() const;
+    uint32_t GetCoolDownTime() const;
 
     std::string GetWarmupActionName() const {
         return "idle";

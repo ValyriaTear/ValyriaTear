@@ -48,9 +48,9 @@ enum FINISH_STATE {
 //! \brief The set of defeat options that the player can select
 //@{
 //! Retry the battle
-const uint32 DEFEAT_OPTION_RETRY     = 0;
+const uint32_t DEFEAT_OPTION_RETRY     = 0;
 //! End game and return to boot menu
-const uint32 DEFEAT_OPTION_END       = 1;
+const uint32_t DEFEAT_OPTION_END       = 1;
 //@}
 
 
@@ -78,13 +78,13 @@ public:
 
     //! \brief Holds the accumulated growth for all stats
     //@{
-    uint32 hit_points;
-    uint32 skill_points;
-    uint32 strength;
-    uint32 vigor;
-    uint32 fortitude;
-    uint32 protection;
-    uint32 agility;
+    uint32_t hit_points;
+    uint32_t skill_points;
+    uint32_t strength;
+    uint32_t vigor;
+    uint32_t fortitude;
+    uint32_t protection;
+    uint32_t agility;
     float evade;
     //@}
 
@@ -106,7 +106,7 @@ private:
     vt_global::GlobalCharacter* _character;
 
     //! \brief A counter that reflects the number of experience levels that the character has gained (0 for no levels gained)
-    uint32 _experience_levels_gained;
+    uint32_t _experience_levels_gained;
 }; // class CharacterGrowth
 
 
@@ -138,7 +138,7 @@ public:
     void Draw();
 
     //! \brief Returns the defeat option that the player selected
-    uint32 GetDefeatOption() const {
+    uint32_t GetDefeatOption() const {
         return _options.GetSelection();
     }
 
@@ -199,10 +199,10 @@ private:
     FINISH_STATE &_state;
 
     //! \brief The total number of characters in the victorious party, living or dead
-    uint32 _characters_number;
+    uint32_t _characters_number;
 
     //! \brief The amount of xp earned for the victory (per character)
-    uint32 _xp_earned;
+    uint32_t _xp_earned;
 
     //! \brief Tells to which character the raw fighting XP bonus is given to,
     //! and whether it has been given. True if given.
@@ -213,13 +213,13 @@ private:
     bool _raw_xp_won[4];
 
     //! \brief The amount of drunes dropped by the enemy party
-    uint32 _drunes_dropped;
+    uint32_t _drunes_dropped;
 
     //! \brief When set to true, counting out of XP or Drunes will begin
     bool _begin_counting;
 
     //! \brief Retains the number of character windows that were created
-    uint32 _number_character_windows_created;
+    uint32_t _number_character_windows_created;
 
     //! \brief Pointers to all characters who took part in the battle
     std::vector<vt_global::GlobalCharacter *> _characters;
@@ -231,7 +231,7 @@ private:
     vt_video::StillImage _character_portraits[4];
 
     //! \brief Holds all objects that were dropped by the defeated enemy party (<ID, quantity>)
-    std::map<vt_global::GlobalObject *, int32> _objects_dropped;
+    std::map<vt_global::GlobalObject *, int32_t> _objects_dropped;
 
     //! \brief The top window in the GUI display that contains header text
     vt_gui::MenuWindow _header_window;
@@ -282,7 +282,7 @@ private:
     void _UpdateSpoils();
 
     //! \brief Draws the XP earned by the party and any attribute growth they have made
-    void _DrawGrowth(uint32 index);
+    void _DrawGrowth(uint32_t index);
 
     //! \brief Draws the number of drunes and items dropped by the enemy party
     void _DrawSpoils();

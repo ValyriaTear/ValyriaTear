@@ -80,11 +80,11 @@ public:
 
     //! \name Class member accessor methods
     //@{
-    void SetLastCategory(uint32 category) {
+    void SetLastCategory(uint32_t category) {
         _last_category = category;
     }
 
-    void SetLastItem(uint32 item) {
+    void SetLastItem(uint32_t item) {
         _last_item = item;
     }
 
@@ -92,11 +92,11 @@ public:
         return _character;
     }
 
-    uint32 GetLastCategory() const {
+    uint32_t GetLastCategory() const {
         return _last_category;
     }
 
-    uint32 GetLastItem() const {
+    uint32_t GetLastItem() const {
         return _last_item;
     }
 
@@ -139,10 +139,10 @@ private:
     BattleCharacter *_character;
 
     //! \brief The last category of action that the player selected for this character
-    uint32 _last_category;
+    uint32_t _last_category;
 
     //! \brief The index of the last item that the player selected for this character
-    uint32 _last_item;
+    uint32_t _last_item;
 
     //! \brief Holds the last attack point that the player selected for the character to target on themselves
     BattleTarget _last_self_target;
@@ -200,7 +200,7 @@ public:
     *** \param item_index The index of the item to select
     *** \note If the selection argument is out-of-range, no change will take place.
     **/
-    void Initialize(uint32 item_index);
+    void Initialize(uint32_t item_index);
 
     /** \brief Returns a pointer to the currently selected item
     *** This function will return nullptr if the class has not been initialized and there is no list of
@@ -228,7 +228,7 @@ public:
     void ResetItemList();
 
     //! \brief Returns the number of items that will be displayed in the list
-    uint32 GetNumberListOptions() const {
+    uint32_t GetNumberListOptions() const {
         return _item_list.GetNumberOptions();
     }
 

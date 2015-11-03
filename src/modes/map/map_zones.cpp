@@ -34,30 +34,30 @@ namespace private_map
 // ---------- MapZone Class Functions
 // -----------------------------------------------------------------------------
 
-MapZone::MapZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
+MapZone::MapZone(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row)
 {
     AddSection(left_col, right_col, top_row, bottom_row);
     // Register to the object supervisor
     MapMode::CurrentInstance()->GetObjectSupervisor()->AddZone(this);
 }
 
-MapZone* MapZone::Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
+MapZone* MapZone::Create(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row)
 {
     // The zone auto registers to the object supervisor
     // and will later handle deletion.
     return new MapZone(left_col, right_col, top_row, bottom_row);
 }
 
-void MapZone::AddSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
+void MapZone::AddSection(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row)
 {
     if(left_col >= right_col) {
-        uint16 temp = left_col;
+        uint16_t temp = left_col;
         left_col = right_col;
         right_col = temp;
     }
 
     if(top_row >= bottom_row) {
-        uint16 temp = bottom_row;
+        uint16_t temp = bottom_row;
         bottom_row = top_row;
         top_row = temp;
     }
@@ -67,8 +67,8 @@ void MapZone::AddSection(uint16 left_col, uint16 right_col, uint16 top_row, uint
 
 bool MapZone::IsInsideZone(float pos_x, float pos_y) const
 {
-    uint16 x = (uint16)GetFloatInteger(pos_x);
-    uint16 y = (uint16)GetFloatInteger(pos_y);
+    uint16_t x = (uint16_t)GetFloatInteger(pos_x);
+    uint16_t y = (uint16_t)GetFloatInteger(pos_y);
     // Verify each section of the zone and check if the position is within the section bounds.
     for(std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
         if(x >= it->left_col && x <= it->right_col &&
@@ -94,7 +94,7 @@ void MapZone::Draw()
 void MapZone::RandomPosition(float &x, float &y)
 {
     // Select a random ZoneSection
-    uint16 i = RandomBoundedInteger(0, _sections.size() - 1);
+    uint16_t i = RandomBoundedInteger(0, _sections.size() - 1);
 
     // Select a random x and y position inside that section
     x = (float)RandomBoundedInteger(_sections[i].left_col, _sections[i].right_col);
@@ -129,13 +129,13 @@ bool MapZone::_ShouldDraw(const ZoneSection &section)
 // ---------- CameraZone Class Functions
 // -----------------------------------------------------------------------------
 
-CameraZone::CameraZone(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row) :
+CameraZone::CameraZone(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row) :
     MapZone(left_col, right_col, top_row, bottom_row),
     _camera_inside(false),
     _was_camera_inside(false)
 {}
 
-CameraZone* CameraZone::Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
+CameraZone* CameraZone::Create(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row)
 {
     // The zone auto registers to the object supervisor
     // and will later handle deletion.
@@ -166,8 +166,8 @@ void CameraZone::Update()
 // ---------- EnemyZone Class Functions
 // -----------------------------------------------------------------------------
 
-EnemyZone::EnemyZone(uint16 left_col, uint16 right_col,
-                     uint16 top_row, uint16 bottom_row):
+EnemyZone::EnemyZone(uint16_t left_col, uint16_t right_col,
+                     uint16_t top_row, uint16_t bottom_row):
     MapZone(left_col, right_col, top_row, bottom_row),
     _enabled(true),
     _roaming_restrained(true),
@@ -181,14 +181,14 @@ EnemyZone::EnemyZone(uint16 left_col, uint16 right_col,
     _dead_timer.Finish();
 }
 
-EnemyZone* EnemyZone::Create(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
+EnemyZone* EnemyZone::Create(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row)
 {
     // The zone auto registers to the object supervisor
     // and will later handle deletion.
     return new EnemyZone(left_col, right_col, top_row, bottom_row);
 }
 
-void EnemyZone::AddEnemy(EnemySprite* enemy, uint8 enemy_number)
+void EnemyZone::AddEnemy(EnemySprite* enemy, uint8_t enemy_number)
 {
     if(enemy_number == 0) {
         IF_PRINT_WARNING(MAP_DEBUG) << "function called with a zero value count argument" << std::endl;
@@ -200,30 +200,30 @@ void EnemyZone::AddEnemy(EnemySprite* enemy, uint8 enemy_number)
     _enemies.push_back(enemy);
 
     // Create any additional copies of the enemy and add them as well
-    for(uint8 i = 1; i < enemy_number; ++i) {
+    for(uint8_t i = 1; i < enemy_number; ++i) {
         EnemySprite* copy = new EnemySprite(*enemy);
         copy->Reset();
         _enemies.push_back(copy);
     }
 }
 
-void EnemyZone::AddSpawnSection(uint16 left_col, uint16 right_col, uint16 top_row, uint16 bottom_row)
+void EnemyZone::AddSpawnSection(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row)
 {
     if(left_col >= right_col) {
-        uint16 temp = left_col;
+        uint16_t temp = left_col;
         left_col = right_col;
         right_col = temp;
     }
 
     if(top_row >= bottom_row) {
-        uint16 temp = bottom_row;
+        uint16_t temp = bottom_row;
         bottom_row = top_row;
         top_row = temp;
     }
 
     // Make sure that this spawn section fits entirely inside one of the roaming sections
     bool okay_to_add = false;
-    for(uint32 i = 0; i < _sections.size(); i++) {
+    for(uint32_t i = 0; i < _sections.size(); i++) {
         if((left_col >= _sections[i].left_col) && (right_col <= _sections[i].right_col)
                 && (top_row >= _sections[i].top_row) && (bottom_row <= _sections[i].bottom_row)) {
             okay_to_add = true;
@@ -259,7 +259,7 @@ void EnemyZone::Update()
     // object or that section is unwalkable. We try only a few different spawn locations before
     // giving up and waiting for the next call to Update(). Otherwise this function could
     // potentially take a noticable amount of time to complete
-    const int8 SPAWN_RETRIES = 50;
+    const int8_t SPAWN_RETRIES = 50;
 
     // Don't update when the zone is disabled.
     if (!_enabled)
@@ -298,8 +298,8 @@ void EnemyZone::Update()
 
     // When the dead timer completes, spawn in a new enemy
     // Select a dead enemy to spawn
-    uint32 index = 0;
-    for(uint32 i = 0; i < _enemies.size(); ++i) {
+    uint32_t index = 0;
+    for(uint32_t i = 0; i < _enemies.size(); ++i) {
         if (_enemies[i]->IsDead()) {
             index = i;
             break;
@@ -310,9 +310,9 @@ void EnemyZone::Update()
     float x = 0.0f;
     float y = 0.0f;
     // Number of times to try finding a valid spawning location
-    int8 retries = SPAWN_RETRIES;
+    int8_t retries = SPAWN_RETRIES;
     // Holds the result of a collision detection check
-    uint32 collision = NO_COLLISION;
+    uint32_t collision = NO_COLLISION;
 
     // Select a random position inside the zone to place the spawning enemy
     _enemies[index]->SetCollisionMask(WALL_COLLISION | CHARACTER_COLLISION);

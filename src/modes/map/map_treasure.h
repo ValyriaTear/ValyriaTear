@@ -59,7 +59,7 @@ public:
     ~MapTreasure();
 
     //! \brief Sets the number of drunes present in the chest's contents.
-    void SetDrunes(uint32 amount) {
+    void SetDrunes(uint32_t amount) {
         _drunes = amount;
     }
 
@@ -68,7 +68,7 @@ public:
     *** \param quantity The number of the object to add (default == 1)
     *** \return True if the object was added successfully
     **/
-    bool AddItem(uint32 id, uint32 quantity = 1);
+    bool AddItem(uint32_t id, uint32_t quantity = 1);
 
     //! \name Class member access methods
     //@{
@@ -86,7 +86,7 @@ private:
     bool _taken;
 
     //! \brief The number of drunes contained in the chest
-    uint32 _drunes;
+    uint32_t _drunes;
 
     //! \brief The list of objects given to the player upon opening the treasure
     std::vector<vt_global::GlobalObject *> _items_list;

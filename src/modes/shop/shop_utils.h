@@ -95,14 +95,14 @@ const float SELL_PRICE_VERY_POOR  = 0.5f;
 //! \name Object deal types
 //! \brief Constants used to determine the types of merchandise that the shop deals with
 //@{
-const uint8 DEALS_ITEMS        = 0x01;
-const uint8 DEALS_WEAPONS      = 0x02;
-const uint8 DEALS_HEAD_ARMOR   = 0x04;
-const uint8 DEALS_TORSO_ARMOR  = 0x08;
-const uint8 DEALS_ARM_ARMOR    = 0x10;
-const uint8 DEALS_LEG_ARMOR    = 0x20;
-const uint8 DEALS_SPIRIT       = 0x40;
-const uint8 DEALS_KEY_ITEMS    = 0x80;
+const uint8_t DEALS_ITEMS        = 0x01;
+const uint8_t DEALS_WEAPONS      = 0x02;
+const uint8_t DEALS_HEAD_ARMOR   = 0x04;
+const uint8_t DEALS_TORSO_ARMOR  = 0x08;
+const uint8_t DEALS_ARM_ARMOR    = 0x10;
+const uint8_t DEALS_LEG_ARMOR    = 0x20;
+const uint8_t DEALS_SPIRIT       = 0x40;
+const uint8_t DEALS_KEY_ITEMS    = 0x80;
 //@}
 
 
@@ -188,39 +188,39 @@ public:
         return _object;
     }
 
-    uint32 GetBuyPrice() const {
+    uint32_t GetBuyPrice() const {
         return _buy_price;
     }
 
-    uint32 GetSellPrice() const {
+    uint32_t GetSellPrice() const {
         return _sell_price;
     }
 
-    uint32 GetTradePrice() const {
+    uint32_t GetTradePrice() const {
         return _trade_price;
     }
 
-    std::vector<std::pair<uint32, uint32> > GetTradeConditions() {
+    std::vector<std::pair<uint32_t, uint32_t> > GetTradeConditions() {
         return _trade_conditions;
     }
 
-    uint32 GetOwnCount() const {
+    uint32_t GetOwnCount() const {
         return _own_count;
     }
 
-    uint32 GetStockCount() const {
+    uint32_t GetStockCount() const {
         return _stock_count;
     }
 
-    uint32 GetBuyCount() const {
+    uint32_t GetBuyCount() const {
         return _buy_count;
     }
 
-    uint32 GetSellCount() const {
+    uint32_t GetSellCount() const {
         return _sell_count;
     }
 
-    uint32 GetTradeCount() const {
+    uint32_t GetTradeCount() const {
         return _trade_count;
     }
 
@@ -257,16 +257,16 @@ public:
     *** of the count member will not be modified.
     **/
     //@{
-    void IncrementOwnCount(uint32 inc = 1);
-    void IncrementStockCount(uint32 inc = 1);
-    void IncrementBuyCount(uint32 inc = 1);
-    void IncrementSellCount(uint32 inc = 1);
-    void IncrementTradeCount(uint32 inc = 1);
-    void DecrementOwnCount(uint32 dec = 1);
-    void DecrementStockCount(uint32 dec = 1);
-    void DecrementBuyCount(uint32 dec = 1);
-    void DecrementSellCount(uint32 dec = 1);
-    void DecrementTradeCount(uint32 dec = 1);
+    void IncrementOwnCount(uint32_t inc = 1);
+    void IncrementStockCount(uint32_t inc = 1);
+    void IncrementBuyCount(uint32_t inc = 1);
+    void IncrementSellCount(uint32_t inc = 1);
+    void IncrementTradeCount(uint32_t inc = 1);
+    void DecrementOwnCount(uint32_t dec = 1);
+    void DecrementStockCount(uint32_t dec = 1);
+    void DecrementBuyCount(uint32_t dec = 1);
+    void DecrementSellCount(uint32_t dec = 1);
+    void DecrementTradeCount(uint32_t dec = 1);
     //@}
 
 private:
@@ -274,34 +274,34 @@ private:
     vt_global::GlobalObject *_object;
 
     //! \brief The price that the player must pay to buy this object from the shop
-    uint32 _buy_price;
+    uint32_t _buy_price;
 
     //! \brief The return that the player will receive for selling this object to the shop
-    uint32 _sell_price;
+    uint32_t _sell_price;
 
     //! \brief The price that the player must pay (along with the other conditions) to trade for this object from the shop
-    uint32 _trade_price;
+    uint32_t _trade_price;
 
     //! \brief The return that the player will receive for selling this object to the shop
-    std::vector<std::pair<uint32, uint32> > _trade_conditions;
+    std::vector<std::pair<uint32_t, uint32_t> > _trade_conditions;
 
     //! \brief The number of this object that the player's party currently owns
-    uint32 _own_count;
+    uint32_t _own_count;
 
     //! \brief The stock of this object that the shop
-    uint32 _stock_count;
+    uint32_t _stock_count;
 
     //! \brief Tells whether there is an infinite amount of this object to buy.
     bool _infinite_buy_amount;
 
     //! \brief The amount of this object that the player plans to purchase
-    uint32 _buy_count;
+    uint32_t _buy_count;
 
     //! \brief The amount of this object that the player plans to sell
-    uint32 _sell_count;
+    uint32_t _sell_count;
 
     //! \brief The amount of this object that the player plans to sell
-    uint32 _trade_count;
+    uint32_t _trade_count;
 }; // class ShopObject
 
 
@@ -440,7 +440,7 @@ public:
     /** \brief Returns the index of the currently selected object in the list
     *** \return The selected index. Will return 0 if there is no valid selection (if the list is empty)
     **/
-    uint32 GetCurrentSelection();
+    uint32_t GetCurrentSelection();
 
     //! \brief Inputs an up command to change the current selection
     void InputUp();
