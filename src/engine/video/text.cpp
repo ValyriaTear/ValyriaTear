@@ -219,19 +219,6 @@ void TextStyle::_UpdateTextShadowColor()
 namespace private_video
 {
 
-// Endian-dependent bit masks for the different color channels
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-static const uint32_t RMASK = 0xFF000000;
-static const uint32_t GMASK = 0x00FF0000;
-static const uint32_t BMASK = 0x0000FF00;
-static const uint32_t AMASK = 0x000000FF;
-#else
-static const uint32_t RMASK = 0x000000FF;
-static const uint32_t GMASK = 0x0000FF00;
-static const uint32_t BMASK = 0x00FF0000;
-static const uint32_t AMASK = 0xFF000000;
-#endif
-
 // -----------------------------------------------------------------------------
 // TextTexture class
 // -----------------------------------------------------------------------------
