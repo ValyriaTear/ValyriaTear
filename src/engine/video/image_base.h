@@ -67,20 +67,22 @@ class ImageMemory
 {
 public:
     ImageMemory();
+    ImageMemory(const SDL_Surface* surface);
 
-    ~ImageMemory();
+    ~ImageMemory()
+    {}
 
-    //! \brief The width of the image data (in pixels)
-    uint32_t width;
+    size_t GetWidth() const {
+        return _width;
+    }
 
-    //! \brief The height of the image dat (in pixels)
-    uint32_t height;
+    size_t GetHeight() const {
+        return _height;
+    }
 
-    //! \brief Buffer of data, usually of size width * height * 4 (RGBA, 8 bits per component)
-    void *pixels;
-
-    //! \brief Set to true if the data is in RGB format, false if the data is in RGBA format.
-    bool rgb_format;
+    size_t GetBytesPerPixel() const {
+        return _rgb_format ? 3 : 4;
+    }
 
     /** \brief Loads raw image data from a file and stores the data in the class members
     *** \param filename The name of the image file to load.
@@ -123,6 +125,43 @@ public:
     *** This function effectively copies an image (in video memory) to a system-side memory buffer
     **/
     void CopyFromImage(BaseTexture *img);
+
+    /** \brief delete an image and allocate a new one of specified size
+    *** \param width_ width of the new image
+    *** \param heigt_ height of the new image
+    *** \throws std::bad_alloc when allocation failed (because std::vector can throw that)
+    *** \TODO use an enum instead of bool for better readability
+    **/
+    void Resize(size_t width, size_t height, bool is_rgb);
+
+    //! \brief Wrapper of glGetTexImage on the image pixels.
+    void GlGetTexImage();
+
+    //! \brief Wrapper of glTexSubImage on the image pixels at the given coordinates.
+    void GlTexSubImage(int32_t x, int32_t y);
+
+    //! \brief Wrapper of glReadPixels on the image pixels at the given coordinates.
+    void GlReadPixels(int32_t x, int32_t y);
+
+    //! \brief Copy a texture at given pixel coordinates.
+    void CopyFrom(const ImageMemory& src, uint32_t src_offset, uint32_t dst_bytes, uint32_t dst_offset);
+    void CopyFrom(const ImageMemory& src, uint32_t src_offset);
+
+    //! \brief Flip the image pixels vertically.
+    void VerticalFlip();
+
+private:
+    //! \brief The width of the image data (in pixels)
+    size_t _width;
+
+    //! \brief The height of the image data (in pixels)
+    size_t _height;
+
+    //! \brief Buffer of data, usually of size width * height * 4 (RGBA, 8 bits per component)
+    std::vector<uint8_t> _pixels;
+
+    //! \brief Set to true if the data is in RGB format, false if the data is in RGBA format.
+    bool _rgb_format;
 }; // class ImageMemory
 
 

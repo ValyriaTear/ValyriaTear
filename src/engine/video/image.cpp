@@ -348,18 +348,6 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
         return false;
     }
 
-    // Structure for the image buffer to save
-    ImageMemory save;
-
-    save.height = static_cast<int32_t>(grid_rows * img_height);
-    save.width = static_cast<int32_t>(grid_columns * img_width);
-    save.pixels = malloc(save.width * save.height * 4);
-
-    if(save.pixels == nullptr) {
-        PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << std::endl;
-        return false;
-    }
-
     // Initially, we need to grab the Image pointer of the first StillImage, the texture ID of its TextureSheet owner,
     // and malloc enough memory for the entire sheet so that we can copy over the texture sheet from video memory to
     // system memory.
@@ -367,18 +355,19 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     GLuint tex_id = img->texture_sheet->tex_id;
 
     ImageMemory texture;
-    texture.width = img->texture_sheet->width;
-    texture.height = img->texture_sheet->height;
-    texture.pixels = malloc(texture.width * texture.height * 4);
-
-    if(texture.pixels == nullptr) {
-        PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << std::endl;
-        free(save.pixels);
+    ImageMemory save;
+    try {
+        texture.Resize(img->texture_sheet->width, img->texture_sheet->height, false);
+        save.Resize(static_cast<int32_t>(grid_columns * img_width), static_cast<int32_t>(grid_rows * img_height), false);
+    }
+    catch(std::exception& e) {
+        PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << std::endl
+                    << e.what() << std::endl;
         return false;
     }
 
     TextureManager->_BindTexture(tex_id);
-    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.pixels);
+    texture.GlGetTexImage();
 
     uint32_t i = 0; // i is used to count through the images vector to get the image to save
     for(uint32_t x = 0; x < grid_rows; x++) {
@@ -394,45 +383,31 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
                 tex_id = img->texture_sheet->tex_id;
 
                 // If the new texture is bigger, reallocate memory
-                if(texture.height * texture.width < img->texture_sheet->height * img->texture_sheet->width) {
-                    free(texture.pixels);
-                    texture.width = img->texture_sheet->width;
-                    texture.height = img->texture_sheet->height;
-                    texture.pixels = realloc(texture.pixels, texture.width * texture.height * 4);
-                    if(texture.pixels == nullptr) {
-                        PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << std::endl;
-                        free(save.pixels);
+                if(texture.GetHeight() * texture.GetWidth() < img->texture_sheet->height * img->texture_sheet->width) {
+                    try {
+                        texture.Resize(img->texture_sheet->width, img->texture_sheet->height, false);
+                    }
+                    catch(std::exception& e) {
+                        PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << std::endl
+                                    << e.what() << std::endl;
                         return false;
                     }
                 }
-                glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.pixels);
+                texture.GlGetTexImage();
             }
 
             // Determine the part of the texture that we are interested in (the part that contains the current image we're saving)
-            uint32_t src_offset = img->y * texture.width * 4 + img->x * 4;
-            uint32_t dst_offset = static_cast<uint32_t>(x * img_height * img_width * grid_columns * 4 + y * img_width * 4);
-            uint32_t src_bytes = texture.width * 4;
-            uint32_t dst_bytes = static_cast<uint32_t>(img_width * grid_columns * 4);
-            uint32_t copy_bytes = static_cast<uint32_t>(img_width * 4);
-
-            // Copy each row of image pixels over the the save.pixels buffer one at a time
-            for(int32_t j = 0; j < img_height; j++) {
-                memcpy((uint8_t *)save.pixels + j * dst_bytes + dst_offset, (uint8_t *)texture.pixels + j * src_bytes + src_offset, copy_bytes);
-            }
-
-            i++;
-        } // for (uint32_t y = 0; y < grid_columns; y++)
-    } // for (uint32_t x = 0; x < grid_rows; x++)
+            save.CopyFrom(texture, texture.GetWidth() * img->y + img->x,
+                          img_width * grid_columns, (x * grid_columns * img_height + y) * img_width);
+            ++i;
+        }
+    }
 
     // save.pixels now contains all the image data we wish to save, so write it out to the new image file
     bool success = save.SaveImage(filename);
-    free(save.pixels);
-    free(texture.pixels);
 
     return success;
-} // bool ImageDescriptor::SaveMultiImage(...)
-
-
+}
 
 void ImageDescriptor::DEBUG_PrintInfo()
 {
@@ -449,8 +424,6 @@ void ImageDescriptor::DEBUG_PrintInfo()
     PRINT_WARNING << "* grayscale:            " << (_grayscale ? "true" : "false") << std::endl;
     PRINT_WARNING << std::endl;
 }
-
-
 
 void ImageDescriptor::_RemoveTextureReference()
 {
@@ -679,6 +652,9 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
 
     // Construct the tags for each image element and figure out which elements are not
     // already in texture memory and need to be loaded
+    size_t elements = grid_rows * grid_cols;
+    tags.reserve(elements);
+    loaded.reserve(elements);
     for(x = 0; x < grid_rows; x++) {
         for(y = 0; y < grid_cols; y++) {
             tags.push_back("<X" + NumberToString(x) + "_" + NumberToString(grid_rows) + ">" +
@@ -699,17 +675,17 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
     ImageMemory sub_image;
     if(need_load) {
         if(multi_image.LoadImage(filename) == false) {
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to load multi image file: " << filename << std::endl;
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "Failed to load multi image file: " << filename << std::endl;
             return false;
         }
 
-        sub_image.width = multi_image.width / grid_cols;
-        sub_image.height = multi_image.height / grid_rows;
-        sub_image.pixels = malloc(sub_image.width * sub_image.height * 4);
-        if(sub_image.pixels == nullptr) {
-            PRINT_ERROR << "failed to malloc memory for multi image file: " << filename << std::endl;
-            free(multi_image.pixels);
-            multi_image.pixels = nullptr;
+        try {
+            sub_image.Resize(multi_image.GetWidth() / grid_cols, multi_image.GetHeight() / grid_rows, false);
+        }
+        catch(std::exception& e)
+        {
+            PRINT_ERROR << "Failed to malloc memory for multi image file: " << filename << std::endl
+                        << e.what() << std::endl;
             return false;
         }
     }
@@ -726,13 +702,8 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
                 img = TextureManager->_GetImageTexture(filename + tags[current_image]);
 
                 if(img == nullptr) {
-                    IF_PRINT_WARNING(VIDEO_DEBUG) << "a nullptr image was found in the TextureManager's _images container "
+                    IF_PRINT_WARNING(VIDEO_DEBUG) << "A nullptr image was found in the TextureManager's _images container "
                                                   << "-- aborting multi image load operation" << std::endl;
-
-                    free(multi_image.pixels);
-                    free(sub_image.pixels);
-                    multi_image.pixels = nullptr;
-                    sub_image.pixels = nullptr;
                     return false;
                 }
 
@@ -746,24 +717,18 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
             else {
                 images.at(current_image)._filename = filename;
 
-                for(uint32_t i = 0; i < sub_image.height; ++i) {
-                    memcpy((uint8_t *)sub_image.pixels + 4 * sub_image.width * i, (uint8_t *)multi_image.pixels + (((x * multi_image.height / grid_rows) + i) *
-                            multi_image.width + y * multi_image.width / grid_cols) * 4, 4 * sub_image.width);
-                }
+                sub_image.CopyFrom(multi_image,
+                                   multi_image.GetWidth() * (x * multi_image.GetHeight() / grid_rows)
+                                       + multi_image.GetWidth() * y / grid_cols);
 
-                img = new ImageTexture(filename, tags[current_image], sub_image.width, sub_image.height);
+                img = new ImageTexture(filename, tags[current_image], sub_image.GetWidth(), sub_image.GetHeight());
 
                 // Try to insert the image in a texture sheet
                 TexSheet *sheet = TextureManager->_InsertImageInTexSheet(img, sub_image, images.at(current_image)._is_static);
 
                 if(sheet == nullptr) {
-                    IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureController::_InsertImageInTexSheet failed -- " <<
+                    IF_PRINT_WARNING(VIDEO_DEBUG) << "Call to TextureController::_InsertImageInTexSheet failed -- " <<
                                                   "aborting multi image load operation" << std::endl;
-
-                    free(multi_image.pixels);
-                    free(sub_image.pixels);
-                    multi_image.pixels = nullptr;
-                    sub_image.pixels = nullptr;
                     delete img;
                     return false;
                 }
@@ -786,18 +751,8 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
         } // for (y = 0; y < grid_cols; y++)
     } // for (x = 0; x < grid_rows; x++)
 
-    // Make sure to free all dynamically allocated memory
-    if(multi_image.pixels) {
-        free(multi_image.pixels);
-        multi_image.pixels = nullptr;
-    }
-    if(sub_image.pixels) {
-        free(sub_image.pixels);
-        sub_image.pixels = nullptr;
-    }
-
     return true;
-} // bool ImageDescriptor::_LoadMultiImage(...)
+}
 
 // -----------------------------------------------------------------------------
 // StillImage class
@@ -875,7 +830,7 @@ bool StillImage::Load(const std::string &filename)
     // Create a new texture image and store it in a texture sheet. If the _grayscale member of this class is true,
     // we first load the color copy of the image to a texture sheet. Then we'll convert the image data to grayscale
     // and save that image data to texture memory as well
-    _image_texture = new ImageTexture(_filename, "", img_data.width, img_data.height);
+    _image_texture = new ImageTexture(_filename, "", img_data.GetWidth(), img_data.GetHeight());
     _texture = _image_texture;
 
     if(TextureManager->_InsertImageInTexSheet(_image_texture, img_data, _is_static) == nullptr) {
@@ -883,8 +838,6 @@ bool StillImage::Load(const std::string &filename)
         delete _image_texture;
         _image_texture = nullptr;
         _texture = nullptr;
-        free(img_data.pixels);
-        img_data.pixels = nullptr;
         return false;
     }
 
@@ -892,21 +845,19 @@ bool StillImage::Load(const std::string &filename)
 
     // If width or height members are zero, set them to the dimensions of the image data (which are in number of pixels)
     if(IsFloatEqual(_width, 0.0f) == true)
-        _width = static_cast<float>(img_data.width);
+        _width = static_cast<float>(img_data.GetWidth());
 
     if(IsFloatEqual(_height, 0.0f) == true)
-        _height = static_cast<float>(img_data.height);
+        _height = static_cast<float>(img_data.GetHeight());
 
     // If we don't need to create a grayscale version, we finished successfully
     if(_grayscale == false) {
-        free(img_data.pixels);
-        img_data.pixels = nullptr;
         return true;
     }
 
     // 3. If we reached this point, we must now create a grayscale version of this image
     img_data.ConvertToGrayscale();
-    ImageTexture *gray_image = new ImageTexture(_filename, "<G>", img_data.width, img_data.height);
+    ImageTexture *gray_image = new ImageTexture(_filename, "<G>", img_data.GetWidth(), img_data.GetHeight());
     if(TextureManager->_InsertImageInTexSheet(gray_image, img_data, _is_static) == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureController::_InsertImageInTexSheet() failed for file: " << _filename << std::endl;
 
@@ -914,8 +865,6 @@ bool StillImage::Load(const std::string &filename)
         delete gray_image;
         _RemoveTextureReference(); // sets _texture to nullptr
         _image_texture = nullptr;
-        free(img_data.pixels);
-        img_data.pixels = nullptr;
         return false;
     }
 
@@ -923,8 +872,6 @@ bool StillImage::Load(const std::string &filename)
     _texture = _image_texture;
     _image_texture->AddReference();
 
-    free(img_data.pixels);
-    img_data.pixels = nullptr;
     return true;
 }
 
@@ -984,9 +931,7 @@ bool StillImage::Save(const std::string &filename) const
     ImageMemory buffer;
     buffer.CopyFromImage(_image_texture);
     return buffer.SaveImage(filename);
-} // bool StillImage::Save(const string& filename)
-
-
+}
 
 void StillImage::EnableGrayScale()
 {
@@ -1019,16 +964,11 @@ void StillImage::EnableGrayScale()
     gray_img.CopyFromImage(temp_texture);
     gray_img.ConvertToGrayscale();
 
-    ImageTexture *new_img = new ImageTexture(_filename, tags + "<G>", gray_img.width, gray_img.height);
+    ImageTexture* new_img = new ImageTexture(_filename, tags + "<G>", gray_img.GetWidth(), gray_img.GetHeight());
 
     if(TextureManager->_InsertImageInTexSheet(new_img, gray_img, _is_static) == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to insert new grayscale image into texture sheet" << std::endl;
         delete new_img;
-
-        if(gray_img.pixels) {
-            free(gray_img.pixels);
-            gray_img.pixels = nullptr;
-        }
 
         return;
     }
@@ -1036,13 +976,7 @@ void StillImage::EnableGrayScale()
     _image_texture = new_img;
     _texture = _image_texture;
     _image_texture->AddReference();
-
-    if(gray_img.pixels) {
-        free(gray_img.pixels);
-        gray_img.pixels = nullptr;
-    }
-} // void StillImage::EnableGrayScale()
-
+}
 
 void StillImage::DisableGrayScale()
 {
@@ -1070,7 +1004,7 @@ void StillImage::DisableGrayScale()
     // No reference change is needed for the color image, since the color texture did not have a reference
     // decrement when the grayscale version was enabled
     _texture = _image_texture;
-} // void StillImage::DisableGrayScale()
+}
 
 void StillImage::SetWidthKeepRatio(float width)
 {
@@ -1260,9 +1194,7 @@ bool AnimatedImage::LoadFromFrameSize(const std::string &filename, const std::ve
     }
 
     return true;
-} // bool AnimatedImage::LoadFromFrameSize(...)
-
-
+}
 
 bool AnimatedImage::LoadFromFrameGrid(const std::string &filename, const std::vector<uint32_t>& timings,
                                       const uint32_t frame_rows, const uint32_t frame_cols, const uint32_t trim)
@@ -1307,8 +1239,7 @@ bool AnimatedImage::LoadFromFrameGrid(const std::string &filename, const std::ve
     }
 
     return true;
-} // bool AnimatedImage::LoadFromFrameGrid(...)
-
+}
 
 void AnimatedImage::Draw(const Color &draw_color) const
 {
@@ -1320,11 +1251,10 @@ void AnimatedImage::Draw(const Color &draw_color) const
     _frames[_frame_index].image.Draw(draw_color);
 }
 
-
-
 bool AnimatedImage::Save(const std::string &filename, uint32_t grid_rows, uint32_t grid_cols) const
 {
     std::vector<StillImage *> image_frames;
+    image_frames.reserve(_frames.size());
     for(uint32_t i = 0; i < _frames.size(); i++) {
         image_frames.push_back(const_cast<StillImage *>(&(_frames[i].image)));
     }
@@ -1335,8 +1265,6 @@ bool AnimatedImage::Save(const std::string &filename, uint32_t grid_rows, uint32
         return ImageDescriptor::SaveMultiImage(image_frames, filename, grid_rows, grid_cols);
     }
 }
-
-
 
 void AnimatedImage::EnableGrayScale()
 {
@@ -1351,8 +1279,6 @@ void AnimatedImage::EnableGrayScale()
     }
 }
 
-
-
 void AnimatedImage::DisableGrayScale()
 {
     if(_grayscale == false) {
@@ -1365,8 +1291,6 @@ void AnimatedImage::DisableGrayScale()
         _frames[i].image.DisableGrayScale();
     }
 }
-
-
 
 void AnimatedImage::Update(uint32_t elapsed_time)
 {
@@ -1413,7 +1337,7 @@ void AnimatedImage::Update(uint32_t elapsed_time)
         // Add the time left already spent on the new frame.
         _frame_counter = ms_change;
     }
-} // void AnimatedImage::Update()
+}
 
 bool AnimatedImage::AddFrame(const std::string &frame, uint32_t frame_time)
 {

@@ -208,22 +208,16 @@ vt_video::StillImage Minimap::_CreateProcedurally()
     }
 
     SDL_LockSurface(temp_surface);
-    //setup a temporary memory space to copy the SDL data into
-    vt_video::private_video::ImageMemory temp_data;
-    temp_data.rgb_format = false;
-    temp_data.width = temp_surface->w;
-    temp_data.height = temp_surface->h;
-    size_t len = temp_surface->h * temp_surface->w * ((unsigned short) (temp_surface->format->BitsPerPixel) / 8) ;
-    temp_data.pixels = malloc(len);
-    //copy the data
-    memcpy(temp_data.pixels, temp_surface->pixels, len);
+
+    // Setup a temporary memory space to copy the SDL data into
+    vt_video::private_video::ImageMemory temp_data(temp_surface);
+
     SDL_UnlockSurface(temp_surface);
-    //at this point, the screen data is set up. We can get rid of unnecessary data here
+    // At this point, the screen data is set up. We can get rid of unnecessary data here
     SDL_FreeSurface(temp_surface);
-    //do the image file creation
+    // Do the image file creation
     std::string map_name_cmap = MapMode::CurrentInstance()->GetMapScriptFilename() + "_cmap";
     vt_video::StillImage minimap_image = vt_video::VideoManager->CreateImage(&temp_data, map_name_cmap);
-    free(temp_data.pixels);
 
 #ifdef DEBUG_FEATURES
     // Uncomment and compile this to generate XPM minimaps.

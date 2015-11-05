@@ -96,23 +96,11 @@ bool TexSheet::Reload()
     return true;
 }
 
-
-
-bool TexSheet::CopyRect(int32_t x, int32_t y, ImageMemory &data)
+bool TexSheet::CopyRect(int32_t x, int32_t y, ImageMemory& data)
 {
     TextureManager->_BindTexture(tex_id);
 
-    glTexSubImage2D(
-        GL_TEXTURE_2D, // target
-        0, // level
-        x, // x offset within tex sheet
-        y, // y offset within tex sheet
-        data.width, // width in pixels of image
-        data.height, // height in pixels of image
-        (data.rgb_format ? GL_RGB : GL_RGBA), // format
-        GL_UNSIGNED_BYTE, // type
-        data.pixels // pixels of the sub image
-    );
+    data.GlTexSubImage(x, y);
 
     if(VideoManager->CheckGLError() == true) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occured: " << VideoManager->CreateGLErrorString() << std::endl;

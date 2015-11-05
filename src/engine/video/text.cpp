@@ -232,15 +232,11 @@ TextTexture::TextTexture(const vt_utils::ustring &string_, const TextStyle &styl
     smooth = true;
 }
 
-
-
 TextTexture::~TextTexture()
 {
     // Remove this instance from the texture manager
     TextureManager->_UnregisterTextTexture(this);
 }
-
-
 
 bool TextTexture::Regenerate()
 {
@@ -254,25 +250,18 @@ bool TextTexture::Regenerate()
     if(TextManager->_RenderText(string, style, buffer) == false)
         return false;
 
-    width = buffer.width;
-    height = buffer.height;
+    width = buffer.GetWidth();
+    height = buffer.GetHeight();
 
     TexSheet *sheet = TextureManager->_InsertImageInTexSheet(this, buffer, true);
     if(sheet == nullptr) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureManager::_InsertImageInTexSheet() returned nullptr" << std::endl;
-        free(buffer.pixels);
-        buffer.pixels = nullptr;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "Call to TextureManager::_InsertImageInTexSheet() returned nullptr" << std::endl;
         return false;
     }
 
     texture_sheet = sheet;
-    free(buffer.pixels);
-    buffer.pixels = nullptr;
-
     return true;
 }
-
-
 
 bool TextTexture::Reload()
 {
@@ -285,14 +274,10 @@ bool TextTexture::Reload()
         return false;
 
     if(texture_sheet->CopyRect(x, y, buffer) == false) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TextureSheet::CopyRect() failed" << std::endl;
-        free(buffer.pixels);
-        buffer.pixels = nullptr;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "Call to TextureSheet::CopyRect() failed" << std::endl;
         return false;
     }
 
-    free(buffer.pixels);
-    buffer.pixels = nullptr;
     return true;
 }
 
@@ -305,8 +290,6 @@ TextElement::TextElement() :
     text_texture(nullptr)
 {}
 
-
-
 TextElement::TextElement(TextTexture *texture) :
     ImageDescriptor(),
     text_texture(texture)
@@ -314,21 +297,16 @@ TextElement::TextElement(TextTexture *texture) :
     SetTexture(texture);
 }
 
-
-
 TextElement::~TextElement()
 {
     Clear();
 }
-
-
 
 void TextElement::Clear()
 {
     ImageDescriptor::Clear(); // This call will remove the texture reference for us
     text_texture = nullptr;
 }
-
 
 void TextElement::Draw() const
 {
@@ -403,8 +381,6 @@ TextImage::TextImage() :
     _style = TextManager->GetDefaultStyle();
 }
 
-
-
 TextImage::TextImage(const ustring& text, const TextStyle& style) :
     ImageDescriptor(),
     _text(text),
@@ -414,8 +390,6 @@ TextImage::TextImage(const ustring& text, const TextStyle& style) :
     _Regenerate();
 }
 
-
-
 TextImage::TextImage(const std::string& text, const TextStyle& style) :
     ImageDescriptor(),
     _text(MakeUnicodeString(text)),
@@ -424,8 +398,6 @@ TextImage::TextImage(const std::string& text, const TextStyle& style) :
 {
     _Regenerate();
 }
-
-
 
 TextImage::TextImage(const TextImage &copy) :
     ImageDescriptor(copy),
@@ -437,8 +409,6 @@ TextImage::TextImage(const TextImage &copy) :
         _text_sections.push_back(new TextElement(*(copy._text_sections[i])));
     }
 }
-
-
 
 TextImage &TextImage::operator=(const TextImage &copy)
 {
@@ -887,8 +857,6 @@ int32_t TextSupervisor::CalculateTextWidth(TTF_Font* ttf_font, const vt_utils::u
     return width;
 }
 
-
-
 int32_t TextSupervisor::CalculateTextWidth(TTF_Font* ttf_font, const std::string &text)
 {
     if(ttf_font == nullptr) {
@@ -1318,17 +1286,7 @@ bool TextSupervisor::_RenderText(const vt_utils::ustring& text, TextStyle& style
     }
 
     // Copy the text to the buffer.
-    buffer.pixels = static_cast<uint8_t*>(calloc(surface->w * surface->h, 4));
-    uint32_t num_bytes = surface->w * surface->h * 4;
-    for (uint32_t j = 0; j < num_bytes; j += 4) {
-        ((uint8_t*)buffer.pixels)[j + 0] = ((uint8_t*)surface->pixels)[j + 0]; // r
-        ((uint8_t*)buffer.pixels)[j + 1] = ((uint8_t*)surface->pixels)[j + 1]; // g
-        ((uint8_t*)buffer.pixels)[j + 2] = ((uint8_t*)surface->pixels)[j + 2]; // b
-        ((uint8_t*)buffer.pixels)[j + 3] = ((uint8_t*)surface->pixels)[j + 3]; // alpha
-    }
-
-    buffer.width = surface->w;
-    buffer.height = surface->h;
+    buffer = ImageMemory(surface);
 
     // Clean up.
     SDL_FreeSurface(surface);

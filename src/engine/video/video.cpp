@@ -999,7 +999,7 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
         throw Exception("raw_image is nullptr, cannot create a StillImage", __FILE__, __LINE__, __FUNCTION__);
     }
 
-    still_image.SetDimensions(raw_image->width, raw_image->height);
+    still_image.SetDimensions(raw_image->GetWidth(), raw_image->GetHeight());
 
     //Check to see if the image_name exists
     if(TextureManager->_IsImageTextureRegistered(image_name))
@@ -1020,10 +1020,11 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
 
     //create a new texture image. the next few steps are similar to CaptureImage, so in the future
     // we may want to do a code-cleanup
-    ImageTexture *new_image = new ImageTexture(image_name, "<T>", raw_image->width, raw_image->height);
+    ImageTexture* new_image = new ImageTexture(image_name, "<T>", raw_image->GetWidth(), raw_image->GetHeight());
     new_image->AddReference();
     // Create a texture sheet of an appropriate size that can retain the capture
-    TexSheet *temp_sheet = TextureManager->_CreateTexSheet(RoundUpPow2(raw_image->width), RoundUpPow2(raw_image->height), VIDEO_TEXSHEET_ANY, false);
+    TexSheet* temp_sheet = TextureManager->_CreateTexSheet(RoundUpPow2(raw_image->GetWidth()),
+                                                           RoundUpPow2(raw_image->GetHeight()), VIDEO_TEXSHEET_ANY, false);
     VariableTexSheet *sheet = dynamic_cast<VariableTexSheet *>(temp_sheet);
 
     // Ensure that texture sheet creation succeeded, insert the texture image into the sheet, and copy the screen into the sheet
@@ -1091,38 +1092,19 @@ void VideoEngine::MakeScreenshot(const std::string &filename)
     glGetIntegerv(GL_VIEWPORT, viewport_dimensions);
 
     // Buffer to store the image before it is flipped
-    buffer.width = viewport_dimensions[2];
-    buffer.height = viewport_dimensions[3];
-    buffer.pixels = malloc(buffer.width * buffer.height * 3);
-    buffer.rgb_format = true;
+    buffer.Resize(viewport_dimensions[2], viewport_dimensions[3], true);
 
     // Read the viewport pixel data
-    glReadPixels(viewport_dimensions[0], viewport_dimensions[1],
-                 buffer.width, buffer.height, GL_RGB, GL_UNSIGNED_BYTE, buffer.pixels);
+    buffer.GlReadPixels(viewport_dimensions[0], viewport_dimensions[1]);
 
     if(CheckGLError() == true) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occured: " << CreateGLErrorString() << std::endl;
-
-        free(buffer.pixels);
-        buffer.pixels = nullptr;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "An OpenGL error occured: " << CreateGLErrorString() << std::endl;
         return;
     }
 
     // Vertically flip the image, then swap the flipped and original images
-    void *buffer_temp = malloc(buffer.width * buffer.height * 3);
-    for(uint32_t i = 0; i < buffer.height; ++i) {
-        memcpy((uint8_t *)buffer_temp + i * buffer.width * 3,
-               (uint8_t *)buffer.pixels + (buffer.height - i - 1) * buffer.width * 3, buffer.width * 3);
-    }
-    void *temp = buffer.pixels;
-    buffer.pixels = buffer_temp;
-    buffer_temp = temp;
-
+    buffer.VerticalFlip();
     buffer.SaveImage(filename);
-
-    free(buffer_temp);
-    free(buffer.pixels);
-    buffer.pixels = nullptr;
 }
 
 int32_t VideoEngine::_ConvertYAlign(int32_t y_align)

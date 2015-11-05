@@ -31,35 +31,36 @@ namespace private_video
 // -----------------------------------------------------------------------------
 // ImageMemory class
 // -----------------------------------------------------------------------------
-
 ImageMemory::ImageMemory() :
-    width(0),
-    height(0),
-    pixels(nullptr),
-    rgb_format(false)
+    _width(0),
+    _height(0),
+    _rgb_format(false)
 {}
 
-
-
-ImageMemory::~ImageMemory()
+ImageMemory::ImageMemory(const SDL_Surface* surface) :
+    _width(surface->w),
+    _height(surface->h),
+    _rgb_format(surface->format->BytesPerPixel == 3)
 {
-// Winter Knight - I commented this out because it was causing double free
-// segfaults when ImageMemory objects were copied via copy constructor.
-    if(pixels != nullptr) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was not nullptr upon object destruction" << std::endl;
-//		free(pixels);
-//		pixels = nullptr;
+    _pixels.reserve(_width * _height * GetBytesPerPixel());
+    for(size_t i = 0; i < _width * _height * GetBytesPerPixel(); ++i) {
+        _pixels.push_back(static_cast<const uint8_t*>(surface->pixels)[i]);
     }
 }
 
-
-
-bool ImageMemory::LoadImage(const std::string &filename)
+void ImageMemory::Resize(size_t width, size_t height, bool is_rgb)
 {
-    if(pixels != nullptr) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was not nullptr upon function invocation" << std::endl;
-        free(pixels);
-        pixels = nullptr;
+    _pixels.clear();
+    _rgb_format = is_rgb;
+    _width = width;
+    _height = height;
+    _pixels.resize(_width * _height * GetBytesPerPixel());
+}
+
+bool ImageMemory::LoadImage(const std::string& filename)
+{
+    if(!_pixels.empty()) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "_pixels member was not empty upon function invocation" << std::endl;
     }
 
     SDL_Surface* temp_surf = IMG_Load(filename.c_str());
@@ -82,19 +83,16 @@ bool ImageMemory::LoadImage(const std::string &filename)
     }
 
     // Now allocate the pixel values
-    width = alpha_surf->w;
-    height = alpha_surf->h;
-    pixels = malloc(width * height * 4);
-    rgb_format = false;
+    Resize(alpha_surf->w, alpha_surf->h, 3 == alpha_surf->format->BytesPerPixel);
 
     // convert the data so that it works in our format
-    uint8_t *img_pixel = nullptr;
-    uint8_t *dst_pixel = nullptr;
+    uint8_t* img_pixel = nullptr;
+    uint8_t* dst_pixel = nullptr;
 
-    for(uint32_t y = 0; y < height; ++y) {
-        for(uint32_t x = 0; x < width; ++x) {
-            img_pixel = (uint8_t *)alpha_surf->pixels + y * alpha_surf->pitch + x * alpha_surf->format->BytesPerPixel;
-            dst_pixel = ((uint8_t *)pixels) + ((y * width) + x) * 4;
+    for(uint32_t y = 0; y < _height; ++y) {
+        for(uint32_t x = 0; x < _width; ++x) {
+            img_pixel = static_cast<uint8_t *>(alpha_surf->pixels) + y * alpha_surf->pitch + x * alpha_surf->format->BytesPerPixel;
+            dst_pixel = &_pixels[ (y * _width + x) * GetBytesPerPixel()];
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
             if(alpha_format) {
                 dst_pixel[0] = img_pixel[0];
@@ -145,16 +143,16 @@ bool ImageMemory::LoadImage(const std::string &filename)
 
 bool ImageMemory::SaveImage(const std::string &filename)
 {
-    if(pixels == nullptr) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "pixels member was nullptr upon function invocation for file: " << filename << std::endl;
+    if(_pixels.empty()) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "_pixels member was empty upon function invocation for file: " << filename << std::endl;
         return false;
     }
 
     // open up the file for writing
-    FILE *fp = fopen(filename.c_str(), "wb");
+    FILE* fp = fopen(filename.c_str(), "wb");
 
     if(fp == nullptr) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "could not open file: " << filename << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "Could not open file: " << filename << std::endl;
         return false;
     }
 
@@ -189,8 +187,8 @@ bool ImageMemory::SaveImage(const std::string &filename)
     png_init_io(png_ptr, fp);
 
     // write the header
-    int32_t color_type = rgb_format ? PNG_COLOR_TYPE_RGB : PNG_COLOR_TYPE_RGBA;
-    png_set_IHDR(png_ptr, info_ptr, width, height, 8, color_type,
+    int32_t color_type = _rgb_format ? PNG_COLOR_TYPE_RGB : PNG_COLOR_TYPE_RGBA;
+    png_set_IHDR(png_ptr, info_ptr, _width, _height, 8, color_type,
                  PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
 
@@ -199,7 +197,7 @@ bool ImageMemory::SaveImage(const std::string &filename)
     png_set_packing(png_ptr);
 
     // get the row array from our data
-    png_bytep *row_pointers = new png_bytep[height];
+    png_bytep* row_pointers = new png_bytep[_height];
     if(!row_pointers) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "Couldn't allocate png row_pointers for: " << filename << std::endl;
         png_destroy_write_struct(&png_ptr, (png_infopp)nullptr);
@@ -207,9 +205,9 @@ bool ImageMemory::SaveImage(const std::string &filename)
         return false;
     }
 
-    int32_t bytes_per_row = rgb_format ? width * 3 : width * 4;
-    for(uint32_t i = 0; i < height; ++i) {
-        row_pointers[i] = (png_bytep)pixels + bytes_per_row * i;
+    int32_t bytes_per_row = _width * GetBytesPerPixel();
+    for(uint32_t i = 0; i < _height; ++i) {
+        row_pointers[i] = static_cast<png_bytep>(&_pixels[bytes_per_row * i]);
     }
 
     // tell it what the rows are
@@ -224,27 +222,22 @@ bool ImageMemory::SaveImage(const std::string &filename)
 
     // free the memory
     delete[] row_pointers;
-    png_destroy_write_struct(&png_ptr, (png_infopp)nullptr);
+    png_destroy_write_struct(&png_ptr, static_cast<png_infopp>(nullptr));
 
     return true;
-} // bool ImageMemory::SaveImage(const std::string& filename)
+}
 
 void ImageMemory::ConvertToGrayscale()
 {
-    if(width <= 0 || height <= 0) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "width and/or height members were invalid (<= 0)" << std::endl;
+    if(_pixels.empty()) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "No image data (_pixels is empty)" << std::endl;
         return;
     }
 
-    if(pixels == nullptr) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "no image data (pixels == nullptr)" << std::endl;
-        return;
-    }
+    uint8_t format_bytes = GetBytesPerPixel();
+    uint8_t *end_position = &_pixels[_width * _height * format_bytes];
 
-    uint8_t format_bytes = (rgb_format ? 3 : 4);
-    uint8_t *end_position = static_cast<uint8_t *>(pixels) + (width * height * format_bytes);
-
-    for(uint8_t *i = static_cast<uint8_t *>(pixels); i < end_position; i += format_bytes) {
+    for(uint8_t *i = &_pixels[0]; i < end_position; i += format_bytes) {
         // Compute the grayscale value for this pixel based on RGB values: 0.30R + 0.59G + 0.11B
         uint8_t value = static_cast<uint8_t>((30 * *(i) + 59 * *(i + 1) + 11 * *(i + 2)) * 0.01f);
         *i = value;
@@ -254,28 +247,22 @@ void ImageMemory::ConvertToGrayscale()
     }
 }
 
-
 void ImageMemory::RGBAToRGB()
 {
-    if(width <= 0 || height <= 0) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "width and/or height members were invalid (<= 0)" << std::endl;
+    if(_pixels.empty()) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "No image data (pixels is empty)" << std::endl;
         return;
     }
 
-    if(pixels == nullptr) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "no image data (pixels == nullptr)" << std::endl;
+    if(_rgb_format) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "Image data was said to already be in RGB format" << std::endl;
         return;
     }
 
-    if(rgb_format == true) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "image data was said to already be in RGB format" << std::endl;
-        return;
-    }
+    uint8_t* pixel_index = &_pixels[0];
+    uint8_t* pixel_source = pixel_index;
 
-    uint8_t *pixel_index = static_cast<uint8_t *>(pixels);
-    uint8_t *pixel_source = pixel_index;
-
-    for(uint32_t i = 0; i < height * width; ++i, pixel_index += 4) {
+    for(uint32_t i = 0; i < _height * _width; ++i, pixel_index += 4) {
         int32_t index = 3 * i;
         pixel_source[index] = *pixel_index;
         pixel_source[index + 1] = *(pixel_index + 1);
@@ -283,33 +270,23 @@ void ImageMemory::RGBAToRGB()
     }
 
     // Reduce the memory consumed by 1/4 since we no longer need to contain alpha data
-    void *new_pixels = realloc(pixels, width * height * 3);
-    if(new_pixels != nullptr)
-        pixels = new_pixels;
-    rgb_format = true;
+    _pixels.resize(_width * _height * GetBytesPerPixel());
+    std::vector<uint8_t> new_pixels(_pixels);
+    std::swap(_pixels, new_pixels);
+    _rgb_format = true;
 }
-
-
 
 void ImageMemory::CopyFromTexture(TexSheet *texture)
 {
-    if(pixels != nullptr)
-        free(pixels);
-    pixels = nullptr;
+    Resize(texture->height, texture->width, false);
 
-    // Get the texture as a buffer
-    height = texture->height;
-    width = texture->width;
-    pixels = malloc(height * width * (rgb_format ? 3 : 4));
-    if(pixels == nullptr) {
-        PRINT_ERROR << "failed to malloc enough memory to copy the texture" << std::endl;
+    if(_pixels.empty()) {
+        PRINT_ERROR << "Failed to malloc enough memory to copy the texture." << std::endl;
     }
 
     TextureManager->_BindTexture(texture->tex_id);
-    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+    glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, &_pixels[0]);
 }
-
-
 
 void ImageMemory::CopyFromImage(BaseTexture *img)
 {
@@ -318,29 +295,93 @@ void ImageMemory::CopyFromImage(BaseTexture *img)
 
     // Check that the image to copy is smaller than its texture sheet (usually true).
     // If so, then copy over only the sub-rectangle area of the image from its texture
-    if(height > img->height || width > img->width) {
-        uint8_t format_bytes = (rgb_format ? 3 : 4);
-        uint32_t src_bytes = width * format_bytes;
-        uint32_t dst_bytes = img->width * format_bytes;
-        uint32_t src_offset = img->y * width * format_bytes + img->x * format_bytes;
-        void *img_pixels = malloc(img->width * img->height * format_bytes);
-        if(img_pixels == nullptr) {
-            PRINT_ERROR << "failed to malloc enough memory to copy the image" << std::endl;
-            return;
-        }
+    if(_height <= img->height && _width <= img->width)
+        return;
 
-        for(uint32_t i = 0; i < img->height; ++i) {
-            memcpy((uint8_t *)img_pixels + i * dst_bytes, (uint8_t *)pixels + i * src_bytes + src_offset, dst_bytes);
-        }
+    uint32_t src_bytes = _width * GetBytesPerPixel();
+    uint32_t dst_bytes = img->width * GetBytesPerPixel();
+    uint32_t src_offset = (img->y * _width + img->x) * GetBytesPerPixel();
 
-        // Delete the memory used for the texture sheet and replace it with the memory for the image
-        if(pixels)
-            free(pixels);
-
-        height = img->height;
-        width = img->width;
-        pixels = img_pixels;
+    std::vector<uint8_t> img_pixels;
+    try {
+        img_pixels.reserve(img->width * img->height * GetBytesPerPixel());
     }
+    catch(std::exception& e) {
+        PRINT_ERROR << "Failed to malloc enough memory to copy the image" << std::endl;
+        return;
+    }
+
+    for(uint32_t i = 0; i < img->height; ++i) {
+        std::vector<uint8_t>::const_iterator start = _pixels.begin() + i * src_bytes + src_offset;
+        std::vector<uint8_t>::const_iterator end = start + dst_bytes;
+        img_pixels.insert(img_pixels.end(), start, end);
+    }
+
+    _height = img->height;
+    _width = img->width;
+    std::swap(_pixels, img_pixels);
+}
+
+void ImageMemory::CopyFrom(const ImageMemory& src, 
+              uint32_t src_offset,
+              uint32_t dst_bytes,
+              uint32_t dst_offset)
+{
+    size_t src_bytes = src.GetWidth() * GetBytesPerPixel();
+    dst_bytes *= GetBytesPerPixel();
+    src_offset *= GetBytesPerPixel();
+    dst_offset *= GetBytesPerPixel();
+    uint32_t bytes = _width * GetBytesPerPixel();
+
+    for(size_t line = 0; line < _height; ++line) {
+        memcpy(&_pixels[0] + line * dst_bytes + dst_offset,
+               &src._pixels[0] + line * src_bytes + src_offset,
+               bytes);
+    }
+}
+
+void ImageMemory::CopyFrom(const ImageMemory& src, uint32_t src_offset)
+{
+    size_t src_bytes = src.GetWidth() * GetBytesPerPixel();
+    size_t dst_bytes = GetWidth() * GetBytesPerPixel();
+    src_offset *= GetBytesPerPixel();
+    uint32_t bytes = _width * GetBytesPerPixel();
+
+    for(size_t line = 0; line < _height; ++line) {
+        memcpy(&_pixels[0] + line * dst_bytes,
+               &src._pixels[0] + line * src_bytes + src_offset,
+               bytes);
+    }
+}
+
+void ImageMemory::GlGetTexImage()
+{
+    glGetTexImage(GL_TEXTURE_2D, 0, _rgb_format ? GL_RGB : GL_RGBA, GL_UNSIGNED_BYTE, &_pixels[0]);
+}
+
+void ImageMemory::GlTexSubImage(int32_t x, int32_t y)
+{
+    glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, _width, _height,
+                    _rgb_format ? GL_RGB : GL_RGBA, GL_UNSIGNED_BYTE, &_pixels[0]);
+}
+
+void ImageMemory::GlReadPixels(int32_t x, int32_t y)
+{
+    glReadPixels(x, y, _width, _height,
+                 _rgb_format ? GL_RGB : GL_RGBA, GL_UNSIGNED_BYTE, &_pixels[0]);
+}
+
+void ImageMemory::VerticalFlip()
+{
+    std::vector<uint8_t> flipped;
+    flipped.reserve(_pixels.size());
+
+    for(uint32_t i = 0; i < _height; ++i) {
+        std::vector<uint8_t>::const_iterator start = _pixels.end() - i * _width * GetBytesPerPixel();
+        std::vector<uint8_t>::const_iterator end = start + _width * GetBytesPerPixel();
+        flipped.insert(flipped.end(), start, end);
+    }
+    std::swap(flipped, _pixels);
 }
 
 // -----------------------------------------------------------------------------

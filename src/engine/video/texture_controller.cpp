@@ -62,8 +62,6 @@ TextureController::~TextureController()
     }
 }
 
-
-
 bool TextureController::SingletonInitialize()
 {
     // Create a default set of texture sheets
@@ -90,8 +88,6 @@ bool TextureController::SingletonInitialize()
 
     return true;
 }
-
-
 
 bool TextureController::UnloadTextures()
 {
@@ -148,8 +144,6 @@ bool TextureController::ReloadTextures()
     return success;
 }
 
-
-
 void TextureController::DEBUG_NextTexSheet()
 {
     _debug_current_sheet++;
@@ -158,8 +152,6 @@ void TextureController::DEBUG_NextTexSheet()
         _debug_current_sheet = -1;  // Disables texture sheet display
 }
 
-
-
 void TextureController::DEBUG_PrevTexSheet()
 {
     _debug_current_sheet--;
@@ -167,8 +159,6 @@ void TextureController::DEBUG_PrevTexSheet()
     if(_debug_current_sheet < -1)
         _debug_current_sheet = static_cast<int32_t>(_tex_sheets.size()) - 1;
 }
-
-
 
 void TextureController::DEBUG_ShowTexSheet()
 {
@@ -398,8 +388,6 @@ TexSheet *TextureController::_CreateTexSheet(int32_t width, int32_t height, TexS
     return sheet;
 }
 
-
-
 void TextureController::_RemoveSheet(TexSheet *sheet)
 {
     if(sheet == nullptr) {
@@ -426,14 +414,12 @@ void TextureController::_RemoveSheet(TexSheet *sheet)
     IF_PRINT_WARNING(VIDEO_DEBUG) << "could not find texture sheet to delete" << std::endl;
 }
 
-
-
 TexSheet *TextureController::_InsertImageInTexSheet(BaseTexture *image, ImageMemory &load_info, bool is_static)
 {
     // Image sizes larger than 512 in either dimension require their own texture sheet
-    if(load_info.width > 512 || load_info.height > 512) {
-        int32_t round_width = vt_utils::RoundUpPow2(load_info.width);
-        int32_t round_height = vt_utils::RoundUpPow2(load_info.height);
+    if(load_info.GetWidth() > 512 || load_info.GetHeight() > 512) {
+        int32_t round_width = vt_utils::RoundUpPow2(load_info.GetWidth());
+        int32_t round_height = vt_utils::RoundUpPow2(load_info.GetHeight());
         TexSheet *sheet = _CreateTexSheet(round_width, round_height, VIDEO_TEXSHEET_ANY, false);
 
         // Ran out of memory!
@@ -453,18 +439,18 @@ TexSheet *TextureController::_InsertImageInTexSheet(BaseTexture *image, ImageMem
     // Determine the type of texture sheet that should hold this image
     TexSheetType type;
 
-    if(load_info.width == 32 && load_info.height == 32)
+    if(load_info.GetWidth() == 32 && load_info.GetHeight() == 32)
         type = VIDEO_TEXSHEET_32x32;
-    else if(load_info.width == 32 && load_info.height == 64)
+    else if(load_info.GetWidth() == 32 && load_info.GetHeight() == 64)
         type = VIDEO_TEXSHEET_32x64;
-    else if(load_info.width == 64 && load_info.height == 64)
+    else if(load_info.GetWidth() == 64 && load_info.GetHeight() == 64)
         type = VIDEO_TEXSHEET_64x64;
     else
         type = VIDEO_TEXSHEET_ANY;
 
     // Look through all existing texture sheets and see if the image will fit in any of the ones which
     // match the type and static status that we are looking for
-    for(uint32_t i = 0; i < _tex_sheets.size(); i++) {
+    for(uint32_t i = 0; i < _tex_sheets.size(); ++i) {
         TexSheet *sheet = _tex_sheets[i];
         if(sheet == nullptr) {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "found a nullptr texture sheet in the _tex_sheets container" << std::endl;
@@ -523,12 +509,11 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
                 }
 
                 // Copy the part of the image in a buffer
-                image.height = img->height;
-                image.width = img->width;
-                image.pixels = malloc(image.height * image.width * 4);
-
-                if(image.pixels == nullptr) {
-                    IF_PRINT_WARNING(VIDEO_DEBUG) << "call to malloc returned nullptr" << std::endl;
+                try {
+                    image.Resize(img->width, img->height, false);
+                }
+                catch( std::exception &e ) {
+                    IF_PRINT_WARNING(VIDEO_DEBUG) << "Resize failed." << std::endl;
                     success = false;
                     continue;
                 }
@@ -551,13 +536,12 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
             pos1 = img->tags.find('_', pos0);
             y = atoi(img->tags.substr(pos0 + 2, pos1).c_str());
 
-            rows = load_info.height / image.height;
-            cols = load_info.width / image.width;
+            rows = load_info.GetHeight() / image.GetHeight();
+            cols = load_info.GetWidth() / image.GetWidth();
 
-            for(uint32_t row = 0; row < image.height; ++row) {
-                memcpy((uint8_t *)image.pixels + 4 * image.width * row, (uint8_t *)load_info.pixels + (((x * load_info.height / rows) + row)
-                        * load_info.width + y * load_info.width / cols) * 4, 4 * image.width);
-            }
+            image.CopyFrom(load_info,
+                           load_info.GetWidth() * (x * load_info.GetHeight() / rows)
+                               + load_info.GetWidth() * y / cols);
 
             // Convert to grayscale if needed
             if(img->tags.find("<G>", 0) != img->filename.npos)
@@ -594,21 +578,8 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
                 IF_PRINT_WARNING(VIDEO_DEBUG) << "call to TexSheet::CopyRect() failed" << std::endl;
                 success = false;
             }
-
-            if(load_info.pixels) {
-                free(load_info.pixels);
-                load_info.pixels = nullptr;
-            }
         }
     } // for (std::map<string, ImageTexture*>::iterator i = _images.begin(); i != _images.end(); i++)
-
-    for(std::map<std::string, std::pair<ImageMemory, ImageMemory> >::iterator i = multi_image_info.begin();
-            i != multi_image_info.end(); ++i) {
-        free(i->second.first.pixels);
-        i->second.first.pixels = nullptr;
-        free(i->second.second.pixels);
-        i->second.second.pixels = nullptr;
-    }
 
     // Regenerate all font textures
     for(std::set<TextTexture *>::iterator i = _text_images.begin(); i != _text_images.end(); ++i) {
