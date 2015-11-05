@@ -82,7 +82,6 @@ private:
     uint32_t _box_y_length;
 
     //! \brief map offset information
-    float _x_offset, _y_offset;
     float _x_cent, _y_cent;
     float _x_half_len, _y_half_len;
 

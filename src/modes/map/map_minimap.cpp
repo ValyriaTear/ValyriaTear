@@ -108,8 +108,6 @@ Minimap::Minimap(const std::string& minimap_image_filename) :
     _current_position_y(-1.0f),
     _box_x_length(10),
     _box_y_length(_box_x_length * .75f),
-    _x_offset(0.0f),
-    _y_offset(0.0f),
     _x_cent(0.0f),
     _y_cent(0.0f),
     _x_half_len(1.75f * TILES_ON_X_AXIS * _box_x_length),
