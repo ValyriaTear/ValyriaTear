@@ -41,6 +41,13 @@ ustring::ustring(const uint16_t *s)
         return;
     }
 
+    // Avoid memory reallocations when pushing back
+    size_t i = 0;
+    while(s[i] != 0) {
+        ++i;
+    }
+    _str.reserve(i);
+
     while(*s != 0) {
         _str.push_back(*s);
         ++s;
@@ -58,11 +65,12 @@ ustring ustring::substr(size_t pos, size_t n) const
         throw std::out_of_range("pos passed to substr() was too large");
 
     ustring s;
-    while(n > 0 && pos < len) {
-        s += _str[pos];
-        ++pos;
-        --n;
+    if(n == std::numeric_limits<size_t>::max() || pos + n > len) {
+        n = len - pos;
     }
+    s._str.reserve(n + 1);
+    s._str.assign(_str.begin() + pos, _str.begin() + pos + n);
+    s._str.push_back(0);
 
     return s;
 }
@@ -70,33 +78,14 @@ ustring ustring::substr(size_t pos, size_t n) const
 // Concatenates string to another
 ustring ustring::operator + (const ustring &s) const
 {
-    ustring temp = *this;
-
-    // nothing to do for empty string
-    if(s.empty())
-        return temp;
-
-    // add first character of string into the null character spot
-    temp._str[length()] = s[0];
-
-    // add rest of characters afterward
-    size_t len = s.length();
-    for(size_t j = 1; j < len; ++j) {
-        temp._str.push_back(s[j]);
-    }
-
-    // Finish off with a null character
-    temp._str.push_back(0);
-
-    return temp;
+    ustring temp(*this);
+    return (temp += s);
 }
 
 // Adds a character to end of this string
-ustring &ustring::operator += (uint16_t c)
+ustring& ustring::operator += (uint16_t c)
 {
-    _str[length()] = c;
-    _str.push_back(0);
-
+    _str.insert(_str.end() - 1, c);
     return *this;
 }
 
@@ -107,43 +96,14 @@ ustring &ustring::operator += (const ustring &s)
     if(s.empty())
         return *this;
 
-    // add first character of string into the null character spot
-    _str[length()] = s[0];
-
-    // add rest of characters afterward
-    size_t len = s.length();
-    for(size_t j = 1; j < len; ++j) {
-        _str.push_back(s[j]);
-    }
-
-    // Finish off with a null character
-    _str.push_back(0);
-
+    _str.insert(_str.end() - 1, s._str.begin(), s._str.end() - 1);
     return *this;
 }
-
-// Will assign the current string to this string
-ustring &ustring::operator = (const ustring &s)
-{
-    clear();
-    operator += (s);
-
-    return *this;
-} // ustring & ustring::operator = (const ustring &s)
 
 // Compare two substrings
 bool ustring::operator == (const ustring &s) const
 {
-    size_t len = length();
-    if (s.length() != len)
-        return false;
-
-    for(size_t j = 0; j < len; ++j) {
-        if (_str[j] != s[j] )
-            return false;
-    }
-
-    return true;
+    return (s._str == _str);
 } // bool ustring::operator == (const ustring &s)
 
 // Finds a character within a string, starting at pos. If nothing is found, npos is returned
@@ -193,9 +153,9 @@ size_t ustring::find(const ustring &s, size_t pos) const
 #define UTF_16_BOM_STD 0xFEFF
 #define UTF_16_BOM_REV 0xFFFE
 
-static bool UTF8ToUTF16(const char *source, uint16_t *dest, size_t length)
+static bool UTF8ToUTF16(const std::string& source, uint16_t *dest)
 {
-    if(!length)
+    if(!source.length())
         return true;
 
     iconv_t convertor = iconv_open(UTF_16_ICONV_NAME, "UTF-8");
@@ -209,11 +169,11 @@ static bool UTF8ToUTF16(const char *source, uint16_t *dest, size_t length)
 #else
     // The iconv API doesn't specify a const source for legacy support reasons.
     // Versions after 0x0109 changed back to char* for POSIX reasons.
-    char *sourceChar = const_cast<char *>(source);
+    char *sourceChar = const_cast<char *>(source.c_str());
 #endif
     char *destChar = reinterpret_cast<char *>(dest);
-    size_t sourceLen = length;
-    size_t destLen = (length + 1) * 2;
+    size_t sourceLen = source.length() + 1;
+    size_t destLen = (source.length() + 1) * 2;
     size_t ret = iconv(convertor, &sourceChar, &sourceLen,
                        &destChar, &destLen);
     iconv_close(convertor);
@@ -225,16 +185,16 @@ static bool UTF8ToUTF16(const char *source, uint16_t *dest, size_t length)
 }
 
 // Creates a ustring from a normal string
-ustring MakeUnicodeString(const std::string &text)
+ustring MakeUnicodeString(const std::string& text)
 {
-    int32_t length = static_cast<int32_t>(text.length() + 1);
-    std::vector<uint16_t> ubuff(length+1,0);
+    size_t length = text.length() + 1;
+    std::vector<uint16_t> ubuff(length, 0);
     uint16_t *utf16String = &ubuff[0];
-
-    if(UTF8ToUTF16(text.c_str(), &ubuff[0], length)) {
+    ubuff.reserve(length);
+    if(UTF8ToUTF16(text.c_str(), &ubuff[0])) {
         // Skip the "Byte Order Mark" from the UTF16 specification
         if(utf16String[0] == UTF_16_BOM_STD ||  utf16String[0] == UTF_16_BOM_REV) {
-            utf16String = &ubuff[0] + 1;
+            utf16String = &ubuff[1];
         }
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -243,14 +203,15 @@ ustring MakeUnicodeString(const std::string &text)
         // byte swapping must be performed (only for irregular characters,
         // hence the mask).
 
-        for(int32_t c = 0; c < length; c++)
+        for(size_t c = 0; c < length; ++c)
             if(utf16String[c] & 0xFF80)
                 utf16String[c] = (utf16String[c] << 8) | (utf16String[c] >> 8);
 #endif
     } else {
-        for(int32_t c = 0; c < length; ++c) {
-            ubuff[c] = static_cast<uint16_t>(text[c]);
+        for(size_t c = 0; c < length; ++c) {
+            ubuff.push_back(text[c]);
         }
+        ubuff.push_back(0);
     }
 
     ustring new_ustr(utf16String);
@@ -261,10 +222,10 @@ ustring MakeUnicodeString(const std::string &text)
 // Creates a normal string from a ustring
 std::string MakeStandardString(const ustring &text)
 {
-    const int32_t length = static_cast<int32_t>(text.length());
-    std::vector<unsigned char> strbuff(length+1,'\0');
+    const size_t length = text.length();
+    std::vector<unsigned char> strbuff(length + 1,'\0');
 
-    for(int32_t c = 0; c < length; ++c) {
+    for(size_t c = 0; c < length; ++c) {
         uint16_t curr_char = text[c];
 
         if(curr_char > 0xff)

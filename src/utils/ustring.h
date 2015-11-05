@@ -98,8 +98,6 @@ public:
 
     ustring &operator += (const ustring &s);
 
-    ustring &operator = (const ustring &s);
-
     bool operator == (const ustring &s) const;
 
     uint16_t &operator [](size_t pos) {
