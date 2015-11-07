@@ -1547,8 +1547,6 @@ void CompositeImage::SetWidth(float width)
     _width = width;
 }
 
-
-
 void CompositeImage::SetHeight(float height)
 {
     // Case 1: No image elements loaded, just change the internal height
@@ -1578,8 +1576,6 @@ void CompositeImage::SetHeight(float height)
     _height = height;
 }
 
-
-
 void CompositeImage::SetColor(const Color &color)
 {
     ImageDescriptor::SetColor(color);
@@ -1589,8 +1585,6 @@ void CompositeImage::SetColor(const Color &color)
     }
 }
 
-
-
 void CompositeImage::SetVertexColors(const Color &tl, const Color &tr, const Color &bl, const Color &br)
 {
     ImageDescriptor::SetVertexColors(tl, tr, bl, br);
@@ -1599,8 +1593,6 @@ void CompositeImage::SetVertexColors(const Color &tl, const Color &tr, const Col
         _elements[i].image.SetVertexColors(tl, tr, bl, br);
     }
 }
-
-
 
 void CompositeImage::AddImage(const StillImage &img, float x_offset, float y_offset, float u1, float v1, float u2, float v2)
 {
@@ -1624,45 +1616,7 @@ void CompositeImage::AddImage(const StillImage &img, float x_offset, float y_off
     float max_y = y_offset + new_image.GetHeight() * v2;
     if(max_y > _height)
         _height = max_y;
-} // void CompositeImage::AddImage(const StillImage& img, float x_offset, float y_offset, float u1, float v1, float u2, float v2)
-
-// void CompositeImage::ConstructCompositeImage(const std::vector<StillImage>& tiles, const std::vector<std::vector<uint32_t> >& indeces) {
-// 	if (tiles.empty() == true || indeces.empty() == true) {
-// 		IF_PRINT_WARNING(VIDEO_DEBUG) << "either the tiles or indeces vector function arguments were empty" << std::endl;
-// 		return;
-// 	}
-//
-// 	for (uint32_t i = 1; i < tiles.size(); i++) {
-// 		if (tiles[0]._width != tiles[i]._width || tiles[0]._height != tiles[i]._height) {
-// 			IF_PRINT_WARNING(VIDEO_DEBUG) << "images within the tiles argument had unequal dimensions" << std::endl;
-// 			return;
-// 		}
-// 	}
-//
-// 	for (uint32_t i = 1; i < indeces.size(); i++) {
-// 		if (indeces[0].size() != indeces[i].size()) {
-// 			IF_PRINT_WARNING(VIDEO_DEBUG) << "the row sizes in the indices 2D vector argument did not match" << std::endl;
-// 			return;
-// 		}
-// 	}
-//
-// 	Clear();
-//
-// 	// Set the members of the composite image that we are about to construct
-// 	_width  = static_cast<float>(indeces[0].size()) * tiles[0]._width;
-// 	_height = static_cast<float>(indeces.size()) * tiles[0]._height;
-// 	_is_static = tiles[0]._is_static;
-//
-// 	// Add each tile at the image at the appropriate offset
-// 	for (uint32_t y = 0; y < indeces.size(); ++y) {
-// 		for (uint32_t x = 0; x < indeces[0].size(); ++x) {
-// 			// NOTE: we did not check that all the entries in indeces were within the
-// 			// correct range for the size of the tiles vector, so this may cause a out-of-bounds
-// 			// run-time error.
-// 			AddImage(tiles[indeces[y][x]], x * tiles[0]._width, y * tiles[0]._height);
-// 		}
-// 	}
-// } // void CompositeImage::ConstructCompositeImage(const std::vector<StillImage>& tiles, const std::vector<std::vector<uint32_t> >& indeces)
+}
 
 void DrawCapturedBackgroundImage(const ImageDescriptor& image, float x, float y)
 {
@@ -1680,13 +1634,11 @@ void DrawCapturedBackgroundImage(const ImageDescriptor& image, float x, float y,
     assert(width_image > 0.0f);
     assert(height_image > 0.0f);
 
-    float scale = width_viewport / width_image;
-    if (width_viewport < height_viewport) {
-        scale = height_viewport / height_image;
-    }
+    float scale_width = width_viewport / width_image;
+    float scale_height = height_viewport / height_image;
 
     VideoManager->Move(x, y);
-    VideoManager->Scale(scale, scale);
+    VideoManager->Scale(scale_width, scale_height);
     image.Draw(color);
 }
 
