@@ -59,12 +59,13 @@ void ImageMemory::Resize(size_t width, size_t height, bool is_rgb)
 
 bool ImageMemory::LoadImage(const std::string& filename)
 {
-    if(!_pixels.empty()) {
+    assert(_pixels.empty());
+    if (!_pixels.empty()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "_pixels member was not empty upon function invocation" << std::endl;
     }
 
     SDL_Surface* temp_surf = IMG_Load(filename.c_str());
-    if(temp_surf == nullptr) {
+    if (temp_surf == nullptr) {
         PRINT_ERROR << "Couldn't load image file: " << filename << std::endl;
         return false;
     }
@@ -73,13 +74,11 @@ bool ImageMemory::LoadImage(const std::string& filename)
 
     // Tells whether the alpha image will be used
     bool alpha_format = true;
-    if(alpha_surf == nullptr) {
+    if (alpha_surf == nullptr) {
         // use the default image in that case
         alpha_surf = temp_surf;
-        alpha_format = false;
-    } else {
-        SDL_FreeSurface(temp_surf);
         temp_surf = nullptr;
+        alpha_format = false;
     }
 
     // Now allocate the pixel values
@@ -89,12 +88,12 @@ bool ImageMemory::LoadImage(const std::string& filename)
     uint8_t* img_pixel = nullptr;
     uint8_t* dst_pixel = nullptr;
 
-    for(uint32_t y = 0; y < _height; ++y) {
-        for(uint32_t x = 0; x < _width; ++x) {
+    for (uint32_t y = 0; y < _height; ++y) {
+        for (uint32_t x = 0; x < _width; ++x) {
             img_pixel = static_cast<uint8_t *>(alpha_surf->pixels) + y * alpha_surf->pitch + x * alpha_surf->format->BytesPerPixel;
-            dst_pixel = &_pixels[ (y * _width + x) * GetBytesPerPixel()];
+            dst_pixel = &_pixels[(y * _width + x) * GetBytesPerPixel()];
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-            if(alpha_format) {
+            if (alpha_format) {
                 dst_pixel[0] = img_pixel[0];
                 dst_pixel[1] = img_pixel[1];
                 dst_pixel[2] = img_pixel[2];
@@ -106,7 +105,7 @@ bool ImageMemory::LoadImage(const std::string& filename)
                 dst_pixel[3] = img_pixel[3];
             }
 #else
-            if(alpha_format) { // ARGB8888
+            if (alpha_format) { // ARGB8888
 #ifdef __APPLE__
                 dst_pixel[3] = img_pixel[3];
                 dst_pixel[0] = img_pixel[2];
@@ -129,7 +128,7 @@ bool ImageMemory::LoadImage(const std::string& filename)
             // Make the r,g,b values black to prevent OpenGL to make linear average with
             // another color when smoothing.
             // This is removing the white edges often seen on sprites.
-            if(dst_pixel[3] == 0) {
+            if (dst_pixel[3] == 0) {
                 dst_pixel[0] = 0;
                 dst_pixel[1] = 0;
                 dst_pixel[2] = 0;
@@ -137,92 +136,133 @@ bool ImageMemory::LoadImage(const std::string& filename)
         }
     }
 
-    SDL_FreeSurface(alpha_surf);
+    if (temp_surf != nullptr) {
+        SDL_FreeSurface(temp_surf);
+        temp_surf = nullptr;
+    }
+
+    if (alpha_surf != nullptr) {
+        SDL_FreeSurface(alpha_surf);
+        alpha_surf = nullptr;
+    }
+
     return true;
 }
 
-bool ImageMemory::SaveImage(const std::string &filename)
+bool ImageMemory::SaveImage(const std::string& filename)
 {
-    if(_pixels.empty()) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "_pixels member was empty upon function invocation for file: " << filename << std::endl;
+    assert(!_pixels.empty());
+    if (_pixels.empty()) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "The _pixels member was empty upon function invocation for file: " << filename << std::endl;
         return false;
     }
 
-    // open up the file for writing
-    FILE* fp = fopen(filename.c_str(), "wb");
+    // Define all variables which require clean up.
+    FILE* fp = nullptr;
+    png_structp png_ptr = nullptr;
+    png_infop info_ptr = nullptr;
+    png_bytep* row_pointers = nullptr;
 
-    if(fp == nullptr) {
+    // Define a clean up function.
+    auto CleanUp = [&]()
+    {
+        if (row_pointers != nullptr) {
+            delete[] row_pointers;
+            row_pointers = nullptr;
+        }
+
+        // Assuming an 'info_ptr' without a 'png_ptr' is impossible by design.
+        if (png_ptr == nullptr) {
+            assert(info_ptr == nullptr);
+        }
+
+        if (png_ptr != nullptr && info_ptr != nullptr) {
+            png_free_data(png_ptr, info_ptr, PNG_FREE_ALL, -1);
+        }
+
+        if (png_ptr != nullptr) {
+            // Note: A second parameter of 'nullptr' is valid for this function.
+            png_destroy_write_struct(&png_ptr, &info_ptr);
+            png_ptr = nullptr;
+            info_ptr = nullptr;
+        }
+
+        if (fp != nullptr) {
+            fclose(fp);
+            fp = nullptr;
+        }
+    };
+
+    // Open a file for writing.
+    assert(fp == nullptr);
+    fp = fopen(filename.c_str(), "wb");
+    if (fp == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "Could not open file: " << filename << std::endl;
+        CleanUp();
         return false;
     }
 
-    // grab a write structure
-    png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, (png_voidp)nullptr, nullptr, nullptr);
-
-    if(!png_ptr) {
+    // Create a write structure.
+    assert(png_ptr == nullptr);
+    png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, (png_voidp)nullptr, nullptr, nullptr);
+    if (png_ptr == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_write_struct() failed for file: " << filename << std::endl;
-        fclose(fp);
+        CleanUp();
         return false;
     }
 
-    // and a place to store the metadata
-    png_infop info_ptr = png_create_info_struct(png_ptr);
-
-    if(!info_ptr) {
+    // Create a place to store meta data.
+    assert(info_ptr == nullptr);
+    info_ptr = png_create_info_struct(png_ptr);
+    if (info_ptr == nullptr) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_info_struct() failed for file: " << filename << std::endl;
-        png_destroy_write_struct(&png_ptr, (png_infopp)nullptr);
-        fclose(fp);
+        CleanUp();
         return false;
     }
 
-    // prepare for error handling!
-    if(setjmp(png_jmpbuf(png_ptr))) {
+    // Setup error handling.
+    if (setjmp(png_jmpbuf(png_ptr))) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "setjmp returned non-zero for file: " << filename << std::endl;
-        png_destroy_write_struct(&png_ptr, (png_infopp)nullptr);
-        fclose(fp);
+        CleanUp();
         return false;
     }
 
-    // tell it where to look
+    // Set the file pointer.
     png_init_io(png_ptr, fp);
 
-    // write the header
+    // Write the header.
     int32_t color_type = _rgb_format ? PNG_COLOR_TYPE_RGB : PNG_COLOR_TYPE_RGBA;
     png_set_IHDR(png_ptr, info_ptr, _width, _height, 8, color_type,
                  PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
 
     png_write_info(png_ptr, info_ptr);
-
     png_set_packing(png_ptr);
 
-    // get the row array from our data
-    png_bytep* row_pointers = new png_bytep[_height];
-    if(!row_pointers) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "Couldn't allocate png row_pointers for: " << filename << std::endl;
-        png_destroy_write_struct(&png_ptr, (png_infopp)nullptr);
-        fclose(fp);
+    // Create the row array.
+    assert(row_pointers == nullptr);
+    row_pointers = new png_bytep[_height];
+    if (row_pointers == nullptr) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "Couldn't allocate row_pointers for: " << filename << std::endl;
+        CleanUp();
         return false;
     }
 
+    // Initialize the row array.
     int32_t bytes_per_row = _width * GetBytesPerPixel();
-    for(uint32_t i = 0; i < _height; ++i) {
+    for (uint32_t i = 0; i < _height; ++i) {
         row_pointers[i] = static_cast<png_bytep>(&_pixels[bytes_per_row * i]);
     }
 
-    // tell it what the rows are
+    // Define the rows.
     png_set_rows(png_ptr, info_ptr, row_pointers);
-    // and write the PNG
+
+    // Write the image.
     png_write_png(png_ptr, info_ptr, PNG_TRANSFORM_IDENTITY, nullptr);
     png_write_image(png_ptr, row_pointers);
-    // clean up
     png_write_end(png_ptr, info_ptr);
 
-    fclose(fp);
-
-    // free the memory
-    delete[] row_pointers;
-    png_destroy_write_struct(&png_ptr, static_cast<png_infopp>(nullptr));
+    CleanUp();
 
     return true;
 }
