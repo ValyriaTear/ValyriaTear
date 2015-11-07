@@ -947,21 +947,6 @@ public:
     void AddImage(const StillImage &img, float x_offset, float y_offset, float u1 = 0.0f, float v1 = 0.0f,
                   float u2 = 1.0f, float v2 = 1.0f);
 
-    /** \brief Creates a single composite image from a 2D array of like-sized images
-    *** \param tiles A 1D vector of StillImage objects that will be used to construct the composite image
-    *** \param indeces A 2D vector in row-column order (e.g. indices[y][x]) with indeces into the tiles vector
-    ***
-    *** This method is useful for constructing variable-sized objects within a map from multiple smaller tile
-    *** images. The StillImage object that this method is invoked upon will be cleared prior to constructing
-    *** the composite image.
-    ***
-    *** \note This should be obvious, but don't include "this" StillImage object inside the tiles argument vector
-    *** \note All StillImages in the tiles vector should have the same dimensions
-    *** \note Every vector row in indeces must be the same size
-    *** \note Every index element (indices[y][x]) should range from 0 to tiles.size() - 1
-    **/
-// 	void ConstructCompositeImage(const std::vector<ImageElement>& tiles, const std::vector<std::vector<uint32_t> >& indeces);
-
 private:
     //! \brief A container for each element in the composite image
     std::vector<private_video::ImageElement> _elements;
