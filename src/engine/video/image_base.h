@@ -67,7 +67,7 @@ class ImageMemory
 {
 public:
     ImageMemory();
-    ImageMemory(const SDL_Surface* surface);
+    explicit ImageMemory(const SDL_Surface* surface);
 
     ~ImageMemory()
     {}
@@ -192,9 +192,7 @@ class BaseTexture
 
 public:
     BaseTexture();
-
     BaseTexture(uint32_t width_, uint32_t height_);
-
     BaseTexture(TexSheet *texture_sheet_, uint32_t width_, uint32_t height_);
 
     virtual ~BaseTexture();
@@ -268,10 +266,9 @@ class ImageTexture : public BaseTexture
 {
 public:
     ImageTexture(const std::string &filename_, const std::string &tags_, int32_t width_, int32_t height_);
-
     ImageTexture(TexSheet *texture_sheet_, const std::string &filename_, const std::string &tags_, int32_t width_, int32_t height_);
 
-    virtual ~ImageTexture();
+    virtual ~ImageTexture() override;
 
     // ---------- Public members
 
