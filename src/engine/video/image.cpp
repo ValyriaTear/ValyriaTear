@@ -1680,13 +1680,11 @@ void DrawCapturedBackgroundImage(const ImageDescriptor& image, float x, float y,
     assert(width_image > 0.0f);
     assert(height_image > 0.0f);
 
-    float scale = width_viewport / width_image;
-    if (width_viewport < height_viewport) {
-        scale = height_viewport / height_image;
-    }
+    float scale_width = width_viewport / width_image;
+    float scale_height = height_viewport / height_image;
 
     VideoManager->Move(x, y);
-    VideoManager->Scale(scale, scale);
+    VideoManager->Scale(scale_width, scale_height);
     image.Draw(color);
 }
 
