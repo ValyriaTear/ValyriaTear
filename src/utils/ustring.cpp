@@ -155,8 +155,9 @@ size_t ustring::find(const ustring &s, size_t pos) const
 
 static bool UTF8ToUTF16(const std::string& source, uint16_t *dest)
 {
-    if(!source.length())
+    if (source.empty()) {
         return true;
+    }
 
     iconv_t convertor = iconv_open(UTF_16_ICONV_NAME, "UTF-8");
     if(convertor == (iconv_t) - 1) {
@@ -165,7 +166,7 @@ static bool UTF8ToUTF16(const std::string& source, uint16_t *dest)
 
 #if (defined(_LIBICONV_VERSION) && _LIBICONV_VERSION == 0x0109) || defined(__FreeBSD__)
     // We are using an iconv API that uses const char*
-    const char *sourceChar = source;
+    const char *sourceChar = source.c_str();
 #else
     // The iconv API doesn't specify a const source for legacy support reasons.
     // Versions after 0x0109 changed back to char* for POSIX reasons.

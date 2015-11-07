@@ -167,11 +167,26 @@ extern "C" {
 // The Windows API defines GetMessage and CreateSemaphore.
 // Undefine it here to prevent conflicts within the code base.
 // Case-insensitive string compare is called stricmp in Windows and strcasecmp everywhere else.
+// Undefine the "min" and "max" macros.
 #ifdef _WIN32
-#   undef GetMessage
-#   undef CreateSemaphore
+#   ifdef GetMessage
+#       undef GetMessage
+#   endif
+#
+#   ifdef CreateSemaphore
+#       undef CreateSemaphore
+#   endif
+#
 #   ifndef strcasecmp
 #       define strcasecmp stricmp
+#   endif
+#
+#   ifdef min
+#       undef min
+#   endif
+#
+#   ifdef max
+#       undef max
 #   endif
 #endif
 
