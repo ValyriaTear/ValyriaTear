@@ -472,43 +472,24 @@ bool VideoEngine::ApplySettings()
         return false;
     }
 
-    // Potentially losing GL context, so unload images first
-    // TODO: Still needed?
-    if(!TextureManager || !TextureManager->UnloadTextures())
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to delete OpenGL textures during a context change" << std::endl;
-
-    // Clear GL state, for OSX compatibility
-    // TODO: Is that still true?
-    DisableBlending();
-    DisableTexture2D();
-    DisableStencilTest();
-    DisableScissoring();
-
-    // Turn off writing to the depth buffer
-    glDepthMask(GL_FALSE);
-
     if (_temp_fullscreen && !_fullscreen) {
         // We want to go in fullscreen mode
         // Get desktop resolution and adapt the current resolution
         int32_t display_index = SDL_GetWindowDisplayIndex(_sdl_window);
         if (display_index < 0) {
-            if(TextureManager)
-                TextureManager->ReloadTextures();
             return false;
         }
+
         SDL_DisplayMode dsp_mode;
         if (SDL_GetDesktopDisplayMode(display_index, &dsp_mode) < 0) {
-            if(TextureManager)
-                TextureManager->ReloadTextures();
             return false;
         }
 
         // Try to apply the fullscreen mode.
         if (SDL_SetWindowFullscreen(_sdl_window, SDL_WINDOW_FULLSCREEN_DESKTOP) < 0) {
-            if(TextureManager)
-                TextureManager->ReloadTextures();
             return false;
         }
+
         // Set the resolution to the current desktop one.
         _temp_width = dsp_mode.w;
         _temp_height = dsp_mode.h;
@@ -516,16 +497,16 @@ bool VideoEngine::ApplySettings()
     else if (!_temp_fullscreen && _fullscreen) {
         // We want to go in windowed mode
         if (SDL_SetWindowFullscreen(_sdl_window, 0) < 0) {
-            if(TextureManager)
-                TextureManager->ReloadTextures();
             return false;
         }
+
         // Go back to windowed mode. Let's not apply a too high resolution
         // in this case to permit the player to still see the menus.
         if (_temp_width > 1024) {
             _temp_width = 1024;
             _temp_height = 768;
         }
+
         SDL_SetWindowSize(_sdl_window, _temp_width, _temp_height);
     }
     else if (_temp_height != _screen_height || _temp_width != _screen_width) {
@@ -559,9 +540,6 @@ bool VideoEngine::ApplySettings()
     // No VSync
     if (_vsync_mode == 0)
         SDL_GL_SetSwapInterval(0);
-
-    if (TextureManager)
-        TextureManager->ReloadTextures();
 
     return true;
 }
