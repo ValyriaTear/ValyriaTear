@@ -455,6 +455,11 @@ void InitializeEngine() throw(Exception)
 // Every great game begins with a single function :)
 int main(int argc, char *argv[])
 {
+#   if defined (_MSC_VER) && defined(_DEBUG)
+        // Enable the debug heap manager for Visual Studio debug builds.
+        _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#   endif
+
     // When the program exits, the QuitApp() function will be called first, followed by SDL_Quit()
     atexit(SDL_Quit);
     atexit(QuitApp);
