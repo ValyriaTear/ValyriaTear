@@ -923,7 +923,8 @@ StillImage VideoEngine::CaptureScreen() throw(Exception)
                            static_cast<int32_t>(viewport_height));
 
     // Create a new ImageTexture with a unique filename for this newly captured screen
-    ImageTexture *new_image = new ImageTexture("capture_screen" + NumberToString(capture_id), "<T>",
+    ImageTexture* new_image = new ImageTexture("capture_screen" + NumberToString(capture_id),
+                                               "",
                                                static_cast<int32_t>(viewport_width),
                                                static_cast<int32_t>(viewport_height));
     new_image->AddReference();
@@ -996,11 +997,13 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
         }
     }
 
-    //create a new texture image. the next few steps are similar to CaptureImage, so in the future
-    // we may want to do a code-cleanup
-    ImageTexture* new_image = new ImageTexture(image_name, "<T>", raw_image->GetWidth(), raw_image->GetHeight());
+    // Create a new texture image.
+    // The next few steps are similar to CaptureImage.
+    // So, in the future, we may want to do a code cleanup.
+    ImageTexture* new_image = new ImageTexture(image_name, "", raw_image->GetWidth(), raw_image->GetHeight());
     new_image->AddReference();
-    // Create a texture sheet of an appropriate size that can retain the capture
+
+    // Create a texture sheet of an appropriate size that can retain the capture.
     TexSheet* temp_sheet = TextureManager->_CreateTexSheet(RoundUpPow2(raw_image->GetWidth()),
                                                            RoundUpPow2(raw_image->GetHeight()), VIDEO_TEXSHEET_ANY, false);
     VariableTexSheet *sheet = dynamic_cast<VariableTexSheet *>(temp_sheet);
