@@ -59,23 +59,6 @@ public:
 
     bool SingletonInitialize();
 
-    /** \brief Unloads all texture sheets from memory
-    *** \return True only if all texture sheets were successfully unloaded
-    ***
-    *** This leaves the lists of images intact so that they can be reloaded.
-    *** This function is typically invoked when the GL context is changed, so
-    *** that textures may be properly reloaded after the new context has been
-    *** applied.
-    **/
-    bool UnloadTextures();
-
-    /** \brief Reloads all texture sheets that have been unloaded
-    *** \return True only if all texture sheets were successfully reloaded
-    ***
-    *** This is typically called after a GL context change has occurred.
-    **/
-    bool ReloadTextures();
-
     //! \brief Cycles forward to show the next texture sheet
     void DEBUG_NextTexSheet();
 
@@ -130,20 +113,6 @@ private:
     *** \param tex_id The integer handle to the OpenGL texture to delete
      */
     void _DeleteTexture(GLuint tex_id);
-
-    /** \brief Saves all temporary textures.
-    *** \return True only if all temporary textures were successfully saved.
-    ***
-    *** This is used when the GL context is being destroyed.  Perhaps because we are
-    *** switching from windowed to fullscreen.  We must save all textures to disk so
-    *** that we can reload them after the new GL context is created.
-    **/
-    bool _SaveTempTextures();
-
-    /** \brief Deletes any temporary textures.
-    *** \return True if successful.
-    **/
-    bool _DeleteTempTextures();
     //@}
 
     //! \name Texture Sheet Operations

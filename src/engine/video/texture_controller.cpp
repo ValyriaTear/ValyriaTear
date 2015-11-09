@@ -89,61 +89,6 @@ bool TextureController::SingletonInitialize()
     return true;
 }
 
-bool TextureController::UnloadTextures()
-{
-    bool success = true;
-
-    // Save temporary textures to disk, in other words textures which were not
-    // loaded from a file. This way when we recreate the GL context we will
-    // be able to load them again.
-    if(_SaveTempTextures() == false) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "call to _SaveTempTextures() failed" << std::endl;
-        success = false;
-    }
-
-    // Unload all texture sheets
-    std::vector<TexSheet *>::iterator i = _tex_sheets.begin();
-    while(i != _tex_sheets.end()) {
-        if(*i != nullptr) {
-            if((*i)->Unload() == false) {
-                IF_PRINT_WARNING(VIDEO_DEBUG) << "a TextureSheet::Unload() call failed" << std::endl;
-                success = false;
-            }
-        } else {
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "a nullptr TextureSheet was found in the _tex_sheets container" << std::endl;
-            success = false;
-        }
-
-        ++i;
-    }
-
-    return success;
-}
-
-bool TextureController::ReloadTextures()
-{
-    bool success = true;
-    std::vector<TexSheet *>::iterator i = _tex_sheets.begin();
-
-    while(i != _tex_sheets.end()) {
-        if(*i != nullptr) {
-            if((*i)->Reload() == false) {
-                IF_PRINT_WARNING(VIDEO_DEBUG) << "a TextureSheet::Reload() call failed" << std::endl;
-                success = false;
-            }
-        } else {
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "a nullptr TextureSheet was found in the _tex_sheets container" << std::endl;
-            success = false;
-        }
-
-        ++i;
-    }
-
-    _DeleteTempTextures();
-
-    return success;
-}
-
 void TextureController::DEBUG_NextTexSheet()
 {
     _debug_current_sheet++;
@@ -289,69 +234,6 @@ void TextureController::_DeleteTexture(GLuint tex_id)
 
     if (_last_tex_id == tex_id)
         _last_tex_id = INVALID_TEXTURE_ID;
-}
-
-bool TextureController::_SaveTempTextures()
-{
-    bool success = true;
-
-    // Create the temporary directory.
-    std::string path = vt_utils::GetUserDataPath() + DIRECTORY_TEMPORARY;
-    if (!vt_utils::DoesFileExist(path)) {
-        if (!vt_utils::MakeDirectory(path)) {
-            success = false;
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "Unable to create the temporary directory: " << path << std::endl;
-        }
-    }
-
-    // Create the temporary texture directory.
-    path = vt_utils::GetUserDataPath() + DIRECTORY_TEMPORARY_TEXTURE;
-    if (!vt_utils::DoesFileExist(path)) {
-        if (!vt_utils::MakeDirectory(path)) {
-            success = false;
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "Unable to create the temporary texture directory: " << path << std::endl;
-        }
-    }
-
-    for (std::map<std::string, ImageTexture *>::iterator i = _images.begin(); i != _images.end(); ++i) {
-        ImageTexture *image = i->second;
-
-        // Check if the texture is temporary.
-        // If it is, save the texture to disk.
-        if (image->tags.find("<T>") != std::string::npos) {
-            IF_PRINT_DEBUG(VIDEO_DEBUG) << "saving temporary texture " << image->filename << std::endl;
-
-            ImageMemory buffer;
-            buffer.CopyFromImage(image);
-
-            std::string path = vt_utils::GetUserDataPath() + DIRECTORY_TEMPORARY_TEXTURE;
-            if (buffer.SaveImage(path + image->filename + ".png") == false) {
-                success = false;
-                IF_PRINT_WARNING(VIDEO_DEBUG) << "call to ImageMemory::SaveImage() failed" << std::endl;
-            }
-        }
-    }
-
-    return success;
-}
-
-bool TextureController::_DeleteTempTextures()
-{
-    bool result = true;
-
-    // Remove the temporary texture directory.
-    std::string path = vt_utils::GetUserDataPath() + DIRECTORY_TEMPORARY_TEXTURE;
-    if (vt_utils::DoesFileExist(path)) {
-        if (!vt_utils::RemoveDirectory(path)) {
-            result = false;
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "Unable to remove the temporary texture directory: " << path << std::endl;
-        }
-    }
-
-    // Do not remove the temporary directory.  It is possible other
-    // sections of the code could use it in the future.
-
-    return result;
 }
 
 TexSheet *TextureController::_CreateTexSheet(int32_t width, int32_t height, TexSheetType type, bool is_static)
