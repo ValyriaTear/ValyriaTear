@@ -84,3 +84,12 @@ IF(WIN32)
     SET(CPACK_NSIS_URL_INFO_ABOUT "http://valyriatear.blogspot.com")
 ENDIF()
 INCLUDE(CPack)
+
+# Uninstall target
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY)
+
+add_custom_target(uninstall
+    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
