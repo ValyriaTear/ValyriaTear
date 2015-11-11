@@ -414,7 +414,8 @@ public:
     void AddParallax(float x_parallax, float y_parallax);
 
     //! \brief Adds a small text info + optional icon on screen for a few seconds.
-    void AddShortNotice(const vt_utils::ustring& message, const std::string& icon_image_filename = std::string());
+    void AddShortNotice(const vt_utils::ustring& message, const std::string& icon_image_filename = std::string(),
+                        uint32_t display_time = 3000);
 
 private:
     //! \brief A FIFO queue container of elements that are waiting to be started and added to the active elements container

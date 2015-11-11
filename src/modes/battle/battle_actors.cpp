@@ -1127,7 +1127,9 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state)
             else {
                 icon_filename = _action->GetIconFilename();
             }
-            BattleMode::CurrentInstance()->GetIndicatorSupervisor().AddShortNotice(_action->GetName(), icon_filename);
+            BattleMode::CurrentInstance()->GetIndicatorSupervisor().AddShortNotice(_action->GetName(),
+                                                                                   icon_filename,
+                                                                                   _state_timer.GetDuration());
         }
         else {
             _state = ACTOR_STATE_NOTICEDONE;
@@ -1571,7 +1573,9 @@ void BattleEnemy::ChangeState(ACTOR_STATE new_state)
             std::string icon_filename;
             if (_action->GetIconFilename() != "weapon")
                 icon_filename = _action->GetIconFilename();
-            BattleMode::CurrentInstance()->GetIndicatorSupervisor().AddShortNotice(_action->GetName(), icon_filename);
+            BattleMode::CurrentInstance()->GetIndicatorSupervisor().AddShortNotice(_action->GetName(),
+                                                                                   icon_filename,
+                                                                                   _state_timer.GetDuration());
         }
         else {
             _state = ACTOR_STATE_NOTICEDONE;
