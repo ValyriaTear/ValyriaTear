@@ -27,13 +27,6 @@ using namespace vt_video::private_video;
 namespace vt_video
 {
 
-//! \brief The temporary directory.
-const std::string DIRECTORY_TEMPORARY = "temporary/";
-
-//! \brief The temporary texture directory.
-const std::string DIRECTORY_TEMPORARY_TEXTURE = DIRECTORY_TEMPORARY + "texture/";
-
-
 //! \brief A pointer to the texture controller.
 TextureController* TextureManager = nullptr;
 
@@ -439,13 +432,8 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
         // Reload a normal image file
         else {
             std::string fname = img->filename;
-            IF_PRINT_DEBUG(VIDEO_DEBUG) << " Reloading image " << fname << std::endl;
 
-            // Check if the image is temporary.
-            // If so, retrieve the image from the temporary image directory.
-            if (img->tags.find("<T>", 0) != img->tags.npos) {
-                fname = vt_utils::GetUserDataPath() + DIRECTORY_TEMPORARY_TEXTURE + fname + ".png";
-            }
+            IF_PRINT_DEBUG(VIDEO_DEBUG) << " Reloading image " << fname << std::endl;
 
             if(load_info.LoadImage(fname) == false) {
                 IF_PRINT_WARNING(VIDEO_DEBUG) << "call to _LoadRawImage() failed" << std::endl;

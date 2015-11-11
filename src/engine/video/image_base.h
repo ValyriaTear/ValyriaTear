@@ -286,15 +286,12 @@ public:
     *** to lookup the image in the TextureManager's image map. The list of tags below is sorted from highest
     *** priority (should be at the beginning of the tag) to lowest priority (should be at the end of the tag).
     ***
-    *** -# \<T>: indicates that the image is temporary (created by the video engine itself)
     *** -# \<Xrow_ROWS>: used for multi image elements. "row" is the row number of this particular element
     ***    while "ROWS" is the total number of rows of elements in the multi image
     *** -# \<Ycol_COLS>: used for multi image elements. "col" is the column number of this particular element
     ***    while "COLS" is the total number of columns of elements in the multi image
     *** -# \<G>: used to indicate that this image texture has been converted to grayscale mode
     ***
-    *** \note The \<T> tag and multi image tags can not appear together
-    *** \note The \<T> tag is likely temporary, as its need will later be replaced with procedural image classes
     *** \note Please remember to document new tags here when they are added
     **/
     std::string tags;
