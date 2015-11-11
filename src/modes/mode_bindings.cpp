@@ -709,7 +709,6 @@ void BindModeCode()
             .def("GetNumberOfEnemies", &BattleMode::GetNumberOfEnemies)
             .def("GetCharacterActor", &BattleMode::GetCharacterActor)
             .def("GetEnemyActor", &BattleMode::GetEnemyActor)
-            .def("GetMedia", &BattleMode::GetMedia)
             .def("GetDialogueSupervisor", &BattleMode::GetDialogueSupervisor)
             .def("GetCommandSupervisor", &BattleMode::GetCommandSupervisor)
             .def("GetBattleType", &BattleMode::GetBattleType)
@@ -748,13 +747,6 @@ void BindModeCode()
                 luabind::value("ACTOR_STATE_REVIVE", ACTOR_STATE_REVIVE),
                 luabind::value("ACTOR_STATE_PARALYZED", ACTOR_STATE_PARALYZED)
             ]
-        ];
-
-        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")
-        [
-            luabind::class_<BattleMedia>("BattleMedia")
-            .def("SetBackgroundImage", &BattleMedia::SetBackgroundImage)
-            .def("SetBattleMusic", &BattleMedia::SetBattleMusic)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")

@@ -101,6 +101,7 @@ bool GameGlobal::SingletonInitialize()
 {
     // Init the media files.
     _global_media.Initialize();
+    _battle_media.Initialize();
 
     return _LoadGlobalScripts();
 }

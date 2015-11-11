@@ -855,14 +855,15 @@ void MapMode::StartEnemyEncounter(EnemySprite* enemy, bool hero_init_boost, bool
 
     // Start a map-to-battle transition animation sequence
     vt_battle::BattleMode* BM = new vt_battle::BattleMode();
+    BattleMedia& battle_media = GlobalManager->GetBattleMedia();
 
     std::string battle_background = enemy->GetBattleBackground();
     if(!battle_background.empty())
-        BM->GetMedia().SetBackgroundImage(battle_background);
+        battle_media.SetBackgroundImage(battle_background);
 
     std::string enemy_battle_music = enemy->GetBattleMusicTheme();
     if(!enemy_battle_music.empty())
-        BM->GetMedia().SetBattleMusic(enemy_battle_music);
+        battle_media.SetBattleMusic(enemy_battle_music);
 
     const std::vector<BattleEnemyInfo>& enemy_party = enemy->RetrieveRandomParty();
     for(uint32_t i = 0; i < enemy_party.size(); ++i) {

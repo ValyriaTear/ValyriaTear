@@ -150,6 +150,8 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
         return;
     }
 
+    BattleMedia& battle_media = GlobalManager->GetBattleMedia();
+
     // Construct the weapon, magic, and special skill lists for the character
     std::vector<GlobalSkill *>* skill_list = nullptr;
     GlobalWeapon* char_wpn = _character->GetGlobalCharacter()->GetWeaponEquipped();
@@ -182,7 +184,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
         _weapon_skill_list.AddOptionElementText(i, skill_list->at(i)->GetName());
 
         _weapon_target_list.AddOption(ustring());
-        _weapon_target_list.AddOptionElementImage(i, BattleMode::CurrentInstance()->GetMedia().GetTargetTypeIcon(skill_list->at(i)->GetTargetType()));
+        _weapon_target_list.AddOptionElementImage(i, battle_media.GetTargetTypeIcon(skill_list->at(i)->GetTargetType()));
         _weapon_target_list.AddOptionElementPosition(i, 45);
         _weapon_target_list.AddOptionElementText(i, MakeUnicodeString(NumberToString(skill_list->at(i)->GetSPRequired())));
         if(skill_list->at(i)->GetSPRequired() > _character->GetGlobalCharacter()->GetSkillPoints()) {
@@ -206,7 +208,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
         _magic_skill_list.AddOptionElementText(i, skill_list->at(i)->GetName());
 
         _magic_target_list.AddOption(ustring());
-        _magic_target_list.AddOptionElementImage(i, BattleMode::CurrentInstance()->GetMedia().GetTargetTypeIcon(skill_list->at(i)->GetTargetType()));
+        _magic_target_list.AddOptionElementImage(i, battle_media.GetTargetTypeIcon(skill_list->at(i)->GetTargetType()));
         _magic_target_list.AddOptionElementPosition(i, 45);
         _magic_target_list.AddOptionElementText(i, MakeUnicodeString(NumberToString(skill_list->at(i)->GetSPRequired())));
         if(skill_list->at(i)->GetSPRequired() > _character->GetGlobalCharacter()->GetSkillPoints()) {
@@ -230,7 +232,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
         _special_skill_list.AddOptionElementText(i, skill_list->at(i)->GetName());
 
         _special_target_list.AddOption(ustring());
-        _special_target_list.AddOptionElementImage(i, BattleMode::CurrentInstance()->GetMedia().GetTargetTypeIcon(skill_list->at(i)->GetTargetType()));
+        _special_target_list.AddOptionElementImage(i, battle_media.GetTargetTypeIcon(skill_list->at(i)->GetTargetType()));
         _special_target_list.AddOptionElementPosition(i, 45);
         _special_target_list.AddOptionElementText(i, MakeUnicodeString(NumberToString(skill_list->at(i)->GetSPRequired())));
         if(skill_list->at(i)->GetSPRequired() > _character->GetGlobalCharacter()->GetSkillPoints()) {
@@ -242,9 +244,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
         _special_skill_list.SetSelection(0);
         _special_target_list.SetSelection(0);
     }
-} // CharacterCommandSettings::CharacterCommandSettings(BattleCharacter* character, MenuWindow& window)
-
-
+}
 
 void CharacterCommandSettings::RefreshLists()
 {
@@ -407,7 +407,7 @@ void ItemCommand::ConstructList()
 
         _item_target_list.AddOption(ustring());
         _item_target_list.AddOptionElementImage(option_index,
-                                                BattleMode::CurrentInstance()->GetMedia().GetTargetTypeIcon(item->GetTargetType()));
+                                                GlobalManager->GetBattleMedia().GetTargetTypeIcon(item->GetTargetType()));
         _item_target_list.AddOptionElementPosition(option_index, 45);
         _item_target_list.AddOptionElementText(option_index, MakeUnicodeString(NumberToString(item->GetBattleCount())));
         ++option_index;

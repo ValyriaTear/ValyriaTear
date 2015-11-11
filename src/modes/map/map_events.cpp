@@ -243,8 +243,9 @@ void BattleEncounterEvent::_Start()
         for(uint32_t i = 0; i < _enemies.size(); ++i)
             BM->AddEnemy(_enemies.at(i).enemy_id, _enemies.at(i).position_x, _enemies.at(i).position_y);
 
-        BM->GetMedia().SetBackgroundImage(_battle_background);
-        BM->GetMedia().SetBattleMusic(_battle_music);
+        vt_global::BattleMedia& battle_media = vt_global::GlobalManager->GetBattleMedia();
+        battle_media.SetBackgroundImage(_battle_background);
+        battle_media.SetBattleMusic(_battle_music);
         for(uint32_t i = 0; i < _battle_scripts.size(); ++i)
             BM->GetScriptSupervisor().AddScript(_battle_scripts[i]);
 

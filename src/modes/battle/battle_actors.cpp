@@ -1322,7 +1322,7 @@ void BattleCharacter::DrawSprite()
     else if(_is_stunned && (_state == ACTOR_STATE_COMMAND || _state == ACTOR_STATE_IDLE ||
                        _state == ACTOR_STATE_WARM_UP || _state == ACTOR_STATE_COOL_DOWN)) {
         VideoManager->MoveRelative(0, -GetSpriteHeight());
-        BM->GetMedia().GetStunnedIcon().Draw();
+        GlobalManager->GetBattleMedia().GetStunnedIcon().Draw();
     }
 }
 
@@ -1418,6 +1418,7 @@ void BattleCharacter::DrawPortrait()
 
 void BattleCharacter::DrawStatus(uint32_t order, BattleCharacter* character_command)
 {
+    BattleMedia& battle_media = GlobalManager->GetBattleMedia();
     // Used to determine where to draw the character's status
     float y_offset = 0.0f;
 
@@ -1488,9 +1489,9 @@ void BattleCharacter::DrawStatus(uint32_t order, BattleCharacter* character_comm
     // Draw the cover image over the top of the bar.
     VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
     VideoManager->Move(289.0f, 684.0f + y_offset);
-    BattleMode::CurrentInstance()->GetMedia().character_HP_text.Draw();
+    battle_media.character_HP_text->Draw();
     VideoManager->MoveRelative(114.0f, 0.0f);
-    BattleMode::CurrentInstance()->GetMedia().character_SP_text.Draw();
+    battle_media.character_SP_text->Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, 0);
     // Draw the character's current health on top of the middle of the HP bar.
@@ -1519,7 +1520,7 @@ void BattleCharacter::DrawStatus(uint32_t order, BattleCharacter* character_comm
         else
             button_index = 6;
         button_index += order;
-        BattleMode::CurrentInstance()->GetMedia().GetCharacterActionButton(button_index)->Draw();
+        battle_media.GetCharacterActionButton(button_index)->Draw();
     }
 
     // Draw the action icon and text
@@ -1744,7 +1745,7 @@ void BattleEnemy::DrawSprite()
 
     if(_is_stunned && (_state == ACTOR_STATE_IDLE || _state == ACTOR_STATE_WARM_UP || _state == ACTOR_STATE_COOL_DOWN)) {
         VideoManager->MoveRelative(0, -GetSpriteHeight());
-        BattleMode::CurrentInstance()->GetMedia().GetStunnedIcon().Draw();
+        GlobalManager->GetBattleMedia().GetStunnedIcon().Draw();
     }
 } // void BattleEnemy::DrawSprite()
 

@@ -279,6 +279,7 @@ common/global/global_skills.cpp
 common/global/global_skills.h
 common/global/global_utils.cpp
 common/global/global_utils.h
+common/global/battle_media.cpp
 common/gui/option.h
 common/gui/option.cpp
 common/gui/menu_window.cpp

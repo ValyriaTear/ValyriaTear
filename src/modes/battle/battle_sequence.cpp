@@ -27,6 +27,8 @@
 #include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_utils.h"
 
+#include "common/global/battle_media.h"
+
 using namespace vt_utils;
 using namespace vt_audio;
 using namespace vt_mode_manager;
@@ -53,8 +55,6 @@ static const uint32_t EXIT_STEP_GUI_POSITIONING  =  1;
 static const uint32_t EXIT_STEP_SCREEN_FADE      =  2;
 //@}
 
-
-
 SequenceSupervisor::SequenceSupervisor(BattleMode *current_instance) :
     _battle(current_instance),
     _one_is_dead(false),
@@ -62,12 +62,8 @@ SequenceSupervisor::SequenceSupervisor(BattleMode *current_instance) :
     _gui_position_offset(0.0f)
 {}
 
-
-
 SequenceSupervisor::~SequenceSupervisor()
 {}
-
-
 
 void SequenceSupervisor::Update()
 {
@@ -84,8 +80,6 @@ void SequenceSupervisor::Update()
         break;
     }
 }
-
-
 
 void SequenceSupervisor::Draw()
 {
@@ -114,7 +108,6 @@ void SequenceSupervisor::DrawPostEffects()
         break;
     }
 }
-
 
 void SequenceSupervisor::_UpdateInitialSequence()
 {
@@ -219,9 +212,7 @@ void SequenceSupervisor::_UpdateInitialSequence()
         _sequence_step = 0;
         BattleMode::CurrentInstance()->ChangeState(BATTLE_STATE_NORMAL);
     }
-} // void SequenceSupervisor::_UpdateInitialSequence()
-
-
+}
 
 void SequenceSupervisor::_UpdateExitingSequence()
 {
@@ -282,8 +273,6 @@ void SequenceSupervisor::_UpdateExitingSequence()
     }
 }
 
-
-
 void SequenceSupervisor::_DrawInitialSequence()
 {
     if(_sequence_step >= INIT_STEP_BACKGROUND_FADE)
@@ -317,20 +306,20 @@ void SequenceSupervisor::_DrawExitingSequencePostEffects()
     }
 }
 
-
 void SequenceSupervisor::_DrawGUI()
 {
+    vt_global::BattleMedia& battle_media = vt_global::GlobalManager->GetBattleMedia();
     // Draw all images that compose the bottom menu area
     // Draw the static image for the lower menu
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
     VideoManager->Move(0.0f, VIDEO_STANDARD_RES_HEIGHT +  _gui_position_offset);
-    _battle->GetMedia().bottom_menu_image.Draw();
+    battle_media.bottom_menu_image.Draw();
 
     // Draw the stamina bar
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     VideoManager->Move(STAMINA_BAR_POSITION_X + _gui_position_offset, STAMINA_BAR_POSITION_Y);
-    _battle->GetMedia().stamina_meter.Draw();
-} // void SequenceSupervisor::_DrawGUI()
+    battle_media.stamina_meter.Draw();
+}
 
 } // namespace private_battle
 

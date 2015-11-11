@@ -24,5 +24,5 @@ function Initialize(battle_instance)
         background_file = "data/battles/battle_scenes/plains_background.png";
     end
 
-    battle_instance:GetMedia():SetBackgroundImage(background_file);
+    GlobalManager:GetBattleMedia():SetBackgroundImage(background_file);
 end

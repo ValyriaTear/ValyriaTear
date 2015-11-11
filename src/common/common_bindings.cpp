@@ -143,6 +143,7 @@ void BindCommonCode()
             .def("ShowWorldLocation", &GameGlobal::ShowWorldLocation)
             .def("HideWorldLocation", &GameGlobal::HideWorldLocation)
             .def("SetCurrentLocationId", &GameGlobal::SetCurrentLocationId)
+            .def("GetBattleMedia", &GameGlobal::GetBattleMedia)
 
             // Namespace constants
             .enum_("constants") [
@@ -385,6 +386,13 @@ void BindCommonCode()
             .def("GetID", &GlobalSkill::GetID)
             .def("GetSPRequired", &GlobalSkill::GetSPRequired)
             .def("ExecuteBattleFunction", &GlobalSkill::ExecuteBattleFunction)
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
+        [
+            luabind::class_<BattleMedia>("BattleMedia")
+            .def("SetBackgroundImage", &BattleMedia::SetBackgroundImage)
+            .def("SetBattleMusic", &BattleMedia::SetBattleMusic)
         ];
 
     } // End using global namespaces

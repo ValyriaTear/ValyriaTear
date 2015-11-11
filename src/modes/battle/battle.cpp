@@ -65,139 +65,6 @@ namespace private_battle
 //! \brief This is the idle state wait time for the fastest actor, used to set idle state timers for all other actors
 const uint32_t MIN_IDLE_WAIT_TIME = 10000;
 
-////////////////////////////////////////////////////////////////////////////////
-// BattleMedia class
-////////////////////////////////////////////////////////////////////////////////
-
-// Filenames of the default music that is played when no specific music is requested
-//@{
-const std::string DEFAULT_BATTLE_MUSIC   = "data/music/heroism-OGA-Edward-J-Blakeley.ogg";
-const std::string DEFAULT_VICTORY_MUSIC  = "data/music/Fanfare.ogg";
-const std::string DEFAULT_DEFEAT_MUSIC   = "data/music/Battle_lost-OGA-Mumu.ogg";
-//@}
-
-BattleMedia::BattleMedia()
-{
-    if(!background_image.Load("data/battles/battle_scenes/desert_cave/desert_cave.png"))
-        PRINT_ERROR << "failed to load default background image" << std::endl;
-
-    if(stamina_icon_selected.Load("data/gui/battle/stamina_icon_selected.png") == false)
-        PRINT_ERROR << "failed to load stamina icon selected image" << std::endl;
-
-    attack_point_indicator.SetDimensions(16.0f, 16.0f);
-    if(attack_point_indicator.LoadFromFrameGrid("data/gui/battle/attack_point_target.png",
-            std::vector<uint32_t>(4, 100), 1, 4) == false)
-        PRINT_ERROR << "failed to load attack point indicator." << std::endl;
-
-    if(stamina_meter.Load("data/gui/battle/stamina_bar.png") == false)
-        PRINT_ERROR << "failed to load time meter." << std::endl;
-
-    if(actor_selection_image.Load("data/gui/battle/character_selector.png") == false)
-        PRINT_ERROR << "unable to load player selector image" << std::endl;
-
-    if(character_selected_highlight.Load("data/gui/battle/battle_character_selection.png") == false)
-        PRINT_ERROR << "failed to load character selection highlight image" << std::endl;
-
-    if(character_command_highlight.Load("data/gui/battle/battle_character_command.png") == false)
-        PRINT_ERROR << "failed to load character command highlight image" << std::endl;
-
-    if(bottom_menu_image.Load("data/gui/battle/battle_bottom_menu.png") == false)
-        PRINT_ERROR << "failed to load bottom menu image" << std::endl;
-
-    if(ImageDescriptor::LoadMultiImageFromElementGrid(character_action_buttons, "data/gui/battle/battle_command_buttons.png", 2, 5) == false)
-        PRINT_ERROR << "failed to load character action buttons" << std::endl;
-
-    if(ImageDescriptor::LoadMultiImageFromElementGrid(_target_type_icons, "data/skills/targets.png", 1, 8) == false)
-        PRINT_ERROR << "failed to load character action buttons" << std::endl;
-
-    character_HP_text.SetStyle(TextStyle("text18", Color::white));
-    character_HP_text.SetText(Translate("HP"));
-    character_SP_text.SetStyle(TextStyle("text18", Color::white));
-    character_SP_text.SetText(Translate("SP"));
-
-    // Set the default battle music.
-    battle_music_filename = DEFAULT_BATTLE_MUSIC;
-    if (!AudioManager->LoadMusic(DEFAULT_BATTLE_MUSIC))
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load battle music file: " << DEFAULT_BATTLE_MUSIC << std::endl;
-
-    if(victory_music.LoadAudio(DEFAULT_VICTORY_MUSIC) == false)
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load victory music file: " << DEFAULT_VICTORY_MUSIC << std::endl;
-
-    if(defeat_music.LoadAudio(DEFAULT_DEFEAT_MUSIC) == false)
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load defeat music file: " << DEFAULT_DEFEAT_MUSIC << std::endl;
-
-    if(!_stunned_icon.Load("data/entities/emotes/zzz.png"))
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load stunned icon" << std::endl;
-
-    if(!_escape_icon.Load("data/gui/battle/escape.png"))
-        PRINT_WARNING << "Failed to load escape icon image" << std::endl;
-
-    if(!_auto_battle_icon.Load("data/gui/battle/auto_battle.png"))
-        PRINT_WARNING << "Failed to load auto-battle icon image" << std::endl;
-
-    _auto_battle_activated.SetText(UTranslate("Auto-Battle"), TextStyle("text20", Color::white, vt_video::VIDEO_TEXT_SHADOW_NONE));
-}
-
-void BattleMedia::Update()
-{
-    attack_point_indicator.Update();
-}
-
-
-void BattleMedia::SetBackgroundImage(const std::string& filename)
-{
-    if(background_image.Load(filename) == false) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load background image: " << filename << std::endl;
-    }
-}
-
-
-void BattleMedia::SetBattleMusic(const std::string& filename)
-{
-    battle_music_filename = filename;
-    if (!AudioManager->LoadMusic(filename))
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "failed to load battle music file: " << filename << std::endl;
-}
-
-
-StillImage *BattleMedia::GetCharacterActionButton(uint32_t index)
-{
-    if(index >= character_action_buttons.size()) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid index argument: " << index << std::endl;
-        return nullptr;
-    }
-
-    return &(character_action_buttons[index]);
-}
-
-
-StillImage *BattleMedia::GetTargetTypeIcon(vt_global::GLOBAL_TARGET target_type)
-{
-    switch(target_type) {
-    case GLOBAL_TARGET_SELF_POINT:
-        return &_target_type_icons[0];
-    case GLOBAL_TARGET_ALLY_POINT:
-        return &_target_type_icons[1];
-    case GLOBAL_TARGET_FOE_POINT:
-        return &_target_type_icons[2];
-    case GLOBAL_TARGET_SELF:
-        return &_target_type_icons[3];
-    case GLOBAL_TARGET_ALLY:
-    case GLOBAL_TARGET_ALLY_EVEN_DEAD:
-    case GLOBAL_TARGET_DEAD_ALLY_ONLY:
-        return &_target_type_icons[4];
-    case GLOBAL_TARGET_FOE:
-        return &_target_type_icons[5];
-    case GLOBAL_TARGET_ALL_ALLIES:
-        return &_target_type_icons[6];
-    case GLOBAL_TARGET_ALL_FOES:
-        return &_target_type_icons[7];
-    default:
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "function received invalid target type argument: " << target_type << std::endl;
-        return nullptr;
-    }
-}
-
 } // namespace private_battle
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -269,7 +136,7 @@ BattleMode::~BattleMode()
 
 void BattleMode::_ResetMusicState()
 {
-    MusicDescriptor* music = AudioManager->RetrieveMusic(GetMedia().battle_music_filename);
+    MusicDescriptor* music = AudioManager->RetrieveMusic(GlobalManager->GetBattleMedia().battle_music_filename);
     MusicDescriptor* active_music = AudioManager->GetActiveMusic();
 
     // Stop the current music if it's not the right one.
@@ -348,7 +215,7 @@ void BattleMode::RestartBattle()
     delete _command_supervisor;
     _command_supervisor = new CommandSupervisor();
 
-    MusicDescriptor* music = AudioManager->RetrieveMusic(GetMedia().battle_music_filename);
+    MusicDescriptor* music = AudioManager->RetrieveMusic(GlobalManager->GetBattleMedia().battle_music_filename);
     if(music)
     {
         music->Rewind();
@@ -368,7 +235,7 @@ static bool CompareObjectsYCoord(BattleObject *one, BattleObject *other)
 void BattleMode::Update()
 {
     // Update potential battle animations
-    _battle_media.Update();
+    GlobalManager->GetBattleMedia().Update();
     GameMode::Update();
 
     // Pause/quit requests take priority
@@ -648,6 +515,8 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         return;
     }
 
+    BattleMedia& battle_media = GlobalManager->GetBattleMedia();
+
     _state = new_state;
     switch(_state) {
     case BATTLE_STATE_INITIAL:
@@ -701,13 +570,13 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         // Remove the items used in battle from inventory.
         _command_supervisor->CommitChangesToInventory();
 
-        _battle_media.victory_music.Rewind();
-        _battle_media.victory_music.Play();
+        battle_media.victory_music.Rewind();
+        battle_media.victory_music.Play();
         _finish_supervisor->Initialize(true);
         break;
     case BATTLE_STATE_DEFEAT:
-        _battle_media.defeat_music.Rewind();
-        _battle_media.defeat_music.FadeIn(1000);
+        battle_media.defeat_music.Rewind();
+        battle_media.defeat_music.FadeIn(1000);
         _finish_supervisor->Initialize(false);
         break;
     default:
@@ -1118,7 +987,7 @@ void BattleMode::_DrawBackgroundGraphics()
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_NO_BLEND, 0);
     VideoManager->Move(0.0f, 768.0f);
-    _battle_media.background_image.Draw();
+    GlobalManager->GetBattleMedia().background_image.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
     VideoManager->SetStandardCoordSys();
@@ -1138,6 +1007,8 @@ void BattleMode::_DrawForegroundGraphics()
 
 void BattleMode::_DrawSprites()
 {
+    BattleMedia& battle_media = GlobalManager->GetBattleMedia();
+
     // Booleans used to determine whether or not the actor selector and attack point selector graphics should be drawn
     bool draw_actor_selection = false;
     bool draw_point_selection = false;
@@ -1161,13 +1032,13 @@ void BattleMode::_DrawSprites()
             for(uint32_t i = 0; i < party_target.size(); i++) {
                 VideoManager->Move(party_target[i]->GetXLocation(),  party_target[i]->GetYLocation());
                 VideoManager->MoveRelative(0.0f, 20.0f);
-                _battle_media.actor_selection_image.Draw();
+                battle_media.actor_selection_image.Draw();
             }
         }
         else if(actor_target != nullptr) {
             VideoManager->Move(actor_target->GetXLocation(), actor_target->GetYLocation());
             VideoManager->MoveRelative(0.0f, 20.0f);
-            _battle_media.actor_selection_image.Draw();
+            battle_media.actor_selection_image.Draw();
         }
         // Else this target is invalid so don't draw anything
     }
@@ -1184,11 +1055,9 @@ void BattleMode::_DrawSprites()
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
         VideoManager->Move(actor_target->GetXLocation(), actor_target->GetYLocation());
         VideoManager->MoveRelative(actor_target->GetAttackPoint(point)->GetXPosition(), -actor_target->GetAttackPoint(point)->GetYPosition());
-        _battle_media.attack_point_indicator.Draw();
+        battle_media.attack_point_indicator.Draw();
     }
-} // void BattleMode::_DrawSprites()
-
-
+}
 
 void BattleMode::_DrawGUI()
 {
@@ -1196,10 +1065,11 @@ void BattleMode::_DrawGUI()
     _DrawStaminaBar();
 
     if (_battle_menu.IsAutoBattleActive()) {
+        BattleMedia& battle_media = GlobalManager->GetBattleMedia();
         VideoManager->Move(800.0f, 50.0f);
-        _battle_media.GetAutoBattleIcon().Draw();
+        battle_media.GetAutoBattleIcon().Draw();
         VideoManager->MoveRelative(80.0f, 0.0f);
-        _battle_media.GetAutoBattleActiveText().Draw();
+        battle_media.GetAutoBattleActiveText()->Draw();
     }
 
     // Don't draw battle actor indicators at battle ends
@@ -1229,7 +1099,8 @@ void BattleMode::_DrawBottomMenu()
     // Draw the static image for the lower menu
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
     VideoManager->Move(0.0f, 768.0f);
-    _battle_media.bottom_menu_image.Draw();
+    BattleMedia& battle_media = GlobalManager->GetBattleMedia();
+    battle_media.bottom_menu_image.Draw();
 
     if(_state != BATTLE_STATE_DEFEAT && _state != BATTLE_STATE_VICTORY) {
         // If the player is selecting a command for a particular character,
@@ -1244,10 +1115,10 @@ void BattleMode::_DrawBottomMenu()
         for(uint32_t i = 0; i < _character_actors.size(); ++i) {
             if(_character_actors[i] == _command_supervisor->GetCommandCharacter()) {
                 VideoManager->Move(148.0f, 683.0f + (25.0f * i));
-                _battle_media.character_selected_highlight.Draw();
+                battle_media.character_selected_highlight.Draw();
             } else if(_character_actors[i]->GetState() == ACTOR_STATE_COMMAND) {
                 VideoManager->Move(148.0f, 683.0f + (25.0f * i));
-                _battle_media.character_command_highlight.Draw();
+                battle_media.character_command_highlight.Draw();
             }
         }
     }
@@ -1291,7 +1162,8 @@ void BattleMode::_DrawStaminaBar()
     // Draw the stamina bar
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     VideoManager->Move(STAMINA_BAR_POSITION_X, STAMINA_BAR_POSITION_Y); // 1010
-    _battle_media.stamina_meter.Draw();
+    BattleMedia& battle_media = GlobalManager->GetBattleMedia();
+    battle_media.stamina_meter.Draw();
 
     // Draw all stamina icons in order along with the selector graphic
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, 0);
@@ -1307,7 +1179,7 @@ void BattleMode::_DrawStaminaBar()
 
         // Draw selections
         if((is_party_selected && !is_party_enemy) || _character_actors[i] == selected_actor)
-            _battle_media.stamina_icon_selected.Draw();
+            battle_media.stamina_icon_selected.Draw();
     }
 
     for(uint32_t i = 0; i < _enemy_actors.size(); ++i) {
@@ -1321,10 +1193,9 @@ void BattleMode::_DrawStaminaBar()
 
         // Draw selections
         if((is_party_selected && is_party_enemy) || _enemy_actors[i] == selected_actor)
-            _battle_media.stamina_icon_selected.Draw();
+            battle_media.stamina_icon_selected.Draw();
     }
-} // void BattleMode::_DrawStaminaBar()
-
+}
 
 // Available encounter sounds
 static const std::string encounter_sound_filenames[] = {
@@ -1402,7 +1273,7 @@ void TransitionToBattleMode::Reset()
     _transition_timer.Run();
 
     // Stop the current map music if it is not the same
-    std::string battle_music = _BM->GetMedia().battle_music_filename;
+    std::string battle_music = GlobalManager->GetBattleMedia().battle_music_filename;
     if (AudioManager->GetActiveMusic() != nullptr && battle_music != AudioManager->GetActiveMusic()->GetFilename())
         AudioManager->GetActiveMusic()->FadeOut(2000);
 

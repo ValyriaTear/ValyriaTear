@@ -36,6 +36,8 @@
 #include "global_skills.h"
 #include "global_utils.h"
 
+#include "battle_media.h"
+
 #include "modes/map/map_utils.h"
 
 //! \brief All calls to global code are wrapped inside this namespace.
@@ -983,6 +985,13 @@ public:
         return _global_media;
     }
 
+    //! \brief Gives access to global battle media files.
+    //! Note: The reference is passed non const to be able to give modifiable references
+    //! and pointers.
+    BattleMedia& GetBattleMedia() {
+        return _battle_media;
+    }
+
 private:
     GameGlobal();
 
@@ -1168,6 +1177,9 @@ private:
     // ----- Global media files
     //! \brief member storing all the common media files.
     GlobalMedia _global_media;
+
+    //! \brief member storing all the common battle media files.
+    BattleMedia _battle_media;
 
     // ----- Private methods
 
