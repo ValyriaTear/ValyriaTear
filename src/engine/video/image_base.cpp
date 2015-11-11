@@ -416,8 +416,8 @@ void ImageMemory::VerticalFlip()
     std::vector<uint8_t> flipped;
     flipped.reserve(_pixels.size());
 
-    for(uint32_t i = 0; i < _height; ++i) {
-        std::vector<uint8_t>::const_iterator start = _pixels.end() - i * _width * GetBytesPerPixel();
+    for (uint32_t i = 1; i <= _height; ++i) {
+        std::vector<uint8_t>::const_iterator start = _pixels.end() - (i * _width * GetBytesPerPixel());
         std::vector<uint8_t>::const_iterator end = start + _width * GetBytesPerPixel();
         flipped.insert(flipped.end(), start, end);
     }
