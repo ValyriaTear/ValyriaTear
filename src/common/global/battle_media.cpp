@@ -14,9 +14,8 @@
 *** \author  Yohann Ferreira, yohann ferreira orange fr
 *** ***************************************************************************/ 
 
-#include "battle_media.h"
-
 #include "utils/utils_pch.h"
+#include "battle_media.h"
 
 #include "engine/system.h"
 #include "engine/audio/audio.h"

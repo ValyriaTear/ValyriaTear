@@ -108,6 +108,7 @@
     <ClCompile Include="..\..\src\common\common.cpp" />
     <ClCompile Include="..\..\src\common\common_bindings.cpp" />
     <ClCompile Include="..\..\src\common\dialogue.cpp" />
+    <ClCompile Include="..\..\src\common\global\battle_media.cpp" />
     <ClCompile Include="..\..\src\common\global\global.cpp" />
     <ClCompile Include="..\..\src\common\global\global_actors.cpp" />
     <ClCompile Include="..\..\src\common\global\global_effects.cpp" />
@@ -200,6 +201,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\common\common.h" />
     <ClInclude Include="..\..\src\common\dialogue.h" />
+    <ClInclude Include="..\..\src\common\global\battle_media.h" />
     <ClInclude Include="..\..\src\common\global\global.h" />
     <ClInclude Include="..\..\src\common\global\global_actors.h" />
     <ClInclude Include="..\..\src\common\global\global_effects.h" />
