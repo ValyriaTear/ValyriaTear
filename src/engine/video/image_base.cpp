@@ -271,21 +271,49 @@ bool ImageMemory::SaveImage(const std::string& filename)
 
 void ImageMemory::ConvertToGrayscale()
 {
-    if(_pixels.empty()) {
+    if (_pixels.empty()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "No image data (_pixels is empty)" << std::endl;
         return;
     }
 
-    uint8_t format_bytes = GetBytesPerPixel();
-    uint8_t *end_position = &_pixels[_width * _height * format_bytes];
+    assert(_width > 0);
+    assert(_height > 0);
 
-    for(uint8_t *i = &_pixels[0]; i < end_position; i += format_bytes) {
-        // Compute the grayscale value for this pixel based on RGB values: 0.30R + 0.59G + 0.11B
-        uint8_t value = static_cast<uint8_t>((30 * *(i) + 59 * *(i + 1) + 11 * *(i + 2)) * 0.01f);
-        *i = value;
-        *(i + 1) = value;
-        *(i + 2) = value;
-        // *(i + 3) for RGBA is the alpha value and is left unmodified
+    uint8_t bytes_per_pixel = GetBytesPerPixel();
+
+    assert(_pixels.size() > bytes_per_pixel);
+
+    // We are going to increment through the loop by 'bytes_per_pixel'.
+    // So, the size of the array must be divisible by 'bytes_per_pixel'.
+    assert(_pixels.size() % bytes_per_pixel == 0);
+    if (_pixels.size() % bytes_per_pixel == 0)
+    {
+        auto current_position = _pixels.begin();
+        auto end_position = _pixels.end();
+
+        while (current_position != end_position) {
+
+            //
+            // Calculate the grayscale value for this pixel based on RGB values: 0.30R + 0.59G + 0.11B.
+            //
+
+            // Compute the sum.
+            uint8_t sum = 30 * *(current_position + 0) +
+                          59 * *(current_position + 1) +
+                          11 * *(current_position + 2);
+
+            // Scale the sum.
+            uint8_t value = static_cast<uint8_t>(sum * 0.01f);
+
+            // Store the result.
+            *(current_position + 0) = value;
+            *(current_position + 1) = value;
+            *(current_position + 2) = value;
+            // *(i + 3) for RGBA is the alpha value and is left unmodified.
+
+            // Increment the current position.
+            current_position = current_position + bytes_per_pixel;
+        }
     }
 }
 
