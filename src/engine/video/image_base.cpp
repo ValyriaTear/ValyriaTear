@@ -288,31 +288,31 @@ void ImageMemory::ConvertToGrayscale()
     assert(_pixels.size() % bytes_per_pixel == 0);
     if (_pixels.size() % bytes_per_pixel == 0) {
 
-        auto current_position = _pixels.begin();
-        auto end_position = _pixels.end();
+        auto current_pixel = _pixels.begin();
+        auto end_pixel = _pixels.end();
 
-        while (current_position != end_position) {
+        while (current_pixel != end_pixel) {
 
             //
             // Calculate the grayscale value for this pixel based on RGB values: 0.30R + 0.59G + 0.11B.
             //
 
             // Compute the sum.
-            uint8_t sum = 30 * *(current_position + 0) +
-                          59 * *(current_position + 1) +
-                          11 * *(current_position + 2);
+            uint8_t sum = 30 * *(current_pixel + 0) +
+                          59 * *(current_pixel + 1) +
+                          11 * *(current_pixel + 2);
 
             // Scale the sum.
             uint8_t value = static_cast<uint8_t>(sum * 0.01f);
 
             // Store the result.
-            *(current_position + 0) = value;
-            *(current_position + 1) = value;
-            *(current_position + 2) = value;
+            *(current_pixel + 0) = value;
+            *(current_pixel + 1) = value;
+            *(current_pixel + 2) = value;
             // *(i + 3) for RGBA is the alpha value and is left unmodified.
 
-            // Increment the current position.
-            current_position = current_position + bytes_per_pixel;
+            // Increment to the next pixel.
+            current_pixel = current_pixel + bytes_per_pixel;
         }
     }
 }
