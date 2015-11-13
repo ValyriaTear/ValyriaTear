@@ -286,8 +286,8 @@ void ImageMemory::ConvertToGrayscale()
     // We are going to increment through the loop by 'bytes_per_pixel'.
     // So, the size of the array must be divisible by 'bytes_per_pixel'.
     assert(_pixels.size() % bytes_per_pixel == 0);
-    if (_pixels.size() % bytes_per_pixel == 0)
-    {
+    if (_pixels.size() % bytes_per_pixel == 0) {
+
         auto current_position = _pixels.begin();
         auto end_position = _pixels.end();
 
