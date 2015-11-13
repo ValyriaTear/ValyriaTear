@@ -309,7 +309,7 @@ void ImageMemory::ConvertToGrayscale()
             *(current_pixel + 0) = value;
             *(current_pixel + 1) = value;
             *(current_pixel + 2) = value;
-            // *(i + 3) for RGBA is the alpha value and is left unmodified.
+            // *(current_pixel + 3) for RGBA is the alpha value and is left unmodified.
 
             // Increment to the next pixel.
             current_pixel = current_pixel + bytes_per_pixel;
