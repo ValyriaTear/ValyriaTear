@@ -116,7 +116,7 @@ function _UpdateSophiaDialogue()
     sophia:AddDialogueReference(dialogue);
 
     -- Shopping event
-    event = vt_map.ShopEvent.Create("Trade with Sophia");
+    event = vt_map.ShopEvent.Create("Trade with Sophia", "Sophia Shrine Shop");
     event:SetShopName(vt_system.UTranslate("Sophia's Items"));
     event:SetGreetingText(vt_system.UTranslate("Don't forget my trade offers!"));
     event:SetSellModeEnabled(false); -- prevents selling items there.

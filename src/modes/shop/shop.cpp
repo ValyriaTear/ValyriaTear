@@ -977,8 +977,9 @@ void ShopObjectViewer::_DrawSpirit()
 // ***** ShopMode class methods
 // *****************************************************************************
 
-ShopMode::ShopMode() :
+ShopMode::ShopMode(const std::string& shop_id) :
     GameMode(MODE_MANAGER_SHOP_MODE),
+    _shop_id(shop_id),
     _sell_mode_enabled(true),
     _initialized(false),
     _state(SHOP_STATE_ROOT),

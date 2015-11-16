@@ -19,7 +19,7 @@ function TestFunction()
     GlobalManager:AddToInventory(40001, 1);
     GlobalManager:AddToInventory(50001, 1);
 
-    local shop = vt_shop.ShopMode();
+    local shop = vt_shop.ShopMode("Debug shop");
 
     -- AddObject(item_id, number)
     shop:AddItem(1, 12);

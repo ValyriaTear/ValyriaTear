@@ -291,6 +291,20 @@ public:
     vt_video::StillImage _image;
 };
 
+//! \brief Shop save data.
+//! This structure stores data from shops state to permit saving those states,
+//! but also to sync the shop content when loading the game.
+struct ShopData {
+    ShopData() {}
+    ~ShopData() {}
+
+    //! \brief The list of items in the shop and their number, or 0 if infinite.
+    //! \NOTE The item is not listed there if the count is 0.
+    //! item id, count
+    std::map<uint32_t, uint32_t> _available_buy;
+    std::map<uint32_t, uint32_t> _available_trade;
+};
+
 /** ****************************************************************************
 *** \brief Retains all the state information about the active game
 ***
@@ -846,6 +860,14 @@ public:
             return vt_utils::_empty_string;
     }
 
+    //! \brief Gives the current shop data, used to sync a given shop or save games
+    const std::map<std::string, ShopData>& GetShopData() const {
+        return _shop_data;
+    }
+
+    //! \brief Sets the current shop data to global manager.
+    void SetShopData(const std::string& shop_id, const ShopData& shop_data);
+
     std::vector<GlobalCharacter *>* GetOrderedCharacters() {
         return &_ordered_characters;
     }
@@ -1171,6 +1193,10 @@ private:
     //! \brief a map of the quest string ids to their info
     std::map<std::string, QuestLogInfo> _quest_log_info;
 
+    //! \brief A map of the curent shop data.
+    //! shop_id, corresponding shop data
+    std::map<std::string, ShopData> _shop_data;
+
     //! \brief Stores whether the map mode minimap should be shown.
     bool _show_minimap;
 
@@ -1242,12 +1268,17 @@ private:
     *** \param file Reference to open and valid file set for writting the data
     *** \param the quest log entry we wish to write
     **/
-    void _SaveQuests(vt_script::WriteScriptDescriptor &file, const QuestLogEntry *quest_log_entry);
+    void _SaveQuests(vt_script::WriteScriptDescriptor& file, const QuestLogEntry* quest_log_entry);
 
     /** \brief saves the world map information. this is called from SaveGame()
     *** \param file Reference to open and valid file for writting the data
     **/
-    void _SaveWorldMap(vt_script::WriteScriptDescriptor &file);
+    void _SaveWorldMap(vt_script::WriteScriptDescriptor& file);
+
+    /** \brief saves the shop data information. this is called from SaveGame()
+    *** \param file Reference to open and valid file for writting the data
+    **/
+    void _SaveShopData(vt_script::WriteScriptDescriptor& file);
 
     /** \brief A helper function to GameGlobal::LoadGame() that restores the contents of the inventory from a saved game file
     *** \param file A reference to the open and valid file from where to read the inventory list
@@ -1284,6 +1315,11 @@ private:
     *** \return true if successfully loaded
     **/
     bool _LoadWorldLocationsScript(const std::string &world_locations_filename);
+
+    /** \brief Load shop data from the save game
+    *** \param file Reference to an open file for reading save game data
+    **/
+    void _LoadShopData(vt_script::ReadScriptDescriptor& file);
 
     //! (Re)Loads the quest entries into the GlobalManager
     //! \Note this is done in _LoadGlobalScripts().

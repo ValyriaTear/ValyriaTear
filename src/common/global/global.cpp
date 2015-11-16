@@ -254,7 +254,7 @@ void GameGlobal::ClearAllData()
     }
     _event_groups.clear();
 
-    //clear the quest log
+    // Clear the quest log
     for(std::map<std::string, QuestLogEntry *>::iterator itr = _quest_log_entries.begin(); itr != _quest_log_entries.end(); ++itr)
         delete itr->second;
     _quest_log_entries.clear();
@@ -268,7 +268,7 @@ void GameGlobal::ClearAllData()
     _map_script_filename.clear();
     _map_hud_name.clear();
 
-    //clear global world map file
+    // Clear global world map file
     if (_world_map_image) {
         delete _world_map_image;
         _world_map_image = 0;
@@ -277,9 +277,11 @@ void GameGlobal::ClearAllData()
     // Clear out the time played, in case of a new game
     SystemManager->SetPlayTime(0, 0, 0);
 
+    _shop_data.clear();
+
     // Show the minimap by default when available
     _show_minimap = true;
-} // void GameGlobal::ClearAllData()
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // QuestLogInfo class
@@ -833,6 +835,11 @@ const QuestLogInfo& GameGlobal::GetQuestInfo(const std::string &quest_id) const
     return itr->second;
 }
 
+void GameGlobal::SetShopData(const std::string& shop_id, const ShopData& shop_data)
+{
+    _shop_data[shop_id] = shop_data;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // GameGlobal class - Other Functions
 ////////////////////////////////////////////////////////////////////////////////
@@ -932,16 +939,14 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32_t slot_id, uint32_
     file.WriteLine("},");
     file.InsertNewLine();
 
-    // ------ (8) Save World Map
     _SaveWorldMap(file);
 
-    // ----- (8) Report any errors detected from the previous write operations
+    _SaveShopData(file);
+
     if(file.IsErrorDetected()) {
-        if(GLOBAL_DEBUG) {
-            PRINT_WARNING << "one or more errors occurred while writing the save game file - they are listed below" << std::endl;
-            std::cerr << file.GetErrorMessages() << std::endl;
-            file.ClearErrors();
-        }
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "One or more errors occurred while writing the save game file - they are listed below:" << std::endl
+            << file.GetErrorMessages() << std::endl;
+        file.ClearErrors();
     }
 
     file.InsertNewLine();
@@ -953,9 +958,7 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32_t slot_id, uint32_
     _game_slot_id = slot_id;
 
     return true;
-} // bool GameGlobal::SaveGame(string& filename)
-
-
+}
 
 bool GameGlobal::LoadGame(const std::string &filename, uint32_t slot_id)
 {
@@ -1085,13 +1088,15 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32_t slot_id)
         }
     }
 
+    _LoadShopData(file);
+
     file.CloseFile();
 
     // Store the game slot the game is coming from.
     _game_slot_id = slot_id;
 
     return true;
-} // bool GameGlobal::LoadGame(string& filename)
+}
 
 void GameGlobal::LoadEmotes(const std::string &emotes_filename)
 {
@@ -1373,7 +1378,51 @@ void GameGlobal::_SaveWorldMap(vt_script::WriteScriptDescriptor &file)
 
     file.WriteLine("\tcurrent_location = \"" + GetCurrentLocationId() + "\"");
 
-    file.WriteLine("}"); // close the main table
+    file.WriteLine("},"); // close the main table
+    file.InsertNewLine();
+}
+
+void GameGlobal::_SaveShopData(vt_script::WriteScriptDescriptor& file)
+{
+    if(!file.IsFileOpen()) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "The file was not open: " << file.GetFilename() << std::endl;
+        return;
+    }
+
+    file.WriteLine("shop_data = {");
+    file.InsertNewLine();
+
+    auto it = _shop_data.begin();
+    auto it_end = _shop_data.end();
+    for (; it != it_end; ++it) {
+        std::string shop_id = it->first;
+        const ShopData& shop_data = it->second;
+
+        file.WriteLine("\t[\"" + shop_id + "\"] = {");
+
+        file.WriteLine("\t\tavailable_buy = {");
+        auto it2 = shop_data._available_buy.begin();
+        auto it2_end = shop_data._available_buy.end();
+        for(; it2 != it2_end; ++it2) {
+            std::string item_id = NumberToString(it2->first);
+            std::string count = NumberToString(it2->second);
+            file.WriteLine("\t\t\t[\"" + item_id + "\"] = " + count + ",");
+        }
+        file.WriteLine("\t\t},");
+
+        file.WriteLine("\t\tavailable_trade = {");
+        auto it3 = shop_data._available_trade.begin();
+        auto it3_end = shop_data._available_trade.end();
+        for(; it3 != it3_end; ++it3) {
+            std::string item_id = NumberToString(it3->first);
+            std::string count = NumberToString(it3->second);
+            file.WriteLine("\t\t\t[\"" + item_id + "\"] = " + count + ",");
+        }
+        file.WriteLine("\t\t}");
+
+        file.WriteLine("\t},");
+    }
+    file.WriteLine("},"); // Close the shop_data table
     file.InsertNewLine();
 }
 
@@ -1804,6 +1853,50 @@ bool GameGlobal::_LoadQuestsScript(const std::string& quests_script_filename)
     quests_script.CloseFile();
 
     return true;
+}
+
+void GameGlobal::_LoadShopData(vt_script::ReadScriptDescriptor& file)
+{
+    if(file.IsFileOpen() == false) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "The file provided in the function argument was not open" << std::endl;
+        return;
+    }
+
+    if (!file.OpenTable("shop_data")) {
+        return;
+    }
+
+    std::vector<std::string> shop_ids;
+    file.ReadTableKeys(shop_ids);
+
+    for (size_t i = 0; i < shop_ids.size(); ++i) {
+        // Open the Shop Id table
+        if (!file.OpenTable(shop_ids[i]))
+            continue;
+
+        ShopData shop_data;
+        if (file.OpenTable("available_buy")) {
+            std::vector<uint32_t> item_ids;
+            file.ReadTableKeys(item_ids);
+            for (size_t j = 0; j < item_ids.size(); ++j) {
+                uint32_t item_count = file.ReadUInt(item_ids[j]);
+                shop_data._available_buy[ item_ids[j] ] = item_count;
+            }
+            file.CloseTable(); // available_buy
+        }
+        if (file.OpenTable("available_trade")) {
+            std::vector<uint32_t> item_ids;
+            file.ReadTableKeys(item_ids);
+            for (size_t j = 0; j < item_ids.size(); ++j) {
+                uint32_t item_count = file.ReadUInt(item_ids[j]);
+                shop_data._available_buy[ item_ids[j] ] = item_count;
+            }
+            file.CloseTable(); // available_trade
+        }
+        _shop_data[ shop_ids[i] ] = shop_data;
+        file.CloseTable(); // shop_id
+    }
+    file.CloseTable(); // shop_data
 }
 
 } // namespace vt_global

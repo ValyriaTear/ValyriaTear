@@ -345,7 +345,7 @@ private:
 class ShopMode : public vt_mode_manager::GameMode
 {
 public:
-    ShopMode();
+    ShopMode(const std::string& shop_id);
 
     ~ShopMode();
 
@@ -650,6 +650,9 @@ private:
     *** is nullptr when no shop is active
     **/
     static ShopMode* _current_instance;
+
+    //! \brief The shop unique id. Used to store bought/sold items in the save game.
+    std::string _shop_id;
 
     //! \brief Tells whether the sell mode is enabled in this shop, thus whether the player can sell items.
     bool _sell_mode_enabled;

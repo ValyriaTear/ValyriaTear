@@ -239,9 +239,9 @@ protected:
 class ShopEvent : public MapEvent
 {
 public:
-    //! \param event_id The ID of this event
-    ShopEvent(const std::string& event_id):
+    ShopEvent(const std::string& event_id, const std::string& shop_id):
         MapEvent(event_id, SHOP_EVENT),
+        _shop_id(shop_id),
         _buy_level(vt_shop::SHOP_PRICE_STANDARD),
         _sell_level(vt_shop::SHOP_PRICE_STANDARD),
         _enable_sell_mode(true)
@@ -254,7 +254,7 @@ public:
     //! without letting Lua handling the object life-cycle.
     //! \note We don't permit luabind to use constructors here as it can't currently
     //! give the object ownership at construction time.
-    static ShopEvent* Create(const std::string& event_id);
+    static ShopEvent* Create(const std::string& event_id, const std::string& shop_id);
 
     //! \brief Set the Shop name
     void SetShopName(const vt_utils::ustring& shop_name) {
@@ -305,6 +305,9 @@ public:
     }
 
 protected:
+    //! \brief The shop unique Id, used to store shop info in save games.
+    std::string _shop_id;
+
     //! \brief The GlobalObject IDs and stock count of all items to be sold in the shop
     std::set<std::pair<uint32_t, uint32_t> > _items;
 

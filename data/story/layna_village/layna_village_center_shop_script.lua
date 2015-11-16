@@ -95,7 +95,7 @@ function _CreateEvents()
     vt_map.MapTransitionEvent.Create("to village", "data/story/layna_village/layna_village_center_map.lua",
                                      "data/story/layna_village/layna_village_center_script.lua", "from_shop");
 
-    event = vt_map.ShopEvent.Create("layna: open shop");
+    event = vt_map.ShopEvent.Create("layna: open shop", "Flora's Shop");
     event:AddItem(1, 0); -- infinite minor potions
     event:AddItem(1001, 0); -- infinite minor elixirs
     event:AddItem(30003, 1); -- tunic for Bronann

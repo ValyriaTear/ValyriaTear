@@ -99,14 +99,14 @@ bool DialogueEvent::_Update()
 // ---------- ShopEvent Class Methods
 // -----------------------------------------------------------------------------
 
-ShopEvent* ShopEvent::Create(const std::string& event_id)
+ShopEvent* ShopEvent::Create(const std::string& event_id, const std::string& shop_name)
 {
-    return new ShopEvent(event_id);
+    return new ShopEvent(event_id, shop_name);
 }
 
 void ShopEvent::_Start()
 {
-    ShopMode *shop = new ShopMode();
+    ShopMode *shop = new ShopMode(_shop_id);
     for(std::set<std::pair<uint32_t, uint32_t> >::iterator it = _items.begin(); it != _items.end(); ++it)
         shop->AddItem((*it).first, (*it).second);
 

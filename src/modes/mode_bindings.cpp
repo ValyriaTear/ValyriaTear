@@ -877,7 +877,7 @@ void BindModeCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_shop")
         [
             luabind::class_<ShopMode, vt_mode_manager::GameMode>("ShopMode")
-            .def(luabind::constructor<>())
+            .def(luabind::constructor<const std::string&>())
             .def("SetShopName", &ShopMode::SetShopName)
             .def("SetGreetingText", &ShopMode::SetGreetingText)
             .def("AddItem", &ShopMode::AddItem)
