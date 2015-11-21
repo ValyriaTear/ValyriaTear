@@ -297,10 +297,12 @@ void ImageMemory::ConvertToGrayscale()
             // Calculate the grayscale value for this pixel based on RGB values: 0.30R + 0.59G + 0.11B.
             //
 
+            uint8_t red   = *(current_pixel + 0);
+            uint8_t green = *(current_pixel + 1);
+            uint8_t blue  = *(current_pixel + 2);
+
             // Compute the sum.
-            uint8_t sum = 30 * *(current_pixel + 0) +
-                          59 * *(current_pixel + 1) +
-                          11 * *(current_pixel + 2);
+            uint32_t sum = (30 * red) + (59 * green) + (11 * blue);
 
             // Scale the sum.
             uint8_t value = static_cast<uint8_t>(sum * 0.01f);
