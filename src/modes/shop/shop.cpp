@@ -1606,6 +1606,21 @@ void ShopMode::CompleteTransaction()
         if(count == 0)
             continue;
 
+        // Add it back to the _available_buy list
+        if (_available_buy.find(id) != _available_buy.end()) {
+            ShopObject* shop_object = _available_buy.at(id);
+            if (!shop_object->IsInfiniteAmount())
+                shop_object->IncrementStockCount(count);
+        }
+        else {
+            GlobalObject* new_object = GlobalCreateNewObject(id, 1);
+            if(new_object != nullptr) {
+                ShopObject* new_shop_object = new ShopObject(new_object);
+                new_shop_object->IncrementStockCount(count);
+                _available_buy.insert(std::make_pair(id, new_shop_object));
+            }
+        }
+
         it->second->ResetSellCount();
         it->second->DecrementOwnCount(count);
         GlobalManager->DecrementItemCount(id, count);
