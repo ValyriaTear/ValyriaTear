@@ -1068,6 +1068,8 @@ ShopMode::ShopMode(const std::string& shop_id) :
 
 ShopMode::~ShopMode()
 {
+    _SaveShopData();
+
     delete _shop_media;
     delete _object_viewer;
     delete _root_interface;
@@ -1083,6 +1085,42 @@ ShopMode::~ShopMode()
     if(_current_instance == this) {
         _current_instance = nullptr;
     }
+}
+
+void ShopMode::_SaveShopData()
+{
+    ShopData shop_data;
+    for (auto item_data : _available_buy) {
+        uint32_t item_id = item_data.first;
+        ShopObject* item = item_data.second;
+        if (item == nullptr)
+            continue;
+
+        // Add 0 when infinite count.
+        if (item->IsInfiniteAmount()) {
+            shop_data._available_buy[item_id] = 0;
+            continue;
+        }
+
+        // Add when the current available amount is > 0
+        if (item->GetStockCount() > 0) {
+            shop_data._available_buy[item_id] = item->GetStockCount();
+        }
+    }
+
+    for (auto item_data : _available_trade) {
+        uint32_t item_id = item_data.first;
+        ShopObject* item = item_data.second;
+        if (item == nullptr)
+            continue;
+
+        // Add when the current available amount is > 0
+        if (item->GetStockCount() > 0) {
+            shop_data._available_trade[item_id] = item->GetStockCount();
+        }
+    }
+    if (!shop_data._available_buy.empty() || !shop_data._available_trade.empty())
+        GlobalManager->SetShopData(_shop_id, shop_data);
 }
 
 void ShopMode::Reset()
@@ -1102,9 +1140,22 @@ void ShopMode::Reset()
 
 void ShopMode::Initialize()
 {
-    if(IsInitialized() == true) {
+    if(IsInitialized()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "shop was already initialized previously" << std::endl;
         return;
+    }
+
+    // Override the available buy and trade when the save game shop data are found.
+    if (!_shop_id.empty() && GlobalManager->HasShopData(_shop_id)) {
+        _available_buy.clear();
+        _available_trade.clear();
+        const ShopData& shop_data = GlobalManager->GetShopData(_shop_id);
+        for (auto shop_buy_data : shop_data._available_buy) {
+            AddItem(shop_buy_data.first, shop_buy_data.second);
+        }
+        for (auto shop_trade_data : shop_data._available_trade) {
+            AddTrade(shop_trade_data.first, shop_trade_data.second);
+        }
     }
 
     _initialized = true;

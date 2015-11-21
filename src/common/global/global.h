@@ -860,9 +860,16 @@ public:
             return vt_utils::_empty_string;
     }
 
-    //! \brief Gives the current shop data, used to sync a given shop or save games
-    const std::map<std::string, ShopData>& GetShopData() const {
-        return _shop_data;
+    //! \brief Gives the shop data corresponding to the current shop id.
+    // Used to sync a given shop or save games
+    const ShopData& GetShopData(const std::string& shop_id) {
+        if (_shop_data.find(shop_id) == _shop_data.end())
+            return _shop_data[std::string()]; // Return default empty shop data
+        return _shop_data.at(shop_id);
+    }
+
+    bool HasShopData(const std::string& shop_id) const {
+        return (_shop_data.find(shop_id) != _shop_data.end());
     }
 
     //! \brief Sets the current shop data to global manager.

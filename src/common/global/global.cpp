@@ -1876,20 +1876,20 @@ void GameGlobal::_LoadShopData(vt_script::ReadScriptDescriptor& file)
 
         ShopData shop_data;
         if (file.OpenTable("available_buy")) {
-            std::vector<uint32_t> item_ids;
+            std::vector<std::string> item_ids;
             file.ReadTableKeys(item_ids);
             for (size_t j = 0; j < item_ids.size(); ++j) {
                 uint32_t item_count = file.ReadUInt(item_ids[j]);
-                shop_data._available_buy[ item_ids[j] ] = item_count;
+                shop_data._available_buy[std::stoi(item_ids[j].c_str())] = item_count;
             }
             file.CloseTable(); // available_buy
         }
         if (file.OpenTable("available_trade")) {
-            std::vector<uint32_t> item_ids;
+            std::vector<std::string> item_ids;
             file.ReadTableKeys(item_ids);
             for (size_t j = 0; j < item_ids.size(); ++j) {
                 uint32_t item_count = file.ReadUInt(item_ids[j]);
-                shop_data._available_buy[ item_ids[j] ] = item_count;
+                shop_data._available_trade[std::stoi(item_ids[j].c_str())] = item_count;
             }
             file.CloseTable(); // available_trade
         }

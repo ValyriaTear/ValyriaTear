@@ -645,6 +645,9 @@ private:
     //! \brief Handles any key input made on the shop root interface.
     void _HandleRootInterfaceInput();
 
+    //! \brief Save the current shop data to global info.
+    void _SaveShopData();
+
     /** \brief A reference to the current instance of ShopMode
     *** This is used by other shop classes to be able to refer to the shop that they exist in. This member
     *** is nullptr when no shop is active
