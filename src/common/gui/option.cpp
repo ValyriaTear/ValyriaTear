@@ -814,7 +814,7 @@ bool OptionBox::_ConstructOption(const ustring &format_string, Option &op)
 
                 if(IsStringNumeric(tag_text)) {  // Then this must be a positioning tag
                     new_element.type  = VIDEO_OPTION_ELEMENT_POSITION;
-                    new_element.value = atoi(tag_text.c_str());
+                    new_element.value = std::stoi(tag_text);
                 } else { // Then this must be an image tag
                     if(op.image != nullptr) {
                         IF_PRINT_WARNING(VIDEO_DEBUG) << "failed because two image tags were embedded within a single option"

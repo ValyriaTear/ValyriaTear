@@ -405,11 +405,11 @@ bool TextureController::_ReloadImagesToSheet(TexSheet *sheet)
 
             pos0 = img->tags.find("<X", 0);
             pos1 = img->tags.find('_', pos0);
-            x = atoi(img->tags.substr(pos0 + 2, pos1).c_str());
+            x = std::stoi(img->tags.substr(pos0 + 2, pos1));
 
             pos0 = img->tags.find("<Y", 0);
             pos1 = img->tags.find('_', pos0);
-            y = atoi(img->tags.substr(pos0 + 2, pos1).c_str());
+            y = std::stoi(img->tags.substr(pos0 + 2, pos1));
 
             rows = load_info.GetHeight() / image.GetHeight();
             cols = load_info.GetWidth() / image.GetWidth();

@@ -1675,7 +1675,7 @@ void GameGlobal::_LoadQuests(ReadScriptDescriptor &file, const std::string &ques
 
     //conversion of the log number from string int. We need to do thing because ReadStringVector assumes that
     //all items are the same type.
-    uint32_t quest_log_number = ::atoi(quest_info[0].c_str());
+    uint32_t quest_log_number = std::stoi(quest_info[0]);
     //conversion from string to bool for is_read flag
     bool is_read = quest_info[1].compare("true") == 0;
 
