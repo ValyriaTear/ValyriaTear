@@ -90,16 +90,15 @@ bool CleanDirectory(const std::string &dir_name)
     WIN32_FIND_DATAA info = { 0 };
     HANDLE handle = nullptr;
 
-    char file_found[1024];
-    memset(file_found, 0, sizeof(file_found));
-    sprintf(file_found, "%s*.*", dir_name.c_str());
+    std::string file_name = "*.*";
+    std::string first_file = dir_name + "/" + file_name;
 
-    handle = FindFirstFileA(file_found, &info);
+    handle = FindFirstFileA(first_file.c_str(), &info);
     if (handle != INVALID_HANDLE_VALUE) {
         // Remove each file from the directory.
         do {
-            sprintf(file_found, "%s%s", dir_name.c_str(), info.cFileName);
-            DeleteFileA(file_found);
+            file_name = info.cFileName;
+            DeleteFileA(dir_name + "/" + file_name);
         } while (FindNextFileA(handle, &info));
     }
 
@@ -176,20 +175,19 @@ std::vector<std::string> ListDirectory(const std::string &dir_name, const std::s
     WIN32_FIND_DATAA info = { 0 };
     HANDLE handle = nullptr;
 
-    char file_found[1024];
-    memset(file_found, 0, sizeof(file_found));
-    sprintf(file_found, "%s\\*.*", dir_name.c_str());
+    std::string file_name = "*.*";
+    std::string first_file = dir_name + "/" + file_name;
 
-    handle = FindFirstFileA(file_found, &info);
+    handle = FindFirstFileA(first_file.c_str(), &info);
     if (handle != INVALID_HANDLE_VALUE) {
         // List each file from the directory.
         do {
-            std::string file_name(file_found);
+            file_name = info.cFileName;
             if (filter == "") {
-                directoryList.push_back(file_found);
+                directoryList.push_back(file_name);
             }
             else if (file_name.find(filter) != std::string::npos) {
-                directoryList.push_back(file_found);
+                directoryList.push_back(file_name);
             }
         } while (FindNextFileA(handle, &info));
     }

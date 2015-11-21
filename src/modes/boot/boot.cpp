@@ -67,7 +67,7 @@ BootMode::BootMode() :
     _debug_script_menu_open = false;
 
     // List the debug scripts
-    _debug_scripts = vt_utils::ListDirectory("data/debug", ".lua");
+    _debug_scripts = vt_utils::ListDirectory("./data/debug", ".lua");
 
     _debug_script_menu.SetPosition(512.0f, 128.0f);
     _debug_script_menu.SetTextStyle(TextStyle("text24"));
@@ -458,6 +458,7 @@ void BootMode::_OnQuit()
 }
 
 #ifdef DEBUG_FEATURES
+
 void BootMode::_DEBUG_OnDebugScriptList()
 {
     _debug_script_menu_open = true;
@@ -469,7 +470,7 @@ void BootMode::_DEBUG_OnDebugScriptRun()
     if (_debug_script_menu.GetNumberOptions() == 0)
         return;
 
-    std::string debug_script = "data/debug/" + _debug_scripts[_debug_script_menu.GetSelection()];
+    std::string debug_script = "./data/debug/" + _debug_scripts[_debug_script_menu.GetSelection()];
     ReadScriptDescriptor read_data;
     read_data.RunScriptFunction(debug_script, "TestFunction", true);
 }
