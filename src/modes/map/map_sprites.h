@@ -436,6 +436,9 @@ public:
     void SetSpriteAsScenery(bool is_scenery) {
         MapObject::_object_type = is_scenery ? SCENERY_TYPE : SPRITE_TYPE;
     }
+
+    //! \brief Sets/unsets the sprite animations as grayscale.
+    virtual void SetGrayscale(bool grayscale = true);
     //@}
 
 protected:

@@ -132,13 +132,17 @@ public:
     }
 
     //! \brief Returns true if the image is grayscale.
-    bool IsGrayScale() const {
+    bool IsGrayscale() const {
         return _grayscale;
     }
 
-    virtual void EnableGrayScale() = 0;
-
-    virtual void DisableGrayScale() = 0;
+    //! \brief Sets whether the image should be grayscaled.
+    void SetGrayscale(bool grayscale = true) {
+        if (grayscale)
+            _EnableGrayscale();
+        else
+            _DisableGrayscale();
+    }
 
     /** \brief Enables or disables the image's static property
     *** \param is_static If true, the image will be made static
@@ -313,6 +317,10 @@ protected:
     **/
     void _DrawTexture(const Color *draw_color) const;
 
+    virtual void _EnableGrayscale() = 0;
+
+    virtual void _DisableGrayscale() = 0;
+
 private:
     /** \brief A helper function to the public LoadMultiImage* calls
     *** \param images Reference to the vector of StillImages to be loaded
@@ -380,12 +388,6 @@ public:
     *** composite (multi-element) images is not yet supported
     **/
     bool Save(const std::string &filename) const;
-
-    //! \brief Enables grayscaling for the image then reloads it
-    void EnableGrayScale();
-
-    //! \brief Disables grayscaling for the image then reloads it
-    void DisableGrayScale();
 
     //! \name Class Member Access Functions
     //@{
@@ -485,9 +487,13 @@ protected:
 
     //! \brief X and y draw position offsets of this element
     float _x_offset, _y_offset;
-}; // class StillImage : public ImageDescriptor
 
+    //! \brief Enables grayscaling for the image then reloads it
+    void _EnableGrayscale();
 
+    //! \brief Disables grayscaling for the image then reloads it
+    void _DisableGrayscale();
+};
 
 namespace private_video
 {
@@ -623,12 +629,6 @@ public:
     *** composite (multi-element) images is not yet supported.
     **/
     bool Save(const std::string &filename, const uint32_t grid_rows = 0, const uint32_t grid_cols = 0) const;
-
-    //! \brief Enables grayscale for all image frames
-    void EnableGrayScale();
-
-    //! \brief Disables grayscale for all image frames
-    void DisableGrayScale();
 
     //! \brief Resets the animation's frame, counter, and looping.
     void ResetAnimation() {
@@ -842,8 +842,13 @@ private:
 
     //! \brief The total time used to play the animation
     uint32_t _animation_time;
-}; // class AnimatedImage : public ImageDescriptor
 
+    //! \brief Enables grayscale for all image frames
+    void _EnableGrayscale();
+
+    //! \brief Disables grayscale for all image frames
+    void _DisableGrayscale();
+};
 
 /** ****************************************************************************
 *** \brief Represents a composite image created from multiple image elements
@@ -912,12 +917,6 @@ public:
         SetHeight(height);
     }
 
-    void EnableGrayScale()
-    {}
-
-    void DisableGrayScale()
-    {}
-
     /** \brief Sets the image's four vertices to a single color
     *** \param color The desired color of all image vertices
     **/
@@ -950,6 +949,12 @@ public:
 private:
     //! \brief A container for each element in the composite image
     std::vector<private_video::ImageElement> _elements;
+
+    void _EnableGrayscale()
+    {}
+
+    void _DisableGrayscale()
+    {}
 };
 
 /** \brief A helper function to draw a captured, background image.

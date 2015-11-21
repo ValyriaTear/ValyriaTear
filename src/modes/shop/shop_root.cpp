@@ -118,10 +118,11 @@ void RootInterface::Reinitialize()
     }
 
     // Star images used to construct the composite star rating (30x30 pixel size)
-    StillImage star, gray_star;
+    StillImage star;
+    StillImage gray_star;
     star = *(GlobalManager->Media().GetStarIcon());
     gray_star = star;
-    gray_star.EnableGrayScale();
+    gray_star.SetGrayscale(true);
 
     // Finally, construct the composite images with the correct star rating
     _buy_price_rating.SetDimensions(200.0f, 30.0f);

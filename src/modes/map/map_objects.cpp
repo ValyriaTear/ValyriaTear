@@ -69,7 +69,8 @@ MapObject::MapObject(MapObjectDrawLayer layer) :
     _emote_screen_offset_x(0.0f),
     _emote_screen_offset_y(0.0f),
     _emote_time(0),
-    _draw_layer(layer)
+    _draw_layer(layer),
+    _grayscale(false)
 {
     // Generate the object Id at creation time.
     ObjectSupervisor* obj_sup = MapMode::CurrentInstance()->GetObjectSupervisor();

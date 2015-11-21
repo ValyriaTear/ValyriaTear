@@ -266,7 +266,7 @@ void ShopObjectViewer::Update()
     // Update active character animations.
     std::vector<vt_video::AnimatedImage *>::iterator it = _character_sprites.begin();
     for(; it != _character_sprites.end(); ++it) {
-        if(!(*it)->IsGrayScale())
+        if(!(*it)->IsGrayscale())
             (*it)->Update();
     }
 
@@ -588,11 +588,11 @@ void ShopObjectViewer::_SetEquipmentData()
             // Case 1: determine if the character can use the weapon and if not, move on to the next character
             // Toggle grayscale mode appropriately to indicate whether or not the character can equip this
             if(usable_status & (character->GetID())) {
-                if(_character_sprites[i]->IsGrayScale())
-                    _character_sprites[i]->DisableGrayScale();
+                if(_character_sprites[i]->IsGrayscale())
+                    _character_sprites[i]->SetGrayscale(false);
             } else {
-                if(!_character_sprites[i]->IsGrayScale())
-                    _character_sprites[i]->EnableGrayScale();
+                if(!_character_sprites[i]->IsGrayscale())
+                    _character_sprites[i]->SetGrayscale(true);
                 continue;
             }
             // Case 2: if the player does not have any weapon equipped, the stat diff is equal to the selected weapon's ratings
@@ -627,11 +627,11 @@ void ShopObjectViewer::_SetEquipmentData()
             // Case 1: determine if the character can use the armor and if not, move on to the next character
             // Toggle grayscale mode appropriately to indicate whether or not the character can equip this
             if(usable_status & (character->GetID())) {
-                if(_character_sprites[i]->IsGrayScale())
-                    _character_sprites[i]->DisableGrayScale();
+                if(_character_sprites[i]->IsGrayscale())
+                    _character_sprites[i]->SetGrayscale(false);
             } else {
-                if(!_character_sprites[i]->IsGrayScale())
-                    _character_sprites[i]->EnableGrayScale();
+                if(!_character_sprites[i]->IsGrayscale())
+                    _character_sprites[i]->SetGrayscale(true);
                 continue;
             }
             // Case 2: if the player does not have any armor equipped, the stat diff is equal to the selected armor's ratings
@@ -954,7 +954,7 @@ void ShopObjectViewer::_DrawEquipment()
             VideoManager->MoveRelative(0.0f, -78.0f);
         }
         // Case 2: Draw the phys/mag change text below the sprite
-        else if(!_character_sprites[i]->IsGrayScale()) {
+        else if(!_character_sprites[i]->IsGrayscale()) {
             VideoManager->MoveRelative(0.0f, 65.0f);
             _phys_change_text[i].Draw();
             VideoManager->MoveRelative(0.0f, 20.0f);

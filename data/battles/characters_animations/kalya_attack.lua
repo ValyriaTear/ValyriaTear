@@ -99,7 +99,7 @@ function Initialize(_character, _target, _skill)
     local ammo_filename = character:GetAmmoAnimationFile();
     arrow = Battle:CreateBattleAnimation(ammo_filename);
     arrow_shadow = Battle:CreateBattleAnimation(ammo_filename);
-    arrow_shadow:GetAnimatedImage():EnableGrayScale();
+    arrow_shadow:GetAnimatedImage():SetGrayscale(true);
     arrow:SetVisible(false);
     arrow_shadow:SetVisible(false);
 end
@@ -146,11 +146,11 @@ function Update()
             character:ChangeSpriteAnimation("idle")
             attack_step = 2;
             arrow:SetXLocation(arrow_pos_x);
-            arrow:SetYLocation(arrow_pos_y + arrow_height);
+            arrow:SetYLocation(arrow_pos_y);
             arrow:SetVisible(true);
             arrow:Reset();
             arrow_shadow:SetXLocation(arrow_pos_x);
-            arrow_shadow:SetYLocation(arrow_pos_y);
+            arrow_shadow:SetYLocation(arrow_pos_y + arrow_height);
             arrow_shadow:SetVisible(true);
             arrow_shadow:Reset()
         end
@@ -177,11 +177,11 @@ function Update()
 
         if (arrow ~= nil) then
             arrow:SetXLocation(arrow_pos_x);
-            arrow:SetYLocation(arrow_pos_y + arrow_height);
+            arrow:SetYLocation(arrow_pos_y);
         end
         if (arrow_shadow ~= nil) then
             arrow_shadow:SetXLocation(arrow_pos_x);
-            arrow_shadow:SetYLocation(arrow_pos_y);
+            arrow_shadow:SetYLocation(arrow_pos_y + arrow_height);
         end
 
         if (arrow_pos_x >= enemy_pos_x and arrow_pos_y == enemy_pos_y) then

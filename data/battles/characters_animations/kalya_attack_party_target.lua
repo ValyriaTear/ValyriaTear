@@ -97,7 +97,7 @@ function Initialize(_character, _target, _skill)
         -- Set Kalya's missile sprites
         arrow_info.arrow = Battle:CreateBattleAnimation(ammo_filename);
         arrow_info.arrow_shadow = Battle:CreateBattleAnimation(ammo_filename);
-        arrow_info.arrow_shadow:GetAnimatedImage():EnableGrayScale();
+        arrow_info.arrow_shadow:GetAnimatedImage():SetGrayscale(true);
 
         index = index + 1
     end
@@ -130,13 +130,13 @@ function Update()
             if (arrow_info.arrow ~= nil) then
                 arrow_info.arrow:SetVisible(true);
                 arrow_info.arrow:SetXLocation(arrow_info.arrow_pos_x);
-                arrow_info.arrow:SetYLocation(arrow_info.arrow_pos_y + arrow_info.arrow_height);
+                arrow_info.arrow:SetYLocation(arrow_info.arrow_pos_y);
             end
 
             if (arrow_info.arrow_shadow ~= nil) then
                 arrow_info.arrow_shadow:SetVisible(true);
                 arrow_info.arrow_shadow:SetXLocation(arrow_info.arrow_pos_x);
-                arrow_info.arrow_shadow:SetYLocation(arrow_info.arrow_pos_y);
+                arrow_info.arrow_shadow:SetYLocation(arrow_info.arrow_pos_y + arrow_info.arrow_height);
             end
 
             arrow_info.attack_step = 1
@@ -192,12 +192,12 @@ function Update()
             -- Updates the arrow location
             if (arrow_info.arrow ~= nil) then
                 arrow_info.arrow:SetXLocation(arrow_info.arrow_pos_x);
-                arrow_info.arrow:SetYLocation(arrow_info.arrow_pos_y + arrow_info.arrow_height);
+                arrow_info.arrow:SetYLocation(arrow_info.arrow_pos_y);
             end
 
             if (arrow_info.arrow_shadow ~= nil) then
                 arrow_info.arrow_shadow:SetXLocation(arrow_info.arrow_pos_x);
-                arrow_info.arrow_shadow:SetYLocation(arrow_info.arrow_pos_y);
+                arrow_info.arrow_shadow:SetYLocation(arrow_info.arrow_pos_y + arrow_info.arrow_height);
             end
 
             if (arrow_info.arrow_pos_x >= arrow_info.enemy_pos_x and arrow_info.arrow_pos_y == arrow_info.enemy_pos_y) then

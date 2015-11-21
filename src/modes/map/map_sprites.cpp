@@ -782,6 +782,7 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
 
 void MapSprite::ClearAnimations()
 {
+    _grayscale = false;
     _standing_animations.clear();
     _walking_animations.clear();
     _running_animations.clear();
@@ -930,6 +931,24 @@ void MapSprite::LoadFacePortrait(const std::string &filename)
         delete _face_portrait;
         _face_portrait = 0;
         PRINT_ERROR << "failed to load face portrait" << std::endl;
+    }
+}
+
+void MapSprite::SetGrayscale(bool grayscale) {
+    _grayscale = grayscale;
+    for (vt_video::AnimatedImage& animation : _standing_animations) {
+        animation.SetGrayscale(grayscale);
+    }
+    for (vt_video::AnimatedImage& animation : _walking_animations) {
+        animation.SetGrayscale(grayscale);
+    }
+    for (vt_video::AnimatedImage& animation : _running_animations) {
+        animation.SetGrayscale(grayscale);
+    }
+    auto it = _custom_animations.begin();
+    auto it_end = _custom_animations.end();
+    for (; it != it_end; ++it) {
+        it->second.SetGrayscale(grayscale);
     }
 }
 

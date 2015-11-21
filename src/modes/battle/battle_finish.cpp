@@ -436,7 +436,7 @@ void FinishVictoryAssistant::Initialize()
             ++alive_characters_number;
         } else {
             // Gray out portraits of deceased characters
-            _character_portraits[i].EnableGrayScale();
+            _character_portraits[i].SetGrayscale(true);
         }
     }
 

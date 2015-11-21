@@ -139,9 +139,10 @@ ImageDescriptor &ImageDescriptor::operator=(const ImageDescriptor &copy)
 void ImageDescriptor::Clear()
 {
     // This will also remove a reference to the grayscale version of the image
-    // TODO
-// 	if (_grayscale)
-// 		DisableGrayScale();
+    // FIXME: This is triggering a crash when several images using the same file
+    // are in different states.
+    //if (_grayscale)
+    //    _DisableGrayscale();
 
     if(_texture != nullptr)
         _RemoveTextureReference();
@@ -742,9 +743,9 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
             // Finally, do a grayscale conversion for the image if grayscale mode is enabled
             if(images.at(current_image)._grayscale) {
                 // Set _grayscale to false so that the call doesn't think that the grayscale image is already loaded
-                // It will be set back to true by the EnableGrayScale call
+                // It will be set back to true by the _EnableGrayscale call
                 images.at(current_image)._grayscale = false;
-                images.at(current_image).EnableGrayScale();
+                images.at(current_image)._EnableGrayscale();
             }
 
             current_image++;
@@ -933,21 +934,18 @@ bool StillImage::Save(const std::string &filename) const
     return buffer.SaveImage(filename);
 }
 
-void StillImage::EnableGrayScale()
+void StillImage::_EnableGrayscale()
 {
-    if(_grayscale) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was already enabled" << std::endl;
+    if(_grayscale)
         return;
-    }
 
     _grayscale = true;
 
-    // 1. If no image texture is available we are done here (when Load() is next called, grayscale will automatically be enabled)
-    if(_image_texture == nullptr) {
+    // If no image texture is available we are done here (when Load() is next called, grayscale will automatically be enabled)
+    if(_image_texture == nullptr)
         return;
-    }
 
-    // 2. Check if a grayscale version of this image already exists in texture memory and if so, update the ImageTexture pointer and reference
+    // Check if a grayscale version of this image already exists in texture memory and if so, update the ImageTexture pointer and reference
     std::string search_key = _filename + _image_texture->tags + "<G>";
     std::string tags = _image_texture->tags;
     ImageTexture *temp_texture = _image_texture;
@@ -959,7 +957,7 @@ void StillImage::EnableGrayScale()
         return;
     }
 
-    // 3. If no grayscale version exists, create a copy of the image, convert it to grayscale, and add the gray copy to texture memory
+    // If no grayscale version exists, create a copy of the image, convert it to grayscale, and add the gray copy to texture memory
     ImageMemory gray_img;
     gray_img.CopyFromImage(temp_texture);
     gray_img.ConvertToGrayscale();
@@ -978,23 +976,21 @@ void StillImage::EnableGrayScale()
     _image_texture->AddReference();
 }
 
-void StillImage::DisableGrayScale()
+void StillImage::_DisableGrayscale()
 {
-    if(_grayscale == false) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was already disabled" << std::endl;
+    if(_grayscale == false)
         return;
-    }
 
     _grayscale = false;
 
     // If no image data is loaded, we're finished
-    if(_image_texture == nullptr) {
+    if(_image_texture == nullptr)
         return;
-    }
 
     std::string search_key = _image_texture->filename + _image_texture->tags.substr(0, _image_texture->tags.length() - 3);
     if((_image_texture = TextureManager->_GetImageTexture(search_key)) == nullptr) {
-        PRINT_WARNING << "non-grayscale version of image was not found in texture memory" << std::endl;
+        PRINT_WARNING << "non-grayscale version of image was not found in texture memory: "
+                      << GetFilename() << std::endl;
         return;
     }
 
@@ -1266,7 +1262,7 @@ bool AnimatedImage::Save(const std::string &filename, uint32_t grid_rows, uint32
     }
 }
 
-void AnimatedImage::EnableGrayScale()
+void AnimatedImage::_EnableGrayscale()
 {
     if(_grayscale == true) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was already enabled when function was invoked" << std::endl;
@@ -1275,11 +1271,11 @@ void AnimatedImage::EnableGrayScale()
 
     _grayscale = true;
     for(uint32_t i = 0; i < _frames.size(); i++) {
-        _frames[i].image.EnableGrayScale();
+        _frames[i].image._EnableGrayscale();
     }
 }
 
-void AnimatedImage::DisableGrayScale()
+void AnimatedImage::_DisableGrayscale()
 {
     if(_grayscale == false) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was already disabled when function was invoked" << std::endl;
@@ -1288,7 +1284,7 @@ void AnimatedImage::DisableGrayScale()
 
     _grayscale = false;
     for(uint32_t i = 0; i < _frames.size(); i++) {
-        _frames[i].image.DisableGrayScale();
+        _frames[i].image._DisableGrayscale();
     }
 }
 

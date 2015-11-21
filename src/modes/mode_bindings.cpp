@@ -212,6 +212,8 @@ void BindModeCode()
             .def("GetCollisionMask", &MapObject::GetCollisionMask)
             .def("IsDrawOnSecondPass", &MapObject::IsDrawOnSecondPass)
             .def("Emote", &MapObject::Emote)
+            .def("SetGrayscale", &MapObject::SetGrayscale)
+            .def("IsGrayscale", &MapObject::IsGrayscale)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")

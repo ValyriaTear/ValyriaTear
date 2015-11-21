@@ -98,7 +98,7 @@ function Initialize(_character, _target, _skill)
     local ammo_filename = "data/entities/battle/ammo/rock_ammo.lua";
     stone = Battle:CreateBattleAnimation(ammo_filename);
     stone_shadow = Battle:CreateBattleAnimation(ammo_filename);
-    stone_shadow:GetAnimatedImage():EnableGrayScale();
+    stone_shadow:GetAnimatedImage():SetGrayscale(true);
     stone:SetVisible(false);
     stone_shadow:SetVisible(false);
 end
@@ -145,11 +145,11 @@ function Update()
             attack_step = 2;
             AudioManager:PlaySound("data/sounds/throw.wav");
             stone:SetXLocation(stone_pos_x);
-            stone:SetYLocation(stone_pos_y + stone_height);
+            stone:SetYLocation(stone_pos_y);
             stone:SetVisible(true);
             stone:Reset();
             stone_shadow:SetXLocation(stone_pos_x);
-            stone_shadow:SetYLocation(stone_pos_y);
+            stone_shadow:SetYLocation(stone_pos_y + stone_height);
             stone_shadow:SetVisible(true);
             stone_shadow:Reset()
         end
@@ -176,11 +176,11 @@ function Update()
 
         if (stone ~= nil) then
             stone:SetXLocation(stone_pos_x);
-            stone:SetYLocation(stone_pos_y + stone_height);
+            stone:SetYLocation(stone_pos_y);
         end
         if (stone_shadow ~= nil) then
             stone_shadow:SetXLocation(stone_pos_x);
-            stone_shadow:SetYLocation(stone_pos_y);
+            stone_shadow:SetYLocation(stone_pos_y + stone_height);
         end
 
         if (stone_pos_x >= enemy_pos_x and stone_pos_y == enemy_pos_y) then

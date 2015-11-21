@@ -292,12 +292,6 @@ public:
 
     void Draw(const Color &draw_color) const;
 
-    void EnableGrayScale()
-    {}
-
-    void DisableGrayScale()
-    {}
-
     /** \brief Sets the texture used by the class and modifies the width and height members
     *** \param texture A pointer to the TextTexture object that this class object should manage
     ***
@@ -327,7 +321,14 @@ public:
         SetWidth(width);
         SetHeight(height);
     }
-}; // class TextElement : public ImageDescriptor
+
+private:
+    void _EnableGrayscale()
+    {}
+
+    void _DisableGrayscale()
+    {}
+};
 
 } // namespace private_video
 
@@ -365,14 +366,6 @@ public:
     *** \param draw_color The color to modulate the text by
     **/
     void Draw(const Color &draw_color = vt_video::Color::white) const;
-
-    //! \brief Dervied from ImageDescriptor, this method is not used by TextImage
-    void EnableGrayScale()
-    {}
-
-    //! \brief Dervied from ImageDescriptor, this method is not used by TextImage
-    void DisableGrayScale()
-    {}
 
     //! \brief Sets image to static/animated
     virtual void SetStatic(bool is_static) {
@@ -484,7 +477,15 @@ private:
 
     //! \brief Regenerates the texture images for the text
     void _Regenerate();
-}; // class TextImage : public ImageDescriptor
+
+    //! \brief Dervied from ImageDescriptor, this method is not used by TextImage
+    void _EnableGrayscale()
+    {}
+
+    //! \brief Dervied from ImageDescriptor, this method is not used by TextImage
+    void _DisableGrayscale()
+    {}
+};
 
 
 /** ****************************************************************************

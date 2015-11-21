@@ -300,6 +300,14 @@ public:
         return _object_type;
     }
 
+    virtual void SetGrayscale(bool grayscale = true) {
+        _grayscale = grayscale;
+    }
+
+    bool IsGrayscale() const {
+        return _grayscale;
+    }
+
     /** \brief Play the corresponding emote animation set in the emotes.lua file
     *** \see LoadEmotes() in the GameGlobal class.
     **/
@@ -397,6 +405,9 @@ protected:
     //! \brief The object draw layer. Used to know where to register the MapObject,
     //! and when to delete it in the ObjectSupervisor.
     MapObjectDrawLayer _draw_layer;
+
+    //! \brief Tells whether the map object sprite and animation should be displayed grayscaled or not.
+    bool _grayscale;
 
     //! \brief Takes care of updating the emote animation and state.
     void _UpdateEmote();
@@ -496,6 +507,13 @@ public:
     //! \brief Returns the event id triggered when talking to the physical object.
     const std::string& GetEventIdWhenTalking() const {
         return _event_when_talking;
+    }
+
+    virtual void SetGrayscale(bool grayscale = true) {
+        _grayscale = grayscale;
+        for (vt_video::AnimatedImage& animation : _animations) {
+            animation.SetGrayscale(grayscale);
+        }
     }
     //@}
 
