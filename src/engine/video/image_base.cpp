@@ -35,7 +35,8 @@ ImageMemory::ImageMemory() :
     _width(0),
     _height(0),
     _rgb_format(false)
-{}
+{
+}
 
 ImageMemory::ImageMemory(const SDL_Surface* surface) :
     _width(surface->w),
@@ -50,10 +51,11 @@ ImageMemory::ImageMemory(const SDL_Surface* surface) :
 
 void ImageMemory::Resize(size_t width, size_t height, bool is_rgb)
 {
-    _pixels.clear();
     _rgb_format = is_rgb;
     _width = width;
     _height = height;
+
+    _pixels.clear();
     _pixels.resize(_width * _height * GetBytesPerPixel());
 }
 
@@ -318,9 +320,11 @@ void ImageMemory::RGBAToRGB()
 
 void ImageMemory::CopyFromTexture(TexSheet *texture)
 {
-    Resize(texture->height, texture->width, false);
+    assert(texture != nullptr);
 
-    if(_pixels.empty()) {
+    Resize(texture->width, texture->height, false);
+
+    if (_pixels.empty()) {
         PRINT_ERROR << "Failed to malloc enough memory to copy the texture." << std::endl;
     }
 
@@ -330,12 +334,14 @@ void ImageMemory::CopyFromTexture(TexSheet *texture)
 
 void ImageMemory::CopyFromImage(BaseTexture *img)
 {
+    assert(img != nullptr);
+
     // First copy the image's entire texture sheet to memory
     CopyFromTexture(img->texture_sheet);
 
     // Check that the image to copy is smaller than its texture sheet (usually true).
-    // If so, then copy over only the sub-rectangle area of the image from its texture
-    if(_height <= img->height && _width <= img->width)
+    // If so, then copy over only the sub-rectangle area of the image from its texture.
+    if (_height <= img->height && _width <= img->width)
         return;
 
     uint32_t src_bytes = _width * GetBytesPerPixel();
@@ -346,12 +352,12 @@ void ImageMemory::CopyFromImage(BaseTexture *img)
     try {
         img_pixels.reserve(img->width * img->height * GetBytesPerPixel());
     }
-    catch(std::exception& e) {
+    catch (std::exception&) {
         PRINT_ERROR << "Failed to malloc enough memory to copy the image" << std::endl;
         return;
     }
 
-    for(uint32_t i = 0; i < img->height; ++i) {
+    for (uint32_t i = 0; i < img->height; ++i) {
         std::vector<uint8_t>::const_iterator start = _pixels.begin() + i * src_bytes + src_offset;
         std::vector<uint8_t>::const_iterator end = start + dst_bytes;
         img_pixels.insert(img_pixels.end(), start, end);
@@ -359,13 +365,14 @@ void ImageMemory::CopyFromImage(BaseTexture *img)
 
     _height = img->height;
     _width = img->width;
+
     std::swap(_pixels, img_pixels);
 }
 
 void ImageMemory::CopyFrom(const ImageMemory& src, 
-              uint32_t src_offset,
-              uint32_t dst_bytes,
-              uint32_t dst_offset)
+                           uint32_t src_offset,
+                           uint32_t dst_bytes,
+                           uint32_t dst_offset)
 {
     size_t src_bytes = src.GetWidth() * GetBytesPerPixel();
     dst_bytes *= GetBytesPerPixel();
