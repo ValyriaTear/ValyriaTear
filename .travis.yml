@@ -2,8 +2,6 @@ language: cpp
 compiler:
   - gcc
   - clang
-git:
-  submodules: false
 cache: apt
 # Forces gcc 4.8 for c++11 support
 env:
@@ -39,8 +37,7 @@ install:
   - if [ "$CXX" = "clang++" ]; then sudo apt-get install -qq "libstdc++-${GCC_VERSION}-dev"; fi
 
 script:
-  - cmake -DCMAKE_CXX_COMPILER=$(which $CXX) -DDEBUG_FEATURES=ON -DEDITOR_SUPPORT=ON .
-  - make -j2 vt-editor
+  - cmake -DCMAKE_CXX_COMPILER=$(which $CXX) -DDEBUG_FEATURES=ON .
   - make translations
   - make -j2 valyriatear
 
