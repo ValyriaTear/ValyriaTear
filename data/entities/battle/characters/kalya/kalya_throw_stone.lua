@@ -18,6 +18,6 @@ animation = {
         [1] = { id = 1, duration = 150 },
         [2] = { id = 2, duration = 200 },
         [3] = { id = 3, duration = 100 },
-        [4] = { id = 4, duration = 9999999 }
+        [4] = { id = 4, duration = 0 }
     }
 }

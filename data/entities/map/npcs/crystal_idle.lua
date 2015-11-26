@@ -19,16 +19,16 @@ sprite_animation = {
 	-- The frames duration in milliseconds
     frames = {
         [ANIM_SOUTH] = {
-            [0] = { id = 0, duration = 9999999 }
+            [0] = { id = 0, duration = 0 }
         },
         [ANIM_NORTH] = {
-            [0] = { id = 0, duration = 9999999 }
+            [0] = { id = 0, duration = 0 }
         },
         [ANIM_WEST] = {
-            [0] = { id = 0, duration = 9999999 }
+            [0] = { id = 0, duration = 0 }
         },
         [ANIM_EAST] = {
-            [0] = { id = 0, duration = 9999999 }
+            [0] = { id = 0, duration = 0 }
         }
     }
 }

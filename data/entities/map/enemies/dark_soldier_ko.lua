@@ -11,6 +11,6 @@ animation = {
     columns = 1,
     -- The frames duration in milliseconds
     frames = {
-        [0] = { id = 0, duration = 999999 }
+        [0] = { id = 0, duration = 0 }
     }
 }

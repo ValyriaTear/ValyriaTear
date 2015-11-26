@@ -14,6 +14,6 @@ animation = {
     frame_height = 64.0,
     -- The frames duration in milliseconds
     frames = {
-        [0] = { id = 2, duration = 999999 },
+        [0] = { id = 2, duration = 0 },
     }
     }
