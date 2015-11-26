@@ -14,9 +14,9 @@ animation = {
 	frame_height = 32,
 	-- The frames duration in milliseconds
     frames = {
-        [0] = { id = 0, duration = 400 },
-        [1] = { id = 1, duration = 400 },
-        [2] = { id = 2, duration = 400 },
-        [3] = { id = 3, duration = 400 }
+        [0] = { id = 0, duration = 150 },
+        [1] = { id = 1, duration = 150 },
+        [2] = { id = 2, duration = 150 },
+        [3] = { id = 3, duration = 0 }
     }
 }

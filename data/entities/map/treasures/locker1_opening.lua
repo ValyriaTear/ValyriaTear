@@ -14,6 +14,6 @@ animation = {
     -- The frames duration in milliseconds
     frames = {
         [0] = { id = 0, duration = 75 },
-        [1] = { id = 1, duration = 150 }
+        [1] = { id = 1, duration = 0 }
     }
 }

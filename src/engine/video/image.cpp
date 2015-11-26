@@ -1022,6 +1022,7 @@ AnimatedImage::AnimatedImage(const bool grayscale)
 {
     Clear();
     _grayscale = grayscale;
+    _blended_animation = false;
 }
 
 AnimatedImage::AnimatedImage(float width, float height, bool grayscale)
@@ -1030,6 +1031,7 @@ AnimatedImage::AnimatedImage(float width, float height, bool grayscale)
     _width = width;
     _height = height;
     _grayscale = grayscale;
+    _blended_animation = false;
 }
 
 void AnimatedImage::Clear()
@@ -1041,9 +1043,6 @@ void AnimatedImage::Clear()
     for(std::vector<AnimationFrame>::iterator it = _frames.begin(); it != _frames.end(); ++it)
         (*it).image.Clear();
     _frames.clear();
-    _number_loops = -1;
-    _loop_counter = 0;
-    _loops_finished = false;
     _animation_time = 0;
 }
 
@@ -1062,6 +1061,8 @@ bool AnimatedImage::LoadFromAnimationScript(const std::string &filename)
     image_script.OpenTable("animation");
 
     std::string image_filename = image_script.ReadString("image_filename");
+    if (image_script.DoesBoolExist("blended_animation"))
+        _blended_animation = image_script.ReadBool("blended_animation");
 
     if(!vt_utils::DoesFileExist(image_filename)) {
         PRINT_WARNING << "The image file doesn't exist: " << image_filename << std::endl;
@@ -1244,7 +1245,25 @@ void AnimatedImage::Draw(const Color &draw_color) const
         return;
     }
 
-    _frames[_frame_index].image.Draw(draw_color);
+    if (!_blended_animation || _frames[_frame_index].frame_time <= 4
+            || _frame_counter > _frames[_frame_index].frame_time / 4) {
+        _frames[_frame_index].image.Draw(draw_color);
+        return;
+    }
+
+    // Draw the blended animation frames.
+    Color blended_color = draw_color;
+    float frame_time = static_cast<float>(_frames[_frame_index].frame_time);
+    float frame_counter = static_cast<float>(_frame_counter);
+    uint32_t previous_frame_index = _frame_index == 0 ? _frames.size() - 1 : _frame_index - 1;
+    float current_frame_alpha = frame_counter / (frame_time / 4.0f);
+    float previous_frame_alpha = 1.0f - current_frame_alpha;
+
+    blended_color.SetAlpha(previous_frame_alpha);
+    _frames[previous_frame_index].image.Draw(blended_color);
+
+    blended_color.SetAlpha(current_frame_alpha);
+    _frames[_frame_index].image.Draw(blended_color);
 }
 
 bool AnimatedImage::Save(const std::string &filename, uint32_t grid_rows, uint32_t grid_cols) const
@@ -1293,13 +1312,8 @@ void AnimatedImage::Update(uint32_t elapsed_time)
     if(_frames.size() <= 1)
         return;
 
-    if(_loops_finished)
-        return;
-
     // If the frame time is 0, it means the frame is a terminator and should be displayed 'forever'.
-    //N.B.: Early exit to avoid increasing the frame time counter when not needed.
     if (_frames[_frame_index].frame_time == 0) {
-        _loops_finished = true;
         return;
     }
 
@@ -1311,7 +1325,6 @@ void AnimatedImage::Update(uint32_t elapsed_time)
     while(_frame_counter >= _frames[_frame_index].frame_time) {
         // If the frame time is 0, it means the frame is a terminator and should be displayed 'forever'.
         if (_frames[_frame_index].frame_time == 0) {
-            _loops_finished = true;
             return;
         }
 
@@ -1319,14 +1332,6 @@ void AnimatedImage::Update(uint32_t elapsed_time)
         ms_change = _frame_counter - _frames[_frame_index].frame_time;
         _frame_index++;
         if(_frame_index >= _frames.size()) {
-            // Check if the animation has looping enabled and if so, increment the loop counter
-            // and cease the ani_loop_countermation if the number of animation loops have finished
-            if(_number_loops >= 0 && ++_loop_counter >= _number_loops) {
-                _loops_finished = true;
-                _frame_counter = 0;
-                _frame_index = _frames.size() - 1;
-                return;
-            }
             _frame_index = 0;
         }
 

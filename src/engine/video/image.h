@@ -634,8 +634,6 @@ public:
     void ResetAnimation() {
         _frame_index = 0;
         _frame_counter = 0;
-        _loop_counter = 0;
-        _loops_finished = false;
     }
 
     /** \brief Called every frame to update the animation's current frame
@@ -723,9 +721,9 @@ public:
         return _animation_time;
     }
 
-    //! \brief Returns true if the loops have finished, false otherwise
-    bool IsLoopsFinished() const {
-        return _loops_finished;
+    //! \brief Returns true if the animation has ended.
+    bool IsAnimationFinished() const {
+        return _frames[_frame_index].frame_time == 0;
     }
 
     /** \brief Sets all animation frames to be a certain width
@@ -790,30 +788,14 @@ public:
         _frame_counter = time;
     }
 
-    /** \brief Set the number of loops for the animation.
-    *** A value less than zero indicates to loop forever. Zero indicates do not loop: just run the
-    *** animation from beginning to end and stop.
-    ***	\param loops Number of loops for the animation
-    **/
-    void SetNumberLoops(int32_t loops) {
-        _number_loops = loops;
-        if(_loop_counter >= _number_loops && _number_loops >= 0) _loops_finished = true;
+    //! \brief Sets whether the animation frames will blend from one to another.
+    void SetAnimationBlended(bool blended) {
+        _blended_animation = blended;
     }
 
-    /** \brief Set the current number of loops that the animation has completed.
-    *** \param loops The urrent loop count
-    **/
-    void SetLoopCounter(int32_t loops) {
-        _loop_counter = loops;
-        if(_loop_counter >= _number_loops && _number_loops >= 0) _loops_finished = true;
-    }
-
-    /** \brief Effectively stops the animation in its track if this member is set to true.
-    *** \param loops True to stop the looping process. Setting it to false will restart the loop counter
-    **/
-    void SetLoopsFinished(bool loops) {
-        _loops_finished = loops;
-        if(loops == false) _loop_counter = 0;
+    //! \brief Gets whether the animation frames will blend from one to another.
+    bool GetAnimationBlended() const {
+        return _blended_animation;
     }
     //@}
 
@@ -824,18 +806,8 @@ private:
     //! \brief Counts how long each frame has been shown for.
     uint32_t _frame_counter;
 
-    /** \brief The number of times to loop the animation frames.
-    *** A negative value indicates to loop forever, which is the default.
-    **/
-    int32_t _number_loops;
-
-    //! \brief Counts the number of loops remaining for the animation.
-    int32_t _loop_counter;
-
-    /** \brief Set to true when the loop counter has expired.
-    *** This member will remain eternally false if the looping is set to infinite mode.
-    **/
-    bool _loops_finished;
+    //! \brief Tells whether the animation frames are blended one with another.
+    bool _blended_animation;
 
     //! \brief The vector of animation frames (contains both images and timing)
     std::vector<private_video::AnimationFrame> _frames;

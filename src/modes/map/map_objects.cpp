@@ -856,10 +856,6 @@ TreasureObject::TreasureObject(const std::string &treasure_name,
         opening_anim.LoadFromAnimationScript(opening_animation_file);
     open_anim.LoadFromAnimationScript(open_animation_file);
 
-
-    // Loop the opening animation only once
-    opening_anim.SetNumberLoops(0);
-
     // Set the collision rectangle according to the dimensions of the first frame
     SetCollPixelHalfWidth(closed_anim.GetWidth() / 2.0f);
     SetCollPixelHeight(closed_anim.GetHeight());
@@ -926,7 +922,7 @@ void TreasureObject::Update()
 {
     PhysicalObject::Update();
 
-    if ((GetCurrentAnimationId() == TREASURE_OPENING_ANIM) && (_animations[TREASURE_OPENING_ANIM].IsLoopsFinished()))
+    if ((GetCurrentAnimationId() == TREASURE_OPENING_ANIM) && (_animations[TREASURE_OPENING_ANIM].IsAnimationFinished()))
         SetCurrentAnimation(TREASURE_OPEN_ANIM);
 
     if (!_is_opening || GetCurrentAnimationId() != TREASURE_OPEN_ANIM)

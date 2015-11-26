@@ -296,7 +296,9 @@ void BindEngineCode()
             .def("RandomizeAnimationFrame", &AnimatedImage::RandomizeAnimationFrame)
             .def("SetWidth", &AnimatedImage::SetWidth)
             .def("SetHeight", &AnimatedImage::SetHeight)
-            .def("SetDimensions", &AnimatedImage::SetDimensions),
+            .def("SetDimensions", &AnimatedImage::SetDimensions)
+            .def("SetAnimationBlended", &AnimatedImage::SetAnimationBlended)
+            .def("GetAnimationBlended", &AnimatedImage::GetAnimationBlended),
 
             luabind::class_<TextImage, ImageDescriptor>("TextImage")
             .def("Clear", &TextImage::Clear)
