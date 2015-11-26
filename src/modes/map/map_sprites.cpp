@@ -671,13 +671,18 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
     animations_script.OpenTable("sprite_animation");
 
     std::string image_filename = animations_script.ReadString("image_filename");
-
     if(!vt_utils::DoesFileExist(image_filename)) {
         PRINT_WARNING << "The image file doesn't exist: " << image_filename << std::endl;
         animations_script.CloseTable();
         animations_script.CloseFile();
         return false;
     }
+
+    bool blended_animation = false;
+    if (animations_script.DoesBoolExist("blended_animation")) {
+        blended_animation = animations_script.ReadBool("blended_animation");
+    }
+
     uint32_t rows = animations_script.ReadUInt("rows");
     uint32_t columns = animations_script.ReadUInt("columns");
 
@@ -745,6 +750,7 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
         // Actually create the animation data
         animations[anim_direction].Clear();
         animations[anim_direction].ResetAnimation();
+        animations[anim_direction].SetAnimationBlended(blended_animation);
         for(uint32_t j = 0; j < frames_ids.size(); ++j) {
             // Set the dimension of the requested frame
             animations[anim_direction].AddFrame(image_frames[frames_ids[j]], frames_duration[j]);
