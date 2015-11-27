@@ -35,6 +35,7 @@
 #include "engine/video/context.h"
 #include "engine/video/coord_sys.h"
 #include "engine/video/fade.h"
+#include "engine/video/gl/gl_shader_definitions.h"
 #include "engine/video/gl/gl_shader_programs.h"
 #include "engine/video/gl/gl_shaders.h"
 #include "engine/video/gl/gl_transform.h"
@@ -64,19 +65,15 @@ class ModeEngine;
 }
 
 //! \brief All calls to the video engine are wrapped in this namespace.
-namespace vt_video
-{
+namespace vt_video {
 
-// Forward declarations.
-namespace gl
-{
-
+namespace gl {
 class ParticleSystem;
+class RenderTarget;
 class Shader;
 class ShaderProgram;
 class Sprite;
-
-} // namespace gl
+}
 
 class VideoEngine;
 
@@ -331,6 +328,15 @@ public:
     void DisableStencilTest();
     void EnableTexture2D();
     void DisableTexture2D();
+
+    //! TODO
+    bool EnableSecondaryRenderTarget();
+
+    //! TODO
+    void DisableSecondaryRenderTarget();
+
+    //! TODO
+    bool DrawSecondaryRenderTarget();
 
     //! \brief Loads a shader program.
     gl::ShaderProgram* LoadShaderProgram(const gl::shader_programs::ShaderPrograms& shader_program);
@@ -632,10 +638,13 @@ private:
 
     //-- Private variables ----------------------------------------------------
 
-    // The SDL2 Window handle
+    //! The SDL2 Window handle
     SDL_Window* _sdl_window;
 
-    //! fps display flag. If true, FPS is displayed
+    //! The secondary render target.
+    gl::RenderTarget* _secondary_render_target;
+
+    //! The FPS display flag.  If true, FPS is displayed.
     bool _fps_display;
 
     //! \brief A circular array of FPS samples used for calculating average FPS
@@ -782,6 +791,7 @@ private:
     // Debug info
     //! \brief Updates the FPS counter.
     void _UpdateFPS();
+
     //! \brief Draws the current average FPS to the screen.
     void _DrawFPS();
 };

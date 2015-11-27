@@ -138,6 +138,7 @@
     <ClCompile Include="..\..\src\engine\system.cpp" />
     <ClCompile Include="..\..\src\engine\video\fade.cpp" />
     <ClCompile Include="..\..\src\engine\video\gl\gl_particle_system.cpp" />
+    <ClCompile Include="..\..\src\engine\video\gl\gl_render_target.cpp" />
     <ClCompile Include="..\..\src\engine\video\gl\gl_shader.cpp" />
     <ClCompile Include="..\..\src\engine\video\gl\gl_shader_program.cpp" />
     <ClCompile Include="..\..\src\engine\video\gl\gl_sprite.cpp" />
@@ -233,6 +234,7 @@
     <ClInclude Include="..\..\src\engine\video\coord_sys.h" />
     <ClInclude Include="..\..\src\engine\video\fade.h" />
     <ClInclude Include="..\..\src\engine\video\gl\gl_particle_system.h" />
+    <ClInclude Include="..\..\src\engine\video\gl\gl_render_target.h" />
     <ClInclude Include="..\..\src\engine\video\gl\gl_shader.h" />
     <ClInclude Include="..\..\src\engine\video\gl\gl_shaders.h" />
     <ClInclude Include="..\..\src\engine\video\gl\gl_shader_definitions.h" />

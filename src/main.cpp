@@ -566,7 +566,7 @@ int main(int argc, char *argv[])
 
     try {
         // This is the main loop for the game. The loop iterates once for every frame drawn to the screen.
-        while(SystemManager->NotDone()) {
+        while (SystemManager->NotDone()) {
             // Set the game update mode.
             if (VideoManager->GetVSyncMode() > 0 || VideoManager->GetGameUpdateMode())
                 cpu_gentle_update_mode = false;
@@ -583,12 +583,25 @@ int main(int argc, char *argv[])
 
             // Render capped at UPDATES_PER_SECOND if the update mode is gentle with the cpu(s).
             if (!cpu_gentle_update_mode || update_tick > next_update_tick) {
+
+                // Clear all render targets.
                 VideoManager->Clear();
+
+                // Enable the secondary render target.
+                bool result_render_target = VideoManager->EnableSecondaryRenderTarget();
+                assert(result_render_target);
+
+                // Draw the game.
                 ModeManager->Draw();
                 ModeManager->DrawEffects();
                 ModeManager->DrawPostEffects();
                 VideoManager->DrawFadeEffect();
                 VideoManager->DrawDebugInfo();
+
+                // Disable the secondary render target and draw it to the primary render target.
+                VideoManager->DisableSecondaryRenderTarget();
+                result_render_target = VideoManager->DrawSecondaryRenderTarget();
+                assert(result_render_target);
 
                 // Swap the buffers once the draw operations are done.
                 SDL_GL_SwapWindow(sdl_window);
