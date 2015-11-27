@@ -70,43 +70,10 @@ void BindModeCode();
 
 } // namespace vt_defs
 
-/** \brief Frees all data allocated by the game by destroying the singleton classes
-***
-*** \note <b>Do not attempt to call or otherwise reference this function.</b>
-*** It is for use in the application's main() function only.
-***
-*** Deleteing the singleton class objects will free all of the memory that the game uses.
-*** This is because all other classes and data structures in the game are managed
-*** by these singletons either directly or in directly. For example, BattleMode is a
-*** class object that is managed by the ModeEngine class, and thus the GameModeManager
-*** destructor will also invoke the BattleMode destructor (as well as the destructors of any
-*** other game modes that exist).
-**/
-void QuitApp()
-{
-    // NOTE: Even if the singleton objects do not exist when this function is called, invoking the
-    // static Destroy() singleton function will do no harm (it checks that the object exists before deleting it).
-
-    // Delete the mode manager first so that all game modes free their resources
-    ModeEngine::SingletonDestroy();
-
-    // Delete the global manager second to remove all object references corresponding to other engine subsystems
-    GameGlobal::SingletonDestroy();
-
-    // Delete all of the reamining independent engine components
-    GUISystem::SingletonDestroy();
-    AudioEngine::SingletonDestroy();
-    InputEngine::SingletonDestroy();
-    SystemEngine::SingletonDestroy();
-    VideoEngine::SingletonDestroy();
-    // Do it last since all luabind objects must be freed before closing the lua state.
-    ScriptEngine::SingletonDestroy();
-} // void QuitApp()
-
 /** \brief Reads in all of the saved game settings and sets values in the according game manager classes
 *** \return True if the settings were loaded successfully
 **/
-bool LoadSettings()
+static bool LoadSettings()
 {
     ReadScriptDescriptor settings;
     if(!settings.OpenFile(GetSettingsFilename()))
@@ -260,7 +227,7 @@ bool LoadSettings()
     settings.CloseFile();
 
     return true;
-} // bool LoadSettings()
+}
 
 //! Loads the default window GUI theme for the game.
 static void LoadGUIThemes(const std::string& theme_script_filename)
@@ -354,7 +321,7 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
 /** \brief Initializes all engine components and makes other preparations for the game to start
 *** \return True if the game engine was initialized successfully, false if an unrecoverable error occurred
 **/
-void InitializeEngine() throw(Exception)
+static void InitializeEngine() throw(Exception)
 {
     // use display #0 unless already specified
     // behavior of fullscreen mode is erratic without this value set
@@ -449,8 +416,7 @@ void InitializeEngine() throw(Exception)
         throw Exception("ERROR: unable to initialize GlobalManager", __FILE__, __LINE__, __FUNCTION__);
 
     SystemManager->InitializeTimers();
-} // void InitializeEngine()
-
+}
 
 // Every great game begins with a single function :)
 int main(int argc, char *argv[])
@@ -460,9 +426,8 @@ int main(int argc, char *argv[])
         _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #   endif
 
-    // When the program exits, the QuitApp() function will be called first, followed by SDL_Quit()
+    // When the program exits, call 'SDL_Quit'.
     atexit(SDL_Quit);
-    atexit(QuitApp);
 
     if(SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
         PRINT_ERROR << "SDL video initialization failed" << std::endl;
@@ -626,7 +591,6 @@ int main(int argc, char *argv[])
                 // Wait for the next update.
                 next_update_tick += SKIP_UPDATE_TICKS;
             }
-
         } // while (SystemManager->NotDone())
     } catch(const Exception& e) {
 #ifdef WIN32
@@ -637,11 +601,29 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
+    // NOTE: Even if the singleton objects do not exist when this function is called, invoking the
+    // static Destroy() singleton function will do no harm (it checks that the object exists before deleting it).
+
+    // Delete the mode manager first so that all game modes free their resources
+    ModeEngine::SingletonDestroy();
+
+    // Delete the global manager second to remove all object references corresponding to other engine subsystems
+    GameGlobal::SingletonDestroy();
+
+    // Delete all of the reamining independent engine components
+    GUISystem::SingletonDestroy();
+    AudioEngine::SingletonDestroy();
+    InputEngine::SingletonDestroy();
+    SystemEngine::SingletonDestroy();
+    VideoEngine::SingletonDestroy();
+    // Do it last since all luabind objects must be freed before closing the lua state.
+    ScriptEngine::SingletonDestroy();
+
     // Once finished with OpenGL functions, the SDL_GLContext can be deleted.
     SDL_GL_DeleteContext(glcontext);
 
-    // Close and destroy the window
+    // Close and destroy the window.
     SDL_DestroyWindow(sdl_window);
 
     return EXIT_SUCCESS;
-} // int main(int argc, char *argv[])
+}
