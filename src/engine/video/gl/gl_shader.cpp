@@ -25,7 +25,7 @@ namespace gl
 {
 
 Shader::Shader(GLenum type, const std::string &data) :
-    _shader(-1)
+    _shader(0)
 {
     bool errors = false;
 

@@ -24,12 +24,176 @@ namespace vt_video
 namespace gl
 {
 
-RenderTarget::RenderTarget()
+RenderTarget::RenderTarget(unsigned width,
+                           unsigned height) :
+    _width(width),
+    _height(height),
+    _framebuffer(0),
+    _texture(0),
+    _renderbuffer_depth(0)
 {
+    assert(_width > 0);
+    assert(_height > 0);
+
+    bool errors = false;
+
+    // Create the framebuffer.
+    if (!errors) {
+        GLuint framebuffers[1] = { 0 };
+        glGenFramebuffers(1, framebuffers);
+
+        GLenum error = glGetError();
+        if (error != GL_NO_ERROR) {
+            errors = true;
+            PRINT_ERROR << "Failed to create the framebuffer." << std::endl;
+            assert(error == GL_NO_ERROR);
+        }
+        else {
+            // Store the result.
+            _framebuffer = framebuffers[0];
+        }
+    }
+
+    // Bind the framebuffer.
+    if (!errors) {
+        glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
+    }
+
+    // Create the texture.
+    if (!errors) {
+        GLuint textures[1] = { 0 };
+        glGenTextures(1, textures);
+
+        GLenum error = glGetError();
+        if (error != GL_NO_ERROR) {
+            errors = true;
+            PRINT_ERROR << "Failed to create the texture." << std::endl;
+            assert(error == GL_NO_ERROR);
+        }
+        else {
+            // Store the result.
+            _texture = textures[0];
+        }
+    }
+
+    // Bind the texture.
+    if (!errors) {
+        glBindTexture(GL_TEXTURE_2D, _texture);
+    }
+
+    // Initialize the texture.
+    if (!errors) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _width, _height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+
+        GLenum error = glGetError();
+        if (error != GL_NO_ERROR) {
+            errors = true;
+            PRINT_ERROR << "Failed to initialize the texture." << std::endl;
+            assert(error == GL_NO_ERROR);
+        }
+    }
+
+    // Initialize the texture filtering.
+    if (!errors) {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    }
+
+    // Bind the texture to the framebuffer.
+    if (!errors) {
+        glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, _texture, 0);
+
+        GLenum error = glGetError();
+        if (error != GL_NO_ERROR) {
+            errors = true;
+            PRINT_ERROR << "Failed to bind the texture to the framebuffer." << std::endl;
+            assert(error == GL_NO_ERROR);
+        }
+    }
+
+    // Create the depth renderbuffer.
+    if (!errors) {
+        GLuint renderbuffers[1] = { 0 };
+        glGenRenderbuffers(1, renderbuffers);
+
+        GLenum error = glGetError();
+        if (error != GL_NO_ERROR) {
+            errors = true;
+            PRINT_ERROR << "Failed to create the depth renderbuffer." << std::endl;
+            assert(error == GL_NO_ERROR);
+        }
+        else {
+            // Store the result.
+            _renderbuffer_depth = renderbuffers[0];
+        }
+    }
+
+    // Bind the depth renderbuffer.
+    if (!errors) {
+        glBindRenderbuffer(GL_RENDERBUFFER, _renderbuffer_depth);
+    }
+
+    // Initialize the depth renderbuffer.
+    if (!errors) {
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT32, _width, _height);
+
+        GLenum error = glGetError();
+        if (error != GL_NO_ERROR) {
+            errors = true;
+            PRINT_ERROR << "Failed to initialize the depth renderbuffer." << std::endl;
+            assert(error == GL_NO_ERROR);
+        }
+    }
+
+    // Bind the depth renderbuffer to the framebuffer.
+    if (!errors) {
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _renderbuffer_depth);
+
+        GLenum error = glGetError();
+        if (error != GL_NO_ERROR) {
+            errors = true;
+            PRINT_ERROR << "Failed to bind the depth renderbuffer to the framebuffer." << std::endl;
+            assert(error == GL_NO_ERROR);
+        }
+    }
+
+    // Perform a final verification.
+    if (!errors) {
+        GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+        if (status != GL_FRAMEBUFFER_COMPLETE) {
+            errors = true;
+            PRINT_ERROR << "Unable to create the framebuffer." << std::endl;
+            assert(status != GL_FRAMEBUFFER_COMPLETE);
+        }
+    }
+
+    // Unbind all textures and buffers from the pipeline.
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 RenderTarget::~RenderTarget()
 {
+    if (_framebuffer != 0) {
+        const GLuint framebuffers[] = { _framebuffer };
+        glDeleteFramebuffers(1, framebuffers);
+        _framebuffer = 0;
+    }
+
+    if (_texture != 0) {
+        const GLuint textures[] = { _texture };
+        glDeleteTextures(1, textures);
+        _texture = 0;
+    }
+
+    if (_renderbuffer_depth != 0) {
+        const GLuint renderbuffers[] = { _renderbuffer_depth };
+        glDeleteRenderbuffers(1, renderbuffers);
+        _renderbuffer_depth = 0;
+    }
 }
 
 RenderTarget::RenderTarget(const RenderTarget&)

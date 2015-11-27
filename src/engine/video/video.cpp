@@ -194,6 +194,18 @@ bool VideoEngine::FinalizeInitialization()
     // Create the sprite.
     _sprite = new gl::Sprite();
 
+    // Create the secondary render target.
+
+    //
+    // TODO: Determine the actual width and height of the secondary render target.
+    //
+
+    const unsigned WIDTH_PLACEHOLDER = 1024;
+    const unsigned HEIGHT_PLACEHOLDER = 768;
+
+    _secondary_render_target = new gl::RenderTarget(WIDTH_PLACEHOLDER,
+                                                    HEIGHT_PLACEHOLDER);
+
     // Create the particle system.
     _particle_system = new gl::ParticleSystem();
 

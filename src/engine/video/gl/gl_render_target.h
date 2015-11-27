@@ -25,7 +25,8 @@ namespace gl
 class RenderTarget
 {
 public:
-    RenderTarget();
+    explicit RenderTarget(unsigned width,
+                          unsigned height);
     ~RenderTarget();
 
 private:
@@ -36,6 +37,13 @@ private:
 
     RenderTarget(const RenderTarget& sprite);
     RenderTarget& operator=(const RenderTarget& sprite);
+
+    unsigned _width;
+    unsigned _height;
+
+    GLuint _framebuffer;
+    GLuint _texture;
+    GLuint _renderbuffer_depth;
 };
 
 } // namespace gl
