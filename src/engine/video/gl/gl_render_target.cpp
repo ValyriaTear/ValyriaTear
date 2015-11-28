@@ -56,7 +56,7 @@ RenderTarget::RenderTarget(unsigned width,
 
     // Bind the framebuffer.
     if (!errors) {
-        glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
+        Bind();
     }
 
     // Create the texture.
@@ -78,7 +78,7 @@ RenderTarget::RenderTarget(unsigned width,
 
     // Bind the texture.
     if (!errors) {
-        glBindTexture(GL_TEXTURE_2D, _texture);
+        BindTexture();
     }
 
     // Initialize the texture.
@@ -194,6 +194,86 @@ RenderTarget::~RenderTarget()
         glDeleteRenderbuffers(1, renderbuffers);
         _renderbuffer_depth = 0;
     }
+}
+
+void RenderTarget::Bind()
+{
+    assert(_framebuffer != 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
+}
+
+void RenderTarget::BindTexture()
+{
+    assert(_texture != 0);
+    glBindTexture(GL_TEXTURE_2D, _texture);
+}
+
+void RenderTarget::Resize(unsigned width,
+                          unsigned height)
+{
+    bool errors = false;
+
+    _width = width;
+    _height = height;
+
+    assert(_width > 0);
+    assert(_height > 0);
+
+    assert(_framebuffer != 0);
+
+    // Unbind the framebuffer.
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    assert(_texture != 0);
+
+    // Bind the texture.
+    if (!errors) {
+        BindTexture();
+    }
+
+    // Resize the texture.
+    if (!errors) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _width, _height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+
+        GLenum error = glGetError();
+        if (error != GL_NO_ERROR) {
+            errors = true;
+            PRINT_ERROR << "Failed to resize the texture." << std::endl;
+            assert(error == GL_NO_ERROR);
+        }
+    }
+
+    // Bind the depth renderbuffer.
+    if (!errors) {
+        glBindRenderbuffer(GL_RENDERBUFFER, _renderbuffer_depth);
+    }
+
+    // Resize the depth renderbuffer.
+    if (!errors) {
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT32, _width, _height);
+
+        GLenum error = glGetError();
+        if (error != GL_NO_ERROR) {
+            errors = true;
+            PRINT_ERROR << "Failed to resize the depth renderbuffer." << std::endl;
+            assert(error == GL_NO_ERROR);
+        }
+    }
+
+    // Unbind all textures and buffers from the pipeline.
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+unsigned RenderTarget::GetWidth() const
+{
+    return _width;
+}
+
+unsigned RenderTarget::GetHeight() const
+{
+    return _height;
 }
 
 RenderTarget::RenderTarget(const RenderTarget&)

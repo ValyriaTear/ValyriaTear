@@ -329,14 +329,14 @@ public:
     void EnableTexture2D();
     void DisableTexture2D();
 
-    //! TODO
-    bool EnableSecondaryRenderTarget();
+    //! Enables the secondary render target.
+    void EnableSecondaryRenderTarget();
 
-    //! TODO
+    //! Disables the secondary render target.
     void DisableSecondaryRenderTarget();
 
-    //! TODO
-    bool DrawSecondaryRenderTarget();
+    //! Draws the secondary render target onto the primary render target.
+    void DrawSecondaryRenderTarget();
 
     //! \brief Loads a shader program.
     gl::ShaderProgram* LoadShaderProgram(const gl::shader_programs::ShaderPrograms& shader_program);

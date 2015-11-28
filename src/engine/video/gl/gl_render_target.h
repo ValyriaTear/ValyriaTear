@@ -29,6 +29,22 @@ public:
                           unsigned height);
     ~RenderTarget();
 
+    //! \brief Binds the render target's framebuffer to the pipeline.
+    void Bind();
+
+    //! \brief Binds the render target's texture to the pipeline.
+    void BindTexture();
+
+    //! \brief Resizes the render target.
+    void Resize(unsigned width,
+                unsigned height);
+
+    //! \brief Gets the width of the render target.
+    unsigned GetWidth() const;
+
+    //! \brief Gets the height of the render target.
+    unsigned GetHeight() const;
+
 private:
     //
     // The copy constructor and assignment operator are hidden by design

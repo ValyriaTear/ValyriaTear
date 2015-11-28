@@ -44,7 +44,7 @@ namespace private_map
 //@{
 // The zoom ratio will set how magnified (if > 1.0f) the map mode will display the tiles,
 // sprites and objects.
-const float MAP_ZOOM_RATIO = 2.0f;
+const float MAP_ZOOM_RATIO = 1.0f;
 
 const float SCREEN_GRID_X_LENGTH = 64.0f / MAP_ZOOM_RATIO; // was 32 for zoom ratio 2.0f;
 const float SCREEN_GRID_Y_LENGTH = 48.0f / MAP_ZOOM_RATIO;

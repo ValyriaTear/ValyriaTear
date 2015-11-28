@@ -19,6 +19,13 @@
 #include "utils/exception.h"
 #include "utils/utils_strings.h"
 
+#ifdef __APPLE__
+#   define glBindVertexArray    glBindVertexArrayAPPLE
+#   define glGenVertexArrays    glGenVertexArraysAPPLE
+#   define glGenerateMipmap     glGenerateMipmapEXT
+#   define glDeleteVertexArrays glDeleteVertexArraysAPPLE
+#endif
+
 namespace vt_video
 {
 namespace gl
@@ -39,13 +46,6 @@ const unsigned INDICES_PER_SPRITE = sizeof(INDICES) / sizeof(*INDICES);
 const unsigned POSITIONS_PER_VERTEX = 3;
 const unsigned TEXTURE_COORDINATES_PER_VERTEX = 2;
 const unsigned COLORS_PER_VERTEX = 4;
-
-#ifdef __APPLE__
-#define glBindVertexArray glBindVertexArrayAPPLE
-#define glGenVertexArrays glGenVertexArraysAPPLE
-#define glGenerateMipmap glGenerateMipmapEXT
-#define glDeleteVertexArrays glDeleteVertexArraysAPPLE
-#endif
 
 Sprite::Sprite() :
     _vao(0),

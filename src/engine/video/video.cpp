@@ -195,16 +195,7 @@ bool VideoEngine::FinalizeInitialization()
     _sprite = new gl::Sprite();
 
     // Create the secondary render target.
-
-    //
-    // TODO: Determine the actual width and height of the secondary render target.
-    //
-
-    const unsigned WIDTH_PLACEHOLDER = 1024;
-    const unsigned HEIGHT_PLACEHOLDER = 768;
-
-    _secondary_render_target = new gl::RenderTarget(WIDTH_PLACEHOLDER,
-                                                    HEIGHT_PLACEHOLDER);
+    _secondary_render_target = new gl::RenderTarget(VIDEO_STANDARD_RES_WIDTH, VIDEO_STANDARD_RES_HEIGHT);
 
     // Create the particle system.
     _particle_system = new gl::ParticleSystem();
@@ -473,9 +464,14 @@ bool VideoEngine::ApplySettings()
 
     _UpdateViewportMetrics();
 
+    // Resize the secondary render target.
+    assert(_secondary_render_target != nullptr);
+    _secondary_render_target->Resize(_screen_width, _screen_height);
+
     // Try to apply the VSync mode
-    if (_vsync_mode > 2)
+    if (_vsync_mode > 2) {
         _vsync_mode = 0;
+    }
 
     // Try Swap tearing
     if (_vsync_mode == 2 && SDL_GL_SetSwapInterval(-1) != 0) {
@@ -490,8 +486,9 @@ bool VideoEngine::ApplySettings()
     }
 
     // No VSync
-    if (_vsync_mode == 0)
+    if (_vsync_mode == 0) {
         SDL_GL_SetSwapInterval(0);
+    }
 
     return true;
 }
@@ -603,21 +600,101 @@ void VideoEngine::DisableTexture2D()
     }
 }
 
-bool VideoEngine::EnableSecondaryRenderTarget()
+void VideoEngine::EnableSecondaryRenderTarget()
 {
-    // TODO:
-    return true;
+    assert(_secondary_render_target != nullptr);
+    _secondary_render_target->Bind();
 }
 
 void VideoEngine::DisableSecondaryRenderTarget()
 {
-    // TODO:
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-bool VideoEngine::DrawSecondaryRenderTarget()
+void VideoEngine::DrawSecondaryRenderTarget()
 {
-    // TODO:
-    return true;
+    assert(_sprite != nullptr);
+    assert(_secondary_render_target != nullptr);
+
+    float width_render_target = static_cast<float>(_secondary_render_target->GetWidth());
+    float height_render_target = static_cast<float>(_secondary_render_target->GetHeight());
+
+    float width_screen = static_cast<float>(vt_video::VideoManager->GetScreenWidth());
+    float height_screen = static_cast<float>(vt_video::VideoManager->GetScreenHeight());
+
+    assert(width_render_target == width_screen);
+    assert(height_render_target == height_screen);
+
+    // Set up the video manager state.
+    vt_video::VideoManager->PushState();
+    vt_video::VideoManager->SetCoordSys(0.0f, width_render_target, height_render_target, 0.0f);
+    vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_TOP, vt_video::VIDEO_BLEND, 0);
+
+    // Load the shader program.
+    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
+    assert(shader_program != nullptr);
+
+    // Load the shader uniforms.
+    float buffer[16] = { 0 };
+    gl::Transform identity;
+    identity.Apply(buffer);
+    shader_program->UpdateUniform("u_Model", buffer, 16);
+
+    identity.Apply(buffer);
+    shader_program->UpdateUniform("u_View", buffer, 16);
+
+    identity.Apply(buffer);
+    shader_program->UpdateUniform("u_Projection", buffer, 16);
+
+    shader_program->UpdateUniform("u_Color", ::vt_video::Color::white.GetColors(), 4);
+
+    // Disable the secondary render target.
+    DisableSecondaryRenderTarget();
+
+    // Bind the secondary render target's texture.
+    _secondary_render_target->BindTexture();
+
+    //
+    // Draw a fullscreen quad.
+    //
+
+    // The vertex positions.
+    float vertex_positions[] =
+    {
+        -1.0f, -1.0f, 0.0f, // Vertex One.
+         1.0f, -1.0f, 0.0f, // Vertex Two.
+         1.0f,  1.0f, 0.0f, // Vertex Three.
+        -1.0f,  1.0f, 0.0f  // Vertex Four.
+    };
+
+    // The vertex texture coordinates.
+    float vertex_texture_coordinates[] =
+    {
+        0.0f, 0.0f, // Vertex One.
+        1.0f, 0.0f, // Vertex Two.
+        1.0f, 1.0f, // Vertex Three.
+        0.0f, 1.0f  // Vertex Four.
+    };
+
+    // The vertex colors.
+    float vertex_colors[] =
+    {
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex One.
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex Two.
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex Three.
+        1.0f, 1.0f, 1.0f, 1.0f  // Vertex Four.
+    };
+
+    _sprite->Draw(vertex_positions, vertex_texture_coordinates, vertex_colors);
+
+    // Unbind the secondary render target's texture.
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    // Unload the shader program.
+    VideoManager->UnloadShaderProgram();
+
+    // Restore the state.
+    vt_video::VideoManager->PopState();
 }
 
 gl::ShaderProgram* VideoEngine::LoadShaderProgram(const gl::shader_programs::ShaderPrograms& shader_program)
