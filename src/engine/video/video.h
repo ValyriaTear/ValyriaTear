@@ -142,16 +142,9 @@ public:
     **/
     void SetDrawFlags(int32_t first_flag, ...);
 
-    /** \brief Clears the contents of the screen
-    *** This method should be called at the beginning of every frame, before any draw operations
-    *** are performed. Note that it only clears the color buffer, not any of the other OpenGL buffers.
+    /** \brief Clears the contents of the framebuffer.
     **/
     void Clear();
-
-    /** \brief Clears the contents of the screen to a specific color
-    *** \param background_color The color to set the cleared screen to
-    **/
-    void Clear(const Color &background_color);
 
     /** \brief Updates every main game sub-engines.
     **/

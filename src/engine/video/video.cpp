@@ -268,6 +268,10 @@ bool VideoEngine::FinalizeInitialization()
     }
 
     // Prepare the screen for rendering.
+    glClearColor(::vt_video::Color::black[0],
+                 ::vt_video::Color::black[1],
+                 ::vt_video::Color::black[2],
+                 ::vt_video::Color::black[3]);
     Clear();
 
     // Empty image used to draw colored rectangles.
@@ -347,17 +351,11 @@ void VideoEngine::SetDrawFlags(int32_t first_flag, ...)
 
 void VideoEngine::Clear()
 {
-    //! \todo glClearColor is a state change operation. It should only be called when the clear color changes
-    Clear(Color::black);
-}
+    glClear(GL_COLOR_BUFFER_BIT |
+            GL_DEPTH_BUFFER_BIT |
+            GL_STENCIL_BUFFER_BIT);
 
-void VideoEngine::Clear(const Color& c)
-{
-    _current_context.viewport = ScreenRect(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
-    glViewport(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
-    glClearColor(c[0], c[1], c[2], c[3]);
-    glClear(GL_COLOR_BUFFER_BIT);
-
+    // TODO: This metric is probably no longer accurate.
     TextureManager->_debug_num_tex_switches = 0;
 }
 
@@ -868,7 +866,10 @@ void VideoEngine::PopState()
 
     PopMatrix();
 
-    glViewport(_current_context.viewport.left, _current_context.viewport.top, _current_context.viewport.width, _current_context.viewport.height);
+    SetViewport(_current_context.viewport.left,
+                _current_context.viewport.top,
+                _current_context.viewport.width,
+                _current_context.viewport.height);
 
     if (_current_context.scissoring_enabled) {
         EnableScissoring();
