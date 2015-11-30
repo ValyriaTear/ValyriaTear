@@ -549,10 +549,7 @@ int main(int argc, char *argv[])
             // Render capped at UPDATES_PER_SECOND if the update mode is gentle with the cpu(s).
             if (!cpu_gentle_update_mode || update_tick > next_update_tick) {
 
-                // Enable the secondary render target.
-                VideoManager->EnableSecondaryRenderTarget();
-
-                // Clear the secondary render target.
+                // Clear the primary render target.
                 VideoManager->Clear();
 
                 // Draw the game.
@@ -561,15 +558,6 @@ int main(int argc, char *argv[])
                 ModeManager->DrawPostEffects();
                 VideoManager->DrawFadeEffect();
                 VideoManager->DrawDebugInfo();
-
-                // Disable the secondary render target.
-                VideoManager->DisableSecondaryRenderTarget();
-
-                // Clear the primary render target.
-                VideoManager->Clear();
-
-                // Draw the secondary render target onto the primary render target.
-                VideoManager->DrawSecondaryRenderTarget();
 
                 // Swap the buffers once the draw operations are done.
                 SDL_GL_SwapWindow(sdl_window);

@@ -1073,6 +1073,10 @@ void MapMode::_DrawMapLayers()
 {
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
+
+    VideoManager->EnableSecondaryRenderTarget();
+    VideoManager->Clear();
+
     _tile_supervisor->DrawLayers(&_map_frame, GROUND_LAYER);
 
     // Save points are engraved on the ground, and thus shouldn't be drawn after walls.
@@ -1092,7 +1096,12 @@ void MapMode::_DrawMapLayers()
         _object_supervisor->_DrawMapZones();
         _DrawDebugGrid();
     }
+
+    VideoManager->DisableSecondaryRenderTarget();
+
     VideoManager->PopState();
+
+    VideoManager->DrawSecondaryRenderTarget();
 }
 
 void MapMode::_DrawStaminaBar(const vt_video::Color &blending)

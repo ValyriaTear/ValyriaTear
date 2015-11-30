@@ -625,6 +625,7 @@ void VideoEngine::DrawSecondaryRenderTarget()
 
     // Set up the video manager state.
     vt_video::VideoManager->PushState();
+    vt_video::VideoManager->SetViewport(0.0f, 0.0f, width_render_target, height_render_target);
     vt_video::VideoManager->SetCoordSys(0.0f, width_render_target, height_render_target, 0.0f);
     vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_TOP, vt_video::VIDEO_BLEND, 0);
 
