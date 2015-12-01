@@ -617,12 +617,6 @@ void VideoEngine::DrawSecondaryRenderTarget()
     float width_render_target = static_cast<float>(_secondary_render_target->GetWidth());
     float height_render_target = static_cast<float>(_secondary_render_target->GetHeight());
 
-    float width_screen = static_cast<float>(vt_video::VideoManager->GetScreenWidth());
-    float height_screen = static_cast<float>(vt_video::VideoManager->GetScreenHeight());
-
-    assert(width_render_target == width_screen);
-    assert(height_render_target == height_screen);
-
     // Set up the video manager state.
     vt_video::VideoManager->PushState();
     vt_video::VideoManager->SetViewport(0.0f, 0.0f, width_render_target, height_render_target);
