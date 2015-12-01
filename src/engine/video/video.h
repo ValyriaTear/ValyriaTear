@@ -328,7 +328,11 @@ public:
     //! Disables the secondary render target.
     void DisableSecondaryRenderTarget();
 
-    //! Draws the secondary render target onto the primary render target.
+    /** \brief Draws the secondary render target onto the primary render target.
+    ***
+    ***        This function automatically disables the secondary render target
+    ***        before drawing its texture to the primary render target.
+    **/
     void DrawSecondaryRenderTarget();
 
     //! \brief Loads a shader program.
