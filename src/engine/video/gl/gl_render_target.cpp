@@ -103,7 +103,7 @@ RenderTarget::RenderTarget(unsigned width,
 
     // Bind the texture to the framebuffer.
     if (!errors) {
-        glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, _texture, 0);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _texture, 0);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
