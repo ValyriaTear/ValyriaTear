@@ -354,9 +354,6 @@ void VideoEngine::Clear()
     glClear(GL_COLOR_BUFFER_BIT |
             GL_DEPTH_BUFFER_BIT |
             GL_STENCIL_BUFFER_BIT);
-
-    // TODO: This metric is probably no longer accurate.
-    TextureManager->_debug_num_tex_switches = 0;
 }
 
 void VideoEngine::Update()
