@@ -850,8 +850,8 @@ void VideoEngine::PushState()
 
 void VideoEngine::PopState()
 {
-    // Restore the most recent context information and pop it from stack
-    if(_context_stack.empty()) {
+    // Restore the most recent context information and pop it from stack.
+    if (_context_stack.empty()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "no video states were saved on the stack" << std::endl;
         return;
     }
@@ -861,6 +861,7 @@ void VideoEngine::PopState()
 
     PopMatrix();
 
+    SetCoordSys(_current_context.coordinate_system);
     SetViewport(_current_context.viewport.left,
                 _current_context.viewport.top,
                 _current_context.viewport.width,
