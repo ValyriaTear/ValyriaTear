@@ -53,8 +53,7 @@ class SellInterface : public ShopInterface
 {
 public:
     SellInterface();
-
-    ~SellInterface();
+    virtual ~SellInterface() override;
 
     //! \brief (Re)initializes the data containers and GUI objects to be used
     void Reinitialize();

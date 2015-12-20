@@ -118,10 +118,12 @@ class ShopInterface
 {
 public:
     ShopInterface()
-    {}
+    {
+    }
 
     virtual ~ShopInterface()
-    {}
+    {
+    }
 
     //! \brief Performs any (Re)initialization that could not be done when the class was constructed
     virtual void Reinitialize() = 0;
@@ -161,12 +163,12 @@ public:
 class ShopObject
 {
 public:
-    /** \param object A pointer to a valid GlobalObject instance that the shop object will represent
+    /** \param object A pointer to a valid GlobalObject instance that the shop object will represent.
+    *** \param bool A flag to indicate if the GlobalObject is owned by the inventory system.
+    ***             'False' will cause the pointer to be freed in the destructor. 
     **/
-    ShopObject(vt_global::GlobalObject *object);
-
-    ~ShopObject()
-    {}
+    explicit ShopObject(vt_global::GlobalObject *object, bool is_inventory_item);
+    ~ShopObject();
 
     /** \brief Determines the appropriate SHOP_OBJECT that corresponds to a GLOBAL_OBJECT
     *** \param global_type The global object type to find the equivalent shop object type for
@@ -270,8 +272,19 @@ public:
     //@}
 
 private:
+    //
+    // The copy constructor and assignment operator are hidden by design
+    // to cause compilation errors when attempting to copy or assign this class.
+    //
+
+    ShopObject(const ShopObject& shop_object);
+    ShopObject& operator=(const ShopObject& shop_object);
+
     //! \brief A pointer to the global object represented by this
     vt_global::GlobalObject *_object;
+
+    //! \brief Is the global object pointer owned by the inventory?
+    bool _is_inventory_item;
 
     //! \brief The price that the player must pay to buy this object from the shop
     uint32_t _buy_price;
@@ -302,8 +315,7 @@ private:
 
     //! \brief The amount of this object that the player plans to sell
     uint32_t _trade_count;
-}; // class ShopObject
-
+};
 
 /** ****************************************************************************
 *** \brief Displays text and an icon image to represent an object category
@@ -424,7 +436,7 @@ public:
     /** \brief Clears the lists and then reconstructs them using the option box data given
     *** \param objects A reference to a data vector containing the objects to populate the list with
     **/
-    void PopulateList(std::vector<ShopObject *>& objects);
+    void PopulateList(const std::vector<ShopObject *>& objects);
 
     //! \brief Reconstructs all option box entries from the object data
     virtual void ReconstructList() = 0;

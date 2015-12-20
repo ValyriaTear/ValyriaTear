@@ -265,6 +265,8 @@ void TradeInterface::MakeActive()
 
 void TradeInterface::TransactionNotification()
 {
+    Reinitialize();
+
     for(uint32_t i = 0; i < _list_displays.size(); ++i) {
         _list_displays[i]->ReconstructList();
         _list_displays[i]->ResetSelection();

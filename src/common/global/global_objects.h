@@ -69,18 +69,21 @@ public:
         _count(0),
         _price(0),
         _trade_price(0)
-    {}
+    {
+    }
 
-    GlobalObject(uint32_t id, uint32_t count = 1) :
+    explicit GlobalObject(uint32_t id, uint32_t count = 1) :
         _id(id),
         _is_key_item(false),
         _count(count),
         _price(0),
         _trade_price(0)
-    {}
+    {
+    }
 
     virtual ~GlobalObject()
-    {}
+    {
+    }
 
     //! \brief Returns true if the object is properly initialized and ready to be used
     bool IsValid() const {
@@ -237,13 +240,12 @@ public:
     /** \param id The unique ID number of the item
     *** \param count The number of items to initialize this class object as representing (default value == 1)
     **/
-    GlobalItem(uint32_t id, uint32_t count = 1);
-
-    ~GlobalItem()
-    {}
+    explicit GlobalItem(uint32_t id, uint32_t count = 1);
+    virtual ~GlobalItem() override
+    {
+    }
 
     GlobalItem(const GlobalItem &copy);
-
     GlobalItem &operator=(const GlobalItem &copy);
 
     GLOBAL_OBJECT GetObjectType() const {
@@ -336,10 +338,10 @@ public:
     /** \param id The unique ID number of the weapon
     *** \param count The number of weapons to initialize this class object as representing (default value == 1)
     **/
-    GlobalWeapon(uint32_t id, uint32_t count = 1);
-
-    ~GlobalWeapon()
-    {}
+    explicit GlobalWeapon(uint32_t id, uint32_t count = 1);
+    virtual ~GlobalWeapon() override
+    {
+    }
 
     GLOBAL_OBJECT GetObjectType() const {
         return GLOBAL_OBJECT_WEAPON;
@@ -427,10 +429,10 @@ private:
 class GlobalArmor : public GlobalObject
 {
 public:
-    GlobalArmor(uint32_t id, uint32_t count = 1);
-
-    ~GlobalArmor()
-    {}
+    explicit GlobalArmor(uint32_t id, uint32_t count = 1);
+    virtual ~GlobalArmor() override
+    {
+    }
 
     //! \brief Returns the approriate armor type (head, torso, arm, leg) depending on the object ID
     GLOBAL_OBJECT GetObjectType() const;
@@ -490,7 +492,10 @@ private:
 class GlobalSpirit : public GlobalObject
 {
 public:
-    GlobalSpirit(uint32_t id, uint32_t count = 1);
+    explicit GlobalSpirit(uint32_t id, uint32_t count = 1);
+    virtual ~GlobalSpirit() override
+    {
+    }
 
     GLOBAL_OBJECT GetObjectType() const {
         return GLOBAL_OBJECT_SPIRIT;

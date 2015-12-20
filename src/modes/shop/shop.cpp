@@ -1070,6 +1070,33 @@ ShopMode::~ShopMode()
 {
     _SaveShopData();
 
+    for (auto item : _available_buy) {
+        assert(item.second != nullptr);
+        if (item.second != nullptr) {
+            delete item.second;
+            item.second = nullptr;
+        }
+    }
+    _available_buy.clear();
+
+    for (auto item : _available_sell) {
+        assert(item.second != nullptr);
+        if (item.second != nullptr) {
+            delete item.second;
+            item.second = nullptr;
+        }
+    }
+    _available_sell.clear();
+
+    for (auto item : _available_trade) {
+        assert(item.second != nullptr);
+        if (item.second != nullptr) {
+            delete item.second;
+            item.second = nullptr;
+        }
+    }
+    _available_trade.clear();
+
     delete _shop_media;
     delete _object_viewer;
     delete _root_interface;
@@ -1147,8 +1174,25 @@ void ShopMode::Initialize()
 
     // Override the available buy and trade when the save game shop data are found.
     if (!_shop_id.empty() && GlobalManager->HasShopData(_shop_id)) {
+
+        for (auto item : _available_buy) {
+            assert(item.second != nullptr);
+            if (item.second != nullptr) {
+                delete item.second;
+                item.second = nullptr;
+            }
+        }
         _available_buy.clear();
+
+        for (auto item : _available_trade) {
+            assert(item.second != nullptr);
+            if (item.second != nullptr) {
+                delete item.second;
+                item.second = nullptr;
+            }
+        }
         _available_trade.clear();
+
         const ShopData& shop_data = GlobalManager->GetShopData(_shop_id);
         for (auto shop_buy_data : shop_data._available_buy) {
             AddItem(shop_buy_data.first, shop_buy_data.second);
@@ -1180,10 +1224,16 @@ void ShopMode::Initialize()
     GetScriptSupervisor().Initialize(this);
 }
 
-
 void ShopMode::_UpdateAvailableObjectsToSell()
 {
-    // Reinit the data
+    // Reinitialize the data.
+    for (auto item : _available_sell) {
+        assert(item.second != nullptr);
+        if (item.second != nullptr) {
+            delete item.second;
+            item.second = nullptr;
+        }
+    }
     _available_sell.clear();
 
     // If sell mode is disabled, we can return now.
@@ -1202,12 +1252,11 @@ void ShopMode::_UpdateAvailableObjectsToSell()
 
         // Check if the object already exists in the shop list and if so, set its ownership count
         std::map<uint32_t, ShopObject *>::iterator shop_obj_iter = _available_sell.find(it->second->GetID());
-        if(shop_obj_iter != _available_sell.end()) {
+        if (shop_obj_iter != _available_sell.end()) {
             shop_obj_iter->second->IncrementOwnCount(it->second->GetCount());
-        }
-        // Otherwise, add the shop object to the list
-        else {
-            ShopObject *new_shop_object = new ShopObject(it->second);
+        } else {
+            // Otherwise, add the shop object to the list.
+            ShopObject *new_shop_object = new ShopObject(it->second, true);
             new_shop_object->IncrementOwnCount(it->second->GetCount());
             new_shop_object->SetPricing(GetBuyPriceLevel(), GetSellPriceLevel());
             _available_sell.insert(std::make_pair(it->second->GetID(), new_shop_object));
@@ -1418,7 +1467,7 @@ void ShopMode::Draw()
         _dialogue_supervisor->Draw();
 
     GetScriptSupervisor().DrawPostEffects();
-} // void ShopMode::Draw()
+}
 
 
 
@@ -1576,23 +1625,25 @@ void ShopMode::CompleteTransaction()
     uint32_t count = 0;
     uint32_t id = 0;
 
-    // Add all objects on the buy list to inventory and update shop object status
+    // Add all objects on the buy list to the inventory and update the shop object status.
     for(std::map<uint32_t, ShopObject *>::iterator it = _buy_list.begin(); it != _buy_list.end(); ++it) {
         count = it->second->GetBuyCount();
         id = it->second->GetObject()->GetID();
 
         // The player may have reduced the buy count to zero in the confirm interface before completing the transaction
         // We simply ignore any objects on the buy list with this condition
-        if(count == 0)
+        if (count == 0)
             continue;
 
         it->second->ResetBuyCount();
         it->second->IncrementOwnCount(count);
         if (!it->second->IsInfiniteAmount())
             it->second->DecrementStockCount(count);
+
         GlobalManager->AddToInventory(id, count);
 
-        if(!it->second->IsInfiniteAmount() && it->second->GetStockCount() == 0) {
+        if (!it->second->IsInfiniteAmount() &&
+            it->second->GetStockCount() == 0) {
             RemoveObjectToBuy(id);
         }
     }
@@ -1606,17 +1657,17 @@ void ShopMode::CompleteTransaction()
         if(count == 0)
             continue;
 
-        // Add it back to the _available_buy list
+        // Add it back to the buy list.
         if (_available_buy.find(id) != _available_buy.end()) {
             ShopObject* shop_object = _available_buy.at(id);
             if (!shop_object->IsInfiniteAmount())
                 shop_object->IncrementStockCount(count);
-        }
-        else {
+        } else {
             GlobalObject* new_object = GlobalCreateNewObject(id, 1);
-            if(new_object != nullptr) {
-                ShopObject* new_shop_object = new ShopObject(new_object);
+            if (new_object != nullptr) {
+                ShopObject* new_shop_object = new ShopObject(new_object, false);
                 new_shop_object->IncrementStockCount(count);
+                new_shop_object->SetPricing(GetBuyPriceLevel(), GetSellPriceLevel());
                 _available_buy.insert(std::make_pair(id, new_shop_object));
             }
         }
@@ -1651,7 +1702,7 @@ void ShopMode::CompleteTransaction()
         //Remove trade condition items from inventory and possibly call RemoveObjectToSell
         for(uint32_t i = 0; i < it->second->GetObject()->GetTradeConditions().size(); ++i) {
             GlobalManager->DecrementItemCount(it->second->GetObject()->GetTradeConditions()[i].first,
-                                                it->second->GetObject()->GetTradeConditions()[i].second * count);
+                                              it->second->GetObject()->GetTradeConditions()[i].second * count);
         }
 
         if(!it->second->IsInfiniteAmount() && it->second->GetStockCount() == 0) {
@@ -1672,21 +1723,16 @@ void ShopMode::CompleteTransaction()
     _total_change_amount = 0;
     UpdateFinances(0);
 
-    // Notify all interfaces that a transaction has just been completed
+    // Notify all interfaces that a transaction has just been completed.
     _root_interface->TransactionNotification();
     _buy_interface->TransactionNotification();
+    _sell_interface->TransactionNotification();
     _trade_interface->TransactionNotification();
 
     // Update the available shop options and place the cursor accordingly.
     _UpdateAvailableObjectsToSell();
     _UpdateAvailableShopOptions();
-
-    // Update the sell list last to avoid a corruption when trading.
-    _sell_interface->TransactionNotification();
-
-} // void ShopMode::CompleteTransaction()
-
-
+}
 
 void ShopMode::UpdateFinances(int32_t change_amount)
 {
@@ -1771,8 +1817,6 @@ void ShopMode::SetShopName(const ustring& name)
     _root_interface->SetShopName(name);
 }
 
-
-
 void ShopMode::SetGreetingText(const ustring& greeting)
 {
     if(IsInitialized() == true) {
@@ -1782,8 +1826,6 @@ void ShopMode::SetGreetingText(const ustring& greeting)
 
     _root_interface->SetGreetingText(greeting);
 }
-
-
 
 void ShopMode::SetPriceLevels(SHOP_PRICE_LEVEL buy_level, SHOP_PRICE_LEVEL sell_level)
 {
@@ -1795,8 +1837,6 @@ void ShopMode::SetPriceLevels(SHOP_PRICE_LEVEL buy_level, SHOP_PRICE_LEVEL sell_
     _buy_price_level = buy_level;
     _sell_price_level = sell_level;
 }
-
-
 
 void ShopMode::AddItem(uint32_t object_id, uint32_t stock)
 {
@@ -1816,8 +1856,8 @@ void ShopMode::AddItem(uint32_t object_id, uint32_t stock)
     }
 
     GlobalObject *new_object = GlobalCreateNewObject(object_id, 1);
-    if(new_object != nullptr) {
-        ShopObject *new_shop_object = new ShopObject(new_object);
+    if (new_object != nullptr) {
+        ShopObject *new_shop_object = new ShopObject(new_object, false);
         if (stock > 0)
             new_shop_object->IncrementStockCount(stock);
         else // When the stock is set to 0, it means there is an infinity amount of object to buy.
@@ -1825,8 +1865,6 @@ void ShopMode::AddItem(uint32_t object_id, uint32_t stock)
         _available_buy.insert(std::make_pair(object_id, new_shop_object));
     }
 }
-
-
 
 void ShopMode::AddTrade(uint32_t object_id, uint32_t stock)
 {
@@ -1847,7 +1885,7 @@ void ShopMode::AddTrade(uint32_t object_id, uint32_t stock)
 
     GlobalObject *new_object = GlobalCreateNewObject(object_id, 1);
     if(new_object != nullptr) {
-        ShopObject *new_shop_object = new ShopObject(new_object);
+        ShopObject *new_shop_object = new ShopObject(new_object, false);
         if (stock > 0)
             new_shop_object->IncrementStockCount(stock);
         else // When the stock is set to 0, it means there is an infinity amount of object to trade.
@@ -1855,7 +1893,6 @@ void ShopMode::AddTrade(uint32_t object_id, uint32_t stock)
         _available_trade.insert(std::make_pair(object_id, new_shop_object));
     }
 }
-
 
 void ShopMode::RemoveObjectToBuy(uint32_t object_id)
 {
@@ -1870,6 +1907,10 @@ void ShopMode::RemoveObjectToBuy(uint32_t object_id)
         return;
     }
 
+    if (shop_iter->second != nullptr) {
+        delete shop_iter->second;
+        shop_iter->second = nullptr;
+    }
     _available_buy.erase(shop_iter);
 }
 
@@ -1886,6 +1927,10 @@ void ShopMode::RemoveObjectToSell(uint32_t object_id)
         return;
     }
 
+    if (shop_iter->second != nullptr) {
+        delete shop_iter->second;
+        shop_iter->second = nullptr;
+    }
     _available_sell.erase(shop_iter);
 }
 
@@ -1902,6 +1947,10 @@ void ShopMode::RemoveObjectToTrade(uint32_t object_id)
         return;
     }
 
+    if (shop_iter->second != nullptr) {
+        delete shop_iter->second;
+        shop_iter->second = nullptr;
+    }
     _available_trade.erase(shop_iter);
 }
 
