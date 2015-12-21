@@ -44,8 +44,9 @@ namespace private_shop
 // ***** ShopObject class methods
 // *****************************************************************************
 
-ShopObject::ShopObject(GlobalObject *object) :
+ShopObject::ShopObject(GlobalObject *object, bool is_inventory_item) :
     _object(object),
+    _is_inventory_item(is_inventory_item),
     _buy_price(0),
     _sell_price(0),
     _own_count(0),
@@ -61,7 +62,15 @@ ShopObject::ShopObject(GlobalObject *object) :
     _trade_price = _object->GetTradingPrice();
 }
 
-
+ShopObject::~ShopObject()
+{
+    // Do not delete global objects owned by the inventory system.
+    if (!_is_inventory_item &&
+        _object != nullptr) {
+        delete _object;
+        _object = nullptr;
+    }
+}
 
 SHOP_OBJECT ShopObject::DetermineShopObjectType(GLOBAL_OBJECT global_type)
 {
@@ -323,6 +332,17 @@ void ShopObject::DecrementTradeCount(uint32_t dec)
     }
 }
 
+ShopObject::ShopObject(const ShopObject&)
+{
+    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+}
+
+ShopObject& ShopObject::operator=(const ShopObject&)
+{
+    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+    return *this;
+}
+
 // *****************************************************************************
 // ***** ObjectCategoryDisplay class methods
 // *****************************************************************************
@@ -500,15 +520,11 @@ void ObjectListDisplay::Clear()
     _property_list.ClearOptions();
 }
 
-
-
-void ObjectListDisplay::PopulateList(std::vector<ShopObject *>& objects)
+void ObjectListDisplay::PopulateList(const std::vector<ShopObject *>& objects)
 {
     _objects = objects;
     ReconstructList();
 }
-
-
 
 ShopObject *ObjectListDisplay::GetSelectedObject()
 {

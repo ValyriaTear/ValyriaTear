@@ -56,24 +56,27 @@ class RootInterface : public ShopInterface
 {
 public:
     RootInterface();
-
-    ~RootInterface()
-    {}
+    virtual ~RootInterface() override
+    {
+    }
 
     //! \brief (Re)initializes various textual and image data based on the shop properties
     void Reinitialize();
 
     //! \brief No actions need to take place when this interface becomes activated
     void MakeActive()
-    {}
+    {
+    }
 
     //! \brief No actions need to take place when a transaction occurs
     void TransactionNotification()
-    {}
+    {
+    }
 
     //! \brief No specific actions used here.
     void ChangeViewMode(SHOP_VIEW_MODE /*new_mode*/)
-    {}
+    {
+    }
 
     //! \brief Updates the state of GUI objects and may also process user input
     void Update();

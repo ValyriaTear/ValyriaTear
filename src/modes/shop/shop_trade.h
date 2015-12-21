@@ -44,8 +44,7 @@ class TradeInterface : public ShopInterface
 {
 public:
     TradeInterface();
-
-    ~TradeInterface();
+    virtual ~TradeInterface() override;
 
     //! \brief (Re)initializes the data containers and GUI objects to be used
     void Reinitialize();
