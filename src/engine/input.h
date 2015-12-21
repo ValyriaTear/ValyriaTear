@@ -135,7 +135,7 @@ public:
 *** There are also other events and meta-key combination events that are handled within
 *** this class itself:
 ***
-*** - Ctrl+F     :: toggles the game between running in windowed and full screen mode
+*** - Ctrl+F     :: toggles the game between running in windowed and fullscreen mode
 *** - Ctrl+Q     :: brings up the quit menu/quits the game
 *** - Ctrl+S     :: saves a screenshot of the current screen
 *** - Quit Event :: same as Ctrl+Q, this happens when the user tries to close the game window

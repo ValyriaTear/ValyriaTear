@@ -72,10 +72,7 @@ public:
     void DEBUG_ShowTexSheet();
 
 private:
-    ~TextureController();
-
-    //! \brief The ID of the last texture that was bound. Used to eliminate redundant binding of textures
-    GLuint _last_tex_id;
+    virtual ~TextureController() override;
 
     //! \brief A vector containing all of the texture sheets currently being managed by this class
     std::vector<private_video::TexSheet *> _tex_sheets;
@@ -88,9 +85,6 @@ private:
 
     //! \brief An index to _tex_sheets of the current texture sheet being shown in debug mode. -1 indicates no sheet
     int32_t _debug_current_sheet;
-
-    //! \brief Keeps track of the number of texture switches per frame
-    uint32_t _debug_num_tex_switches;
 
     // ---------- Private methods
 

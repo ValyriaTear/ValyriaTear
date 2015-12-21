@@ -40,7 +40,7 @@ public:
     bool UpdateUniform(const std::string& uniform, const float* data, uint32_t length);
 
 private:
-    GLint _program;
+    GLuint _program;
 
     const Shader* _vertex_shader;
     const Shader* _fragment_shader;

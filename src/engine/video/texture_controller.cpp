@@ -31,9 +31,7 @@ namespace vt_video
 TextureController* TextureManager = nullptr;
 
 TextureController::TextureController() :
-    _last_tex_id(INVALID_TEXTURE_ID),
-    _debug_current_sheet(-1),
-    _debug_num_tex_switches(0)
+    _debug_current_sheet(-1)
 {
 }
 
@@ -209,13 +207,7 @@ GLuint TextureController::_CreateBlankGLTexture(int32_t width, int32_t height)
 
 void TextureController::_BindTexture(GLuint tex_id)
 {
-    // Return if this texture ID is already bound.
-    if (tex_id == _last_tex_id)
-        return;
-
-    _last_tex_id = tex_id;
     glBindTexture(GL_TEXTURE_2D, tex_id);
-    ++_debug_num_tex_switches;
 }
 
 void TextureController::_DeleteTexture(GLuint tex_id)
@@ -224,9 +216,6 @@ void TextureController::_DeleteTexture(GLuint tex_id)
         GLuint textures[] = { tex_id };
         glDeleteTextures(1, textures);
     }
-
-    if (_last_tex_id == tex_id)
-        _last_tex_id = INVALID_TEXTURE_ID;
 }
 
 TexSheet *TextureController::_CreateTexSheet(int32_t width, int32_t height, TexSheetType type, bool is_static)

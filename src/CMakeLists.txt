@@ -327,6 +327,8 @@ engine/video/fade.cpp
 engine/video/fade.h
 engine/video/gl/gl_particle_system.cpp
 engine/video/gl/gl_particle_system.h
+engine/video/gl/gl_render_target.cpp
+engine/video/gl/gl_render_target.h
 engine/video/gl/gl_shader.cpp
 engine/video/gl/gl_shader.h
 engine/video/gl/gl_shader_definitions.h

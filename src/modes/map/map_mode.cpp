@@ -1073,6 +1073,19 @@ void MapMode::_DrawMapLayers()
 {
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
+
+    VideoManager->EnableSecondaryRenderTarget();
+    VideoManager->Clear();
+
+    //
+    // TODO: Draw the map's tiles and objects at their
+    //       native resolutions into the secondary render
+    //       target.
+    //
+    //       Currently, everything is drawn at their final
+    //       resolutions.
+    //
+
     _tile_supervisor->DrawLayers(&_map_frame, GROUND_LAYER);
 
     // Save points are engraved on the ground, and thus shouldn't be drawn after walls.
@@ -1092,7 +1105,21 @@ void MapMode::_DrawMapLayers()
         _object_supervisor->_DrawMapZones();
         _DrawDebugGrid();
     }
+
+    VideoManager->DisableSecondaryRenderTarget();
+
     VideoManager->PopState();
+
+    //
+    // TODO: Draw the composited, native resolution map
+    //       onto the primary render target with the appropriate
+    //       scale factor and offsets.
+    //
+    //       Currently, the secondary render target is treated
+    //       identically to a full screen quad.
+    //
+
+    VideoManager->DrawSecondaryRenderTarget();
 }
 
 void MapMode::_DrawStaminaBar(const vt_video::Color &blending)

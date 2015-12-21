@@ -29,7 +29,7 @@ namespace gl
 ShaderProgram::ShaderProgram(const Shader* vertex_shader,
                              const Shader* fragment_shader,
                              const std::vector<std::string>& attributes) :
-    _program(-1),
+    _program(0),
     _vertex_shader(vertex_shader),
     _fragment_shader(fragment_shader)
 {

@@ -532,10 +532,11 @@ void ImageDescriptor::_DrawTexture(const Color* draw_color) const
     // Set the blending parameters.
     if (VideoManager->_current_context.blend) {
         VideoManager->EnableBlending();
-        if (VideoManager->_current_context.blend == 1)
+        if (VideoManager->_current_context.blend == 1) {
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Normal blending
-        else
+        } else {
             glBlendFunc(GL_SRC_ALPHA, GL_ONE); // Additive blending
+        }
     } else if (_blend) {
         VideoManager->EnableBlending();
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Normal blending

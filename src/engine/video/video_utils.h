@@ -28,6 +28,7 @@
 //! \brief All calls to the video engine are wrapped in this namespace.
 namespace vt_video
 {
+
 //! \brief The standard screen resolution
 const float VIDEO_STANDARD_RES_WIDTH  = 1024.0f;
 const float VIDEO_STANDARD_RES_HEIGHT = 768.0f;

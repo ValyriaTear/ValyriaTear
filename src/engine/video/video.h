@@ -35,6 +35,7 @@
 #include "engine/video/context.h"
 #include "engine/video/coord_sys.h"
 #include "engine/video/fade.h"
+#include "engine/video/gl/gl_shader_definitions.h"
 #include "engine/video/gl/gl_shader_programs.h"
 #include "engine/video/gl/gl_shaders.h"
 #include "engine/video/gl/gl_transform.h"
@@ -64,19 +65,15 @@ class ModeEngine;
 }
 
 //! \brief All calls to the video engine are wrapped in this namespace.
-namespace vt_video
-{
+namespace vt_video {
 
-// Forward declarations.
-namespace gl
-{
-
+namespace gl {
 class ParticleSystem;
+class RenderTarget;
 class Shader;
 class ShaderProgram;
 class Sprite;
-
-} // namespace gl
+}
 
 class VideoEngine;
 
@@ -145,16 +142,9 @@ public:
     **/
     void SetDrawFlags(int32_t first_flag, ...);
 
-    /** \brief Clears the contents of the screen
-    *** This method should be called at the beginning of every frame, before any draw operations
-    *** are performed. Note that it only clears the color buffer, not any of the other OpenGL buffers.
+    /** \brief Clears the contents of the framebuffer.
     **/
     void Clear();
-
-    /** \brief Clears the contents of the screen to a specific color
-    *** \param background_color The color to set the cleared screen to
-    **/
-    void Clear(const Color &background_color);
 
     /** \brief Updates every main game sub-engines.
     **/
@@ -331,6 +321,19 @@ public:
     void DisableStencilTest();
     void EnableTexture2D();
     void DisableTexture2D();
+
+    //! Enables the secondary render target.
+    void EnableSecondaryRenderTarget();
+
+    //! Disables the secondary render target.
+    void DisableSecondaryRenderTarget();
+
+    /** \brief Draws the secondary render target onto the primary render target.
+    ***
+    ***        This function automatically disables the secondary render target
+    ***        before drawing its texture to the primary render target.
+    **/
+    void DrawSecondaryRenderTarget();
 
     //! \brief Loads a shader program.
     gl::ShaderProgram* LoadShaderProgram(const gl::shader_programs::ShaderPrograms& shader_program);
@@ -632,10 +635,13 @@ private:
 
     //-- Private variables ----------------------------------------------------
 
-    // The SDL2 Window handle
+    //! The SDL2 Window handle
     SDL_Window* _sdl_window;
 
-    //! fps display flag. If true, FPS is displayed
+    //! The secondary render target.
+    gl::RenderTarget* _secondary_render_target;
+
+    //! The FPS display flag.  If true, FPS is displayed.
     bool _fps_display;
 
     //! \brief A circular array of FPS samples used for calculating average FPS
@@ -782,6 +788,7 @@ private:
     // Debug info
     //! \brief Updates the FPS counter.
     void _UpdateFPS();
+
     //! \brief Draws the current average FPS to the screen.
     void _DrawFPS();
 };

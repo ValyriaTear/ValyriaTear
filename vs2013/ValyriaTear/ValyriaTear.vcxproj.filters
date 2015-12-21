@@ -314,6 +314,9 @@
     <ClCompile Include="..\..\src\common\global\battle_media.cpp">
       <Filter>common\global</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\engine\video\gl\gl_render_target.cpp">
+      <Filter>engine\video\gl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\main_options.h" />
@@ -607,6 +610,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\common\global\battle_media.h">
       <Filter>common\global</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\engine\video\gl\gl_render_target.h">
+      <Filter>engine\video\gl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

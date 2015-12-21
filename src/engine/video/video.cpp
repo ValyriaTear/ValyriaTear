@@ -22,12 +22,14 @@
 #include "engine/script/script_read.h"
 #include "engine/system.h"
 #include "engine/video/gl/gl_particle_system.h"
+#include "engine/video/gl/gl_render_target.h"
 #include "engine/video/gl/gl_shader.h"
 #include "engine/video/gl/gl_shader_definitions.h"
 #include "engine/video/gl/gl_shader_program.h"
 #include "engine/video/gl/gl_shader_programs.h"
 #include "engine/video/gl/gl_shaders.h"
 #include "engine/video/gl/gl_sprite.h"
+#include "engine/video/gl/gl_transform.h"
 
 #include "utils/utils_strings.h"
 
@@ -73,6 +75,7 @@ void RotatePoint(float &x, float &y, float angle)
 
 VideoEngine::VideoEngine():
     _sdl_window(nullptr),
+    _secondary_render_target(nullptr),
     _fps_display(false),
     _fps_sum(0),
     _current_sample(0),
@@ -126,91 +129,16 @@ VideoEngine::VideoEngine():
         _fps_samples[sample] = 0;
 }
 
-void VideoEngine::_UpdateFPS()
-{
-    if(!_fps_display)
-        return;
-
-    // We only create the text image when needed, to permit getting the text style correctly.
-    if (!_FPS_textimage)
-        _FPS_textimage = new TextImage("FPS: ", TextStyle("text20", Color::white));
-
-    //! \brief Maximum milliseconds that the current frame time and our averaged frame time must vary
-    //! before we begin trying to catch up
-    const uint32_t MAX_FTIME_DIFF = 5;
-
-    //! \brief The number of samples to take if we need to play catchup with the current FPS
-    const uint32_t FPS_CATCHUP = 20;
-
-    uint32_t frame_time = vt_system::SystemManager->GetUpdateTime();
-
-    // Calculate the FPS for the current frame
-    uint32_t current_fps = 1000;
-    if(frame_time)
-        current_fps /= frame_time;
-
-    // The number of times to insert the current FPS sample into the fps_samples array
-    uint32_t number_insertions;
-
-    if(_number_samples == 0) {
-        // If the FPS display is uninitialized, set the entire FPS array to the current FPS
-        _number_samples = FPS_SAMPLES;
-        number_insertions = FPS_SAMPLES;
-    } else if(current_fps >= 500) {
-        // If the game is going at 500 fps or faster, 1 insertion is enough
-        number_insertions = 1;
-    } else {
-        // Find if there's a discrepancy between the current frame time and the averaged one.
-        // If there's a large difference, add extra samples so the FPS display "catches up" more quickly.
-        float avg_frame_time = 1000.0f * FPS_SAMPLES / _fps_sum;
-        int32_t time_difference = static_cast<int32_t>(avg_frame_time) - static_cast<int32_t>(frame_time);
-
-        if(time_difference < 0)
-            time_difference = -time_difference;
-
-        if(time_difference <= static_cast<int32_t>(MAX_FTIME_DIFF))
-            number_insertions = 1;
-        else
-            number_insertions = FPS_CATCHUP; // Take more samples to catch up to the current FPS
-    }
-
-    // Insert the current_fps samples into the fps_samples array for the number of times specified
-    for(uint32_t j = 0; j < number_insertions; j++) {
-        _fps_sum -= _fps_samples[_current_sample];
-        _fps_sum += current_fps;
-        _fps_samples[_current_sample] = current_fps;
-        _current_sample = (_current_sample + 1) % FPS_SAMPLES;
-    }
-
-    uint32_t avg_fps = _fps_sum / FPS_SAMPLES;
-
-    // The text to display to the screen
-    _FPS_textimage->SetText("FPS: " + NumberToString(avg_fps));
-}
-
-void VideoEngine::_DrawFPS()
-{
-    if(!_fps_display || !_FPS_textimage)
-        return;
-
-    PushState();
-    SetStandardCoordSys();
-    SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_X_NOFLIP, VIDEO_Y_NOFLIP, VIDEO_BLEND, 0);
-    Move(930.0f, 40.0f); // Upper right hand corner of the screen
-    _FPS_textimage->Draw();
-    PopState();
-}
-
 VideoEngine::~VideoEngine()
 {
     // Clean up the sprite.
-    if (_sprite) {
+    if (_sprite != nullptr) {
         delete _sprite;
         _sprite = nullptr;
     }
 
     // Clean up the particle system.
-    if (_particle_system) {
+    if (_particle_system != nullptr) {
         delete _particle_system;
         _particle_system = nullptr;
     }
@@ -218,24 +146,36 @@ VideoEngine::~VideoEngine()
     // Clean up the shaders and shader programs.
     glUseProgram(0);
 
-    for (std::map<gl::shader_programs::ShaderPrograms, gl::ShaderProgram*>::iterator i = _programs.begin(); i != _programs.end(); ++i)
-    {
-        delete i->second;
-        i->second = nullptr;
+    for (std::map<gl::shader_programs::ShaderPrograms, gl::ShaderProgram*>::iterator i = _programs.begin(); i != _programs.end(); ++i) {
+        if (i->second != nullptr) {
+            delete i->second;
+            i->second = nullptr;
+        }
     }
     _programs.clear();
 
-    for (std::map<gl::shaders::Shaders, gl::Shader*>::iterator i = _shaders.begin(); i != _shaders.end(); ++i)
-    {
-        delete i->second;
-        i->second = nullptr;
+    for (std::map<gl::shaders::Shaders, gl::Shader*>::iterator i = _shaders.begin(); i != _shaders.end(); ++i) {
+        if (i->second != nullptr) {
+            delete i->second;
+            i->second = nullptr;
+        }
     }
     _shaders.clear();
+
+    // Clean up the secondary render target.
+    if (_secondary_render_target != nullptr) {
+        delete _secondary_render_target;
+        _secondary_render_target = nullptr;
+    }
 
     TextManager->SingletonDestroy();
 
     _rectangle_image.Clear();
-    delete _FPS_textimage;
+
+    if (_FPS_textimage != nullptr) {
+        delete _FPS_textimage;
+        _FPS_textimage = nullptr;
+    }
 
     TextureManager->SingletonDestroy();
 }
@@ -254,6 +194,9 @@ bool VideoEngine::FinalizeInitialization()
     // Create the sprite.
     _sprite = new gl::Sprite();
 
+    // Create the secondary render target.
+    _secondary_render_target = new gl::RenderTarget(VIDEO_STANDARD_RES_WIDTH, VIDEO_STANDARD_RES_HEIGHT);
+
     // Create the particle system.
     _particle_system = new gl::ParticleSystem();
 
@@ -262,11 +205,11 @@ bool VideoEngine::FinalizeInitialization()
     //
 
     // Create the shaders.
-    gl::Shader* default_vertex                              = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definitions::DEFAULT_VERTEX);
-    gl::Shader* solid_color_fragment                        = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SOLID_FRAGMENT);
-    gl::Shader* solid_color_grayscale_fragment              = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SOLID_GRAYSCALE_FRAGMENT);
-    gl::Shader* sprite_fragment                             = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SPRITE_FRAGMENT);
-    gl::Shader* sprite_grayscale_fragment                   = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SPRITE_GRAYSCALE_FRAGMENT);
+    gl::Shader* default_vertex                 = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definitions::DEFAULT_VERTEX);
+    gl::Shader* solid_color_fragment           = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SOLID_FRAGMENT);
+    gl::Shader* solid_color_grayscale_fragment = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SOLID_GRAYSCALE_FRAGMENT);
+    gl::Shader* sprite_fragment                = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SPRITE_FRAGMENT);
+    gl::Shader* sprite_grayscale_fragment      = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SPRITE_GRAYSCALE_FRAGMENT);
 
     // Store the shaders.
     _shaders[gl::shaders::VertexDefault] = default_vertex;
@@ -325,6 +268,10 @@ bool VideoEngine::FinalizeInitialization()
     }
 
     // Prepare the screen for rendering.
+    glClearColor(::vt_video::Color::black[0],
+                 ::vt_video::Color::black[1],
+                 ::vt_video::Color::black[2],
+                 ::vt_video::Color::black[3]);
     Clear();
 
     // Empty image used to draw colored rectangles.
@@ -404,18 +351,9 @@ void VideoEngine::SetDrawFlags(int32_t first_flag, ...)
 
 void VideoEngine::Clear()
 {
-    //! \todo glClearColor is a state change operation. It should only be called when the clear color changes
-    Clear(Color::black);
-}
-
-void VideoEngine::Clear(const Color& c)
-{
-    _current_context.viewport = ScreenRect(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
-    glViewport(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
-    glClearColor(c[0], c[1], c[2], c[3]);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    TextureManager->_debug_num_tex_switches = 0;
+    glClear(GL_COLOR_BUFFER_BIT |
+            GL_DEPTH_BUFFER_BIT |
+            GL_STENCIL_BUFFER_BIT);
 }
 
 void VideoEngine::Update()
@@ -521,9 +459,14 @@ bool VideoEngine::ApplySettings()
 
     _UpdateViewportMetrics();
 
+    // Resize the secondary render target.
+    assert(_secondary_render_target != nullptr);
+    _secondary_render_target->Resize(_screen_width, _screen_height);
+
     // Try to apply the VSync mode
-    if (_vsync_mode > 2)
+    if (_vsync_mode > 2) {
         _vsync_mode = 0;
+    }
 
     // Try Swap tearing
     if (_vsync_mode == 2 && SDL_GL_SetSwapInterval(-1) != 0) {
@@ -538,54 +481,11 @@ bool VideoEngine::ApplySettings()
     }
 
     // No VSync
-    if (_vsync_mode == 0)
+    if (_vsync_mode == 0) {
         SDL_GL_SetSwapInterval(0);
+    }
 
     return true;
-}
-
-void VideoEngine::_UpdateViewportMetrics()
-{
-    // Test the desired resolution and adds the necessary offsets if it's not a 4:3 one
-    float width = _screen_width;
-    float height = _screen_height;
-    float scr_ratio = height > 0.2f ? width / height : 1.33f;
-
-    // Handle the 4:3 case.
-    if (vt_utils::IsFloatEqual(scr_ratio, 1.33f, 0.2f)) { // 1.33f == 4:3
-        // 4:3: No offsets.
-        _viewport_x_offset = 0;
-        _viewport_y_offset = 0;
-        _viewport_width = _screen_width;
-        _viewport_height = _screen_height;
-    }
-    else
-    {
-        // Handle the non 4:3 cases.
-        if (width >= height) {
-            float ideal_width = height / 3.0f * 4.0f;
-            _viewport_width = ideal_width;
-            _viewport_height = _screen_height;
-            _viewport_x_offset = (int32_t)((width - ideal_width) / 2.0f);
-            _viewport_y_offset = 0;
-        }
-        else {
-            float ideal_height = width / 3.0f * 4.0f;
-            _viewport_height = ideal_height;
-            _viewport_width = _screen_width;
-            _viewport_x_offset = 0;
-            _viewport_y_offset = (int32_t)((height - ideal_height) / 2.0f);
-        }
-    }
-
-    // Update the viewport.
-    SetViewport(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
-
-    // Update the current context.
-    _current_context.viewport.left = _viewport_x_offset;
-    _current_context.viewport.top = _viewport_y_offset;
-    _current_context.viewport.width = _viewport_width;
-    _current_context.viewport.height = _viewport_height;
 }
 
 //-----------------------------------------------------------------------------
@@ -693,6 +593,98 @@ void VideoEngine::DisableTexture2D()
         glDisable(GL_TEXTURE_2D);
         _gl_texture_2d_is_active = false;
     }
+}
+
+void VideoEngine::EnableSecondaryRenderTarget()
+{
+    assert(_secondary_render_target != nullptr);
+    _secondary_render_target->Bind();
+}
+
+void VideoEngine::DisableSecondaryRenderTarget()
+{
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void VideoEngine::DrawSecondaryRenderTarget()
+{
+    assert(_sprite != nullptr);
+    assert(_secondary_render_target != nullptr);
+
+    float width_render_target = static_cast<float>(_secondary_render_target->GetWidth());
+    float height_render_target = static_cast<float>(_secondary_render_target->GetHeight());
+
+    // Set up the video manager state.
+    vt_video::VideoManager->PushState();
+    vt_video::VideoManager->SetViewport(0.0f, 0.0f, width_render_target, height_render_target);
+    vt_video::VideoManager->SetCoordSys(0.0f, width_render_target, height_render_target, 0.0f);
+    vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_TOP, vt_video::VIDEO_BLEND, 0);
+
+    // Load the shader program.
+    gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);
+    assert(shader_program != nullptr);
+
+    // Load the shader uniforms.
+    float buffer[16] = { 0 };
+    gl::Transform identity;
+    identity.Apply(buffer);
+    shader_program->UpdateUniform("u_Model", buffer, 16);
+
+    identity.Apply(buffer);
+    shader_program->UpdateUniform("u_View", buffer, 16);
+
+    identity.Apply(buffer);
+    shader_program->UpdateUniform("u_Projection", buffer, 16);
+
+    shader_program->UpdateUniform("u_Color", ::vt_video::Color::white.GetColors(), 4);
+
+    // Disable the secondary render target.
+    DisableSecondaryRenderTarget();
+
+    // Bind the secondary render target's texture.
+    _secondary_render_target->BindTexture();
+
+    //
+    // Draw a fullscreen quad.
+    //
+
+    // The vertex positions.
+    float vertex_positions[] =
+    {
+        -1.0f, -1.0f, 0.0f, // Vertex One.
+         1.0f, -1.0f, 0.0f, // Vertex Two.
+         1.0f,  1.0f, 0.0f, // Vertex Three.
+        -1.0f,  1.0f, 0.0f  // Vertex Four.
+    };
+
+    // The vertex texture coordinates.
+    float vertex_texture_coordinates[] =
+    {
+        0.0f, 0.0f, // Vertex One.
+        1.0f, 0.0f, // Vertex Two.
+        1.0f, 1.0f, // Vertex Three.
+        0.0f, 1.0f  // Vertex Four.
+    };
+
+    // The vertex colors.
+    float vertex_colors[] =
+    {
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex One.
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex Two.
+        1.0f, 1.0f, 1.0f, 1.0f, // Vertex Three.
+        1.0f, 1.0f, 1.0f, 1.0f  // Vertex Four.
+    };
+
+    _sprite->Draw(vertex_positions, vertex_texture_coordinates, vertex_colors);
+
+    // Unbind the secondary render target's texture.
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    // Unload the shader program.
+    VideoManager->UnloadShaderProgram();
+
+    // Restore the state.
+    vt_video::VideoManager->PopState();
 }
 
 gl::ShaderProgram* VideoEngine::LoadShaderProgram(const gl::shader_programs::ShaderPrograms& shader_program)
@@ -855,8 +847,8 @@ void VideoEngine::PushState()
 
 void VideoEngine::PopState()
 {
-    // Restore the most recent context information and pop it from stack
-    if(_context_stack.empty()) {
+    // Restore the most recent context information and pop it from stack.
+    if (_context_stack.empty()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "no video states were saved on the stack" << std::endl;
         return;
     }
@@ -866,7 +858,11 @@ void VideoEngine::PopState()
 
     PopMatrix();
 
-    glViewport(_current_context.viewport.left, _current_context.viewport.top, _current_context.viewport.width, _current_context.viewport.height);
+    SetCoordSys(_current_context.coordinate_system);
+    SetViewport(_current_context.viewport.left,
+                _current_context.viewport.top,
+                _current_context.viewport.width,
+                _current_context.viewport.height);
 
     if (_current_context.scissoring_enabled) {
         EnableScissoring();
@@ -1088,36 +1084,6 @@ void VideoEngine::MakeScreenshot(const std::string &filename)
     buffer.SaveImage(filename);
 }
 
-int32_t VideoEngine::_ConvertYAlign(int32_t y_align)
-{
-    switch(y_align) {
-    case VIDEO_Y_BOTTOM:
-        return -1;
-    case VIDEO_Y_CENTER:
-        return 0;
-    case VIDEO_Y_TOP:
-        return 1;
-    default:
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown value for argument flag: " << y_align << std::endl;
-        return 0;
-    }
-}
-
-int32_t VideoEngine::_ConvertXAlign(int32_t x_align)
-{
-    switch(x_align) {
-    case VIDEO_X_LEFT:
-        return -1;
-    case VIDEO_X_CENTER:
-        return 0;
-    case VIDEO_X_RIGHT:
-        return 1;
-    default:
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown value for argument flag: " << x_align << std::endl;
-        return 0;
-    }
-}
-
 void VideoEngine::DrawLine(float x1, float y1, unsigned width1, float x2, float y2, unsigned width2, const Color &color)
 {
     //
@@ -1220,6 +1186,157 @@ void VideoEngine::DrawHalo(const ImageDescriptor &id, const Color &color)
     _current_context.blend = VIDEO_BLEND_ADD;
     id.Draw(color);
     _current_context.blend = old_blend_mode;
+}
+
+int32_t VideoEngine::_ConvertYAlign(int32_t y_align)
+{
+    switch (y_align) {
+    case VIDEO_Y_BOTTOM:
+        return -1;
+    case VIDEO_Y_CENTER:
+        return 0;
+    case VIDEO_Y_TOP:
+        return 1;
+    default:
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown value for argument flag: " << y_align << std::endl;
+        return 0;
+    }
+}
+
+int32_t VideoEngine::_ConvertXAlign(int32_t x_align)
+{
+    switch (x_align) {
+    case VIDEO_X_LEFT:
+        return -1;
+    case VIDEO_X_CENTER:
+        return 0;
+    case VIDEO_X_RIGHT:
+        return 1;
+    default:
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown value for argument flag: " << x_align << std::endl;
+        return 0;
+    }
+}
+
+void VideoEngine::_UpdateViewportMetrics()
+{
+    // Test the desired resolution and adds the necessary offsets if it's not a 4:3 one
+    float width = _screen_width;
+    float height = _screen_height;
+    float scr_ratio = height > 0.2f ? width / height : 1.33f;
+
+    // Handle the 4:3 case.
+    if (vt_utils::IsFloatEqual(scr_ratio, 1.33f, 0.2f)) { // 1.33f == 4:3
+        // 4:3: No offsets.
+        _viewport_x_offset = 0;
+        _viewport_y_offset = 0;
+        _viewport_width = _screen_width;
+        _viewport_height = _screen_height;
+    }
+    else
+    {
+        // Handle the non 4:3 cases.
+        if (width >= height) {
+            float ideal_width = height / 3.0f * 4.0f;
+            _viewport_width = ideal_width;
+            _viewport_height = _screen_height;
+            _viewport_x_offset = (int32_t)((width - ideal_width) / 2.0f);
+            _viewport_y_offset = 0;
+        }
+        else {
+            float ideal_height = width / 3.0f * 4.0f;
+            _viewport_height = ideal_height;
+            _viewport_width = _screen_width;
+            _viewport_x_offset = 0;
+            _viewport_y_offset = (int32_t)((height - ideal_height) / 2.0f);
+        }
+    }
+
+    // Update the viewport.
+    SetViewport(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
+
+    // Update the current context.
+    _current_context.viewport.left = _viewport_x_offset;
+    _current_context.viewport.top = _viewport_y_offset;
+    _current_context.viewport.width = _viewport_width;
+    _current_context.viewport.height = _viewport_height;
+}
+
+void VideoEngine::_UpdateFPS()
+{
+    if (!_fps_display)
+        return;
+
+    // We only create the text image when needed, to permit getting the text style correctly.
+    if (!_FPS_textimage)
+        _FPS_textimage = new TextImage("FPS: ", TextStyle("text20", Color::white));
+
+    //! \brief Maximum milliseconds that the current frame time and our averaged frame time must vary
+    //! before we begin trying to catch up
+    const uint32_t MAX_FTIME_DIFF = 5;
+
+    //! \brief The number of samples to take if we need to play catchup with the current FPS
+    const uint32_t FPS_CATCHUP = 20;
+
+    uint32_t frame_time = vt_system::SystemManager->GetUpdateTime();
+
+    // Calculate the FPS for the current frame
+    uint32_t current_fps = 1000;
+    if (frame_time)
+        current_fps /= frame_time;
+
+    // The number of times to insert the current FPS sample into the fps_samples array
+    uint32_t number_insertions;
+
+    if (_number_samples == 0) {
+        // If the FPS display is uninitialized, set the entire FPS array to the current FPS
+        _number_samples = FPS_SAMPLES;
+        number_insertions = FPS_SAMPLES;
+    }
+    else if (current_fps >= 500) {
+        // If the game is going at 500 fps or faster, 1 insertion is enough
+        number_insertions = 1;
+    }
+    else {
+        // Find if there's a discrepancy between the current frame time and the averaged one.
+        // If there's a large difference, add extra samples so the FPS display "catches up" more quickly.
+        float avg_frame_time = 1000.0f * FPS_SAMPLES / _fps_sum;
+        int32_t time_difference = static_cast<int32_t>(avg_frame_time)-static_cast<int32_t>(frame_time);
+
+        if (time_difference < 0)
+            time_difference = -time_difference;
+
+        if (time_difference <= static_cast<int32_t>(MAX_FTIME_DIFF))
+            number_insertions = 1;
+        else
+            number_insertions = FPS_CATCHUP; // Take more samples to catch up to the current FPS
+    }
+
+    // Insert the current_fps samples into the fps_samples array for the number of times specified
+    for (uint32_t j = 0; j < number_insertions; j++) {
+        _fps_sum -= _fps_samples[_current_sample];
+        _fps_sum += current_fps;
+        _fps_samples[_current_sample] = current_fps;
+        _current_sample = (_current_sample + 1) % FPS_SAMPLES;
+    }
+
+    uint32_t avg_fps = _fps_sum / FPS_SAMPLES;
+
+    // The text to display to the screen
+    _FPS_textimage->SetText("FPS: " + NumberToString(avg_fps));
+}
+
+void VideoEngine::_DrawFPS()
+{
+    if (!_fps_display || !_FPS_textimage)
+        return;
+
+    PushState();
+    SetStandardCoordSys();
+    SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_X_NOFLIP, VIDEO_Y_NOFLIP, VIDEO_BLEND, 0);
+    Move(930.0f, 40.0f); // Upper right hand corner of the screen
+    _FPS_textimage->Draw();
+    PopState();
 }
 
 }  // namespace vt_video

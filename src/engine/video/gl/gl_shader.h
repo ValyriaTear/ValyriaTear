@@ -34,7 +34,7 @@ public:
     ~Shader();
 
 private:
-    GLint _shader;
+    GLuint _shader;
 
     //
     // The copy constructor and assignment operator are hidden by design
