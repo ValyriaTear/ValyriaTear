@@ -368,12 +368,12 @@ void BootMode::DrawPostEffects()
 // ****************************************************************************
 // ***** BootMode menu setup and refresh methods
 // ****************************************************************************
-bool BootMode::_SavesAvailable(int32_t maxId)
+bool BootMode::_SavesAvailable()
 {
-    assert(maxId > 0);
     int32_t savesAvailable = 0;
     std::string data_path = GetUserDataPath();
-    for(int id = 0; id < maxId; ++id) {
+    uint32_t max_slot_id = SystemManager->GetGameSaveSlots();
+    for(uint32_t id = 0; id < max_slot_id; ++id) {
         std::ostringstream f;
         f << data_path + "saved_game_" << id << ".lua";
         const std::string filename = f.str();

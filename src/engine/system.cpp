@@ -295,7 +295,8 @@ SystemEngine::SystemEngine():
     _not_done(true),
     _message_speed(vt_gui::DEFAULT_MESSAGE_SPEED),
     _battle_target_cursor_memory(true),
-    _game_difficulty(2) // Normal
+    _game_difficulty(2), // Normal
+    _game_save_slots(10) // Default slot number to handle
 {
     IF_PRINT_DEBUG(SYSTEM_DEBUG) << "constructor invoked" << std::endl;
 

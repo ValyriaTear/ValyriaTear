@@ -102,7 +102,11 @@ SaveMode::SaveMode(bool save_mode, uint32_t x_position, uint32_t y_position) :
 
     // Initialize the save options box
     _file_list.SetPosition(315.0f, 384.0f);
-    _file_list.SetDimensions(150.0f, 500.0f, 1, 6, 1, 6);
+    _file_list.SetDimensions(150.0f, 500.0f,
+                             1,
+                             SystemManager->GetGameSaveSlots(),
+                             1,
+                             SystemManager->GetGameSaveSlots() > 6 ? 6 : SystemManager->GetGameSaveSlots());
     _file_list.SetTextStyle(TextStyle("title22"));
 
     _file_list.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -110,12 +114,9 @@ SaveMode::SaveMode(bool save_mode, uint32_t x_position, uint32_t y_position) :
     _file_list.SetSelectMode(VIDEO_SELECT_SINGLE);
     _file_list.SetCursorOffset(-58.0f, -18.0f);
 
-    _file_list.AddOption(UTranslate("Slot 1"));
-    _file_list.AddOption(UTranslate("Slot 2"));
-    _file_list.AddOption(UTranslate("Slot 3"));
-    _file_list.AddOption(UTranslate("Slot 4"));
-    _file_list.AddOption(UTranslate("Slot 5"));
-    _file_list.AddOption(UTranslate("Slot 6"));
+    for (uint32_t i = 0; i < SystemManager->GetGameSaveSlots(); ++i) {
+        _file_list.AddOption(MakeUnicodeString(VTranslate("Slot %d", i + 1)));
+    }
 
     // Restore the cursor position to the last load/save position.
     uint32_t slot_id = GlobalManager->GetGameSlotId();
@@ -354,7 +355,7 @@ void SaveMode::Update()
             break;
         } // end switch (_current_state)
     } // end if (InputManager->DownPress())
-} // void SaveMode::Update()
+}
 
 void SaveMode::DrawPostEffects()
 {

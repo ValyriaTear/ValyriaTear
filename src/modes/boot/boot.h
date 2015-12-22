@@ -146,7 +146,7 @@ private:
     // ---------- Setup and refresh methods for boot menus
 
     //! \brief Returns whether at least one save is available to be loaded.
-    bool _SavesAvailable(int32_t maxId = 6);
+    bool _SavesAvailable();
 
     //! \brief Setup main menu
     //@{

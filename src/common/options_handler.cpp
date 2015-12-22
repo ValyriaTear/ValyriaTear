@@ -1415,6 +1415,9 @@ bool GameOptionsMenuHandler::_SaveSettingsFile(const std::string& filename)
     settings_lua.WriteComment("Certain scripted events may also change according to the current difficulty when entering a new map/battle.");
     settings_lua.WriteUInt("game_difficulty", SystemManager->GetGameDifficulty());
 
+    settings_lua.WriteComment("The number of game slots available to the user.  [1-N] (Default: 10)");
+    settings_lua.WriteUInt("game_save_slots", SystemManager->GetGameSaveSlots());
+
     std::stringstream speed_text("");
     speed_text << "Speed of text displayed in dialogues (in characters per seconds) [1-N] (Default: "
                << vt_gui::DEFAULT_MESSAGE_SPEED << ")";

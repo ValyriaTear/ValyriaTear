@@ -206,6 +206,9 @@ static bool LoadSettings()
         if (settings.DoesUIntExist("game_difficulty"))
             SystemManager->SetGameDifficulty(settings.ReadUInt("game_difficulty"));
 
+        if (settings.DoesUIntExist("game_save_slots"))
+            SystemManager->SetGameSaveSlots(settings.ReadUInt("game_save_slots"));
+
         SystemManager->SetMessageSpeed(settings.ReadFloat("message_speed"));
 
         if (settings.DoesBoolExist("battle_target_cursor_memory"))

@@ -509,6 +509,18 @@ public:
     //! for battle characters.
     void SetGameDifficulty(uint32_t game_difficulty);
 
+    //! \brief Gets the save slot number to handle.
+    uint32_t GetGameSaveSlots() const {
+        return _game_save_slots;
+    }
+
+    //! \brief Gets the save slot number to handle.
+    void SetGameSaveSlots(uint32_t game_save_slots) {
+        _game_save_slots = game_save_slots;
+        if (_game_save_slots == 0)
+            _game_save_slots = 10;
+    }
+
 private:
     SystemEngine();
 
@@ -546,6 +558,9 @@ private:
     //! The difficulty will change how much XP you win and will taint the enemies stats.
     //! Certain scripted events may also change according to the current difficulty when entering a new map/battle.
     uint32_t _game_difficulty;
+
+    //! \brief Sets the number of game slots that will be available to the player.
+    uint32_t _game_save_slots;
 
     /** \brief A set container for all SystemTimer objects that have automatic updating enabled
     *** The timers in this container are updated on each call to UpdateTimers().
