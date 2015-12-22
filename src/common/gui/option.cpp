@@ -627,18 +627,14 @@ void OptionBox::InputUp()
 
     if (_skip_disabled) {
         int32_t cur_selection = _selection;
-        int32_t test_selection = _selection;
-        while (_options[test_selection].disabled) {
-            --test_selection;
-            if (test_selection < 0) {
-                test_selection = _options.size() - 1;
-            }
+        while (_options[_selection].disabled) {
+            if(_ChangeSelection(-1, false) == false)
+                return;
+
             // Let's stop if we made a full turn of options.
-            if (test_selection == cur_selection)
+            if (_selection == cur_selection)
                 return;
         }
-        SetSelection(test_selection);
-        return;
     }
 
     _event = VIDEO_OPTION_BOUNDS_UP;
@@ -657,18 +653,14 @@ void OptionBox::InputDown()
 
     if (_skip_disabled) {
         int32_t cur_selection = _selection;
-        int32_t test_selection = _selection;
-        while (_options[test_selection].disabled) {
-            ++test_selection;
-            if (test_selection >= static_cast<int32_t>(_options.size())) {
-                test_selection = 0;
-            }
+        while (_options[_selection].disabled) {
+            if(_ChangeSelection(1, false) == false)
+                return;
+
             // Let's stop if we made a full turn of options.
-            if (test_selection == cur_selection)
+            if (_selection == cur_selection)
                 return;
         }
-        SetSelection(test_selection);
-        return;
     }
 
     _event = VIDEO_OPTION_BOUNDS_DOWN;
@@ -685,14 +677,15 @@ void OptionBox::InputLeft()
     if(_ChangeSelection(-1, true) == false)
         return;
 
-    int32_t col = _selection % _number_columns;
+    if (_skip_disabled) {
+        int32_t cur_selection = _selection;
+        while (_options[_selection].disabled) {
+            if(_ChangeSelection(-1, true) == false)
+                return;
 
-    if(_skip_disabled) {
-        while(_options[_selection].disabled == true) {
-            if(col <= 0 && _horizontal_wrap_mode == VIDEO_WRAP_MODE_NONE)
-                InputRight();
-            else
-                InputLeft();
+            // Let's stop if we made a full turn of options.
+            if (_selection == cur_selection)
+                return;
         }
     }
 
@@ -710,14 +703,15 @@ void OptionBox::InputRight()
     if(_ChangeSelection(1, true) == false)
         return;
 
-    int32_t col = _selection % _number_columns;
+    if (_skip_disabled) {
+        int32_t cur_selection = _selection;
+        while (_options[_selection].disabled) {
+            if(_ChangeSelection(1, true) == false)
+                return;
 
-    if(_skip_disabled) {
-        while(_options[_selection].disabled == true) {
-            if(col >= _number_columns - 1 && _horizontal_wrap_mode == VIDEO_WRAP_MODE_NONE)
-                InputLeft();
-            else
-                InputRight();
+            // Let's stop if we made a full turn of options.
+            if (_selection == cur_selection)
+                return;
         }
     }
 
