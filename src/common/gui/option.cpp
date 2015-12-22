@@ -625,15 +625,20 @@ void OptionBox::InputUp()
     if(_ChangeSelection(-1, false) == false)
         return;
 
-    int32_t row = _selection / _number_columns;
-
-    if(_skip_disabled) {
-        while(_options[_selection].disabled == true) {
-            if(row <= 0 && _vertical_wrap_mode == VIDEO_WRAP_MODE_NONE)
-                InputDown();
-            else
-                InputUp();
+    if (_skip_disabled) {
+        int32_t cur_selection = _selection;
+        int32_t test_selection = _selection;
+        while (_options[test_selection].disabled) {
+            --test_selection;
+            if (test_selection < 0) {
+                test_selection = _options.size() - 1;
+            }
+            // Let's stop if we made a full turn of options.
+            if (test_selection == cur_selection)
+                return;
         }
+        SetSelection(test_selection);
+        return;
     }
 
     _event = VIDEO_OPTION_BOUNDS_UP;
@@ -650,15 +655,20 @@ void OptionBox::InputDown()
     if(_ChangeSelection(1, false) == false)
         return;
 
-    int32_t row = _selection / _number_columns;
-
-    if(_skip_disabled) {
-        while(_options[_selection].disabled == true) {
-            if(row >= _number_rows - 1 && _vertical_wrap_mode == VIDEO_WRAP_MODE_NONE)
-                InputUp();
-            else
-                InputDown();
+    if (_skip_disabled) {
+        int32_t cur_selection = _selection;
+        int32_t test_selection = _selection;
+        while (_options[test_selection].disabled) {
+            ++test_selection;
+            if (test_selection >= static_cast<int32_t>(_options.size())) {
+                test_selection = 0;
+            }
+            // Let's stop if we made a full turn of options.
+            if (test_selection == cur_selection)
+                return;
         }
+        SetSelection(test_selection);
+        return;
     }
 
     _event = VIDEO_OPTION_BOUNDS_DOWN;
