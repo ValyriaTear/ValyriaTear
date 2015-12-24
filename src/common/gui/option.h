@@ -581,8 +581,13 @@ private:
     //! \brief The current cursor state (blinking, visible, hidden, etc)
     CursorState _cursor_state;
 
-    //! \brief Set to true if the box is currently in the middle of scrolling
+    //! \brief Set to true if the box is currently in the middle of scrolling.
     bool _scrolling;
+
+    /** \brief Set to true if the box is currently in the middle of scrolling horizontally.
+    ***        Set to false if the box is currently in the middle of scrolling vertically.
+    **/
+    bool _scrolling_horizontally;
 
     //! \brief The timer used for controlling option scrolling
     int32_t _scroll_time;
