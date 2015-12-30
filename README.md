@@ -50,6 +50,7 @@ _**(Warning: not officially supported!)**_
 Please contact [authenticate](https://github.com/authenticate) for support.  
 To build on Windows with Visual Studio 2013, do this:
 - git clone https://github.com/authenticate/ValyriaTear-VS2013-Dependencies.git
+- git submodule update --recursive --init
 - Copy the ```ValyriaTear-VS2013-Dependencies/``` folder into your Valyria Tear repository.
 - Open the VS 2013 solution file: ```ValyriaTearRepository/vs2013/ValyriaTear.sln```
 - Build ```F7```

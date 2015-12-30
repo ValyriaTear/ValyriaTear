@@ -65,10 +65,11 @@ _**(Warning: not officially supported!)**_
 Please contact Authenticate for support about this one: https://github.com/authenticate
 To build on Windows with Visual Studio 2013, do this:
 1. git clone https://github.com/authenticate/ValyriaTear-VS2013-Dependencies.git
-2. Copy the ValyriaTear-VS2013-Dependencies folder into your Valyria Tear repository.
-3. Open the VS 2013 solution file: .../ValyriaTearRepository/vs2013/ValyriaTear.sln
-4. Build (F7)
-5. Run (F5)
+2. git submodule update --recursive --init
+3. Copy the ValyriaTear-VS2013-Dependencies folder into your Valyria Tear repository.
+4. Open the VS 2013 solution file: .../ValyriaTearRepository/vs2013/ValyriaTear.sln
+5. Build (F7)
+6. Run (F5)
 
 **Mac OS X compilation**
 - Use Macports or Homebrew to install things like boost.
