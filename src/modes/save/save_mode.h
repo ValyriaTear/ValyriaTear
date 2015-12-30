@@ -105,19 +105,25 @@ public:
     {}
 
 private:
-    //! \brief Attempts to load a game. returns true on success, false on fail
-    bool _LoadGame(uint32_t id);
+    //! \brief Attempts to load a game from the given filename.
+    //! \Returns true on success, false on fail
+    bool _LoadGame(const std::string& filename);
 
     //! \brief Loads preview data for the highlighted game
-    bool _PreviewGame(uint32_t id);
+    bool _PreviewGame(const std::string& filename);
 
     //! \brief Clears out the data saves. Used especially when the data is invalid.
     //! \param selected_file_exists Tells whether the selected file exists.
     void _ClearSaveData(bool selected_file_exists);
 
-    //! \brief Check the save validity of the save slots and disable those invalid.
-    //! \returns whether at least one save is valid.
-    bool _CheckSavesValidity();
+    //! \brief Init and check the save validity of the save slots and disable those invalid.
+    void _InitSaveSlots();
+
+    //! \brief Check whether there is a valid autosave file for the given slot.
+    bool _IsAutoSaveValid(uint32_t id);
+
+    //! \brief Returns the corresponding save game filename (or autosave).
+    std::string _BuildSaveFilename(uint32_t id, bool autosave = false);
 
     //! \brief The MenuWindow for the backdrop
     vt_gui::MenuWindow _window;
@@ -146,6 +152,9 @@ private:
 
     //! \brief Box to confirm saving current file
     vt_gui::OptionBox _confirm_save_optionbox;
+
+    //! \brief Box to tell which save should be loaded.
+    vt_gui::OptionBox _load_auto_save_optionbox;
 
     //! \brief Displays message that game was saved successfully
     vt_gui::TextBox _save_success_message;

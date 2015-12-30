@@ -21,19 +21,43 @@
 namespace vt_utils
 {
 
-bool DoesFileExist(const std::string& file_name)
+bool DoesFileExist(const std::string& filename)
 {
     // Modified to use platform specific code because on windows stat does not work on directories,
     // but on POSIX compliant systems it does, and GetFileAttributes works for both folders and
     // directories on win32
 #ifdef _WIN32
-    return GetFileAttributesA(file_name.c_str()) != INVALID_FILE_ATTRIBUTES;
+    return GetFileAttributesA(filename.c_str()) != INVALID_FILE_ATTRIBUTES;
 #else
     struct stat buf;
-    if(stat(file_name.c_str(), &buf) == 0)
+    if(stat(filename.c_str(), &buf) == 0)
         return true;
     else
         return false;
+#endif
+}
+
+uint32_t GetFileModTime(const std::string& filename)
+{
+    if (!DoesFileExist(filename))
+        return 0;
+#ifdef _WIN32
+    GET_FILEEX_INFO_LEVELS info_level_id = GetFileExInfoStandard;
+    WIN32_FILE_ATTRIBUTE_DATA file_information;
+    if (GetFileAttributesEx(filename.c_str(), info_level_id, &file_information) == 0)
+        return 0;
+
+    // Only return the lower part of the mod time, as we don't need 64-bit precision to compare file times
+    // for our needs.
+    return static_cast<uint32_t>(file_information.ftLastWriteTime.dwLowDateTime);
+#else
+    // create a file attribute structure
+    struct stat attrib;
+    if (stat(filename.c_str(), &attrib) != 0)
+        return 0;
+
+    // Returns the latest system modification time.
+    return static_cast<uint32_t>(attrib.st_mtime);
 #endif
 }
 

@@ -88,7 +88,8 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _show_minimap(false),
     _menu_enabled(true),
     _save_points_enabled(true),
-    _status_effects_enabled(true)
+    _status_effects_enabled(true),
+    _auto_save_enabled(true)
 {
     _current_instance = this;
 
@@ -162,7 +163,7 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     // Init the script component.
     GetScriptSupervisor().Initialize(this);
 
-    //! Init the camera position text style
+    // Init the camera position text style
     _debug_camera_position.SetStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
 }
 
@@ -241,6 +242,11 @@ void MapMode::Reset()
     // I.e: When going out of the menu mode.
     if (CurrentState() == private_map::STATE_EXPLORE)
         _object_supervisor->ReloadVisiblePartyMember();
+
+    if (_auto_save_enabled) {
+        GlobalManager->AutoSave(_camera != nullptr ? _camera->GetXPosition() : 0,
+                                _camera != nullptr ? _camera->GetYPosition() : 0);
+    }
 }
 
 void MapMode::_ResetMusicState()

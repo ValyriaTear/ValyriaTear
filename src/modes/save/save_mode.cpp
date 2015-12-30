@@ -43,21 +43,16 @@ namespace vt_save
 
 bool SAVE_DEBUG = false;
 
-//! \name Save Options Constants
-//@{
-const uint8_t SAVE_GAME           = 0;
-const uint8_t SAVE_LOAD_GAME      = 1;
-//@}
-
 //! \name SaveMode States
 //@{
-const uint8_t SAVE_MODE_SAVING          = 0;
-const uint8_t SAVE_MODE_LOADING         = 1;
-const uint8_t SAVE_MODE_CONFIRMING_SAVE = 2;
-const uint8_t SAVE_MODE_SAVE_COMPLETE   = 3;
-const uint8_t SAVE_MODE_SAVE_FAILED     = 4;
-const uint8_t SAVE_MODE_FADING_OUT      = 5;
-const uint8_t SAVE_MODE_NO_VALID_SAVES  = 6;
+const uint8_t SAVE_MODE_SAVING           = 0;
+const uint8_t SAVE_MODE_LOADING          = 1;
+const uint8_t SAVE_MODE_CONFIRM_AUTOSAVE = 2;
+const uint8_t SAVE_MODE_CONFIRMING_SAVE  = 3;
+const uint8_t SAVE_MODE_SAVE_COMPLETE    = 4;
+const uint8_t SAVE_MODE_SAVE_FAILED      = 5;
+const uint8_t SAVE_MODE_FADING_OUT       = 6;
+const uint8_t SAVE_MODE_NO_VALID_SAVES   = 7;
 //@}
 
 SaveMode::SaveMode(bool save_mode, uint32_t x_position, uint32_t y_position) :
@@ -114,15 +109,6 @@ SaveMode::SaveMode(bool save_mode, uint32_t x_position, uint32_t y_position) :
     _file_list.SetSelectMode(VIDEO_SELECT_SINGLE);
     _file_list.SetCursorOffset(-58.0f, -18.0f);
 
-    for (uint32_t i = 0; i < SystemManager->GetGameSaveSlots(); ++i) {
-        _file_list.AddOption(MakeUnicodeString(VTranslate("Slot %d", i + 1)));
-    }
-
-    // Restore the cursor position to the last load/save position.
-    uint32_t slot_id = GlobalManager->GetGameSlotId();
-
-    _file_list.SetSelection(slot_id);
-
     // Initialize the confirmation option box
     _confirm_save_optionbox.SetPosition(512.0f, 384.0f);
     _confirm_save_optionbox.SetDimensions(250.0f, 200.0f, 1, 2, 1, 2);
@@ -136,6 +122,21 @@ SaveMode::SaveMode(bool save_mode, uint32_t x_position, uint32_t y_position) :
     _confirm_save_optionbox.AddOption(UTranslate("Confirm Save"));
     _confirm_save_optionbox.AddOption(UTranslate("Cancel"));
     _confirm_save_optionbox.SetSelection(0);
+
+    // Initialize the auto-save option box
+    _load_auto_save_optionbox.SetPosition(512.0f, 384.0f);
+    _load_auto_save_optionbox.SetDimensions(250.0f, 200.0f, 1, 3, 1, 3);
+    _load_auto_save_optionbox.SetTextStyle(TextStyle("title22"));
+
+    _load_auto_save_optionbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _load_auto_save_optionbox.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _load_auto_save_optionbox.SetSelectMode(VIDEO_SELECT_SINGLE);
+    _load_auto_save_optionbox.SetCursorOffset(-58.0f, -18.0f);
+
+    _load_auto_save_optionbox.AddOption(UTranslate("Load Auto-Save"));
+    _load_auto_save_optionbox.AddOption(UTranslate("Load Save"));
+    _load_auto_save_optionbox.AddOption(UTranslate("Cancel"));
+    _load_auto_save_optionbox.SetSelection(0);
 
     // Initialize the save successful message box
     _save_success_message.SetPosition(552.0f, 314.0f);
@@ -185,22 +186,23 @@ SaveMode::SaveMode(bool save_mode, uint32_t x_position, uint32_t y_position) :
     _drunes_icon->SetWidthKeepRatio(30.0f);
 
     if(_save_mode) {
+        for (uint32_t i = 0; i < SystemManager->GetGameSaveSlots(); ++i) {
+            _file_list.AddOption(MakeUnicodeString(VTranslate("Slot %d", i + 1)));
+        }
+        // Restore the cursor position to the last load/save position.
+        _file_list.SetSelection(GlobalManager->GetGameSlotId());
+
         _current_state = SAVE_MODE_SAVING;
     } else {
-        // When in load mode, check the saves validity and skip invalid slots
-        _file_list.SetSkipDisabled(true);
-        if (!_CheckSavesValidity())
-            _current_state = SAVE_MODE_NO_VALID_SAVES;
+        _InitSaveSlots();
     }
 
     _window.Show();
 
     // Load the first slot data
     if(_file_list.GetSelection() > -1)
-        _PreviewGame(_file_list.GetSelection());
+        _PreviewGame(_BuildSaveFilename(_file_list.GetSelection()));
 }
-
-
 
 SaveMode::~SaveMode()
 {
@@ -242,6 +244,7 @@ void SaveMode::Update()
 
     _file_list.Update();
     _confirm_save_optionbox.Update();
+    _load_auto_save_optionbox.Update();
 
     GlobalMedia& media = GlobalManager->Media();
 
@@ -259,12 +262,9 @@ void SaveMode::Update()
             if(_confirm_save_optionbox.GetSelection() == 0) {
                 // note: using int here, because uint8_t will NOT work
                 // do not change unless you understand this and can test it properly!
-                uint32_t id = (uint32_t)_file_list.GetSelection();
-                std::ostringstream f;
-                f << GetUserDataPath() + "saved_game_" << id << ".lua";
-                std::string filename = f.str();
+                uint32_t id = static_cast<uint32_t>(_file_list.GetSelection());
                 // now, attempt to save the game.  If failure, we need to tell the user that!
-                if(GlobalManager->SaveGame(filename, id, _x_position, _y_position)) {
+                if(GlobalManager->SaveGame(_BuildSaveFilename(id), id, _x_position, _y_position)) {
                     _current_state = SAVE_MODE_SAVE_COMPLETE;
                     AudioManager->PlaySound("data/sounds/save_successful_nick_bowler_oga.wav");
                 } else {
@@ -279,12 +279,31 @@ void SaveMode::Update()
         case SAVE_MODE_SAVE_COMPLETE:
         case SAVE_MODE_SAVE_FAILED:
             _current_state = SAVE_MODE_SAVING;
-            _PreviewGame(_file_list.GetSelection());
+            _PreviewGame(_BuildSaveFilename(_file_list.GetSelection()));
             break;
-
+        case SAVE_MODE_CONFIRM_AUTOSAVE:
+            switch (_load_auto_save_optionbox.GetSelection()) {
+            case 0: // Load autosave
+                _LoadGame(_BuildSaveFilename(_file_list.GetSelection(), true));
+                break;
+            case 1: // Load save
+                _LoadGame(_BuildSaveFilename(_file_list.GetSelection()));
+                break;
+            case 2: // Cancel
+            default:
+                _current_state = SAVE_MODE_LOADING;
+            }
+            break;
         case SAVE_MODE_LOADING:
             if(_file_list.GetSelection() > -1) {
-                _LoadGame(_file_list.GetSelection());
+                // Check whether a more recent autosave file exists
+                uint32_t id = static_cast<uint32_t>(_file_list.GetSelection());
+                if (_IsAutoSaveValid(id)) {
+                    _current_state = SAVE_MODE_CONFIRM_AUTOSAVE;
+                }
+                else {
+                    _LoadGame(_BuildSaveFilename(id));
+                }
             } else {
                 // Leave right away where there is nothing else
                 // to do than loading.
@@ -296,9 +315,8 @@ void SaveMode::Update()
                 // Leave right away as there is nothing else to do
                 ModeManager->Pop();
             break;
-        } // end switch (_current_state)
-    } // end if (InputManager->ConfirmPress())
-
+        }
+    }
     else if(InputManager->CancelPress()) {
         media.PlaySound("cancel");
         switch(_current_state) {
@@ -309,14 +327,15 @@ void SaveMode::Update()
             // Leave right away where there is nothing else to do
             ModeManager->Pop();
             break;
-
+        case SAVE_MODE_CONFIRM_AUTOSAVE:
+            _current_state = SAVE_MODE_LOADING;
+            break;
         case SAVE_MODE_CONFIRMING_SAVE:
             _current_state = SAVE_MODE_SAVING;
-            _PreviewGame(_file_list.GetSelection());
+            _PreviewGame(_BuildSaveFilename(_file_list.GetSelection()));
             break;
-        } // end switch (_current_state)
-    } // end if (InputManager->CancelPress())
-
+        }
+    }
     else if(InputManager->UpPress()) {
         media.PlaySound("bump");
         switch(_current_state) {
@@ -324,7 +343,7 @@ void SaveMode::Update()
         case SAVE_MODE_LOADING:
             _file_list.InputUp();
             if(_file_list.GetSelection() > -1) {
-                _PreviewGame(_file_list.GetSelection());
+                _PreviewGame(_BuildSaveFilename(_file_list.GetSelection()));
             } else {
                 _ClearSaveData(false);
             }
@@ -333,9 +352,11 @@ void SaveMode::Update()
         case SAVE_MODE_CONFIRMING_SAVE:
             _confirm_save_optionbox.InputUp();
             break;
-        } // end switch (_current_state)
-    } // end if (InputManager->UpPress())
-
+        case SAVE_MODE_CONFIRM_AUTOSAVE:
+            _load_auto_save_optionbox.InputUp();
+            break;
+        }
+    }
     else if(InputManager->DownPress()) {
         media.PlaySound("bump");
         switch(_current_state) {
@@ -343,7 +364,7 @@ void SaveMode::Update()
         case SAVE_MODE_LOADING:
             _file_list.InputDown();
             if(_file_list.GetSelection() > -1) {
-                _PreviewGame(_file_list.GetSelection());
+                _PreviewGame(_BuildSaveFilename(_file_list.GetSelection()));
             }
             else {
                 _ClearSaveData(false);
@@ -353,8 +374,11 @@ void SaveMode::Update()
         case SAVE_MODE_CONFIRMING_SAVE:
             _confirm_save_optionbox.InputDown();
             break;
-        } // end switch (_current_state)
-    } // end if (InputManager->DownPress())
+        case SAVE_MODE_CONFIRM_AUTOSAVE:
+            _load_auto_save_optionbox.InputDown();
+            break;
+        }
+    }
 }
 
 void SaveMode::DrawPostEffects()
@@ -415,23 +439,22 @@ void SaveMode::DrawPostEffects()
     case SAVE_MODE_NO_VALID_SAVES:
         _no_valid_saves_message.Draw();
         break;
+    case SAVE_MODE_CONFIRM_AUTOSAVE:
+        _load_auto_save_optionbox.Draw();
+        break;
     default:
     case SAVE_MODE_FADING_OUT:
         break;
     }
 }
 
-bool SaveMode::_LoadGame(uint32_t id)
+bool SaveMode::_LoadGame(const std::string& filename)
 {
-    std::ostringstream f;
-    f << GetUserDataPath() + "saved_game_" << id << ".lua";
-    std::string filename = f.str();
-
     if(DoesFileExist(filename)) {
         _current_state = SAVE_MODE_FADING_OUT;
         AudioManager->StopActiveMusic();
 
-        GlobalManager->LoadGame(filename, id);
+        GlobalManager->LoadGame(filename, _file_list.GetSelection());
 
         // Create a new map mode, and fade out and in
         ModeManager->PopAll();
@@ -470,12 +493,8 @@ void SaveMode::_ClearSaveData(bool selected_file_exists)
 }
 
 
-bool SaveMode::_PreviewGame(uint32_t id)
+bool SaveMode::_PreviewGame(const std::string& filename)
 {
-    std::ostringstream f;
-    f << GetUserDataPath() + "saved_game_" << id << ".lua";
-    std::string filename = f.str();
-
     // Check for the file existence, prevents a useless warning
     if(!vt_utils::DoesFileExist(filename)) {
         _ClearSaveData(false);
@@ -637,17 +656,49 @@ bool SaveMode::_PreviewGame(uint32_t id)
     map_file.CloseFile();
 
     return true;
-} // bool SaveMode::_PreviewGame(string& filename)
+}
 
-bool SaveMode::_CheckSavesValidity() {
-    // check all available slots
+bool SaveMode::_IsAutoSaveValid(uint32_t id)
+{
+    std::string autosave_filename = _BuildSaveFilename(id, true);
+    std::string save_filename = _BuildSaveFilename(id, false);
+    if (!vt_utils::DoesFileExist(autosave_filename) || !vt_utils::DoesFileExist(save_filename))
+        return false;
+
+    // Check whether the autosave is strictly more recent than the save.
+    if (vt_utils::GetFileModTime(autosave_filename) <= vt_utils::GetFileModTime(_BuildSaveFilename(id)))
+        return false;
+
+    // And check whether the autosave is valid.
+    if (!_PreviewGame(autosave_filename))
+        return false;
+
+    return true;
+}
+
+void SaveMode::_InitSaveSlots()
+{
+    // Check all available slots for saves and autosaves.
     bool available_saves = false;
-    for (uint32_t i = 0; i < _file_list.GetNumberOptions(); ++i) {
-        if (!_PreviewGame(i)) {
+
+    // When in load mode, check the saves validity and skip invalid slots
+    _file_list.SetSkipDisabled(true);
+
+    for (uint32_t i = 0; i < SystemManager->GetGameSaveSlots(); ++i) {
+        _file_list.AddOption(MakeUnicodeString("     " + VTranslate("Slot %d", i + 1)));
+
+        // Add a key to slots with valid autosaves
+        if (_IsAutoSaveValid(i)) {
+            _file_list.AddOptionElementImage(i, GlobalManager->Media().GetKeyItemIcon());
+            _file_list.GetEmbeddedImage(i)->SetHeightKeepRatio(25);
+            _file_list.AddOptionElementPosition(i, 30);
+        }
+
+        if (!_PreviewGame(_BuildSaveFilename(i))) {
             _file_list.EnableOption(i, false);
 
             // If the current selection is disabled, reset it.
-            if ((int32_t)i == _file_list.GetSelection())
+            if (static_cast<int32_t>(i) == _file_list.GetSelection())
                 _file_list.SetSelection(i + 1);
         }
         else {
@@ -655,7 +706,19 @@ bool SaveMode::_CheckSavesValidity() {
         }
     }
 
-    return available_saves;
+    if (!available_saves)
+        _current_state = SAVE_MODE_NO_VALID_SAVES;
+}
+
+std::string SaveMode::_BuildSaveFilename(uint32_t id, bool autosave)
+{
+    std::ostringstream file;
+    file << GetUserDataPath() + "saved_game_" << id;
+    if (autosave)
+        file << "_autosave.lua";
+    else
+        file << ".lua";
+    return file.str();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -397,6 +397,16 @@ public:
         return _save_points_enabled;
     }
 
+    //! \brief Sets whether the auto-save is enabled.
+    void SetAutoSaveEnabled(bool enabled) {
+        _auto_save_enabled = enabled;
+    }
+
+    //! \brief Tells whether the auto-save is enabled.
+    bool GetAutoSaveEnabled() const {
+        return _auto_save_enabled;
+    }
+
     //! \brief Sets whether the status effects can run in the map mode.
     void SetStatusEffectsEnabled(bool enabled) {
         _status_effects_enabled = enabled;
@@ -631,6 +641,9 @@ private:
 
     //! \brief Tells whether the status effects can run in the map mode.
     bool _status_effects_enabled;
+
+    //! \brief Tells whether the auto save is allowed once the map mode has loaded.
+    bool _auto_save_enabled;
 
     // ----- Methods -----
 

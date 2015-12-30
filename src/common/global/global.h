@@ -782,6 +782,9 @@ public:
     **/
     bool SaveGame(const std::string &filename, uint32_t slot_id, uint32_t x_position = 0, uint32_t y_position = 0);
 
+    //! \brief Attempts an autosave on the currently given slot.
+    bool AutoSave(uint32_t x_position = 0, uint32_t y_position = 0);
+
     /** \brief Loads all global data from a saved game file
     *** \param filename The filename of the saved game file where to read the data from
     *** \param slot_id The save slot the file correspond to. Used to set the correct cursor position
@@ -790,6 +793,7 @@ public:
     **/
     bool LoadGame(const std::string &filename, uint32_t slot_id);
 
+    //! \brief Gets the last load/save position.
     uint32_t GetGameSlotId() const {
         return _game_slot_id;
     }

@@ -21,6 +21,8 @@
 #include "engine/system.h"
 #include "modes/map/map_mode.h"
 
+#include "utils/utils_files.h"
+
 using namespace vt_utils;
 
 using namespace vt_video;
@@ -868,8 +870,20 @@ void GameGlobal::NewGame()
     _global_script.RunScriptFunction("NewGame");
 }
 
+bool GameGlobal::AutoSave(uint32_t x_position, uint32_t y_position)
+{
+    std::ostringstream f;
+    f << GetUserDataPath() + "saved_game_" << GetGameSlotId() << "_autosave.lua";
+    std::string filename = f.str();
+
+    return SaveGame(filename, GetGameSlotId(), x_position, y_position);
+}
+
 bool GameGlobal::SaveGame(const std::string &filename, uint32_t slot_id, uint32_t x_position, uint32_t y_position)
 {
+    if (slot_id >= SystemManager->GetGameSaveSlots())
+        return false;
+
     WriteScriptDescriptor file;
     if(file.OpenFile(filename) == false) {
         return false;

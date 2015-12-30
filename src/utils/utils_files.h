@@ -25,10 +25,19 @@ namespace vt_utils
 //! \name Directory and File Manipulation Functions
 //@{
 /** \brief Checks if a file exists.
-*** \param file_name The name of the file to check (e.g. "saves/saved_game.lua")
+*** \param filename The name of the file to check (e.g. "saves/saved_game.lua")
 *** \return True if the file was found, or false if it was not found.
 **/
-bool DoesFileExist(const std::string& file_name);
+bool DoesFileExist(const std::string& filename);
+
+/** \brief Returns the unsigned 32-bit integer representation of the given file
+*** latest system modification time.
+*** \param filename The name of the file to check (e.g. "saves/saved_game.lua")
+*** \return The given time if found, or 0 when something went wrong.
+*** \note The system time representation depends on the OS used,
+*** and should permit to compare time between files only.
+**/
+uint32_t GetFileModTime(const std::string& filename);
 
 /** \brief Moves a file from one location to another
 *** \param source_name The name of the file that is to be moved

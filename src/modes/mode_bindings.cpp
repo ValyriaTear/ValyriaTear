@@ -125,6 +125,8 @@ void BindModeCode()
             .def("ChangeActiveStatusEffect", &MapMode::ChangeActiveStatusEffect)
             .def("GetActiveStatusEffectIntensity", &MapMode::GetActiveStatusEffectIntensity)
             .def("SetAllEnemyStatesToDead", &MapMode::SetAllEnemyStatesToDead)
+            .def("SetAutoSaveEnabled", &MapMode::SetAutoSaveEnabled)
+            .def("GetAutoSaveEnabled", &MapMode::GetAutoSaveEnabled)
 
             // Namespace constants
             .enum_("constants") [
