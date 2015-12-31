@@ -1052,6 +1052,7 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
             _scrolling = true;
             _scrolling_horizontally = false;
             _scroll_time = 0;
+            _scroll_offset = _cell_height;
 
             assert(selection_row >= 0);
             _draw_top_row = selection_row;
@@ -1077,6 +1078,7 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
             _scrolling = true;
             _scrolling_horizontally = false;
             _scroll_time = 0;
+            _scroll_offset = 0;
 
             assert(selection_row - _number_cell_rows >= 0);
             _draw_top_row = selection_row - _number_cell_rows;
@@ -1103,6 +1105,7 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
             _scrolling = true;
             _scrolling_horizontally = true;
             _scroll_time = 0;
+            _scroll_offset = _cell_width;
 
             assert(selection_col >= 0);
             _draw_left_column = selection_col;
@@ -1129,6 +1132,7 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
             _scrolling = true;
             _scrolling_horizontally = true;
             _scroll_time = 0;
+            _scroll_offset = 0;
 
             assert(selection_col - _number_cell_columns >= 0);
             _draw_left_column = selection_col - _number_cell_columns;
