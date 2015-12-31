@@ -581,8 +581,13 @@ private:
     //! \brief The current cursor state (blinking, visible, hidden, etc)
     CursorState _cursor_state;
 
-    //! \brief Set to true if the box is currently in the middle of scrolling
+    //! \brief Set to true if the box is currently in the middle of scrolling.
     bool _scrolling;
+
+    /** \brief Set to true if the box is currently in the middle of scrolling horizontally.
+    ***        Set to false if the box is currently in the middle of scrolling vertically.
+    **/
+    bool _scrolling_horizontally;
 
     //! \brief The timer used for controlling option scrolling
     int32_t _scroll_time;
@@ -644,14 +649,13 @@ private:
     /** \brief Draws the cursor
     *** \param op The option contents to draw within the cell
     *** \param bounds The boundary coordinates for the information cell
-    *** \param scroll_offset A draw offset for when the option box is in the process of scrolling from one option to another
     *** \param left_edge A draw coordiante that represents the left edge of the cell content (as opposed to strictly the cell boundary)
     *** \param darken If true, the cursor image will be drawn with a 50% alpha black color applied
     ***
     *** This method should be called immediately proceeding the _DrawOption method so that it can retrieve the correct value for left_edge
     *** from the cell which should have a cursor drawn.
     **/
-    void _DrawCursor(const private_gui::OptionCellBounds &bounds, float cell_offset, float left_edge, bool darken);
+    void _DrawCursor(const private_gui::OptionCellBounds &bounds, float left_edge, bool darken);
 
     //! \brief Draws an outline of the option box and the inner cell boundaries
     void _DEBUG_DrawOutline();
