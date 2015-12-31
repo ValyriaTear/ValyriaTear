@@ -271,7 +271,7 @@ void OptionBox::Draw()
                 // Also darken when requested
                 if(_cursor_state == VIDEO_CURSOR_STATE_DARKEN)
                     darken = true;
-                _DrawCursor(bounds, _scroll_offset, left_edge, darken);
+                _DrawCursor(bounds, left_edge, darken);
             }
 
             bounds.x_left += xoff;
@@ -928,7 +928,6 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
         bounds_exceeded = true;
     }
 
-    int32_t original_selection = _selection;
     bool is_wrapped = false;
 
     // Case #1: movement selection is within bounds
@@ -1262,7 +1261,7 @@ void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, fl
     } // for (int32_t element = 0; element < static_cast<int32_t>(op.elements.size()); element++)
 }
 
-void OptionBox::_DrawCursor(const OptionCellBounds &bounds, float scroll_offset, float left_edge, bool darken)
+void OptionBox::_DrawCursor(const OptionCellBounds &bounds, float left_edge, bool darken)
 {
     // [phuedx] In this case the scroll offset is not used, however it should be.
     // The Draw() function (and all helper functions) should be able able to
