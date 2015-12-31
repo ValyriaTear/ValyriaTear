@@ -633,8 +633,6 @@ void OptionBox::InputConfirm()
     }
 }
 
-
-
 void OptionBox::InputCancel()
 {
     // Ignore input while scrolling, or if an event has already been logged
@@ -648,22 +646,28 @@ void OptionBox::InputCancel()
         _event = VIDEO_OPTION_CANCEL;
 }
 
-
-
 void OptionBox::InputUp()
 {
     // Ignore input while scrolling, or if an event has already been logged
-    if(_scrolling || _event)
+    if (_scrolling || _event)
         return;
 
-    if(_ChangeSelection(-1, false) == false)
+    int32_t cur_selection = _selection;
+    if (_ChangeSelection(-1, false) == false)
         return;
 
     if (_skip_disabled) {
-        int32_t cur_selection = _selection;
         while (_options[_selection].disabled) {
-            if(_ChangeSelection(-1, false) == false)
+            if (_ChangeSelection(-1, false) == false) {
+
+                // If the final selection is still disabled...
+                if (_options[_selection].disabled) {
+                    // Revert to the original selection.
+                    _selection = cur_selection;
+                }
+
                 return;
+            }
 
             // Let's stop if we made a full turn of options.
             if (_selection == cur_selection)
@@ -674,22 +678,28 @@ void OptionBox::InputUp()
     _event = VIDEO_OPTION_BOUNDS_UP;
 }
 
-
-
 void OptionBox::InputDown()
 {
     // Ignore input while scrolling, or if an event has already been logged
-    if(_scrolling || _event)
+    if (_scrolling || _event)
         return;
 
-    if(_ChangeSelection(1, false) == false)
+    int32_t cur_selection = _selection;
+    if (_ChangeSelection(1, false) == false)
         return;
 
     if (_skip_disabled) {
-        int32_t cur_selection = _selection;
         while (_options[_selection].disabled) {
-            if(_ChangeSelection(1, false) == false)
+            if (_ChangeSelection(1, false) == false) {
+
+                // If the final selection is still disabled...
+                if (_options[_selection].disabled) {
+                    // Revert to the original selection.
+                    _selection = cur_selection;
+                }
+
                 return;
+            }
 
             // Let's stop if we made a full turn of options.
             if (_selection == cur_selection)
@@ -700,22 +710,28 @@ void OptionBox::InputDown()
     _event = VIDEO_OPTION_BOUNDS_DOWN;
 }
 
-
-
 void OptionBox::InputLeft()
 {
     // Ignore input while scrolling, or if an event has already been logged
-    if(_scrolling || _event)
+    if (_scrolling || _event)
         return;
 
-    if(_ChangeSelection(-1, true) == false)
+    int32_t cur_selection = _selection;
+    if (_ChangeSelection(-1, true) == false)
         return;
 
     if (_skip_disabled) {
-        int32_t cur_selection = _selection;
         while (_options[_selection].disabled) {
-            if(_ChangeSelection(-1, true) == false)
+            if (_ChangeSelection(-1, true) == false) {
+
+                // If the final selection is still disabled...
+                if (_options[_selection].disabled) {
+                    // Revert to the original selection.
+                    _selection = cur_selection;
+                }
+
                 return;
+            }
 
             // Let's stop if we made a full turn of options.
             if (_selection == cur_selection)
@@ -726,22 +742,28 @@ void OptionBox::InputLeft()
     _event = VIDEO_OPTION_BOUNDS_LEFT;
 }
 
-
-
 void OptionBox::InputRight()
 {
     // Ignore input while scrolling, or if an event has already been logged
-    if(_scrolling || _event)
+    if (_scrolling || _event)
         return;
 
-    if(_ChangeSelection(1, true) == false)
+    int32_t cur_selection = _selection;
+    if (_ChangeSelection(1, true) == false)
         return;
 
     if (_skip_disabled) {
-        int32_t cur_selection = _selection;
         while (_options[_selection].disabled) {
-            if(_ChangeSelection(1, true) == false)
+            if (_ChangeSelection(1, true) == false) {
+
+                // If the final selection is still disabled...
+                if (_options[_selection].disabled) {
+                    // Revert to the original selection.
+                    _selection = cur_selection;
+                }
+
                 return;
+            }
 
             // Let's stop if we made a full turn of options.
             if (_selection == cur_selection)
@@ -1014,7 +1036,8 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
     int32_t selection_row = _selection / _number_columns;
     int32_t selection_col = _selection % _number_columns;
 
-    if ((static_cast<uint32_t>(selection_row) < _draw_top_row)) {
+    if (!_options[selection_row].disabled &&
+        static_cast<uint32_t>(selection_row) < _draw_top_row) {
         
         if (is_wrapped) {
 
@@ -1038,7 +1061,8 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
         }
     }
 
-    else if ((static_cast<uint32_t>(selection_row) >= (_draw_top_row + _number_cell_rows))) {
+    else if (!_options[selection_row].disabled &&
+             static_cast<uint32_t>(selection_row) >= (_draw_top_row + _number_cell_rows)) {
 
         if (is_wrapped) {
 
@@ -1062,7 +1086,8 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
         }
     }
 
-    else if ((static_cast<uint32_t>(selection_col) < _draw_left_column)) {
+    else if (!_options[selection_col].disabled &&
+             static_cast<uint32_t>(selection_col) < _draw_left_column) {
 
         if (is_wrapped) {
 
@@ -1087,7 +1112,8 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
         }
     }
 
-    else if ((static_cast<uint32_t>(selection_col) >= (_draw_left_column + _number_cell_columns))) {
+    else if (!_options[selection_col].disabled &&
+             static_cast<uint32_t>(selection_col) >= (_draw_left_column + _number_cell_columns)) {
 
         if (is_wrapped) {
 
@@ -1208,7 +1234,7 @@ void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, fl
             break;
         }
         case VIDEO_OPTION_ELEMENT_IMAGE: {
-            if(op.disabled)
+            if (op.disabled)
                 op.image->Draw(Color::gray);
             else
                 op.image->Draw(Color::white);
@@ -1257,8 +1283,8 @@ void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, fl
             IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid option element type was present" << std::endl;
             break;
         }
-        } // switch (op.elements[element].type)
-    } // for (int32_t element = 0; element < static_cast<int32_t>(op.elements.size()); element++)
+        }
+    }
 }
 
 void OptionBox::_DrawCursor(const OptionCellBounds &bounds, float left_edge, bool darken)
