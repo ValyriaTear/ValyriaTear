@@ -150,6 +150,8 @@ void OptionBox::Update(uint32_t frame_time)
     }
 
     _scroll_time += frame_time;
+
+    // Clamp the scroll time to prevent over animation.
     if (_scroll_time > VIDEO_OPTION_SCROLL_TIME) {
         _scroll_time = VIDEO_OPTION_SCROLL_TIME;
     }
