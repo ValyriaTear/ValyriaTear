@@ -622,6 +622,13 @@ private:
     **/
     bool _ChangeSelection(int32_t offset, bool horizontal);
 
+    /** \brief Updates the scroll view depending on the current selection.
+    *** Used with _ChangeSelection() and SetSelection()
+    *** \param wrapped_movement Tells whether the scroll view should be updated based on a reverted movement
+    *** due to selection boundary wrap.
+    **/
+    void _UpdateScrollView(bool wrapped_movement);
+
     /** \brief Sets draw flags and determines the x and y coordinates for rendering an option inside a cell
     *** \param xalign The x alignement for the cell contents
     *** \param yalign The y alignement for the cell contents

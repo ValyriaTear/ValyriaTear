@@ -574,6 +574,8 @@ void OptionBox::SetSelection(uint32_t index)
             _scroll_offset = total_num_rows - _number_rows;
         }
     }
+
+    _UpdateScrollView(false);
 }
 
 
@@ -961,7 +963,7 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
     int32_t col = _selection % _number_columns;
     bool bounds_exceeded = false;
 
-    // Determine if the movement selection will exceed a column or row bondary
+    // Determine if the movement selection will exceed a column or row boundary
     int32_t new_row = (row + offset) * _number_columns;
     if((horizontal == true && ((col + offset < 0) || (col + offset >= _number_columns) ||
                                (col + offset >= static_cast<int32_t>(GetNumberOptions())))) ||
@@ -1052,23 +1054,25 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
         _selection = (_selection + (offset * _number_columns)) % GetNumberOptions();
     }
 
+    _UpdateScrollView(is_wrapped);
+    return true;
+}
+
+void OptionBox::_UpdateScrollView(bool wrapped_movement)
+{
     // Determine if the new selection is not displayed in any cells. If so, scroll it into view.
     int32_t selection_row = _selection / _number_columns;
     int32_t selection_col = _selection % _number_columns;
 
     if (!_options[selection_row].disabled &&
         static_cast<uint32_t>(selection_row) < _draw_top_row) {
-        
-        if (is_wrapped) {
 
+        if (wrapped_movement) {
             // Scroll up with wrap around.
-
             assert(selection_row == 0);
             _draw_top_row = selection_row;
         } else {
-
             // Scroll up normally.
-
             _scrolling = true;
             _scrolling_horizontally = false;
             _scroll_time = 0;
@@ -1081,20 +1085,15 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
             _number_cell_rows += 1;
         }
     }
-
     else if (!_options[selection_row].disabled &&
              static_cast<uint32_t>(selection_row) >= (_draw_top_row + _number_cell_rows)) {
 
-        if (is_wrapped) {
-
+        if (wrapped_movement) {
             // Scroll down with wrap around.
-
             assert(selection_row - _number_cell_rows + 1 >= 0);
             _draw_top_row = selection_row - _number_cell_rows + 1;
         } else {
-
             // Scroll down normally.
-
             _scrolling = true;
             _scrolling_horizontally = false;
             _scroll_time = 0;
@@ -1107,21 +1106,16 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
             _number_cell_rows += 1;
         }
     }
-
     else if (!_options[selection_col].disabled &&
              static_cast<uint32_t>(selection_col) < _draw_left_column) {
 
-        if (is_wrapped) {
-
+        if (wrapped_movement) {
             // Scroll left with wrap around.
-
             assert(selection_col == 0);
             _draw_left_column = selection_col;
         }
         else {
-
             // Scroll left normally.
-
             _scrolling = true;
             _scrolling_horizontally = true;
             _scroll_time = 0;
@@ -1134,21 +1128,16 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
             _number_cell_columns += 1;
         }
     }
-
     else if (!_options[selection_col].disabled &&
              static_cast<uint32_t>(selection_col) >= (_draw_left_column + _number_cell_columns)) {
 
-        if (is_wrapped) {
-
+        if (wrapped_movement) {
             // Scroll right with wrap around.
-
             assert(selection_col - _number_cell_columns + 1 >= 0);
             _draw_left_column = selection_col - _number_cell_columns + 1;
         }
         else {
-
             // Scroll right normally.
-
             _scrolling = true;
             _scrolling_horizontally = true;
             _scroll_time = 0;
@@ -1161,9 +1150,7 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
             _number_cell_columns += 1;
         }
     }
-
     _event = VIDEO_OPTION_SELECTION_CHANGE;
-    return true;
 }
 
 void OptionBox::_SetupAlignment(int32_t xalign, int32_t yalign, const OptionCellBounds &bounds, float &x, float &y)
