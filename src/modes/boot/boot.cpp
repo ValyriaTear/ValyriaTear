@@ -69,7 +69,7 @@ BootMode::BootMode() :
     // List the debug scripts
     _debug_scripts = vt_utils::ListDirectory("./data/debug", ".lua");
 
-    _debug_script_menu.SetPosition(512.0f, 128.0f);
+    _debug_script_menu.SetPosition(512.0f, 164.0f);
     _debug_script_menu.SetTextStyle(TextStyle("text24"));
     _debug_script_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _debug_script_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -79,8 +79,8 @@ BootMode::BootMode() :
     _debug_script_menu.SetSkipDisabled(true);
 
     _debug_script_menu.ClearOptions();
-    float debug_win_height = 20.0f * static_cast<float>(_debug_scripts.size());
-    _debug_script_menu.SetDimensions(300.0f, debug_win_height > 600.0f ? 600.0f : debug_win_height,
+    float debug_win_height = 28.0f * static_cast<float>(_debug_scripts.size());
+    _debug_script_menu.SetDimensions(380.0f, debug_win_height > 600.0f ? 600.0f : debug_win_height,
                                      1, 255, 1, _debug_scripts.size());
     for (std::string file : _debug_scripts)
         _debug_script_menu.AddOption(vt_utils::MakeUnicodeString(file));

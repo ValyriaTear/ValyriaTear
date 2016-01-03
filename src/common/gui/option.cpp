@@ -195,28 +195,27 @@ void OptionBox::Draw()
 {
     VideoManager->PushState();
     VideoManager->SetDrawFlags(_xalign, _yalign, VIDEO_BLEND, 0);
-    VideoManager->DisableScissoring();
 
     // TODO: This call is also made at the end of this function. It is made here because for some
     // strange reason, only the option box outline is drawn and not the outline for the individual
     // cells. I'm not sure what part of the code between here and the end of this function could
     // affect that. This bug needs to be resolved and then this call to _DEBUG_DrawOutline() should
     // be removed, leaving only the call at the bottom of the function
-    if(GUIManager->DEBUG_DrawOutlines() == true) {
+    if (GUIManager->DEBUG_DrawOutlines() == true) {
         //_DEBUG_DrawOutline();
     }
-    float left, right, bottom, top;
+
+    float left = 0.0f;
+    float right = 0.0f;
+    float bottom = 0.0f;
+    float top = 0.0f;
 
     // ---------- (1) Determine the edge dimensions of the option box
-    left = 0.0f;
-
     if (_scrolling && _scrolling_horizontally) {
         right = (_number_cell_columns - 1) * _cell_width;
     } else {
         right = _number_cell_columns * _cell_width;
     }
-
-    bottom = 0.0f;
 
     if (_scrolling && !_scrolling_horizontally) {
         top = (_number_cell_rows - 1) * _cell_height;
@@ -226,11 +225,30 @@ void OptionBox::Draw()
 
     CalculateAlignedRect(left, right, bottom, top);
 
-    CoordSys &cs = VideoManager->_current_context.coordinate_system;
+    // Set up the scissor rectangle.
+    VideoManager->EnableScissoring();
+
+    int32_t width = VideoManager->GetScreenWidth();
+    int32_t height = VideoManager->GetScreenHeight();
+
+    float ratio_width = width / vt_video::VIDEO_STANDARD_RES_WIDTH;
+    float ratio_height = height / vt_video::VIDEO_STANDARD_RES_HEIGHT;
+
+    int32_t scissor_x = static_cast<int32_t>(left * ratio_width);
+    int32_t scissor_y = static_cast<int32_t>((vt_video::VIDEO_STANDARD_RES_HEIGHT - bottom) * ratio_height);
+
+    assert(right - left >= 0.0f);
+    uint32_t scissor_width = static_cast<uint32_t>((right - left) * ratio_width);
+
+    assert(bottom - top >= 0.0f);
+    uint32_t scissor_height = static_cast<uint32_t>((bottom - top) * ratio_height);
+
+    VideoManager->SetScissorRect(scissor_x, scissor_y, scissor_width, scissor_height);
 
     // ---------- (2) Determine the option cells to be drawn and any offsets needed for scrolling
     VideoManager->SetDrawFlags(_option_xalign, _option_yalign, VIDEO_X_NOFLIP, VIDEO_Y_NOFLIP, VIDEO_BLEND, 0);
 
+    CoordSys& cs = VideoManager->_current_context.coordinate_system;
     float xoff = _cell_width * cs.GetHorizontalDirection();
     float yoff = -_cell_height * cs.GetVerticalDirection();
     bool finished = false;
@@ -260,7 +278,8 @@ void OptionBox::Draw()
                 break;
             }
 
-            float left_edge = 999999.0f; // The x offset to where the visible option contents begin
+            // The x offset to where the visible option contents begin.
+            float left_edge = std::numeric_limits<float>::max();
             _DrawOption(_options.at(index), bounds, left_edge);
 
             // Draw the cursor if the previously drawn option was or is selected
@@ -277,18 +296,19 @@ void OptionBox::Draw()
             bounds.x_left += xoff;
             bounds.x_center += xoff;
             bounds.x_right += xoff;
-        } // for (int32_t col = 0; col < _number_columns; ++col)
+        }
 
         bounds.y_top += yoff;
         bounds.y_center += yoff;
         bounds.y_bottom += yoff;
-    } // for (int32_t row = row_min; row < row_max; row++)
+    }
 
     // ---------- (4) Draw scroll arrows where appropriate
     _DetermineScrollArrows();
     std::vector<StillImage>* arrows = GUIManager->GetScrollArrows();
 
-    float w, h;
+    float w = 0.0f;
+    float h = 0.0f;
     this->GetDimensions(w, h);
 
     if(_draw_vertical_arrows) {
@@ -1293,9 +1313,8 @@ void OptionBox::_DrawOption(const Option &op, const OptionCellBounds &bounds, fl
 
 void OptionBox::_DrawCursor(const OptionCellBounds &bounds, float left_edge, bool darken)
 {
-    // [phuedx] In this case the scroll offset is not used, however it should be.
-    // The Draw() function (and all helper functions) should be able able to
-    // render without knowledge of the private member variable _scroll_offset.
+    VideoManager->PushState();
+    VideoManager->DisableScissoring();
 
     float x = 0.0f;
     float y = 0.0f;
@@ -1305,14 +1324,15 @@ void OptionBox::_DrawCursor(const OptionCellBounds &bounds, float left_edge, boo
     VideoManager->MoveRelative(left_edge + _cursor_xoffset, _cursor_yoffset);
 
     StillImage* default_cursor = GUIManager->GetCursor();
-
-    if(default_cursor == nullptr)
+    if (default_cursor == nullptr)
         IF_PRINT_WARNING(VIDEO_DEBUG) << "invalid (nullptr) cursor image" << std::endl;
 
-    if(darken == false)
+    if (darken == false)
         default_cursor->Draw();
     else
         default_cursor->Draw(Color(1.0f, 1.0f, 1.0f, 0.5f));
+
+    VideoManager->PopState();
 }
 
 void OptionBox::_DEBUG_DrawOutline()
