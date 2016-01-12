@@ -172,6 +172,9 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
                                 _camera != nullptr ? _camera->GetXPosition() : 0,
                                 _camera != nullptr ? _camera->GetYPosition() : 0);
     }
+
+    // Unset save position to permit handling of "save points" (and autosave) whatever the map.
+    GlobalManager->UnsetSaveLocation();
 }
 
 MapMode::~MapMode()

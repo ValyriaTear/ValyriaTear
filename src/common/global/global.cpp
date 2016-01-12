@@ -890,9 +890,6 @@ bool GameGlobal::AutoSave(const std::string& map_data_file, const std::string& m
     _map_data_filename = previous_map_data;
     _map_script_filename = previous_map_script;
 
-    // Unset save position to act like a normal save point whatever the map.
-    UnsetSaveLocation();
-
     return save_completed;
 }
 
