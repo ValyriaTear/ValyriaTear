@@ -79,7 +79,9 @@ void BindModeCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
         [
             luabind::class_<MapMode, vt_mode_manager::GameMode>("MapMode")
-            .def(luabind::constructor<const std::string &, const std::string &>())
+            .def(luabind::constructor<const std::string&, const std::string&>())
+            .def(luabind::constructor<const std::string&, const std::string&,
+                                      uint32_t, bool>())
             .def("GetEventSupervisor", &MapMode::GetEventSupervisor)
             .def("GetDialogueSupervisor", &MapMode::GetDialogueSupervisor)
 

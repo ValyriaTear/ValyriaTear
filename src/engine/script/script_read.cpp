@@ -455,7 +455,7 @@ bool ReadScriptDescriptor::RunScriptFunction(const std::string &filename,
     return ran;
 }
 
-bool ReadScriptDescriptor::RunScriptFunction(const std::string &function_name)
+bool ReadScriptDescriptor::RunScriptFunction(const std::string& function_name)
 {
     if(!IsFileOpen()) {
         PRINT_ERROR << "Can't call function " << function_name << "without opening a script file." << std::endl;
@@ -465,12 +465,13 @@ bool ReadScriptDescriptor::RunScriptFunction(const std::string &function_name)
     try {
         luabind::call_function<void>(GetLuaState(), function_name.c_str());
     } catch(const luabind::error &e) {
-        PRINT_ERROR << "Error while loading :" << function_name << std::endl;
+        PRINT_ERROR << "Error while loading: " << function_name << std::endl;
         ScriptManager->HandleLuaError(e);
         return false;
     } catch(const luabind::cast_failed &e) {
-        PRINT_ERROR << "Error while loading :" << function_name << std::endl;
+        PRINT_ERROR << "Error while loading: " << function_name << std::endl;
         ScriptManager->HandleCastError(e);
+        return false;
     }
 
     return true;

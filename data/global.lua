@@ -32,7 +32,9 @@ function NewGame()
     GlobalManager:ShowWorldLocation("layna village")
     GlobalManager:SetCurrentLocationId("layna village")
 
-    local MM = vt_map.MapMode("data/story/layna_forest/layna_forest_crystal_map.lua", "data/story/introduction.lua");
+    -- Don't permit autosave at that moment.
+    local MM = vt_map.MapMode("data/story/layna_forest/layna_forest_crystal_map.lua", "data/story/introduction.lua",
+                              0, false);
     ModeManager:Pop(false, false);
     ModeManager:Push(MM, false, true);
 end

@@ -864,11 +864,11 @@ void GameGlobal::SetMap(const std::string &map_data_filename,
     _same_map_hud_name_as_previous = (MakeStandardString(_previous_map_hud_name) == MakeStandardString(_map_hud_name));
 }
 
-void GameGlobal::NewGame()
+bool GameGlobal::NewGame()
 {
     // Make sure no debug data is in the way.
     ClearAllData();
-    _global_script.RunScriptFunction("NewGame");
+    return _global_script.RunScriptFunction("NewGame");
 }
 
 bool GameGlobal::AutoSave(const std::string& map_data_file, const std::string& map_script_file,

@@ -170,8 +170,13 @@ void BootMode::Update()
     if(_exiting_to_new_game) {
         // When the fade out is done, we start a new game.
         if (!VideoManager->IsFading() && _new_game_called == false) {
-            GlobalManager->NewGame();
             _new_game_called = true;
+            if (!GlobalManager->NewGame()) {
+                _new_game_called = false;
+                _exiting_to_new_game = false;
+                VideoManager->FadeIn(2000);
+                ChangeState(BOOT_STATE_MENU);
+            }
         }
         return;
     }

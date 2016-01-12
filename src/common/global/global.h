@@ -772,7 +772,8 @@ public:
     }
 
     //! \brief Executes function NewGame() from global script
-    void NewGame();
+    //! \returns whether it succeeded.
+    bool NewGame();
 
     /** \brief Saves all global data to a saved game file
     *** \param filename The filename of the saved game file where to write the data to
