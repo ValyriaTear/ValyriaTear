@@ -140,8 +140,11 @@ void BattleMode::_ResetMusicState()
     MusicDescriptor* active_music = AudioManager->GetActiveMusic();
 
     // Stop the current music if it's not the right one.
-    if (active_music != nullptr && music != active_music)
+    if (active_music != nullptr && music != active_music) {
         active_music->FadeOut(500);
+        if (music)
+            music->Rewind();
+    }
 
     // If there is no map music or the music is already in the correct state, don't do anything.
     if (!music)
@@ -157,10 +160,12 @@ void BattleMode::_ResetMusicState()
     case AUDIO_STATE_STOPPED:
     default:
         // In case the music volume was modified, we fade it back in smoothly
-        if(music->GetVolume() < 1.0f)
+        if(music->GetVolume() < 1.0f) {
             music->FadeIn(1000);
-        else
+        }
+        else {
             music->Play();
+        }
         break;
     }
 }
