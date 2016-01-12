@@ -715,10 +715,11 @@ items[70002] = {
     key_item = true
 }
 
+-- old item: To remove later.
 items[70003] = {
     name = vt_system.Translate("Wolfpain Necklace"),
     description = vt_system.Translate("A strange necklace with unknown powers."),
     icon = "data/inventory/items/key_items/necklace_wolfpain.png",
     standard_price = 0,
-    key_item = true
+    key_item = true,
 }

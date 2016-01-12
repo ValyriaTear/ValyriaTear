@@ -331,7 +331,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Get the wolfpain necklace");
 
     event = vt_map.TreasureEvent.Create("Get the wolfpain necklace");
-    event:AddItem(70003, 1); -- The wolfpain key item
+    event:AddItem(20002, 1); -- The wolfpain key item
     event:AddEventLinkAtEnd("Kalya talks after the battle");
 
     dialogue = vt_map.SpriteDialogue.Create();

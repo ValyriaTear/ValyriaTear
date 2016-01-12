@@ -48,6 +48,20 @@ armor[20001] = {
     key_item = true
 }
 
+armor[20002] = {
+    name = vt_system.Translate("Wolfpain Necklace"),
+    description = vt_system.Translate("A strange necklace with unknown powers."),
+    icon = "data/inventory/items/key_items/necklace_wolfpain.png",
+    physical_defense = 8,
+    magical_defense = 24,
+    standard_price = 0,
+    key_item = true,
+    usable_by = KALYA,
+    status_effects = {
+        [vt_global.GameGlobal.GLOBAL_STATUS_SP] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+    },
+}
+
 armor[20011] = {
 	name = vt_system.Translate("Old Helmet"),
 	description = vt_system.Translate("A battle-worn helmet, still reliable for head protection."),
