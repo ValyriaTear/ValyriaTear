@@ -146,6 +146,10 @@ function _CreateObjects()
     dialogue:AddLineEvent(text, npc, "Forest entrance heal", "");
     npc:AddDialogueReference(dialogue);
 
+    npc = CreateObject(Map, "Layna Statue", 27, 20, vt_map.MapMode.GROUND_OBJECT);
+    npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    npc:SetInteractionIcon("data/gui/map/heal_anim.lua")
+
     -- Only add the squirrels and butterflies when the night isn't about to happen
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         npc = CreateSprite(Map, "Butterfly", 42, 18, vt_map.MapMode.GROUND_OBJECT);

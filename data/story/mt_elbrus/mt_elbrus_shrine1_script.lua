@@ -218,6 +218,7 @@ function _CreateObjects()
 
     object = CreateObject(Map, "Layna Statue", 41, 28, vt_map.MapMode.GROUND_OBJECT);
     object:SetEventWhenTalking("Heal dialogue");
+    object:SetInteractionIcon("data/gui/map/heal_anim.lua")
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Your party feels better.");

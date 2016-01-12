@@ -203,10 +203,12 @@ function _CreateObjects()
     if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0
             or GlobalManager:GetEventValue("story", "mt elbrus shrine heroes saved") == 1) then
         layna_statue:SetEventWhenTalking("Heal dialogue");
+        layna_statue:SetInteractionIcon("data/gui/map/heal_anim.lua")
     end
 
     object = CreateObject(Map, "Layna Statue", 37, 30, vt_map.MapMode.GROUND_OBJECT);
     object:SetEventWhenTalking("Heal dialogue");
+    object:SetInteractionIcon("data/gui/map/heal_anim.lua")
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Your party feels better.");

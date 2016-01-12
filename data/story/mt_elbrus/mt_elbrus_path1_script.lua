@@ -144,7 +144,8 @@ function _CreateObjects()
     text = vt_system.Translate("Your party feels better.");
     dialogue:AddLineEvent(text, npc, "Heal event", "");
     npc:AddDialogueReference(dialogue);
-    CreateObject(Map, "Layna Statue", 104, 56, vt_map.MapMode.GROUND_OBJECT);
+    npc = CreateObject(Map, "Layna Statue", 104, 56, vt_map.MapMode.GROUND_OBJECT);
+    npc:SetInteractionIcon("data/gui/map/heal_anim.lua")
 
     -- Treasure box
     local chest = CreateTreasure(Map, "elbrus_path1_chest1", "Wood_Chest1", 7, 92, vt_map.MapMode.GROUND_OBJECT);

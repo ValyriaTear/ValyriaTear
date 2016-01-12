@@ -294,7 +294,7 @@ public:
     virtual void Draw();
 
     //! \brief Draws the dialogue icon at the top of the sprite
-    virtual void DrawDialog();
+    virtual void DrawDialogIcon();
 
     /** \brief Adds a new reference to a dialogue that the sprite uses
     *** \param dialogue The SpriteDialogue used.

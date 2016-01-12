@@ -218,6 +218,7 @@ void BindModeCode()
             .def("Emote", &MapObject::Emote)
             .def("SetGrayscale", &MapObject::SetGrayscale)
             .def("IsGrayscale", &MapObject::IsGrayscale)
+            .def("SetInteractionIcon", &MapObject::SetInteractionIcon)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")

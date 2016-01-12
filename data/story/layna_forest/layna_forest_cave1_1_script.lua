@@ -169,9 +169,13 @@ function _CreateObjects()
     dialogue:AddLineEvent(text, npc, "Cave heal", "");
     npc:AddDialogueReference(dialogue);
 
+    npc = CreateObject(Map, "Layna Statue", 35, 6, vt_map.MapMode.GROUND_OBJECT);
+    npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    npc:SetInteractionIcon("data/gui/map/heal_anim.lua")
+
     -- The triggers
 
-    --near entrance
+    -- near entrance
     local trigger = vt_map.TriggerObject.Create("layna_cave_entrance_trigger",
                                                 vt_map.MapMode.FLATGROUND_OBJECT,
                                                 "data/entities/map/triggers/stone_trigger1_off.lua",

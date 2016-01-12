@@ -142,6 +142,10 @@ function _CreateObjects()
     dialogue:AddLineEvent(text, npc, "heal point", "");
     npc:AddDialogueReference(dialogue);
 
+    npc = CreateObject(Map, "Layna Statue", 69, 86, vt_map.MapMode.GROUND_OBJECT);
+    npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    npc:SetInteractionIcon("data/gui/map/heal_anim.lua")
+
     -- The boss map sprite, placed for final battle
     wolf = CreateSprite(Map, "Fenrir", 42, 63, vt_map.MapMode.GROUND_OBJECT);
     wolf:SetMovementSpeed(vt_map.MapMode.VERY_FAST_SPEED);

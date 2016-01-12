@@ -390,15 +390,14 @@ void MapMode::Draw()
 {
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
+    VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     GetScriptSupervisor().DrawBackground();
-
     VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     _DrawMapLayers();
-
-    GetScriptSupervisor().DrawForeground();
-
     VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
-    _object_supervisor->DrawDialogIcons();
+    GetScriptSupervisor().DrawForeground();
+    VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
+    _object_supervisor->DrawInteractionIcons();
     VideoManager->PopState();
 }
 

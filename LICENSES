@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2015.11.02
+Last update: 2016.01.12
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -150,6 +150,8 @@ data/gui/menus/menu_avg_atk_def.png                                           GP
 data/gui/menus/menu_point_atk_def.png                                         GPLv2+                   Allacrost + Modifications by Bertram
 data/gui/menus/menu_stats_icons.png                                           GPLv2+                   Allacrost + Modifications by Bertram
 data/gui/menus/equip.png                                                      GPLv2+                   Allacrost
+data/gui/map/heal.png                                                         CC0                      Kenney - http://opengameart.org/content/game-icons
+data/gui/map/exit.png                                                         CC0                      Kenney - http://opengameart.org/content/game-icons
 
 data/gui/themes/royal_silk/win_border.png                                     CC by 3.0                Bertram - Based on Charles Gabriel's work - http://opengameart.org/content/10-basic-message-boxes
 data/gui/themes/royal_silk/win_background.png                                 CC by SA 3.0 / GPLv2+    Allacrost + Bertram modifications

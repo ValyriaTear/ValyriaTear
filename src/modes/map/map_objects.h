@@ -56,6 +56,9 @@ enum MapObjectDrawLayer {
 namespace private_map
 {
 
+// Update the alpha of the interaction icon according to its distance from the player sprite.
+const float INTERACTION_ICON_VISIBLE_RANGE = 10.0f;
+
 class ContextZone;
 class MapSprite;
 class MapZone;
@@ -96,8 +99,7 @@ class MapObject
 public:
     MapObject(MapObjectDrawLayer layer);
 
-    virtual ~MapObject()
-    {}
+    virtual ~MapObject();
 
     /** \brief Updates the state of an object.
     *** Many map objects may not actually have a use for this function. For example, animated objects
@@ -105,7 +107,7 @@ public:
     *** function. So it is the case that the implementation of this function in derived classes may
     *** simply do nothing.
     **/
-    virtual void Update() = 0;
+    virtual void Update();
 
     /** \brief Draws the object to the frame buffer.
     *** Objects are drawn differently depending on what type of object they are and what their current
@@ -317,6 +319,12 @@ public:
     bool HasEmote() const {
         return (_emote_animation);
     }
+
+    //! \brief Loads the current animation file as the new interaction icon of the object.
+    void SetInteractionIcon(const std::string& animation_filename);
+
+    //! \brief Draws the interactrion icon at the top of the sprite, if any.
+    void DrawInteractionIcon();
     //@}
 
 protected:
@@ -391,8 +399,13 @@ protected:
     //! \brief This is used to identify the type of map object for inheriting classes.
     MAP_OBJECT_TYPE _object_type;
 
-    //! \brief the emote animation to play
+    //! \brief the emote animation to play.
+    //! \note This is a reference pointer only, and shouldn't be deleted.
     vt_video::AnimatedImage* _emote_animation;
+
+    //! \brief the interaction icon animation to play, if any.
+    //! \note This one should be deleted in the destructor.
+    vt_video::AnimatedImage* _interaction_icon;
 
     //! \brief The emote animation drawing offset in screen coordinates (pixel value * zoom ratio)
     //! (depending on the map object direction)
@@ -1106,7 +1119,7 @@ public:
     void DrawPassObjects();
     void DrawSkyObjects();
     void DrawLights();
-    void DrawDialogIcons();
+    void DrawInteractionIcons();
     //@}
 
     /** \brief Finds the nearest interactable map object within a certain distance of a sprite

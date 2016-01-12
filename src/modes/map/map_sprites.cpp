@@ -1093,28 +1093,19 @@ void MapSprite::Draw()
         _DrawDebugInfo();
 }
 
-void MapSprite::DrawDialog()
+void MapSprite::DrawDialogIcon()
 {
-    // Update the alpha of the dialogue icon according to its distance from the player sprite.
-    const float DIALOGUE_ICON_VISIBLE_RANGE = 10.0f;
-
     if(!MapObject::ShouldDraw())
         return;
 
-    MapMode *map_mode = MapMode::CurrentInstance();
-    // Don't show a dialogue bubble when not in exploration mode.
-    if (map_mode->CurrentState() != STATE_EXPLORE)
+    // Other map sprite logical conditions preventing the bubble from being displayed
+    if (!_has_available_dialogue || !_has_unseen_dialogue || _dialogue_started)
         return;
 
-    // Other logical conditions preventing the bubble from being displayed
-    if (!_has_available_dialogue || !_has_unseen_dialogue || _dialogue_started ||
-        !map_mode->IsShowGUI() || map_mode->IsCameraOnVirtualFocus())
-        return;
-
+    MapMode* map_mode = MapMode::CurrentInstance();
     Color icon_color(1.0f, 1.0f, 1.0f, 0.0f);
     float icon_alpha = 1.0f - (fabs(GetXPosition() - map_mode->GetCamera()->GetXPosition())
-                               + fabs(GetYPosition() - map_mode->GetCamera()->GetYPosition())) / DIALOGUE_ICON_VISIBLE_RANGE;
-
+                            + fabs(GetYPosition() - map_mode->GetCamera()->GetYPosition())) / INTERACTION_ICON_VISIBLE_RANGE;
     if (icon_alpha < 0.0f)
         icon_alpha = 0.0f;
     icon_color.SetAlpha(icon_alpha);
