@@ -144,12 +144,28 @@ function _CreateObjects()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Your party feels better.");
-    dialogue:AddLineEvent(text, nil, "Heal event", ""); -- 0 means no portrait and no name
+    dialogue:AddLineEvent(text, nil, "Heal event", ""); -- nil means no portrait and no name
     vt_map.DialogueEvent.Create("Heal dialogue", dialogue);
 
-    -- Treasure box
-    local chest = CreateTreasure(Map, "elbrus_path2_chest1", "Wood_Chest1", 7, 7, vt_map.MapMode.GROUND_OBJECT);
-    chest:AddItem(2, 1); -- Medium healing potion
+    -- Mushroom shop!
+    dialogue = vt_map.SpriteDialogue.Create();
+    text = vt_system.Translate("Please, don't hurt me, my life is already so short!");
+    dialogue:AddLineEmote(text, nil, "exclamation");
+    text = vt_system.Translate("What about buying some items instead?");
+    dialogue:AddLine(text, nil);
+    event = vt_map.DialogueEvent.Create("Shroom dialogue", dialogue);
+    event:AddEventLinkAtEnd("Shroom Shop");
+
+    event = vt_map.ShopEvent.Create("Shroom Shop", "Shroom Shop");
+    event:AddItem(1, 0); -- infinite minor potions
+    event:AddItem(2, 0); -- infinite medium potions
+    event:AddItem(11, 0); -- infinite minor moon juice
+    event:AddItem(1001, 0); -- infinite minor elixirs
+    event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_POOR,
+                         vt_shop.ShopMode.SHOP_PRICE_POOR);
+
+    local shroom = CreateObject(Map, "Shroom", 8, 10, vt_map.MapMode.GROUND_OBJECT);
+    shroom:SetEventWhenTalking("Shroom dialogue");
 
     -- Objects array
     local map_objects = {
