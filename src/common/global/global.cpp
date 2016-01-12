@@ -82,6 +82,7 @@ GameGlobal::GameGlobal() :
     _max_experience_level(100),
     _x_save_map_position(0),
     _y_save_map_position(0),
+    _save_stamina(0),
     _world_map_image(nullptr),
     _same_map_hud_name_as_previous(false),
     _quest_log_count(0),
@@ -261,8 +262,8 @@ void GameGlobal::ClearAllData()
         delete itr->second;
     _quest_log_entries.clear();
 
-    // Clear the save location
-    UnsetSaveLocation();
+    // Clear the save temporary data
+    UnsetSaveData();
 
     // Clear out the map previous location
     _previous_location.clear();
@@ -871,6 +872,7 @@ void GameGlobal::NewGame()
 }
 
 bool GameGlobal::AutoSave(const std::string& map_data_file, const std::string& map_script_file,
+                          uint32_t stamina,
                           uint32_t x_position, uint32_t y_position)
 {
     std::ostringstream filename;
@@ -883,6 +885,7 @@ bool GameGlobal::AutoSave(const std::string& map_data_file, const std::string& m
     // Set map data for the save file.
     _map_data_filename = map_data_file;
     _map_script_filename = map_script_file;
+    _save_stamina = stamina;
 
     bool save_completed = SaveGame(filename.str(), GetGameSlotId(), x_position, y_position);
 
@@ -917,6 +920,7 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32_t slot_id, uint32_
     file.WriteLine("play_minutes = " + NumberToString(SystemManager->GetPlayMinutes()) + ",");
     file.WriteLine("play_seconds = " + NumberToString(SystemManager->GetPlaySeconds()) + ",");
     file.WriteLine("drunes = " + NumberToString(_drunes) + ",");
+    file.WriteLine("stamina = " + NumberToString(_save_stamina) + ",");
 
     // Save the inventory (object id + object count pairs)
     // NOTE: This does not save any weapons/armor that are equipped on the characters. That data
@@ -1038,6 +1042,8 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32_t slot_id)
     seconds = file.ReadUInt("play_seconds");
     SystemManager->SetPlayTime(hours, minutes, seconds);
     _drunes = file.ReadUInt("drunes");
+    if (file.DoesUIntExist("stamina"))
+        _save_stamina = file.ReadUInt("stamina");
 
     // Load inventory
     _LoadInventory(file, "items");

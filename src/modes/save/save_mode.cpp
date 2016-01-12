@@ -260,10 +260,12 @@ void SaveMode::Update()
 
         case SAVE_MODE_CONFIRMING_SAVE:
             if(_confirm_save_optionbox.GetSelection() == 0) {
-                // note: using int here, because uint8_t will NOT work
-                // do not change unless you understand this and can test it properly!
                 uint32_t id = static_cast<uint32_t>(_file_list.GetSelection());
-                // now, attempt to save the game.  If failure, we need to tell the user that!
+                uint32_t stamina = MapMode::CurrentInstance() ?
+                                   MapMode::CurrentInstance()->GetStamina() : 0;
+                GlobalManager->SetSaveStamina(stamina);
+
+                // Attempt to save the game
                 if(GlobalManager->SaveGame(_BuildSaveFilename(id), id, _x_position, _y_position)) {
                     _current_state = SAVE_MODE_SAVE_COMPLETE;
                     AudioManager->PlaySound("data/sounds/save_successful_nick_bowler_oga.wav");
@@ -464,7 +466,8 @@ bool SaveMode::_LoadGame(const std::string& filename)
             // TODO: Save and restore stamina at load time
             MapMode *MM = new MapMode(GlobalManager->GetMapDataFilename(),
                                       GlobalManager->GetMapScriptFilename(),
-                                      STAMINA_FULL, false);
+                                      GlobalManager->GetSaveStamina(),
+                                      false);
             ModeManager->Push(MM, true, true);
         } catch(const luabind::error &e) {
             PRINT_ERROR << "Map::_Load -- Error loading map data "

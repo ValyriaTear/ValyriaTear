@@ -116,8 +116,6 @@ function _CreateCharacters()
     local x_position = GlobalManager:GetSaveLocationX();
     local y_position = GlobalManager:GetSaveLocationY();
     if (x_position ~= 0 and y_position ~= 0) then
-        -- Use the save point position, and clear the save position data for next maps
-        GlobalManager:UnsetSaveLocation();
         -- Make the character look at us in that case
         bronann:SetDirection(vt_map.MapMode.SOUTH);
         bronann:SetPosition(x_position, y_position);

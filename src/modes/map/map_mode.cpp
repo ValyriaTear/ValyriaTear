@@ -168,13 +168,13 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _debug_camera_position.SetStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
 
     if (_auto_save_enabled && permit_autosave) {
-        GlobalManager->AutoSave(_map_data_filename, _map_script_filename,
+        GlobalManager->AutoSave(_map_data_filename, _map_script_filename, _run_stamina,
                                 _camera != nullptr ? _camera->GetXPosition() : 0,
                                 _camera != nullptr ? _camera->GetYPosition() : 0);
     }
 
-    // Unset save position to permit handling of "save points" (and autosave) whatever the map.
-    GlobalManager->UnsetSaveLocation();
+    // Unset save temporary data now the map is loaded.
+    GlobalManager->UnsetSaveData();
 }
 
 MapMode::~MapMode()

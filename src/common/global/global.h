@@ -784,6 +784,7 @@ public:
 
     //! \brief Attempts an autosave on the current slot, using given map and location.
     bool AutoSave(const std::string& map_data_file, const std::string& map_script_file,
+                  uint32_t stamina,
                   uint32_t x_position = 0, uint32_t y_position = 0);
 
     /** \brief Loads all global data from a saved game file
@@ -817,31 +818,40 @@ public:
         return _drunes;
     }
 
-    const std::string &GetMapDataFilename() {
+    const std::string& GetMapDataFilename() const {
         return _map_data_filename;
     }
 
-    const std::string &GetMapScriptFilename() {
+    const std::string& GetMapScriptFilename() const {
         return _map_script_filename;
     }
 
-    uint32_t GetSaveLocationX() {
+    uint32_t GetSaveLocationX() const {
         return _x_save_map_position;
     }
 
-    uint32_t GetSaveLocationY() {
+    uint32_t GetSaveLocationY() const {
         return _y_save_map_position;
     }
 
-    /** \brief Unset the save location once retreived at load time.
-    *** It should be done in the map code once the location has been set up.
-    **/
-    void UnsetSaveLocation() {
-        _x_save_map_position = 0;
-        _y_save_map_position = 0;
+    uint32_t GetSaveStamina() const {
+        return _save_stamina;
     }
 
-    vt_video::StillImage &GetMapImage() {
+    void SetSaveStamina(uint32_t stamina) {
+        _save_stamina = stamina;
+    }
+
+    /** \brief Unset the save data once retreived at load time.
+    *** It should be done in the map code once this data has been restored.
+    **/
+    void UnsetSaveData() {
+        _x_save_map_position = 0;
+        _y_save_map_position = 0;
+        _save_stamina = 0;
+    }
+
+    vt_video::StillImage& GetMapImage() {
         return _map_image;
     }
 
@@ -1045,7 +1055,11 @@ private:
     std::string _map_script_filename;
 
     //! \brief last save point map tile location.
-    uint32_t _x_save_map_position, _y_save_map_position;
+    uint32_t _x_save_map_position;
+    uint32_t _y_save_map_position;
+
+    //! \brief last save party stamina value.
+    uint32_t _save_stamina;
 
     //! \brief The graphical image which represents the current location
     vt_video::StillImage _map_image;
