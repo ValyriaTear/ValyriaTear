@@ -267,6 +267,8 @@ void SaveMode::Update()
                 if(GlobalManager->SaveGame(_BuildSaveFilename(id), id, _x_position, _y_position)) {
                     _current_state = SAVE_MODE_SAVE_COMPLETE;
                     AudioManager->PlaySound("data/sounds/save_successful_nick_bowler_oga.wav");
+                    // Remove the autosave in that case.
+                    _DeleteAutoSave(id);
                 } else {
                     _current_state = SAVE_MODE_SAVE_FAILED;
                     AudioManager->PlaySound("data/sounds/cancel.wav");
@@ -459,7 +461,10 @@ bool SaveMode::_LoadGame(const std::string& filename)
         // Create a new map mode, and fade out and in
         ModeManager->PopAll();
         try {
-            MapMode *MM = new MapMode(GlobalManager->GetMapDataFilename(), GlobalManager->GetMapScriptFilename());
+            // TODO: Save and restore stamina at load time
+            MapMode *MM = new MapMode(GlobalManager->GetMapDataFilename(),
+                                      GlobalManager->GetMapScriptFilename(),
+                                      STAMINA_FULL, false);
             ModeManager->Push(MM, true, true);
         } catch(const luabind::error &e) {
             PRINT_ERROR << "Map::_Load -- Error loading map data "
@@ -719,6 +724,12 @@ std::string SaveMode::_BuildSaveFilename(uint32_t id, bool autosave)
     else
         file << ".lua";
     return file.str();
+}
+
+void SaveMode::_DeleteAutoSave(uint32_t id)
+{
+    std::string filename = _BuildSaveFilename(id, true);
+    vt_utils::DeleteFile(filename);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

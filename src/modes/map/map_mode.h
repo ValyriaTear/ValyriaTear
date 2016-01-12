@@ -115,8 +115,10 @@ public:
     //! \param data_filename The name of the Lua file that retains all data about the map to create
     //! \param script_filename The name of the Lua file that retains all data about script to load
     //! \param stamina The amount of stamina the map character sprite will start with.
+    //! \param permit_autosave Whether an autosave can happen at map load time.
     //! \note the last parameter is usually set to carry the current stamina value from one map to another.
-    MapMode(const std::string &data_filename, const std::string& script_filename, uint32_t stamina = STAMINA_FULL);
+    MapMode(const std::string &data_filename, const std::string& script_filename,
+            uint32_t stamina = STAMINA_FULL, bool permit_autosave = true);
 
     ~MapMode();
 

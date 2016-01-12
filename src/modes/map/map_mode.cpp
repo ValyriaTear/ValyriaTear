@@ -59,7 +59,8 @@ MapMode *MapMode::_current_instance = nullptr;
 // ********** MapMode Public Class Methods
 // ****************************************************************************
 
-MapMode::MapMode(const std::string& data_filename, const std::string& script_filename, uint32_t stamina) :
+MapMode::MapMode(const std::string& data_filename, const std::string& script_filename,
+                 uint32_t stamina, bool permit_autosave) :
     GameMode(MODE_MANAGER_MAP_MODE),
     _activated(false),
     _map_data_filename(data_filename),
@@ -166,7 +167,7 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     // Init the camera position text style
     _debug_camera_position.SetStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
 
-    if (_auto_save_enabled) {
+    if (_auto_save_enabled && permit_autosave) {
         GlobalManager->AutoSave(_map_data_filename, _map_script_filename,
                                 _camera != nullptr ? _camera->GetXPosition() : 0,
                                 _camera != nullptr ? _camera->GetYPosition() : 0);

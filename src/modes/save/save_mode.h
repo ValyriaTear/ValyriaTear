@@ -125,6 +125,10 @@ private:
     //! \brief Returns the corresponding save game filename (or autosave).
     std::string _BuildSaveFilename(uint32_t id, bool autosave = false);
 
+    //! \brief Delete a previous autosave.
+    //! Used in the case the player loaded a regular autosave, or saved on a save point.
+    void _DeleteAutoSave(uint32_t id);
+
     //! \brief The MenuWindow for the backdrop
     vt_gui::MenuWindow _window;
 
