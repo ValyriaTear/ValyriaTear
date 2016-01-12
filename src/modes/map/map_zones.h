@@ -83,8 +83,7 @@ public:
     **/
     MapZone(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row);
 
-    virtual ~MapZone()
-    {}
+    virtual ~MapZone();
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
@@ -105,8 +104,7 @@ public:
     virtual void AddSection(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row);
 
     //! \brief Updates the state of the zone
-    virtual void Update()
-    {}
+    virtual void Update();
 
     /** \brief Returns true if the position coordinates are located inside the zone (inclusive to the zone boundary edges)
     *** \param pos_x The x position to check
@@ -127,9 +125,18 @@ public:
     **/
     void RandomPosition(float &x, float &y);
 
+    //! \brief Loads the current animation file as the new interaction icon of the object.
+    void SetInteractionIcon(const std::string& animation_filename);
+
+    //! \brief Draws the interaction icon at the top of the zone rectangle, if any.
+    void DrawInteractionIcon();
+
 protected:
     //! \brief The rectangular sections which compose the map zone
     std::vector<ZoneSection> _sections;
+
+    //! \brief Interaction icon
+    vt_video::AnimatedImage* _interaction_icon;
 
     //! \brief Tells whether a section is on screen and place the drawing cursor in that case.
     bool _ShouldDraw(const ZoneSection &section);

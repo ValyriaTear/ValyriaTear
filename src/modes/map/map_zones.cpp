@@ -34,11 +34,18 @@ namespace private_map
 // ---------- MapZone Class Functions
 // -----------------------------------------------------------------------------
 
-MapZone::MapZone(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row)
+MapZone::MapZone(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row) :
+    _interaction_icon(nullptr)
 {
     AddSection(left_col, right_col, top_row, bottom_row);
     // Register to the object supervisor
     MapMode::CurrentInstance()->GetObjectSupervisor()->AddZone(this);
+}
+
+MapZone::~MapZone()
+{
+    if (_interaction_icon)
+        delete _interaction_icon;
 }
 
 MapZone* MapZone::Create(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row)
@@ -77,6 +84,12 @@ bool MapZone::IsInsideZone(float pos_x, float pos_y) const
         }
     }
     return false;
+}
+
+void MapZone::Update()
+{
+    if (_interaction_icon)
+        _interaction_icon->Update();
 }
 
 void MapZone::Draw()
@@ -125,6 +138,45 @@ bool MapZone::_ShouldDraw(const ZoneSection &section)
     return true;
 }
 
+void MapZone::SetInteractionIcon(const std::string& animation_filename)
+{
+    if (_interaction_icon)
+        delete _interaction_icon;
+    _interaction_icon = new vt_video::AnimatedImage();
+    if (!_interaction_icon->LoadFromAnimationScript(animation_filename)) {
+        PRINT_WARNING << "Interaction icon animation filename couldn't be loaded: " << animation_filename << std::endl;
+    }
+}
+
+void MapZone::DrawInteractionIcon()
+{
+    for(std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
+        const ZoneSection& section = *it;
+        if(!_interaction_icon || !_ShouldDraw(section))
+            continue;
+
+        // Determine the center position coordinates for the camera
+        MapRectangle rect;
+        rect.top = section.top_row;
+        rect.bottom = section.bottom_row;
+        rect.left = section.left_col;
+        rect.right = section.right_col;
+        float x_pos = rect.left + (rect.right - rect.left) / 2;
+        float y_pos = rect.top + (rect.bottom - rect.top);
+
+        MapMode* map_mode = MapMode::CurrentInstance();
+        vt_video::Color icon_color(1.0f, 1.0f, 1.0f, 0.0f);
+        float icon_alpha = 1.0f - (fabs(x_pos - map_mode->GetCamera()->GetXPosition())
+                                + fabs(y_pos - map_mode->GetCamera()->GetYPosition())) / INTERACTION_ICON_VISIBLE_RANGE;
+        if (icon_alpha < 0.0f)
+            icon_alpha = 0.0f;
+        icon_color.SetAlpha(icon_alpha);
+
+        vt_video::VideoManager->MoveRelative(0.0f, -1.0f * GRID_LENGTH);
+        _interaction_icon->Draw(icon_color);
+    }
+}
+
 // -----------------------------------------------------------------------------
 // ---------- CameraZone Class Functions
 // -----------------------------------------------------------------------------
@@ -144,6 +196,8 @@ CameraZone* CameraZone::Create(uint16_t left_col, uint16_t right_col, uint16_t t
 
 void CameraZone::Update()
 {
+    MapZone::Update();
+
     _was_camera_inside = _camera_inside;
 
     // Update only if camera is on a real sprite
@@ -271,6 +325,8 @@ void EnemyZone::Update()
 
     if (_enemies.empty())
         return;
+
+    MapZone::Update();
 
     // Update timers
     _spawn_timer.Update();

@@ -730,6 +730,8 @@ local wolf_battle_zone = nil
 function _CreateZones()
     -- N.B.: left, right, top, bottom
     to_forest_cave2_zone = vt_map.CameraZone.Create(28, 33, 23, 25);
+    to_forest_cave2_zone:SetInteractionIcon("data/gui/map/exit_anim.lua")
+
     wolf_battle_zone = vt_map.CameraZone.Create(38, 46, 63, 66);
 end
 

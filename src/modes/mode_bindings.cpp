@@ -399,6 +399,7 @@ void BindModeCode()
             luabind::class_<MapZone>("MapZone")
             .def("AddSection", &MapZone::AddSection)
             .def("IsInsideZone", &MapZone::IsInsideZone)
+            .def("SetInteractionIcon", &MapZone::SetInteractionIcon)
             .scope
             [   // Used for static members and nested classes.
                 luabind::def("Create", &MapZone::Create)

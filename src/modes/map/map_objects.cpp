@@ -1431,6 +1431,9 @@ void ObjectSupervisor::DrawInteractionIcons()
         }
         _ground_objects[i]->DrawInteractionIcon();
     }
+    for(uint32_t i = 0; i < _zones.size(); i++) {
+        _zones[i]->DrawInteractionIcon();
+    }
 }
 
 void ObjectSupervisor::_UpdateSavePoints()

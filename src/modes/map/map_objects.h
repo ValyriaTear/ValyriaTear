@@ -323,7 +323,7 @@ public:
     //! \brief Loads the current animation file as the new interaction icon of the object.
     void SetInteractionIcon(const std::string& animation_filename);
 
-    //! \brief Draws the interactrion icon at the top of the sprite, if any.
+    //! \brief Draws the interaction icon at the top of the sprite, if any.
     void DrawInteractionIcon();
     //@}
 
