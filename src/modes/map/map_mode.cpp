@@ -165,6 +165,12 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
 
     // Init the camera position text style
     _debug_camera_position.SetStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
+
+    if (_auto_save_enabled) {
+        GlobalManager->AutoSave(_map_data_filename, _map_script_filename,
+                                _camera != nullptr ? _camera->GetXPosition() : 0,
+                                _camera != nullptr ? _camera->GetYPosition() : 0);
+    }
 }
 
 MapMode::~MapMode()
@@ -242,11 +248,6 @@ void MapMode::Reset()
     // I.e: When going out of the menu mode.
     if (CurrentState() == private_map::STATE_EXPLORE)
         _object_supervisor->ReloadVisiblePartyMember();
-
-    if (_auto_save_enabled) {
-        GlobalManager->AutoSave(_camera != nullptr ? _camera->GetXPosition() : 0,
-                                _camera != nullptr ? _camera->GetYPosition() : 0);
-    }
 }
 
 void MapMode::_ResetMusicState()

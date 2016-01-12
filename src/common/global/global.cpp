@@ -870,13 +870,30 @@ void GameGlobal::NewGame()
     _global_script.RunScriptFunction("NewGame");
 }
 
-bool GameGlobal::AutoSave(uint32_t x_position, uint32_t y_position)
+bool GameGlobal::AutoSave(const std::string& map_data_file, const std::string& map_script_file,
+                          uint32_t x_position, uint32_t y_position)
 {
-    std::ostringstream f;
-    f << GetUserDataPath() + "saved_game_" << GetGameSlotId() << "_autosave.lua";
-    std::string filename = f.str();
+    std::ostringstream filename;
+    filename << GetUserDataPath() + "saved_game_" << GetGameSlotId() << "_autosave.lua";
 
-    return SaveGame(filename, GetGameSlotId(), x_position, y_position);
+    // Make the map location known globally to other code that may need to know this information
+    std::string previous_map_data = _map_data_filename;
+    std::string previous_map_script = _map_script_filename;
+
+    // Set map data for the save file.
+    _map_data_filename = map_data_file;
+    _map_script_filename = map_script_file;
+
+    bool save_completed = SaveGame(filename.str(), GetGameSlotId(), x_position, y_position);
+
+    // Restore previous map data
+    _map_data_filename = previous_map_data;
+    _map_script_filename = previous_map_script;
+
+    // Unset save position to act like a normal save point whatever the map.
+    UnsetSaveLocation();
+
+    return save_completed;
 }
 
 bool GameGlobal::SaveGame(const std::string &filename, uint32_t slot_id, uint32_t x_position, uint32_t y_position)

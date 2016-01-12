@@ -782,8 +782,9 @@ public:
     **/
     bool SaveGame(const std::string &filename, uint32_t slot_id, uint32_t x_position = 0, uint32_t y_position = 0);
 
-    //! \brief Attempts an autosave on the currently given slot.
-    bool AutoSave(uint32_t x_position = 0, uint32_t y_position = 0);
+    //! \brief Attempts an autosave on the current slot, using given map and location.
+    bool AutoSave(const std::string& map_data_file, const std::string& map_script_file,
+                  uint32_t x_position = 0, uint32_t y_position = 0);
 
     /** \brief Loads all global data from a saved game file
     *** \param filename The filename of the saved game file where to read the data from
