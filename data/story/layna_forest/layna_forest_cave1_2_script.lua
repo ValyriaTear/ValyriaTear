@@ -216,6 +216,7 @@ function _CreateEvents()
     -- Generic events
     vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya, vt_map.MapMode.NORTH);
     vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks north", bronann, vt_map.MapMode.NORTH);
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", bronann, vt_map.MapMode.SOUTH);
     vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, bronann);
     vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", bronann, kalya);
 
@@ -235,7 +236,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya reads the scripture");
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("'Only the last one standing shall pass.'");
+    text = vt_system.Translate("'Here, ony your enemies prevents you from going further.'");
     dialogue:AddLineEventEmote(text, kalya, "", "Bronann looks at Kalya", "thinking dots");
     text = vt_system.Translate("You are able to decipher this writing, Kalya?");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
@@ -433,7 +434,10 @@ local seeing_the_exit_zone = nil
 function _CreateZones()
     -- N.B.: left, right, top, bottom
     to_cave_1_1_zone = vt_map.CameraZone.Create(0, 1, 11, 16);
+
     to_cave_exit_zone = vt_map.CameraZone.Create(108, 116, 95, 96);
+    to_cave_exit_zone:SetInteractionIcon("data/gui/map/exit_anim.lua")
+
     to_wolf_cave_zone = vt_map.CameraZone.Create(122, 124, 12, 14);
     seeing_the_exit_zone = vt_map.CameraZone.Create(99, 122, 80, 96);
 end

@@ -150,9 +150,12 @@ void MapZone::SetInteractionIcon(const std::string& animation_filename)
 
 void MapZone::DrawInteractionIcon()
 {
+    if (!_interaction_icon)
+        return;
+
     for(std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
         const ZoneSection& section = *it;
-        if(!_interaction_icon || !_ShouldDraw(section))
+        if(!_ShouldDraw(section))
             continue;
 
         // Determine the center position coordinates for the camera
