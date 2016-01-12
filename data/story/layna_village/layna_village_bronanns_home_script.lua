@@ -140,7 +140,7 @@ function _CreateNPCs()
     event = vt_map.ScriptedSpriteEvent.Create("ClearDialogueRefOnMother", bronanns_mother, "ClearDialogueReferences", "");
     event:AddEventLinkAtEnd("Mother moves near entrance1");
 
-    event = vt_map.PathMoveSpriteEvent.Create("Mother moves near entrance1", bronanns_mother, 38, 20, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Mother moves near entrance1", bronanns_mother, 38, 19, false);
     event:AddEventLinkAtEnd("MotherLooksSouth2");
 
     event = vt_map.ChangeDirectionSpriteEvent.Create("MotherLooksSouth2", bronanns_mother, vt_map.MapMode.SOUTH);

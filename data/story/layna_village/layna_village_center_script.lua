@@ -406,7 +406,7 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Why doesn't anyone tell me what's going on!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
-    text = vt_system.Translate("Still, I have to go there and figure out what they're trying to hide from me.");
+    text = vt_system.Translate("Still, I have to go to the forest and figure out what they're trying to hide from me.");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     event = vt_map.DialogueEvent.Create("Quest2: Bronann wants to see Flora for equipment", dialogue);
     event:SetStopCameraMovement(true);
@@ -414,7 +414,7 @@ function _CreateEvents()
 
     -- Quest 2: Bronann doesn't want to see his parents for the moment
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("No, I won't go there. I just can't talk to them at the moment.");
+    text = vt_system.Translate("No, I won't go there. I just can't talk to them at the moment. I'll go to the forest without my father.");
     dialogue:AddLine(text, bronann);
     event = vt_map.DialogueEvent.Create("Quest2: Bronann doesn't want to see his parents", dialogue);
     event:SetStopCameraMovement(true);
@@ -676,7 +676,7 @@ function _CreateEvents()
     not_granted_dialogue:AddLineEmote(text, olivia, "exclamation");
     text = vt_system.Translate("Aww...");
     not_granted_dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
-    text = vt_system.Translate("(Hmm, maybe I should get a sword then.)");
+    text = vt_system.Translate("(Hmm, maybe I should ask Flora then.)");
     not_granted_dialogue:AddLineEventEmote(text, bronann, "Bronann looks south", "", "thinking dots");
     -- Special event triggered when Bronann hasn't go the right to enter the forest yet.
     -- Shouldn't trigger once access is granted.
