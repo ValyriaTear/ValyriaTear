@@ -19,36 +19,36 @@ sprite_animation = {
 	-- The frames duration in milliseconds
     frames = {
         [ANIM_SOUTH] = {
-            [0] = { id = 1, duration = 150 },
-            [1] = { id = 2, duration = 150 },
-            [2] = { id = 3, duration = 150 },
-            [3] = { id = 1, duration = 150 },
-            [4] = { id = 4, duration = 150 },
-            [5] = { id = 5, duration = 150 }
+            [0] = { id = 1, duration = 140 },
+            [1] = { id = 2, duration = 140 },
+            [2] = { id = 3, duration = 140 },
+            [3] = { id = 1, duration = 140 },
+            [4] = { id = 4, duration = 140 },
+            [5] = { id = 5, duration = 140 }
         },
         [ANIM_NORTH] = {
-            [0] = { id = 7, duration = 150 },
-            [1] = { id = 8, duration = 150 },
-            [2] = { id = 9, duration = 150 },
-            [3] = { id = 7, duration = 150 },
-            [4] = { id = 10, duration = 150 },
-            [5] = { id = 11, duration = 150 }
+            [0] = { id = 7, duration = 140 },
+            [1] = { id = 8, duration = 140 },
+            [2] = { id = 9, duration = 140 },
+            [3] = { id = 7, duration = 140 },
+            [4] = { id = 10, duration = 140 },
+            [5] = { id = 11, duration = 140 }
         },
         [ANIM_WEST] = {
-            [0] = { id = 13, duration = 150 },
-            [1] = { id = 14, duration = 150 },
-            [2] = { id = 15, duration = 150 },
-            [3] = { id = 13, duration = 150 },
-            [4] = { id = 16, duration = 150 },
-            [5] = { id = 17, duration = 150 }
+            [0] = { id = 13, duration = 140 },
+            [1] = { id = 14, duration = 140 },
+            [2] = { id = 15, duration = 140 },
+            [3] = { id = 13, duration = 140 },
+            [4] = { id = 16, duration = 140 },
+            [5] = { id = 17, duration = 140 }
         },
         [ANIM_EAST] = {
-            [0] = { id = 19, duration = 150 },
-            [1] = { id = 20, duration = 150 },
-            [2] = { id = 21, duration = 150 },
-            [3] = { id = 19, duration = 150 },
-            [4] = { id = 22, duration = 150 },
-            [5] = { id = 23, duration = 150 }
+            [0] = { id = 19, duration = 140 },
+            [1] = { id = 20, duration = 140 },
+            [2] = { id = 21, duration = 140 },
+            [3] = { id = 19, duration = 140 },
+            [4] = { id = 22, duration = 140 },
+            [5] = { id = 23, duration = 140 }
         }
     }
 }
