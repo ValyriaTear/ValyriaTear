@@ -237,7 +237,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Quest2: Bronann is told not to leave town - part 1");
     event:AddEventLinkAtEnd("Quest2: Father looks west");
 
-    -- Quest 2 start: Bronann is told to not leave town
+    -- Quest 2 start: Bronann is told not to leave town
     vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Father looks west", bronanns_dad, vt_map.MapMode.WEST);
 
     dialogue = vt_map.SpriteDialogue.Create();
@@ -389,11 +389,40 @@ end
 function _UpdateMotherDialogue()
     bronanns_mother:ClearDialogueReferences();
 
-    if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
+    if (GlobalManager:DoesEventExist("story", "Malta_Items_given") == true) then
         local dialogue = vt_map.SpriteDialogue.Create();
         local text = vt_system.Translate("Bronann, promise me that you'll be careful, ok?");
         dialogue:AddLine(text, bronanns_mother);
         bronanns_mother:AddDialogueReference(dialogue);
+        return;
+    end
+    if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
+        -- Bronann'mother gives some items to Bronann.
+        local dialogue = vt_map.SpriteDialogue.Create();
+        local text = vt_system.Translate("So, finally you're going away.");
+        dialogue:AddLineEmote(text, bronanns_mother, "thinking dots");
+        text = vt_system.Translate("Please, take this. It's not much but I hope it will help.");
+        dialogue:AddLineEvent(text, bronanns_mother, "", "Prepare item giving scene");
+        bronanns_mother:AddDialogueReference(dialogue);
+
+        local event = vt_map.ScriptedEvent.Create("Prepare item giving scene", "StartItemGivingScene", "");
+        event:AddEventLinkAtEnd("Malta gives items")
+
+        event = vt_map.TreasureEvent.Create("Malta gives items");
+        event:AddItem(16, 5) -- Candies!
+        event:AddItem(12, 2) -- Medium Moon Juice
+        event:AddItem(15, 1) -- Lotus Petal
+        event:AddEventLinkAtEnd("Bronann says thanks")
+
+        dialogue = vt_map.SpriteDialogue.Create();
+        text = vt_system.Translate("Thanks, mom.");
+        dialogue:AddLine(text, bronanns_mother);
+        text = vt_system.Translate("Take care, my son.");
+        dialogue:AddLine(text, bronanns_mother);
+        event = vt_map.DialogueEvent.Create("Bronann says thanks", dialogue)
+        event:AddEventLinkAtEnd("Update Malta's dialogue after giving items");
+
+        event = vt_map.ScriptedEvent.Create("Update Malta's dialogue after giving items", "EndItemGivingScene", "");
         return;
     end
     if (GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == true) then
@@ -523,5 +552,17 @@ map_functions = {
 
         -- Flag used to disable the warp zone temporarily
         quest2_start_scene = true;
+    end,
+
+    StartItemGivingScene = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE);
+        EventManager:EndAllEvents(bronanns_mother);
+        bronann:SetMoving(false);
+    end,
+
+    EndItemGivingScene = function()
+        GlobalManager:SetEventValue("story", "Malta_Items_given", 1);
+        _UpdateMotherDialogue()
+        Map:PopState()
     end
 }
