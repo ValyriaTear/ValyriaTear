@@ -46,19 +46,29 @@ const char* gettext(const char *text)
 }
 #endif
 
-std::string Translate(const std::string &text)
+std::string Translate(const std::string& text)
 {
+    // Don't translate an empty string as it will return the PO meta data.
+    if (text.empty())
+        return std::string();
     return std::string(gettext(text.c_str()));
 }
 
-ustring UTranslate(const std::string &text)
+ustring UTranslate(const std::string& text)
 {
+    // Don't translate an empty string as it will return the PO meta data.
+    if (text.empty())
+        return ustring();
     return MakeUnicodeString(Translate(text));
 }
 
 // Use: context|text
-std::string CTranslate(const std::string &text)
+std::string CTranslate(const std::string& text)
 {
+    // Don't translate an empty string as it will return the PO meta data.
+    if (text.empty())
+        return std::string();
+
     std::string translation = gettext(text.c_str());
 
     size_t sep_id = translation.find_first_of('|', 0);
@@ -70,14 +80,22 @@ std::string CTranslate(const std::string &text)
     return translation.substr(sep_id + 1);
 }
 
-ustring CUTranslate(const std::string &text)
+ustring CUTranslate(const std::string& text)
 {
+    // Don't translate an empty string as it will return the PO meta data.
+    if (text.empty())
+        return ustring();
+
     return MakeUnicodeString(CTranslate(text));
 }
 
 // Inner templated VTranslate functions
-template<typename T> std::string _VTranslate(const std::string &text, const T& arg1)
+template<typename T> std::string _VTranslate(const std::string& text, const T& arg1)
 {
+    // Don't translate an empty string as it will return the PO meta data.
+    if (text.empty())
+        return std::string();
+
     std::string translation = gettext(text.c_str());
 
     translation = strprintf(translation.c_str(), arg1);
@@ -85,8 +103,12 @@ template<typename T> std::string _VTranslate(const std::string &text, const T& a
     return translation;
 }
 
-template<typename T> std::string _VTranslate(const std::string &text, const T& arg1, const T& arg2)
+template<typename T> std::string _VTranslate(const std::string& text, const T& arg1, const T& arg2)
 {
+    // Don't translate an empty string as it will return the PO meta data.
+    if (text.empty())
+        return std::string();
+
     std::string translation = gettext(text.c_str());
 
     translation = strprintf(translation.c_str(), arg1, arg2);
@@ -94,17 +116,17 @@ template<typename T> std::string _VTranslate(const std::string &text, const T& a
     return translation;
 }
 
-std::string VTranslate(const std::string &text, int32_t arg1)
+std::string VTranslate(const std::string& text, int32_t arg1)
 { return _VTranslate(text, arg1); }
-std::string VTranslate(const std::string &text, uint32_t arg1)
+std::string VTranslate(const std::string& text, uint32_t arg1)
 { return _VTranslate(text, arg1); }
-std::string VTranslate(const std::string &text, const std::string& arg1)
+std::string VTranslate(const std::string& text, const std::string& arg1)
 { return _VTranslate(text, arg1.c_str()); }
-std::string VTranslate(const std::string &text, float arg1)
+std::string VTranslate(const std::string& text, float arg1)
 { return _VTranslate(text, arg1); }
-std::string VTranslate(const std::string &text, uint32_t arg1, uint32_t arg2)
+std::string VTranslate(const std::string& text, uint32_t arg1, uint32_t arg2)
 { return _VTranslate(text, arg1, arg2); }
-std::string VTranslate(const std::string &text, const std::string &arg1, const std::string &arg2)
+std::string VTranslate(const std::string& text, const std::string& arg1, const std::string& arg2)
 { return _VTranslate(text, arg1.c_str(), arg2.c_str()); }
 
 

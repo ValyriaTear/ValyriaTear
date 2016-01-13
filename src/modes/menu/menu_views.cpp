@@ -1814,7 +1814,7 @@ void EquipWindow::_InitEquipmentSelect()
 {
     //Set params
     _equip_select.SetPosition(680.0f, 145.0f);
-    _equip_select.SetDimensions(105.0f, 350.0f, 1, EQUIP_CATEGORY_SIZE, 1, EQUIP_CATEGORY_SIZE);
+    _equip_select.SetDimensions(180.0f, 350.0f, 1, EQUIP_CATEGORY_SIZE, 1, EQUIP_CATEGORY_SIZE);
     _equip_select.SetTextStyle(TextStyle("text20"));
 
     _equip_select.SetCursorOffset(-132.0f, -20.0f);

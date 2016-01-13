@@ -111,7 +111,7 @@ SaveMode::SaveMode(bool save_mode, uint32_t x_position, uint32_t y_position) :
 
     // Initialize the confirmation option box
     _confirm_save_optionbox.SetPosition(512.0f, 384.0f);
-    _confirm_save_optionbox.SetDimensions(250.0f, 200.0f, 1, 2, 1, 2);
+    _confirm_save_optionbox.SetDimensions(280.0f, 200.0f, 1, 2, 1, 2);
     _confirm_save_optionbox.SetTextStyle(TextStyle("title22"));
 
     _confirm_save_optionbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -160,7 +160,7 @@ SaveMode::SaveMode(bool save_mode, uint32_t x_position, uint32_t y_position) :
 
     // Initialize the save preview text boxes
     _map_name_textbox.SetPosition(600.0f, 558.0f);
-    _map_name_textbox.SetDimensions(300.0f, 26.0f);
+    _map_name_textbox.SetDimensions(320.0f, 26.0f);
     _map_name_textbox.SetTextStyle(TextStyle("title22"));
     _map_name_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _map_name_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -333,6 +333,7 @@ void SaveMode::Update()
             break;
         case SAVE_MODE_CONFIRM_AUTOSAVE:
             _current_state = SAVE_MODE_LOADING;
+            _PreviewGame(_BuildSaveFilename(_file_list.GetSelection()));
             break;
         case SAVE_MODE_CONFIRMING_SAVE:
             _current_state = SAVE_MODE_SAVING;
