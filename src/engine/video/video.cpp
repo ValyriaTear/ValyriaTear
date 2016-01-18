@@ -268,10 +268,10 @@ bool VideoEngine::FinalizeInitialization()
     }
 
     // Prepare the screen for rendering.
-    glClearColor(::vt_video::Color::black[0],
-                 ::vt_video::Color::black[1],
-                 ::vt_video::Color::black[2],
-                 ::vt_video::Color::black[3]);
+    glClearColor(::vt_video::Color::clear[0],
+                 ::vt_video::Color::clear[1],
+                 ::vt_video::Color::clear[2],
+                 ::vt_video::Color::clear[3]);
     Clear();
 
     // Empty image used to draw colored rectangles.
@@ -616,9 +616,13 @@ void VideoEngine::DrawSecondaryRenderTarget()
 
     // Set up the video manager state.
     vt_video::VideoManager->PushState();
+
     vt_video::VideoManager->SetViewport(0.0f, 0.0f, width_render_target, height_render_target);
     vt_video::VideoManager->SetCoordSys(0.0f, width_render_target, height_render_target, 0.0f);
     vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_TOP, vt_video::VIDEO_BLEND, 0);
+
+    VideoManager->EnableBlending();
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Load the shader program.
     gl::ShaderProgram* shader_program = VideoManager->LoadShaderProgram(gl::shader_programs::Sprite);

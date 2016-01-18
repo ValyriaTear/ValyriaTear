@@ -68,7 +68,7 @@ RenderTarget::RenderTarget(unsigned width,
     BindTexture();
 
     // Initialize the texture.
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _width, _height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 
     if (glGetError() != GL_NO_ERROR) {
         PRINT_ERROR << "Failed to initialize the texture." << std::endl;
@@ -191,7 +191,7 @@ void RenderTarget::Resize(unsigned width,
 
     // Resize the texture.
     if (!errors) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _width, _height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
