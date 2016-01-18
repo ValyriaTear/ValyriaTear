@@ -74,7 +74,7 @@ PauseMode::PauseMode(bool quit_state, bool pause_audio) :
 
     // Initialize the quit options box
     _quit_options.SetPosition(512.0f, 384.0f);
-    _quit_options.SetDimensions(200.0f, 300.0f, 1, 4, 1, 4);
+    _quit_options.SetDimensions(220.0f, 300.0f, 1, 4, 1, 4);
     _quit_options.SetTextStyle(TextStyle("title24", Color::white, VIDEO_TEXT_SHADOW_BLACK));
 
     _quit_options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
