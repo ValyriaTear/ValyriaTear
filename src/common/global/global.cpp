@@ -497,46 +497,46 @@ void GameGlobal::AddToInventory(uint32_t obj_id, uint32_t obj_count)
     if (obj_count == 0)
         return;
 
-    // If the object is already in the inventory, increment the count of the object
-    if(_inventory.find(obj_id) != _inventory.end()) {
+    // If the object is already in the inventory, increment the count of the object.
+    if (_inventory.find(obj_id) != _inventory.end()) {
         _inventory[obj_id]->IncrementCount(obj_count);
         return;
     }
 
-    // Otherwise create a new object instance and add it to the inventory
+    // Otherwise, create a new object instance and add it to the inventory.
     GlobalObject* new_object = nullptr;
-    if((obj_id > 0 && obj_id <= MAX_ITEM_ID)
+    if ((obj_id > 0 && obj_id <= MAX_ITEM_ID)
             || (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
         GlobalItem* new_item = new GlobalItem(obj_id, obj_count);
         new_object = new_item;
         _inventory.insert(std::make_pair(obj_id, new_item));
         _inventory_items.push_back(new_item);
-    } else if((obj_id > MAX_ITEM_ID) && (obj_id <= MAX_WEAPON_ID)) {
+    } else if ((obj_id > MAX_ITEM_ID) && (obj_id <= MAX_WEAPON_ID)) {
         GlobalWeapon* new_wpn = new GlobalWeapon(obj_id, obj_count);
         new_object = new_wpn;
         _inventory.insert(std::make_pair(obj_id, new_wpn));
         _inventory_weapons.push_back(new_wpn);
-    } else if((obj_id > MAX_WEAPON_ID) && (obj_id <= MAX_HEAD_ARMOR_ID)) {
+    } else if ((obj_id > MAX_WEAPON_ID) && (obj_id <= MAX_HEAD_ARMOR_ID)) {
         GlobalArmor* new_arm = new GlobalArmor(obj_id, obj_count);
         new_object = new_arm;
         _inventory.insert(std::make_pair(obj_id, new_arm));
         _inventory_head_armor.push_back(new_arm);
-    } else if((obj_id > MAX_HEAD_ARMOR_ID) && (obj_id <= MAX_TORSO_ARMOR_ID)) {
+    } else if ((obj_id > MAX_HEAD_ARMOR_ID) && (obj_id <= MAX_TORSO_ARMOR_ID)) {
         GlobalArmor* new_arm = new GlobalArmor(obj_id, obj_count);
         new_object = new_arm;
         _inventory.insert(std::make_pair(obj_id, new_arm));
         _inventory_torso_armor.push_back(new_arm);
-    } else if((obj_id > MAX_TORSO_ARMOR_ID) && (obj_id <= MAX_ARM_ARMOR_ID)) {
+    } else if ((obj_id > MAX_TORSO_ARMOR_ID) && (obj_id <= MAX_ARM_ARMOR_ID)) {
         GlobalArmor* new_arm = new GlobalArmor(obj_id, obj_count);
         new_object = new_arm;
         _inventory.insert(std::make_pair(obj_id, new_arm));
         _inventory_arm_armor.push_back(new_arm);
-    } else if((obj_id > MAX_ARM_ARMOR_ID) && (obj_id <= MAX_LEG_ARMOR_ID)) {
+    } else if ((obj_id > MAX_ARM_ARMOR_ID) && (obj_id <= MAX_LEG_ARMOR_ID)) {
         GlobalArmor* new_arm = new GlobalArmor(obj_id, obj_count);
         new_object = new_arm;
         _inventory.insert(std::make_pair(obj_id, new_arm));
         _inventory_leg_armor.push_back(new_arm);
-    } else if((obj_id > MAX_LEG_ARMOR_ID) && (obj_id <= MAX_SPIRIT_ID)) {
+    } else if ((obj_id > MAX_LEG_ARMOR_ID) && (obj_id <= MAX_SPIRIT_ID)) {
         GlobalSpirit* new_spirit = new GlobalSpirit(obj_id, obj_count);
         new_object = new_spirit;
         _inventory.insert(std::make_pair(obj_id, new_spirit));
@@ -545,9 +545,10 @@ void GameGlobal::AddToInventory(uint32_t obj_id, uint32_t obj_count)
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add invalid object to inventory with id: " << obj_id << std::endl;
     }
 
-    // Updates the key items list
-    if (new_object != nullptr && new_object->IsKeyItem())
+    // Update the key items list.
+    if (new_object != nullptr && new_object->IsKeyItem()) {
         _inventory_key_items.push_back(new_object);
+    }
 }
 
 void GameGlobal::AddToInventory(GlobalObject *object)

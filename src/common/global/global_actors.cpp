@@ -1597,19 +1597,19 @@ void GlobalEnemy::_Initialize()
     // Set the current hit points and skill points to their new maximum values
     _hit_points = _max_hit_points;
     _skill_points = _max_skill_points;
-} // void GlobalEnemy::Initialize(uint32_t xp_level)
+}
 
-
-
-void GlobalEnemy::DetermineDroppedObjects(std::vector<GlobalObject *>& objects)
+std::vector<GlobalObject*> GlobalEnemy::DetermineDroppedObjects()
 {
-    objects.clear();
+    std::vector<GlobalObject*> result;
 
-    for(uint32_t i = 0; i < _dropped_objects.size(); ++i) {
-        if(RandomFloat() < _dropped_chance[i]) {
-            objects.push_back(GlobalCreateNewObject(_dropped_objects[i]));
+    for (uint32_t i = 0; i < _dropped_objects.size(); ++i) {
+        if (RandomFloat() < _dropped_chance[i]) {
+            result.push_back(GlobalCreateNewObject(_dropped_objects[i]));
         }
     }
+
+    return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

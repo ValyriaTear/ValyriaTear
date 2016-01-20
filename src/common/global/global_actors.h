@@ -1316,15 +1316,11 @@ public:
     **/
     bool AddSkill(uint32_t skill_id);
 
-    /** \brief Uses random variables to calculate which objects, if any, the enemy dropped
-    *** \param objects A reference to a vector to hold the GlobalObject pointers
+    /** \brief Uses random variables to calculate which objects, if any, the enemy dropped.
     ***
-    *** The objects vector is cleared immediately once this function is called so make sure
-    *** that it does not hold anything meaningful. Any objects which are added to this
-    *** vector are created with new GlobalObject() and it becomes the callee's repsonsibility
-    *** to manage this memory and delete those objects when they are no longer needed.
+    *** It is the caller's repsonsibility to manage memory and delete the returned objects.
     **/
-    void DetermineDroppedObjects(std::vector<GlobalObject *>& objects);
+    std::vector<GlobalObject*> DetermineDroppedObjects();
 
     //! \name Class member access functions
     //@{
