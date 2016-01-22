@@ -44,10 +44,11 @@ public:
     //! The event name is used to know whether the player has already seen a dialogue
     //! and display the dialogue bubble accordingly.
     //! If empty, the event is not stored.
-    SpriteDialogue(const std::string& dialogue_event_name);
+    explicit SpriteDialogue(const std::string& dialogue_event_name);
 
-    ~SpriteDialogue()
-    {}
+    virtual ~SpriteDialogue() override
+    {
+    }
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
@@ -311,7 +312,7 @@ public:
     MapDialogueOptions()
     {}
 
-    ~MapDialogueOptions()
+    virtual ~MapDialogueOptions() override
     {}
 
     /** \brief Adds a new option to the set of options

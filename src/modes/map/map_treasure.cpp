@@ -50,7 +50,8 @@ namespace private_map
 MapTreasure::MapTreasure() :
     _taken(false),
     _drunes(0)
-{}
+{
+}
 
 MapTreasure::~MapTreasure()
 {

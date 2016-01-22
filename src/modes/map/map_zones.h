@@ -46,15 +46,15 @@ class ZoneSection
 public:
     ZoneSection(uint16_t left, uint16_t right, uint16_t top, uint16_t bottom) :
         left_col(left), right_col(right), top_row(top), bottom_row(bottom)
-    {}
+    {
+    }
 
     //! \brief Collision grid columns for the top and bottom section of the area
     uint16_t left_col, right_col;
 
     //! \brief Collision grid rows for the top and bottom section of the area
     uint16_t top_row, bottom_row;
-}; // class ZoneSection
-
+};
 
 /** ****************************************************************************
 *** \brief Represents a zone on a map that can take any shape
@@ -140,8 +140,16 @@ protected:
 
     //! \brief Tells whether a section is on screen and place the drawing cursor in that case.
     bool _ShouldDraw(const ZoneSection &section);
-}; // class MapZone
 
+private:
+    //
+    // The copy constructor and assignment operator are hidden by design
+    // to cause compilation errors when attempting to copy or assign this class.
+    //
+
+    MapZone(const MapZone& map_zone);
+    MapZone& operator=(const MapZone& map_zone);
+};
 
 /** ****************************************************************************
 *** \brief A zone which tracks when the map camera enters or exits
@@ -171,8 +179,9 @@ public:
     **/
     CameraZone(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row);
 
-    virtual ~CameraZone()
-    {}
+    virtual ~CameraZone() override
+    {
+    }
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
@@ -181,7 +190,7 @@ public:
     static CameraZone* Create(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row);
 
     //! \brief Updates the state of the zone by checking the current camera position
-    void Update();
+    virtual void Update() override;
 
     //! \brief Returns true if the sprite pointed to by the camera is located within the zone
     bool IsCameraInside() const {
@@ -204,7 +213,16 @@ protected:
 
     //! \brief Holds the previous value of _camera_inside
     bool _was_camera_inside;
-}; // class CameraZone : public MapZone
+
+private:
+    //
+    // The copy constructor and assignment operator are hidden by design
+    // to cause compilation errors when attempting to copy or assign this class.
+    //
+
+    CameraZone(const CameraZone& camera_zone);
+    CameraZone& operator=(const CameraZone& camera_zone);
+};
 
 
 /** ****************************************************************************
@@ -239,9 +257,7 @@ public:
     EnemyZone(uint16_t left_col, uint16_t right_col,
               uint16_t top_row, uint16_t bottom_row);
 
-    ~EnemyZone() {
-        if(_spawn_zone != nullptr) delete _spawn_zone;
-    }
+    virtual ~EnemyZone() override;
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
@@ -284,10 +300,10 @@ public:
     void EnemyDead();
 
     //! \brief Gradually spawns enemy sprites in the zone
-    void Update();
+    virtual void Update() override;
 
     //! \brief Draw the zone on screen for debugging purpose
-    void Draw();
+    virtual void Draw() override;
 
     //! \brief Returns true if this zone has seperate zones for roaming and spawning
     bool HasSeparateSpawnZone() const {
@@ -329,6 +345,14 @@ public:
     //@}
 
 private:
+    //
+    // The copy constructor and assignment operator are hidden by design
+    // to cause compilation errors when attempting to copy or assign this class.
+    //
+
+    EnemyZone(const EnemyZone& enemy_zone);
+    EnemyZone& operator=(const EnemyZone& enemy_zone);
+
     //! \brief Tells whether the zone is activated.
     bool _enabled;
 
@@ -357,8 +381,13 @@ private:
     /** \brief Contains all of the enemies that may exist in this zone.
     *** \note These sprites will be deleted by the map object manager, not the destructor of this class.
     **/
-    std::vector<EnemySprite *> _enemies;
-}; // class EnemyZone : public MapZone
+    std::vector<EnemySprite*> _enemies;
+
+    /** \brief Contains all of the enemies that are owned by this class.  This objects must be cleaned up by this class.
+    ***        This is a hack around a memory leak and should be addressed more formally in the future.
+    **/
+    std::vector<EnemySprite*> _enemies_owned;
+};
 
 } // namespace private_map
 

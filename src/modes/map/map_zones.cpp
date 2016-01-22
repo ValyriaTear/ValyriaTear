@@ -114,30 +114,6 @@ void MapZone::RandomPosition(float &x, float &y)
     y = (float)RandomBoundedInteger(_sections[i].top_row, _sections[i].bottom_row);
 }
 
-bool MapZone::_ShouldDraw(const ZoneSection &section)
-{
-    MapMode* map_mode = MapMode::CurrentInstance();
-
-    MapRectangle rect;
-    rect.top = section.top_row;
-    rect.bottom = section.bottom_row;
-    rect.left = section.left_col;
-    rect.right = section.right_col;
-
-    // Determine if the sprite is off-screen and if so, don't draw it.
-    if(!MapRectangle::CheckIntersection(rect, map_mode->GetMapFrame().screen_edges))
-        return false;
-
-    // Determine the center position coordinates for the camera
-    float x_pos = rect.left + (rect.right - rect.left) / 2;
-    float y_pos = rect.top + (rect.bottom - rect.top);
-
-    // Move the drawing cursor to the appropriate coordinates for this sprite
-    vt_video::VideoManager->Move(map_mode->GetScreenXCoordinate(x_pos),
-                                 map_mode->GetScreenYCoordinate(y_pos));
-    return true;
-}
-
 void MapZone::SetInteractionIcon(const std::string& animation_filename)
 {
     if (_interaction_icon)
@@ -180,6 +156,41 @@ void MapZone::DrawInteractionIcon()
     }
 }
 
+bool MapZone::_ShouldDraw(const ZoneSection &section)
+{
+    MapMode* map_mode = MapMode::CurrentInstance();
+
+    MapRectangle rect;
+    rect.top = section.top_row;
+    rect.bottom = section.bottom_row;
+    rect.left = section.left_col;
+    rect.right = section.right_col;
+
+    // Determine if the sprite is off-screen and if so, don't draw it.
+    if (!MapRectangle::CheckIntersection(rect, map_mode->GetMapFrame().screen_edges))
+        return false;
+
+    // Determine the center position coordinates for the camera
+    float x_pos = rect.left + (rect.right - rect.left) / 2;
+    float y_pos = rect.top + (rect.bottom - rect.top);
+
+    // Move the drawing cursor to the appropriate coordinates for this sprite
+    vt_video::VideoManager->Move(map_mode->GetScreenXCoordinate(x_pos),
+                                 map_mode->GetScreenYCoordinate(y_pos));
+    return true;
+}
+
+MapZone::MapZone(const MapZone&)
+{
+    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+}
+
+MapZone& MapZone::operator=(const MapZone&)
+{
+    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+    return *this;
+}
+
 // -----------------------------------------------------------------------------
 // ---------- CameraZone Class Functions
 // -----------------------------------------------------------------------------
@@ -188,7 +199,8 @@ CameraZone::CameraZone(uint16_t left_col, uint16_t right_col, uint16_t top_row, 
     MapZone(left_col, right_col, top_row, bottom_row),
     _camera_inside(false),
     _was_camera_inside(false)
-{}
+{
+}
 
 CameraZone* CameraZone::Create(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row)
 {
@@ -219,6 +231,18 @@ void CameraZone::Update()
     }
 }
 
+CameraZone::CameraZone(const CameraZone&) :
+    MapZone(0, 0, 0, 0)
+{
+    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+}
+
+CameraZone& CameraZone::operator=(const CameraZone&)
+{
+    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+    return *this;
+}
+
 // -----------------------------------------------------------------------------
 // ---------- EnemyZone Class Functions
 // -----------------------------------------------------------------------------
@@ -236,6 +260,22 @@ EnemyZone::EnemyZone(uint16_t left_col, uint16_t right_col,
 {
     // Done so that when the zone updates for the first time, an inactive enemy will immediately be selected and begin spawning
     _dead_timer.Finish();
+}
+
+EnemyZone::~EnemyZone()
+{
+    if (_spawn_zone != nullptr) {
+        delete _spawn_zone;
+        _spawn_zone = nullptr;
+    }
+
+    for (auto& enemy_owned : _enemies_owned) {
+        if (enemy_owned != nullptr) {
+            delete enemy_owned;
+            enemy_owned = nullptr;
+        }
+    }
+    _enemies_owned.clear();
 }
 
 EnemyZone* EnemyZone::Create(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row)
@@ -257,10 +297,11 @@ void EnemyZone::AddEnemy(EnemySprite* enemy, uint8_t enemy_number)
     _enemies.push_back(enemy);
 
     // Create any additional copies of the enemy and add them as well
-    for(uint8_t i = 1; i < enemy_number; ++i) {
+    for (uint8_t i = 1; i < enemy_number; ++i) {
         EnemySprite* copy = new EnemySprite(*enemy);
         copy->Reset();
         _enemies.push_back(copy);
+        _enemies_owned.push_back(copy);
     }
 }
 
@@ -422,6 +463,18 @@ void EnemyZone::Draw()
                                                    vt_video::Color(0.0f, 0.0f, 0.0f, 0.5f));
         }
     }
+}
+
+EnemyZone::EnemyZone(const EnemyZone&) :
+    MapZone(0, 0, 0, 0)
+{
+    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+}
+
+EnemyZone& EnemyZone::operator=(const EnemyZone&)
+{
+    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+    return *this;
 }
 
 } // namespace private_map
