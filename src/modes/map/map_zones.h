@@ -383,7 +383,7 @@ private:
     **/
     std::vector<EnemySprite*> _enemies;
 
-    /** \brief Contains all of the enemies that are owned by this class.  This objects must be cleaned up by this class.
+    /** \brief Contains all of the enemies that are owned by this class.  These objects must be cleaned up by this class.
     ***        This is a hack around a memory leak and should be addressed more formally in the future.
     **/
     std::vector<EnemySprite*> _enemies_owned;
