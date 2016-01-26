@@ -396,16 +396,23 @@ FinishVictoryAssistant::~FinishVictoryAssistant()
     _header_window.Destroy();
     _spoils_window.Destroy();
 
-    for(uint32_t i = 0; i < _number_character_windows_created; ++i) {
+    for (uint32_t i = 0; i < _number_character_windows_created; ++i) {
         _character_window[i].Destroy();
     }
 
-    // Add all the objects that were dropped by enemies to the party's inventory
-    for(std::map<GlobalObject *, int32_t>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
-        GlobalManager->AddToInventory(i->first->GetID(), i->second);
-    }
+    // Add all the objects that were dropped by enemies to the party's inventory.
+    for (std::map<GlobalObject*, int32_t>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
 
-    // Update the HP and SP of all characters before leaving
+        // Add the item to the inventory.
+        assert(i->first != nullptr);
+        GlobalManager->AddToInventory(i->first->GetID(), i->second);
+
+        // Clean up the global object.
+        delete i->first;
+    }
+    _objects_dropped.clear();
+
+    // Update the HP and SP of all characters.
     _SetCharacterStatus();
 }
 
@@ -441,32 +448,38 @@ void FinishVictoryAssistant::Initialize()
     }
 
     // Collect the XP, drunes, and dropped objects for each defeated enemy
-    std::deque<BattleEnemy *>& all_enemies = BattleMode::CurrentInstance()->GetEnemyActors();
-    std::vector<GlobalObject *> objects;
-    std::map<GlobalObject *, int32_t>::iterator iter;
-
-    for(uint32_t i = 0; i < all_enemies.size(); ++i) {
+    std::deque<BattleEnemy*>& all_enemies = BattleMode::CurrentInstance()->GetEnemyActors();
+    for (uint32_t i = 0; i < all_enemies.size(); ++i) {
         GlobalEnemy* enemy = all_enemies[i]->GetGlobalEnemy();
+        assert(enemy != nullptr);
+
         _xp_earned += enemy->GetExperiencePoints();
         _drunes_dropped += enemy->GetDrunesDropped();
-        enemy->DetermineDroppedObjects(objects);
 
-        for(uint32_t j = 0; j < objects.size(); ++j) {
+        std::vector<GlobalObject*> objects = enemy->DetermineDroppedObjects();
+        for (uint32_t j = 0; j < objects.size(); ++j) {
             // Check if the object to add is already in our list. If so, just increase the quantity of that object.
             // iter = _objects_dropped.find(objects[j]); // Will not work since each item is created with new.
             // Need to search for the item ID instead.
-            iter = _objects_dropped.begin();
-            while(iter != _objects_dropped.end()) {
-                if(iter->first->GetID() == objects[j]->GetID()) break;
+            auto iter = _objects_dropped.begin();
+            while (iter != _objects_dropped.end()) {
+                if (iter->first->GetID() == objects[j]->GetID()) {
+                    break;
+                }
                 ++iter;
             }
 
-            if(iter != _objects_dropped.end()) {
+            if (iter != _objects_dropped.end()) {
                 iter->second++;
+
+                // Clean up the global object.
+                delete objects[j];
+                objects[j] = nullptr;
             } else {
                 _objects_dropped.insert(std::make_pair(objects[j], 1));
             }
         }
+        objects.clear();
     }
 
     // Divide up the XP earnings by the number of players (only living ones)
