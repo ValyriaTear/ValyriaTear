@@ -87,10 +87,10 @@ MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
       COMMAND grep 'UTranslate\(' -Irl ../src --include=*.cpp | sort >> translatable-files
       COMMAND grep 'CTranslate\(' -Irl ../src --include=*.cpp | sort >> translatable-files
       COMMAND grep 'CUTranslate\(' -Irl ../src --include=*.cpp | sort >> translatable-files
-      COMMAND grep 'Translate\(' -Irl ../dat | sort >> translatable-files
+      COMMAND grep 'Translate\(' -Irl ../data | sort >> translatable-files
       # Add map names and subnames to the translatable strings
-      COMMAND grep 'map_name =' -Irl ../dat/maps --include=*.lua | sort > map_names_files
-      COMMAND grep 'map_subname =' -Irl  ../dat/maps --include=*.lua | sort >> map_names_files
+      COMMAND grep 'map_name =' -Irl ../data/story --include=*.lua | sort > map_names_files
+      COMMAND grep 'map_subname =' -Irl  ../data/story --include=*.lua | sort >> map_names_files
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       )
 
