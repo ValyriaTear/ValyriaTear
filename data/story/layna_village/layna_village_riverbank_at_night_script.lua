@@ -446,7 +446,7 @@ function _CreateEvents()
     dialogue:AddLineEvent(text, lord, "Banesore moves closer to Lilly 2", "");
     text = vt_system.Translate("What? No!");
     dialogue:AddLineEmote(text, malta, "exclamation");
-    text = vt_system.Translate("Oh, I see now. So this is her mother. Bring her here, and kill her!");
+    text = vt_system.Translate("Oh, I see now. So this is his mother. Bring her here, and kill her!");
     dialogue:AddLineEvent(text, lord, "Banesore looks south", "");
     event = vt_map.DialogueEvent.Create("Dialogue with the Lord", dialogue);
     event:AddEventLinkAtEnd("All villagers are surprised");
