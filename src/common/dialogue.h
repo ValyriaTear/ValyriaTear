@@ -120,9 +120,9 @@ class Dialogue
 public:
     //! \param id The id number to represent the dialogue,
     //! which should be unique to other dialogue ids within the same game mode context
-    Dialogue(const std::string& dialogue_id);
+    explicit Dialogue(const std::string& dialogue_id);
 
-    ~Dialogue();
+    virtual ~Dialogue();
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.

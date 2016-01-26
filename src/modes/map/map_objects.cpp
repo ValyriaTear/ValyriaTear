@@ -1270,7 +1270,7 @@ void ObjectSupervisor::DeleteObject(MapObject* object)
         return;
 
     for (uint32_t i = 0; i < _all_objects.size(); ++i) {
-        // We only set it to nullptr without removing its place in memory
+        // We only set it to null without removing its place in memory
         // to avoid breaking the vector key used as object id,
         // so that in: _all_objects[key]: key = object_id.
         if (_all_objects[i] == object) {

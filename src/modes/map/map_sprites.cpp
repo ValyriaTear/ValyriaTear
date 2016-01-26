@@ -100,7 +100,8 @@ VirtualSprite::VirtualSprite(MapObjectDrawLayer layer) :
 }
 
 VirtualSprite::~VirtualSprite()
-{}
+{
+}
 
 void VirtualSprite::Update()
 {
@@ -638,7 +639,7 @@ MapSprite::MapSprite(MapObjectDrawLayer layer) :
 
 MapSprite::~MapSprite()
 {
-    if(_face_portrait)
+    if (_face_portrait)
         delete _face_portrait;
 }
 
@@ -1258,6 +1259,10 @@ EnemySprite::EnemySprite() :
     _object_type = ENEMY_TYPE;
     _moving = false;
     Reset();
+}
+
+EnemySprite::~EnemySprite()
+{
 }
 
 EnemySprite* EnemySprite::Create()

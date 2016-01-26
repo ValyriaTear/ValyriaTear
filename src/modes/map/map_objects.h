@@ -97,8 +97,7 @@ class VirtualSprite;
 class MapObject
 {
 public:
-    MapObject(MapObjectDrawLayer layer);
-
+    explicit MapObject(MapObjectDrawLayer layer);
     virtual ~MapObject();
 
     /** \brief Updates the state of an object.
@@ -454,9 +453,8 @@ struct MapObject_Ptr_Less {
 class PhysicalObject : public MapObject
 {
 public:
-    PhysicalObject(MapObjectDrawLayer layer);
-
-    ~PhysicalObject();
+    explicit PhysicalObject(MapObjectDrawLayer layer);
+    virtual ~PhysicalObject() override;
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
@@ -555,8 +553,7 @@ class ParticleObject : public MapObject
 {
 public:
     ParticleObject(const std::string& filename, float x, float y, MapObjectDrawLayer layer);
-
-    ~ParticleObject();
+    virtual ~ParticleObject() override;
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
@@ -596,9 +593,9 @@ class SavePoint : public MapObject
 {
 public:
     SavePoint(float x, float y);
-
-    ~SavePoint()
-    {}
+    virtual ~SavePoint() override
+    {
+    }
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
@@ -641,9 +638,9 @@ class Halo : public MapObject
 public:
     //! \brief setup a halo on the map, using the given animation file.
     Halo(const std::string& filename, float x, float y, const vt_video::Color& color);
-
-    ~Halo()
-    {}
+    virtual ~Halo() override
+    {
+    }
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
@@ -659,7 +656,6 @@ public:
     //! \brief Draws the object to the screen, if it is visible.
     //! \note the actual image resources is handled by the main map object.
     void Draw();
-
 
 private:
     //! \brief A reference to the current map save animation.
@@ -684,8 +680,9 @@ public:
           float x, float y,
           const vt_video::Color &main_color, const vt_video::Color &secondary_color);
 
-    ~Light()
-    {}
+    virtual ~Light() override
+    {
+    }
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
@@ -760,8 +757,9 @@ public:
     **/
     SoundObject(const std::string& sound_filename, float x, float y, float strength);
 
-    ~SoundObject()
-    {}
+    virtual ~SoundObject() override
+    {
+    }
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.

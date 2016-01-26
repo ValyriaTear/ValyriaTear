@@ -58,16 +58,16 @@ const uint32_t STANDARD_ENEMY_DEAD_TIME = 5000;
 class VirtualSprite : public MapObject
 {
 public:
-    VirtualSprite(MapObjectDrawLayer layer);
-
-    ~VirtualSprite();
+    explicit VirtualSprite(MapObjectDrawLayer layer);
+    virtual ~VirtualSprite() override;
 
     //! \brief Updates the virtual object's position if it is moving, otherwise does nothing.
-    virtual void Update();
+    virtual void Update() override;
 
     //! \brief Does nothing since virtual sprites have no image to draw
-    virtual void Draw()
-    {}
+    virtual void Draw() override
+    {
+    }
 
     /** \note This method takes into account the current direction when setting the new direction
     *** in the case of diagonal movement. For example, if the sprite is currently facing north
@@ -245,9 +245,8 @@ protected:
 class MapSprite : public VirtualSprite
 {
 public:
-    MapSprite(MapObjectDrawLayer layer);
-
-    ~MapSprite();
+    explicit MapSprite(MapObjectDrawLayer layer);
+    virtual ~MapSprite() override;
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
@@ -562,6 +561,7 @@ private:
 public:
     //! \brief The default constructor
     EnemySprite();
+    virtual ~EnemySprite() override;
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.

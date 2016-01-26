@@ -204,8 +204,9 @@ public:
     **/
     DialogueEvent(const std::string& event_id, SpriteDialogue* dialogue);
 
-    ~DialogueEvent()
-    {}
+    virtual ~DialogueEvent() override
+    {
+    }
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
@@ -247,8 +248,9 @@ public:
         _enable_sell_mode(true)
     {}
 
-    ~ShopEvent()
-    {}
+    virtual ~ShopEvent() override
+    {
+    }
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
@@ -370,8 +372,10 @@ public:
     **/
     SoundEvent(const std::string& event_id, const std::string& sound_filename);
 
-    ~SoundEvent()
-    { _sound.Stop(); }
+    virtual ~SoundEvent() override
+    {
+        _sound.Stop();
+    }
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
@@ -414,7 +418,9 @@ public:
                        const std::string& script_filename,
                        const std::string& coming_from);
 
-    ~MapTransitionEvent() {};
+    virtual ~MapTransitionEvent() override
+    {
+    }
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
@@ -456,10 +462,11 @@ class BattleEncounterEvent : public MapEvent
 public:
     /** \param event_id The ID of this event
     **/
-    BattleEncounterEvent(const std::string& event_id);
+    explicit BattleEncounterEvent(const std::string& event_id);
 
-    ~BattleEncounterEvent()
-    {}
+    virtual ~BattleEncounterEvent() override
+    {
+    }
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
@@ -533,8 +540,9 @@ public:
     IfEvent(const std::string& event_id, const std::string& check_function,
             const std::string& on_true_event, const std::string& on_false_event);
 
-    ~IfEvent()
-    {}
+    virtual ~IfEvent() override
+    {
+    }
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
@@ -585,8 +593,9 @@ public:
     ScriptedEvent(const std::string& event_id, const std::string& start_function,
                   const std::string& update_function);
 
-    ~ScriptedEvent()
-    {}
+    virtual ~ScriptedEvent() override
+    {
+    }
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
@@ -640,8 +649,9 @@ public:
     **/
     SpriteEvent(const std::string& event_id, EVENT_TYPE event_type, VirtualSprite* sprite);
 
-    ~SpriteEvent()
-    {}
+    virtual ~SpriteEvent() override
+    {
+    }
 
     VirtualSprite* GetSprite() const {
         return _sprite;
@@ -1044,9 +1054,10 @@ class TreasureEvent : public MapEvent
 public:
     /** \param event_id The ID of this event
     **/
-    TreasureEvent(const std::string& event_id);
+    explicit TreasureEvent(const std::string& event_id);
 
-    ~TreasureEvent() {
+    virtual ~TreasureEvent() override
+    {
         delete _treasure;
     }
 
