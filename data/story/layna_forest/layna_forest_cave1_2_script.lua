@@ -236,7 +236,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya reads the scripture");
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("'Here, ony your enemies prevents you from going further.'");
+    text = vt_system.Translate("'Here, only your enemies prevent you from going further.'");
     dialogue:AddLineEventEmote(text, kalya, "", "Bronann looks at Kalya", "thinking dots");
     text = vt_system.Translate("You are able to decipher this writing, Kalya?");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
