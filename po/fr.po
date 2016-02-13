@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-26 23:10+0100\n"
-"PO-Revision-Date: 2016-01-26 23:32+0100\n"
+"POT-Creation-Date: 2016-02-13 15:09+0100\n"
+"PO-Revision-Date: 2016-02-13 15:10+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/valyria-tear/"
 "language/fr/)\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #: ../src/common/global/battle_media.cpp:81
 #: ../data/entities/status_effects/status_effects.lua:418
@@ -3916,8 +3916,8 @@ msgid "..."
 msgstr "..."
 
 #: ../data/story/layna_forest/layna_forest_cave1_2_script.lua:239
-msgid "'Here, ony your enemies prevents you from going further.'"
-msgstr "'Ici, seuls tes ennemis t'empêcheront d'avancer.'"
+msgid "'Here, only your enemies prevent you from going further.'"
+msgstr "'Ici, seuls tes ennemis t'empêchent d'avancer.'"
 
 #: ../data/story/layna_forest/layna_forest_cave1_2_script.lua:241
 msgid "You are able to decipher this writing, Kalya?"
@@ -7961,6 +7961,9 @@ msgstr "2ème Étage"
 #: map_names_tr.lua:388 map_names_tr.lua:392 map_names_tr.lua:396
 msgid "1st Floor"
 msgstr "1er Étage"
+
+#~ msgid "'Here, ony your enemies prevents you from going further.'"
+#~ msgstr "'Ici, seuls tes ennemis t'empêcheront d'avancer.'"
 
 #~ msgid "!! What?"
 #~ msgstr "!! Quoi ?"
