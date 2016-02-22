@@ -8,7 +8,12 @@ env:
   global:
     - GCC_VERSION="4.8"
 
+git:
+  submodules: false
+
 before_install:
+  # Force th update of the submodule manually
+  - git submodule update --init --recursive --force
   # Add gcc 4.8
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 
