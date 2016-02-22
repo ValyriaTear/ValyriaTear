@@ -339,7 +339,7 @@ function _CreateEvents()
     orlinn_move_next_to_bronann_event:AddEventLinkAtEnd("The heroes discuss about getting to the high passage", 500);
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("There is a passage here, but I'm too heavy to climb on those stones jutting out");
+    text = vt_system.Translate("There is a passage here, but I'm too heavy to climb on those stones jutting out.");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     text = vt_system.Translate("The fact is, you and I cannot afford to stand on those stones. Maybe with a rope?");
     dialogue:AddLine(text, kalya);
