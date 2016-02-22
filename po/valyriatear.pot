@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-13 15:08+0100\n"
+"POT-Creation-Date: 2016-02-22 18:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -6668,7 +6668,7 @@ msgstr ""
 #: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:342
 msgid ""
 "There is a passage here, but I'm too heavy to climb on those stones jutting "
-"out"
+"out."
 msgstr ""
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:344
