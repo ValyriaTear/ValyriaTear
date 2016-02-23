@@ -776,16 +776,13 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
             // If the animation dimensions are not set, we're using the first frame size.
             animations[i].SetDimensions(image_frames.begin()->GetWidth(), image_frames.begin()->GetHeight());
         }
-
-        // Rescale to fit the map mode coordinates system.
-        MapMode::ScaleToMapZoomRatio(animations[i]);
     }
 
     animations_script.CloseTable(); // sprite_animation table
     animations_script.CloseFile();
 
     return true;
-} // bool _LoadAnimations()
+}
 
 void MapSprite::ClearAnimations()
 {
@@ -829,7 +826,6 @@ bool MapSprite::LoadCustomAnimation(const std::string &animation_name, const std
 
     AnimatedImage animation;
     if(animation.LoadFromAnimationScript(filename)) {
-        MapMode::ScaleToMapZoomRatio(animation);
         _custom_animations.insert(std::make_pair(animation_name, animation));
         return true;
     }
@@ -1111,7 +1107,7 @@ void MapSprite::DrawDialogIcon()
         icon_alpha = 0.0f;
     icon_color.SetAlpha(icon_alpha);
 
-    VideoManager->MoveRelative(0, -GetImgScreenHeight());
+    VideoManager->MoveRelative(0, -GetImgPixelHeight());
     map_mode->GetDialogueIcon().Draw(icon_color);
 }
 

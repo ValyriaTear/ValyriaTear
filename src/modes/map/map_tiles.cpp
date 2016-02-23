@@ -327,32 +327,42 @@ void TileSupervisor::DrawLayers(const MapFrame *frame, const LAYER_TYPE &layer_t
     VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
 
     // Map frame ends
-    uint32_t y_end = static_cast<uint32_t>(frame->tile_y_start + frame->num_draw_y_axis);
-    uint32_t x_end = static_cast<uint32_t>(frame->tile_x_start + frame->num_draw_x_axis);
+    int32_t y_end = static_cast<int32_t>(frame->tile_y_start + frame->num_draw_y_axis);
+    int32_t x_end = static_cast<int32_t>(frame->tile_x_start + frame->num_draw_x_axis);
 
-    uint32_t layer_number = _tile_grid.size();
-    for(uint32_t layer_id = 0; layer_id < layer_number; ++layer_id) {
+    int32_t layer_number = _tile_grid.size();
+    for(int32_t layer_id = 0; layer_id < layer_number; ++layer_id) {
 
         const Layer &layer = _tile_grid.at(layer_id);
         if(layer.layer_type != layer_type)
             continue;
+
+        //
+        // TODO: TODO: Revert these over-draw changes once map dimensions
+        //             are calculated more correctly for camera boundary cases.
+        //
 
         // We substract 0.5 horizontally and 1.0 vertically here
         // because the video engine will display the map tiles using their
         // top left coordinates to avoid a position computation flaw when specifying the tile
         // coordinates from the bottom center point, as the engine does for everything else.
         VideoManager->Move(GRID_LENGTH * (frame->tile_x_offset - 1.0f), GRID_LENGTH * (frame->tile_y_offset - 2.0f));
-        for(uint32_t y = static_cast<uint32_t>(frame->tile_y_start); y < y_end; ++y) {
-            for(uint32_t x = static_cast<uint32_t>(frame->tile_x_start); x < x_end; ++x) {
+        for(int32_t y = static_cast<int32_t>(frame->tile_y_start); y < y_end; ++y) {
+            for(int32_t x = static_cast<int32_t>(frame->tile_x_start); x < x_end; ++x) {
                 // Draw a tile image if it exists at this location
-                if(layer.tiles[y][x] >= 0)
-                    _tile_images[ layer.tiles[y][x] ]->Draw();
+                if (x >= 0 &&
+                    y >= 0 &&
+                    layer.tiles.size() > y &&
+                    layer.tiles.front().size() > x &&
+                    layer.tiles[y][x] >= 0) {
+                    _tile_images[layer.tiles[y][x]]->Draw();
+                }
 
                 VideoManager->MoveRelative(TILE_LENGTH, 0.0f);
-            } // x
+            }
             VideoManager->MoveRelative(-static_cast<float>(frame->num_draw_x_axis) * TILE_LENGTH, TILE_LENGTH);
-        } // y
-    } // layer_id
+        }
+    }
 
     // Restore the previous draw flags.
     VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);

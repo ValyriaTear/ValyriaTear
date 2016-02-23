@@ -617,7 +617,13 @@ void VideoEngine::DrawSecondaryRenderTarget()
     // Set up the video manager state.
     vt_video::VideoManager->PushState();
 
+    vt_video::VideoManager->EnableScissoring();
+    vt_video::VideoManager->SetScissorRect(_current_context.viewport.left,
+                                           _current_context.viewport.top,
+                                           _current_context.viewport.width,
+                                           _current_context.viewport.height);
     vt_video::VideoManager->SetViewport(0.0f, 0.0f, width_render_target, height_render_target);
+
     vt_video::VideoManager->SetCoordSys(0.0f, width_render_target, height_render_target, 0.0f);
     vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_TOP, vt_video::VIDEO_BLEND, 0);
 
@@ -630,10 +636,10 @@ void VideoEngine::DrawSecondaryRenderTarget()
 
     // Load the shader uniforms.
     float buffer[16] = { 0 };
-    gl::Transform identity;
-    identity.Apply(buffer);
+    _transform_stack.top().Apply(buffer);
     shader_program->UpdateUniform("u_Model", buffer, 16);
 
+    gl::Transform identity;
     identity.Apply(buffer);
     shader_program->UpdateUniform("u_View", buffer, 16);
 
@@ -788,9 +794,10 @@ void VideoEngine::DisableScissoring()
     }
 }
 
-void VideoEngine::SetScissorRect(unsigned x, unsigned y, unsigned width, unsigned height)
+void VideoEngine::SetScissorRect(int32_t x, int32_t y, int32_t width, int32_t height)
 {
-    SetScissorRect(ScreenRect(x, y, width, height));
+    ScreenRect screen_rectangle(x, y, width, height);
+    SetScissorRect(screen_rectangle);
 }
 
 void VideoEngine::SetScissorRect(const ScreenRect& screen_rectangle)
@@ -806,6 +813,24 @@ void VideoEngine::SetScissorRect(const ScreenRect& screen_rectangle)
 //-----------------------------------------------------------------------------
 // VideoEngine class - Transformation methods
 //-----------------------------------------------------------------------------
+
+void VideoEngine::PushMatrix()
+{
+    _transform_stack.push(_transform_stack.top());
+}
+
+void VideoEngine::PopMatrix()
+{
+    // Sanity.
+    if (!_transform_stack.empty()) {
+        _transform_stack.pop();
+    }
+
+    // Sanity.
+    if (_transform_stack.empty()) {
+        _transform_stack.push(gl::Transform());
+    }
+}
 
 void VideoEngine::Move(float x, float y)
 {
@@ -824,22 +849,14 @@ void VideoEngine::MoveRelative(float x, float y)
     _y_cursor += y;
 }
 
-void VideoEngine::PushMatrix()
+void VideoEngine::Rotate(float angle)
 {
-    _transform_stack.push(_transform_stack.top());
+    _transform_stack.top().Rotate(angle);
 }
 
-void VideoEngine::PopMatrix()
+void VideoEngine::Scale(float x, float y)
 {
-    // Sanity.
-    if (!_transform_stack.empty()) {
-        _transform_stack.pop();
-    }
-
-    // Sanity.
-    if (_transform_stack.empty()) {
-        _transform_stack.push(gl::Transform());
-    }
+    _transform_stack.top().Scale(x, y);
 }
 
 void VideoEngine::PushState()
@@ -874,16 +891,6 @@ void VideoEngine::PopState()
     } else {
         DisableScissoring();
     }
-}
-
-void VideoEngine::Rotate(float angle)
-{
-    _transform_stack.top().Rotate(angle);
-}
-
-void VideoEngine::Scale(float x, float y)
-{
-    _transform_stack.top().Scale(x, y);
 }
 
 void VideoEngine::DrawFadeEffect()

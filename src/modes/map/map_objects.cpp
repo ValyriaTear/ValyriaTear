@@ -50,14 +50,10 @@ MapObject::MapObject(MapObjectDrawLayer layer) :
     _object_id(-1),
     _img_pixel_half_width(0.0f),
     _img_pixel_height(0.0f),
-    _img_screen_half_width(0.0f),
-    _img_screen_height(0.0f),
     _img_grid_half_width(0.0f),
     _img_grid_height(0.0f),
     _coll_pixel_half_width(0.0f),
     _coll_pixel_height(0.0f),
-    _coll_screen_half_width(0.0f),
-    _coll_screen_height(0.0f),
     _coll_grid_half_width(0.0f),
     _coll_grid_height(0.0f),
     _updatable(true),
@@ -67,8 +63,8 @@ MapObject::MapObject(MapObjectDrawLayer layer) :
     _object_type(OBJECT_TYPE),
     _emote_animation(nullptr),
     _interaction_icon(nullptr),
-    _emote_screen_offset_x(0.0f),
-    _emote_screen_offset_y(0.0f),
+    _emote_pixel_offset_x(0.0f),
+    _emote_pixel_offset_y(0.0f),
     _emote_time(0),
     _draw_layer(layer),
     _grayscale(false)
@@ -134,9 +130,9 @@ MapRectangle MapObject::GetGridCollisionRectangle(float tile_x, float tile_y) co
 MapRectangle MapObject::GetScreenCollisionRectangle(float x, float y) const
 {
     MapRectangle rect;
-    rect.left = x - _coll_screen_half_width;
-    rect.right = x + _coll_screen_half_width;
-    rect.top = y - _coll_screen_height;
+    rect.left = x - _coll_pixel_half_width;
+    rect.right = x + _coll_pixel_half_width;
+    rect.top = y - _coll_pixel_height;
     rect.bottom = y;
     return rect;
 }
@@ -147,9 +143,9 @@ MapRectangle MapObject::GetScreenCollisionRectangle() const
     MapRectangle rect;
     float x_screen_pos = mm->GetScreenXCoordinate(_tile_position.x);
     float y_screen_pos = mm->GetScreenYCoordinate(_tile_position.y);
-    rect.left = x_screen_pos - _coll_screen_half_width;
-    rect.right = x_screen_pos + _coll_screen_half_width;
-    rect.top = y_screen_pos - _coll_screen_height;
+    rect.left = x_screen_pos - _coll_pixel_half_width;
+    rect.right = x_screen_pos + _coll_pixel_half_width;
+    rect.top = y_screen_pos - _coll_pixel_height;
     rect.bottom = y_screen_pos;
     return rect;
 }
@@ -160,9 +156,9 @@ MapRectangle MapObject::GetScreenImageRectangle() const
     MapRectangle rect;
     float x_screen_pos = mm->GetScreenXCoordinate(_tile_position.x);
     float y_screen_pos = mm->GetScreenYCoordinate(_tile_position.y);
-    rect.left = x_screen_pos - _img_screen_half_width;
-    rect.right = x_screen_pos + _img_screen_half_width;
-    rect.top = y_screen_pos - _img_screen_height;
+    rect.left = x_screen_pos - _img_pixel_half_width;
+    rect.right = x_screen_pos + _img_pixel_half_width;
+    rect.top = y_screen_pos - _img_pixel_height;
     rect.bottom = y_screen_pos;
     return rect;
 }
@@ -188,10 +184,7 @@ void MapObject::Emote(const std::string &emote_name, vt_map::private_map::ANIM_D
     }
 
     // Make the offset depend on the sprite direction and emote animation.
-    GlobalManager->GetEmoteOffset(_emote_screen_offset_x, _emote_screen_offset_y, emote_name, dir);
-    // Scale the offsets for the map mode
-    _emote_screen_offset_x = _emote_screen_offset_x * MAP_ZOOM_RATIO;
-    _emote_screen_offset_y = _emote_screen_offset_y * MAP_ZOOM_RATIO;
+    GlobalManager->GetEmoteOffset(_emote_pixel_offset_x, _emote_pixel_offset_y, emote_name, dir);
 
     _emote_animation->ResetAnimation();
     _emote_time = _emote_animation->GetAnimationLength();
@@ -220,7 +213,7 @@ void MapObject::_DrawEmote()
         return;
 
     // Move the emote to the sprite head top, where the offset should applied from.
-    VideoManager->MoveRelative(_emote_screen_offset_x, -_img_screen_height + _emote_screen_offset_y);
+    VideoManager->MoveRelative(_emote_pixel_offset_x, -_img_pixel_height + _emote_pixel_offset_y);
     _emote_animation->Draw();
 }
 
@@ -250,7 +243,7 @@ void MapObject::DrawInteractionIcon()
         icon_alpha = 0.0f;
     icon_color.SetAlpha(icon_alpha);
 
-    VideoManager->MoveRelative(0, -GetImgScreenHeight());
+    VideoManager->MoveRelative(0, -GetImgPixelHeight());
     _interaction_icon->Draw(icon_color);
 }
 
@@ -334,7 +327,7 @@ int32_t PhysicalObject::AddAnimation(const std::string& animation_filename)
                       << animation_filename << std::endl;
         return -1;
     }
-    new_animation.SetDimensions(_img_screen_half_width * 2, _img_screen_height);
+    new_animation.SetDimensions(_img_pixel_half_width * 2.0f, _img_pixel_height);
 
     _animations.push_back(new_animation);
     return (int32_t)_animations.size() - 1;
@@ -349,7 +342,7 @@ int32_t PhysicalObject::AddStillFrame(const std::string& image_filename)
                       << image_filename << std::endl;
         return -1;
     }
-    new_animation.SetDimensions(_img_screen_half_width * 2, _img_screen_height);
+    new_animation.SetDimensions(_img_pixel_half_width * 2.0f, _img_pixel_height);
 
     _animations.push_back(new_animation);
     return (int32_t)_animations.size() - 1;
@@ -469,12 +462,12 @@ SavePoint::SavePoint(float x, float y):
     // Remove a margin to the save point so that the character has to actually
     // enter the save point before colliding with it.
     // Note: We divide by the map zoom ratio because the animation are already rescaled following it.
-    SetCollPixelHalfWidth((_animations->at(0).GetWidth() / MAP_ZOOM_RATIO) / 2.0f);
-    SetCollPixelHeight((_animations->at(0).GetHeight() / MAP_ZOOM_RATIO) - 0.3f * GRID_LENGTH);
+    SetCollPixelHalfWidth(_animations->at(0).GetWidth() * 0.5f);
+    SetCollPixelHeight(_animations->at(0).GetHeight() - 0.3f * GRID_LENGTH);
 
     // Setup the image collision for the display update
-    SetImgPixelHalfWidth(_animations->at(0).GetWidth() / MAP_ZOOM_RATIO / 2.0f);
-    SetImgPixelHeight(_animations->at(0).GetHeight() / MAP_ZOOM_RATIO);
+    SetImgPixelHalfWidth(_animations->at(0).GetWidth() * 0.5f);
+    SetImgPixelHeight(_animations->at(0).GetHeight());
 
     // Preload the save active sound
     AudioManager->LoadSound("data/sounds/save_point_activated_dokashiteru_oga.wav", map_mode);
@@ -548,10 +541,8 @@ Halo::Halo(const std::string& filename, float x, float y, const Color& color):
         PRINT_WARNING << "Couldn't load the Halo animation " << filename << " properly." << std::endl;
 
     // Setup the image collision for the display update
-    SetImgPixelHalfWidth(_animation.GetWidth() / 2.0f);
+    SetImgPixelHalfWidth(_animation.GetWidth() * 0.5f);
     SetImgPixelHeight(_animation.GetHeight());
-
-    MapMode::ScaleToMapZoomRatio(_animation);
 
     // Auto-registers to the object supervisor for later deletion handling
     MapMode::CurrentInstance()->GetObjectSupervisor()->AddHalo(this);
@@ -604,11 +595,6 @@ Light::Light(const std::string &main_flare_filename,
         // Setup the image collision for the display update
         SetImgPixelHalfWidth(_main_animation.GetWidth() / 3.0f);
         SetImgPixelHeight(_main_animation.GetHeight());
-
-        MapMode::ScaleToMapZoomRatio(_main_animation);
-    }
-    if(_secondary_animation.LoadFromAnimationScript(secondary_flare_filename)) {
-        MapMode::ScaleToMapZoomRatio(_secondary_animation);
     }
 
     // Register the object to the light vector
@@ -903,11 +889,6 @@ TreasureObject::TreasureObject(const std::string &treasure_name,
     SetCollPixelHalfWidth(closed_anim.GetWidth() / 2.0f);
     SetCollPixelHeight(closed_anim.GetHeight());
 
-    // Apply the zoom ratio on the animations.
-    MapMode::ScaleToMapZoomRatio(closed_anim);
-    MapMode::ScaleToMapZoomRatio(opening_anim);
-    MapMode::ScaleToMapZoomRatio(open_anim);
-
     AddAnimation(closed_anim);
     AddAnimation(opening_anim);
     AddAnimation(open_anim);
@@ -1047,17 +1028,13 @@ TriggerObject::TriggerObject(const std::string &trigger_name,
 
     // Set a default collision area making the trigger respond when the character
     // is rather having his/her two feet on it.
-    SetCollPixelHalfWidth(off_anim.GetWidth() / 4.0f);
+    SetCollPixelHalfWidth(off_anim.GetWidth() * 0.25f);
     SetCollPixelHeight(off_anim.GetHeight() * 2.0f / 3.0f);
-    SetImgPixelHalfWidth(off_anim.GetWidth() / 2.0f);
+    SetImgPixelHalfWidth(off_anim.GetWidth() * 0.5f);
     SetImgPixelHeight(off_anim.GetHeight());
-
-    MapMode::ScaleToMapZoomRatio(off_anim);
-    MapMode::ScaleToMapZoomRatio(on_anim);
 
     AddAnimation(off_anim);
     AddAnimation(on_anim);
-
 
     _LoadState();
 }
@@ -1431,6 +1408,7 @@ void ObjectSupervisor::DrawInteractionIcons()
         }
         _ground_objects[i]->DrawInteractionIcon();
     }
+
     for(uint32_t i = 0; i < _zones.size(); i++) {
         _zones[i]->DrawInteractionIcon();
     }

@@ -16,15 +16,17 @@
 #include "utils/utils_pch.h"
 #include "modes/map/map_minimap.h"
 
-#include "modes/map/map_objects.h"
-#include "modes/map/map_sprites.h"
-
-#include "engine/video/video.h"
 #include "common/gui/menu_window.h"
 
-// Used for the collision to XPM dev function
+#include "engine/video/video.h"
+
+#include "modes/map/map_objects.h"
+#include "modes/map/map_sprites.h"
+#include "modes/map/map_utils.h"
+
+// Used for the collision to XPM dev function.
 #ifdef DEBUG_FEATURES
-#include "engine/script/script_write.h"
+    #include "engine/script/script_write.h"
 #endif
 
 namespace vt_map
@@ -106,11 +108,11 @@ Minimap::Minimap(const std::string& minimap_image_filename) :
     _current_position_x(-1.0f),
     _current_position_y(-1.0f),
     _box_x_length(10),
-    _box_y_length(_box_x_length * .75f),
+    _box_y_length(static_cast<uint16_t>(_box_x_length * 0.75f)),
     _x_cent(0.0f),
     _y_cent(0.0f),
-    _x_half_len(1.75f * TILES_ON_X_AXIS * _box_x_length),
-    _y_half_len(1.75f * TILES_ON_Y_AXIS * _box_y_length),
+    _x_half_len(1.75f * TILES_ON_X_AXIS * _box_x_length / vt_map::private_map::MAP_ZOOM_RATIO),
+    _y_half_len(1.75f * TILES_ON_Y_AXIS * _box_y_length / vt_map::private_map::MAP_ZOOM_RATIO),
     _grid_width(0),
     _grid_height(0),
     _current_opacity(nullptr),

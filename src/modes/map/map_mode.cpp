@@ -99,7 +99,6 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
 
     // Load the miscellaneous map graphics.
     _dialogue_icon.LoadFromAnimationScript("data/entities/emotes/dialogue_icon.lua");
-    ScaleToMapZoomRatio(_dialogue_icon);
 
     // Load the save point animation files.
     AnimatedImage anim;
@@ -117,13 +116,6 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     anim.Clear();
     anim.LoadFromAnimationScript("data/entities/map/save_point/save_point2.lua");
     inactive_save_point_animations.push_back(anim);
-
-    // Transform the animation size to correspond to the map zoom ratio.
-    for(uint32_t i = 0; i < active_save_point_animations.size(); ++i)
-        ScaleToMapZoomRatio(active_save_point_animations[i]);
-
-    for(uint32_t i = 0; i < inactive_save_point_animations.size(); ++i)
-        ScaleToMapZoomRatio(inactive_save_point_animations[i]);
 
     _tile_supervisor = new TileSupervisor();
     _object_supervisor = new ObjectSupervisor();
@@ -391,6 +383,11 @@ void MapMode::Draw()
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
+
+    VideoManager->EnableSecondaryRenderTarget();
+    VideoManager->Clear();
+
+    VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     GetScriptSupervisor().DrawBackground();
     VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     _DrawMapLayers();
@@ -398,6 +395,25 @@ void MapMode::Draw()
     GetScriptSupervisor().DrawForeground();
     VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
     _object_supervisor->DrawInteractionIcons();
+
+    // Halos use additive blending.
+    // So, they should be applied as post-effects before the GUI.
+    VideoManager->SetStandardCoordSys();
+    VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
+    _object_supervisor->DrawLights();
+    GetScriptSupervisor().DrawPostEffects();
+
+    VideoManager->DisableSecondaryRenderTarget();
+
+    VideoManager->PushState();
+    VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
+
+    VideoManager->Move(0.0f, 0.0f);
+    VideoManager->Scale(vt_map::private_map::MAP_ZOOM_RATIO, vt_map::private_map::MAP_ZOOM_RATIO);
+    VideoManager->DrawSecondaryRenderTarget();
+
+    VideoManager->PopState();
+
     VideoManager->PopState();
 }
 
@@ -406,12 +422,6 @@ void MapMode::DrawPostEffects()
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
-
-    // Halos are additive blending made, so they should be applied
-    // as post-effects but before the GUI.
-    _object_supervisor->DrawLights();
-
-    GetScriptSupervisor().DrawPostEffects();
 
     // Draw the gui, unaffected by potential fading effects.
     _DrawGUI();
@@ -910,7 +920,7 @@ void MapMode::StartEnemyEncounter(EnemySprite* enemy, bool hero_init_boost, bool
 void MapMode::_UpdateMapFrame()
 {
     // Determine the center position coordinates for the camera
-    // Holds the final X, Y coordinates of the camera
+    // Holds the final X and Y coordinates of the camera
     float camera_x = _camera ? _camera->GetXPosition() : 0.0f;
     float camera_y = _camera ? _camera->GetYPosition() : 0.0f;
 
@@ -947,20 +957,20 @@ void MapMode::_UpdateMapFrame()
         _map_frame.tile_y_offset -= 1.0f;
 
     // The starting row and column of tiles to draw is determined by the map camera's position
-    _map_frame.tile_x_start = (current_x / 2) - HALF_TILES_ON_X_AXIS;
-    _map_frame.tile_y_start = (current_y / 2) - HALF_TILES_ON_Y_AXIS;
+    _map_frame.tile_x_start = (current_x / 2) - (TILES_ON_X_AXIS / 2);
+    _map_frame.tile_y_start = (current_y / 2) - (TILES_ON_Y_AXIS / 2);
 
-    _map_frame.screen_edges.top    = camera_y - HALF_SCREEN_GRID_Y_LENGTH;
-    _map_frame.screen_edges.bottom = camera_y + HALF_SCREEN_GRID_Y_LENGTH;
-    _map_frame.screen_edges.left   = camera_x - HALF_SCREEN_GRID_X_LENGTH;
-    _map_frame.screen_edges.right  = camera_x + HALF_SCREEN_GRID_X_LENGTH;
+    _map_frame.screen_edges.left    = camera_x - (SCREEN_GRID_X_LENGTH * 0.5f);
+    _map_frame.screen_edges.right   = camera_x + (SCREEN_GRID_X_LENGTH * 0.5f);
+    _map_frame.screen_edges.top     = camera_y - (SCREEN_GRID_Y_LENGTH * 0.5f);
+    _map_frame.screen_edges.bottom  = camera_y + (SCREEN_GRID_Y_LENGTH * 0.5f);
 
     // Check for boundary conditions and re-adjust as necessary so we don't draw outside the map area
 
     // Usually the map centers on the camera's position, but when the camera becomes too close to
     // the edges of the map, we need to modify the drawing properties of the frame.
 
-    // Reinit map corner check members
+    // Reinitialize the map corner check members.
     _camera_x_in_map_corner = false;
     _camera_y_in_map_corner = false;
 
@@ -968,46 +978,50 @@ void MapMode::_UpdateMapFrame()
     _map_frame.num_draw_x_axis = TILES_ON_X_AXIS + 1;
     _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS + 1;
 
-    // Camera exceeds the left boundary of the map
-    if(_map_frame.tile_x_start < 0) {
-        _map_frame.tile_x_start = 0;
-        _map_frame.tile_x_offset = vt_utils::FloorToFloatMultiple(1.0f, _pixel_length_x);
-        _map_frame.screen_edges.left = 0.0f;
-        _map_frame.screen_edges.right = SCREEN_GRID_X_LENGTH;
-        _map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
-        _camera_x_in_map_corner = true;
-    }
-    // Camera exceeds the right boundary of the map
-    else if(_map_frame.tile_x_start + TILES_ON_X_AXIS >= _tile_supervisor->_num_tile_on_x_axis) {
-        _map_frame.tile_x_start = static_cast<int16_t>(_tile_supervisor->_num_tile_on_x_axis - TILES_ON_X_AXIS);
-        _map_frame.tile_x_offset = vt_utils::FloorToFloatMultiple(1.0f, _pixel_length_x);
-        _map_frame.screen_edges.right = static_cast<float>(_object_supervisor->_num_grid_x_axis);
-        _map_frame.screen_edges.left = _map_frame.screen_edges.right - SCREEN_GRID_X_LENGTH;
-        _map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
-        _camera_x_in_map_corner = true;
-    }
+    //
+    // TODO: Reimplement the camera clamp code.
+    //
 
-    // Camera exceeds the top boundary of the map
-    if(_map_frame.tile_y_start < 0) {
-        _map_frame.tile_y_start = 0;
-        _map_frame.tile_y_offset = vt_utils::FloorToFloatMultiple(2.0f, _pixel_length_y);
-        _map_frame.screen_edges.top = 0.0f;
-        _map_frame.screen_edges.bottom = SCREEN_GRID_Y_LENGTH;
-        _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS;
-        _camera_y_in_map_corner = true;
-    }
-    // Camera exceeds the bottom boundary of the map
-    else if(_map_frame.tile_y_start + TILES_ON_Y_AXIS >= _tile_supervisor->_num_tile_on_y_axis) {
-        _map_frame.tile_y_start = static_cast<int16_t>(_tile_supervisor->_num_tile_on_y_axis - TILES_ON_Y_AXIS);
-        _map_frame.tile_y_offset = vt_utils::FloorToFloatMultiple(2.0f, _pixel_length_y);
-        _map_frame.screen_edges.bottom = static_cast<float>(_object_supervisor->_num_grid_y_axis);
-        _map_frame.screen_edges.top = _map_frame.screen_edges.bottom - SCREEN_GRID_Y_LENGTH;
-        _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS;
-        _camera_y_in_map_corner = true;
-    }
+    //// Camera exceeds the left boundary of the map
+    //if (_map_frame.tile_x_start < 0) {
+    //    _map_frame.tile_x_start = 0;
+    //    _map_frame.tile_x_offset = vt_utils::FloorToFloatMultiple(1.0f, _pixel_length_x);
+    //    _map_frame.screen_edges.left = 0.0f;
+    //    _map_frame.screen_edges.right = SCREEN_GRID_X_LENGTH;
+    //    _map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
+    //    _camera_x_in_map_corner = true;
+    //}
+    //// Camera exceeds the right boundary of the map
+    //else if (_map_frame.tile_x_start + TILES_ON_X_AXIS >= _tile_supervisor->_num_tile_on_x_axis) {
+    //    _map_frame.tile_x_start = static_cast<int16_t>(_tile_supervisor->_num_tile_on_x_axis - TILES_ON_X_AXIS);
+    //    _map_frame.tile_x_offset = vt_utils::FloorToFloatMultiple(1.0f, _pixel_length_x);
+    //    _map_frame.screen_edges.right = static_cast<float>(_object_supervisor->_num_grid_x_axis);
+    //    _map_frame.screen_edges.left = _map_frame.screen_edges.right - SCREEN_GRID_X_LENGTH;
+    //    _map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
+    //    _camera_x_in_map_corner = true;
+    //}
+    //
+    //// Camera exceeds the top boundary of the map
+    //if(_map_frame.tile_y_start < 0) {
+    //    _map_frame.tile_y_start = 0;
+    //    _map_frame.tile_y_offset = vt_utils::FloorToFloatMultiple(2.0f, _pixel_length_y);
+    //    _map_frame.screen_edges.top = 0.0f;
+    //    _map_frame.screen_edges.bottom = SCREEN_GRID_Y_LENGTH;
+    //    _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS;
+    //    _camera_y_in_map_corner = true;
+    //}
+    //// Camera exceeds the bottom boundary of the map
+    //else if(_map_frame.tile_y_start + TILES_ON_Y_AXIS >= _tile_supervisor->_num_tile_on_y_axis) {
+    //    _map_frame.tile_y_start = static_cast<int16_t>(_tile_supervisor->_num_tile_on_y_axis - TILES_ON_Y_AXIS);
+    //    _map_frame.tile_y_offset = vt_utils::FloorToFloatMultiple(2.0f, _pixel_length_y);
+    //    _map_frame.screen_edges.bottom = static_cast<float>(_object_supervisor->_num_grid_y_axis);
+    //    _map_frame.screen_edges.top = _map_frame.screen_edges.bottom - SCREEN_GRID_Y_LENGTH;
+    //    _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS;
+    //    _camera_y_in_map_corner = true;
+    //}
 
-    // Update parallax effects now that map corner members are up to date
-    if(_camera_timer.IsRunning()) {
+    // Update parallax effects now that map corner members are up to date.
+    if (_camera_timer.IsRunning()) {
         // Inform the effect supervisor about camera movement.
         float duration = (float)_camera_timer.GetDuration();
         float time_elapsed = (float)SystemManager->GetUpdateTime();
@@ -1084,18 +1098,6 @@ void MapMode::_DrawMapLayers()
     VideoManager->PushState();
     VideoManager->SetStandardCoordSys();
 
-    VideoManager->EnableSecondaryRenderTarget();
-    VideoManager->Clear();
-
-    //
-    // TODO: Draw the map's tiles and objects at their
-    //       native resolutions into the secondary render
-    //       target.
-    //
-    //       Currently, everything is drawn at their final
-    //       resolutions.
-    //
-
     _tile_supervisor->DrawLayers(&_map_frame, GROUND_LAYER);
 
     // Save points are engraved on the ground, and thus shouldn't be drawn after walls.
@@ -1116,20 +1118,7 @@ void MapMode::_DrawMapLayers()
         _DrawDebugGrid();
     }
 
-    VideoManager->DisableSecondaryRenderTarget();
-
     VideoManager->PopState();
-
-    //
-    // TODO: Draw the composited, native resolution map
-    //       onto the primary render target with the appropriate
-    //       scale factor and offsets.
-    //
-    //       Currently, the secondary render target is treated
-    //       identically to a full screen quad.
-    //
-
-    VideoManager->DrawSecondaryRenderTarget();
 }
 
 void MapMode::_DrawStaminaBar(const vt_video::Color &blending)

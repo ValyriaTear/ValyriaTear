@@ -309,12 +309,6 @@ public:
     //! This is applied as an active status effect on stamina.
     void ApplyPotentialStaminaMalus();
 
-    //! \brief This function permits to quickly adapt the images to the map scale.
-    static void ScaleToMapZoomRatio(vt_video::ImageDescriptor &img) {
-        img.SetDimensions(img.GetWidth() * vt_map::private_map::MAP_ZOOM_RATIO,
-                          img.GetHeight() * vt_map::private_map::MAP_ZOOM_RATIO);
-    }
-
     //! \brief Returns in standard screen coordinates (1024x768),
     //! the x position of a tile position on the X axis.
     // NOTE: We round the value to a multiple of the current pixel size.

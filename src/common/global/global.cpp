@@ -1162,10 +1162,6 @@ void GameGlobal::LoadEmotes(const std::string &emotes_filename)
 
         AnimatedImage anim;
         if(anim.LoadFromAnimationScript(animation_file)) {
-            // NOTE: The map mode should one day be fixed to use the same coords
-            // than everything else, thus making possible to remove this
-            vt_map::MapMode::ScaleToMapZoomRatio(anim);
-
             _emotes.insert(std::make_pair(emotes_id[i], anim));
 
             // The vector containing the offsets
