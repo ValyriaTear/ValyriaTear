@@ -978,47 +978,50 @@ void MapMode::_UpdateMapFrame()
     _map_frame.num_draw_x_axis = TILES_ON_X_AXIS + 1;
     _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS + 1;
 
-    //
-    // TODO: Reimplement the camera clamp code.
-    //
+    int32_t width_offset = static_cast<int32_t>(vt_video::VIDEO_STANDARD_RES_WIDTH / vt_map::private_map::SCREEN_GRID_X_LENGTH / vt_map::private_map::MAP_ZOOM_RATIO);
+    float width_offset_screen = width_offset * vt_map::private_map::MAP_ZOOM_RATIO;
 
-    //// Camera exceeds the left boundary of the map
-    //if (_map_frame.tile_x_start < 0) {
-    //    _map_frame.tile_x_start = 0;
-    //    _map_frame.tile_x_offset = vt_utils::FloorToFloatMultiple(1.0f, _pixel_length_x);
-    //    _map_frame.screen_edges.left = 0.0f;
-    //    _map_frame.screen_edges.right = SCREEN_GRID_X_LENGTH;
-    //    _map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
-    //    _camera_x_in_map_corner = true;
-    //}
-    //// Camera exceeds the right boundary of the map
-    //else if (_map_frame.tile_x_start + TILES_ON_X_AXIS >= _tile_supervisor->_num_tile_on_x_axis) {
-    //    _map_frame.tile_x_start = static_cast<int16_t>(_tile_supervisor->_num_tile_on_x_axis - TILES_ON_X_AXIS);
-    //    _map_frame.tile_x_offset = vt_utils::FloorToFloatMultiple(1.0f, _pixel_length_x);
-    //    _map_frame.screen_edges.right = static_cast<float>(_object_supervisor->_num_grid_x_axis);
-    //    _map_frame.screen_edges.left = _map_frame.screen_edges.right - SCREEN_GRID_X_LENGTH;
-    //    _map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
-    //    _camera_x_in_map_corner = true;
-    //}
-    //
-    //// Camera exceeds the top boundary of the map
-    //if(_map_frame.tile_y_start < 0) {
-    //    _map_frame.tile_y_start = 0;
-    //    _map_frame.tile_y_offset = vt_utils::FloorToFloatMultiple(2.0f, _pixel_length_y);
-    //    _map_frame.screen_edges.top = 0.0f;
-    //    _map_frame.screen_edges.bottom = SCREEN_GRID_Y_LENGTH;
-    //    _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS;
-    //    _camera_y_in_map_corner = true;
-    //}
-    //// Camera exceeds the bottom boundary of the map
-    //else if(_map_frame.tile_y_start + TILES_ON_Y_AXIS >= _tile_supervisor->_num_tile_on_y_axis) {
-    //    _map_frame.tile_y_start = static_cast<int16_t>(_tile_supervisor->_num_tile_on_y_axis - TILES_ON_Y_AXIS);
-    //    _map_frame.tile_y_offset = vt_utils::FloorToFloatMultiple(2.0f, _pixel_length_y);
-    //    _map_frame.screen_edges.bottom = static_cast<float>(_object_supervisor->_num_grid_y_axis);
-    //    _map_frame.screen_edges.top = _map_frame.screen_edges.bottom - SCREEN_GRID_Y_LENGTH;
-    //    _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS;
-    //    _camera_y_in_map_corner = true;
-    //}
+    // Camera exceeds the left boundary of the map.
+    if (_map_frame.tile_x_start < -width_offset) {
+        _map_frame.tile_x_start = -width_offset;
+        _map_frame.tile_x_offset = vt_utils::FloorToFloatMultiple(1.0f, _pixel_length_x);
+        _map_frame.screen_edges.left = -width_offset_screen;
+        _map_frame.screen_edges.right = SCREEN_GRID_X_LENGTH - width_offset_screen;
+        _map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
+        _camera_x_in_map_corner = true;
+    }
+    // Camera exceeds the right boundary of the map.
+    else if (_map_frame.tile_x_start + TILES_ON_X_AXIS >= _tile_supervisor->_num_tile_on_x_axis + width_offset) {
+        _map_frame.tile_x_start = static_cast<int16_t>(_tile_supervisor->_num_tile_on_x_axis - TILES_ON_X_AXIS + width_offset);
+        _map_frame.tile_x_offset = vt_utils::CeilToFloatMultiple(1.0f, _pixel_length_x);
+        _map_frame.screen_edges.left = static_cast<float>(_object_supervisor->_num_grid_x_axis - SCREEN_GRID_X_LENGTH + width_offset_screen);
+        _map_frame.screen_edges.right = static_cast<float>(_object_supervisor->_num_grid_x_axis + width_offset_screen);
+        _map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
+        _camera_x_in_map_corner = true;
+    }
+
+    // Camera exceeds the top boundary of the map.
+    int32_t height_offset = static_cast<int32_t>(vt_video::VIDEO_STANDARD_RES_HEIGHT / vt_map::private_map::SCREEN_GRID_Y_LENGTH / vt_map::private_map::MAP_ZOOM_RATIO);
+    height_offset -= 2.0f;  // TODO: I am not sure why the -= 2.0f is needed.
+    float height_offset_screen = height_offset * vt_map::private_map::MAP_ZOOM_RATIO;
+
+    if (_map_frame.tile_y_start < -height_offset) {
+        _map_frame.tile_y_start = -height_offset;
+        _map_frame.tile_y_offset = vt_utils::FloorToFloatMultiple(2.0f, _pixel_length_y);
+        _map_frame.screen_edges.top = -height_offset_screen;
+        _map_frame.screen_edges.bottom = SCREEN_GRID_Y_LENGTH - height_offset_screen;
+        _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS;
+        _camera_y_in_map_corner = true;
+    }
+    // Camera exceeds the bottom boundary of the map.
+    else if (_map_frame.tile_y_start + TILES_ON_Y_AXIS >= _tile_supervisor->_num_tile_on_y_axis + height_offset) {
+        _map_frame.tile_y_start = static_cast<int16_t>(_tile_supervisor->_num_tile_on_y_axis - TILES_ON_Y_AXIS + height_offset);
+        _map_frame.tile_y_offset = vt_utils::CeilToFloatMultiple(2.0f, _pixel_length_y);
+        _map_frame.screen_edges.top = static_cast<float>(_object_supervisor->_num_grid_y_axis - SCREEN_GRID_Y_LENGTH + height_offset_screen);
+        _map_frame.screen_edges.bottom = static_cast<float>(_object_supervisor->_num_grid_y_axis + height_offset_screen);
+        _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS;
+        _camera_y_in_map_corner = true;
+    }
 
     // Update parallax effects now that map corner members are up to date.
     if (_camera_timer.IsRunning()) {
@@ -1038,23 +1041,23 @@ void MapMode::_UpdateMapFrame()
         GetIndicatorSupervisor().AddParallax(x_parallax, y_parallax);
     }
 
-    // Comment this out to print out map draw debugging info about once a second.
-//  static int loops = 0;
-//  if (loops == 0) {
-//      printf("--- MAP DRAW INFO ---\n");
-//      printf("Rounded offsets:   [%f, %f]\n", current_offset_x, current_offset_y);
-//      printf("Starting row, col: [%d, %d]\n", _map_frame.starting_row, _map_frame.starting_col);
-//      printf("# draw rows, cols: [%d, %d]\n", _map_frame.num_draw_rows, _map_frame.num_draw_cols);
-//      printf("Camera position:   [%f, %f]\n", camera_x, camera_y);
-//      printf("Tile draw start:   [%f, %f]\n", _map_frame.tile_x_start, _map_frame.tile_y_start);
-//      printf("Edges (T,B,L,R):   [%f, %f, %f, %f]\n", _map_frame.screen_edges.top, _map_frame.screen_edges.bottom,
-//          _map_frame.screen_edges.left, _map_frame.screen_edges.right);
-//  }
-//
-//  if (loops >= 60)
-//      loops = 0;
-//  else
-//      ++loops;
+    // Uncomment this to print out map draw debugging information about once a second.
+    //static int loops = 0;
+    //if (loops == 0) {
+    //    printf("--- MAP DRAW INFO ---\n");
+    //    printf("Rounded offsets:   [%f, %f]\n", current_offset_x, current_offset_y);
+    //    printf("Starting row, col: [%d, %d]\n", _map_frame.starting_row, _map_frame.starting_col);
+    //    printf("# draw rows, cols: [%d, %d]\n", _map_frame.num_draw_rows, _map_frame.num_draw_cols);
+    //    printf("Camera position:   [%f, %f]\n", camera_x, camera_y);
+    //    printf("Tile draw start:   [%f, %f]\n", _map_frame.tile_x_start, _map_frame.tile_y_start);
+    //    printf("Edges (T,B,L,R):   [%f, %f, %f, %f]\n", _map_frame.screen_edges.top, _map_frame.screen_edges.bottom,
+    //    _map_frame.screen_edges.left, _map_frame.screen_edges.right);
+    //}
+    //
+    //if (loops >= 60)
+    //    loops = 0;
+    //else
+    //    ++loops;
 }
 
 void MapMode::_DrawDebugGrid()
