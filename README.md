@@ -13,7 +13,7 @@ The game has all the features you can expect from JRPG classics: entertaining st
 
 ## Licensing
 
-**Copyright (C) 2012-2015 by Bertram  
+**Copyright (C) 2012-2016 by Bertram  
 Copyright (C) 2004-2011 by The Allacrost Project**
 
 The source code is licensed under the *GNU GPL*. It is free software and you may modify it and/or redistribute it under the terms of this license.  
@@ -33,7 +33,7 @@ The game directories included and used are:
 Once you've unpacked the tarball, just run `cmake . && make ` from the top-level directory at the prompt.
 
 If you have checked it out from the Git repository, run this first to get the latest luabind code:
-`git submodule update --init --remote`  
+`git submodule update --init --remote --force`  
 and then the usual `cmake . && make`
 
 You'll then be able to play by typing: `src/valyriatear`
@@ -50,7 +50,7 @@ _**(Warning: not officially supported!)**_
 Please contact [authenticate](https://github.com/authenticate) for support.  
 To build on Windows with Visual Studio 2013, do this:
 - git clone https://github.com/authenticate/ValyriaTear-VS2013-Dependencies.git
-- git submodule update --recursive --init
+- git submodule update --recursive --init --remote --force
 - Copy the ```ValyriaTear-VS2013-Dependencies/``` folder into your Valyria Tear repository.
 - Open the VS 2013 solution file: ```ValyriaTearRepository/vs2013/ValyriaTear.sln```
 - Build ```F7```

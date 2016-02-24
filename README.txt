@@ -23,7 +23,7 @@ active side-view battles, character management, puzzles... It is also translated
 
 ## Licensing ##
 
-Copyright (C) 2012-2015 by Bertram
+Copyright (C) 2012-2016 by Bertram
 Copyright (C) 2004-2011 by The Allacrost Project
 
 The source code is licensed under the *GNU GPL*. It is free software and you may
@@ -47,7 +47,7 @@ data/ po/
 Once you've unpacked the tarball, just run `cmake . && make` from the top-level directory at the prompt.
 
 If you have checked it out from the Git repository, run this first to get the latest luabind code:
-`git submodule update --init --remote`
+`git submodule update --init --remote --force`
 and then the usual `cmake . && make`
 
 You'll then be able to play by typing: `src/valyriatear`
@@ -65,7 +65,7 @@ _**(Warning: not officially supported!)**_
 Please contact Authenticate for support about this one: https://github.com/authenticate
 To build on Windows with Visual Studio 2013, do this:
 1. git clone https://github.com/authenticate/ValyriaTear-VS2013-Dependencies.git
-2. git submodule update --recursive --init
+2. git submodule update --recursive --init --remote --force
 3. Copy the ValyriaTear-VS2013-Dependencies folder into your Valyria Tear repository.
 4. Open the VS 2013 solution file: .../ValyriaTearRepository/vs2013/ValyriaTear.sln
 5. Build (F7)
