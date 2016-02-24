@@ -13,7 +13,7 @@ git:
 
 before_install:
   # Force th update of the submodule manually
-  - git submodule update --init --recursive --force
+  - git submodule update --init --recursive --force --remote
   # Add gcc 4.8
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 
