@@ -1002,7 +1002,7 @@ void MapMode::_UpdateMapFrame()
 
     // Camera exceeds the top boundary of the map.
     int32_t height_offset = static_cast<int32_t>(vt_video::VIDEO_STANDARD_RES_HEIGHT / vt_map::private_map::SCREEN_GRID_Y_LENGTH / vt_map::private_map::MAP_ZOOM_RATIO);
-    height_offset -= 2.0f;  // TODO: I am not sure why the -= 2.0f is needed.
+    height_offset -= 2;
     float height_offset_screen = height_offset * vt_map::private_map::MAP_ZOOM_RATIO;
 
     if (_map_frame.tile_y_start < -height_offset) {

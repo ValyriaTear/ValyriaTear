@@ -352,8 +352,8 @@ void TileSupervisor::DrawLayers(const MapFrame *frame, const LAYER_TYPE &layer_t
                 // Draw a tile image if it exists at this location
                 if (x >= 0 &&
                     y >= 0 &&
-                    layer.tiles.size() > y &&
-                    layer.tiles.front().size() > x &&
+                    static_cast<int32_t>(layer.tiles.size()) > y &&
+                    static_cast<int32_t>(layer.tiles.front().size()) > x &&
                     layer.tiles[y][x] >= 0) {
                     _tile_images[layer.tiles[y][x]]->Draw();
                 }

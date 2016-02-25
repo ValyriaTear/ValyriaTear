@@ -597,6 +597,8 @@ Light::Light(const std::string &main_flare_filename,
         SetImgPixelHeight(_main_animation.GetHeight());
     }
 
+    _secondary_animation.LoadFromAnimationScript(secondary_flare_filename);
+
     // Register the object to the light vector
     MapMode::CurrentInstance()->GetObjectSupervisor()->AddLight(this);
 }
