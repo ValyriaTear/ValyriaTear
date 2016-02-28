@@ -148,8 +148,6 @@ private:
     void _UpdateActiveStatusEffects(vt_global::GlobalCharacter* character);
 }; // class CharacterWindow : public vt_video::MenuWindow
 
-
-
 /** ****************************************************************************
 *** \brief Represents the inventory window to browse the party's inventory
 ***
@@ -271,8 +269,6 @@ private:
 
 }; // class InventoryWindow : public vt_video::MenuWindow
 
-
-
 /** ****************************************************************************
 *** \brief Represents the Party window, displaying all the information about the character.
 ***
@@ -285,7 +281,6 @@ class PartyWindow : public vt_gui::MenuWindow
     friend class vt_menu::MenuMode;
 
 public:
-
     PartyWindow();
 
     ~PartyWindow()
@@ -306,7 +301,7 @@ public:
     * \brief Get status window active state
     * \return the char select value when active, or zero if inactive
     */
-    inline uint32_t GetActiveState() {
+    inline uint32_t GetActiveState() const {
         return _char_select_active;
     }
 
@@ -371,7 +366,77 @@ private:
 
 }; // class PartyWindow : public vt_video::MenuWindow
 
+/** ****************************************************************************
+*** \brief Represents the currently chosen battle window.
+***
+*** This window will display the different battle formation available and their impact
+*** on the character chances to be targeted, attack, and defense.
+*** ***************************************************************************/
+class BattleFormationWindow : public vt_gui::MenuWindow
+{
+    friend class vt_menu::MenuMode;
 
+public:
+    BattleFormationWindow();
+
+    virtual ~BattleFormationWindow()
+    {}
+
+    /*!
+    * \brief render this window to the screen
+    * \return success/failure
+    */
+    void Draw();
+
+    /*!
+    * \brief update function handles input to the window
+    */
+    void Update();
+
+    /*!
+    * \brief Get status window active state
+    * \return the char select value when active, or zero if inactive
+    */
+    inline bool GetActiveState() const {
+        return _formation_select_active;
+    }
+
+    /*!
+    * \brief Active this window
+    * \param activated true to activate window, false to deactivate window
+    */
+    void Activate(bool activated);
+
+    //! \brief Updates the window content
+    void UpdateStatus();
+
+private:
+    //! characters
+    std::vector<vt_video::AnimatedImage> _character_sprites;
+
+    //! \brief If the window is active or not
+    bool _formation_select_active;
+
+    //! \brief Character selection option box
+    vt_gui::OptionBox _formation_select;
+
+    //! \brief The characters status
+    std::vector<vt_video::TextImage> _character_target_texts;
+
+    //! \brief The rear/front status (true if on front)
+    std::vector<bool> _characters_position;
+
+    //! \brief Some help text displayed in the bottom window.
+    vt_video::TextImage _help_text;
+    vt_video::TextImage _rear_front_txt;
+    vt_video::TextImage _modifier_txt;
+
+    //! \brief Draws info in the bottom window.
+    void _DrawBottomWindowInfo();
+
+    //! \brief Updates the modificators depending on the characters modifications.
+    void _ComputeModificators();
+}; // class BattleFormationWindow : public vt_video::MenuWindow
 
 /** ****************************************************************************
 *** \brief Represents the Skills window, displaying all the skills for the character.
@@ -574,7 +639,6 @@ private:
 *** this holds the options box "list" that players can cycle through to look at
 *** their quests (in Quest Window)
 **/
-
 class QuestListWindow : public vt_gui::MenuWindow {
     friend class vt_menu::MenuMode;
     friend class QuestState;
@@ -618,11 +682,11 @@ private:
     //! \brief updates the side window quest list based on the current quest log entries
     void _UpdateQuestList();
 };
+
 /**
 *** \brief Represents the quest log main window
 *** players can view their active quests as well as completed quests when this window is viewing
 **/
-
 class QuestWindow : public vt_gui::MenuWindow {
 
     friend class vt_menu::MenuMode;
@@ -697,7 +761,6 @@ private:
 *** bottom window render, we have all the information needed to show
 ***
 **/
-
 class WorldMapWindow : public vt_gui::MenuWindow
 {
     friend class vt_menu::MenuMode;

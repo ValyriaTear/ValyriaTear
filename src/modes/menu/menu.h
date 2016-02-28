@@ -225,7 +225,8 @@ protected:
 class PartyState : virtual public AbstractMenuState {
 public:
     enum PARTY_CATEGORY {
-        PARTY_OPTIONS_VIEW_ALTER,
+        PARTY_OPTIONS_VIEW_REORDER,
+        PARTY_OPTIONS_BATTLE_FORMATION,
         PARTY_OPTIONS_BACK,
         PARTY_OPTIONS_SIZE
     };
@@ -235,12 +236,15 @@ public:
         AbstractMenuState("Party State", menu_mode)
     {}
 
-    ~PartyState(){}
+    ~PartyState()
+    {}
+
     void Reset();
-    AbstractMenuState *GetTransitionState(uint32_t selection);
+    AbstractMenuState* GetTransitionState(uint32_t selection);
 protected:
     void _DrawBottomMenu();
     void _OnDrawMainWindow();
+    void _OnDrawSideWindow();
     void _ActiveWindowUpdate();
     bool _IsActive();
 
@@ -510,7 +514,7 @@ private:
     //@}
 
     //! \brief currently viewing state
-    private_menu::AbstractMenuState *_current_menu_state;
+    private_menu::AbstractMenuState* _current_menu_state;
 
     private_menu::CharacterWindow _character_window0;
     private_menu::CharacterWindow _character_window1;
@@ -519,6 +523,7 @@ private:
     private_menu::InventoryWindow _inventory_window;
     private_menu::QuestListWindow _quest_list_window;
     private_menu::PartyWindow _party_window;
+    private_menu::BattleFormationWindow _battle_formation_window;
     private_menu::SkillsWindow _skills_window;
     private_menu::EquipWindow _equip_window;
     private_menu::QuestWindow _quest_window;

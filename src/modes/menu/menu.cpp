@@ -50,7 +50,7 @@ static int32_t _update_of_time = 0;
 static void SetupOptionBoxCommonSettings(OptionBox *ob)
 {
     // Set all the default options
-    ob->SetTextStyle(TextStyle("title22"));
+    ob->SetTextStyle(TextStyle("text24"));
     ob->SetPosition(142.0f, 85.0f);
     ob->SetDimensions(115.0f, 50.0f, 1, 1, 1, 1);
     ob->SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -242,7 +242,7 @@ MainMenuState::MainMenuState(MenuMode *menu_mode):
     _options.SetSelection(MAIN_OPTIONS_INVENTORY);
     _options.SetSkipDisabled(true);
 
-    // Deactivate menus with empy content
+    // Deactivate menus with empty content
     if (GlobalManager->GetActiveQuestIds().empty())
         _options.EnableOption(3, false);
 
@@ -341,10 +341,20 @@ void MainMenuState::_OnDrawMainWindow()
 
 void MainMenuState::_OnDrawSideWindow()
 {
-    if(_options.GetSelection() == MAIN_OPTIONS_QUESTS)
+    switch (_options.GetSelection()) {
+    case MAIN_OPTIONS_QUESTS:
         _menu_mode->_quest_list_window.Draw();
-    else if (_options.GetSelection() != MAIN_OPTIONS_WORLDMAP)
+        break;
+    case MAIN_OPTIONS_WORLDMAP:
+        break;
+    case MAIN_OPTIONS_PARTY:
+        if (!_menu_mode->_battle_formation_window.GetActiveState())
+            AbstractMenuState::_OnDrawSideWindow();
+        break;
+    default:
         AbstractMenuState::_OnDrawSideWindow();
+        break;
+    }
 }
 
 void InventoryState::Reset()
@@ -395,7 +405,6 @@ bool InventoryState::_IsActive()
 
 void InventoryState::_OnDrawMainWindow()
 {
-
     uint32_t draw_window = _options.GetSelection();
     // Inventory state has multiple state types to draw, including the Equip transition state.
     switch(draw_window)
@@ -414,34 +423,58 @@ void InventoryState::_OnDrawMainWindow()
             _menu_mode->_inventory_window.Draw();
             break;
     }
-
 }
 
 void PartyState::_ActiveWindowUpdate()
 {
-    _menu_mode->_party_window.Update();
+    switch (_options.GetSelection()) {
+    default:
+    case PARTY_OPTIONS_BACK:
+    case PARTY_OPTIONS_VIEW_REORDER:
+        _menu_mode->_party_window.Update();
+        break;
+    case PARTY_OPTIONS_BATTLE_FORMATION:
+        _menu_mode->_battle_formation_window.Update();
+        break;
+    }
     _menu_mode->UpdateTimeAndDrunes();
 }
 
 bool PartyState::_IsActive()
 {
-    return _menu_mode->_party_window.GetActiveState();
+    switch (_options.GetSelection()) {
+    default:
+    case PARTY_OPTIONS_BACK:
+    case PARTY_OPTIONS_VIEW_REORDER:
+        return static_cast<bool>(_menu_mode->_party_window.GetActiveState());
+        break;
+    case PARTY_OPTIONS_BATTLE_FORMATION:
+        return _menu_mode->_battle_formation_window.GetActiveState();
+        break;
+    }
+
+    return false;
 }
 
 void PartyState::Reset()
 {
     // Setup the status option box
     SetupOptionBoxCommonSettings(&_options);
-    _options.SetDimensions(415.0f, 50.0f, PARTY_OPTIONS_SIZE, 1, PARTY_OPTIONS_SIZE, 1);
+    _options.SetDimensions(550.0f, 50.0f, PARTY_OPTIONS_SIZE, 1, PARTY_OPTIONS_SIZE, 1);
 
     // Generate the strings
     std::vector<ustring> options;
     options.push_back(UTranslate("View/Reorder"));
+    options.push_back(UTranslate("Battle Formation"));
     options.push_back(UTranslate("Back"));
 
     // Add strings and set default selection.
     _options.SetOptions(options);
-    _options.SetSelection(PARTY_OPTIONS_VIEW_ALTER);
+    _options.SetSelection(PARTY_OPTIONS_VIEW_REORDER);
+
+    // FIXME: Re-eable this once the battle formation is taken in account in battles.
+    _options.SetSkipDisabled(true);
+    _options.EnableOption(1, false); // Disable 'Battle Formation'.
 
     _menu_mode->_help_information.SetDisplayText(
         UTranslate("View character Information.\nSelect a character to change formation."));
@@ -456,8 +489,11 @@ AbstractMenuState* PartyState::GetTransitionState(uint32_t selection)
     {
         case PARTY_OPTIONS_BACK:
             return &(_menu_mode->_main_menu_state);
-        case PARTY_OPTIONS_VIEW_ALTER:
+        case PARTY_OPTIONS_VIEW_REORDER:
             _menu_mode->_party_window.Activate(true);
+            break;
+        case PARTY_OPTIONS_BATTLE_FORMATION:
+            _menu_mode->_battle_formation_window.Activate(true);
             break;
         default:
             break;
@@ -480,7 +516,29 @@ void PartyState::_DrawBottomMenu()
 void PartyState::_OnDrawMainWindow()
 {
     _DrawBottomMenu();
-    _menu_mode->_party_window.Draw();
+    switch (_options.GetSelection()) {
+    default:
+    case PARTY_OPTIONS_BACK:
+    case PARTY_OPTIONS_VIEW_REORDER:
+        _menu_mode->_party_window.Draw();
+        break;
+    case PARTY_OPTIONS_BATTLE_FORMATION:
+        _menu_mode->_battle_formation_window.Draw();
+        break;
+    }
+}
+
+void PartyState::_OnDrawSideWindow()
+{
+    switch (_options.GetSelection()) {
+    default:
+    case PARTY_OPTIONS_BACK:
+    case PARTY_OPTIONS_VIEW_REORDER:
+        AbstractMenuState::_OnDrawSideWindow();
+        break;
+    case PARTY_OPTIONS_BATTLE_FORMATION:
+        break;
+    }
 }
 
 void SkillsState::_ActiveWindowUpdate()
@@ -534,7 +592,7 @@ void EquipState::Reset()
         // if its from the inventory EQUIP selection, activate the window with the equip flag set to true
         if(_from_state->GetOptions()->GetSelection() == InventoryState::INV_OPTIONS_EQUIP)
             _menu_mode->_equip_window.Activate(true, true);
-        // otherwise, it was frmo the REMOVE selection, activate the window with the equip flag set to false
+        // otherwise, it was from the REMOVE selection, activate the window with the equip flag set to false
         else
             _menu_mode->_equip_window.Activate(true, false);
     }
@@ -837,11 +895,15 @@ MenuMode::MenuMode() :
     _party_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
     _party_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
-    //Set up the skills window
+    // Set up the party window
+    _battle_formation_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
+    _battle_formation_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
+
+    // Set up the skills window
     _skills_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
     _skills_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
-    //Set up the equipment window
+    // Set up the equipment window
     _equip_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
     _equip_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
@@ -849,15 +911,15 @@ MenuMode::MenuMode() :
     _inventory_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
     _inventory_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
-    //set up the quest window
+    // Set up the quest window
     _quest_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
     _quest_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
-    //set up the quest list window
+    // Set up the quest list window
     _quest_list_window.Create(360,448, VIDEO_MENU_EDGE_ALL, VIDEO_MENU_EDGE_TOP | VIDEO_MENU_EDGE_BOTTOM);
     _quest_list_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
-    //set up the world map window
+    // Set up the world map window
     _world_map_window.Create(static_cast<float>(win_width * 4 + 16), 448, VIDEO_MENU_EDGE_ALL);
     _world_map_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
@@ -881,6 +943,7 @@ MenuMode::MenuMode() :
     _inventory_window.Show();
     _quest_list_window.Show();
     _party_window.Show();
+    _battle_formation_window.Show();
     _skills_window.Show();
     _equip_window.Show();
     _quest_window.Show();
@@ -916,6 +979,7 @@ MenuMode::~MenuMode()
     _inventory_window.Destroy();
     _quest_list_window.Destroy();
     _party_window.Destroy();
+    _battle_formation_window.Destroy();
     _skills_window.Destroy();
     _main_options_window.Destroy();
     _equip_window.Destroy();
