@@ -39,7 +39,7 @@ function trigger_potential_stun(user, target)
     end
 
     -- Compute an effect duration time based on the characters' stats
-    local effect_duration = (user:GetVigor() - target_actor:GetProtection()) * 2000;
+    local effect_duration = (user:GetMagAtk() - target_actor:GetMagDef()) * 2000;
     if (effect_duration < 15000) then effect_duration = 15000; end
     target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS,
                                          vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
@@ -60,9 +60,9 @@ function trigger_potential_attack_lowering(user, target)
     end
 
     -- Compute an effect duration time based on the characters' stats
-    local effect_duration = (user:GetVigor() - target_actor:GetProtection()) * 2000;
+    local effect_duration = (user:GetMagAtk() - target_actor:GetMagDef()) * 2000;
     if (effect_duration < 15000) then effect_duration = 15000; end
-    target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
+    target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK,
                                          vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                          effect_duration);
 end
@@ -181,9 +181,9 @@ skills[4] = {
         local target_actor = target:GetActor();
 
         if (vt_battle.RndEvade(target_actor, 8.5) == false) then
-            local effect_duration = user:GetVigor() * 2000;
+            local effect_duration = user:GetMagAtk() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
-            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
                                                  effect_duration);
 
@@ -241,9 +241,9 @@ skills[6] = {
         local target_actor = target:GetActor();
 
         if (vt_battle.RndEvade(target_actor, 8.5) == false) then
-            local effect_duration = user:GetVigor() * 2000;
+            local effect_duration = user:GetMagAtk() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
-            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
                                                  effect_duration);
 
@@ -570,9 +570,9 @@ skills[1005] = {
         local atk_point = target:GetAttackPoint();
 
         if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
-            local effect_duration = user:GetVigor() * 2000;
+            local effect_duration = user:GetMagAtk() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
-            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
                                                  effect_duration);
 
@@ -693,7 +693,7 @@ skills[1010] = {
 
             -- Only apply up to a moderate poison
             if (intensity > vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-                local effect_duration = user:GetVigor() * 2000;
+                local effect_duration = user:GetMagAtk() * 2000;
                 if (effect_duration < 15000) then effect_duration = 15000 end
                 target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
                                                      vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
@@ -737,7 +737,7 @@ skills[1011] = {
 }
 
 skills[1012] = {
-    name = "Beetle Agility stealing Attack",
+    name = "Beetle Stamina stealing Attack",
     sp_required = 12,
     warmup_time = 2400,
     cooldown_time = 500,
@@ -747,12 +747,12 @@ skills[1012] = {
         local target_actor = target:GetActor();
 
         if (vt_battle.RndEvade(target_actor) == false) then
-            local effect_duration = user:GetVigor() * 2000;
+            local effect_duration = user:GetMagAtk() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
-            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                                  effect_duration);
-            user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+            user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
                                          vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                          effect_duration);
 
@@ -773,15 +773,15 @@ skills[1013] = {
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
 
     BattleExecute = function(user, target) -- target is self, we'll use user...
-        -- Add strength & agility, but decrease defence
-        local effect_duration = user:GetVigor() * 2000;
-        user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
+        -- Add phys_atk & stamina, but decrease defense
+        local effect_duration = user:GetMagAtk() * 2000;
+        user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK,
                                      vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                      effect_duration);
-        user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+        user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
                                      vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                      effect_duration);
-        user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE,
+        user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF,
                                      vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                      effect_duration);
 
@@ -800,9 +800,9 @@ skills[1014] = {
         local target_actor = target:GetActor();
 
         if (vt_battle.RndEvade(target_actor) == false) then
-            local effect_duration = user:GetVigor() * 2000;
+            local effect_duration = user:GetMagAtk() * 2000;
             if (effect_duration < 15000) then effect_duration = 15000 end
-            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                                  effect_duration);
 

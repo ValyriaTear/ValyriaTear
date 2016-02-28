@@ -234,10 +234,10 @@ ShopObjectViewer::ShopObjectViewer() :
     _equip_icon = media.GetEquipIcon();
     _key_item_icon = media.GetKeyItemIcon();
 
-    _atk_icon = media.GetStatusIcon(GLOBAL_STATUS_STRENGTH, GLOBAL_INTENSITY_NEUTRAL);
-    _matk_icon = media.GetStatusIcon(GLOBAL_STATUS_VIGOR, GLOBAL_INTENSITY_NEUTRAL);
-    _def_icon = media.GetStatusIcon(GLOBAL_STATUS_FORTITUDE, GLOBAL_INTENSITY_NEUTRAL);
-    _mdef_icon = media.GetStatusIcon(GLOBAL_STATUS_PROTECTION, GLOBAL_INTENSITY_NEUTRAL);
+    _atk_icon = media.GetStatusIcon(GLOBAL_STATUS_PHYS_ATK, GLOBAL_INTENSITY_NEUTRAL);
+    _matk_icon = media.GetStatusIcon(GLOBAL_STATUS_MAG_ATK, GLOBAL_INTENSITY_NEUTRAL);
+    _def_icon = media.GetStatusIcon(GLOBAL_STATUS_PHYS_DEF, GLOBAL_INTENSITY_NEUTRAL);
+    _mdef_icon = media.GetStatusIcon(GLOBAL_STATUS_MAG_DEF, GLOBAL_INTENSITY_NEUTRAL);
 }
 
 

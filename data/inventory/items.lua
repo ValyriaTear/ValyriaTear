@@ -351,11 +351,11 @@ items[16] = {
 _battle_apply_elixir_status_effects = function(target_actor, intensity)
     if (target_actor:IsAlive() == true) then
         -- decrement all the basic negative effects, or put positive effects depending on the intensity
-        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH, intensity, 30000);
-        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_VIGOR, intensity, 30000);
-        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE, intensity, 30000);
-        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION, intensity, 30000);
-        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_MAG_DEF, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA, intensity, 30000);
         target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EVADE, intensity, 30000);
         AudioManager:PlaySound("data/sounds/potion_drink.wav");
         return true;
@@ -367,11 +367,11 @@ end
 _field_apply_elixir_status_effects = function(global_character, intensity)
     if (global_character:IsAlive() == true) then
         -- decrement all the basic negative effects, or put positive effects depending on the intensity
-        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH, intensity, 30000);
-        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_VIGOR, intensity, 30000);
-        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE, intensity, 30000);
-        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION, intensity, 30000);
-        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY, intensity, 30000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK, intensity, 30000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK, intensity, 30000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF, intensity, 30000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_MAG_DEF, intensity, 30000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA, intensity, 30000);
         global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EVADE, intensity, 30000);
         AudioManager:PlaySound("data/sounds/potion_drink.wav");
         return true;
@@ -451,7 +451,7 @@ items[1003] = {
 
 items[1004] = {
     name = vt_system.Translate("Periwinkle Potion"),
-    description = vt_system.Translate("Gives a reasonable boost in strength to an ally for a large amount of time."),
+    description = vt_system.Translate("Gives a reasonable boost in Physical Attack to an ally for a large amount of time."),
     icon = "data/inventory/items/strength_potion.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 1600,
@@ -462,7 +462,7 @@ items[1004] = {
         local target_actor = target:GetActor();
         if (target_actor:IsAlive() == true) then
             -- Decrement any active negative base stats status effects when alive
-            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                                  90000);
             AudioManager:PlaySound("data/sounds/potion_drink.wav");
@@ -474,7 +474,7 @@ items[1004] = {
     FieldUse = function(target)
         if (target:IsAlive() == true) then
             -- increment active base stats status effects when alive.
-            target:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
+            target:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK,
                                            vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                            90000);
             AudioManager:PlaySound("data/sounds/potion_drink.wav");
@@ -486,7 +486,7 @@ items[1004] = {
 
 items[1005] = {
     name = vt_system.Translate("Haste Potion"),
-    description = vt_system.Translate("Gives a reasonable boost in agility to an ally for a small amount of time."),
+    description = vt_system.Translate("Gives a reasonable boost in stamina to an ally for a small amount of time."),
     icon = "data/inventory/items/haste_potion.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 1400,
@@ -497,7 +497,7 @@ items[1005] = {
         local target_actor = target:GetActor();
         if (target_actor:IsAlive() == true) then
             -- Decrement any active negative base stats status effects when alive
-            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                                  30000);
             AudioManager:PlaySound("data/sounds/potion_drink.wav");
@@ -509,7 +509,7 @@ items[1005] = {
     FieldUse = function(target)
         if (target:IsAlive() == true) then
             -- increment active base stats status effects when alive.
-            target:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY,
+            target:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
                                            vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                            30000);
             AudioManager:PlaySound("data/sounds/potion_drink.wav");
@@ -613,17 +613,17 @@ items[3008] = {
 -- IDs 4,001 - 5,000 are reserved for items with special effects
 --------------------------------------------------------------------------------
 
--- Gets the average agility value of the hero party.
+-- Gets the average stamina value of the hero party.
 function _GetAverageHeroesEvasionLevel()
     local id = 0;
-    local agility_sum = 0.0;
+    local stamina_sum = 0.0;
 
     local battle_instance = ModeManager:GetTop();
     local nb_heroes = battle_instance:GetNumberOfCharacters();
     while id < nb_heroes do
         local hero = battle_instance:GetCharacterActor(id);
         if (hero ~= nil and hero:CanFight() == true) then
-            agility_sum = agility_sum + hero:GetAgility();
+            stamina_sum = stamina_sum + hero:GetStamina();
         end
     id = id + 1;
     end
@@ -631,20 +631,20 @@ function _GetAverageHeroesEvasionLevel()
     if (id == 0) then
         return 0.0;
     end
-    return agility_sum / id;
+    return stamina_sum / id;
 end
 
--- Gets the average agility value of the enemy party.
-function _GetAverageEnemiesAgilityLevel()
+-- Gets the average stamina value of the enemy party.
+function _GetAverageEnemiesStaminaLevel()
     local id = 0;
-    local agility_sum = 0.0;
+    local stamina_sum = 0.0;
 
     local battle_instance = ModeManager:GetTop();
     local nb_enemies = battle_instance:GetNumberOfEnemies();
     while id < nb_enemies do
         local enemy = battle_instance:GetEnemyActor(id);
         if (enemy ~= nil and enemy:CanFight() == true) then
-            agility_sum = agility_sum + enemy:GetAgility();
+            stamina_sum = stamina_sum + enemy:GetStamina();
         end
     id = id + 1;
     end
@@ -652,7 +652,7 @@ function _GetAverageEnemiesAgilityLevel()
     if (id == 0) then
         return 0.0;
     end
-    return agility_sum / id;
+    return stamina_sum / id;
 end
 
 items[4001] = {
@@ -675,9 +675,9 @@ items[4001] = {
             return true;
         end
 
-        -- % chance to miss due to too high agility from enemies, for instance
+        -- % chance to miss due to too high stamina from enemies, for instance
         -- Give a slight advantage to the party.
-        local evade_diff = 60.0 + _GetAverageHeroesEvasionLevel() - _GetAverageEnemiesAgilityLevel();
+        local evade_diff = 60.0 + _GetAverageHeroesEvasionLevel() - _GetAverageEnemiesStaminaLevel();
         if (math.random(0, 100) > evade_diff) then
             local target_actor = target:GetActor();
             target_actor:RegisterMiss(true);

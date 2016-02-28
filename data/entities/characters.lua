@@ -44,11 +44,11 @@ characters[BRONANN] = {
         experience_points = 0,
         max_hit_points = 62,
         max_skill_points = 8,
-        strength = 12,
-        vigor = 4,
-        fortitude = 15,
-        protection = 6,
-        agility = 30,
+        phys_atk = 12,
+        mag_atk = 4,
+        phys_def = 15,
+        mag_def = 6,
+        stamina = 30,
         evade = 5.0,
         weapon = 0,
         head_armor = 0,
@@ -62,36 +62,36 @@ characters[BRONANN] = {
             name = vt_system.Translate("Head"),
             x_position = 31,
             y_position = 54,
-            fortitude_modifier = -0.20,
-            protection_modifier = 0.25,
+            phys_def_modifier = -0.20,
+            mag_def_modifier = 0.25,
             evade_modifier = 0.50,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK] = 10.0 }
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
             name = vt_system.Translate("Torso"),
             x_position = 37,
             y_position = 34,
-            fortitude_modifier = 0.40,
-            protection_modifier = 0.10,
+            phys_def_modifier = 0.40,
+            mag_def_modifier = 0.10,
             evade_modifier = -0.20
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_ARMS] = {
             name = vt_system.Translate("Arms"),
             x_position = 31,
             y_position = 54,
-            fortitude_modifier = 0.10,
-            protection_modifier = 0.00,
+            phys_def_modifier = 0.10,
+            mag_def_modifier = 0.00,
             evade_modifier = 0.10,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK] = 10.0 }
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
             name = vt_system.Translate("Legs"),
             x_position = 37,
             y_position = 34,
-            fortitude_modifier = 0.20,
-            protection_modifier = 0.20,
+            phys_def_modifier = 0.20,
+            mag_def_modifier = 0.20,
             evade_modifier = 0.05,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = 10.0 }
         }
     },
 
@@ -138,7 +138,7 @@ characters[BRONANN] = {
 
         },
 
-        strength = {
+        phys_atk = {
              2,  2,  2,  2,  2,  2,  3,  3,  3,  3,               --  2 - 11
              3,  3,  4,  4,  4,  4,  4,  4,  5,  5,               -- 12 - 21
              5,  5,  5,  5,  6,  6,  6,  6,  6,  6,               -- 22 - 31
@@ -151,7 +151,7 @@ characters[BRONANN] = {
             17, 17, 17, 17, 17, 17, 18, 18, 18, 18,               -- 92 - 101
         },
 
-        vigor = {
+        mag_atk = {
              1,  1,  1,  1,  1,  1,  1,  2,  2,  2,               --  2 - 11
              2,  2,  2,  2,  3,  3,  3,  3,  3,  3,               -- 12 - 21
              3,  4,  4,  4,  4,  4,  4,  4,  5,  5,               -- 22 - 31
@@ -164,7 +164,7 @@ characters[BRONANN] = {
             13, 14, 14, 14, 14, 14, 14, 14, 15, 15,               -- 92 - 101
         },
 
-        fortitude = {
+        phys_def = {
              2,  2,  2,  2,  2,  2,  3,  3,  3,  3,               --  2 - 11
              3,  3,  4,  4,  4,  4,  4,  4,  5,  5,               -- 12 - 21
              5,  5,  5,  5,  6,  6,  6,  6,  6,  6,               -- 22 - 31
@@ -177,7 +177,7 @@ characters[BRONANN] = {
             17, 17, 17, 17, 17, 17, 18, 18, 18, 18,               -- 92 - 101
         },
 
-        protection = {
+        mag_def = {
              1,  1,  1,  1,  1,  1,  1,  2,  2,  2,               --  2 - 11
              2,  2,  2,  2,  3,  3,  3,  3,  3,  3,               -- 12 - 21
              3,  4,  4,  4,  4,  4,  4,  4,  5,  5,               -- 22 - 31
@@ -190,7 +190,7 @@ characters[BRONANN] = {
             13, 14, 14, 14, 14, 14, 14, 14, 15, 15,               -- 92 - 101
         },
 
-        agility = {
+        stamina = {
             1, 0, 1, 0, 1, 0, 1, 0, 1, 0,               --  2 - 11
             1, 0, 1, 0, 1, 0, 1, 0, 1, 0,               -- 12 - 21
             1, 0, 1, 0, 1, 0, 1, 0, 1, 0,               -- 22 - 31
@@ -257,11 +257,11 @@ characters[KALYA] = {
         experience_points = 0,
         max_hit_points = 56,
         max_skill_points = 12,
-        strength = 10,
-        vigor = 4,
-        fortitude = 15,
-        protection = 6,
-        agility = 35,
+        phys_atk = 10,
+        mag_atk = 4,
+        phys_def = 15,
+        mag_def = 6,
+        stamina = 35,
         evade = 5.0,
         weapon = 11001,
         head_armor = 20001,
@@ -275,36 +275,36 @@ characters[KALYA] = {
             name = vt_system.Translate("Head"),
             x_position = 31,
             y_position = 54,
-            fortitude_modifier = -0.20,
-            protection_modifier = 0.25,
+            phys_def_modifier = -0.20,
+            mag_def_modifier = 0.25,
             evade_modifier = 0.50,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK] = 10.0 }
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
             name = vt_system.Translate("Torso"),
             x_position = 37,
             y_position = 34,
-            fortitude_modifier = 0.40,
-            protection_modifier = 0.10,
+            phys_def_modifier = 0.40,
+            mag_def_modifier = 0.10,
             evade_modifier = -0.20
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_ARMS] = {
             name = vt_system.Translate("Arms"),
             x_position = 31,
             y_position = 54,
-            fortitude_modifier = 0.10,
-            protection_modifier = 0.00,
+            phys_def_modifier = 0.10,
+            mag_def_modifier = 0.00,
             evade_modifier = 0.10,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK] = 10.0 }
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
             name = vt_system.Translate("Legs"),
             x_position = 37,
             y_position = 34,
-            fortitude_modifier = 0.20,
-            protection_modifier = 0.20,
+            phys_def_modifier = 0.20,
+            mag_def_modifier = 0.20,
             evade_modifier = 0.05,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = 10.0 }
         }
     },
 
@@ -350,7 +350,7 @@ characters[KALYA] = {
             37, 37, 37, 37, 37, 39, 39, 39, 39, 39,               --   92 - 101
         },
 
-        strength = {
+        phys_atk = {
              2,  2,  2,  2,  2,  2,  2,  2,  3,  3,               --   2 - 11
              3,  3,  3,  3,  3,  3,  4,  4,  4,  4,               --  12 - 21
              4,  4,  4,  4,  5,  5,  5,  5,  5,  5,               --  22 - 31
@@ -363,7 +363,7 @@ characters[KALYA] = {
             13, 13, 13, 13, 13, 13, 14, 14, 14, 14,               --  92 - 101
         },
 
-        vigor = {
+        mag_atk = {
              2,  2,  2,  2,  2,  2,  3,  3,  3,  3,               --  2 - 11
              3,  3,  4,  4,  4,  4,  4,  4,  5,  5,               -- 12 - 21
              5,  5,  5,  5,  6,  6,  6,  6,  6,  6,               -- 22 - 31
@@ -376,7 +376,7 @@ characters[KALYA] = {
             17, 17, 17, 17, 17, 17, 18, 18, 18, 18,               -- 92 - 101
         },
 
-        fortitude = {
+        phys_def = {
              2,  2,  2,  2,  2,  2,  2,  2,  3,  3,               --   2 - 11
              3,  3,  3,  3,  3,  3,  4,  4,  4,  4,               --  12 - 21
              4,  4,  4,  4,  5,  5,  5,  5,  5,  5,               --  22 - 31
@@ -389,7 +389,7 @@ characters[KALYA] = {
             13, 13, 13, 13, 13, 13, 14, 14, 14, 14,               --  92 - 101
         },
 
-        protection = {
+        mag_def = {
              2,  2,  2,  2,  2,  2,  3,  3,  3,  3,               --  2 - 11
              3,  3,  4,  4,  4,  4,  4,  4,  5,  5,               -- 12 - 21
              5,  5,  5,  5,  6,  6,  6,  6,  6,  6,               -- 22 - 31
@@ -402,7 +402,7 @@ characters[KALYA] = {
             17, 17, 17, 17, 17, 17, 18, 18, 18, 18,               -- 92 - 101
         },
 
-        agility = {
+        stamina = {
             1, 0, 1, 1, 1, 0, 1, 0, 1, 0,               --  2 - 11
             1, 0, 1, 1, 1, 0, 1, 0, 1, 0,               --  12 - 21
             1, 0, 1, 1, 1, 0, 1, 0, 1, 0,               --  22 - 31
@@ -465,11 +465,11 @@ characters[SYLVE] = {
         experience_points = 0,
         max_hit_points = 62,
         max_skill_points = 8,
-        strength = 12,
-        vigor = 4,
-        fortitude = 15,
-        protection = 6,
-        agility = 30,
+        phys_atk = 12,
+        mag_atk = 4,
+        phys_def = 15,
+        mag_def = 6,
+        stamina = 30,
         evade = 5.0,
         weapon = 0,
         head_armor = 20011,
@@ -483,36 +483,36 @@ characters[SYLVE] = {
             name = vt_system.Translate("Head"),
             x_position = 31,
             y_position = 54,
-            fortitude_modifier = -0.20,
-            protection_modifier = 0.25,
+            phys_def_modifier = -0.20,
+            mag_def_modifier = 0.25,
             evade_modifier = 0.50,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK] = 10.0 }
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
             name = vt_system.Translate("Torso"),
             x_position = 37,
             y_position = 34,
-            fortitude_modifier = 0.40,
-            protection_modifier = 0.10,
+            phys_def_modifier = 0.40,
+            mag_def_modifier = 0.10,
             evade_modifier = -0.20
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_ARMS] = {
             name = vt_system.Translate("Arms"),
             x_position = 31,
             y_position = 54,
-            fortitude_modifier = 0.10,
-            protection_modifier = 0.00,
+            phys_def_modifier = 0.10,
+            mag_def_modifier = 0.00,
             evade_modifier = 0.10,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK] = 10.0 }
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
             name = vt_system.Translate("Legs"),
             x_position = 37,
             y_position = 34,
-            fortitude_modifier = 0.20,
-            protection_modifier = 0.20,
+            phys_def_modifier = 0.20,
+            mag_def_modifier = 0.20,
             evade_modifier = 0.05,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = 10.0 }
         }
     },
 
@@ -533,27 +533,27 @@ characters[SYLVE] = {
             3, 3, 3, 3, 3, 4, 4, 4, 4, 4
         },
 
-        strength = {
+        phys_atk = {
             2, 2, 2, 2, 2, 2, 2, 3, 3, 3,
             3, 3, 3, 3, 4, 4, 4, 4, 4, 4
         },
 
-        vigor = {
+        mag_atk = {
             1, 1, 1, 1, 1, 1, 1, 1, 2, 2,
             2, 2, 2, 2, 2, 2, 3, 3, 3, 3
         },
 
-        fortitude = {
+        phys_def = {
             2, 2, 2, 2, 2, 2, 2, 3, 3, 3,
             3, 3, 3, 3, 4, 4, 4, 4, 4, 4
         },
 
-        protection = {
+        mag_def = {
             2, 2, 2, 2, 2, 2, 2, 3, 3, 3,
             3, 3, 3, 3, 4, 4, 4, 4, 4, 4
         },
 
-        agility = {
+        stamina = {
             1, 0, 1, 1, 1, 0, 1, 1, 1, 0,
             1, 0, 1, 1, 1, 0, 1, 1, 1, 0
         },
@@ -601,11 +601,11 @@ characters[THANIS] = {
         experience_points = 6728,
         max_hit_points = 237,
         max_skill_points = 25,
-        strength = 45,
-        vigor = 21,
-        fortitude = 47,
-        protection = 23,
-        agility = 46,
+        phys_atk = 45,
+        mag_atk = 21,
+        phys_def = 47,
+        mag_def = 23,
+        stamina = 46,
         evade = 7.0,
         weapon = 10003,
         head_armor = 20013,
@@ -619,36 +619,36 @@ characters[THANIS] = {
             name = vt_system.Translate("Head"),
             x_position = 31,
             y_position = 54,
-            fortitude_modifier = -0.20,
-            protection_modifier = 0.25,
+            phys_def_modifier = -0.20,
+            mag_def_modifier = 0.25,
             evade_modifier = 0.50,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK] = 10.0 }
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_TORSO] = {
             name = vt_system.Translate("Torso"),
             x_position = 37,
             y_position = 34,
-            fortitude_modifier = 0.40,
-            protection_modifier = 0.10,
+            phys_def_modifier = 0.40,
+            mag_def_modifier = 0.10,
             evade_modifier = -0.20
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_ARMS] = {
             name = vt_system.Translate("Arms"),
             x_position = 31,
             y_position = 54,
-            fortitude_modifier = 0.10,
-            protection_modifier = 0.00,
+            phys_def_modifier = 0.10,
+            mag_def_modifier = 0.00,
             evade_modifier = 0.10,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK] = 10.0 }
         },
         [vt_global.GameGlobal.GLOBAL_POSITION_LEGS] = {
             name = vt_system.Translate("Legs"),
             x_position = 37,
             y_position = 34,
-            fortitude_modifier = 0.20,
-            protection_modifier = 0.20,
+            phys_def_modifier = 0.20,
+            mag_def_modifier = 0.20,
             evade_modifier = 0.05,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = 10.0 }
         }
     },
 
@@ -669,27 +669,27 @@ characters[THANIS] = {
             3, 3, 3, 3, 4, 4, 4, 4, 4, 4
         },
 
-        strength = {
+        phys_atk = {
             2, 2, 2, 2, 2, 3, 3, 3, 3, 3,
             4, 4, 4, 4, 4, 5, 5, 5, 5, 5
         },
 
-        vigor = {
+        mag_atk = {
             1, 1, 1, 1, 1, 1, 1, 2, 2, 2,
             2, 2, 2, 2, 3, 3, 3, 3, 3, 3
         },
 
-        fortitude = {
+        phys_def = {
             2, 2, 2, 2, 2, 2, 2, 3, 3, 3,
             3, 3, 3, 3, 4, 4, 4, 4, 4, 4
         },
 
-        protection = {
+        mag_def = {
             1, 1, 1, 1, 1, 1, 1, 1, 2, 2,
             2, 2, 2, 2, 2, 2, 3, 3, 3, 3
         },
 
-        agility = {
+        stamina = {
             1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
             1, 0, 1, 0, 1, 0, 1, 0, 1, 0
         },
@@ -740,20 +740,20 @@ function DetermineLevelGrowth(character)
     if (character._skill_points_growth ~= 0) then
         print("LUA WARN: character.lua:DetermineLevelGrowth() called when skill_points_growth was non-zero.");
     end
-    if (character._strength_growth ~= 0) then
-        print("LUA WARN: character.lua:DetermineLevelGrowth() called when strength_growth was non-zero.");
+    if (character._phys_atk_growth ~= 0) then
+        print("LUA WARN: character.lua:DetermineLevelGrowth() called when phys_atk_growth was non-zero.");
     end
-    if (character._vigor_growth ~= 0) then
-        print("LUA WARN: character.lua:DetermineLevelGrowth() called when vigor_growth was non-zero.");
+    if (character._mag_atk_growth ~= 0) then
+        print("LUA WARN: character.lua:DetermineLevelGrowth() called when mag_atk_growth was non-zero.");
     end
-    if (character._fortitude_growth ~= 0) then
-        print("LUA WARN: character.lua:DetermineLevelGrowth() called when fortitude_growth was non-zero.");
+    if (character._phys_def_growth ~= 0) then
+        print("LUA WARN: character.lua:DetermineLevelGrowth() called when phys_def_growth was non-zero.");
     end
-    if (character._protection_growth ~= 0) then
-        print("LUA WARN: character.lua:DetermineLevelGrowth() called when protection_growth was non-zero.");
+    if (character._mag_def_growth ~= 0) then
+        print("LUA WARN: character.lua:DetermineLevelGrowth() called when mag_def_growth was non-zero.");
     end
-    if (character._agility_growth ~= 0) then
-        print("LUA WARN: character.lua:DetermineLevelGrowth() called when agility_growth was non-zero.");
+    if (character._stamina_growth ~= 0) then
+        print("LUA WARN: character.lua:DetermineLevelGrowth() called when stamina_growth was non-zero.");
     end
     if (character._evade_growth ~= 0) then
         print("LUA WARN: character.lua:DetermineLevelGrowth() called when evade_growth was non-zero.");
@@ -772,11 +772,11 @@ function DetermineLevelGrowth(character)
     -- Copy over the character's stat growth data
     character._hit_points_growth = growth_table["hit_points"][new_level];
     character._skill_points_growth = growth_table["skill_points"][new_level];
-    character._strength_growth = growth_table["strength"][new_level];
-    character._vigor_growth = growth_table["vigor"][new_level];
-    character._fortitude_growth = growth_table["fortitude"][new_level];
-    character._protection_growth = growth_table["protection"][new_level];
-    character._agility_growth = growth_table["agility"][new_level];
+    character._phys_atk_growth = growth_table["phys_atk"][new_level];
+    character._mag_atk_growth = growth_table["mag_atk"][new_level];
+    character._phys_def_growth = growth_table["phys_def"][new_level];
+    character._mag_def_growth = growth_table["mag_def"][new_level];
+    character._stamina_growth = growth_table["stamina"][new_level];
     character._evade_growth = growth_table["evade"][new_level];
 
     character:AddExperienceForNextLevel(growth_table["experience_for_next_level"][new_level]);

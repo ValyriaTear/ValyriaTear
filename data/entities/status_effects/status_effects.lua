@@ -70,18 +70,18 @@ status_effects.GetStatModifier = function(intensity)
         return attribute_modifier;
 end
 
-status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = {
-    name = vt_system.Translate("Strength"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK] = {
+    name = vt_system.Translate("Physical Attack"),
     default_duration = 30000,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH]._ModifyAttribute(battle_actor, battle_effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
     BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH]._ModifyAttribute(battle_actor, battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -90,24 +90,24 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = {
     end,
 
     BattleRemove = function(battle_actor, battle_effect)
-        battle_actor:SetStrengthModifier(1.0);
+        battle_actor:SetPhysAtkModifier(1.0);
     end,
 
     _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         local attribute_modifier = status_effects.GetStatModifier(intensity);
-        battle_actor:SetStrengthModifier(attribute_modifier);
+        battle_actor:SetPhysAtkModifier(attribute_modifier);
     end,
 
     -- Generic passive functions (used with equipment)
     ApplyPassive = function(global_actor, intensity)
         local modifier = status_effects.GetStatModifier(intensity);
-        global_actor:SetStrengthModifier(modifier);
+        global_actor:SetPhysAtkModifier(modifier);
     end,
 
     RemovePassive = function(global_actor)
-        global_actor:SetStrengthModifier(1.0);
+        global_actor:SetPhysAtkModifier(1.0);
     end,
 
     MapUpdatePassive = function(global_character, intensity)
@@ -127,18 +127,18 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = {
     end
 }
 
-status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = {
-    name = vt_system.Translate("Vigor"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK] = {
+    name = vt_system.Translate("Magical Attack"),
     default_duration = 30000,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR]._ModifyAttribute(battle_actor, battle_effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
     BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR]._ModifyAttribute(battle_actor, battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -147,24 +147,24 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = {
     end,
 
     BattleRemove = function(battle_actor, battle_effect)
-        battle_actor:SetVigorModifier(1.0);
+        battle_actor:SetMagAtkModifier(1.0);
     end,
 
     _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         local attribute_modifier = status_effects.GetStatModifier(intensity);
-        battle_actor:SetVigorModifier(attribute_modifier);
+        battle_actor:SetMagAtkModifier(attribute_modifier);
     end,
 
     -- Generic passive functions (used with equipment)
     ApplyPassive = function(global_actor, intensity)
         local modifier = status_effects.GetStatModifier(intensity);
-        global_actor:SetVigorModifier(modifier);
+        global_actor:SetMagAtkModifier(modifier);
     end,
 
     RemovePassive = function(global_actor)
-        global_actor:SetVigorModifier(1.0);
+        global_actor:SetMagAtkModifier(1.0);
     end,
 
     MapUpdatePassive = function(global_character, intensity)
@@ -184,18 +184,18 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = {
     end
 }
 
-status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = {
-    name = vt_system.Translate("Fortitude"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF] = {
+    name = vt_system.Translate("Physical Defense"),
     default_duration = 30000,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE]._ModifyAttribute(battle_actor, battle_effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
     BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE]._ModifyAttribute(battle_actor, battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -204,24 +204,24 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = {
     end,
 
     BattleRemove = function(battle_actor, battle_effect)
-        battle_actor:SetFortitudeModifier(1.0);
+        battle_actor:SetPhysDefModifier(1.0);
     end,
 
     _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         local attribute_modifier = status_effects.GetStatModifier(intensity);
-        battle_actor:SetFortitudeModifier(attribute_modifier);
+        battle_actor:SetPhysDefModifier(attribute_modifier);
     end,
 
     -- Generic passive functions (used with equipment)
     ApplyPassive = function(global_actor, intensity)
         local modifier = status_effects.GetStatModifier(intensity);
-        global_actor:SetFortitudeModifier(modifier);
+        global_actor:SetPhysDefModifier(modifier);
     end,
 
     RemovePassive = function(global_actor)
-        global_actor:SetFortitudeModifier(1.0);
+        global_actor:SetPhysDefModifier(1.0);
     end,
 
     MapUpdatePassive = function(global_character, intensity)
@@ -241,18 +241,18 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = {
     end
 }
 
-status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = {
-    name = vt_system.Translate("Protection"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_MAG_DEF] = {
+    name = vt_system.Translate("Magical Defense"),
     default_duration = 30000,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION]._ModifyAttribute(battle_actor, battle_effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_MAG_DEF]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
     BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION]._ModifyAttribute(battle_actor, battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_MAG_DEF]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -261,24 +261,24 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = {
     end,
 
     BattleRemove = function(battle_actor, battle_effect)
-        battle_actor:SetProtectionModifier(1.0);
+        battle_actor:SetMagDefModifier(1.0);
     end,
 
     _ModifyAttribute = function(battle_actor, battle_effect)
         local intensity = battle_effect:GetIntensity();
 
         local attribute_modifier = status_effects.GetStatModifier(intensity);
-        battle_actor:SetProtectionModifier(attribute_modifier);
+        battle_actor:SetMagDefModifier(attribute_modifier);
     end,
 
     -- Generic passive functions (used with equipment)
     ApplyPassive = function(global_actor, intensity)
         local modifier = status_effects.GetStatModifier(intensity);
-        global_actor:SetProtectionModifier(modifier);
+        global_actor:SetMagDefModifier(modifier);
     end,
 
     RemovePassive = function(global_actor)
-        global_actor:SetProtectionModifier(1.0);
+        global_actor:SetMagDefModifier(1.0);
     end,
 
     MapUpdatePassive = function(global_character, intensity)
@@ -298,18 +298,18 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = {
     end
 }
 
-status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = {
-    name = vt_system.Translate("Agility"),
+status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = {
+    name = vt_system.Translate("Stamina"),
     default_duration = 30000,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
-        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY]._ModifyAttribute(battle_actor, battle_effect);
+        status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STAMINA]._ModifyAttribute(battle_actor, battle_effect);
     end,
 
     BattleUpdate = function(battle_actor, battle_effect)
         if (battle_effect:HasIntensityChanged() == true) then
-            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY]._ModifyAttribute(battle_actor, battle_effect);
+            status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STAMINA]._ModifyAttribute(battle_actor, battle_effect);
         end
     end,
 
@@ -319,7 +319,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = {
 
     -- Note: This modifies the actor's idle state wait time accordingly.
     BattleRemove = function(battle_actor, battle_effect)
-        battle_actor:SetAgilityModifier(1.0);
+        battle_actor:SetStaminaModifier(1.0);
     end,
 
     _ModifyAttribute = function(battle_actor, battle_effect)
@@ -327,17 +327,17 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = {
         local attribute_modifier = status_effects.GetStatModifier(intensity);
 
         -- Note: This modifies the actor's idle state wait time accordingly.
-        battle_actor:SetAgilityModifier(attribute_modifier);
+        battle_actor:SetStaminaModifier(attribute_modifier);
     end,
 
     -- Generic passive functions (used with equipment)
     ApplyPassive = function(global_actor, intensity)
         local modifier = status_effects.GetStatModifier(intensity);
-        global_actor:SetAgilityModifier(modifier);
+        global_actor:SetStaminaModifier(modifier);
     end,
 
     RemovePassive = function(global_actor)
-        global_actor:SetAgilityModifier(1.0);
+        global_actor:SetStaminaModifier(1.0);
     end,
 
     MapUpdatePassive = function(global_character, intensity)

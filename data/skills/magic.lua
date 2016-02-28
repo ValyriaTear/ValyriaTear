@@ -55,9 +55,9 @@ skills[10001] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
-        local effect_duration = user:GetProtection() * 2000;
+        local effect_duration = user:GetMagDef() * 2000;
         if (effect_duration < 10000) then effect_duration = 10000 end
-        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE,
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF,
                                              vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                              effect_duration);
         local Battle = ModeManager:GetTop();
@@ -77,9 +77,9 @@ skills[10001] = {
             return false;
         end
 
-        local effect_duration = user:GetProtection() * 2000;
+        local effect_duration = user:GetMagDef() * 2000;
         if (effect_duration < 10000) then effect_duration = 10000 end
-        target:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE,
+        target:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF,
                                        vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                        effect_duration);
 
@@ -109,7 +109,7 @@ skills[10002] = {
             return false;
         end
 
-        local hit_points = (user:GetVigor() * 3) +  vt_utils.RandomBoundedInteger(0, 15);
+        local hit_points = (user:GetMagAtk() * 3) +  vt_utils.RandomBoundedInteger(0, 15);
         target_actor:RegisterHealing(hit_points, true);
         AudioManager:PlaySound("data/sounds/heal_spell.wav");
         local Battle = ModeManager:GetTop();
@@ -126,7 +126,7 @@ skills[10002] = {
             return false;
         end
 
-        target:AddHitPoints((user:GetVigor() * 5) + vt_utils.RandomBoundedInteger(0, 30));
+        target:AddHitPoints((user:GetMagAtk() * 5) + vt_utils.RandomBoundedInteger(0, 30));
         AudioManager:PlaySound("data/sounds/heal_spell.wav");
         return true;
     end
@@ -134,7 +134,7 @@ skills[10002] = {
 
 skills[10003] = {
     name = vt_system.Translate("Leader Call"),
-    description = vt_system.Translate("Temporarily increases the strength of all allies."),
+    description = vt_system.Translate("Temporarily increases the Physical Attack of all allies."),
     icon = "data/skills/magic/leader_call.png",
     sp_required = 14,
     warmup_time = 4000,
@@ -145,13 +145,13 @@ skills[10003] = {
 
     BattleExecute = function(user, target)
         local index = 0;
-        local effect_duration = user:GetVigor() * 3000;
+        local effect_duration = user:GetMagAtk() * 3000;
         while true do
             local target_actor = target:GetPartyActor(index);
             if (target_actor == nil) then
                 break;
             end
-            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
                                                  effect_duration);
             index = index + 1;
@@ -172,17 +172,17 @@ skills[10004] = {
 
     BattleExecute = function(user, target)
         local index = 0;
-        local effect_duration = user:GetVigor() * 3000;
+        local effect_duration = user:GetMagAtk() * 3000;
         while true do
             local target_actor = target:GetPartyActor(index);
             if (target_actor == nil) then
                 break;
             end
             if (target_actor:IsAlive() == true) then
-                target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH,
+                target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK,
                                                      vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                                      effect_duration);
-                target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_VIGOR,
+                target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK,
                                                      vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                                      effect_duration);
             end
@@ -204,7 +204,7 @@ skills[10005] = {
 
     BattleExecute = function(user, target)
         local index = 0;
-        local effect_duration = user:GetVigor() * 3000;
+        local effect_duration = user:GetMagAtk() * 3000;
         while true do
             local target_actor = target:GetPartyActor(index);
             if (target_actor == nil) then
@@ -250,7 +250,7 @@ skills[10007] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
         if (target_actor:IsAlive() == true) then
-            local effect_duration = user:GetProtection() * 5000;
+            local effect_duration = user:GetMagDef() * 5000;
             if (effect_duration < 10000) then effect_duration = 10000 end
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_SP,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
@@ -325,17 +325,17 @@ skills[10011] = {
 
     BattleExecute = function(user, target)
         local index = 0;
-        local effect_duration = user:GetVigor() * 3000;
+        local effect_duration = user:GetMagAtk() * 3000;
         while true do
             local target_actor = target:GetPartyActor(index);
             if (target_actor == nil) then
                 break;
             end
             if (target_actor:IsAlive() == true) then
-                target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE,
+                target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF,
                                                      vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                                      effect_duration);
-                target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION,
+                target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_MAG_DEF,
                                                      vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                                      effect_duration);
             end
@@ -441,7 +441,7 @@ skills[10104] = {
 
 skills[10105] = {
     name = vt_system.Translate("Focus"),
-    description = vt_system.Translate("Increases the magical defence of an ally."),
+    description = vt_system.Translate("Increases the magical defense of an ally."),
     icon = "data/skills/magic/focus.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -505,7 +505,7 @@ skills[10108] = {
 
 skills[10109] = {
     name = vt_system.Translate("Rage"),
-    description = vt_system.Translate("Enrages an ally, increasing their attack and speed but reducing their defence."),
+    description = vt_system.Translate("Enrages an ally, increasing their attack and speed but reducing their defense."),
     icon = "data/skills/magic/rage.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -559,7 +559,7 @@ skills[10111] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
         -- TODO : Balance this
-        local effect_duration = user:GetVigor() * 3000;
+        local effect_duration = user:GetMagAtk() * 3000;
         target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EARTH,
                                              vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                              effect_duration);
@@ -592,7 +592,7 @@ skills[10112] = {
 
 skills[10113] = {
     name = vt_system.Translate("Magical Armor"),
-    description = vt_system.Translate("Increases the magical defence of an ally."),
+    description = vt_system.Translate("Increases the magical defense of an ally."),
     icon = "data/skills/magic/magical_armor.png",
     sp_required = 7,
     warmup_time = 4000,
@@ -832,7 +832,7 @@ skills[10126] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
         -- TODO : Balance this
-        local effect_duration = user:GetVigor() * 3000;
+        local effect_duration = user:GetMagAtk() * 3000;
 
         target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
                                              vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
@@ -972,7 +972,7 @@ skills[10133] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
         -- TODO : Balance this
-        local effect_duration = user:GetVigor() * 3000;
+        local effect_duration = user:GetMagAtk() * 3000;
 
         target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
                                              vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,

@@ -32,11 +32,11 @@ enemies[1] = {
     base_stats = {
         hit_points = 55,
         skill_points = 0,
-        strength = 11,
-        vigor = 0,
-        fortitude = 4,
-        protection = 1,
-        agility = 20,
+        phys_atk = 11,
+        mag_atk = 0,
+        phys_def = 4,
+        mag_def = 1,
+        stamina = 20,
         evade = 2.0,
         experience_points = 15,
         drunes = 8
@@ -47,8 +47,8 @@ enemies[1] = {
             name = vt_system.Translate("Body"),
             x_position = 5,
             y_position = 34,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         }
     },
@@ -76,11 +76,11 @@ enemies[2] = {
     base_stats = {
         hit_points = 65,
         skill_points = 0,
-        strength = 14,
-        vigor = 0,
-        fortitude = 5,
-        protection = 4,
-        agility = 25,
+        phys_atk = 14,
+        mag_atk = 0,
+        phys_def = 5,
+        mag_def = 4,
+        stamina = 25,
         evade = 2.0,
         experience_points = 19,
         drunes = 10
@@ -91,8 +91,8 @@ enemies[2] = {
             name = vt_system.Translate("Head"),
             x_position = -15,
             y_position = 33,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0,
             status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = 10.0 }
         },
@@ -100,8 +100,8 @@ enemies[2] = {
             name = vt_system.Translate("Abdomen"),
             x_position = 16,
             y_position = 57,
-            fortitude_modifier = 0.2,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.2,
+            mag_def_modifier = 0.0,
             evade_modifier = -0.2
         }
     },
@@ -134,11 +134,11 @@ enemies[3] = {
     base_stats = {
         hit_points = 160,
         skill_points = 10,
-        strength = 20,
-        vigor = 14,
-        fortitude = 6,
-        protection = 6,
-        agility = 40,
+        phys_atk = 20,
+        mag_atk = 14,
+        phys_def = 6,
+        mag_def = 6,
+        stamina = 40,
         evade = 4.0,
         experience_points = 44,
         drunes = 0
@@ -149,8 +149,8 @@ enemies[3] = {
             name = vt_system.Translate("Head"),
             x_position = -108,
             y_position = 156,
-            fortitude_modifier = -0.2,
-            protection_modifier = 0,
+            phys_def_modifier = -0.2,
+            mag_def_modifier = 0,
             evade_modifier = 0.2,
             status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = 10.0 }
         },
@@ -158,8 +158,8 @@ enemies[3] = {
             name = vt_system.Translate("Body"),
             x_position = 0,
             y_position = 120,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0,
             evade_modifier = 0.0
         }
     },
@@ -189,11 +189,11 @@ enemies[4] = {
     base_stats = {
         hit_points = 80,
         skill_points = 10,
-        strength = 22,
-        vigor = 20,
-        fortitude = 8,
-        protection = 5,
-        agility = 30,
+        phys_atk = 22,
+        mag_atk = 20,
+        phys_def = 8,
+        mag_def = 5,
+        stamina = 30,
         evade = 6.0,
         experience_points = 31,
         drunes = 15
@@ -204,8 +204,8 @@ enemies[4] = {
             name = vt_system.Translate("Head"),
             x_position = -40,
             y_position = 60,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.2,
             status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = 10.0 }
         },
@@ -213,25 +213,25 @@ enemies[4] = {
             name = vt_system.Translate("Body"),
             x_position = -6,
             y_position = 25,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.1
         },
         [3] = {
             name = vt_system.Translate("Tail"),
             x_position = 14,
             y_position = 38,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.2,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK] = 10.0 }
         }
     },
 
     skills = {
         1003, -- Normal attack
         1004, -- Stun bite
-        1005  -- Dampening bite (Agility lowering attack)
+        1005  -- Dampening bite (Stamina lowering attack)
     },
 
     drop_objects = {
@@ -254,11 +254,11 @@ enemies[5] = {
     base_stats = {
         hit_points = 355,
         skill_points = 0,
-        strength = 35,
-        vigor = 10,
-        fortitude = 10,
-        protection = 10,
-        agility = 18,
+        phys_atk = 35,
+        mag_atk = 10,
+        phys_def = 10,
+        mag_def = 10,
+        stamina = 18,
         evade = 2.0,
         experience_points = 89,
         drunes = 56
@@ -269,8 +269,8 @@ enemies[5] = {
             name = vt_system.Translate("Body"),
             x_position = 5,
             y_position = 34,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         }
     },
@@ -299,11 +299,11 @@ enemies[6] = {
     base_stats = {
         hit_points = 75,
         skill_points = 10,
-        strength = 22,
-        vigor = 20,
-        fortitude = 10,
-        protection = 8,
-        agility = 35,
+        phys_atk = 22,
+        mag_atk = 20,
+        phys_def = 10,
+        mag_def = 8,
+        stamina = 35,
         evade = 6.0,
         experience_points = 32,
         drunes = 15
@@ -314,18 +314,18 @@ enemies[6] = {
             name = vt_system.Translate("Torso"),
             x_position = 0,
             y_position = 95,
-            fortitude_modifier = 0.2,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.2,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.1
         },
         [2] = {
             name = vt_system.Translate("Wing"),
             x_position = -40,
             y_position = 90,
-            fortitude_modifier = -0.5,
-            protection_modifier = 0.0,
+            phys_def_modifier = -0.5,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.4,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 25.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = 25.0 }
         },
     },
 
@@ -358,11 +358,11 @@ enemies[7] = {
     base_stats = {
         hit_points = 420,
         skill_points = 10,
-        strength = 27,
-        vigor = 14,
-        fortitude = 10,
-        protection = 6,
-        agility = 40,
+        phys_atk = 27,
+        mag_atk = 14,
+        phys_def = 10,
+        mag_def = 6,
+        stamina = 40,
         evade = 4.0,
         experience_points = 98,
         drunes = 0
@@ -373,8 +373,8 @@ enemies[7] = {
             name = vt_system.Translate("Head"),
             x_position = -108,
             y_position = 156,
-            fortitude_modifier = -0.2,
-            protection_modifier = 0,
+            phys_def_modifier = -0.2,
+            mag_def_modifier = 0,
             evade_modifier = 0.2,
             status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = 10.0 }
         },
@@ -382,8 +382,8 @@ enemies[7] = {
             name = vt_system.Translate("Body"),
             x_position = 0,
             y_position = 120,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0,
             evade_modifier = 0.0
         }
     },
@@ -418,11 +418,11 @@ enemies[8] = {
     base_stats = {
         hit_points = 640,
         skill_points = 10,
-        strength = 27,
-        vigor = 14,
-        fortitude = 10,
-        protection = 20,
-        agility = 40,
+        phys_atk = 27,
+        mag_atk = 14,
+        phys_def = 10,
+        mag_def = 20,
+        stamina = 40,
         evade = 4.0,
         experience_points = 143,
         drunes = 100
@@ -433,8 +433,8 @@ enemies[8] = {
             name = vt_system.Translate("Head"),
             x_position = -108,
             y_position = 156,
-            fortitude_modifier = -0.2,
-            protection_modifier = 0,
+            phys_def_modifier = -0.2,
+            mag_def_modifier = 0,
             evade_modifier = 0.2,
             status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = 10.0 }
         },
@@ -442,8 +442,8 @@ enemies[8] = {
             name = vt_system.Translate("Body"),
             x_position = 0,
             y_position = 120,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0,
             evade_modifier = 0.0
         }
     },
@@ -472,11 +472,11 @@ enemies[9] = {
     base_stats = {
         hit_points = 300,
         skill_points = 30,
-        strength = 60,
-        vigor = 28,
-        fortitude = 60,
-        protection = 35,
-        agility = 38,
+        phys_atk = 60,
+        mag_atk = 28,
+        phys_def = 60,
+        mag_def = 35,
+        stamina = 38,
         evade = 5.0,
         experience_points = 89,
         drunes = 58
@@ -487,8 +487,8 @@ enemies[9] = {
             name = vt_system.Translate("Head"),
             x_position = 0,
             y_position = 280,
-            fortitude_modifier = -0.2,
-            protection_modifier = -0.2,
+            phys_def_modifier = -0.2,
+            mag_def_modifier = -0.2,
             evade_modifier = 0.2,
             status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = 10.0 }
         },
@@ -496,18 +496,18 @@ enemies[9] = {
             name = vt_system.Translate("Torso"),
             x_position = 0,
             y_position = 200,
-            fortitude_modifier = 0.4,
-            protection_modifier = 0.3,
+            phys_def_modifier = 0.4,
+            mag_def_modifier = 0.3,
             evade_modifier = 0.0
         },
         [3] = {
             name = vt_system.Translate("Legs"),
             x_position = -20,
             y_position = 100,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.1,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = 10.0 }
         }
     },
 
@@ -540,11 +540,11 @@ enemies[10] = {
     base_stats = {
         hit_points = 999999,
         skill_points = 99999,
-        strength = 40, -- Just for the river bank battle
-        vigor = 40, -- just for the riverbank battle
-        fortitude = 999,
-        protection = 999,
-        agility = 27,
+        phys_atk = 40, -- Just for the river bank battle
+        mag_atk = 40, -- just for the riverbank battle
+        phys_def = 999,
+        mag_def = 999,
+        stamina = 27,
         evade = 8.0,
         experience_points = 0,
         drunes = 0
@@ -555,8 +555,8 @@ enemies[10] = {
             name = vt_system.Translate("Head"),
             x_position = 20,
             y_position = 300,
-            fortitude_modifier = -0.2,
-            protection_modifier = -0.2,
+            phys_def_modifier = -0.2,
+            mag_def_modifier = -0.2,
             evade_modifier = 0.4,
             status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = 10.0 }
         },
@@ -564,18 +564,18 @@ enemies[10] = {
             name = vt_system.Translate("Torso"),
             x_position = 20,
             y_position = 200,
-            fortitude_modifier = 0.4,
-            protection_modifier = 0.3,
+            phys_def_modifier = 0.4,
+            mag_def_modifier = 0.3,
             evade_modifier = 0.4
         },
         [3] = {
             name = vt_system.Translate("Legs"),
             x_position = 40,
             y_position = 100,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.4,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = 10.0 }
         }
     },
 
@@ -604,11 +604,11 @@ enemies[11] = {
     base_stats = {
         hit_points = 75,
         skill_points = 10,
-        strength = 22,
-        vigor = 20,
-        fortitude = 10,
-        protection = 8,
-        agility = 35,
+        phys_atk = 22,
+        mag_atk = 20,
+        phys_def = 10,
+        mag_def = 8,
+        stamina = 35,
         evade = 6.0,
         experience_points = 32,
         drunes = 14
@@ -619,8 +619,8 @@ enemies[11] = {
             name = vt_system.Translate("Body"),
             x_position = 0,
             y_position = 95,
-            fortitude_modifier = 0.2,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.2,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.1
         },
     },
@@ -649,11 +649,11 @@ enemies[12] = {
     base_stats = {
         hit_points = 75,
         skill_points = 10,
-        strength = 25,
-        vigor = 20,
-        fortitude = 15,
-        protection = 8,
-        agility = 35,
+        phys_atk = 25,
+        mag_atk = 20,
+        phys_def = 15,
+        mag_def = 8,
+        stamina = 35,
         evade = 5.0,
         experience_points = 30,
         drunes = 15
@@ -664,8 +664,8 @@ enemies[12] = {
             name = vt_system.Translate("Eye"),
             x_position = 0,
             y_position = 45,
-            fortitude_modifier = 0.2,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.2,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.1
         },
     },
@@ -692,11 +692,11 @@ enemies[13] = {
     base_stats = {
         hit_points = 150,
         skill_points = 150,
-        strength = 42,
-        vigor = 35,
-        fortitude = 25,
-        protection = 25,
-        agility = 30,
+        phys_atk = 42,
+        mag_atk = 35,
+        phys_def = 25,
+        mag_def = 25,
+        stamina = 30,
         evade = 5.0,
         experience_points = 55,
         drunes = 30
@@ -707,8 +707,8 @@ enemies[13] = {
             name = vt_system.Translate("Torso"),
             x_position = 0,
             y_position = 95,
-            fortitude_modifier = 0.2,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.2,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.1
         },
     },
@@ -739,11 +739,11 @@ enemies[14] = {
     base_stats = {
         hit_points = 300,
         skill_points = 450,
-        strength = 46,
-        vigor = 45,
-        fortitude = 30,
-        protection = 30,
-        agility = 35,
+        phys_atk = 46,
+        mag_atk = 45,
+        phys_def = 30,
+        mag_def = 30,
+        stamina = 35,
         evade = 5.0,
         experience_points = 90,
         drunes = 54
@@ -754,8 +754,8 @@ enemies[14] = {
             name = vt_system.Translate("Torso"),
             x_position = 0,
             y_position = 95,
-            fortitude_modifier = 0.2,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.2,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.1
         },
     },
@@ -792,11 +792,11 @@ enemies[15] = {
     base_stats = {
         hit_points = 100,
         skill_points = 36,
-        strength = 30,
-        vigor = 25,
-        fortitude = 40,
-        protection = 10,
-        agility = 35,
+        phys_atk = 30,
+        mag_atk = 25,
+        phys_def = 40,
+        mag_def = 10,
+        stamina = 35,
         evade = 5.0,
         experience_points = 45,
         drunes = 45
@@ -807,15 +807,15 @@ enemies[15] = {
             name = vt_system.Translate("Chest"),
             x_position = -8,
             y_position = 25,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         }
     },
 
     skills = {
         1006, -- Normal atack
-        1012  -- Agility stealing attack
+        1012  -- Stamina stealing attack
     },
 
     drop_objects = {
@@ -837,11 +837,11 @@ enemies[16] = {
     base_stats = {
         hit_points = 120,
         skill_points = 80,
-        strength = 35,
-        vigor = 20,
-        fortitude = 35,
-        protection = 20,
-        agility = 40,
+        phys_atk = 35,
+        mag_atk = 20,
+        phys_def = 35,
+        mag_def = 20,
+        stamina = 40,
         evade = 7.0,
         experience_points = 47,
         drunes = 40
@@ -852,16 +852,16 @@ enemies[16] = {
             name = vt_system.Translate("Head"),
             x_position = -28,
             y_position = 90,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [2] = {
             name = vt_system.Translate("Chest"),
             x_position = -8,
             y_position = 50,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         }
     },
@@ -890,11 +890,11 @@ enemies[17] = {
     base_stats = {
         hit_points = 124,
         skill_points = 50,
-        strength = 25,
-        vigor = 30,
-        fortitude = 40,
-        protection = 20,
-        agility = 37,
+        phys_atk = 25,
+        mag_atk = 30,
+        phys_def = 40,
+        mag_def = 20,
+        stamina = 37,
         evade = 5.0,
         experience_points = 48,
         drunes = 30
@@ -905,8 +905,8 @@ enemies[17] = {
             name = vt_system.Translate("Body"),
             x_position = 0,
             y_position = 40,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         }
     },
@@ -936,11 +936,11 @@ enemies[18] = {
     base_stats = {
         hit_points = 124,
         skill_points = 10,
-        strength = 15,
-        vigor = 0,
-        fortitude = 14,
-        protection = 4,
-        agility = 13,
+        phys_atk = 15,
+        mag_atk = 0,
+        phys_def = 14,
+        mag_def = 4,
+        stamina = 13,
         evade = 2.0,
         experience_points = 5,
         drunes = 18
@@ -951,8 +951,8 @@ enemies[18] = {
             name = vt_system.Translate("Torso"),
             x_position = -13,
             y_position = 80,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         }
     },
@@ -980,11 +980,11 @@ enemies[19] = {
     base_stats = {
         hit_points = 150,
         skill_points = 100,
-        strength = 30,
-        vigor = 25,
-        fortitude = 30,
-        protection = 25,
-        agility = 35,
+        phys_atk = 30,
+        mag_atk = 25,
+        phys_def = 30,
+        mag_def = 25,
+        stamina = 35,
         evade = 5.0,
         experience_points = 50,
         drunes = 30
@@ -995,26 +995,26 @@ enemies[19] = {
             name = vt_system.Translate("Head"),
             x_position = -23,
             y_position = 108,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [2] = {
             name = vt_system.Translate("Chest"),
             x_position = -12,
             y_position = 82,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [3] = {
             name = vt_system.Translate("Leg"),
             x_position = -26,
             y_position = 56,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 20.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = 20.0 }
         }
     },
 
@@ -1025,7 +1025,7 @@ enemies[19] = {
 
     drop_objects = {
         { 12, 0.05 }, -- Medium moon juice
-        { 1004, 0.02 } -- Periwinkle Potion (Strength)
+        { 1004, 0.02 } -- Periwinkle Potion (Physical Attack)
     }
 }
 
@@ -1043,11 +1043,11 @@ enemies[20] = {
     base_stats = {
         hit_points = 300,
         skill_points = 100,
-        strength = 40,
-        vigor = 20,
-        fortitude = 50,
-        protection = 20,
-        agility = 25,
+        phys_atk = 40,
+        mag_atk = 20,
+        phys_def = 50,
+        mag_def = 20,
+        stamina = 25,
         evade = 4.0,
         experience_points = 91,
         drunes = 60
@@ -1058,26 +1058,26 @@ enemies[20] = {
             name = vt_system.Translate("Head"),
             x_position = -10,
             y_position = 26,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [2] = {
             name = vt_system.Translate("Chest"),
             x_position = 50,
             y_position = 40,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [3] = {
             name = vt_system.Translate("Leg"),
             x_position = 80,
             y_position = 86,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 20.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = 20.0 }
         }
     },
 
@@ -1088,12 +1088,12 @@ enemies[20] = {
     skills = {
         1008, -- Attack
         1009, -- Attack all
-        1013, -- Frenzy (atk & agility +, but def -)
+        1013, -- Frenzy (atk & stamina +, but def -)
     },
 
     drop_objects = {
         { 12, 0.05 }, -- Medium moon juice
-        { 1004, 0.02 } -- Periwinkle Potion (Strength)
+        { 1004, 0.02 } -- Periwinkle Potion (Physical Attack)
     }
 }
 
@@ -1111,11 +1111,11 @@ enemies[21] = {
     base_stats = {
         hit_points = 600,
         skill_points = 200,
-        strength = 30,
-        vigor = 40,
-        fortitude = 30,
-        protection = 40,
-        agility = 40,
+        phys_atk = 30,
+        mag_atk = 40,
+        phys_def = 30,
+        mag_def = 40,
+        stamina = 40,
         evade = 6.0,
         experience_points = 200,
         drunes = 150
@@ -1126,8 +1126,8 @@ enemies[21] = {
             name = vt_system.Translate("Head"),
             x_position = -10,
             y_position = 26,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
     },
@@ -1145,7 +1145,7 @@ enemies[21] = {
 
     drop_objects = {
         { 3002, 1.0 }, -- Iron ore
-        { 1004, 0.02 } -- Periwinkle Potion (Strength)
+        { 1004, 0.02 } -- Periwinkle Potion (Physical Attack)
     }
 }
 
@@ -1165,11 +1165,11 @@ enemies[59] = {
     base_stats = {
         hit_points = 122,
         skill_points = 10,
-        strength = 18,
-        vigor = 0,
-        fortitude = 12,
-        protection = 4,
-        agility = 14,
+        phys_atk = 18,
+        mag_atk = 0,
+        phys_def = 12,
+        mag_def = 4,
+        stamina = 14,
         evade = 2.0,
         experience_points = 8,
         drunes = 12
@@ -1180,26 +1180,26 @@ enemies[59] = {
             name = vt_system.Translate("Head"),
             x_position = -6,
             y_position = 23,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [2] = {
             name = vt_system.Translate("Abdomen"),
             x_position = 7,
             y_position = 26,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [3] = {
             name = vt_system.Translate("Leg"),
             x_position = 16,
             y_position = 14,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = 10.0 }
         }
     },
 
@@ -1223,11 +1223,11 @@ enemies[60] = {
     base_stats = {
         hit_points = 122,
         skill_points = 10,
-        strength = 18,
-        vigor = 0,
-        fortitude = 12,
-        protection = 4,
-        agility = 14,
+        phys_atk = 18,
+        mag_atk = 0,
+        phys_def = 12,
+        mag_def = 4,
+        stamina = 14,
         evade = 2.0,
         experience_points = 8,
         drunes = 12
@@ -1238,16 +1238,16 @@ enemies[60] = {
             name = vt_system.Translate("Head"),
             x_position = -5,
             y_position = 22,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [2] = {
             name = vt_system.Translate("Tail"),
             x_position = 18,
             y_position = 45,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         }
     },
@@ -1278,11 +1278,11 @@ enemies[62] = {
     base_stats = {
         hit_points = 124,
         skill_points = 10,
-        strength = 15,
-        vigor = 0,
-        fortitude = 14,
-        protection = 4,
-        agility = 13,
+        phys_atk = 15,
+        mag_atk = 0,
+        phys_def = 14,
+        mag_def = 4,
+        stamina = 13,
         evade = 2.0,
         experience_points = 5,
         drunes = 18
@@ -1293,24 +1293,24 @@ enemies[62] = {
             name = vt_system.Translate("Eye"),
             x_position = 10,
             y_position = 160,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [2] = {
             name = vt_system.Translate("Torso"),
             x_position = -13,
             y_position = 80,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [3] = {
             name = vt_system.Translate("Claw"),
             x_position = -60,
             y_position = 115,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         }
     },
@@ -1342,11 +1342,11 @@ enemies[63] = {
     base_stats = {
         hit_points = 124,
         skill_points = 10,
-        strength = 15,
-        vigor = 0,
-        fortitude = 14,
-        protection = 4,
-        agility = 13,
+        phys_atk = 15,
+        mag_atk = 0,
+        phys_def = 14,
+        mag_def = 4,
+        stamina = 13,
         evade = 2.0,
         experience_points = 5,
         drunes = 18
@@ -1357,24 +1357,24 @@ enemies[63] = {
             name = vt_system.Translate("Face"),
             x_position = 0,
             y_position = 166,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [2] = {
             name = vt_system.Translate("Body"),
             x_position = -8,
             y_position = 114,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [3] = {
             name = vt_system.Translate("Claw"),
             x_position = -48,
             y_position = 108,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         }
     },
@@ -1406,11 +1406,11 @@ enemies[65] = {
     base_stats = {
         hit_points = 124,
         skill_points = 10,
-        strength = 15,
-        vigor = 0,
-        fortitude = 14,
-        protection = 4,
-        agility = 13,
+        phys_atk = 15,
+        mag_atk = 0,
+        phys_def = 14,
+        mag_def = 4,
+        stamina = 13,
         evade = 2.0,
         experience_points = 5,
         drunes = 18
@@ -1421,8 +1421,8 @@ enemies[65] = {
             name = vt_system.Translate("Body"),
             x_position = -13,
             y_position = 80,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         }
     },
@@ -1453,11 +1453,11 @@ enemies[67] = {
     base_stats = {
         hit_points = 124,
         skill_points = 10,
-        strength = 15,
-        vigor = 0,
-        fortitude = 14,
-        protection = 4,
-        agility = 13,
+        phys_atk = 15,
+        mag_atk = 0,
+        phys_def = 14,
+        mag_def = 4,
+        stamina = 13,
         evade = 2.0,
         experience_points = 5,
         drunes = 18
@@ -1468,8 +1468,8 @@ enemies[67] = {
             name = vt_system.Translate("Body"),
             x_position = -13,
             y_position = 80,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         }
     },
@@ -1501,11 +1501,11 @@ enemies[91] = {
     base_stats = {
         hit_points = 500,
         skill_points = 45,
-        strength = 55,
-        vigor = 0,
-        fortitude = 20,
-        protection = 5,
-        agility = 25,
+        phys_atk = 55,
+        mag_atk = 0,
+        phys_def = 20,
+        mag_def = 5,
+        stamina = 25,
         evade = 3.0,
         experience_points = 242,
         drunes = 135
@@ -1516,24 +1516,24 @@ enemies[91] = {
             name = vt_system.Translate("Head"),
             x_position = -30,
             y_position = 125,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [2] = {
             name = vt_system.Translate("Pincer"),
             x_position = -190,
             y_position = 120,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [3] = {
             name = vt_system.Translate("Leg"),
             x_position = 200,
             y_position = 160,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
     },
@@ -1565,11 +1565,11 @@ enemies[92] = {
     base_stats = {
         hit_points = 122,
         skill_points = 10,
-        strength = 10,
-        vigor = 0,
-        fortitude = 10,
-        protection = 4,
-        agility = 30,
+        phys_atk = 10,
+        mag_atk = 0,
+        phys_def = 10,
+        mag_def = 4,
+        stamina = 30,
         evade = 18.0,
         experience_points = 8,
         drunes = 12
@@ -1580,24 +1580,24 @@ enemies[92] = {
             name = vt_system.Translate("Mesosoma"),
             x_position = -6,
             y_position = 23,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [2] = {
             name = vt_system.Translate("Pincers"),
             x_position = 7,
             y_position = 26,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [3] = {
             name = vt_system.Translate("Legs"),
             x_position = 7,
             y_position = 26,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
     },
@@ -1623,11 +1623,11 @@ enemies[101] = {
         hit_points = 80,
         skill_points = 20,
         experience_points = 15,
-        strength = 12,
-        vigor = 20,
-        fortitude = 15,
-        protection = 7,
-        agility = 8,
+        phys_atk = 12,
+        mag_atk = 20,
+        phys_def = 15,
+        mag_def = 7,
+        stamina = 8,
         evade = 1.0,
         drunes = 55
     },
@@ -1637,16 +1637,16 @@ enemies[101] = {
             name = vt_system.Translate("Trunk"),
             x_position = -6,
             y_position = 36,
-            fortitude_modifier = 0,
-            protection_modifier = 0,
+            phys_def_modifier = 0,
+            mag_def_modifier = 0,
             evade_modifier = 0.0
         },
         [2] = {
             name = vt_system.Translate("Branches"),
             x_position = 0,
             y_position = 80,
-            fortitude_modifier = 0,
-            protection_modifier = 0,
+            phys_def_modifier = 0,
+            mag_def_modifier = 0,
             evade_modifier = 1.0
         }
     },
@@ -1672,11 +1672,11 @@ enemies[102] = {
         hit_points = 90,
         skill_points = 10,
         experience_points = 12,
-        strength = 8,
-        vigor = 0,
-        fortitude = 7,
-        protection = 4,
-        agility = 20,
+        phys_atk = 8,
+        mag_atk = 0,
+        phys_def = 7,
+        mag_def = 4,
+        stamina = 20,
         evade = 10.0,
         drunes = 60
     },
@@ -1686,16 +1686,16 @@ enemies[102] = {
             name = vt_system.Translate("Forehead"),
             x_position = -6,
             y_position = 127,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [2] = {
             name = vt_system.Translate("Orifice"),
             x_position = -1,
             y_position = 77,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
     },
@@ -1721,11 +1721,11 @@ enemies[103] = {
         hit_points = 85,
         skill_points = 10,
         experience_points = 45,
-        strength = 20,
-        vigor = 0,
-        fortitude = 8,
-        protection = 5,
-        agility = 15,
+        phys_atk = 20,
+        mag_atk = 0,
+        phys_def = 8,
+        mag_def = 5,
+        stamina = 15,
         evade = 2.0,
         drunes = 80
     },
@@ -1735,24 +1735,24 @@ enemies[103] = {
             name = vt_system.Translate("Head"),
             x_position = -6,
             y_position = 167,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [2] = {
             name = vt_system.Translate("Body"),
             x_position = -1,
             y_position = 111,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [3] = {
             name = vt_system.Translate("Tail"),
             x_position = -74,
             y_position = 146,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         }
     },
@@ -1778,11 +1778,11 @@ enemies[104] = {
         hit_points = 90,
         skill_points = 10,
         experience_points = 18,
-        strength = 10,
-        vigor = 0,
-        fortitude = 8,
-        protection = 4,
-        agility = 12,
+        phys_atk = 10,
+        mag_atk = 0,
+        phys_def = 8,
+        mag_def = 4,
+        stamina = 12,
         evade = 2.0,
         drunes = 70
     },
@@ -1792,24 +1792,24 @@ enemies[104] = {
             name = vt_system.Translate("Head"),
             x_position = -26,
             y_position = 165,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [2] = {
             name = vt_system.Translate("Abdomen"),
             x_position = -36,
             y_position = 115,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [3] = {
             name = vt_system.Translate("Tail"),
             x_position = -26,
             y_position = 65,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         }
     },
@@ -1835,11 +1835,11 @@ enemies[105] = {
         hit_points = 100,
         skill_points = 10,
         experience_points = 18,
-        strength = 15,
-        vigor = 0,
-        fortitude = 20,
-        protection = 4,
-        agility = 4,
+        phys_atk = 15,
+        mag_atk = 0,
+        phys_def = 20,
+        mag_def = 4,
+        stamina = 4,
         evade = 1.0,
         drunes = 85
     },
@@ -1849,32 +1849,32 @@ enemies[105] = {
             name = vt_system.Translate("Head"),
             x_position = -104,
             y_position = 226,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [2] = {
             name = vt_system.Translate("Chest"),
             x_position = -106,
             y_position = 190,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [3] = {
             name = vt_system.Translate("Arm"),
             x_position = -56,
             y_position = 155,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         },
         [4] = {
             name = vt_system.Translate("Legs"),
             x_position = -106,
             y_position = 105,
-            fortitude_modifier = 0.0,
-            protection_modifier = 0.0,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
             evade_modifier = 0.0
         }
     },
@@ -1901,11 +1901,11 @@ enemies[106] = {
         hit_points = 120,
         skill_points = 10,
         experience_points = 20,
-        strength = 22,
-        vigor = 0,
-        fortitude = 8,
-        protection = 4,
-        agility = 18,
+        phys_atk = 22,
+        mag_atk = 0,
+        phys_def = 8,
+        mag_def = 4,
+        stamina = 18,
         evade = 2.0,
         drunes = 100
     },
@@ -1915,24 +1915,24 @@ enemies[106] = {
             name = vt_system.Translate("Head"),
             x_position = -4,
             y_position = 222,
-            fortitude_modifier = 0,
-            protection_modifier = 0,
+            phys_def_modifier = 0,
+            mag_def_modifier = 0,
             evade_modifier = 0.0
         },
         [2] = {
             name = vt_system.Translate("Chest"),
             x_position = 39,
             y_position = 155,
-            fortitude_modifier = 0,
-            protection_modifier = 0,
+            phys_def_modifier = 0,
+            mag_def_modifier = 0,
             evade_modifier = 0.0
         },
         [3] = {
             name = vt_system.Translate("Arm"),
             x_position = 82,
             y_position = 143,
-            fortitude_modifier = 0,
-            protection_modifier = 0,
+            phys_def_modifier = 0,
+            mag_def_modifier = 0,
             evade_modifier = 0.0
         }
     },

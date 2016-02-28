@@ -245,7 +245,7 @@ public:
     *** Primary function for performing status changes on an actor. Depending upon the current state of the actor and
     *** the first two status and intensity arguments, this function may add new status effects, remove existing effects,
     *** or modify the intensity of existing effects. This function also takes into account status effects which have an
-    *** opposite type (e.g., strength gain status versus strength depletion status) and change the state of both effects
+    *** opposite type (e.g., phys_atk gain status versus phys_atk depletion status) and change the state of both effects
     *** accordingly. So, for example, a single call to this function could remove an old effect -and- add a new effect, if
     *** the effect to be added has an opposite effect that is currently active.
     **/

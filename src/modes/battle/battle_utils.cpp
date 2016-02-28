@@ -168,7 +168,7 @@ uint32_t RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
 
     // If the total damage is zero, fall back to causing a small non-zero damage value
     if(total_dmg <= 0)
-        return static_cast<uint32_t>(RandomBoundedInteger(1, 5 + attacker->GetStrength() / 10));
+        return static_cast<uint32_t>(RandomBoundedInteger(1, 5 + attacker->GetPhysAtk() / 10));
 
     return static_cast<uint32_t>(total_dmg);
 }
@@ -230,7 +230,7 @@ uint32_t RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, GLOB
 
     // If the total damage is zero, fall back to causing a small non-zero damage value
     if(total_dmg <= 0)
-        return static_cast<uint32_t>(RandomBoundedInteger(1, 5 + attacker->GetVigor() / 10));
+        return static_cast<uint32_t>(RandomBoundedInteger(1, 5 + attacker->GetMagAtk() / 10));
 
     return static_cast<uint32_t>(total_dmg);
 }

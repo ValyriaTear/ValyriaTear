@@ -37,8 +37,8 @@ skills[30001] = {
        local target_actor = target:GetActor();
 
        if (vt_battle.RndEvade(target_actor) == false) then
-           -- Attack: Strength / 3
-           target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
+           -- Attack: Physical Attack / 3
+           target_actor:RegisterDamage(user:GetPhysAtk() / 3.0, target);
            AudioManager:PlaySound("data/sounds/punch.wav");
        else
            target_actor:RegisterMiss(true);
@@ -65,8 +65,8 @@ skills[30002] = {
        local target_actor = target:GetActor();
 
        if (vt_battle.RndEvade(target_actor) == false) then
-           -- Attack: Strength / 3
-           target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
+           -- Attack: Physical Attack / 3
+           target_actor:RegisterDamage(user:GetPhysAtk() / 3.0, target);
            AudioManager:PlaySound("data/sounds/punch.wav");
        else
            target_actor:RegisterMiss(true);
@@ -92,8 +92,8 @@ skills[30003] = {
        local target_actor = target:GetActor();
 --TODO
        if (vt_battle.RndEvade(target_actor) == false) then
-           -- Attack: Strength / 3
-           target_actor:RegisterDamage(user:GetStrength() / 3.0, target);
+           -- Attack: Physical Attack / 3
+           target_actor:RegisterDamage(user:GetPhysAtk() / 3.0, target);
            AudioManager:PlaySound("data/sounds/punch.wav");
        else
            target_actor:RegisterMiss(true);

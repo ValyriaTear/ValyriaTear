@@ -1244,11 +1244,11 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     file.WriteLine("\t\tmax_skill_points = " + NumberToString(character->GetMaxSkillPoints()) + ",");
     file.WriteLine("\t\tskill_points = " + NumberToString(character->GetSkillPoints()) + ",");
 
-    file.WriteLine("\t\tstrength = " + NumberToString(character->GetStrengthBase()) + ",");
-    file.WriteLine("\t\tvigor = " + NumberToString(character->GetVigorBase()) + ",");
-    file.WriteLine("\t\tfortitude = " + NumberToString(character->GetFortitudeBase()) + ",");
-    file.WriteLine("\t\tprotection = " + NumberToString(character->GetProtectionBase()) + ",");
-    file.WriteLine("\t\tagility = " + NumberToString(character->GetAgilityBase()) + ",");
+    file.WriteLine("\t\tphys_atk = " + NumberToString(character->GetPhysAtkBase()) + ",");
+    file.WriteLine("\t\tmag_atk = " + NumberToString(character->GetMagAtkBase()) + ",");
+    file.WriteLine("\t\tphys_def = " + NumberToString(character->GetPhysDefBase()) + ",");
+    file.WriteLine("\t\tmag_def = " + NumberToString(character->GetMagDefBase()) + ",");
+    file.WriteLine("\t\tstamina = " + NumberToString(character->GetStaminaBase()) + ",");
     file.WriteLine("\t\tevade = " + NumberToString(character->GetEvadeBase()) + ",");
 
     // ----- (2): Write out the character's equipment
@@ -1516,11 +1516,21 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32_t id)
     character->SetMaxSkillPoints(file.ReadUInt("max_skill_points"));
     character->SetSkillPoints(file.ReadUInt("skill_points"));
 
-    character->SetStrength(file.ReadUInt("strength"));
-    character->SetVigor(file.ReadUInt("vigor"));
-    character->SetFortitude(file.ReadUInt("fortitude"));
-    character->SetProtection(file.ReadUInt("protection"));
-    character->SetAgility(file.ReadUInt("agility"));
+    // DEPRECATED: Old confusing character's stats. Remove for Episode II release.
+    if (file.DoesUIntExist("strength")) {
+        character->SetPhysAtk(file.ReadUInt("strength"));
+        character->SetMagAtk(file.ReadUInt("vigor"));
+        character->SetPhysDef(file.ReadUInt("fortitude"));
+        character->SetMagDef(file.ReadUInt("protection"));
+        character->SetStamina(file.ReadUInt("agility"));
+    }
+    else {
+        character->SetPhysAtk(file.ReadUInt("phys_atk"));
+        character->SetMagAtk(file.ReadUInt("mag_atk"));
+        character->SetPhysDef(file.ReadUInt("phys_def"));
+        character->SetMagDef(file.ReadUInt("mag_def"));
+        character->SetStamina(file.ReadUInt("stamina"));
+    }
     character->SetEvade(file.ReadFloat("evade"));
 
     // Read the character's equipment and load it onto the character

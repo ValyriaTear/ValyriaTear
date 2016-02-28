@@ -45,8 +45,8 @@ GlobalAttackPoint::GlobalAttackPoint(GlobalActor *owner) :
     _actor_owner(owner),
     _x_position(0),
     _y_position(0),
-    _fortitude_modifier(0.0f),
-    _protection_modifier(0.0f),
+    _phys_def_modifier(0.0f),
+    _mag_def_modifier(0.0f),
     _evade_modifier(0.0f),
     _total_physical_defense(0),
     _total_evade_rating(0)
@@ -64,8 +64,8 @@ bool GlobalAttackPoint::LoadData(ReadScriptDescriptor &script)
     _name = MakeUnicodeString(script.ReadString("name"));
     _x_position = script.ReadInt("x_position");
     _y_position = script.ReadInt("y_position");
-    _fortitude_modifier = script.ReadFloat("fortitude_modifier");
-    _protection_modifier = script.ReadFloat("protection_modifier");
+    _phys_def_modifier = script.ReadFloat("phys_def_modifier");
+    _mag_def_modifier = script.ReadFloat("mag_def_modifier");
     _evade_modifier = script.ReadFloat("evade_modifier");
 
     // Status effect data is optional so check if a status_effect table exists first
@@ -103,15 +103,16 @@ void GlobalAttackPoint::CalculateTotalDefense(const GlobalArmor* equipped_armor)
     }
 
     // Calculate defense ratings from owning actor's base stat properties and the attack point modifiers
-    if(_fortitude_modifier <= -1.0f)  // If the modifier is less than or equal to -100%, set the total defense to zero
+    if(_phys_def_modifier <= -1.0f)  // If the modifier is less than or equal to -100%, set the total defense to zero
         _total_physical_defense = 0;
     else
-        _total_physical_defense = _actor_owner->GetFortitude() + static_cast<int32_t>(_actor_owner->GetFortitude() * _fortitude_modifier);
+        _total_physical_defense = _actor_owner->GetPhysDef() +
+                                  static_cast<int32_t>(_actor_owner->GetPhysDef() * _phys_def_modifier);
 
     // If the modifier is less than or equal to -100%, set the total defense to zero
     uint32_t magical_base = 0;
-    if(_protection_modifier > -1.0f)
-        magical_base = _actor_owner->GetProtection() + static_cast<int32_t>(_actor_owner->GetProtection() * _protection_modifier);
+    if(_mag_def_modifier > -1.0f)
+        magical_base = _actor_owner->GetMagDef() + static_cast<int32_t>(_actor_owner->GetMagDef() * _mag_def_modifier);
 
     // If present, add defense ratings from the armor equipped
     if(equipped_armor) {
@@ -127,8 +128,6 @@ void GlobalAttackPoint::CalculateTotalDefense(const GlobalArmor* equipped_armor)
             _total_magical_defense[i] = magical_base * _actor_owner->GetElementalModifier((GLOBAL_ELEMENTAL) i);
     }
 }
-
-
 
 void GlobalAttackPoint::CalculateTotalEvade()
 {
@@ -195,16 +194,16 @@ GlobalActor::GlobalActor(const GlobalActor &copy):
     _skill_points = copy._skill_points;
     _max_skill_points = copy._max_skill_points;
 
-    _strength.SetBase(copy._strength.GetBase());
-    _strength.SetModifier(copy._strength.GetModifier());
-    _vigor.SetBase(copy._vigor.GetBase());
-    _vigor.SetModifier(copy._vigor.GetModifier());
-    _fortitude.SetBase(copy._fortitude.GetBase());
-    _fortitude.SetModifier(copy._fortitude.GetModifier());
-    _protection.SetBase(copy._protection.GetBase());
-    _protection.SetModifier(copy._protection.GetModifier());
-    _agility.SetBase(copy._agility.GetBase());
-    _agility.SetModifier(copy._agility.GetModifier());
+    _char_phys_atk.SetBase(copy._char_phys_atk.GetBase());
+    _char_phys_atk.SetModifier(copy._char_phys_atk.GetModifier());
+    _char_mag_atk.SetBase(copy._char_mag_atk.GetBase());
+    _char_mag_atk.SetModifier(copy._char_mag_atk.GetModifier());
+    _char_phys_def.SetBase(copy._char_phys_def.GetBase());
+    _char_phys_def.SetModifier(copy._char_phys_def.GetModifier());
+    _char_mag_def.SetBase(copy._char_mag_def.GetBase());
+    _char_mag_def.SetModifier(copy._char_mag_def.GetModifier());
+    _stamina.SetBase(copy._stamina.GetBase());
+    _stamina.SetModifier(copy._stamina.GetModifier());
     _evade.SetBase(copy._evade.GetBase());
     _evade.SetModifier(copy._evade.GetModifier());
 
@@ -251,16 +250,16 @@ GlobalActor &GlobalActor::operator=(const GlobalActor &copy)
     _skill_points = copy._skill_points;
     _max_skill_points = copy._max_skill_points;
 
-    _strength.SetBase(copy._strength.GetBase());
-    _strength.SetModifier(copy._strength.GetModifier());
-    _vigor.SetBase(copy._vigor.GetBase());
-    _vigor.SetModifier(copy._vigor.GetModifier());
-    _fortitude.SetBase(copy._fortitude.GetBase());
-    _fortitude.SetModifier(copy._fortitude.GetModifier());
-    _protection.SetBase(copy._protection.GetBase());
-    _protection.SetModifier(copy._protection.GetModifier());
-    _agility.SetBase(copy._agility.GetBase());
-    _agility.SetModifier(copy._agility.GetModifier());
+    _char_phys_atk.SetBase(copy._char_phys_atk.GetBase());
+    _char_phys_atk.SetModifier(copy._char_phys_atk.GetModifier());
+    _char_mag_atk.SetBase(copy._char_mag_atk.GetBase());
+    _char_mag_atk.SetModifier(copy._char_mag_atk.GetModifier());
+    _char_phys_def.SetBase(copy._char_phys_def.GetBase());
+    _char_phys_def.SetModifier(copy._char_phys_def.GetModifier());
+    _char_mag_def.SetBase(copy._char_mag_def.GetBase());
+    _char_mag_def.SetModifier(copy._char_mag_def.GetModifier());
+    _stamina.SetBase(copy._stamina.GetBase());
+    _stamina.SetModifier(copy._stamina.GetModifier());
     _evade.SetBase(copy._evade.GetBase());
     _evade.SetModifier(copy._evade.GetModifier());
 
@@ -397,8 +396,6 @@ void GlobalActor::AddHitPoints(uint32_t amount)
         _hit_points = _max_hit_points;
 }
 
-
-
 void GlobalActor::SubtractHitPoints(uint32_t amount)
 {
     if(amount >= _hit_points)
@@ -406,8 +403,6 @@ void GlobalActor::SubtractHitPoints(uint32_t amount)
     else
         _hit_points -= amount;
 }
-
-
 
 void GlobalActor::AddMaxHitPoints(uint32_t amount)
 {
@@ -418,8 +413,6 @@ void GlobalActor::AddMaxHitPoints(uint32_t amount)
         _max_hit_points += amount;
     }
 }
-
-
 
 void GlobalActor::SubtractMaxHitPoints(uint32_t amount)
 {
@@ -434,8 +427,6 @@ void GlobalActor::SubtractMaxHitPoints(uint32_t amount)
     }
 }
 
-
-
 void GlobalActor::AddSkillPoints(uint32_t amount)
 {
     if((0xFFFFFFFF - amount) < _skill_points) {
@@ -449,8 +440,6 @@ void GlobalActor::AddSkillPoints(uint32_t amount)
         _skill_points = _max_skill_points;
 }
 
-
-
 void GlobalActor::SubtractSkillPoints(uint32_t amount)
 {
     if(amount >= _skill_points)
@@ -458,8 +447,6 @@ void GlobalActor::SubtractSkillPoints(uint32_t amount)
     else
         _skill_points -= amount;
 }
-
-
 
 void GlobalActor::AddMaxSkillPoints(uint32_t amount)
 {
@@ -470,8 +457,6 @@ void GlobalActor::AddMaxSkillPoints(uint32_t amount)
         _max_skill_points += amount;
     }
 }
-
-
 
 void GlobalActor::SubtractMaxSkillPoints(uint32_t amount)
 {
@@ -486,98 +471,74 @@ void GlobalActor::SubtractMaxSkillPoints(uint32_t amount)
     }
 }
 
-
-
-void GlobalActor::AddStrength(uint32_t amount)
+void GlobalActor::AddPhysAtk(uint32_t amount)
 {
-    _strength.SetBase(_strength.GetBase() + (float)amount);
+    _char_phys_atk.SetBase(_char_phys_atk.GetBase() + (float)amount);
     _CalculateAttackRatings();
 }
 
-
-
-void GlobalActor::SubtractStrength(uint32_t amount)
+void GlobalActor::SubtractPhysAtk(uint32_t amount)
 {
-    float new_base = _strength.GetBase() - (float)amount;
-    _strength.SetBase(new_base < 0.0f ? 0.0f : new_base);
+    float new_base = _char_phys_atk.GetBase() - (float)amount;
+    _char_phys_atk.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateAttackRatings();
 }
 
-
-
-void GlobalActor::AddVigor(uint32_t amount)
+void GlobalActor::AddMagAtk(uint32_t amount)
 {
-    _vigor.SetBase(_vigor.GetBase() + (float)amount);
+    _char_mag_atk.SetBase(_char_mag_atk.GetBase() + (float)amount);
     _CalculateAttackRatings();
 }
 
-
-
-void GlobalActor::SubtractVigor(uint32_t amount)
+void GlobalActor::SubtractMagAtk(uint32_t amount)
 {
-    float new_base = _vigor.GetBase() - (float)amount;
-    _vigor.SetBase(new_base < 0.0f ? 0.0f : new_base);
+    float new_base = _char_mag_atk.GetBase() - (float)amount;
+    _char_mag_atk.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateAttackRatings();
 }
 
-
-
-void GlobalActor::AddFortitude(uint32_t amount)
+void GlobalActor::AddPhysDef(uint32_t amount)
 {
-    _fortitude.SetBase(_fortitude.GetBase() + (float)amount);
+    _char_phys_def.SetBase(_char_phys_def.GetBase() + (float)amount);
     _CalculateDefenseRatings();
 }
 
-
-
-void GlobalActor::SubtractFortitude(uint32_t amount)
+void GlobalActor::SubtractPhysDef(uint32_t amount)
 {
-    float new_base = _fortitude.GetBase() - (float)amount;
-    _fortitude.SetBase(new_base < 0.0f ? 0.0f : new_base);
+    float new_base = _char_phys_def.GetBase() - (float)amount;
+    _char_phys_def.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateDefenseRatings();
 }
 
-
-
-void GlobalActor::AddProtection(uint32_t amount)
+void GlobalActor::AddMagDef(uint32_t amount)
 {
-    _protection.SetBase(_protection.GetBase() + (float)amount);
+    _char_mag_def.SetBase(_char_mag_def.GetBase() + (float)amount);
     _CalculateDefenseRatings();
 }
 
-
-
-void GlobalActor::SubtractProtection(uint32_t amount)
+void GlobalActor::SubtractMagDef(uint32_t amount)
 {
-    float new_base = _protection.GetBase() - (float)amount;
-    _protection.SetBase(new_base < 0.0f ? 0.0f : new_base);
+    float new_base = _char_mag_def.GetBase() - (float)amount;
+    _char_mag_def.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateDefenseRatings();
 }
 
-
-
-void GlobalActor::AddAgility(uint32_t amount)
+void GlobalActor::AddStamina(uint32_t amount)
 {
-    _agility.SetBase(_agility.GetBase() + (float)amount);
+    _stamina.SetBase(_stamina.GetBase() + (float)amount);
 }
 
-
-
-void GlobalActor::SubtractAgility(uint32_t amount)
+void GlobalActor::SubtractStamina(uint32_t amount)
 {
-    float new_base = _agility.GetBase() - (float)amount;
-    _agility.SetBase(new_base < 0.0f ? 0.0f : new_base);
+    float new_base = _stamina.GetBase() - (float)amount;
+    _stamina.SetBase(new_base < 0.0f ? 0.0f : new_base);
 }
-
-
 
 void GlobalActor::AddEvade(float amount)
 {
     _evade.SetBase(_evade.GetBase() + amount);
     _CalculateEvadeRatings();
 }
-
-
 
 void GlobalActor::SubtractEvade(float amount)
 {
@@ -586,16 +547,12 @@ void GlobalActor::SubtractEvade(float amount)
     _CalculateEvadeRatings();
 }
 
-
-
 void GlobalActor::_CalculateAttackRatings()
 {
-    _total_physical_attack = _strength.GetValue();
+    _total_physical_attack = _char_phys_atk.GetValue();
     for (uint32_t i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i)
-        _total_magical_attack[i] = _vigor.GetValue() * _elemental_modifier[i];
+        _total_magical_attack[i] = _char_mag_atk.GetValue() * _elemental_modifier[i];
 }
-
-
 
 void GlobalActor::_CalculateDefenseRatings()
 {
@@ -603,8 +560,6 @@ void GlobalActor::_CalculateDefenseRatings()
     for(uint32_t i = 0; i < _attack_points.size(); ++i)
         _attack_points[i]->CalculateTotalDefense(nullptr);
 }
-
-
 
 void GlobalActor::_CalculateEvadeRatings()
 {
@@ -625,11 +580,11 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
     _experience_for_next_level(0),
     _hit_points_growth(0),
     _skill_points_growth(0),
-    _strength_growth(0),
-    _vigor_growth(0),
-    _fortitude_growth(0),
-    _protection_growth(0),
-    _agility_growth(0),
+    _phys_atk_growth(0),
+    _mag_atk_growth(0),
+    _phys_def_growth(0),
+    _mag_def_growth(0),
+    _stamina_growth(0),
     _evade_growth(0.0f)
 {
     _id = id;
@@ -740,11 +695,11 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
         _hit_points = _max_hit_points;
         _max_skill_points = char_script.ReadUInt("max_skill_points");
         _skill_points = _max_skill_points;
-        _strength.SetBase(char_script.ReadUInt("strength"));
-        _vigor.SetBase(char_script.ReadUInt("vigor"));
-        _fortitude.SetBase(char_script.ReadUInt("fortitude"));
-        _protection.SetBase(char_script.ReadUInt("protection"));
-        _agility.SetBase(char_script.ReadUInt("agility"));
+        _char_phys_atk.SetBase(char_script.ReadUInt("phys_atk"));
+        _char_mag_atk.SetBase(char_script.ReadUInt("mag_atk"));
+        _char_phys_def.SetBase(char_script.ReadUInt("phys_def"));
+        _char_mag_def.SetBase(char_script.ReadUInt("mag_def"));
+        _stamina.SetBase(char_script.ReadUInt("stamina"));
         _evade.SetBase(char_script.ReadFloat("evade"));
 
         // Add the character's initial equipment. If any equipment ids are zero, that indicates nothing is to be equipped.
@@ -900,7 +855,6 @@ GlobalCharacter::~GlobalCharacter()
     _armor_equipped.clear();
 }
 
-
 bool GlobalCharacter::AddExperiencePoints(uint32_t xp)
 {
     _experience_points += xp;
@@ -908,55 +862,55 @@ bool GlobalCharacter::AddExperiencePoints(uint32_t xp)
     return ReachedNewExperienceLevel();
 }
 
-void GlobalCharacter::AddStrength(uint32_t amount)
+void GlobalCharacter::AddPhysAtk(uint32_t amount)
 {
-    _strength.SetBase(_strength.GetBase() + (float)amount);
+    _char_phys_atk.SetBase(_char_phys_atk.GetBase() + (float)amount);
     _CalculateAttackRatings();
 }
 
-void GlobalCharacter::SubtractStrength(uint32_t amount)
+void GlobalCharacter::SubtractPhysAtk(uint32_t amount)
 {
-    float new_base = _strength.GetBase() - (float)amount;
-    _strength.SetBase(new_base < 0.0f ? 0.0f : new_base);
+    float new_base = _char_phys_atk.GetBase() - (float)amount;
+    _char_phys_atk.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateAttackRatings();
 }
 
-void GlobalCharacter::AddVigor(uint32_t amount)
+void GlobalCharacter::AddMagAtk(uint32_t amount)
 {
-    _vigor.SetBase(_vigor.GetBase() + (float)amount);
+    _char_mag_atk.SetBase(_char_mag_atk.GetBase() + (float)amount);
     _CalculateAttackRatings();
 }
 
-void GlobalCharacter::SubtractVigor(uint32_t amount)
+void GlobalCharacter::SubtractMagAtk(uint32_t amount)
 {
-    float new_base = _vigor.GetBase() - (float)amount;
-    _vigor.SetBase(new_base < 0.0f ? 0.0f : new_base);
+    float new_base = _char_mag_atk.GetBase() - (float)amount;
+    _char_mag_atk.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateAttackRatings();
 }
 
-void GlobalCharacter::AddFortitude(uint32_t amount)
+void GlobalCharacter::AddPhysDef(uint32_t amount)
 {
-    _fortitude.SetBase(_fortitude.GetBase() + (float)amount);
+    _char_phys_def.SetBase(_char_phys_def.GetBase() + (float)amount);
     _CalculateDefenseRatings();
 }
 
-void GlobalCharacter::SubtractFortitude(uint32_t amount)
+void GlobalCharacter::SubtractPhysDef(uint32_t amount)
 {
-    float new_base = _fortitude.GetBase() - (float)amount;
-    _fortitude.SetBase(new_base < 0.0f ? 0.0f : new_base);
+    float new_base = _char_phys_def.GetBase() - (float)amount;
+    _char_phys_def.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateDefenseRatings();
 }
 
-void GlobalCharacter::AddProtection(uint32_t amount)
+void GlobalCharacter::AddMagDef(uint32_t amount)
 {
-    _protection.SetBase(_protection.GetBase() + (float)amount);
+    _char_mag_def.SetBase(_char_mag_def.GetBase() + (float)amount);
     _CalculateDefenseRatings();
 }
 
-void GlobalCharacter::SubtractProtection(uint32_t amount)
+void GlobalCharacter::SubtractMagDef(uint32_t amount)
 {
-    float new_base = _protection.GetBase() - (float)amount;
-    _protection.SetBase(new_base < 0.0f ? 0.0f : new_base);
+    float new_base = _char_mag_def.GetBase() - (float)amount;
+    _char_mag_def.SetBase(new_base < 0.0f ? 0.0f : new_base);
     _CalculateDefenseRatings();
 }
 
@@ -974,7 +928,7 @@ GlobalWeapon *GlobalCharacter::EquipWeapon(GlobalWeapon *weapon)
     return old_weapon;
 }
 
-GlobalArmor *GlobalCharacter::_EquipArmor(GlobalArmor *armor, uint32_t index)
+GlobalArmor* GlobalCharacter::_EquipArmor(GlobalArmor *armor, uint32_t index)
 {
     if(index >= _armor_equipped.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << std::endl;
@@ -1001,7 +955,7 @@ GlobalArmor *GlobalCharacter::_EquipArmor(GlobalArmor *armor, uint32_t index)
     return old_armor;
 }
 
-GlobalArmor *GlobalCharacter::GetArmorEquipped(uint32_t index) const
+GlobalArmor* GlobalCharacter::GetArmorEquipped(uint32_t index) const
 {
     if(index >= _armor_equipped.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << std::endl;
@@ -1263,7 +1217,7 @@ void GlobalCharacter::_UpdatesAvailableSkills()
     }
 }
 
-vt_video::AnimatedImage *GlobalCharacter::RetrieveBattleAnimation(const std::string &name)
+vt_video::AnimatedImage* GlobalCharacter::RetrieveBattleAnimation(const std::string &name)
 {
     if(_battle_animation.find(name) == _battle_animation.end())
         return &_battle_animation["idle"];
@@ -1284,11 +1238,11 @@ void GlobalCharacter::AcknowledgeGrowth() {
     // Clear the growth members before filling their data
     _hit_points_growth = 0;
     _skill_points_growth = 0;
-    _strength_growth = 0;
-    _vigor_growth = 0;
-    _fortitude_growth = 0;
-    _protection_growth = 0;
-    _agility_growth = 0;
+    _phys_atk_growth = 0;
+    _mag_atk_growth = 0;
+    _phys_def_growth = 0;
+    _mag_def_growth = 0;
+    _stamina_growth = 0;
     _evade_growth = 0.0f;
 
     try {
@@ -1323,19 +1277,19 @@ void GlobalCharacter::AcknowledgeGrowth() {
             AddSkillPoints(_skill_points_growth);
     }
 
-    if(_strength_growth != 0)
-        AddStrength(_strength_growth);
-    if(_vigor_growth != 0)
-        AddVigor(_vigor_growth);
-    if(_fortitude_growth != 0)
-        AddFortitude(_fortitude_growth);
-    if(_protection_growth != 0)
-        AddProtection(_protection_growth);
-    if(_agility_growth != 0)
-        AddAgility(_agility_growth);
+    if(_phys_atk_growth != 0)
+        AddPhysAtk(_phys_atk_growth);
+    if(_mag_atk_growth != 0)
+        AddMagAtk(_mag_atk_growth);
+    if(_phys_def_growth != 0)
+        AddPhysDef(_phys_def_growth);
+    if(_mag_def_growth != 0)
+        AddMagDef(_mag_def_growth);
+    if(_stamina_growth != 0)
+        AddStamina(_stamina_growth);
     if(!IsFloatEqual(_evade_growth, 0.0f))
         AddEvade(_evade_growth);
-} // void GlobalCharacter::AcknowledgeGrowth()
+}
 
 void GlobalCharacter::ApplyActiveStatusEffect(GLOBAL_STATUS status_effect,
                                               GLOBAL_INTENSITY intensity,
@@ -1369,18 +1323,18 @@ void GlobalCharacter::ApplyActiveStatusEffect(GLOBAL_STATUS status_effect,
 
 void GlobalCharacter::_CalculateAttackRatings()
 {
-    _total_physical_attack = _strength.GetValue();
+    _total_physical_attack = _char_phys_atk.GetValue();
 
     if(_weapon_equipped) {
         _total_physical_attack += _weapon_equipped->GetPhysicalAttack();
         for (uint32_t i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
-            _total_magical_attack[i] = (_vigor.GetValue() + _weapon_equipped->GetMagicalAttack())
+            _total_magical_attack[i] = (_char_mag_atk.GetValue() + _weapon_equipped->GetMagicalAttack())
                                        * GetElementalModifier((GLOBAL_ELEMENTAL) i);
         }
     }
     else {
         for (uint32_t i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
-            _total_magical_attack[i] = _vigor.GetValue() * GetElementalModifier((GLOBAL_ELEMENTAL) i);
+            _total_magical_attack[i] = _char_mag_atk.GetValue() * GetElementalModifier((GLOBAL_ELEMENTAL) i);
         }
     }
 }
@@ -1479,11 +1433,11 @@ GlobalEnemy::GlobalEnemy(uint32_t id) :
         _max_skill_points = enemy_data.ReadUInt("skill_points");
         _skill_points = _max_skill_points;
         _experience_points = enemy_data.ReadUInt("experience_points");
-        _strength.SetBase(enemy_data.ReadUInt("strength"));
-        _vigor.SetBase(enemy_data.ReadUInt("vigor"));
-        _fortitude.SetBase(enemy_data.ReadUInt("fortitude"));
-        _protection.SetBase(enemy_data.ReadUInt("protection"));
-        _agility.SetBase(enemy_data.ReadUInt("agility"));
+        _char_phys_atk.SetBase(enemy_data.ReadUInt("phys_atk"));
+        _char_mag_atk.SetBase(enemy_data.ReadUInt("mag_atk"));
+        _char_phys_def.SetBase(enemy_data.ReadUInt("phys_def"));
+        _char_mag_def.SetBase(enemy_data.ReadUInt("mag_def"));
+        _stamina.SetBase(enemy_data.ReadUInt("stamina"));
         _evade.SetBase(enemy_data.ReadFloat("evade"));
         _drunes_dropped = enemy_data.ReadUInt("drunes");
         enemy_data.CloseTable();
@@ -1537,9 +1491,7 @@ GlobalEnemy::GlobalEnemy(uint32_t id) :
     _CalculateAttackRatings();
     _CalculateDefenseRatings();
     _CalculateEvadeRatings();
-} // GlobalEnemy::GlobalEnemy(uint32_t id)
-
-
+}
 
 bool GlobalEnemy::AddSkill(uint32_t skill_id)
 {
@@ -1566,8 +1518,6 @@ bool GlobalEnemy::AddSkill(uint32_t skill_id)
     return true;
 }
 
-
-
 void GlobalEnemy::_Initialize()
 {
     // Add all new skills that should be available at the current experience level
@@ -1582,11 +1532,11 @@ void GlobalEnemy::_Initialize()
     _max_hit_points = RandomDiffValue(_max_hit_points, _max_hit_points / 10.0f);
     _max_skill_points = RandomDiffValue(_max_skill_points, _max_skill_points / 10.0f);
     _experience_points = RandomDiffValue(_experience_points, _experience_points / 10.0f);
-    _strength.SetBase(RandomDiffValue(_strength.GetBase(), _strength.GetBase() / 10.0f));
-    _vigor.SetBase(RandomDiffValue(_vigor.GetBase(), _vigor.GetBase() / 10.0f));
-    _fortitude.SetBase(RandomDiffValue(_fortitude.GetBase(), _fortitude.GetBase() / 10.0f));
-    _protection.SetBase(RandomDiffValue(_protection.GetBase(), _protection.GetBase() / 10.0f));
-    _agility.SetBase(RandomDiffValue(_agility.GetBase(), _agility.GetBase() / 10.0f));
+    _char_phys_atk.SetBase(RandomDiffValue(_char_phys_atk.GetBase(), _char_phys_atk.GetBase() / 10.0f));
+    _char_mag_atk.SetBase(RandomDiffValue(_char_mag_atk.GetBase(), _char_mag_atk.GetBase() / 10.0f));
+    _char_phys_def.SetBase(RandomDiffValue(_char_phys_def.GetBase(), _char_phys_def.GetBase() / 10.0f));
+    _char_mag_def.SetBase(RandomDiffValue(_char_mag_def.GetBase(), _char_mag_def.GetBase() / 10.0f));
+    _stamina.SetBase(RandomDiffValue(_stamina.GetBase(), _stamina.GetBase() / 10.0f));
 
     // Multiply the evade value by 10 to permit the decimal to be kept
     float evade = _evade.GetBase() * 10.0f;
@@ -1652,9 +1602,7 @@ void GlobalParty::AddCharacter(GlobalCharacter *character, int32_t index)
     }
 }
 
-
-
-GlobalCharacter *GlobalParty::RemoveCharacterAtIndex(uint32_t index)
+GlobalCharacter* GlobalParty::RemoveCharacterAtIndex(uint32_t index)
 {
     if(index >= _characters.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: "
@@ -1669,8 +1617,6 @@ GlobalCharacter *GlobalParty::RemoveCharacterAtIndex(uint32_t index)
 
     return removed_character;
 }
-
-
 
 GlobalCharacter *GlobalParty::RemoveCharacterByID(uint32_t id)
 {
@@ -1695,9 +1641,7 @@ GlobalCharacter *GlobalParty::RemoveCharacterByID(uint32_t id)
     return removed_character;
 }
 
-
-
-GlobalCharacter *GlobalParty::GetCharacterAtIndex(uint32_t index) const
+GlobalCharacter* GlobalParty::GetCharacterAtIndex(uint32_t index) const
 {
     if(index >= _characters.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded current party size: " << index << std::endl;
@@ -1707,9 +1651,7 @@ GlobalCharacter *GlobalParty::GetCharacterAtIndex(uint32_t index) const
     return _characters[index];
 }
 
-
-
-GlobalCharacter *GlobalParty::GetCharacterByID(uint32_t id) const
+GlobalCharacter* GlobalParty::GetCharacterByID(uint32_t id) const
 {
     if(_allow_duplicates) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to retrieve character when duplicates were allowed in the party: " << id << std::endl;
@@ -1726,8 +1668,6 @@ GlobalCharacter *GlobalParty::GetCharacterByID(uint32_t id) const
     return nullptr;
 }
 
-
-
 void GlobalParty::SwapCharactersByIndex(uint32_t first_index, uint32_t second_index)
 {
     if(first_index == second_index) {
@@ -1743,12 +1683,10 @@ void GlobalParty::SwapCharactersByIndex(uint32_t first_index, uint32_t second_in
         return;
     }
 
-    GlobalCharacter *tmp = _characters[first_index];
+    GlobalCharacter* tmp = _characters[first_index];
     _characters[first_index] = _characters[second_index];
     _characters[second_index] = tmp;
 }
-
-
 
 void GlobalParty::SwapCharactersByID(uint32_t first_id, uint32_t second_id)
 {
@@ -1786,9 +1724,7 @@ void GlobalParty::SwapCharactersByID(uint32_t first_id, uint32_t second_id)
     *second_position = tmp;
 }
 
-
-
-GlobalCharacter *GlobalParty::ReplaceCharacterByIndex(uint32_t index, GlobalCharacter *new_character)
+GlobalCharacter* GlobalParty::ReplaceCharacterByIndex(uint32_t index, GlobalCharacter* new_character)
 {
     if(new_character == nullptr) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a nullptr new_character argument" << std::endl;
@@ -1804,9 +1740,7 @@ GlobalCharacter *GlobalParty::ReplaceCharacterByIndex(uint32_t index, GlobalChar
     return tmp;
 }
 
-
-
-GlobalCharacter *GlobalParty::ReplaceCharacterByID(uint32_t id, GlobalCharacter *new_character)
+GlobalCharacter* GlobalParty::ReplaceCharacterByID(uint32_t id, GlobalCharacter *new_character)
 {
     if(_allow_duplicates) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to replace character when duplicates were allowed in the party: " << id << std::endl;
@@ -1833,8 +1767,6 @@ GlobalCharacter *GlobalParty::ReplaceCharacterByID(uint32_t id, GlobalCharacter 
     return removed_character;
 }
 
-
-
 float GlobalParty::AverageExperienceLevel() const
 {
     if(_characters.empty())
@@ -1846,16 +1778,12 @@ float GlobalParty::AverageExperienceLevel() const
     return (xp_level_sum / static_cast<float>(_characters.size()));
 }
 
-
-
 void GlobalParty::AddHitPoints(uint32_t hp)
 {
     for(std::vector<GlobalCharacter *>::iterator i = _characters.begin(); i != _characters.end(); ++i) {
         (*i)->AddHitPoints(hp);
     }
 }
-
-
 
 void GlobalParty::AddSkillPoints(uint32_t sp)
 {

@@ -234,7 +234,7 @@ void BattleEncounterEvent::AddEnemy(uint32_t enemy_id, float position_x, float p
 void BattleEncounterEvent::_Start()
 {
     try {
-        // Check the current map stamina and apply a malus on agility when it is low
+        // Check the current map stamina and apply a malus on stamina when it is low
         MapMode* MM = MapMode::CurrentInstance();
         if (MM)
             MM->ApplyPotentialStaminaMalus();

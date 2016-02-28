@@ -187,7 +187,7 @@ function _CreateObjects()
     -- Adds a few tempting but treacherous treasures...
     local jars_array = {
         -- Treasure name, x, y, item
-        {"Elbrus_Shrine_trap1", 33, 25, 1004}, -- Periwinkle potion (Strength)
+        {"Elbrus_Shrine_trap1", 33, 25, 1004}, -- Periwinkle potion (Physical Attack)
         {"Elbrus_Shrine_trap2", 33, 29, 3001}, -- Copper ore
         {"Elbrus_Shrine_trap3", 8, 23, 1001}, -- Minor Elixir
     };

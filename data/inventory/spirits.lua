@@ -39,7 +39,7 @@ spirits[ARDORIS] = {
             [DEMONA]   = 10108, -- Petrify
             [OBLIVION] = 10163  -- Counter
         },
-        defence = {
+        defense = {
             [ARDORIS]  = 10101, -- Fire circle
             [UNDINE]   = 10103, -- Fog
             [SYLPHID]  = 10105, -- Focus
@@ -71,7 +71,7 @@ spirits[UNDINE] = {
             [DEMONA]   = 10126, -- Poison
             [OBLIVION] = 10128  -- Tsunami
         },
-        defence = {
+        defense = {
             [ARDORIS]  = 10103, -- Fog
             [UNDINE]   = 10121, -- Water circle
             [SYLPHID]  = 10123, -- Slow
@@ -103,7 +103,7 @@ spirits[SYLPHID] = {
             [DEMONA]   = 10134, -- Magic Drain
             [OBLIVION] = 10136  -- Storm
         },
-        defence = {
+        defense = {
             [ARDORIS]  = 10105, -- Focus
             [UNDINE]   = 10123, -- Slow
             [SYLPHID]  = 10131, -- Wind Circle
@@ -135,7 +135,7 @@ spirits[DRYAD] = {
             [DEMONA]   = 10117, -- Drain
             [OBLIVION] = 10119  -- Meteor
         },
-        defence = {
+        defense = {
             [ARDORIS]  = 10001, -- Shield
             [UNDINE]   = 10113, -- Magical Armor
             [SYLPHID]  = 10114, -- Haste
@@ -167,7 +167,7 @@ spirits[FAIRY] = {
             [DEMONA]   = 10162, -- ? (antipode)
             [OBLIVION] = 10143  -- Sun Haze
         },
-        defence = {
+        defense = {
             [ARDORIS]  = 10107, -- Life
             [UNDINE]   = 10125, -- Heal
             [SYLPHID]  = 10133, -- Regen
@@ -199,7 +199,7 @@ spirits[DEMONA] = {
             [DEMONA]   = 10150, -- Death
             [OBLIVION] = 10152  -- Doom
         },
-        defence = {
+        defense = {
             [ARDORIS]  = 10109, -- Rage
             [UNDINE]   = 10127, -- Stun
             [SYLPHID]  = 10135, -- Silence
@@ -230,7 +230,7 @@ spirits[OBLIVION] = {
             [DEMONA]   = 10152, -- Doom
             [OBLIVION] = 10160  -- Dispell
         },
-        defence = {
+        defense = {
             [ARDORIS]  = 10164, -- Phoenix Call
             [UNDINE]   = 10129, -- Heal Rain
             [SYLPHID]  = 10137, -- Stop

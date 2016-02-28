@@ -97,7 +97,7 @@ BattleMode::BattleMode() :
     _actor_state_paused(false),
     _scene_mode(false),
     _battle_type(BATTLE_TYPE_WAIT),
-    _highest_agility(0),
+    _highest_stamina(0),
     _battle_type_time_factor(BATTLE_WAIT_FACTOR),
     _is_boss_battle(false),
     _hero_init_boost(false),
@@ -538,7 +538,7 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         VideoManager->DisableFadeEffect();
         GetEffectSupervisor().DisableEffects();
 
-        // Display a message about the agility bonus related event
+        // Display a message about the stamina bonus related event
         if (_hero_init_boost && _enemy_init_boost)
             GetIndicatorSupervisor().AddShortNotice(UTranslate("Double Rush!"), "data/gui/menus/star.png");
         else if (_hero_init_boost)
@@ -737,25 +737,25 @@ void BattleMode::_Initialize()
     // Determine the origin position for all characters and enemies
     _DetermineActorLocations();
 
-    // Find the actor with the highext agility rating
-    _highest_agility = 0;
+    // Find the actor with the highest stamina rating
+    _highest_stamina = 0;
     for(uint32_t i = 0; i < _character_actors.size(); ++i) {
-        if(_character_actors[i]->GetAgility() > _highest_agility)
-            _highest_agility = _character_actors[i]->GetAgility();
+        if(_character_actors[i]->GetStamina() > _highest_stamina)
+            _highest_stamina = _character_actors[i]->GetStamina();
     }
 
     for(uint32_t i = 0; i < _enemy_actors.size(); ++i) {
-        if(_enemy_actors[i]->GetAgility() > _highest_agility)
-            _highest_agility = _enemy_actors[i]->GetAgility();
+        if(_enemy_actors[i]->GetStamina() > _highest_stamina)
+            _highest_stamina = _enemy_actors[i]->GetStamina();
     }
 
-    if(_highest_agility == 0) {
-        _highest_agility = 1; // Prevent potential segfault.
-        PRINT_WARNING << "The highest agility found was 0" << std::endl;
+    if(_highest_stamina == 0) {
+        _highest_stamina = 1; // Prevent potential segfault.
+        PRINT_WARNING << "The highest stamina found was 0" << std::endl;
     }
 
-    // Adjust each actor's idle state time based on their agility proportion to the fastest actor
-    // If an actor's agility is half that of the actor with the highest agility, then they will have an
+    // Adjust each actor's idle state time based on their stamina proportion to the fastest actor
+    // If an actor's stamina is half that of the actor with the highest stamina, then they will have an
     // idle state time that is twice that of the slowest actor.
 
     // We also factor the idle time using the battle type setting
@@ -789,7 +789,7 @@ void BattleMode::_Initialize()
     // Randomize each actor's initial idle state progress to be somewhere in the lower half of their total
     // idle state time. This is performed so that every battle doesn't start will all stamina icons piled on top
     // of one another at the bottom of the stamina bar.
-    // Also, depending on who attacked first, the hero or enemy party will receive an agility boost at battle start.
+    // Also, depending on who attacked first, the hero or enemy party will receive an stamina boost at battle start.
     for(uint32_t i = 0; i < _character_actors.size(); ++i) {
         if(!_character_actors[i]->IsAlive())
             continue;
@@ -816,14 +816,14 @@ void BattleMode::_Initialize()
 
 void BattleMode::SetActorIdleStateTime(BattleActor* actor)
 {
-    if(!actor || actor->GetAgility() == 0)
+    if(!actor || actor->GetStamina() == 0)
         return;
 
-    if(_highest_agility == 0 || _battle_type_time_factor == 0.0f)
+    if(_highest_stamina == 0 || _battle_type_time_factor == 0.0f)
         return;
 
-    float proportion = static_cast<float>(_highest_agility)
-                       / static_cast<float>(actor->GetAgility() * _battle_type_time_factor);
+    float proportion = static_cast<float>(_highest_stamina)
+                       / static_cast<float>(actor->GetStamina() * _battle_type_time_factor);
 
     actor->SetIdleStateTime(static_cast<uint32_t>(MIN_IDLE_WAIT_TIME * proportion));
 }

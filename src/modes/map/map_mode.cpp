@@ -540,7 +540,7 @@ void MapMode::ApplyPotentialStaminaMalus()
     for (uint32_t i = 0; i < characters->size() && i < GLOBAL_MAX_PARTY_SIZE; ++i) {
         // Apply the effect only on living characters.
         if (characters->at(i)->IsAlive()) {
-            _status_effect_supervisor.ChangeActiveStatusEffect(characters->at(i), GLOBAL_STATUS_AGILITY,
+            _status_effect_supervisor.ChangeActiveStatusEffect(characters->at(i), GLOBAL_STATUS_STAMINA,
                                                                intensity, STAMINA_FULL * 2, 0, false);
         }
     }
@@ -801,7 +801,7 @@ void MapMode::_UpdateExplore()
                 }
                 case ENEMY_TYPE: {
                     EnemySprite* enemy = reinterpret_cast<EnemySprite *>(obj);
-                    // The team has requested to start a battle and get an agility boost at battle start for it.
+                    // The team has requested to start a battle and get an stamina boost at battle start for it.
                     StartEnemyEncounter(enemy, true, false);
                     return;
                     break;
@@ -860,7 +860,7 @@ void MapMode::StartEnemyEncounter(EnemySprite* enemy, bool hero_init_boost, bool
     }
 
     // Otherwise, we start a battle
-    // Check the current map stamina and apply a malus on agility when it is low
+    // Check the current map stamina and apply a malus on stamina when it is low
     ApplyPotentialStaminaMalus();
 
     // Start a map-to-battle transition animation sequence

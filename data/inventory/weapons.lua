@@ -288,8 +288,8 @@ weapons[10014] = {
     },
 
     status_effects = {
-        [vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
-        [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+        [vt_global.GameGlobal.GLOBAL_STATUS_MAG_DEF] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
+        [vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER,
         [vt_global.GameGlobal.GLOBAL_STATUS_LIFE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER
     },
 
@@ -340,11 +340,11 @@ weapons[10999] = {
     },
 
     status_effects = {
-        [vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [vt_global.GameGlobal.GLOBAL_STATUS_PROTECTION] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [vt_global.GameGlobal.GLOBAL_STATUS_VIGOR] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
-        [vt_global.GameGlobal.GLOBAL_STATUS_AGILITY] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_MAG_DEF] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+        [vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
         [vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
         [vt_global.GameGlobal.GLOBAL_STATUS_HP] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
         [vt_global.GameGlobal.GLOBAL_STATUS_SP] = vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,

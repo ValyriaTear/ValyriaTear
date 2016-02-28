@@ -118,7 +118,7 @@ class GlobalAttackPoint
 {
 public:
     //! \param actor_owner A pointer to the GlobalActor owner of this attack point
-    GlobalAttackPoint(GlobalActor *owner);
+    GlobalAttackPoint(GlobalActor* owner);
 
     ~GlobalAttackPoint() {
         _actor_owner = nullptr;
@@ -134,7 +134,7 @@ public:
     *** table containing the attack point when it finishes loading the data, so the calling routine
     *** must remember to close the table after this call is made.
     **/
-    bool LoadData(vt_script::ReadScriptDescriptor &script);
+    bool LoadData(vt_script::ReadScriptDescriptor& script);
 
     /** \brief Determines the total physical and magical defense of the attack point
     *** \param equipped_armor A pointer to the armor equipped on the attack point, or nullptr if no armor is equipped
@@ -143,7 +143,7 @@ public:
     *** and the properties of the equipped armor to calculate the attack point's total physical and magical defense.
     *** This method should be called whenever the actor's base defense stats or equipped armor on this point changes.
     **/
-    void CalculateTotalDefense(const GlobalArmor *equipped_armor);
+    void CalculateTotalDefense(const GlobalArmor* equipped_armor);
 
     /** \brief Determines the total evade rating of the attack point
     ***
@@ -155,11 +155,11 @@ public:
 
     //! \name Class Member Access Functions
     //@{
-    vt_utils::ustring &GetName() {
+    vt_utils::ustring& GetName() {
         return _name;
     }
 
-    GlobalActor *GetActorOwner() const {
+    GlobalActor* GetActorOwner() const {
         return _actor_owner;
     }
 
@@ -171,12 +171,12 @@ public:
         return _y_position;
     }
 
-    float GetFortitudeModifier() const {
-        return _fortitude_modifier;
+    float GetPhysDefModifier() const {
+        return _phys_def_modifier;
     }
 
-    float GetProtectionModifier() const {
-        return _protection_modifier;
+    float GetMagDefModifier() const {
+        return _mag_def_modifier;
     }
 
     float GetEvadeModifier() const {
@@ -203,7 +203,7 @@ public:
     }
 
     //! \note Use this method with extreme caution. It does not update defense/evade totals or any other members
-    void SetActorOwner(GlobalActor *new_owner) {
+    void SetActorOwner(GlobalActor* new_owner) {
         _actor_owner = new_owner;
     }
     //@}
@@ -216,7 +216,7 @@ private:
     vt_utils::ustring _name;
 
     //! \brief A pointer to the actor which "owns" this attack point (i.e., the attack point is a location on the actor)
-    GlobalActor *_actor_owner;
+    GlobalActor* _actor_owner;
 
     /** \brief The position of the physical attack point relative to the actor's battle sprite
     *** These members treat the bottom center of the sprite as the origin (0, 0) and increase in the
@@ -224,22 +224,23 @@ private:
     *** location of the attack point. The units of these two members are in number of pixels. The _y_position
     *** member should always be positive, by _x_position may be either positive or negative.
     **/
-    int16_t _x_position, _y_position;
+    int16_t _x_position;
+    int16_t _y_position;
 
     /** \brief The defense and evasion percentage modifiers for this attack point
     ***
-    *** These are called "modifiers" because they modify the value of fortitude, protection, and evade ratings of the
-    *** actor. They represent percentage change from the base stat. So for example, a fortitude modifer that is 0.25f
-    *** increases the fortitude of the attack point by 25%. If the base protection rating was 10 and the protection
-    *** modifier was -0.30f, the resulting protection for the attack point would be: 10 + (10 * -0.30f) = 7.
+    *** These are called "modifiers" because they modify the value of phys_def, mag_def, and evade ratings of the
+    *** actor. They represent percentage change from the base stat. So for example, a phys_def modifer that is 0.25f
+    *** increases the phys_def of the attack point by 25%. If the base mag_def rating was 10 and the mag_def
+    *** modifier was -0.30f, the resulting mag_def for the attack point would be: 10 + (10 * -0.30f) = 7.
     ***
     *** The lower bound for each modifier is -1.0f (-100%), which will result in a value of zero for that stat. No
     *** actor stats can be negative so even if the modifier drops below -1.0f, the resulting value will still be zero.
     *** There is no theoretical upper bound, but it is usually advised to keep it under 1.0f (100%).
     **/
     //@{
-    float _fortitude_modifier;
-    float _protection_modifier;
+    float _phys_def_modifier;
+    float _mag_def_modifier;
     float _evade_modifier;
     //@}
 
@@ -352,44 +353,44 @@ public:
         return _experience_points;
     }
 
-    uint32_t GetStrength() const {
-        return (uint32_t)_strength.GetValue();
+    uint32_t GetPhysAtk() const {
+        return (uint32_t)_char_phys_atk.GetValue();
     }
 
-    float GetStrengthModifier() const {
-        return _strength.GetModifier();
+    float GetPhysAtkModifier() const {
+        return _char_phys_atk.GetModifier();
     }
 
-    uint32_t GetVigor() const {
-        return (uint32_t)_vigor.GetValue();
+    uint32_t GetMagAtk() const {
+        return (uint32_t)_char_mag_atk.GetValue();
     }
 
-    float GetVigorModifier() const {
-        return _vigor.GetModifier();
+    float GetMagAtkModifier() const {
+        return _char_mag_atk.GetModifier();
     }
 
-    uint32_t GetFortitude() const {
-        return (uint32_t)_fortitude.GetValue();
+    uint32_t GetPhysDef() const {
+        return (uint32_t)_char_phys_def.GetValue();
     }
 
-    float GetFortitudeModifier() const {
-        return _fortitude.GetModifier();
+    float GetPhysDefModifier() const {
+        return _char_phys_def.GetModifier();
     }
 
-    uint32_t GetProtection() const {
-        return (uint32_t)_protection.GetValue();
+    uint32_t GetMagDef() const {
+        return (uint32_t)_char_mag_def.GetValue();
     }
 
-    float GetProtectionModifier() const {
-        return _protection.GetModifier();
+    float GetMagDefModifier() const {
+        return _char_mag_def.GetModifier();
     }
 
-    uint32_t GetAgility() const {
-        return (uint32_t)_agility.GetValue();
+    uint32_t GetStamina() const {
+        return (uint32_t)_stamina.GetValue();
     }
 
-    float GetAgilityModifier() const {
-        return _agility.GetModifier();
+    float GetStaminaModifier() const {
+        return _stamina.GetModifier();
     }
 
     float GetEvade() const {
@@ -473,57 +474,57 @@ public:
         if(_skill_points > _max_skill_points) _skill_points = _max_skill_points;
     }
 
-    virtual void SetStrength(uint32_t st) {
-        _strength.SetBase((float) st);
+    virtual void SetPhysAtk(uint32_t base) {
+        _char_phys_atk.SetBase((float) base);
         _CalculateAttackRatings();
     }
 
-    virtual void SetStrengthModifier(float mod) {
-        _strength.SetModifier(mod);
+    virtual void SetPhysAtkModifier(float mod) {
+        _char_phys_atk.SetModifier(mod);
         _CalculateAttackRatings();
     }
 
-    virtual void SetVigor(uint32_t vi) {
-        _vigor.SetBase((float) vi);
+    virtual void SetMagAtk(uint32_t base) {
+        _char_mag_atk.SetBase((float) base);
         _CalculateAttackRatings();
     }
 
-    virtual void SetVigorModifier(float mod) {
-        _vigor.SetModifier(mod);
+    virtual void SetMagAtkModifier(float mod) {
+        _char_mag_atk.SetModifier(mod);
         _CalculateAttackRatings();
     }
 
-    virtual void SetFortitude(uint32_t fo) {
-        _fortitude.SetBase((float) fo);
+    virtual void SetPhysDef(uint32_t base) {
+        _char_phys_def.SetBase((float) base);
         _CalculateDefenseRatings();
     }
 
-    virtual void SetFortitudeModifier(float mod) {
-        _fortitude.SetModifier(mod);
+    virtual void SetPhysDefModifier(float mod) {
+        _char_phys_def.SetModifier(mod);
         _CalculateDefenseRatings();
     }
 
-    virtual void SetProtection(uint32_t pr) {
-        _protection.SetBase((float) pr);
+    virtual void SetMagDef(uint32_t base) {
+        _char_mag_def.SetBase((float) base);
         _CalculateDefenseRatings();
     }
 
-    virtual void SetProtectionModifier(float mod) {
-        _protection.SetModifier(mod);
+    virtual void SetMagDefModifier(float mod) {
+        _char_mag_def.SetModifier(mod);
         _CalculateDefenseRatings();
     }
 
     //! Made virtual to permit Battle Actors to recompute the idle state time.
-    virtual void SetAgility(uint32_t ag) {
-        _agility.SetBase((float) ag);
+    virtual void SetStamina(uint32_t base) {
+        _stamina.SetBase((float) base);
     }
 
-    virtual void SetAgilityModifier(float mod) {
-        _agility.SetModifier(mod);
+    virtual void SetStaminaModifier(float mod) {
+        _stamina.SetModifier(mod);
     }
 
-    virtual void SetEvade(float ev) {
-        _evade.SetBase(ev);
+    virtual void SetEvade(float base) {
+        _evade.SetBase(base);
         _CalculateEvadeRatings();
     }
 
@@ -578,25 +579,25 @@ public:
     //! \note The number of skill points will be decreased if they are greater than the new maximum
     void SubtractMaxSkillPoints(uint32_t amount);
 
-    virtual void AddStrength(uint32_t amount);
+    virtual void AddPhysAtk(uint32_t amount);
 
-    virtual void SubtractStrength(uint32_t amount);
+    virtual void SubtractPhysAtk(uint32_t amount);
 
-    virtual void AddVigor(uint32_t amount);
+    virtual void AddMagAtk(uint32_t amount);
 
-    virtual void SubtractVigor(uint32_t amount);
+    virtual void SubtractMagAtk(uint32_t amount);
 
-    virtual void AddFortitude(uint32_t amount);
+    virtual void AddPhysDef(uint32_t amount);
 
-    virtual void SubtractFortitude(uint32_t amount);
+    virtual void SubtractPhysDef(uint32_t amount);
 
-    virtual void AddProtection(uint32_t amount);
+    virtual void AddMagDef(uint32_t amount);
 
-    virtual void SubtractProtection(uint32_t amount);
+    virtual void SubtractMagDef(uint32_t amount);
 
-    void AddAgility(uint32_t amount);
+    void AddStamina(uint32_t amount);
 
-    void SubtractAgility(uint32_t amount);
+    void SubtractStamina(uint32_t amount);
 
     void AddEvade(float amount);
 
@@ -640,28 +641,28 @@ protected:
     uint32_t _max_skill_points;
 
     //! \brief Used to determine the actor's physical attack rating
-    GlobalStat _strength;
+    GlobalStat _char_phys_atk;
 
     //! \brief Used to determine the actor's magical attack rating
-    GlobalStat _vigor;
+    GlobalStat _char_mag_atk;
 
     //! \brief Used to determine the actor's physical defense rating
-    GlobalStat _fortitude;
+    GlobalStat _char_phys_def;
 
     //! \brief Used to determine the actor's magical defense rating
-    GlobalStat _protection;
+    GlobalStat _char_mag_def;
 
     //! \brief Used to calculate the time it takes to recover stamina in battles
-    GlobalStat _agility;
+    GlobalStat _stamina;
 
     //! \brief The attack evade percentage of the actor, ranged from 0.0 to 1.0
     GlobalStat _evade;
     //@}
 
-    //! \brief The sum of the character's strength and their weapon's physical attack
+    //! \brief The sum of the character's phys_atk and their weapon's physical attack
     uint32_t _total_physical_attack;
 
-    //! \brief The sum of the character's vigor and their weapon's magical attack for each elements.
+    //! \brief The sum of the character's mag_atk and their weapon's magical attack for each elements.
     uint32_t _total_magical_attack[GLOBAL_ELEMENTAL_TOTAL];
 
     //! \brief Tells the current mag atk/def stats modifier of the actor against each elemental.
@@ -689,7 +690,7 @@ protected:
     std::string _ai_script_filename;
 
     /** \brief Calculates an actor's physical and magical attack ratings
-    *** This function sums the actor's strength/vigor with their weapon's attack ratings
+    *** This function sums the actor's phys_atk/mag_atk with their weapon's attack ratings
     *** and places the result in total physical/magical attack members
     **/
     virtual void _CalculateAttackRatings();
@@ -777,81 +778,81 @@ public:
         _experience_level = xp_level;
     }
 
-    uint32_t GetStrengthBase() const {
-        return (uint32_t) _strength.GetBase();
+    uint32_t GetPhysAtkBase() const {
+        return (uint32_t) _char_phys_atk.GetBase();
     }
-    uint32_t GetVigorBase() const {
-        return (uint32_t) _vigor.GetBase();
+    uint32_t GetMagAtkBase() const {
+        return (uint32_t) _char_mag_atk.GetBase();
     }
-    uint32_t GetFortitudeBase() const {
-        return (uint32_t) _fortitude.GetBase();
+    uint32_t GetPhysDefBase() const {
+        return (uint32_t) _char_phys_def.GetBase();
     }
-    uint32_t GetProtectionBase() const {
-        return (uint32_t) _protection.GetBase();
+    uint32_t GetMagDefBase() const {
+        return (uint32_t) _char_mag_def.GetBase();
     }
-    uint32_t GetAgilityBase() const {
-        return (uint32_t) _agility.GetBase();
+    uint32_t GetStaminaBase() const {
+        return (uint32_t) _stamina.GetBase();
     }
     float GetEvadeBase() const {
         return _evade.GetBase();
     }
 
     // Character's stats changers, taking equipment in account
-    virtual void SetStrength(uint32_t st) {
-        _strength.SetBase(st);
+    virtual void SetPhysAtk(uint32_t base) {
+        _char_phys_atk.SetBase(base);
         _CalculateAttackRatings();
     }
 
-    virtual void SetStrengthModifier(float mod) {
-        _strength.SetModifier(mod);
+    virtual void SetPhysAtkModifier(float mod) {
+        _char_phys_atk.SetModifier(mod);
         _CalculateAttackRatings();
     }
 
-    virtual void SetVigor(uint32_t vi) {
-        _vigor.SetBase(vi);
+    virtual void SetMagAtk(uint32_t base) {
+        _char_mag_atk.SetBase(base);
         _CalculateAttackRatings();
     }
 
-    virtual void SetVigorModifier(float mod) {
-        _vigor.SetModifier(mod);
+    virtual void SetMagAtkModifier(float mod) {
+        _char_mag_atk.SetModifier(mod);
         _CalculateAttackRatings();
     }
 
-    virtual void SetFortitude(uint32_t fo) {
-        _fortitude.SetBase(fo);
+    virtual void SetPhysDef(uint32_t base) {
+        _char_phys_def.SetBase(base);
         _CalculateDefenseRatings();
     }
 
-    virtual void SetFortitudeModifier(float mod) {
-        _fortitude.SetModifier(mod);
+    virtual void SetPhysDefModifier(float mod) {
+        _char_phys_def.SetModifier(mod);
         _CalculateDefenseRatings();
     }
 
-    virtual void SetProtection(uint32_t pr) {
-        _protection.SetBase(pr);
+    virtual void SetMagDef(uint32_t pr) {
+        _char_mag_def.SetBase(pr);
         _CalculateDefenseRatings();
     }
 
-    virtual void SetProtectionModifier(float mod) {
-        _protection.SetModifier(mod);
+    virtual void SetMagDefModifier(float mod) {
+        _char_mag_def.SetModifier(mod);
         _CalculateDefenseRatings();
     }
 
-    virtual void AddStrength(uint32_t amount);
+    virtual void AddPhysAtk(uint32_t amount);
 
-    virtual void SubtractStrength(uint32_t amount);
+    virtual void SubtractPhysAtk(uint32_t amount);
 
-    virtual void AddVigor(uint32_t amount);
+    virtual void AddMagAtk(uint32_t amount);
 
-    virtual void SubtractVigor(uint32_t amount);
+    virtual void SubtractMagAtk(uint32_t amount);
 
-    virtual void AddFortitude(uint32_t amount);
+    virtual void AddPhysDef(uint32_t amount);
 
-    virtual void SubtractFortitude(uint32_t amount);
+    virtual void SubtractPhysDef(uint32_t amount);
 
-    virtual void AddProtection(uint32_t amount);
+    virtual void AddMagDef(uint32_t amount);
 
-    virtual void SubtractProtection(uint32_t amount);
+    virtual void SubtractMagDef(uint32_t amount);
 
     /** \brief Adds experience points to the character
     *** \param xp The amount of experience points to add
@@ -859,19 +860,19 @@ public:
     **/
     bool AddExperiencePoints(uint32_t xp);
 
-    GlobalArmor *EquipHeadArmor(GlobalArmor *armor) {
+    GlobalArmor* EquipHeadArmor(GlobalArmor* armor) {
         return _EquipArmor(armor, GLOBAL_POSITION_HEAD);
     }
 
-    GlobalArmor *EquipTorsoArmor(GlobalArmor *armor) {
+    GlobalArmor* EquipTorsoArmor(GlobalArmor* armor) {
         return _EquipArmor(armor, GLOBAL_POSITION_TORSO);
     }
 
-    GlobalArmor *EquipArmArmor(GlobalArmor *armor) {
+    GlobalArmor* EquipArmArmor(GlobalArmor* armor) {
        return _EquipArmor(armor, GLOBAL_POSITION_ARMS);
     }
 
-    GlobalArmor *EquipLegArmor(GlobalArmor *armor) {
+    GlobalArmor* EquipLegArmor(GlobalArmor* armor) {
         return _EquipArmor(armor, GLOBAL_POSITION_LEGS);
     }
 
@@ -879,9 +880,9 @@ public:
         return _armor_equipped;
     }
 
-    GlobalArmor *GetArmorEquipped(uint32_t index) const;
+    GlobalArmor* GetArmorEquipped(uint32_t index) const;
 
-    GlobalWeapon *GetWeaponEquipped() const {
+    GlobalWeapon* GetWeaponEquipped() const {
         return _weapon_equipped;
     }
 
@@ -891,7 +892,7 @@ public:
     ***
     *** This function will also automatically re-calculate all attack ratings, elemental, and status bonuses.
     **/
-    GlobalWeapon *EquipWeapon(GlobalWeapon *weapon);
+    GlobalWeapon* EquipWeapon(GlobalWeapon* weapon);
 
     //! \brief Tells whether the actor has got equipment.
     bool HasEquipment() const;
@@ -1040,24 +1041,24 @@ public:
         return _skill_points_growth;
     }
 
-    uint32_t GetStrengthGrowth() const {
-        return _strength_growth;
+    uint32_t GetPhysAtkGrowth() const {
+        return _phys_atk_growth;
     }
 
-    uint32_t GetVigorGrowth() const {
-        return _vigor_growth;
+    uint32_t GetMagAtkGrowth() const {
+        return _mag_atk_growth;
     }
 
-    uint32_t GetFortitudeGrowth() const {
-        return _fortitude_growth;
+    uint32_t GetPhysDefGrowth() const {
+        return _phys_def_growth;
     }
 
-    uint32_t GetProtectionGrowth() const {
-        return _protection_growth;
+    uint32_t GetMagDefGrowth() const {
+        return _mag_def_growth;
     }
 
-    uint32_t GetAgilityGrowth() const {
-        return _agility_growth;
+    uint32_t GetStaminaGrowth() const {
+        return _stamina_growth;
     }
 
     float GetEvadeGrowth() const {
@@ -1240,11 +1241,11 @@ private:
     //@{
     uint32_t _hit_points_growth;
     uint32_t _skill_points_growth;
-    uint32_t _strength_growth;
-    uint32_t _vigor_growth;
-    uint32_t _fortitude_growth;
-    uint32_t _protection_growth;
-    uint32_t _agility_growth;
+    uint32_t _phys_atk_growth;
+    uint32_t _mag_atk_growth;
+    uint32_t _phys_def_growth;
+    uint32_t _mag_def_growth;
+    uint32_t _stamina_growth;
     float _evade_growth;
     //@}
 
@@ -1267,7 +1268,7 @@ private:
     std::vector<GlobalSkill*> _new_skills_learned;
 
     /** \brief Calculates an actor's physical and magical attack ratings
-    *** This function sums the actor's strength/vigor with their weapon's attack ratings
+    *** This function sums the actor's phys_atk/mag_atk with their weapon's attack ratings
     *** and places the result in total physical/magical attack members
     **/
     virtual void _CalculateAttackRatings();
@@ -1282,7 +1283,7 @@ private:
 *** \brief Representation of enemies that fight in battles
 ***
 *** The game handles enemies a little different than most RPGs. Instead of an
-*** enemy always having the same statistics for health, strength, etc., enemy
+*** enemy always having the same statistics for health, phys_atk, etc., enemy
 *** stats are randomized so that the same type of enemy does not always have
 *** the exact same stats. Guassian random values are applied to each enemy's
 *** "base" stats before the player begins battle with that enemy, making

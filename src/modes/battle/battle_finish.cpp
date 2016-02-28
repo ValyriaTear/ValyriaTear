@@ -76,11 +76,11 @@ const float SPOILS_WINDOW_HEIGHT   = 220.0f;
 CharacterGrowth::CharacterGrowth(GlobalCharacter* ch) :
     hit_points(0),
     skill_points(0),
-    strength(0),
-    vigor(0),
-    fortitude(0),
-    protection(0),
-    agility(0),
+    phys_atk(0),
+    mag_atk(0),
+    phys_def(0),
+    mag_def(0),
+    stamina(0),
     evade(0.0f),
     _character(ch),
     _experience_levels_gained(0)
@@ -90,7 +90,6 @@ CharacterGrowth::CharacterGrowth(GlobalCharacter* ch) :
     }
 }
 
-
 void CharacterGrowth::UpdateGrowthData() {
     while (_character->ReachedNewExperienceLevel()) {
         // Makes the character gain its level.
@@ -99,11 +98,11 @@ void CharacterGrowth::UpdateGrowthData() {
         // Update the battle finish growth info members
         hit_points += _character->GetHitPointsGrowth();
         skill_points += _character->GetSkillPointsGrowth();
-        strength += _character->GetStrengthGrowth();
-        vigor += _character->GetVigorGrowth();
-        fortitude += _character->GetFortitudeGrowth();
-        protection += _character->GetProtectionGrowth();
-        agility += _character->GetAgilityGrowth();
+        phys_atk += _character->GetPhysAtkGrowth();
+        mag_atk += _character->GetMagAtkGrowth();
+        phys_def += _character->GetPhysDefGrowth();
+        mag_def += _character->GetMagDefGrowth();
+        stamina += _character->GetStaminaGrowth();
         evade += _character->GetEvadeGrowth();
 
         ++_experience_levels_gained;
@@ -172,15 +171,11 @@ FinishDefeatAssistant::FinishDefeatAssistant(FINISH_STATE &state) :
     _tooltip.SetDisplayMode(VIDEO_TEXT_INSTANT);
 }
 
-
-
 FinishDefeatAssistant::~FinishDefeatAssistant()
 {
     _options_window.Destroy();
     _tooltip_window.Destroy();
 }
-
-
 
 void FinishDefeatAssistant::Initialize()
 {
@@ -189,8 +184,6 @@ void FinishDefeatAssistant::Initialize()
     _options_window.Show();
     _tooltip_window.Show();
 }
-
-
 
 void FinishDefeatAssistant::Update()
 {
@@ -263,9 +256,7 @@ void FinishDefeatAssistant::Update()
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid finish state: " << _state << std::endl;
         break;
     }
-} // void FinishDefeatAssistant::Update()
-
-
+}
 
 void FinishDefeatAssistant::Draw()
 {
@@ -280,8 +271,6 @@ void FinishDefeatAssistant::Draw()
 
     _tooltip.Draw();
 }
-
-
 
 void FinishDefeatAssistant::_SetTooltipText()
 {
@@ -316,7 +305,7 @@ void FinishDefeatAssistant::_SetTooltipText()
 // FinishVictoryAssistant class
 ////////////////////////////////////////////////////////////////////////////////
 
-FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
+FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE& state) :
     _state(state),
     _characters_number(0),
     _xp_earned(0),
@@ -389,8 +378,6 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE &state) :
     _object_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 }
 
-
-
 FinishVictoryAssistant::~FinishVictoryAssistant()
 {
     _header_window.Destroy();
@@ -415,8 +402,6 @@ FinishVictoryAssistant::~FinishVictoryAssistant()
     // Update the HP and SP of all characters.
     _SetCharacterStatus();
 }
-
-
 
 void FinishVictoryAssistant::Initialize()
 {
@@ -503,9 +488,7 @@ void FinishVictoryAssistant::Initialize()
     _CreateCharacterGUIObjects();
     _CreateObjectList();
     _SetHeaderText();
-} // void FinishVictoryAssistant::Initialize(uint32_t retries_used)
-
-
+}
 
 void FinishVictoryAssistant::Update()
 {
@@ -527,8 +510,6 @@ void FinishVictoryAssistant::Update()
     }
 }
 
-
-
 void FinishVictoryAssistant::Draw()
 {
     _header_window.Draw();
@@ -548,8 +529,6 @@ void FinishVictoryAssistant::Draw()
     }
 }
 
-
-
 void FinishVictoryAssistant::_SetHeaderText()
 {
     if((_state == FINISH_ANNOUNCE_RESULT) || (_state == FINISH_VICTORY_GROWTH)) {
@@ -561,8 +540,6 @@ void FinishVictoryAssistant::_SetHeaderText()
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid finish state: " << _state << std::endl;
     }
 }
-
-
 
 void FinishVictoryAssistant::_CreateCharacterGUIObjects()
 {
@@ -634,9 +611,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
         _skill_text[i].SetTextStyle(TextStyle("text20", Color::white));
         _skill_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
     }
-} // void FinishVictoryAssistant::_CreateCharacterGUIObjects()
-
-
+}
 
 void FinishVictoryAssistant::_CreateObjectList()
 {
@@ -652,8 +627,6 @@ void FinishVictoryAssistant::_CreateObjectList()
     }
 }
 
-
-
 void FinishVictoryAssistant::_SetCharacterStatus()
 {
     std::deque<BattleCharacter *>& battle_characters = BattleMode::CurrentInstance()->GetCharacterActors();
@@ -666,8 +639,6 @@ void FinishVictoryAssistant::_SetCharacterStatus()
         character->SetSkillPoints((*i)->GetSkillPoints());
     }
 }
-
-
 
 void FinishVictoryAssistant::_UpdateGrowth()
 {
@@ -769,33 +740,33 @@ void FinishVictoryAssistant::_UpdateGrowth()
                 line = line + 2;
             }
 
-            // Strength
-            if(_character_growths[i].strength > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("STR: +") + MakeUnicodeString(NumberToString(_character_growths[i].strength)));
+            // Physical Attack
+            if(_character_growths[i].phys_atk > 0) {
+                _growth_list[i].SetOptionText(line, UTranslate("ATK: +") + MakeUnicodeString(NumberToString(_character_growths[i].phys_atk)));
                 line = line + 2;
             }
 
-            // Vigor
-            if(_character_growths[i].vigor > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("VIG: +") + MakeUnicodeString(NumberToString(_character_growths[i].vigor)));
+            // Magical Attack
+            if(_character_growths[i].mag_atk > 0) {
+                _growth_list[i].SetOptionText(line, UTranslate("MATK: +") + MakeUnicodeString(NumberToString(_character_growths[i].mag_atk)));
                 line = line + 2;
             }
 
-            // Fortitude
-            if(_character_growths[i].fortitude > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("FRT: +") + MakeUnicodeString(NumberToString(_character_growths[i].fortitude)));
+            // Physical Defense
+            if(_character_growths[i].phys_def > 0) {
+                _growth_list[i].SetOptionText(line, UTranslate("DEF: +") + MakeUnicodeString(NumberToString(_character_growths[i].phys_def)));
                 line = line + 2;
             }
 
-            // Protection
-            if(_character_growths[i].protection > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("PRO: +") + MakeUnicodeString(NumberToString(_character_growths[i].protection)));
+            // Magical Defense
+            if(_character_growths[i].mag_def > 0) {
+                _growth_list[i].SetOptionText(line, UTranslate("MDEF: +") + MakeUnicodeString(NumberToString(_character_growths[i].mag_def)));
                 line = line + 2;
             }
 
-            // Agility
-            if(_character_growths[i].agility > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("AGI: +") + MakeUnicodeString(NumberToString(_character_growths[i].agility)));
+            // Stamina
+            if(_character_growths[i].stamina > 0) {
+                _growth_list[i].SetOptionText(line, UTranslate("STA: +") + MakeUnicodeString(NumberToString(_character_growths[i].stamina)));
                 line = line + 2;
             }
 
@@ -807,8 +778,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
             }
 
             if(_character_growths[i].skills_learned.empty() == false) {
-                // TODO: this currently only shows the first skill learned. We need this interface to support showing multiple
-                // skills that were learned for each character
+                // DEPRECATED: The skills will have to be learnt through a skill tree.
                 _skill_text[i].SetDisplayText(UTranslate("New Skill Learned:\n") + _character_growths[i].skills_learned[0]->GetName());
             }
         }
@@ -830,9 +800,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
 
     _xp_earned -= xp_to_add;
     _SetHeaderText();
-} // void FinishVictoryAssistant::_UpdateGrowth()
-
-
+}
 
 void FinishVictoryAssistant::_UpdateSpoils()
 {
@@ -843,7 +811,7 @@ void FinishVictoryAssistant::_UpdateSpoils()
     // TODO: Add drunes gradually instead of all at once
     static uint32_t drunes_to_add = 0;
 
-    // ---------- (1): Process confirm press inputs.
+    // Process confirm press inputs.
     if(InputManager->ConfirmPress()) {
         // Begin counting out drunes dropped
         if(!_begin_counting)
@@ -863,7 +831,7 @@ void FinishVictoryAssistant::_UpdateSpoils()
     if(!_begin_counting || (_drunes_dropped == 0))
         return;
 
-    // ---------- (2): Update the timer and determine how many drunes to add if the time has been reached
+    // Update the timer and determine how many drunes to add if the time has been reached
     // We don't want to modify the drunes to add if a confirm event occurred in step (1)
     if(drunes_to_add == 0) {
         time_counter += SystemManager->GetUpdateTime();
@@ -882,7 +850,7 @@ void FinishVictoryAssistant::_UpdateSpoils()
         }
     }
 
-    // ---------- (2): Add drunes and update the display
+    // Add drunes and update the display
     if(drunes_to_add != 0) {
         // Avoid making _drunes_dropped a negative value
         if(drunes_to_add > _drunes_dropped) {
@@ -893,9 +861,7 @@ void FinishVictoryAssistant::_UpdateSpoils()
         _drunes_dropped -= drunes_to_add;
         _SetHeaderText();
     }
-} // void FinishVictoryAssistant::_UpdateSpoils()
-
-
+}
 
 void FinishVictoryAssistant::_DrawGrowth(uint32_t index)
 {
@@ -908,8 +874,6 @@ void FinishVictoryAssistant::_DrawGrowth(uint32_t index)
     _growth_list[index].Draw();
     _skill_text[index].Draw();
 }
-
-
 
 void FinishVictoryAssistant::_DrawSpoils()
 {
@@ -949,8 +913,6 @@ void FinishSupervisor::Initialize(bool victory)
         _outcome_text.SetDisplayText(UTranslate("The heroes fell in battle..."));
     }
 }
-
-
 
 void FinishSupervisor::Update()
 {
@@ -992,8 +954,6 @@ void FinishSupervisor::Update()
         }
     }
 }
-
-
 
 void FinishSupervisor::Draw()
 {

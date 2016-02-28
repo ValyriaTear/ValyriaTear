@@ -124,29 +124,29 @@ BattleActor::BattleActor(GlobalActor *actor) :
 
 void BattleActor::_InitStats()
 {
-    _strength.SetBase(_global_actor->GetStrength());
-    SetStrengthModifier(1.0f);
+    _char_phys_atk.SetBase(_global_actor->GetPhysAtk());
+    SetPhysAtkModifier(1.0f);
 
-    _vigor.SetBase(_global_actor->GetVigor());
-    SetVigorModifier(1.0f);
+    _char_mag_atk.SetBase(_global_actor->GetMagAtk());
+    SetMagAtkModifier(1.0f);
 
-    _fortitude.SetBase(_global_actor->GetFortitude());
-    SetFortitudeModifier(1.0f);
+    _char_phys_def.SetBase(_global_actor->GetPhysDef());
+    SetPhysDefModifier(1.0f);
 
-    _protection.SetBase(_global_actor->GetProtection());
-    SetProtectionModifier(1.0f);
+    _char_mag_def.SetBase(_global_actor->GetMagDef());
+    SetMagDefModifier(1.0f);
 
-    _agility.SetBase(_global_actor->GetAgility());
-    SetAgilityModifier(1.0f);
+    _stamina.SetBase(_global_actor->GetStamina());
+    SetStaminaModifier(1.0f);
 
     _evade.SetBase(_global_actor->GetEvade());
     SetEvadeModifier(1.0f);
 
     // debug
     //std::cout << "Name: " << MakeStandardString(_global_actor->GetName()) << std::endl;
-    //std::cout << "strength base: " << _strength.GetBase() << "should be equal to global actor total strength: " << _global_actor->GetStrength() << std::endl;
-    //std::cout << "strength mod (should be 1.0f): " << _strength.GetModifier() << ", global actor strength mod (independant): " << _global_actor->GetStrengthModifier() << std::endl;
-    //std::cout << "strength value: " << GetStrength() << std::endl << std::endl;
+    //std::cout << "phys atk base: " << _char_phys_atk.GetBase() << "should be equal to global actor total phys atk: " << _global_actor->GetPhysAtk() << std::endl;
+    //std::cout << "phys atk mod (should be 1.0f): " << _char_phys_atk.GetModifier() << ", global actor phys atk mod (independant): " << _global_actor->GetPhysAtkModifier() << std::endl;
+    //std::cout << "phys atk value: " << GetPhysAtk() << std::endl << std::endl;
 }
 
 BattleActor::~BattleActor()
@@ -174,11 +174,11 @@ void BattleActor::ResetActor()
 
     ResetHitPoints();
     ResetSkillPoints();
-    ResetStrength();
-    ResetVigor();
-    ResetFortitude();
-    ResetProtection();
-    ResetAgility();
+    ResetPhysAtk();
+    ResetMagAtk();
+    ResetPhysDef();
+    ResetMagDef();
+    ResetStamina();
     ResetEvade();
 
     // If the actor did not get a chance to execute their action, delete it
@@ -238,7 +238,7 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
         if(_action == nullptr) {
             IF_PRINT_WARNING(BATTLE_DEBUG) << "no action available during state change: " << _state << std::endl;
         } else {
-            _state_timer.Initialize(_action->GetWarmUpTime() * GetAgilityModifier());
+            _state_timer.Initialize(_action->GetWarmUpTime() * GetStaminaModifier());
             _state_timer.Run();
         }
         break;
@@ -253,7 +253,7 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
     {
         uint32_t cool_down_time = 1000; // Default value, overridden by valid actions
         if(_action)
-            cool_down_time = _action->GetCoolDownTime() * GetAgilityModifier();
+            cool_down_time = _action->GetCoolDownTime() * GetStaminaModifier();
 
         _state_timer.Initialize(cool_down_time);
         _state_timer.Run();
@@ -788,15 +788,15 @@ void BattleActor::SetAction(uint32_t skill_id, BattleActor* target_actor)
     ChangeState(ACTOR_STATE_WARM_UP);
 }
 
-void BattleActor::SetAgility(uint32_t agility)
+void BattleActor::SetStamina(uint32_t base)
 {
-    GlobalActor::SetAgility(agility);
+    GlobalActor::SetStamina(base);
     BattleMode::CurrentInstance()->SetActorIdleStateTime(this);
 }
 
-void BattleActor::SetAgilityModifier(float modifier)
+void BattleActor::SetStaminaModifier(float modifier)
 {
-    GlobalActor::SetAgilityModifier(modifier);
+    GlobalActor::SetStaminaModifier(modifier);
     BattleMode::CurrentInstance()->SetActorIdleStateTime(this);
 }
 

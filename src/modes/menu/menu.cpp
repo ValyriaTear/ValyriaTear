@@ -472,7 +472,7 @@ void PartyState::Reset()
     _options.SetOptions(options);
     _options.SetSelection(PARTY_OPTIONS_VIEW_REORDER);
 
-    // FIXME: Re-eable this once the battle formation is taken in account in battles.
+    // FIXME: Re-enable this once the battle formation is taken in account in battles.
     _options.SetSkipDisabled(true);
     _options.EnableOption(1, false); // Disable 'Battle Formation'.
 
@@ -853,10 +853,10 @@ MenuMode::MenuMode() :
     _help_information.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _help_information.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
 
-    _atk_icon = media.GetStatusIcon(GLOBAL_STATUS_STRENGTH, GLOBAL_INTENSITY_NEUTRAL);
-    _matk_icon = media.GetStatusIcon(GLOBAL_STATUS_VIGOR, GLOBAL_INTENSITY_NEUTRAL);
-    _def_icon = media.GetStatusIcon(GLOBAL_STATUS_FORTITUDE, GLOBAL_INTENSITY_NEUTRAL);
-    _mdef_icon = media.GetStatusIcon(GLOBAL_STATUS_PROTECTION, GLOBAL_INTENSITY_NEUTRAL);
+    _atk_icon = media.GetStatusIcon(GLOBAL_STATUS_PHYS_ATK, GLOBAL_INTENSITY_NEUTRAL);
+    _matk_icon = media.GetStatusIcon(GLOBAL_STATUS_MAG_ATK, GLOBAL_INTENSITY_NEUTRAL);
+    _def_icon = media.GetStatusIcon(GLOBAL_STATUS_PHYS_DEF, GLOBAL_INTENSITY_NEUTRAL);
+    _mdef_icon = media.GetStatusIcon(GLOBAL_STATUS_MAG_DEF, GLOBAL_INTENSITY_NEUTRAL);
 
     _clock_icon = vt_global::GlobalManager->Media().GetClockIcon();
     _clock_icon->SetWidthKeepRatio(30.0f);

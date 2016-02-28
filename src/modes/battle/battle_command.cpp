@@ -1261,29 +1261,29 @@ void CommandSupervisor::_UpdateActionInformation()
             info_text += MakeUnicodeString(evade_str);
 
         }
-        // Fortitude (Physical defense)
-        float fortitude_modifier = attack_point->GetFortitudeModifier();
+        // Physical defense
+        float phys_def_modifier = attack_point->GetPhysDefModifier();
         {
-            std::string fort_str;
-            if (fortitude_modifier > 0.0f)
-                fort_str = "+" + NumberToString(fortitude_modifier);
+            std::string phys_def_str;
+            if (phys_def_modifier > 0.0f)
+                phys_def_str = "+" + NumberToString(phys_def_modifier);
             else
-                fort_str = NumberToString(fortitude_modifier);
+                phys_def_str = NumberToString(phys_def_modifier);
 
-            while (fort_str.length() < 15)
-                fort_str += " ";
-            info_text += MakeUnicodeString(fort_str);
+            while (phys_def_str.length() < 15)
+                phys_def_str += " ";
+            info_text += MakeUnicodeString(phys_def_str);
         }
-        // Protection (Magical defense)
-        float protection_modifier = attack_point->GetProtectionModifier();
+        // Magical defense
+        float mag_def_modifier = attack_point->GetMagDefModifier();
         {
-            std::string prot_str;
-            if (protection_modifier > 0.0f)
-                prot_str = "+" + NumberToString(protection_modifier);
+            std::string mag_def_str;
+            if (mag_def_modifier > 0.0f)
+                mag_def_str = "+" + NumberToString(mag_def_modifier);
             else
-                prot_str = NumberToString(protection_modifier);
+                mag_def_str = NumberToString(mag_def_modifier);
 
-            info_text += MakeUnicodeString(prot_str);
+            info_text += MakeUnicodeString(mag_def_str);
         }
 
         // Display the percentage of status effect modification
@@ -1389,9 +1389,9 @@ void CommandSupervisor::_DrawActionInformation()
     VideoManager->MoveRelative(0.0f, 25.0f);
     GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_EVADE, GLOBAL_INTENSITY_NEUTRAL)->Draw();
     VideoManager->MoveRelative(80.0f, 0.0f);
-    GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_FORTITUDE, GLOBAL_INTENSITY_NEUTRAL)->Draw();
+    GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_PHYS_DEF, GLOBAL_INTENSITY_NEUTRAL)->Draw();
     VideoManager->MoveRelative(80.0f, 0.0f);
-    GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_PROTECTION, GLOBAL_INTENSITY_NEUTRAL)->Draw();
+    GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_MAG_DEF, GLOBAL_INTENSITY_NEUTRAL)->Draw();
     VideoManager->MoveRelative(-160.0f, 60.0f);
 
     // Draw the status effect applied next to their percentage.

@@ -80,11 +80,11 @@ public:
     //@{
     uint32_t hit_points;
     uint32_t skill_points;
-    uint32_t strength;
-    uint32_t vigor;
-    uint32_t fortitude;
-    uint32_t protection;
-    uint32_t agility;
+    uint32_t phys_atk;
+    uint32_t mag_atk;
+    uint32_t phys_def;
+    uint32_t mag_def;
+    uint32_t stamina;
     float evade;
     //@}
 

@@ -200,10 +200,10 @@ protected:
 ***
 *** The BattleActor class contains a pointer to a GlobalActor object that represents
 *** the character or enemy. BattleActor contains its own members for all actor stats such
-*** as HP, strength, evade rating, etc. There are two reasons why BattleActor uses its own
+*** as HP, phys_atk, evade rating, etc. There are two reasons why BattleActor uses its own
 *** members instead of directly accessing and modifying the members of the GlobalActor pointer.
 *** First, various effects can occur in battle which can modify otherwise static stats such as
-*** agility. We need the ability to restore each stat to its base value, and the GlobalActor
+*** stamina. We need the ability to restore each stat to its base value, and the GlobalActor
 *** class retains that unaltered value. Second, if the player loses the battle and chooses to
 *** retry, we need to restore all actors back to their original state before the battle began.
 *** Retrieving the values of the GlobalActor class allows us to do so.
@@ -445,36 +445,36 @@ public:
         SetMaxSkillPoints(_global_actor->GetMaxSkillPoints());
     }
 
-    void ResetStrength() {
-        SetStrength(_global_actor->GetStrength());
-        SetStrengthModifier(1.0f);
+    void ResetPhysAtk() {
+        SetPhysAtk(_global_actor->GetPhysAtk());
+        SetPhysAtkModifier(1.0f);
     }
 
-    void ResetVigor() {
-        SetVigor(_global_actor->GetVigor());
-        SetVigorModifier(1.0f);
+    void ResetMagAtk() {
+        SetMagAtk(_global_actor->GetMagAtk());
+        SetMagAtkModifier(1.0f);
     }
 
-    void ResetFortitude() {
-        SetFortitude(_global_actor->GetFortitude());
-        SetFortitudeModifier(1.0f);
+    void ResetPhysDef() {
+        SetPhysDef(_global_actor->GetPhysDef());
+        SetPhysDefModifier(1.0f);
     }
 
-    void ResetProtection() {
-        SetProtection(_global_actor->GetProtection());
-        SetProtectionModifier(1.0f);
+    void ResetMagDef() {
+        SetMagDef(_global_actor->GetMagDef());
+        SetMagDefModifier(1.0f);
     }
 
-    void ResetAgility() {
-        SetAgility(_global_actor->GetAgility());
-        SetAgilityModifier(1.0f);
+    void ResetStamina() {
+        SetStamina(_global_actor->GetStamina());
+        SetStaminaModifier(1.0f);
     }
 
-    //! SetAgility() overloading the GlobalActor one, to permit updating the idle State timer also.
-    void SetAgility(uint32_t agility);
+    //! SetStamina() overloading the GlobalActor one, to permit updating the idle State timer also.
+    void SetStamina(uint32_t stamina);
 
-    //! SetAgilityModifier() overloading the GlobalActor one, to permit updating the idle State timer also.
-    void SetAgilityModifier(float modifier);
+    //! SetStaminaModifier() overloading the GlobalActor one, to permit updating the idle State timer also.
+    void SetStaminaModifier(float modifier);
 
     void ResetEvade() {
         SetEvade(_global_actor->GetEvade());
@@ -590,7 +590,7 @@ protected:
 
     //! \brief Initializes the Battle Actor stats values.
     //! The global actor final stats are used as base for the battle actors.
-    //! This means that the final strength value of the global actor is the base value
+    //! This means that the final phys_atk value of the global actor is the base value
     //! of the battle actor.
     //! This way, equipment modifiers aren't touched in battles, but battle modifiers
     //! are applied on top of the global actor values and properly reset to the global

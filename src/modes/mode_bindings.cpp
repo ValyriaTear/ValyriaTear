@@ -685,7 +685,7 @@ void BindModeCode()
             luabind::def("RndPhysicalDamage", (uint32_t(*)(BattleActor*, BattleActor*, uint32_t, float))&RndPhysicalDamage),
             luabind::def("RndPhysicalDamage", (uint32_t(*)(BattleActor*, BattleActor*, uint32_t))&RndPhysicalDamage),
             luabind::def("RndPhysicalDamage", (uint32_t(*)(BattleActor*, BattleActor*))&RndPhysicalDamage),
-            
+
             luabind::def("RndPhysicalDamage", (uint32_t(*)(BattleActor*, BattleTarget*))&RndPhysicalDamage),
             luabind::def("RndPhysicalDamage", (uint32_t(*)(BattleActor*, BattleTarget*, uint32_t))&RndPhysicalDamage),
             luabind::def("RndPhysicalDamage", (uint32_t(*)(BattleActor*, BattleTarget*, uint32_t, float))&RndPhysicalDamage),
@@ -799,12 +799,12 @@ void BindModeCode()
             .def("ResetMaxHitPoints", &BattleActor::ResetMaxHitPoints)
             .def("ResetSkillPoints", &BattleActor::ResetSkillPoints)
             .def("ResetMaxSkillPoints", &BattleActor::ResetMaxSkillPoints)
-            .def("ResetStrength", &BattleActor::ResetStrength)
-            .def("ResetVigor", &BattleActor::ResetVigor)
-            .def("ResetFortitude", &BattleActor::ResetFortitude)
-            .def("ResetProtection", &BattleActor::ResetProtection)
-            .def("ResetAgility", &BattleActor::ResetAgility)
-            .def("SetAgility", &BattleActor::SetAgility)
+            .def("ResetPhysAtk", &BattleActor::ResetPhysAtk)
+            .def("ResetMagAtk", &BattleActor::ResetMagAtk)
+            .def("ResetPhysDef", &BattleActor::ResetPhysDef)
+            .def("ResetMagDef", &BattleActor::ResetMagDef)
+            .def("ResetStamina", &BattleActor::ResetStamina)
+            .def("SetStamina", &BattleActor::SetStamina)
             .def("ResetEvade", &BattleActor::ResetEvade)
             .def("GetXOrigin", &BattleActor::GetXOrigin)
             .def("GetYOrigin", &BattleActor::GetYOrigin)

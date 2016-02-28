@@ -306,7 +306,7 @@ public:
     bool AttackAllowed();
 
     //! \brief Applies a potential malus when the map stamina is low.
-    //! This is applied as an active status effect on agility.
+    //! This is applied as an active status effect on stamina.
     void ApplyPotentialStaminaMalus();
 
     //! \brief This function permits to quickly adapt the images to the map scale.
@@ -440,8 +440,8 @@ public:
 
     /** \brief Starts a enemy encounter battle or event with a given enemy
     *** \param enemy The enemy sprite the character has collided or spoken with.
-    *** \param hero_init_boost Hero agility boost applied when the team took the initiative to "talk" to enemy first.
-    *** \param enemy_init_boost Enemy agility boost applied when the enemy sprite caught the heroes by surprise.
+    *** \param hero_init_boost Hero stamina boost applied when the team took the initiative to "talk" to enemy first.
+    *** \param enemy_init_boost Enemy stamina boost applied when the enemy sprite caught the heroes by surprise.
     **/
     void StartEnemyEncounter(vt_map::private_map::EnemySprite* enemy,
                              bool hero_init_boost = false, bool enemy_init_boost = false);

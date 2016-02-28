@@ -79,7 +79,7 @@ function Initialize(battle_instance)
     main_dialogue:AddLine(text, "Bronann");
     text = vt_system.Translate("Here you can find the hit points (HP) and skill points (SP) of the ally party. Don't let our HP reach 0 or we're doomed!");
     main_dialogue:AddLine(text, "Kalya");
-    text = vt_system.Translate("In battle, our icons and those of our enemies will rise up on the stamina bar. The more agility you have, the faster your icon will climb.");
+    text = vt_system.Translate("In battle, our icons and those of our enemies will rise up on the stamina bar. The more stamina you have, the faster your icon will climb.");
     main_dialogue:AddLine(text, "Kalya");
     text = vt_system.Translate("Once an ally has reached the action level, you can select an action for that ally. The battle is then paused and you've got all the time you need to select one, so don't panic.");
     main_dialogue:AddLine(text, "Kalya");

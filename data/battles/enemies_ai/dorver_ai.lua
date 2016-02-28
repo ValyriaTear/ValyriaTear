@@ -3,11 +3,11 @@ setmetatable(ns, {__index = _G})
 dorver_ai = ns;
 setfenv(1, ns);
 
--- Dorver, a big beast all in strength, but weakening its defence on purpose:
+-- Dorver, a big beast all in strength, but weakening its defense on purpose:
 -- Skills: (100 SP)
 -- 1008, -- Attack (0 SP)
 -- 1009, -- Attack all (1 SP)
--- 1013, -- Frenzy (atk & agility +, but def -) (10 SP)
+-- 1013, -- Frenzy (atk & stamina +, but def -) (10 SP)
 
 
 function _GetHeroWithLessHP(battle_instance)
@@ -44,7 +44,7 @@ function DecideAction(battle_instance, battle_actor)
     -- Test the current Shield spell strength
     if (Dorver:GetHitPoints() <= (Dorver:GetMaxHitPoints() / 2.0)
             and Dorver:GetSkillPoints() >= 10 
-            and Dorver:GetActiveStatusEffectIntensity(vt_global.GameGlobal.GLOBAL_STATUS_AGILITY)
+            and Dorver:GetActiveStatusEffectIntensity(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA)
             < vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
 
         -- Improve status

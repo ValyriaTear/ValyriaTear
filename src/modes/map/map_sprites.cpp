@@ -367,7 +367,7 @@ void VirtualSprite::_SetNextPosition()
 
             // Check whether the player is actually playing. If not, we don't want to start a battle.
             if (map_mode->CurrentState() == STATE_EXPLORE)
-                map_mode->StartEnemyEncounter(enemy, false, true); // The enemy gets a boost in agility.
+                map_mode->StartEnemyEncounter(enemy, false, true); // The enemy gets a boost in stamina.
             return;
         }
 

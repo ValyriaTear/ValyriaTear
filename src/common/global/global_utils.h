@@ -200,11 +200,11 @@ enum GLOBAL_ELEMENTAL {
 **/
 enum GLOBAL_STATUS {
     GLOBAL_STATUS_INVALID           = -1,
-    GLOBAL_STATUS_STRENGTH          =  0,
-    GLOBAL_STATUS_VIGOR             =  1,
-    GLOBAL_STATUS_FORTITUDE         =  2,
-    GLOBAL_STATUS_PROTECTION        =  3,
-    GLOBAL_STATUS_AGILITY           =  4,
+    GLOBAL_STATUS_PHYS_ATK          =  0,
+    GLOBAL_STATUS_MAG_ATK           =  1,
+    GLOBAL_STATUS_PHYS_DEF          =  2,
+    GLOBAL_STATUS_MAG_DEF           =  3,
+    GLOBAL_STATUS_STAMINA           =  4,
     GLOBAL_STATUS_EVADE             =  5,
     GLOBAL_STATUS_HP                =  6,
     GLOBAL_STATUS_SP                =  7,

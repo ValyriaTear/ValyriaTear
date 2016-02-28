@@ -81,7 +81,7 @@ function DecideAction(battle_instance, battle_actor)
         end
 
         -- test whether the enemies have got an active attack status effect.
-        if (enemy:GetActiveStatusEffectIntensity(vt_global.GameGlobal.GLOBAL_STATUS_STRENGTH)
+        if (enemy:GetActiveStatusEffectIntensity(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK)
                 >= vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
             enemies_have_enough_atk = true;
         end

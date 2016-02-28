@@ -37,7 +37,7 @@ function DecideAction(battle_instance, battle_actor)
 
     local banesore_shield_ok = false;
     -- Test the current Shield spell strength
-    if (Banesore:GetActiveStatusEffectIntensity(vt_global.GameGlobal.GLOBAL_STATUS_FORTITUDE)
+    if (Banesore:GetActiveStatusEffectIntensity(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF)
             >= vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
 
         -- Default attack on the hero

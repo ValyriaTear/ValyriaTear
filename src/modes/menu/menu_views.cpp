@@ -952,15 +952,15 @@ void PartyWindow::_InitCharSelect()
     _character_status_icons.Load("data/gui/menus/menu_stats_icons.png");
 
     _average_text.SetStyle(TextStyle("text20"));
-    _average_text.SetText(Translate("Attack / Defense:"));
+    _average_text.SetText(Translate("Global Attack / Defense:"));
     _focused_text.SetStyle(TextStyle("text20"));
-    _focused_text.SetText(Translate("Detailed defense:"));
+    _focused_text.SetText(Translate("Detailed Defense:"));
 
     _average_atk_def_text.SetStyle(TextStyle("text18"));
-    vt_utils::ustring text = UTranslate("Attack (ATK): ") + MakeUnicodeString("\n")
-        + UTranslate("Magical Attack (M.ATK): ") + MakeUnicodeString("\n\n")
-        + UTranslate("Defense (DEF): ") + MakeUnicodeString("\n")
-        + UTranslate("Magical Defense (M.DEF): ");
+    vt_utils::ustring text = UTranslate("Total Attack: ") + MakeUnicodeString("\n")
+        + UTranslate("Total Magical Attack: ") + MakeUnicodeString("\n\n")
+        + UTranslate("Average Defense: ") + MakeUnicodeString("\n")
+        + UTranslate("Average Magical Defense: ");
     _average_atk_def_text.SetText(text);
     _average_atk_def_numbers.SetStyle(TextStyle("text18"));
     _average_atk_def_icons.Load("data/gui/menus/menu_avg_atk_def.png");
@@ -976,8 +976,8 @@ void PartyWindow::_InitCharSelect()
     _focused_mdef_numbers.SetStyle(TextStyle("text18"));
 
     _focused_def_category_icons.Load("data/gui/menus/menu_point_atk_def.png");
-    _focused_def_icon = GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_FORTITUDE, GLOBAL_INTENSITY_NEUTRAL);
-    _focused_mdef_icon = GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_PROTECTION, GLOBAL_INTENSITY_NEUTRAL);
+    _focused_def_icon = GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_PHYS_DEF, GLOBAL_INTENSITY_NEUTRAL);
+    _focused_mdef_icon = GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_MAG_DEF, GLOBAL_INTENSITY_NEUTRAL);
 
     UpdateStatus();
 }
@@ -1077,21 +1077,21 @@ void PartyWindow::UpdateStatus()
     vt_utils::ustring text;
     text = UTranslate("Experience Level: ") + MakeUnicodeString(NumberToString(ch->GetExperienceLevel()))
         + MakeUnicodeString("\n\n\n")
-        + UTranslate("Strength (STR): ") + MakeUnicodeString("\n\n")
-        + UTranslate("Vigor (VIG): ") + MakeUnicodeString("\n\n")
-        + UTranslate("Fortitude (FRT): ") + MakeUnicodeString("\n\n")
-        + UTranslate("Protection (PRO): ") + MakeUnicodeString("\n\n")
-        + UTranslate("Agility (AGI): ") + MakeUnicodeString("\n\n")
-        + UTranslate("Evade (EVD): ");
+        + UTranslate("Physical Attack: ") + MakeUnicodeString("\n\n")
+        + UTranslate("Magical Attack: ") + MakeUnicodeString("\n\n")
+        + UTranslate("Physical Defense: ") + MakeUnicodeString("\n\n")
+        + UTranslate("Magical Defense: ") + MakeUnicodeString("\n\n")
+        + UTranslate("Stamina: ") + MakeUnicodeString("\n\n")
+        + UTranslate("Evade: ");
 
     _character_status_text.SetText(text);
 
     text = MakeUnicodeString("\n\n\n")
-        + MakeUnicodeString(NumberToString(ch->GetStrength())) + MakeUnicodeString("\n\n")
-        + MakeUnicodeString(NumberToString(ch->GetVigor())) + MakeUnicodeString("\n\n")
-        + MakeUnicodeString(NumberToString(ch->GetFortitude())) + MakeUnicodeString("\n\n")
-        + MakeUnicodeString(NumberToString(ch->GetProtection())) + MakeUnicodeString("\n\n")
-        + MakeUnicodeString(NumberToString(ch->GetAgility())) + MakeUnicodeString("\n\n")
+        + MakeUnicodeString(NumberToString(ch->GetPhysAtk())) + MakeUnicodeString("\n\n")
+        + MakeUnicodeString(NumberToString(ch->GetMagAtk())) + MakeUnicodeString("\n\n")
+        + MakeUnicodeString(NumberToString(ch->GetPhysDef())) + MakeUnicodeString("\n\n")
+        + MakeUnicodeString(NumberToString(ch->GetMagDef())) + MakeUnicodeString("\n\n")
+        + MakeUnicodeString(NumberToString(ch->GetStamina())) + MakeUnicodeString("\n\n")
         + MakeUnicodeString(NumberToString(ch->GetEvade())) + MakeUnicodeString("%");
 
     _character_status_numbers.SetText(text);
@@ -1140,18 +1140,18 @@ void PartyWindow::UpdateStatus()
     }
 
     text = MakeUnicodeString("\n") // Skip titles
-        + MakeUnicodeString(NumberToString(ch->GetFortitude() + (head_armor ? head_armor->GetPhysicalDefense() : 0)) + "\n")
-        + MakeUnicodeString(NumberToString(ch->GetFortitude() + (torso_armor ? torso_armor->GetPhysicalDefense() : 0)) + "\n")
-        + MakeUnicodeString(NumberToString(ch->GetFortitude() + (arm_armor ? arm_armor->GetPhysicalDefense() : 0)) + "\n")
-        + MakeUnicodeString(NumberToString(ch->GetFortitude() + (leg_armor ? leg_armor->GetPhysicalDefense() : 0)) + "\n");
+        + MakeUnicodeString(NumberToString(ch->GetPhysDef() + (head_armor ? head_armor->GetPhysicalDefense() : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetPhysDef() + (torso_armor ? torso_armor->GetPhysicalDefense() : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetPhysDef() + (arm_armor ? arm_armor->GetPhysicalDefense() : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetPhysDef() + (leg_armor ? leg_armor->GetPhysicalDefense() : 0)) + "\n");
 
     _focused_def_numbers.SetText(text);
 
     text = MakeUnicodeString("\n") // Skip titles
-        + MakeUnicodeString(NumberToString(ch->GetProtection() + (head_armor ? head_armor->GetMagicalDefense() : 0)) + "\n")
-        + MakeUnicodeString(NumberToString(ch->GetProtection() + (torso_armor ? torso_armor->GetMagicalDefense() : 0)) + "\n")
-        + MakeUnicodeString(NumberToString(ch->GetProtection() + (arm_armor ? arm_armor->GetMagicalDefense() : 0)) + "\n")
-        + MakeUnicodeString(NumberToString(ch->GetProtection() + (leg_armor ? leg_armor->GetMagicalDefense() : 0)) + "\n");
+        + MakeUnicodeString(NumberToString(ch->GetMagDef() + (head_armor ? head_armor->GetMagicalDefense() : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetMagDef() + (torso_armor ? torso_armor->GetMagicalDefense() : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetMagDef() + (arm_armor ? arm_armor->GetMagicalDefense() : 0)) + "\n")
+        + MakeUnicodeString(NumberToString(ch->GetMagDef() + (leg_armor ? leg_armor->GetMagicalDefense() : 0)) + "\n");
 
     _focused_mdef_numbers.SetText(text);
 }
