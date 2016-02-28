@@ -128,21 +128,26 @@ public:
     void Draw();
 
 private:
-    //! The name of the character that this window corresponds) to
+    //! \brief The name of the character that this window corresponds) to
     uint32_t _char_id;
 
-    //! The image of the character
+    //! \brief The image of the character
     vt_video::StillImage _portrait;
 
-    //! The text along with the character portrait
+    //! \brief The text along with the character portrait
     vt_video::TextImage _character_name;
     vt_video::TextImage _character_data;
 
-    //! The character active status effects images.
-    //! Do not delete them, as they are handled by the GlobalMedia class.
+    //! \brief The hp/sp icon displayed in this window.
+    //! \note Do not delete them, as they are handled by the GlobalMedia class.
+    vt_video::StillImage* _hp_icon;
+    vt_video::StillImage* _sp_icon;
+
+    //! \brief The character active status effects images.
+    //! \note Do not delete them, as they are handled by the GlobalMedia class.
     std::vector<vt_video::StillImage*> _active_status_effects;
 
-    /** Refreshes the active status effects images vector content.
+    /** \brief Refreshes the active status effects images vector content.
     *** \param character the character to check status effects for.
     **/
     void _UpdateActiveStatusEffects(vt_global::GlobalCharacter* character);

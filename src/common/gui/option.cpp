@@ -479,18 +479,18 @@ void OptionBox::AddOptionElementImage(uint32_t option_index, const std::string &
 
 
 
-void OptionBox::AddOptionElementImage(uint32_t option_index, const StillImage *image)
+void OptionBox::AddOptionElementImage(uint32_t option_index, const StillImage* image)
 {
     if(option_index >= GetNumberOptions()) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "out-of-range option_index argument: " << option_index << std::endl;
+        PRINT_WARNING << "out-of-range option_index argument: " << option_index << std::endl;
         return;
     }
     if(image == nullptr) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "image argument was nullptr" << std::endl;
+        PRINT_WARNING << "image argument was nullptr" << std::endl;
         return;
     }
 
-    Option &this_option = _options[option_index];
+    Option& this_option = _options[option_index];
     OptionElement new_element;
 
     new_element.type = VIDEO_OPTION_ELEMENT_IMAGE;

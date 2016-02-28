@@ -36,8 +36,6 @@ const std::string DEFAULT_DEFEAT_MUSIC   = "data/music/Battle_lost-OGA-Mumu.ogg"
 
 BattleMedia::~BattleMedia()
 {
-    delete character_HP_text;
-    delete character_SP_text;
     delete _auto_battle_activated;
 }
 
@@ -76,13 +74,6 @@ void BattleMedia::Initialize()
     if(vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(_target_type_icons, "data/skills/targets.png", 1, 8) == false)
         PRINT_ERROR << "Failed to load character action buttons" << std::endl;
 
-    character_HP_text = new vt_video::TextImage();
-    character_HP_text->SetStyle(vt_video::TextStyle("text18", vt_video::Color::white));
-    character_HP_text->SetText(vt_system::Translate("HP"));
-    character_SP_text = new vt_video::TextImage();
-    character_SP_text->SetStyle(vt_video::TextStyle("text18", vt_video::Color::white));
-    character_SP_text->SetText(vt_system::Translate("SP"));
-
     // Set the default battle music.
     battle_music_filename = DEFAULT_BATTLE_MUSIC;
     if (!vt_audio::AudioManager->LoadMusic(DEFAULT_BATTLE_MUSIC))
@@ -114,7 +105,6 @@ void BattleMedia::Update()
     attack_point_indicator.Update();
 }
 
-
 void BattleMedia::SetBackgroundImage(const std::string& filename)
 {
     if(background_image.Load(filename) == false) {
@@ -122,14 +112,12 @@ void BattleMedia::SetBackgroundImage(const std::string& filename)
     }
 }
 
-
 void BattleMedia::SetBattleMusic(const std::string& filename)
 {
     battle_music_filename = filename;
     if (!vt_audio::AudioManager->LoadMusic(filename))
         PRINT_WARNING << "Failed to load battle music file: " << filename << std::endl;
 }
-
 
 vt_video::StillImage* BattleMedia::GetCharacterActionButton(uint32_t index)
 {
@@ -140,7 +128,6 @@ vt_video::StillImage* BattleMedia::GetCharacterActionButton(uint32_t index)
 
     return &(character_action_buttons[index]);
 }
-
 
 vt_video::StillImage* BattleMedia::GetTargetTypeIcon(vt_global::GLOBAL_TARGET target_type)
 {

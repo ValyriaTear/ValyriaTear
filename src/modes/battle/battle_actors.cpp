@@ -1421,6 +1421,7 @@ void BattleCharacter::DrawPortrait()
 void BattleCharacter::DrawStatus(uint32_t order, BattleCharacter* character_command)
 {
     BattleMedia& battle_media = GlobalManager->GetBattleMedia();
+    GlobalMedia& media = GlobalManager->Media();
     // Used to determine where to draw the character's status
     float y_offset = 0.0f;
 
@@ -1491,9 +1492,9 @@ void BattleCharacter::DrawStatus(uint32_t order, BattleCharacter* character_comm
     // Draw the cover image over the top of the bar.
     VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
     VideoManager->Move(289.0f, 684.0f + y_offset);
-    battle_media.character_HP_text->Draw();
+    media.GetStatusIcon(vt_global::GLOBAL_STATUS_HP, vt_global::GLOBAL_INTENSITY_NEUTRAL)->Draw();
     VideoManager->MoveRelative(114.0f, 0.0f);
-    battle_media.character_SP_text->Draw();
+    media.GetStatusIcon(vt_global::GLOBAL_STATUS_SP, vt_global::GLOBAL_INTENSITY_NEUTRAL)->Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, 0);
     // Draw the character's current health on top of the middle of the HP bar.

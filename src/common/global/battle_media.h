@@ -122,10 +122,6 @@ public:
     //! \brief Used to provide a background highlight for a character that needs a command set
     vt_video::StillImage character_command_highlight;
 
-    //! \brief An image which contains the HP and SP bars headers.
-    vt_video::TextImage* character_HP_text;
-    vt_video::TextImage* character_SP_text;
-
     /** \brief The universal stamina bar that is used to represent the state of battle actors
     *** All battle actors have a portrait that moves along this meter to signify their
     *** turn in the rotation.  The meter and corresponding portraits must be drawn after the
