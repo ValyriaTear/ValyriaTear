@@ -785,7 +785,7 @@ skills[1013] = {
                                      vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                      effect_duration);
 
-        AudioManager:PlaySound("data/sounds/defence1_spell.ogg");
+        AudioManager:PlaySound("data/sounds/defense1_spell.ogg");
     end
 }
 

@@ -69,7 +69,7 @@ skills[10001] = {
             Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/shield.lua",
                     target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
         end
-        AudioManager:PlaySound("data/sounds/defence1_spell.ogg");
+        AudioManager:PlaySound("data/sounds/defense1_spell.ogg");
     end,
 
     FieldExecute = function(user, target) -- GlobalCharacter*
@@ -83,7 +83,7 @@ skills[10001] = {
                                        vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                        effect_duration);
 
-        AudioManager:PlaySound("data/sounds/defence1_spell.ogg");
+        AudioManager:PlaySound("data/sounds/defense1_spell.ogg");
         -- Trigger a particle effect on the menu character
         local y_pos = 218.0 + GlobalManager:GetPartyPosition(target) * 118.0;
         local menu_mode = ModeManager:GetTop();
@@ -256,7 +256,7 @@ skills[10007] = {
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                                  effect_duration);
             --local Battle = ModeManager:GetTop();
-            --AudioManager:PlaySound("data/sounds/defence1_spell.ogg");
+            --AudioManager:PlaySound("data/sounds/defense1_spell.ogg");
         end
     end,
 }
