@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2016.01.12
+Last update: 2016.02.28
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -146,9 +146,9 @@ data/gui/menus/rotating_crystal_grey.png                                      CC
 data/gui/menus/red_x.png                                                      CC by 3.0                Ravenmore (OGA) - http://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20
 data/gui/menus/spirit.png                                                     CC by 3.0                Osmic (OGA) - http://opengameart.org/content/gem-jewel-diamond-glass
 data/gui/menus/star.png                                                       CC by 3.0                Osmic (OGA) - http://opengameart.org/content/gem-jewel-diamond-glass
-data/gui/menus/menu_avg_atk_def.png                                           GPLv2+                   Allacrost + Modifications by Bertram
+data/gui/menus/menu_avg_atk_def.png                                           GPLv2+                   Allacrost + Modifications by Bertram & Lilou
 data/gui/menus/menu_point_atk_def.png                                         GPLv2+                   Allacrost + Modifications by Bertram
-data/gui/menus/menu_stats_icons.png                                           GPLv2+                   Allacrost + Modifications by Bertram
+data/gui/menus/menu_stats_icons.png                                           GPLv2+                   Allacrost + Modifications by Bertram & Lilou
 data/gui/menus/equip.png                                                      GPLv2+                   Allacrost
 data/gui/map/heal.png                                                         CC0                      Kenney - http://opengameart.org/content/game-icons
 data/gui/map/exit.png                                                         CC0                      Kenney - http://opengameart.org/content/game-icons
@@ -490,7 +490,7 @@ data/entities/portraits/kalya_full.png                                        GP
 data/entities/portraits/bronann.png                                           CC by SA 3.0             Safir-Kreuz (Deviant Art)
 data/entities/portraits/bronann_full.png                                      GPLv2+                   Allacrost (was Claudius large portrait) + Fixes from Lilou to make his face correspond more.
 
-data/entities/status_effects/status.png                                       GPLv2+                   Allacrost, HP, SP icons and other minor changes from Bertram
+data/entities/status_effects/status.png                                       GPLv2+                   Allacrost, HP, SP, defense, magical attack and defense icons and other minor changes from Bertram & Lilou, Evade and Stamina icons inspired by game-icons.net
 
 data/fonts/LinBiolinum_RBah.ttf                                               OFL 1.1 or GPLv2+        Philipp H. Poll - http://www.linuxlibertine.org
 data/fonts/LinLibertine_aBS.ttf                                               OFL 1.1 or GPLv2+        Philipp H. Poll - http://www.linuxlibertine.org
