@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2016.02.28
+Last update: 2016.02.29
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -495,6 +495,7 @@ data/entities/status_effects/status.png                                       GP
 data/fonts/LinBiolinum_RBah.ttf                                               OFL 1.1 or GPLv2+        Philipp H. Poll - http://www.linuxlibertine.org
 data/fonts/LinLibertine_aBS.ttf                                               OFL 1.1 or GPLv2+        Philipp H. Poll - http://www.linuxlibertine.org
 data/fonts/Berenika-Oblique.ttf                                               OFL 1.1                  wmk69 - http://openfontlibrary.org/en/font/klaudia-and-berenika
+data/fonts/SourceHanSansJP-Medium.otf                                         OFL 1.1                  kenlunde - https://github.com/adobe-fonts/source-han-sans/tree/release
 
 data/icons/program_icon.png                                                   GPLv2+                   Bertram (using the scriptina font which is CC0, see DaFont.com)
 data/icons/program_icon.ico                                                   GPLv2+                   Bertram (using the scriptina font which is CC0, see DaFont.com)
