@@ -21,6 +21,9 @@
 #ifndef __UTILS_STRINGS_HEADER__
 #define __UTILS_STRINGS_HEADER__
 
+#include <string>
+#include <sstream>
+
 //! Contains utility code used across the entire source code
 namespace vt_utils
 {

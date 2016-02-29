@@ -25,6 +25,9 @@
 #define __MENU_HEADER__
 
 #include "menu_views.h"
+
+#include "menu_character_window.h"
+
 #include "engine/video/video.h"
 
 #include "common/message_window.h"

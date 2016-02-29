@@ -334,6 +334,7 @@ modes/map/map_minimap.cpp
 modes/map/map_status_effects.cpp
 modes/menu/menu.cpp
 modes/menu/menu_views.cpp
+modes/menu/menu_character_window.cpp
 modes/pause.cpp
 modes/mode_bindings.cpp
 modes/mode_help_window.cpp
