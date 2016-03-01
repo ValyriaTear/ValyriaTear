@@ -16,8 +16,6 @@
 #include "utils/utils_pch.h"
 #include "gl_render_target.h"
 
-#include "engine/video/video_utils.h"
-
 #include "utils/exception.h"
 #include "utils/utils_strings.h"
 
@@ -36,15 +34,6 @@ RenderTarget::RenderTarget(unsigned width,
 {
     assert(_width > 0);
     assert(_height > 0);
-
-    // Enforce the standard video resolution as the minimum dimensions.
-    if (_width < vt_video::VIDEO_STANDARD_RES_WIDTH) {
-        _width = vt_video::VIDEO_STANDARD_RES_WIDTH;
-    }
-
-    if (_height < vt_video::VIDEO_STANDARD_RES_HEIGHT) {
-        _height = vt_video::VIDEO_STANDARD_RES_HEIGHT;
-    }
 
     // Create the framebuffer.
     GLuint framebuffers[1] = { 0 };
@@ -187,15 +176,6 @@ void RenderTarget::Resize(unsigned width,
 
     assert(_width > 0);
     assert(_height > 0);
-
-    // Enforce the standard video resolution as the minimum dimensions.
-    if (_width < vt_video::VIDEO_STANDARD_RES_WIDTH) {
-        _width = vt_video::VIDEO_STANDARD_RES_WIDTH;
-    }
-
-    if (_height < vt_video::VIDEO_STANDARD_RES_HEIGHT) {
-        _height = vt_video::VIDEO_STANDARD_RES_HEIGHT;
-    }
 
     assert(_framebuffer != 0);
 
