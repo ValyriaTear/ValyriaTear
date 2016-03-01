@@ -27,6 +27,7 @@
 #include "video.h"
 
 #include "engine/script/script_read.h"
+#include "engine/system.h"
 
 // The script filename used to configure the text styles used in game.
 const std::string _font_script_filename = "data/config/fonts.lua";
@@ -926,6 +927,11 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
             continue;
         }
 
+        // Some languages don't have spaces in the sentence.
+        bool no_space_lang = false;
+        if (vt_system::SystemManager->GetLanguage() == "ja"){
+            no_space_lang = true;
+        }
         while(!temp_line.empty()) {
             int32_t text_width = TextManager->CalculateTextWidth(ttf_font, temp_line);
 
@@ -944,7 +950,8 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
             while (num_wrapped_chars < line_length) {
                 wrapped_line += temp_line[num_wrapped_chars];
                 // If we meet a space character (0x20), we can wrap the text
-                if(temp_line[num_wrapped_chars] == SPACE_CHAR) {
+                // If the current language don't have any spaces in the sentence, check all words.
+                if (no_space_lang || temp_line[num_wrapped_chars] == SPACE_CHAR) {
                     int32_t text_width = TextManager->CalculateTextWidth(ttf_font, wrapped_line);
 
                     if(text_width < (int32_t)max_width) {
@@ -972,12 +979,15 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
             // Add the new wrapped line to the text.
             wrapped_lines_array.push_back(wrapped_line);
 
+            // If the current language has spaces in the sentence, the wrapped chars include a last space.
+            if (no_space_lang == false)
+                num_wrapped_chars++;
             // If there is no more text remaining, we have finished.
-            if (num_wrapped_chars + 1 >= line_length)
+            if (num_wrapped_chars >= line_length)
                 break;
             // Otherwise, we need to grab the rest of the text that remains to be added and loop again.
             else
-                temp_line = temp_line.substr(num_wrapped_chars + 1, line_length - num_wrapped_chars);
+                temp_line = temp_line.substr(num_wrapped_chars, line_length - num_wrapped_chars);
         } // while (temp_line.empty() == false)
     } // for each lines of text
 
