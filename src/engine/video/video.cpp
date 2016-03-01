@@ -459,9 +459,10 @@ bool VideoEngine::ApplySettings()
 
     _UpdateViewportMetrics();
 
+    // TODO: Revisit this.  Currently, not resizing the secondary render target.
     // Resize the secondary render target.
-    assert(_secondary_render_target != nullptr);
-    _secondary_render_target->Resize(_screen_width, _screen_height);
+    //assert(_secondary_render_target != nullptr);
+    //_secondary_render_target->Resize(_screen_width, _screen_height);
 
     // Try to apply the VSync mode
     if (_vsync_mode > 2) {
