@@ -159,7 +159,8 @@ private:
     //! \brief Set to true when the player has made modification to any application settings
     bool _has_modified_settings;
 
-    //! \brief Stores languages' corresponding gettext PO file names, where index in vector is equivalent to the language name's position in the language options window
+    //! \brief Stores languages' corresponding gettext PO file names,
+    //! where index in vector is equivalent to the language name's position in the language options window
     std::vector<std::string> _po_files;
 
     //! \brief The available screen resolutions

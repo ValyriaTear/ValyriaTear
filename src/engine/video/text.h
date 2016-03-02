@@ -31,8 +31,6 @@ typedef struct _TTF_Font TTF_Font;
 namespace vt_video
 {
 
-const std::string _LANGUAGE_FILE = "data/config/languages.lua";
-
 class TextSupervisor;
 
 //! \brief The singleton pointer for the instance of the text supervisor
@@ -60,7 +58,7 @@ enum TEXT_SHADOW_STYLE {
 };
 
 /** ****************************************************************************
-*** \brief A structure which holds properties about fonts
+*** \brief A class which holds properties about fonts
 *** ***************************************************************************/
 class FontProperties
 {
@@ -92,11 +90,8 @@ public:
     uint32_t font_size;
 
 private:
-    //
-    // The copy constructor and assignment operator are hidden by design
-    // to cause compilation errors when attempting to copy or assign this class.
-    //
-
+    //! \brief The copy constructor and assignment operator are hidden by design
+    //! to cause compilation errors when attempting to copy or assign this class.
     FontProperties(const FontProperties& font_properties);
     FontProperties& operator=(const FontProperties& font_properties);
 };
@@ -146,22 +141,22 @@ public:
     //! \brief Full constructor requiring initialization data arguments for all class members.
     TextStyle(const std::string& font, const Color& color, TEXT_SHADOW_STYLE style, int32_t shadow_x, int32_t shadow_y);
 
-    //! Sets the font name and updates the font properties.
+    //! \brief Sets the font name and updates the font properties.
     void SetFont(const std::string& font);
 
-    //! Sets the font name and updates the font properties.
+    //! \brief Sets the font name and updates the font properties.
     void SetColor(const Color& color) {
         _color = color;
         _UpdateTextShadowColor();
     }
 
-    //! Sets the shadow style.
+    //! \brief Sets the shadow style.
     void SetShadowStyle(TEXT_SHADOW_STYLE shadow_style) {
         _shadow_style = shadow_style;
         _UpdateTextShadowColor();
     }
 
-    //! Sets the shadow offsets from the given text.
+    //! \brief Sets the shadow offsets from the given text.
     void SetShadowOffsets(int32_t xoffset, int32_t yoffset) {
         _shadow_offset_x = xoffset;
         _shadow_offset_y = yoffset;
@@ -608,8 +603,6 @@ private:
     *** The key to the map is the font name.
     **/
     std::map<std::string, FontProperties *> _font_map;
-
-    // ---------- Private methods
 
     /** \brief Loads or Reloads a font file from disk with a specific size and name
     *** \param Text style name The name which to refer to the text style after it is loaded

@@ -1,19 +1,68 @@
--- Add a new language by creating a new entry in the languages table.
--- The first entry after the open-parenthesis is the name of the language
--- as it will appear in the Language Selection menu in the game.
--- The second entry corresponds to the name of the gettext PO file for that
--- language.
-languages = {}
-languages[1] = { "English", "en_GB" } -- The default language (used when translations are disabled/broken)
-languages[2] = { "Deutsch", "de" }
-languages[3] = { "Dutch (Netherlands)", "nl_NL" }
-languages[4] = { "Español", "es" }
-languages[5] = { "Français", "fr" }
-languages[6] = { "Galego", "gl" }
-languages[7] = { "Italiano", "it" }
-languages[7] = { "Japanese (test)", "ja" }
-languages[8] = { "Português", "pt_PT" }
-languages[9] = { "Pусский", "ru" }
-languages[10] = { "Svenska", "sv" }
-languages[11] = { "Українська", "uk_UA" }
---languages[x] = { "Português do Brasil", "pt_BR" }
+-- The languages configuration file.
+
+-- To add a new language, create a new entry in the languages table,
+-- add the po locale name in the po/LINGUAS file
+-- and don't forget to invoke CMake again to regenerate the po targets list.
+
+languages = {
+    -- The default language (used when translations are disabled/broken, or at first start.s)
+    default_locale = "en_GB",
+
+    -- The name part of the gettext PO file for that language.
+    ["en_GB"] = {
+        -- The name of the language as it will appear
+        -- in the Language Selection menu in the game.
+        name = "English",
+        -- Whether the language is using interwords space.
+        interwords_spaces = true
+    },
+    ["de"] = {
+        name = "Deutsch",
+        interwords_spaces = true
+    },
+    ["nl_NL"] = {
+        name = "Nederlands",
+        interwords_spaces = true
+    },
+    ["es"] = {
+        name = "Español",
+        interwords_spaces = true
+    },
+    ["fr"] = {
+        name = "Français",
+        interwords_spaces = true
+    },
+    ["gl"] = {
+        name = "Galego",
+        interwords_spaces = true
+    },
+    ["it"] = {
+        name = "Italiano",
+        interwords_spaces = true
+    },
+    ["ja"] = {
+        name = "Japanese",
+        interwords_spaces = false
+    },
+    ["pt_PT"] = {
+        name = "Português",
+        interwords_spaces = true
+    },
+    ["ru"] = {
+        name = "Pусский",
+        interwords_spaces = true
+    },
+    ["sv"] = {
+        name = "Svenska",
+        interwords_spaces = true
+    },
+    ["uk_UA"] = {
+        name = "Українська",
+        interwords_spaces = true
+    },
+    --["pt_BR"] = {
+    --    name = "Português do Brasil",
+    --    locale = "pt_BR",
+    --    interwords_spaces = true
+    --},
+}

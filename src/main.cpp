@@ -88,7 +88,7 @@ static bool LoadSettings()
     }
 
     // Load language settings
-    SystemManager->SetLanguage(static_cast<std::string>(settings.ReadString("language")));
+    SystemManager->SetLanguageLocale(static_cast<std::string>(settings.ReadString("language")));
 
     if (!settings.OpenTable("key_settings")) {
         PRINT_ERROR << "Couldn't open the 'key_settings' table in: "
@@ -392,7 +392,7 @@ static void InitializeEngine() throw(Exception)
     GUIManager->DEBUG_EnableGUIOutlines(false);
 
     // Loads needed game text styles (fonts + colors + shadows)
-    if (!TextManager->LoadFonts(SystemManager->GetLanguage()))
+    if (!TextManager->LoadFonts(SystemManager->GetLanguageLocale()))
         exit(EXIT_FAILURE);
 
     // Loads potential emotes

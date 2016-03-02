@@ -38,6 +38,9 @@ namespace vt_system
 
 class SystemEngine;
 
+//! The engine default language used, in case no language config file can be read.
+const std::string DEFAULT_LOCALE = "en_GB";
+
 //! \brief The singleton pointer responsible for managing the system during game operation.
 extern SystemEngine *SystemManager;
 
@@ -116,6 +119,63 @@ std::string VTranslate(const std::string &text, float arg1);
 std::string VTranslate(const std::string &text, uint32_t arg1, uint32_t arg2);
 std::string VTranslate(const std::string &text, const std::string &arg1, const std::string &arg2);
 
+/** ****************************************************************************
+*** \brief Class of properties about locales
+*** ***************************************************************************/
+class LocaleProperties
+{
+public:
+    LocaleProperties(const vt_utils::ustring& language_name,
+                     const std::string& locale_name):
+        _language_name(language_name),
+        _locale_name(locale_name),
+        _inter_words_spaces(true)
+    {
+    }
+
+    ~LocaleProperties()
+    {
+    }
+
+    bool UsesInterWordsSpaces() const {
+        return _inter_words_spaces;
+    }
+
+    void SetInterWordsSpacesUse(bool use_spaces) {
+        _inter_words_spaces = use_spaces;
+    }
+
+    const vt_utils::ustring& GetLanguageName() const {
+        return _language_name;
+    }
+
+    const std::string& GetLocaleName() const {
+        return _locale_name;
+    }
+
+private:
+    //! \brief Local Translated Name. The name of the corresponding language
+    //! translated in the corresponding language.
+    vt_utils::ustring _language_name;
+
+    //! \brief Locale Name.
+    std::string _locale_name;
+
+    //! \brief Language using interword spaces.
+    //! Many languages are using them except languages such as Japanese, Chinese, ...)
+    bool _inter_words_spaces;
+
+    //!\brief \TODO: Right-to-Left language.
+    //bool _rtl_language.
+
+    //!\brief \TODO: Country corresponding flag image displayed in the language menu.
+    //vt_video::StillImage _flag_img;
+
+    //! \brief The copy constructor and assignment operator are hidden by design
+    //! to cause compilation errors when attempting to copy or assign this class.
+    //LocaleProperties(const LocaleProperties& locale_properties);
+    //LocaleProperties& operator=(const LocaleProperties& locale_properties);
+};
 
 /** ****************************************************************************
 *** \brief A timer assistant useful for monitoring progress and processing event sequences
@@ -439,21 +499,40 @@ public:
     }
     //@}
 
-    /** \brief Used to determine what language the game is running in.
-    *** \return The language that the game is running in.
+    //! \brief Loads the locale properties from the language config file.
+    bool LoadLanguages();
+
+    /** \brief Used to determine what language locale the game is running in.
+    *** \return The language locale that the game is running in.
     **/
-    const std::string& GetLanguage() const {
-        return _language;
+    const std::string& GetLanguageLocale() const {
+        return _current_language_locale;
+    }
+
+    //! \brief Gives the default locale according to config.
+    const std::string& GetDefaultLanguageLocale() const {
+        return _default_language_locale;
     }
 
     /** \brief Sets the language that the game should use.
     *** \param lang A two-character string representing the language to execute the game in
     *** \return whether the corresponding language file could be found.
     **/
-    bool SetLanguage(const std::string& lang);
+    bool SetLanguageLocale(const std::string& locale);
 
     //! \brief Tells whether a language is available.
-    bool IsLanguageAvailable(const std::string& lang);
+    bool IsLanguageLocaleAvailable(const std::string& locale);
+
+    const LocaleProperties& GetLocaleProperty(const std::string& locale) {
+        auto it = _locales_properties.find(locale);
+        if (it != _locales_properties.end())
+            return it->second;
+        return _locales_properties.at(DEFAULT_LOCALE);
+    }
+
+    const std::map<std::string, LocaleProperties>& GetLocaleProperties() const {
+        return _locales_properties;
+    }
 
     /** \brief Determines whether the user is done with the game.
     *** \return False if the user would like to exit the game.
@@ -544,8 +623,14 @@ private:
     //! \brief When this member is set to false, the program will exit.
     bool _not_done;
 
-    //! \brief The identification string that determines what language the game is running in
-    std::string _language;
+    //! \brief The identification string that determines what language locale the game is running in.
+    std::string _current_language_locale;
+
+    //! \brief The default language locale according to the configuration file.
+    std::string _default_language_locale;
+
+    //! \brief Stores languages properties.
+    std::map<std::string, LocaleProperties> _locales_properties;
 
     //! \brief Speed at which messages are displayed in dialogues, in characters per second
     float _message_speed;

@@ -246,7 +246,7 @@ void BindEngineCode()
             .def("GetPlayHours", &SystemEngine::GetPlayHours)
             .def("GetPlayMinutes", &SystemEngine::GetPlayMinutes)
             .def("GetPlaySeconds", &SystemEngine::GetPlaySeconds)
-            .def("GetLanguage", &SystemEngine::GetLanguage)
+            .def("GetLanguageLocale", &SystemEngine::GetLanguageLocale)
             .def("GetGameDifficulty", &SystemEngine::GetGameDifficulty)
         ];
 

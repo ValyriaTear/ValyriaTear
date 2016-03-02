@@ -130,7 +130,6 @@ void OptionMenu::InputRight()
     }
 }
 
-const std::string _LANGUAGE_FILE = "data/config/languages.lua";
 const uint16_t SKIN_MENU_INDEX = 5;
 
 GameOptionsMenuHandler::GameOptionsMenuHandler(vt_mode_manager::GameMode* parent_mode):
@@ -734,71 +733,53 @@ void GameOptionsMenuHandler::_RefreshVideoOptions()
 
 void GameOptionsMenuHandler::_RefreshLanguageOptions()
 {
-    // Get the list of languages from the Lua file.
-    ReadScriptDescriptor read_data;
-    if(!read_data.OpenFile(_LANGUAGE_FILE) || !read_data.OpenTable("languages")) {
-        PRINT_ERROR << "Failed to load language file: " << _LANGUAGE_FILE << std::endl
-                    << "The language list will be empty." << std::endl;
-        read_data.CloseFile();
-        return;
-    }
+    _language_options_menu.ClearOptions();
 
-    uint32_t table_size = read_data.GetTableSize();
+    const std::map<std::string, LocaleProperties>& locale_properties = SystemManager->GetLocaleProperties();
+    uint32_t locale_size = locale_properties.size();
 
     // Set up the dimensions of the window according to how many languages are available.
-    _language_options_menu.ClearOptions();
-    _language_options_menu.SetDimensions(300.0f, 500.0f, 1, table_size, 1, (table_size > 12 ? 12 : table_size));
+    _language_options_menu.SetDimensions(300.0f, 500.0f, 1, locale_size, 1,
+                                         (locale_size > 12 ? 12 : locale_size));
 
-    // Used to warn about missing po files, but only once at start.
-    static bool warnAboutMissingFiles = true;
-
+    uint32_t i = 0;
+    uint32_t default_locale_id = 0;
+    std::string default_locale = SystemManager->GetDefaultLanguageLocale();
+    std::string current_locale = vt_system::SystemManager->GetLanguageLocale();
     _po_files.clear();
-    std::string current_language = vt_system::SystemManager->GetLanguage();
-    for(uint32_t i = 1; i <= table_size; ++i) {
-        read_data.OpenTable(i);
-        _po_files.push_back(read_data.ReadString(2));
+    for (auto it : locale_properties) {
+        std::string locale = it.first;
+        const LocaleProperties& locale_properties = it.second;
+        if (locale == default_locale)
+            default_locale_id = i;
 
-        std::string lang = _po_files[i - 1];
         _language_options_menu.AddOption(ustring(), this,  &GameOptionsMenuHandler::_OnLanguageSelect);
-        if (lang == current_language) {
-            _language_options_menu.AddOptionElementImage(i - 1, "data/gui/menus/star.png");
-            _language_options_menu.SetSelection(i - 1);
+        _po_files.push_back(locale);
+        if (locale == current_locale) {
+            _language_options_menu.AddOptionElementImage(i, "data/gui/menus/star.png");
+            _language_options_menu.SetSelection(i);
         }
-        _language_options_menu.AddOptionElementPosition(i - 1, 32);
-        _language_options_menu.AddOptionElementText(i - 1, MakeUnicodeString(read_data.ReadString(1)));
+        _language_options_menu.AddOptionElementPosition(i, 32);
+        _language_options_menu.AddOptionElementText(i, locale_properties.GetLanguageName());
 
         // Test the current language availability
-        if (!vt_system::SystemManager->IsLanguageAvailable(lang)) {
-            // NOTE: English is always available.
-            if (i > 1)
-                _language_options_menu.EnableOption(i - 1, false);
+        if (!vt_system::SystemManager->IsLanguageLocaleAvailable(locale)) {
+            // NOTE: Default locale is always available.
+            if (locale != default_locale)
+                _language_options_menu.EnableOption(i, false);
             // We also reset the current selection when the current language is unavailable.
-            if (lang == current_language)
-                _language_options_menu.SetSelection(0);
-
-            if (warnAboutMissingFiles) {
-                std::string mo_filename = lang + "/LC_MESSAGES/" APPSHORTNAME ".mo";
-                PRINT_WARNING << "Couldn't locate gettext .mo file: '" << mo_filename << "'." << std::endl
-                    << "The " << lang << " translation will be disabled." << std::endl;
-            }
+            if (locale == current_locale)
+                _language_options_menu.SetSelection(default_locale_id);
         }
 
 #ifdef DISABLE_TRANSLATIONS
         // If translations are disabled, only admit the first entry (English)
-        if (i > 1)
-            _language_options_menu.EnableOption(i - 1, false);
-        _language_options_menu.SetSelection(0);
+        if (locale != default_locale)
+            _language_options_menu.EnableOption(i, false);
+        _language_options_menu.SetSelection(default_locale_id);
 #endif
-        read_data.CloseTable();
+        ++i;
     }
-
-    // Only warn once about missing language files.
-    warnAboutMissingFiles = false;
-
-    read_data.CloseTable();
-    if(read_data.IsErrorDetected())
-        PRINT_ERROR << "Error occurred while loading language list: " << read_data.GetErrorMessages() << std::endl;
-    read_data.CloseFile();
 }
 
 void GameOptionsMenuHandler::_RefreshAudioOptions()
@@ -1029,15 +1010,15 @@ void GameOptionsMenuHandler::_OnMusicRight()
 
 void GameOptionsMenuHandler::_OnLanguageSelect()
 {
-    std::string language = _po_files[_language_options_menu.GetSelection()];
+    std::string language_locale = _po_files[_language_options_menu.GetSelection()];
     // Reset the language in case changing failed.
-    if (!SystemManager->SetLanguage(language)) {
+    if (!SystemManager->SetLanguageLocale(language_locale)) {
         _RefreshLanguageOptions();
         return;
     }
 
     // Reload the font according to the newly selected language.
-    TextManager->LoadFonts(language);
+    TextManager->LoadFonts(language_locale);
 
     _has_modified_settings = true;
 
@@ -1342,7 +1323,7 @@ bool GameOptionsMenuHandler::_SaveSettingsFile(const std::string& filename)
 
     //Save language settings
     settings_lua.WriteComment("The GUI and in game dialogues language used");
-    settings_lua.WriteString("language", SystemManager->GetLanguage());
+    settings_lua.WriteString("language", SystemManager->GetLanguageLocale());
 
     // video
     settings_lua.InsertNewLine();

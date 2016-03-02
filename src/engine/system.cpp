@@ -38,6 +38,8 @@ namespace vt_system
 SystemEngine *SystemManager = nullptr;
 bool SYSTEM_DEBUG = false;
 
+const std::string LANGUAGE_FILE = "data/config/languages.lua";
+
 // If gettext translations are disabled, let's define a dummy gettext.
 #ifdef DISABLE_TRANSLATIONS
 const char* gettext(const char *text)
@@ -322,17 +324,80 @@ SystemEngine::SystemEngine():
 {
     IF_PRINT_DEBUG(SYSTEM_DEBUG) << "constructor invoked" << std::endl;
 
-    SetLanguage("en_GB"); // Default language is British English
-    _language = "en_GB"; // In case no files were found.
+    SetLanguageLocale(DEFAULT_LOCALE);
+    _current_language_locale = DEFAULT_LOCALE; // In case no files were found.
+    _default_language_locale = DEFAULT_LOCALE; // In case no files were found.
 }
-
-
 
 SystemEngine::~SystemEngine()
 {
     IF_PRINT_DEBUG(SYSTEM_DEBUG) << "destructor invoked" << std::endl;
 }
 
+bool SystemEngine::LoadLanguages()
+{
+    // Get the list of languages from the Lua file.
+    ReadScriptDescriptor read_data;
+    if(!read_data.OpenFile(LANGUAGE_FILE) || !read_data.DoesTableExist("languages")) {
+        PRINT_ERROR << "Failed to load language file: " << LANGUAGE_FILE << std::endl
+                    << "The language list will be empty." << std::endl;
+        read_data.CloseFile();
+        return false;
+    }
+
+    _default_language_locale = read_data.ReadString("default_locale");
+
+    std::vector<std::string> locale_list;
+    read_data.ReadTableKeys("languages", locale_list);
+
+    if (!read_data.OpenTable("languages") || locale_list.empty()) {
+        PRINT_ERROR << "Failed to load language file: " << LANGUAGE_FILE << std::endl
+                    << "The language locale list was empty, or the languages table didn't exist." << std::endl;
+        read_data.CloseFile();
+        return false;
+    }
+
+    // Used to warn about missing po files, but only once at start.
+    static bool warnAboutMissingFiles = true;
+
+    _locales_properties.clear();
+    std::string current_locale = vt_system::SystemManager->GetLanguageLocale();
+    for (const std::string& locale : locale_list) {
+        if (locale == "default_locale")
+            continue;
+
+        if (!read_data.OpenTable(locale)) {
+            PRINT_WARNING << "Couldn't open locale table: '" << locale << "' in "
+                << LANGUAGE_FILE << ". Skipping ..." << std::endl;
+            continue;
+        }
+
+        LocaleProperties locale_property(MakeUnicodeString(read_data.ReadString("name")), locale);
+        locale_property.SetInterWordsSpacesUse(read_data.ReadBool("interwords_spaces"));
+        _locales_properties.insert(std::pair<std::string, LocaleProperties>(locale, locale_property));
+        std::cout << "Locale property name: " << MakeStandardString(_locales_properties.at(locale).GetLanguageName()) << std::endl;
+
+        // Test the current language availability
+        if (!vt_system::SystemManager->IsLanguageLocaleAvailable(locale)) {
+            if (warnAboutMissingFiles) {
+                std::string mo_filename = locale + "/LC_MESSAGES/" APPSHORTNAME ".mo";
+                PRINT_WARNING << "Couldn't locate gettext .mo file: '" << mo_filename << "'." << std::endl
+                    << "The '" << locale << "' translation will be disabled." << std::endl;
+            }
+        }
+
+        read_data.CloseTable(); // locale
+    }
+
+    // Only warn once about missing language files.
+    warnAboutMissingFiles = false;
+
+    read_data.CloseTable(); // languages
+    if(read_data.IsErrorDetected())
+        PRINT_ERROR << "Error occurred while loading language list: " << read_data.GetErrorMessages() << std::endl;
+    read_data.CloseFile();
+    return true;
+}
 
 std::string _Reinitl10n()
 {
@@ -351,7 +416,7 @@ std::string _Reinitl10n()
 #elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
     // Look for translation files in LOCALEDIR only if they are not available in the
     // current directory.
-    if(!vt_utils::DoesFileExist("po/en_GB/LC_MESSAGES/" APPSHORTNAME ".mo")) {
+    if(!vt_utils::DoesFileExist("po/" + DEFAULT_LOCALE + "/LC_MESSAGES/" APPSHORTNAME ".mo")) {
         bind_text_domain_path = LOCALEDIR;
     } else {
         char buffer[PATH_MAX];
@@ -370,7 +435,7 @@ std::string _Reinitl10n()
     return bind_text_domain_path;
 }
 
-bool SystemEngine::IsLanguageAvailable(const std::string& lang)
+bool SystemEngine::IsLanguageLocaleAvailable(const std::string& lang)
 {
     // Construct the corresponding mo filename path.
     std::string mo_filename = _Reinitl10n();
@@ -379,7 +444,7 @@ bool SystemEngine::IsLanguageAvailable(const std::string& lang)
     mo_filename.append("/LC_MESSAGES/" APPSHORTNAME ".mo");
 
     // Note: English is always available as it's the default language
-    if (lang == "en_GB")
+    if (lang == DEFAULT_LOCALE)
         return true;
 
     // Test whether the file is existing.
@@ -389,26 +454,26 @@ bool SystemEngine::IsLanguageAvailable(const std::string& lang)
     return true;
 }
 
-bool SystemEngine::SetLanguage(const std::string& lang)
+bool SystemEngine::SetLanguageLocale(const std::string& lang)
 {
     // Test whether the file is existing.
     // The function called also reinit the i10n paths
     // so we don't have to do it here.
-    if (!IsLanguageAvailable(lang))
+    if (!IsLanguageLocaleAvailable(lang))
         return false;
 
-    _language = lang;
-    setlocale(LC_MESSAGES, _language.c_str());
+    _current_language_locale = lang;
+    setlocale(LC_MESSAGES, _current_language_locale.c_str());
     setlocale(LC_ALL, "");
 
 #ifdef _WIN32
-    std::string lang_var = "LANGUAGE=" + _language;
+    std::string lang_var = "LANGUAGE=" + _language_locale;
     putenv(lang_var.c_str());
-    SetEnvironmentVariableA("LANGUAGE", _language.c_str());
-    SetEnvironmentVariableA("LANG", _language.c_str());
+    SetEnvironmentVariableA("LANGUAGE", _language_locale.c_str());
+    SetEnvironmentVariableA("LANG", _language_locale.c_str());
 #else
-    setenv("LANGUAGE", _language.c_str(), 1);
-    setenv("LANG", _language.c_str(), 1);
+    setenv("LANGUAGE", _current_language_locale.c_str(), 1);
+    setenv("LANG", _current_language_locale.c_str(), 1);
 #endif
     return true;
 }
@@ -435,6 +500,7 @@ void SystemEngine::SetGameDifficulty(uint32_t game_difficulty)
 
 bool SystemEngine::SingletonInitialize()
 {
+    LoadLanguages();
     return true;
 }
 

@@ -569,10 +569,6 @@ bool TextSupervisor::SingletonInitialize()
     return true;
 }
 
-//! Loads all the defaults fonts available in the game (those available to every locales).
-//! And sets a default text style.
-//! The function will exit the game if no valid textstyle was loaded
-//! or if the default text style is invalid.
 bool TextSupervisor::LoadFonts(const std::string& locale_name)
 {
     vt_script::ReadScriptDescriptor font_script;
@@ -927,11 +923,10 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
             continue;
         }
 
-        // Some languages don't have spaces in the sentence.
-        bool no_space_lang = false;
-        if (vt_system::SystemManager->GetLanguage() == "ja"){
-            no_space_lang = true;
-        }
+        // Some languages have spaces in the sentence, some don't (Japanese, Chinese, ...)
+        std::string locale = vt_system::SystemManager->GetLanguageLocale();
+        bool interwords_spaces = vt_system::SystemManager->GetLocaleProperty(locale).UsesInterWordsSpaces();
+
         while(!temp_line.empty()) {
             int32_t text_width = TextManager->CalculateTextWidth(ttf_font, temp_line);
 
@@ -951,7 +946,7 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
                 wrapped_line += temp_line[num_wrapped_chars];
                 // If we meet a space character (0x20), we can wrap the text
                 // If the current language don't have any spaces in the sentence, check all words.
-                if (no_space_lang || temp_line[num_wrapped_chars] == SPACE_CHAR) {
+                if (!interwords_spaces || temp_line[num_wrapped_chars] == SPACE_CHAR) {
                     int32_t text_width = TextManager->CalculateTextWidth(ttf_font, wrapped_line);
 
                     if(text_width < (int32_t)max_width) {
@@ -980,7 +975,7 @@ std::vector<vt_utils::ustring> TextSupervisor::WrapText(const vt_utils::ustring&
             wrapped_lines_array.push_back(wrapped_line);
 
             // If the current language has spaces in the sentence, the wrapped chars include a last space.
-            if (no_space_lang == false)
+            if (interwords_spaces)
                 num_wrapped_chars++;
             // If there is no more text remaining, we have finished.
             if (num_wrapped_chars >= line_length)
