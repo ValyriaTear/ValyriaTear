@@ -467,10 +467,10 @@ bool SystemEngine::SetLanguageLocale(const std::string& lang)
     setlocale(LC_ALL, "");
 
 #ifdef _WIN32
-    std::string lang_var = "LANGUAGE=" + _language_locale;
+    std::string lang_var = "LANGUAGE=" + _current_language_locale;
     putenv(lang_var.c_str());
-    SetEnvironmentVariableA("LANGUAGE", _language_locale.c_str());
-    SetEnvironmentVariableA("LANG", _language_locale.c_str());
+    SetEnvironmentVariableA("LANGUAGE", _current_language_locale.c_str());
+    SetEnvironmentVariableA("LANG", _current_language_locale.c_str());
 #else
     setenv("LANGUAGE", _current_language_locale.c_str(), 1);
     setenv("LANG", _current_language_locale.c_str(), 1);
