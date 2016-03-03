@@ -47,23 +47,23 @@ fonts = {
     -- Fonts loaded for the 'ja' locale (Japanese)
     ["ja"] = {
         -- Text style internal name = { "font file path", font size }
-        ["title20"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 18},
-        ["title22"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 20},
-        ["title24"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 22},
+        ["title20"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 16},
+        ["title22"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 18},
+        ["title24"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 20},
         ["title28"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 24},
 
         ["text14"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 14},
-        ["text18"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 16},
-        ["text20"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 18},
-        ["text22"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 20},
-        ["text24"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 22},
-        ["text24.2"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 24},
-        ["text26"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 26},
-        ["text28"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 28},
-        ["text36"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 36},
-        ["text48"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 48},
+        ["text18"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 13},
+        ["text20"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 14},
+        ["text22"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 16},
+        ["text24"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 18},
+        ["text24.2"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 20},
+        ["text26"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 22},
+        ["text28"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 24},
+        ["text36"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 32},
+        ["text48"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 44},
 
         -- Map title font
-        ["map_title"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 30}
+        ["map_title"] = {font = "data/fonts/SourceHanSansJP-Medium.otf", size = 28}
     }
 }
