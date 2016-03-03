@@ -86,7 +86,7 @@ function Initialize(battle_instance)
     text = vt_system.Translate("Hmph. Soldiers, leave that man to me!");
     dialogue:AddLine(text, "Banesore");
     text = vt_system.Translate("So, it appears that you remember me, Banesore. Is that correct?");
-    dialogue:AddLine(text, "Banesore");
+    dialogue:AddLine(text, "Herth");
     text = vt_system.Translate("I do remember you, old man...");
     dialogue:AddLine(text, "Banesore");
     text = vt_system.Translate("Then, you already know that your zombified soldiers are no match for me.");
