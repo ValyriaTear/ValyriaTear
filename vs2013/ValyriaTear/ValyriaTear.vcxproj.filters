@@ -317,6 +317,9 @@
     <ClCompile Include="..\..\src\engine\video\gl\gl_render_target.cpp">
       <Filter>engine\video\gl</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\modes\menu\menu_character_window.cpp">
+      <Filter>modes\menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\main_options.h" />
@@ -613,6 +616,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\engine\video\gl\gl_render_target.h">
       <Filter>engine\video\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\modes\menu\menu_character_window.h">
+      <Filter>modes\menu</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

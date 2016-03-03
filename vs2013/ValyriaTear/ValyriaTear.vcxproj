@@ -177,6 +177,7 @@
     <ClCompile Include="..\..\src\modes\map\map_utils.cpp" />
     <ClCompile Include="..\..\src\modes\map\map_zones.cpp" />
     <ClCompile Include="..\..\src\modes\menu\menu.cpp" />
+    <ClCompile Include="..\..\src\modes\menu\menu_character_window.cpp" />
     <ClCompile Include="..\..\src\modes\menu\menu_views.cpp" />
     <ClCompile Include="..\..\src\modes\mode_bindings.cpp" />
     <ClCompile Include="..\..\src\modes\mode_help_window.cpp" />
@@ -281,6 +282,7 @@
     <ClInclude Include="..\..\src\modes\map\map_utils.h" />
     <ClInclude Include="..\..\src\modes\map\map_zones.h" />
     <ClInclude Include="..\..\src\modes\menu\menu.h" />
+    <ClInclude Include="..\..\src\modes\menu\menu_character_window.h" />
     <ClInclude Include="..\..\src\modes\menu\menu_views.h" />
     <ClInclude Include="..\..\src\modes\mode_help_window.h" />
     <ClInclude Include="..\..\src\modes\pause.h" />
