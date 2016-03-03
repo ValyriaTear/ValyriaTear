@@ -375,7 +375,6 @@ bool SystemEngine::LoadLanguages()
         LocaleProperties locale_property(MakeUnicodeString(read_data.ReadString("name")), locale);
         locale_property.SetInterWordsSpacesUse(read_data.ReadBool("interwords_spaces"));
         _locales_properties.insert(std::pair<std::string, LocaleProperties>(locale, locale_property));
-        std::cout << "Locale property name: " << MakeStandardString(_locales_properties.at(locale).GetLanguageName()) << std::endl;
 
         // Test the current language availability
         if (!vt_system::SystemManager->IsLanguageLocaleAvailable(locale)) {
