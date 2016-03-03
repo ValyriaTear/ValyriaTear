@@ -17,6 +17,7 @@
 *** \brief   Source file for CharacterWindow class.
 *** ***************************************************************************/
 
+#include "utils/utils_pch.h"
 #include "menu_character_window.h"
 
 #include "common/global/global.h"
