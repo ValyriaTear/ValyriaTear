@@ -416,7 +416,7 @@ function _UpdateMotherDialogue()
 
         dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Thanks, mom.");
-        dialogue:AddLine(text, bronanns_mother);
+        dialogue:AddLine(text, bronann);
         text = vt_system.Translate("Take care, my son.");
         dialogue:AddLine(text, bronanns_mother);
         event = vt_map.DialogueEvent.Create("Bronann says thanks", dialogue)
