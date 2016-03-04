@@ -25,8 +25,16 @@ namespace vt_video
 namespace gl
 {
 
+// Forward declarations.
+class Transform;
+class Vector;
+
+Vector operator* (const Transform& transform, const Vector& vector);
+
 class Transform
 {
+    friend Vector operator* (const Transform& transform, const Vector& vector);
+
 public:
     //! \brief Default constructor.
     Transform();

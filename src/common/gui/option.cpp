@@ -18,6 +18,7 @@
 #include "utils/utils_pch.h"
 #include "option.h"
 
+#include "engine/video/gl/gl_vector.h"
 #include "engine/video/video.h"
 
 #include "utils/utils_strings.h"
@@ -201,8 +202,8 @@ void OptionBox::Draw()
     // cells. I'm not sure what part of the code between here and the end of this function could
     // affect that. This bug needs to be resolved and then this call to _DEBUG_DrawOutline() should
     // be removed, leaving only the call at the bottom of the function
-    if (GUIManager->DEBUG_DrawOutlines() == true) {
-        //_DEBUG_DrawOutline();
+    if (GUIManager->DEBUG_DrawOutlines()) {
+        _DEBUG_DrawOutline();
     }
 
     float left = 0.0f;
@@ -228,21 +229,33 @@ void OptionBox::Draw()
     // Set up the scissor rectangle.
     VideoManager->EnableScissoring();
 
-    int32_t width = VideoManager->GetScreenWidth();
-    int32_t height = VideoManager->GetScreenHeight();
+    // Transform into clip space.
+    vt_video::gl::Vector top_left = vt_video::gl::Vector(left, top, 0.0f, 1.0f);
+    top_left = VideoManager->_projection * top_left;
 
-    float ratio_width = width / vt_video::VIDEO_STANDARD_RES_WIDTH;
-    float ratio_height = height / vt_video::VIDEO_STANDARD_RES_HEIGHT;
+    vt_video::gl::Vector bottom_right = vt_video::gl::Vector(right, bottom, 0.0f, 1.0f);
+    bottom_right = VideoManager->_projection * bottom_right;
 
-    int32_t scissor_x = static_cast<int32_t>(left * ratio_width);
-    int32_t scissor_y = static_cast<int32_t>((vt_video::VIDEO_STANDARD_RES_HEIGHT - bottom) * ratio_height);
+    // Transform into normalized device coordinates.
+    top_left /= top_left._w;
+    bottom_right /= bottom_right._w;
 
-    assert(right - left >= 0.0f);
-    uint32_t scissor_width = static_cast<uint32_t>((right - left) * ratio_width);
+    // Apply the viewport transform into window coordinates.
+    int32_t viewport_x = VideoManager->GetViewportXOffset();
+    int32_t viewport_y = VideoManager->GetViewportYOffset();
+    int32_t viewport_width = VideoManager->GetViewportWidth();
+    int32_t viewport_height = VideoManager->GetViewportHeight();
 
-    assert(bottom - top >= 0.0f);
-    uint32_t scissor_height = static_cast<uint32_t>((bottom - top) * ratio_height);
+    int32_t scissor_x = static_cast<int32_t>((top_left._x * 0.5f + 0.5f) * viewport_width) + viewport_x;
+    int32_t scissor_y = static_cast<int32_t>((bottom_right._y * 0.5f + 0.5f) * viewport_height) + viewport_y;
 
+    assert(bottom_right._x - top_left._x >= 0.0f);
+    uint32_t scissor_width = static_cast<uint32_t>(((bottom_right._x - top_left._x) * 0.5f + 0.5f) * viewport_width);
+
+    assert(top_left._y - bottom_right._y >= 0.0f);
+    uint32_t scissor_height = static_cast<uint32_t>(((top_left._y - bottom_right._y) * 0.5f + 0.5f) * viewport_height);
+
+    // Scissor rectangle is applied in window coordinates.
     VideoManager->SetScissorRect(scissor_x, scissor_y, scissor_width, scissor_height);
 
     // ---------- (2) Determine the option cells to be drawn and any offsets needed for scrolling
@@ -345,8 +358,9 @@ void OptionBox::Draw()
 
     VideoManager->SetDrawFlags(_xalign, _yalign, VIDEO_BLEND, 0);
 
-    if(GUIManager->DEBUG_DrawOutlines() == true)
+    if (GUIManager->DEBUG_DrawOutlines()) {
         GUIControl::_DEBUG_DrawOutline();
+    }
 
     VideoManager->PopState();
 }
