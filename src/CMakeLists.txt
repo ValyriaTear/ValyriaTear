@@ -294,6 +294,7 @@ engine/video/gl/gl_shader_program.cpp
 engine/video/gl/gl_shader_programs.h
 engine/video/gl/gl_sprite.cpp
 engine/video/gl/gl_transform.cpp
+engine/video/gl/gl_vector.cpp
 engine/video/image.cpp
 engine/video/image_base.cpp
 engine/video/interpolator.cpp
