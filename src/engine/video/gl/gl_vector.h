@@ -28,11 +28,13 @@ namespace gl
 class Transform;
 class Vector;
 
-Vector operator* (const Transform& transform, const Vector& vector);
+//! \brief Vector transformation operator.
+Vector operator*(const Transform& transform, const Vector& vector);
 
 class Vector
 {
-    friend Vector operator* (const Transform& transform, const Vector& vector);
+    //! \brief Vector transformation operator.
+    friend Vector operator*(const Transform& transform, const Vector& vector);
 
 public:
     //! \brief Default constructor.
@@ -42,7 +44,7 @@ public:
     Vector(float x, float y, float z, float w);
 
     //! \brief Division-assignment operator.
-    Vector& operator/= (float scale);
+    Vector& operator/=(float scale);
 
     float _x;
     float _y;

@@ -41,7 +41,7 @@ static float _ComputeDotProduct(const float* a, const float* b)
     return result;
 }
 
-Vector operator* (const Transform& transform, const Vector& vector)
+Vector operator*(const Transform& transform, const Vector& vector)
 {
     Vector result = Vector();
 

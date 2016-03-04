@@ -29,11 +29,10 @@ namespace gl
 class Transform;
 class Vector;
 
-Vector operator* (const Transform& transform, const Vector& vector);
-
 class Transform
 {
-    friend Vector operator* (const Transform& transform, const Vector& vector);
+    //! \brief Vector transformation operator.
+    friend Vector operator*(const Transform& transform, const Vector& vector);
 
 public:
     //! \brief Default constructor.
