@@ -669,7 +669,7 @@ CommandSupervisor::CommandSupervisor() :
 
     _category_options.SetOwner(&_command_window);
     _category_options.SetPosition(256.0f, 80.0f);
-    _category_options.SetDimensions(400.0f, 100.0f, 4, 1, 4, 1);
+    _category_options.SetDimensions(460.0f, 100.0f, 4, 1, 4, 1);
     _category_options.SetCursorOffset(-20.0f, -25.0f);
     _category_options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _category_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
