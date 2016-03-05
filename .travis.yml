@@ -1,6 +1,7 @@
 # Needed to use the new Travis Infrastructure.
 # See: https://docs.travis-ci.com/user/migrating-from-legacy
 sudo: false
+dist: trusty
 
 language: cpp
 compiler:
