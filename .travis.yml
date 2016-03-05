@@ -1,45 +1,51 @@
+# Needed to use the new Travis Infrastructure.
+# See: https://docs.travis-ci.com/user/migrating-from-legacy
+sudo: false
+
 language: cpp
 compiler:
   - gcc
   - clang
 cache: apt
-# Forces gcc 4.8 for c++11 support
+# Forces gcc 5 for c++11 support and more
 env:
   global:
-    - GCC_VERSION="4.8"
+    - GCC_VERSION="5"
 
 git:
   submodules: false
 
+# New infrastructure package installation.
+addons:
+  apt:
+    packages:
+      # See package list: https://github.com/travis-ci/apt-package-whitelist/blob/master/ubuntu-precise
+      - cmake
+      - cppcheck
+      - freeglut3-dev
+      - libopenal-dev
+      - libalut-dev
+      - libvorbis-dev
+      - libogg-dev
+      - liblua5.1-0-dev
+      - libgettextpo-dev
+      - libboost-all-dev
+      - libglew-dev
+      - libsdl2-ttf-dev
+      - libsdl2-dev
+      - libsdl2-image-dev
+      - gcc-5
+      # For Clang
+      - libstdc++-5-dev
+
 before_install:
   # Force th update of the submodule manually
   - git submodule update --init --recursive --force --remote
-  # Add gcc 4.8
-  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq cppcheck freeglut3-dev
-  - sudo apt-get install -qq libopenal-dev libalut-dev libvorbis-dev libogg-dev
-  - sudo apt-get install -qq liblua5.1-0-dev libgettextpo-dev libboost-all-dev
-  - sudo apt-get install -qq libqt4-opengl-dev
-  - sudo apt-get install -qq libglew-dev
 
   # Clang is not system wide.  This is a work around.
   - $CC --version
   - which $CC
   - export CC=`which $CC`
-
-  - wget http://www.libsdl.org/release/SDL2-2.0.3.tar.gz -O - | tar xz
-  - (cd SDL2-2.0.3 && ./configure --prefix=/usr && sudo make -j5 && sudo make install)
-  - wget http://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.0.tar.gz -O - | tar xz
-  - (cd SDL2_image-2.0.0 && ./configure --prefix=/usr && sudo make -j5 && sudo make install)
-  - wget http://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.12.tar.gz -O - | tar xz
-  - (cd SDL2_ttf-2.0.12 && ./configure --prefix=/usr && sudo make -j5 && sudo make install)
-
-install:
-  - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq "g++-${GCC_VERSION}"; fi
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}"; fi
-  - if [ "$CXX" = "clang++" ]; then sudo apt-get install -qq "libstdc++-${GCC_VERSION}-dev"; fi
 
 script:
   - cmake -DCMAKE_CXX_COMPILER=$(which $CXX) -DDEBUG_FEATURES=ON .
