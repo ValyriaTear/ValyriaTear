@@ -8,7 +8,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    gl_transform.h
+*** \file    gl_transform.cpp
 *** \author  logzero
 *** \author  authenticate
 *** \brief   Source file for the Transform class.
@@ -27,7 +27,7 @@ namespace vt_video
 namespace gl
 {
 
-static float _ComputeDotProduct(float* a, float* b)
+static float _ComputeDotProduct(const float* a, const float* b)
 {
     float result = 0.0f;
 

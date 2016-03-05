@@ -143,6 +143,7 @@
     <ClCompile Include="..\..\src\engine\video\gl\gl_shader_program.cpp" />
     <ClCompile Include="..\..\src\engine\video\gl\gl_sprite.cpp" />
     <ClCompile Include="..\..\src\engine\video\gl\gl_transform.cpp" />
+    <ClCompile Include="..\..\src\engine\video\gl\gl_vector.cpp" />
     <ClCompile Include="..\..\src\engine\video\image.cpp" />
     <ClCompile Include="..\..\src\engine\video\image_base.cpp" />
     <ClCompile Include="..\..\src\engine\video\interpolator.cpp" />
@@ -243,6 +244,7 @@
     <ClInclude Include="..\..\src\engine\video\gl\gl_shader_programs.h" />
     <ClInclude Include="..\..\src\engine\video\gl\gl_sprite.h" />
     <ClInclude Include="..\..\src\engine\video\gl\gl_transform.h" />
+    <ClInclude Include="..\..\src\engine\video\gl\gl_vector.h" />
     <ClInclude Include="..\..\src\engine\video\image.h" />
     <ClInclude Include="..\..\src\engine\video\image_base.h" />
     <ClInclude Include="..\..\src\engine\video\interpolator.h" />
