@@ -562,11 +562,11 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
     // Construct GUI objects that will fill each character window
     for(uint32_t i = 0; i < _characters_number; ++i) {
         _growth_list[i].SetOwner(&_character_window[i]);
-        _growth_list[i].SetPosition(340.0f, 15.0f);
+        _growth_list[i].SetPosition(340.0f, 55.0f);
         _growth_list[i].SetDimensions(200.0f, 70.0f, 4, 4, 4, 4);
         _growth_list[i].SetTextStyle(TextStyle("text14", Color::white, VIDEO_TEXT_SHADOW_DARK));
-        _growth_list[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-        _growth_list[i].SetOptionAlignment(VIDEO_X_RIGHT, VIDEO_Y_CENTER);
+        _growth_list[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+        _growth_list[i].SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
         _growth_list[i].SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
         for(uint32_t j = 0; j < 16; ++j) {
             _growth_list[i].AddOption();
@@ -723,57 +723,69 @@ void FinishVictoryAssistant::_UpdateGrowth()
 
         }
 
-        if(!level_maxed_out && _characters[i]->AddExperiencePoints(xp_added) == true) {
+        if(!level_maxed_out && _characters[i]->AddExperiencePoints(xp_added)) {
             _character_growths[i].UpdateGrowthData();
             // Only add text for the stats that experienced growth
             uint32_t line = 0;
 
-            // HP
+            GlobalMedia& media = vt_global::GlobalManager->Media();
+
             if(_character_growths[i].hit_points > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("HP: +") + MakeUnicodeString(NumberToString(_character_growths[i].hit_points)));
+                _growth_list[i].AddOptionElementImage(line, media.GetStatusIcon(vt_global::GLOBAL_STATUS_HP,
+                                                                                vt_global::GLOBAL_INTENSITY_NEUTRAL));
+                _growth_list[i].AddOptionElementPosition(line, 32);
+                _growth_list[i].AddOptionElementText(line, MakeUnicodeString("+" + NumberToString(_character_growths[i].hit_points)));
                 line = line + 2;
             }
-
-            // SP
             if(_character_growths[i].skill_points > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("SP: +") + MakeUnicodeString(NumberToString(_character_growths[i].skill_points)));
+                _growth_list[i].AddOptionElementImage(line, media.GetStatusIcon(vt_global::GLOBAL_STATUS_SP,
+                                                                                vt_global::GLOBAL_INTENSITY_NEUTRAL));
+                _growth_list[i].AddOptionElementPosition(line, 32);
+                _growth_list[i].AddOptionElementText(line, MakeUnicodeString("+" + NumberToString(_character_growths[i].skill_points)));
+
                 line = line + 2;
             }
-
-            // Physical Attack
             if(_character_growths[i].phys_atk > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("ATK: +") + MakeUnicodeString(NumberToString(_character_growths[i].phys_atk)));
+                _growth_list[i].AddOptionElementImage(line, media.GetStatusIcon(vt_global::GLOBAL_STATUS_PHYS_ATK,
+                                                                                vt_global::GLOBAL_INTENSITY_NEUTRAL));
+                _growth_list[i].AddOptionElementPosition(line, 32);
+                _growth_list[i].AddOptionElementText(line, MakeUnicodeString("+" + NumberToString(_character_growths[i].phys_atk)));
                 line = line + 2;
             }
-
-            // Magical Attack
             if(_character_growths[i].mag_atk > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("MATK: +") + MakeUnicodeString(NumberToString(_character_growths[i].mag_atk)));
+                _growth_list[i].AddOptionElementImage(line, media.GetStatusIcon(vt_global::GLOBAL_STATUS_MAG_ATK,
+                                                                                vt_global::GLOBAL_INTENSITY_NEUTRAL));
+                _growth_list[i].AddOptionElementPosition(line, 32);
+                _growth_list[i].AddOptionElementText(line, MakeUnicodeString("+" + NumberToString(_character_growths[i].mag_atk)));
                 line = line + 2;
             }
-
-            // Physical Defense
             if(_character_growths[i].phys_def > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("DEF: +") + MakeUnicodeString(NumberToString(_character_growths[i].phys_def)));
+                _growth_list[i].AddOptionElementImage(line, media.GetStatusIcon(vt_global::GLOBAL_STATUS_PHYS_DEF,
+                                                                                vt_global::GLOBAL_INTENSITY_NEUTRAL));
+                _growth_list[i].AddOptionElementPosition(line, 32);
+                _growth_list[i].AddOptionElementText(line, MakeUnicodeString("+" + NumberToString(_character_growths[i].phys_def)));
                 line = line + 2;
             }
-
-            // Magical Defense
             if(_character_growths[i].mag_def > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("MDEF: +") + MakeUnicodeString(NumberToString(_character_growths[i].mag_def)));
+                _growth_list[i].AddOptionElementImage(line, media.GetStatusIcon(vt_global::GLOBAL_STATUS_MAG_DEF,
+                                                                                vt_global::GLOBAL_INTENSITY_NEUTRAL));
+                _growth_list[i].AddOptionElementPosition(line, 32);
+                _growth_list[i].AddOptionElementText(line, MakeUnicodeString("+" + NumberToString(_character_growths[i].mag_def)));
                 line = line + 2;
             }
-
-            // Stamina
             if(_character_growths[i].stamina > 0) {
-                _growth_list[i].SetOptionText(line, UTranslate("STA: +") + MakeUnicodeString(NumberToString(_character_growths[i].stamina)));
+                _growth_list[i].AddOptionElementImage(line, media.GetStatusIcon(vt_global::GLOBAL_STATUS_STAMINA,
+                                                                                vt_global::GLOBAL_INTENSITY_NEUTRAL));
+                _growth_list[i].AddOptionElementPosition(line, 32);
+                _growth_list[i].AddOptionElementText(line, MakeUnicodeString("+" + NumberToString(_character_growths[i].stamina)));
                 line = line + 2;
             }
-
-            // Evade
             if(_character_growths[i].evade > 0.0f) {
-                _growth_list[i].SetOptionText(line, UTranslate("EVD: +")
-                    + MakeUnicodeString(NumberToString(_character_growths[i].evade)) + MakeUnicodeString("%"));
+                _growth_list[i].AddOptionElementImage(line, media.GetStatusIcon(vt_global::GLOBAL_STATUS_EVADE,
+                                                                                vt_global::GLOBAL_INTENSITY_NEUTRAL));
+                _growth_list[i].AddOptionElementPosition(line, 32);
+                /// TRANSLATORS: This is the evade growth score. E.g.: +1%, +1.5%
+                _growth_list[i].AddOptionElementText(line, MakeUnicodeString(VTranslate("+%f%%", NumberToString(_character_growths[i].evade))));
                 line = line + 2;
             }
 
