@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-22 18:46+0100\n"
-"PO-Revision-Date: 2016-02-22 18:46+0100\n"
+"POT-Creation-Date: 2016-03-05 16:26+0100\n"
+"PO-Revision-Date: 2016-03-05 16:37+0100\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/valyria-tear/"
 "language/fr/)\n"
@@ -20,19 +20,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
-#: ../src/common/global/battle_media.cpp:81
-#: ../data/entities/status_effects/status_effects.lua:418
-msgid "HP"
-msgstr "PV"
-
-#: ../src/common/global/battle_media.cpp:84
-#: ../data/entities/status_effects/status_effects.lua:587
-msgid "SP"
-msgstr "PM"
-
-#: ../src/common/global/battle_media.cpp:107
+#: ../src/common/global/battle_media.cpp:98
 #: ../src/modes/battle/battle_menu.cpp:143
 msgid "Auto-Battle"
 msgstr "Auto-Combat"
@@ -121,243 +111,243 @@ msgid "Invalid Target"
 msgstr "Cible invalide"
 
 #. / Translators: The window title only supports UTF-8 characters in SDL2.
-#: ../src/common/options_handler.cpp:370 ../src/main.cpp:522
+#: ../src/common/options_handler.cpp:369 ../src/main.cpp:522
 msgid "Valyria Tear"
 msgstr "Valyria Tear"
 
-#: ../src/common/options_handler.cpp:388
+#: ../src/common/options_handler.cpp:387
 msgid "Video"
 msgstr "Vidéo"
 
-#: ../src/common/options_handler.cpp:389
+#: ../src/common/options_handler.cpp:388
 msgid "Audio"
 msgstr "Audio"
 
-#: ../src/common/options_handler.cpp:390
+#: ../src/common/options_handler.cpp:389
 msgid "Game"
 msgstr "Jeu"
 
-#: ../src/common/options_handler.cpp:391
+#: ../src/common/options_handler.cpp:390
 msgid "Language"
 msgstr "Langue"
 
-#: ../src/common/options_handler.cpp:392
+#: ../src/common/options_handler.cpp:391
 msgid "Key Settings"
 msgstr "Configuration des touches"
 
-#: ../src/common/options_handler.cpp:393
+#: ../src/common/options_handler.cpp:392
 msgid "Joystick Settings"
 msgstr "Configuration du joystick"
 
-#: ../src/common/options_handler.cpp:416 ../src/common/options_handler.cpp:675
+#: ../src/common/options_handler.cpp:415 ../src/common/options_handler.cpp:674
 msgid "Resolution: "
 msgstr "Résolution : "
 
-#: ../src/common/options_handler.cpp:418 ../src/common/options_handler.cpp:680
-#: ../src/common/options_handler.cpp:684
+#: ../src/common/options_handler.cpp:417 ../src/common/options_handler.cpp:679
+#: ../src/common/options_handler.cpp:683
 msgid "Window mode: "
 msgstr "Mode d'affichage : "
 
-#: ../src/common/options_handler.cpp:420 ../src/common/options_handler.cpp:690
+#: ../src/common/options_handler.cpp:419 ../src/common/options_handler.cpp:689
 msgid "Brightness: "
 msgstr "Luminosité : "
 
-#: ../src/common/options_handler.cpp:422 ../src/common/options_handler.cpp:711
+#: ../src/common/options_handler.cpp:421 ../src/common/options_handler.cpp:710
 msgid "VSync: "
 msgstr "VSync :"
 
-#: ../src/common/options_handler.cpp:425 ../src/common/options_handler.cpp:723
-#: ../src/common/options_handler.cpp:727
+#: ../src/common/options_handler.cpp:424 ../src/common/options_handler.cpp:722
+#: ../src/common/options_handler.cpp:726
 msgid "Update method: "
 msgstr "Méthode de rendu :"
 
-#: ../src/common/options_handler.cpp:427 ../src/common/options_handler.cpp:732
+#: ../src/common/options_handler.cpp:426 ../src/common/options_handler.cpp:731
 msgid "UI Theme: "
 msgstr "Thème : "
 
-#: ../src/common/options_handler.cpp:446 ../src/common/options_handler.cpp:806
+#: ../src/common/options_handler.cpp:445 ../src/common/options_handler.cpp:787
 msgid "Sound Volume: "
 msgstr "Volume des effets : "
 
-#: ../src/common/options_handler.cpp:449 ../src/common/options_handler.cpp:807
+#: ../src/common/options_handler.cpp:448 ../src/common/options_handler.cpp:788
 msgid "Music Volume: "
 msgstr "Volume de la musique : "
 
-#: ../src/common/options_handler.cpp:471 ../src/common/options_handler.cpp:815
+#: ../src/common/options_handler.cpp:470 ../src/common/options_handler.cpp:796
 msgid "Easy"
 msgstr "Facile"
 
-#: ../src/common/options_handler.cpp:476 ../src/common/options_handler.cpp:820
+#: ../src/common/options_handler.cpp:475 ../src/common/options_handler.cpp:801
 msgid "Normal"
 msgstr "Normale"
 
-#: ../src/common/options_handler.cpp:479 ../src/common/options_handler.cpp:823
+#: ../src/common/options_handler.cpp:478 ../src/common/options_handler.cpp:804
 msgid "Hard"
 msgstr "Difficile"
 
-#: ../src/common/options_handler.cpp:493 ../src/common/options_handler.cpp:833
-#: ../src/common/options_handler.cpp:855
-#: ../src/modes/battle/battle_finish.cpp:161
+#: ../src/common/options_handler.cpp:492 ../src/common/options_handler.cpp:814
+#: ../src/common/options_handler.cpp:836
+#: ../src/modes/battle/battle_finish.cpp:160
 msgid "Yes"
 msgstr "Oui"
 
-#: ../src/common/options_handler.cpp:493 ../src/common/options_handler.cpp:833
-#: ../src/common/options_handler.cpp:857
-#: ../src/modes/battle/battle_finish.cpp:162
+#: ../src/common/options_handler.cpp:492 ../src/common/options_handler.cpp:814
+#: ../src/common/options_handler.cpp:838
+#: ../src/modes/battle/battle_finish.cpp:161
 msgid "No"
 msgstr "Non"
 
-#: ../src/common/options_handler.cpp:524
+#: ../src/common/options_handler.cpp:523
 msgid "Up: "
 msgstr "Haut : "
 
-#: ../src/common/options_handler.cpp:525
+#: ../src/common/options_handler.cpp:524
 msgid "Down: "
 msgstr "Bas : "
 
-#: ../src/common/options_handler.cpp:526
+#: ../src/common/options_handler.cpp:525
 msgid "Left: "
 msgstr "Gauche : "
 
-#: ../src/common/options_handler.cpp:527
+#: ../src/common/options_handler.cpp:526
 msgid "Right: "
 msgstr "Droite : "
 
-#: ../src/common/options_handler.cpp:528
+#: ../src/common/options_handler.cpp:527
 msgid "Confirm: "
 msgstr "Valider : "
 
-#: ../src/common/options_handler.cpp:529
+#: ../src/common/options_handler.cpp:528
 msgid "Cancel: "
 msgstr "Annuler : "
 
-#: ../src/common/options_handler.cpp:530
+#: ../src/common/options_handler.cpp:529
 msgid "Menu: "
 msgstr "Menu : "
 
-#: ../src/common/options_handler.cpp:531
+#: ../src/common/options_handler.cpp:530
 msgid "Toggle Map: "
 msgstr "Aff./Cacher la carte :"
 
-#: ../src/common/options_handler.cpp:532
+#: ../src/common/options_handler.cpp:531
 msgid "Pause: "
 msgstr "Pause : "
 
-#: ../src/common/options_handler.cpp:533 ../src/common/options_handler.cpp:567
+#: ../src/common/options_handler.cpp:532 ../src/common/options_handler.cpp:566
 msgid "Restore defaults"
 msgstr "Paramètres par défaut"
 
-#: ../src/common/options_handler.cpp:680
+#: ../src/common/options_handler.cpp:679
 msgid "Fullscreen"
 msgstr "Plein écran"
 
-#: ../src/common/options_handler.cpp:684
+#: ../src/common/options_handler.cpp:683
 msgid "Windowed"
 msgstr "Fenêtré"
 
-#: ../src/common/options_handler.cpp:727
+#: ../src/common/options_handler.cpp:726
 msgid "Performance"
 msgstr "Performance"
 
-#: ../src/common/options_handler.cpp:840
+#: ../src/common/options_handler.cpp:821
 msgid "Move Up"
 msgstr "Haut"
 
-#: ../src/common/options_handler.cpp:841
+#: ../src/common/options_handler.cpp:822
 msgid "Move Down"
 msgstr "Bas"
 
-#: ../src/common/options_handler.cpp:842
+#: ../src/common/options_handler.cpp:823
 msgid "Move Left"
 msgstr "Gauche"
 
-#: ../src/common/options_handler.cpp:843
+#: ../src/common/options_handler.cpp:824
 msgid "Move Right"
 msgstr "Droite"
 
-#: ../src/common/options_handler.cpp:844 ../src/modes/mode_help_window.cpp:143
+#: ../src/common/options_handler.cpp:825 ../src/modes/mode_help_window.cpp:143
 #: ../src/modes/mode_help_window.cpp:186 ../src/modes/mode_help_window.cpp:242
 msgid "Confirm"
 msgstr "Valider"
 
-#: ../src/common/options_handler.cpp:845 ../src/modes/mode_help_window.cpp:146
+#: ../src/common/options_handler.cpp:826 ../src/modes/mode_help_window.cpp:146
 #: ../src/modes/mode_help_window.cpp:192 ../src/modes/mode_help_window.cpp:245
 #: ../src/modes/pause.cpp:91 ../src/modes/save/save_mode.cpp:123
 #: ../src/modes/save/save_mode.cpp:138
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ../src/common/options_handler.cpp:846 ../src/modes/mode_help_window.cpp:189
+#: ../src/common/options_handler.cpp:827 ../src/modes/mode_help_window.cpp:189
 #: ../src/modes/mode_help_window.cpp:250 ../src/modes/mode_help_window.cpp:255
 msgid "Menu"
 msgstr "Menu"
 
-#: ../src/common/options_handler.cpp:847
+#: ../src/common/options_handler.cpp:828
 msgid "Toggle Map"
 msgstr "Aff./Cacher la carte"
 
-#: ../src/common/options_handler.cpp:848 ../src/modes/mode_help_window.cpp:198
+#: ../src/common/options_handler.cpp:829 ../src/modes/mode_help_window.cpp:198
 #: ../src/modes/mode_help_window.cpp:259
 msgid "Pause"
 msgstr "Pause"
 
-#: ../src/common/options_handler.cpp:855 ../src/common/options_handler.cpp:857
+#: ../src/common/options_handler.cpp:836 ../src/common/options_handler.cpp:838
 msgid "Input enabled: "
 msgstr "Activé : "
 
-#: ../src/common/options_handler.cpp:859
+#: ../src/common/options_handler.cpp:840
 msgid "X Axis"
 msgstr "Axe X"
 
-#: ../src/common/options_handler.cpp:860
+#: ../src/common/options_handler.cpp:841
 msgid "Y Axis"
 msgstr "Axe Y"
 
-#: ../src/common/options_handler.cpp:861
+#: ../src/common/options_handler.cpp:842
 msgid "Threshold"
 msgstr "Zone morte"
 
-#: ../src/common/options_handler.cpp:862
+#: ../src/common/options_handler.cpp:843
 msgid "Confirm: Button"
 msgstr "Valider : Bouton"
 
-#: ../src/common/options_handler.cpp:863
+#: ../src/common/options_handler.cpp:844
 msgid "Cancel: Button"
 msgstr "Annuler : Bouton"
 
-#: ../src/common/options_handler.cpp:864
+#: ../src/common/options_handler.cpp:845
 msgid "Menu: Button"
 msgstr "Menu : Bouton"
 
-#: ../src/common/options_handler.cpp:865
+#: ../src/common/options_handler.cpp:846
 msgid "Map: Button"
 msgstr "Carte : Bouton"
 
-#: ../src/common/options_handler.cpp:866
+#: ../src/common/options_handler.cpp:847
 msgid "Pause: Button"
 msgstr "Pause : Bouton"
 
-#: ../src/common/options_handler.cpp:867
+#: ../src/common/options_handler.cpp:848
 msgid "Help: Button"
 msgstr "Aide : Bouton"
 
-#: ../src/common/options_handler.cpp:868
+#: ../src/common/options_handler.cpp:849
 msgid "Quit: Button"
 msgstr "Quitter : Bouton"
 
-#: ../src/common/options_handler.cpp:1153
+#: ../src/common/options_handler.cpp:1134
 msgid "Please press a new joystick button."
 msgstr "Veuillez appuyer sur un bouton du joystick."
 
-#: ../src/common/options_handler.cpp:1155
+#: ../src/common/options_handler.cpp:1136
 msgid "Please press a new key."
 msgstr "Veuillez appuyer sur une nouvelle touche."
 
-#: ../src/common/options_handler.cpp:1157
+#: ../src/common/options_handler.cpp:1138
 msgid "Please move an axis."
 msgstr "Veuillez bouger un axe du joystick."
 
-#: ../src/common/options_handler.cpp:1175
+#: ../src/common/options_handler.cpp:1156
 msgid ""
 "Here you can set up the video options such as the resolution, whether to "
 "play in full screen, the GUI theme, ..."
@@ -365,13 +355,13 @@ msgstr ""
 "Dans ce menu, vous pouvez modifier les options vidéos telles que la "
 "résolution écran, jouer ou non en plein écran, le thème des fenêtres, ..."
 
-#: ../src/common/options_handler.cpp:1178
+#: ../src/common/options_handler.cpp:1159
 msgid "Here you can setup the music and SFX volumes."
 msgstr ""
 "Dans ce menu, vous pouvez modifier le volume de la musique et des effets "
 "sonores."
 
-#: ../src/common/options_handler.cpp:1181
+#: ../src/common/options_handler.cpp:1162
 msgid ""
 "This menu permits to setup game specific options, such as the text scrolling "
 "speed, the game difficulty, ..."
@@ -379,7 +369,7 @@ msgstr ""
 "Ce menu permet de modifier les options spécifiques au jeu, telles que la "
 "vitesse de défilement du texte, la difficulté de jeu, ..."
 
-#: ../src/common/options_handler.cpp:1184
+#: ../src/common/options_handler.cpp:1165
 msgid ""
 "This menu will show the available languages. Only available from the boot "
 "menu..."
@@ -387,30 +377,30 @@ msgstr ""
 "Ce menu affiche les langues disponibles. Il est accessible seulement depuis "
 "l'écran de démarrage..."
 
-#: ../src/common/options_handler.cpp:1187
+#: ../src/common/options_handler.cpp:1168
 msgid "Here you change the keys used when playing with the keyboard..."
 msgstr "Dans ce menu, vous pouvez modifier les touches clavier utilisées ..."
 
-#: ../src/common/options_handler.cpp:1190
+#: ../src/common/options_handler.cpp:1171
 msgid "Here you change the keys used when playing with a joystick..."
 msgstr "Ici, vous pouvez modifier les touches utilisées avec un joystick ..."
 
-#: ../src/common/options_handler.cpp:1200
+#: ../src/common/options_handler.cpp:1181
 msgid "This permits to select the game's resolution..."
 msgstr "Permet de régler la résolution-écran du jeu."
 
-#: ../src/common/options_handler.cpp:1203
+#: ../src/common/options_handler.cpp:1184
 msgid ""
 "Here you can set whether you want to play in windowed mode or fullscreen."
 msgstr ""
 "Ce menu permet de sélectionner si vous voulez ou non jouer en plein écran."
 
-#: ../src/common/options_handler.cpp:1206
+#: ../src/common/options_handler.cpp:1187
 msgid "Sets the game brightness percentage. Default: 50%"
 msgstr ""
 "Permet de modifier le pourcentage de luminosité de l'écran. 50% par défaut."
 
-#: ../src/common/options_handler.cpp:1209
+#: ../src/common/options_handler.cpp:1190
 msgid ""
 "Permits to change the Screen Vertical Synchronization mode. (Use the left "
 "and right arrow keys.)"
@@ -418,7 +408,7 @@ msgstr ""
 "Permet de modifier le mode de synchronisation verticale. (Utiliser les "
 "touches gauche et droite.)"
 
-#: ../src/common/options_handler.cpp:1212
+#: ../src/common/options_handler.cpp:1193
 msgid ""
 "Permits to change the Game Update mode. Use 'Performance' for more FPS, and "
 "'Gentle' to be kind with your CPU. Disabled when VSync is on."
@@ -427,19 +417,19 @@ msgstr ""
 "'Performance' pour obtenir plus de FPS, et 'Douce' pour en demander moins à "
 "votre CPU. Cette option est désactivée lorsque la V-Sync est activée."
 
-#: ../src/common/options_handler.cpp:1215
+#: ../src/common/options_handler.cpp:1196
 msgid "Permits to change the in-game GUI theme."
 msgstr "Permet de modifier le thème des menus."
 
-#: ../src/common/options_handler.cpp:1225
+#: ../src/common/options_handler.cpp:1206
 msgid "Permits to set the general music volume."
 msgstr "Permets de modifier le volume principale de la musique."
 
-#: ../src/common/options_handler.cpp:1228
+#: ../src/common/options_handler.cpp:1209
 msgid "Permits to set the general SFX volume."
 msgstr "Permet de régler le volume des effets sonores."
 
-#: ../src/common/options_handler.cpp:1238
+#: ../src/common/options_handler.cpp:1219
 msgid ""
 "Sets the game difficulty, can change how hard battles and certain events are "
 "in game..."
@@ -447,7 +437,7 @@ msgstr ""
 "Détermine la difficulté de jeu. Cela peut modifier la difficulté des combats "
 "mais également certains événements du jeu ..."
 
-#: ../src/common/options_handler.cpp:1241
+#: ../src/common/options_handler.cpp:1222
 msgid ""
 "Permits to set up the dialogue text scrolling speed (in character per "
 "seconds)..."
@@ -455,7 +445,7 @@ msgstr ""
 "Permets de modifier la vitesse de défilement du texte dans les dialogue (en "
 "caractère par seconde) ..."
 
-#: ../src/common/options_handler.cpp:1244
+#: ../src/common/options_handler.cpp:1225
 msgid ""
 "Sets whether the battle target should be kept in memory between two actions "
 "for a given character."
@@ -487,7 +477,7 @@ msgstr "Capacité<R>Type PM"
 #: ../src/modes/battle/battle_command.cpp:659
 #: ../src/modes/battle/battle_command.cpp:751
 #: ../src/modes/battle/battle_command.cpp:752
-#: ../src/modes/menu/menu_views.cpp:1728
+#: ../src/modes/menu/menu_views.cpp:1806
 msgid "Weapon"
 msgstr "Arme"
 
@@ -497,7 +487,7 @@ msgid "Magic"
 msgstr "Magie"
 
 #: ../src/modes/battle/battle_command.cpp:656
-#: ../src/modes/battle/battle_command.cpp:662 ../src/modes/menu/menu.cpp:358
+#: ../src/modes/battle/battle_command.cpp:662 ../src/modes/menu/menu.cpp:368
 #: ../src/modes/shop/shop.cpp:68
 msgid "Items"
 msgstr "Objets"
@@ -547,106 +537,74 @@ msgstr "Premier coup !"
 msgid "Ambush!"
 msgstr "Embuscade !"
 
-#: ../src/modes/battle/battle_finish.cpp:148
+#: ../src/modes/battle/battle_finish.cpp:147
 msgid "Retry"
 msgstr "Réessayer"
 
-#: ../src/modes/battle/battle_finish.cpp:149
+#: ../src/modes/battle/battle_finish.cpp:148
 msgid "End"
 msgstr "Fin"
 
-#: ../src/modes/battle/battle_finish.cpp:291
+#: ../src/modes/battle/battle_finish.cpp:280
 msgid "Start over from the beginning of this battle."
 msgstr "Recommencer au début du combat."
 
-#: ../src/modes/battle/battle_finish.cpp:294
+#: ../src/modes/battle/battle_finish.cpp:283
 msgid "Exit to main menu."
 msgstr "Retour au menu principal."
 
-#: ../src/modes/battle/battle_finish.cpp:303
+#: ../src/modes/battle/battle_finish.cpp:292
 msgid "Confirm: retry battle."
 msgstr "Confirmer : Recommencer le combat."
 
-#: ../src/modes/battle/battle_finish.cpp:306
+#: ../src/modes/battle/battle_finish.cpp:295
 msgid "Confirm: return to main menu."
 msgstr "Confirmer : Retourner au menu principal."
 
-#: ../src/modes/battle/battle_finish.cpp:381
+#: ../src/modes/battle/battle_finish.cpp:370
 msgid "Items Found"
 msgstr "Objets trouvés"
 
-#: ../src/modes/battle/battle_finish.cpp:556
+#: ../src/modes/battle/battle_finish.cpp:535
 msgid "XP Earned: "
 msgstr "XP gagnés : "
 
-#: ../src/modes/battle/battle_finish.cpp:558
+#: ../src/modes/battle/battle_finish.cpp:537
 msgid "Drunes Found: "
 msgstr "Drunes trouvées : "
 
-#: ../src/modes/battle/battle_finish.cpp:559
+#: ../src/modes/battle/battle_finish.cpp:538
 msgid "Total Drunes: "
 msgstr "Total Drunes : "
 
-#: ../src/modes/battle/battle_finish.cpp:618
-#: ../src/modes/battle/battle_finish.cpp:819
+#: ../src/modes/battle/battle_finish.cpp:595
+#: ../src/modes/battle/battle_finish.cpp:801
 msgid "Level (Max): "
 msgstr "Niveau (Max) : "
 
-#: ../src/modes/battle/battle_finish.cpp:622
-#: ../src/modes/battle/battle_finish.cpp:821
+#: ../src/modes/battle/battle_finish.cpp:599
+#: ../src/modes/battle/battle_finish.cpp:803
 msgid "Level: "
 msgstr "Niveau : "
 
-#: ../src/modes/battle/battle_finish.cpp:624
-#: ../src/modes/battle/battle_finish.cpp:822
+#: ../src/modes/battle/battle_finish.cpp:601
+#: ../src/modes/battle/battle_finish.cpp:804
 msgid "XP left: "
 msgstr "XP restants : "
 
-#: ../src/modes/battle/battle_finish.cpp:762
-msgid "HP: +"
-msgstr "PV : +"
-
-#: ../src/modes/battle/battle_finish.cpp:768
-msgid "SP: +"
-msgstr "PM : +"
-
-#: ../src/modes/battle/battle_finish.cpp:774
-msgid "STR: +"
-msgstr "FOR : +"
-
-#: ../src/modes/battle/battle_finish.cpp:780
-msgid "VIG: +"
-msgstr "VIG : +"
-
-#: ../src/modes/battle/battle_finish.cpp:786
-msgid "FRT: +"
-msgstr "CRG : +"
-
-#: ../src/modes/battle/battle_finish.cpp:792
-msgid "PRO: +"
-msgstr "PRO : +"
-
-#: ../src/modes/battle/battle_finish.cpp:798
-msgid "AGI: +"
-msgstr "AGI : +"
-
-#: ../src/modes/battle/battle_finish.cpp:804
-msgid "EVD: +"
-msgstr "ESQ : +"
-
-#: ../src/modes/battle/battle_finish.cpp:812
+#: ../src/modes/battle/battle_finish.cpp:794
 msgid "New Skill Learned:\n"
 msgstr "Nouvelle capacité :\n"
 
-#: ../src/modes/battle/battle_finish.cpp:824
+#: ../src/modes/battle/battle_finish.cpp:806
 msgid " (+20%)"
 msgstr " (+20%)"
 
-#: ../src/modes/battle/battle_finish.cpp:946
+#: ../src/modes/battle/battle_finish.cpp:922
 msgid "The heroes were victorious!"
 msgstr "Les héros ont remporté la bataille !"
 
-#: ../src/modes/battle/battle_finish.cpp:949
+#: ../src/modes/battle/battle_finish.cpp:925
 msgid "The heroes fell in battle..."
 msgstr "Les héros sont tombés au combat..."
 
@@ -697,6 +655,15 @@ msgstr "Ok"
 msgid "Drunes"
 msgstr "Drunes"
 
+#: ../src/modes/menu/menu_character_window.cpp:69
+#: ../src/modes/save/save_mode.cpp:769
+msgid "Lv: "
+msgstr "Nv : "
+
+#: ../src/modes/menu/menu_character_window.cpp:74
+msgid "XP to Next: "
+msgstr "XP restants : "
+
 #: ../src/modes/menu/menu.cpp:234
 msgid "Inventory"
 msgstr "Inventaire"
@@ -731,24 +698,28 @@ msgstr ""
 msgid "Select to view Quest Log."
 msgstr "Sélectionnez l'option pour voir le journal des quêtes."
 
-#: ../src/modes/menu/menu.cpp:359
+#: ../src/modes/menu/menu.cpp:369
 msgid "Equip"
 msgstr "Équiper"
 
-#: ../src/modes/menu/menu.cpp:360
+#: ../src/modes/menu/menu.cpp:370
 msgid "Remove"
 msgstr "Retirer"
 
-#: ../src/modes/menu/menu.cpp:361 ../src/modes/menu/menu.cpp:440
-#: ../src/modes/menu/menu.cpp:505
+#: ../src/modes/menu/menu.cpp:371 ../src/modes/menu/menu.cpp:469
+#: ../src/modes/menu/menu.cpp:563
 msgid "Back"
 msgstr "Retour"
 
-#: ../src/modes/menu/menu.cpp:439
+#: ../src/modes/menu/menu.cpp:467
 msgid "View/Reorder"
 msgstr "Voir / Échanger"
 
-#: ../src/modes/menu/menu.cpp:447
+#: ../src/modes/menu/menu.cpp:468
+msgid "Battle Formation"
+msgstr "Formation de Combat"
+
+#: ../src/modes/menu/menu.cpp:480
 msgid ""
 "View character Information.\n"
 "Select a character to change formation."
@@ -756,186 +727,182 @@ msgstr ""
 "Voir les informations sur un personnage.\n"
 "Sélectionnez un personnage pour changer de formation."
 
-#: ../src/modes/menu/menu.cpp:504
+#: ../src/modes/menu/menu.cpp:562
 msgid "Use"
 msgstr "Utiliser"
 
-#: ../src/modes/menu/menu.cpp:782
+#: ../src/modes/menu/menu.cpp:840
 msgid "This item is a key item and can be neither consumed nor sold."
 msgstr "Cet objet est un objet clé et ne peut être ni utilisé ni vendu."
 
-#: ../src/modes/menu/menu.cpp:790
+#: ../src/modes/menu/menu.cpp:848
 msgid "This item is an elemental spirit and can be associated with equipment."
 msgstr ""
 "Cet objet est un esprit élémentaire et peut être associé à votre équipement."
 
-#: ../src/modes/menu/menu.cpp:902 ../src/modes/shop/shop.cpp:209
+#: ../src/modes/menu/menu.cpp:965 ../src/modes/shop/shop.cpp:209
 msgid "Skills obtained:"
 msgstr "Capacités obtenues :"
 
-#: ../src/modes/menu/menu.cpp:1114 ../src/modes/shop/shop.cpp:198
+#: ../src/modes/menu/menu.cpp:1178 ../src/modes/shop/shop.cpp:198
 #: ../src/modes/shop/shop.cpp:538
 msgid "ATK:"
 msgstr "ATQ : "
 
-#: ../src/modes/menu/menu.cpp:1115 ../src/modes/shop/shop.cpp:200
+#: ../src/modes/menu/menu.cpp:1179 ../src/modes/shop/shop.cpp:200
 #: ../src/modes/shop/shop.cpp:539
 msgid "M.ATK:"
 msgstr "M.ATQ: "
 
-#: ../src/modes/menu/menu.cpp:1118 ../src/modes/shop/shop.cpp:545
+#: ../src/modes/menu/menu.cpp:1182 ../src/modes/shop/shop.cpp:545
 msgid "DEF:"
 msgstr "DEF : "
 
-#: ../src/modes/menu/menu.cpp:1119 ../src/modes/shop/shop.cpp:546
+#: ../src/modes/menu/menu.cpp:1183 ../src/modes/shop/shop.cpp:546
 msgid "M.DEF:"
 msgstr "M.DEF : "
 
-#: ../src/modes/menu/menu_views.cpp:73 ../src/modes/save/save_mode.cpp:769
-msgid "Lv: "
-msgstr "Nv : "
-
-#: ../src/modes/menu/menu_views.cpp:74 ../src/modes/save/save_mode.cpp:770
-msgid "HP: "
-msgstr "PV : "
-
-#: ../src/modes/menu/menu_views.cpp:76 ../src/modes/save/save_mode.cpp:772
-msgid "SP: "
-msgstr "PM : "
-
-#: ../src/modes/menu/menu_views.cpp:78
-msgid "XP to Next: "
-msgstr "XP restants : "
-
-#: ../src/modes/menu/menu_views.cpp:198
+#: ../src/modes/menu/menu_views.cpp:79
 msgid "Select an item to Equip or Use."
 msgstr "Sélectionnez un objet à équiper ou utiliser."
 
-#: ../src/modes/menu/menu_views.cpp:199
+#: ../src/modes/menu/menu_views.cpp:80
 msgid "This character cannot equip this item."
 msgstr "Ce personnage ne peut pas utiliser cet objet."
 
-#: ../src/modes/menu/menu_views.cpp:200
+#: ../src/modes/menu/menu_views.cpp:81
 msgid "Select a character to use the item on."
 msgstr "Sélectionnez un personnage sur lequel utiliser l'objet."
 
-#: ../src/modes/menu/menu_views.cpp:894
+#: ../src/modes/menu/menu_views.cpp:775
 msgid "Select a character to change position with."
 msgstr "Sélectionnez un personnage avec lequel échanger de position."
 
-#: ../src/modes/menu/menu_views.cpp:895
+#: ../src/modes/menu/menu_views.cpp:776
 msgid "Select a character to change formation."
 msgstr "Sélectionnez un personnage pour changer la formation."
 
-#: ../src/modes/menu/menu_views.cpp:956
-msgid "Attack / Defense:"
-msgstr "Attaque / Défense :"
+#: ../src/modes/menu/menu_views.cpp:836
+msgid "Global Attack / Defense:"
+msgstr "Attaque / Défense Globale :"
 
-#: ../src/modes/menu/menu_views.cpp:958
-msgid "Detailed defense:"
-msgstr "Défense localisée :"
+#: ../src/modes/menu/menu_views.cpp:838
+msgid "Detailed Defense:"
+msgstr "Défense Détaillée :"
 
-#: ../src/modes/menu/menu_views.cpp:961
-msgid "Attack (ATK): "
-msgstr "Attaque (ATQ) :"
+#: ../src/modes/menu/menu_views.cpp:841
+msgid "Total Attack: "
+msgstr "Attaque Totale :"
 
-#: ../src/modes/menu/menu_views.cpp:962
-msgid "Magical Attack (M.ATK): "
-msgstr "Attaque Magique (M.ATQ) :"
+#: ../src/modes/menu/menu_views.cpp:842
+msgid "Total Magical Attack: "
+msgstr "Attaque Magique Totale : "
 
-#: ../src/modes/menu/menu_views.cpp:963
-msgid "Defense (DEF): "
-msgstr "Défense (DEF) :"
+#: ../src/modes/menu/menu_views.cpp:843
+msgid "Average Defense: "
+msgstr "Défense Moyenne : "
 
-#: ../src/modes/menu/menu_views.cpp:964
-msgid "Magical Defense (M.DEF): "
-msgstr "Défense Magique (M.DEF) : "
+#: ../src/modes/menu/menu_views.cpp:844
+msgid "Average Magical Defense: "
+msgstr "Défense Magique Moyenne : "
 
-#: ../src/modes/menu/menu_views.cpp:971
+#: ../src/modes/menu/menu_views.cpp:851
 msgid "Head: "
 msgstr "Tête : "
 
-#: ../src/modes/menu/menu_views.cpp:972
+#: ../src/modes/menu/menu_views.cpp:852
 msgid "Torso: "
 msgstr "Torse : "
 
-#: ../src/modes/menu/menu_views.cpp:973
+#: ../src/modes/menu/menu_views.cpp:853
 msgid "Arm: "
 msgstr "Bras :"
 
-#: ../src/modes/menu/menu_views.cpp:974
+#: ../src/modes/menu/menu_views.cpp:854
 msgid "Leg: "
 msgstr "Jambe : "
 
-#: ../src/modes/menu/menu_views.cpp:1080
+#: ../src/modes/menu/menu_views.cpp:959
 msgid "Experience Level: "
 msgstr "Niveau : "
 
-#: ../src/modes/menu/menu_views.cpp:1082
-msgid "Strength (STR): "
-msgstr "Force (FOR) : "
+#: ../src/modes/menu/menu_views.cpp:961
+msgid "Physical Attack: "
+msgstr "Attaque Physique : "
 
-#: ../src/modes/menu/menu_views.cpp:1083
-msgid "Vigor (VIG): "
-msgstr "Vigueur (VIG) : "
+#: ../src/modes/menu/menu_views.cpp:962
+msgid "Magical Attack: "
+msgstr "Attaque Magique: "
 
-#: ../src/modes/menu/menu_views.cpp:1084
-msgid "Fortitude (FRT): "
-msgstr "Courage (CRG) : "
+#: ../src/modes/menu/menu_views.cpp:963
+msgid "Physical Defense: "
+msgstr "Défense Physique : "
 
-#: ../src/modes/menu/menu_views.cpp:1085
-msgid "Protection (PRO): "
-msgstr "Protection (PRO) : "
+#: ../src/modes/menu/menu_views.cpp:964
+msgid "Magical Defense: "
+msgstr "Défense Magique : "
 
-#: ../src/modes/menu/menu_views.cpp:1086
-msgid "Agility (AGI): "
-msgstr "Agilité (AGI) : "
+#: ../src/modes/menu/menu_views.cpp:965
+msgid "Stamina: "
+msgstr "Endurance : "
 
-#: ../src/modes/menu/menu_views.cpp:1087
-msgid "Evade (EVD): "
-msgstr "Esquive (ESQ) : "
+#: ../src/modes/menu/menu_views.cpp:966
+msgid "Evade: "
+msgstr "Esquive : "
 
-#: ../src/modes/menu/menu_views.cpp:1250
+#: ../src/modes/menu/menu_views.cpp:1133
+msgid "Switch"
+msgstr "Inverser"
+
+#: ../src/modes/menu/menu_views.cpp:1156
+msgid "Select a battle formation to change characters placement."
+msgstr ""
+
+#: ../src/modes/menu/menu_views.cpp:1159
+msgid "Rear - Front"
+msgstr "Arrière - Avant"
+
+#: ../src/modes/menu/menu_views.cpp:1328
 msgid "Choose a character."
 msgstr "Choisissez un personnage."
 
-#: ../src/modes/menu/menu_views.cpp:1251
+#: ../src/modes/menu/menu_views.cpp:1329
 msgid "Choose a skill category to use."
 msgstr "Choisissez une catégorie de compétences à utiliser."
 
-#: ../src/modes/menu/menu_views.cpp:1340
+#: ../src/modes/menu/menu_views.cpp:1418
 msgid "All"
 msgstr "Tout"
 
-#: ../src/modes/menu/menu_views.cpp:1341
+#: ../src/modes/menu/menu_views.cpp:1419
 msgid "Field"
 msgstr "Terrain"
 
-#: ../src/modes/menu/menu_views.cpp:1342
+#: ../src/modes/menu/menu_views.cpp:1420
 msgid "Battle"
 msgstr "Combat"
 
-#: ../src/modes/menu/menu_views.cpp:1544
+#: ../src/modes/menu/menu_views.cpp:1622
 msgid "Weapon skill"
 msgstr "Compétence d'armes"
 
-#: ../src/modes/menu/menu_views.cpp:1546
+#: ../src/modes/menu/menu_views.cpp:1624
 msgid "Bare hands"
 msgstr "Mains nues"
 
-#: ../src/modes/menu/menu_views.cpp:1549
+#: ../src/modes/menu/menu_views.cpp:1627
 msgid "Magic skill"
 msgstr "Magie"
 
-#: ../src/modes/menu/menu_views.cpp:1555
+#: ../src/modes/menu/menu_views.cpp:1633
 msgid "Special skill"
 msgstr "Compétence spéciale"
 
-#: ../src/modes/menu/menu_views.cpp:1675
+#: ../src/modes/menu/menu_views.cpp:1753
 msgid " SP"
 msgstr " PM"
 
-#: ../src/modes/menu/menu_views.cpp:1730 ../data/entities/characters.lua:62
+#: ../src/modes/menu/menu_views.cpp:1808 ../data/entities/characters.lua:62
 #: ../data/entities/characters.lua:275 ../data/entities/characters.lua:483
 #: ../data/entities/characters.lua:619 ../data/entities/enemies.lua:91
 #: ../data/entities/enemies.lua:149 ../data/entities/enemies.lua:204
@@ -950,7 +917,7 @@ msgstr " PM"
 msgid "Head"
 msgstr "Tête"
 
-#: ../src/modes/menu/menu_views.cpp:1732 ../data/entities/characters.lua:71
+#: ../src/modes/menu/menu_views.cpp:1810 ../data/entities/characters.lua:71
 #: ../data/entities/characters.lua:284 ../data/entities/characters.lua:492
 #: ../data/entities/characters.lua:628 ../data/entities/enemies.lua:314
 #: ../data/entities/enemies.lua:496 ../data/entities/enemies.lua:564
@@ -959,13 +926,13 @@ msgstr "Tête"
 msgid "Torso"
 msgstr "Torse"
 
-#: ../src/modes/menu/menu_views.cpp:1734 ../data/entities/characters.lua:79
+#: ../src/modes/menu/menu_views.cpp:1812 ../data/entities/characters.lua:79
 #: ../data/entities/characters.lua:292 ../data/entities/characters.lua:500
 #: ../data/entities/characters.lua:636
 msgid "Arms"
 msgstr "Bras"
 
-#: ../src/modes/menu/menu_views.cpp:1736 ../data/entities/characters.lua:88
+#: ../src/modes/menu/menu_views.cpp:1814 ../data/entities/characters.lua:88
 #: ../data/entities/characters.lua:301 ../data/entities/characters.lua:509
 #: ../data/entities/characters.lua:645 ../data/entities/enemies.lua:504
 #: ../data/entities/enemies.lua:572 ../data/entities/enemies.lua:1596
@@ -973,23 +940,23 @@ msgstr "Bras"
 msgid "Legs"
 msgstr "Jambes"
 
-#: ../src/modes/menu/menu_views.cpp:2122
+#: ../src/modes/menu/menu_views.cpp:2200
 msgid "No weapon"
 msgstr "Pas d'arme"
 
-#: ../src/modes/menu/menu_views.cpp:2123
+#: ../src/modes/menu/menu_views.cpp:2201
 msgid "No head armor"
 msgstr "Pas d'armure"
 
-#: ../src/modes/menu/menu_views.cpp:2124
+#: ../src/modes/menu/menu_views.cpp:2202
 msgid "No torso armor"
 msgstr "Pas d'armure"
 
-#: ../src/modes/menu/menu_views.cpp:2125
+#: ../src/modes/menu/menu_views.cpp:2203
 msgid "No arms armor"
 msgstr "Pas d'armure"
 
-#: ../src/modes/menu/menu_views.cpp:2126
+#: ../src/modes/menu/menu_views.cpp:2204
 msgid "No legs armor"
 msgstr "Pas d'armure"
 
@@ -1216,6 +1183,14 @@ msgstr "Données invalides !"
 #: ../src/modes/save/save_mode.cpp:496
 msgid "No data"
 msgstr "Aucune donnée"
+
+#: ../src/modes/save/save_mode.cpp:770
+msgid "HP: "
+msgstr "PV : "
+
+#: ../src/modes/save/save_mode.cpp:772
+msgid "SP: "
+msgstr "PM : "
 
 #: ../src/modes/shop/shop_buy.cpp:59 ../src/modes/shop/shop_sell.cpp:59
 #: ../src/modes/shop/shop_trade.cpp:56
@@ -2553,28 +2528,36 @@ msgid "Lord"
 msgstr "Seigneur"
 
 #: ../data/entities/status_effects/status_effects.lua:74
-msgid "Strength"
-msgstr "Force"
+msgid "Physical Attack"
+msgstr "Attaque Physique"
 
 #: ../data/entities/status_effects/status_effects.lua:131
-msgid "Vigor"
-msgstr "Vigueur"
+msgid "Magical Attack"
+msgstr "Attaque Magique"
 
 #: ../data/entities/status_effects/status_effects.lua:188
-msgid "Fortitude"
-msgstr "Courage"
+msgid "Physical Defense"
+msgstr "Défense Physique"
 
 #: ../data/entities/status_effects/status_effects.lua:245
-msgid "Protection"
-msgstr "Protection"
+msgid "Magical Defense"
+msgstr "Défense Magique"
 
 #: ../data/entities/status_effects/status_effects.lua:302
-msgid "Agility"
-msgstr "Agilité"
+msgid "Stamina"
+msgstr "Endurance"
 
 #: ../data/entities/status_effects/status_effects.lua:361
 msgid "Evasion"
 msgstr "Esquive"
+
+#: ../data/entities/status_effects/status_effects.lua:418
+msgid "HP"
+msgstr "PV"
+
+#: ../data/entities/status_effects/status_effects.lua:587
+msgid "SP"
+msgstr "PM"
 
 #: ../data/entities/status_effects/status_effects.lua:761
 msgid "Paralysis"
@@ -2809,9 +2792,10 @@ msgstr "Potion violacée"
 
 #: ../data/inventory/items.lua:454
 msgid ""
-"Gives a reasonable boost in strength to an ally for a large amount of time."
+"Gives a reasonable boost in Physical Attack to an ally for a large amount of "
+"time."
 msgstr ""
-"Donne une bonne dose de force supplémentaire à un allié pendant une longue "
+"Améliore raisonnablement l'Attaque Physique d'un allié pendant une longue "
 "durée."
 
 #: ../data/inventory/items.lua:488
@@ -2820,8 +2804,8 @@ msgstr "Potion de célérité"
 
 #: ../data/inventory/items.lua:489
 msgid ""
-"Gives a reasonable boost in agility to an ally for a small amount of time."
-msgstr "Améliore l'agilité d'un allié pendant une courte durée."
+"Gives a reasonable boost in stamina to an ally for a small amount of time."
+msgstr "Améliore l'Endurance d'un allié pendant une courte durée."
 
 #: ../data/inventory/items.lua:523
 msgid "Poison Potion"
@@ -3235,8 +3219,8 @@ msgid "Leader Call"
 msgstr "Cri de guerre"
 
 #: ../data/skills/magic.lua:137
-msgid "Temporarily increases the strength of all allies."
-msgstr "Augmente temporairement la force de tous les alliés."
+msgid "Temporarily increases the Physical Attack of all allies."
+msgstr "Augmente temporairement l'Attaque Physique de tous les alliés."
 
 #: ../data/skills/magic.lua:163
 msgid "Holy Veil"
@@ -3351,8 +3335,8 @@ msgid "Focus"
 msgstr "Concentration"
 
 #: ../data/skills/magic.lua:444 ../data/skills/magic.lua:595
-msgid "Increases the magical defence of an ally."
-msgstr "Augmente la défense magique d'un allié."
+msgid "Increases the magical defense of an ally."
+msgstr "Augmente la Défense Magique d'un allié."
 
 #: ../data/skills/magic.lua:459
 msgid "Holy Fire"
@@ -3381,7 +3365,7 @@ msgstr "Rage"
 #: ../data/skills/magic.lua:508
 msgid ""
 "Enrages an ally, increasing their attack and speed but reducing their "
-"defence."
+"defense."
 msgstr ""
 "Rend un allié enragé, augmentant son attaque et sa vitesse mais réduisant sa "
 "défense."
@@ -4447,11 +4431,11 @@ msgstr ""
 #: ../data/story/layna_forest/tutorial_battle_dialogs.lua:82
 msgid ""
 "In battle, our icons and those of our enemies will rise up on the stamina "
-"bar. The more agility you have, the faster your icon will climb."
+"bar. The more stamina you have, the faster your icon will climb."
 msgstr ""
-"En combat, nos icônes d'endurance et celles de nos ennemis grimpent le long "
-"de la barre d'endurance. Plus tu as d'Agilité, plus vite ton icône arrivera "
-"dans la partie supérieure."
+"En combat, nos icônes et ceux de nos ennemis grimpent le long de la barre "
+"d'endurance. Plus tu as d'Endurance, plus vite ton icône arrivera dans la "
+"partie supérieure."
 
 #: ../data/story/layna_forest/tutorial_battle_dialogs.lua:84
 msgid ""
@@ -7696,37 +7680,37 @@ msgstr "Arrête de rire ou j'écrase ta petite tête contre le mur !"
 msgid "Aww, ok."
 msgstr "Ohhh, ok."
 
-#: ../src/common/options_handler.cpp:700
+#: ../src/common/options_handler.cpp:699
 msgid "VSync_mode|Off"
 msgstr "VSync_mode|Désactivé"
 
-#: ../src/common/options_handler.cpp:703
+#: ../src/common/options_handler.cpp:702
 msgid "VSync_mode|On"
 msgstr "VSync_mode|Activé"
 
-#: ../src/common/options_handler.cpp:707
+#: ../src/common/options_handler.cpp:706
 msgid "VSync_mode|Swap Tearing"
 msgstr "VSync_mode|Swap Tearing"
 
-#: ../src/common/options_handler.cpp:720
+#: ../src/common/options_handler.cpp:719
 msgid "UpdateMode|Performance"
 msgstr "UpdateMode|Performance"
 
-#: ../src/common/options_handler.cpp:722
+#: ../src/common/options_handler.cpp:721
 msgid "UpdateMode|Gentle"
 msgstr "UpdateMode|Douce"
 
-#: ../src/common/options_handler.cpp:483 ../src/common/options_handler.cpp:827
+#: ../src/common/options_handler.cpp:482 ../src/common/options_handler.cpp:808
 #, c-format
 msgid "Game Difficulty: %s"
 msgstr "Difficulté de jeu : %s"
 
-#: ../src/common/options_handler.cpp:489 ../src/common/options_handler.cpp:830
+#: ../src/common/options_handler.cpp:488 ../src/common/options_handler.cpp:811
 #, c-format
 msgid "Dialogue text speed: %i"
 msgstr "Vitesse d'apparition des dialogues : %i"
 
-#: ../src/common/options_handler.cpp:493 ../src/common/options_handler.cpp:833
+#: ../src/common/options_handler.cpp:492 ../src/common/options_handler.cpp:814
 #, c-format
 msgid "Battle target cursor memory: %s"
 msgstr "Dernière cible de combat en mémoire : %s"
@@ -7758,6 +7742,12 @@ msgstr "Temps de préparation : %s"
 msgid "Cool Time: %s"
 msgstr "Temps de récupération : %s"
 
+#. / TRANSLATORS: This is the evade growth score. E.g.: +1%, +1.5%
+#: ../src/modes/battle/battle_finish.cpp:788
+#, c-format
+msgid "+%f%%"
+msgstr "+%f %%"
+
 #: ../src/modes/boot/boot.cpp:432
 #, c-format
 msgid "Press '%s' to get to know about the game keys."
@@ -7771,6 +7761,12 @@ msgid ""
 msgstr ""
 "Avec les %u drunes trouvées dans ce coffre, l'équipe possède maintenant un "
 "total de %u drunes."
+
+#: ../src/modes/menu/menu_views.cpp:1245 ../src/modes/menu/menu_views.cpp:1258
+#: ../src/modes/menu/menu_views.cpp:1260
+#, c-format
+msgid "%d %%"
+msgstr "%d %%"
 
 #: ../src/modes/mode_help_window.cpp:114
 #, c-format
@@ -7961,6 +7957,113 @@ msgstr "2ème Étage"
 #: map_names_tr.lua:388 map_names_tr.lua:392 map_names_tr.lua:396
 msgid "1st Floor"
 msgstr "1er Étage"
+
+#~ msgid "HP: +"
+#~ msgstr "PV : +"
+
+#~ msgid "SP: +"
+#~ msgstr "PM : +"
+
+#~ msgid "STR: +"
+#~ msgstr "FOR : +"
+
+#~ msgid "VIG: +"
+#~ msgstr "VIG : +"
+
+#~ msgid "FRT: +"
+#~ msgstr "CRG : +"
+
+#~ msgid "PRO: +"
+#~ msgstr "PRO : +"
+
+#~ msgid "AGI: +"
+#~ msgstr "AGI : +"
+
+#~ msgid "EVD: +"
+#~ msgstr "ESQ : +"
+
+#~ msgid "Attack / Defense:"
+#~ msgstr "Attaque / Défense :"
+
+#~ msgid "Detailed defense:"
+#~ msgstr "Défense localisée :"
+
+#~ msgid "Attack (ATK): "
+#~ msgstr "Attaque (ATQ) :"
+
+#~ msgid "Magical Attack (M.ATK): "
+#~ msgstr "Attaque Magique (M.ATQ) :"
+
+#~ msgid "Defense (DEF): "
+#~ msgstr "Défense (DEF) :"
+
+#~ msgid "Magical Defense (M.DEF): "
+#~ msgstr "Défense Magique (M.DEF) : "
+
+#~ msgid "Strength (STR): "
+#~ msgstr "Force (FOR) : "
+
+#~ msgid "Vigor (VIG): "
+#~ msgstr "Vigueur (VIG) : "
+
+#~ msgid "Fortitude (FRT): "
+#~ msgstr "Courage (CRG) : "
+
+#~ msgid "Protection (PRO): "
+#~ msgstr "Protection (PRO) : "
+
+#~ msgid "Agility (AGI): "
+#~ msgstr "Agilité (AGI) : "
+
+#~ msgid "Evade (EVD): "
+#~ msgstr "Esquive (ESQ) : "
+
+#~ msgid "Strength"
+#~ msgstr "Force"
+
+#~ msgid "Vigor"
+#~ msgstr "Vigueur"
+
+#~ msgid "Fortitude"
+#~ msgstr "Courage"
+
+#~ msgid "Protection"
+#~ msgstr "Protection"
+
+#~ msgid "Agility"
+#~ msgstr "Agilité"
+
+#~ msgid ""
+#~ "Gives a reasonable boost in strength to an ally for a large amount of "
+#~ "time."
+#~ msgstr ""
+#~ "Donne une bonne dose de force supplémentaire à un allié pendant une "
+#~ "longue durée."
+
+#~ msgid ""
+#~ "Gives a reasonable boost in agility to an ally for a small amount of time."
+#~ msgstr "Améliore l'agilité d'un allié pendant une courte durée."
+
+#~ msgid "Temporarily increases the strength of all allies."
+#~ msgstr "Augmente temporairement la force de tous les alliés."
+
+#~ msgid "Increases the magical defence of an ally."
+#~ msgstr "Augmente la défense magique d'un allié."
+
+#~ msgid ""
+#~ "Enrages an ally, increasing their attack and speed but reducing their "
+#~ "defence."
+#~ msgstr ""
+#~ "Rend un allié enragé, augmentant son attaque et sa vitesse mais réduisant "
+#~ "sa défense."
+
+#~ msgid ""
+#~ "In battle, our icons and those of our enemies will rise up on the stamina "
+#~ "bar. The more agility you have, the faster your icon will climb."
+#~ msgstr ""
+#~ "En combat, nos icônes d'endurance et celles de nos ennemis grimpent le "
+#~ "long de la barre d'endurance. Plus tu as d'Agilité, plus vite ton icône "
+#~ "arrivera dans la partie supérieure."
 
 #~ msgid ""
 #~ "There is a passage here, but I'm too heavy to climb on those stones "
