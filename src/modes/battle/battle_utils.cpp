@@ -449,6 +449,7 @@ bool BattleTarget::SelectNextActor(bool direction)
         // Set the new actor target and if required, ascertain the new target's validity. If the new target
         // must be valid and this new actor is not, the loop will continue and will try again with the next actor
         _actor_target = _party_target.at(new_target_index);
+        ReinitAttackPoint();
         if (IsValid())
             return true;
     }
