@@ -165,7 +165,7 @@ msgstr "VSync："
 #: ../src/common/options_handler.cpp:425 ../src/common/options_handler.cpp:723
 #: ../src/common/options_handler.cpp:727
 msgid "Update method: "
-msgstr "アップデート方式："
+msgstr "画面更新方式："
 
 #: ../src/common/options_handler.cpp:427 ../src/common/options_handler.cpp:732
 msgid "UI Theme: "
@@ -394,7 +394,7 @@ msgstr "フルスクリーンモードとウィンドウモードを切り替え
 
 #: ../src/common/options_handler.cpp:1206
 msgid "Sets the game brightness percentage. Default: 50%"
-msgstr "ゲーム画面の明るさを設定できます。デフォルト：50%"
+msgstr "ゲーム画面の明るさを設定できます。\nデフォルト：50%"
 
 #: ../src/common/options_handler.cpp:1209
 msgid ""
@@ -406,7 +406,7 @@ msgstr "画面の垂直同期を変更できます。（left、rightキーで変
 msgid ""
 "Permits to change the Game Update mode. Use 'Performance' for more FPS, and "
 "'Gentle' to be kind with your CPU. Disabled when VSync is on."
-msgstr "ゲーム画面のアップデート方式が変更できます。FPSを上昇させたいなら「パフォーマンス」を、CPUへの負担を軽くしたいなら「ジェントル」を選んで下さい。VSyncが有効な場合はこの項目は無効となります。"
+msgstr "FPSを上昇させたいなら「パフォーマンス」を、CPUへの負担を軽くしたいなら「ジェントル」を選んで下さい。VSyncが有効な場合はこの項目は無効となります。"
 
 #: ../src/common/options_handler.cpp:1215
 msgid "Permits to change the in-game GUI theme."
@@ -553,11 +553,11 @@ msgstr "獲得経験値："
 
 #: ../src/modes/battle/battle_finish.cpp:558
 msgid "Drunes Found: "
-msgstr "獲得Drune："
+msgstr "獲得ドルン："
 
 #: ../src/modes/battle/battle_finish.cpp:559
 msgid "Total Drunes: "
-msgstr "合計Drune："
+msgstr "合計ドルン："
 
 #: ../src/modes/battle/battle_finish.cpp:618
 #: ../src/modes/battle/battle_finish.cpp:819
@@ -664,7 +664,7 @@ msgstr "OK"
 
 #: ../src/modes/map/map_treasure.cpp:159 ../src/modes/map/map_treasure.cpp:327
 msgid "Drunes"
-msgstr "Drune"
+msgstr "ドルン"
 
 #: ../src/modes/menu/menu.cpp:234
 msgid "Inventory"
@@ -828,7 +828,7 @@ msgstr "腕："
 
 #: ../src/modes/menu/menu_views.cpp:974
 msgid "Leg: "
-msgstr "脚"
+msgstr "脚："
 
 #: ../src/modes/menu/menu_views.cpp:1080
 msgid "Experience Level: "
@@ -981,7 +981,7 @@ msgstr "Left"
 
 #: ../src/modes/mode_help_window.cpp:139
 msgid "Move menu cursor to the left"
-msgstr "メニューカーソルを左に移動"
+msgstr "カーソルを左に移動"
 
 #: ../src/modes/mode_help_window.cpp:140 ../src/modes/mode_help_window.cpp:177
 #: ../src/modes/mode_help_window.cpp:239
@@ -991,7 +991,7 @@ msgstr "Right"
 
 #: ../src/modes/mode_help_window.cpp:142
 msgid "Move menu cursor to the right"
-msgstr "メニューカーソルを右に移動"
+msgstr "カーソルを右に移動"
 
 #: ../src/modes/mode_help_window.cpp:145
 msgid "Confirm a menu command"
@@ -1005,7 +1005,7 @@ msgstr "メニューのキャンセル"
 msgid ""
 "Quit the application\n"
 "(when using the keyboard)"
-msgstr "アプリケーションの終了\n（キーボードを使っている場合）"
+msgstr "アプリケーションの終了\n（キーボード使用時）"
 
 #: ../src/modes/mode_help_window.cpp:156
 msgid ""
@@ -1081,27 +1081,27 @@ msgstr "概要"
 
 #: ../src/modes/mode_help_window.cpp:232
 msgid "Move position or cursor upwards"
-msgstr "ポジションやカーソルを上に移動"
+msgstr "位置・カーソルを上に移動"
 
 #: ../src/modes/mode_help_window.cpp:235
 msgid "Move position or cursor downwards"
-msgstr "ポジションやカーソルを下に移動"
+msgstr "位置・カーソルを下に移動"
 
 #: ../src/modes/mode_help_window.cpp:238
 msgid "Move position or cursor to the left"
-msgstr "ポジションやカーソルを左に移動"
+msgstr "位置・カーソルを左に移動"
 
 #: ../src/modes/mode_help_window.cpp:241
 msgid "Move position or cursor to the right"
-msgstr "ポジションやカーソルを右に移動"
+msgstr "位置・カーソルを右に移動"
 
 #: ../src/modes/mode_help_window.cpp:244
 msgid "Confirm an action or menu command"
-msgstr "アクションやメニューを決定"
+msgstr "アクション等を決定"
 
 #: ../src/modes/mode_help_window.cpp:247
 msgid "Cancel an action or menu command"
-msgstr "アクションやメニューをキャンセル"
+msgstr "アクション等をキャンセル"
 
 #: ../src/modes/mode_help_window.cpp:252
 msgid "Opens the party menu"
@@ -1109,7 +1109,7 @@ msgstr "パーティーメニューを開く"
 
 #: ../src/modes/mode_help_window.cpp:257
 msgid "Show/Hide items and skills descriptions."
-msgstr "アイテム・スキルの説明の表示／非表示"
+msgstr "スキル等の説明表示の切り替え"
 
 #: ../src/modes/mode_help_window.cpp:264
 msgid "Quit the application"
@@ -1188,12 +1188,12 @@ msgstr "値段"
 
 #: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_trade.cpp:66
 msgid "Stock"
-msgstr "数"
+msgstr "在庫"
 
 #: ../src/modes/shop/shop_buy.cpp:70 ../src/modes/shop/shop_sell.cpp:69
 #: ../src/modes/shop/shop_trade.cpp:67
 msgid "Own"
-msgstr "自身"
+msgstr "所持数"
 
 #: ../src/modes/shop/shop.cpp:69
 msgid "Weapons"
@@ -1319,7 +1319,7 @@ msgid ""
 "Mom needs some for dinner!\n"
 " \n"
 "Flora might have some in her shop. I should go and have a look there first."
-msgstr "かあさんがディナーを作るために必要だ！\n\nフローラの店にあるだろう。まずはそこに行ってみよう。"
+msgstr "母さんがディナーを作るために必要だ！\n\nフローラの店にあるだろう。まずはそこに行ってみよう。"
 
 #: ../data/config/quests.lua:21
 msgid ""
@@ -1347,7 +1347,7 @@ msgid ""
 "In order to know who Georges gave the rest of his barley meal to, I need to get back his lost pen.\n"
 " \n"
 "He said he lost it near a tree. He also told me that people in the village might know more."
-msgstr "ジョージスが残りの大麦粉を誰に渡したのかを知るためには、彼の失くしたペンを見つけなければならない。\n\nジョージスによると木の近くで失くしたらしい。村の他の人に聞けば詳細がわかるらしい。"
+msgstr "ジョージスが残りの大麦粉を誰に渡したのかを知るためには、彼の失くしたペンを見つけなければならない。\n\nジョージスによると木の近くで失くしたらしい。村の他の人に聞けば詳細が分かるかも。"
 
 #: ../data/config/quests.lua:37
 msgid ""
@@ -1406,7 +1406,7 @@ msgid ""
 "The entrance has been shut with stones, and now they won't even let me go and breathe in the only place I could be alone?!?\n"
 " \n"
 "Whatever. I need a sword just in case, and I'll get there alone!"
-msgstr "最後に村を出てから何週間か経っている。\n\n村の入り口は石で閉ざされているし、みんな僕を外出させようとはしない。一人で呼吸できる唯一の場所にすら行かせてもらえないのか！？\n\n何かあった時のために剣が必要になるだろう、あそこに一人で行くのだから！"
+msgstr "最後に村を出てから何週間か経っている。\n\n村の入り口は石で閉ざされているし、みんな僕を外出させようとはしない。村の外で一人でのんびりすることすらできないのか！？\n\n何かあった時のために剣が必要になるだろう、森に一人で行くのだから！"
 
 #: ../data/config/quests.lua:87
 msgid "I'm now equipped, and access to the forest has been granted!"
@@ -2379,7 +2379,7 @@ msgstr "ウルフペイン・ネックレス"
 
 #: ../data/inventory/head_armor.lua:53 ../data/inventory/items.lua:721
 msgid "A strange necklace with unknown powers."
-msgstr "未知のパワーを秘めた良くわからんネックレス。"
+msgstr "未知のパワーを秘めた奇妙なネックレス。"
 
 #: ../data/inventory/head_armor.lua:66
 msgid "Old Helmet"
@@ -2428,7 +2428,7 @@ msgstr "回復の薬"
 
 #: ../data/inventory/items.lua:120
 msgid "Restores a large amount of hit points to an ally."
-msgstr "見方の体力を大きく回復する"
+msgstr "味方の体力を大きく回復する"
 
 #: ../data/inventory/items.lua:144
 msgid "Mega Healing Potion"
@@ -2444,7 +2444,7 @@ msgstr "月の雫"
 
 #: ../data/inventory/items.lua:189
 msgid "Restores a small amount of skill points to an ally."
-msgstr "見方のSPを少し回復する。"
+msgstr "味方のSPを少し回復する。"
 
 #: ../data/inventory/items.lua:207
 msgid "Medium Moon Juice Potion"
@@ -3518,7 +3518,7 @@ msgstr "麻痺噛みつき"
 msgid ""
 "I didn't know that there was a cave here. It's kind of creepy. Let's hurry "
 "and find Orlinn."
-msgstr "こんなところに洞窟があったとは。気味が悪い。急いでオーリンを探す。"
+msgstr "こんな場所に洞窟があったとは。気味が悪い、急がねば。"
 
 #: ../data/story/layna_forest/layna_forest_cave1_1_script.lua:423
 msgid "It seems Orlinn was able to go through those platforms. Somehow."
@@ -3526,7 +3526,7 @@ msgstr "オーリンはここを通り抜けたようだ。どうやったかは
 
 #: ../data/story/layna_forest/layna_forest_cave1_1_script.lua:425
 msgid "Let's make our way through this before something bad happens to him."
-msgstr "オーリンに良くないことが起こる前に、ここをどうにかして通り抜けよう。"
+msgstr "オーリンに良くないことが起こる前に、ここをどうにかして通り抜けるぞ。"
 
 #: ../data/story/layna_forest/layna_forest_cave1_1_script.lua:427
 msgid "Look, there is a stone slab on the ground. Let's check this out."
@@ -3584,7 +3584,7 @@ msgstr "どうにか。どこで習ったかもわからないが、読める。
 
 #: ../data/story/layna_forest/layna_forest_cave1_2_script.lua:245
 msgid "However, I don't know what it means."
-msgstr "だが、どういう意味なのかはわからない。"
+msgstr "でも、どういう意味なんだろう。"
 
 #: ../data/story/layna_forest/layna_forest_cave1_2_script.lua:247
 msgid "Let's look around. We might find out."
@@ -4015,13 +4015,13 @@ msgstr "フェンリルがどうかしたのか、あれが来る時には音が
 
 #: ../data/story/layna_forest/layna_forest_wolf_cave_script.lua:314
 msgid "Ah, well. You were serious, weren't you?"
-msgstr "あー、うん。カルヤ、冗談じゃないことぐらい分かってたよね？"
+msgstr "あー。冗談ではなかったのか？"
 
 #: ../data/story/layna_forest/layna_forest_wolf_cave_script.lua:338
 msgid ""
 "It ran away again. I'm glad we survived. Let's get out of here before it "
 "comes back."
-msgstr "また逃げた。生き延びれて良かった。戻ってくる前に、ここを離れる。"
+msgstr "また逃げた。まあ、生き延びれて良かったな。戻ってくる前に、ここを離れるとしよう。"
 
 #: ../data/story/layna_forest/tutorial_battle_dialogs.lua:69
 msgid ""
@@ -4039,7 +4039,7 @@ msgstr "何も聞かない。戦いの基礎ぐらいわかっている。"
 
 #: ../data/story/layna_forest/tutorial_battle_dialogs.lua:78
 msgid "Er, I could use a refresher on the fundamentals of combat."
-msgstr "あー、戦いの基礎を思い出さねば。"
+msgstr "あー、戦いの基礎を思い出さなきゃ。"
 
 #: ../data/story/layna_forest/tutorial_battle_dialogs.lua:80
 msgid ""
@@ -4153,15 +4153,15 @@ msgstr "さあ、もっと恐怖するがいい、お坊ちゃん！"
 
 #: ../data/story/layna_village/battle_with_banesore/battle_with_banesore_script.lua:80
 msgid "Bronann, don't listen to him!"
-msgstr "ブロナン、ヤツの言うとこを聞くな！"
+msgstr "ブロナン、ヤツの言うことを聞くな！"
 
 #: ../data/story/layna_village/battle_with_banesore/battle_with_banesore_script.lua:84
 msgid "I will... try."
-msgstr "そう...してるよ。"
+msgstr "分かってる。"
 
 #: ../data/story/layna_village/battle_with_banesore/battle_with_banesore_script.lua:86
 msgid "Hmph. Soldiers, leave that man to me!"
-msgstr "ふん。兵士よ、あの男を連れてこい！"
+msgstr "ふん。兵士よ、あの男は私に任せろ！"
 
 #: ../data/story/layna_village/battle_with_banesore/battle_with_banesore_script.lua:88
 msgid "So, it appears that you remember me, Banesore. Is that correct?"
@@ -4169,12 +4169,12 @@ msgstr "私を覚えているようだな、バネソール。そうだろう？
 
 #: ../data/story/layna_village/battle_with_banesore/battle_with_banesore_script.lua:90
 msgid "I do remember you, old man..."
-msgstr "今思い出しているのだ、老人よ。"
+msgstr "覚えているぞ、老人よ。"
 
 #: ../data/story/layna_village/battle_with_banesore/battle_with_banesore_script.lua:92
 msgid ""
 "Then, you already know that your zombified soldiers are no match for me."
-msgstr "それでは、お前のゾンビ兵士たちは私には通じないことをわかっているだろう。"
+msgstr "それでは、お前のゾンビ兵士たちは私には通じないことぐらいわかっているだろう。"
 
 #: ../data/story/layna_village/battle_with_banesore/battle_with_banesore_script.lua:94
 msgid "Argh! My chest is burning!"
@@ -4182,7 +4182,7 @@ msgstr "ああ！胸が焼ける！"
 
 #: ../data/story/layna_village/battle_with_banesore/battle_with_banesore_script.lua:99
 msgid "Hold on Bronann!"
-msgstr "ブロナン、捕まって！"
+msgstr "ブロナン、こらえて！"
 
 #: ../data/story/layna_village/in_game_move_and_interact_anim.lua:49
 msgid "Escape"
@@ -4349,7 +4349,7 @@ msgstr "...手に入れたよ、母さん！"
 
 #: ../data/story/layna_village/layna_village_bronanns_home_script.lua:434
 msgid "Perfect timing, let's have dinner."
-msgstr "良い時間ね、夕食にしましょう。"
+msgstr "良い時間ね、ごはんにしましょう。"
 
 #: ../data/story/layna_village/layna_village_bronanns_home_script.lua:440
 msgid "Could you go and buy some barley meal for the three of us?"
@@ -4455,7 +4455,7 @@ msgstr "オーリンを追っているなら、君の家の近くで見かけた
 
 #: ../data/story/layna_village/layna_village_center_script.lua:170
 msgid "You're too young to trade with me!"
-msgstr "私とトレードしようなんて、あなたにはまだ早いわ！"
+msgstr "私とトレードしようなんて、君にはまだ早いよ！"
 
 #: ../data/story/layna_village/layna_village_center_script.lua:316
 msgid "Hmm, I'll go to Flora's shop. I hope she'll help me."
@@ -4651,7 +4651,7 @@ msgstr "幸運を祈るぞ、息子よ。"
 
 #: ../data/story/layna_village/layna_village_center_script.lua:598
 msgid "Ok, we'll go together. But slow me down and I'll make you regret it."
-msgstr "さあ、行くぞ。だが、お前は足を引っ張ることになるし、後悔するだろう。"
+msgstr "さあ、行くぞ。だが、お前は足手まといだし、私に付いて来たことを後悔するだろう。"
 
 #: ../data/story/layna_village/layna_village_center_script.lua:600
 msgid "Don't worry, we'll find him. Ok?"
@@ -4737,7 +4737,7 @@ msgstr "幸運を祈るよ、ブロナン。"
 #: ../data/story/layna_village/layna_village_center_script.lua:823
 #: ../data/story/layna_village/layna_village_center_script.lua:843
 msgid "Actually, I bought the barley meal for Lilly."
-msgstr "私はリリーから大麦粉を買ったぞ。"
+msgstr "実は、私はリリーのために大麦粉を買ったのだ。"
 
 #: ../data/story/layna_village/layna_village_center_script.lua:825
 #: ../data/story/layna_village/layna_village_center_script.lua:845
@@ -4748,7 +4748,7 @@ msgstr "何だって？"
 #: ../data/story/layna_village/layna_village_center_script.lua:827
 #: ../data/story/layna_village/layna_village_center_script.lua:847
 msgid "There's no need to thank me for that. It's my pleasure."
-msgstr "私に感謝する必要はないよ。私自身が望んだことさ。"
+msgstr "私に感謝する必要はないよ。この情報がペンのお礼さ。"
 
 #: ../data/story/layna_village/layna_village_center_script.lua:835
 msgid "Here it is, Georges."
@@ -4766,14 +4766,14 @@ msgstr "...ジョージス！"
 
 #: ../data/story/layna_village/layna_village_center_script.lua:841
 msgid "Ok ok. Just having a bit of spirit, young man."
-msgstr "わかってるさ。これはほんのお礼だよ、若者よ。"
+msgstr "わかってるさ。君には感謝しているよ、若者よ。"
 
 #: ../data/story/layna_village/layna_village_center_script.lua:854
 #: ../data/story/layna_village/layna_village_center_script.lua:884
 msgid ""
 "You see, I lost my beloved pen. Was it near a tree or next to the waving "
 "child of the mountain snow?"
-msgstr "ペンをなくしてしまったのさ。どこへいったのだ、木の近くか、雪山の波打つ子供の隣か？"
+msgstr "ペンをなくしてしまったのさ。どこへいったのだ、木の近くか、雪山で舞う子供の隣か？"
 
 #: ../data/story/layna_village/layna_village_center_script.lua:856
 msgid "Shall you find it, I would be extremely obliged to you!"
@@ -4858,7 +4858,7 @@ msgstr "カルヤ、オーリンを見なかったかい？"
 
 #: ../data/story/layna_village/layna_village_center_script.lua:946
 msgid "Why? Oh, don't tell me. He's hiding somewhere."
-msgstr "なぜ？ああ、言わなくていい。オーリンはどこにでも隠れている。"
+msgstr "なぜ？ああ、言わなくていい。オーリンはどこにでも隠れようとする。"
 
 #: ../data/story/layna_village/layna_village_center_script.lua:948
 msgid "Yes, he took Georges pen and I need to give it back to him..."
@@ -4943,7 +4943,7 @@ msgstr "やあ、フローラ！えー、訓練用の剣を貸してくれない
 msgid ""
 "Ah! Sure, as soon as your father will stop lending his sword to you to "
 "practice with him. Are you sure everything is alright?"
-msgstr "あー！もちろん、あなたの父親が、あなたに訓練するために借りてる剣を返してくれたらね。他に用はないの？"
+msgstr "ああ！もちろん、あなたの父親が借りてる剣を返してくれたらね。あなたを訓練するために借りているはずよ。他に用はないの？"
 
 #: ../data/story/layna_village/layna_village_center_shop_script.lua:148
 msgid "Err, nevermind."
@@ -4974,7 +4974,7 @@ msgstr "状況は悪化してるわね。食料も少なくなってきたわ。
 #: ../data/story/layna_village/layna_village_center_shop_script.lua:171
 msgid ""
 "This is the first time that I've seen you wear such a worrisome expression."
-msgstr "君が心配事を口にするなんてはじめてだ。"
+msgstr "フローラが心配事を口にするなんて珍しいね。"
 
 #: ../data/story/layna_village/layna_village_center_shop_script.lua:173
 msgid ""
@@ -5034,7 +5034,7 @@ msgstr "ここから行けるはずだ、オーリン。"
 #: ../data/story/mt_elbrus/mt_elbrus_cave1_script.lua:153
 #: ../data/story/mt_elbrus/mt_elbrus_cave1_script.lua:180
 msgid "Ok!"
-msgstr "オーケー！"
+msgstr "分かった！"
 
 #: ../data/story/layna_village/layna_village_kalya_house_path_at_night_script.lua:239
 msgid "See?"
@@ -5151,7 +5151,7 @@ msgstr "私たちは村を離れる。"
 
 #: ../data/story/layna_village/layna_village_kalya_house_script.lua:231
 msgid "I feel dizzy. So many things have happened in such little time."
-msgstr "やんなるね。一度に色々起き過ぎだよ。"
+msgstr "うんざりするね。一度に色々起き過ぎだよ。"
 
 #: ../data/story/layna_village/layna_village_kalya_house_script.lua:233
 msgid ""
@@ -5233,7 +5233,7 @@ msgstr "ハースは私を訓練し、魔法を教え、クリスタルがいつ
 msgid ""
 "He thought that I would be the one to be chosen by the crystal. However, it "
 "seems he was wrong. Now, I am to look after you."
-msgstr "ハースは私がクリスタルに選ばれるだろうと思っていた。しかし、彼は間違っていた。今はお前の世話をすることにした。"
+msgstr "ハースは私がクリスタルに選ばれるだろうと思っていた。しかし、彼は間違っていた。それで、私はお前を助けることにした。"
 
 #: ../data/story/layna_village/layna_village_kalya_house_script.lua:273
 msgid "You must believe me Bronann."
@@ -5486,7 +5486,7 @@ msgstr "おお、やっと来たか、少年。"
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:529
 msgid "No! Let him come closer."
-msgstr "やめろ！少年をもっと近くに連れて来い。"
+msgstr "待て！少年をもっと近くに連れて来い。"
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:533
 msgid "Bronann! No!"
@@ -5557,7 +5557,7 @@ msgstr "カルヤ！今だ！"
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:638
 msgid ""
 "You won't get him, Banesore! It seems we were smarter than you this time."
-msgstr "ブロナンは逃げ切るだろうな、バネソールよ！今回は我々の方がお前より賢かったようだな。"
+msgstr "ブロナンはお前になど捕まりはしないぞ、バネソールよ！今回は我々の方がお前より賢かったようだな。"
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:640
 msgid "Ah ah ah, but this is exactly what I wanted."
@@ -5793,11 +5793,11 @@ msgstr "初めてのお客さんじゃないかい？何か手伝おうか？"
 #: ../data/story/layna_village/tutorial_shop_dialogs.lua:69
 #: ../data/story/layna_village/tutorial_shop_dialogs.lua:74
 msgid "I wouldn't mind some help..."
-msgstr "ありがとう、でも大丈夫だ..."
+msgstr "ありがとう、お願いするよ。"
 
 #: ../data/story/layna_village/tutorial_shop_dialogs.lua:71
 msgid "I should be fine, thanks."
-msgstr "ありがとう、お願いするよ。"
+msgstr "ありがとう、でも大丈夫だ...。"
 
 #: ../data/story/layna_village/tutorial_shop_dialogs.lua:76
 msgid ""
@@ -6735,7 +6735,7 @@ msgstr "あれは回転する石のようだ。"
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_basement_script.lua:181
 msgid "Wow, what a fall. I didn't see that one coming."
-msgstr "ワオ、なんて滝だ。あれが向かって来ているのには気付かなかった。"
+msgstr "ワオ、落とし穴とは。気付かなかった。"
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_basement_script.lua:183
 msgid "Are you alright, Kalya?"
@@ -6956,23 +6956,23 @@ msgstr "アウゥ、わかったよ。"
 
 #: ../src/common/options_handler.cpp:700
 msgid "VSync_mode|Off"
-msgstr "VSyncモード｜オフ"
+msgstr "オフ"
 
 #: ../src/common/options_handler.cpp:703
 msgid "VSync_mode|On"
-msgstr "VSyncモード｜オン"
+msgstr "オン"
 
 #: ../src/common/options_handler.cpp:707
 msgid "VSync_mode|Swap Tearing"
-msgstr "VSyncモード｜Swap Tearing"
+msgstr "Swap Tearing"
 
 #: ../src/common/options_handler.cpp:720
 msgid "UpdateMode|Performance"
-msgstr "アップデートモード｜パフォーマンス"
+msgstr "パフォーマンス"
 
 #: ../src/common/options_handler.cpp:722
 msgid "UpdateMode|Gentle"
-msgstr "アップデートモード｜ジェントル"
+msgstr "ジェントル"
 
 #: ../src/common/options_handler.cpp:483 ../src/common/options_handler.cpp:827
 #, c-format
@@ -6987,7 +6987,7 @@ msgstr "ダイアログテキストの速さ：%i"
 #: ../src/common/options_handler.cpp:493 ../src/common/options_handler.cpp:833
 #, c-format
 msgid "Battle target cursor memory: %s"
-msgstr "バトルターゲットカーソルの記憶：%s"
+msgstr "戦闘時のカーソル記憶：%s"
 
 #. / TRANSLATORS: this is about displaying a time: eg 4.2s
 #: ../src/modes/battle/battle_command.cpp:1228
@@ -7036,7 +7036,7 @@ msgstr "ヘルプを表示／非表示したければいつでも「%s」を押�
 #: ../src/modes/save/save_mode.cpp:190 ../src/modes/save/save_mode.cpp:697
 #, c-format
 msgid "Slot %d"
-msgstr "スロット　%d"
+msgstr "スロット %d"
 
 #: ../src/modes/shop/shop.cpp:706
 #, c-format
@@ -7136,7 +7136,7 @@ msgstr "ここから全てが始まる..."
 #: map_names_tr.lua:298 map_names_tr.lua:302 map_names_tr.lua:306
 #: map_names_tr.lua:310 map_names_tr.lua:314 map_names_tr.lua:318
 msgid "Mountain Village of Layna"
-msgstr "ライナの村の山"
+msgstr "ライナの山村"
 
 #: map_names_tr.lua:64 map_names_tr.lua:272
 msgid "Flora's Boutique"
