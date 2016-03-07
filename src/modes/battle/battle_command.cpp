@@ -1173,9 +1173,6 @@ void CommandSupervisor::_UpdateActorTarget()
             _target_options.InputUp();
 
         if((IsTargetActor(_selected_target.GetType()) == true) || (IsTargetPoint(_selected_target.GetType()) == true)) {
-            // Since we're changing the target, we reinit the attack point to the first one,
-            // as the new target may have less attack points than the latest one.
-            _selected_target.ReinitAttackPoint();
             _selected_target.SelectNextActor(InputManager->DownPress());
             _UpdateActorTargetText();
             GlobalManager->Media().PlaySound("bump");
