@@ -272,9 +272,6 @@ private:
     //! \brief A pointer to the global object represented by this
     std::shared_ptr<vt_global::GlobalObject> _object;
 
-    //! \brief Is the global object pointer owned by the inventory?
-    bool _is_inventory_item;
-
     //! \brief The price that the player must pay to buy this object from the shop
     uint32_t _buy_price;
 

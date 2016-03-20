@@ -246,7 +246,7 @@ class OptionBox : public private_gui::GUIControl
 public:
     OptionBox();
 
-    ~OptionBox()
+    virtual ~OptionBox() override
     {}
 
     /** \brief Updates any blinking or scrolling effects for the option box
@@ -255,10 +255,10 @@ public:
     *** to be processed by the option box. Therefore it is recommended that
     *** this method be called on every frame while it is active.
     **/
-    void Update(uint32_t frame_time = vt_system::SystemManager->GetUpdateTime());
+    virtual void Update(uint32_t frame_time = vt_system::SystemManager->GetUpdateTime()) override;
 
     //! \brief Draws each enabled option to the screen
-    void Draw();
+    virtual void Draw() override;
 
     /** \brief Sets the visible dimensions, 2D data structure, and visible data layout
     *** \param width The width to set for the entire option box
@@ -273,7 +273,7 @@ public:
     *** because it is silly to try to represent a structure of 2 columns and 2 rows in a layout of 4 columns and 4 rows. Failure
     *** to observe this requirement will result in no changes being made by this function.
     **/
-    void SetDimensions(float width, float height, uint8_t num_cols, uint8_t num_rows, uint8_t cell_cols, uint8_t cell_rows);
+    virtual void SetDimensions(float width, float height, uint8_t num_cols, uint8_t num_rows, uint8_t cell_cols, uint8_t cell_rows);
 
     /** \brief Sets the options to display in this option box
     *** \param option_text A vector of unicode strings which contain the text for each item, along with any formatting tags
