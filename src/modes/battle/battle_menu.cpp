@@ -36,7 +36,6 @@ const float WINDOW_POS_Y = 500.0f;
 const float WINDOW_SIZE_X = 412.0f;
 const float WINDOW_SIZE_Y = 120.0f;
 
-const float OPTION_LIST_SIZE_X = WINDOW_SIZE_X;
 const float OPTION_LIST_POS_X = WINDOW_POS_X + 65.0f;
 const float OPTION_LIST_POS_Y = WINDOW_POS_Y + 60.0f;
 
