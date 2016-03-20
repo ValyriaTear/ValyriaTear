@@ -46,7 +46,10 @@ namespace vt_global {
 class BattleMedia
 {
 public:
-    BattleMedia() {}
+    BattleMedia() :
+        _auto_battle_activated(nullptr)
+    {
+    }
 
     ~BattleMedia();
 

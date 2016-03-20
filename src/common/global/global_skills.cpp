@@ -115,9 +115,10 @@ GlobalSkill::GlobalSkill(uint32_t id) :
                       << std::endl << skill_script->GetErrorMessages() << std::endl;
         _id = 0; // Indicate that this skill is invalid
     }
-} // GlobalSkill::GlobalSkill()
+}
 
 GlobalSkill::GlobalSkill(const GlobalSkill &copy):
+    _show_skill_notice(false),
     _icon_filename(copy._icon_filename),
     _warmup_action_name(copy._warmup_action_name),
     _action_name(copy._action_name),
@@ -137,8 +138,6 @@ GlobalSkill::GlobalSkill(const GlobalSkill &copy):
     _field_execute_function = copy._field_execute_function;
 }
 
-
-
 GlobalSkill &GlobalSkill::operator=(const GlobalSkill &copy)
 {
     if(this == &copy)  // Handle self-assignment case
@@ -148,6 +147,7 @@ GlobalSkill &GlobalSkill::operator=(const GlobalSkill &copy)
     _description = copy._description;
     _icon_filename = copy._icon_filename;
     _id = copy._id;
+    _show_skill_notice = copy._show_skill_notice;
     _type = copy._type;
     _sp_required = copy._sp_required;
     _warmup_time = copy._warmup_time;
