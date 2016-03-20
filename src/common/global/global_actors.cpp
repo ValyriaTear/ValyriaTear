@@ -845,11 +845,14 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
 
 GlobalCharacter::~GlobalCharacter()
 {
+    //
     // Delete all equipment.
+    //
+
     _weapon_equipped = nullptr;
 
     for (uint32_t i = 0; i < _armor_equipped.size(); ++i) {
-        _armor_equipped[i] != nullptr;
+        _armor_equipped[i] = nullptr;
     }
     _armor_equipped.clear();
 }

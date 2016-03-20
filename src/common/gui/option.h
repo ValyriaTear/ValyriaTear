@@ -273,6 +273,7 @@ public:
     *** because it is silly to try to represent a structure of 2 columns and 2 rows in a layout of 4 columns and 4 rows. Failure
     *** to observe this requirement will result in no changes being made by this function.
     **/
+    using private_gui::GUIControl::SetDimensions;
     virtual void SetDimensions(float width, float height, uint8_t num_cols, uint8_t num_rows, uint8_t cell_cols, uint8_t cell_rows);
 
     /** \brief Sets the options to display in this option box
