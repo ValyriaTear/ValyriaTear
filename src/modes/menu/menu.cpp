@@ -1048,7 +1048,9 @@ void MenuMode::Update()
 
 } // void MenuMode::Update()
 
-void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *object, EQUIP_VIEW view_type)
+void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character,
+                                   const std::shared_ptr<GlobalObject>& object,
+                                   EQUIP_VIEW view_type)
 {
     // Only update when necessary
     if ((_object == object) && (_character == character) && (_equip_view_type == view_type))
@@ -1105,12 +1107,12 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
             return;
         case GLOBAL_OBJECT_WEAPON: {
             _is_weapon = true;
-            GlobalWeapon* wpn = nullptr;
+            std::shared_ptr<GlobalWeapon> wpn = nullptr;
             // If character view or unequipping, we take the character current weapon as a base
             if (view_type == EQUIP_VIEW_CHAR || view_type == EQUIP_VIEW_UNEQUIPPING)
                 wpn = _character ? _character->GetWeaponEquipped() : nullptr;
             else // We can take the given object as a base
-                wpn = dynamic_cast<GlobalWeapon *>(_object);
+                wpn = std::dynamic_pointer_cast<GlobalWeapon>(_object);
 
             _spirit_number = wpn ? wpn->GetSpiritSlots().size() : 0;
             equip_phys_stat = wpn ? wpn->GetPhysicalAttack() : 0;
@@ -1140,7 +1142,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
         case GLOBAL_OBJECT_LEG_ARMOR:
         {
             _is_weapon = false;
-            GlobalArmor* armor = nullptr;
+            std::shared_ptr<GlobalArmor> armor = nullptr;
 
             // If character view or unequipping, we take the character current armor as a base
             if (view_type == EQUIP_VIEW_CHAR || view_type == EQUIP_VIEW_UNEQUIPPING) {
@@ -1148,7 +1150,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
                 armor = _character ? _character->GetArmorEquipped(equip_index) : nullptr;
             }
             else { // We can take the given object as a base
-                armor = dynamic_cast<GlobalArmor *>(_object);
+                armor = std::dynamic_pointer_cast<GlobalArmor>(_object);
             }
 
             _spirit_number = armor ? armor->GetSpiritSlots().size() : 0;
@@ -1196,7 +1198,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
 
     if (_is_weapon) {
         // Get the character's current attack
-        GlobalWeapon* wpn = _character->GetWeaponEquipped();
+        std::shared_ptr<GlobalWeapon> wpn = _character->GetWeaponEquipped();
         uint32_t char_phys_stat = 0;
         uint32_t char_mag_stat = 0;
         if (_equip_view_type == EQUIP_VIEW_EQUIPPING) {
@@ -1213,7 +1215,7 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character, GlobalObject *obj
     }
     else { // armors
         uint32_t equip_index = GetEquipmentPositionFromObjectType(_object->GetObjectType());
-        GlobalArmor* armor = _character->GetArmorEquipped(equip_index);
+        std::shared_ptr<GlobalArmor> armor = _character->GetArmorEquipped(equip_index);
         uint32_t char_phys_stat = 0;
         uint32_t char_mag_stat = 0;
         if (_equip_view_type == EQUIP_VIEW_EQUIPPING) {

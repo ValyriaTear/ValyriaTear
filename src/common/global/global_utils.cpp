@@ -133,8 +133,6 @@ bool IsTargetAlly(GLOBAL_TARGET target)
     return false;
 }
 
-
-
 bool IsTargetFoe(GLOBAL_TARGET target)
 {
     if((target == GLOBAL_TARGET_FOE_POINT) || (target == GLOBAL_TARGET_FOE) || (target == GLOBAL_TARGET_ALL_FOES))
@@ -143,34 +141,30 @@ bool IsTargetFoe(GLOBAL_TARGET target)
         return false;
 }
 
-
-
-GlobalObject *GlobalCreateNewObject(uint32_t id, uint32_t count)
+std::shared_ptr<GlobalObject> GlobalCreateNewObject(uint32_t id, uint32_t count)
 {
-    GlobalObject *new_object = nullptr;
+    std::shared_ptr<GlobalObject> new_object = nullptr;
 
-    if((id > 0 && id <= MAX_ITEM_ID)
-        || (id > MAX_SPIRIT_ID && id <= MAX_KEY_ITEM_ID))
-        new_object = new GlobalItem(id, count);
-    else if((id > MAX_ITEM_ID) && (id <= MAX_WEAPON_ID))
-        new_object = new GlobalWeapon(id, count);
-    else if((id > MAX_WEAPON_ID) && (id <= MAX_LEG_ARMOR_ID))
-        new_object = new GlobalArmor(id, count);
-    else if((id > MAX_LEG_ARMOR_ID) && (id <= MAX_SPIRIT_ID))
-        new_object = new GlobalSpirit(id, count);
+    if ((id > 0 && id <= MAX_ITEM_ID) ||
+        (id > MAX_SPIRIT_ID && id <= MAX_KEY_ITEM_ID))
+        new_object = std::make_shared<GlobalItem>(id, count);
+    else if ((id > MAX_ITEM_ID) && (id <= MAX_WEAPON_ID))
+        new_object = std::make_shared<GlobalWeapon>(id, count);
+    else if ((id > MAX_WEAPON_ID) && (id <= MAX_LEG_ARMOR_ID))
+        new_object = std::make_shared<GlobalArmor>(id, count);
+    else if ((id > MAX_LEG_ARMOR_ID) && (id <= MAX_SPIRIT_ID))
+        new_object = std::make_shared<GlobalSpirit>(id, count);
     else
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received an invalid id argument: " << id << std::endl;
 
     // If an object was created but its ID was set to nullptr, this indicates that the object is invalid
-    if((new_object != nullptr) && (new_object->GetID() == 0)) {
-        delete new_object;
+    if ((new_object != nullptr) &&
+        (new_object->GetID() == 0)) {
         new_object = nullptr;
     }
 
     return new_object;
 }
-
-
 
 bool IncrementIntensity(GLOBAL_INTENSITY &intensity, uint8_t amount)
 {

@@ -388,14 +388,11 @@ FinishVictoryAssistant::~FinishVictoryAssistant()
     }
 
     // Add all the objects that were dropped by enemies to the party's inventory.
-    for (std::map<GlobalObject*, int32_t>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
+    for (auto i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
 
         // Add the item to the inventory.
         assert(i->first != nullptr);
         GlobalManager->AddToInventory(i->first->GetID(), i->second);
-
-        // Clean up the global object.
-        delete i->first;
     }
     _objects_dropped.clear();
 
@@ -441,7 +438,7 @@ void FinishVictoryAssistant::Initialize()
         _xp_earned += enemy->GetExperiencePoints();
         _drunes_dropped += enemy->GetDrunesDropped();
 
-        std::vector<GlobalObject*> objects = enemy->DetermineDroppedObjects();
+        std::vector<std::shared_ptr<GlobalObject>> objects = enemy->DetermineDroppedObjects();
         for (uint32_t j = 0; j < objects.size(); ++j) {
             // Check if the object to add is already in our list. If so, just increase the quantity of that object.
             // iter = _objects_dropped.find(objects[j]); // Will not work since each item is created with new.
@@ -455,11 +452,7 @@ void FinishVictoryAssistant::Initialize()
             }
 
             if (iter != _objects_dropped.end()) {
-                iter->second++;
-
-                // Clean up the global object.
-                delete objects[j];
-                objects[j] = nullptr;
+                ++iter->second;
             } else {
                 _objects_dropped.insert(std::make_pair(objects[j], 1));
             }
@@ -615,10 +608,10 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
 
 void FinishVictoryAssistant::_CreateObjectList()
 {
-    for(std::map<vt_global::GlobalObject *, int32_t>::iterator i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
-        GlobalObject *obj = i->first;
-        _object_list.AddOption(MakeUnicodeString("<" + obj->GetIconImage().GetFilename() + "><30>")
-                               + obj->GetName() + MakeUnicodeString("<R>x" + NumberToString(i->second)));
+    for (auto i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
+        std::shared_ptr<GlobalObject> obj = i->first;
+        _object_list.AddOption(MakeUnicodeString("<" + obj->GetIconImage().GetFilename() + "><30>") +
+                               obj->GetName() + MakeUnicodeString("<R>x" + NumberToString(i->second)));
     }
 
     // Resize all icon images so that they are the same height as the text

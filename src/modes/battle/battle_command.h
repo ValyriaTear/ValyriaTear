@@ -206,7 +206,7 @@ public:
     *** This function will return nullptr if the class has not been initialized and there is no list of
     *** items to select from.
     **/
-    BattleItem *GetSelectedItem();
+    std::shared_ptr<BattleItem> GetSelectedItem();
 
     /** \brief Returns whether there are still available item from the selected type.
     **/
@@ -239,12 +239,12 @@ private:
     *** This list only updates the battle Items count and is used to change the global inventory,
     *** when a battle is won.
     **/
-    std::vector<BattleItem> _battle_items;
+    std::vector<std::shared_ptr<BattleItem>> _battle_items;
 
     /** \brief A sub-list of BattleItem pointing on _battle_items members that are still considered valid
     *** and thus added to the item menu list.
     **/
-    std::vector<BattleItem*> _menu_items;
+    std::vector<std::shared_ptr<BattleItem>> _menu_items;
 
     //! \brief A single line of header text for the item list option box
     vt_gui::OptionBox _item_header;
@@ -427,7 +427,7 @@ private:
     vt_global::GlobalSkill *_selected_skill;
 
     //! \brief A pointer to the item that is currently selected, if any
-    BattleItem *_selected_item;
+    std::shared_ptr<BattleItem> _selected_item;
 
     //! \brief Retains the target that the player has selected
     BattleTarget _selected_target;

@@ -111,7 +111,7 @@ class InventoryWindow : public vt_gui::MenuWindow
     friend class InventoryState;
 
 public:
-    InventoryWindow(MenuMode *);
+    explicit InventoryWindow(MenuMode *);
 
     ~InventoryWindow()
     {}
@@ -170,13 +170,13 @@ private:
     vt_video::TextImage _object_name;
 
     //! Vector of GlobalObjects that corresponds to _inventory_items
-    std::vector< vt_global::GlobalObject * > _item_objects;
+    std::vector<std::shared_ptr<vt_global::GlobalObject>> _item_objects;
 
     //! holds previous category. we were looking at
     vt_global::ITEM_CATEGORY _previous_category;
 
     //! The currently selected object
-    vt_global::GlobalObject* _object;
+    std::shared_ptr<vt_global::GlobalObject> _object;
 
     //! The currently selected object type.
     vt_global::GLOBAL_OBJECT _object_type;
@@ -217,7 +217,7 @@ private:
 
     void _DrawBottomInfo();
 
-    template <class T> std::vector<vt_global::GlobalObject *> _GetObjectVector(std::vector<T *> *inv);
+    template <class T> std::vector<std::shared_ptr<vt_global::GlobalObject>> _GetObjectVector(std::vector<std::shared_ptr<T>>* inv);
 
 }; // class InventoryWindow : public vt_video::MenuWindow
 
@@ -560,7 +560,7 @@ private:
     vt_global::GlobalCharacter* _character;
 
     //! \brief The current object the equip window is dealing with.
-    vt_global::GlobalObject* _object;
+    std::shared_ptr<vt_global::GlobalObject> _object;
 
     //! \brief The different labels
     vt_video::TextImage _weapon_label;
@@ -597,7 +597,7 @@ class QuestListWindow : public vt_gui::MenuWindow {
     friend class QuestWindow;
 public:
     QuestListWindow();
-    ~QuestListWindow() {}
+    virtual ~QuestListWindow() override {}
 
     /*!
     * \brief Draws window
@@ -646,7 +646,7 @@ class QuestWindow : public vt_gui::MenuWindow {
 
 public:
     QuestWindow();
-    ~QuestWindow() {}
+    virtual ~QuestWindow() override {}
 
     /*!
     * \brief Draws window
@@ -727,7 +727,7 @@ class WorldMapWindow : public vt_gui::MenuWindow
 public:
     WorldMapWindow();
 
-    ~WorldMapWindow()
+    virtual ~WorldMapWindow() override
     {
         _location_marker.Clear();
         _location_pointer.Clear();
@@ -807,14 +807,14 @@ private:
 };
 
 /*!
-* \brief Converts a vector of GlobalItem*, etc. to a vector of GlobalObjects*
-* \return the same vector, with elements of type GlobalObject*
+* \brief Converts a vector of std::shared_ptr<GlobalItem>, etc. to a vector of std::shared_ptr<GlobalObject>
+* \return the same vector, with elements of type std::shared_ptr<GlobalObject>
 */
-template <class T> std::vector<vt_global::GlobalObject *> InventoryWindow::_GetObjectVector(std::vector<T *>* inv)
+template <class T> std::vector<std::shared_ptr<vt_global::GlobalObject>> InventoryWindow::_GetObjectVector(std::vector<std::shared_ptr<T>>* inv)
 {
-    std::vector<vt_global::GlobalObject *> obj_vector;
+    std::vector<std::shared_ptr<vt_global::GlobalObject>> obj_vector;
 
-    for(typename std::vector<T *>::iterator i = inv->begin(); i != inv->end(); i++) {
+    for (auto i = inv->begin(); i != inv->end(); i++) {
         obj_vector.push_back(*i);
     }
 

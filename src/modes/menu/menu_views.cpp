@@ -97,7 +97,7 @@ void InventoryWindow::_InitInventoryItems()
     _UpdateItemText();
     if(_inventory_items.GetNumberOptions() > 0) {
         _inventory_items.SetSelection(0);
-        _object = _item_objects[ _inventory_items.GetSelection() ];
+        _object = _item_objects[_inventory_items.GetSelection()];
         _object_type = _object->GetObjectType();
     }
     VideoManager->MoveRelative(-65, 20);
@@ -297,7 +297,7 @@ void InventoryWindow::Update()
                 }
 
                 // Check first whether the item is usable from the menu
-                GlobalItem *item = dynamic_cast<GlobalItem *>(GlobalManager->GetGlobalObject(_object->GetID()));
+                std::shared_ptr<GlobalItem> item = std::dynamic_pointer_cast<GlobalItem>(GlobalManager->GetGlobalObject(_object->GetID()));
                 if (item && !item->IsUsableInField()) {
                     media.PlaySound("cancel");
                     break;
@@ -339,15 +339,15 @@ void InventoryWindow::Update()
             // Use the item on the chosen character
             if(event == VIDEO_OPTION_CONFIRM) {
                 //values used for equipment selection
-                GlobalArmor *selected_armor = nullptr;
-                GlobalWeapon *selected_weapon = nullptr;
+                std::shared_ptr<GlobalArmor> selected_armor = nullptr;
+                std::shared_ptr<GlobalWeapon> selected_weapon = nullptr;
                 switch(_object_type)
                 {
                     case GLOBAL_OBJECT_ITEM:
                     {
                         // Returns an item object, already removed from inventory.
                         // Don't forget to readd the item if not used, or to delete the pointer.
-                        GlobalItem* item = (GlobalItem *)GlobalManager->GetGlobalObject(_object->GetID());
+                        std::shared_ptr<GlobalItem> item = std::dynamic_pointer_cast<GlobalItem>(GlobalManager->GetGlobalObject(_object->GetID()));
                         if (!item)
                             break;
 
@@ -382,7 +382,6 @@ void InventoryWindow::Update()
                                     _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
                                     // We also update the Characters stats as the item might have some effects there.
                                     MenuMode::CurrentInstance()->ReloadCharacterWindows();
-                                    delete item;
                                     item = nullptr;
                                     // Now the item is used, we can remove it from the inventory.
                                     if(_object->GetCount() == 1 && _object == _menu_mode->_object){
@@ -417,7 +416,6 @@ void InventoryWindow::Update()
                                     _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
                                     // We also update the Characters stats as the item might have some effects there.
                                     MenuMode::CurrentInstance()->ReloadCharacterWindows();
-                                    delete item;
                                     item = nullptr;
                                     // Now the item is used, we can remove it from the inventory.
                                     if(_object->GetCount() == 1 && _object == _menu_mode->_object){
@@ -433,7 +431,7 @@ void InventoryWindow::Update()
                     case GLOBAL_OBJECT_WEAPON:
                     {
                         //get the item from the inventory list. this also removes the item from the list
-                        selected_weapon = dynamic_cast<GlobalWeapon *>(GlobalManager->GetGlobalObject(_object->GetID()));
+                        selected_weapon = std::dynamic_pointer_cast<GlobalWeapon>(GlobalManager->GetGlobalObject(_object->GetID()));
                         break;
                     }
                     case GLOBAL_OBJECT_HEAD_ARMOR:
@@ -442,7 +440,7 @@ void InventoryWindow::Update()
                     case GLOBAL_OBJECT_LEG_ARMOR:
                     {
                         //get the item from the inventory list. this also removes the item from the list
-                        selected_armor = dynamic_cast<GlobalArmor *>(GlobalManager->GetGlobalObject(_object->GetID()));
+                        selected_armor = std::dynamic_pointer_cast<GlobalArmor>(GlobalManager->GetGlobalObject(_object->GetID()));
                         break;
                     }
 
@@ -561,7 +559,7 @@ void InventoryWindow::_UpdateSelection()
     switch(_object_type) {
         case GLOBAL_OBJECT_WEAPON:
         {
-            GlobalWeapon* selected_weapon = dynamic_cast<GlobalWeapon *>(_object);
+            std::shared_ptr<GlobalWeapon> selected_weapon = std::dynamic_pointer_cast<GlobalWeapon>(_object);
             uint32_t usability_bitmask = selected_weapon->GetUsableBy();
             _is_equipment = true;
             _can_equip = usability_bitmask & _character->GetID();
@@ -573,7 +571,7 @@ void InventoryWindow::_UpdateSelection()
         case GLOBAL_OBJECT_ARM_ARMOR:
         case GLOBAL_OBJECT_LEG_ARMOR:
         {
-            GlobalArmor* selected_armor = dynamic_cast<GlobalArmor *>(_object);
+            std::shared_ptr<GlobalArmor> selected_armor = std::dynamic_pointer_cast<GlobalArmor>(_object);
             uint32_t usability_bitmask = selected_armor->GetUsableBy();
             _is_equipment = true;
             _can_equip = usability_bitmask & _character->GetID();
@@ -606,8 +604,8 @@ void InventoryWindow::_UpdateItemText()
     ITEM_CATEGORY current_selected_category = static_cast<ITEM_CATEGORY>(_item_categories.GetSelection());
     switch(current_selected_category) {
         case ITEM_ALL: {
-            std::map<uint32_t, GlobalObject *>* inv = GlobalManager->GetInventory();
-            for(std::map<uint32_t, GlobalObject *>::iterator it = inv->begin(); it != inv->end(); ++it) {
+            auto inv = GlobalManager->GetInventory();
+            for (auto it = inv->begin(); it != inv->end(); ++it) {
                 _item_objects.push_back(it->second);
             }
             break;
@@ -985,14 +983,14 @@ void PartyWindow::UpdateStatus()
     _average_atk_def_numbers.SetText(text);
 
     _weapon_icon.Clear();
-    GlobalWeapon *weapon = ch->GetWeaponEquipped();
+    std::shared_ptr<GlobalWeapon> weapon = ch->GetWeaponEquipped();
     if (weapon)
         _weapon_icon.Load(weapon->GetIconImage().GetFilename());
     else
         _weapon_icon.Load("data/inventory/weapons/fist-human.png");
     _weapon_icon.SetHeightKeepRatio(40);
 
-    GlobalArmor *head_armor = ch->GetHeadArmorEquipped();
+    std::shared_ptr<GlobalArmor> head_armor = ch->GetHeadArmorEquipped();
     _focused_def_armor_icons[0].Clear();
     if (head_armor) {
         _focused_def_armor_icons[0].Load(head_armor->GetIconImage().GetFilename());
@@ -1000,21 +998,21 @@ void PartyWindow::UpdateStatus()
     }
 
     _focused_def_armor_icons[1].Clear();
-    GlobalArmor *torso_armor = ch->GetTorsoArmorEquipped();
+    std::shared_ptr<GlobalArmor> torso_armor = ch->GetTorsoArmorEquipped();
     if (torso_armor) {
         _focused_def_armor_icons[1].Load(torso_armor->GetIconImage().GetFilename());
         _focused_def_armor_icons[1].SetHeightKeepRatio(20);
     }
 
     _focused_def_armor_icons[2].Clear();
-    GlobalArmor *arm_armor = ch->GetArmArmorEquipped();
+    std::shared_ptr<GlobalArmor> arm_armor = ch->GetArmArmorEquipped();
     if (arm_armor) {
         _focused_def_armor_icons[2].Load(arm_armor->GetIconImage().GetFilename());
         _focused_def_armor_icons[2].SetHeightKeepRatio(20);
     }
 
     _focused_def_armor_icons[3].Clear();
-    GlobalArmor *leg_armor = ch->GetLegArmorEquipped();
+    std::shared_ptr<GlobalArmor> leg_armor = ch->GetLegArmorEquipped();
     if (leg_armor) {
         _focused_def_armor_icons[3].Load(leg_armor->GetIconImage().GetFilename());
         _focused_def_armor_icons[3].SetHeightKeepRatio(20);
@@ -2028,10 +2026,10 @@ void EquipWindow::Update()
 
             switch(_equip_select.GetSelection()) {
             case EQUIP_WEAPON: {
-                GlobalWeapon *wpn = GlobalManager->GetInventoryWeapons()->at(inventory_id);
+                std::shared_ptr<GlobalWeapon> wpn = GlobalManager->GetInventoryWeapons()->at(inventory_id);
                 if(wpn->GetUsableBy() & _character->GetID()) {
                     id_num = wpn->GetID();
-                    GlobalManager->AddToInventory(_character->EquipWeapon((GlobalWeapon *)GlobalManager->GetGlobalObject(id_num)));
+                    GlobalManager->AddToInventory(_character->EquipWeapon(std::dynamic_pointer_cast<GlobalWeapon>(GlobalManager->GetGlobalObject(id_num))));
                     GlobalManager->DecrementItemCount(id_num, 1);
                 } else {
                     media.PlaySound("cancel");
@@ -2040,10 +2038,10 @@ void EquipWindow::Update()
             }
 
             case EQUIP_HEAD: {
-                GlobalArmor *hlm = GlobalManager->GetInventoryHeadArmors()->at(inventory_id);
+                std::shared_ptr<GlobalArmor> hlm = GlobalManager->GetInventoryHeadArmors()->at(inventory_id);
                 if(hlm->GetUsableBy() & _character->GetID()) {
                     id_num = hlm->GetID();
-                    GlobalManager->AddToInventory(_character->EquipHeadArmor((GlobalArmor *)GlobalManager->GetGlobalObject(id_num)));
+                    GlobalManager->AddToInventory(_character->EquipHeadArmor(std::dynamic_pointer_cast<GlobalArmor>(GlobalManager->GetGlobalObject(id_num))));
                     GlobalManager->DecrementItemCount(id_num, 1);
                 } else {
                     media.PlaySound("cancel");
@@ -2052,10 +2050,10 @@ void EquipWindow::Update()
             }
 
             case EQUIP_TORSO: {
-                GlobalArmor *arm = GlobalManager->GetInventoryTorsoArmors()->at(inventory_id);
+                std::shared_ptr<GlobalArmor> arm = GlobalManager->GetInventoryTorsoArmors()->at(inventory_id);
                 if(arm->GetUsableBy() & _character->GetID()) {
                     id_num = arm->GetID();
-                    GlobalManager->AddToInventory(_character->EquipTorsoArmor((GlobalArmor *)GlobalManager->GetGlobalObject(id_num)));
+                    GlobalManager->AddToInventory(_character->EquipTorsoArmor(std::dynamic_pointer_cast<GlobalArmor>(GlobalManager->GetGlobalObject(id_num))));
                     GlobalManager->DecrementItemCount(id_num, 1);
                 } else {
                     media.PlaySound("cancel");
@@ -2064,10 +2062,10 @@ void EquipWindow::Update()
             }
 
             case EQUIP_ARMS: {
-                GlobalArmor *shld = GlobalManager->GetInventoryArmArmors()->at(inventory_id);
+                std::shared_ptr<GlobalArmor> shld = GlobalManager->GetInventoryArmArmors()->at(inventory_id);
                 if(shld->GetUsableBy() & _character->GetID()) {
                     id_num = shld->GetID();
-                    GlobalManager->AddToInventory(_character->EquipArmArmor((GlobalArmor *)GlobalManager->GetGlobalObject(id_num)));
+                    GlobalManager->AddToInventory(_character->EquipArmArmor(std::dynamic_pointer_cast<GlobalArmor>(GlobalManager->GetGlobalObject(id_num))));
                     GlobalManager->DecrementItemCount(id_num, 1);
                 } else {
                     media.PlaySound("cancel");
@@ -2076,10 +2074,10 @@ void EquipWindow::Update()
             }
 
             case EQUIP_LEGS: {
-                GlobalArmor *lgs = GlobalManager->GetInventoryLegArmors()->at(inventory_id);
+                std::shared_ptr<GlobalArmor> lgs = GlobalManager->GetInventoryLegArmors()->at(inventory_id);
                 if(lgs->GetUsableBy() & _character->GetID()) {
                     id_num = lgs->GetID();
-                    GlobalManager->AddToInventory(_character->EquipLegArmor((GlobalArmor *)GlobalManager->GetGlobalObject(id_num)));
+                    GlobalManager->AddToInventory(_character->EquipLegArmor(std::dynamic_pointer_cast<GlobalArmor>(GlobalManager->GetGlobalObject(id_num))));
                     GlobalManager->DecrementItemCount(id_num, 1);
                 } else {
                     media.PlaySound("cancel");
@@ -2119,27 +2117,27 @@ void EquipWindow::_UpdateEquipList()
 
     if(_active_box == EQUIP_ACTIVE_LIST) {
         uint32_t gearsize = 0;
-        std::vector<GlobalObject *>* equipment_list = nullptr;
+        std::vector<std::shared_ptr<GlobalObject>>* equipment_list = nullptr;
 
         switch(_equip_select.GetSelection()) {
         case EQUIP_WEAPON:
-            equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryWeapons());
+            equipment_list = reinterpret_cast<std::vector<std::shared_ptr<GlobalObject>>*>(GlobalManager->GetInventoryWeapons());
             break;
         case EQUIP_HEAD:
-            equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryHeadArmors());
+            equipment_list = reinterpret_cast<std::vector<std::shared_ptr<GlobalObject>>*>(GlobalManager->GetInventoryHeadArmors());
             break;
         case EQUIP_TORSO:
-            equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryTorsoArmors());
+            equipment_list = reinterpret_cast<std::vector<std::shared_ptr<GlobalObject>>*>(GlobalManager->GetInventoryTorsoArmors());
             break;
         case EQUIP_ARMS:
-            equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryArmArmors());
+            equipment_list = reinterpret_cast<std::vector<std::shared_ptr<GlobalObject>>*>(GlobalManager->GetInventoryArmArmors());
             break;
         case EQUIP_LEGS:
-            equipment_list = reinterpret_cast<std::vector<GlobalObject *>*>(GlobalManager->GetInventoryLegArmors());
+            equipment_list = reinterpret_cast<std::vector<std::shared_ptr<GlobalObject>>*>(GlobalManager->GetInventoryLegArmors());
             break;
         } // switch
 
-        if(equipment_list != nullptr)
+        if (equipment_list != nullptr)
             gearsize = equipment_list->size();
 
         // Clear the replacer ids
@@ -2148,10 +2146,10 @@ void EquipWindow::_UpdateEquipList()
         for(uint32_t j = 0; j < gearsize; j++) {
             uint32_t usability_bitmask = 0;
             if(_equip_select.GetSelection() == EQUIP_WEAPON) {
-                GlobalWeapon *selected_weapon = dynamic_cast<GlobalWeapon *>(equipment_list->at(j));
+                std::shared_ptr<GlobalWeapon> selected_weapon = std::dynamic_pointer_cast<GlobalWeapon>(equipment_list->at(j));
                 usability_bitmask = selected_weapon->GetUsableBy();
             } else {
-                GlobalArmor *selected_armor = dynamic_cast<GlobalArmor *>(equipment_list->at(j));
+                std::shared_ptr<GlobalArmor> selected_armor = std::dynamic_pointer_cast<GlobalArmor>(equipment_list->at(j));
                 usability_bitmask = selected_armor->GetUsableBy();
             }
 
@@ -2176,23 +2174,23 @@ void EquipWindow::_UpdateEquipList()
         _equip_images.clear();
         StillImage i;
 
-        GlobalWeapon *wpn = _character->GetWeaponEquipped();
+        std::shared_ptr<GlobalWeapon> wpn = _character->GetWeaponEquipped();
         i.Load(wpn ? wpn->GetIconImage().GetFilename() : "data/inventory/weapons/fist-human.png");
         _equip_images.push_back(i);
 
-        GlobalArmor *head_armor = _character->GetHeadArmorEquipped();
+        std::shared_ptr<GlobalArmor> head_armor = _character->GetHeadArmorEquipped();
         i.Load(head_armor ? head_armor->GetIconImage().GetFilename() : "");
         _equip_images.push_back(i);
 
-        GlobalArmor *torso_armor = _character->GetTorsoArmorEquipped();
+        std::shared_ptr<GlobalArmor> torso_armor = _character->GetTorsoArmorEquipped();
         i.Load(torso_armor ? torso_armor->GetIconImage().GetFilename() : "");
         _equip_images.push_back(i);
 
-        GlobalArmor *arm_armor = _character->GetArmArmorEquipped();
+        std::shared_ptr<GlobalArmor> arm_armor = _character->GetArmArmorEquipped();
         i.Load(arm_armor ? arm_armor->GetIconImage().GetFilename() : "");
         _equip_images.push_back(i);
 
-        GlobalArmor *leg_armor = _character->GetLegArmorEquipped();
+        std::shared_ptr<GlobalArmor> leg_armor = _character->GetLegArmorEquipped();
         i.Load(leg_armor ? leg_armor->GetIconImage().GetFilename() : "");
         _equip_images.push_back(i);
 

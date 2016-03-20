@@ -44,9 +44,8 @@ namespace private_shop
 // ***** ShopObject class methods
 // *****************************************************************************
 
-ShopObject::ShopObject(GlobalObject *object, bool is_inventory_item) :
+ShopObject::ShopObject(const std::shared_ptr<vt_global::GlobalObject>& object) :
     _object(object),
-    _is_inventory_item(is_inventory_item),
     _buy_price(0),
     _sell_price(0),
     _own_count(0),
@@ -60,16 +59,6 @@ ShopObject::ShopObject(GlobalObject *object, bool is_inventory_item) :
 
     // Init the trading price
     _trade_price = _object->GetTradingPrice();
-}
-
-ShopObject::~ShopObject()
-{
-    // Do not delete global objects owned by the inventory system.
-    if (!_is_inventory_item &&
-        _object != nullptr) {
-        delete _object;
-        _object = nullptr;
-    }
 }
 
 SHOP_OBJECT ShopObject::DetermineShopObjectType(GLOBAL_OBJECT global_type)
@@ -330,17 +319,6 @@ void ShopObject::DecrementTradeCount(uint32_t dec)
     if(_trade_count == 0) {
         ShopMode::CurrentInstance()->RemoveObjectFromTradeList(this);
     }
-}
-
-ShopObject::ShopObject(const ShopObject&)
-{
-    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
-}
-
-ShopObject& ShopObject::operator=(const ShopObject&)
-{
-    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
-    return *this;
 }
 
 // *****************************************************************************

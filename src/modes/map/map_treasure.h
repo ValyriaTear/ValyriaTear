@@ -56,8 +56,6 @@ class MapTreasure
 public:
     MapTreasure();
 
-    ~MapTreasure();
-
     //! \brief Sets the number of drunes present in the chest's contents.
     void SetDrunes(uint32_t amount) {
         _drunes = amount;
@@ -89,9 +87,8 @@ private:
     uint32_t _drunes;
 
     //! \brief The list of objects given to the player upon opening the treasure
-    std::vector<vt_global::GlobalObject *> _items_list;
+    std::vector<std::shared_ptr<vt_global::GlobalObject>> _items_list;
 };
-
 
 /** ***************************************************************************************
 *** \brief Displays the contents of a discovered treasure in a menu window

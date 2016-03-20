@@ -154,7 +154,7 @@ CharacterCommandSettings::CharacterCommandSettings(BattleCharacter *character, M
 
     // Construct the weapon, magic, and special skill lists for the character
     std::vector<GlobalSkill *>* skill_list = nullptr;
-    GlobalWeapon* char_wpn = _character->GetGlobalCharacter()->GetWeaponEquipped();
+    std::shared_ptr<GlobalWeapon> char_wpn = _character->GetGlobalCharacter()->GetWeaponEquipped();
 
     if (char_wpn)
         skill_list = _character->GetGlobalCharacter()->GetWeaponSkills();
@@ -362,19 +362,23 @@ ItemCommand::ItemCommand(MenuWindow &window)
 void ItemCommand::ResetItemList()
 {
     _battle_items.clear();
-    std::vector<GlobalItem *>* inv_items = GlobalManager->GetInventoryItems();
-    for(uint32_t i = 0; i < inv_items->size(); ++i) {
+
+    auto inv_items = GlobalManager->GetInventoryItems();
+    for (uint32_t i = 0; i < inv_items->size(); ++i) {
         // Only add non key and valid items as items available at battle start.
-        if(inv_items->at(i)->GetCount() == 0)
+        if (inv_items->at(i)->GetCount() == 0)
             continue;
         if (!inv_items->at(i)->IsValid())
             continue;
         if (inv_items->at(i)->IsKeyItem())
             continue;
 
-        if(inv_items->at(i)->IsUsableInBattle())
-            _battle_items.push_back(BattleItem(GlobalItem(*inv_items->at(i))));
+        if (inv_items->at(i)->IsUsableInBattle()) {
+            std::shared_ptr<BattleItem> battle_item = std::make_shared<BattleItem>(*inv_items->at(i));
+            _battle_items.push_back(battle_item);
+        }
     }
+
     // We clear the menu items list as its pointers are now invalid.
     _menu_items.clear();
 }
@@ -388,7 +392,7 @@ void ItemCommand::ConstructList()
 
     uint32_t option_index = 0;
     for(uint32_t i = 0; i < _battle_items.size(); ++i) {
-        BattleItem* item = &_battle_items[i];
+        std::shared_ptr<BattleItem> item = _battle_items[i];
         // Don't add any items with a zero count
         if(item->GetBattleCount() == 0)
             continue;
@@ -441,7 +445,7 @@ void ItemCommand::Initialize(uint32_t battle_item_index)
     // In case the selection of the previous item leads to something
     // not relevant anymore, we reset the selection.
     if(battle_item_index >= _battle_items.size() ||
-            _battle_items[battle_item_index].GetBattleCount() == 0) {
+            _battle_items[battle_item_index]->GetBattleCount() == 0) {
         _item_list.SetSelection(0);
         _item_target_list.SetSelection(0);
         return;
@@ -449,7 +453,7 @@ void ItemCommand::Initialize(uint32_t battle_item_index)
 
     // Find the corresponding item in the menu list and select it.
     uint32_t selection = 0; // First item in the list per default
-    BattleItem* selected_item = &_battle_items[battle_item_index];
+    std::shared_ptr<BattleItem> selected_item = _battle_items[battle_item_index];
     for (uint32_t i = 0; i < _menu_items.size(); ++i) {
         if (_menu_items[i] == selected_item) {
             selection = i;
@@ -464,7 +468,7 @@ void ItemCommand::Initialize(uint32_t battle_item_index)
 
 
 
-BattleItem *ItemCommand::GetSelectedItem()
+std::shared_ptr<BattleItem> ItemCommand::GetSelectedItem()
 {
     int32_t selection = _item_list.GetSelection();
     if (selection == -1 || selection >= (int32_t)_menu_items.size())
@@ -509,17 +513,17 @@ void ItemCommand::CommitChangesToInventory()
 {
     for(uint32_t i = 0; i < _battle_items.size(); ++i) {
         // Get the global item id
-        uint32_t id = _battle_items[i].GetGlobalItem().GetID();
+        uint32_t id = _battle_items[i]->GetGlobalItem().GetID();
 
         // Remove slots totally used
-        if(_battle_items[i].GetBattleCount() == 0) {
+        if (_battle_items[i]->GetBattleCount() == 0) {
             GlobalManager->RemoveFromInventory(id);
         } else {
-            int32_t diff = _battle_items[i].GetBattleCount() - _battle_items[i].GetInventoryCount();
-            if(diff > 0) {
+            int32_t diff = _battle_items[i]->GetBattleCount() - _battle_items[i]->GetInventoryCount();
+            if (diff > 0) {
                 // Somehow the character have more than before the battle.
                 GlobalManager->IncrementItemCount(id, diff);
-            } else if(diff < 0) {
+            } else if (diff < 0) {
                 // Remove the used items.
                 GlobalManager->DecrementItemCount(id, -diff);
             }
@@ -734,7 +738,7 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
     // Determine the weapon icon name
     std::string icon_name = "<";
 
-    GlobalWeapon* wpn = character->GetGlobalCharacter()->GetWeaponEquipped();
+    std::shared_ptr<GlobalWeapon> wpn = character->GetGlobalCharacter()->GetWeaponEquipped();
     if (wpn) {
         if (wpn->GetIconImage().GetFilename().empty())
             icon_name += "data/gui/battle/default_weapon.png";
@@ -1485,9 +1489,9 @@ void CommandSupervisor::_FinalizeCommand()
 
     _active_settings->SaveLastTarget(_selected_target);
 
-    if(_IsSkillCategorySelected() == true) {
+    if (_IsSkillCategorySelected() == true) {
         new_action = new SkillAction(character, _selected_target, _selected_skill);
-    } else if(_IsItemCategorySelected() == true) {
+    } else if (_IsItemCategorySelected() == true) {
         new_action = new ItemAction(character, _selected_target, _selected_item);
 
         // Reserve the item for use by the character.

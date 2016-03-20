@@ -404,7 +404,7 @@ bool IsTargetFoe(GLOBAL_TARGET target);
 *** This function does not actually create a GlobalObject (it can't since its an abstract class).
 *** It creates one of the derived object class types depending on the value of the id argument.
 **/
-GlobalObject *GlobalCreateNewObject(uint32_t id, uint32_t count = 1);
+std::shared_ptr<GlobalObject> GlobalCreateNewObject(uint32_t id, uint32_t count = 1);
 
 /** \brief Increments a GLOBAL_INTENSITY enumerated value
 *** \param intensity A reference to the intensity data to modify

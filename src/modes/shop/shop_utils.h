@@ -164,11 +164,8 @@ class ShopObject
 {
 public:
     /** \param object A pointer to a valid GlobalObject instance that the shop object will represent.
-    *** \param bool A flag to indicate if the GlobalObject is owned by the inventory system.
-    ***             'False' will cause the pointer to be freed in the destructor. 
     **/
-    explicit ShopObject(vt_global::GlobalObject *object, bool is_inventory_item);
-    ~ShopObject();
+    explicit ShopObject(const std::shared_ptr<vt_global::GlobalObject>& object);
 
     /** \brief Determines the appropriate SHOP_OBJECT that corresponds to a GLOBAL_OBJECT
     *** \param global_type The global object type to find the equivalent shop object type for
@@ -186,7 +183,7 @@ public:
 
     //! \name Class member accessor functions
     //@{
-    vt_global::GlobalObject *GetObject() const {
+    std::shared_ptr<vt_global::GlobalObject> GetObject() const {
         return _object;
     }
 
@@ -272,16 +269,8 @@ public:
     //@}
 
 private:
-    //
-    // The copy constructor and assignment operator are hidden by design
-    // to cause compilation errors when attempting to copy or assign this class.
-    //
-
-    ShopObject(const ShopObject& shop_object);
-    ShopObject& operator=(const ShopObject& shop_object);
-
     //! \brief A pointer to the global object represented by this
-    vt_global::GlobalObject *_object;
+    std::shared_ptr<vt_global::GlobalObject> _object;
 
     //! \brief Is the global object pointer owned by the inventory?
     bool _is_inventory_item;
@@ -296,7 +285,7 @@ private:
     uint32_t _trade_price;
 
     //! \brief The return that the player will receive for selling this object to the shop
-    std::vector<std::pair<uint32_t, uint32_t> > _trade_conditions;
+    std::vector<std::pair<uint32_t, uint32_t>> _trade_conditions;
 
     //! \brief The number of this object that the player's party currently owns
     uint32_t _own_count;

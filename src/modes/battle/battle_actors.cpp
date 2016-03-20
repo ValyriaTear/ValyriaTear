@@ -1114,7 +1114,7 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state)
             // Determine the current weapon icon if existing...
             std::string icon_filename;
             if (_action->GetIconFilename() == "weapon") {
-                GlobalWeapon* wpn = _global_character->GetWeaponEquipped();
+                std::shared_ptr<GlobalWeapon> wpn = _global_character->GetWeaponEquipped();
                 if (wpn) {
                     icon_filename = _global_character->GetWeaponEquipped()->GetIconImage().GetFilename();
                     if (icon_filename.empty())
@@ -1367,7 +1367,7 @@ void BattleCharacter::ChangeActionText()
             // Determine the weapon icon according to the current skill
             std::string icon_file = _action->GetIconFilename();
             if (icon_file == "weapon") { // Alias used to trigger the loading of the weapon icon.
-                GlobalWeapon* char_wpn = GetGlobalCharacter()->GetWeaponEquipped();
+                std::shared_ptr<GlobalWeapon> char_wpn = GetGlobalCharacter()->GetWeaponEquipped();
                 icon_file = char_wpn ?
                             char_wpn->GetIconImage().GetFilename() :
                             "data/inventory/weapons/fist-human.png";

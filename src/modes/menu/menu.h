@@ -439,7 +439,7 @@ public:
     *** Used by both the inventory and equip windows and states.
     **/
     void UpdateEquipmentInfo(vt_global::GlobalCharacter *character,
-                             vt_global::GlobalObject *object,
+                             const std::shared_ptr<vt_global::GlobalObject>& object,
                              private_menu::EQUIP_VIEW view_type);
 
     //! \brief Draws The current equipment info
@@ -550,7 +550,7 @@ private:
 
 protected:
     //! \brief The selected object instance
-    vt_global::GlobalObject* _object;
+    std::shared_ptr<vt_global::GlobalObject> _object;
 
 private:
 

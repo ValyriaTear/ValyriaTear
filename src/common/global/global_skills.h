@@ -56,13 +56,12 @@ class GlobalSkill
 {
 public:
     //! \param id The identification number of the skill to construct
-    GlobalSkill(uint32_t id);
+    explicit GlobalSkill(uint32_t id);
 
     ~GlobalSkill()
     {}
 
     GlobalSkill(const GlobalSkill &copy);
-
     GlobalSkill &operator=(const GlobalSkill &copy);
 
     //! \brief Returns true if the skill is properly initialized and ready to be used
