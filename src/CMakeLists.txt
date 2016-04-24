@@ -69,13 +69,17 @@ ENDIF()
 
 IF (CMAKE_BUILD_TYPE)
     STRING(TOLOWER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_TOLOWER)
-    IF(CMAKE_BUILD_TYPE_TOLOWER MATCHES debug OR
-       CMAKE_BUILD_TYPE_TOLOWER MATCHES relwithdebinfo)
+    IF(CMAKE_BUILD_TYPE_TOLOWER MATCHES debug)
         SET(FLAGS "${FLAGS} -DDEBUG")
 
         IF (CMAKE_COMPILER_IS_GNUCXX)
             # Help getting debug info
             SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pg")
+        ENDIF()
+    ELSEIF(CMAKE_BUILD_TYPE_TOLOWER MATCHES relwithdebinfo)
+        IF (CMAKE_COMPILER_IS_GNUCXX)
+            # Help getting debug info
+            SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
         ENDIF()
     ENDIF()
 ENDIF()
