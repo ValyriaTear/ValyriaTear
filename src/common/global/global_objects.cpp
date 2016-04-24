@@ -174,7 +174,8 @@ GlobalItem::GlobalItem(uint32_t id, uint32_t count) :
 }
 
 GlobalItem::GlobalItem(const GlobalItem &copy) :
-    GlobalObject(copy)
+    GlobalObject(copy),
+    _animation_script_file(copy._animation_script_file)
 {
     _target_type = copy._target_type;
     _warmup_time = copy._warmup_time;
@@ -183,7 +184,6 @@ GlobalItem::GlobalItem(const GlobalItem &copy) :
     // Make copies of valid luabind::object function pointers
     _battle_use_function = copy._battle_use_function;
     _field_use_function = copy._field_use_function;
-    _animation_script_file = copy._animation_script_file;
 }
 
 

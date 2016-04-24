@@ -979,8 +979,6 @@ void MapSprite::Update()
                 _custom_animation_time -= SystemManager->GetUpdateTime();
             _current_custom_animation->Update();
         }
-
-        was_moved = _moved_position;
         return;
     }
 
@@ -1049,9 +1047,7 @@ void MapSprite::Update()
     }
 
     _animation->at(_current_anim_direction).Update(elapsed_time);
-
-    was_moved = _moved_position;
-} // void MapSprite::Update()
+}
 
 void MapSprite::_DrawDebugInfo()
 {

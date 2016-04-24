@@ -185,20 +185,16 @@ void RenderTarget::Resize(unsigned width,
     assert(_texture != 0);
 
     // Bind the texture.
-    if (!errors) {
-        BindTexture();
-    }
+    BindTexture();
 
     // Resize the texture.
-    if (!errors) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 
-        GLenum error = glGetError();
-        if (error != GL_NO_ERROR) {
-            errors = true;
-            PRINT_ERROR << "Failed to resize the texture." << std::endl;
-            assert(error == GL_NO_ERROR);
-        }
+    GLenum error = glGetError();
+    if (error != GL_NO_ERROR) {
+        errors = true;
+        PRINT_ERROR << "Failed to resize the texture." << std::endl;
+        assert(error == GL_NO_ERROR);
     }
 
     // Bind the depth renderbuffer.
@@ -212,7 +208,6 @@ void RenderTarget::Resize(unsigned width,
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
-            errors = true;
             PRINT_ERROR << "Failed to resize the depth renderbuffer." << std::endl;
             assert(error == GL_NO_ERROR);
         }

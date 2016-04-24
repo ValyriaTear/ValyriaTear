@@ -286,7 +286,7 @@ public:
     /*!
      * \brief Constructor
      */
-    ParticleSystem(ParticleSystemDef *sys_def) {
+    explicit ParticleSystem(ParticleSystemDef* sys_def) {
         _Destroy();
         _Create(sys_def);
     }

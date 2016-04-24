@@ -73,33 +73,34 @@ Shader::Shader(GLenum type, const std::string &data) :
     }
 
     // Check for shader syntax errors.
-    if (!errors) {
-        GLint is_compiled = -1;
-        glGetShaderiv(_shader, GL_COMPILE_STATUS, &is_compiled);
+    if (errors)
+        return;
 
-        if (is_compiled == 0) { // 0 = failed to compile.
-            errors = true;
+    GLint is_compiled = -1;
+    glGetShaderiv(_shader, GL_COMPILE_STATUS, &is_compiled);
 
-            // Retrieve the compiler output.
-            GLint length = 0;
-            glGetShaderiv(_shader, GL_INFO_LOG_LENGTH, &length);
+    // Return if the shader compilation went well
+    if (is_compiled != 0)
+        return;
 
-            // Allocate space for the log.
-            char* log = new char[length];
-            memset(log, 0, length);
-            glGetShaderInfoLog(_shader, length, &length, log);
+    // Retrieve the compiler output.
+    GLint length = 0;
+    glGetShaderiv(_shader, GL_INFO_LOG_LENGTH, &length);
 
-            PRINT_ERROR << "Failed to compile the shader. Shader ID: " <<
-                           vt_utils::NumberToString(_shader) << " Compiler Output: " <<
-                           log << std::endl;
+    // Allocate space for the log.
+    char* log = new char[length];
+    memset(log, 0, length);
+    glGetShaderInfoLog(_shader, length, &length, log);
 
-            // Clean up the log.
-            delete [] log;
-            log = nullptr;
+    PRINT_ERROR << "Failed to compile the shader. Shader ID: " <<
+                    vt_utils::NumberToString(_shader) << " Compiler Output: " <<
+                    log << std::endl;
 
-            assert(is_compiled != 0);
-        }
-    }
+    // Clean up the log.
+    delete [] log;
+    log = nullptr;
+
+    assert(is_compiled != 0);
 }
 
 Shader::~Shader()

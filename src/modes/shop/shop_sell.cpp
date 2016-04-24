@@ -53,6 +53,7 @@ SellInterface::SellInterface() :
     _view_mode(SHOP_VIEW_MODE_INVALID),
     _selected_object(nullptr),
     _sell_deal_types(0),
+    _number_categories(0),
     _current_category(0)
 {
     _category_header.SetStyle(TextStyle("title24"));

@@ -461,7 +461,7 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
                 // from the next ones
                 if(_particles[j].current_keyframe == old_next) {
                     _particles[j].current_color_variation = _particles[j].next_color_variation;
-                    _particles[j].current_rotation_speed_variation = _particles[j].current_rotation_speed_variation;
+                    _particles[j].current_rotation_speed_variation = _particles[j].next_rotation_speed_variation;
                     _particles[j].current_size_variation_x = _particles[j].next_size_variation_x;
                     _particles[j].current_size_variation_y = _particles[j].next_size_variation_y;
                 } else {

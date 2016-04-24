@@ -174,7 +174,7 @@ public:
     };
 
     //! \brief Main Menu State constructor
-    MainMenuState(MenuMode *menu_mode);
+    explicit MainMenuState(MenuMode* menu_mode);
 
     ~MainMenuState()
     {};
@@ -202,7 +202,7 @@ public:
     };
 
     //! \brief InventoryState state constructor
-    InventoryState(MenuMode *menu_mode):
+    explicit InventoryState(MenuMode* menu_mode):
         AbstractMenuState("Inventory State", menu_mode)
     {}
 
@@ -235,7 +235,7 @@ public:
     };
 
     //! \brief Party state constructor
-    PartyState(MenuMode* menu_mode):
+    explicit PartyState(MenuMode* menu_mode):
         AbstractMenuState("Party State", menu_mode)
     {}
 
@@ -266,7 +266,7 @@ public:
     };
 
     //! \brief Skills state constructor
-    SkillsState(MenuMode *menu_mode):
+    explicit SkillsState(MenuMode* menu_mode):
         AbstractMenuState("Skills State", menu_mode)
     {}
 
@@ -291,7 +291,7 @@ public:
     };
 
     //! Equip state constructor
-    EquipState(MenuMode *menu_mode):
+    explicit EquipState(MenuMode* menu_mode):
         AbstractMenuState("Equip State", menu_mode)
     {}
 
@@ -323,7 +323,7 @@ public:
     };
 
     //! \brief Quest state constructor
-    QuestState(MenuMode *menu_mode):
+    explicit QuestState(MenuMode* menu_mode):
         AbstractMenuState("Quest State", menu_mode)
     {}
 
@@ -352,7 +352,7 @@ class WorldMapState : virtual public AbstractMenuState
 {
     //WorldMapState constructor
 public:
-    WorldMapState(MenuMode *menu_mode);
+    explicit WorldMapState(MenuMode* menu_mode);
 
     ~WorldMapState() {}
 

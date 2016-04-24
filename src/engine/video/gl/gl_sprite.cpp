@@ -263,7 +263,6 @@ Sprite::Sprite() :
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
-            errors = true;
             PRINT_ERROR << "Failed to store the index data. VAO ID: " <<
                            vt_utils::NumberToString(_vao) << " Buffer ID: " <<
                            vt_utils::NumberToString(_index_buffer) <<
@@ -343,23 +342,19 @@ void Sprite::Draw(float* vertex_positions,
     assert(vertex_colors != nullptr);
 
     // Bind the vertex position buffer.
-    if (!errors) {
-        glBindBuffer(GL_ARRAY_BUFFER, _vertex_position_buffer);
-    }
+    glBindBuffer(GL_ARRAY_BUFFER, _vertex_position_buffer);
 
     // Update the vertex position data.
-    if (!errors) {
-        glBufferSubData(GL_ARRAY_BUFFER, 0, VERTICES_PER_SPRITE * POSITIONS_PER_VERTEX * sizeof(float), vertex_positions);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, VERTICES_PER_SPRITE * POSITIONS_PER_VERTEX * sizeof(float), vertex_positions);
 
-        GLenum error = glGetError();
-        if (error != GL_NO_ERROR) {
-            errors = true;
-            PRINT_ERROR << "Failed to update the vertex position data. VAO ID: " <<
-                           vt_utils::NumberToString(_vao) << " Buffer ID: " <<
-                           vt_utils::NumberToString(_vertex_position_buffer) <<
-                           std::endl;
-            assert(error == GL_NO_ERROR);
-        }
+    GLenum error = glGetError();
+    if (error != GL_NO_ERROR) {
+        errors = true;
+        PRINT_ERROR << "Failed to update the vertex position data. VAO ID: " <<
+                        vt_utils::NumberToString(_vao) << " Buffer ID: " <<
+                        vt_utils::NumberToString(_vertex_position_buffer) <<
+                        std::endl;
+        assert(error == GL_NO_ERROR);
     }
 
     // Bind the vertex texture coordinate buffer.

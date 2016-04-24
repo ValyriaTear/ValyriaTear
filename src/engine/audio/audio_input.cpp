@@ -197,10 +197,9 @@ uint32_t WavFile::Read(uint8_t *buffer, uint32_t size, bool &end)
 
 #ifdef __BIG_ENDIAN__
     if(_bits_per_sample == 16) {
-        uint8_t tmp;
         // iterate through
         for(uint32_t i = 0; i < read * _sample_size; i += 2) {
-            tmp = buffer[i];
+            uint8_t tmp = buffer[i];
             buffer[i] = buffer[i + 1];
             buffer[i + 1] = tmp;
         }

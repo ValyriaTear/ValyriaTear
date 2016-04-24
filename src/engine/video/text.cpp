@@ -377,9 +377,9 @@ void TextElement::SetTexture(TextTexture *texture)
 
 TextImage::TextImage() :
     ImageDescriptor(),
+    _style(TextManager->GetDefaultStyle()),
     _max_width(1024)
 {
-    _style = TextManager->GetDefaultStyle();
 }
 
 TextImage::TextImage(const ustring& text, const TextStyle& style) :

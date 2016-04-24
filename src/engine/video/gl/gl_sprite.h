@@ -37,11 +37,8 @@ public:
               float* vertex_colors);
 
 private:
-    //
-    // The copy constructor and assignment operator are hidden by design
-    // to cause compilation errors when attempting to copy or assign this class.
-    //
-
+    //! \brief The copy constructor and assignment operator are hidden by design
+    //! to cause compilation errors when attempting to copy or assign this class.
     Sprite(const Sprite& sprite);
     Sprite& operator=(const Sprite& sprite);
 

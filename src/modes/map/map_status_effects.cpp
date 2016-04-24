@@ -566,12 +566,11 @@ bool MapStatusEffectsSupervisor::ChangeActiveStatusEffect(ActiveMapStatusEffect&
     // Holds the unsigned amount of change in intensity in either a positive or negative degree
     uint8_t intensity_change = abs(static_cast<int8_t>(intensity));
 
-    // variables used to determine the intensity change of the effect.
-    GLOBAL_INTENSITY previous_intensity = GLOBAL_INTENSITY_INVALID;
+    // Used to determine the intensity change of the effect.
     GLOBAL_INTENSITY new_intensity = GLOBAL_INTENSITY_INVALID;
 
     // Set the previous status and intensity return values to match the active effect, if one was found to exist
-    previous_intensity = active_effect.GetIntensity();
+    GLOBAL_INTENSITY previous_intensity = active_effect.GetIntensity();
 
     // Set the coordinates of the status effect next to the corresponding portrait
     vt_mode_manager::IndicatorSupervisor& indicator = MapMode::CurrentInstance()->GetIndicatorSupervisor();

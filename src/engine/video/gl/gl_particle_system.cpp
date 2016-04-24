@@ -225,7 +225,6 @@ ParticleSystem::ParticleSystem() :
 
         GLenum error = glGetError();
         if (error != GL_NO_ERROR) {
-            errors = true;
             PRINT_ERROR << "Failed to store the index data. VAO ID: " <<
                            vt_utils::NumberToString(_vao) << " Buffer ID: " <<
                            vt_utils::NumberToString(_index_buffer) <<
@@ -307,9 +306,7 @@ void ParticleSystem::Draw(float* vertex_positions,
     assert(number_of_vertices % VERTICES_PER_PARTICLE == 0);
 
     // Bind the vertex position buffer.
-    if (!errors) {
-        glBindBuffer(GL_ARRAY_BUFFER, _vertex_position_buffer);
-    }
+    glBindBuffer(GL_ARRAY_BUFFER, _vertex_position_buffer);
 
     // Update the vertex position data.
     if (!errors) {

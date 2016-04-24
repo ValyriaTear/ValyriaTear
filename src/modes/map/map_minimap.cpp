@@ -63,16 +63,12 @@ struct SDLSurfaceController {
     }
 
 private:
-    //
-    // The copy constructor and assignment operator are hidden by design
-    // to cause compilation errors when attempting to copy or assign this class.
-    //
-
+    //! \brief The copy constructor and assignment operator are hidden by design
+    //! to cause compilation errors when attempting to copy or assign this class.
     SDLSurfaceController(const SDLSurfaceController&)
     {
         throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
     }
-
     SDLSurfaceController& operator=(const SDLSurfaceController&)
     {
         throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);

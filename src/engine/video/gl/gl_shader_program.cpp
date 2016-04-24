@@ -118,33 +118,34 @@ ShaderProgram::ShaderProgram(const Shader* vertex_shader,
     }
 
     // Check for linkage errors.
-    if (!errors) {
-        GLint is_linked = -1;
-        glGetProgramiv(_program, GL_LINK_STATUS, &is_linked);
+    if (errors)
+        return;
 
-        if (is_linked == 0) { // 0 = failed to link.
-            errors = true;
+    GLint is_linked = -1;
+    glGetProgramiv(_program, GL_LINK_STATUS, &is_linked);
 
-            // Retrieve the linker output.
-            GLint length = 0;
-            glGetProgramiv(_program, GL_INFO_LOG_LENGTH, &length);
+    // Return if linkage went well
+    if (is_linked != 0)
+        return;
 
-            // Allocate space for the log.
-            char* log = new char[length];
-            memset(log, 0, length);
-            glGetProgramInfoLog(_program, length, &length, log);
+    // Retrieve the linker output.
+    GLint length = 0;
+    glGetProgramiv(_program, GL_INFO_LOG_LENGTH, &length);
 
-            PRINT_ERROR << "Failed to link the shader program. Shader Program ID: " <<
-                           vt_utils::NumberToString(_program) << " Linker Output: " <<
-                           log << std::endl;
+    // Allocate space for the log.
+    char* log = new char[length];
+    memset(log, 0, length);
+    glGetProgramInfoLog(_program, length, &length, log);
 
-            // Clean up the log.
-            delete [] log;
-            log = nullptr;
+    PRINT_ERROR << "Failed to link the shader program. Shader Program ID: " <<
+                    vt_utils::NumberToString(_program) << " Linker Output: " <<
+                    log << std::endl;
 
-            assert(is_linked != 0);
-        }
-    }
+    // Clean up the log.
+    delete [] log;
+    log = nullptr;
+
+    assert(is_linked != 0);
 }
 
 ShaderProgram::~ShaderProgram()

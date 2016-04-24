@@ -117,7 +117,7 @@ enum WAIT_FOR {
 class GameOptionsMenuHandler {
 public:
     //! Initializes all the common options menus
-    GameOptionsMenuHandler(vt_mode_manager::GameMode* parent_mode);
+    explicit GameOptionsMenuHandler(vt_mode_manager::GameMode* parent_mode);
 
     //! Deinit the handler, also saving the config
     ~GameOptionsMenuHandler();

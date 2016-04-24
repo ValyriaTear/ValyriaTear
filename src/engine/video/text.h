@@ -118,13 +118,13 @@ public:
     }
 
     //! \brief Constructor requiring a font name only.
-    TextStyle(const std::string& font);
+    explicit TextStyle(const std::string& font);
 
     //! \brief Constructor requiring a text color only.
-    TextStyle(const Color& color);
+    explicit TextStyle(const Color& color);
 
     //! \brief Constructor requiring a shadow style only.
-    TextStyle(TEXT_SHADOW_STYLE style);
+    explicit TextStyle(TEXT_SHADOW_STYLE style);
 
     //! \brief Constructor requiring a font name and text color.
     TextStyle(const std::string& font, const Color& color);

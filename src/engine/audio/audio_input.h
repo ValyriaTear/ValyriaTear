@@ -147,7 +147,7 @@ protected:
 class WavFile : public AudioInput
 {
 public:
-    WavFile(const std::string &file_name) :
+    explicit WavFile(const std::string& file_name) :
         AudioInput() {
         _filename = file_name;
     }
@@ -184,7 +184,7 @@ private:
 class OggFile : public AudioInput
 {
 public:
-    OggFile(const std::string &file_name) :
+    explicit OggFile(const std::string &file_name) :
         AudioInput(),
         _read_buffer_position(0),
         _read_buffer_size(0),
@@ -256,9 +256,9 @@ public:
     *** This constructor will allocate enough memory to hold the entire audio data and
     *** fill that memory with the audio data read from the input argument
     **/
-    AudioMemory(AudioInput *input);
+    explicit AudioMemory(AudioInput* input);
 
-    AudioMemory(const AudioMemory &audio_memory);
+    explicit AudioMemory(const AudioMemory& audio_memory);
     AudioMemory &operator=(const AudioMemory &other_audio_memory);
 
     ~AudioMemory();

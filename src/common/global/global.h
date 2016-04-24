@@ -80,7 +80,7 @@ class GlobalEventGroup
 {
 public:
     //! \param group_name The name of the group to create (this can not be changed)
-    GlobalEventGroup(const std::string &group_name) :
+    explicit GlobalEventGroup(const std::string &group_name) :
         _group_name(group_name) {}
 
     ~GlobalEventGroup() {}

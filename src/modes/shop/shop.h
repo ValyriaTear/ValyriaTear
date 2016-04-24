@@ -345,7 +345,7 @@ private:
 class ShopMode : public vt_mode_manager::GameMode
 {
 public:
-    ShopMode(const std::string& shop_id);
+    explicit ShopMode(const std::string& shop_id);
 
     ~ShopMode();
 

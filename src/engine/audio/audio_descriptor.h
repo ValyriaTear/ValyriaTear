@@ -150,7 +150,7 @@ class AudioSource
 {
 public:
     //! \param al_source A valid OpenAL source that has been generated
-    AudioSource(ALuint al_source) :
+    explicit AudioSource(ALuint al_source) :
         source(al_source), owner(nullptr) {}
 
     ~AudioSource();

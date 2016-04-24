@@ -45,11 +45,8 @@ private:
     const Shader* _vertex_shader;
     const Shader* _fragment_shader;
 
-    //
-    // The copy constructor and assignment operator are hidden by design
-    // to cause compilation errors when attempting to copy or assign this class.
-    //
-
+    //! \brief The copy constructor and assignment operator are hidden by design
+    //! to cause compilation errors when attempting to copy or assign this class.
     ShaderProgram(const ShaderProgram& shader_program);
     ShaderProgram& operator=(const ShaderProgram& shader_program);
 };

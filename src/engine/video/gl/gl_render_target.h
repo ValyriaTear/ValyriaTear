@@ -46,11 +46,8 @@ public:
     unsigned GetHeight() const;
 
 private:
-    //
-    // The copy constructor and assignment operator are hidden by design
-    // to cause compilation errors when attempting to copy or assign this class.
-    //
-
+    //! \brief The copy constructor and assignment operator are hidden by design
+    //! to cause compilation errors when attempting to copy or assign this class.
     RenderTarget(const RenderTarget& sprite);
     RenderTarget& operator=(const RenderTarget& sprite);
 
