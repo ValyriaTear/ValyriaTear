@@ -251,7 +251,7 @@ uint32_t SkillAction::GetCoolDownTime() const
 // ItemAction class
 ////////////////////////////////////////////////////////////////////////////////
 
-ItemAction::ItemAction(BattleActor *source, BattleTarget target, BattleItem *item) :
+ItemAction::ItemAction(BattleActor *source, BattleTarget target, const std::shared_ptr<BattleItem>& item) :
     BattleAction(source, target),
     _item(item),
     _action_canceled(false)

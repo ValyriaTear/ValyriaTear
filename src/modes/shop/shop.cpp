@@ -301,7 +301,7 @@ void ShopObjectViewer::Draw()
     // Object's name and icon are drawn in the same position for all objects
     _object_name.Draw();
     VideoManager->MoveRelative(0.0f, 55.0f);
-    GlobalObject* object = _selected_object->GetObject();
+    std::shared_ptr<GlobalObject> object = _selected_object->GetObject();
     object->GetIconImage().Draw();
     if (object->IsKeyItem()) {
         VideoManager->MoveRelative(32.0f, 15.0f);
@@ -420,14 +420,12 @@ void ShopObjectViewer::_UpdateTradeConditions()
         uint32_t owned_number = GlobalManager->HowManyObjectsInInventory(item_id);
 
         // Create a global object to get info from.
-        GlobalObject* obj = GlobalCreateNewObject(item_id, 1);
+        std::shared_ptr<GlobalObject> obj = GlobalCreateNewObject(item_id, 1);
         if (!obj)
             continue;
 
-        _conditions_name.AddOption(MakeUnicodeString("<" + obj->GetIconImage().GetFilename() + "><30>")
-                                 + obj->GetName());
-        // Delete it once we're done with it.
-        delete obj;
+        _conditions_name.AddOption(MakeUnicodeString("<" + obj->GetIconImage().GetFilename() + "><30>") +
+                                   obj->GetName());
 
         StillImage *img = _conditions_name.GetEmbeddedImage(j);
         if (img)
@@ -475,7 +473,7 @@ void ShopObjectViewer::_SetItemData()
     UpdateCountText();
 
     // Set map/battle usability status
-    GlobalItem *item = dynamic_cast<GlobalItem *>(_selected_object->GetObject());
+    std::shared_ptr<GlobalItem> item = std::dynamic_pointer_cast<GlobalItem>(_selected_object->GetObject());
     _map_usable = item->IsUsableInField();
     _battle_usable = item->IsUsableInBattle();
 
@@ -498,17 +496,17 @@ void ShopObjectViewer::_SetEquipmentData()
     }
 
     // Determine whether the selected object is a weapon or piece of armor
-    GlobalWeapon *selected_weapon = nullptr;
-    GlobalArmor *selected_armor = nullptr;
+    std::shared_ptr<GlobalWeapon> selected_weapon = nullptr;
+    std::shared_ptr<GlobalArmor> selected_armor = nullptr;
     uint32_t usable_status = 0; // This is a bit mask that will hold the selected object's usablility information
     uint32_t armor_index = 0; // Will hold the correct index into a GlobalCharacter object's equipped armor container
 
     if(_selected_object->GetObject()->GetObjectType() == GLOBAL_OBJECT_WEAPON) {
-        selected_weapon = dynamic_cast<GlobalWeapon *>(_selected_object->GetObject());
+        selected_weapon = std::dynamic_pointer_cast<GlobalWeapon>(_selected_object->GetObject());
         usable_status = selected_weapon->GetUsableBy();
         _is_weapon = true;
     } else {
-        selected_armor = dynamic_cast<GlobalArmor *>(_selected_object->GetObject());
+        selected_armor = std::dynamic_pointer_cast<GlobalArmor>(_selected_object->GetObject());
         usable_status = selected_armor->GetUsableBy();
         _is_weapon = false;
 
@@ -580,7 +578,7 @@ void ShopObjectViewer::_SetEquipmentData()
     if(selected_weapon != nullptr) {
         for(uint32_t i = 0; i < party->size(); ++i) {
             character = party->at(i);
-            GlobalWeapon* equipped_weapon = character->GetWeaponEquipped();
+            std::shared_ptr<GlobalWeapon> equipped_weapon = character->GetWeaponEquipped();
 
             // Initially assume that the character does not have this weapon equipped
             _character_equipped[i] = false;
@@ -619,7 +617,7 @@ void ShopObjectViewer::_SetEquipmentData()
     } else { // (selected_armor != nullptr)
         for(uint32_t i = 0; i < party->size(); ++i) {
             character = party->at(i);
-            GlobalArmor* equipped_armor = character->GetArmorEquipped(armor_index);
+            std::shared_ptr<GlobalArmor> equipped_armor = character->GetArmorEquipped(armor_index);
 
             // Initially assume that the character does not have this armor equipped
             _character_equipped[i] = false;
@@ -1240,14 +1238,14 @@ void ShopMode::_UpdateAvailableObjectsToSell()
     if (!_sell_mode_enabled)
         return;
 
-    std::map<uint32_t, GlobalObject *>* inventory = GlobalManager->GetInventory();
-    for(std::map<uint32_t, GlobalObject *>::iterator it = inventory->begin(); it != inventory->end(); ++it) {
+    auto inventory = GlobalManager->GetInventory();
+    for (auto it = inventory->begin(); it != inventory->end(); ++it) {
         // Don't consider 0 worth objects.
-        if(it->second->GetPrice() == 0)
+        if (it->second->GetPrice() == 0)
             continue;
 
         // Don't show key items either.
-        if(it->second->IsKeyItem())
+        if (it->second->IsKeyItem())
             continue;
 
         // Check if the object already exists in the shop list and if so, set its ownership count
@@ -1256,14 +1254,13 @@ void ShopMode::_UpdateAvailableObjectsToSell()
             shop_obj_iter->second->IncrementOwnCount(it->second->GetCount());
         } else {
             // Otherwise, add the shop object to the list.
-            ShopObject *new_shop_object = new ShopObject(it->second, true);
+            ShopObject *new_shop_object = new ShopObject(it->second);
             new_shop_object->IncrementOwnCount(it->second->GetCount());
             new_shop_object->SetPricing(GetBuyPriceLevel(), GetSellPriceLevel());
             _available_sell.insert(std::make_pair(it->second->GetID(), new_shop_object));
         }
     }
 }
-
 
 void ShopMode::_UpdateAvailableShopOptions()
 {
@@ -1663,9 +1660,9 @@ void ShopMode::CompleteTransaction()
             if (!shop_object->IsInfiniteAmount())
                 shop_object->IncrementStockCount(count);
         } else {
-            GlobalObject* new_object = GlobalCreateNewObject(id, 1);
+            std::shared_ptr<GlobalObject> new_object = GlobalCreateNewObject(id, 1);
             if (new_object != nullptr) {
-                ShopObject* new_shop_object = new ShopObject(new_object, false);
+                ShopObject* new_shop_object = new ShopObject(new_object);
                 new_shop_object->IncrementStockCount(count);
                 new_shop_object->SetPricing(GetBuyPriceLevel(), GetSellPriceLevel());
                 _available_buy.insert(std::make_pair(id, new_shop_object));
@@ -1855,9 +1852,9 @@ void ShopMode::AddItem(uint32_t object_id, uint32_t stock)
         return;
     }
 
-    GlobalObject *new_object = GlobalCreateNewObject(object_id, 1);
+    std::shared_ptr<GlobalObject> new_object = GlobalCreateNewObject(object_id, 1);
     if (new_object != nullptr) {
-        ShopObject *new_shop_object = new ShopObject(new_object, false);
+        ShopObject *new_shop_object = new ShopObject(new_object);
         if (stock > 0)
             new_shop_object->IncrementStockCount(stock);
         else // When the stock is set to 0, it means there is an infinity amount of object to buy.
@@ -1883,9 +1880,9 @@ void ShopMode::AddTrade(uint32_t object_id, uint32_t stock)
         return;
     }
 
-    GlobalObject *new_object = GlobalCreateNewObject(object_id, 1);
-    if(new_object != nullptr) {
-        ShopObject *new_shop_object = new ShopObject(new_object, false);
+    std::shared_ptr<GlobalObject> new_object = GlobalCreateNewObject(object_id, 1);
+    if (new_object != nullptr) {
+        ShopObject *new_shop_object = new ShopObject(new_object);
         if (stock > 0)
             new_shop_object->IncrementStockCount(stock);
         else // When the stock is set to 0, it means there is an infinity amount of object to trade.

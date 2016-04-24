@@ -361,7 +361,7 @@ bool SystemEngine::LoadLanguages()
     static bool warnAboutMissingFiles = true;
 
     _locales_properties.clear();
-    std::string current_locale = vt_system::SystemManager->GetLanguageLocale();
+
     for (const std::string& locale : locale_list) {
         if (locale == "default_locale")
             continue;

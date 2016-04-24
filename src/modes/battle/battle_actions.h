@@ -212,7 +212,7 @@ private:
 class ItemAction : public BattleAction
 {
 public:
-    ItemAction(BattleActor *source, BattleTarget target, BattleItem *item);
+    ItemAction(BattleActor *source, BattleTarget target, const std::shared_ptr<BattleItem>& item);
 
     virtual ~ItemAction();
 
@@ -249,13 +249,13 @@ public:
         return "item";
     }
 
-    BattleItem *GetItem() {
+    std::shared_ptr<BattleItem> GetItem() {
         return _item;
     }
 
 private:
     //! \brief Pointer to the item attached to this script
-    BattleItem* _item;
+    const std::shared_ptr<BattleItem> _item;
 
     //! \brief Tells whether the action has already been canceled.
     bool _action_canceled;

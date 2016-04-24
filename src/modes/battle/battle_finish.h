@@ -231,7 +231,7 @@ private:
     vt_video::StillImage _character_portraits[4];
 
     //! \brief Holds all objects that were dropped by the defeated enemy party (<ID, quantity>)
-    std::map<vt_global::GlobalObject *, int32_t> _objects_dropped;
+    std::map<std::shared_ptr<vt_global::GlobalObject>, int32_t> _objects_dropped;
 
     //! \brief The top window in the GUI display that contains header text
     vt_gui::MenuWindow _header_window;

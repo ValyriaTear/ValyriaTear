@@ -53,18 +53,10 @@ MapTreasure::MapTreasure() :
 {
 }
 
-MapTreasure::~MapTreasure()
-{
-    for(uint32_t i = 0; i < _items_list.size(); i++) {
-        delete _items_list[i];
-    }
-}
-
 bool MapTreasure::AddItem(uint32_t id, uint32_t quantity)
 {
-    vt_global::GlobalObject *obj = GlobalCreateNewObject(id, quantity);
-
-    if(obj == nullptr) {
+    std::shared_ptr<vt_global::GlobalObject> obj = GlobalCreateNewObject(id, quantity);
+    if (obj == nullptr) {
         IF_PRINT_WARNING(MAP_DEBUG) << "invalid object id argument passed to function: " << id << std::endl;
         return false;
     }
@@ -190,19 +182,19 @@ void TreasureSupervisor::Initialize(MapTreasure *treasure)
     // Immediately add the drunes and objects to the player's inventory
     GlobalManager->AddDrunes(_treasure->_drunes);
 
-    for(uint32_t i = 0; i < _treasure->_items_list.size(); ++i) {
-        GlobalObject *obj = _treasure->_items_list[i];
-        if(!obj)
+    for (uint32_t i = 0; i < _treasure->_items_list.size(); ++i) {
+        std::shared_ptr<GlobalObject> obj = _treasure->_items_list[i];
+        if (!obj)
             continue;
-        if(!GlobalManager->IsItemInInventory(obj->GetID())) {
-            // Pass a copy to the inventory, the treasure object will delete its content on destruction.
-            vt_global::GlobalObject *obj_copy = GlobalCreateNewObject(obj->GetID(), obj->GetCount());
+
+        if (!GlobalManager->IsItemInInventory(obj->GetID())) {
+            std::shared_ptr<vt_global::GlobalObject> obj_copy = GlobalCreateNewObject(obj->GetID(), obj->GetCount());
             GlobalManager->AddToInventory(obj_copy);
         } else {
             GlobalManager->IncrementItemCount(obj->GetID(), obj->GetCount());
         }
     }
-} // void TreasureSupervisor::Initialize(MapTreasure* treasure)
+}
 
 void TreasureSupervisor::Update()
 {

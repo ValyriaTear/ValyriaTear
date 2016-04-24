@@ -95,7 +95,7 @@ bool GlobalAttackPoint::LoadData(ReadScriptDescriptor &script)
     return true;
 }
 
-void GlobalAttackPoint::CalculateTotalDefense(const GlobalArmor* equipped_armor)
+void GlobalAttackPoint::CalculateTotalDefense(const std::shared_ptr<GlobalArmor>& equipped_armor)
 {
     if(_actor_owner == nullptr) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attack point has no owning actor" << std::endl;
@@ -706,31 +706,31 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
         uint32_t equipment_id = 0;
         equipment_id = char_script.ReadUInt("weapon");
         if(equipment_id != 0)
-            _weapon_equipped = new GlobalWeapon(equipment_id);
+            _weapon_equipped = std::make_shared<GlobalWeapon>(equipment_id);
         else
             _weapon_equipped = nullptr;
 
         equipment_id = char_script.ReadUInt("head_armor");
         if(equipment_id != 0)
-            _armor_equipped.push_back(new GlobalArmor(equipment_id));
+            _armor_equipped.push_back(std::make_shared<GlobalArmor>(equipment_id));
         else
             _armor_equipped.push_back(nullptr);
 
         equipment_id = char_script.ReadUInt("torso_armor");
         if(equipment_id != 0)
-            _armor_equipped.push_back(new GlobalArmor(equipment_id));
+            _armor_equipped.push_back(std::make_shared<GlobalArmor>(equipment_id));
         else
             _armor_equipped.push_back(nullptr);
 
         equipment_id = char_script.ReadUInt("arm_armor");
         if(equipment_id != 0)
-            _armor_equipped.push_back(new GlobalArmor(equipment_id));
+            _armor_equipped.push_back(std::make_shared<GlobalArmor>(equipment_id));
         else
             _armor_equipped.push_back(nullptr);
 
         equipment_id = char_script.ReadUInt("leg_armor");
         if(equipment_id != 0)
-            _armor_equipped.push_back(new GlobalArmor(equipment_id));
+            _armor_equipped.push_back(std::make_shared<GlobalArmor>(equipment_id));
         else
             _armor_equipped.push_back(nullptr);
 
@@ -841,16 +841,18 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
     _CalculateAttackRatings();
     _CalculateDefenseRatings();
     _CalculateEvadeRatings();
-} // GlobalCharacter::GlobalCharacter(uint32_t id, bool initial)
+}
 
 GlobalCharacter::~GlobalCharacter()
 {
-    // Delete all equipment
-    if(_weapon_equipped != nullptr)
-        delete _weapon_equipped;
-    for(uint32_t i = 0; i < _armor_equipped.size(); ++i) {
-        if(_armor_equipped[i] != nullptr)
-            delete _armor_equipped[i];
+    //
+    // Delete all equipment.
+    //
+
+    _weapon_equipped = nullptr;
+
+    for (uint32_t i = 0; i < _armor_equipped.size(); ++i) {
+        _armor_equipped[i] = nullptr;
     }
     _armor_equipped.clear();
 }
@@ -914,9 +916,9 @@ void GlobalCharacter::SubtractMagDef(uint32_t amount)
     _CalculateDefenseRatings();
 }
 
-GlobalWeapon *GlobalCharacter::EquipWeapon(GlobalWeapon *weapon)
+std::shared_ptr<GlobalWeapon> GlobalCharacter::EquipWeapon(const std::shared_ptr<GlobalWeapon>& weapon)
 {
-    GlobalWeapon *old_weapon = _weapon_equipped;
+    std::shared_ptr<GlobalWeapon> old_weapon = _weapon_equipped;
     _weapon_equipped = weapon;
 
     // Updates the equipment status effects first
@@ -928,14 +930,14 @@ GlobalWeapon *GlobalCharacter::EquipWeapon(GlobalWeapon *weapon)
     return old_weapon;
 }
 
-GlobalArmor* GlobalCharacter::_EquipArmor(GlobalArmor *armor, uint32_t index)
+std::shared_ptr<GlobalArmor> GlobalCharacter::_EquipArmor(const std::shared_ptr<GlobalArmor>& armor, uint32_t index)
 {
     if(index >= _armor_equipped.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << std::endl;
         return armor;
     }
 
-    GlobalArmor *old_armor = _armor_equipped[index];
+    std::shared_ptr<GlobalArmor> old_armor = _armor_equipped[index];
     _armor_equipped[index] = armor;
 
     if(old_armor != nullptr && armor != nullptr) {
@@ -955,7 +957,7 @@ GlobalArmor* GlobalCharacter::_EquipArmor(GlobalArmor *armor, uint32_t index)
     return old_armor;
 }
 
-GlobalArmor* GlobalCharacter::GetArmorEquipped(uint32_t index) const
+std::shared_ptr<GlobalArmor> GlobalCharacter::GetArmorEquipped(uint32_t index) const
 {
     if(index >= _armor_equipped.size()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << std::endl;
@@ -1549,13 +1551,14 @@ void GlobalEnemy::_Initialize()
     _skill_points = _max_skill_points;
 }
 
-std::vector<GlobalObject*> GlobalEnemy::DetermineDroppedObjects()
+std::vector<std::shared_ptr<GlobalObject>> GlobalEnemy::DetermineDroppedObjects()
 {
-    std::vector<GlobalObject*> result;
+    std::vector<std::shared_ptr<GlobalObject>> result;
 
     for (uint32_t i = 0; i < _dropped_objects.size(); ++i) {
         if (RandomFloat() < _dropped_chance[i]) {
-            result.push_back(GlobalCreateNewObject(_dropped_objects[i]));
+            std::shared_ptr<GlobalObject> global_object = GlobalCreateNewObject(_dropped_objects[i]);
+            result.push_back(global_object);
         }
     }
 

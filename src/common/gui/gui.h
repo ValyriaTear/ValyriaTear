@@ -199,7 +199,7 @@ public:
         _owner = nullptr;
     }
 
-    virtual ~GUIControl()
+    virtual ~GUIControl() override
     {}
 
     /** \brief Calculates and returns the four edges for an aligned rectangle
@@ -210,7 +210,7 @@ public:
     *** \note The difference between this function and the one for GUI elements is that
     *** controls must take their owner window into account.
     **/
-    virtual void CalculateAlignedRect(float &left, float &right, float &bottom, float &top);
+    virtual void CalculateAlignedRect(float &left, float &right, float &bottom, float &top) override;
 
     /** \brief Sets the menu window which "owns" this control.
     *** \param owner_window A pointer to the menu that owns the control.

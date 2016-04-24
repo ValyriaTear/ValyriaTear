@@ -64,7 +64,7 @@ public:
         _final_value(0.0f)
     {}
 
-    GlobalStat(float value):
+    explicit GlobalStat(float value):
         _base_value(value),
         _modifier(1.0f),
         _final_value(value)
@@ -118,8 +118,7 @@ class GlobalAttackPoint
 {
 public:
     //! \param actor_owner A pointer to the GlobalActor owner of this attack point
-    GlobalAttackPoint(GlobalActor* owner);
-
+    explicit GlobalAttackPoint(GlobalActor* owner);
     ~GlobalAttackPoint() {
         _actor_owner = nullptr;
     }
@@ -143,7 +142,7 @@ public:
     *** and the properties of the equipped armor to calculate the attack point's total physical and magical defense.
     *** This method should be called whenever the actor's base defense stats or equipped armor on this point changes.
     **/
-    void CalculateTotalDefense(const GlobalArmor* equipped_armor);
+    void CalculateTotalDefense(const std::shared_ptr<GlobalArmor>& equipped_armor);
 
     /** \brief Determines the total evade rating of the attack point
     ***
@@ -276,11 +275,9 @@ class GlobalActor
 {
 public:
     GlobalActor();
-
     virtual ~GlobalActor();
 
     GlobalActor(const GlobalActor &copy);
-
     GlobalActor &operator=(const GlobalActor &copy);
 
     /** \brief Adds a new skill to the actor's skill set
@@ -761,9 +758,8 @@ public:
     *** \note If initial is set to false, the character's stats, equipment, and skills
     *** must be set by external code, otherwise they will remain 0/nullptr/empty.
     **/
-    GlobalCharacter(uint32_t id, bool initial = true);
-
-    virtual ~GlobalCharacter();
+    explicit GlobalCharacter(uint32_t id, bool initial = true);
+    virtual ~GlobalCharacter() override;
 
     //! \brief Tells whether a character is in the visible game formation
     void Enable(bool enable) {
@@ -860,29 +856,29 @@ public:
     **/
     bool AddExperiencePoints(uint32_t xp);
 
-    GlobalArmor* EquipHeadArmor(GlobalArmor* armor) {
+    std::shared_ptr<GlobalArmor> EquipHeadArmor(const std::shared_ptr<GlobalArmor>& armor) {
         return _EquipArmor(armor, GLOBAL_POSITION_HEAD);
     }
 
-    GlobalArmor* EquipTorsoArmor(GlobalArmor* armor) {
+    std::shared_ptr<GlobalArmor> EquipTorsoArmor(const std::shared_ptr<GlobalArmor>& armor) {
         return _EquipArmor(armor, GLOBAL_POSITION_TORSO);
     }
 
-    GlobalArmor* EquipArmArmor(GlobalArmor* armor) {
+    std::shared_ptr<GlobalArmor> EquipArmArmor(const std::shared_ptr<GlobalArmor>& armor) {
        return _EquipArmor(armor, GLOBAL_POSITION_ARMS);
     }
 
-    GlobalArmor* EquipLegArmor(GlobalArmor* armor) {
+    std::shared_ptr<GlobalArmor> EquipLegArmor(const std::shared_ptr<GlobalArmor>& armor) {
         return _EquipArmor(armor, GLOBAL_POSITION_LEGS);
     }
 
-    const std::vector<GlobalArmor *>& GetArmorsEquipped() {
+    const std::vector<std::shared_ptr<GlobalArmor>>& GetArmorsEquipped() {
         return _armor_equipped;
     }
 
-    GlobalArmor* GetArmorEquipped(uint32_t index) const;
+    std::shared_ptr<GlobalArmor> GetArmorEquipped(uint32_t index) const;
 
-    GlobalWeapon* GetWeaponEquipped() const {
+    std::shared_ptr<GlobalWeapon> GetWeaponEquipped() const {
         return _weapon_equipped;
     }
 
@@ -892,7 +888,7 @@ public:
     ***
     *** This function will also automatically re-calculate all attack ratings, elemental, and status bonuses.
     **/
-    GlobalWeapon* EquipWeapon(GlobalWeapon* weapon);
+    std::shared_ptr<GlobalWeapon> EquipWeapon(const std::shared_ptr<GlobalWeapon>& weapon);
 
     //! \brief Tells whether the actor has got equipment.
     bool HasEquipment() const;
@@ -958,19 +954,19 @@ public:
         return _experience_for_next_level;
     }
 
-    GlobalArmor *GetHeadArmorEquipped() {
+    std::shared_ptr<GlobalArmor> GetHeadArmorEquipped() {
         return _armor_equipped[GLOBAL_POSITION_HEAD];
     }
 
-    GlobalArmor *GetTorsoArmorEquipped() {
+    std::shared_ptr<GlobalArmor> GetTorsoArmorEquipped() {
         return _armor_equipped[GLOBAL_POSITION_TORSO];
     }
 
-    GlobalArmor *GetArmArmorEquipped() {
+    std::shared_ptr<GlobalArmor> GetArmArmorEquipped() {
         return _armor_equipped[GLOBAL_POSITION_ARMS];
     }
 
-    GlobalArmor *GetLegArmorEquipped() {
+    std::shared_ptr<GlobalArmor> GetLegArmorEquipped() {
         return _armor_equipped[GLOBAL_POSITION_LEGS];
     }
 
@@ -1167,7 +1163,7 @@ protected:
     *** attacks are automatically added to the appropriate members of this class when the weapon is equipped,
     *** and likewise those bonuses are removed when the weapon is unequipped.
     **/
-    GlobalWeapon *_weapon_equipped;
+    std::shared_ptr<GlobalWeapon> _weapon_equipped;
 
     /** \brief The various armors that the character has equipped
     *** \note The size of this vector will always be equal to the number of attack points on the character.
@@ -1178,7 +1174,7 @@ protected:
     *** applied to the character as a whole. The armor must be equipped on one of the caracter's attack points to
     *** really afford any kind of defensive bonus.
     **/
-    std::vector<GlobalArmor *> _armor_equipped;
+    std::vector<std::shared_ptr<GlobalArmor>> _armor_equipped;
 
     /** \brief The status effects given by equipment, aka passive status effects.
     *** \note elemental effects are handled as status effects also.
@@ -1208,7 +1204,7 @@ protected:
     *** for the attack point that the armor was equipped on. If the index argument is invalid (out-of-bounds),
     *** the function will return the armor argument.
     **/
-    GlobalArmor *_EquipArmor(GlobalArmor *armor, uint32_t index);
+    std::shared_ptr<GlobalArmor> _EquipArmor(const std::shared_ptr<GlobalArmor>& armor, uint32_t index);
 
     //! \brief Updates the equipment status effects.
     void _UpdateEquipmentStatusEffects();
@@ -1300,10 +1296,10 @@ private:
 class GlobalEnemy : public GlobalActor
 {
 public:
-    GlobalEnemy(uint32_t id);
-
-    virtual ~GlobalEnemy()
-    {}
+    explicit GlobalEnemy(uint32_t id);
+    virtual ~GlobalEnemy() override
+    {
+    }
 
     /** \brief Enables the enemy to be able to use a specific skill
     *** \param skill_id The integer ID of the skill to add to the enemy
@@ -1318,10 +1314,8 @@ public:
     bool AddSkill(uint32_t skill_id);
 
     /** \brief Uses random variables to calculate which objects, if any, the enemy dropped.
-    ***
-    *** It is the caller's repsonsibility to manage memory and delete the returned objects.
     **/
-    std::vector<GlobalObject*> DetermineDroppedObjects();
+    std::vector<std::shared_ptr<GlobalObject>> DetermineDroppedObjects();
 
     //! \name Class member access functions
     //@{
@@ -1408,8 +1402,9 @@ class GlobalParty
 {
 public:
     //! \param allow_duplicates Determines whether or not the party allows duplicate characters to be added (default value == false)
-    GlobalParty(bool allow_duplicates = false) :
-        _allow_duplicates(allow_duplicates) {}
+    explicit GlobalParty(bool allow_duplicates = false) :
+        _allow_duplicates(allow_duplicates)
+    {}
 
     ~GlobalParty()
     {}

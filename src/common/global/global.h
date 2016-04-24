@@ -403,22 +403,15 @@ public:
     /** \brief Adds a new object to the inventory
     *** \param obj_id The identifier value of the object to add
     *** \param obj_count The number of instances of the object to add (default == 1)
-    *** If the item already exists in the inventory, then instead the GlobalObject#_count member is used to
+    *** If the item already exists in the inventory, then instead the GlobalObject::_count member is used to
     *** increment the count of the stored item.
     **/
     void AddToInventory(uint32_t obj_id, uint32_t obj_count = 1);
 
     /** \brief Adds a new object to the inventory
     *** \param object A pointer to the pre-created GlobalObject-type class to add
-    ***
-    *** Once you call this function, GameGlobal assumes it is now responsible for memory management of this
-    *** object. Therefore, you should <b>never</b> attempt to reference the argument pointer after it is
-    *** passed to this function, because it may very well now point to an invalid location in memory. You
-    *** should also never use this function to pass a pointer to an object that was <b>not</b> created with
-    *** the new operator, because it is guaranteed that sooner or later GameGlobal will invoke delete on
-    *** this object.
     **/
-    void AddToInventory(GlobalObject *object);
+    void AddToInventory(const std::shared_ptr<GlobalObject>& object);
 
     /** \brief Removes an object from the inventory
     *** \param obj_id The identifier value of the object to remove
@@ -434,7 +427,7 @@ public:
     *** \param obj_id The identifier value of the item to obtain
     *** \return A newly instantiated copy of the object, or nullptr if the object was not found in the inventory
     **/
-    GlobalObject* GetGlobalObject(uint32_t obj_id);
+    std::shared_ptr<GlobalObject> GetGlobalObject(uint32_t obj_id);
 
     /** \brief Increments the number (count) of an object in the inventory
     *** \param item_id The integer identifier of the item that will have its count incremented
@@ -909,39 +902,39 @@ public:
         return &_active_party;
     }
 
-    std::map<uint32_t, GlobalObject *>* GetInventory() {
+    std::map<uint32_t, std::shared_ptr<GlobalObject>>* GetInventory() {
         return &_inventory;
     }
 
-    std::vector<GlobalItem *>* GetInventoryItems() {
+    std::vector<std::shared_ptr<GlobalItem>>* GetInventoryItems() {
         return &_inventory_items;
     }
 
-    std::vector<GlobalWeapon *>* GetInventoryWeapons() {
+    std::vector<std::shared_ptr<GlobalWeapon>>* GetInventoryWeapons() {
         return &_inventory_weapons;
     }
 
-    std::vector<GlobalArmor *>* GetInventoryHeadArmors() {
+    std::vector<std::shared_ptr<GlobalArmor>>* GetInventoryHeadArmors() {
         return &_inventory_head_armor;
     }
 
-    std::vector<GlobalArmor *>* GetInventoryTorsoArmors() {
+    std::vector<std::shared_ptr<GlobalArmor>>* GetInventoryTorsoArmors() {
         return &_inventory_torso_armor;
     }
 
-    std::vector<GlobalArmor *>* GetInventoryArmArmors() {
+    std::vector<std::shared_ptr<GlobalArmor>>* GetInventoryArmArmors() {
         return &_inventory_arm_armor;
     }
 
-    std::vector<GlobalArmor *>* GetInventoryLegArmors() {
+    std::vector<std::shared_ptr<GlobalArmor>>* GetInventoryLegArmors() {
         return &_inventory_leg_armor;
     }
 
-    std::vector<GlobalSpirit *>* GetInventorySpirits() {
+    std::vector<std::shared_ptr<GlobalSpirit>>* GetInventorySpirits() {
         return &_inventory_spirits;
     }
 
-    std::vector<GlobalObject *>* GetInventoryKeyItems() {
+    std::vector<std::shared_ptr<GlobalObject>>* GetInventoryKeyItems() {
         return &_inventory_key_items;
     }
 
@@ -1110,24 +1103,23 @@ private:
     *** is simply increased instead of adding an entire new class object. When the object count becomes zero, the object
     *** is removed from the inventory. Duplicates of all objects are retained in the various inventory containers below.
     **/
-    std::map<uint32_t, GlobalObject *> _inventory;
+    std::map<uint32_t, std::shared_ptr<GlobalObject>> _inventory;
 
     /** \brief Inventory containers
     *** These vectors contain the inventory of the entire party. The vectors are sorted according to the player's personal preferences.
     *** When a new object is added to the inventory, by default it will be placed at the end of the vector.
     **/
     //@{
-    std::vector<GlobalItem *>     _inventory_items;
-    std::vector<GlobalWeapon *>   _inventory_weapons;
-    std::vector<GlobalArmor *>    _inventory_head_armor;
-    std::vector<GlobalArmor *>    _inventory_torso_armor;
-    std::vector<GlobalArmor *>    _inventory_arm_armor;
-    std::vector<GlobalArmor *>    _inventory_leg_armor;
-    std::vector<GlobalSpirit *>   _inventory_spirits;
+    std::vector<std::shared_ptr<GlobalItem>>    _inventory_items;
+    std::vector<std::shared_ptr<GlobalWeapon>>  _inventory_weapons;
+    std::vector<std::shared_ptr<GlobalArmor>>   _inventory_head_armor;
+    std::vector<std::shared_ptr<GlobalArmor>>   _inventory_torso_armor;
+    std::vector<std::shared_ptr<GlobalArmor>>   _inventory_arm_armor;
+    std::vector<std::shared_ptr<GlobalArmor>>   _inventory_leg_armor;
+    std::vector<std::shared_ptr<GlobalSpirit>>  _inventory_spirits;
 
-    //! \brief The key items can be any kind of items. Thus, this vector is used as reference
-    //! and shouldn't be saved or used to delete an item.
-    std::vector<GlobalObject *>   _inventory_key_items;
+    //! \brief The key items can be any kind of items.
+    std::vector<std::shared_ptr<GlobalObject>> _inventory_key_items;
     //@}
 
     //! \name Global data and function script files
@@ -1241,14 +1233,14 @@ private:
     *** \param inv The vector container of the appropriate inventory type
     *** \return True if the object was successfully removed, or false if it was not
     **/
-    template <class T> bool _RemoveFromInventory(uint32_t obj_id, std::vector<T *>& inv);
+    template <class T> bool _RemoveFromInventory(uint32_t obj_id, std::vector<std::shared_ptr<T>>& inv);
 
     /** \brief A helper template function that finds and returns a copy of an object from the inventory
     *** \param obj_id The ID of the object to obtain from the inventory
     *** \param inv The vector container of the appropriate inventory type
     *** \return A pointer to the newly created copy of the object, or nullptr if the object could not be found
     **/
-    template <class T> T *_GetFromInventory(uint32_t obj_id, std::vector<T *>& inv);
+    template <class T> std::shared_ptr<T> _GetFromInventory(uint32_t obj_id, const std::vector<std::shared_ptr<T>>& inv);
 
     /** \brief A helper function to GameGlobal::SaveGame() that stores the contents of a type of inventory to the saved game file
     *** \param file A reference to the open and valid file where to write the inventory list
@@ -1256,7 +1248,7 @@ private:
     *** \param inv A reference to the inventory vector to store
     *** \note The class type T must be a derived class of GlobalObject
     **/
-    template <class T> void _SaveInventory(vt_script::WriteScriptDescriptor &file, const std::string &name, std::vector<T *>& inv);
+    template <class T> void _SaveInventory(vt_script::WriteScriptDescriptor &file, const std::string &name, const std::vector<std::shared_ptr<T>>& inv);
 
     /** \brief A helper function to GameGlobal::SaveGame() that writes character data to the saved game file
     *** \param file A reference to the open and valid file where to write the character data
@@ -1363,12 +1355,10 @@ private:
 // Template Function Definitions
 //-----------------------------------------------------------------------------
 
-template <class T> bool GameGlobal::_RemoveFromInventory(uint32_t obj_id, std::vector<T *>& inv)
+template <class T> bool GameGlobal::_RemoveFromInventory(uint32_t obj_id, std::vector<std::shared_ptr<T>>& inv)
 {
-    for(typename std::vector<T *>::iterator i = inv.begin(); i != inv.end(); i++) {
-        if((*i)->GetID() == obj_id) {
-            // Delete the object, remove it from the vector container, and remove it from the _inventory map
-            delete _inventory[obj_id];
+    for (auto i = inv.begin(); i != inv.end(); i++) {
+        if ((*i)->GetID() == obj_id) {
             inv.erase(i);
             _inventory.erase(obj_id);
             return true;
@@ -1376,15 +1366,16 @@ template <class T> bool GameGlobal::_RemoveFromInventory(uint32_t obj_id, std::v
     }
 
     return false;
-} // template <class T> bool GameGlobal::_RemoveFromInventory(uint32_t obj_id, std::vector<T*>& inv)
+}
 
-template <class T> T *GameGlobal::_GetFromInventory(uint32_t obj_id, std::vector<T *>& inv)
+template <class T> std::shared_ptr<T> GameGlobal::_GetFromInventory(uint32_t obj_id, const std::vector<std::shared_ptr<T>>& inv)
 {
-    for(typename std::vector<T*>::iterator it = inv.begin(); it != inv.end(); ++it) {
-        if((*it)->GetID() != obj_id)
+    for (auto it = inv.begin(); it != inv.end(); ++it) {
+
+        if ((*it)->GetID() != obj_id)
             continue;
 
-        T *return_object = new T(**it);
+        auto return_object = std::make_shared<T>(**it);
         return_object->SetCount(1);
         return return_object;
     }
@@ -1392,21 +1383,22 @@ template <class T> T *GameGlobal::_GetFromInventory(uint32_t obj_id, std::vector
     return nullptr;
 }
 
-template <class T> void GameGlobal::_SaveInventory(vt_script::WriteScriptDescriptor &file, const std::string &name, std::vector<T *>& inv)
+template <class T> void GameGlobal::_SaveInventory(vt_script::WriteScriptDescriptor &file, const std::string &name, const std::vector<std::shared_ptr<T>>& inv)
 {
-    if(file.IsFileOpen() == false) {
+    if (file.IsFileOpen() == false) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed because the argument file was not open" << std::endl;
         return;
     }
 
     file.InsertNewLine();
     file.WriteLine(name + " = {");
-    for(uint32_t i = 0; i < inv.size(); i++) {
+
+    for (uint32_t i = 0; i < inv.size(); i++) {
         // Don't save inventory items with 0 count
-        if(inv[i]->GetCount() == 0)
+        if (inv[i]->GetCount() == 0)
             continue;
 
-        if(i == 0)
+        if (i == 0)
             file.WriteLine("\t", false);
         else
             file.WriteLine(", ", false);
@@ -1417,12 +1409,13 @@ template <class T> void GameGlobal::_SaveInventory(vt_script::WriteScriptDescrip
             file.WriteLine("\t", false);
         }
 
-        file.WriteLine("[" + vt_utils::NumberToString(inv[i]->GetID()) + "] = "
-                       + vt_utils::NumberToString(inv[i]->GetCount()), false);
+        file.WriteLine("[" + vt_utils::NumberToString(inv[i]->GetID()) + "] = " +
+                       vt_utils::NumberToString(inv[i]->GetCount()), false);
     }
+
     file.InsertNewLine();
     file.WriteLine("},");
-} // template <class T> void GameGlobal::_SaveInventory(vt_script::WriteScriptDescriptor& file, std::string name, std::vector<T*>& inv)
+}
 
 } // namespace vt_global
 

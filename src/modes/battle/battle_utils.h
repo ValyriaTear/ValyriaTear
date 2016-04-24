@@ -291,7 +291,6 @@ class BattleItem
 public:
     //! \param item A pointer to the item to represent. Should be a non-nullptr value.
     BattleItem(vt_global::GlobalItem item);
-
     ~BattleItem();
 
     //! \brief Class member accessor methods

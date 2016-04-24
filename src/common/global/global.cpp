@@ -229,10 +229,6 @@ bool GameGlobal::_LoadGlobalScripts()
 
 void GameGlobal::ClearAllData()
 {
-    // Delete all inventory objects
-    for(std::map<uint32_t, GlobalObject *>::iterator it = _inventory.begin(); it != _inventory.end(); ++it) {
-        delete it->second;
-    }
     _inventory.clear();
     _inventory_items.clear();
     _inventory_weapons.clear();
@@ -504,40 +500,40 @@ void GameGlobal::AddToInventory(uint32_t obj_id, uint32_t obj_count)
     }
 
     // Otherwise, create a new object instance and add it to the inventory.
-    GlobalObject* new_object = nullptr;
-    if ((obj_id > 0 && obj_id <= MAX_ITEM_ID)
-            || (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
-        GlobalItem* new_item = new GlobalItem(obj_id, obj_count);
+    std::shared_ptr<GlobalObject> new_object = nullptr;
+    if ((obj_id > 0 && obj_id <= MAX_ITEM_ID) ||
+        (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
+        auto new_item = std::make_shared<GlobalItem>(obj_id, obj_count);
         new_object = new_item;
-        _inventory.insert(std::make_pair(obj_id, new_item));
+        _inventory.insert(std::make_pair(obj_id, new_object));
         _inventory_items.push_back(new_item);
     } else if ((obj_id > MAX_ITEM_ID) && (obj_id <= MAX_WEAPON_ID)) {
-        GlobalWeapon* new_wpn = new GlobalWeapon(obj_id, obj_count);
+        auto new_wpn = std::make_shared<GlobalWeapon>(obj_id, obj_count);
         new_object = new_wpn;
         _inventory.insert(std::make_pair(obj_id, new_wpn));
         _inventory_weapons.push_back(new_wpn);
     } else if ((obj_id > MAX_WEAPON_ID) && (obj_id <= MAX_HEAD_ARMOR_ID)) {
-        GlobalArmor* new_arm = new GlobalArmor(obj_id, obj_count);
+        auto new_arm = std::make_shared<GlobalArmor>(obj_id, obj_count);
         new_object = new_arm;
         _inventory.insert(std::make_pair(obj_id, new_arm));
         _inventory_head_armor.push_back(new_arm);
     } else if ((obj_id > MAX_HEAD_ARMOR_ID) && (obj_id <= MAX_TORSO_ARMOR_ID)) {
-        GlobalArmor* new_arm = new GlobalArmor(obj_id, obj_count);
+        auto new_arm = std::make_shared<GlobalArmor>(obj_id, obj_count);
         new_object = new_arm;
         _inventory.insert(std::make_pair(obj_id, new_arm));
         _inventory_torso_armor.push_back(new_arm);
     } else if ((obj_id > MAX_TORSO_ARMOR_ID) && (obj_id <= MAX_ARM_ARMOR_ID)) {
-        GlobalArmor* new_arm = new GlobalArmor(obj_id, obj_count);
+        auto new_arm = std::make_shared<GlobalArmor>(obj_id, obj_count);
         new_object = new_arm;
         _inventory.insert(std::make_pair(obj_id, new_arm));
         _inventory_arm_armor.push_back(new_arm);
     } else if ((obj_id > MAX_ARM_ARMOR_ID) && (obj_id <= MAX_LEG_ARMOR_ID)) {
-        GlobalArmor* new_arm = new GlobalArmor(obj_id, obj_count);
+        auto new_arm = std::make_shared<GlobalArmor>(obj_id, obj_count);
         new_object = new_arm;
         _inventory.insert(std::make_pair(obj_id, new_arm));
         _inventory_leg_armor.push_back(new_arm);
     } else if ((obj_id > MAX_LEG_ARMOR_ID) && (obj_id <= MAX_SPIRIT_ID)) {
-        GlobalSpirit* new_spirit = new GlobalSpirit(obj_id, obj_count);
+        auto new_spirit = std::make_shared<GlobalSpirit>(obj_id, obj_count);
         new_object = new_spirit;
         _inventory.insert(std::make_pair(obj_id, new_spirit));
         _inventory_spirits.push_back(new_spirit);
@@ -546,14 +542,15 @@ void GameGlobal::AddToInventory(uint32_t obj_id, uint32_t obj_count)
     }
 
     // Update the key items list.
-    if (new_object != nullptr && new_object->IsKeyItem()) {
+    if (new_object != nullptr &&
+        new_object->IsKeyItem()) {
         _inventory_key_items.push_back(new_object);
     }
 }
 
-void GameGlobal::AddToInventory(GlobalObject *object)
+void GameGlobal::AddToInventory(const std::shared_ptr<GlobalObject>& object)
 {
-    if(object == nullptr) {
+    if (object == nullptr) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received nullptr pointer argument" << std::endl;
         return;
     }
@@ -563,72 +560,70 @@ void GameGlobal::AddToInventory(GlobalObject *object)
 
     // Don't add object instance without at least one actual item.
     if (obj_count == 0) {
-        delete object;
         return;
     }
 
-    // If an instance of the same object is already inside the inventory, just increment the count and delete the object
-    if(_inventory.find(obj_id) != _inventory.end()) {
+    // If an instance of the same object is already inside the inventory, just increment the count.
+    if (_inventory.find(obj_id) != _inventory.end()) {
         _inventory[obj_id]->IncrementCount(obj_count);
-        delete object;
         return;
     }
 
     // Figure out which type of object this is, cast it to the correct type, and add it to the inventory
-    if((obj_id > 0 && obj_id <= MAX_ITEM_ID)
-        || (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
-        GlobalItem *new_obj = dynamic_cast<GlobalItem *>(object);
+    if((obj_id > 0 && obj_id <= MAX_ITEM_ID) ||
+       (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
+        auto new_obj = std::dynamic_pointer_cast<GlobalItem>(object);
         _inventory.insert(std::make_pair(obj_id, new_obj));
         _inventory_items.push_back(new_obj);
     } else if((obj_id > MAX_ITEM_ID) && (obj_id <= MAX_WEAPON_ID)) {
-        GlobalWeapon *new_obj = dynamic_cast<GlobalWeapon *>(object);
+        auto new_obj = std::dynamic_pointer_cast<GlobalWeapon>(object);
         _inventory.insert(std::make_pair(obj_id, new_obj));
         _inventory_weapons.push_back(new_obj);
     } else if((obj_id > MAX_WEAPON_ID) && (obj_id <= MAX_HEAD_ARMOR_ID)) {
-        GlobalArmor *new_obj = dynamic_cast<GlobalArmor *>(object);
+        auto new_obj = std::dynamic_pointer_cast<GlobalArmor>(object);
         _inventory.insert(std::make_pair(obj_id, new_obj));
         _inventory_head_armor.push_back(new_obj);
     } else if((obj_id > MAX_HEAD_ARMOR_ID) && (obj_id <= MAX_TORSO_ARMOR_ID)) {
-        GlobalArmor *new_obj = dynamic_cast<GlobalArmor *>(object);
+        auto new_obj = std::dynamic_pointer_cast<GlobalArmor>(object);
         _inventory.insert(std::make_pair(obj_id, new_obj));
         _inventory_torso_armor.push_back(new_obj);
     } else if((obj_id > MAX_TORSO_ARMOR_ID) && (obj_id <= MAX_ARM_ARMOR_ID)) {
-        GlobalArmor *new_obj = dynamic_cast<GlobalArmor *>(object);
+        auto new_obj = std::dynamic_pointer_cast<GlobalArmor>(object);
         _inventory.insert(std::make_pair(obj_id, new_obj));
         _inventory_arm_armor.push_back(new_obj);
     } else if((obj_id > MAX_ARM_ARMOR_ID) && (obj_id <= MAX_LEG_ARMOR_ID)) {
-        GlobalArmor *new_obj = dynamic_cast<GlobalArmor *>(object);
+        auto new_obj = std::dynamic_pointer_cast<GlobalArmor>(object);
         _inventory.insert(std::make_pair(obj_id, new_obj));
         _inventory_leg_armor.push_back(new_obj);
     } else if((obj_id > MAX_LEG_ARMOR_ID) && (obj_id <= MAX_SPIRIT_ID)) {
-        GlobalSpirit *new_obj = dynamic_cast<GlobalSpirit*>(object);
+        auto new_obj = std::dynamic_pointer_cast<GlobalSpirit>(object);
         _inventory.insert(std::make_pair(obj_id, new_obj));
         _inventory_spirits.push_back(new_obj);
     } else {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add invalid object to inventory with id: " << obj_id << std::endl;
-        delete object;
         return;
     }
 
-    // Updates the key items list
-    if (object->IsKeyItem())
+    // Updates the key items list.
+    if (object->IsKeyItem()) {
         _inventory_key_items.push_back(object);
+    }
 }
 
 void GameGlobal::RemoveFromInventory(uint32_t obj_id)
 {
-    std::map<uint32_t, GlobalObject *>::iterator it = _inventory.find(obj_id);
-    if(it == _inventory.end()) {
+    auto it = _inventory.find(obj_id);
+    if (it == _inventory.end()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to remove an object from inventory that didn't exist with id: " << obj_id << std::endl;
         return;
     }
 
     // Check whether the item is a key item to remove.
-    GlobalObject* object = it->second;
+    auto object = it->second;
     if (object != nullptr && object->IsKeyItem()) {
-        for(std::vector<GlobalObject *>::iterator it2 = _inventory_key_items.begin();
-                it2 != _inventory_key_items.end(); ++it2) {
-            if((*it2)->GetID() != obj_id)
+        for (auto it2 = _inventory_key_items.begin(); it2 != _inventory_key_items.end(); ++it2) {
+
+            if ((*it2)->GetID() != obj_id)
                 continue;
 
             _inventory_key_items.erase(it2);
@@ -637,8 +632,8 @@ void GameGlobal::RemoveFromInventory(uint32_t obj_id)
     }
 
     // Use the id value to figure out what type of object it is, and remove it from the object vector
-    if((obj_id > 0 && obj_id <= MAX_ITEM_ID)
-        || (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
+    if((obj_id > 0 && obj_id <= MAX_ITEM_ID) ||
+       (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
         if(_RemoveFromInventory(obj_id, _inventory_items) == false)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to remove was not found in inventory items: " << obj_id << std::endl;
     } else if((obj_id > MAX_ITEM_ID) && (obj_id <= MAX_WEAPON_ID)) {
@@ -664,17 +659,17 @@ void GameGlobal::RemoveFromInventory(uint32_t obj_id)
     }
 }
 
-GlobalObject* GameGlobal::GetGlobalObject(uint32_t obj_id)
+std::shared_ptr<GlobalObject> GameGlobal::GetGlobalObject(uint32_t obj_id)
 {
-    if(_inventory.find(obj_id) == _inventory.end()) {
+    if (_inventory.find(obj_id) == _inventory.end()) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to retrieve an object from inventory that didn't exist with id: " << obj_id << std::endl;
         return nullptr;
     }
 
-    GlobalObject *return_object = nullptr;
+    std::shared_ptr<GlobalObject> return_object = nullptr;
     // Use the id value to figure out what type of object it is, and remove it from the object vector
-    if((obj_id > 0 && obj_id <= MAX_ITEM_ID)
-        || (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
+    if((obj_id > 0 && obj_id <= MAX_ITEM_ID) ||
+       (obj_id > MAX_SPIRIT_ID && obj_id <= MAX_KEY_ITEM_ID)) {
         return_object = _GetFromInventory(obj_id, _inventory_items);
         if(return_object == nullptr)
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "object to retrieve was not found in inventory items: " << obj_id << std::endl;
@@ -719,8 +714,6 @@ void GameGlobal::IncrementItemCount(uint32_t obj_id, uint32_t count)
 
     _inventory[obj_id]->IncrementCount(count);
 }
-
-
 
 void GameGlobal::DecrementItemCount(uint32_t obj_id, uint32_t count)
 {
@@ -1257,7 +1250,7 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     uint32_t torso_id = 0;
     uint32_t arm_id = 0;
     uint32_t leg_id = 0;
-    GlobalObject *obj_tmp = nullptr;
+    std::shared_ptr<GlobalObject> obj_tmp = nullptr;
 
     obj_tmp = character->GetWeaponEquipped();
     if(obj_tmp != nullptr)
@@ -1540,27 +1533,27 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32_t id)
         // Equip the objects on the character as long as valid equipment IDs were read
         equip_id = file.ReadUInt("weapon");
         if(equip_id != 0) {
-            character->EquipWeapon(new GlobalWeapon(equip_id));
+            character->EquipWeapon(std::make_shared<GlobalWeapon>(equip_id));
         }
 
         equip_id = file.ReadUInt("head_armor");
         if(equip_id != 0) {
-            character->EquipHeadArmor(new GlobalArmor(equip_id));
+            character->EquipHeadArmor(std::make_shared<GlobalArmor>(equip_id));
         }
 
         equip_id = file.ReadUInt("torso_armor");
         if(equip_id != 0) {
-            character->EquipTorsoArmor(new GlobalArmor(equip_id));
+            character->EquipTorsoArmor(std::make_shared<GlobalArmor>(equip_id));
         }
 
         equip_id = file.ReadUInt("arm_armor");
         if(equip_id != 0) {
-            character->EquipArmArmor(new GlobalArmor(equip_id));
+            character->EquipArmArmor(std::make_shared<GlobalArmor>(equip_id));
         }
 
         equip_id = file.ReadUInt("leg_armor");
         if(equip_id != 0) {
-            character->EquipLegArmor(new GlobalArmor(equip_id));
+            character->EquipLegArmor(std::make_shared<GlobalArmor>(equip_id));
         }
 
         file.CloseTable(); // equipment
