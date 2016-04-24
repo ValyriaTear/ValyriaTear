@@ -190,9 +190,10 @@ ustring MakeUnicodeString(const std::string& text)
 {
     size_t length = text.length() + 1;
     std::vector<uint16_t> ubuff(length, 0);
-    uint16_t *utf16String = &ubuff[0];
     ubuff.reserve(length);
-    if(UTF8ToUTF16(text.c_str(), &ubuff[0])) {
+    // Point to the buffer start after reservation to avoid invalidating it.
+    uint16_t *utf16String = &ubuff[0];
+    if(UTF8ToUTF16(text, &ubuff[0])) {
         // Skip the "Byte Order Mark" from the UTF16 specification
         if(utf16String[0] == UTF_16_BOM_STD ||  utf16String[0] == UTF_16_BOM_REV) {
             utf16String = &ubuff[1];
