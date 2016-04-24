@@ -117,9 +117,9 @@ GlobalSkill::GlobalSkill(uint32_t id) :
     }
 }
 
-GlobalSkill::GlobalSkill(const GlobalSkill &copy):
-    _show_skill_notice(false),
+GlobalSkill::GlobalSkill(const GlobalSkill& copy):
     _icon_filename(copy._icon_filename),
+    _show_skill_notice(false),
     _warmup_action_name(copy._warmup_action_name),
     _action_name(copy._action_name),
     _animation_scripts(copy._animation_scripts)
@@ -138,7 +138,7 @@ GlobalSkill::GlobalSkill(const GlobalSkill &copy):
     _field_execute_function = copy._field_execute_function;
 }
 
-GlobalSkill &GlobalSkill::operator=(const GlobalSkill &copy)
+GlobalSkill &GlobalSkill::operator=(const GlobalSkill& copy)
 {
     if(this == &copy)  // Handle self-assignment case
         return *this;
