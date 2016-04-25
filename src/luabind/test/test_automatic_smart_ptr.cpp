@@ -6,10 +6,12 @@
 #include <luabind/luabind.hpp>
 #include <boost/shared_ptr.hpp>
 
+namespace {
+
 struct X
 {
-    X(int value)
-      : value(value)
+    X(int value_)
+      : value(value_)
     {
         ++alive;
     }
@@ -26,10 +28,16 @@ struct X
 
 int X::alive = 0;
 
+
+struct D: X
+{
+    D(int value_): X(value_) {}
+};
+
 struct ptr
 {
-    ptr(X* p)
-      : p(p)
+    ptr(X* p_)
+      : p(p_)
     {}
 
     ptr(ptr const& other)
@@ -51,10 +59,17 @@ X* get_pointer(ptr const& p)
     return p.p;
 }
 
+#ifdef LUABIND_USE_CXX11
+std::unique_ptr<X> make1()
+{
+    return std::unique_ptr<X>(new X(1));
+}
+#else
 std::auto_ptr<X> make1()
 {
     return std::auto_ptr<X>(new X(1));
 }
+#endif
 
 boost::shared_ptr<X> make2()
 {
@@ -66,6 +81,15 @@ ptr make3()
     return ptr(new X(3));
 }
 
+boost::shared_ptr<D> make_d()
+{
+    return boost::shared_ptr<D>(new D(10));
+}
+
+void needs_x(boost::shared_ptr<X>) {}
+
+} // namespace unnamed
+
 void test_main(lua_State* L)
 {
     using namespace luabind;
@@ -74,9 +98,14 @@ void test_main(lua_State* L)
         class_<X>("X")
           .def_readonly("value", &X::value),
 
+        class_<D, X>("D"),
+
         def("make1", make1),
         def("make2", make2),
-        def("make3", make3)
+        def("make3", make3),
+
+        def("make_d", make_d),
+        def("needs_x", needs_x)
     ];
 
     DOSTRING(L,
@@ -93,6 +122,10 @@ void test_main(lua_State* L)
         "assert(x3.value == 3)\n"
     );
 
+    DOSTRING(L, "function get2() return x2 end");
+    boost::shared_ptr<X> spx = call_function<boost::shared_ptr<X> >(L, "get2");
+    TEST_CHECK(spx.use_count() == 2);
+
     DOSTRING(L,
         "x1 = nil\n"
         "x2 = nil\n"
@@ -100,5 +133,19 @@ void test_main(lua_State* L)
         "collectgarbage()\n"
     );
 
-    assert(X::alive == 0);
+    TEST_CHECK(spx.use_count() == 1);
+    TEST_CHECK(X::alive == 1);
+    spx.reset();
+    TEST_CHECK(X::alive == 0);
+
+    DOSTRING(L,
+        "d = make_d()\n"
+        "status, err = pcall(needs_x, d)\n"
+        "assert(not status)\n"
+        "pat = '^No matching overload found, candidates:\\n'\n"
+        "pat = pat .. 'void needs_x%(custom %[.+%]%)$'\n"
+        "if not err:match(pat) then\n"
+        "  error('expected \"' .. pat .. '\", got \"' .. err .. '\"')\n"
+        "end\n"
+    );
 }

@@ -11,37 +11,36 @@ namespace luabind { namespace detail {
 namespace
 {
 
+  // A pointer to this is used as a tag value to identify functions exported
+  // by luabind.
+  char function_tag = 0;
+
   int function_destroy(lua_State* L)
   {
-      function_object* fn = *(function_object**)lua_touserdata(L, 1);
+      function_object* fn = *static_cast<function_object**>(
+          lua_touserdata(L, 1));
       delete fn;
       return 0;
   }
 
   void push_function_metatable(lua_State* L)
   {
-      lua_pushstring(L, "luabind.function");
-      lua_rawget(L, LUA_REGISTRYINDEX);
+      lua_rawgetp(L, LUA_REGISTRYINDEX, &function_tag);
 
       if (lua_istable(L, -1))
           return;
 
       lua_pop(L, 1);
 
-      lua_newtable(L);
+      lua_createtable(L, 0, 1); // One non-sequence entry for __gc.
 
-      lua_pushstring(L, "__gc");
-      lua_pushcclosure(L, &function_destroy, 0);
+      lua_pushliteral(L, "__gc");
+      lua_pushcfunction(L, &function_destroy);
       lua_rawset(L, -3);
 
-      lua_pushstring(L, "luabind.function");
-      lua_pushvalue(L, -2);
-      lua_rawset(L, LUA_REGISTRYINDEX);
+      lua_pushvalue(L, -1);
+      lua_rawsetp(L, LUA_REGISTRYINDEX, &function_tag);
   }
-
-  // A pointer to this is used as a tag value to identify functions exported
-  // by luabind.
-  int function_tag = 0;
 
 } // namespace unnamed
 
@@ -89,7 +88,7 @@ LUABIND_API object make_function_aux(lua_State* L, function_object* impl)
 {
     void* storage = lua_newuserdata(L, sizeof(function_object*));
     push_function_metatable(L);
-    *(function_object**)storage = impl;
+    *static_cast<function_object**>(storage) = impl;
     lua_setmetatable(L, -2);
 
     lua_pushlightuserdata(L, &function_tag);
@@ -107,30 +106,32 @@ void invoke_context::format_error(
 
     if (candidate_index == 0)
     {
-        lua_pushstring(L, "No matching overload found, candidates:\n");
-        int count = 0;
+        lua_pushliteral(L, "No matching overload found, candidates:");
         for (function_object const* f = overloads; f != 0; f = f->next)
         {
-            if (count != 0)
-                lua_pushstring(L, "\n");
+            lua_pushliteral(L, "\n");
             f->format_signature(L, function_name);
-            ++count;
+            lua_concat(L, 3); // Inefficient, but does not use up the stack.
         }
-        lua_concat(L, count * 2);
     }
     else
     {
         // Ambiguous
-        lua_pushstring(L, "Ambiguous, candidates:\n");
+        lua_pushliteral(L, "Ambiguous, candidates:");
         for (int i = 0; i < candidate_index; ++i)
         {
-            if (i != 0)
-                lua_pushstring(L, "\n");
+            lua_pushliteral(L, "\n");
             candidates[i]->format_signature(L, function_name);
+            lua_concat(L, 3); // Inefficient, but does not use up the stack.
         }
-        lua_concat(L, candidate_index * 2);
+        if (additional_candidates)
+        {
+            BOOST_ASSERT(candidate_index == max_candidates);
+            lua_pushfstring(L, "\nand %d additional overload(s) not shown",
+                additional_candidates);
+            lua_concat(L, 2);
+        }
     }
 }
 
 }} // namespace luabind::detail
-

@@ -23,6 +23,8 @@
 #ifndef LUABIND_BACK_REFERENCE_FWD_040510_HPP
 #define LUABIND_BACK_REFERENCE_FWD_040510_HPP
 
+#include <luabind/lua_state_fwd.hpp>
+
 namespace luabind {
 
 template<class T>
@@ -34,4 +36,3 @@ bool move_back_reference(lua_State* L, T const& x);
 } // namespace luabind
 
 #endif // LUABIND_BACK_REFERENCE_FWD_040510_HPP
-

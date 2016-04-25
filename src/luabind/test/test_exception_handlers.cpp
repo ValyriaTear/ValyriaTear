@@ -3,19 +3,21 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-#include <luabind/luabind.hpp>
 #include <luabind/exception_handler.hpp>
+#include <luabind/luabind.hpp>
+
+namespace {
 
 struct my_exception {};
 
 void translate_my_exception(lua_State* L, my_exception const&)
 {
-    lua_pushstring(L, "my_exception");
+    lua_pushliteral(L, "my_exception");
 }
 
 struct derived_std_exception : std::exception
 {
-    char const* what() const throw()
+    char const* what() const LUABIND_NOEXCEPT
     {
         return "derived_std_exception";
     }
@@ -23,18 +25,20 @@ struct derived_std_exception : std::exception
 
 void translate_derived_exception(lua_State* L, derived_std_exception const&)
 {
-    lua_pushstring(L, "derived_std_exception");
+    lua_pushliteral(L, "derived_std_exception");
 }
 
-void raise()
+void LUABIND_ATTRIBUTE_NORETURN raise_my_exception()
 {
     throw my_exception();
 }
 
-void raise_derived()
+void LUABIND_ATTRIBUTE_NORETURN raise_derived()
 {
     throw derived_std_exception();
 }
+
+} // namespace unnamed
 
 void test_main(lua_State* L)
 {
@@ -43,7 +47,7 @@ void test_main(lua_State* L)
     register_exception_handler<my_exception>(&translate_my_exception);
 
     module(L) [
-        def("raise", &raise),
+        def("raise", &raise_my_exception),
         def("raise_derived", &raise_derived)
     ];
 
@@ -64,4 +68,3 @@ void test_main(lua_State* L)
         "assert(status == false)\n"
         "assert(msg == 'derived_std_exception')\n");
 }
-

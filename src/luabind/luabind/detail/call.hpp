@@ -7,6 +7,11 @@
 # ifndef LUABIND_CALL2_080911_HPP
 #  define LUABIND_CALL2_080911_HPP
 
+#  include <luabind/config.hpp>
+#  include <luabind/detail/policy.hpp>
+#  include <luabind/object.hpp>
+#  include <luabind/yield_policy.hpp>
+
 #  include <boost/mpl/apply_wrap.hpp>
 #  include <boost/mpl/begin_end.hpp>
 #  include <boost/mpl/deref.hpp>
@@ -19,10 +24,7 @@
 #  include <boost/preprocessor/repetition/enum.hpp>
 #  include <boost/preprocessor/repetition/enum_trailing_params.hpp>
 #  include <boost/type_traits/is_void.hpp>
-
-#  include <luabind/config.hpp>
-#  include <luabind/detail/policy.hpp>
-#  include <luabind/yield_policy.hpp>
+#  include <luabind/lua_include.hpp>
 
 namespace luabind { namespace detail {
 
@@ -30,8 +32,8 @@ struct invoke_context;
 
 struct LUABIND_API function_object
 {
-    function_object(lua_CFunction entry)
-      : entry(entry)
+    function_object(lua_CFunction entry_)
+      : entry(entry_)
       , next(0)
     {}
 
@@ -53,6 +55,7 @@ struct LUABIND_API invoke_context
     invoke_context()
       : best_score((std::numeric_limits<int>::max)())
       , candidate_index(0)
+      , additional_candidates(0)
     {}
 
     operator bool() const
@@ -62,9 +65,11 @@ struct LUABIND_API invoke_context
 
     void format_error(lua_State* L, function_object const* overloads) const;
 
+    BOOST_STATIC_CONSTANT(int, max_candidates = 10);
+    function_object const* candidates[max_candidates];
     int best_score;
-    function_object const* candidates[10];
     int candidate_index;
+    int additional_candidates;
 };
 
 template <class F, class Signature, class Policies, class IsVoid>
@@ -115,7 +120,7 @@ template <class Policies>
 int maybe_yield(lua_State* L, int results, Policies*)
 {
     return maybe_yield_aux(
-        L, results, mpl::bool_<has_yield<Policies>::value>());
+        L, results, has_policy<Policies, yield_policy>());
 }
 
 inline int sum_scores(int const* first, int const* last)
@@ -264,10 +269,14 @@ invoke_normal
         ctx.best_score = score;
         ctx.candidates[0] = &self;
         ctx.candidate_index = 1;
+        ctx.additional_candidates = 0;
     }
     else if (score == ctx.best_score)
     {
-        ctx.candidates[ctx.candidate_index++] = &self;
+        if (ctx.candidate_index < invoke_context::max_candidates)
+            ctx.candidates[ctx.candidate_index++] = &self;
+        else
+            ++ctx.additional_candidates;
     }
 
     int results = 0;
@@ -320,4 +329,3 @@ invoke_normal
 # undef N
 
 #endif
-

@@ -5,9 +5,29 @@
 #ifndef LUABIND_TYPEID_081227_HPP
 # define LUABIND_TYPEID_081227_HPP
 
-# include <boost/operators.hpp>
-# include <typeinfo>
 # include <luabind/detail/primitives.hpp>
+
+# include <boost/operators.hpp>
+
+# include <cstdlib>
+# include <cstring>
+# include <string>
+# include <typeinfo>
+
+// boost/units/detail/utility.hpp
+# if defined(__GLIBCXX__) || defined(__GLIBCPP__)
+#  define LUABIND_USE_DEMANGLING
+#  include <cxxabi.h>
+# endif // __GNUC__
+
+// See https://svn.boost.org/trac/boost/ticket/754
+# if (defined(__GNUC__) && __GNUC__ >= 3) \
+      || defined(_AIX) \
+      || (defined(__sgi) && defined(__host_mips)) \
+      || (defined(__hpux) && defined(__HP_aCC)) \
+      || (defined(linux) && defined(__INTEL_COMPILER) && defined(__ICC))
+#  define LUABIND_SAFE_TYPEID
+# endif
 
 namespace luabind {
 
@@ -20,39 +40,60 @@ namespace luabind {
 # endif
 
 class type_id
-  : public boost::less_than_comparable<type_id>
+  : boost::less_than_comparable<type_id>
 {
 public:
     type_id()
-      : id(&typeid(detail::null_type))
+      : m_id(&typeid(detail::null_type))
     {}
 
     type_id(std::type_info const& id)
-      : id(&id)
+      : m_id(&id)
     {}
 
     bool operator!=(type_id const& other) const
     {
-        return *id != *other.id;
+# ifdef LUABIND_SAFE_TYPEID
+        return std::strcmp(m_id->name(), other.m_id->name()) != 0;
+# else
+        return *m_id != *other.m_id;
+# endif
     }
 
     bool operator==(type_id const& other) const
     {
-        return *id == *other.id;
+# ifdef LUABIND_SAFE_TYPEID
+        return std::strcmp(m_id->name(), other.m_id->name()) == 0;
+# else
+        return *m_id == *other.m_id;
+# endif
     }
 
     bool operator<(type_id const& other) const
     {
-        return id->before(*other.id);
+# ifdef LUABIND_SAFE_TYPEID
+        return std::strcmp(m_id->name(), other.m_id->name()) < 0;
+# else
+        return m_id->before(*other.m_id);
+# endif
     }
 
-    char const* name() const
+    std::string name() const
     {
-        return id->name();
+# ifdef LUABIND_USE_DEMANGLING
+        int status;
+        char* buf = abi::__cxa_demangle(m_id->name(), 0, 0, &status);
+        if (buf != 0) {
+            std::string demangled_name(buf);
+            std::free(buf);
+            return demangled_name;
+        }
+# endif
+        return m_id->name();
     }
 
 private:
-    std::type_info const* id;
+    std::type_info const* m_id;
 };
 
 # ifdef BOOST_MSVC
@@ -62,4 +103,3 @@ private:
 } // namespace luabind
 
 #endif // LUABIND_TYPEID_081227_HPP
-

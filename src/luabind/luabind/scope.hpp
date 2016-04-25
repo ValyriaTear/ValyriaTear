@@ -25,12 +25,15 @@
 
 #include <luabind/prefix.hpp>
 #include <luabind/config.hpp>
-#include <luabind/lua_include.hpp>
+#include <luabind/object.hpp>
+
+#include <luabind/lua_state_fwd.hpp>
+
 #include <memory>
 
-namespace luabind { 
-    
-    struct scope; 
+namespace luabind {
+
+    struct scope;
 
 } // namespace luabind
 
@@ -56,13 +59,17 @@ namespace luabind {
     struct LUABIND_API scope
     {
         scope();
+#ifdef LUABIND_USE_CXX11
+        explicit scope(std::unique_ptr<detail::registration> reg);
+#else
         explicit scope(std::auto_ptr<detail::registration> reg);
+#endif
         scope(scope const& other_);
         ~scope();
 
         scope& operator=(scope const& other_);
 
-        scope& operator,(scope s);
+        scope& operator,(const scope& s);
 
         void register_(lua_State* L) const;
 
@@ -84,13 +91,19 @@ namespace luabind {
     class LUABIND_API module_
     {
     public:
-        module_(lua_State* L_, char const* name);
+        module_(object const& table);
+        module_(lua_State* L, char const* name);
         void operator[](scope s);
 
     private:
-        lua_State* m_state;
-        char const* m_name;
+        object m_table;
     };
+
+    inline module_ module(object const& table)
+    {
+        return module_(table);
+    }
+
 
     inline module_ module(lua_State* L, char const* name = 0)
     {
@@ -100,4 +113,3 @@ namespace luabind {
 } // namespace luabind
 
 #endif // NEW_SCOPE_040211_HPP
-

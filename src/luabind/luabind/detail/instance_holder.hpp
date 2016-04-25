@@ -6,10 +6,11 @@
 # define LUABIND_INSTANCE_HOLDER_081024_HPP
 
 # include <luabind/detail/inheritance.hpp>
-# include <luabind/detail/class_rep.hpp> // TODO
 # include <luabind/get_pointer.hpp>
 # include <luabind/typeid.hpp>
+
 # include <boost/type_traits/is_polymorphic.hpp>
+
 # include <stdexcept>
 
 namespace luabind { namespace detail {
@@ -17,22 +18,17 @@ namespace luabind { namespace detail {
 class instance_holder
 {
 public:
-    instance_holder(class_rep* cls, bool pointee_const)
-      : m_cls(cls)
-      , m_pointee_const(pointee_const)
+    instance_holder(bool is_pointee_const)
+      : m_pointee_const(is_pointee_const)
     {}
 
     virtual ~instance_holder()
     {}
 
-    virtual std::pair<void*, int> get(class_id target) const = 0;
+    virtual std::pair<void*, int> get(
+        cast_graph const& casts, class_id target) const = 0;
 
     virtual void release() = 0;
-
-    class_rep* get_class() const
-    {
-        return m_cls;
-    }
 
     bool pointee_const() const
     {
@@ -40,7 +36,6 @@ public:
     }
 
 private:
-    class_rep* m_cls;
     bool m_pointee_const;
 };
 
@@ -57,7 +52,11 @@ inline mpl::true_ check_const_pointer(void const*)
 }
 
 template <class T>
+#ifdef LUABIND_USE_CXX11
+void release_ownership(std::unique_ptr<T>& p)
+#else
 void release_ownership(std::auto_ptr<T>& p)
+#endif
 {
     p.release();
 }
@@ -80,50 +79,54 @@ class pointer_holder : public instance_holder
 {
 public:
     pointer_holder(
-        P p, class_id dynamic_id, void* dynamic_ptr, class_rep* cls
+        P p, class_id dynamic_id, void* dynamic_ptr
     )
-      : instance_holder(cls, check_const_pointer(false ? get_pointer(p) : 0))
-      , p(p)
-      , weak(0)
-      , dynamic_id(dynamic_id)
-      , dynamic_ptr(dynamic_ptr)
+      : instance_holder(check_const_pointer(false ? get_pointer(p) : 0))
+#ifdef LUABIND_USE_CXX11
+      , m_p(std::move(p))
+#else
+      , m_p(p)
+#endif
+      , m_weak(0)
+      , m_dynamic_id(dynamic_id)
+      , m_dynamic_ptr(dynamic_ptr)
     {}
 
-    std::pair<void*, int> get(class_id target) const
+    std::pair<void*, int> get(cast_graph const& casts, class_id target) const
     {
         if (target == registered_class<P>::id)
-            return std::pair<void*, int>(&this->p, 0);
+            return std::pair<void*, int>(&this->m_p, 0);
 
         void* naked_ptr = const_cast<void*>(static_cast<void const*>(
-            weak ? weak : get_pointer(p)));
+            m_weak ? m_weak : get_pointer(m_p)));
 
         if (!naked_ptr)
-            return std::pair<void*, int>((void*)0, 0);
+            return std::pair<void*, int>(static_cast<void*>(0), 0);
 
-        return get_class()->casts().cast(
+        return casts.cast(
             naked_ptr
-          , static_class_id(false ? get_pointer(p) : 0)
+          , static_class_id(false ? get_pointer(m_p) : 0)
           , target
-          , dynamic_id
-          , dynamic_ptr
+          , m_dynamic_id
+          , m_dynamic_ptr
         );
     }
 
     void release()
     {
-        weak = const_cast<void*>(static_cast<void const*>(
-            get_pointer(p)));
-        release_ownership(p);
+        m_weak = const_cast<void*>(static_cast<void const*>(
+            get_pointer(m_p)));
+        release_ownership(m_p);
     }
 
 private:
-    mutable P p;
+    mutable P m_p;
     // weak will hold a possibly stale pointer to the object owned
     // by p once p has released it's owership. This is a workaround
     // to make adopt() work with virtual function wrapper classes.
-    void* weak;
-    class_id dynamic_id;
-    void* dynamic_ptr;
+    void* m_weak;
+    class_id m_dynamic_id;
+    void* m_dynamic_ptr;
 };
 
 }} // namespace luabind::detail

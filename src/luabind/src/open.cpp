@@ -22,11 +22,13 @@
 
 #define LUABIND_BUILDING
 
+#include <luabind/class.hpp>
+#include <luabind/detail/garbage_collector.hpp>
+#include <luabind/get_main_thread.hpp>
+#include <luabind/set_package_preload.hpp>
+
 #include <luabind/lua_include.hpp>
 
-#include <luabind/luabind.hpp>
-#include <luabind/function.hpp>
-#include <luabind/get_main_thread.hpp>
 
 namespace luabind {
 
@@ -39,7 +41,7 @@ namespace
 
       if (args == 0 || args > 2)
       {
-          lua_pushstring(L, "make_property() called with wrong number of arguments.");
+          lua_pushliteral(L, "make_property() called with wrong number of arguments.");
           lua_error(L);
       }
 
@@ -54,37 +56,13 @@ namespace
 
   int deprecated_super(lua_State* L)
   {
-      lua_pushstring(L,
+      lua_pushliteral(L,
           "DEPRECATION: 'super' has been deprecated in favor of "
           "directly calling the base class __init() function. "
           "This error can be disabled by calling 'luabind::disable_super_deprecation()'."
       );
       lua_error(L);
 
-      return 0;
-  }
-
-  int destroy_class_id_map(lua_State* L)
-  {
-      detail::class_id_map* m =
-          (detail::class_id_map*)lua_touserdata(L, 1);
-      m->~class_id_map();
-      return 0;
-  }
-
-  int destroy_cast_graph(lua_State* L)
-  {
-      detail::cast_graph* g =
-          (detail::cast_graph*)lua_touserdata(L, 1);
-      g->~cast_graph();
-      return 0;
-  }
-
-  int destroy_class_map(lua_State* L)
-  {
-      detail::class_map* m =
-          (detail::class_map*)lua_touserdata(L, 1);
-      m->~class_map();
       return 0;
   }
 
@@ -102,6 +80,33 @@ namespace
 
         return result;
     }
+    namespace {
+        template<typename T>
+        inline void* create_gc_udata(lua_State* L, void* tag) {
+            void* storage = lua_newuserdata(L, sizeof(T));
+
+            // set gc metatable
+            lua_createtable(L, 0, 1); // one (non-sequence) element.
+            lua_pushcfunction(L, &detail::garbage_collector<T>);
+            lua_setfield(L, -2, "__gc");
+            lua_setmetatable(L, -2);
+
+            lua_rawsetp(L, LUA_REGISTRYINDEX, tag);
+            return storage;
+        }
+
+        template<typename T>
+        inline void push_gc_udata(lua_State* L, void* tag) {
+            void* storage = create_gc_udata<T>(L, tag);
+            new (storage) T;
+        }
+
+        template<typename T, typename A1>
+        inline void push_gc_udata(lua_State* L, void* tag, A1 constructorArg) {
+            void* storage = create_gc_udata<T>(L, tag);
+            new (storage) T(constructorArg);
+        }
+    }
 
     LUABIND_API void open(lua_State* L)
     {
@@ -116,81 +121,24 @@ namespace
             );
         }
 
-        if (detail::class_registry::get_registry(L))
-            return;
-
-        lua_pushstring(L, "__luabind_classes");
-        detail::class_registry* r = static_cast<detail::class_registry*>(
-            lua_newuserdata(L, sizeof(detail::class_registry)));
-
-        // set gc metatable
-        lua_newtable(L);
-        lua_pushstring(L, "__gc");
-        lua_pushcclosure(
-            L
-          , detail::garbage_collector_s<
-                detail::class_registry
-            >::apply
-          , 0);
-
-        lua_settable(L, -3);
-        lua_setmetatable(L, -2);
-
-        new(r) detail::class_registry(L);
-        lua_settable(L, LUA_REGISTRYINDEX);
-
-        lua_pushstring(L, "__luabind_class_id_map");
-        void* classes_storage = lua_newuserdata(L, sizeof(detail::class_id_map));
-        detail::class_id_map* class_ids = new (classes_storage) detail::class_id_map;
-        (void)class_ids;
-
-        lua_newtable(L);
-        lua_pushcclosure(L, &destroy_class_id_map, 0);
-        lua_setfield(L, -2, "__gc");
-        lua_setmetatable(L, -2);
-
-        lua_settable(L, LUA_REGISTRYINDEX);
-
-        lua_pushstring(L, "__luabind_cast_graph");
-        void* cast_graph_storage = lua_newuserdata(
-            L, sizeof(detail::cast_graph));
-        detail::cast_graph* graph = new (cast_graph_storage) detail::cast_graph;
-        (void)graph;
-
-        lua_newtable(L);
-        lua_pushcclosure(L, &destroy_cast_graph, 0);
-        lua_setfield(L, -2, "__gc");
-        lua_setmetatable(L, -2);
-
-        lua_settable(L, LUA_REGISTRYINDEX);
-
-        lua_pushstring(L, "__luabind_class_map");
-        void* class_map_storage = lua_newuserdata(
-            L, sizeof(detail::class_map));
-        detail::class_map* classes = new (class_map_storage) detail::class_map;
-        (void)classes;
-
-        lua_newtable(L);
-        lua_pushcclosure(L, &destroy_class_map, 0);
-        lua_setfield(L, -2, "__gc");
-        lua_setmetatable(L, -2);
-
-        lua_settable(L, LUA_REGISTRYINDEX);
+        push_gc_udata<detail::class_registry>(L, &detail::classes_tag, L);
+        push_gc_udata<detail::class_id_map>(L, &detail::classid_map_tag);
+        push_gc_udata<detail::cast_graph>(L, &detail::cast_graph_tag);
+        push_gc_udata<detail::class_map>(L, &detail::class_map_tag);
 
         // add functions (class, cast etc...)
-        lua_pushcclosure(L, detail::create_class::stage1, 0);
+        lua_pushcfunction(L, detail::create_class::stage1);
         lua_setglobal(L, "class");
 
-        lua_pushcclosure(L, &make_property, 0);
+        lua_pushcfunction(L, &make_property);
         lua_setglobal(L, "property");
 
         lua_pushlightuserdata(L, &main_thread_tag);
         lua_pushlightuserdata(L, L);
         lua_rawset(L, LUA_REGISTRYINDEX);
 
-        lua_pushcclosure(L, &deprecated_super, 0);
+        lua_pushcfunction(L, &deprecated_super);
         lua_setglobal(L, "super");
     }
 
 } // namespace luabind
-

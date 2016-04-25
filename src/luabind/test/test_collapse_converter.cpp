@@ -5,20 +5,29 @@
 #include "test.hpp"
 #include <luabind/luabind.hpp>
 
+namespace {
+
 struct X
 {
-    X(int x, int y)
-      : x(x)
-      , y(y)
+    X(lua_Integer x_, lua_Integer y_)
+      : x(x_)
+      , y(y_)
     {}
 
-    int x;
-    int y;
+    lua_Integer x;
+    lua_Integer y;
 };
+
+lua_Integer take(X x)
+{
+    return x.x + x.y;
+}
+
+} // namespace unnamed
 
 namespace luabind {
 
-int combine_score(int s1, int s2)
+static int combine_score(int s1, int s2)
 {
     if (s1 < 0 || s2 < 0) return -1;
     return s1 + s2;
@@ -28,7 +37,7 @@ template <>
 struct default_converter<X>
   : native_converter_base<X>
 {
-    int const consumed_args(...)
+    int consumed_args() const
     {
         return 2;
     }
@@ -41,19 +50,14 @@ struct default_converter<X>
 
     X from(lua_State* L, int index)
     {
-        return X(lua_tonumber(L, index), lua_tonumber(L, index + 1));
+        return X(lua_tointeger(L, index), lua_tointeger(L, index + 1));
     }
 
-    default_converter<int> c1;
-    default_converter<int> c2;
+    default_converter<lua_Integer> c1;
+    default_converter<lua_Integer> c2;
 };
 
 } // namespace luabind
-
-int take(X x)
-{
-    return x.x + x.y;
-}
 
 void test_main(lua_State* L)
 {

@@ -7,6 +7,8 @@
 
 # include <luabind/config.hpp>
 
+# include <luabind/lua_state_fwd.hpp>
+
 namespace luabind {
 
 LUABIND_API lua_State* get_main_thread(lua_State* L);

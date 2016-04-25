@@ -5,11 +5,15 @@
 #ifndef LUABIND_ITERATOR_POLICY__071111_HPP
 # define LUABIND_ITERATOR_POLICY__071111_HPP
 
-# include <luabind/config.hpp>
-# include <luabind/detail/policy.hpp>
-# include <luabind/detail/convert_to_lua.hpp>
+# include <luabind/config.hpp>           // for LUABIND_ANONYMOUS_FIX
+# include <luabind/detail/convert_to_lua.hpp>  // for convert_to_lua
+# include <luabind/detail/policy.hpp>    // for index_map, etc
+
+# include <new>                          // for operator new
 
 namespace luabind { namespace detail {
+
+struct null_type;
 
 template <class Iterator>
 struct iterator
@@ -36,12 +40,13 @@ struct iterator
     {
         iterator* self = static_cast<iterator*>(lua_touserdata(L, 1));
         self->~iterator();
+        (void)self; // MSVC warns about self not being referenced.
         return 0;
     }
 
-    iterator(Iterator first, Iterator last)
-      : first(first)
-      , last(last)
+    iterator(Iterator first_, Iterator last_)
+      : first(first_)
+      , last(last_)
     {}
 
     Iterator first;
@@ -52,7 +57,7 @@ template <class Iterator>
 int make_range(lua_State* L, Iterator first, Iterator last)
 {
     void* storage = lua_newuserdata(L, sizeof(iterator<Iterator>));
-    lua_newtable(L);
+    lua_createtable(L, 0, 1);
     lua_pushcclosure(L, iterator<Iterator>::destroy, 0);
     lua_setfield(L, -2, "__gc");
     lua_setmetatable(L, -2);
@@ -101,12 +106,19 @@ struct iterator_policy : conversion_policy<0>
 
 }} // namespace luabind::detail
 
-namespace luabind { namespace {
+namespace luabind {
 
-LUABIND_ANONYMOUS_FIX detail::policy_cons<
-    detail::iterator_policy, detail::null_type> return_stl_iterator;
+    detail::policy_cons<detail::iterator_policy, detail::null_type> const
+        return_stl_iterator = {};
 
-}} // namespace luabind::unnamed
+    namespace detail
+    {
+        inline void ignore_unused_return_stl_iterator()
+        {
+            (void)return_stl_iterator;
+        }
+    }
+
+} // namespace luabind
 
 #endif // LUABIND_ITERATOR_POLICY__071111_HPP
-

@@ -3,8 +3,10 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-#include <luabind/luabind.hpp>
 #include <luabind/adopt_policy.hpp>
+#include <luabind/luabind.hpp>
+
+namespace {
 
 struct X
 {
@@ -24,6 +26,8 @@ void take(X* p)
 {
     delete p;
 }
+
+} // namespace unnamed
 
 void test_main(lua_State* L)
 {

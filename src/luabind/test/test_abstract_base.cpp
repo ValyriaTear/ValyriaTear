@@ -26,11 +26,13 @@
 
 using namespace luabind;
 
+namespace {
+
 struct abstract
 {
     virtual ~abstract() {}
     virtual std::string hello() = 0;
-}; 
+};
 
 COUNTER_GUARD(abstract);
 
@@ -48,29 +50,26 @@ struct abstract_wrap : abstract, wrap_base
     {
         return call_member<std::string>(this, "hello");
     }
-
-    static void default_hello(abstract const&)
-    {
-        throw std::runtime_error("abstract function");
-    }
 };
 
-std::string call_hello(abstract& a)
+static std::string call_hello(abstract& a)
 {
     return a.hello();
 }
 
-abstract& return_abstract_ref()
+static abstract& return_abstract_ref()
 {
-	static concrete c;
-	return c;
+    static concrete c;
+    return c;
 }
 
-abstract const& return_const_abstract_ref()
+static abstract const& return_const_abstract_ref()
 {
-	static concrete c;
-	return c;
+    static concrete c;
+    return c;
 }
+
+} // namespace unnamed
 
 
 void test_main(lua_State* L)
@@ -82,19 +81,19 @@ void test_main(lua_State* L)
             .def("hello", &abstract::hello),
 
         def("call_hello", &call_hello),
-		  def("return_abstract_ref", &return_abstract_ref),
-		  def("return_const_abstract_ref", &return_const_abstract_ref)
+          def("return_abstract_ref", &return_abstract_ref),
+          def("return_const_abstract_ref", &return_const_abstract_ref)
     ];
-    
+
     DOSTRING_EXPECTED(L,
         "x = abstract()\n"
         "x:hello()\n"
       , "std::runtime_error: 'Attempt to call nonexistent function'");
 
-    DOSTRING_EXPECTED(L, 
+    DOSTRING_EXPECTED(L,
         "call_hello(x)\n"
       , "std::runtime_error: 'Attempt to call nonexistent function'");
-    
+
     DOSTRING(L,
         "class 'concrete' (abstract)\n"
         "  function concrete:__init()\n"
@@ -110,5 +109,12 @@ void test_main(lua_State* L)
         "y:hello()\n");
 
     DOSTRING(L, "call_hello(y)\n");
-}
 
+    DOSTRING(L,
+        "x = abstract()\n"
+        "x.hello = function(self) return 'hello from instance' end\n"
+        "print(x.hello)\n"
+        "assert(x:hello() == 'hello from instance')\n"
+        "assert(call_hello(x) == 'hello from instance')\n"
+    );
+}

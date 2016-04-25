@@ -25,52 +25,38 @@
 #define LUABIND_CONFIG_HPP_INCLUDED
 
 #include <boost/config.hpp>
+#include <boost/version.hpp>
+#include <boost/detail/workaround.hpp>
+
+#include <luabind/build_information.hpp>
 
 #ifdef BOOST_MSVC
-	#define LUABIND_ANONYMOUS_FIX static
+    #define LUABIND_ANONYMOUS_FIX static
 #else
-	#define LUABIND_ANONYMOUS_FIX
+    #define LUABIND_ANONYMOUS_FIX
 #endif
 
-#if defined (BOOST_MSVC) && (BOOST_MSVC <= 1200)
-
-#define for if (false) {} else for
-
-#include <cstring>
-
-namespace std
-{
-	using ::strlen;
-	using ::strcmp;
-	using ::type_info;
-}
-
-#endif
-
-
-#if defined (BOOST_MSVC) && (BOOST_MSVC <= 1300)
-	#define LUABIND_MSVC_TYPENAME
-#else
-	#define LUABIND_MSVC_TYPENAME typename
+#if BOOST_WORKAROUND(BOOST_MSVC, <= 1300)
+    #error "Support for your version of Visual C++ has been removed from this version of Luabind"
 #endif
 
 // the maximum number of arguments of functions that's
 // registered. Must at least be 2
 #ifndef LUABIND_MAX_ARITY
-	#define LUABIND_MAX_ARITY 10
+    #define LUABIND_MAX_ARITY 10
 #elif LUABIND_MAX_ARITY <= 1
-	#undef LUABIND_MAX_ARITY
-	#define LUABIND_MAX_ARITY 2
+    #undef LUABIND_MAX_ARITY
+    #define LUABIND_MAX_ARITY 2
 #endif
 
 // the maximum number of classes one class
 // can derive from
 // max bases must at least be 1
 #ifndef LUABIND_MAX_BASES
-	#define LUABIND_MAX_BASES 4
+    #define LUABIND_MAX_BASES 4
 #elif LUABIND_MAX_BASES <= 0
-	#undef LUABIND_MAX_BASES
-	#define LUABIND_MAX_BASES 1
+    #undef LUABIND_MAX_BASES
+    #define LUABIND_MAX_BASES 1
 #endif
 
 // LUABIND_NO_ERROR_CHECKING
@@ -101,14 +87,20 @@ namespace std
 // C code has undefined behavior, lua is written in C).
 
 #ifdef LUABIND_DYNAMIC_LINK
-# ifdef BOOST_WINDOWS
+# if defined (BOOST_WINDOWS)
 #  ifdef LUABIND_BUILDING
 #   define LUABIND_API __declspec(dllexport)
 #  else
 #   define LUABIND_API __declspec(dllimport)
 #  endif
+# elif defined (__CYGWIN__)
+#  ifdef LUABIND_BUILDING
+#   define LUABIND_API __attribute__ ((dllexport))
+#  else
+#   define LUABIND_API __attribute__ ((dllimport))
+#  endif
 # else
-#  if defined(_GNUC_) && _GNUC_ >=4
+#  if defined(__GNUC__) && __GNUC__ >=4
 #   define LUABIND_API __attribute__ ((visibility("default")))
 #  endif
 # endif
@@ -118,6 +110,49 @@ namespace std
 # define LUABIND_API
 #endif
 
+// C++11 features //
+
+#if (   defined(BOOST_NO_CXX11_SCOPED_ENUMS) \
+     || defined(BOOST_NO_SCOPED_ENUMS)                 \
+     || BOOST_VERSION < 105600                         \
+        && (   defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS) \
+            || defined(BOOST_NO_0X_HDR_TYPE_TRAITS)))
+#    define LUABIND_NO_SCOPED_ENUM
+#endif
+
+#if (   defined(BOOST_NO_CXX11_RVALUE_REFERENCES) \
+     || defined(BOOST_NO_RVALUE_REFERENCES))
+#    define LUABIND_NO_RVALUE_REFERENCES
+#endif
+
+// If you use Boost <= 1.46 but your compiler is C++11 compliant and marks
+// destructors as noexcept by default, you need to define LUABIND_USE_NOEXCEPT.
+#if (   !defined(BOOST_NO_NOEXCEPT) \
+     && !defined(BOOST_NO_CXX11_NOEXCEPT) \
+     && BOOST_VERSION >= 104700)
+#    define LUABIND_USE_NOEXCEPT
+#endif
+
+#ifndef LUABIND_MAY_THROW
+#    ifdef BOOST_NOEXCEPT_IF
+#        define LUABIND_MAY_THROW BOOST_NOEXCEPT_IF(false)
+#    elif defined(LUABIND_USE_NOEXCEPT)
+#        define LUABIND_MAY_THROW noexcept(false)
+#    else
+#       define LUABIND_MAY_THROW
+#    endif
+#endif
+
+#ifndef LUABIND_NOEXCEPT
+#    ifdef BOOST_NOEXCEPT_OR_NOTHROW
+#        define LUABIND_NOEXCEPT BOOST_NOEXCEPT_OR_NOTHROW
+#    elif defined(LUABIND_USE_NOEXCEPT)
+#        define LUABIND_NOEXCEPT noexcept
+#    else
+#       define LUABIND_NOEXCEPT throw()
+#    endif
+#endif
+
 namespace luabind {
 
 LUABIND_API void disable_super_deprecation();
@@ -125,4 +160,3 @@ LUABIND_API void disable_super_deprecation();
 } // namespace luabind
 
 #endif // LUABIND_CONFIG_HPP_INCLUDED
-

@@ -20,21 +20,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 
-#include <iostream>
-#include <cstring>
 
-extern "C"
-{
-    #include "lauxlib.h"
-    #include "lualib.h"
-}
-
-#include <luabind/open.hpp>
 #include "test.hpp"
 
-extern "C" struct lua_State;
+#include <luabind/lua_include.hpp>
 
-void test_main(lua_State*);
+#ifndef LUABIND_CPLUSPLUS_LUA
+extern "C"
+{
+#endif
+# include <lualib.h>
+#ifndef LUABIND_CPLUSPLUS_LUA
+}
+#endif
+
+#include <luabind/open.hpp>             // for open
+
+#include <cstring>                      // for strlen
+#include <exception>                    // for exception
+#include <iostream>                     // for operator<<, basic_ostream, etc
+#include <string>                       // for string
 
 struct lua_state
 {
@@ -42,7 +47,7 @@ struct lua_state
     ~lua_state();
 
     operator lua_State*() const;
-	void check() const;
+    void check() const;
 
 private:
     lua_State* m_state;
@@ -54,10 +59,10 @@ lua_state::lua_state()
 {
     luaopen_base(m_state);
 #if defined(LUA_VERSION_NUM) && LUA_VERSION_NUM >= 501
-	 // lua 5.1 or newer
-	 luaL_openlibs(m_state);
+     // lua 5.1 or newer
+     luaL_openlibs(m_state);
 #else
-	 // lua 5.0.2 or older
+     // lua 5.0.2 or older
     lua_baselibopen(m_state);
 #endif
     m_top = lua_gettop(m_state);
@@ -79,9 +84,9 @@ lua_state::operator lua_State*() const
     return m_state;
 }
 
-int pcall_handler(lua_State* L)
+static int pcall_handler(lua_State*)
 {
-	return 1;
+    return 1;
 }
 
 void dostring(lua_State* state, char const* str)
@@ -92,51 +97,54 @@ void dostring(lua_State* state, char const* str)
     {
         std::string err(lua_tostring(state, -1));
         lua_pop(state, 2);
-		throw err;
+        throw err;
     }
 
     if (lua_pcall(state, 0, 0, -2))
     {
         std::string err(lua_tostring(state, -1));
         lua_pop(state, 2);
-		throw err;
+        throw err;
     }
 
     lua_pop(state, 1);
 }
 
-bool tests_failure = false;
+static bool tests_failure = false;
 
 void report_failure(char const* err, char const* file, int line)
 {
-	std::cerr << file << ":" << line << "\"" << err << "\"\n";
-	tests_failure = true;
+    std::cerr << file << ":" << line << "\"" << err << "\"\n";
+    tests_failure = true;
 }
 
 int main()
 {
-	lua_state L;
-	try
-	{
-		test_main(L);
-		L.check();
-		return tests_failure ? 1 : 0;
-	}
-	catch (luabind::error const& e)
-	{
-		std::cerr << "Terminated with exception: \"" << e.what() << "\"\n"
-			<< lua_tostring(e.state(), -1) << "\n";
-		return 1;
-	}
-	catch (std::exception const& e)
-	{
-		std::cerr << "Terminated with exception: \"" << e.what() << "\"\n";
-		return 1;
-	}
-	catch (...)
-	{
-		std::cerr << "Terminated with unknown exception\n";
-		return 1;
-	}
+    lua_state L;
+#ifndef LUABIND_NO_EXCEPTIONS
+    try
+    {
+#endif
+        test_main(L);
+        L.check();
+        return tests_failure ? 1 : 0;
+#ifndef LUABIND_NO_EXCEPTIONS
+    }
+    catch (luabind::error const& e)
+    {
+        std::cerr << "Terminated with exception: \"" << e.what() << "\"\n"
+            << lua_tostring(e.state(), -1) << "\n";
+        return 1;
+    }
+    catch (std::exception const& e)
+    {
+        std::cerr << "Terminated with exception: \"" << e.what() << "\"\n";
+        return 1;
+    }
+    catch (...)
+    {
+        std::cerr << "Terminated with unknown exception\n";
+        return 1;
+    }
+#endif
 }
-

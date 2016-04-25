@@ -21,8 +21,10 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "test.hpp"
-#include <luabind/luabind.hpp>
 #include <luabind/adopt_policy.hpp>
+#include <luabind/luabind.hpp>
+
+namespace {
 
 struct base : counted_type<base>
 {
@@ -63,7 +65,7 @@ struct copy_me
 {
 };
 
-void take_by_value(copy_me m)
+void take_by_value(copy_me)
 {
 }
 
@@ -72,6 +74,8 @@ int function_should_never_be_called(lua_State* L)
     lua_pushnumber(L, 10);
     return 1;
 }
+
+} // namespace unnamed
 
 void test_main(lua_State* L)
 {
@@ -86,24 +90,21 @@ void test_main(lua_State* L)
     [
         class_<copy_me>("copy_me")
             .def(constructor<>()),
-    
+
         class_<base>("base")
             .def("f", &base::f),
 
 
         def("by_value", &take_by_value),
 
-        def("f", (int(*)(int)) &f),
-        def("f", (int(*)(int, int)) &f),
+        def("f", static_cast<int(*)(int)>(&f)),
+        def("f", static_cast<int(*)(int, int)>(&f)),
         def("create", &create_base, adopt(return_value))
 //        def("set_functor", &set_functor)
-            
-#if !(BOOST_MSVC < 1300)
         ,
         def("test_value_converter", &test_value_converter),
         def("test_pointer_converter", &test_pointer_converter)
-#endif
-            
+
     ];
 
     DOSTRING(L,
@@ -124,10 +125,8 @@ void test_main(lua_State* L)
     base* ptr = call_function<base*>(L, "lua_create") [ adopt(result) ];
     delete ptr;
 
-#if !(BOOST_MSVC < 1300)
     DOSTRING(L, "test_value_converter('converted string')");
     DOSTRING(L, "test_pointer_converter('converted string')");
-#endif
 
     DOSTRING_EXPECTED(L, "f('incorrect', 'parameters')",
         "No matching overload found, candidates:\n"
@@ -141,7 +140,7 @@ void test_main(lua_State* L)
         call_function<void>(L, "failing_fun");
         TEST_ERROR("function didn't fail when it was expected to");
     }
-    catch(luabind::error const& e)
+    catch (luabind::error const&)
     {
         if (std::string("[string \"function failing_fun() error('expected "
 #if LUA_VERSION_NUM >= 502
@@ -156,6 +155,4 @@ void test_main(lua_State* L)
 
         lua_pop(L, 1);
     }
-
 }
-

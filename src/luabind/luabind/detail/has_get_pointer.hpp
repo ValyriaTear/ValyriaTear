@@ -24,22 +24,23 @@
 # define LUABIND_HAS_GET_POINTER_051022_HPP
 
 # include <boost/type_traits/add_reference.hpp>
+# include <boost/mpl/bool.hpp>
 
 # ifndef BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP
 #  include <memory>
 # endif
 
-namespace luabind { namespace detail { 
+namespace luabind { namespace detail {
 
 namespace has_get_pointer_
 {
 
-  struct any 
-  { 
+  struct any
+  {
       template<class T> any(T const&);
   };
 
-  struct no_overload_tag 
+  struct no_overload_tag
   {};
 
   typedef char (&yes)[1];
@@ -58,7 +59,11 @@ namespace has_get_pointer_
   T* get_pointer(T const volatile*);
 
   template<class T>
+# ifdef LUABIND_USE_CXX11
+  T* get_pointer(std::unique_ptr<T> const&);
+# else
   T* get_pointer(std::auto_ptr<T> const&);
+# endif
 
 # endif
 
@@ -70,11 +75,11 @@ namespace has_get_pointer_
 }} // namespace detail::has_get_pointer_
 # endif
 
-detail::has_get_pointer_::no_overload_tag 
+detail::has_get_pointer_::no_overload_tag
   get_pointer(detail::has_get_pointer_::any);
 
 # ifdef BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP
-namespace detail { namespace has_get_pointer_ 
+namespace detail { namespace has_get_pointer_
 {
 # endif
 
@@ -104,4 +109,3 @@ struct has_get_pointer
 }} // namespace luabind::detail
 
 #endif // LUABIND_HAS_GET_POINTER_051022_HPP
-

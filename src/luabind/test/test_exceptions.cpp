@@ -23,26 +23,42 @@
 #include "test.hpp"
 #include <luabind/luabind.hpp>
 
+namespace {
+
 struct ex : public std::exception, public counted_type<ex>
 {
     ex(const char* m): msg(m) {}
-    virtual ~ex() throw() {}
-    virtual const char* what() const throw() { return msg; }
+    virtual ~ex() LUABIND_NOEXCEPT {}
+    virtual const char* what() const LUABIND_NOEXCEPT { return msg; }
     const char* msg;
 };
 
 struct exception_thrower : counted_type<exception_thrower>
 {
     exception_thrower() {}
-    exception_thrower(int) { throw ex("exception description"); }
-    exception_thrower(int, int) { throw "a string exception"; }
-    exception_thrower(int, int, int) { throw 10; }
+#ifdef BOOST_MSVC
+#   pragma warning(push)
+#   pragma warning(disable:4702) // warning C4702: unreachable code
+#endif
+    LUABIND_ATTRIBUTE_NORETURN exception_thrower(int)
+    { throw ex("exception description"); }
+
+    LUABIND_ATTRIBUTE_NORETURN exception_thrower(int, int)
+    { throw "a string exception"; }
+
+    LUABIND_ATTRIBUTE_NORETURN exception_thrower(int, int, int)
+    { throw 10; }
+#ifdef BOOST_MSVC
+#   pragma warning(pop)
+#endif
     int f() { throw ex("exception from a member function"); }
     int g() { throw "a string exception"; }
     int h() { throw 10; }
 };
 
 COUNTER_GUARD(exception_thrower);
+
+} // namespace unnamed
 
 void test_main(lua_State* L)
 {
@@ -72,7 +88,7 @@ void test_main(lua_State* L)
     DOSTRING_EXPECTED(L, "a:g()", "c-string: 'a string exception'");
 
     DOSTRING_EXPECTED(L, "a:h()", "Unknown C++ exception");
-    DOSTRING_EXPECTED(L, 
+    DOSTRING_EXPECTED(L,
         "obj = throw('incorrect', 'parameters', 'constructor')",
         "No matching overload found, candidates:\n"
         "void __init(luabind::argument const&,int,int,int)\n"
@@ -85,4 +101,3 @@ void test_main(lua_State* L)
 
 #endif
 }
-

@@ -42,7 +42,7 @@ namespace luabind {
     struct pointee_sizeof
     {
         BOOST_STATIC_CONSTANT(int, value = (
-            sizeof(detail::deref_type((T(*)())0), 0L)
+            sizeof(detail::deref_type(static_cast<T(*)()>(0)), 0L)
         ));
 
         typedef boost::mpl::int_<value> type;
@@ -51,4 +51,3 @@ namespace luabind {
 } // namespace luabind
 
 #endif // POINTEE_SIZEOF_040211_HPP
-

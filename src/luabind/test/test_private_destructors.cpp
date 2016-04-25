@@ -5,6 +5,8 @@
 #include "test.hpp"
 #include <luabind/luabind.hpp>
 
+namespace {
+
 struct X
 {
 private:
@@ -22,8 +24,8 @@ struct ptr
         ptr_count++;
     }
 
-    ptr(T* p)
-      : p(p)
+    ptr(T* p_)
+      : p(p_)
     {
         ptr_count++;
     }
@@ -53,12 +55,6 @@ template <class T>
 T* get_pointer(ptr<T> const& x)
 {
     return x.p;
-}
-
-template <class T>
-ptr<T const>* get_const_holder(ptr<T>*)
-{
-    return 0;
 }
 
 void f1(X const&)
@@ -97,6 +93,8 @@ ptr<X> get()
 {
     return ptr<X>(new X);
 }
+
+} // namespace unnamed
 
 void test_main(lua_State* L)
 {
@@ -152,4 +150,3 @@ void test_main(lua_State* L)
     lua_gc(L, LUA_GCCOLLECT, 0);
     TEST_CHECK(ptr_count == 0);
 }
-

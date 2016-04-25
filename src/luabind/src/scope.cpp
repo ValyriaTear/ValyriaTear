@@ -22,16 +22,13 @@
 
 #define LUABIND_BUILDING
 
-#include <luabind/lua_include.hpp>
-
-#include <luabind/scope.hpp>
 #include <luabind/detail/debug.hpp>
 #include <luabind/detail/stack_utils.hpp>
-#include <cassert>
+#include <luabind/scope.hpp>
 
-#if LUA_VERSION_NUM < 502
-# define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
-#endif
+#include <luabind/lua_include.hpp>
+
+#include <cassert>
 
 namespace luabind { namespace detail {
 
@@ -46,13 +43,17 @@ namespace luabind { namespace detail {
     }
 
     } // namespace detail
-    
+
     scope::scope()
         : m_chain(0)
     {
     }
-    
+
+#ifdef LUABIND_USE_CXX11
+    scope::scope(std::unique_ptr<detail::registration> reg)
+#else
     scope::scope(std::auto_ptr<detail::registration> reg)
+#endif
         : m_chain(reg.release())
     {
     }
@@ -75,22 +76,22 @@ namespace luabind { namespace detail {
     {
         delete m_chain;
     }
-    
-    scope& scope::operator,(scope s)
+
+    scope& scope::operator,(const scope& s)
     {
-        if (!m_chain) 
+        if (!m_chain)
         {
             m_chain = s.m_chain;
-            s.m_chain = 0;
+            const_cast<scope&>(s).m_chain = 0;
             return *this;
         }
-        
+
         for (detail::registration* c = m_chain;; c = c->m_next)
         {
             if (!c->m_next)
             {
                 c->m_next = s.m_chain;
-                s.m_chain = 0;
+                const_cast<scope&>(s).m_chain = 0;
                 break;
             }
         }
@@ -102,7 +103,7 @@ namespace luabind { namespace detail {
     {
         for (detail::registration* r = m_chain; r != 0; r = r->m_next)
         {
-			LUABIND_CHECK_STACK(L);
+            LUABIND_CHECK_STACK(L);
             r->register_(L);
         }
     }
@@ -129,37 +130,43 @@ namespace luabind {
         };
 
     } // namespace unnamed
-    
-    module_::module_(lua_State* L, char const* name = 0)
-        : m_state(L)
-        , m_name(name)
+
+    module_::module_(object const& table)
+        : m_table(table)
     {
     }
 
-    void module_::operator[](scope s)
+    module_::module_(lua_State* L, char const* name)
     {
-        if (m_name)
+        if (name)
         {
-            lua_getglobal(m_state, m_name);
+            lua_getglobal(L, name);
 
-            if (!lua_istable(m_state, -1))
+            if (!lua_istable(L, -1))
             {
-                lua_pop(m_state, 1);
+                lua_pop(L, 1);
 
-                lua_newtable(m_state);
-                lua_pushvalue(m_state, -1);
-                lua_setglobal(m_state, m_name);
+                lua_newtable(L);
+                lua_pushvalue(L, -1);
+                lua_setglobal(L, name);
             }
         }
         else
         {
-            lua_pushglobaltable(m_state);
+            lua_pushglobaltable(L);
         }
 
-        lua_pop_stack guard(m_state);
-
-        s.register_(m_state);
+        m_table = object(from_stack(L, -1));
+        lua_pop(L, 1);
     }
+
+    void module_::operator[](scope s)
+    {
+        lua_State* L = m_table.interpreter();
+        m_table.push(L);
+        lua_pop_stack guard(L);
+        s.register_(L);
+     }
 
     struct namespace_::registration_ : detail::registration
     {
@@ -170,13 +177,13 @@ namespace luabind {
 
         void register_(lua_State* L) const
         {
-			LUABIND_CHECK_STACK(L);
+            LUABIND_CHECK_STACK(L);
             assert(lua_gettop(L) >= 1);
 
             lua_pushstring(L, m_name);
             lua_gettable(L, -2);
 
-			detail::stack_pop p(L, 1); // pops the table on exit
+            detail::stack_pop p(L, 1); // pops the table on exit
 
             if (!lua_istable(L, -1))
             {
@@ -196,16 +203,19 @@ namespace luabind {
     };
 
     namespace_::namespace_(char const* name)
+#ifdef LUABIND_USE_CXX11
+        : scope(std::unique_ptr<detail::registration>(
+#else
         : scope(std::auto_ptr<detail::registration>(
+#endif
               m_registration = new registration_(name)))
     {
     }
 
     namespace_& namespace_::operator[](scope s)
     {
-        m_registration->m_scope.operator,(s);        
+        m_registration->m_scope.operator,(s);
         return *this;
     }
 
 } // namespace luabind
-

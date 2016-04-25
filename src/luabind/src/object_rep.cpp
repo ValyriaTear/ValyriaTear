@@ -22,61 +22,60 @@
 
 #define LUABIND_BUILDING
 
-#include <luabind/detail/object_rep.hpp>
 #include <luabind/detail/class_rep.hpp>
+#include <luabind/detail/format_signature.hpp> // for get_class_name
+#include <luabind/detail/object_rep.hpp>
+#include <luabind/detail/operator_id.hpp>
 
-#if LUA_VERSION_NUM < 502
-# define lua_getuservalue lua_getfenv
-# define lua_setuservalue lua_setfenv
-#endif
+#include <cstring>
 
 namespace luabind { namespace detail
 {
 
-	// dest is a function that is called to delete the c++ object this struct holds
-	object_rep::object_rep(instance_holder* instance, class_rep* crep)
-		: m_instance(instance)
-		, m_classrep(crep)
-		, m_dependency_cnt(0)
-	{}
+    // dest is a function that is called to delete the c++ object this struct holds
+    object_rep::object_rep(instance_holder* instance, class_rep* crep_)
+        : m_instance(instance)
+        , m_classrep(crep_)
+        , m_dependency_cnt(0)
+    {}
 
-	object_rep::~object_rep()
-	{
+    object_rep::~object_rep()
+    {
         if (!m_instance)
             return;
         m_instance->~instance_holder();
         deallocate(m_instance);
-	}
+    }
 
-	void object_rep::add_dependency(lua_State* L, int index)
-	{
+    void object_rep::add_dependency(lua_State* L, int index)
+    {
         assert(m_dependency_cnt < sizeof(object_rep));
 
-        void* key = (char*)this + m_dependency_cnt;
+        void* key = reinterpret_cast<char*>(this) + m_dependency_cnt;
 
         lua_pushlightuserdata(L, key);
         lua_pushvalue(L, index);
         lua_rawset(L, LUA_REGISTRYINDEX);
 
         ++m_dependency_cnt;
-	}
+    }
 
     void object_rep::release_dependency_refs(lua_State* L)
     {
         for (std::size_t i = 0; i < m_dependency_cnt; ++i)
         {
-            void* key = (char*)this + i;
+            void* key = reinterpret_cast<char*>(this) + i;
             lua_pushlightuserdata(L, key);
             lua_pushnil(L);
             lua_rawset(L, LUA_REGISTRYINDEX);
         }
     }
 
-    int destroy_instance(lua_State* L)
+    static int destroy_instance(lua_State* L)
     {
         object_rep* instance = static_cast<object_rep*>(lua_touserdata(L, 1));
 
-        lua_pushstring(L, "__finalize");
+        lua_pushliteral(L, "__finalize");
         lua_gettable(L, 1);
 
         if (lua_isnil(L, -1))
@@ -91,6 +90,9 @@ namespace luabind { namespace detail
 
         instance->release_dependency_refs(L);
         instance->~object_rep();
+
+        lua_pushnil(L);
+        lua_setmetatable(L, 1);
         return 0;
     }
 
@@ -111,7 +113,7 @@ namespace luabind { namespace detail
               lua_pop(L, 1);
           }
 
-          if (lua_tocfunction(L, -1) == &property_tag)
+          if (lua_tocfunction(L, -1) == &property_tag && lua_tocfunction(L, 3) != &property_tag)
           {
               // this member is a property, extract the "set" function and call it.
               lua_getupvalue(L, -1, 2);
@@ -175,13 +177,15 @@ namespace luabind { namespace detail
 
       int dispatch_operator(lua_State* L)
       {
+          int const name_upvalue = lua_upvalueindex(1);
           for (int i = 0; i < 2; ++i)
           {
               if (get_instance(L, 1 + i))
               {
                   int nargs = lua_gettop(L);
 
-                  lua_pushvalue(L, lua_upvalueindex(1));
+                  lua_pushvalue(L, name_upvalue); // operator name
+                  // instance[operator name] (via get_instance_value / __index)
                   lua_gettable(L, 1 + i);
 
                   if (lua_isnil(L, -1))
@@ -192,56 +196,109 @@ namespace luabind { namespace detail
 
                   lua_insert(L, 1); // move the function to the bottom
 
-                  nargs = lua_toboolean(L, lua_upvalueindex(2)) ? 1 : nargs;
+                  bool const is_unary = lua_toboolean(L, lua_upvalueindex(2)) ?
+                      true : false; // Avoid MSVC "performance warning".
 
-                  if (lua_toboolean(L, lua_upvalueindex(2))) // remove trailing nil
-                  lua_remove(L, 3);
+                  nargs = is_unary ? 1 : nargs;
 
-                  lua_call(L, nargs, 1);
-                  return 1;
+                  if (is_unary) // remove trailing nil
+                    lua_remove(L, 3);
+
+                  lua_call(L, nargs, LUA_MULTRET);
+                  return lua_gettop(L);
               }
           }
 
-          lua_pop(L, lua_gettop(L));
-          lua_pushstring(L, "No such operator defined");
-          lua_error(L);
+          object_rep* inst = get_instance(L, 1);
+          assert(inst);
+          char const* op_name = lua_tostring(L, name_upvalue);
 
-          return 0;
+          if (std::strcmp(op_name, "__eq") == 0)
+          {
+              object_rep* inst2 = get_instance(L, 2);
+              if (!inst2)
+              {
+                  lua_pushboolean(L, false);
+                  return 1;
+              }
+              class_id clsid = inst->crep()->classes().get(
+                  inst->crep()->type());
+              void* addr = inst->get_instance(clsid).first;
+              void* addr2 = inst2->get_instance(clsid).first;
+              bool const null_inst = !addr;
+              if (!addr2)
+              {
+                  clsid = inst2->crep()->classes().get(
+                      inst2->crep()->type());
+                  addr = inst->get_instance(clsid).first;
+                  addr2 = inst2->get_instance(clsid).first;
+                  if (!addr2)
+                  {
+                      lua_pushboolean(L, null_inst);
+                      return 1;
+                  }
+              }
+              lua_pushboolean(L, addr == addr2);
+              return 1;
+          }
+
+          char const* const_s = inst->is_const() ? "const " : "";
+          std::string const cls_name = get_class_name(L, inst->crep()->type());
+
+          if (std::strcmp(op_name, "__tostring") == 0)
+          {
+              class_id clsid = inst->crep()->classes().get(
+                  inst->crep()->type());
+              void* addr = inst->get_instance(clsid).first;
+              lua_pushfstring(L, "%s%s object: %p",
+                  const_s, cls_name.c_str(), addr);
+              return 1;
+          }
+
+          lua_pushfstring(L, "%sclass %s: no %s operator defined.",
+              const_s, cls_name.c_str(), op_name);
+          return lua_error(L);
       }
 
     } // namespace unnamed
 
     LUABIND_API void push_instance_metatable(lua_State* L)
     {
-        lua_newtable(L);
-
-        // just indicate that this really is a class and not just
-        // any user data
-        lua_pushboolean(L, 1);
-        lua_setfield(L, -2, "__luabind_class");
+        // One sequence entry for the tag, 4 non-sequence entries for
+        // __gc, __index, __newindex and __metatable and
+        // one more for each operator.
+        lua_createtable(L, 1, 4 + number_of_operators);
 
         // This is used as a tag to determine if a userdata is a luabind
         // instance. We use a numeric key and a cclosure for fast comparision.
-        lua_pushnumber(L, 1);
-        lua_pushcclosure(L, get_instance_value, 0);
+        lua_pushcfunction(L, get_instance_value);
+        lua_rawseti(L, -2, 1);
+
+        lua_pushliteral(L, "__gc");
+        lua_pushcfunction(L, destroy_instance);
         lua_rawset(L, -3);
 
-        lua_pushcclosure(L, destroy_instance, 0);
-        lua_setfield(L, -2, "__gc");
+        lua_pushliteral(L, "__index");
+        lua_pushcfunction(L, get_instance_value);
+        lua_rawset(L, -3);
 
-        lua_pushcclosure(L, get_instance_value, 0);
-        lua_setfield(L, -2, "__index");
+        lua_pushliteral(L, "__newindex");
+        lua_pushcfunction(L, set_instance_value);
+        lua_rawset(L, -3);
 
-        lua_pushcclosure(L, set_instance_value, 0);
-        lua_setfield(L, -2, "__newindex");
+        // Direct calls to metamethods cannot be allowed, because the
+        // callee trusts the caller to pass arguments of the right type.
+        lua_pushliteral(L, "__metatable");
+        lua_pushboolean(L, true);
+        lua_rawset(L, -3);
 
         for (int op = 0; op < number_of_operators; ++op)
         {
             lua_pushstring(L, get_operator_name(op));
             lua_pushvalue(L, -1);
-            lua_pushboolean(L, op == op_unm || op == op_len);
+            lua_pushboolean(L, op == op_unm || op == op_len); // Unary?
             lua_pushcclosure(L, &dispatch_operator, 2);
-            lua_settable(L, -3);
+            lua_rawset(L, -3);
         }
     }
 
@@ -274,4 +331,3 @@ namespace luabind { namespace detail
     }
 
 }}
-

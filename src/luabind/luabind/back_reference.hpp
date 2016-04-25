@@ -23,20 +23,21 @@
 #ifndef LUABIND_BACK_REFERENCE_040510_HPP
 #define LUABIND_BACK_REFERENCE_040510_HPP
 
-#include <luabind/lua_include.hpp>
-#include <luabind/wrapper_base.hpp>
 #include <luabind/detail/has_get_pointer.hpp>
 #include <luabind/get_pointer.hpp>
+#include <luabind/wrapper_base.hpp>
+
+#include <boost/mpl/bool.hpp>
 #include <boost/type_traits/is_polymorphic.hpp>
-#include <boost/type_traits/is_const.hpp>
-#include <boost/mpl/if.hpp>
+#include <luabind/lua_state_fwd.hpp>
 
 namespace luabind {
+  struct wrap_base;
 
 namespace detail
 {
   namespace mpl = boost::mpl;
- 
+
   template<class T>
   wrap_base const* get_back_reference_aux0(T const* p, mpl::true_)
   {
@@ -75,26 +76,23 @@ namespace detail
         , has_get_pointer<T>()
       );
   }
-  
+
 } // namespace detail
 
 template<class T>
 bool get_back_reference(lua_State* L, T const& x)
 {
-#ifndef LUABIND_NO_RTTI
     if (wrap_base const* w = detail::get_back_reference(x))
     {
         detail::wrap_access::ref(*w).get(L);
         return true;
     }
-#endif
     return false;
 }
 
 template<class T>
 bool move_back_reference(lua_State* L, T const& x)
 {
-#ifndef LUABIND_NO_RTTI
     if (wrap_base* w = const_cast<wrap_base*>(detail::get_back_reference(x)))
     {
         assert(detail::wrap_access::ref(*w).m_strong_ref.is_valid());
@@ -102,11 +100,9 @@ bool move_back_reference(lua_State* L, T const& x)
         detail::wrap_access::ref(*w).m_strong_ref.reset();
         return true;
     }
-#endif
     return false;
 }
 
 } // namespace luabind
 
 #endif // LUABIND_BACK_REFERENCE_040510_HPP
-

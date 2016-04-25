@@ -25,32 +25,38 @@
 #define LUABIND_DISCARD_RESULT_POLICY_HPP_INCLUDED
 
 #include <luabind/config.hpp>
-#include <luabind/detail/policy.hpp>
+#include <luabind/detail/policy.hpp>    // for index_map, etc
+#include <luabind/detail/primitives.hpp>  // for null_type, etc
 
-namespace luabind { namespace detail 
+#include <boost/mpl/if.hpp>             // for if_
+#include <boost/type_traits/is_same.hpp>  // for is_same
+
+#include <luabind/lua_include.hpp>
+
+namespace luabind { namespace detail
 {
-	struct discard_converter
-	{
-		template<class T>
-		void apply(lua_State*, T) {}
-	};
+    struct discard_converter
+    {
+        template<class T>
+        void apply(lua_State*, T) {}
+    };
 
-	struct discard_result_policy : conversion_policy<0>
-	{
-		static void precall(lua_State*, const index_map&) {}
-		static void postcall(lua_State*, const index_map&) {}
+    struct discard_result_policy : conversion_policy<0>
+    {
+        static void precall(lua_State*, const index_map&) {}
+        static void postcall(lua_State*, const index_map&) {}
 
-		struct can_only_convert_from_cpp_to_lua {};
+        struct can_only_convert_from_cpp_to_lua {};
 
-		template<class T, class Direction>
-		struct apply
-		{
-			typedef typename boost::mpl::if_<boost::is_same<Direction, cpp_to_lua>
-				, discard_converter
-				, can_only_convert_from_cpp_to_lua
-			>::type type;
-		};
-	};
+        template<class T, class Direction>
+        struct apply
+        {
+            typedef typename boost::mpl::if_<boost::is_same<Direction, cpp_to_lua>
+                , discard_converter
+                , can_only_convert_from_cpp_to_lua
+            >::type type;
+        };
+    };
 
 }}
 
@@ -69,4 +75,3 @@ namespace luabind
 }
 
 #endif // LUABIND_DISCARD_RESULT_POLICY_HPP_INCLUDED
-

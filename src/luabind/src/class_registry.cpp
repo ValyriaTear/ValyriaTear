@@ -22,50 +22,59 @@
 
 #define LUABIND_BUILDING
 
-#include <luabind/lua_include.hpp>
+#include <luabind/config.hpp>           // for LUABIND_API
+#include <luabind/detail/class_registry.hpp>  // for class_registry
+#include <luabind/detail/class_rep.hpp>  // for class_rep
+#include <luabind/detail/garbage_collector.hpp>  // for garbage_collector
+#include <luabind/detail/object_rep.hpp> // for push_instance_metatable
+#include <luabind/typeid.hpp>           // for type_id
 
-#include <luabind/luabind.hpp>
-#include <luabind/detail/class_registry.hpp>
-#include <luabind/detail/class_rep.hpp>
-#include <luabind/detail/operator_id.hpp>
+#include <luabind/lua_include.hpp>      // for lua_pushstring, lua_rawset, etc
+
+#include <cassert>                      // for assert
+#include <map>                          // for map, etc
+#include <utility>                      // for pair
 
 namespace luabind { namespace detail {
 
-    LUABIND_API void push_instance_metatable(lua_State* L);
+    char classes_tag = 0;
 
     namespace {
 
         int create_cpp_class_metatable(lua_State* L)
         {
-            lua_newtable(L);
+            lua_createtable(L, 0, 7);
 
-            // mark the table with our (hopefully) unique tag
+            // mark the table with our unique tag
             // that says that the user data that has this
             // metatable is a class_rep
-            lua_pushstring(L, "__luabind_classrep");
-            lua_pushboolean(L, 1);
+            lua_pushboolean(L, true);
+            lua_rawsetp(L, -2, &classrep_tag);
+
+            lua_pushliteral(L, "__gc");
+            lua_pushcfunction(L, &garbage_collector<class_rep>);
             lua_rawset(L, -3);
 
-            lua_pushstring(L, "__gc");
-            lua_pushcclosure(
-                L
-              , &garbage_collector_s<
-                    detail::class_rep
-                >::apply
-                , 0);
-
+            lua_pushliteral(L, "__call");
+            lua_pushcfunction(L, &class_rep::constructor_dispatcher);
             lua_rawset(L, -3);
 
-            lua_pushstring(L, "__call");
-            lua_pushcclosure(L, &class_rep::constructor_dispatcher, 0);
+            lua_pushliteral(L, "__index");
+            lua_pushcfunction(L, &class_rep::static_class_gettable);
             lua_rawset(L, -3);
 
-            lua_pushstring(L, "__index");
-            lua_pushcclosure(L, &class_rep::static_class_gettable, 0);
+            lua_pushliteral(L, "__newindex");
+            lua_pushcfunction(L, &class_rep::lua_settable_dispatcher);
             lua_rawset(L, -3);
 
-            lua_pushstring(L, "__newindex");
-            lua_pushcclosure(L, &class_rep::lua_settable_dispatcher, 0);
+            lua_pushliteral(L, "__tostring");
+            lua_pushcfunction(L, &class_rep::tostring);
+            lua_rawset(L, -3);
+
+            // Direct calls to metamethods cannot be allowed, because the
+            // callee trusts the caller to pass arguments of the right type.
+            lua_pushliteral(L, "__metatable");
+            lua_pushboolean(L, true);
             lua_rawset(L, -3);
 
             return luaL_ref(L, LUA_REGISTRYINDEX);
@@ -73,35 +82,7 @@ namespace luabind { namespace detail {
 
         int create_lua_class_metatable(lua_State* L)
         {
-            lua_newtable(L);
-
-            lua_pushstring(L, "__luabind_classrep");
-            lua_pushboolean(L, 1);
-            lua_rawset(L, -3);
-
-            lua_pushstring(L, "__gc");
-            lua_pushcclosure(
-                L
-              , &detail::garbage_collector_s<
-                    detail::class_rep
-                >::apply
-                , 0);
-
-            lua_rawset(L, -3);
-
-            lua_pushstring(L, "__newindex");
-            lua_pushcclosure(L, &class_rep::lua_settable_dispatcher, 0);
-            lua_rawset(L, -3);
-
-            lua_pushstring(L, "__call");
-            lua_pushcclosure(L, &class_rep::constructor_dispatcher, 0);
-            lua_rawset(L, -3);
-
-            lua_pushstring(L, "__index");
-            lua_pushcclosure(L, &class_rep::static_class_gettable, 0);
-            lua_rawset(L, -3);
-
-            return luaL_ref(L, LUA_REGISTRYINDEX);
+            return create_cpp_class_metatable(L);
         }
 
     } // namespace unnamed
@@ -130,8 +111,7 @@ namespace luabind { namespace detail {
 
 #endif
 
-        lua_pushstring(L, "__luabind_classes");
-        lua_gettable(L, LUA_REGISTRYINDEX);
+        lua_rawgetp(L, LUA_REGISTRYINDEX, &classes_tag);
         class_registry* p = static_cast<class_registry*>(lua_touserdata(L, -1));
         lua_pop(L, 1);
 
@@ -148,7 +128,7 @@ namespace luabind { namespace detail {
     void class_registry::add_class(type_id const& info, class_rep* crep)
     {
         // class is already registered
-        assert((m_classes.find(info) == m_classes.end()) 
+        assert((m_classes.find(info) == m_classes.end())
             && "you are trying to register a class twice");
         m_classes[info] = crep;
     }
@@ -163,4 +143,3 @@ namespace luabind { namespace detail {
     }
 
 }} // namespace luabind::detail
-

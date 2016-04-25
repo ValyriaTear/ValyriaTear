@@ -5,9 +5,10 @@
 #ifndef LUABIND_DETAIL_MAKE_INSTANCE_090310_HPP
 # define LUABIND_DETAIL_MAKE_INSTANCE_090310_HPP
 
-# include <boost/type_traits/is_polymorphic.hpp>
 # include <luabind/detail/inheritance.hpp>
 # include <luabind/detail/object_rep.hpp>
+
+# include <boost/type_traits/is_polymorphic.hpp>
 
 namespace luabind { namespace detail {
 
@@ -15,8 +16,7 @@ template <class T>
 std::pair<class_id, void*> get_dynamic_class_aux(
     lua_State* L, T const* p, mpl::true_)
 {
-    lua_pushliteral(L, "__luabind_class_id_map");
-    lua_rawget(L, LUA_REGISTRYINDEX);
+    lua_rawgetp(L, LUA_REGISTRYINDEX, &classid_map_tag);
 
     class_id_map& class_ids = *static_cast<class_id_map*>(
         lua_touserdata(L, -1));
@@ -33,7 +33,9 @@ template <class T>
 std::pair<class_id, void*> get_dynamic_class_aux(
     lua_State*, T const* p, mpl::false_)
 {
-    return std::make_pair(registered_class<T>::id, (void*)p);
+    return std::make_pair(
+        registered_class<T>::id,
+        static_cast<void*>(const_cast<T*>(p)));
 }
 
 template <class T>
@@ -51,8 +53,7 @@ class_rep* get_pointee_class(class_map const& classes, T*)
 template <class P>
 class_rep* get_pointee_class(lua_State* L, P const& p, class_id dynamic_id)
 {
-    lua_pushliteral(L, "__luabind_class_map");
-    lua_rawget(L, LUA_REGISTRYINDEX);
+    lua_rawgetp(L, LUA_REGISTRYINDEX, &class_map_tag);
 
     class_map const& classes = *static_cast<class_map*>(
         lua_touserdata(L, -1));
@@ -88,7 +89,11 @@ void make_instance(lua_State* L, P p)
 
     try
     {
-        new (storage) holder_type(p, dynamic.first, dynamic.second, cls);
+#ifdef LUABIND_USE_CXX11
+        new (storage) holder_type(std::move(p), dynamic.first, dynamic.second);
+#else
+        new (storage) holder_type(p, dynamic.first, dynamic.second);
+#endif
     }
     catch (...)
     {

@@ -7,15 +7,15 @@
 # ifndef LUABIND_DETAIL_CONSTRUCTOR_081018_HPP
 #  define LUABIND_DETAIL_CONSTRUCTOR_081018_HPP
 
-#  include <luabind/get_main_thread.hpp>
-#  include <luabind/object.hpp>
-#  include <luabind/wrapper_base.hpp>
 #  include <luabind/detail/inheritance.hpp>
+#  include <luabind/get_main_thread.hpp>
+#  include <luabind/detail/object.hpp>
+#  include <luabind/wrapper_base.hpp>
 
 #  include <boost/preprocessor/iteration/iterate.hpp>
 #  include <boost/preprocessor/iteration/local.hpp>
-#  include <boost/preprocessor/repetition/enum_params.hpp>
 #  include <boost/preprocessor/repetition/enum_binary_params.hpp>
+#  include <boost/preprocessor/repetition/enum_params.hpp>
 
 namespace luabind { namespace detail {
 
@@ -44,9 +44,11 @@ struct construct_aux<0, T, Pointer, Signature>
     void operator()(argument const& self_) const
     {
         object_rep* self = touserdata<object_rep>(self_);
-        class_rep* cls = self->crep();
-
+#ifdef LUABIND_USE_CXX11
+        std::unique_ptr<T> instance(new T);
+#else
         std::auto_ptr<T> instance(new T);
+#endif
         inject_backref(self_.interpreter(), instance.get(), instance.get());
 
         void* naked_ptr = instance.get();
@@ -55,7 +57,11 @@ struct construct_aux<0, T, Pointer, Signature>
         void* storage = self->allocate(sizeof(holder_type));
 
         self->set_instance(new (storage) holder_type(
-            ptr, registered_class<T>::id, naked_ptr, cls));
+#ifdef LUABIND_USE_CXX11
+            std::move(ptr), registered_class<T>::id, naked_ptr));
+#else
+            ptr, registered_class<T>::id, naked_ptr));
+#endif
     }
 };
 
@@ -90,9 +96,11 @@ struct construct_aux<N, T, Pointer, Signature>
     void operator()(argument const& self_, BOOST_PP_ENUM_BINARY_PARAMS(N,a,_)) const
     {
         object_rep* self = touserdata<object_rep>(self_);
-        class_rep* cls = self->crep();
-
+#ifdef LUABIND_USE_CXX11
+        std::unique_ptr<T> instance(new T(BOOST_PP_ENUM_PARAMS(N,_)));
+#else
         std::auto_ptr<T> instance(new T(BOOST_PP_ENUM_PARAMS(N,_)));
+#endif
         inject_backref(self_.interpreter(), instance.get(), instance.get());
 
         void* naked_ptr = instance.get();
@@ -101,11 +109,14 @@ struct construct_aux<N, T, Pointer, Signature>
         void* storage = self->allocate(sizeof(holder_type));
 
         self->set_instance(new (storage) holder_type(
-            ptr, registered_class<T>::id, naked_ptr, cls));
+#ifdef LUABIND_USE_CXX11
+            std::move(ptr), registered_class<T>::id, naked_ptr));
+#else
+            ptr, registered_class<T>::id, naked_ptr));
+#endif
     }
 };
 
 # undef N
 
 #endif
-

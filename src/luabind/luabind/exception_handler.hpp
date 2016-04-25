@@ -5,15 +5,12 @@
 #ifndef LUABIND_EXCEPTION_HANDLER_050601_HPP
 # define LUABIND_EXCEPTION_HANDLER_050601_HPP
 
-# include <luabind/lua_include.hpp>
-# include <luabind/config.hpp>
-# include <boost/optional.hpp>
+# include <luabind/config.hpp>           // for LUABIND_API
+
+# include <boost/optional/optional.hpp>  // for optional
 # include <boost/type.hpp>
 
-# if BOOST_WORKAROUND(BOOST_MSVC, <= 1300)
-#  include <boost/mpl/if.hpp>
-#  include <boost/type_traits/is_pointer.hpp>
-# endif
+# include <luabind/lua_include.hpp>
 
 namespace luabind {
 
@@ -36,21 +33,14 @@ namespace detail
       exception_handler_base* next;
   };
 
-  namespace mpl = boost::mpl;
 
   template<class E, class Handler>
   struct exception_handler : exception_handler_base
   {
-#  if BOOST_WORKAROUND(BOOST_MSVC, <= 1300)
-      typedef typename mpl::if_<
-          boost::is_pointer<E>, E, E const&
-      >::type argument;
-#  else
       typedef E const& argument;
-#  endif
 
-      exception_handler(Handler handler)
-        : handler(handler)
+      exception_handler(Handler handler_)
+        : handler(handler_)
       {}
 
       void handle(lua_State* L) const
@@ -107,4 +97,3 @@ boost::optional<R> handle_exceptions(lua_State* L, F fn, boost::type<R>* = 0)
 } // namespace luabind
 
 #endif // LUABIND_EXCEPTION_HANDLER_050601_HPP
-

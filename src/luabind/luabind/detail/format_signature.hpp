@@ -7,31 +7,27 @@
 
 # include <luabind/config.hpp>
 # include <luabind/lua_include.hpp>
+# include <luabind/object_fwd.hpp>
 # include <luabind/typeid.hpp>
 
 # include <boost/mpl/begin_end.hpp>
 # include <boost/mpl/next.hpp>
 # include <boost/mpl/size.hpp>
 
-namespace luabind { namespace adl {
-
-class object;
-class argument;
-template <class Base>
-struct table;
-    }
-} // namespace luabind
 
 namespace luabind { namespace detail {
 
+namespace mpl = boost::mpl;
+
 LUABIND_API std::string get_class_name(lua_State* L, type_id const& i);
 
-template <class T>
+template <class T, class Enable = void>
 struct type_to_string
 {
     static void get(lua_State* L)
     {
-        lua_pushstring(L, get_class_name(L, typeid(T)).c_str());
+        std::string const class_name = get_class_name(L, typeid(T));
+        lua_pushlstring(L, class_name.c_str(), class_name.size());
     }
 };
 
@@ -41,7 +37,7 @@ struct type_to_string<T*>
     static void get(lua_State* L)
     {
         type_to_string<T>::get(L);
-        lua_pushstring(L, "*");
+        lua_pushliteral(L, "*");
         lua_concat(L, 2);
     }
 };
@@ -52,7 +48,7 @@ struct type_to_string<T&>
     static void get(lua_State* L)
     {
         type_to_string<T>::get(L);
-        lua_pushstring(L, "&");
+        lua_pushliteral(L, "&");
         lua_concat(L, 2);
     }
 };
@@ -63,7 +59,7 @@ struct type_to_string<T const>
     static void get(lua_State* L)
     {
         type_to_string<T>::get(L);
-        lua_pushstring(L, " const");
+        lua_pushliteral(L, " const");
         lua_concat(L, 2);
     }
 };
@@ -74,7 +70,7 @@ struct type_to_string<T const>
     { \
         static void get(lua_State* L) \
         { \
-            lua_pushstring(L, #x); \
+            lua_pushliteral(L, #x); \
         } \
     };
 
@@ -86,6 +82,10 @@ LUABIND_INTEGRAL_TYPE_TO_STRING(char)
 LUABIND_INTEGRAL_TYPE_TO_STRING(short)
 LUABIND_INTEGRAL_TYPE_TO_STRING(int)
 LUABIND_INTEGRAL_TYPE_TO_STRING(long)
+
+#ifndef BOOST_NO_LONG_LONG
+    LUABIND_INTEGRAL_TYPE_TO_STRING(long long)
+#endif
 
 LUABIND_TYPE_TO_STRING(void)
 LUABIND_TYPE_TO_STRING(bool)
@@ -103,7 +103,7 @@ struct type_to_string<table<Base> >
 {
     static void get(lua_State* L)
     {
-        lua_pushstring(L, "table");
+        lua_pushliteral(L, "table");
     }
 };
 
@@ -115,7 +115,7 @@ template <class Iter, class End>
 void format_signature_aux(lua_State* L, bool first, Iter, End end)
 {
     if (!first)
-        lua_pushstring(L, ",");
+        lua_pushliteral(L, ",");
     type_to_string<typename Iter::type>::get(L);
     format_signature_aux(L, false, typename mpl::next<Iter>::type(), end);
 }
@@ -127,22 +127,22 @@ void format_signature(lua_State* L, char const* function, Signature)
 
     type_to_string<typename first::type>::get(L);
 
-    lua_pushstring(L, " ");
+    lua_pushliteral(L, " ");
     lua_pushstring(L, function);
 
-    lua_pushstring(L, "(");
+    lua_pushliteral(L, "(");
     format_signature_aux(
         L
       , true
       , typename mpl::next<first>::type()
       , typename mpl::end<Signature>::type()
     );
-    lua_pushstring(L, ")");
-
-    lua_concat(L, static_cast<int>(mpl::size<Signature>()) * 2 + 2);
+    lua_pushliteral(L, ")");
+    int const signature_len = static_cast<int>(mpl::size<Signature>());
+    lua_concat(L, signature_len * 2 + (signature_len == 1 ?
+        3 /* zero-argument function: account for ')' */ : 2));
 }
 
 }} // namespace luabind::detail
 
 #endif // LUABIND_FORMAT_SIGNATURE_081014_HPP
-

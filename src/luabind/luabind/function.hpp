@@ -5,9 +5,9 @@
 #ifndef LUABIND_FUNCTION2_081014_HPP
 # define LUABIND_FUNCTION2_081014_HPP
 
+# include <luabind/detail/call_function.hpp>
 # include <luabind/make_function.hpp>
 # include <luabind/scope.hpp>
-# include <luabind/detail/call_function.hpp>
 
 namespace luabind {
 
@@ -17,10 +17,10 @@ namespace detail
   template <class F, class Policies>
   struct function_registration : registration
   {
-      function_registration(char const* name, F f, Policies const& policies)
-        : name(name)
-        , f(f)
-        , policies(policies)
+      function_registration(char const* name_, F f_, Policies const& policies_)
+        : name(name_)
+        , f(f_)
+        , policies(policies_)
       {}
 
       void register_(lua_State* L) const
@@ -39,14 +39,16 @@ namespace detail
       Policies policies;
   };
 
-  LUABIND_API bool is_luabind_function(lua_State* L, int index);
-
 } // namespace detail
 
 template <class F, class Policies>
 scope def(char const* name, F f, Policies const& policies)
 {
+#ifdef LUABIND_USE_CXX11
+    return scope(std::unique_ptr<detail::registration>(
+#else
     return scope(std::auto_ptr<detail::registration>(
+#endif
         new detail::function_registration<F, Policies>(name, f, policies)));
 }
 
@@ -59,4 +61,3 @@ scope def(char const* name, F f)
 } // namespace luabind
 
 #endif // LUABIND_FUNCTION2_081014_HPP
-

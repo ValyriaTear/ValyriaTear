@@ -26,27 +26,29 @@
 
 #include <luabind/config.hpp>
 
+#include <luabind/lua_include.hpp>
+
 namespace luabind { namespace detail
 {
-	// function that is used as __gc metafunction on several objects
-	template<class T>
-	inline int garbage_collector(lua_State* L)
-	{
-		T* obj = static_cast<T*>(lua_touserdata(L, -1));
-		obj->~T();
-		return 0;
-	}
+    // function that is used as __gc metafunction on several objects
+    template<class T>
+    inline int garbage_collector(lua_State* L)
+    {
+        T* obj = static_cast<T*>(lua_touserdata(L, -1));
+        obj->~T();
+        return 0;
+    }
 
-	template<class T>
-	struct garbage_collector_s
-	{
-		static int apply(lua_State* L)
-		{
-			T* obj = static_cast<T*>(lua_touserdata(L, -1));
-			obj->~T();
-			return 0;
-		}
-	};
+    template<class T>
+    struct garbage_collector_s
+    {
+        static int apply(lua_State* L)
+        {
+            T* obj = static_cast<T*>(lua_touserdata(L, -1));
+            obj->~T();
+            return 0;
+        }
+    };
 
 }}
 

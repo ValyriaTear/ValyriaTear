@@ -4,12 +4,16 @@
 
 #define LUABIND_BUILDING
 
-#include <luabind/config.hpp>
-#include <luabind/exception_handler.hpp>
-#include <luabind/error.hpp>
-#include <stdexcept>
+#include <luabind/config.hpp>           // for LUABIND_API
 
 #ifndef LUABIND_NO_EXCEPTIONS
+#include <luabind/error.hpp>            // for error
+#include <luabind/exception_handler.hpp>  // for exception_handler_base
+
+#include <luabind/lua_include.hpp>
+
+#include <exception>                    // for exception
+#include <stdexcept>                    // for logic_error, runtime_error
 
 namespace luabind { namespace detail {
 
@@ -20,9 +24,9 @@ namespace
   void push_exception_string(lua_State* L, char const* exception, char const* what)
   {
       lua_pushstring(L, exception);
-      lua_pushstring(L, ": '");
+      lua_pushliteral(L, ": '");
       lua_pushstring(L, what);
-      lua_pushstring(L, "'");
+      lua_pushliteral(L, "'");
       lua_concat(L, 4);
   }
 }
@@ -64,7 +68,7 @@ LUABIND_API void handle_exception_aux(lua_State* L)
     }
     catch (...)
     {
-        lua_pushstring(L, "Unknown C++ exception");
+        lua_pushliteral(L, "Unknown C++ exception");
     }
 }
 

@@ -27,7 +27,7 @@
         BOOST_PP_CAT(_, n)
 
 template<class Self BOOST_PP_ENUM_TRAILING_PARAMS(N, class A)>
-struct BOOST_PP_CAT(call_operator, N) 
+struct BOOST_PP_CAT(call_operator, N)
     : detail::operator_<
           BOOST_PP_CAT(call_operator, N)<
               Self BOOST_PP_ENUM_TRAILING_PARAMS(N, A)
@@ -48,14 +48,10 @@ struct BOOST_PP_CAT(call_operator, N)
             using namespace detail;
             operator_result(
                 L
-#if BOOST_WORKAROUND(BOOST_MSVC, <= 1300)
-              , self(BOOST_PP_ENUM_PARAMS(N, _))
-#else
               , (self(BOOST_PP_ENUM_PARAMS(N, _)), detail::operator_void_return())
-#endif
               , (Policies*)0
             );
-        } 
+        }
     };
 
     static char const* name() { return "__call"; }
@@ -63,4 +59,3 @@ struct BOOST_PP_CAT(call_operator, N)
 
 #undef LUABIND_UNWRAP_PARAMETER
 #undef N
-

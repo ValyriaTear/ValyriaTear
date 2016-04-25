@@ -5,7 +5,10 @@
 #include "test.hpp"
 #include <luabind/luabind.hpp>
 #include <luabind/tag_function.hpp>
+
 #include <boost/bind.hpp>
+
+namespace {
 
 int f(int x, int y)
 {
@@ -19,6 +22,8 @@ struct X
         return x + y;
     }
 };
+
+} // namespace unnamed
 
 void test_main(lua_State* L)
 {

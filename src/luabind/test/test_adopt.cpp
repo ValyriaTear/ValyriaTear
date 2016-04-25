@@ -3,9 +3,13 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-#include <luabind/luabind.hpp>
+
 #include <luabind/adopt_policy.hpp>
+#include <luabind/luabind.hpp>
+
 #include <iostream>
+
+namespace {
 
 struct Base
 {
@@ -27,11 +31,6 @@ int Base::count = 0;
 struct Base_wrap : Base, luabind::wrap_base
 {};
 
-void destroy(Base* p)
-{
-    delete p;
-}
-
 Base* adopted = 0;
 
 void take_ownership(Base* p)
@@ -43,6 +42,8 @@ void not_null(Base* p)
 {
     TEST_CHECK(p);
 }
+
+} // namespace unnamed
 
 void test_main(lua_State* L)
 {

@@ -23,25 +23,25 @@
 #ifndef LUABIND_VALUE_WRAPPER_050419_HPP
 #define LUABIND_VALUE_WRAPPER_050419_HPP
 
-#include <boost/mpl/integral_c.hpp>
-#include <boost/mpl/bool.hpp>
 #include <boost/mpl/aux_/msvc_eti_base.hpp>
+#include <boost/mpl/bool.hpp>
+#include <boost/mpl/integral_c.hpp>
 
 #ifdef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
-# define LUABIND_USE_VALUE_WRAPPER_TAG 
+# define LUABIND_USE_VALUE_WRAPPER_TAG
 #else
 #endif
 
 #ifdef LUABIND_USE_VALUE_WRAPPER_TAG
-# include <boost/mpl/identity.hpp>
+# include <boost/mpl/and.hpp>
 # include <boost/mpl/eval_if.hpp>
 # include <boost/mpl/has_xxx.hpp>
+# include <boost/mpl/identity.hpp>
 # include <boost/mpl/not.hpp>
-# include <boost/mpl/and.hpp>
 # include <boost/mpl/or.hpp>
-# include <boost/type_traits/is_reference.hpp>
-# include <boost/type_traits/is_pointer.hpp>
 # include <boost/type_traits/is_array.hpp>
+# include <boost/type_traits/is_pointer.hpp>
+# include <boost/type_traits/is_reference.hpp>
 #endif
 
 namespace luabind {
@@ -53,9 +53,9 @@ namespace luabind {
 #ifdef LUABIND_USE_VALUE_WRAPPER_TAG
 template<class T>
 struct value_wrapper_traits;
-    
-namespace detail 
-{ 
+
+namespace detail
+{
 
   BOOST_MPL_HAS_XXX_TRAIT_DEF(value_wrapper_tag);
 
@@ -135,7 +135,7 @@ namespace detail
 {
   template<class T>
   typename is_value_wrapper<T>::type is_value_wrapper_arg_check(T const*);
-  
+
   yes_t to_yesno(boost::mpl::true_);
   no_t to_yesno(boost::mpl::false_);
 
@@ -144,7 +144,7 @@ namespace detail
   {
       static typename boost::add_reference<T>::type x;
 
-      BOOST_STATIC_CONSTANT(bool, value = 
+      BOOST_STATIC_CONSTANT(bool, value =
           sizeof(to_yesno(is_value_wrapper_arg_check(&x)))
             == sizeof(yes_t)
       );
@@ -165,4 +165,3 @@ struct is_value_wrapper_arg
 #endif
 
 #endif // LUABIND_VALUE_WRAPPER_050419_HPP
-

@@ -23,15 +23,31 @@
 #ifndef TEST_050415_HPP
 #define TEST_050415_HPP
 
-#include <boost/preprocessor/cat.hpp>
+
 #include <luabind/error.hpp>
 
-extern "C"
-{
-    #include "lua.h"
-    #include "lauxlib.h"
-    #include "lualib.h"
-}
+#include <boost/preprocessor/cat.hpp>
+#include <luabind/lua_include.hpp>
+
+#include <string>
+
+// See boost/exception/detail/attribute_noreturn.hpp
+#if defined(BOOST_CLANG)
+// Clang's noreturn changes the type so that it is not recognizable by
+// Boost.FunctionTypes.
+#    define LUABIND_ATTRIBUTE_NORETURN
+#elif defined(_MSC_VER)
+#    define LUABIND_ATTRIBUTE_NORETURN __declspec(noreturn)
+#elif defined(__GNUC__)
+#    define LUABIND_ATTRIBUTE_NORETURN __attribute__((__noreturn__))
+#else
+#    define LUABIND_ATTRIBUTE_NORETURN
+#endif
+
+
+// Individual tests must provide a definition for this function:
+void test_main(lua_State* L);
+
 
 void report_failure(char const* str, char const* file, int line);
 
@@ -49,24 +65,24 @@ void report_failure(char const* str, char const* file, int line);
 #endif
 
 #define TEST_REPORT_AUX(x, line, file) \
-	report_failure(x, line, file)
+    report_failure(x, line, file)
 
 #define TEST_CHECK(x) \
     if (!(x)) \
         TEST_REPORT_AUX("TEST_CHECK failed: \"" #x "\"", __FILE__, __LINE__)
 
 #define TEST_ERROR(x) \
-	TEST_REPORT_AUX((std::string("ERROR: \"") + x + "\"").c_str(), __FILE__, __LINE__)
+    TEST_REPORT_AUX((std::string("ERROR: \"") + x + "\"").c_str(), __FILE__, __LINE__)
 
 #define TEST_NOTHROW(x) \
-	try \
-	{ \
-		x; \
-	} \
-	catch (...) \
-	{ \
-		TEST_ERROR("Exception thrown: " #x); \
-	}
+    try \
+    { \
+        x; \
+    } \
+    catch (...) \
+    { \
+        TEST_ERROR("Exception thrown: " #x); \
+    }
 
 void dostring(lua_State* L, char const* str);
 
@@ -102,9 +118,10 @@ int counted_type<T>::count = 0;
     }                                           \
     catch (luabind::error const& e)             \
     {                                           \
-		if (std::strcmp(                        \
+        using namespace std;                    \
+        if (std::strcmp(                        \
             lua_tostring(e.state(), -1)         \
-          , (char const*)expected))             \
+          , expected))                          \
         {                                       \
             TEST_ERROR(lua_tostring(e.state(), -1)); \
             lua_pop(L, 1);                      \
@@ -135,4 +152,3 @@ int counted_type<T>::count = 0;
 }
 
 #endif // TEST_050415_HPP
-

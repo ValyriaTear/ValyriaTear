@@ -23,51 +23,57 @@
 #ifndef LUABIND_RETURN_REFERENCE_TO_POLICY_HPP_INCLUDED
 #define LUABIND_RETURN_REFERENCE_TO_POLICY_HPP_INCLUDED
 
+#include <luabind/detail/policy.hpp>    // for index_map, policy_cons, etc
+
+#include <luabind/lua_include.hpp>      // for lua_State, lua_pushnil, etc
+
 namespace luabind { namespace detail
 {
-	template<class T>
-	struct return_reference_to_converter;
+    struct cpp_to_lua;
+    struct null_type;
 
-	template<>
-	struct return_reference_to_converter<cpp_to_lua>
-	{
-		template<class T>
-		void apply(lua_State* L, const T&)
-		{
-			lua_pushnil(L);
-		}
-	};
+    template<class T>
+    struct return_reference_to_converter;
 
-	template<int N>
-	struct return_reference_to_policy : conversion_policy<0>
-	{
-		static void precall(lua_State*, const index_map&) {}
-		static void postcall(lua_State* L, const index_map& indices) 
-		{
-			int result_index = indices[0];
-			int ref_to_index = indices[N];
+    template<>
+    struct return_reference_to_converter<cpp_to_lua>
+    {
+        template<class T>
+        void apply(lua_State* L, const T&)
+        {
+            lua_pushnil(L);
+        }
+    };
 
-			lua_pushvalue(L, ref_to_index);
-			lua_replace(L, result_index);
-		}
+    template<int N>
+    struct return_reference_to_policy : conversion_policy<0>
+    {
+        static void precall(lua_State*, const index_map&) {}
+        static void postcall(lua_State* L, const index_map& indices)
+        {
+            int result_index = indices[0];
+            int ref_to_index = indices[N];
 
-		template<class T, class Direction>
-		struct apply
-		{
-			typedef return_reference_to_converter<Direction> type;
-		};
-	};
+            lua_pushvalue(L, ref_to_index);
+            lua_replace(L, result_index);
+        }
+
+        template<class T, class Direction>
+        struct apply
+        {
+            typedef return_reference_to_converter<Direction> type;
+        };
+    };
 }}
 
 namespace luabind
 {
-	template<int N>
-	detail::policy_cons<detail::return_reference_to_policy<N>, detail::null_type> 
-	return_reference_to(LUABIND_PLACEHOLDER_ARG(N)) 
-	{ 
-		return detail::policy_cons<detail::return_reference_to_policy<N>, detail::null_type>(); 
-	}
+    template<int N>
+    detail::policy_cons<detail::return_reference_to_policy<N>, detail::null_type>
+    return_reference_to(LUABIND_PLACEHOLDER_ARG(N))
+    {
+        return detail::policy_cons<detail::return_reference_to_policy<N>, detail::null_type>();
+    }
 }
 
 #endif // LUABIND_RETURN_REFERENCE_TO_POLICY_HPP_INCLUDED
-
