@@ -120,6 +120,12 @@ INCLUDE_DIRECTORIES(
 IF (NOT UNIX OR NOT USE_SYSTEM_LUABIND)
     INCLUDE_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}/luabind")
     MESSAGE(STATUS "Using included luabind files")
+
+    CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/luabind/build_information.hpp.cmake_in" "${CMAKE_CURRENT_SOURCE_DIR}/luabind/luabind/build_information.hpp")
+    MESSAGE(STATUS "Configured luabind information file...")
+
+    # Enable C++11 in luabind
+    # SET(FLAGS "${FLAGS} -DLUABIND_USE_CXX11")
 ENDIF()
 
 # enable rc-handling with mingw
@@ -163,6 +169,7 @@ luabind/src/link_compatibility.cpp
 luabind/src/exception_handler.cpp
 luabind/src/wrapper_base.cpp
 luabind/src/open.cpp
+luabind/src/lua51compat.cpp
 luabind/luabind/prefix.hpp
 luabind/luabind/operator.hpp
 luabind/luabind/back_reference_fwd.hpp
@@ -213,31 +220,23 @@ luabind/luabind/detail/stack_utils.hpp
 luabind/luabind/detail/open.hpp
 luabind/luabind/detail/property.hpp
 luabind/luabind/detail/other.hpp
-luabind/luabind/detail/object_funs.hpp
-luabind/luabind/detail/is_indirect_const.hpp
 luabind/luabind/detail/link_compatibility.hpp
 luabind/luabind/detail/typetraits.hpp
 luabind/luabind/detail/has_get_pointer.hpp
-luabind/luabind/detail/conversion_storage.hpp
-luabind/luabind/detail/ref.hpp
 luabind/luabind/detail/debug.hpp
 luabind/luabind/detail/garbage_collector.hpp
 luabind/luabind/detail/instance_holder.hpp
 luabind/luabind/detail/class_rep.hpp
 luabind/luabind/detail/signature_match.hpp
-luabind/luabind/detail/class_cache.hpp
 luabind/luabind/detail/call_member.hpp
 luabind/luabind/detail/pointee_sizeof.hpp
 luabind/luabind/detail/policy.hpp
 luabind/luabind/detail/deduce_signature.hpp
 luabind/luabind/detail/class_registry.hpp
-luabind/luabind/detail/pointee_typeid.hpp
 luabind/luabind/detail/yes_no.hpp
 luabind/luabind/detail/operator_id.hpp
-luabind/luabind/detail/calc_arity.hpp
 luabind/luabind/detail/make_instance.hpp
 luabind/luabind/detail/pcall.hpp
-luabind/luabind/detail/compute_score.hpp
 luabind/luabind/detail/call.hpp
 luabind/luabind/detail/call_operator_iterate.hpp
 luabind/luabind/yield_policy.hpp
