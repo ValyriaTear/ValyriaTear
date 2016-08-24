@@ -81,8 +81,8 @@ items[1] = {
     cooldown_time = 700,
 
     trade_conditions = {
-        [0] = 10, -- Drunes
-        [3100] = 5   -- Slimy material
+        [0] = 10,  -- Drunes
+        [3100] = 5 -- Slimy material
     },
 
     BattleUse = function(user, target)
@@ -553,7 +553,7 @@ items[1005] = {
     trade_conditions = {
         [0] = 300,   -- Drunes
         [3113] = 5,  -- Red Meat
-        [3117] = 1,  -- Spike
+        [3117] = 1,  -- Stinging Material
         [1001] = 2,  -- Minor Elixirs
         [3111] = 2,  -- Soft Powder
     },
@@ -802,7 +802,7 @@ items[3116] = {
 }
 
 items[3117] = {
-    name = vt_system.Translate("Spike"),
+    name = vt_system.Translate("Stinging Material"),
     description = vt_system.Translate("Material provided by a few creatures."),
     --icon = "data/inventory/items/unknown.png",
     standard_price = 45

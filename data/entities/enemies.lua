@@ -39,7 +39,7 @@ enemies[1] = {
         stamina = 20,
         evade = 2.0,
         experience_points = 15,
-        drunes = 8
+        drunes = 0
     },
 
     attack_points = {
@@ -58,7 +58,7 @@ enemies[1] = {
     },
 
     drop_objects = {
-
+        { 3100, 0.20 } -- Slimy Material
     }
 }
 
@@ -83,7 +83,7 @@ enemies[2] = {
         stamina = 25,
         evade = 2.0,
         experience_points = 19,
-        drunes = 10
+        drunes = 0
     },
 
     attack_points = {
@@ -111,7 +111,7 @@ enemies[2] = {
     },
 
     drop_objects = {
-        { 1, 0.10 } -- Minor Healing Potion
+        { 3102, 0.20 } -- Insect Material
     }
 }
 
@@ -169,8 +169,8 @@ enemies[3] = {
     },
 
     drop_objects = {
-    { 1, 1.0 }, -- Minor Healing Potion x2
-    { 1, 1.0 }
+        { 3104, 1.0 }, -- Fur
+        { 3116, 1.0 }, -- Orb
     }
 }
 
@@ -196,7 +196,7 @@ enemies[4] = {
         stamina = 30,
         evade = 6.0,
         experience_points = 31,
-        drunes = 15
+        drunes = 0
     },
 
     attack_points = {
@@ -235,8 +235,8 @@ enemies[4] = {
     },
 
     drop_objects = {
-        { 1, 0.10 }, -- Minor Healing Potion
-        { 11, 0.10 }, -- Minor Moon Juice Potion
+        { 3107, 0.20 }, -- Saurian Material
+        { 3115, 0.05 }, -- White Meat
     }
 }
 
@@ -261,7 +261,7 @@ enemies[5] = {
         stamina = 18,
         evade = 2.0,
         experience_points = 89,
-        drunes = 56
+        drunes = 0
     },
 
     attack_points = {
@@ -280,7 +280,8 @@ enemies[5] = {
     },
 
     drop_objects = {
-
+        { 3101, 1.0 },  -- Refined Slimy Material
+        { 3116, 0.10 }, -- Orb
     }
 }
 
@@ -306,7 +307,7 @@ enemies[6] = {
         stamina = 35,
         evade = 6.0,
         experience_points = 32,
-        drunes = 15
+        drunes = 0
     },
 
     attack_points = {
@@ -334,8 +335,8 @@ enemies[6] = {
     },
 
     drop_objects = {
-        { 1, 0.15 },  -- Minor Healing Potion
-        { 11, 0.15 } -- Minor Moon Juice
+        { 3109, 0.20 }, -- Rodent Material
+        { 3117, 0.05 }, -- Spike
     }
 }
 
@@ -393,8 +394,9 @@ enemies[7] = {
     },
 
     drop_objects = {
-    { 1, 1.0 }, -- Minor Healing Potion x2
-    { 1, 1.0 }
+        { 1, 0.10 }, -- Minor Healing Potion x2
+        { 1, 0.10 },
+        { 3104, 1.0 } -- Fur
     }
 }
 
@@ -425,7 +427,7 @@ enemies[8] = {
         stamina = 40,
         evade = 4.0,
         experience_points = 143,
-        drunes = 100
+        drunes = 0
     },
 
     attack_points = {
@@ -454,7 +456,7 @@ enemies[8] = {
     },
 
     drop_objects = {
-        { 16, 1.0 } -- Candy (Regen)
+        { 3105, 1.0 } -- Soft Fur
     }
 }
 
@@ -516,7 +518,7 @@ enemies[9] = {
     },
 
     drop_objects = {
-        { 11, 0.15 }, -- Minor Moon Juice
+        { 11, 0.15 }, -- Tiny Moon Juice
         { 4001, 0.05 } -- Escape Smoke
     }
 }
@@ -611,7 +613,7 @@ enemies[11] = {
         stamina = 35,
         evade = 6.0,
         experience_points = 32,
-        drunes = 14
+        drunes = 2
     },
 
     attack_points = {
@@ -630,8 +632,8 @@ enemies[11] = {
     },
 
     drop_objects = {
-        { 1, 0.15 },  -- Minor Healing Potion
-        { 11, 0.15 } -- Minor Moon Juice
+        { 3100, 0.15 }, -- Slimy Material
+        { 3101, 0.03 }  -- Refined Slimy Material
     }
 }
 
@@ -656,7 +658,7 @@ enemies[12] = {
         stamina = 35,
         evade = 5.0,
         experience_points = 30,
-        drunes = 15
+        drunes = 0
     },
 
     attack_points = {
@@ -675,6 +677,7 @@ enemies[12] = {
     },
 
     drop_objects = {
+        { 3116, 0.2 }, -- Orb
     }
 }
 
@@ -719,7 +722,7 @@ enemies[13] = {
     },
 
     drop_objects = {
-        { 1, 0.15 },  -- Minor Healing Potion
+        { 1, 0.15 }, -- Tiny Healing Potion
         { 15, 0.02 } -- Lotus Petal (Cures poison)
     }
 }
@@ -746,7 +749,7 @@ enemies[14] = {
         stamina = 35,
         evade = 5.0,
         experience_points = 90,
-        drunes = 54
+        drunes = 300
     },
 
     attack_points = {
@@ -773,8 +776,8 @@ enemies[14] = {
      },
 
     drop_objects = {
-        { 3002, 1.0 },  -- Iron Ore
-        { 1005, 1.0 } -- Haste potion
+        { 3002, 1.0 }, -- Iron Ore
+        { 1005, 1.0 }  -- Haste potion
     }
 }
 
@@ -799,7 +802,7 @@ enemies[15] = {
         stamina = 35,
         evade = 5.0,
         experience_points = 45,
-        drunes = 45
+        drunes = 0
     },
 
     attack_points = {
@@ -819,7 +822,7 @@ enemies[15] = {
     },
 
     drop_objects = {
-        { 2, 0.05 } -- Medium Healing Potion
+        { 3102, 0.10 } -- Insect Material
     }
 }
 
@@ -844,7 +847,7 @@ enemies[16] = {
         stamina = 40,
         evade = 7.0,
         experience_points = 47,
-        drunes = 40
+        drunes = 0
     },
 
     attack_points = {
@@ -872,7 +875,8 @@ enemies[16] = {
     },
 
     drop_objects = {
-        { 15, 0.05 }  -- Lotus petal - (Cure poison)
+        { 15, 0.03 },  -- Lotus petal - (Cure poison)
+        { 3109, 0.20 } -- Rodent Material
     }
 }
 
@@ -897,7 +901,7 @@ enemies[17] = {
         stamina = 37,
         evade = 5.0,
         experience_points = 48,
-        drunes = 30
+        drunes = 0
     },
 
     attack_points = {
@@ -917,7 +921,8 @@ enemies[17] = {
     },
 
     drop_objects = {
-        { 1006, 0.02 }  -- Poison potion
+        { 1006, 0.02 }, -- Poison potion
+        { 3117, 0.20 }  -- Stinging Material
     }
 }
 
@@ -943,7 +948,7 @@ enemies[18] = {
         stamina = 13,
         evade = 2.0,
         experience_points = 5,
-        drunes = 18
+        drunes = 0
     },
 
     attack_points = {
@@ -962,7 +967,7 @@ enemies[18] = {
     },
 
     drop_objects = {
-
+       {3105, 0.2} -- Soft Fur
     }
 }
 
@@ -987,7 +992,7 @@ enemies[19] = {
         stamina = 35,
         evade = 5.0,
         experience_points = 50,
-        drunes = 30
+        drunes = 0
     },
 
     attack_points = {
@@ -1024,8 +1029,7 @@ enemies[19] = {
     },
 
     drop_objects = {
-        { 12, 0.05 }, -- Medium moon juice
-        { 1004, 0.02 } -- Periwinkle Potion (Physical Attack)
+        { 3117, 0.20 }, -- Medium moon juice
     }
 }
 
@@ -1050,7 +1054,7 @@ enemies[20] = {
         stamina = 25,
         evade = 4.0,
         experience_points = 91,
-        drunes = 60
+        drunes = 0
     },
 
     attack_points = {
@@ -1092,8 +1096,8 @@ enemies[20] = {
     },
 
     drop_objects = {
-        { 12, 0.05 }, -- Medium moon juice
-        { 1004, 0.02 } -- Periwinkle Potion (Physical Attack)
+        { 3113, 1.0 }, -- Red Meat
+        { 3113, 0.20 }
     }
 }
 
@@ -1172,7 +1176,7 @@ enemies[59] = {
         stamina = 14,
         evade = 2.0,
         experience_points = 8,
-        drunes = 12
+        drunes = 0
     },
 
     attack_points = {
@@ -1208,8 +1212,6 @@ enemies[59] = {
     },
 
     drop_objects = {
-        { 1, 0.15 }, -- Minor Healing Potion
-        { 11, 0.15 } -- Minor Moon Juice
     }
 }
 
@@ -1230,7 +1232,7 @@ enemies[60] = {
         stamina = 14,
         evade = 2.0,
         experience_points = 8,
-        drunes = 12
+        drunes = 0
     },
 
     attack_points = {
@@ -1285,7 +1287,7 @@ enemies[62] = {
         stamina = 13,
         evade = 2.0,
         experience_points = 5,
-        drunes = 18
+        drunes = 0
     },
 
     attack_points = {
@@ -1349,7 +1351,7 @@ enemies[63] = {
         stamina = 13,
         evade = 2.0,
         experience_points = 5,
-        drunes = 18
+        drunes = 0
     },
 
     attack_points = {
@@ -1413,7 +1415,7 @@ enemies[65] = {
         stamina = 13,
         evade = 2.0,
         experience_points = 5,
-        drunes = 18
+        drunes = 0
     },
 
     attack_points = {
@@ -1460,7 +1462,7 @@ enemies[67] = {
         stamina = 13,
         evade = 2.0,
         experience_points = 5,
-        drunes = 18
+        drunes = 0
     },
 
     attack_points = {
@@ -1508,7 +1510,7 @@ enemies[91] = {
         stamina = 25,
         evade = 3.0,
         experience_points = 242,
-        drunes = 135
+        drunes = 0
     },
 
     attack_points = {
@@ -1572,7 +1574,7 @@ enemies[92] = {
         stamina = 30,
         evade = 18.0,
         experience_points = 8,
-        drunes = 12
+        drunes = 0
     },
 
     attack_points = {
@@ -1629,7 +1631,7 @@ enemies[101] = {
         mag_def = 7,
         stamina = 8,
         evade = 1.0,
-        drunes = 55
+        drunes = 0
     },
 
     attack_points = {
@@ -1678,7 +1680,7 @@ enemies[102] = {
         mag_def = 4,
         stamina = 20,
         evade = 10.0,
-        drunes = 60
+        drunes = 0
     },
 
     attack_points = {
@@ -1727,7 +1729,7 @@ enemies[103] = {
         mag_def = 5,
         stamina = 15,
         evade = 2.0,
-        drunes = 80
+        drunes = 0
     },
 
     attack_points = {
@@ -1784,7 +1786,7 @@ enemies[104] = {
         mag_def = 4,
         stamina = 12,
         evade = 2.0,
-        drunes = 70
+        drunes = 0
     },
 
     attack_points = {
@@ -1841,7 +1843,7 @@ enemies[105] = {
         mag_def = 4,
         stamina = 4,
         evade = 1.0,
-        drunes = 85
+        drunes = 0
     },
 
     attack_points = {
@@ -1907,7 +1909,7 @@ enemies[106] = {
         mag_def = 4,
         stamina = 18,
         evade = 2.0,
-        drunes = 100
+        drunes = 0
     },
 
     attack_points = {
