@@ -610,13 +610,21 @@ void FinishVictoryAssistant::_CreateObjectList()
 {
     for (auto i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
         std::shared_ptr<GlobalObject> obj = i->first;
-        _object_list.AddOption(MakeUnicodeString("<" + obj->GetIconImage().GetFilename() + "><30>") +
-                               obj->GetName() + MakeUnicodeString("<R>x" + NumberToString(i->second)));
+        if (obj->GetIconImage().GetFilename().empty()) {
+            _object_list.AddOption(MakeUnicodeString("<60>") +
+                                   obj->GetName() + MakeUnicodeString("<R>x" + NumberToString(i->second)));
+        }
+        else {
+            _object_list.AddOption(MakeUnicodeString("<" + obj->GetIconImage().GetFilename() + "><30>") +
+                                   obj->GetName() + MakeUnicodeString("<R>x" + NumberToString(i->second)));
+        }
     }
 
     // Resize all icon images so that they are the same height as the text
     for(uint32_t i = 0; i < _object_list.GetNumberOptions(); ++i) {
-        _object_list.GetEmbeddedImage(i)->SetDimensions(30.0f, 30.0f);
+        StillImage* image = _object_list.GetEmbeddedImage(i);
+        if (image != nullptr)
+            _object_list.GetEmbeddedImage(i)->SetDimensions(30.0f, 30.0f);
     }
 }
 
