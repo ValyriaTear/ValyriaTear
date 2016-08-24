@@ -72,13 +72,18 @@ function field_healing_potion(target, hit_points)
 end
 
 items[1] = {
-    name = vt_system.Translate("Minor Healing Potion"),
+    name = vt_system.Translate("Tiny Healing Potion"),
     description = vt_system.Translate("Restores a small amount of hit points to an ally."),
     icon = "data/inventory/items/potion_green_small.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 30,
     warmup_time = 1000,
     cooldown_time = 700,
+
+    trade_conditions = {
+        [0] = 10, -- Drunes
+        [3100] = 5   -- Slimy material
+    },
 
     BattleUse = function(user, target)
         local target_actor = target:GetActor();
@@ -91,7 +96,7 @@ items[1] = {
 }
 
 items[2] = {
-    name = vt_system.Translate("Medium Healing Potion"),
+    name = vt_system.Translate("Small Healing Potion"),
     description = vt_system.Translate("Restores a reasonable amount of hit points to an ally."),
     icon = "data/inventory/items/potion_green_medium.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
@@ -99,10 +104,9 @@ items[2] = {
     warmup_time = 1200,
     cooldown_time = 900,
 
-    -- Can be traded against 3 Minor healing potions and 60 drunes
     trade_conditions = {
-        [0] = 60,
-        [1] = 3
+        [0] = 60, -- Drunes
+        [1] = 3   -- Tiny Potions
     },
 
     BattleUse = function(user, target)
@@ -124,10 +128,9 @@ items[3] = {
     warmup_time = 1200,
     cooldown_time = 900,
 
-    -- Can be traded against 4 Medium healing potions and 60 drunes
     trade_conditions = {
-        [0] = 60,
-        [2] = 4
+        [0] = 60, -- Drunes
+        [2] = 4   -- Small healing potions
     },
 
     BattleUse = function(user, target)
@@ -148,6 +151,11 @@ items[4] = {
     standard_price = 5000,
     warmup_time = 1200,
     cooldown_time = 1200,
+
+    trade_conditions = {
+        [0] = 500, -- Drunes
+        [3] = 4    -- Healing potions
+    },
 
     BattleUse = function(user, target)
         local target_actor = target:GetActor();
@@ -185,13 +193,19 @@ end
 
 
 items[11] = {
-    name = vt_system.Translate("Small Moon Juice Potion"),
+    name = vt_system.Translate("Tiny Moon Juice Potion"),
     description = vt_system.Translate("Restores a small amount of skill points to an ally."),
     icon = "data/inventory/items/potion_blue_small.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 90,
     use_warmup_time = 1000,
     cooldown_time = 1200,
+
+    trade_conditions = {
+        [0] = 20,    -- Drunes
+        [3100] = 1,  -- Slimy material
+        [3112] = 2,  -- Silk
+    },
 
     BattleUse = function(user, target)
         local target_actor = target:GetActor();
@@ -204,13 +218,18 @@ items[11] = {
 }
 
 items[12] = {
-    name = vt_system.Translate("Medium Moon Juice Potion"),
+    name = vt_system.Translate("Small Moon Juice Potion"),
     description = vt_system.Translate("Restores a reasonable amount of skill points to an ally."),
     icon = "data/inventory/items/potion_blue_medium.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY,
     standard_price = 380,
     use_warmup_time = 1000,
     cooldown_time = 1200,
+
+    trade_conditions = {
+        [0] = 100,   -- Drunes
+        [11] = 3,    -- Tiny Moon Juice
+    },
 
     BattleUse = function(user, target)
         local target_actor = target:GetActor();
@@ -231,6 +250,11 @@ items[13] = {
     use_warmup_time = 1000,
     cooldown_time = 1200,
 
+    trade_conditions = {
+        [0] = 300,   -- Drunes
+        [12] = 3,    -- Small Moon Juice
+    },
+
     BattleUse = function(user, target)
         local target_actor = target:GetActor();
         return battle_skill_potion(target_actor, 300);
@@ -249,6 +273,11 @@ items[14] = {
     standard_price = 6100,
     use_warmup_time = 1200,
     cooldown_time = 1300,
+
+    trade_conditions = {
+        [0] = 1000,  -- Drunes
+        [13] = 4,    -- Tiny Moon Juice
+    },
 
     BattleUse = function(user, target)
         local target_actor = target:GetActor();
@@ -321,6 +350,12 @@ items[16] = {
     use_warmup_time = 1200,
     cooldown_time = 1300,
 
+    trade_conditions = {
+        [0] = 500,   -- Drunes
+        [3101] = 15, -- Refined Slimy Material
+        [3111] = 5,  -- Soft Powder
+    },
+
     BattleUse = function(user, target)
         local target_actor = target:GetActor();
         if (target_actor:IsAlive() == false) then
@@ -385,9 +420,16 @@ items[1001] = {
     description = vt_system.Translate("Revives a character, or improves the character's status when he/she is alive by a limited degree."),
     icon = "data/inventory/items/potion_red_small.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALLY_EVEN_DEAD,
-    standard_price = 50,
+    standard_price = 150,
     use_warmup_time = 1200,
     cooldown_time = 1800,
+
+    trade_conditions = {
+        [0] = 10,   -- Drunes
+        [3116] = 1, -- Orb
+        [1] = 2,    -- Tiny Potions
+        [3102] = 1, -- Insect Material
+    },
 
     BattleUse = function(user, target)
         local target_actor = target:GetActor();
@@ -425,6 +467,14 @@ items[1003] = {
     use_warmup_time = 1600,
     cooldown_time = 2100,
 
+    trade_conditions = {
+        [0] = 200,  -- Drunes
+        [1001] = 5, -- Minor Elixirs
+        [3107] = 3, -- Saurian Material
+        [3114] = 5, -- Fish Meat
+        [15] = 1,   -- Lotus Petal
+    },
+
     BattleUse = function(user, target)
         local target_actor = target:GetActor();
         if (target_actor:GetHitPoints() > 0) then
@@ -457,6 +507,13 @@ items[1004] = {
     standard_price = 1600,
     use_warmup_time = 3600,
     cooldown_time = 2100,
+
+    trade_conditions = {
+        [0] = 400,   -- Drunes
+        [3113] = 10, -- Red Meat
+        [1001] = 2,  -- Minor Elixirs
+        [11] = 2,    -- Tiny Moon Juice
+    },
 
     BattleUse = function(user, target)
         local target_actor = target:GetActor();
@@ -493,6 +550,14 @@ items[1005] = {
     use_warmup_time = 1600,
     cooldown_time = 2100,
 
+    trade_conditions = {
+        [0] = 300,   -- Drunes
+        [3113] = 5,  -- Red Meat
+        [3117] = 1,  -- Spike
+        [1001] = 2,  -- Minor Elixirs
+        [3111] = 2,  -- Soft Powder
+    },
+
     BattleUse = function(user, target)
         local target_actor = target:GetActor();
         if (target_actor:IsAlive() == true) then
@@ -528,6 +593,13 @@ items[1006] = {
     use_warmup_time = 1600,
     cooldown_time = 2100,
 
+    trade_conditions = {
+        [0] = 350,   -- Drunes
+        [3101] = 2,  -- Refined Slimy Material
+        [3107] = 5,  -- Saurian Material
+        [3102] = 5,  -- Insect Material
+    },
+
     BattleUse = function(user, target)
         local target_actor = target:GetActor();
         if (target_actor:IsAlive() == true) then
@@ -551,7 +623,7 @@ items[1006] = {
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
--- IDs 3,001 - 4,000 are reserved for weapon improvement items
+-- IDs 3,001 - 4,000 are reserved for improvement items
 --------------------------------------------------------------------------------
 items[3001] = {
     name = vt_system.Translate("Copper Ore"),
@@ -609,6 +681,133 @@ items[3008] = {
     standard_price = 4500
 }
 
+-- Basic Material
+items[3100] = {
+    name = vt_system.Translate("Slimy Material"),
+    description = vt_system.Translate("Material provided by slimy creatures."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 2
+}
+
+items[3101] = {
+    name = vt_system.Translate("Refined Slimy Material"),
+    description = vt_system.Translate("Quality material provided by slimy creatures."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 20
+}
+
+items[3102] = {
+    name = vt_system.Translate("Insect Material"),
+    description = vt_system.Translate("Material provided by various insects."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 5
+}
+
+items[3103] = {
+    name = vt_system.Translate("Refined Insect Material"),
+    description = vt_system.Translate("Quality material provided by various insects."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 50
+}
+
+items[3104] = {
+    name = vt_system.Translate("Fur"),
+    description = vt_system.Translate("Material provided by various creatures."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 10
+}
+
+items[3105] = {
+    name = vt_system.Translate("Soft Fur"),
+    description = vt_system.Translate("Material provided by rare animals."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 100
+}
+
+items[3106] = {
+    name = vt_system.Translate("Silver Fur"),
+    description = vt_system.Translate("Highly sought-after material provided by very special creatures."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 1000
+}
+
+items[3107] = {
+    name = vt_system.Translate("Saurian Material"),
+    description = vt_system.Translate("Material provided by various reptilians."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 20
+}
+
+items[3108] = {
+    name = vt_system.Translate("Refined Saurian Material"),
+    description = vt_system.Translate("Quality material provided by various reptilians."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 200
+}
+
+items[3109] = {
+    name = vt_system.Translate("Rodent Material"),
+    description = vt_system.Translate("Material provided by small rodents."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 15
+}
+
+items[3110] = {
+    name = vt_system.Translate("Refined Rodent Material"),
+    description = vt_system.Translate("Quality material provided by not-that-small rodents."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 150
+}
+
+items[3111] = {
+    name = vt_system.Translate("Soft Powder"),
+    description = vt_system.Translate("Material provided by various creatures."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 25
+}
+
+items[3112] = {
+    name = vt_system.Translate("Silk"),
+    description = vt_system.Translate("Material provided by a few creatures."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 28
+}
+
+items[3113] = {
+    name = vt_system.Translate("Red Meat"),
+    description = vt_system.Translate("Material provided by warm-blooded creatures."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 40
+}
+
+items[3114] = {
+    name = vt_system.Translate("Fish Meat"),
+    description = vt_system.Translate("Material provided by various underwater creatures."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 35
+}
+
+items[3115] = {
+    name = vt_system.Translate("White Meat"),
+    description = vt_system.Translate("Material provided by various creatures."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 40
+}
+
+items[3116] = {
+    name = vt_system.Translate("Orb"),
+    description = vt_system.Translate("Material provided by a few creatures."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 30
+}
+
+items[3117] = {
+    name = vt_system.Translate("Spike"),
+    description = vt_system.Translate("Material provided by a few creatures."),
+    --icon = "data/inventory/items/unknown.png",
+    standard_price = 45
+}
+
 --------------------------------------------------------------------------------
 -- IDs 4,001 - 5,000 are reserved for items with special effects
 --------------------------------------------------------------------------------
@@ -664,6 +863,14 @@ items[4001] = {
 
     use_warmup_time = 1600,
     cooldown_time = 2100,
+
+    trade_conditions = {
+        [0] = 20,    -- Drunes
+        [3111] = 1,  -- Soft Powder
+        [3112] = 1,  -- Silk
+        [3116] = 1,  -- Orb
+        [3102] = 1,  -- Insect Material
+    },
 
     BattleUse = function(user, target)
         -- TODO: Triggers the smoke effect when succeeding
