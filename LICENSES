@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2016.02.29
+Last update: 2016.08.25
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -680,8 +680,9 @@ data/sounds/save_successful_nick_bowler_oga.wav                               CC
 data/sounds/steam_hisses.ogg                                                  CC0                      (Bart) (OGA) - http://opengameart.org/content/steam-release-sounds
 data/sounds/stone_bump.ogg                                                    CC0                      (kddekadenz) OGA - http://opengameart.org/content/break-pumpkin
 data/sounds/stone_roll.wav                                                    CC by SA 3.0             remaxim (OGA) - http://opengameart.org/content/plastic-bongos
-data/sounds/thunder.wav                                                       CC0                      (Bertram)
+data/sounds/text.wav                                                          CC0                      Bertram
 data/sounds/throw.wav                                                         CC by 3.0                (c) copyright Blender Foundation | apricot.blender.org (OGA) - http://opengameart.org/content/sfxthrow
+data/sounds/thunder.wav                                                       CC0                      (Bertram)
 data/sounds/trigger_on.wav                                                    CC0                      (j1987) OGA - http://opengameart.org/content/click-car-blinker
 data/sounds/falling_tree.ogg                                                  CC by 3.0                Blender Foundation (OGA) - http://opengameart.org/content/tree-falling-yo-frankie
 data/sounds/wave1_spell.ogg                                                   CC by 3.0                Michel Baradari (OGA) - http://opengameart.org/content/water-splashes

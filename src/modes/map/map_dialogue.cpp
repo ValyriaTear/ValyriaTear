@@ -453,8 +453,11 @@ void MapDialogueSupervisor::_UpdateLine()
     }
 
     // Set the correct indicator
-    if(_current_dialogue->IsInputBlocked() || _current_options != nullptr || _dialogue_window.GetDisplayTextBox().IsFinished() == false) {
+    if(_current_dialogue->IsInputBlocked()
+            || _current_options != nullptr
+            || _dialogue_window.GetDisplayTextBox().IsFinished() == false) {
         _dialogue_window.SetIndicator(DIALOGUE_NO_INDICATOR);
+        GlobalManager->Media().PlaySound("text");
     } else if(_line_counter == _current_dialogue->GetLineCount() - 1) {
         _dialogue_window.SetIndicator(DIALOGUE_LAST_INDICATOR);
     } else {
@@ -475,6 +478,7 @@ void MapDialogueSupervisor::_UpdateLine()
         else if(_current_options != nullptr) {
             _state = DIALOGUE_STATE_OPTION;
         } else {
+            GlobalManager->Media().PlaySound("confirm");
             _EndLine();
         }
     }
@@ -484,16 +488,21 @@ void MapDialogueSupervisor::_UpdateOptions()
 {
     _dialogue_window.GetDisplayTextBox().Update();
     _dialogue_window.GetDisplayOptionBox().Update();
+    GlobalMedia& media = GlobalManager->Media();
+
     if(InputManager->ConfirmPress()) {
         _dialogue_window.GetDisplayOptionBox().InputConfirm();
+        media.PlaySound("confirm");
         _EndLine();
     }
 
     else if(InputManager->UpPress()) {
+        media.PlaySound("bump");
         _dialogue_window.GetDisplayOptionBox().InputUp();
     }
 
     else if(InputManager->DownPress()) {
+        media.PlaySound("bump");
         _dialogue_window.GetDisplayOptionBox().InputDown();
     }
 }
