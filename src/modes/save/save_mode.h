@@ -56,7 +56,7 @@ public:
     /** \brief Set the character for this window
     *** \param character the character to associate with this window
     **/
-    void SetCharacter(vt_global::GlobalCharacter *character);
+    void SetCharacter(vt_global::GlobalCharacter* characters);
 
     /** \brief render this window to the screen
     *** \return success/failure
@@ -65,7 +65,7 @@ public:
 
 private:
     //! The name of the character that this window corresponds to.
-    vt_global::GlobalCharacter *_character;
+    vt_global::GlobalCharacter* _character;
 
     //! The image of the character
     vt_video::StillImage _portrait;
