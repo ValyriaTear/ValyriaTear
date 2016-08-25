@@ -814,3 +814,55 @@ skills[1014] = {
         end
     end
 }
+
+skills[1015] = {
+    name = vt_system.Translate("Water Spray"),
+    icon = "data/skills/monster_attacks/waterspray.png",
+    show_notice = true,
+    sp_required = 0,
+    warmup_time = 1100,
+    cooldown_time = 500,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
+
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
+            local effect_duration = user:GetMagAtk() * 2000;
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
+                                                 effect_duration);
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 10, 1.0, atk_point), target);
+            AudioManager:PlaySound("data/sounds/slime_attack.wav");
+        else
+            target_actor:RegisterMiss(true);
+        end
+    end
+}
+
+skills[1016] = {
+    name = vt_system.Translate("Spider Web"),
+    icon = "data/skills/monster_attacks/web.png",
+    show_notice = true,
+    sp_required = 0,
+    warmup_time = 1100,
+    cooldown_time = 500,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+
+    BattleExecute = function(user, target)
+        local target_actor = target:GetActor();
+        local atk_point = target:GetAttackPoint();
+
+        if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
+            local effect_duration = user:GetMagAtk() * 2000;
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
+                                                 effect_duration);
+            target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 13, 1.0, atk_point), target);
+            AudioManager:PlaySound("data/sounds/spider_attack.wav");
+        else
+            target_actor:RegisterMiss(true);
+        end
+    end
+}

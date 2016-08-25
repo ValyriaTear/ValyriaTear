@@ -30,7 +30,7 @@ enemies[1] = {
     },
 
     base_stats = {
-        hit_points = 55,
+        hit_points = 30,
         skill_points = 0,
         phys_atk = 11,
         mag_atk = 0,
@@ -54,11 +54,12 @@ enemies[1] = {
     },
 
     skills = {
-        1001
+        1001, -- standard bite
+        1015  -- waterspray
     },
 
     drop_objects = {
-        { 3100, 0.20 } -- Slimy Material
+        { 3100, 0.40 } -- Slimy Material
     }
 }
 
@@ -74,7 +75,7 @@ enemies[2] = {
     },
 
     base_stats = {
-        hit_points = 65,
+        hit_points = 55,
         skill_points = 0,
         phys_atk = 14,
         mag_atk = 0,
@@ -107,11 +108,12 @@ enemies[2] = {
     },
 
     skills = {
-        1002
+        1002, -- standard attack
+        1016, -- spider web
     },
 
     drop_objects = {
-        { 3102, 0.20 } -- Insect Material
+        { 3102, 0.40 } -- Insect Material
     }
 }
 
@@ -235,8 +237,8 @@ enemies[4] = {
     },
 
     drop_objects = {
-        { 3107, 0.20 }, -- Saurian Material
-        { 3115, 0.05 }, -- White Meat
+        { 3107, 0.40 }, -- Saurian Material
+        { 3115, 0.10 }, -- White Meat
     }
 }
 
@@ -280,8 +282,8 @@ enemies[5] = {
     },
 
     drop_objects = {
-        { 3101, 1.0 },  -- Refined Slimy Material
-        { 3116, 0.10 }, -- Orb
+        { 3101, 1.0 }, -- Refined Slimy Material
+        { 3116, 1.0 }, -- Orb
     }
 }
 
@@ -335,8 +337,8 @@ enemies[6] = {
     },
 
     drop_objects = {
-        { 3109, 0.20 }, -- Rodent Material
-        { 3117, 0.05 }, -- Spike
+        { 3109, 0.40 }, -- Rodent Material
+        { 3117, 0.10 }, -- Spike
     }
 }
 
@@ -394,8 +396,8 @@ enemies[7] = {
     },
 
     drop_objects = {
-        { 1, 0.10 }, -- Minor Healing Potion x2
-        { 1, 0.10 },
+        { 1, 0.20 }, -- Minor Healing Potion x2
+        { 1, 0.20 },
         { 3104, 1.0 } -- Fur
     }
 }
@@ -518,8 +520,8 @@ enemies[9] = {
     },
 
     drop_objects = {
-        { 11, 0.15 }, -- Tiny Moon Juice
-        { 4001, 0.05 } -- Escape Smoke
+        { 11, 0.35 }, -- Tiny Moon Juice
+        { 4001, 0.15 } -- Escape Smoke
     }
 }
 
@@ -632,8 +634,8 @@ enemies[11] = {
     },
 
     drop_objects = {
-        { 3100, 0.15 }, -- Slimy Material
-        { 3101, 0.03 }  -- Refined Slimy Material
+        { 3100, 0.30 }, -- Slimy Material
+        { 3101, 0.10 }  -- Refined Slimy Material
     }
 }
 
@@ -677,7 +679,7 @@ enemies[12] = {
     },
 
     drop_objects = {
-        { 3116, 0.2 }, -- Orb
+        { 3116, 0.30 }, -- Orb
     }
 }
 
@@ -722,8 +724,8 @@ enemies[13] = {
     },
 
     drop_objects = {
-        { 1, 0.15 }, -- Tiny Healing Potion
-        { 15, 0.02 } -- Lotus Petal (Cures poison)
+        { 1, 0.25 }, -- Tiny Healing Potion
+        { 15, 0.05 } -- Lotus Petal (Cures poison)
     }
 }
 
@@ -822,7 +824,7 @@ enemies[15] = {
     },
 
     drop_objects = {
-        { 3102, 0.10 } -- Insect Material
+        { 3102, 0.40 } -- Insect Material
     }
 }
 
@@ -875,8 +877,8 @@ enemies[16] = {
     },
 
     drop_objects = {
-        { 15, 0.03 },  -- Lotus petal - (Cure poison)
-        { 3109, 0.20 } -- Rodent Material
+        { 15, 0.06 },  -- Lotus petal - (Cure poison)
+        { 3109, 0.40 } -- Rodent Material
     }
 }
 
@@ -921,8 +923,8 @@ enemies[17] = {
     },
 
     drop_objects = {
-        { 1006, 0.02 }, -- Poison potion
-        { 3117, 0.20 }  -- Stinging Material
+        { 1006, 0.04 }, -- Poison potion
+        { 3117, 0.40 }  -- Stinging Material
     }
 }
 
@@ -967,7 +969,7 @@ enemies[18] = {
     },
 
     drop_objects = {
-       {3105, 0.2} -- Soft Fur
+       { 3105, 0.4 } -- Soft Fur
     }
 }
 
@@ -1029,7 +1031,7 @@ enemies[19] = {
     },
 
     drop_objects = {
-        { 3117, 0.20 }, -- Medium moon juice
+        { 3117, 0.40 }, -- Medium moon juice
     }
 }
 
@@ -1149,7 +1151,7 @@ enemies[21] = {
 
     drop_objects = {
         { 3002, 1.0 }, -- Iron ore
-        { 1004, 0.02 } -- Periwinkle Potion (Physical Attack)
+        { 1004, 0.04 } -- Periwinkle Potion (Physical Attack)
     }
 }
 
