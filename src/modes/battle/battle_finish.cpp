@@ -611,7 +611,7 @@ void FinishVictoryAssistant::_CreateObjectList()
     for (auto i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
         std::shared_ptr<GlobalObject> obj = i->first;
         if (obj->GetIconImage().GetFilename().empty()) {
-            _object_list.AddOption(MakeUnicodeString("<60>") +
+            _object_list.AddOption(MakeUnicodeString("<30>") +
                                    obj->GetName() + MakeUnicodeString("<R>x" + NumberToString(i->second)));
         }
         else {

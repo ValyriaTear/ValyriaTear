@@ -150,7 +150,7 @@ function _ReloadGrandmaDialogue()
         grandma:AddDialogueReference(dialogue);
 
         event = vt_map.TreasureEvent.Create("Give Bronann the chicken reward");
-        event:AddItem(2, 2); -- 2 Medium healing potions
+        event:AddItem(1, 2); -- Tiny healing potions
         event:SetDrunes(15);
 
         vt_map.ScriptedEvent.Create("Chicken reward given", "set_chicken_reward_given", "");

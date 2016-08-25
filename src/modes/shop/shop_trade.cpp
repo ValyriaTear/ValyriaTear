@@ -379,7 +379,8 @@ void TradeInterface::Draw()
         _properties_header.Draw();
 
         VideoManager->MoveRelative(0.0f, 50.0f);
-        _selected_icon.Draw();
+        if (!_selected_icon.GetFilename().empty())
+            _selected_icon.Draw();
         VideoManager->MoveRelative(30.0f, 0.0f);
         _selected_name.Draw();
         _selected_properties.Draw();
@@ -413,7 +414,8 @@ void TradeInterface::ChangeViewMode(SHOP_VIEW_MODE new_mode)
 
         _selected_name.SetText(_selected_object->GetObject()->GetName());
         _selected_icon = _selected_object->GetObject()->GetIconImage();
-        _selected_icon.SetDimensions(30.0f, 30.0f);
+        if (!_selected_icon.GetFilename().empty())
+            _selected_icon.SetDimensions(30.0f, 30.0f);
         _selected_properties.SetOptionText(0, MakeUnicodeString(NumberToString(_selected_object->GetTradePrice())));
         if (_selected_object->IsInfiniteAmount())
             _selected_properties.SetOptionText(1, MakeUnicodeString("∞"));
@@ -488,9 +490,14 @@ void TradeListDisplay::ReconstructList()
     for(uint32_t i = 0; i < _objects.size(); ++i) {
         ShopObject* obj = _objects[i];
         // Add an entry with the icon image of the object (scaled down by 4x to 30x30 pixels) followed by the object name
-        _identify_list.AddOption(MakeUnicodeString("<" + obj->GetObject()->GetIconImage().GetFilename() + "><30>")
-                                 + obj->GetObject()->GetName());
-        _identify_list.GetEmbeddedImage(i)->SetDimensions(30.0f, 30.0f);
+        if (obj->GetObject()->GetIconImage().GetFilename().empty()) {
+            _identify_list.AddOption(MakeUnicodeString("<30>") + obj->GetObject()->GetName());
+        }
+        else {
+            _identify_list.AddOption(MakeUnicodeString("<" + obj->GetObject()->GetIconImage().GetFilename() + "><30>")
+                                     + obj->GetObject()->GetName());
+            _identify_list.GetEmbeddedImage(i)->SetDimensions(30.0f, 30.0f);
+        }
 
         _property_list.AddOption(MakeUnicodeString(NumberToString(obj->GetTradePrice())));
         if (obj->IsInfiniteAmount())

@@ -435,10 +435,15 @@ void ShopObjectViewer::_UpdateTradeConditions()
         if (!obj)
             continue;
 
-        _conditions_name.AddOption(MakeUnicodeString("<" + obj->GetIconImage().GetFilename() + "><30>") +
-                                   obj->GetName());
+        if (obj->GetIconImage().GetFilename().empty()) {
+            _conditions_name.AddOption(MakeUnicodeString("<30>") + obj->GetName());
+        }
+        else {
+            _conditions_name.AddOption(MakeUnicodeString("<" + obj->GetIconImage().GetFilename() + "><30>") +
+                                                         obj->GetName());
+        }
 
-        StillImage *img = _conditions_name.GetEmbeddedImage(j);
+        StillImage* img = _conditions_name.GetEmbeddedImage(j);
         if (img)
             img->SetDimensions(30.0f, 30.0f);
 

@@ -44,6 +44,7 @@ function TestFunction()
     shop:AddItem(40004, 1);
     shop:AddItem(50001, 1);
     shop:AddItem(50002, 1);
+    shop:AddItem(3100, 10);
 
     -- AddTrade(item_id to trade for, number)
     -- the trade conditions are within the item declaration
@@ -51,6 +52,7 @@ function TestFunction()
     shop:AddTrade(3, 2);
     shop:AddTrade(10004, 1);
     shop:AddTrade(10999, 1);
+    shop:AddTrade(1, 0);
 
     shop:GetScriptSupervisor():AddScript("data/story/layna_village/tutorial_shop_dialogs.lua");
 
