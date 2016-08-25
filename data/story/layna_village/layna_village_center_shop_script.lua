@@ -108,6 +108,7 @@ function _CreateEvents()
     event:AddTrade(1, 0);     -- (infinite) Small Potion
     event:AddTrade(11, 0);    -- (infinite) Tiny Moon Juice
     event:AddTrade(1001, 0);  -- (infinite) Minor Elixirs
+    event:AddTrade(4001, 0);  -- (infinite) Escape Smoke
     event:AddTrade(10002, 1); -- Improved Wooden Sword
     event:AddTrade(11002, 1); -- Improved Arbalest
     event:AddTrade(30005, 1); -- Improved Rookie Tunic for Bronann
