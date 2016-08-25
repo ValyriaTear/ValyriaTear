@@ -409,8 +409,8 @@ function _UpdateMotherDialogue()
         event:AddEventLinkAtEnd("Malta gives items")
 
         event = vt_map.TreasureEvent.Create("Malta gives items");
-        event:AddItem(16, 5) -- Candies!
-        event:AddItem(12, 2) -- Medium Moon Juice
+        event:AddItem(16, 1) -- Candy
+        event:AddItem(11, 2) -- Tiny Moon Juice
         event:AddItem(15, 1) -- Lotus Petal
         event:AddEventLinkAtEnd("Bronann says thanks")
 

@@ -329,7 +329,7 @@ function _CreateEvents()
 
     event = vt_map.TreasureEvent.Create("Quest1: Hide and Seek3: Orlinn gives the pen to Bronann");
     event:AddItem(70001, 1); -- The ink key item
-    event:SetDrunes(50); -- The reward for running after Orlinn for so long.
+    event:SetDrunes(20); -- The reward for running after Orlinn for so long.
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Orlinn is going away for real");
     event:AddEventLinkAtEnd("Quest1: Hide and Seek3: Lilly tells Bronann a bit about Kalya", 2000);
 

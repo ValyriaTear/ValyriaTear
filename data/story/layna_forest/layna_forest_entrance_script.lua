@@ -311,11 +311,9 @@ function _CreateEnemies()
         _SetBattleEnvironment(enemy);
         enemy:NewEnemyParty();
         enemy:AddEnemy(1);
-        enemy:AddEnemy(1);
-        enemy:AddEnemy(1);
         enemy:NewEnemyParty();
         enemy:AddEnemy(1);
-        enemy:AddEnemy(2);
+        enemy:AddEnemy(1);
         roam_zone:AddEnemy(enemy, 1);
     end
 end
