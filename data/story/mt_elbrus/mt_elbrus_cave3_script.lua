@@ -143,7 +143,7 @@ function _CreateObjects()
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 1");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
-    event:AddEventLinkAtEnd("Place Shroom 1 after fight", 100);
+    event:AddEventLinkAtEnd("Place Shroom 1 after fight", 10);
 
     vt_map.ScriptedEvent.Create("Place Shroom 1 after fight", "place_shroom1_after_fight", "")
 
@@ -156,7 +156,7 @@ function _CreateObjects()
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 2");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
-    event:AddEventLinkAtEnd("Place Shroom 2 after fight", 100);
+    event:AddEventLinkAtEnd("Place Shroom 2 after fight", 10);
 
     vt_map.ScriptedEvent.Create("Place Shroom 2 after fight", "place_shroom2_after_fight", "")
 
@@ -169,7 +169,7 @@ function _CreateObjects()
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 3");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
-    event:AddEventLinkAtEnd("Place Shroom 3 after fight", 100);
+    event:AddEventLinkAtEnd("Place Shroom 3 after fight", 10);
 
     vt_map.ScriptedEvent.Create("Place Shroom 3 after fight", "place_shroom3_after_fight", "")
 
@@ -182,7 +182,7 @@ function _CreateObjects()
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 4");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
-    event:AddEventLinkAtEnd("Place Shroom 4 after fight", 100);
+    event:AddEventLinkAtEnd("Place Shroom 4 after fight", 10);
 
     vt_map.ScriptedEvent.Create("Place Shroom 4 after fight", "place_shroom4_after_fight", "")
 
@@ -195,7 +195,7 @@ function _CreateObjects()
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 5");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
-    event:AddEventLinkAtEnd("Place Shroom 5 after fight", 100);
+    event:AddEventLinkAtEnd("Place Shroom 5 after fight", 10);
 
     vt_map.ScriptedEvent.Create("Place Shroom 5 after fight", "place_shroom5_after_fight", "")
 

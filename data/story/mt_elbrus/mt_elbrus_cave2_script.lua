@@ -131,7 +131,7 @@ function _CreateObjects()
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 1");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
-    event:AddEventLinkAtEnd("Place Shroom 1 after fight", 100);
+    event:AddEventLinkAtEnd("Place Shroom 1 after fight", 10);
 
     vt_map.ScriptedEvent.Create("Place Shroom 1 after fight", "place_shroom1_after_fight", "")
 

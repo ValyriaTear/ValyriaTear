@@ -41,11 +41,9 @@ function Load(m)
 
     -- Add a mediumly dark overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
-
     if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
         -- Place an omni ambient sound at the center of the map to add a nice indoor rainy effect.
-        local rainy_sound = vt_map.SoundObject("data/music/rain_indoors.ogg", 25.0, 20.0, 100.0);
-        Map:AddAmbientSoundObject(rainy_sound);
+        vt_map.SoundObject.Create("data/music/rain_indoors.ogg", 25.0, 20.0, 100.0);
     end
 end
 
@@ -117,7 +115,7 @@ function _CreateObjects()
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 1");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
-    event:AddEventLinkAtEnd("Place Shroom 1 after fight", 100);
+    event:AddEventLinkAtEnd("Place Shroom 1 after fight", 10);
 
     vt_map.ScriptedSpriteEvent.Create("Place Shroom 1 after fight", shroom1, "place_shroom_after_fight", "")
 
@@ -132,7 +130,7 @@ function _CreateObjects()
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 2");
     event:AddEnemy(11, 512, 384); -- one shroom
     _SetEventBattleEnvironment(event);
-    event:AddEventLinkAtEnd("Place Shroom 2 after fight", 100);
+    event:AddEventLinkAtEnd("Place Shroom 2 after fight", 10);
 
     vt_map.ScriptedSpriteEvent.Create("Place Shroom 2 after fight", shroom2, "place_shroom_after_fight", "")
 
