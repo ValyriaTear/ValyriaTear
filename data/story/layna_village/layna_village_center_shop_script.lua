@@ -96,11 +96,24 @@ function _CreateEvents()
                                      "data/story/layna_village/layna_village_center_script.lua", "from_shop");
 
     event = vt_map.ShopEvent.Create("layna: open shop", "Flora's Shop");
-    event:AddItem(1, 0); -- infinite minor potions
-    event:AddItem(1001, 0); -- infinite minor elixirs
-    event:AddItem(30003, 1); -- tunic for Bronann
-    event:AddItem(30004, 1); -- leather cloak for Kalya
-    event:AddItem(40001, 3); -- prismatic rings for both
+    event:SetShopName(vt_system.UTranslate("Flora's Shop"));
+
+    -- Items
+    event:AddItem(1, 0);      -- (infinite) Tiny Potion
+    event:AddItem(11, 0);     -- (infinite) Tiny Moon Juice
+    event:AddItem(30003, 1);  -- Tunic for Bronann
+    event:AddItem(30004, 1);  -- Leather Cloak for Kalya
+    -- Trades
+    event:AddTrade(1, 0);     -- (infinite) Tiny Potion
+    event:AddTrade(1, 0);     -- (infinite) Small Potion
+    event:AddTrade(11, 0);    -- (infinite) Tiny Moon Juice
+    event:AddTrade(1001, 0);  -- (infinite) Minor Elixirs
+    event:AddTrade(10002, 1); -- Improved Wooden Sword
+    event:AddTrade(11002, 1); -- Improved Arbalest
+    event:AddTrade(30005, 1); -- Improved Rookie Tunic for Bronann
+    event:AddTrade(30006, 1); -- Patched Willow Dress for Kalya
+    event:AddTrade(40001, 2); -- Prismatic Rings for both
+
     event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_VERY_GOOD, -- Flora is a good friend
                          vt_shop.ShopMode.SHOP_PRICE_STANDARD);
     event:AddScript("data/story/layna_village/tutorial_shop_dialogs.lua");

@@ -20,6 +20,8 @@ function TestFunction()
     GlobalManager:AddToInventory(50001, 1);
 
     local shop = vt_shop.ShopMode("Debug shop");
+    shop:SetShopName(vt_system.UTranslate("Flora's Shop"));
+    shop:SetGreetingText(vt_system.UTranslate("Don't forget my trade offers!"));
 
     -- AddObject(item_id, number)
     shop:AddItem(1, 12);

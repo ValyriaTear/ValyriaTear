@@ -74,6 +74,47 @@ weapons[10001] = {
 }
 
 weapons[10002] = {
+    name = vt_system.Translate("Improved Wooden Sword"),
+    description = vt_system.Translate("A sword made of wood with a steel hilt, very good for practising."),
+    icon = "data/inventory/weapons/woodensword.png",
+    physical_attack = 15,
+    magical_attack = 0,
+    standard_price = 0,
+    usable_by = BRONANN + THANIS,
+    slots = 0,
+    key_item = true,
+
+    trade_conditions = {
+        [0] = 35,    -- Drunes
+        [10001] = 1, -- Wooden sword
+        [3112] = 1,  -- Silk
+        [3101] = 1,  -- Refined Slimy Material
+    },
+
+    battle_animations = {
+        [BRONANN] = {
+            idle = "data/entities/battle/characters/bronann/weapons/wood_bronze/bronann_idle.lua",
+            run = "data/entities/battle/characters/bronann/weapons/wood_bronze/bronann_run.lua",
+            run_after_victory = "data/entities/battle/characters/bronann/weapons/wood_bronze/bronann_run_after_victory.lua",
+            attack = "data/entities/battle/characters/bronann/weapons/wood_bronze/bronann_attack.lua",
+            attack_forward_thrust = "data/entities/battle/characters/bronann/weapons/wood_bronze/bronann_attack_forward_thrust.lua",
+            dodge = "data/entities/battle/characters/bronann/weapons/wood_bronze/bronann_dodge.lua",
+            victory = "data/entities/battle/characters/bronann/weapons/wood_bronze/bronann_victory.lua",
+            hurt = "data/entities/battle/characters/bronann/weapons/wood_bronze/bronann_hurt.lua",
+            poor = "data/entities/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.lua",
+            dying = "data/entities/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.lua",
+            dead = "data/entities/battle/characters/bronann/weapons/wood_bronze/bronann_dead.lua",
+            revive = "data/entities/battle/characters/bronann/weapons/wood_bronze/bronann_kneeling.lua",
+            item = "data/entities/battle/characters/bronann/weapons/wood_bronze/bronann_idle.lua",
+            magic_prepare = "data/entities/battle/characters/bronann/weapons/wood_bronze/bronann_magic_prepare.lua",
+            magic_cast = "data/entities/battle/characters/bronann/weapons/wood_bronze/bronann_magic_cast.lua",
+            jump_forward = "data/entities/battle/characters/bronann/weapons/wood_bronze/bronann_jump_forward.lua",
+            jump_backward = "data/entities/battle/characters/bronann/weapons/wood_bronze/bronann_hurt.lua"
+        }
+    }
+}
+
+weapons[10003] = {
     name = vt_system.Translate("Reinforced Wooden Sword"),
     description = vt_system.Translate("A sword made of wood with a steel hilt, reinforced magically."),
     icon = "data/inventory/weapons/woodensword.png",
@@ -113,7 +154,7 @@ weapons[10002] = {
     }
 }
 
-weapons[10003] = {
+weapons[10004] = {
     name = vt_system.Translate("Perfect Wooden Sword"),
     description = vt_system.Translate("A sword made of wood with a steel hilt, surrounded by a great magical force."),
     icon = "data/inventory/weapons/woodensword.png",
@@ -421,6 +462,46 @@ weapons[11001] = {
 }
 
 weapons[11002] = {
+    name = vt_system.Translate("Improved Arbalest"),
+    description = vt_system.Translate("A standard wooden arbalest."),
+    icon = "data/inventory/weapons/arbalest.png",
+    -- The image displayed when kalya fires with her arbalest.
+    battle_ammo_animation_file = "data/entities/battle/ammo/wood_arrow.lua",
+    physical_attack = 18,
+    magical_attack = 3,
+    standard_price = 50,
+    usable_by = KALYA,
+    slots = 0,
+    key_item = true,
+
+    trade_conditions = {
+        [0] = 50,    -- Price
+        [11001] = 1, -- Wooden Arbalest
+        [3102] = 2,  -- Insect Material
+        [3103] = 1   -- Refined Insect Material
+    },
+
+    battle_animations = {
+        [KALYA] = {
+            idle = "data/entities/battle/characters/kalya/weapons/steel/kalya_idle.lua",
+            run = "data/entities/battle/characters/kalya/weapons/steel/kalya_run.lua",
+            run_after_victory = "data/entities/battle/characters/kalya/weapons/steel/kalya_run.lua",
+            attack = "data/entities/battle/characters/kalya/weapons/steel/kalya_attack.lua",
+            dodge = "data/entities/battle/characters/kalya/weapons/steel/kalya_dodge.lua",
+            victory = "data/entities/battle/characters/kalya/weapons/steel/kalya_victory.lua",
+            hurt = "data/entities/battle/characters/kalya/weapons/steel/kalya_hurt.lua",
+            poor = "data/entities/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            dying = "data/entities/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            dead = "data/entities/battle/characters/kalya/weapons/steel/kalya_dead.lua",
+            revive = "data/entities/battle/characters/kalya/weapons/steel/kalya_kneeling.lua",
+            item = "data/entities/battle/characters/kalya/weapons/steel/kalya_idle.lua",
+            magic_prepare = "data/entities/battle/characters/kalya/weapons/steel/kalya_magic_prepare.lua",
+            magic_cast = "data/entities/battle/characters/kalya/weapons/steel/kalya_magic_cast.lua"
+        }
+    }
+}
+
+weapons[11003] = {
     name = vt_system.Translate("Noble Arbalest"),
     description = vt_system.Translate("An arbalest made out of fine noble ash tree wood."),
     icon = "data/inventory/weapons/arbalest.png",
@@ -460,7 +541,7 @@ weapons[11002] = {
     }
 }
 
-weapons[11003] = {
+weapons[11004] = {
     name = vt_system.Translate("Arbalest of Force"),
     description = vt_system.Translate("An arbalest strengthened with magical ore."),
     icon = "data/inventory/weapons/arbalest.png",
