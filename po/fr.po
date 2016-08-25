@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-05 16:26+0100\n"
-"PO-Revision-Date: 2016-03-05 16:37+0100\n"
+"PO-Revision-Date: 2016-08-25 12:43+0200\n"
 "Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/valyria-tear/"
 "language/fr/)\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.8.8\n"
 
 #: ../src/common/global/battle_media.cpp:98
 #: ../src/modes/battle/battle_menu.cpp:143
@@ -857,6 +857,7 @@ msgstr "Inverser"
 #: ../src/modes/menu/menu_views.cpp:1156
 msgid "Select a battle formation to change characters placement."
 msgstr ""
+"Sélectionnez formation de combat pour modifier la position des personnages."
 
 #: ../src/modes/menu/menu_views.cpp:1159
 msgid "Rear - Front"
@@ -5339,7 +5340,7 @@ msgstr "Oui, il a pris la plume de Georges et je dois la lui rendre..."
 
 #: ../data/story/layna_village/layna_village_center_script.lua:950
 msgid "Hmpf, no surprise. Do you want me to bring him back?"
-msgstr "Pff, pas surprenant. Veux que je te l'amènes ?"
+msgstr "Pff, pas surprenant. Veux-tu que je te l'amènes ?"
 
 #: ../data/story/layna_village/layna_village_center_script.lua:954
 msgid "No, it's not that bad."
@@ -6412,7 +6413,7 @@ msgid ""
 msgstr ""
 "Une fois dans cet écran, vous pourrez augmenter ou diminuer le nombre "
 "d'objets souhaités en appuyant sur gauche ou droite. Bien sûr, cela ne "
-"fonctionnera que si avez assez d'argent..."
+"fonctionnera que si vous avez assez d'argent..."
 
 #: ../data/story/layna_village/tutorial_shop_dialogs.lua:92
 msgid "Shall I repeat?"
