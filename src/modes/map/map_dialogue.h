@@ -210,7 +210,7 @@ public:
 
     //! \name Methods for retrieving properties of a specific line
     //@{
-    //! \brief Returns the object ID of the speaker for the line specified (or zero if the line index was invalid)
+    //! \brief Returns the object of the speaker for the line specified (or nullptr if the line index was invalid)
     MapSprite* GetLineSpeaker(uint32_t line) const {
         if(line >= _line_count) return nullptr;
         else return _speakers[line];

@@ -18,6 +18,8 @@
 #include "utils/utils_pch.h"
 #include "dialogue.h"
 
+#include "common/global/global.h"
+
 #include "common.h"
 #include "common/gui/gui.h"
 
@@ -527,6 +529,7 @@ void DialogueSupervisor::_UpdateLine()
     // Set the correct indicator
     if(_current_options || !_dialogue_window.GetDisplayTextBox().IsFinished()) {
         _dialogue_window.SetIndicator(DIALOGUE_NO_INDICATOR);
+        vt_global::GlobalManager->Media().PlaySound("text");
     } else if(_line_counter == _current_dialogue->GetLineCount() - 1) {
         _dialogue_window.SetIndicator(DIALOGUE_LAST_INDICATOR);
     } else {
@@ -546,6 +549,7 @@ void DialogueSupervisor::_UpdateLine()
         else if(_current_options != nullptr) {
             _state = DIALOGUE_STATE_OPTION;
         } else {
+            vt_global::GlobalManager->Media().PlaySound("confirm");
             _EndLine();
         }
     }
@@ -554,18 +558,22 @@ void DialogueSupervisor::_UpdateLine()
 void DialogueSupervisor::_UpdateOptions()
 {
     _dialogue_window.GetDisplayOptionBox().Update();
+    vt_global::GlobalMedia& media = vt_global::GlobalManager->Media();
 
     if(vt_input::InputManager->ConfirmPress()) {
         _dialogue_window.GetDisplayOptionBox().InputConfirm();
+        media.PlaySound("confirm");
         _EndLine();
     }
 
     else if(vt_input::InputManager->UpPress()) {
         _dialogue_window.GetDisplayOptionBox().InputUp();
+        media.PlaySound("bump");
     }
 
     else if(vt_input::InputManager->DownPress()) {
         _dialogue_window.GetDisplayOptionBox().InputDown();
+        media.PlaySound("bump");
     }
 }
 
