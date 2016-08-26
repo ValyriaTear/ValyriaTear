@@ -768,8 +768,11 @@ public:
     static SoundObject* Create(const std::string& sound_filename,
                                float x, float y, float strength);
 
-    //! \brief Updates the object's current volume.
-    void Update();
+    //! \brief Updates the object's currently desired volume.
+    void UpdateVolume();
+
+    //! \brief Applies the object's currently desired volume.
+    void ApplyVolume();
 
     //! \brief Does nothing
     void Draw()
@@ -792,16 +795,25 @@ public:
 
     //! \brief Gets the sound descriptor of the object.
     //! Used to apply changes directly to the sound object.
-    vt_audio::SoundDescriptor& GetSoundDescriptor() {
+    vt_audio::SoundDescriptor* GetSoundDescriptor() const {
         return _sound;
     }
 
+    //! \brief Gets the current desired sound volume.
+    //! Used by the object manager to determine the best volume to play the sound object at.
+    float GetSoundVolume() const {
+        return (_activated && _playing) ? _sound_volume : 0.0f;
+    }
+
 private:
-    //! \brief The sound object.
-    vt_audio::SoundDescriptor _sound;
+    //! \brief The sound object reference. Don't delete it.
+    vt_audio::SoundDescriptor* _sound;
 
     //! \brief The maximal distance in map tiles the sound can be heard within.
     float _strength;
+
+    //! \brief The Volume the sound should currently be played.
+    float _sound_volume;
 
     //! \brief The maximal strength of the sound object. (0.0f - 1.0f)
     float _max_sound_volume;
@@ -1333,8 +1345,10 @@ private:
     //! to the distance with the camera.
     std::vector<SoundObject *> _sound_objects;
 
-    //! \brief The sound objects that can be restarted when the map is reset()
-    std::vector<SoundObject *> _sound_objects_to_restart;
+    //! \brief Vector used to know at what exact volume a sound should be played
+    //! when there are several instances of the same sound in a MapMode.
+    //! They are also used when restarting the MapMode.
+    std::vector<SoundObject*> _sound_object_highest_volumes;
 
     //! \brief Containers for all of the map source of light, quite similar as the ground objects container.
     std::vector<Halo *> _halos;

@@ -741,37 +741,38 @@ void Light::Draw()
 
 SoundObject::SoundObject(const std::string& sound_filename, float x, float y, float strength):
     MapObject(NO_LAYER_OBJECT), // This is a special object
+    _strength(strength),
+    _sound_volume(0.0f),
     _max_sound_volume(1.0f),
-    _activated(true)
+    _time_remaining(0.0f),
+    _activated(true),
+    _playing(false)
 {
     _object_type = SOUND_TYPE;
 
-    if (_sound.LoadAudio(sound_filename)) {
-        // Tells the engine the sound can be unloaded if no other mode is using it
-        // once the current map mode is destroyed
-        _sound.AddGameModeOwner(MapMode::CurrentInstance());
-    }
-    else {
+    // We use the AudioManager to mutualize the sound descriptors instances.
+    bool loaded = true;
+    loaded = AudioManager->LoadSound(sound_filename, MapMode::CurrentInstance());
+    _sound = AudioManager->RetrieveSound(sound_filename);
+    if (!loaded || _sound == nullptr) {
         PRINT_WARNING << "Couldn't load environmental sound file: "
             << sound_filename << std::endl;
     }
 
-    _sound.SetLooping(true);
-    _sound.SetVolume(0.0f);
-    _sound.Stop();
-
-    _strength = strength;
     // Invalidates negative or near 0 values.
     if (_strength <= 0.2f)
         _strength = 0.0f;
-
-    _time_remaining = 0.0f;
-    _playing = false;
 
     _tile_position.x = x;
     _tile_position.y = y;
 
     _collision_mask = NO_COLLISION;
+
+    if (_sound) {
+        _sound->SetLooping(true);
+        _sound->SetVolume(0.0f);
+        _sound->Stop();
+    }
 
     // Register the object to the sound vector
     MapMode::CurrentInstance()->GetObjectSupervisor()->AddAmbientSound(this);
@@ -795,17 +796,21 @@ void SoundObject::SetMaxVolume(float max_volume)
         _max_sound_volume = 1.0f;
 }
 
-void SoundObject::Update()
+void SoundObject::UpdateVolume()
 {
     // Don't activate a sound which is too weak to be heard anyway.
-    if (_strength < 1.0f || _max_sound_volume <= 0.0f)
+    if (_strength < 1.0f || _max_sound_volume <= 0.0f) {
+        _sound_volume = 0.0f;
         return;
+    }
 
-    if (!_activated)
+    if (!_activated) {
+        _sound_volume = 0.0f;
         return;
+    }
 
     // Update the volume only every 100ms
-    _time_remaining -= (int32_t)vt_system::SystemManager->GetUpdateTime();
+    _time_remaining -= static_cast<int32_t>(vt_system::SystemManager->GetUpdateTime());
     if (_time_remaining > 0)
         return;
     _time_remaining = 100;
@@ -815,7 +820,8 @@ void SoundObject::Update()
     MapMode *mm = MapMode::CurrentInstance();
     if(!mm)
         return;
-    const MapFrame &frame = mm->GetMapFrame();
+
+    const MapFrame& frame = mm->GetMapFrame();
 
     MapPosition center;
     center.x = frame.screen_edges.left + (frame.screen_edges.right - frame.screen_edges.left) / 2.0f;
@@ -829,7 +835,7 @@ void SoundObject::Update()
 
     if (distance >= strength2) {
         if (_playing) {
-            _sound.FadeOut(1000.0f);
+            _sound_volume = 0.0f;
             _playing = false;
         }
         return;
@@ -841,13 +847,29 @@ void SoundObject::Update()
     if (distance >= (strength2 - 0.5f))
         return;
 
-    float volume = _max_sound_volume - (_max_sound_volume * (distance / strength2));
-    _sound.SetVolume(volume);
+    _sound_volume = _max_sound_volume - (_max_sound_volume * (distance / strength2));
+    _playing = true;
+}
 
-    if (!_playing) {
-        _sound.FadeIn(1000.0f);
-        _playing = true;
+void SoundObject::ApplyVolume()
+{
+    if (!_sound)
+        return;
+
+    // Stop sound if needed.
+    if (_sound_volume <= 0.1f) {
+        if (_sound->GetState() == vt_audio::AUDIO_STATE_PLAYING
+               || _sound->GetState() == vt_audio::AUDIO_STATE_FADE_IN) {
+           _sound->FadeOut(1000.0f);
+        }
+        return;
     }
+
+    if (_sound->GetState() != vt_audio::AUDIO_STATE_PLAYING
+            && _sound->GetState() != vt_audio::AUDIO_STATE_FADE_IN) {
+        _sound->FadeIn(1000.0f);
+    }
+    _sound->SetVolume(_sound_volume);
 }
 
 void SoundObject::Stop()
@@ -855,7 +877,8 @@ void SoundObject::Stop()
     if (!_activated)
         return;
 
-    _sound.FadeOut(1000);
+    if (_sound)
+        _sound->FadeOut(1000.0f);
     _activated = false;
 }
 
@@ -867,7 +890,7 @@ void SoundObject::Start()
     _activated = true;
 
     // Restores the sound state
-    Update();
+    UpdateVolume();
 }
 
 // ----------------------------------------------------------------------------
@@ -1461,9 +1484,38 @@ void ObjectSupervisor::_UpdateSavePoints()
 
 void ObjectSupervisor::_UpdateAmbientSounds()
 {
+    // Clear up objects volumes before new update
+    _sound_object_highest_volumes.clear();
+
     for(std::vector<SoundObject *>::iterator it = _sound_objects.begin();
             it != _sound_objects.end(); ++it) {
-        (*it)->Update();
+        (*it)->UpdateVolume();
+
+        // Register the sound as highest if no other sound was already as high.
+        bool found = false;
+        for(auto it2 = _sound_object_highest_volumes.begin();
+                it2 != _sound_object_highest_volumes.end(); ++it2) {
+            if ((*it)->GetSoundDescriptor() == (*it2)->GetSoundDescriptor()) {
+                found = true;
+                // If we found a higher sound, we swap the reference.
+                if ((*it)->GetSoundVolume() > (*it2)->GetSoundVolume())
+                    *it2 = *it;
+            }
+        }
+        if (!found) {
+            // If the sounds wasn't found, we add it.
+            _sound_object_highest_volumes.push_back(*it);
+        }
+    }
+
+    //PRINT_DEBUG << "Number of ambient sounds: " << _sound_objects.size() << std::endl;
+    //PRINT_DEBUG << "Number of selected ambient sounds: " << _sound_object_highest_volumes.size() << std::endl;
+
+    // Set the volumes of the elected sounds
+    // Since we share sound descriptor instances, all sounds are updated in any case.
+    for(auto it = _sound_object_highest_volumes.begin();
+            it != _sound_object_highest_volumes.end(); ++it) {
+        (*it)->ApplyVolume();
     }
 }
 
@@ -1984,25 +2036,22 @@ bool ObjectSupervisor::IsStaticCollision(float x, float y)
 
 void ObjectSupervisor::StopSoundObjects()
 {
-    _sound_objects_to_restart.clear();
-    for (uint32_t i = 0; i < _sound_objects.size(); ++i) {
-        vt_audio::SoundDescriptor& sound = _sound_objects[i]->GetSoundDescriptor();
-        if (sound.GetState() == vt_audio::AUDIO_STATE_PLAYING
-                || sound.GetState() == vt_audio::AUDIO_STATE_FADE_IN) {
-            sound.Stop();
-            _sound_objects_to_restart.push_back(_sound_objects[i]);
+    for (uint32_t i = 0; i < _sound_object_highest_volumes.size(); ++i) {
+        vt_audio::SoundDescriptor* sound = _sound_object_highest_volumes[i]->GetSoundDescriptor();
+        if (sound->GetState() == vt_audio::AUDIO_STATE_PLAYING
+                || sound->GetState() == vt_audio::AUDIO_STATE_FADE_IN) {
+            sound->Stop();
         }
     }
 }
 
 void ObjectSupervisor::RestartSoundObjects()
 {
-    for (uint32_t i = 0; i < _sound_objects_to_restart.size(); ++i) {
-        vt_audio::SoundDescriptor& sound = _sound_objects_to_restart[i]->GetSoundDescriptor();
-        if (sound.GetState() == vt_audio::AUDIO_STATE_STOPPED)
-            sound.Play();
+    for (uint32_t i = 0; i < _sound_object_highest_volumes.size(); ++i) {
+        vt_audio::SoundDescriptor* sound = _sound_object_highest_volumes[i]->GetSoundDescriptor();
+        if (sound->GetState() == vt_audio::AUDIO_STATE_STOPPED)
+            sound->FadeIn(1000.0f);
     }
-    _sound_objects_to_restart.clear();
 }
 
 } // namespace private_map
