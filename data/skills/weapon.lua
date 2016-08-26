@@ -854,6 +854,11 @@ skills[1016] = {
     cooldown_time = 500,
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
+    animation_scripts = {
+        -- N.B.: [2] is the spider enemy ID.
+        [2] = "data/battles/enemies_animations/spider_web_attack.lua",
+    },
+
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
         local atk_point = target:GetAttackPoint();
@@ -864,7 +869,7 @@ skills[1016] = {
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                                  effect_duration);
             target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 13, 1.0, atk_point), target);
-            AudioManager:PlaySound("data/sounds/spider_attack.wav");
+            AudioManager:PlaySound("data/sounds/throw.wav");
         else
             target_actor:RegisterMiss(true);
         end
