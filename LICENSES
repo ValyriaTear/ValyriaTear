@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2016.08.25
+Last update: 2016.08.26
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -24,6 +24,8 @@ later version" text should be present.
 Files                                                                         Licenses                 Authors and details
 ----------------------------------------------------------------------------- ------------------------ --------------------------------------------------------------------
 data/*.lua (including subfolders)                                             GPLv2+                   Bertram (unless indicated otherwise)
+
+data/battles/enemies_animations/spider_web.png                                CC by SA 3.0             Bertram
 
 data/battles/enemies_animations/fenrir_death/death_light_1.png                CC by SA 3.0             Bertram
 data/battles/enemies_animations/fenrir_death/death_light_2.png                CC by SA 3.0             Bertram
@@ -685,6 +687,7 @@ data/sounds/throw.wav                                                         CC
 data/sounds/thunder.wav                                                       CC0                      (Bertram)
 data/sounds/trigger_on.wav                                                    CC0                      (j1987) OGA - http://opengameart.org/content/click-car-blinker
 data/sounds/falling_tree.ogg                                                  CC by 3.0                Blender Foundation (OGA) - http://opengameart.org/content/tree-falling-yo-frankie
+data/sounds/watersplash.wav                                                   CC by 3.0                Michel Baradari (OGA) - http://opengameart.org/content/water-splashes
 data/sounds/wave1_spell.ogg                                                   CC by 3.0                Michel Baradari (OGA) - http://opengameart.org/content/water-splashes
 data/sounds/wolf_howl.ogg                                                     GPLv2+                   Allacrost
 data/sounds/battle_encounter_02.ogg                                           GPLv2+                   Allacrost

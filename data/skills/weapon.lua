@@ -834,7 +834,11 @@ skills[1015] = {
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
                                                  effect_duration);
             target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 10, 1.0, atk_point), target);
-            AudioManager:PlaySound("data/sounds/slime_attack.wav");
+            AudioManager:PlaySound("data/sounds/watersplash.wav");
+
+            local Battle = ModeManager:GetTop();
+            Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/waterspray_skill.lua",
+                                               target_actor:GetXLocation(), target_actor:GetYLocation());
         else
             target_actor:RegisterMiss(true);
         end
