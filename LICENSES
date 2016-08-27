@@ -251,6 +251,7 @@ data/entities/battle/characters/others/soldier_idle.png                       GP
 data/entities/battle/characters/others/soldier_run.png                        GPLv2+                   Allacrost + Bertram
 data/entities/battle/characters/others/soldier_victory.png                    GPLv2+                   Allacrost + Bertram
 
+data/entities/battle/effects/claw_slash.png                                   GPLv3 / CC by SA 3.0     Bertram
 data/entities/battle/effects/sword_slash.png                                  GPLv3 / CC by SA 3.0     Bertram
 
 data/entities/battle/enemies/big_slime.png                                    GPLv2+                   Bertram (based on the slime sprite)

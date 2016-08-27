@@ -479,6 +479,11 @@ skills[1001] = {
     cooldown_time = 500,
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
+    animation_scripts = {
+        -- N.B.: [1] is the enemy ID.
+        [1] = "data/battles/enemies_animations/standard_enemy_attack.lua",
+    },
+
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
         local atk_point = target:GetAttackPoint();
@@ -499,6 +504,11 @@ skills[1002] = {
     cooldown_time = 0,
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
+    animation_scripts = {
+        -- N.B.: [2] is the enemy ID.
+        [2] = "data/battles/enemies_animations/standard_enemy_attack.lua",
+    },
+
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
         local atk_point = target:GetAttackPoint();
@@ -518,6 +528,11 @@ skills[1003] = {
     warmup_time = 900,
     cooldown_time = 0,
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+
+    animation_scripts = {
+        -- N.B.: [4] is the enemy ID.
+        [4] = "data/battles/enemies_animations/standard_enemy_attack.lua",
+    },
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
