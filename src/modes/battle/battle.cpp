@@ -572,7 +572,7 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
             ChangeState(BATTLE_STATE_NORMAL);
         }
         break;
-    case BATTLE_STATE_VICTORY:
+    case BATTLE_STATE_VICTORY: {
         // Official victory:
         // Cancel all character actions to free possible involved objects
         for(uint32_t i = 0; i < _character_actors.size(); ++i) {
@@ -584,15 +584,21 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         // Remove the items used in battle from inventory.
         _command_supervisor->CommitChangesToInventory();
 
-        battle_media.victory_music.Rewind();
-        battle_media.victory_music.Play();
+        if (MusicDescriptor* victory_music = battle_media.GetVictoryMusic()) {
+            victory_music->Rewind();
+            victory_music->Play();
+        }
         _finish_supervisor->Initialize(true);
         break;
-    case BATTLE_STATE_DEFEAT:
-        battle_media.defeat_music.Rewind();
-        battle_media.defeat_music.FadeIn(1000);
+    }
+    case BATTLE_STATE_DEFEAT: {
+        if (MusicDescriptor* defeat_music = battle_media.GetDefeatMusic()) {
+            defeat_music->Rewind();
+            defeat_music->FadeIn(1000.0f);
+        }
         _finish_supervisor->Initialize(false);
         break;
+    }
     default:
         IF_PRINT_WARNING(BATTLE_DEBUG) << "changed to invalid battle state: " << _state << std::endl;
         break;
