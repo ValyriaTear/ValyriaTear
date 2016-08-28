@@ -137,6 +137,7 @@ function Update()
     -- Attack the enemy
     if (attack_step == 0) then
         spider:ChangeSpriteAnimation("attack")
+        AudioManager:PlaySound("data/sounds/throw.wav");
         attack_step = 1
     end
     -- Make the spider go back to idle once attacked

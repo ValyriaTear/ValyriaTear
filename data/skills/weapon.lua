@@ -493,6 +493,7 @@ skills[1001] = {
             AudioManager:PlaySound("data/sounds/slime_attack.wav");
         else
             target_actor:RegisterMiss(true);
+            AudioManager:PlaySound("data/sounds/missed_target.wav");
         end
     end
 }
@@ -518,6 +519,7 @@ skills[1002] = {
             AudioManager:PlaySound("data/sounds/spider_attack.wav");
         else
             target_actor:RegisterMiss(true);
+            AudioManager:PlaySound("data/sounds/missed_target.wav");
         end
     end
 }
@@ -543,6 +545,7 @@ skills[1003] = {
             AudioManager:PlaySound("data/sounds/snake_attack.wav");
         else
             target_actor:RegisterMiss(true);
+            AudioManager:PlaySound("data/sounds/missed_target.wav");
         end
     end
 }
@@ -569,6 +572,7 @@ skills[1004] = {
             AudioManager:PlaySound("data/sounds/snake_attack.wav");
         else
             target_actor:RegisterMiss(true);
+            AudioManager:PlaySound("data/sounds/missed_target.wav");
         end
     end
 }
@@ -596,6 +600,7 @@ skills[1005] = {
             AudioManager:PlaySound("data/sounds/snake_attack.wav");
         else
             target_actor:RegisterMiss(true);
+            AudioManager:PlaySound("data/sounds/missed_target.wav");
         end
     end
 }
@@ -616,6 +621,7 @@ skills[1006] = {
             AudioManager:PlaySound("data/sounds/skeleton_attack.wav");
         else
             target_actor:RegisterMiss(true);
+            AudioManager:PlaySound("data/sounds/missed_target.wav");
         end
     end
 }
@@ -641,6 +647,7 @@ skills[1007] = {
             AudioManager:PlaySound("data/sounds/spider_attack.wav");
         else
             target_actor:RegisterMiss(true);
+            AudioManager:PlaySound("data/sounds/missed_target.wav");
         end
     end
 }
@@ -661,6 +668,7 @@ skills[1008] = {
             AudioManager:PlaySound("data/sounds/growl1_IFartInUrGeneralDirection_freesound.wav");
         else
             target_actor:RegisterMiss(true);
+            AudioManager:PlaySound("data/sounds/missed_target.wav");
         end
     end
 }
@@ -720,6 +728,7 @@ skills[1010] = {
             AudioManager:PlaySound("data/sounds/skeleton_attack.wav");
         else
             target_actor:RegisterMiss(true);
+            AudioManager:PlaySound("data/sounds/missed_target.wav");
         end
     end
 }
@@ -744,6 +753,7 @@ skills[1011] = {
                 AudioManager:PlaySound("data/sounds/skeleton_attack.wav");
             else
                 target_actor:RegisterMiss(true);
+                AudioManager:PlaySound("data/sounds/missed_target.wav");
             end
 
             index = index + 1;
@@ -776,6 +786,7 @@ skills[1012] = {
             AudioManager:PlaySound("data/sounds/spider_attack.wav");
         else
             target_actor:RegisterMiss(true);
+            AudioManager:PlaySound("data/sounds/missed_target.wav");
         end
     end
 }
@@ -849,7 +860,6 @@ skills[1015] = {
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
                                                  effect_duration);
             target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 10, 1.0, atk_point), target);
-            AudioManager:PlaySound("data/sounds/watersplash.wav");
 
             local Battle = ModeManager:GetTop();
             Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/waterspray_skill.lua",
@@ -857,6 +867,8 @@ skills[1015] = {
         else
             target_actor:RegisterMiss(true);
         end
+        -- Play the sound in any case
+        AudioManager:PlaySound("data/sounds/watersplash.wav");
     end
 }
 
@@ -884,9 +896,10 @@ skills[1016] = {
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                                  effect_duration);
             target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 13, 1.0, atk_point), target);
-            AudioManager:PlaySound("data/sounds/throw.wav");
         else
             target_actor:RegisterMiss(true);
         end
+        -- Play the sound in any case
+        AudioManager:PlaySound("data/sounds/missed_target.wav");
     end
 }
