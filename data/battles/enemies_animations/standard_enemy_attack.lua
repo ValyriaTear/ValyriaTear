@@ -13,8 +13,11 @@ local skill = nil
 local attacker_pos_x = 0.0;
 local attacker_pos_y = 0.0;
 
-local distance_moved_y = 0.0;
+local distance_moved = 0.0;
+local start_x_position = 0.0;
 local start_y_position = 0.0;
+local jump_end_x_position = 0.0;
+local diff_x = 0.0;
 local diff_y = 0.0;
 
 local enemy_pos_x = 0.0;
@@ -55,9 +58,13 @@ function Initialize(_attacker, _target, _skill)
 
     damage_triggered = false;
 
-    distance_moved_y = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 100.0;
+    distance_moved = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 100.0;
+    start_x_position = attacker_pos_x;
+    jump_end_x_position = attacker_pos_x - 140
     start_y_position = attacker_pos_y;
+    diff_x = attacker_pos_x - 70;
     diff_y = attacker_pos_y - 50;
+
 
     Battle = ModeManager:GetTop();
     -- A common claw slash animation
@@ -69,7 +76,7 @@ end
 
 function Update()
     -- The update time can vary, so update the distance on each update as well.
-    distance_moved_y = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 100.0;
+    distance_moved = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 100.0;
 
     -- Start to jump slightly
     if (attack_step == 0) then
@@ -82,12 +89,21 @@ function Update()
     -- Make the attacker jump
     if (attack_step == 1) then
 
+        if (attacker_pos_x > diff_x) then
+            attacker_pos_x = attacker_pos_x - distance_moved;
+            if attacker_pos_x < diff_x then attacker_pos_x = diff_x end
+        end
+        if (attacker_pos_x < diff_x) then
+            attacker_pos_x = attacker_pos_x + distance_moved;
+            if attacker_pos_x > diff_x then attacker_pos_x = diff_x end
+        end
+
         if (attacker_pos_y > diff_y) then
-            attacker_pos_y = attacker_pos_y - distance_moved_y;
+            attacker_pos_y = attacker_pos_y - distance_moved;
             if attacker_pos_y < diff_y then attacker_pos_y = diff_y end
         end
         if (attacker_pos_y < diff_y) then
-            attacker_pos_y = attacker_pos_y + distance_moved_y;
+            attacker_pos_y = attacker_pos_y + distance_moved;
             if attacker_pos_y > diff_y then attacker_pos_y = diff_y end
         end
 
@@ -95,19 +111,28 @@ function Update()
         attacker:SetYLocation(attacker_pos_y);
 
         -- half-jump done
-        if (attacker_pos_y == diff_y) then
+        if (attacker_pos_x == diff_x and attacker_pos_y == diff_y) then
             attack_step = 2;
         end
     end
 
     -- Second half-jump
     if (attack_step == 2) then
+        if (attacker_pos_x > jump_end_x_position) then
+            attacker_pos_x = attacker_pos_x - distance_moved;
+            if attacker_pos_x < jump_end_x_position then attacker_pos_x = jump_end_x_position end
+        end
+        if (attacker_pos_x < jump_end_x_position) then
+            attacker_pos_x = attacker_pos_x + distance_moved;
+            if attacker_pos_x > jump_end_x_position then attacker_pos_x = jump_end_x_position end
+        end
+
         if (attacker_pos_y > start_y_position) then
-            attacker_pos_y = attacker_pos_y - distance_moved_y;
+            attacker_pos_y = attacker_pos_y - distance_moved;
             if attacker_pos_y < start_y_position then attacker_pos_y = start_y_position end
         end
         if (attacker_pos_y < start_y_position) then
-            attacker_pos_y = attacker_pos_y + distance_moved_y;
+            attacker_pos_y = attacker_pos_y + distance_moved;
             if attacker_pos_y > start_y_position then attacker_pos_y = start_y_position end
         end
 
@@ -139,10 +164,38 @@ function Update()
 
             -- Triggers the damage in the middle of the attack animation
             skill:ExecuteBattleFunction(attacker, target);
-            -- Remove the skill points at the end of the third attack
+            -- Remove the skill points at the end of the attack
             attacker:SubtractSkillPoints(skill:GetSPRequired());
+            attack_step = 4
+        end
+    end
+
+    -- Return to start pos
+    if (attack_step == 4) then
+        slash_effect_time = slash_effect_time + SystemManager:GetUpdateTime();
+
+        if (attacker_pos_x > start_x_position) then
+            attacker_pos_x = attacker_pos_x - distance_moved;
+            if attacker_pos_x < start_x_position then attacker_pos_x = start_x_position end
+        end
+        if (attacker_pos_x < start_x_position) then
+            attacker_pos_x = attacker_pos_x + distance_moved;
+            if attacker_pos_x > start_x_position then attacker_pos_x = start_x_position end
         end
 
+        if (attacker_pos_y > start_y_position) then
+            attacker_pos_y = attacker_pos_y - distance_moved;
+            if attacker_pos_y < start_y_position then attacker_pos_y = start_y_position end
+        end
+        if (attacker_pos_y < start_y_position) then
+            attacker_pos_y = attacker_pos_y + distance_moved;
+            if attacker_pos_y > start_y_position then attacker_pos_y = start_y_position end
+        end
+
+        attacker:SetXLocation(attacker_pos_x);
+        attacker:SetYLocation(attacker_pos_y);
+
+        -- Stops once the animation is done
         if (claw_slash ~= nil and slash_effect_time > 75 * 4) then -- 300, 410 + 300 = 710 (< 730).
             claw_slash:SetVisible(false);
             claw_slash:Remove();

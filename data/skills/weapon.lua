@@ -681,7 +681,7 @@ skills[1009] = {
             end
 
             if (target_actor:IsAlive() == true and vt_battle.RndEvade(target_actor) == false) then
-                target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 25));
+                target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 40));
                 AudioManager:PlaySound("data/sounds/growl1_IFartInUrGeneralDirection_freesound.wav");
             else
                 target_actor:RegisterMiss(true);
