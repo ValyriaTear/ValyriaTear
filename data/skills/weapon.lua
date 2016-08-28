@@ -136,6 +136,7 @@ skills[2] = {
 
 skills[3] = {
     name = vt_system.Translate("Stun Strike"),
+    show_notice = true,
     description = vt_system.Translate("A blow which temporarily stun its target."),
     sp_required = 4,
     warmup_time = 1200,
@@ -170,6 +171,7 @@ skills[3] = {
 
 skills[4] = {
     name = vt_system.Translate("X-Strike"),
+    show_notice = true,
     description = vt_system.Translate("A strong and aggressive attack with a blade that deals significant damage."),
     sp_required = 32,
     warmup_time = 2500,
@@ -230,6 +232,7 @@ skills[5] = {
 
 skills[6] = {
     name = vt_system.Translate("Blade Rush"),
+    show_notice = true,
     description = vt_system.Translate("A strong and aggressive attack with a blade that deals significant damage."),
     sp_required = 100,
     warmup_time = 5000,
@@ -264,6 +267,7 @@ skills[6] = {
 -- Kalya's attacks
 skills[101] = {
     name = vt_system.Translate("Incapacitating Shot"),
+    show_notice = true,
     description = vt_system.Translate("A powerful shot aimed at lowering the enemy's ability to attack."),
     sp_required = 14,
     warmup_time = 2700,
@@ -293,6 +297,7 @@ skills[101] = {
 
 skills[102] = {
     name = vt_system.Translate("Rain of Arrows"),
+    show_notice = true,
     description = vt_system.Translate("An attack striking all enemies."),
     sp_required = 28,
     warmup_time = 3500,
@@ -348,6 +353,7 @@ skills[200] = {
 
 skills[201] = {
     name = vt_system.Translate("Poison Slash"),
+    show_notice = true,
     description = vt_system.Translate("A dagger attack, poisoning the enemy."),
     sp_required = 5,
     warmup_time = 1000,
@@ -372,6 +378,7 @@ skills[201] = {
 
 skills[202] = {
     name = vt_system.Translate("High Strike"),
+    show_notice = true,
     description = vt_system.Translate("A strike from above, stunning the enemy and breaking its magical defense."),
     sp_required = 10,
     warmup_time = 1000,
@@ -396,6 +403,7 @@ skills[202] = {
 
 skills[203] = {
     name = vt_system.Translate("Sonic Wind"),
+    show_notice = true,
     description = vt_system.Translate("Deals high wind damage to all enemies, stunning them along the way."),
     sp_required = 100,
     warmup_time = 3000,
@@ -420,6 +428,7 @@ skills[203] = {
 -- Thanis attacks
 skills[300] = {
     name = vt_system.Translate("Sword Breaker"),
+    show_notice = true,
     description = vt_system.Translate("An attack that breaks the enemy's own attack power."),
     sp_required = 6,
     warmup_time = 2000,
@@ -447,6 +456,7 @@ skills[300] = {
 
 skills[301] = {
     name = vt_system.Translate("Execution"),
+    show_notice = true,
     description = vt_system.Translate("Attacks an enemy with a chance of causing death to catch its soul."),
     sp_required = 48,
     warmup_time = 4000,
@@ -578,7 +588,10 @@ skills[1004] = {
 }
 
 skills[1005] = {
-    name = "Snake Dampening Bite",
+    -- Snake Dampening Bite
+    name = vt_system.Translate("Dampening Bite"),
+    icon = "data/skills/monster_attacks/animal-fangs.png",
+    show_notice = true,
     sp_required = 1,
     warmup_time = 900,
     cooldown_time = 0,
@@ -674,7 +687,10 @@ skills[1008] = {
 }
 
 skills[1009] = {
-    name = "Fenrir Multiple Attack",
+    -- Fenrir Multiple Attack
+    name = vt_system.Translate("Multiple Attack"),
+    icon = "data/skills/monster_attacks/animal-fangs.png",
+    show_notice = true,
     sp_required = 1,
     warmup_time = 1600,
     cooldown_time = 500,
@@ -734,7 +750,9 @@ skills[1010] = {
 }
 
 skills[1011] = {
-    name = "Skeleton Frenzy Attack",
+    -- Skeleton Frenzy Attack
+    name = vt_system.Translate("Frenzy Attack"),
+    show_notice = true,
     sp_required = 10,
     warmup_time = 2400,
     cooldown_time = 500,

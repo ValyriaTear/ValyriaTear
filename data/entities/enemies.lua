@@ -113,7 +113,8 @@ enemies[2] = {
     },
 
     drop_objects = {
-        { 3102, 0.40 } -- Insect Material
+        { 3102, 0.40 }, -- Insect Material
+        { 3112, 0.20 }, -- Silk
     }
 }
 
@@ -238,7 +239,7 @@ enemies[4] = {
 
     drop_objects = {
         { 3107, 0.40 }, -- Saurian Material
-        { 3115, 0.10 }, -- White Meat
+        { 3111, 0.20 }, -- Soft Powder
     }
 }
 
@@ -824,7 +825,8 @@ enemies[15] = {
     },
 
     drop_objects = {
-        { 3102, 0.40 } -- Insect Material
+        { 3102, 0.40 }, -- Insect Material
+        { 3103, 0.10 } -- Refined Insect Material
     }
 }
 
@@ -1031,7 +1033,7 @@ enemies[19] = {
     },
 
     drop_objects = {
-        { 3117, 0.40 }, -- Medium moon juice
+        { 3117, 0.40 }, -- Stinging Material
     }
 }
 
