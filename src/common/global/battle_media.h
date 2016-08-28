@@ -47,8 +47,6 @@ class BattleMedia
 {
 public:
     BattleMedia() :
-        _victory_music(nullptr),
-        _defeat_music(nullptr),
         _auto_battle_activated(nullptr)
     {
     }
@@ -101,16 +99,6 @@ public:
         return _escape_icon;
     }
 
-    //! \brief Gets the music played after the player has won the battle.
-    vt_audio::MusicDescriptor* GetVictoryMusic() const {
-        return _victory_music;
-    }
-
-    //! \brief The music played after the player has lost the battle.
-    vt_audio::MusicDescriptor* GetDefeatMusic() const {
-        return _defeat_music;
-    }
-
     // ---------- Public members
 
     //! \brief The static background image to be used for the battle
@@ -160,15 +148,19 @@ public:
     //! We only keep a string because this music is handled by the audio manager
     //! for better cross game modes support.
     std::string battle_music_filename;
+
+    //! \brief The music filename played after the player has won the battle.
+    //! We only keep a string because this music is handled by the audio manager
+    //! for better cross game modes support.
+    std::string victory_music_filename;
+
+    //! \brief The music filename played after the player has lost the battle. Don't delete it.
+    //! We only keep a string because this music is handled by the audio manager
+    //! for better cross game modes support.
+    std::string defeat_music_filename;
     //@}
 
 private:
-    //! \brief The music played after the player has won the battle. Don't delete it.
-    vt_audio::MusicDescriptor* _victory_music;
-
-    //! \brief The music played after the player has lost the battle. Don't delete it.
-    vt_audio::MusicDescriptor* _defeat_music;
-
     /** \brief Holds icon images that represent the different types of targets
     *** Target types include attack points, ally/enemy, and different parties.
     **/

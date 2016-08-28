@@ -584,7 +584,9 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         // Remove the items used in battle from inventory.
         _command_supervisor->CommitChangesToInventory();
 
-        if (MusicDescriptor* victory_music = battle_media.GetVictoryMusic()) {
+        // Attempt to reload the music if it was removed from the cache
+        AudioManager->LoadMusic(battle_media.victory_music_filename);
+        if (MusicDescriptor* victory_music = AudioManager->RetrieveMusic(battle_media.victory_music_filename)) {
             victory_music->Rewind();
             victory_music->Play();
         }
@@ -592,7 +594,9 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         break;
     }
     case BATTLE_STATE_DEFEAT: {
-        if (MusicDescriptor* defeat_music = battle_media.GetDefeatMusic()) {
+        // Attempt to reload the music if it was removed from the cache
+        AudioManager->LoadMusic(battle_media.defeat_music_filename);
+        if (MusicDescriptor* defeat_music = AudioManager->RetrieveMusic(battle_media.defeat_music_filename)) {
             defeat_music->Rewind();
             defeat_music->FadeIn(1000.0f);
         }

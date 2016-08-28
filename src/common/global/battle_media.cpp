@@ -79,19 +79,13 @@ void BattleMedia::Initialize()
     if (!vt_audio::AudioManager->LoadMusic(DEFAULT_BATTLE_MUSIC))
         PRINT_WARNING << "Failed to load battle music file: " << DEFAULT_BATTLE_MUSIC << std::endl;
 
-    if(!vt_audio::AudioManager->LoadMusic(DEFAULT_VICTORY_MUSIC)) {
+    victory_music_filename = DEFAULT_VICTORY_MUSIC;
+    if(!vt_audio::AudioManager->LoadMusic(DEFAULT_VICTORY_MUSIC))
         PRINT_WARNING << "Failed to load victory music file: " << DEFAULT_VICTORY_MUSIC << std::endl;
-    }
-    else {
-        _victory_music = vt_audio::AudioManager->RetrieveMusic(DEFAULT_VICTORY_MUSIC);
-    }
 
-    if(!vt_audio::AudioManager->LoadMusic(DEFAULT_DEFEAT_MUSIC)) {
+    defeat_music_filename = DEFAULT_DEFEAT_MUSIC;
+    if(!vt_audio::AudioManager->LoadMusic(DEFAULT_DEFEAT_MUSIC))
         PRINT_WARNING << "Failed to load defeat music file: " << DEFAULT_DEFEAT_MUSIC << std::endl;
-    }
-    else {
-        _defeat_music = vt_audio::AudioManager->RetrieveMusic(DEFAULT_DEFEAT_MUSIC);
-    }
 
     if(!_stunned_icon.Load("data/entities/emotes/zzz.png"))
         PRINT_WARNING << "Failed to load stunned icon" << std::endl;

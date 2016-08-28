@@ -256,12 +256,14 @@ void MapMode::Reset()
 
 void MapMode::_ResetMusicState()
 {
+    // Reload desired music in case it was removed from the cache.
+    AudioManager->LoadMusic(_music_filename);
     MusicDescriptor* music = AudioManager->RetrieveMusic(_music_filename);
     MusicDescriptor* active_music = AudioManager->GetActiveMusic();
 
     // Stop the current music if it's not the right one.
     if (active_music != nullptr && music != active_music)
-        active_music->FadeOut(500);
+        active_music->FadeOut(500.0f);
 
     // If there is no map music or the music is already in the correct state, don't do anything.
     if (!music || music->GetState() == _music_audio_state)
@@ -275,7 +277,7 @@ void MapMode::_ResetMusicState()
         music->SeekSample(_music_audio_sample);
         // In case the music volume was modified, we fade it back in smoothly
         if(music->GetVolume() < 1.0f)
-            music->FadeIn(1000);
+            music->FadeIn(1000.0f);
         else
             music->Play();
         break;
@@ -284,7 +286,7 @@ void MapMode::_ResetMusicState()
     case AUDIO_STATE_PAUSED:
     case AUDIO_STATE_STOPPED:
         if (music->GetState() == AUDIO_STATE_PLAYING || music->GetState() == AUDIO_STATE_FADE_IN)
-            music->FadeOut(1000);
+            music->FadeOut(1000.0f);
         break;
     }
 }
