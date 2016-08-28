@@ -255,6 +255,7 @@ void BattleMode::Update()
 
     if (InputManager->MenuPress() && !_scene_mode && (_state != BATTLE_STATE_COMMAND ||
             _command_supervisor->GetState() == COMMAND_STATE_CATEGORY)) {
+        GlobalManager->Media().PlaySound("bump");
         _battle_menu.Open();
     }
 

@@ -15,6 +15,8 @@
 *** ***************************************************************************/
 
 #include "utils/utils_pch.h"
+
+#include "common/global/global.h"
 #include "engine/input.h"
 #include "modes/battle/battle_menu.h"
 
@@ -99,11 +101,13 @@ void BattleMenu::Update()
     _explanation_window.Update();
 
     if(InputManager->CancelPress()) {
+        vt_global::GlobalManager->Media().PlaySound("cancel");
         _open = false;
         return;
     }
 
     if (InputManager->ConfirmPress()) {
+        vt_global::GlobalManager->Media().PlaySound("bump");
         if (_options_list.GetSelection() == AUTOBATTLE_MENU_INDEX) {
             _auto_battle_active = !_auto_battle_active;
 
