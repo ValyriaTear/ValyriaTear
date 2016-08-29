@@ -1182,11 +1182,17 @@ void ShopMode::_SaveShopData()
         if (item == nullptr)
             continue;
 
+        if (item->IsInfiniteAmount()) {
+            shop_data._available_trade[item_id] = 0;
+            continue;
+        }
+
         // Add when the current available amount is > 0
         if (item->GetStockCount() > 0) {
             shop_data._available_trade[item_id] = item->GetStockCount();
         }
     }
+
     if (!shop_data._available_buy.empty() ||
             !shop_data._available_trade.empty()) {
         GlobalManager->SetShopData(_shop_id, shop_data);
