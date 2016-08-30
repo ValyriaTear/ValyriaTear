@@ -30,6 +30,10 @@ local enemy_pos_y = 0.0;
 local attack_step = 0;
 local attack_time = 0.0;
 
+local splash_image = nil;
+local splash_width = 0;
+local splash_height = 0;
+
 local damage_triggered = false;
 
 -- character, the BattleActor attacking (here Bronann)
@@ -80,6 +84,11 @@ function Initialize(_character, _target, _skill)
     --print (distance_moved_x, a_coeff, distance_moved_y);
 
     Battle = ModeManager:GetTop();
+
+    splash_image = Battle:CreateBattleAnimation("data/entities/battle/effects/hit_splash.lua");
+    splash_image:SetVisible(false);
+    splash_width = splash_image:GetAnimatedImage():GetWidth()
+    splash_height = splash_image:GetAnimatedImage():GetHeight()
 end
 
 
@@ -150,6 +159,21 @@ function Update()
             -- Remove the skill points at the end of the third attack
             character:SubtractSkillPoints(skill:GetSPRequired());
             damage_triggered = true;
+
+            -- Show the hit animation.
+            splash_image:SetXLocation(enemy_pos_x);
+            splash_image:SetYLocation(enemy_pos_y + 6.0);
+            splash_image:SetVisible(true);
+            splash_image:Reset();
+        end
+
+        if (damage_triggered == true and splash_image ~= nil and attack_time < 605.0) then
+            splash_image:GetAnimatedImage():SetDimensions(splash_width * (attack_time - 505.0) / 100.0,
+                                                          splash_height * (attack_time - 505.0) / 100.0)
+        elseif (attack_time > 605.0 and splash_image ~= nil) then
+            splash_image:SetVisible(false);
+            splash_image:Remove();
+            splash_image = nil;
         end
 
         if (attack_time > 730.0) then

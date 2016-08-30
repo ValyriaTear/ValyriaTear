@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2016.08.26
+Last update: 2016.08.30
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -253,6 +253,7 @@ data/entities/battle/characters/others/soldier_victory.png                    GP
 
 data/entities/battle/effects/claw_slash.png                                   GPLv3 / CC by SA 3.0     Bertram
 data/entities/battle/effects/sword_slash.png                                  GPLv3 / CC by SA 3.0     Bertram
+data/entities/battle/effects/hit_splash.png                                   CC by SA 3.0             Bertram
 
 data/entities/battle/enemies/big_slime.png                                    GPLv2+                   Bertram (based on the slime sprite)
 data/entities/battle/enemies/dark_soldier.png                                 GPLv3                    Kirill777 (OGA) - http://opengameart.org/content/soldier-0

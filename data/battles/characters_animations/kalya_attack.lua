@@ -19,6 +19,7 @@ local skill = nil
 -- The current arrow image and shadow
 local arrow = nil
 local arrow_shadow = nil
+local splash_image = nil
 
 local arrow_pos_x = 0.0;
 local arrow_pos_y = 0.0;
@@ -37,6 +38,9 @@ local enemy_pos_y = 0.0;
 
 local attack_step = 0;
 local attack_time = 0.0;
+
+local splash_width = 0;
+local splash_height = 0;
 
 local damage_triggered = false;
 
@@ -102,6 +106,11 @@ function Initialize(_character, _target, _skill)
     arrow_shadow:GetAnimatedImage():SetGrayscale(true);
     arrow:SetVisible(false);
     arrow_shadow:SetVisible(false);
+
+    splash_image = Battle:CreateBattleAnimation("data/entities/battle/effects/hit_splash.lua");
+    splash_image:SetVisible(false);
+    splash_width = splash_image:GetAnimatedImage():GetWidth()
+    splash_height = splash_image:GetAnimatedImage():GetHeight()
 end
 
 
@@ -201,6 +210,14 @@ function Update()
                 arrow:SetVisible(false)
                 arrow:Remove();
                 arrow = nil;
+
+                -- Show the hit splash image
+                splash_image:SetXLocation(arrow_pos_x);
+                splash_image:SetYLocation(arrow_pos_y);
+                splash_image:SetVisible(true);
+                splash_image:Reset();
+
+                attack_time = 0.0
             end
             if (arrow_shadow ~= nil) then
                 arrow_shadow:SetVisible(false);
@@ -212,6 +229,22 @@ function Update()
     end
 
     if (attack_step == 4) then
+        if (splash_image ~= nil) then
+            attack_time = attack_time + SystemManager:GetUpdateTime();
+
+            splash_image:GetAnimatedImage():SetDimensions(splash_width * attack_time / 100.0, splash_height * attack_time / 100.0)
+            if (attack_time > 100.0) then
+                attack_step = 5
+            end
+        end
+    end
+
+    if (attack_step == 5) then
+        if (splash_image ~= nil) then
+            splash_image:SetVisible(false);
+            splash_image:Remove();
+            splash_image = nil;
+        end
         return true;
     end
 

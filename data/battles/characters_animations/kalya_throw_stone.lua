@@ -18,6 +18,7 @@ local skill = nil
 
 local stone = nil
 local stone_shadow = nil
+local splash_image = nil
 
 local stone_pos_x = 0.0;
 local stone_pos_y = 0.0;
@@ -101,6 +102,11 @@ function Initialize(_character, _target, _skill)
     stone_shadow:GetAnimatedImage():SetGrayscale(true);
     stone:SetVisible(false);
     stone_shadow:SetVisible(false);
+
+    splash_image = Battle:CreateBattleAnimation("data/entities/battle/effects/hit_splash.lua");
+    splash_image:SetVisible(false);
+    splash_width = splash_image:GetAnimatedImage():GetWidth()
+    splash_height = splash_image:GetAnimatedImage():GetHeight()
 end
 
 
@@ -201,6 +207,14 @@ function Update()
                 stone:SetVisible(false)
                 stone:Remove();
                 stone = nil;
+
+                -- Show the hit splash image
+                splash_image:SetXLocation(stone_pos_x);
+                splash_image:SetYLocation(stone_pos_y);
+                splash_image:SetVisible(true);
+                splash_image:Reset();
+
+                attack_time = 0.0
             end
             if (stone_shadow ~= nil) then
                 stone_shadow:SetVisible(false);
@@ -212,6 +226,22 @@ function Update()
     end
 
     if (attack_step == 4) then
+        if (splash_image ~= nil) then
+            attack_time = attack_time + SystemManager:GetUpdateTime();
+
+            splash_image:GetAnimatedImage():SetDimensions(splash_width * attack_time / 100.0, splash_height * attack_time / 100.0)
+            if (attack_time > 100.0) then
+                attack_step = 5
+            end
+        end
+    end
+
+    if (attack_step == 5) then
+        if (splash_image ~= nil) then
+            splash_image:SetVisible(false);
+            splash_image:Remove();
+            splash_image = nil;
+        end
         return true;
     end
 

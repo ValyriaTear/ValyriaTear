@@ -99,6 +99,12 @@ function Initialize(_character, _target, _skill)
         arrow_info.arrow_shadow = Battle:CreateBattleAnimation(ammo_filename);
         arrow_info.arrow_shadow:GetAnimatedImage():SetGrayscale(true);
 
+        -- splash images
+        arrow_info.splash_image = Battle:CreateBattleAnimation("data/entities/battle/effects/hit_splash.lua");
+        arrow_info.splash_image:SetVisible(false);
+        arrow_info.splash_width = arrow_info.splash_image:GetAnimatedImage():GetWidth()
+        arrow_info.splash_height = arrow_info.splash_image:GetAnimatedImage():GetHeight()
+
         index = index + 1
     end
 end
@@ -219,15 +225,35 @@ function Update()
                     arrow_info.arrow_shadow:Remove();
                     arrow_info.arrow_shadow = nil;
                 end
+                -- Show the hit splash image
+                arrow_info.splash_image:SetXLocation(arrow_info.arrow_pos_x);
+                arrow_info.splash_image:SetYLocation(arrow_info.arrow_pos_y);
+                arrow_info.splash_image:SetVisible(true);
+                arrow_info.splash_image:Reset();
+                arrow_info.splash_time = 0;
             end
             arrow_info.attack_step = 3
         end
 
+        -- Update the splash image
+        if (arrow_info.attack_step == 3) then
+            arrow_info.splash_time = arrow_info.splash_time + SystemManager:GetUpdateTime();
+            arrow_info.splash_image:GetAnimatedImage():SetDimensions(arrow_info.splash_width * arrow_info.splash_time / 100.0,
+                                                                     arrow_info.splash_height * arrow_info.splash_time / 100.0)
+            if (arrow_info.splash_time > 100) then
+                if (arrow_info.splash_image ~= nil) then
+                    arrow_info.splash_image:SetVisible(false);
+                    arrow_info.splash_image:Remove();
+                    arrow_info.splash_image = nil;
+                end
+                arrow_info.attack_step = 4;
+            end
+        end
     end
 
     -- Check whether every target has received an arrow
     for index, arrow_info in pairs(target_arrows) do
-        if (arrow_info.damage_triggered == false) then
+        if (arrow_info.attack_step < 4) then
             return false;
         end
     end
