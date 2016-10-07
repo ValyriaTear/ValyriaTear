@@ -686,28 +686,28 @@ items[3008] = {
 items[3100] = {
     name = vt_system.Translate("Slimy Material"),
     description = vt_system.Translate("Material provided by slimy creatures."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/slimy_material.png",
     standard_price = 4
 }
 
 items[3101] = {
     name = vt_system.Translate("Refined Slimy Material"),
     description = vt_system.Translate("Quality material provided by slimy creatures."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/slimy_material_refined.png",
     standard_price = 40
 }
 
 items[3102] = {
     name = vt_system.Translate("Insect Material"),
     description = vt_system.Translate("Material provided by various insects."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/insect_material.png",
     standard_price = 10
 }
 
 items[3103] = {
     name = vt_system.Translate("Refined Insect Material"),
     description = vt_system.Translate("Quality material provided by various insects."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/insect_material_refined.png",
     standard_price = 100
 }
 
@@ -735,28 +735,28 @@ items[3106] = {
 items[3107] = {
     name = vt_system.Translate("Saurian Material"),
     description = vt_system.Translate("Material provided by various reptilians."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/saurian_material.png",
     standard_price = 40
 }
 
 items[3108] = {
     name = vt_system.Translate("Refined Saurian Material"),
     description = vt_system.Translate("Quality material provided by various reptilians."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/saurian_material_refined.png",
     standard_price = 400
 }
 
 items[3109] = {
     name = vt_system.Translate("Rodent Material"),
     description = vt_system.Translate("Material provided by small rodents."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/rodent_material.png",
     standard_price = 30
 }
 
 items[3110] = {
     name = vt_system.Translate("Refined Rodent Material"),
     description = vt_system.Translate("Quality material provided by not-that-small rodents."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/rodent_material_refined.png",
     standard_price = 300
 }
 
@@ -798,14 +798,14 @@ items[3115] = {
 items[3116] = {
     name = vt_system.Translate("Orb"),
     description = vt_system.Translate("Material provided by a few creatures."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/orb.png",
     standard_price = 60
 }
 
 items[3117] = {
     name = vt_system.Translate("Stinging Material"),
     description = vt_system.Translate("Material provided by a few creatures."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/stinging_material.png",
     standard_price = 90
 }
 
