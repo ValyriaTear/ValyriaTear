@@ -583,6 +583,9 @@ data/inventory/items/saurian_material_refined.png                             CC
 data/inventory/items/slimy_material.png                                       CC0                      Mumu (OGA) - http://opengameart.org/content/shiny-orbs-64x64
 data/inventory/items/slimy_material_refined.png                               CC0                      Mumu (OGA) - http://opengameart.org/content/shiny-orbs-64x64
 data/inventory/items/stinging_material.png                                    CC0                      Mumu (OGA) - http://opengameart.org/content/shiny-orbs-64x64
+data/inventory/items/fish_meat.png                                            CC by SA 3.0             Clint Bellanger (OGA) - http://opengameart.org/content/gem-icons
+data/inventory/items/red_meat.png                                             CC by SA 3.0             Clint Bellanger (OGA) - http://opengameart.org/content/gem-icons
+data/inventory/items/white_meat.png                                           CC by SA 3.0             Clint Bellanger (OGA) - http://opengameart.org/content/gem-icons
 
 data/inventory/items/key_items/barley_meal_bag.png                            CC by SA 3.0             From Daniel Eddeland (OGA) from http://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
 data/inventory/items/key_items/necklace_wolfpain.png                          CC by SA 3.0             Adapted from Scrittl (OGA) - http://opengameart.org/content/armor-icons-32x32-px-painterly

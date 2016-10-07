@@ -777,21 +777,21 @@ items[3112] = {
 items[3113] = {
     name = vt_system.Translate("Red Meat"),
     description = vt_system.Translate("Material provided by warm-blooded creatures."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/red_meat.png",
     standard_price = 80
 }
 
 items[3114] = {
     name = vt_system.Translate("Fish Meat"),
     description = vt_system.Translate("Material provided by various underwater creatures."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/fish_meat.png",
     standard_price = 70
 }
 
 items[3115] = {
     name = vt_system.Translate("White Meat"),
     description = vt_system.Translate("Material provided by various creatures."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/white_meat.png",
     standard_price = 80
 }
 
