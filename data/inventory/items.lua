@@ -714,21 +714,21 @@ items[3103] = {
 items[3104] = {
     name = vt_system.Translate("Fur"),
     description = vt_system.Translate("Material provided by various creatures."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/fur.png",
     standard_price = 20
 }
 
 items[3105] = {
     name = vt_system.Translate("Soft Fur"),
     description = vt_system.Translate("Material provided by rare animals."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/soft_fur.png",
     standard_price = 200
 }
 
 items[3106] = {
     name = vt_system.Translate("Silver Fur"),
     description = vt_system.Translate("Highly sought-after material provided by very special creatures."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/silver_fur.png",
     standard_price = 2000
 }
 
