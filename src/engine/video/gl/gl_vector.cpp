@@ -76,8 +76,8 @@ Vector::Vector(float x, float y, float z, float w) :
 Vector& Vector::operator/=(float scale)
 {
     _x /= scale;
-    _z /= scale;
     _y /= scale;
+    _z /= scale;
     _w /= scale;
 
     return *this;
