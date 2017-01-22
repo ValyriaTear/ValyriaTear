@@ -763,14 +763,14 @@ items[3110] = {
 items[3111] = {
     name = vt_system.Translate("Soft Powder"),
     description = vt_system.Translate("Material provided by various creatures."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/soft_powder.png",
     standard_price = 50
 }
 
 items[3112] = {
     name = vt_system.Translate("Silk"),
     description = vt_system.Translate("Material provided by a few creatures."),
-    --icon = "data/inventory/items/unknown.png",
+    icon = "data/inventory/items/silk.png",
     standard_price = 56
 }
 
