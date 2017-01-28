@@ -305,6 +305,61 @@ struct ShopData {
     std::map<uint32_t, uint32_t> _available_trade;
 };
 
+/**
+ * \brief Contains the previous "home" map location data.
+ * This is used to be able to go back to the latest "home" when permitted,
+ * when using the corresponding item. (Currently, it is 'escape smoke'.)
+ */
+class HomeMap {
+public:
+    HomeMap():
+        _x_save_home_map_position(0),
+        _y_save_home_map_position(0)
+    {};
+
+    //! \brief Set the new home to the given map.
+    //!
+    //! \param map_data_filename The map data filename to use.
+    //! \param map_script_filename The map script filename to load.
+    //! \param x_pos The character x position in the given map, or 0 for default.
+    //! \param y_pos The character x position in the given map, or 0 for default.
+    HomeMap(const std::string& map_data_filename,
+            const std::string& map_script_filename,
+            uint32_t x_pos, uint32_t y_pos);
+    void SetHomeMap(const std::string& map_data_filename,
+                    const std::string& map_script_filename,
+                    uint32_t x_pos, uint32_t y_pos);
+
+    //! \brief Reset the home map data to no map.
+    void ClearHomeMap();
+
+    //! \brief Returns whether a home map was set
+    bool IsHomeMapSet() const;
+
+    //! \brief Get Home Map corresponding data
+    const std::string& GetMapDataFilename() const {
+        return _home_map_data_filename;
+    }
+    const std::string& GetMapScriptFilename() const {
+        return _home_map_script_filename;
+    }
+    uint32_t GetMapXPos() const {
+        return _x_save_home_map_position;
+    }
+    uint32_t GetMapYPos() const {
+        return _y_save_home_map_position;
+    }
+
+private:
+    //! \brief The map data and script filename the current party is on.
+    std::string _home_map_data_filename;
+    std::string _home_map_script_filename;
+
+    //! \brief last save point map tile location.
+    uint32_t _x_save_home_map_position;
+    uint32_t _y_save_home_map_position;
+}; // class HomeMap
+
 /** ****************************************************************************
 *** \brief Retains all the state information about the active game
 ***
@@ -636,14 +691,14 @@ public:
     /** \brief Sets the active Map data filename (for game saves)
     *** \param location_name The string that contains the name of the current map data
     **/
-    void SetMapDataFilename(const std::string &map_data_filename) {
+    void SetMapDataFilename(const std::string& map_data_filename) {
         _map_data_filename = map_data_filename;
     }
 
     /** \brief Sets the active Map script filename (for game saves)
     *** \param location_name The string that contains the name of the current map script file
     **/
-    void SetMapScriptFilename(const std::string &map_script_filename) {
+    void SetMapScriptFilename(const std::string& map_script_filename) {
         _map_script_filename = map_script_filename;
     }
 
@@ -652,7 +707,7 @@ public:
     *** of a null pointer on GetWorldMap call.
     *** \note this will also clear the currently viewable locations and the current location id
     **/
-    void SetWorldMap(const std::string &world_map_filename)
+    void SetWorldMap(const std::string& world_map_filename)
     {
         if (_world_map_image)
             delete _world_map_image;
@@ -667,7 +722,7 @@ public:
     *** \param the location id of the world location that is defaulted to as "here"
     *** when the world map menu is opened
     **/
-    void SetCurrentLocationId(const std::string &location_id)
+    void SetCurrentLocationId(const std::string& location_id)
     {
         _current_world_location_id = location_id;
     }
@@ -676,7 +731,7 @@ public:
     *** set. This string IDs are maintained in the data/config/world_location.lua file.
     *** \param the string id to the currently viewable location
     **/
-    void ShowWorldLocation(const std::string &location_id)
+    void ShowWorldLocation(const std::string& location_id)
     {
         //defensive check. do not allow blank ids.
         //if you want to remove an id, call HideWorldLocation
@@ -696,7 +751,7 @@ public:
     *** if the id doesn't exist, we don't do anything
     *** \param the string id to the viewable location we want to hide
     **/
-    void HideWorldLocation( const std::string &location_id)
+    void HideWorldLocation(const std::string &location_id)
     {
         std::vector<std::string>::iterator rem_iterator = std::find(_viewable_world_locations.begin(),
                                                           _viewable_world_locations.end(),
@@ -708,7 +763,7 @@ public:
     /** \brief gets a reference to the current viewable location ids
     *** \return reference to the current viewable location ids
     **/
-    const std::vector<std::string> &GetViewableLocationIds() const
+    const std::vector<std::string>& GetViewableLocationIds() const
     {
         return _viewable_world_locations;
     }
@@ -718,7 +773,7 @@ public:
     *** \return nullptr if the location does not exist. otherwise, return a const pointer
     *** to the location
     **/
-    WorldMapLocation *GetWorldLocation(const std::string &id)
+    WorldMapLocation* GetWorldLocation(const std::string &id)
     {
         std::map<std::string, WorldMapLocation>::iterator itr = _world_map_locations.find(id);
         return itr == _world_map_locations.end() ? nullptr : &(itr->second);
@@ -762,6 +817,15 @@ public:
 
     void ShowMinimap(bool show) {
         _show_minimap = show;
+    }
+
+    //! \brief Set the new "home" map
+    void SetHomeMap(const std::string& map_data_filename,
+                    const std::string& map_script_filename,
+                    uint32_t x_pos, uint32_t y_pos) {
+        _home_map.SetHomeMap(map_data_filename,
+                             map_script_filename,
+                             x_pos, y_pos);
     }
 
     //! \brief Executes function NewGame() from global script
@@ -1006,12 +1070,12 @@ public:
     void GetEmoteOffset(float &x, float &y, const std::string &emote_id, vt_map::private_map::ANIM_DIRECTIONS dir);
 
     //! \brief Tells whether an emote id exists and is valid
-    bool DoesEmoteExist(const std::string &emote_id) {
+    bool DoesEmoteExist(const std::string& emote_id) {
         return (_emotes.count(emote_id));
     }
 
     //! \brief Get a pointer reference to the given emote animation. Don't delete it!
-    vt_video::AnimatedImage *GetEmoteAnimation(const std::string &emote_id) {
+    vt_video::AnimatedImage* GetEmoteAnimation(const std::string& emote_id) {
         if(_emotes.find(emote_id) != _emotes.end()) return &_emotes.at(emote_id);
         else return 0;
     }
@@ -1062,12 +1126,14 @@ private:
     //! then we are "hiding" the map
     vt_video::StillImage* _world_map_image;
 
+    //! \brief Contains the previous "home" map location data.
+    HomeMap _home_map;
+
     //! \brief The current viewable location ids on the current world map image
     //! \note this list is cleared when we call SetWorldMap. It is up to the
     //! script writter to maintain the properties of the map by either
     //!  1) call CopyViewableLocationList()
     //!  2) maintain in some other fashion the list
-
     std::vector<std::string> _viewable_world_locations;
 
     //! \brief The map location the character is com from. Used to make the new map know where to make the character appear.

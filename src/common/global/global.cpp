@@ -73,6 +73,102 @@ void GlobalEventGroup::SetEvent(const std::string &event_name, int32_t event_val
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// QuestLogInfo class
+////////////////////////////////////////////////////////////////////////////////
+
+QuestLogInfo::QuestLogInfo(const vt_utils::ustring &title,
+             const vt_utils::ustring &description,
+             const vt_utils::ustring &completion_description,
+             const std::string &completion_event_group,
+             const std::string &completion_event_name,
+             const vt_utils::ustring &location_name,
+             const std::string &location_banner_filename,
+             const vt_utils::ustring &location_subname,
+             const std::string &location_subimage_filename) :
+    _title(title),
+    _description(description),
+    _completion_description(completion_description),
+    _completion_event_group(completion_event_group),
+    _completion_event_name(completion_event_name),
+    _location_name(location_name),
+    _location_subname(location_subname)
+{
+    if(!_location_image.Load(location_banner_filename))
+    {
+        PRINT_ERROR << "image: " << location_banner_filename << " not able to load" << std::endl;
+        return;
+    }
+    //rescale such that the height is no bigger than 90 pixels. we give ourselves a bit of wiggle room
+    //by actually setting it to 90px, 5 pixel buffer top and bottom, so that we can utilize a potential 100px
+    if(_location_image.GetHeight() > 90.0f)
+        _location_image.SetHeightKeepRatio(90.0f);
+
+    if(!_location_subimage.Load(location_subimage_filename))
+    {
+        PRINT_ERROR << "image: " << location_subimage_filename << " not able to load" << std::endl;
+        return;
+    }
+    //rescale such that the height is no bigger than 90 pixels. we give ourselves a bit of wiggle room
+    //by actually setting it to 90px, 5 pixel buffer top and bottom, so that we can utilize a potential 100px
+    if(_location_subimage.GetHeight() > 90.0f)
+        _location_subimage.SetHeightKeepRatio(90.0f);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// WorldMapLocation struct
+////////////////////////////////////////////////////////////////////////////////
+
+WorldMapLocation::WorldMapLocation(float x, float y, const std::string& location_name,
+                                   const std::string& image_path, const std::string& world_map_location_id) :
+    _x(x),
+    _y(y),
+    _location_name(location_name),
+    _world_map_location_id(world_map_location_id)
+{
+    if(!_image.Load(image_path))
+        PRINT_ERROR << "image: " << image_path << " not able to load" << std::endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// HomeMap class
+////////////////////////////////////////////////////////////////////////////////
+
+HomeMap::HomeMap(const std::string& map_data_filename,
+                 const std::string& map_script_filename,
+                 uint32_t x_pos, uint32_t y_pos):
+                 _home_map_data_filename(map_data_filename),
+                 _home_map_script_filename(map_script_filename),
+                 _x_save_home_map_position(x_pos),
+                 _y_save_home_map_position(y_pos)
+{
+}
+
+void HomeMap::SetHomeMap(const std::string& map_data_filename,
+                         const std::string& map_script_filename,
+                         uint32_t x_pos, uint32_t y_pos) {
+    _home_map_data_filename = map_data_filename;
+    _home_map_script_filename = map_script_filename;
+    _x_save_home_map_position = x_pos;
+    _y_save_home_map_position = y_pos;
+}
+
+void HomeMap::ClearHomeMap() {
+    _home_map_data_filename.clear();
+    _home_map_script_filename.clear();
+    _x_save_home_map_position = 0;
+    _y_save_home_map_position = 0;
+}
+
+bool HomeMap::IsHomeMapSet() const {
+    if (_home_map_data_filename.empty())
+        return false;
+
+    if (_home_map_data_filename.empty())
+        return false;
+    return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // GameGlobal class - Initialization and Destruction
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -98,7 +194,7 @@ GameGlobal::~GameGlobal()
     ClearAllData();
 
     _CloseGlobalScripts();
-} // GameGlobal::~GameGlobal()
+}
 
 bool GameGlobal::SingletonInitialize()
 {
@@ -280,63 +376,8 @@ void GameGlobal::ClearAllData()
 
     // Show the minimap by default when available
     _show_minimap = true;
-}
 
-////////////////////////////////////////////////////////////////////////////////
-// QuestLogInfo class
-////////////////////////////////////////////////////////////////////////////////
-
-QuestLogInfo::QuestLogInfo(const vt_utils::ustring &title,
-             const vt_utils::ustring &description,
-             const vt_utils::ustring &completion_description,
-             const std::string &completion_event_group,
-             const std::string &completion_event_name,
-             const vt_utils::ustring &location_name,
-             const std::string &location_banner_filename,
-             const vt_utils::ustring &location_subname,
-             const std::string &location_subimage_filename) :
-    _title(title),
-    _description(description),
-    _completion_description(completion_description),
-    _completion_event_group(completion_event_group),
-    _completion_event_name(completion_event_name),
-    _location_name(location_name),
-    _location_subname(location_subname)
-{
-    if(!_location_image.Load(location_banner_filename))
-    {
-        PRINT_ERROR << "image: " << location_banner_filename << " not able to load" << std::endl;
-        return;
-    }
-    //rescale such that the height is no bigger than 90 pixels. we give ourselves a bit of wiggle room
-    //by actually setting it to 90px, 5 pixel buffer top and bottom, so that we can utilize a potential 100px
-    if(_location_image.GetHeight() > 90.0f)
-        _location_image.SetHeightKeepRatio(90.0f);
-
-    if(!_location_subimage.Load(location_subimage_filename))
-    {
-        PRINT_ERROR << "image: " << location_subimage_filename << " not able to load" << std::endl;
-        return;
-    }
-    //rescale such that the height is no bigger than 90 pixels. we give ourselves a bit of wiggle room
-    //by actually setting it to 90px, 5 pixel buffer top and bottom, so that we can utilize a potential 100px
-    if(_location_subimage.GetHeight() > 90.0f)
-        _location_subimage.SetHeightKeepRatio(90.0f);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// WorldMapLocation struct
-////////////////////////////////////////////////////////////////////////////////
-
-WorldMapLocation::WorldMapLocation(float x, float y, const std::string& location_name,
-                                   const std::string& image_path, const std::string& world_map_location_id) :
-    _x(x),
-    _y(y),
-    _location_name(location_name),
-    _world_map_location_id(world_map_location_id)
-{
-    if(!_image.Load(image_path))
-        PRINT_ERROR << "image: " << image_path << " not able to load" << std::endl;
+    _home_map.ClearHomeMap();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -890,7 +931,7 @@ bool GameGlobal::AutoSave(const std::string& map_data_file, const std::string& m
     return save_completed;
 }
 
-bool GameGlobal::SaveGame(const std::string &filename, uint32_t slot_id, uint32_t x_position, uint32_t y_position)
+bool GameGlobal::SaveGame(const std::string& filename, uint32_t slot_id, uint32_t x_position, uint32_t y_position)
 {
     if (slot_id >= SystemManager->GetGameSaveSlots())
         return false;
@@ -915,6 +956,18 @@ bool GameGlobal::SaveGame(const std::string &filename, uint32_t slot_id, uint32_
     file.WriteLine("play_seconds = " + NumberToString(SystemManager->GetPlaySeconds()) + ",");
     file.WriteLine("drunes = " + NumberToString(_drunes) + ",");
     file.WriteLine("stamina = " + NumberToString(_save_stamina) + ",");
+
+    // Save latest home map data, if any.
+    if (_home_map.IsHomeMapSet()) {
+        file.InsertNewLine();
+        file.WriteLine("home_map = {");
+        file.WriteLine("\tmap_data_filename = \"" + _home_map.GetMapDataFilename() + "\",");
+        file.WriteLine("\tmap_script_filename = \"" + _home_map.GetMapDataFilename() + "\",");
+        //! \note Coords are in map tiles
+        file.WriteLine("\tlocation_x = " + NumberToString(_home_map.GetMapXPos()) + ",");
+        file.WriteLine("\tlocation_y = " + NumberToString(_home_map.GetMapYPos()) + ",");
+        file.WriteLine("},");
+    }
 
     // Save the inventory (object id + object count pairs)
     // NOTE: This does not save any weapons/armor that are equipped on the characters. That data
@@ -1038,6 +1091,18 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32_t slot_id)
     _drunes = file.ReadUInt("drunes");
     if (file.DoesUIntExist("stamina"))
         _save_stamina = file.ReadUInt("stamina");
+
+    // Load home map data, if any
+    if (file.OpenTable("home_map")) {
+        std::string home_map_data = file.ReadString("map_data_filename");
+        std::string home_map_script = file.ReadString("map_script_filename");
+        uint32_t x_pos = file.ReadUInt("location_x");
+        uint32_t y_pos = file.ReadUInt("location_y");
+
+        _home_map.SetHomeMap(home_map_data, home_map_script, x_pos, y_pos);
+
+        file.CloseTable(); // home_map
+    }
 
     // Load inventory
     _LoadInventory(file, "items");
@@ -1471,8 +1536,6 @@ void GameGlobal::_LoadInventory(ReadScriptDescriptor &file, const std::string &c
         file.CloseTable();
     }
 }
-
-
 
 void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32_t id)
 {

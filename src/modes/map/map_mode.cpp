@@ -701,6 +701,13 @@ bool MapMode::_Load()
 
     _update_function = _map_script.ReadFunctionPointer("Update");
 
+    // If the "home map" flag is set, let's save the map as new home in case of escape.
+    if (_map_script.ReadBool("is_home_map")) {
+        GlobalManager->SetHomeMap(_map_data_filename, _map_script_filename,
+                                  _camera != nullptr ? _camera->GetXPosition() : 0,
+                                  _camera != nullptr ? _camera->GetYPosition() : 0);
+    }
+
     return true;
 } // bool MapMode::_Load()
 
