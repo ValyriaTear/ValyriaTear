@@ -262,13 +262,17 @@ utils/utils_strings.cpp
 )
 
 SET(SRCS
+common/global/battle_media.cpp
+common/global/quest_log.cpp
 common/global/global.cpp
+common/global/global_event_group.cpp
 common/global/global_actors.cpp
 common/global/global_effects.cpp
 common/global/global_objects.cpp
 common/global/global_skills.cpp
 common/global/global_utils.cpp
-common/global/battle_media.cpp
+common/global/home_map.cpp
+common/global/worldmap.cpp
 common/gui/option.cpp
 common/gui/menu_window.cpp
 common/gui/textbox.cpp
