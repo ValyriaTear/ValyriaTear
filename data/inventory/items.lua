@@ -473,6 +473,10 @@ _battle_apply_elixir_status_effects = function(target_actor, intensity)
         target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA, intensity, 30000);
         target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EVADE, intensity, 30000);
         AudioManager:PlaySound("data/sounds/potion_drink.wav");
+        local battle_instance = ModeManager:GetTop();
+        battle_instance:TriggerBattleParticleEffect("data/visuals/particle_effects/elixir_particle.lua",
+                                                    target_actor:GetXLocation(),
+                                                    target_actor:GetYLocation());
         return true;
     else
         target_actor:RegisterMiss(false);
