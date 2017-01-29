@@ -1289,7 +1289,7 @@ void BattleCharacter::Update()
             // Creates an item indicator
             float y_pos = GetYLocation() - GetSpriteHeight();
             vt_mode_manager::IndicatorSupervisor& indicator = BM->GetIndicatorSupervisor();
-            indicator.AddItemIndicator(GetXLocation(), y_pos, item_action->GetItem()->GetGlobalItem());
+            indicator.AddItemIndicator(GetXLocation(), y_pos, item_action->GetBattleItem()->GetGlobalItem());
         }
 
         ChangeState(ACTOR_STATE_COOL_DOWN);
@@ -1674,7 +1674,7 @@ void BattleEnemy::Update()
                     // Creates an item indicator
                     float y_pos = GetYLocation() - GetSpriteHeight();
                     vt_mode_manager::IndicatorSupervisor& indicator = BattleMode::CurrentInstance()->GetIndicatorSupervisor();
-                    indicator.AddItemIndicator(GetXLocation(), y_pos, item_action->GetItem()->GetGlobalItem());
+                    indicator.AddItemIndicator(GetXLocation(), y_pos, item_action->GetBattleItem()->GetGlobalItem());
                 }
 
                 _action_finished = true;

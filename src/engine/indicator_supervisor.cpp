@@ -192,7 +192,7 @@ IndicatorImage::IndicatorImage(float x_position, float y_position, const std::st
 
 
 
-IndicatorImage::IndicatorImage(float x_position, float y_position, const StillImage &image,
+IndicatorImage::IndicatorImage(float x_position, float y_position, const StillImage& image,
                                INDICATOR_TYPE indicator_type) :
     IndicatorElement(x_position, y_position, indicator_type),
     _image(image)
@@ -455,7 +455,8 @@ void IndicatorSupervisor::AddStatusIndicator(float x_position, float y_position,
 
 void IndicatorSupervisor::AddItemIndicator(float x_position, float y_position, const vt_global::GlobalItem& item)
 {
-    _wait_queue.push_back(new IndicatorImage(x_position, y_position, item.GetIconImage(),
+    _wait_queue.push_back(new IndicatorImage(x_position, y_position,
+                                             item.GetIconImage(),
                                              ITEM_INDICATOR));
 }
 

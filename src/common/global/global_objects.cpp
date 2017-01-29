@@ -146,7 +146,7 @@ GlobalItem::GlobalItem(uint32_t id, uint32_t count) :
         return;
     }
 
-    ReadScriptDescriptor &script_file = GlobalManager->GetItemsScript();
+    ReadScriptDescriptor& script_file = GlobalManager->GetItemsScript();
     if(script_file.DoesTableExist(_id) == false) {
         PRINT_WARNING << "no valid data for item in definition file: " << _id << std::endl;
         _InvalidateObject();
@@ -163,9 +163,21 @@ GlobalItem::GlobalItem(uint32_t id, uint32_t count) :
 
     _battle_use_function = script_file.ReadFunctionPointer("BattleUse");
     _field_use_function = script_file.ReadFunctionPointer("FieldUse");
-    _animation_script_file = script_file.ReadString("AnimationScript");
 
-    script_file.CloseTable();
+    // Read all the battle animation scripts linked to this item, if any.
+    if(script_file.DoesTableExist("animation_scripts")) {
+        std::vector<uint32_t> characters_ids;
+        _animation_scripts.clear();
+        script_file.ReadTableKeys("animation_scripts", characters_ids);
+        script_file.OpenTable("animation_scripts");
+        for(uint32_t i = 0; i < characters_ids.size(); ++i) {
+            _animation_scripts[characters_ids[i]] = script_file.ReadString(characters_ids[i]);
+        }
+        script_file.CloseTable(); // animation_scripts table
+    }
+
+    script_file.CloseTable(); // id
+
     if(script_file.IsErrorDetected()) {
         PRINT_WARNING << "one or more errors occurred while reading item data - they are listed below"
                         << std::endl << script_file.GetErrorMessages() << std::endl;
@@ -175,7 +187,7 @@ GlobalItem::GlobalItem(uint32_t id, uint32_t count) :
 
 GlobalItem::GlobalItem(const GlobalItem &copy) :
     GlobalObject(copy),
-    _animation_script_file(copy._animation_script_file)
+    _animation_scripts(copy._animation_scripts)
 {
     _target_type = copy._target_type;
     _warmup_time = copy._warmup_time;
@@ -186,9 +198,17 @@ GlobalItem::GlobalItem(const GlobalItem &copy) :
     _field_use_function = copy._field_use_function;
 }
 
+std::string GlobalItem::GetAnimationScript(uint32_t character_id) const
+{
+    std::string script_file; // Empty by default
 
+    std::map<uint32_t, std::string>::const_iterator it = _animation_scripts.find(character_id);
+    if(it != _animation_scripts.end())
+        script_file = it->second;
+    return script_file;
+}
 
-GlobalItem &GlobalItem::operator=(const GlobalItem &copy)
+GlobalItem& GlobalItem::operator=(const GlobalItem& copy)
 {
     if(this == &copy)  // Handle self-assignment case
         return *this;
@@ -201,7 +221,7 @@ GlobalItem &GlobalItem::operator=(const GlobalItem &copy)
     // Make copies of valid luabind::object function pointers
     _battle_use_function = copy._battle_use_function;
     _field_use_function = copy._field_use_function;
-    _animation_script_file = copy._animation_script_file;
+    _animation_scripts = copy._animation_scripts;
 
     return *this;
 }

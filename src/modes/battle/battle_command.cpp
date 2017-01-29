@@ -365,16 +365,18 @@ void ItemCommand::ResetItemList()
 
     auto inv_items = GlobalManager->GetInventoryItems();
     for (uint32_t i = 0; i < inv_items->size(); ++i) {
+        std::shared_ptr<GlobalItem> global_item = inv_items->at(i);
+
         // Only add non key and valid items as items available at battle start.
-        if (inv_items->at(i)->GetCount() == 0)
+        if (global_item->GetCount() == 0)
             continue;
-        if (!inv_items->at(i)->IsValid())
+        if (!global_item->IsValid())
             continue;
-        if (inv_items->at(i)->IsKeyItem())
+        if (global_item->IsKeyItem())
             continue;
 
-        if (inv_items->at(i)->IsUsableInBattle()) {
-            std::shared_ptr<BattleItem> battle_item = std::make_shared<BattleItem>(*inv_items->at(i));
+        if (global_item->IsUsableInBattle()) {
+            std::shared_ptr<BattleItem> battle_item = std::make_shared<BattleItem>(*global_item);
             _battle_items.push_back(battle_item);
         }
     }
@@ -402,12 +404,13 @@ void ItemCommand::ConstructList()
 
         // Adds the item menu option
         _item_list.AddOption();
-        if (!item->GetGlobalItem().GetIconImage().GetFilename().empty()) {
-            _item_list.AddOptionElementImage(option_index, item->GetGlobalItem().GetIconImage().GetFilename());
+        const GlobalItem& global_item = item->GetGlobalItem();
+        if (!global_item.GetIconImage().GetFilename().empty()) {
+            _item_list.AddOptionElementImage(option_index, global_item.GetIconImage().GetFilename());
             _item_list.GetEmbeddedImage(option_index)->SetHeightKeepRatio(25);
             _item_list.AddOptionElementPosition(option_index, 30);
         }
-        _item_list.AddOptionElementText(option_index, item->GetGlobalItem().GetName());
+        _item_list.AddOptionElementText(option_index, global_item.GetName());
 
         _item_target_list.AddOption(ustring());
         _item_target_list.AddOptionElementImage(option_index,
@@ -1484,8 +1487,8 @@ void CommandSupervisor::_CreateAttackPointTargetText()
 
 void CommandSupervisor::_FinalizeCommand()
 {
-    BattleAction *new_action = nullptr;
-    BattleCharacter *character = GetCommandCharacter();
+    BattleAction* new_action = nullptr;
+    BattleCharacter* character = GetCommandCharacter();
 
     _active_settings->SaveLastTarget(_selected_target);
 

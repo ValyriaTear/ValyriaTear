@@ -511,7 +511,7 @@ BattleTarget& BattleTarget::operator=(const BattleTarget& copy)
 // BattleItem class
 ////////////////////////////////////////////////////////////////////////////////
 
-BattleItem::BattleItem(vt_global::GlobalItem item) :
+BattleItem::BattleItem(const vt_global::GlobalItem& item) :
     _item(item),
     _battle_count(item.GetCount())
 {
@@ -519,13 +519,11 @@ BattleItem::BattleItem(vt_global::GlobalItem item) :
         IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received invalid item argument" << std::endl;
 }
 
-
 BattleItem::~BattleItem()
 {
     if(_battle_count != _item.GetCount())
         IF_PRINT_WARNING(BATTLE_DEBUG) << "actual count was not equal to available count upon destruction" << std::endl;
 }
-
 
 void BattleItem::IncrementBattleCount()
 {
@@ -536,7 +534,6 @@ void BattleItem::IncrementBattleCount()
     }
 }
 
-
 void BattleItem::DecrementBattleCount()
 {
     if(_battle_count == 0) {
@@ -546,6 +543,40 @@ void BattleItem::DecrementBattleCount()
     --_battle_count;
 }
 
+bool BattleItem::ExecuteBattleFunction(BattleActor* battle_actor,
+                                       BattleTarget target)
+{
+    if (!battle_actor) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "Can't execute battle script function with invalid battle actor." << std::endl;
+        return false;
+    }
+    const luabind::object& battle_use_function = _item.GetBattleUseFunction();
+    if(!battle_use_function.is_valid()) {
+        IF_PRINT_WARNING(BATTLE_DEBUG) << "Can't execute invalid battle script function." << std::endl;
+        return false;
+    }
+
+    bool return_value = true;
+    try {
+        return_value = luabind::call_function<bool>(battle_use_function, battle_actor, target);
+    } catch(const luabind::error& err) {
+        vt_script::ScriptManager->HandleLuaError(err);
+        // Give the item back when failing
+        IncrementBattleCount();
+        return false;
+    } catch(const luabind::cast_failed& e) {
+        vt_script::ScriptManager->HandleCastError(e);
+        // Give the item back when failing
+        IncrementBattleCount();
+        return false;
+    }
+
+    if (!return_value) {
+        // Give the item back when failing
+        IncrementBattleCount();
+    }
+    return return_value;
+}
 
 } // namespace private_battle
 

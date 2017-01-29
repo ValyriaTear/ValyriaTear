@@ -151,7 +151,7 @@ public:
         return _trade_conditions;
     }
 
-    const vt_video::StillImage &GetIconImage() const {
+    const vt_video::StillImage& GetIconImage() const {
         return _icon_image;
     }
 
@@ -245,20 +245,20 @@ public:
     {
     }
 
-    GlobalItem(const GlobalItem &copy);
-    GlobalItem &operator=(const GlobalItem &copy);
+    GlobalItem(const GlobalItem& copy);
+    GlobalItem& operator=(const GlobalItem& copy);
 
     GLOBAL_OBJECT GetObjectType() const {
         return GLOBAL_OBJECT_ITEM;
     }
 
     //! \brief Returns true if the item can be used in battle
-    bool IsUsableInBattle() {
+    bool IsUsableInBattle() const {
         return _battle_use_function.is_valid();
     }
 
     //! \brief Returns true if the item can be used in the field
-    bool IsUsableInField() {
+    bool IsUsableInField() const {
         return _field_use_function.is_valid();
     }
 
@@ -271,14 +271,14 @@ public:
     /** \brief Returns a pointer to the luabind::object of the battle use function
     *** \note This function will return nullptr if the skill is not usable in battle
     **/
-    const luabind::object &GetBattleUseFunction() const {
+    const luabind::object& GetBattleUseFunction() const {
         return _battle_use_function;
     }
 
     /** \brief Returns a pointer to the luabind::object of the field use function
     *** \note This function will return nullptr if the skill is not usable in the field
     **/
-    const luabind::object &GetFieldUseFunction() const {
+    const luabind::object& GetFieldUseFunction() const {
         return _field_use_function;
     }
 
@@ -292,10 +292,10 @@ public:
         return _cooldown_time;
     }
 
-    //! \brief Returns the animation script filename, used to animate this item use in battles.
-    const std::string& GetAnimationScript() const {
-        return _animation_script_file;
-    }
+    /** \brief Tells the animation script filename linked to the skill for the given character,
+    *** Or an empty value otherwise;
+    **/
+    std::string GetAnimationScript(uint32_t character_id) const;
     //@}
 
 private:
@@ -314,8 +314,8 @@ private:
     //! \brief The cooldown time in milliseconds needed after using this item in battles.
     uint32_t _cooldown_time;
 
-    //! \brief The animation script file used to animate the item use in battles.
-    std::string _animation_script_file;
+    //! \brief map containing the animation scripts names linked to each characters id for the given skill.
+    std::map <uint32_t, std::string> _animation_scripts;
 }; // class GlobalItem : public GlobalObject
 
 

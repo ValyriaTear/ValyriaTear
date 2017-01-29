@@ -251,9 +251,9 @@ uint32_t SkillAction::GetCoolDownTime() const
 // ItemAction class
 ////////////////////////////////////////////////////////////////////////////////
 
-ItemAction::ItemAction(BattleActor *source, BattleTarget target, const std::shared_ptr<BattleItem>& item) :
+ItemAction::ItemAction(BattleActor* source, BattleTarget target, const std::shared_ptr<BattleItem>& item) :
     BattleAction(source, target),
-    _item(item),
+    _battle_item(item),
     _action_canceled(false)
 {
     if(item == nullptr) {
@@ -261,16 +261,18 @@ ItemAction::ItemAction(BattleActor *source, BattleTarget target, const std::shar
         return;
     }
 
-    if(item->GetGlobalItem().GetTargetType() == GLOBAL_TARGET_INVALID)
+    const GlobalItem& global_item = item->GetGlobalItem();
+
+    if(global_item.GetTargetType() == GLOBAL_TARGET_INVALID)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "constructor received invalid item" << std::endl;
-    if(item->GetGlobalItem().GetTargetType() != target.GetType())
+    if(global_item.GetTargetType() != target.GetType())
         IF_PRINT_WARNING(BATTLE_DEBUG) << "item and target reference different target types" << std::endl;
-    if(item->GetGlobalItem().IsUsableInBattle() == false)
+    if(global_item.IsUsableInBattle() == false)
         IF_PRINT_WARNING(BATTLE_DEBUG) << "item is not usable in battle" << std::endl;
 
-    // Check for a custom skill animation script for the given character
+    // Check for a custom item animation script for the given character
     _is_scripted = false;
-    std::string animation_script_file = item->GetGlobalItem().GetAnimationScript();
+    std::string animation_script_file = global_item.GetAnimationScript(_actor->GetID());
 
     if(animation_script_file.empty())
         return;
@@ -329,9 +331,13 @@ bool ItemAction::Update()
         return luabind::call_function<bool>(_update_function);
     } catch(const luabind::error& err) {
         ScriptManager->HandleLuaError(err);
+        // Give the item back in case of error
+        _battle_item->IncrementBattleCount();
         return true;
     } catch(const luabind::cast_failed& e) {
         ScriptManager->HandleCastError(e);
+        // Give the item back in case of error
+        _battle_item->IncrementBattleCount();
         return true;
     }
 
@@ -341,8 +347,15 @@ bool ItemAction::Update()
 
 bool ItemAction::Execute()
 {
+    if(_battle_item == nullptr) {
+        PRINT_WARNING << "Item action Execute() without valid item!!" << std::endl;
+        return false;
+    }
+
+    const GlobalItem& global_item = _battle_item->GetGlobalItem();
+
     // Note that the battle item is already removed from the item list at that step.
-    const luabind::object &script_function = _item->GetGlobalItem().GetBattleUseFunction();
+    const luabind::object& script_function = global_item.GetBattleUseFunction();
     if(!script_function.is_valid()) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "item did not have a battle use function" << std::endl;
 
@@ -374,8 +387,8 @@ void ItemAction::Cancel()
         return;
 
     // Give the item back in that case
-    if (_item)
-        _item->IncrementBattleCount();
+    if (_battle_item)
+        _battle_item->IncrementBattleCount();
 
     // Permit to cancel only once.
     _action_canceled = true;
@@ -383,38 +396,39 @@ void ItemAction::Cancel()
 
 ustring ItemAction::GetName() const
 {
-    if(_item)
-        return _item->GetGlobalItem().GetName();
+    if(_battle_item)
+        return _battle_item->GetGlobalItem().GetName();
     return UTranslate("[error]");
 }
 
 std::string ItemAction::GetIconFilename() const
 {
-    if(_item)
-        return _item->GetGlobalItem().GetIconImage().GetFilename();
+    if(_battle_item)
+        return _battle_item->GetGlobalItem().GetIconImage().GetFilename();
     return std::string();
 }
 
 uint32_t ItemAction::GetWarmUpTime() const
 {
-    if(_item == nullptr)
+    if(_battle_item == nullptr)
         return 0;
     else
-        return _item->GetWarmUpTime();
+        return _battle_item->GetWarmUpTime();
 }
 
 uint32_t ItemAction::GetCoolDownTime() const
 {
-    if(_item == nullptr)
+    if(_battle_item == nullptr)
         return 0;
     else
-        return _item->GetCoolDownTime();
+        return _battle_item->GetCoolDownTime();
 }
 
 void ItemAction::_InitAnimationScript()
 {
     try {
-        luabind::call_function<void>(_init_function, _actor, _target, _item);
+        // N.B: _battle_item is a shared_ptr, but we need the actual pointer for luabind.
+        luabind::call_function<void>(_init_function, _actor, _target, _battle_item.get());
     } catch(const luabind::error& err) {
         ScriptManager->HandleLuaError(err);
         // Fall back to hard-coded mode

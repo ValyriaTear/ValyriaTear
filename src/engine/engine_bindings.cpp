@@ -151,6 +151,7 @@ void BindEngineCode()
             luabind::class_<IndicatorSupervisor>("IndicatorSupervisor")
             .def("AddDamageIndicator", &IndicatorSupervisor::AddDamageIndicator)
             .def("AddHealingIndicator", &IndicatorSupervisor::AddHealingIndicator)
+            .def("AddItemIndicator", &IndicatorSupervisor::AddItemIndicator)
             .def("AddShortNotice", &IndicatorSupervisor::AddShortNotice)
         ];
 

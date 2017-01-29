@@ -164,7 +164,8 @@ GlobalSkill &GlobalSkill::operator=(const GlobalSkill& copy)
     return *this;
 }
 
-bool GlobalSkill::ExecuteBattleFunction(private_battle::BattleActor *user, private_battle::BattleTarget target)
+bool GlobalSkill::ExecuteBattleFunction(private_battle::BattleActor* battle_actor,
+                                        private_battle::BattleTarget target)
 {
     if(!_battle_execute_function.is_valid()) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "Can't execute invalid battle script function." << std::endl;
@@ -172,11 +173,11 @@ bool GlobalSkill::ExecuteBattleFunction(private_battle::BattleActor *user, priva
     }
 
     try {
-        luabind::call_function<void>(_battle_execute_function, user, target);
-    } catch(const luabind::error &err) {
+        luabind::call_function<void>(_battle_execute_function, battle_actor, target);
+    } catch(const luabind::error& err) {
         ScriptManager->HandleLuaError(err);
         return false;
-    } catch(const luabind::cast_failed &e) {
+    } catch(const luabind::cast_failed& e) {
         ScriptManager->HandleCastError(e);
         return false;
     }

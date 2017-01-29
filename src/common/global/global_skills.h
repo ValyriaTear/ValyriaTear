@@ -139,7 +139,8 @@ public:
     }
 
     //! Execute the corresponding skill Battle function
-    bool ExecuteBattleFunction(vt_battle::private_battle::BattleActor *user, vt_battle::private_battle::BattleTarget target);
+    bool ExecuteBattleFunction(vt_battle::private_battle::BattleActor* battle_actor,
+                               vt_battle::private_battle::BattleTarget target);
 
     /** \brief Returns a pointer to the luabind::object of the menu execution function
     *** \note This function will return nullptr if the skill is not executable in menus

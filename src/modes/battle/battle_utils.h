@@ -193,7 +193,10 @@ public:
     *** GLOBAL_TARGET_INVALID. The initial attack point is always the first available point on the
     *** target (index 0). The initial target will always be the first valid actor in its party (index 0).
     **/
-    bool SetTarget(BattleActor* attacker, vt_global::GLOBAL_TARGET type, BattleActor* target = nullptr, uint32_t attack_point = 0);
+    bool SetTarget(BattleActor* attacker,
+                   vt_global::GLOBAL_TARGET type,
+                   BattleActor* target = nullptr,
+                   uint32_t attack_point = 0);
 
     /** \brief Returns true if the target is valid
     *** This method assumes that a valid target is one that is alive (non-zero HP). If the target type
@@ -297,13 +300,13 @@ private:
 class BattleItem
 {
 public:
-    //! \param item A pointer to the item to represent. Should be a non-nullptr value.
-    BattleItem(vt_global::GlobalItem item);
+    //! \param item A pointer to the item to represent.
+    BattleItem(const vt_global::GlobalItem& item);
     ~BattleItem();
 
     //! \brief Class member accessor methods
     //@{
-    vt_global::GlobalItem& GetGlobalItem() {
+    const vt_global::GlobalItem& GetGlobalItem() {
         return _item;
     }
 
@@ -352,9 +355,13 @@ public:
         return _item.GetCoolDownTime();
     }
 
+    //! \brief Execute the corresponding item Battle function
+    bool ExecuteBattleFunction(BattleActor* battle_actor,
+                               BattleTarget target);
+
 private:
-    //! \brief The item that this class represents
-    vt_global::GlobalItem _item;
+    //! \brief The item that this class represents.
+    const vt_global::GlobalItem& _item;
 
     //! \brief The number of instances of this item that are available to be selected to be used
     uint32_t _battle_count;
