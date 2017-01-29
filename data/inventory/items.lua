@@ -44,12 +44,17 @@ end
 -- IDs 1 - 1,000 are reserved for healing potions
 --------------------------------------------------------------------------------
 
-function battle_healing_potion(target, hit_points)
-    if (target:IsAlive() and target:GetHitPoints() < target:GetMaxHitPoints()) then
-        target:RegisterHealing(hit_points, true);
+function battle_healing_potion(target_actor, hit_points)
+    if (target_actor:IsAlive() and target_actor:GetHitPoints() < target_actor:GetMaxHitPoints()) then
+        target_actor:RegisterHealing(hit_points, true);
         AudioManager:PlaySound("data/sounds/potion_drink.wav");
+        local battle_instance = ModeManager:GetTop();
+        battle_instance:TriggerBattleParticleEffect("data/visuals/particle_effects/heal_particle.lua",
+                                                    target_actor:GetXLocation(),
+                                                    target_actor:GetYLocation());
         return true;
     else
+        target_actor:RegisterMiss(false);
         return false;
     end
 end
@@ -80,6 +85,13 @@ items[1] = {
     warmup_time = 1000,
     cooldown_time = 700,
 
+    animation_scripts = {
+        [BRONANN] = "data/battles/characters_animations/all_use_item_single.lua",
+        [KALYA] = "data/battles/characters_animations/all_use_item_single.lua",
+        [SYLVE] = "data/battles/characters_animations/all_use_item_single.lua",
+        [THANIS] = "data/battles/characters_animations/all_use_item_single.lua"
+    },
+
     trade_conditions = {
         [0] = 10,  -- Drunes
         [3100] = 5 -- Slimy material
@@ -103,6 +115,13 @@ items[2] = {
     standard_price = 200,
     warmup_time = 1200,
     cooldown_time = 900,
+
+    animation_scripts = {
+        [BRONANN] = "data/battles/characters_animations/all_use_item_single.lua",
+        [KALYA] = "data/battles/characters_animations/all_use_item_single.lua",
+        [SYLVE] = "data/battles/characters_animations/all_use_item_single.lua",
+        [THANIS] = "data/battles/characters_animations/all_use_item_single.lua"
+    },
 
     trade_conditions = {
         [0] = 60, -- Drunes
@@ -128,6 +147,13 @@ items[3] = {
     warmup_time = 1200,
     cooldown_time = 900,
 
+    animation_scripts = {
+        [BRONANN] = "data/battles/characters_animations/all_use_item_single.lua",
+        [KALYA] = "data/battles/characters_animations/all_use_item_single.lua",
+        [SYLVE] = "data/battles/characters_animations/all_use_item_single.lua",
+        [THANIS] = "data/battles/characters_animations/all_use_item_single.lua"
+    },
+
     trade_conditions = {
         [0] = 60, -- Drunes
         [2] = 4   -- Small healing potions
@@ -152,6 +178,13 @@ items[4] = {
     warmup_time = 1200,
     cooldown_time = 1200,
 
+    animation_scripts = {
+        [BRONANN] = "data/battles/characters_animations/all_use_item_single.lua",
+        [KALYA] = "data/battles/characters_animations/all_use_item_single.lua",
+        [SYLVE] = "data/battles/characters_animations/all_use_item_single.lua",
+        [THANIS] = "data/battles/characters_animations/all_use_item_single.lua"
+    },
+
     trade_conditions = {
         [0] = 500, -- Drunes
         [3] = 4    -- Healing potions
@@ -168,12 +201,17 @@ items[4] = {
 }
 
 -- Moon juices : Skill points
-function battle_skill_potion(target, skill_points)
-    if (target:IsAlive() and target:GetSkillPoints() < target:GetMaxSkillPoints()) then
-        target:RegisterHealing(skill_points, false);
+function battle_skill_potion(target_actor, skill_points)
+    if (target_actor:IsAlive() and target_actor:GetSkillPoints() < target_actor:GetMaxSkillPoints()) then
+        target_actor:RegisterHealing(skill_points, false);
         AudioManager:PlaySound("data/sounds/potion_drink.wav");
+        local battle_instance = ModeManager:GetTop();
+        battle_instance:TriggerBattleParticleEffect("data/visuals/particle_effects/heal_sp_particle.lua",
+                                                    target_actor:GetXLocation(),
+                                                    target_actor:GetYLocation());
         return true;
     else
+        target_actor:RegisterMiss(false);
         return false;
     end
 end
@@ -201,6 +239,13 @@ items[11] = {
     use_warmup_time = 1000,
     cooldown_time = 1200,
 
+    animation_scripts = {
+        [BRONANN] = "data/battles/characters_animations/all_use_item_single.lua",
+        [KALYA] = "data/battles/characters_animations/all_use_item_single.lua",
+        [SYLVE] = "data/battles/characters_animations/all_use_item_single.lua",
+        [THANIS] = "data/battles/characters_animations/all_use_item_single.lua"
+    },
+
     trade_conditions = {
         [0] = 20,    -- Drunes
         [3100] = 1,  -- Slimy material
@@ -226,6 +271,13 @@ items[12] = {
     use_warmup_time = 1000,
     cooldown_time = 1200,
 
+    animation_scripts = {
+        [BRONANN] = "data/battles/characters_animations/all_use_item_single.lua",
+        [KALYA] = "data/battles/characters_animations/all_use_item_single.lua",
+        [SYLVE] = "data/battles/characters_animations/all_use_item_single.lua",
+        [THANIS] = "data/battles/characters_animations/all_use_item_single.lua"
+    },
+
     trade_conditions = {
         [0] = 100,   -- Drunes
         [11] = 3,    -- Tiny Moon Juice
@@ -249,6 +301,13 @@ items[13] = {
     standard_price = 1300,
     use_warmup_time = 1000,
     cooldown_time = 1200,
+
+    animation_scripts = {
+        [BRONANN] = "data/battles/characters_animations/all_use_item_single.lua",
+        [KALYA] = "data/battles/characters_animations/all_use_item_single.lua",
+        [SYLVE] = "data/battles/characters_animations/all_use_item_single.lua",
+        [THANIS] = "data/battles/characters_animations/all_use_item_single.lua"
+    },
 
     trade_conditions = {
         [0] = 300,   -- Drunes
@@ -274,6 +333,13 @@ items[14] = {
     use_warmup_time = 1200,
     cooldown_time = 1300,
 
+    animation_scripts = {
+        [BRONANN] = "data/battles/characters_animations/all_use_item_single.lua",
+        [KALYA] = "data/battles/characters_animations/all_use_item_single.lua",
+        [SYLVE] = "data/battles/characters_animations/all_use_item_single.lua",
+        [THANIS] = "data/battles/characters_animations/all_use_item_single.lua"
+    },
+
     trade_conditions = {
         [0] = 1000,  -- Drunes
         [13] = 4,    -- Tiny Moon Juice
@@ -297,6 +363,13 @@ items[15] = {
     standard_price = 100,
     use_warmup_time = 1200,
     cooldown_time = 1300,
+
+    animation_scripts = {
+        [BRONANN] = "data/battles/characters_animations/all_use_item_single.lua",
+        [KALYA] = "data/battles/characters_animations/all_use_item_single.lua",
+        [SYLVE] = "data/battles/characters_animations/all_use_item_single.lua",
+        [THANIS] = "data/battles/characters_animations/all_use_item_single.lua"
+    },
 
     BattleUse = function(user, target)
         local target_actor = target:GetActor();
@@ -350,6 +423,13 @@ items[16] = {
     use_warmup_time = 1200,
     cooldown_time = 1300,
 
+    animation_scripts = {
+        [BRONANN] = "data/battles/characters_animations/all_use_item_single.lua",
+        [KALYA] = "data/battles/characters_animations/all_use_item_single.lua",
+        [SYLVE] = "data/battles/characters_animations/all_use_item_single.lua",
+        [THANIS] = "data/battles/characters_animations/all_use_item_single.lua"
+    },
+
     trade_conditions = {
         [0] = 500,   -- Drunes
         [3101] = 15, -- Refined Slimy Material
@@ -395,6 +475,7 @@ _battle_apply_elixir_status_effects = function(target_actor, intensity)
         AudioManager:PlaySound("data/sounds/potion_drink.wav");
         return true;
     else
+        target_actor:RegisterMiss(false);
         return false;
     end
 end
@@ -423,6 +504,13 @@ items[1001] = {
     standard_price = 150,
     use_warmup_time = 1200,
     cooldown_time = 1800,
+
+    animation_scripts = {
+        [BRONANN] = "data/battles/characters_animations/all_use_item_single.lua",
+        [KALYA] = "data/battles/characters_animations/all_use_item_single.lua",
+        [SYLVE] = "data/battles/characters_animations/all_use_item_single.lua",
+        [THANIS] = "data/battles/characters_animations/all_use_item_single.lua"
+    },
 
     trade_conditions = {
         [0] = 10,   -- Drunes
@@ -467,6 +555,13 @@ items[1003] = {
     use_warmup_time = 1600,
     cooldown_time = 2100,
 
+    animation_scripts = {
+        [BRONANN] = "data/battles/characters_animations/all_use_item_single.lua",
+        [KALYA] = "data/battles/characters_animations/all_use_item_single.lua",
+        [SYLVE] = "data/battles/characters_animations/all_use_item_single.lua",
+        [THANIS] = "data/battles/characters_animations/all_use_item_single.lua"
+    },
+
     trade_conditions = {
         [0] = 200,  -- Drunes
         [1001] = 5, -- Minor Elixirs
@@ -507,6 +602,13 @@ items[1004] = {
     standard_price = 1600,
     use_warmup_time = 3600,
     cooldown_time = 2100,
+
+    animation_scripts = {
+        [BRONANN] = "data/battles/characters_animations/all_use_item_single.lua",
+        [KALYA] = "data/battles/characters_animations/all_use_item_single.lua",
+        [SYLVE] = "data/battles/characters_animations/all_use_item_single.lua",
+        [THANIS] = "data/battles/characters_animations/all_use_item_single.lua"
+    },
 
     trade_conditions = {
         [0] = 400,   -- Drunes
@@ -550,6 +652,13 @@ items[1005] = {
     use_warmup_time = 1600,
     cooldown_time = 2100,
 
+    animation_scripts = {
+        [BRONANN] = "data/battles/characters_animations/all_use_item_single.lua",
+        [KALYA] = "data/battles/characters_animations/all_use_item_single.lua",
+        [SYLVE] = "data/battles/characters_animations/all_use_item_single.lua",
+        [THANIS] = "data/battles/characters_animations/all_use_item_single.lua"
+    },
+
     trade_conditions = {
         [0] = 300,   -- Drunes
         [3113] = 5,  -- Red Meat
@@ -592,6 +701,13 @@ items[1006] = {
     standard_price = 1400,
     use_warmup_time = 1600,
     cooldown_time = 2100,
+
+    animation_scripts = {
+        [BRONANN] = "data/battles/characters_animations/all_use_item_single.lua",
+        [KALYA] = "data/battles/characters_animations/all_use_item_single.lua",
+        [SYLVE] = "data/battles/characters_animations/all_use_item_single.lua",
+        [THANIS] = "data/battles/characters_animations/all_use_item_single.lua"
+    },
 
     trade_conditions = {
         [0] = 350,   -- Drunes
