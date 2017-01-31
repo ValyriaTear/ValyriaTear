@@ -36,7 +36,8 @@ characters[BRONANN] = {
         magic_prepare = "data/entities/battle/characters/bronann/bronann_magic_prepare.lua",
         magic_cast = "data/entities/battle/characters/bronann/bronann_magic_cast.lua",
         jump_forward = "data/entities/battle/characters/bronann/bronann_jump_forward.lua",
-        jump_backward = "data/entities/battle/characters/bronann/bronann_jump_backward.lua"
+        jump_backward = "data/entities/battle/characters/bronann/bronann_jump_backward.lua",
+        escape_smoke = "data/entities/battle/characters/bronann/bronann_magic_cast.lua",
     },
 
     initial_stats = {
@@ -249,7 +250,8 @@ characters[KALYA] = {
         item = "data/entities/battle/characters/kalya/kalya_idle.lua",
         magic_prepare = "data/entities/battle/characters/kalya/kalya_magic_prepare.lua",
         magic_cast = "data/entities/battle/characters/kalya/kalya_magic_cast.lua",
-        throw_stone = "data/entities/battle/characters/kalya/kalya_throw_stone.lua" -- bare hand attack
+        throw_stone = "data/entities/battle/characters/kalya/kalya_throw_stone.lua", -- bare hand attack
+        escape_smoke = "data/entities/battle/characters/kalya/kalya_throw_stone.lua"
     },
 
     initial_stats = {
@@ -457,7 +459,8 @@ characters[SYLVE] = {
         revive = "data/entities/battle/characters/sylve_idle.lua",
         item = "data/entities/battle/characters/sylve_idle.lua",
         magic_prepare = "data/entities/battle/characters/sylve_idle.lua",
-        magic_cast = "data/entities/battle/characters/sylve_idle.lua"
+        magic_cast = "data/entities/battle/characters/sylve_idle.lua",
+        escape_smoke = "data/entities/battle/characters/sylve_idle.lua"
     },
 
     initial_stats = {
@@ -593,7 +596,8 @@ characters[THANIS] = {
         revive = "data/entities/battle/characters/thanis_idle.lua",
         item = "data/entities/battle/characters/thanis_idle.lua",
         magic_prepare = "data/entities/battle/characters/thanis_idle.lua",
-        magic_cast = "data/entities/battle/characters/thanis_idle.lua"
+        magic_cast = "data/entities/battle/characters/thanis_idle.lua",
+        escape_smoke = "data/entities/battle/characters/thanis_idle.lua"
     },
 
     initial_stats = {

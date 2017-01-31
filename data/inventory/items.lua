@@ -979,11 +979,18 @@ items[4001] = {
     name = vt_system.Translate("Escape Smoke"),
     description = vt_system.Translate("A ninja potion that bursts out a damp mist when it is crashed on the ground. Used to hopefully escape from standard opponents."),
     icon = "data/inventory/items/escape_smoke.png",
-    target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_ALLIES,
     standard_price = 100,
 
     use_warmup_time = 1600,
     cooldown_time = 2100,
+
+    animation_scripts = {
+        [BRONANN] = "data/battles/characters_animations/all_use_escape_smoke.lua",
+        [KALYA] = "data/battles/characters_animations/all_use_escape_smoke.lua",
+        [SYLVE] = "data/battles/characters_animations/all_use_escape_smoke.lua",
+        [THANIS] = "data/battles/characters_animations/all_use_escape_smoke.lua"
+    },
 
     trade_conditions = {
         [0] = 20,    -- Drunes
@@ -994,8 +1001,9 @@ items[4001] = {
     },
 
     BattleUse = function(user, target)
-        -- TODO: Triggers the smoke effect when succeeding
-        -- TODO for later: Adds animation support when using items and triggers effect in any case.
+        -- Remove the item from inventory, as the battle mode won't handle it properly
+        -- if at least one succeed during the battle.
+        GlobalManager:DecrementItemCount(4001, 1)
 
         local battle_instance = ModeManager:GetTop();
         -- If it's a boss battle, this can't work at all
@@ -1008,7 +1016,6 @@ items[4001] = {
         local evade_diff = 60.0 + _GetAverageHeroesEvasionLevel() - _GetAverageEnemiesStaminaLevel();
         if (math.random(0, 100) > evade_diff) then
             local target_actor = target:GetActor();
-            target_actor:RegisterMiss(true);
             return true;
         end
 
@@ -1019,6 +1026,7 @@ items[4001] = {
     end,
 
     -- Can't be used from menu
+    -- TODO: Add support for this with the "home" map feature.
     --FieldUse = function(target)
         --return false;
     --end
