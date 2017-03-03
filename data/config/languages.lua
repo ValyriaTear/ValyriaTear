@@ -36,6 +36,10 @@ languages = {
         name = "Galego",
         interwords_spaces = true
     },
+    ["gd"] = {
+        name = "Gàidhlig",
+        interwords_spaces = true
+    },
     ["it"] = {
         name = "Italiano",
         interwords_spaces = true
