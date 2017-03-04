@@ -231,32 +231,32 @@ public:
     //! \brief Returns the text of the line specified
     vt_utils::ustring GetLineText(uint32_t line) const {
         if(line >= _line_count) return vt_utils::ustring();
-        else return _text[line];
+        return _text[line];
     }
 
     //! \brief Returns the line index that follows the line specified
     int32_t GetLineNextLine(uint32_t line) const {
         if(line >= _line_count) return DIALOGUE_INVALID;
-        else return _next_lines[line];
+        return _next_lines[line];
     }
 
     //! \brief Returns the display time of the line specified
     int32_t GetLineDisplayTime(uint32_t line) const {
         if(line >= _line_count) return DIALOGUE_INVALID;
-        else return _display_times[line];
+        return _display_times[line];
     }
 
     //! \brief Returns the options container of the line specified
     DialogueOptions* GetLineOptions(uint32_t line) const {
         if(line >= _line_count) return nullptr;
-        else return _options[line];
+        return _options[line];
     }
     //@}
 
     //! \brief Returns the speaker ID for the line specified (or zero if the line index was invalid)
     const std::string& GetLineSpeaker(uint32_t line) const {
         if(line >= _line_count) return vt_utils::_empty_string;
-        else return _speakers[line];
+        return _speakers[line];
     }
 
     //! \name Class Member Access Functions
@@ -331,13 +331,13 @@ public:
     //! \brief Returns the text of the option specified
     vt_utils::ustring GetOptionText(uint32_t option) const {
         if(option >= GetNumberOptions()) return vt_utils::ustring();
-        else return _text[option];
+        return _text[option];
     }
 
     //! \brief Returns the line index that follows the line when the given option is selected
     int32_t GetOptionNextLine(uint32_t option) const {
         if(option >= GetNumberOptions()) return DIALOGUE_INVALID;
-        else return _next_lines[option];
+        return _next_lines[option];
     }
     //@}
 

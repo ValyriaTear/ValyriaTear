@@ -30,7 +30,7 @@ namespace vt_main {
 *** \param argv A pointer to the list of arguments
 *** \return False if the program should exit with a return code, or true if it should continue
 **/
-bool ParseProgramOptions(int32_t& return_code, int32_t argc, char **argv);
+bool ParseProgramOptions(int32_t& return_code, int32_t argc, const char **argv);
 
 /** \brief Parses a secondary list of options provided to a primary program option
 *** \param vars The list of secondary options in single string format
