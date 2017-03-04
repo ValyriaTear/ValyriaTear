@@ -1,3 +1,17 @@
+# Temp files
+*~
+*.bak
+*.backup
+\#*
+.\#*
+*\#
+*.swp
+*.swap
+*.sav
+*.save
+*.autosav
+*.autosave
+
 # files created by CMake
 Makefile
 CMakeFiles/
@@ -11,6 +25,7 @@ cmake_uninstall.cmake
 
 # files created during build
 *.o
+*.so
 *.gmo
 *.mo
 po/translatable-files
@@ -18,7 +33,6 @@ po/*/
 src/valyriatear
 src/vt-editor
 gmon.out
-
 
 # files created during Windows build
 .objs
@@ -59,23 +73,23 @@ doc/SOURCE/html/*
 [0-9][0-9][0-9][0-9]-*.patch
 
 # static libraries
-# *.a
+*.a
 
 # files created by qmake
 *.cxx
 *.cxx_parameters
 
-#map editor
+# map editor
 Map_Editor.layout
 
-#debug / runtime folders
+# debug / runtime folders
 ValyriaTear-Debug
 
 #valyriatear win32 depends
 valyriatear-win32-depends
 valyriatear-win32-depends/*
 
-#files modified during runtime
+# files modified during runtime
 stderr.txt
 stdout.txt
 
@@ -90,4 +104,3 @@ build/
 
 # VS Dependencies Directory
 ValyriaTear-VS2013-Dependencies
-
