@@ -28,7 +28,7 @@ Copyright (C) 2004-2011 by The Allacrost Project
 
 The source code is licensed under the *GNU GPL*. It is free software and you may
 modify it and/or redistribute it under the terms of this license.
-See http://www.gnu.org/copyleft/gpl.html for details.
+See https://www.gnu.org/copyleft/gpl.html for details.
 
 The graphics, sounds, musics and script files are licensed according to the LICENSES file:
 https://raw.githubusercontent.com/ValyriaTear/ValyriaTear/master/LICENSES
