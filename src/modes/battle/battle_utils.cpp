@@ -87,10 +87,7 @@ bool RndEvade(BattleActor* target_actor, float add_eva, float mul_eva, int32_t a
     else if(evasion >= 100.0f)
         evasion = 0.95f;
 
-    if(RandomFloat(0.0f, 100.0f) <= evasion)
-        return true;
-    else
-        return false;
+    return RandomFloat(0.0f, 100.0f) <= evasion;
 }
 
 uint32_t RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor)

@@ -163,7 +163,8 @@ bool Dialogue::Validate()
                 int32_t option_next_line = _options[i]->GetOptionNextLine(j);
                 if((option_next_line >= 0) && (static_cast<uint32_t>(option_next_line) >= _line_count)) {
                     IF_PRINT_WARNING(COMMON_DEBUG) << "Validation failed for dialogue #" << _dialogue_id
-                                                   << ": option's next line referred to an invalid line index: " << option_next_line << std::endl;
+                                                   << ": option's next line referred to an invalid line index: "
+                                                   << option_next_line << std::endl;
                     return false;
                 }
             }
@@ -384,9 +385,8 @@ void DialogueSupervisor::AddDialogue(Dialogue* dialogue)
         IF_PRINT_WARNING(COMMON_DEBUG) << "a dialogue was already registered with this ID: " << dialogue->GetDialogueID() << std::endl;
         delete dialogue;
         return;
-    } else {
-        _dialogues.insert(std::make_pair(dialogue->GetDialogueID(), dialogue));
     }
+    _dialogues.insert(std::make_pair(dialogue->GetDialogueID(), dialogue));
 }
 
 void DialogueSupervisor::AddSpeaker(const std::string& speaker_id, const std::string& name, const std::string& portrait)
