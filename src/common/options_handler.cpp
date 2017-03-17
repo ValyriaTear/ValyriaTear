@@ -140,7 +140,7 @@ GameOptionsMenuHandler::GameOptionsMenuHandler(vt_mode_manager::GameMode* parent
     _joy_setting_function(nullptr),
     _joy_axis_setting_function(nullptr),
     _message_window(ustring(), -1.0f, -1.0f, 410.0f, 133.0f),
-    _explanation_window(ustring(), -1.0f, 650.0f, 510.0f, 100.0f),
+    _explanation_window(ustring(), -1.0f, 650.0f, VideoManager->GetScreenWidth() - 100.f, 100.0f),
     _parent_mode(parent_mode)
 {
     // Create the option window used as background
