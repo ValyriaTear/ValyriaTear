@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-05 16:25+0100\n"
+"POT-Creation-Date: 2017-03-17 10:55+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../src/common/global/battle_media.cpp:98
-#: ../src/modes/battle/battle_menu.cpp:143
+#: ../src/modes/battle/battle_menu.cpp:141
 msgid "Auto-Battle"
 msgstr ""
 
@@ -112,9 +112,9 @@ msgid "Foe"
 msgstr ""
 
 #: ../src/common/global/global_utils.cpp:70
-#: ../src/modes/battle/battle_command.cpp:1411
-#: ../src/modes/battle/battle_command.cpp:1441
-#: ../src/modes/battle/battle_utils.cpp:484
+#: ../src/modes/battle/battle_command.cpp:1412
+#: ../src/modes/battle/battle_command.cpp:1442
+#: ../src/modes/battle/battle_utils.cpp:486
 msgid "All Allies"
 msgstr ""
 
@@ -127,7 +127,7 @@ msgid "Invalid Target"
 msgstr ""
 
 #. / Translators: The window title only supports UTF-8 characters in SDL2.
-#: ../src/common/options_handler.cpp:369 ../src/main.cpp:522
+#: ../src/common/options_handler.cpp:369 ../src/main.cpp:533
 msgid "Valyria Tear"
 msgstr ""
 
@@ -464,68 +464,68 @@ msgstr ""
 msgid "Item<R>Type   ×"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:546
+#: ../src/modes/battle/battle_command.cpp:550
 msgid "Skill<R>Type SP"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:653
-#: ../src/modes/battle/battle_command.cpp:659
-#: ../src/modes/battle/battle_command.cpp:751
-#: ../src/modes/battle/battle_command.cpp:752
-#: ../src/modes/menu/menu_views.cpp:1806
+#: ../src/modes/battle/battle_command.cpp:657
+#: ../src/modes/battle/battle_command.cpp:663
+#: ../src/modes/battle/battle_command.cpp:755
+#: ../src/modes/battle/battle_command.cpp:756
+#: ../src/modes/menu/menu_views.cpp:1804
 msgid "Weapon"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:654
-#: ../src/modes/battle/battle_command.cpp:660
+#: ../src/modes/battle/battle_command.cpp:658
+#: ../src/modes/battle/battle_command.cpp:664
 msgid "Magic"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:656
-#: ../src/modes/battle/battle_command.cpp:662 ../src/modes/menu/menu.cpp:368
+#: ../src/modes/battle/battle_command.cpp:660
+#: ../src/modes/battle/battle_command.cpp:666 ../src/modes/menu/menu.cpp:368
 #: ../src/modes/shop/shop.cpp:68
 msgid "Items"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:755
-#: ../src/modes/battle/battle_command.cpp:756
+#: ../src/modes/battle/battle_command.cpp:759
+#: ../src/modes/battle/battle_command.cpp:760
 msgid "Bare-hand"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1245
+#: ../src/modes/battle/battle_command.cpp:1246
 msgid "Enemy Defense Modifiers:\n"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1290
+#: ../src/modes/battle/battle_command.cpp:1291
 msgid ""
 "\n"
 "\n"
 "Effects:\n"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1406
+#: ../src/modes/battle/battle_command.cpp:1407
 msgid "Select Target"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1413
-#: ../src/modes/battle/battle_command.cpp:1443
-#: ../src/modes/battle/battle_utils.cpp:487
+#: ../src/modes/battle/battle_command.cpp:1414
+#: ../src/modes/battle/battle_command.cpp:1444
+#: ../src/modes/battle/battle_utils.cpp:489
 msgid "All Enemies"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1465
+#: ../src/modes/battle/battle_command.cpp:1466
 msgid "Select Attack Point"
 msgstr ""
 
-#: ../src/modes/battle/battle.cpp:543
+#: ../src/modes/battle/battle.cpp:544
 msgid "Double Rush!"
 msgstr ""
 
-#: ../src/modes/battle/battle.cpp:545
+#: ../src/modes/battle/battle.cpp:549
 msgid "First Strike!"
 msgstr ""
 
-#: ../src/modes/battle/battle.cpp:547
+#: ../src/modes/battle/battle.cpp:554
 msgid "Ambush!"
 msgstr ""
 
@@ -557,61 +557,61 @@ msgstr ""
 msgid "Items Found"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:535
+#: ../src/modes/battle/battle_finish.cpp:528
 msgid "XP Earned: "
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:537
+#: ../src/modes/battle/battle_finish.cpp:530
 msgid "Drunes Found: "
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:538
+#: ../src/modes/battle/battle_finish.cpp:531
 msgid "Total Drunes: "
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:595
-#: ../src/modes/battle/battle_finish.cpp:801
+#: ../src/modes/battle/battle_finish.cpp:588
+#: ../src/modes/battle/battle_finish.cpp:794
 msgid "Level (Max): "
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:599
-#: ../src/modes/battle/battle_finish.cpp:803
+#: ../src/modes/battle/battle_finish.cpp:592
+#: ../src/modes/battle/battle_finish.cpp:796
 msgid "Level: "
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:601
-#: ../src/modes/battle/battle_finish.cpp:804
+#: ../src/modes/battle/battle_finish.cpp:594
+#: ../src/modes/battle/battle_finish.cpp:797
 msgid "XP left: "
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:794
+#: ../src/modes/battle/battle_finish.cpp:787
 msgid "New Skill Learned:\n"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:806
+#: ../src/modes/battle/battle_finish.cpp:799
 msgid " (+20%)"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:922
+#: ../src/modes/battle/battle_finish.cpp:915
 msgid "The heroes were victorious!"
 msgstr ""
 
-#: ../src/modes/battle/battle_finish.cpp:925
+#: ../src/modes/battle/battle_finish.cpp:918
 msgid "The heroes fell in battle..."
 msgstr ""
 
-#: ../src/modes/battle/battle_menu.cpp:152
+#: ../src/modes/battle/battle_menu.cpp:150
 msgid ""
 "When the Auto-Battle mode is activated, your party will auto attack the "
 "opponents using default attacks. If you open a command menu, the Auto-Battle "
 "mode will be deactivated again."
 msgstr ""
 
-#: ../src/modes/battle/battle_utils.cpp:469
+#: ../src/modes/battle/battle_utils.cpp:471
 msgid "[Invalid Target]"
 msgstr ""
 
-#: ../src/modes/battle/battle_utils.cpp:474
+#: ../src/modes/battle/battle_utils.cpp:476
 msgid " — "
 msgstr ""
 
@@ -632,15 +632,15 @@ msgstr ""
 msgid "Quit"
 msgstr ""
 
-#: ../src/modes/map/map_treasure.cpp:83
+#: ../src/modes/map/map_treasure.cpp:75
 msgid "You obtain"
 msgstr ""
 
-#: ../src/modes/map/map_treasure.cpp:106
+#: ../src/modes/map/map_treasure.cpp:98
 msgid "Ok"
 msgstr ""
 
-#: ../src/modes/map/map_treasure.cpp:159 ../src/modes/map/map_treasure.cpp:327
+#: ../src/modes/map/map_treasure.cpp:151 ../src/modes/map/map_treasure.cpp:319
 msgid "Drunes"
 msgstr ""
 
@@ -727,21 +727,21 @@ msgstr ""
 msgid "Skills obtained:"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:1178 ../src/modes/shop/shop.cpp:198
-#: ../src/modes/shop/shop.cpp:538
+#: ../src/modes/menu/menu.cpp:1180 ../src/modes/shop/shop.cpp:198
+#: ../src/modes/shop/shop.cpp:536
 msgid "ATK:"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:1179 ../src/modes/shop/shop.cpp:200
-#: ../src/modes/shop/shop.cpp:539
+#: ../src/modes/menu/menu.cpp:1181 ../src/modes/shop/shop.cpp:200
+#: ../src/modes/shop/shop.cpp:537
 msgid "M.ATK:"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:1182 ../src/modes/shop/shop.cpp:545
+#: ../src/modes/menu/menu.cpp:1184 ../src/modes/shop/shop.cpp:543
 msgid "DEF:"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:1183 ../src/modes/shop/shop.cpp:546
+#: ../src/modes/menu/menu.cpp:1185 ../src/modes/shop/shop.cpp:544
 msgid "M.DEF:"
 msgstr ""
 
@@ -757,135 +757,135 @@ msgstr ""
 msgid "Select a character to use the item on."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:775
+#: ../src/modes/menu/menu_views.cpp:773
 msgid "Select a character to change position with."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:776
+#: ../src/modes/menu/menu_views.cpp:774
 msgid "Select a character to change formation."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:836
+#: ../src/modes/menu/menu_views.cpp:834
 msgid "Global Attack / Defense:"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:838
+#: ../src/modes/menu/menu_views.cpp:836
 msgid "Detailed Defense:"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:841
+#: ../src/modes/menu/menu_views.cpp:839
 msgid "Total Attack: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:842
+#: ../src/modes/menu/menu_views.cpp:840
 msgid "Total Magical Attack: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:843
+#: ../src/modes/menu/menu_views.cpp:841
 msgid "Average Defense: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:844
+#: ../src/modes/menu/menu_views.cpp:842
 msgid "Average Magical Defense: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:851
+#: ../src/modes/menu/menu_views.cpp:849
 msgid "Head: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:852
+#: ../src/modes/menu/menu_views.cpp:850
 msgid "Torso: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:853
+#: ../src/modes/menu/menu_views.cpp:851
 msgid "Arm: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:854
+#: ../src/modes/menu/menu_views.cpp:852
 msgid "Leg: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:959
+#: ../src/modes/menu/menu_views.cpp:957
 msgid "Experience Level: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:961
+#: ../src/modes/menu/menu_views.cpp:959
 msgid "Physical Attack: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:962
+#: ../src/modes/menu/menu_views.cpp:960
 msgid "Magical Attack: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:963
+#: ../src/modes/menu/menu_views.cpp:961
 msgid "Physical Defense: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:964
+#: ../src/modes/menu/menu_views.cpp:962
 msgid "Magical Defense: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:965
+#: ../src/modes/menu/menu_views.cpp:963
 msgid "Stamina: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:966
+#: ../src/modes/menu/menu_views.cpp:964
 msgid "Evade: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1133
+#: ../src/modes/menu/menu_views.cpp:1131
 msgid "Switch"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1156
-msgid "Select a battle formation to change characters placement."
+#: ../src/modes/menu/menu_views.cpp:1154
+msgid "Select a battle formation to change character placement."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1159
+#: ../src/modes/menu/menu_views.cpp:1157
 msgid "Rear - Front"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1328
+#: ../src/modes/menu/menu_views.cpp:1326
 msgid "Choose a character."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1329
+#: ../src/modes/menu/menu_views.cpp:1327
 msgid "Choose a skill category to use."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1418
+#: ../src/modes/menu/menu_views.cpp:1416
 msgid "All"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1419
+#: ../src/modes/menu/menu_views.cpp:1417
 msgid "Field"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1420
+#: ../src/modes/menu/menu_views.cpp:1418
 msgid "Battle"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1622
+#: ../src/modes/menu/menu_views.cpp:1620
 msgid "Weapon skill"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1624
+#: ../src/modes/menu/menu_views.cpp:1622
 msgid "Bare hands"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1627
+#: ../src/modes/menu/menu_views.cpp:1625
 msgid "Magic skill"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1633
+#: ../src/modes/menu/menu_views.cpp:1631
 msgid "Special skill"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1753
+#: ../src/modes/menu/menu_views.cpp:1751
 msgid " SP"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1808 ../data/entities/characters.lua:62
+#: ../src/modes/menu/menu_views.cpp:1806 ../data/entities/characters.lua:62
 #: ../data/entities/characters.lua:275 ../data/entities/characters.lua:483
 #: ../data/entities/characters.lua:619 ../data/entities/enemies.lua:91
 #: ../data/entities/enemies.lua:149 ../data/entities/enemies.lua:204
@@ -900,7 +900,7 @@ msgstr ""
 msgid "Head"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1810 ../data/entities/characters.lua:71
+#: ../src/modes/menu/menu_views.cpp:1808 ../data/entities/characters.lua:71
 #: ../data/entities/characters.lua:284 ../data/entities/characters.lua:492
 #: ../data/entities/characters.lua:628 ../data/entities/enemies.lua:314
 #: ../data/entities/enemies.lua:496 ../data/entities/enemies.lua:564
@@ -909,13 +909,13 @@ msgstr ""
 msgid "Torso"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1812 ../data/entities/characters.lua:79
+#: ../src/modes/menu/menu_views.cpp:1810 ../data/entities/characters.lua:79
 #: ../data/entities/characters.lua:292 ../data/entities/characters.lua:500
 #: ../data/entities/characters.lua:636
 msgid "Arms"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1814 ../data/entities/characters.lua:88
+#: ../src/modes/menu/menu_views.cpp:1812 ../data/entities/characters.lua:88
 #: ../data/entities/characters.lua:301 ../data/entities/characters.lua:509
 #: ../data/entities/characters.lua:645 ../data/entities/enemies.lua:504
 #: ../data/entities/enemies.lua:572 ../data/entities/enemies.lua:1596
@@ -923,23 +923,23 @@ msgstr ""
 msgid "Legs"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:2200
+#: ../src/modes/menu/menu_views.cpp:2198
 msgid "No weapon"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:2201
+#: ../src/modes/menu/menu_views.cpp:2199
 msgid "No head armor"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:2202
+#: ../src/modes/menu/menu_views.cpp:2200
 msgid "No torso armor"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:2203
+#: ../src/modes/menu/menu_views.cpp:2201
 msgid "No arms armor"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:2204
+#: ../src/modes/menu/menu_views.cpp:2202
 msgid "No legs armor"
 msgstr ""
 
@@ -1166,27 +1166,27 @@ msgstr ""
 msgid "SP: "
 msgstr ""
 
-#: ../src/modes/shop/shop_buy.cpp:59 ../src/modes/shop/shop_sell.cpp:59
-#: ../src/modes/shop/shop_trade.cpp:56
+#: ../src/modes/shop/shop_buy.cpp:60 ../src/modes/shop/shop_sell.cpp:60
+#: ../src/modes/shop/shop_trade.cpp:57
 msgid "Category"
 msgstr ""
 
-#: ../src/modes/shop/shop_buy.cpp:62 ../src/modes/shop/shop_sell.cpp:62
-#: ../src/modes/shop/shop_trade.cpp:59
+#: ../src/modes/shop/shop_buy.cpp:63 ../src/modes/shop/shop_sell.cpp:63
+#: ../src/modes/shop/shop_trade.cpp:60
 msgid "Name"
 msgstr ""
 
-#: ../src/modes/shop/shop_buy.cpp:68 ../src/modes/shop/shop_sell.cpp:68
-#: ../src/modes/shop/shop_trade.cpp:65
+#: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_sell.cpp:69
+#: ../src/modes/shop/shop_trade.cpp:66
 msgid "Price"
 msgstr ""
 
-#: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_trade.cpp:66
+#: ../src/modes/shop/shop_buy.cpp:70 ../src/modes/shop/shop_trade.cpp:67
 msgid "Stock"
 msgstr ""
 
-#: ../src/modes/shop/shop_buy.cpp:70 ../src/modes/shop/shop_sell.cpp:69
-#: ../src/modes/shop/shop_trade.cpp:67
+#: ../src/modes/shop/shop_buy.cpp:71 ../src/modes/shop/shop_sell.cpp:70
+#: ../src/modes/shop/shop_trade.cpp:68
 msgid "Own"
 msgstr ""
 
@@ -1238,47 +1238,47 @@ msgstr ""
 msgid "Conditions:"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:729
+#: ../src/modes/shop/shop.cpp:727
 msgid "Buy count: x "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:732
+#: ../src/modes/shop/shop.cpp:730
 msgid "Sell count: x "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:735
+#: ../src/modes/shop/shop.cpp:733
 msgid "Trade count: x "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1029 ../src/modes/shop/shop.cpp:1292
+#: ../src/modes/shop/shop.cpp:1027 ../src/modes/shop/shop.cpp:1289
 msgid "Buy"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1030 ../src/modes/shop/shop.cpp:1293
+#: ../src/modes/shop/shop.cpp:1028 ../src/modes/shop/shop.cpp:1290
 msgid "Sell"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1031 ../src/modes/shop/shop.cpp:1294
+#: ../src/modes/shop/shop.cpp:1029 ../src/modes/shop/shop.cpp:1291
 msgid "Trade"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1295
+#: ../src/modes/shop/shop.cpp:1292
 msgid "Leave"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1748
+#: ../src/modes/shop/shop.cpp:1745
 msgid "Funds: "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1750
+#: ../src/modes/shop/shop.cpp:1747
 msgid "Purchases: "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1751 ../src/modes/shop/shop.cpp:1754
+#: ../src/modes/shop/shop.cpp:1748 ../src/modes/shop/shop.cpp:1751
 msgid "Remaining: "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1753
+#: ../src/modes/shop/shop.cpp:1750
 msgid "Sales: +"
 msgstr ""
 
@@ -6996,34 +6996,34 @@ msgid "Battle target cursor memory: %s"
 msgstr ""
 
 #. / TRANSLATORS: this is about displaying a time: eg 4.2s
-#: ../src/modes/battle/battle_command.cpp:1228
+#: ../src/modes/battle/battle_command.cpp:1229
 #, c-format
 msgid "%ss"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1303
+#: ../src/modes/battle/battle_command.cpp:1304
 #, c-format
 msgid "%s SP"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1305
-#: ../src/modes/battle/battle_command.cpp:1312
+#: ../src/modes/battle/battle_command.cpp:1306
+#: ../src/modes/battle/battle_command.cpp:1313
 #, c-format
 msgid "Target Type: %s"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1306
+#: ../src/modes/battle/battle_command.cpp:1307
 #, c-format
 msgid "Prep Time: %s"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1307
+#: ../src/modes/battle/battle_command.cpp:1308
 #, c-format
 msgid "Cool Time: %s"
 msgstr ""
 
 #. / TRANSLATORS: This is the evade growth score. E.g.: +1%, +1.5%
-#: ../src/modes/battle/battle_finish.cpp:788
+#: ../src/modes/battle/battle_finish.cpp:781
 #, c-format
 msgid "+%f%%"
 msgstr ""
@@ -7033,15 +7033,15 @@ msgstr ""
 msgid "Press '%s' to get to know about the game keys."
 msgstr ""
 
-#: ../src/modes/map/map_treasure.cpp:329
+#: ../src/modes/map/map_treasure.cpp:321
 #, c-format
 msgid ""
 "With the additional %u drunes found in this treasure added, the party now "
 "holds a total of %u drunes."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1245 ../src/modes/menu/menu_views.cpp:1258
-#: ../src/modes/menu/menu_views.cpp:1260
+#: ../src/modes/menu/menu_views.cpp:1243 ../src/modes/menu/menu_views.cpp:1256
+#: ../src/modes/menu/menu_views.cpp:1258
 #, c-format
 msgid "%d %%"
 msgstr ""
@@ -7056,17 +7056,17 @@ msgstr ""
 msgid "Slot %d"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:706
+#: ../src/modes/shop/shop.cpp:704
 #, c-format
 msgid "Press %s to add items to buy and %s to remove items from your purchase."
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:709
+#: ../src/modes/shop/shop.cpp:707
 #, c-format
 msgid "Press %s to add items to sell and %s to remove items from your sale."
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:712
+#: ../src/modes/shop/shop.cpp:710
 #, c-format
 msgid "Press %s to add items to trade and %s to remove them."
 msgstr ""
