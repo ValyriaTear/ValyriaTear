@@ -403,7 +403,7 @@ void GameOptionsMenuHandler::_SetupVideoOptionsMenu()
 {
     _video_options_menu.ClearOptions();
     _video_options_menu.SetPosition(512.0f, 338.0f);
-    _video_options_menu.SetDimensions(300.0f, 400.0f, 1, 6, 1, 6);
+    _video_options_menu.SetDimensions(350.0f, 400.0f, 1, 6, 1, 6);
     _video_options_menu.SetTextStyle(TextStyle("title22"));
     _video_options_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _video_options_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -456,7 +456,7 @@ void GameOptionsMenuHandler::_SetupGameOptions()
 {
     _game_options_menu.ClearOptions();
     _game_options_menu.SetPosition(512.0f, 338.0f);
-    _game_options_menu.SetDimensions(300.0f, 200.0f, 1, 3, 1, 3);
+    _game_options_menu.SetDimensions(350.0f, 200.0f, 1, 3, 1, 3);
     _game_options_menu.SetTextStyle(TextStyle("title22"));
     _game_options_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _game_options_menu.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -511,7 +511,7 @@ void GameOptionsMenuHandler::_SetupKeySettingsMenu()
 {
     _key_settings_menu.ClearOptions();
     _key_settings_menu.SetPosition(512.0f, 338.0f);
-    _key_settings_menu.SetDimensions(250.0f, 500.0f, 1, 10, 1, 10);
+    _key_settings_menu.SetDimensions(300.0f, 500.0f, 1, 10, 1, 10);
     _key_settings_menu.SetTextStyle(TextStyle("title20"));
     _key_settings_menu.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _key_settings_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
