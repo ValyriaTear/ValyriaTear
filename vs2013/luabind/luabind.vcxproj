@@ -39,9 +39,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>D:\sources\ValyriaTear\vs2013\libs\lua-5.2.2\lib\debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\libs\lua-5.2.2\lib\debug;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
-    <IncludePath>D:\sources\ValyriaTear\vs2013\libs\openal-soft-1.15.1\include\AL;D:\sources\ValyriaTear\vs2013\libs\lua-5.2.2\include;D:\sources\ValyriaTear\vs2013\libs\boost_1_56_0;$(IncludePath)</IncludePath>
+    <IncludePath>..\libs\openal-soft-1.15.1\include\AL;..\libs\lua-5.2.2\include;..\libs\boost_1_56_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
