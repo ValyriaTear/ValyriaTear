@@ -31,7 +31,7 @@ The game directories included and used are:
 
 **Linux compilation**
 Once you've unpacked the tarball, if you have checked it out from the Git repository, run this first to get the latest luabind code:  
-`git submodule update --init --remote --force`
+`git submodule update --init --remote --force`  
 and then the usual `cmake . && make` from the top-level directory at the prompt.
 
 You'll then be able to play by typing: `src/valyriatear`
