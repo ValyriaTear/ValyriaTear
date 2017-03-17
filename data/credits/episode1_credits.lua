@@ -175,9 +175,9 @@ function DrawPostEffects()
 
     header_color:SetAlpha(1.0 * text_alpha);
     text_color:SetAlpha(0.9 * text_alpha);
-    VideoManager:Move(870.0, 600.0);
+    VideoManager:Move(850.0, 600.0);
     credit_map[credit_id].header:Draw(header_color);
-    VideoManager:Move(870.0, 648.0);
+    VideoManager:Move(850.0, 648.0);
     credit_map[credit_id].text:Draw(text_color);
 
     -- Custom images in honor of those who helped :)
