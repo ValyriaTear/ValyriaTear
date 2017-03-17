@@ -38,7 +38,7 @@ namespace vt_mode_manager
 HelpWindow::HelpWindow() :
     _active(false)
 {
-    _window.Create(880.0f, 640.0f);
+    _window.Create(900.0f, 640.0f);
     _window.SetPosition(512.0f, 384.0f);
     _window.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
 
