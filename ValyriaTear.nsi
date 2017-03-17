@@ -70,10 +70,10 @@ Section "MainSection" SEC01
   File /oname=valyriatear.mo po\de.mo
   SetOutPath "$INSTDIR\po\es\LC_MESSAGES"
   File /oname=valyriatear.mo po\es.mo
-  SetOutPath "$INSTDIR\po\gl\LC_MESSAGES"
-  File /oname=valyriatear.mo po\gl.mo
   SetOutPath "$INSTDIR\po\gd\LC_MESSAGES"
   File /oname=valyriatear.mo po\gd.mo
+  SetOutPath "$INSTDIR\po\gl\LC_MESSAGES"
+  File /oname=valyriatear.mo po\gl.mo
   SetOutPath "$INSTDIR\po\nl_NL\LC_MESSAGES"
   File /oname=valyriatear.mo po\nl_NL.mo
   SetOutPath "$INSTDIR\po\pt_BR\LC_MESSAGES"
