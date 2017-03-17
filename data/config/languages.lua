@@ -20,10 +20,6 @@ languages = {
         name = "Deutsch",
         interwords_spaces = true
     },
-    ["nl_NL"] = {
-        name = "Nederlands",
-        interwords_spaces = true
-    },
     ["es"] = {
         name = "Español",
         interwords_spaces = true
@@ -32,12 +28,12 @@ languages = {
         name = "Français",
         interwords_spaces = true
     },
-    ["gl"] = {
-        name = "Galego",
-        interwords_spaces = true
-    },
     ["gd"] = {
         name = "Gàidhlig",
+        interwords_spaces = true
+    },
+    ["gl"] = {
+        name = "Galego",
         interwords_spaces = true
     },
     ["it"] = {
@@ -47,6 +43,10 @@ languages = {
     ["ja"] = {
         name = "Japanese",
         interwords_spaces = false
+    },
+    ["nl_NL"] = {
+        name = "Nederlands",
+        interwords_spaces = true
     },
     ["pt_PT"] = {
         name = "Português",
