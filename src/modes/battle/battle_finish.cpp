@@ -157,8 +157,8 @@ FinishDefeatAssistant::FinishDefeatAssistant(FINISH_STATE &state) :
     _confirm_options.SetSelectMode(VIDEO_SELECT_SINGLE);
     _confirm_options.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _confirm_options.SetCursorOffset(-60.0f, -25.0f);
-    _confirm_options.AddOption(UTranslate("Yes"));
-    _confirm_options.AddOption(UTranslate("No"));
+    _confirm_options.AddOption(UTranslate("OK"));
+    _confirm_options.AddOption(UTranslate("Cancel"));
     _confirm_options.SetSelection(0);
 
     _tooltip.SetOwner(&_tooltip_window);
@@ -195,7 +195,7 @@ void FinishDefeatAssistant::Update()
                 AudioManager->PlaySound("data/sounds/cancel.wav");
             } else {
                 _state = FINISH_DEFEAT_CONFIRM;
-                // Set default confirm option to "No"
+                // Set default confirm option to "Cancel"
                 if(_options.GetSelection() == (int32_t)DEFEAT_OPTION_END)
                     _confirm_options.SetSelection(1);
                 else
@@ -219,12 +219,12 @@ void FinishDefeatAssistant::Update()
         _confirm_options.Update();
         if(InputManager->ConfirmPress()) {
             switch(_confirm_options.GetSelection()) {
-            case 0: // "Yes"
+            case 0: // "OK"
                 _state = FINISH_END;
                 _options_window.Hide();
                 _tooltip_window.Hide();
                 break;
-            case 1: // "No"
+            case 1: // "Cancel"
                 _state = FINISH_DEFEAT_SELECT;
                 _SetTooltipText();
                 break;

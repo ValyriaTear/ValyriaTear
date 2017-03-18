@@ -489,7 +489,7 @@ void GameOptionsMenuHandler::_SetupGameOptions()
     _game_options_menu.AddOption(text, this, nullptr, nullptr, nullptr,
                                  &GameOptionsMenuHandler::_OnDialogueSpeedLeft,
                                  &GameOptionsMenuHandler::_OnDialogueSpeedRight);
-    text = MakeUnicodeString(VTranslate("Battle target cursor memory: %s", (SystemManager->GetBattleTargetMemory() ? Translate("Yes") : Translate("No"))));
+    text = MakeUnicodeString(VTranslate("Remember battle target: %s", (SystemManager->GetBattleTargetMemory() ? Translate("Enabled") : Translate("Disabled"))));
     _game_options_menu.AddOption(text, this, &GameOptionsMenuHandler::_OnBattleTargetCursorMemoryConfirm);
 }
 
@@ -811,7 +811,7 @@ void GameOptionsMenuHandler::_RefreshGameOptions()
     text = MakeUnicodeString(VTranslate("Dialogue text speed: %i", static_cast<int32_t>(SystemManager->GetMessageSpeed())));
     _game_options_menu.SetOptionText(1, text);
 
-    text = MakeUnicodeString(VTranslate("Battle target cursor memory: %s", (SystemManager->GetBattleTargetMemory() ? Translate("Yes") : Translate("No"))));
+    text = MakeUnicodeString(VTranslate("Remember battle target: %s", (SystemManager->GetBattleTargetMemory() ? Translate("Enabled") : Translate("Disabled"))));
     _game_options_menu.SetOptionText(2, text);
 }
 
@@ -832,21 +832,17 @@ void GameOptionsMenuHandler::_RefreshKeySettings()
 void GameOptionsMenuHandler::_RefreshJoySettings()
 {
     int32_t i = 0;
-    if(InputManager->GetJoysticksEnabled())
-        _joy_settings_menu.SetOptionText(i++, UTranslate("Input enabled: ") + MakeUnicodeString("<r>") +  UTranslate("Yes"));
-    else
-        _joy_settings_menu.SetOptionText(i++, UTranslate("Input enabled: ") + MakeUnicodeString("<r>") +  UTranslate("No"));
-
+    _joy_settings_menu.SetOptionText(i++, UTranslate("Input") + MakeUnicodeString("<r>") +  UTranslate(InputManager->GetJoysticksEnabled() ? "Enabled" : "Disabled"));
     _joy_settings_menu.SetOptionText(i++, UTranslate("X Axis") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetXAxisJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Y Axis") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetYAxisJoy())));
     _joy_settings_menu.SetOptionText(i++, UTranslate("Threshold") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetThresholdJoy())));
-    _joy_settings_menu.SetOptionText(i++, UTranslate("Confirm: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetConfirmJoy())));
-    _joy_settings_menu.SetOptionText(i++, UTranslate("Cancel: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetCancelJoy())));
-    _joy_settings_menu.SetOptionText(i++, UTranslate("Menu: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetMenuJoy())));
-    _joy_settings_menu.SetOptionText(i++, UTranslate("Map: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetMinimapJoy())));
-    _joy_settings_menu.SetOptionText(i++, UTranslate("Pause: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetPauseJoy())));
-    _joy_settings_menu.SetOptionText(i++, UTranslate("Help: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetHelpJoy())));
-    _joy_settings_menu.SetOptionText(i++, UTranslate("Quit: Button") + MakeUnicodeString("<r>" + NumberToString(InputManager->GetQuitJoy())));
+    _joy_settings_menu.SetOptionText(i++, UTranslate("Confirm") + MakeUnicodeString("<r>" + VTranslate("Button %d", InputManager->GetConfirmJoy())));
+    _joy_settings_menu.SetOptionText(i++, UTranslate("Cancel") + MakeUnicodeString("<r>" + VTranslate("Button %d", InputManager->GetCancelJoy())));
+    _joy_settings_menu.SetOptionText(i++, UTranslate("Menu") + MakeUnicodeString("<r>" + VTranslate("Button %d", InputManager->GetMenuJoy())));
+    _joy_settings_menu.SetOptionText(i++, UTranslate("Map") + MakeUnicodeString("<r>" + VTranslate("Button %d", InputManager->GetMinimapJoy())));
+    _joy_settings_menu.SetOptionText(i++, UTranslate("Pause") + MakeUnicodeString("<r>" + VTranslate("Button %d", InputManager->GetPauseJoy())));
+    _joy_settings_menu.SetOptionText(i++, UTranslate("Help") + MakeUnicodeString("<r>" + VTranslate("Button %d", InputManager->GetHelpJoy())));
+    _joy_settings_menu.SetOptionText(i++, UTranslate("Quit") + MakeUnicodeString("<r>" + VTranslate("Button %d", InputManager->GetQuitJoy())));
 }
 
 void GameOptionsMenuHandler::_OnVideoOptions()
@@ -1222,7 +1218,7 @@ void GameOptionsMenuHandler::_UpdateExplanationText()
             _explanation_window.SetText(UTranslate("Permits to set up the dialogue text scrolling speed (in character per seconds)..."));
             break;
         case 2:
-            _explanation_window.SetText(UTranslate("Sets whether the battle target should be kept in memory between two actions for a given character."));
+            _explanation_window.SetText(UTranslate("Sets whether the characters will remember their previous action in battle."));
             break;
         default:
             _explanation_window.Hide();
@@ -1404,7 +1400,7 @@ bool GameOptionsMenuHandler::_SaveSettingsFile(const std::string& filename)
                << vt_gui::DEFAULT_MESSAGE_SPEED << ")";
     settings_lua.WriteComment(speed_text.str());
     settings_lua.WriteInt("message_speed", SystemManager->GetMessageSpeed());
-    settings_lua.WriteComment("Whether the latest battle target should be kept in memory between two actions for each characters. (Default: 'true')");
+    settings_lua.WriteComment("Sets whether each character will remember their previous action in battle. (Default: 'true')");
     settings_lua.WriteBool("battle_target_cursor_memory", SystemManager->GetBattleTargetMemory());
     settings_lua.EndTable(); // game_options
 
