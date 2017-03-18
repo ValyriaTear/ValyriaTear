@@ -2795,4 +2795,3 @@ void WorldMapWindow::Activate(bool new_state)
 } // namespace private_menu
 
 } // namespace vt_menu
-

@@ -164,7 +164,6 @@ void ImageDescriptor::Clear()
 
 
 
-
 void ImageDescriptor::SetColor(const Color &color)
 {
     _color[0] = color;
