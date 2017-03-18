@@ -271,7 +271,6 @@ common/global/global_effects.cpp
 common/global/global_objects.cpp
 common/global/global_skills.cpp
 common/global/global_utils.cpp
-common/global/home_map.cpp
 common/global/worldmap.cpp
 common/gui/option.cpp
 common/gui/menu_window.cpp
@@ -334,6 +333,7 @@ modes/map/map_mode.cpp
 modes/map/map_dialogue.cpp
 modes/map/map_utils.cpp
 modes/map/map_objects.cpp
+modes/map/map_escape.cpp
 modes/map/map_events.cpp
 modes/map/map_tiles.cpp
 modes/map/map_sprites.cpp

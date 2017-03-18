@@ -19,9 +19,11 @@
 #define __MAP_UTILS_HEADER__
 
 #include "utils/utils_pch.h"
+
+#include "modes/map/map_position.h"
+
 #include "engine/video/video_utils.h"
 
-#include <cmath>
 #include <vector>
 
 namespace vt_map
@@ -72,7 +74,8 @@ enum MAP_STATE {
     STATE_SCENE            = 2, //!< Like the explore state but player has no control (input is ignored)
     STATE_DIALOGUE         = 3, //!< When a dialogue is active
     STATE_TREASURE         = 4, //!< Active when a treasure has been procured by the player
-    STATE_TOTAL            = 5
+    STATE_ESCAPE           = 5, //!< Active when an escape point menu is active
+    STATE_TOTAL            = 6
 };
 //@}
 
@@ -89,15 +92,16 @@ enum MAP_OBJECT_TYPE {
     TREASURE_TYPE = 4,  /** This is a treasure, can obtain a treasure from it when exploring,
                         but blocking for movement. */
     SAVE_TYPE     = 5,  //! This is a save point. The player can save while its character is in it.
-    TRIGGER_TYPE  = 6,  //! A trigger object.
+    ESCAPE_TYPE   = 6,  //! This is an escape point. The player can go back to the latest safe place through it.
+    TRIGGER_TYPE  = 7,  //! A trigger object.
 
     //! Objects without possible interaction
     //! Those objects are ignored when searching for the nearest interactable object.
-    HALO_TYPE     = 7,  //! This is a source of light, here for eye candy.
-    LIGHT_TYPE    = 8,  //! Another light type, but will change dynamically according to the map viewpoint.
-    PARTICLE_TYPE = 9,  //! A particle object.
-    SOUND_TYPE    = 10, //! An environmental sound
-    SCENERY_TYPE  = 11  //! The object is a scenery animal or harmless thing, and nothing should collide with.
+    HALO_TYPE     = 8,  //! This is a source of light, here for eye candy.
+    LIGHT_TYPE    = 9,  //! Another light type, but will change dynamically according to the map viewpoint.
+    PARTICLE_TYPE = 10, //! A particle object.
+    SOUND_TYPE    = 11, //! An environmental sound
+    SCENERY_TYPE  = 12  //! The object is a scenery animal or harmless thing, and nothing should collide with.
 };
 
 /** \name Map Sprite Speeds
@@ -343,38 +347,6 @@ public:
         return this->f_score > that.f_score;
     }
 }; // class PathNode
-
-struct MapVector {
-    MapVector() :
-        x(0.0f),
-        y(0.0f)
-    {}
-
-    MapVector(float x_, float y_) :
-        x(x_),
-        y(y_)
-    {}
-
-    float length() const {
-        return sqrtf(x * x + y * y);
-    }
-
-    MapVector& operator= (const MapVector& map_vec) {
-        // Prevents upon-self copy.
-        if (&map_vec == this)
-            return *this;
-
-        x = map_vec.x;
-        y = map_vec.y;
-
-        return *this;
-    }
-
-    float x;
-    float y;
-};
-
-typedef MapVector MapPosition;
 
 typedef std::vector<MapPosition> Path;
 

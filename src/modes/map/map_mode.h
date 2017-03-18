@@ -71,6 +71,8 @@ class SoundObject;
 class TileSupervisor;
 class TreasureObject;
 class TreasureSupervisor;
+class EscapeSupervisor;
+struct MapLocation;
 } // namespace private_map
 
 /** ****************************************************************************
@@ -163,6 +165,10 @@ public:
     std::vector<vt_video::AnimatedImage> active_save_point_animations;
     std::vector<vt_video::AnimatedImage> inactive_save_point_animations;
 
+    //! \brief Vectors containing the escape points animations (when the character is in or not).
+    vt_video::AnimatedImage active_escape_point_anim;
+    vt_video::AnimatedImage inactive_escape_point_anim;
+
     //! \brief Class member accessor functions
     //@{
     static MapMode *CurrentInstance() {
@@ -233,6 +239,10 @@ public:
 
     private_map::TreasureSupervisor* GetTreasureSupervisor() const {
         return _treasure_supervisor;
+    }
+
+    private_map::EscapeSupervisor* GetEscapeSupervisor() const {
+        return _escape_supervisor;
     }
 
     const private_map::MapFrame& GetMapFrame() const {
@@ -389,14 +399,14 @@ public:
         return _menu_enabled;
     }
 
-    //! \brief Sets whether the save points are enabled in the map mode.
-    void SetSavePointsEnabled(bool enabled) {
-        _save_points_enabled = enabled;
+    //! \brief Sets whether the map points are enabled in the map mode.
+    void SetMapPointsEnabled(bool enabled) {
+        _map_points_enabled = enabled;
     }
 
-    //! \brief Tells whether the save points are enabled in the map mode.
-    bool AreSavePointsEnabled() const {
-        return _save_points_enabled;
+    //! \brief Tells whether the map points are enabled in the map mode.
+    bool AreMapPointsEnabled() const {
+        return _map_points_enabled;
     }
 
     //! \brief Sets whether the auto-save is enabled.
@@ -453,7 +463,7 @@ private:
     /** \brief A reference to the current instance of MapMode
     *** This is used by other map classes to be able to refer to the map that they exist in.
     **/
-    static MapMode *_current_instance;
+    static MapMode* _current_instance;
 
     //! Tells whether the mode is activated. It is true by calling Reset(),
     //! and false when calling Deactivate(). This member exists to prevent
@@ -501,6 +511,9 @@ private:
 
     //! \brief Instance of helper class to map mode. Responsible for processing all information related to treasure discovery.
     private_map::TreasureSupervisor* _treasure_supervisor;
+
+    //! \brief Handles escape map sub-menu.
+    private_map::EscapeSupervisor* _escape_supervisor;
 
     /** \brief A script function which assists with the MapMode#Update method
     *** This function implements any custom update code that the specific map needs to be performed.
@@ -607,7 +620,6 @@ private:
     //! \note This pointer is a reference handled by the GlobalMedia class, don't delete it!
     vt_video::StillImage* _stamina_bar_infinite_overlay;
 
-    // ----- Members : Containers -----
     /** \brief A container for the various foes which may appear on this map
     *** These enemies are kept at their initial stats. When they are passed to battle mode,
     *** a copy of each enemy is made and initialized there.
@@ -624,7 +636,7 @@ private:
     uint32_t _music_audio_sample;
 
     //! \brief the minimap for the current map instance
-    private_map::Minimap *_minimap;
+    private_map::Minimap* _minimap;
 
     //! \brief flag that enables minimap rendering or not
     bool _show_minimap;
@@ -638,8 +650,8 @@ private:
     //! \brief Tells whether the menu mode is available from the map mode.
     bool _menu_enabled;
 
-    //! \brief Tells whether the save points are enabled in the map mode.
-    bool _save_points_enabled;
+    //! \brief Tells whether the map points are enabled in the map mode.
+    bool _map_points_enabled;
 
     //! \brief Tells whether the status effects can run in the map mode.
     bool _status_effects_enabled;
@@ -677,6 +689,9 @@ private:
 
     //! \brief Restores the music state on ::Reset() calls.
     void _ResetMusicState();
+
+    //! \brief Inits map resources.
+    void _InitResources();
 }; // class MapMode
 
 } // namespace vt_map;

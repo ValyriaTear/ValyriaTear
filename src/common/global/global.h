@@ -37,7 +37,6 @@
 #include "global_utils.h"
 
 #include "global_event_group.h"
-#include "home_map.h"
 #include "quest_log.h"
 #include "shop_data.h"
 #include "worldmap.h"
@@ -45,6 +44,7 @@
 #include "battle_media.h"
 
 #include "modes/map/map_utils.h"
+#include "modes/map/map_location.h"
 
 //! \brief All calls to global code are wrapped inside this namespace.
 namespace vt_global
@@ -517,13 +517,23 @@ public:
         _show_minimap = show;
     }
 
-    //! \brief Set the new "home" map
+    //! \brief Set the new "home" map data
     void SetHomeMap(const std::string& map_data_filename,
                     const std::string& map_script_filename,
                     uint32_t x_pos, uint32_t y_pos) {
-        _home_map.SetHomeMap(map_data_filename,
-                             map_script_filename,
-                             x_pos, y_pos);
+        _home_map = vt_map::MapLocation(map_data_filename,
+                                        map_script_filename,
+                                        x_pos, y_pos);
+    }
+
+    //! \brief Get the current "home" map data
+    const vt_map::MapLocation& GetHomeMap() const {
+        return _home_map;
+    }
+
+    //! \brief Clear Home map data, sometimes used by the game.
+    void ClearHomeMap() {
+        _home_map.Clear();
     }
 
     //! \brief Executes function NewGame() from global script
@@ -825,7 +835,7 @@ private:
     vt_video::StillImage* _world_map_image;
 
     //! \brief Contains the previous "home" map location data.
-    HomeMap _home_map;
+    vt_map::MapLocation _home_map;
 
     //! \brief The current viewable location ids on the current world map image
     //! \note this list is cleared when we call SetWorldMap. It is up to the

@@ -1,3 +1,4 @@
+-- Map objects
 objects = {}
 
 objects["Ancient_Sign1"] = {

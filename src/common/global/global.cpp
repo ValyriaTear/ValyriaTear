@@ -246,7 +246,7 @@ void GameGlobal::ClearAllData()
     // Show the minimap by default when available
     _show_minimap = true;
 
-    _home_map.ClearHomeMap();
+    _home_map.Clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -827,14 +827,14 @@ bool GameGlobal::SaveGame(const std::string& filename, uint32_t slot_id, uint32_
     file.WriteLine("stamina = " + NumberToString(_save_stamina) + ",");
 
     // Save latest home map data, if any.
-    if (_home_map.IsHomeMapSet()) {
+    if (_home_map.IsValid()) {
         file.InsertNewLine();
         file.WriteLine("home_map = {");
         file.WriteLine("\tmap_data_filename = \"" + _home_map.GetMapDataFilename() + "\",");
         file.WriteLine("\tmap_script_filename = \"" + _home_map.GetMapDataFilename() + "\",");
         //! \note Coords are in map tiles
-        file.WriteLine("\tlocation_x = " + NumberToString(_home_map.GetMapXPos()) + ",");
-        file.WriteLine("\tlocation_y = " + NumberToString(_home_map.GetMapYPos()) + ",");
+        file.WriteLine("\tlocation_x = " + NumberToString(_home_map.GetMapPosition().x) + ",");
+        file.WriteLine("\tlocation_y = " + NumberToString(_home_map.GetMapPosition().y) + ",");
         file.WriteLine("},");
     }
 
@@ -968,7 +968,9 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32_t slot_id)
         uint32_t x_pos = file.ReadUInt("location_x");
         uint32_t y_pos = file.ReadUInt("location_y");
 
-        _home_map.SetHomeMap(home_map_data, home_map_script, x_pos, y_pos);
+        _home_map = vt_map::MapLocation(home_map_data,
+                                        home_map_script,
+                                        x_pos, y_pos);
 
         file.CloseTable(); // home_map
     }

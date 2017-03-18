@@ -453,8 +453,8 @@ void ParticleObject::Draw()
 // Save points
 SavePoint::SavePoint(float x, float y):
     MapObject(NO_LAYER_OBJECT), // This is a special object
-    _animations(0),
-    _save_active(false)
+    _animations(nullptr),
+    _is_active(false)
 {
     _tile_position.x = x;
     _tile_position.y = y;
@@ -486,7 +486,7 @@ SavePoint::SavePoint(float x, float y):
 
     _active_particle_object->Stop();
 
-    // Auto-regiters to the Object supervisor for later deletion handling.
+    // Auto-registers to the Object supervisor for later deletion handling.
     map_mode->GetObjectSupervisor()->AddSavePoint(this);
 }
 
@@ -524,16 +524,99 @@ void SavePoint::SetActive(bool active)
         _inactive_particle_object->Stop();
 
         // Play a sound when the save point become active
-        if(!_save_active)
+        if(!_is_active)
             AudioManager->PlaySound("data/sounds/save_point_activated_dokashiteru_oga.wav");
     } else {
         _animations = &MapMode::CurrentInstance()->inactive_save_point_animations;
         _active_particle_object->Stop();
         _inactive_particle_object->Start();
     }
-    _save_active = active;
+    _is_active = active;
 }
 
+// Escape points
+EscapePoint::EscapePoint(float x, float y):
+    MapObject(NO_LAYER_OBJECT), // This is a special object
+    _animation(nullptr),
+    _is_active(false)
+{
+    _tile_position.x = x;
+    _tile_position.y = y;
+
+    _object_type = ESCAPE_TYPE;
+    _collision_mask = NO_COLLISION;
+
+    MapMode* map_mode = MapMode::CurrentInstance();
+    _animation = &map_mode->inactive_escape_point_anim;
+
+    // Set the collision rectangle according to the dimensions of the first frame
+    // Remove a margin to the save point so that the character has to actually
+    // enter the save point before colliding with it.
+    // Note: We divide by the map zoom ratio because the animation are already rescaled following it.
+    SetCollPixelHalfWidth((_animation->GetWidth() / MAP_ZOOM_RATIO) / 2.0f);
+    SetCollPixelHeight((_animation->GetHeight() / MAP_ZOOM_RATIO) - 0.3f * GRID_LENGTH);
+
+    // Setup the image collision for the display update
+    SetImgPixelHalfWidth(_animation->GetWidth() / MAP_ZOOM_RATIO / 2.0f);
+    SetImgPixelHeight(_animation->GetHeight() / MAP_ZOOM_RATIO);
+
+    // Preload the escape active sound TODO
+    AudioManager->LoadSound("data/sounds/save_point_activated_dokashiteru_oga.wav", map_mode);
+
+    // The escape point is going along with two particle objects used to show
+    // whether the player is in or out the save point
+    // TODO: Add true resources
+    _active_particle_object = new ParticleObject("data/visuals/particle_effects/active_save_point.lua", x, y, GROUND_OBJECT);
+    _inactive_particle_object = new ParticleObject("data/visuals/particle_effects/inactive_save_point.lua", x, y, GROUND_OBJECT);
+
+    _active_particle_object->Stop();
+
+    // Auto-registers to the Object supervisor for later deletion handling.
+    map_mode->GetObjectSupervisor()->AddEscapePoint(this);
+}
+
+EscapePoint* EscapePoint::Create(float x, float y)
+{
+    // The object auto registers to the object supervisor
+    // and will later handle deletion.
+    return new EscapePoint(x, y);
+}
+
+void EscapePoint::Update()
+{
+    if(!_animation || !_updatable)
+        return;
+
+    _animation->Update();
+}
+
+void EscapePoint::Draw()
+{
+    if(!_animation || !MapObject::ShouldDraw())
+        return;
+
+    _animation->Draw();
+}
+
+void EscapePoint::SetActive(bool active)
+{
+    if(active) {
+        _animation = &MapMode::CurrentInstance()->active_escape_point_anim;
+        _active_particle_object->Start();
+        _inactive_particle_object->Stop();
+
+        // Play a sound when the save point become active
+        if(!_is_active)
+            AudioManager->PlaySound("data/sounds/save_point_activated_dokashiteru_oga.wav");
+    } else {
+        _animation = &MapMode::CurrentInstance()->inactive_escape_point_anim;
+        _active_particle_object->Stop();
+        _inactive_particle_object->Start();
+    }
+    _is_active = active;
+}
+
+// Halos
 Halo::Halo(const std::string& filename, float x, float y, const Color& color):
     MapObject(NO_LAYER_OBJECT) // This is a special object
 {
@@ -1278,6 +1361,16 @@ void ObjectSupervisor::AddSavePoint(SavePoint* save_point)
     _save_points.push_back(save_point);
 }
 
+void ObjectSupervisor::AddEscapePoint(EscapePoint* escape_point)
+{
+    if (escape_point == nullptr) {
+        PRINT_WARNING << "Couldn't add nullptr EscapePoint* object." << std::endl;
+        return;
+    }
+
+    _escape_points.push_back(escape_point);
+}
+
 void ObjectSupervisor::AddZone(MapZone* zone)
 {
     if(!zone) {
@@ -1375,8 +1468,10 @@ void ObjectSupervisor::Update()
         _flat_ground_objects[i]->Update();
     for(uint32_t i = 0; i < _ground_objects.size(); ++i)
         _ground_objects[i]->Update();
-    // Update save point animation and activeness.
-    _UpdateSavePoints();
+
+    // Update map points animation and activeness.
+    _UpdateMapPoints();
+
     for(uint32_t i = 0; i < _pass_objects.size(); ++i)
         _pass_objects[i]->Update();
     for(uint32_t i = 0; i < _sky_objects.size(); ++i)
@@ -1391,10 +1486,13 @@ void ObjectSupervisor::Update()
     _UpdateAmbientSounds();
 }
 
-void ObjectSupervisor::DrawSavePoints()
+void ObjectSupervisor::DrawMapPoints()
 {
     for(uint32_t i = 0; i < _save_points.size(); ++i) {
         _save_points[i]->Draw();
+    }
+    for(uint32_t i = 0; i < _escape_points.size(); ++i) {
+        _escape_points[i]->Draw();
     }
 }
 
@@ -1459,7 +1557,7 @@ void ObjectSupervisor::DrawInteractionIcons()
     }
 }
 
-void ObjectSupervisor::_UpdateSavePoints()
+void ObjectSupervisor::_UpdateMapPoints()
 {
     MapMode* map_mode = MapMode::CurrentInstance();
     VirtualSprite *sprite = map_mode->GetCamera();
@@ -1468,9 +1566,24 @@ void ObjectSupervisor::_UpdateSavePoints()
     if(sprite)
         spr_rect = sprite->GetGridCollisionRectangle();
 
+    // Save points
     for(std::vector<SavePoint *>::iterator it = _save_points.begin();
             it != _save_points.end(); ++it) {
-        if (map_mode->AreSavePointsEnabled()) {
+        if (map_mode->AreMapPointsEnabled()) {
+            (*it)->SetActive(MapRectangle::CheckIntersection(spr_rect,
+                             (*it)->GetGridCollisionRectangle()));
+        }
+        else {
+            (*it)->SetActive(false);
+        }
+
+        (*it)->Update();
+    }
+
+    // Escape points
+    for(std::vector<EscapePoint *>::iterator it = _escape_points.begin();
+            it != _escape_points.end(); ++it) {
+        if (map_mode->AreMapPointsEnabled()) {
             (*it)->SetActive(MapRectangle::CheckIntersection(spr_rect,
                              (*it)->GetGridCollisionRectangle()));
         }
@@ -1525,13 +1638,24 @@ void ObjectSupervisor::_DrawMapZones()
         _zones[i]->Draw();
 }
 
-MapObject *ObjectSupervisor::_FindNearestSavePoint(const VirtualSprite *sprite)
+MapObject* ObjectSupervisor::_FindNearestMapPoint(const VirtualSprite* sprite)
 {
     if(sprite == nullptr)
         return nullptr;
 
+    // Save points first
     for(std::vector<SavePoint *>::iterator it = _save_points.begin();
             it != _save_points.end(); ++it) {
+
+        if(MapRectangle::CheckIntersection(sprite->GetGridCollisionRectangle(),
+                                           (*it)->GetGridCollisionRectangle())) {
+            return (*it);
+        }
+    }
+
+    // Escape points
+    for(std::vector<EscapePoint *>::iterator it = _escape_points.begin();
+            it != _escape_points.end(); ++it) {
 
         if(MapRectangle::CheckIntersection(sprite->GetGridCollisionRectangle(),
                                            (*it)->GetGridCollisionRectangle())) {
@@ -1623,15 +1747,15 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
     } // for (std::map<MapObject*>::iterator i = _all_objects.begin(); i != _all_objects.end(); i++)
 
     if(valid_objects.empty()) {
-        // If no sprite was here, try searching a save point.
-        return _FindNearestSavePoint(sprite);
+         // If no sprite was here, try searching a map point.
+        return _FindNearestMapPoint(sprite);
     } else if(valid_objects.size() == 1) {
         return valid_objects[0];
     }
 
     // Figure out which of the valid objects is the closest to the sprite
     // NOTE: For simplicity, we use the Manhattan distance to determine which object is the closest
-    MapObject *closest_obj = valid_objects[0];
+    MapObject* closest_obj = valid_objects[0];
 
     // Used to hold the full position coordinates of the sprite
     float source_x = sprite->GetXPosition();
@@ -1649,7 +1773,7 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
         }
     }
     return closest_obj;
-} // MapObject* ObjectSupervisor::FindNearestObject(VirtualSprite* sprite, float search_distance)
+}
 
 bool ObjectSupervisor::CheckObjectCollision(const MapRectangle &rect, const private_map::MapObject *const obj)
 {

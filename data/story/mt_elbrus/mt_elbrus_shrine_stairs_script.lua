@@ -187,7 +187,7 @@ function _CreateObjects()
     if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 1
             and GlobalManager:GetEventValue("story", "mt elbrus shrine heroes saved") == 0) then
         -- Disable the save point
-        Map:SetSavePointsEnabled(false);
+        Map:SetMapPointsEnabled(false);
     end
 
     -- We can hear waterfalls in that case
@@ -663,7 +663,7 @@ map_functions = {
         -- Prevent from healing the team when being Orlinn
         layna_statue:ClearEventWhenTalking();
         -- Disable save point
-        Map:SetSavePointsEnabled(false);
+        Map:SetMapPointsEnabled(false);
         -- Make Bronann and Kalya repeat on need
         _UpdateKalyaBronannDialogue();
 
@@ -721,7 +721,7 @@ map_functions = {
         orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
         -- Re-enable save point
-        Map:SetSavePointsEnabled(true);
+        Map:SetMapPointsEnabled(true);
         layna_statue:SetEventWhenTalking("Heal dialogue");
 
         -- The menu and status effects are enabled.

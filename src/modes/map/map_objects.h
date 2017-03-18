@@ -611,8 +611,7 @@ public:
     //! \note the actual image resources is handled by the main map object.
     void Draw();
 
-    //! \brief Tells whether a character is in or not, and setup the animation
-    //! accordingly.
+    //! \brief Tells whether a character is in or not, and setup the animation accordingly.
     void SetActive(bool active);
 
 private:
@@ -620,15 +619,62 @@ private:
     std::vector<vt_video::AnimatedImage>* _animations;
 
     //! \brief The corresponding particle object for active/inactive save points pointers
-    // Note that those pointers are managed by the object supervisor
-    ParticleObject *_active_particle_object;
-    ParticleObject *_inactive_particle_object;
+    // Note that those pointers are managed by the object supervisor. Don't delete them.
+    ParticleObject* _active_particle_object;
+    ParticleObject* _inactive_particle_object;
 
-    //! \brief Tells whether the save has become active
-    bool _save_active;
+    //! \brief The sound played when activating the save point.
+    std::string _activation_sound_filename;
+
+    //! \brief Tells whether the point has become active
+    bool _is_active;
     //@}
-}; // class SavePoint : public MapObject
+};
 
+/** ****************************************************************************
+*** \brief Represents escape point on the map
+*** ***************************************************************************/
+class EscapePoint : public MapObject
+{
+public:
+    EscapePoint(float x, float y);
+    virtual ~EscapePoint() override
+    {
+    }
+
+    //! \brief A C++ wrapper made to create a new object from scripting,
+    //! without letting Lua handling the object life-cycle.
+    //! \note We don't permit luabind to use constructors here as it can't currently
+    //! give the object ownership at construction time.
+    static EscapePoint* Create(float x, float y);
+
+    //! \brief Updates the object's current animation.
+    //! \note the actual image resources is handled by the main map object.
+    void Update();
+
+    //! \brief Draws the object to the screen, if it is visible.
+    //! \note the actual image resources is handled by the main map object.
+    void Draw();
+
+    //! \brief Tells whether a character is in or not, and setup the animation accordingly.
+    void SetActive(bool active);
+
+private:
+    //! \brief A reference to the current map animation.
+    vt_video::AnimatedImage* _animation;
+
+    //! \brief The corresponding particle object for active/inactive escape points pointers
+    // Note that those pointers are managed by the object supervisor. Don't delete them.
+    ParticleObject* _active_particle_object;
+    ParticleObject* _inactive_particle_object;
+
+    //! \brief The sound played when activating the escape point.
+    std::string _activation_sound_filename;
+
+    //! \brief Tells whether the point has become active
+    bool _is_active;
+    //@}
+};
 
 /** ****************************************************************************
 *** \brief Represents a halo (source of light) on the map
@@ -1095,6 +1141,10 @@ public:
     //! Called by the SavePoint object constructor
     void AddSavePoint(SavePoint* save_point);
 
+    //! \brief Add a escape point.
+    //! Called by the EscapePoint object constructor
+    void AddEscapePoint(EscapePoint* escape_point);
+
     //! \brief Adds a new zone.
     // Called by the Mazone constructor.
     void AddZone(MapZone* zone);
@@ -1123,7 +1173,7 @@ public:
     *** upon its return. Take measures to retain this information before calling these functions if necessary.
     **/
     //@{
-    void DrawSavePoints();
+    void DrawMapPoints();
     void DrawFlatGroundObjects();
     void DrawGroundObjects(const bool second_pass);
     void DrawPassObjects();
@@ -1145,7 +1195,8 @@ public:
     *** with any portion of this search area are put on a list of valid objects, and once this list has been fully
     *** constructed the nearest of these objects will be returned.
     **/
-    private_map::MapObject *FindNearestInteractionObject(const private_map::VirtualSprite *sprite, float search_distance = 3.0f);
+    private_map::MapObject* FindNearestInteractionObject(const private_map::VirtualSprite* sprite,
+                                                         float search_distance = 3.0f);
 
     /** \brief Determines if a map object's collision rectangle intersects with a specified map area
     *** \param rect A reference to the rectangular section of the map to do collision detection with
@@ -1267,11 +1318,11 @@ public:
     void RestartSoundObjects();
 
 private:
-    //! \brief Returns the nearest save point. Used by FindNearestObject.
-    private_map::MapObject *_FindNearestSavePoint(const VirtualSprite *sprite);
+    //! \brief Returns the nearest map point. Used by FindNearestObject.
+    private_map::MapObject* _FindNearestMapPoint(const VirtualSprite* sprite);
 
     //! \brief Updates save points animation and active state.
-    void _UpdateSavePoints();
+    void _UpdateMapPoints();
 
     //! \brief Updates the ambient sounds volume according to the camera distance.
     void _UpdateAmbientSounds();
@@ -1340,6 +1391,9 @@ private:
 
     //! \brief A container for all of the save points, quite similar as the ground objects container.
     std::vector<SavePoint *> _save_points;
+
+    //! \brief A container for all of the escape points, quite similar as the ground objects container.
+    std::vector<EscapePoint *> _escape_points;
 
     //! \brief Ambient sound objects, that plays a sound with a volume according
     //! to the distance with the camera.

@@ -19,10 +19,13 @@
 #include "modes/map/map_mode.h"
 
 #include "modes/map/map_dialogue.h"
+#include "modes/map/map_escape.h"
 #include "modes/map/map_events.h"
 #include "modes/map/map_objects.h"
 #include "modes/map/map_sprites.h"
 #include "modes/map/map_tiles.h"
+
+#include "modes/map/map_location.h"
 
 #include "modes/menu/menu.h"
 #include "modes/pause.h"
@@ -52,6 +55,16 @@ using namespace vt_map::private_map;
 namespace vt_map
 {
 
+// Common map mode resources files
+const std::string DIALOGUE_ICON_FILE = "data/entities/emotes/dialogue_icon.lua";
+const std::string ACTIVE_SAVE_POINT_FILE1 = "data/entities/map/save_point/save_point3.lua";
+const std::string ACTIVE_SAVE_POINT_FILE2 = "data/entities/map/save_point/save_point2.lua";
+const std::string INACTIVE_SAVE_POINT_FILE1 = "data/entities/map/save_point/save_point1.lua";
+const std::string INACTIVE_SAVE_POINT_FILE2 = "data/entities/map/save_point/save_point2.lua";
+//FIXME: Add true files.
+const std::string ACTIVE_ESCAPE_POINT_FILE = "data/entities/map/save_point/save_point2.lua";
+const std::string INACTIVE_ESCAPE_POINT_FILE = "data/entities/map/save_point/save_point1.lua";
+
 // Initialize static class variables
 MapMode *MapMode::_current_instance = nullptr;
 
@@ -70,6 +83,7 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _event_supervisor(nullptr),
     _dialogue_supervisor(nullptr),
     _treasure_supervisor(nullptr),
+    _escape_supervisor(nullptr),
     _camera_x_in_map_corner(false),
     _camera_y_in_map_corner(false),
     _camera(nullptr),
@@ -88,7 +102,7 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _minimap(nullptr),
     _show_minimap(false),
     _menu_enabled(true),
-    _save_points_enabled(true),
+    _map_points_enabled(true),
     _status_effects_enabled(true),
     _auto_save_enabled(true)
 {
@@ -97,39 +111,14 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     ResetState();
     PushState(STATE_EXPLORE);
 
-    // Load the miscellaneous map graphics.
-    _dialogue_icon.LoadFromAnimationScript("data/entities/emotes/dialogue_icon.lua");
-    ScaleToMapZoomRatio(_dialogue_icon);
-
-    // Load the save point animation files.
-    AnimatedImage anim;
-    anim.LoadFromAnimationScript("data/entities/map/save_point/save_point3.lua");
-    active_save_point_animations.push_back(anim);
-
-    anim.Clear();
-    anim.LoadFromAnimationScript("data/entities/map/save_point/save_point2.lua");
-    active_save_point_animations.push_back(anim);
-
-    anim.Clear();
-    anim.LoadFromAnimationScript("data/entities/map/save_point/save_point1.lua");
-    inactive_save_point_animations.push_back(anim);
-
-    anim.Clear();
-    anim.LoadFromAnimationScript("data/entities/map/save_point/save_point2.lua");
-    inactive_save_point_animations.push_back(anim);
-
-    // Transform the animation size to correspond to the map zoom ratio.
-    for(uint32_t i = 0; i < active_save_point_animations.size(); ++i)
-        ScaleToMapZoomRatio(active_save_point_animations[i]);
-
-    for(uint32_t i = 0; i < inactive_save_point_animations.size(); ++i)
-        ScaleToMapZoomRatio(inactive_save_point_animations[i]);
+    _InitResources();
 
     _tile_supervisor = new TileSupervisor();
     _object_supervisor = new ObjectSupervisor();
     _event_supervisor = new EventSupervisor();
     _dialogue_supervisor = new MapDialogueSupervisor();
     _treasure_supervisor = new TreasureSupervisor();
+    _escape_supervisor = new EscapeSupervisor();
 
     _intro_timer.Initialize(4000, 0);
     _intro_timer.EnableAutoUpdate(this);
@@ -184,6 +173,7 @@ MapMode::~MapMode()
     delete(_event_supervisor);
     delete(_dialogue_supervisor);
     delete(_treasure_supervisor);
+    delete(_escape_supervisor);
     if(_minimap) delete _minimap;
 
     // Remove the reference to the luabind object
@@ -252,6 +242,48 @@ void MapMode::Reset()
     // I.e: When going out of the menu mode.
     if (CurrentState() == private_map::STATE_EXPLORE)
         _object_supervisor->ReloadVisiblePartyMember();
+}
+
+void MapMode::_InitResources()
+{
+    // Load the miscellaneous map graphics.
+    _dialogue_icon.LoadFromAnimationScript(DIALOGUE_ICON_FILE);
+    ScaleToMapZoomRatio(_dialogue_icon);
+
+    // Load the save point animation files.
+    AnimatedImage anim;
+    anim.LoadFromAnimationScript(ACTIVE_SAVE_POINT_FILE1);
+    active_save_point_animations.push_back(anim);
+
+    anim.Clear();
+    anim.LoadFromAnimationScript(ACTIVE_SAVE_POINT_FILE2);
+    active_save_point_animations.push_back(anim);
+
+    anim.Clear();
+    anim.LoadFromAnimationScript(INACTIVE_SAVE_POINT_FILE1);
+    inactive_save_point_animations.push_back(anim);
+
+    anim.Clear();
+    anim.LoadFromAnimationScript(INACTIVE_SAVE_POINT_FILE2);
+    inactive_save_point_animations.push_back(anim);
+
+    // Transform the animation size to correspond to the map zoom ratio.
+    for(uint32_t i = 0; i < active_save_point_animations.size(); ++i)
+        ScaleToMapZoomRatio(active_save_point_animations[i]);
+
+    for(uint32_t i = 0; i < inactive_save_point_animations.size(); ++i)
+        ScaleToMapZoomRatio(inactive_save_point_animations[i]);
+
+    // Init escape points resources
+    active_escape_point_anim.Clear();
+    active_escape_point_anim.LoadFromAnimationScript(ACTIVE_ESCAPE_POINT_FILE);
+
+    inactive_escape_point_anim.Clear();
+    inactive_escape_point_anim.LoadFromAnimationScript(INACTIVE_ESCAPE_POINT_FILE);
+
+    // Transform the animation size to correspond to the map zoom ratio.
+    ScaleToMapZoomRatio(active_escape_point_anim);
+    ScaleToMapZoomRatio(inactive_escape_point_anim);
 }
 
 void MapMode::_ResetMusicState()
@@ -353,6 +385,10 @@ void MapMode::Update()
         _camera->SetMoving(false);
         _treasure_supervisor->Update();
         break;
+    case STATE_ESCAPE:
+        _camera->SetMoving(false);
+        _escape_supervisor->Update();
+        break;
     default:
         IF_PRINT_WARNING(MAP_DEBUG) << "map was set in an unknown state: "
                                     << CurrentState() << std::endl;
@@ -426,6 +462,10 @@ void MapMode::DrawPostEffects()
     // Draw the treasure menu if necessary
     if(CurrentState() == STATE_TREASURE)
         _treasure_supervisor->Draw();
+
+    // Draw the escape menu if necessary
+    if(CurrentState() == STATE_ESCAPE)
+        _escape_supervisor->Draw();
 
     VideoManager->PopState();
 }
@@ -803,10 +843,18 @@ void MapMode::_UpdateExplore()
                     break;
                 }
                 case SAVE_TYPE: {
-                    if (_save_points_enabled) {
+                    if (_map_points_enabled) {
                         // Make sure the character will be centered in the save point
                         SaveMode* save_mode = new SaveMode(true, obj->GetXPosition(), obj->GetYPosition() - 1.0f);
                         ModeManager->Push(save_mode, false, false);
+                        return;
+                    }
+                    break;
+                }
+                case ESCAPE_TYPE: {
+                    if (_map_points_enabled) {
+                        // Open the escape sub-menu
+                        _escape_supervisor->Initialize(GlobalManager->GetHomeMap());
                         return;
                     }
                     break;
@@ -1123,7 +1171,7 @@ void MapMode::_DrawMapLayers()
     _tile_supervisor->DrawLayers(&_map_frame, GROUND_LAYER);
 
     // Save points are engraved on the ground, and thus shouldn't be drawn after walls.
-    _object_supervisor->DrawSavePoints();
+    _object_supervisor->DrawMapPoints();
 
     _object_supervisor->DrawFlatGroundObjects();
     _object_supervisor->DrawGroundObjects(false); // First draw pass of ground objects.

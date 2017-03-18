@@ -120,8 +120,8 @@ void BindModeCode()
             .def("SetStamina", &MapMode::SetStamina)
             .def("IsMenuEnabled", &MapMode::IsMenuEnabled)
             .def("SetMenuEnabled", &MapMode::SetMenuEnabled)
-            .def("AreSavePointsEnabled", &MapMode::AreSavePointsEnabled)
-            .def("SetSavePointsEnabled", &MapMode::SetSavePointsEnabled)
+            .def("AreMapPointsEnabled", &MapMode::AreMapPointsEnabled)
+            .def("SetMapPointsEnabled", &MapMode::SetMapPointsEnabled)
             .def("AreStatusEffectsEnabled", &MapMode::AreStatusEffectsEnabled)
             .def("SetStatusEffectsEnabled", &MapMode::SetStatusEffectsEnabled)
             .def("ChangeActiveStatusEffect", &MapMode::ChangeActiveStatusEffect)
@@ -137,6 +137,7 @@ void BindModeCode()
                 luabind::value("STATE_SCENE", STATE_SCENE),
                 luabind::value("STATE_DIALOGUE", STATE_DIALOGUE),
                 luabind::value("STATE_TREASURE", STATE_TREASURE),
+                luabind::value("STATE_ESCAPE", STATE_ESCAPE),
                 // Map Collision types
                 luabind::value("NO_COLLISION", NO_COLLISION),
                 luabind::value("CHARACTER_COLLISION", CHARACTER_COLLISION),
@@ -151,6 +152,7 @@ void BindModeCode()
                 luabind::value("ENEMY_TYPE", ENEMY_TYPE),
                 luabind::value("TREASURE_TYPE", TREASURE_TYPE),
                 luabind::value("SAVE_TYPE", SAVE_TYPE),
+                luabind::value("ESCAPE_TYPE", ESCAPE_TYPE),
                 luabind::value("HALO_TYPE", HALO_TYPE),
                 luabind::value("LIGHT_TYPE", LIGHT_TYPE),
                 luabind::value("PARTICLE_TYPE", PARTICLE_TYPE),
@@ -263,6 +265,15 @@ void BindModeCode()
             .scope
             [   // Used for static members and nested classes.
                 luabind::def("Create", &SavePoint::Create)
+            ]
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_map")
+        [
+            luabind::class_<EscapePoint, MapObject>("EscapePoint")
+            .scope
+            [   // Used for static members and nested classes.
+                luabind::def("Create", &EscapePoint::Create)
             ]
         ];
 
