@@ -965,12 +965,13 @@ void PartyWindow::UpdateStatus()
 
     _character_status_text.SetText(text);
 
+    auto newline2 = MakeUnicodeString("\n\n");
     text = MakeUnicodeString("\n\n\n")
-        + MakeUnicodeString(NumberToString(ch->GetPhysAtk())) + MakeUnicodeString("\n\n")
-        + MakeUnicodeString(NumberToString(ch->GetMagAtk())) + MakeUnicodeString("\n\n")
-        + MakeUnicodeString(NumberToString(ch->GetPhysDef())) + MakeUnicodeString("\n\n")
-        + MakeUnicodeString(NumberToString(ch->GetMagDef())) + MakeUnicodeString("\n\n")
-        + MakeUnicodeString(NumberToString(ch->GetStamina())) + MakeUnicodeString("\n\n")
+        + MakeUnicodeString(NumberToString(ch->GetPhysAtk())) + newline2
+        + MakeUnicodeString(NumberToString(ch->GetMagAtk()))  + newline2
+        + MakeUnicodeString(NumberToString(ch->GetPhysDef())) + newline2
+        + MakeUnicodeString(NumberToString(ch->GetMagDef()))  + newline2
+        + MakeUnicodeString(NumberToString(ch->GetStamina())) + newline2
         + MakeUnicodeString(NumberToString(ch->GetEvade())) + MakeUnicodeString("%");
 
     _character_status_numbers.SetText(text);
@@ -2755,7 +2756,8 @@ void WorldMapWindow::Update()
 
 void WorldMapWindow::_SetSelectedLocation(WORLDMAP_NAVIGATION worldmap_goto)
 {
-    const std::vector<std::string> &current_location_ids = GlobalManager->GetViewableLocationIds();
+    const std::vector<std::string> &current_location_ids =
+      GlobalManager->GetViewableLocationIds();
     const uint32_t N = current_location_ids.size();
     if(N == 0)
         return;
@@ -2783,8 +2785,10 @@ void WorldMapWindow::Activate(bool new_state)
     //set the pointer to the appropriate location
     //we only do this on activation of the window. after that it is handled by the left / right press
     const std::string &location_id = GlobalManager->GetCurrentLocationId();
-    const std::vector<std::string> &current_location_ids = GlobalManager->GetViewableLocationIds();
-    std::vector<std::string>::const_iterator loc = std::find(current_location_ids.begin(), current_location_ids.end(), location_id);
+    const std::vector<std::string> &current_location_ids =
+      GlobalManager->GetViewableLocationIds();
+    std::vector<std::string>::const_iterator loc =
+      std::find(current_location_ids.begin(), current_location_ids.end(), location_id);
     if(location_id.empty() || loc == current_location_ids.end() )
         _location_pointer_index = 0;
     else
@@ -2795,4 +2799,3 @@ void WorldMapWindow::Activate(bool new_state)
 } // namespace private_menu
 
 } // namespace vt_menu
-

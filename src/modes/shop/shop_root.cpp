@@ -92,7 +92,9 @@ void RootInterface::Reinitialize()
         num_buy_stars = 1;
         break;
     default:
-        IF_PRINT_WARNING(SHOP_DEBUG) << "invalid buy level argument: " << ShopMode::CurrentInstance()->GetBuyPriceLevel() << std::endl;
+        IF_PRINT_WARNING(SHOP_DEBUG) << "invalid buy level argument: "
+                                     << ShopMode::CurrentInstance()->GetBuyPriceLevel()
+                                     << std::endl;
         break;
     }
 
@@ -113,7 +115,9 @@ void RootInterface::Reinitialize()
         num_sell_stars = 1;
         break;
     default:
-        IF_PRINT_WARNING(SHOP_DEBUG) << "invalid sell level argument: " << ShopMode::CurrentInstance()->GetSellPriceLevel() << std::endl;
+        IF_PRINT_WARNING(SHOP_DEBUG) << "invalid sell level argument: "
+                                     << ShopMode::CurrentInstance()->GetSellPriceLevel()
+                                     << std::endl;
         break;
     }
 

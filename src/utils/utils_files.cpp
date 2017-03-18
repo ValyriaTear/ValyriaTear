@@ -302,10 +302,13 @@ static void _CopyOldSaveFiles(const std::string &destination_path)
         std::string new_filename = destination_path + save_filename.str();
 
         if (!MoveFile(old_file, new_filename))
-            PRINT_WARNING << "Couldn't move the save file ('" << save_filename.str() << "') to new location!" << std::endl;
+            PRINT_WARNING << "Couldn't move the save file "
+                          << "('" << save_filename.str() << "') "
+                          << "to new location!" << std::endl;
 
-        PRINT_WARNING << "Moved " << save_filename.str() << " file from: " << old_file << std::endl
-            << "to: " << new_filename << std::endl;
+        PRINT_WARNING << "Moved " << save_filename.str()
+                      << " file from: " << old_file << std::endl
+                      << "to: " << new_filename << std::endl;
     }
 #endif
 }
@@ -411,7 +414,8 @@ static const std::string _SetupUserDataPath()
 
     // Default path if a specific solution could not be found. Note that this path may
     // not be writable by the user since it could be installed in administrator/root space
-    PRINT_WARNING << "could not idenfity user path, defaulting to system path" << std::endl;
+    PRINT_WARNING << "could not idenfity user path, defaulting to system path"
+                  << std::endl;
     return "data/";
 }
 
