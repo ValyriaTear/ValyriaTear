@@ -40,4 +40,3 @@ bool MapRectangle::CheckIntersection(const MapRectangle &first, const MapRectang
 } // namespace private_map
 
 } // namespace vt_map
-

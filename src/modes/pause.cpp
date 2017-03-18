@@ -108,8 +108,7 @@ PauseMode::~PauseMode()
         MusicDescriptor *active_music = AudioManager->GetActiveMusic();
         if (!active_music)
             return;
-        else
-            active_music->SetVolume(_music_volume);
+        active_music->SetVolume(_music_volume);
     }
 }
 
@@ -150,7 +149,7 @@ void PauseMode::Update()
         return;
     }
 
-    // (_quit_state == true)
+    // (_quit_state)
 
     // Handles the options menu
     if (_options_handler.IsActive()) {

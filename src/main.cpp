@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2016 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2017 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -336,7 +336,8 @@ static void InitializeEngine() throw(Exception)
 
     // Initialize SDL. The video, audio, and joystick subsystems are initialized elsewhere.
     if(SDL_Init(SDL_INIT_TIMER) != 0) {
-        throw Exception("MAIN ERROR: Unable to initialize SDL: ", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("MAIN ERROR: Unable to initialize SDL: ",
+                        __FILE__, __LINE__, __FUNCTION__);
     }
 
     // Create and initialize singleton class managers
@@ -350,15 +351,18 @@ static void InitializeEngine() throw(Exception)
     GlobalManager = GameGlobal::SingletonCreate();
 
     if(VideoManager->SingletonInitialize() == false) {
-        throw Exception("ERROR: unable to initialize VideoManager", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("ERROR: unable to initialize VideoManager",
+                        __FILE__, __LINE__, __FUNCTION__);
     }
 
     if(AudioManager->SingletonInitialize() == false) {
-        throw Exception("ERROR: unable to initialize AudioManager", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("ERROR: unable to initialize AudioManager",
+                        __FILE__, __LINE__, __FUNCTION__);
     }
 
     if(ScriptManager->SingletonInitialize() == false) {
-        throw Exception("ERROR: unable to initialize ScriptManager", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("ERROR: unable to initialize ScriptManager",
+                        __FILE__, __LINE__, __FUNCTION__);
     }
 
     vt_defs::BindEngineCode();
@@ -366,24 +370,29 @@ static void InitializeEngine() throw(Exception)
     vt_defs::BindModeCode();
 
     if(SystemManager->SingletonInitialize() == false) {
-        throw Exception("ERROR: unable to initialize SystemManager", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("ERROR: unable to initialize SystemManager",
+                        __FILE__, __LINE__, __FUNCTION__);
     }
     if(InputManager->SingletonInitialize() == false) {
-        throw Exception("ERROR: unable to initialize InputManager", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("ERROR: unable to initialize InputManager",
+                        __FILE__, __LINE__, __FUNCTION__);
     }
     if(ModeManager->SingletonInitialize() == false) {
-        throw Exception("ERROR: unable to initialize ModeManager", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("ERROR: unable to initialize ModeManager",
+                        __FILE__, __LINE__, __FUNCTION__);
     }
 
     // Load all the settings from lua. This includes some engine configuration settings.
     if(!LoadSettings())
-        throw Exception("ERROR: Unable to load settings file", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("ERROR: Unable to load settings file",
+                        __FILE__, __LINE__, __FUNCTION__);
 
     // Apply engine configuration settings with delayed initialization calls to the managers
     InputManager->InitializeJoysticks();
 
     if(VideoManager->FinalizeInitialization() == false)
-        throw Exception("ERROR: Unable to apply video settings", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("ERROR: Unable to apply video settings",
+                        __FILE__, __LINE__, __FUNCTION__);
 
     // Loads the GUI skins.
     LoadGUIThemes("data/config/themes.lua");
@@ -409,20 +418,26 @@ static void InitializeEngine() throw(Exception)
     SDL_EventState(SDL_USEREVENT, SDL_IGNORE);
 
     if(GUIManager->SingletonInitialize() == false) {
-        throw Exception("ERROR: unable to initialize GUIManager", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("ERROR: unable to initialize GUIManager",
+                        __FILE__, __LINE__, __FUNCTION__);
     }
 
     // This loads the game global script, once everything is ready,
     // and will permit to load skills, items and other translatable strings
     // using the correct settings language.
     if(!GlobalManager->SingletonInitialize())
-        throw Exception("ERROR: unable to initialize GlobalManager", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("ERROR: unable to initialize GlobalManager",
+                        __FILE__, __LINE__, __FUNCTION__);
 
     SystemManager->InitializeTimers();
 }
 
 // Every great game begins with a single function :)
-int main(int argc, char *argv[])
+// N.B.: The main signature must be:
+// int main(int argc, char *argv[]) to permit compilation
+// with Visual Studio and SDL2.
+// See: https://stackoverflow.com/questions/6847360/error-lnk2019-unresolved-external-symbol-main-referenced-in-function-tmainc
+int main(int argc, char* argv[])
 {
 #   if defined (_MSC_VER) && defined(_DEBUG)
         // Enable the debug heap manager for Visual Studio debug builds.

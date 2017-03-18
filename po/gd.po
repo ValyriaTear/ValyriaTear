@@ -1,8 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# GunChleoc <fios@foramnagaidhlig.net>, 2017.
 #: map_names_tr.lua:2 map_names_tr.lua:4 map_names_tr.lua:8 map_names_tr.lua:12
 #: map_names_tr.lua:16 map_names_tr.lua:28 map_names_tr.lua:32
 #: map_names_tr.lua:36 map_names_tr.lua:40 map_names_tr.lua:44
@@ -24,429 +23,460 @@
 #: map_names_tr.lua:380 map_names_tr.lua:384 map_names_tr.lua:400
 #: map_names_tr.lua:404 map_names_tr.lua:412 map_names_tr.lua:414
 #: map_names_tr.lua:416
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-17 10:55+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2016-03-05 16:25+0100\n"
+"PO-Revision-Date: 2017-03-03 15:06+0100\n"
+"Last-Translator: GunChleoc <fios@foramnagaidhlig.net>\n"
+"Language-Team: Fòram na Gàidhlig\n"
+"Language: gd\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
+"(n > 2 && n < 20) ? 2 : 3;\n"
+"X-Generator: Virtaal 0.7.1\n"
 
 #: ../src/common/global/battle_media.cpp:98
-#: ../src/modes/battle/battle_menu.cpp:141
+#: ../src/modes/battle/battle_menu.cpp:143
 msgid "Auto-Battle"
-msgstr ""
+msgstr "Cath fèin-obrachail"
 
 #: ../src/common/global/global_effects.cpp:37
 msgid "Fire"
-msgstr ""
+msgstr "Teine"
 
 #: ../src/common/global/global_effects.cpp:39
 msgid "Water"
-msgstr ""
+msgstr "Uisge"
 
 #: ../src/common/global/global_effects.cpp:41
 msgid "Volt"
-msgstr ""
+msgstr "Dealan"
 
 #: ../src/common/global/global_effects.cpp:43
 msgid "Earth"
-msgstr ""
+msgstr "Talamh"
 
 #: ../src/common/global/global_effects.cpp:45 ../data/skills/magic.lua:475
 msgid "Life"
-msgstr ""
+msgstr "Beatha"
 
 #: ../src/common/global/global_effects.cpp:47 ../data/skills/magic.lua:1138
 msgid "Death"
-msgstr ""
+msgstr "Bàs"
 
 #: ../src/common/global/global_effects.cpp:49
 msgid "Neutral"
-msgstr ""
+msgstr "Neòdrach"
 
 #: ../src/common/global/global_effects.cpp:51
 msgid "Invalid Element"
-msgstr ""
+msgstr "Dùil mhì-dhligheach"
 
 #: ../src/common/global/global_effects.cpp:74
 msgid "Invalid Status"
-msgstr ""
+msgstr "Staid mhì-dhligheach"
 
 #: ../src/common/global/global_utils.cpp:54
+#, fuzzy
 msgid "Self — Point"
-msgstr ""
+msgstr "Mi fhìn — Puing"
 
 #: ../src/common/global/global_utils.cpp:56
+#, fuzzy
 msgid "Ally — Point"
-msgstr ""
+msgstr "Caidreabhach — Puing"
 
 #: ../src/common/global/global_utils.cpp:58
+#, fuzzy
 msgid "Foe — Point"
-msgstr ""
+msgstr "Nàmhaid — Puing"
 
 #: ../src/common/global/global_utils.cpp:60
 msgid "Self"
-msgstr ""
+msgstr "Mi fhìn"
 
 #: ../src/common/global/global_utils.cpp:62
 msgid "Ally"
-msgstr ""
+msgstr "Caidreabhach"
 
 #: ../src/common/global/global_utils.cpp:64
 msgid "Ally (Even KO)"
-msgstr ""
+msgstr "Caidreabhach (marbh cuideachd)"
 
 #: ../src/common/global/global_utils.cpp:66
 msgid "Ally (Only KO)"
-msgstr ""
+msgstr "Caidreabhach (marbh a-mhàin)"
 
 #: ../src/common/global/global_utils.cpp:68
 msgid "Foe"
-msgstr ""
+msgstr "Nàmhaid"
 
 #: ../src/common/global/global_utils.cpp:70
-#: ../src/modes/battle/battle_command.cpp:1412
-#: ../src/modes/battle/battle_command.cpp:1442
-#: ../src/modes/battle/battle_utils.cpp:486
+#: ../src/modes/battle/battle_command.cpp:1411
+#: ../src/modes/battle/battle_command.cpp:1441
+#: ../src/modes/battle/battle_utils.cpp:484
 msgid "All Allies"
-msgstr ""
+msgstr "A h-uile caidreabhach"
 
 #: ../src/common/global/global_utils.cpp:72
 msgid "All Foes"
-msgstr ""
+msgstr "A h-uile nàmhaid"
 
 #: ../src/common/global/global_utils.cpp:74
 msgid "Invalid Target"
-msgstr ""
+msgstr "Amas mì-dhligheach"
 
 #. / Translators: The window title only supports UTF-8 characters in SDL2.
-#: ../src/common/options_handler.cpp:369 ../src/main.cpp:533
+#: ../src/common/options_handler.cpp:369 ../src/main.cpp:522
 msgid "Valyria Tear"
 msgstr ""
 
 #: ../src/common/options_handler.cpp:387
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: ../src/common/options_handler.cpp:388
 msgid "Audio"
-msgstr ""
+msgstr "Fuaim"
 
 #: ../src/common/options_handler.cpp:389
 msgid "Game"
-msgstr ""
+msgstr "Geama"
 
 #: ../src/common/options_handler.cpp:390
 msgid "Language"
-msgstr ""
+msgstr "Cànan"
 
 #: ../src/common/options_handler.cpp:391
 msgid "Key Settings"
-msgstr ""
+msgstr "Roghainnean a' mheur-chlàir"
 
 #: ../src/common/options_handler.cpp:392
 msgid "Joystick Settings"
-msgstr ""
+msgstr "Roghainnean joystick"
 
 #: ../src/common/options_handler.cpp:415 ../src/common/options_handler.cpp:674
 msgid "Resolution: "
-msgstr ""
+msgstr "Dùmhlachd-breacaidh: "
 
 #: ../src/common/options_handler.cpp:417 ../src/common/options_handler.cpp:679
 #: ../src/common/options_handler.cpp:683
 msgid "Window mode: "
-msgstr ""
+msgstr "Modh na h-uinneige: "
 
 #: ../src/common/options_handler.cpp:419 ../src/common/options_handler.cpp:689
 msgid "Brightness: "
-msgstr ""
+msgstr "Soilleireachd: "
 
 #: ../src/common/options_handler.cpp:421 ../src/common/options_handler.cpp:710
 msgid "VSync: "
-msgstr ""
+msgstr "Sioncronacha-V: "
 
 #: ../src/common/options_handler.cpp:424 ../src/common/options_handler.cpp:722
 #: ../src/common/options_handler.cpp:726
 msgid "Update method: "
-msgstr ""
+msgstr "Modh ùrachaidh: "
 
 #: ../src/common/options_handler.cpp:426 ../src/common/options_handler.cpp:731
 msgid "UI Theme: "
-msgstr ""
+msgstr "Ùrlar: "
 
 #: ../src/common/options_handler.cpp:445 ../src/common/options_handler.cpp:787
 msgid "Sound Volume: "
-msgstr ""
+msgstr "Àirde nam fogharan: "
 
 #: ../src/common/options_handler.cpp:448 ../src/common/options_handler.cpp:788
 msgid "Music Volume: "
-msgstr ""
+msgstr "Àirde a' chiùil: "
 
 #: ../src/common/options_handler.cpp:470 ../src/common/options_handler.cpp:796
 msgid "Easy"
-msgstr ""
+msgstr "Furasta"
 
 #: ../src/common/options_handler.cpp:475 ../src/common/options_handler.cpp:801
 msgid "Normal"
-msgstr ""
+msgstr "Meadhanach"
 
 #: ../src/common/options_handler.cpp:478 ../src/common/options_handler.cpp:804
 msgid "Hard"
-msgstr ""
+msgstr "Doirbh"
 
 #: ../src/common/options_handler.cpp:492 ../src/common/options_handler.cpp:814
 #: ../src/common/options_handler.cpp:836
 #: ../src/modes/battle/battle_finish.cpp:160
 msgid "Yes"
-msgstr ""
+msgstr "Tha"
 
 #: ../src/common/options_handler.cpp:492 ../src/common/options_handler.cpp:814
 #: ../src/common/options_handler.cpp:838
 #: ../src/modes/battle/battle_finish.cpp:161
 msgid "No"
-msgstr ""
+msgstr "Chan eil"
 
 #: ../src/common/options_handler.cpp:523
 msgid "Up: "
-msgstr ""
+msgstr "Suas: "
 
 #: ../src/common/options_handler.cpp:524
 msgid "Down: "
-msgstr ""
+msgstr "Sìos: "
 
 #: ../src/common/options_handler.cpp:525
 msgid "Left: "
-msgstr ""
+msgstr "Gu clì: "
 
 #: ../src/common/options_handler.cpp:526
 msgid "Right: "
-msgstr ""
+msgstr "Gu deas: "
 
 #: ../src/common/options_handler.cpp:527
 msgid "Confirm: "
-msgstr ""
+msgstr "Dearbhaich: "
 
 #: ../src/common/options_handler.cpp:528
 msgid "Cancel: "
-msgstr ""
+msgstr "Sguir dheth: "
 
 #: ../src/common/options_handler.cpp:529
 msgid "Menu: "
-msgstr ""
+msgstr "Clàr-taice: "
 
 #: ../src/common/options_handler.cpp:530
 msgid "Toggle Map: "
-msgstr ""
+msgstr "Toglaich am mapa: "
 
 #: ../src/common/options_handler.cpp:531
 msgid "Pause: "
-msgstr ""
+msgstr "Cuir 'na stad: "
 
 #: ../src/common/options_handler.cpp:532 ../src/common/options_handler.cpp:566
 msgid "Restore defaults"
-msgstr ""
+msgstr "Aisig na bun-roghainnean"
 
 #: ../src/common/options_handler.cpp:679
 msgid "Fullscreen"
-msgstr ""
+msgstr "Làn-sgrìn"
 
 #: ../src/common/options_handler.cpp:683
 msgid "Windowed"
-msgstr ""
+msgstr "Uinneagach"
 
 #: ../src/common/options_handler.cpp:726
 msgid "Performance"
-msgstr ""
+msgstr "Dèanadas"
 
 #: ../src/common/options_handler.cpp:821
 msgid "Move Up"
-msgstr ""
+msgstr "Gluais suas"
 
 #: ../src/common/options_handler.cpp:822
 msgid "Move Down"
-msgstr ""
+msgstr "Gluais sìos"
 
 #: ../src/common/options_handler.cpp:823
 msgid "Move Left"
-msgstr ""
+msgstr "Gluais gun taobh chlì"
 
 #: ../src/common/options_handler.cpp:824
 msgid "Move Right"
-msgstr ""
+msgstr "Gluais gun taobh deas"
 
 #: ../src/common/options_handler.cpp:825 ../src/modes/mode_help_window.cpp:143
 #: ../src/modes/mode_help_window.cpp:186 ../src/modes/mode_help_window.cpp:242
 msgid "Confirm"
-msgstr ""
+msgstr "Dearbhaich"
 
 #: ../src/common/options_handler.cpp:826 ../src/modes/mode_help_window.cpp:146
 #: ../src/modes/mode_help_window.cpp:192 ../src/modes/mode_help_window.cpp:245
 #: ../src/modes/pause.cpp:91 ../src/modes/save/save_mode.cpp:123
 #: ../src/modes/save/save_mode.cpp:138
 msgid "Cancel"
-msgstr ""
+msgstr "Sguir dheth"
 
 #: ../src/common/options_handler.cpp:827 ../src/modes/mode_help_window.cpp:189
 #: ../src/modes/mode_help_window.cpp:250 ../src/modes/mode_help_window.cpp:255
 msgid "Menu"
-msgstr ""
+msgstr "Clàr-taice"
 
 #: ../src/common/options_handler.cpp:828
 msgid "Toggle Map"
-msgstr ""
+msgstr "Toglaich am mapa"
 
 #: ../src/common/options_handler.cpp:829 ../src/modes/mode_help_window.cpp:198
 #: ../src/modes/mode_help_window.cpp:259
 msgid "Pause"
-msgstr ""
+msgstr "'Na stad"
 
 #: ../src/common/options_handler.cpp:836 ../src/common/options_handler.cpp:838
 msgid "Input enabled: "
-msgstr ""
+msgstr "Ion-chur an comas: "
 
 #: ../src/common/options_handler.cpp:840
 msgid "X Axis"
-msgstr ""
+msgstr "Aiseal X"
 
 #: ../src/common/options_handler.cpp:841
 msgid "Y Axis"
-msgstr ""
+msgstr "Aiseal Y"
 
 #: ../src/common/options_handler.cpp:842
 msgid "Threshold"
-msgstr ""
+msgstr "Stairsneach"
 
 #: ../src/common/options_handler.cpp:843
 msgid "Confirm: Button"
-msgstr ""
+msgstr "Dearbhaich: Putan"
 
 #: ../src/common/options_handler.cpp:844
 msgid "Cancel: Button"
-msgstr ""
+msgstr "Sguir dheth: Putan"
 
 #: ../src/common/options_handler.cpp:845
 msgid "Menu: Button"
-msgstr ""
+msgstr "Clàr-taice: Putan"
 
 #: ../src/common/options_handler.cpp:846
 msgid "Map: Button"
-msgstr ""
+msgstr "Mapa: Putan"
 
 #: ../src/common/options_handler.cpp:847
 msgid "Pause: Button"
-msgstr ""
+msgstr "Cuir 'na stad: Putan"
 
 #: ../src/common/options_handler.cpp:848
 msgid "Help: Button"
-msgstr ""
+msgstr "Cobhair: Putan"
 
 #: ../src/common/options_handler.cpp:849
 msgid "Quit: Button"
-msgstr ""
+msgstr "Fàgail: Putan"
 
 #: ../src/common/options_handler.cpp:1134
 msgid "Please press a new joystick button."
-msgstr ""
+msgstr "Brùth air putan joystick ùr."
 
 #: ../src/common/options_handler.cpp:1136
 msgid "Please press a new key."
-msgstr ""
+msgstr "Brùth air iuchair ùr."
 
 #: ../src/common/options_handler.cpp:1138
 msgid "Please move an axis."
-msgstr ""
+msgstr "Gluais aiseal."
 
 #: ../src/common/options_handler.cpp:1156
 msgid ""
 "Here you can set up the video options such as the resolution, whether to "
 "play in full screen, the GUI theme, ..."
 msgstr ""
+"'S urrainn dhut roghainnean a' video a shuidheachadh an-seo, can an d"
+"ùmhlachd-bhreacaidh, co-dhiù an cluich thu sa mhodh làn-sgrìn no sa mhodh "
+"uinneagach, ùrlar na h-eadar-aghaidh, ..."
 
 #: ../src/common/options_handler.cpp:1159
 msgid "Here you can setup the music and SFX volumes."
-msgstr ""
+msgstr "'S urrainn dhut àirde nam fogharan 's a' chiùil a shuidheachadh an-seo."
 
 #: ../src/common/options_handler.cpp:1162
 msgid ""
 "This menu permits to setup game specific options, such as the text scrolling "
 "speed, the game difficulty, ..."
 msgstr ""
+"Leigidh an clàr-taice seo leat roghainnean co-cheangailte ris a' gheama a "
+"shuidheachadh, can dè cho luath 's a bhios sgroladh an teacsa, duilgheadas "
+"a' gheama, ..."
 
 #: ../src/common/options_handler.cpp:1165
 msgid ""
 "This menu will show the available languages. Only available from the boot "
 "menu..."
 msgstr ""
+"Seallaidh an clàr-taice seo na cànain a tha ri làimh. Chan fhaigh thu seo "
+"ach air a' phrìomh chlàr-taice..."
 
 #: ../src/common/options_handler.cpp:1168
 msgid "Here you change the keys used when playing with the keyboard..."
 msgstr ""
+"Atharraichidh tu na h-iuchraichean an-seo ma bhios tu a' cluich leis a' "
+"mheur-chlàr..."
 
 #: ../src/common/options_handler.cpp:1171
 msgid "Here you change the keys used when playing with a joystick..."
 msgstr ""
+"Atharraichidh tu na h-iuchraichean an-seo ma bhios tu a' cluich le "
+"joystick..."
 
 #: ../src/common/options_handler.cpp:1181
 msgid "This permits to select the game's resolution..."
-msgstr ""
+msgstr "Leigidh seo leat dùmhlachd-bhreacaidh a' gheama a thaghadh..."
 
 #: ../src/common/options_handler.cpp:1184
 msgid ""
 "Here you can set whether you want to play in windowed mode or fullscreen."
 msgstr ""
+"'S urrainn dhut suidheachadh an-seo co-dhiù an cluich thu sa mhodh "
+"uinneagach no làn-sgrìn."
 
 #: ../src/common/options_handler.cpp:1187
 msgid "Sets the game brightness percentage. Default: 50%"
-msgstr ""
+msgstr "Suidhichidh seo ceudad na soilleireachd. Bun-roghainn: 50%"
 
 #: ../src/common/options_handler.cpp:1190
 msgid ""
 "Permits to change the Screen Vertical Synchronization mode. (Use the left "
 "and right arrow keys.)"
 msgstr ""
+"Leigidh seo leat modh sioncronachaidh inghearach na sgrìn atharrachadh. "
+"(Cleachd na h-iuchraichean saighde gu clì is deas.)"
 
 #: ../src/common/options_handler.cpp:1193
+#, fuzzy
 msgid ""
 "Permits to change the Game Update mode. Use 'Performance' for more FPS, and "
 "'Gentle' to be kind with your CPU. Disabled when VSync is on."
 msgstr ""
+"Leigidh seo leat modh ùrachaidh a' gheama atharrachadh. Cleachd \"Dèanadas\" "
+"airson barrachd FPS agus \"Gentle\" ach na bi thu trom air a' CPU. Bidh seo à "
+"comas ma tha Sioncronachadh-V air."
 
 #: ../src/common/options_handler.cpp:1196
 msgid "Permits to change the in-game GUI theme."
-msgstr ""
+msgstr "Leigidh seo leat ùrlar a' gheama atharrachadh."
 
 #: ../src/common/options_handler.cpp:1206
 msgid "Permits to set the general music volume."
-msgstr ""
+msgstr "Leigidh seo leat àirde choitcheann a' chiùil atharrachadh."
 
 #: ../src/common/options_handler.cpp:1209
 msgid "Permits to set the general SFX volume."
-msgstr ""
+msgstr "Leigidh seo leat àirde choitcheann nam fogharan atharrachadh."
 
 #: ../src/common/options_handler.cpp:1219
 msgid ""
 "Sets the game difficulty, can change how hard battles and certain events are "
 "in game..."
 msgstr ""
+"Suidhichidh seo duilgheas a' gheama. atharraichidh seo dè cho doirbh 's a "
+"bhios na cathan agus tachartasan sònraichte sa gheama..."
 
 #: ../src/common/options_handler.cpp:1222
 msgid ""
 "Permits to set up the dialogue text scrolling speed (in character per "
 "seconds)..."
 msgstr ""
+"Leigidh seo leat suidheachadh dè cho luath 's a nì teacsa nan còmhraidhean "
+"sgroladh (caractar gach diog)..."
 
 #: ../src/common/options_handler.cpp:1225
 msgid ""
 "Sets whether the battle target should be kept in memory between two actions "
 "for a given character."
 msgstr ""
+"Suidhichidh seo co-dhiù an dèid amas catha a chuir an cuimhne o ghnìomh gu "
+"gnìomh aig pearsa sònraichte."
 
 #: ../src/engine/indicator_supervisor.cpp:432
 msgid "Miss"
@@ -454,212 +484,219 @@ msgstr ""
 
 #: ../src/modes/battle/battle_actions.cpp:388
 msgid "[error]"
-msgstr ""
+msgstr "[mearachd]"
 
 #: ../src/modes/battle/battle_actors.cpp:1383
 msgid "[Select Action]"
-msgstr ""
+msgstr "[Tagh gnìomh]"
 
 #: ../src/modes/battle/battle_command.cpp:336
 msgid "Item<R>Type   ×"
-msgstr ""
+msgstr "Nì<R>Seòrsa   ×"
 
-#: ../src/modes/battle/battle_command.cpp:550
+#: ../src/modes/battle/battle_command.cpp:546
 msgid "Skill<R>Type SP"
-msgstr ""
+msgstr "Comas<R>Seòrsa PC"
 
-#: ../src/modes/battle/battle_command.cpp:657
-#: ../src/modes/battle/battle_command.cpp:663
-#: ../src/modes/battle/battle_command.cpp:755
-#: ../src/modes/battle/battle_command.cpp:756
-#: ../src/modes/menu/menu_views.cpp:1804
+#: ../src/modes/battle/battle_command.cpp:653
+#: ../src/modes/battle/battle_command.cpp:659
+#: ../src/modes/battle/battle_command.cpp:751
+#: ../src/modes/battle/battle_command.cpp:752
+#: ../src/modes/menu/menu_views.cpp:1806
 msgid "Weapon"
-msgstr ""
+msgstr "Arm"
 
-#: ../src/modes/battle/battle_command.cpp:658
-#: ../src/modes/battle/battle_command.cpp:664
-msgid "Magic"
-msgstr ""
-
+#: ../src/modes/battle/battle_command.cpp:654
 #: ../src/modes/battle/battle_command.cpp:660
-#: ../src/modes/battle/battle_command.cpp:666 ../src/modes/menu/menu.cpp:368
+msgid "Magic"
+msgstr "Draoidheachd"
+
+#: ../src/modes/battle/battle_command.cpp:656
+#: ../src/modes/battle/battle_command.cpp:662 ../src/modes/menu/menu.cpp:368
 #: ../src/modes/shop/shop.cpp:68
 msgid "Items"
-msgstr ""
+msgstr "Nithean"
 
-#: ../src/modes/battle/battle_command.cpp:759
-#: ../src/modes/battle/battle_command.cpp:760
+#: ../src/modes/battle/battle_command.cpp:755
+#: ../src/modes/battle/battle_command.cpp:756
 msgid "Bare-hand"
-msgstr ""
+msgstr "Làmh lom"
 
-#: ../src/modes/battle/battle_command.cpp:1246
+#: ../src/modes/battle/battle_command.cpp:1245
 msgid "Enemy Defense Modifiers:\n"
-msgstr ""
+msgstr "Atharraichearan dìon nàmhad:\n"
 
-#: ../src/modes/battle/battle_command.cpp:1291
+#: ../src/modes/battle/battle_command.cpp:1290
 msgid ""
 "\n"
 "\n"
 "Effects:\n"
 msgstr ""
+"\n"
+"\n"
+"Buaidhean:\n"
 
-#: ../src/modes/battle/battle_command.cpp:1407
+#: ../src/modes/battle/battle_command.cpp:1406
 msgid "Select Target"
-msgstr ""
+msgstr "Tagh amas"
 
-#: ../src/modes/battle/battle_command.cpp:1414
-#: ../src/modes/battle/battle_command.cpp:1444
-#: ../src/modes/battle/battle_utils.cpp:489
+#: ../src/modes/battle/battle_command.cpp:1413
+#: ../src/modes/battle/battle_command.cpp:1443
+#: ../src/modes/battle/battle_utils.cpp:487
 msgid "All Enemies"
-msgstr ""
+msgstr "A h-uile nàmhaid"
 
-#: ../src/modes/battle/battle_command.cpp:1466
+#: ../src/modes/battle/battle_command.cpp:1465
 msgid "Select Attack Point"
-msgstr ""
+msgstr "Tagh puing ionnsaighe"
 
-#: ../src/modes/battle/battle.cpp:544
+#: ../src/modes/battle/battle.cpp:543
 msgid "Double Rush!"
-msgstr ""
+msgstr "Deann-ruith dhùbailte!"
 
-#: ../src/modes/battle/battle.cpp:549
+#: ../src/modes/battle/battle.cpp:545
 msgid "First Strike!"
-msgstr ""
+msgstr "Ciad bhuille!"
 
-#: ../src/modes/battle/battle.cpp:554
+#: ../src/modes/battle/battle.cpp:547
 msgid "Ambush!"
-msgstr ""
+msgstr "Fàth!"
 
 #: ../src/modes/battle/battle_finish.cpp:147
 msgid "Retry"
-msgstr ""
+msgstr "Feuch ris a-rithist"
 
 #: ../src/modes/battle/battle_finish.cpp:148
 msgid "End"
-msgstr ""
+msgstr "Cuir crìoch air"
 
 #: ../src/modes/battle/battle_finish.cpp:280
 msgid "Start over from the beginning of this battle."
-msgstr ""
+msgstr "Tòisich an cath seo às ùr."
 
 #: ../src/modes/battle/battle_finish.cpp:283
 msgid "Exit to main menu."
-msgstr ""
+msgstr "Fàg dhan phrìomh chlàr-taice."
 
 #: ../src/modes/battle/battle_finish.cpp:292
 msgid "Confirm: retry battle."
-msgstr ""
+msgstr "Dearbhaich: Tòisich an cath às ùr."
 
 #: ../src/modes/battle/battle_finish.cpp:295
 msgid "Confirm: return to main menu."
-msgstr ""
+msgstr "Dearbhaich: Till dhan phrìomh chlàr-taice."
 
 #: ../src/modes/battle/battle_finish.cpp:370
 msgid "Items Found"
-msgstr ""
+msgstr "Chaidh nithean a lorg"
 
-#: ../src/modes/battle/battle_finish.cpp:528
+#: ../src/modes/battle/battle_finish.cpp:535
 msgid "XP Earned: "
-msgstr ""
+msgstr "Bhuannaich thu PE: "
 
-#: ../src/modes/battle/battle_finish.cpp:530
+#: ../src/modes/battle/battle_finish.cpp:537
 msgid "Drunes Found: "
-msgstr ""
+msgstr "Margan air an lorg: "
 
-#: ../src/modes/battle/battle_finish.cpp:531
+#: ../src/modes/battle/battle_finish.cpp:538
 msgid "Total Drunes: "
-msgstr ""
+msgstr "Margan iomlan: "
 
-#: ../src/modes/battle/battle_finish.cpp:588
-#: ../src/modes/battle/battle_finish.cpp:794
+#: ../src/modes/battle/battle_finish.cpp:595
+#: ../src/modes/battle/battle_finish.cpp:801
 msgid "Level (Max): "
-msgstr ""
+msgstr "Leibheil (as motha): "
 
-#: ../src/modes/battle/battle_finish.cpp:592
-#: ../src/modes/battle/battle_finish.cpp:796
+#: ../src/modes/battle/battle_finish.cpp:599
+#: ../src/modes/battle/battle_finish.cpp:803
 msgid "Level: "
-msgstr ""
+msgstr "Leibheil: "
 
-#: ../src/modes/battle/battle_finish.cpp:594
-#: ../src/modes/battle/battle_finish.cpp:797
+#: ../src/modes/battle/battle_finish.cpp:601
+#: ../src/modes/battle/battle_finish.cpp:804
 msgid "XP left: "
-msgstr ""
+msgstr "PE air am fàgail: "
 
-#: ../src/modes/battle/battle_finish.cpp:787
+#: ../src/modes/battle/battle_finish.cpp:794
 msgid "New Skill Learned:\n"
-msgstr ""
+msgstr "Dh'ionnsaich thu comas ùr:\n"
 
-#: ../src/modes/battle/battle_finish.cpp:799
+#: ../src/modes/battle/battle_finish.cpp:806
 msgid " (+20%)"
-msgstr ""
+msgstr " (+20%)"
 
-#: ../src/modes/battle/battle_finish.cpp:915
+#: ../src/modes/battle/battle_finish.cpp:922
 msgid "The heroes were victorious!"
-msgstr ""
+msgstr "Chaidh an latha leis na gaisgich!"
 
-#: ../src/modes/battle/battle_finish.cpp:918
+#: ../src/modes/battle/battle_finish.cpp:925
 msgid "The heroes fell in battle..."
-msgstr ""
+msgstr "Fhuair na gaisgich am bàs air a' bhlàr..."
 
-#: ../src/modes/battle/battle_menu.cpp:150
+#: ../src/modes/battle/battle_menu.cpp:152
 msgid ""
 "When the Auto-Battle mode is activated, your party will auto attack the "
 "opponents using default attacks. If you open a command menu, the Auto-Battle "
 "mode will be deactivated again."
 msgstr ""
+"Nuair a bhios modh a' chatha fhèin-obrachail an gnìomh, bheir do chuideachd "
+"ionnsaigh air na nàimhdean gu fèin-obrachail leis na h-ionnsaighean tùsail "
+"aca. Ma dh'fhosglas tu clàr-taice nan àitheantan, thèid modh a' chatha fh"
+"èin-obrachail a chur à comas."
 
-#: ../src/modes/battle/battle_utils.cpp:471
+#: ../src/modes/battle/battle_utils.cpp:469
 msgid "[Invalid Target]"
-msgstr ""
+msgstr "[Amas mì-dhligheach]"
 
-#: ../src/modes/battle/battle_utils.cpp:476
+#: ../src/modes/battle/battle_utils.cpp:474
 msgid " — "
-msgstr ""
+msgstr " — "
 
 #: ../src/modes/boot/boot.cpp:410
 msgid "New Game"
-msgstr ""
+msgstr "Geama ùr"
 
 #: ../src/modes/boot/boot.cpp:411 ../src/modes/save/save_mode.cpp:86
 msgid "Load Game"
-msgstr ""
+msgstr "Luchdaich geama"
 
 #: ../src/modes/boot/boot.cpp:412 ../src/modes/pause.cpp:92
 msgid "Options"
-msgstr ""
+msgstr "Roghainnean"
 
 #: ../src/modes/boot/boot.cpp:422 ../src/modes/mode_help_window.cpp:150
 #: ../src/modes/mode_help_window.cpp:201 ../src/modes/mode_help_window.cpp:262
 msgid "Quit"
-msgstr ""
+msgstr "Fàg an-seo"
 
-#: ../src/modes/map/map_treasure.cpp:75
+#: ../src/modes/map/map_treasure.cpp:83
 msgid "You obtain"
-msgstr ""
+msgstr "Gheibh thu"
 
-#: ../src/modes/map/map_treasure.cpp:98
+#: ../src/modes/map/map_treasure.cpp:106
 msgid "Ok"
-msgstr ""
+msgstr "Ceart ma-thà"
 
-#: ../src/modes/map/map_treasure.cpp:151 ../src/modes/map/map_treasure.cpp:319
+#: ../src/modes/map/map_treasure.cpp:159 ../src/modes/map/map_treasure.cpp:327
 msgid "Drunes"
-msgstr ""
+msgstr "Margan"
 
 #: ../src/modes/menu/menu_character_window.cpp:69
 #: ../src/modes/save/save_mode.cpp:769
 msgid "Lv: "
-msgstr ""
+msgstr "Rang: "
 
 #: ../src/modes/menu/menu_character_window.cpp:74
 msgid "XP to Next: "
-msgstr ""
+msgstr "PE gun ath-rang: "
 
 #: ../src/modes/menu/menu.cpp:234
 msgid "Inventory"
-msgstr ""
+msgstr "Tasgadh"
 
 #: ../src/modes/menu/menu.cpp:235
 msgid "Skills"
-msgstr ""
+msgstr "Comasan"
 
 #: ../src/modes/menu/menu.cpp:236
 msgid "Party"
@@ -725,23 +762,23 @@ msgstr ""
 
 #: ../src/modes/menu/menu.cpp:965 ../src/modes/shop/shop.cpp:209
 msgid "Skills obtained:"
-msgstr ""
+msgstr "Bhuannaich thu comasan:"
 
-#: ../src/modes/menu/menu.cpp:1180 ../src/modes/shop/shop.cpp:198
-#: ../src/modes/shop/shop.cpp:536
+#: ../src/modes/menu/menu.cpp:1178 ../src/modes/shop/shop.cpp:198
+#: ../src/modes/shop/shop.cpp:538
 msgid "ATK:"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:1181 ../src/modes/shop/shop.cpp:200
-#: ../src/modes/shop/shop.cpp:537
+#: ../src/modes/menu/menu.cpp:1179 ../src/modes/shop/shop.cpp:200
+#: ../src/modes/shop/shop.cpp:539
 msgid "M.ATK:"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:1184 ../src/modes/shop/shop.cpp:543
+#: ../src/modes/menu/menu.cpp:1182 ../src/modes/shop/shop.cpp:545
 msgid "DEF:"
 msgstr ""
 
-#: ../src/modes/menu/menu.cpp:1185 ../src/modes/shop/shop.cpp:544
+#: ../src/modes/menu/menu.cpp:1183 ../src/modes/shop/shop.cpp:546
 msgid "M.DEF:"
 msgstr ""
 
@@ -757,135 +794,135 @@ msgstr ""
 msgid "Select a character to use the item on."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:773
+#: ../src/modes/menu/menu_views.cpp:775
 msgid "Select a character to change position with."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:774
+#: ../src/modes/menu/menu_views.cpp:776
 msgid "Select a character to change formation."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:834
+#: ../src/modes/menu/menu_views.cpp:836
 msgid "Global Attack / Defense:"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:836
+#: ../src/modes/menu/menu_views.cpp:838
 msgid "Detailed Defense:"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:839
+#: ../src/modes/menu/menu_views.cpp:841
 msgid "Total Attack: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:840
+#: ../src/modes/menu/menu_views.cpp:842
 msgid "Total Magical Attack: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:841
+#: ../src/modes/menu/menu_views.cpp:843
 msgid "Average Defense: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:842
+#: ../src/modes/menu/menu_views.cpp:844
 msgid "Average Magical Defense: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:849
+#: ../src/modes/menu/menu_views.cpp:851
 msgid "Head: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:850
+#: ../src/modes/menu/menu_views.cpp:852
 msgid "Torso: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:851
+#: ../src/modes/menu/menu_views.cpp:853
 msgid "Arm: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:852
+#: ../src/modes/menu/menu_views.cpp:854
 msgid "Leg: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:957
+#: ../src/modes/menu/menu_views.cpp:959
 msgid "Experience Level: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:959
+#: ../src/modes/menu/menu_views.cpp:961
 msgid "Physical Attack: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:960
+#: ../src/modes/menu/menu_views.cpp:962
 msgid "Magical Attack: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:961
+#: ../src/modes/menu/menu_views.cpp:963
 msgid "Physical Defense: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:962
+#: ../src/modes/menu/menu_views.cpp:964
 msgid "Magical Defense: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:963
+#: ../src/modes/menu/menu_views.cpp:965
 msgid "Stamina: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:964
+#: ../src/modes/menu/menu_views.cpp:966
 msgid "Evade: "
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1131
+#: ../src/modes/menu/menu_views.cpp:1133
 msgid "Switch"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1154
-msgid "Select a battle formation to change character placement."
+#: ../src/modes/menu/menu_views.cpp:1156
+msgid "Select a battle formation to change characters placement."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1157
+#: ../src/modes/menu/menu_views.cpp:1159
 msgid "Rear - Front"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1326
+#: ../src/modes/menu/menu_views.cpp:1328
 msgid "Choose a character."
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1327
+#: ../src/modes/menu/menu_views.cpp:1329
 msgid "Choose a skill category to use."
-msgstr ""
+msgstr "Tagh roinn-seòrsa comas gus a chleachdadh."
 
-#: ../src/modes/menu/menu_views.cpp:1416
+#: ../src/modes/menu/menu_views.cpp:1418
 msgid "All"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1417
+#: ../src/modes/menu/menu_views.cpp:1419
 msgid "Field"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1418
+#: ../src/modes/menu/menu_views.cpp:1420
 msgid "Battle"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1620
-msgid "Weapon skill"
-msgstr ""
-
 #: ../src/modes/menu/menu_views.cpp:1622
+msgid "Weapon skill"
+msgstr "Comas airm"
+
+#: ../src/modes/menu/menu_views.cpp:1624
 msgid "Bare hands"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1625
+#: ../src/modes/menu/menu_views.cpp:1627
 msgid "Magic skill"
-msgstr ""
+msgstr "Comas draoidheachd"
 
-#: ../src/modes/menu/menu_views.cpp:1631
+#: ../src/modes/menu/menu_views.cpp:1633
 msgid "Special skill"
-msgstr ""
+msgstr "Comas sònraichte"
 
-#: ../src/modes/menu/menu_views.cpp:1751
+#: ../src/modes/menu/menu_views.cpp:1753
 msgid " SP"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1806 ../data/entities/characters.lua:62
+#: ../src/modes/menu/menu_views.cpp:1808 ../data/entities/characters.lua:62
 #: ../data/entities/characters.lua:275 ../data/entities/characters.lua:483
 #: ../data/entities/characters.lua:619 ../data/entities/enemies.lua:91
 #: ../data/entities/enemies.lua:149 ../data/entities/enemies.lua:204
@@ -900,7 +937,7 @@ msgstr ""
 msgid "Head"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1808 ../data/entities/characters.lua:71
+#: ../src/modes/menu/menu_views.cpp:1810 ../data/entities/characters.lua:71
 #: ../data/entities/characters.lua:284 ../data/entities/characters.lua:492
 #: ../data/entities/characters.lua:628 ../data/entities/enemies.lua:314
 #: ../data/entities/enemies.lua:496 ../data/entities/enemies.lua:564
@@ -909,13 +946,13 @@ msgstr ""
 msgid "Torso"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1810 ../data/entities/characters.lua:79
+#: ../src/modes/menu/menu_views.cpp:1812 ../data/entities/characters.lua:79
 #: ../data/entities/characters.lua:292 ../data/entities/characters.lua:500
 #: ../data/entities/characters.lua:636
 msgid "Arms"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:1812 ../data/entities/characters.lua:88
+#: ../src/modes/menu/menu_views.cpp:1814 ../data/entities/characters.lua:88
 #: ../data/entities/characters.lua:301 ../data/entities/characters.lua:509
 #: ../data/entities/characters.lua:645 ../data/entities/enemies.lua:504
 #: ../data/entities/enemies.lua:572 ../data/entities/enemies.lua:1596
@@ -923,23 +960,23 @@ msgstr ""
 msgid "Legs"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:2198
+#: ../src/modes/menu/menu_views.cpp:2200
 msgid "No weapon"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:2199
+#: ../src/modes/menu/menu_views.cpp:2201
 msgid "No head armor"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:2200
+#: ../src/modes/menu/menu_views.cpp:2202
 msgid "No torso armor"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:2201
+#: ../src/modes/menu/menu_views.cpp:2203
 msgid "No arms armor"
 msgstr ""
 
-#: ../src/modes/menu/menu_views.cpp:2202
+#: ../src/modes/menu/menu_views.cpp:2204
 msgid "No legs armor"
 msgstr ""
 
@@ -1096,7 +1133,7 @@ msgstr ""
 
 #: ../src/modes/mode_help_window.cpp:257
 msgid "Show/Hide items and skills descriptions."
-msgstr ""
+msgstr "Seall/Falaich tuairisgeulan nan nithean 's nan comasan."
 
 #: ../src/modes/mode_help_window.cpp:264
 msgid "Quit the application"
@@ -1166,27 +1203,27 @@ msgstr ""
 msgid "SP: "
 msgstr ""
 
-#: ../src/modes/shop/shop_buy.cpp:60 ../src/modes/shop/shop_sell.cpp:60
-#: ../src/modes/shop/shop_trade.cpp:57
+#: ../src/modes/shop/shop_buy.cpp:59 ../src/modes/shop/shop_sell.cpp:59
+#: ../src/modes/shop/shop_trade.cpp:56
 msgid "Category"
 msgstr ""
 
-#: ../src/modes/shop/shop_buy.cpp:63 ../src/modes/shop/shop_sell.cpp:63
-#: ../src/modes/shop/shop_trade.cpp:60
+#: ../src/modes/shop/shop_buy.cpp:62 ../src/modes/shop/shop_sell.cpp:62
+#: ../src/modes/shop/shop_trade.cpp:59
 msgid "Name"
 msgstr ""
 
-#: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_sell.cpp:69
-#: ../src/modes/shop/shop_trade.cpp:66
+#: ../src/modes/shop/shop_buy.cpp:68 ../src/modes/shop/shop_sell.cpp:68
+#: ../src/modes/shop/shop_trade.cpp:65
 msgid "Price"
 msgstr ""
 
-#: ../src/modes/shop/shop_buy.cpp:70 ../src/modes/shop/shop_trade.cpp:67
+#: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_trade.cpp:66
 msgid "Stock"
 msgstr ""
 
-#: ../src/modes/shop/shop_buy.cpp:71 ../src/modes/shop/shop_sell.cpp:70
-#: ../src/modes/shop/shop_trade.cpp:68
+#: ../src/modes/shop/shop_buy.cpp:70 ../src/modes/shop/shop_sell.cpp:69
+#: ../src/modes/shop/shop_trade.cpp:67
 msgid "Own"
 msgstr ""
 
@@ -1238,47 +1275,47 @@ msgstr ""
 msgid "Conditions:"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:727
+#: ../src/modes/shop/shop.cpp:729
 msgid "Buy count: x "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:730
+#: ../src/modes/shop/shop.cpp:732
 msgid "Sell count: x "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:733
+#: ../src/modes/shop/shop.cpp:735
 msgid "Trade count: x "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1027 ../src/modes/shop/shop.cpp:1289
+#: ../src/modes/shop/shop.cpp:1029 ../src/modes/shop/shop.cpp:1292
 msgid "Buy"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1028 ../src/modes/shop/shop.cpp:1290
+#: ../src/modes/shop/shop.cpp:1030 ../src/modes/shop/shop.cpp:1293
 msgid "Sell"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1029 ../src/modes/shop/shop.cpp:1291
+#: ../src/modes/shop/shop.cpp:1031 ../src/modes/shop/shop.cpp:1294
 msgid "Trade"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1292
+#: ../src/modes/shop/shop.cpp:1295
 msgid "Leave"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1745
+#: ../src/modes/shop/shop.cpp:1748
 msgid "Funds: "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1747
+#: ../src/modes/shop/shop.cpp:1750
 msgid "Purchases: "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1748 ../src/modes/shop/shop.cpp:1751
+#: ../src/modes/shop/shop.cpp:1751 ../src/modes/shop/shop.cpp:1754
 msgid "Remaining: "
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:1750
+#: ../src/modes/shop/shop.cpp:1753
 msgid "Sales: +"
 msgstr ""
 
@@ -2454,7 +2491,7 @@ msgstr ""
 
 #: ../data/inventory/items.lua:189
 msgid "Restores a small amount of skill points to an ally."
-msgstr ""
+msgstr "Aisigidh seo cuid a phuingean-comais dha chaidreabhach."
 
 #: ../data/inventory/items.lua:207
 msgid "Medium Moon Juice Potion"
@@ -2462,7 +2499,7 @@ msgstr ""
 
 #: ../data/inventory/items.lua:208
 msgid "Restores a reasonable amount of skill points to an ally."
-msgstr ""
+msgstr "Aisigidh seo cuid mhath a phuingean-comais dha chaidreabhach."
 
 #: ../data/inventory/items.lua:226
 msgid "Moon Juice Potion"
@@ -2470,7 +2507,7 @@ msgstr ""
 
 #: ../data/inventory/items.lua:227
 msgid "Restores a large amount of skill points to an ally."
-msgstr ""
+msgstr "Aisigidh seo cuid mhòr a phuingean-comais dha chaidreabhach."
 
 #: ../data/inventory/items.lua:245
 msgid "Mega Moon Juice Potion"
@@ -2478,7 +2515,7 @@ msgstr ""
 
 #: ../data/inventory/items.lua:246
 msgid "Restores a very high amount of skill points to an ally."
-msgstr ""
+msgstr "Aisigidh seo cuid glè mhòr a phuingean-comais dha chaidreabhach."
 
 #: ../data/inventory/items.lua:264
 msgid "Lotus Petal"
@@ -3260,7 +3297,7 @@ msgstr ""
 
 #: ../data/skills/magic.lua:985
 msgid "Steals skill points from an enemy."
-msgstr ""
+msgstr "Goididh seo puingean-comais o nàmhaid."
 
 #: ../data/skills/magic.lua:1000
 msgid "Silence"
@@ -3268,7 +3305,7 @@ msgstr ""
 
 #: ../data/skills/magic.lua:1001
 msgid "Prevents an enemy from using any magic skills."
-msgstr ""
+msgstr "Cha leig seo leis an nàmhaid comas draoidheachd sam bith a chleachdadh."
 
 #: ../data/skills/magic.lua:1016
 msgid "Storm"
@@ -4057,6 +4094,9 @@ msgid ""
 "Here you can find the hit points (HP) and skill points (SP) of the ally "
 "party. Don't let our HP reach 0 or we're doomed!"
 msgstr ""
+"Chì thu puingean-beatha (PB) agus puingean-comais (PC) aig a' chuideachd "
+"chaidreabhach. Thoir an aire nach ruig na PB againn 0 on a gheibheadh sinn "
+"bàs!"
 
 #: ../data/story/layna_forest/tutorial_battle_dialogs.lua:82
 msgid ""
@@ -4077,6 +4117,10 @@ msgid ""
 "also use 'Magic' skills. Last but not least, you'll also be able to use our "
 "'Items'. Simply choose an action followed by a target to trigger it."
 msgstr ""
+"Tha dà sheòrsa de ionnsaigh ann: Ionnsaigh bunasach leis an \"arm\" agus "
+"comasan \"draoidheachd\" an uairsin. 'S urrainn dhut na \"nithean\" againn a "
+"chleachdadh cuideachd. Gus gnìomh a ghabhail, tagh gnìomh agus an uairsin an "
+"t-amas."
 
 #: ../data/story/layna_forest/tutorial_battle_dialogs.lua:88
 msgid ""
@@ -6996,34 +7040,34 @@ msgid "Battle target cursor memory: %s"
 msgstr ""
 
 #. / TRANSLATORS: this is about displaying a time: eg 4.2s
-#: ../src/modes/battle/battle_command.cpp:1229
+#: ../src/modes/battle/battle_command.cpp:1228
 #, c-format
 msgid "%ss"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1304
+#: ../src/modes/battle/battle_command.cpp:1303
 #, c-format
 msgid "%s SP"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1306
-#: ../src/modes/battle/battle_command.cpp:1313
+#: ../src/modes/battle/battle_command.cpp:1305
+#: ../src/modes/battle/battle_command.cpp:1312
 #, c-format
 msgid "Target Type: %s"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1307
+#: ../src/modes/battle/battle_command.cpp:1306
 #, c-format
 msgid "Prep Time: %s"
 msgstr ""
 
-#: ../src/modes/battle/battle_command.cpp:1308
+#: ../src/modes/battle/battle_command.cpp:1307
 #, c-format
 msgid "Cool Time: %s"
 msgstr ""
 
 #. / TRANSLATORS: This is the evade growth score. E.g.: +1%, +1.5%
-#: ../src/modes/battle/battle_finish.cpp:781
+#: ../src/modes/battle/battle_finish.cpp:788
 #, c-format
 msgid "+%f%%"
 msgstr ""
@@ -7033,15 +7077,17 @@ msgstr ""
 msgid "Press '%s' to get to know about the game keys."
 msgstr ""
 
-#: ../src/modes/map/map_treasure.cpp:321
+#: ../src/modes/map/map_treasure.cpp:329
 #, c-format
 msgid ""
 "With the additional %u drunes found in this treasure added, the party now "
 "holds a total of %u drunes."
 msgstr ""
+"Leis na %u marg(an) a bharrachd a lorg thu san ulaidh seo air an cur ris, "
+"tha %u marg aig a' chuideachd a-nis."
 
-#: ../src/modes/menu/menu_views.cpp:1243 ../src/modes/menu/menu_views.cpp:1256
-#: ../src/modes/menu/menu_views.cpp:1258
+#: ../src/modes/menu/menu_views.cpp:1245 ../src/modes/menu/menu_views.cpp:1258
+#: ../src/modes/menu/menu_views.cpp:1260
 #, c-format
 msgid "%d %%"
 msgstr ""
@@ -7056,17 +7102,17 @@ msgstr ""
 msgid "Slot %d"
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:704
+#: ../src/modes/shop/shop.cpp:706
 #, c-format
 msgid "Press %s to add items to buy and %s to remove items from your purchase."
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:707
+#: ../src/modes/shop/shop.cpp:709
 #, c-format
 msgid "Press %s to add items to sell and %s to remove items from your sale."
 msgstr ""
 
-#: ../src/modes/shop/shop.cpp:710
+#: ../src/modes/shop/shop.cpp:712
 #, c-format
 msgid "Press %s to add items to trade and %s to remove them."
 msgstr ""

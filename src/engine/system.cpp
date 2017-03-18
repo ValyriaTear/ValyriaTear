@@ -158,7 +158,7 @@ SystemTimer::SystemTimer(uint32_t duration, int32_t loops) :
 
 SystemTimer::~SystemTimer()
 {
-    if(_auto_update == true) {
+    if(_auto_update) {
         SystemManager->RemoveAutoTimer(this);
     }
 }
@@ -174,7 +174,7 @@ void SystemTimer::Initialize(uint32_t duration, int32_t number_loops)
 
 void SystemTimer::EnableAutoUpdate(GameMode *owner)
 {
-    if(_auto_update == true) {
+    if(_auto_update) {
         IF_PRINT_WARNING(SYSTEM_DEBUG) << "timer already had auto update enabled" << std::endl;
         return;
     }
@@ -203,7 +203,7 @@ void SystemTimer::Update()
 
 void SystemTimer::Update(uint32_t time)
 {
-    if(_auto_update == true) {
+    if(_auto_update) {
         IF_PRINT_WARNING(SYSTEM_DEBUG) << "update failed because timer is in automatic update mode" << std::endl;
         return;
     }

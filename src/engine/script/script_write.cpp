@@ -47,7 +47,7 @@ WriteScriptDescriptor::~WriteScriptDescriptor()
 
 bool WriteScriptDescriptor::OpenFile(const std::string &file_name)
 {
-    if(ScriptManager->IsFileOpen(file_name) == true) {
+    if(ScriptManager->IsFileOpen(file_name)) {
         IF_PRINT_WARNING(SCRIPT_DEBUG)
                 << "SCRIPT WARNING: WriteScriptDescriptor::OpenFile() attempted to open file that is already opened: "
                 << file_name << std::endl;
@@ -145,7 +145,7 @@ void WriteScriptDescriptor::WriteComment(const std::string &comment)
 
 void WriteScriptDescriptor::BeginCommentBlock()
 {
-    if(_inside_comment_block == true) {
+    if(_inside_comment_block) {
         _error_messages << "* WriteScriptDescriptor::BeginCommentBlock() was already "
                         << "inside a comment block when it was called" << std::endl;
         return;

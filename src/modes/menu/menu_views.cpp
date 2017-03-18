@@ -1151,7 +1151,7 @@ BattleFormationWindow::BattleFormationWindow() :
 
     // We set them here in case the language has changed since the game start
     _help_text.SetStyle(TextStyle("text20"));
-    _help_text.SetText(UTranslate("Select a battle formation to change characters placement."));
+    _help_text.SetText(UTranslate("Select a battle formation to change character placement."));
 
     _rear_front_txt.SetStyle(TextStyle("text24"));
     _rear_front_txt.SetText(UTranslate("Rear - Front"));
@@ -2795,4 +2795,3 @@ void WorldMapWindow::Activate(bool new_state)
 } // namespace private_menu
 
 } // namespace vt_menu
-

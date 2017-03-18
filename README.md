@@ -48,13 +48,13 @@ In that case, you might need the dependencies and headers files that can be down
 
 #### Microsoft Visual C++ 2013 and later
 
-**(Warning: not officially supported!)**  
-Please contact [authenticate](https://github.com/authenticate) for support.
-
-To build on Windows with Visual Studio 2013, do this:
+_**(Warning: not officially supported!)**_
+Please contact [authenticate](https://github.com/authenticate) for support.  
+To create a debug build on Windows with Visual Studio 2013, do this:  
 - git clone https://github.com/authenticate/ValyriaTear-VS2013-Dependencies.git
 - git submodule update --recursive --init --remote --force
-- Copy the ```ValyriaTear-VS2013-Dependencies/``` folder into your Valyria Tear repository.
+- Copy the contents of ```ValyriaTear-VS2013-Dependencies/``` into a new folder ```ValyriaTearRepository/vs2013/libs``` in your Valyria Tear repository.
+- Copy the debug versions of all the dependencies' dlls into ```ValyriaTearRepository/vs2013/Debug```
 - Open the VS 2013 solution file: ```ValyriaTearRepository/vs2013/ValyriaTear.sln```
 - Build ```F7```
 - Run ```F5```

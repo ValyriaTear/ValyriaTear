@@ -97,7 +97,7 @@ void MenuWindow::Draw(const Color& color)
     VideoManager->Move(_x_position, _y_position);
     _menu_image.Draw(color);
 
-    if(GUIManager->DEBUG_DrawOutlines() == true) {
+    if(GUIManager->DEBUG_DrawOutlines()) {
         _DEBUG_DrawOutline();
     }
 

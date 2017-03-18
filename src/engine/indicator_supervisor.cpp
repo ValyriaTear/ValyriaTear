@@ -309,7 +309,7 @@ void IndicatorSupervisor::Update()
 
     // Remove all expired elements from the active queue
     while(_active_queue.empty() == false) {
-        if(_active_queue.front()->IsExpired() == true) {
+        if(_active_queue.front()->IsExpired()) {
             delete _active_queue.front();
             _active_queue.pop_front();
         } else {

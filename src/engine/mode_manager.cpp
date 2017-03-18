@@ -325,7 +325,7 @@ void ModeEngine::Update()
 
         // Re-initialize the game update timer so that the new active game mode does not begin with any update time to process
         SystemManager->InitializeUpdateTimer();
-    } // if (_state_change == true)
+    } // if (_state_change)
 
     // Call the Update function on the top stack mode (the active game mode)
     if(!_game_stack.empty())

@@ -540,11 +540,20 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
 
         // Display a message about the stamina bonus related event
         if (_hero_init_boost && _enemy_init_boost)
-            GetIndicatorSupervisor().AddShortNotice(UTranslate("Double Rush!"), "data/gui/menus/star.png");
+        {
+            GetIndicatorSupervisor().AddShortNotice(UTranslate("Double Rush!"),
+						    "data/gui/menus/star.png");
+        }
         else if (_hero_init_boost)
-            GetIndicatorSupervisor().AddShortNotice(UTranslate("First Strike!"), "data/gui/menus/star.png");
+        {
+            GetIndicatorSupervisor().AddShortNotice(UTranslate("First Strike!"),
+						    "data/gui/menus/star.png");
+        }
         else if (_enemy_init_boost)
-            GetIndicatorSupervisor().AddShortNotice(UTranslate("Ambush!"), "data/gui/battle/exclamation.png");
+        {
+            GetIndicatorSupervisor().AddShortNotice(UTranslate("Ambush!"),
+						    "data/gui/battle/exclamation.png");
+        }
         break;
     case BATTLE_STATE_NORMAL:
         if(_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE) {
@@ -1025,14 +1034,14 @@ void BattleMode::_DrawSprites()
     if((_state == BATTLE_STATE_COMMAND)
             && ((_command_supervisor->GetState() == COMMAND_STATE_ACTOR) || (_command_supervisor->GetState() == COMMAND_STATE_POINT))) {
         draw_actor_selection = true;
-        if((_command_supervisor->GetState() == COMMAND_STATE_POINT) && (IsTargetPoint(target.GetType()) == true))
+        if((_command_supervisor->GetState() == COMMAND_STATE_POINT) && (IsTargetPoint(target.GetType())))
             draw_point_selection = true;
     }
 
     // Draw the actor selector graphic
-    if(draw_actor_selection == true) {
+    if(draw_actor_selection) {
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-        if(IsTargetParty(target.GetType()) == true) {
+        if(IsTargetParty(target.GetType())) {
             const std::deque<BattleActor *>& party_target = target.GetPartyTarget();
             for(uint32_t i = 0; i < party_target.size(); i++) {
                 VideoManager->Move(party_target[i]->GetXLocation(),  party_target[i]->GetYLocation());
@@ -1261,10 +1270,14 @@ void TransitionToBattleMode::Draw()
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
 
     vt_video::DrawCapturedBackgroundImage(_screen_capture, 0.0f, 0.0f);
-    vt_video::DrawCapturedBackgroundImage(_screen_capture, _position, _position, Color(1.0f, 1.0f, 1.0f, 0.3f));
-    vt_video::DrawCapturedBackgroundImage(_screen_capture, -_position, _position, Color(1.0f, 1.0f, 1.0f, 0.3f));
-    vt_video::DrawCapturedBackgroundImage(_screen_capture, -_position, -_position, Color(1.0f, 1.0f, 1.0f, 0.3f));
-    vt_video::DrawCapturedBackgroundImage(_screen_capture, _position, -_position, Color(1.0f, 1.0f, 1.0f, 0.3f));
+    vt_video::DrawCapturedBackgroundImage(_screen_capture, _position, _position,
+					  Color(1.0f, 1.0f, 1.0f, 0.3f));
+    vt_video::DrawCapturedBackgroundImage(_screen_capture, -_position, _position,
+					  Color(1.0f, 1.0f, 1.0f, 0.3f));
+    vt_video::DrawCapturedBackgroundImage(_screen_capture, -_position, -_position,
+					  Color(1.0f, 1.0f, 1.0f, 0.3f));
+    vt_video::DrawCapturedBackgroundImage(_screen_capture, _position, -_position,
+					  Color(1.0f, 1.0f, 1.0f, 0.3f));
 }
 
 void TransitionToBattleMode::Reset()
@@ -1279,7 +1292,8 @@ void TransitionToBattleMode::Reset()
 
     // Stop the current map music if it is not the same
     std::string battle_music = GlobalManager->GetBattleMedia().battle_music_filename;
-    if (AudioManager->GetActiveMusic() != nullptr && battle_music != AudioManager->GetActiveMusic()->GetFilename())
+    if (AudioManager->GetActiveMusic() != nullptr &&
+        battle_music != AudioManager->GetActiveMusic()->GetFilename())
         AudioManager->GetActiveMusic()->FadeOut(2000);
 
     // Play a random encounter sound

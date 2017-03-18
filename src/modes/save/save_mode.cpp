@@ -232,7 +232,7 @@ void SaveMode::Reset()
 
 void SaveMode::Update()
 {
-    if(InputManager->QuitPress() == true) {
+    if(InputManager->QuitPress()) {
         ModeManager->Pop();
         return;
     }

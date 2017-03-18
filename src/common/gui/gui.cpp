@@ -276,7 +276,7 @@ bool GUISystem::LoadMenuSkin(const std::string& skin_id,
     }
 
     // Determine if this new skin should be made the default skin
-    if(make_default == true || _menu_skins.size() == 1) {
+    if(make_default || _menu_skins.size() == 1) {
         _default_skin = &new_skin;
     }
 

@@ -757,7 +757,7 @@ bool GameGlobal::DoesEventExist(const std::string &group_name, const std::string
 
 void GameGlobal::AddNewEventGroup(const std::string &group_name)
 {
-    if(DoesEventGroupExist(group_name) == true) {
+    if(DoesEventGroupExist(group_name)) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed because there was already an event group that existed for "
                                        << "the requested group name: " << group_name << std::endl;
         return;
@@ -1938,4 +1938,3 @@ void GameGlobal::_LoadShopData(vt_script::ReadScriptDescriptor& file)
 }
 
 } // namespace vt_global
-

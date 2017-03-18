@@ -613,7 +613,7 @@ PathMoveSpriteEvent* PathMoveSpriteEvent::Create(const std::string& event_id,
 
 void PathMoveSpriteEvent::SetDestination(float x_coord, float y_coord, bool run)
 {
-    if(MapMode::CurrentInstance()->GetEventSupervisor()->IsEventActive(GetEventID()) == true) {
+    if(MapMode::CurrentInstance()->GetEventSupervisor()->IsEventActive(GetEventID())) {
         IF_PRINT_WARNING(MAP_DEBUG) << "attempted illegal operation while event was active: "
                                     << GetEventID() << std::endl;
         return;
@@ -628,7 +628,7 @@ void PathMoveSpriteEvent::SetDestination(float x_coord, float y_coord, bool run)
 
 void PathMoveSpriteEvent::SetDestination(VirtualSprite* target_sprite, bool run)
 {
-    if(MapMode::CurrentInstance()->GetEventSupervisor()->IsEventActive(GetEventID()) == true) {
+    if(MapMode::CurrentInstance()->GetEventSupervisor()->IsEventActive(GetEventID())) {
         IF_PRINT_WARNING(MAP_DEBUG) << "attempted illegal operation while event was active: "
                                     << GetEventID() << std::endl;
         return;
@@ -1346,7 +1346,7 @@ void EventSupervisor::Update()
 
     // Check for active events which have finished
     for(std::vector<MapEvent *>::iterator it = _active_events.begin(); it != _active_events.end();) {
-        if((*it)->_Update() == true) {
+        if((*it)->_Update()) {
             // Add it ot the finished events list
             finished_events.push_back(*it);
 

@@ -440,7 +440,7 @@ void MapMode::PushState(MAP_STATE state)
 void MapMode::PopState()
 {
     _state_stack.pop_back();
-    if(_state_stack.empty() == true) {
+    if(_state_stack.empty()) {
         IF_PRINT_WARNING(MAP_DEBUG)
                 << "stack was empty after operation, reseting state stack"
                 << std::endl;
@@ -450,7 +450,7 @@ void MapMode::PopState()
 
 MAP_STATE MapMode::CurrentState()
 {
-    if(_state_stack.empty() == true) {
+    if(_state_stack.empty()) {
         IF_PRINT_WARNING(MAP_DEBUG) << "stack was empty, reseting state stack"
                                     << std::endl;
         _state_stack.push_back(STATE_INVALID);
@@ -819,7 +819,7 @@ void MapMode::_UpdateExplore()
 
     // Determine the direction of movement. Priority of movement is given to: up, down, left, right.
     // In the case of diagonal movement, the direction that the sprite should face also needs to be deduced.
-    if(_camera->GetMoving() == true) {
+    if(_camera->GetMoving()) {
         if(InputManager->UpState()) {
             if(InputManager->LeftState())
                 _camera->SetDirection(MOVING_NORTHWEST);
@@ -1243,4 +1243,3 @@ void MapMode::_DrawGUI()
 } // void MapMode::_DrawGUI()
 
 } // namespace vt_map
-

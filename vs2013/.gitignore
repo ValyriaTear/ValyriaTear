@@ -12,6 +12,7 @@
 */Release/*
 */Debug/*
 ipch
+libs/*
 *.lib
 *.exp
 *.user

@@ -163,7 +163,8 @@ bool Dialogue::Validate()
                 int32_t option_next_line = _options[i]->GetOptionNextLine(j);
                 if((option_next_line >= 0) && (static_cast<uint32_t>(option_next_line) >= _line_count)) {
                     IF_PRINT_WARNING(COMMON_DEBUG) << "Validation failed for dialogue #" << _dialogue_id
-                                                   << ": option's next line referred to an invalid line index: " << option_next_line << std::endl;
+                                                   << ": option's next line referred to an invalid line index: "
+                                                   << option_next_line << std::endl;
                     return false;
                 }
             }
@@ -384,9 +385,8 @@ void DialogueSupervisor::AddDialogue(Dialogue* dialogue)
         IF_PRINT_WARNING(COMMON_DEBUG) << "a dialogue was already registered with this ID: " << dialogue->GetDialogueID() << std::endl;
         delete dialogue;
         return;
-    } else {
-        _dialogues.insert(std::make_pair(dialogue->GetDialogueID(), dialogue));
     }
+    _dialogues.insert(std::make_pair(dialogue->GetDialogueID(), dialogue));
 }
 
 void DialogueSupervisor::AddSpeaker(const std::string& speaker_id, const std::string& name, const std::string& portrait)
@@ -512,14 +512,14 @@ void DialogueSupervisor::_UpdateLine()
     _dialogue_window.GetDisplayTextBox().Update();
 
     if(_current_options != nullptr) {
-        if(_dialogue_window.GetDisplayTextBox().IsFinished() == true) {
+        if(_dialogue_window.GetDisplayTextBox().IsFinished()) {
             _state = DIALOGUE_STATE_OPTION;
             return;
         }
     }
 
     // If the line has a valid display time and the timer is finished, move on to the next line
-    if((_line_timer.GetDuration() > 0) && (_line_timer.IsFinished() == true)) {
+    if((_line_timer.GetDuration() > 0) && (_line_timer.IsFinished())) {
         _EndLine();
         return;
     }

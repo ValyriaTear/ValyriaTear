@@ -1,11 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2016 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2017 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ***************************************************************************
@@ -53,7 +53,7 @@ using namespace vt_utils;
 namespace vt_main
 {
 
-bool ParseProgramOptions(int32_t &return_code, int32_t argc, char **argv)
+bool ParseProgramOptions(int32_t &return_code, int32_t argc, char* argv[])
 {
     // Convert the argument list to a vector of strings for convenience
     std::vector<std::string> options(argv, argv + argc);
@@ -79,14 +79,14 @@ bool ParseProgramOptions(int32_t &return_code, int32_t argc, char **argv)
             return_code = 0;
             return false;
         } else if(options[i] == "-i" || options[i] == "--info") {
-            if(PrintSystemInformation() == true) {
+            if(PrintSystemInformation()) {
                 return_code = 0;
             } else {
                 return_code = 1;
             }
             return false;
         } else if(options[i] == "-r" || options[i] == "--reset") {
-            if(ResetSettings() == true) {
+            if(ResetSettings()) {
                 return_code = 0;
             } else {
                 return_code = 1;
@@ -102,7 +102,7 @@ bool ParseProgramOptions(int32_t &return_code, int32_t argc, char **argv)
     }
 
     return true;
-} // bool ParseProgramOptions(int32_t &return_code, int32_t argc, char **argv)
+} // bool ParseProgramOptions(int32_t &return_code, int32_t argc, char *argv[])
 
 bool ParseSecondaryOptions(const std::string &vars, std::vector<std::string>& options)
 {
@@ -166,8 +166,16 @@ bool PrintSystemInformation()
     SDL_version sdl_linked_ver;
     SDL_GetVersion(&sdl_linked_ver);
 
-    printf("SDL version (compiled):  %d.%d.%d\n", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
-    printf("SDL version (linked):    %d.%d.%d\n", sdl_linked_ver.major, sdl_linked_ver.minor, sdl_linked_ver.patch);
+    std::cout
+      << "SDL version (compiled):  "
+      << SDL_MAJOR_VERSION << '.' << SDL_MINOR_VERSION << '.' << SDL_PATCHLEVEL
+      << std::endl;
+    std::cout
+      << "SDL version (linked):    "
+      << sdl_linked_ver.major << '.'
+      << sdl_linked_ver.minor << '.'
+      << sdl_linked_ver.patch
+      << std::endl;
 
     int32_t js_num = SDL_NumJoysticks();
     printf("Number of joysticks found:  %d\n", js_num);
@@ -203,7 +211,8 @@ bool PrintSystemInformation()
 
     // TODO: print the OpenGL version number here
 
-    printf("SDL_ttf version (compiled): %d.%d.%d\n", SDL_TTF_MAJOR_VERSION, SDL_TTF_MINOR_VERSION, SDL_TTF_PATCHLEVEL);
+    printf("SDL_ttf version (compiled): %d.%d.%d\n",
+           SDL_TTF_MAJOR_VERSION, SDL_TTF_MINOR_VERSION, SDL_TTF_PATCHLEVEL);
 /*
     char video_driver[80];
     SDL_VideoDriverName(video_driver, 80);
@@ -266,12 +275,11 @@ bool PrintSystemInformation()
     if(vt_audio::AudioManager->SingletonInitialize() == false) {
         std::cerr << "ERROR: unable to initialize the AudioManager" << std::endl;
         return false;
-    } else {
-        vt_audio::AudioManager->DEBUG_PrintInfo();
     }
+    vt_audio::AudioManager->DEBUG_PrintInfo();
     vt_audio::AudioEngine::SingletonDestroy();
 
-    printf("\n");
+    std::cout << std::endl;
 
     return true;
 } // bool PrintSystemInformation()

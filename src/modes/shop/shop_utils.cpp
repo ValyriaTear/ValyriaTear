@@ -379,7 +379,7 @@ void ObjectCategoryDisplay::Draw()
     if(_view_mode == SHOP_VIEW_MODE_LIST) {
         VideoManager->Move(200.0f, 358.0f);
 
-        if(_transition_timer.IsRunning() == true) {
+        if(_transition_timer.IsRunning()) {
             // Alpha ranges from 0.0f at timer start to 1.0f at end
             float alpha = static_cast<float>(_transition_timer.GetTimeExpired()) / static_cast<float>(TRANSITION_TIME_ICON);
 
@@ -506,7 +506,7 @@ void ObjectListDisplay::PopulateList(const std::vector<ShopObject *>& objects)
 
 ShopObject *ObjectListDisplay::GetSelectedObject()
 {
-    if(IsListEmpty() == true)
+    if(IsListEmpty())
         return nullptr;
 
     if(static_cast<uint32_t>(_identify_list.GetSelection()) >= _objects.size()) {
@@ -531,7 +531,7 @@ void ObjectListDisplay::ResetSelection()
 
 uint32_t ObjectListDisplay::GetCurrentSelection()
 {
-    if(IsListEmpty() == true)
+    if(IsListEmpty())
         return 0;
     else
         return static_cast<uint32_t>(_identify_list.GetSelection());
