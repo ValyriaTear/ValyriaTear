@@ -252,12 +252,14 @@ bool ShaderProgram::UpdateUniform(const std::string& uniform, const float* data,
 
 ShaderProgram::ShaderProgram(const ShaderProgram&)
 {
-    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+    throw vt_utils::Exception("Not Implemented!",
+                              __FILE__, __LINE__, __FUNCTION__);
 }
 
 ShaderProgram& ShaderProgram::operator=(const ShaderProgram&)
 {
-    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+    throw vt_utils::Exception("Not Implemented!",
+                              __FILE__, __LINE__, __FUNCTION__);
     return *this;
 }
 

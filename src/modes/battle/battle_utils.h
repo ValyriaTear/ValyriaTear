@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
@@ -135,12 +135,20 @@ uint32_t RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_g
 
 // Aliases
 //! Useful to make it work with luabind, as it doesn't function with default parameters.
-uint32_t RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element,
-                        uint32_t add_atk, float mul_atk);
-uint32_t RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element,
-                        uint32_t add_atk);
-uint32_t RndMagicalDamage(BattleActor* attacker, BattleActor* target_actor, vt_global::GLOBAL_ELEMENTAL element);
+uint32_t RndMagicalDamage(BattleActor* attacker,
+                          BattleActor* target_actor,
+                          vt_global::GLOBAL_ELEMENTAL element,
+                          uint32_t add_atk,
+                          float mul_atk);
 
+uint32_t RndMagicalDamage(BattleActor* attacker,
+                          BattleActor* target_actor,
+                          vt_global::GLOBAL_ELEMENTAL element,
+                          uint32_t add_atk);
+
+uint32_t RndMagicalDamage(BattleActor* attacker,
+                          BattleActor* target_actor,
+                          vt_global::GLOBAL_ELEMENTAL element);
 
 /** ****************************************************************************
 *** \brief Container class for representing the target of a battle action

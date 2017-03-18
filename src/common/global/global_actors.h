@@ -297,7 +297,7 @@ public:
     *** \return True if the character has a non-zero amount of hit points
     **/
     virtual bool IsAlive() const {
-        return (_hit_points != 0);
+        return _hit_points != 0;
     }
 
     /** \name Class member get functions
@@ -403,7 +403,8 @@ public:
     }
 
     uint32_t GetTotalMagicalAttack(GLOBAL_ELEMENTAL element) const {
-        if (element <= GLOBAL_ELEMENTAL_INVALID || element >= GLOBAL_ELEMENTAL_TOTAL)
+        if (element <= GLOBAL_ELEMENTAL_INVALID ||
+            element >= GLOBAL_ELEMENTAL_TOTAL)
             element = GLOBAL_ELEMENTAL_NEUTRAL;
         return _total_magical_attack[element];
     }

@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
@@ -206,9 +206,11 @@ bool ImageMemory::SaveImage(const std::string& filename)
 
     // Create a write structure.
     assert(png_ptr == nullptr);
-    png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, (png_voidp)nullptr, nullptr, nullptr);
+    png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
+                                      (png_voidp)nullptr, nullptr, nullptr);
     if (png_ptr == nullptr) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_write_struct() failed for file: " << filename << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_write_struct() failed for file: "
+                                      << filename << std::endl;
         CleanUp();
         return false;
     }
@@ -217,14 +219,16 @@ bool ImageMemory::SaveImage(const std::string& filename)
     assert(info_ptr == nullptr);
     info_ptr = png_create_info_struct(png_ptr);
     if (info_ptr == nullptr) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_info_struct() failed for file: " << filename << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "png_create_info_struct() failed for file: "
+                                      << filename << std::endl;
         CleanUp();
         return false;
     }
 
     // Setup error handling.
     if (setjmp(png_jmpbuf(png_ptr))) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "setjmp returned non-zero for file: " << filename << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "setjmp returned non-zero for file: "
+                                      << filename << std::endl;
         CleanUp();
         return false;
     }
@@ -235,7 +239,8 @@ bool ImageMemory::SaveImage(const std::string& filename)
     // Write the header.
     int32_t color_type = _rgb_format ? PNG_COLOR_TYPE_RGB : PNG_COLOR_TYPE_RGBA;
     png_set_IHDR(png_ptr, info_ptr, _width, _height, 8, color_type,
-                 PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+                 PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
+                 PNG_FILTER_TYPE_DEFAULT);
 
 
     png_write_info(png_ptr, info_ptr);
@@ -245,7 +250,8 @@ bool ImageMemory::SaveImage(const std::string& filename)
     assert(row_pointers == nullptr);
     row_pointers = new png_bytep[_height];
     if (row_pointers == nullptr) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "Couldn't allocate row_pointers for: " << filename << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "Couldn't allocate row_pointers for: "
+                                      << filename << std::endl;
         CleanUp();
         return false;
     }
@@ -272,7 +278,8 @@ bool ImageMemory::SaveImage(const std::string& filename)
 void ImageMemory::ConvertToGrayscale()
 {
     if (_pixels.empty()) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "No image data (_pixels is empty)" << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "No image data (_pixels is empty)"
+                                      << std::endl;
         return;
     }
 
@@ -322,12 +329,14 @@ void ImageMemory::ConvertToGrayscale()
 void ImageMemory::RGBAToRGB()
 {
     if(_pixels.empty()) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "No image data (pixels is empty)" << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "No image data (pixels is empty)"
+                                      << std::endl;
         return;
     }
 
     if(_rgb_format) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "Image data was said to already be in RGB format" << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "Image data was said to already be in RGB format"
+                                      << std::endl;
         return;
     }
 
@@ -341,7 +350,8 @@ void ImageMemory::RGBAToRGB()
         pixel_source[index + 2] = *(pixel_index + 2);
     }
 
-    // Reduce the memory consumed by 1/4 since we no longer need to contain alpha data
+    // Reduce the memory consumed by 1/4
+    // since we no longer need to contain alpha data
     _pixels.resize(_width * _height * GetBytesPerPixel());
     std::vector<uint8_t> new_pixels(_pixels);
     std::swap(_pixels, new_pixels);
@@ -355,7 +365,8 @@ void ImageMemory::CopyFromTexture(TexSheet *texture)
     Resize(texture->width, texture->height, false);
 
     if (_pixels.empty()) {
-        PRINT_ERROR << "Failed to malloc enough memory to copy the texture." << std::endl;
+        PRINT_ERROR << "Failed to malloc enough memory to copy the texture."
+                    << std::endl;
     }
 
     TextureManager->_BindTexture(texture->tex_id);
@@ -383,12 +394,14 @@ void ImageMemory::CopyFromImage(BaseTexture *img)
         img_pixels.reserve(img->width * img->height * GetBytesPerPixel());
     }
     catch (std::exception&) {
-        PRINT_ERROR << "Failed to malloc enough memory to copy the image" << std::endl;
+        PRINT_ERROR << "Failed to malloc enough memory to copy the image"
+                    << std::endl;
         return;
     }
 
     for (uint32_t i = 0; i < img->height; ++i) {
-        std::vector<uint8_t>::const_iterator start = _pixels.begin() + i * src_bytes + src_offset;
+        std::vector<uint8_t>::const_iterator start =
+            _pixels.begin() + i * src_bytes + src_offset;
         std::vector<uint8_t>::const_iterator end = start + dst_bytes;
         img_pixels.insert(img_pixels.end(), start, end);
     }
@@ -433,7 +446,8 @@ void ImageMemory::CopyFrom(const ImageMemory& src, uint32_t src_offset)
 
 void ImageMemory::GlGetTexImage()
 {
-    glGetTexImage(GL_TEXTURE_2D, 0, _rgb_format ? GL_RGB : GL_RGBA, GL_UNSIGNED_BYTE, &_pixels[0]);
+    glGetTexImage(GL_TEXTURE_2D, 0,
+                  _rgb_format ? GL_RGB : GL_RGBA, GL_UNSIGNED_BYTE, &_pixels[0]);
 }
 
 void ImageMemory::GlTexSubImage(int32_t x, int32_t y)
@@ -454,8 +468,10 @@ void ImageMemory::VerticalFlip()
     flipped.reserve(_pixels.size());
 
     for (uint32_t i = 1; i <= _height; ++i) {
-        std::vector<uint8_t>::const_iterator start = _pixels.end() - (i * _width * GetBytesPerPixel());
-        std::vector<uint8_t>::const_iterator end = start + _width * GetBytesPerPixel();
+        std::vector<uint8_t>::const_iterator start =
+            _pixels.end() - (i * _width * GetBytesPerPixel());
+        std::vector<uint8_t>::const_iterator end =
+            start + _width * GetBytesPerPixel();
         flipped.insert(flipped.end(), start, end);
     }
     std::swap(flipped, _pixels);
@@ -479,8 +495,6 @@ BaseTexture::BaseTexture() :
     ref_count(0)
 {}
 
-
-
 BaseTexture::BaseTexture(uint32_t width_, uint32_t height_) :
     texture_sheet(nullptr),
     width(width_),
@@ -495,9 +509,9 @@ BaseTexture::BaseTexture(uint32_t width_, uint32_t height_) :
     ref_count(0)
 {}
 
-
-
-BaseTexture::BaseTexture(TexSheet *texture_sheet_, uint32_t width_, uint32_t height_) :
+BaseTexture::BaseTexture(TexSheet *texture_sheet_,
+                         uint32_t width_,
+                         uint32_t height_) :
     texture_sheet(texture_sheet_),
     width(width_),
     height(height_),
@@ -511,63 +525,62 @@ BaseTexture::BaseTexture(TexSheet *texture_sheet_, uint32_t width_, uint32_t hei
     ref_count(0)
 {}
 
-
-
 BaseTexture::~BaseTexture()
 {
     if(ref_count > 0) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "destructor invoked when the object had a reference count greater than zero: " << ref_count << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "destructor invoked when the object had a reference count greater than zero: "
+                                      << ref_count << std::endl;
     }
 }
-
-
 
 bool BaseTexture::RemoveReference()
 {
     ref_count--;
 
     if(ref_count < 0) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "texture ref_count member is now negative: " << ref_count << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "texture ref_count member is now negative: "
+                                      << ref_count << std::endl;
         return true;
-    } else if(ref_count == 0)
-        return true;
-    else
-        return false;
+    }
+    return ref_count == 0;
 }
 
 // -----------------------------------------------------------------------------
 // ImageTexture class
 // -----------------------------------------------------------------------------
 
-ImageTexture::ImageTexture(const std::string &filename_, const std::string &tags_, int32_t width_, int32_t height_) :
+ImageTexture::ImageTexture(const std::string &filename_,
+                           const std::string &tags_,
+                           int32_t width_, int32_t height_) :
     BaseTexture(width_, height_),
     filename(filename_),
     tags(tags_)
 {
     if(VIDEO_DEBUG) {
         if(TextureManager->_IsImageTextureRegistered(filename + tags))
-            PRINT_WARNING << "constructor invoked when ImageTexture was already referenced for: " << filename << tags << std::endl;
+            PRINT_WARNING << "constructor invoked when ImageTexture was already referenced for: "
+                          << filename << tags << std::endl;
     }
 
     TextureManager->_RegisterImageTexture(this);
 }
 
-
-
-ImageTexture::ImageTexture(TexSheet *texture_sheet_, const std::string &filename_, const std::string &tags_, int32_t width_, int32_t height_) :
+ImageTexture::ImageTexture(TexSheet *texture_sheet_,
+                           const std::string &filename_,
+                           const std::string &tags_,
+                           int32_t width_, int32_t height_) :
     BaseTexture(texture_sheet_, width_, height_),
     filename(filename_),
     tags(tags_)
 {
     if(VIDEO_DEBUG) {
         if(TextureManager->_IsImageTextureRegistered(filename + tags))
-            PRINT_WARNING << "constructor invoked when ImageTexture was already referenced for: " << filename << tags << std::endl;
+            PRINT_WARNING << "constructor invoked when ImageTexture was already referenced for: "
+                          << filename << tags << std::endl;
     }
 
     TextureManager->_RegisterImageTexture(this);
 }
-
-
 
 ImageTexture::~ImageTexture()
 {
