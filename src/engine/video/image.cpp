@@ -60,8 +60,9 @@ ImageDescriptor::~ImageDescriptor()
     // The destructor for the inherited class should have disabled grayscale mode
     // If it didn't, the grayscale image might not have been properly dereferenced
     // and/or removed from texture memory
-    if(_grayscale == true)
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was still enabled when destructor was invoked -- possible memory leak" << std::endl;
+    if(_grayscale)
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was still enabled when destructor was invoked "
+                                      << "-- possible memory leak" << std::endl;
 
     // Remove the reference to the original, colored texture
     if(_texture != nullptr)
@@ -164,7 +165,6 @@ void ImageDescriptor::Clear()
 
 
 
-
 void ImageDescriptor::SetColor(const Color &color)
 {
     _color[0] = color;
@@ -172,35 +172,31 @@ void ImageDescriptor::SetColor(const Color &color)
     _color[2] = color;
     _color[3] = color;
 
-    if(IsFloatEqual(color[3], 1.0f) == false)
-        _blend = true;
-    else
-        _blend = false;
-
+    _blend = !IsFloatEqual(color[3], 1.0f);
     _unichrome_vertices = true;
 }
 
 
 
-void ImageDescriptor::SetVertexColors(const Color &tl, const Color &tr, const Color &bl, const Color &br)
+void ImageDescriptor::SetVertexColors(const Color& tl, const Color& tr,
+                                      const Color& bl, const Color& br)
 {
     _color[0] = tl;
     _color[1] = tr;
     _color[2] = bl;
     _color[3] = br;
 
-    if(IsFloatEqual(tl[3], 1.0f) && IsFloatEqual(tr[3], 1.0f) && IsFloatEqual(bl[3], 1.0f) && IsFloatEqual(br[3], 1.0f))
-        _blend = false;
-    else
-        _blend = true;
+    _blend = !(
+      IsFloatEqual(tl[3], 1.0f) && IsFloatEqual(tr[3], 1.0f) &&
+      IsFloatEqual(bl[3], 1.0f) && IsFloatEqual(br[3], 1.0f)
+    );
 
-    if(tl == tr && tl == bl && tl == br)
-        _unichrome_vertices = true;
-    else
-        _unichrome_vertices = false;
+    _unichrome_vertices = (tl == tr && tl == bl && tl == br);
 }
 
-bool ImageDescriptor::GetImageInfo(const std::string &filename, uint32_t &rows, uint32_t &cols, uint32_t &bpp)
+bool ImageDescriptor::GetImageInfo(const std::string& filename,
+                                   uint32_t& rows, uint32_t& cols,
+                                   uint32_t& bpp)
 {
     // Init with invalid data to ease early returns,
     rows = 0;
@@ -210,7 +206,8 @@ bool ImageDescriptor::GetImageInfo(const std::string &filename, uint32_t &rows, 
     SDL_Surface *surf = IMG_Load(filename.c_str());
 
     if (!surf) {
-        PRINT_ERROR << "Couldn't load image " << filename << ": " << IMG_GetError() << std::endl;
+        PRINT_ERROR << "Couldn't load image " << filenames
+                    << ": " << IMG_GetError() << std::endl;
         return false;
     }
 
@@ -222,19 +219,22 @@ bool ImageDescriptor::GetImageInfo(const std::string &filename, uint32_t &rows, 
     return true;
 }
 
-bool ImageDescriptor::LoadMultiImageFromElementSize(std::vector<StillImage>& images, const std::string &filename,
+bool ImageDescriptor::LoadMultiImageFromElementSize(std::vector<StillImage>& images,
+        const std::string& filename,
         const uint32_t elem_width, const uint32_t elem_height)
 {
     // First retrieve the dimensions of the multi image (in pixels)
     uint32_t img_height, img_width, bpp;
     if (!GetImageInfo(filename, img_height, img_width, bpp)) {
-        PRINT_WARNING << "Couldn't load image file info: " << filename << std::endl;
+        PRINT_WARNING << "Couldn't load image file info: "
+                      << filename << std::endl;
         return false;
     }
 
     // Make sure that the element height and width divide evenly into the height and width of the multi image
     if((img_height % elem_height) != 0 || (img_width % elem_width) != 0) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "multi image size not evenly divisible by element size for multi image file: " << filename << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "multi image size not evenly divisible by element size for multi image file: "
+                                      << filename << std::endl;
         return false;
     }
 
@@ -265,13 +265,15 @@ bool ImageDescriptor::LoadMultiImageFromElementGrid(std::vector<StillImage>& ima
         const uint32_t grid_rows, const uint32_t grid_cols)
 {
     if(!DoesFileExist(filename)) {
-        PRINT_WARNING << "Multi-image file not found: " << filename << std::endl;
+        PRINT_WARNING << "Multi-image file not found: "
+                      << filename << std::endl;
         return false;
     }
     // First retrieve the dimensions of the multi image (in pixels)
     uint32_t img_height, img_width, bpp;
     if (!GetImageInfo(filename, img_height, img_width, bpp)) {
-        PRINT_WARNING << "Couldn't load image file info: " << filename << std::endl;
+        PRINT_WARNING << "Couldn't load image file info: "
+                      << filename << std::endl;
         return false;
     }
 
@@ -291,7 +293,8 @@ bool ImageDescriptor::LoadMultiImageFromElementGrid(std::vector<StillImage>& ima
     // then set those sizes to the element width and height arguments (which are in number of pixels)
     float elem_width = static_cast<float>(img_width) / static_cast<float>(grid_cols);
     float elem_height = static_cast<float>(img_height) / static_cast<float>(grid_rows);
-    for(std::vector<StillImage>::iterator i = images.begin(); i < images.end(); ++i) {
+    for(std::vector<StillImage>::iterator i = images.begin();
+        i < images.end(); ++i) {
         if(IsFloatEqual(i->_height, 0.0f))
             i->_height = static_cast<float>(elem_height);
         if(IsFloatEqual(i->_width, 0.0f))
@@ -303,21 +306,28 @@ bool ImageDescriptor::LoadMultiImageFromElementGrid(std::vector<StillImage>& ima
 
 
 
-bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, const std::string &filename,
-                                     const uint32_t grid_rows, const uint32_t grid_columns)
+bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images,
+                                     const std::string& filename,
+                                     const uint32_t grid_rows,
+                                     const uint32_t grid_columns)
 {
     // Check there are elements to store
     if(images.empty()) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "images vector argument was empty when saving file: " << filename << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "images vector argument was empty when saving file: "
+                                      << filename << std::endl;
         return false;
     }
 
     // Check if the number of images is compatible with the number of rows and columns
-    if(images.size() < grid_rows * grid_columns) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "images vector argument did not contain enough images to save for file: " << filename << std::endl;
+    const uint32_t grid_size = grid_rows * grid_columns;
+    if(images.size() < grid_size) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "images vector argument did not contain enough images to save for file: "
+                                      << filename << std::endl;
         return false;
-    } else if(images.size() > grid_rows * grid_columns) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "images vector argument had a size greater than the number of images to save for file: " << filename << std::endl;
+    }
+    if(images.size() > grid_size) {
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "images vector argument had a size greater than the number of images to save for file: "
+                                      << filename << std::endl;
         // NOTE: no return false for this case because we have enough images to continue
     }
 
@@ -326,10 +336,12 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     float img_height = images[0]->_height;
     for(uint32_t i = 0; i < images.size(); i++) {
         if(images[i] == nullptr || images[i]->_image_texture == nullptr) {
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr StillImage or ImageElement was present in images vector argument when saving file: " << filename << std::endl;
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr StillImage or ImageElement was present in images vector argument when saving file: "
+                                          << filename << std::endl;
             return false;
         }
-        if(IsFloatEqual(images[i]->_width, img_width) == false || IsFloatEqual(images[i]->_height, img_height)) {
+        if(!IsFloatEqual(images[i]->_width,  img_width) ||
+           !IsFloatEqual(images[i]->_height, img_height)) {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "images contained in vector argument did not share the same dimensions" << std::endl;
             return false;
         }
@@ -338,14 +350,16 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     // Isolate the filename's extension and determine the type of image file we're saving
     size_t ext_position = filename.rfind('.');
     if(ext_position == std::string::npos) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to decipher file extension for filename: " << filename << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "failed to decipher file extension for filename: "
+                                      << filename << std::endl;
         return false;
     }
 
     std::string extension = std::string(filename, ext_position, filename.length() - ext_position);
 
     if(extension != ".png") {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "unsupported file extension: \"" << extension << "\" for filename: " << filename << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "unsupported file extension: \"" << extension
+                                      << "\" for filename: " << filename << std::endl;
         return false;
     }
 
@@ -358,11 +372,14 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     ImageMemory texture;
     ImageMemory save;
     try {
-        texture.Resize(img->texture_sheet->width, img->texture_sheet->height, false);
-        save.Resize(static_cast<int32_t>(grid_columns * img_width), static_cast<int32_t>(grid_rows * img_height), false);
+        texture.Resize(img->texture_sheet->width, img->texture_sheet->height,
+                       false);
+        save.Resize(static_cast<int32_t>(grid_columns * img_width),
+                    static_cast<int32_t>(grid_rows * img_height), false);
     }
     catch(std::exception& e) {
-        PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << std::endl
+        PRINT_ERROR << "failed to malloc enough memory to save new image file: "
+                    << filename << std::endl
                     << e.what() << std::endl;
         return false;
     }
@@ -384,12 +401,14 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
                 tex_id = img->texture_sheet->tex_id;
 
                 // If the new texture is bigger, reallocate memory
-                if(texture.GetHeight() * texture.GetWidth() < img->texture_sheet->height * img->texture_sheet->width) {
+                if(texture.GetSize2D() < img->texture_sheet->height * img->texture_sheet->width) {
                     try {
-                        texture.Resize(img->texture_sheet->width, img->texture_sheet->height, false);
+                        texture.Resize(img->texture_sheet->width,
+                                       img->texture_sheet->height, false);
                     }
                     catch(std::exception& e) {
-                        PRINT_ERROR << "failed to malloc enough memory to save new image file: " << filename << std::endl
+                        PRINT_ERROR << "failed to malloc enough memory to save new image file: "
+                                    << filename << std::endl
                                     << e.what() << std::endl;
                         return false;
                     }
@@ -399,12 +418,14 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
 
             // Determine the part of the texture that we are interested in (the part that contains the current image we're saving)
             save.CopyFrom(texture, texture.GetWidth() * img->y + img->x,
-                          img_width * grid_columns, (x * grid_columns * img_height + y) * img_width);
+                          img_width * grid_columns,
+                          (x * grid_columns * img_height + y) * img_width);
             ++i;
         }
     }
 
-    // save.pixels now contains all the image data we wish to save, so write it out to the new image file
+    // save.pixels now contains all the image data we wish to save,
+    // so write it out to the new image file
     bool success = save.SaveImage(filename);
 
     return success;
@@ -433,7 +454,7 @@ void ImageDescriptor::_RemoveTextureReference()
         return;
     }
 
-    if(_texture->RemoveReference() == true) {
+    if(_texture->RemoveReference()) {
         _texture->texture_sheet->RemoveTexture(_texture);
 
         // If the image exceeds 512 in either width or height, it has an un-shared texture sheet, which we
@@ -799,7 +820,7 @@ bool StillImage::Load(const std::string &filename)
     _filename = filename;
 
     // TEMP: This is a temporary hack to support procedural images by using empty filenames. It should be removed later
-    if(filename.empty() == true) {
+    if(filename.empty()) {
         return true;
     }
 
@@ -1239,7 +1260,7 @@ bool AnimatedImage::LoadFromFrameGrid(const std::string &filename, const std::ve
     return true;
 }
 
-void AnimatedImage::Draw(const Color &draw_color) const
+void AnimatedImage::Draw(const Color& draw_color) const
 {
     if(_frames.empty()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "no frames were loaded into the AnimatedImage object" << std::endl;
@@ -1267,7 +1288,8 @@ void AnimatedImage::Draw(const Color &draw_color) const
     _frames[_frame_index].image.Draw(blended_color);
 }
 
-bool AnimatedImage::Save(const std::string &filename, uint32_t grid_rows, uint32_t grid_cols) const
+bool AnimatedImage::Save(const std::string& filename,
+                         uint32_t grid_rows, uint32_t grid_cols) const
 {
     std::vector<StillImage *> image_frames;
     image_frames.reserve(_frames.size());
@@ -1276,15 +1298,16 @@ bool AnimatedImage::Save(const std::string &filename, uint32_t grid_rows, uint32
     }
 
     if(grid_rows == 0 || grid_cols == 0) {
-        return ImageDescriptor::SaveMultiImage(image_frames, filename, 1, _frames.size());
-    } else {
-        return ImageDescriptor::SaveMultiImage(image_frames, filename, grid_rows, grid_cols);
+        return ImageDescriptor::SaveMultiImage(image_frames, filename, 1,
+                                               _frames.size());
     }
+    return ImageDescriptor::SaveMultiImage(image_frames, filename,
+					   grid_rows, grid_cols);
 }
 
 void AnimatedImage::_EnableGrayscale()
 {
-    if(_grayscale == true) {
+    if(_grayscale) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was already enabled when function was invoked" << std::endl;
         return;
     }
@@ -1297,7 +1320,7 @@ void AnimatedImage::_EnableGrayscale()
 
 void AnimatedImage::_DisableGrayscale()
 {
-    if(_grayscale == false) {
+    if(!_grayscale) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was already disabled when function was invoked" << std::endl;
         return;
     }
