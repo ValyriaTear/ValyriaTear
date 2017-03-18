@@ -560,14 +560,14 @@ EscapePoint::EscapePoint(float x, float y):
     SetImgPixelHalfWidth(_animation->GetWidth() / MAP_ZOOM_RATIO / 2.0f);
     SetImgPixelHeight(_animation->GetHeight() / MAP_ZOOM_RATIO);
 
-    // Preload the escape active sound TODO
+    // Preload the escape active sound
+    // TODO: Add escape point specific sound
     AudioManager->LoadSound("data/sounds/save_point_activated_dokashiteru_oga.wav", map_mode);
 
     // The escape point is going along with two particle objects used to show
     // whether the player is in or out the save point
-    // TODO: Add true resources
-    _active_particle_object = new ParticleObject("data/visuals/particle_effects/active_save_point.lua", x, y, GROUND_OBJECT);
-    _inactive_particle_object = new ParticleObject("data/visuals/particle_effects/inactive_save_point.lua", x, y, GROUND_OBJECT);
+    _active_particle_object = new ParticleObject("data/visuals/particle_effects/active_escape_point.lua", x, y, GROUND_OBJECT);
+    _inactive_particle_object = new ParticleObject("data/visuals/particle_effects/inactive_escape_point.lua", x, y, GROUND_OBJECT);
 
     _active_particle_object->Stop();
 

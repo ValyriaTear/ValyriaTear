@@ -61,9 +61,8 @@ const std::string ACTIVE_SAVE_POINT_FILE1 = "data/entities/map/save_point/save_p
 const std::string ACTIVE_SAVE_POINT_FILE2 = "data/entities/map/save_point/save_point2.lua";
 const std::string INACTIVE_SAVE_POINT_FILE1 = "data/entities/map/save_point/save_point1.lua";
 const std::string INACTIVE_SAVE_POINT_FILE2 = "data/entities/map/save_point/save_point2.lua";
-//FIXME: Add true files.
-const std::string ACTIVE_ESCAPE_POINT_FILE = "data/entities/map/save_point/save_point2.lua";
-const std::string INACTIVE_ESCAPE_POINT_FILE = "data/entities/map/save_point/save_point1.lua";
+const std::string ACTIVE_ESCAPE_POINT_FILE = "data/entities/map/escape_point/escape_point_active.lua";
+const std::string INACTIVE_ESCAPE_POINT_FILE = "data/entities/map/escape_point/escape_point_inactive.lua";
 
 // Initialize static class variables
 MapMode *MapMode::_current_instance = nullptr;

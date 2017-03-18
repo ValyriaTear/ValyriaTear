@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2017.01.22
+Last update: 2017.03.18
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -457,6 +457,9 @@ data/entities/map/save_point/save_point1.png                                  CC
 data/entities/map/save_point/save_point2.png                                  CC by SA 3.0             Bertram - Comes from a CC0 contribution of Luke.RUSTLTD (OGA) - http://opengameart.org/content/4-summoning-circles
 data/entities/map/save_point/save_point3.png                                  CC by SA 3.0             Bertram - Comes from a CC0 contribution of Luke.RUSTLTD (OGA) - http://opengameart.org/content/4-summoning-circles
 data/entities/map/save_point/save_point4.png                                  CC by SA 3.0             Bertram - Comes from a CC0 contribution of Luke.RUSTLTD (OGA) - http://opengameart.org/content/4-summoning-circles
+
+data/entities/map/escape_point/escape_point_active.png                        CC0                      Bertram - Comes from a CC0 contribution of Luke.RUSTLTD (OGA) - http://opengameart.org/content/4-summoning-circles
+data/entities/map/escape_point/escape_point_inactive.png                      CC0                      Bertram - Comes from a CC0 contribution of Luke.RUSTLTD (OGA) - http://opengameart.org/content/4-summoning-circles
 
 data/entities/map/scening/butterfly_spritesheet.png                           GPLv2+                   The Mana World
 data/entities/map/scening/chicken_spritesheet.png                             CC-By-SA 3.0             Daniel Eddeland <-> Daneeklu (OGA)
