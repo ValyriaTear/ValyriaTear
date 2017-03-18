@@ -783,7 +783,8 @@ private:
     //! the currently active location ids and what we have selected
     //! \param window_position_x The X position of the window
     //! \param window_position_y The Y position of the window
-    void _DrawViewableLocations(float window_position_x, float window_position_y);
+    void _DrawViewableLocations(float window_position_x,
+                                float window_position_y);
 
     //! \brief pointer to the currently loaded world map image
     vt_video::StillImage *_current_world_map;
