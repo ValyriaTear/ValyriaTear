@@ -53,7 +53,7 @@ using namespace vt_utils;
 namespace vt_main
 {
 
-bool ParseProgramOptions(int32_t &return_code, int32_t argc, char *argv[])
+bool ParseProgramOptions(int32_t &return_code, int32_t argc, char* argv[])
 {
     // Convert the argument list to a vector of strings for convenience
     std::vector<std::string> options(argv, argv + argc);

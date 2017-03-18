@@ -433,7 +433,11 @@ static void InitializeEngine() throw(Exception)
 }
 
 // Every great game begins with a single function :)
-int main(int argc, char *argv[])
+// N.B.: The main signature must be:
+// int main(int argc, char *argv[]) to permit compilation
+// with Visual Studio and SDL2.
+// See: https://stackoverflow.com/questions/6847360/error-lnk2019-unresolved-external-symbol-main-referenced-in-function-tmainc
+int main(int argc, char* argv[])
 {
 #   if defined (_MSC_VER) && defined(_DEBUG)
         // Enable the debug heap manager for Visual Studio debug builds.
