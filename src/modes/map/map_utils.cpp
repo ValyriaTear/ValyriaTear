@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
@@ -13,7 +13,7 @@
 *** \author  Tyler Olsen, roots@allacrost.org
 *** \author  Yohann Ferreira, yohann ferreira orange fr
 *** \brief   Source file for map mode utility code
-*** *****************************************************************************/
+*** ***************************************************************************/
 
 #include "utils/utils_pch.h"
 #include "map_utils.h"
@@ -26,15 +26,13 @@ bool MAP_DEBUG = false;
 namespace private_map
 {
 
-bool MapRectangle::CheckIntersection(const MapRectangle &first, const MapRectangle &second)
+bool MapRectangle::CheckIntersection(const MapRectangle& first,
+                                     const MapRectangle& second)
 {
-    if((first.left > second.right) ||
-            (first.right < second.left) ||
-            (first.top > second.bottom) ||
-            (first.bottom < second.top))
-        return false;
-    else
-        return true;
+    return !(first.left   > second.right  ||
+             first.right  < second.left   ||
+             first.top    > second.bottom ||
+             first.bottom < second.top);
 }
 
 } // namespace private_map

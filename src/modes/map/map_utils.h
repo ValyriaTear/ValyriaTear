@@ -249,7 +249,8 @@ public:
     *** coordinates, where the top of the rectangle is a smaller number than the
     *** bottom of the rectangle and the left is a smaller number than the right.
     **/
-    static bool CheckIntersection(const MapRectangle &first, const MapRectangle &second);
+    static bool CheckIntersection(const MapRectangle& first,
+                                  const MapRectangle& second);
 }; // class MapRectangle
 
 

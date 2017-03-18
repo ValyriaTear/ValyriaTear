@@ -80,6 +80,10 @@ public:
         return _height;
     }
 
+    size_t GetSize2D() const {
+        return _width * _height;
+    }
+
     size_t GetBytesPerPixel() const {
         return _rgb_format ? 3 : 4;
     }

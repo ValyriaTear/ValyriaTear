@@ -300,10 +300,12 @@ void MapMode::Update()
     if(InputManager->QuitPress()) {
         ModeManager->Push(new PauseMode(true));
         return;
-    } else if(InputManager->PausePress()) {
+    }
+    if(InputManager->PausePress()) {
         ModeManager->Push(new PauseMode(false));
         return;
-    } else if(InputManager->MinimapPress()) {
+    }
+    if(InputManager->MinimapPress()) {
         //! Toggles the minimap view as requested by the user.
         GlobalManager->ShowMinimap(!GlobalManager->ShouldShowMinimap());
         return;
@@ -504,7 +506,7 @@ void MapMode::MoveVirtualFocus(float loc_x, float loc_y, uint32_t duration)
 
 bool MapMode::IsCameraOnVirtualFocus()
 {
-    return (_camera == _virtual_focus);
+    return _camera == _virtual_focus;
 }
 
 void MapMode::SetPartyMemberVisibleSprite(private_map::MapSprite* sprite)
@@ -519,7 +521,7 @@ void MapMode::SetAllEnemyStatesToDead()
 
 bool MapMode::AttackAllowed()
 {
-    return (CurrentState() == STATE_EXPLORE && !IsCameraOnVirtualFocus());
+    return CurrentState() == STATE_EXPLORE && !IsCameraOnVirtualFocus();
 }
 
 void MapMode::ApplyPotentialStaminaMalus()
@@ -538,9 +540,10 @@ void MapMode::ApplyPotentialStaminaMalus()
     std::vector<GlobalCharacter*>* characters = GlobalManager->GetOrderedCharacters();
     // We only apply the effect on characters that will be present in battle
     for (uint32_t i = 0; i < characters->size() && i < GLOBAL_MAX_PARTY_SIZE; ++i) {
+        auto character = characters->at(i);
         // Apply the effect only on living characters.
-        if (characters->at(i)->IsAlive()) {
-            _status_effect_supervisor.ChangeActiveStatusEffect(characters->at(i), GLOBAL_STATUS_STAMINA,
+        if (character->IsAlive()) {
+            _status_effect_supervisor.ChangeActiveStatusEffect(character, GLOBAL_STATUS_STAMINA,
                                                                intensity, STAMINA_FULL * 2, 0, false);
         }
     }
@@ -842,7 +845,9 @@ void MapMode::_UpdateExplore()
     }
 }
 
-void MapMode::StartEnemyEncounter(EnemySprite* enemy, bool hero_init_boost, bool enemy_init_boost)
+void MapMode::StartEnemyEncounter(EnemySprite* enemy,
+                                  bool hero_init_boost,
+                                  bool enemy_init_boost)
 {
     if (!enemy)
         return;
@@ -875,11 +880,13 @@ void MapMode::StartEnemyEncounter(EnemySprite* enemy, bool hero_init_boost, bool
     if(!enemy_battle_music.empty())
         battle_media.SetBattleMusic(enemy_battle_music);
 
-    const std::vector<BattleEnemyInfo>& enemy_party = enemy->RetrieveRandomParty();
+    const std::vector<BattleEnemyInfo>& enemy_party =
+        enemy->RetrieveRandomParty();
     for(uint32_t i = 0; i < enemy_party.size(); ++i) {
-        BM->AddEnemy(enemy_party[i].enemy_id,
-                     enemy_party[i].position_x,
-                     enemy_party[i].position_y);
+        BattleEnemyInfo current_enemy = enemy_party[i];
+        BM->AddEnemy(current_enemy.enemy_id,
+                     current_enemy.position_x,
+                     current_enemy.position_y);
     }
 
     std::vector<std::string> enemy_battle_scripts = enemy->GetBattleScripts();
@@ -893,7 +900,8 @@ void MapMode::StartEnemyEncounter(EnemySprite* enemy, bool hero_init_boost, bool
     if (enemy_init_boost)
         BM->BoostEnemyPartyInitiative();
 
-    vt_battle::TransitionToBattleMode* TM = new vt_battle::TransitionToBattleMode(BM, enemy->IsBoss());
+    vt_battle::TransitionToBattleMode* TM =
+        new vt_battle::TransitionToBattleMode(BM, enemy->IsBoss());
 
     // Indicates to the potential enemy zone that this spawn is dead.
     EnemyZone* zone = enemy->GetEnemyZone();
@@ -919,7 +927,8 @@ void MapMode::_UpdateMapFrame()
         camera_y += (1.0f - _camera_timer.PercentComplete()) * _delta_y;
     }
 
-    // Actual position of the view, either the camera sprite or a point on the camera movement path
+    // Actual position of the view, either the camera sprite
+    // or a point on the camera movement path
     uint16_t current_x = GetFloatInteger(camera_x);
     uint16_t current_y = GetFloatInteger(camera_y);
 
@@ -931,13 +940,19 @@ void MapMode::_UpdateMapFrame()
     //std::cout << "the ratio is: " << _pixel_length_x << ", " << _pixel_length_y << " for resolution: "
     //<< VideoManager->GetScreenWidth() << " x " << VideoManager->GetScreenHeight() << std::endl;
 
-    // NOTE: The offset is corrected based on the map coord sys pixel size, to avoid glitches on tiles with transparent parts
-    // and black edges. The size of the edge would have a variable size and look like vibrating when scrolling
-    // without this fix.
-    float current_offset_x = vt_utils::FloorToFloatMultiple(GetFloatFraction(camera_x), _pixel_length_x);
-    float current_offset_y = vt_utils::FloorToFloatMultiple(GetFloatFraction(camera_y), _pixel_length_y);
+    // NOTE: The offset is corrected based on the map coord sys pixel size,
+    // to avoid glitches on tiles with transparent parts and black edges.
+    // The size of the edge would have a variable size
+    // and look like vibrating when scrolling without this fix.
+    float current_offset_x =
+        vt_utils::FloorToFloatMultiple(GetFloatFraction(camera_x),
+                                       _pixel_length_x);
+    float current_offset_y =
+        vt_utils::FloorToFloatMultiple(GetFloatFraction(camera_y),
+                                       _pixel_length_y);
 
-    // Determine the draw coordinates of the top left corner using the camera's current position
+    // Determine the draw coordinates of the top left corner
+    // using the camera's current position
     _map_frame.tile_x_offset = 1.0f - current_offset_x;
     if(IsOddNumber(current_x))
         _map_frame.tile_x_offset -= 1.0f;
