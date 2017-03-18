@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
@@ -799,16 +799,19 @@ bool StillImage::Load(const std::string &filename)
     _filename = filename;
 
     // TEMP: This is a temporary hack to support procedural images by using empty filenames. It should be removed later
-    if(filename.empty() == true) {
+    if(filename.empty()) {
         return true;
     }
 
-    // 1. Check if an image with the same filename has already been loaded. If so, point to that and increment its reference
-    if((_image_texture = TextureManager->_GetImageTexture(_filename)) != nullptr) {
+    // 1. Check if an image with the same filename has already been loaded.
+    // If so, point to that and increment its reference
+    _image_texture = TextureManager->_GetImageTexture(_filename);
+    if(_image_texture != nullptr) {
         _texture = _image_texture;
 
         if(_image_texture == nullptr) {
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "recovered a nullptr image inside the TextureManager's image map: " << _filename << std::endl;
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "recovered a nullptr image inside the TextureManager's image map: "
+                                          << _filename << std::endl;
             return false;
         }
 

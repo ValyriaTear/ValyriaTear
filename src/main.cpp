@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
@@ -294,10 +294,10 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
             theme_script.CloseAllTables();
             theme_script.CloseFile();
             PRINT_ERROR << "The theme '" << theme_ids[i]
-                        << "' couldn't be loaded in file: '" << theme_script_filename
+                        << "' couldn't be loaded in file: '"
+                        << theme_script_filename
                         << "'. Exitting." << std::endl;
             exit(EXIT_FAILURE);
-            return; // Superfluous but for readability.
         }
 
         theme_script.CloseTable(); // Theme name
@@ -316,7 +316,8 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
         // Activate the default theme.
         GUIManager->SetDefaultMenuSkin(default_theme_id);
     } else {
-        PRINT_ERROR << "No default or user settings UI theme found. Exiting." << std::endl;
+        PRINT_ERROR << "No default or user settings UI theme found. Exiting."
+                    << std::endl;
         exit(EXIT_FAILURE);
     }
 }
@@ -350,17 +351,17 @@ static void InitializeEngine() throw(Exception)
     GUIManager = GUISystem::SingletonCreate();
     GlobalManager = GameGlobal::SingletonCreate();
 
-    if(VideoManager->SingletonInitialize() == false) {
+    if(!VideoManager->SingletonInitialize()) {
         throw Exception("ERROR: unable to initialize VideoManager",
                         __FILE__, __LINE__, __FUNCTION__);
     }
 
-    if(AudioManager->SingletonInitialize() == false) {
+    if(!AudioManager->SingletonInitialize()) {
         throw Exception("ERROR: unable to initialize AudioManager",
                         __FILE__, __LINE__, __FUNCTION__);
     }
 
-    if(ScriptManager->SingletonInitialize() == false) {
+    if(!ScriptManager->SingletonInitialize()) {
         throw Exception("ERROR: unable to initialize ScriptManager",
                         __FILE__, __LINE__, __FUNCTION__);
     }
@@ -369,15 +370,15 @@ static void InitializeEngine() throw(Exception)
     vt_defs::BindCommonCode();
     vt_defs::BindModeCode();
 
-    if(SystemManager->SingletonInitialize() == false) {
+    if(!SystemManager->SingletonInitialize()) {
         throw Exception("ERROR: unable to initialize SystemManager",
                         __FILE__, __LINE__, __FUNCTION__);
     }
-    if(InputManager->SingletonInitialize() == false) {
+    if(!InputManager->SingletonInitialize()) {
         throw Exception("ERROR: unable to initialize InputManager",
                         __FILE__, __LINE__, __FUNCTION__);
     }
-    if(ModeManager->SingletonInitialize() == false) {
+    if(!ModeManager->SingletonInitialize()) {
         throw Exception("ERROR: unable to initialize ModeManager",
                         __FILE__, __LINE__, __FUNCTION__);
     }
@@ -390,7 +391,7 @@ static void InitializeEngine() throw(Exception)
     // Apply engine configuration settings with delayed initialization calls to the managers
     InputManager->InitializeJoysticks();
 
-    if(VideoManager->FinalizeInitialization() == false)
+    if(!VideoManager->FinalizeInitialization())
         throw Exception("ERROR: Unable to apply video settings",
                         __FILE__, __LINE__, __FUNCTION__);
 
@@ -417,7 +418,7 @@ static void InitializeEngine() throw(Exception)
     SDL_EventState(SDL_SYSWMEVENT, SDL_IGNORE);
     SDL_EventState(SDL_USEREVENT, SDL_IGNORE);
 
-    if(GUIManager->SingletonInitialize() == false) {
+    if(!GUIManager->SingletonInitialize()) {
         throw Exception("ERROR: unable to initialize GUIManager",
                         __FILE__, __LINE__, __FUNCTION__);
     }
@@ -455,7 +456,8 @@ int main(int argc, const char *argv[])
                          800, 600, // default size
                          SDL_WINDOW_OPENGL);
     if (!sdl_window) {
-        PRINT_ERROR << "SDL window creation failed: " << SDL_GetError() << std::endl;
+        PRINT_ERROR << "SDL window creation failed: " << SDL_GetError()
+                    << std::endl;
         return false;
     }
 
@@ -496,7 +498,8 @@ int main(int argc, const char *argv[])
         // Look for data files in DATADIR only if they are not available in the current directory.
         if(!std::ifstream("data/config/settings.lua").good()) {
             if(chdir(PKG_DATADIR) != 0) {
-                throw Exception("ERROR: failed to change directory to data location", __FILE__, __LINE__, __FUNCTION__);
+                throw Exception("ERROR: failed to change directory to data location",
+                                __FILE__, __LINE__, __FUNCTION__);
             }
         }
 #endif
@@ -508,7 +511,8 @@ int main(int argc, const char *argv[])
         int32_t return_code = EXIT_FAILURE;
 
         // Parse command lines and exit out of the game if needed
-        if(vt_main::ParseProgramOptions(return_code, static_cast<int32_t>(argc), argv) == false) {
+        if(!vt_main::ParseProgramOptions(return_code,
+                                         static_cast<int32_t>(argc), argv)) {
             return static_cast<int>(return_code);
         }
 
@@ -517,7 +521,8 @@ int main(int argc, const char *argv[])
 
     } catch(const Exception &e) {
 #ifdef WIN32
-        MessageBox(nullptr, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
+        MessageBox(nullptr, e.ToString().c_str(), "Unhandled exception",
+                   MB_OK | MB_ICONERROR);
 #else
         PRINT_ERROR << e.ToString() << std::endl;
 #endif
@@ -541,26 +546,28 @@ int main(int argc, const char *argv[])
     uint32_t update_tick = SDL_GetTicks();
     uint32_t next_update_tick = update_tick;
 
-    bool cpu_gentle_update_mode = true;
-
     try {
+        bool cpu_gentle_update_mode = true;
+
         // This is the main loop for the game. The loop iterates once for every frame drawn to the screen.
         while (SystemManager->NotDone()) {
             // Set the game update mode.
-            if (VideoManager->GetVSyncMode() > 0 || VideoManager->GetGameUpdateMode())
-                cpu_gentle_update_mode = false;
-            else
-                cpu_gentle_update_mode = true;
+            cpu_gentle_update_mode = !(
+              VideoManager->GetVSyncMode() > 0 ||
+              VideoManager->GetGameUpdateMode()
+            );
 
             if (cpu_gentle_update_mode) {
                 update_tick = SDL_GetTicks();
 
                 // If we want to be nice with the CPU % used.
-                if (update_tick <= next_update_tick && next_update_tick - update_tick >= 10)
+                if (update_tick <= next_update_tick &&
+                    next_update_tick - update_tick >= 10)
                     SDL_Delay(next_update_tick - update_tick);
             }
 
-            // Render capped at UPDATES_PER_SECOND if the update mode is gentle with the cpu(s).
+            // Render capped at UPDATES_PER_SECOND
+            // if the update mode is gentle with the CPU(s).
             if (!cpu_gentle_update_mode || update_tick > next_update_tick) {
 
                 // Clear the primary render target.
@@ -599,7 +606,8 @@ int main(int argc, const char *argv[])
         } // while (SystemManager->NotDone())
     } catch(const Exception& e) {
 #ifdef WIN32
-        MessageBox(nullptr, e.ToString().c_str(), "Unhandled exception", MB_OK | MB_ICONERROR);
+        MessageBox(nullptr, e.ToString().c_str(), "Unhandled exception",
+                   MB_OK | MB_ICONERROR);
 #else
         std::cerr << e.ToString() << std::endl;
 #endif
