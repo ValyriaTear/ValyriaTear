@@ -181,12 +181,18 @@ void BindModeCode()
                 luabind::value("ANIM_WEST", ANIM_WEST),
                 luabind::value("ANIM_EAST", ANIM_EAST),
                 // Sprite speeds
-                luabind::value("VERY_SLOW_SPEED", static_cast<uint32_t>(VERY_SLOW_SPEED)),
-                luabind::value("SLOW_SPEED", static_cast<uint32_t>(SLOW_SPEED)),
-                luabind::value("NORMAL_SPEED", static_cast<uint32_t>(NORMAL_SPEED)),
-                luabind::value("ENEMY_SPEED", static_cast<uint32_t>(ENEMY_SPEED)),
-                luabind::value("FAST_SPEED", static_cast<uint32_t>(FAST_SPEED)),
-                luabind::value("VERY_FAST_SPEED", static_cast<uint32_t>(VERY_FAST_SPEED))
+                luabind::value("VERY_SLOW_SPEED",
+                               static_cast<uint32_t>(VERY_SLOW_SPEED)),
+                luabind::value("SLOW_SPEED",
+                               static_cast<uint32_t>(SLOW_SPEED)),
+                luabind::value("NORMAL_SPEED",
+                               static_cast<uint32_t>(NORMAL_SPEED)),
+                luabind::value("ENEMY_SPEED",
+                               static_cast<uint32_t>(ENEMY_SPEED)),
+                luabind::value("FAST_SPEED",
+                               static_cast<uint32_t>(FAST_SPEED)),
+                luabind::value("VERY_FAST_SPEED",
+                               static_cast<uint32_t>(VERY_FAST_SPEED))
             ]
         ];
 
@@ -681,20 +687,44 @@ void BindModeCode()
             luabind::def("RndEvade", (bool(*)(BattleActor*, float))&RndEvade),
             luabind::def("RndEvade", (bool(*)(BattleActor*))&RndEvade),
 
-            luabind::def("RndPhysicalDamage", (uint32_t(*)(BattleActor*, BattleActor*, uint32_t, float, int32_t))&RndPhysicalDamage),
-            luabind::def("RndPhysicalDamage", (uint32_t(*)(BattleActor*, BattleActor*, uint32_t, float))&RndPhysicalDamage),
-            luabind::def("RndPhysicalDamage", (uint32_t(*)(BattleActor*, BattleActor*, uint32_t))&RndPhysicalDamage),
-            luabind::def("RndPhysicalDamage", (uint32_t(*)(BattleActor*, BattleActor*))&RndPhysicalDamage),
+            luabind::def("RndPhysicalDamage",
+                         (uint32_t(*)(BattleActor*, BattleActor*, uint32_t, float, int32_t))
+                         &RndPhysicalDamage),
+            luabind::def("RndPhysicalDamage",
+                         (uint32_t(*)(BattleActor*, BattleActor*, uint32_t, float))
+                         &RndPhysicalDamage),
+            luabind::def("RndPhysicalDamage",
+                         (uint32_t(*)(BattleActor*, BattleActor*, uint32_t))
+                         &RndPhysicalDamage),
+            luabind::def("RndPhysicalDamage",
+                         (uint32_t(*)(BattleActor*, BattleActor*))
+                         &RndPhysicalDamage),
 
-            luabind::def("RndPhysicalDamage", (uint32_t(*)(BattleActor*, BattleTarget*))&RndPhysicalDamage),
-            luabind::def("RndPhysicalDamage", (uint32_t(*)(BattleActor*, BattleTarget*, uint32_t))&RndPhysicalDamage),
-            luabind::def("RndPhysicalDamage", (uint32_t(*)(BattleActor*, BattleTarget*, uint32_t, float))&RndPhysicalDamage),
-            luabind::def("RndPhysicalDamage", (uint32_t(*)(BattleActor*, BattleTarget*, uint32_t, float, int32_t))&RndPhysicalDamage),
+            luabind::def("RndPhysicalDamage",
+                         (uint32_t(*)(BattleActor*, BattleTarget*))
+                         &RndPhysicalDamage),
+            luabind::def("RndPhysicalDamage",
+                         (uint32_t(*)(BattleActor*, BattleTarget*, uint32_t))
+                         &RndPhysicalDamage),
+            luabind::def("RndPhysicalDamage",
+                         (uint32_t(*)(BattleActor*, BattleTarget*, uint32_t, float))
+                         &RndPhysicalDamage),
+            luabind::def("RndPhysicalDamage",
+                         (uint32_t(*)(BattleActor*, BattleTarget*, uint32_t, float, int32_t))
+                         &RndPhysicalDamage),
 
-            luabind::def("RndMagicalDamage", (uint32_t(*)(BattleActor*, BattleActor*, vt_global::GLOBAL_ELEMENTAL, uint32_t, float, int32_t))&RndMagicalDamage),
-            luabind::def("RndMagicalDamage", (uint32_t(*)(BattleActor*, BattleActor*, vt_global::GLOBAL_ELEMENTAL, uint32_t, float))&RndMagicalDamage),
-            luabind::def("RndMagicalDamage", (uint32_t(*)(BattleActor*, BattleActor*, vt_global::GLOBAL_ELEMENTAL, uint32_t))&RndMagicalDamage),
-            luabind::def("RndMagicalDamage", (uint32_t(*)(BattleActor*, BattleActor*, vt_global::GLOBAL_ELEMENTAL))&RndMagicalDamage)
+            luabind::def("RndMagicalDamage",
+                         (uint32_t(*)(BattleActor*, BattleActor*, vt_global::GLOBAL_ELEMENTAL, uint32_t, float, int32_t))
+                         &RndMagicalDamage),
+            luabind::def("RndMagicalDamage",
+                         (uint32_t(*)(BattleActor*, BattleActor*, vt_global::GLOBAL_ELEMENTAL, uint32_t, float))
+                         &RndMagicalDamage),
+            luabind::def("RndMagicalDamage",
+                         (uint32_t(*)(BattleActor*, BattleActor*, vt_global::GLOBAL_ELEMENTAL, uint32_t))
+                         &RndMagicalDamage),
+            luabind::def("RndMagicalDamage",
+                         (uint32_t(*)(BattleActor*, BattleActor*, vt_global::GLOBAL_ELEMENTAL))
+                         &RndMagicalDamage)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_battle")

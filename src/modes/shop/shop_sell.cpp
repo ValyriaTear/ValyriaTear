@@ -97,7 +97,8 @@ void SellInterface::_UpdateAvailableSellDealTypes()
 
     // Determine what types of objects the shop deals in based on the managed object list
     std::map<uint32_t, ShopObject *>* shop_objects = ShopMode::CurrentInstance()->GetAvailableSell();
-    for(std::map<uint32_t, ShopObject *>::iterator it = shop_objects->begin(); it != shop_objects->end(); ++it) {
+    for(std::map<uint32_t, ShopObject *>::iterator it = shop_objects->begin();
+        it != shop_objects->end(); ++it) {
         // Key items can't be sold.
         if (it->second->GetObject()->IsKeyItem())
             continue;
@@ -199,7 +200,8 @@ void SellInterface::_PopulateLists()
     // Pointer to the container of all objects that are bought/sold/traded in the ship
     std::map<uint32_t, ShopObject *>* shop_objects = ShopMode::CurrentInstance()->GetAvailableSell();
 
-    for(std::map<uint32_t, ShopObject *>::iterator it = shop_objects->begin(); it != shop_objects->end(); ++it) {
+    for(std::map<uint32_t, ShopObject *>::iterator it = shop_objects->begin();
+        it != shop_objects->end(); ++it) {
         ShopObject* obj = it->second;
 
         // Key items are not permitted to be sold
@@ -230,7 +232,9 @@ void SellInterface::_PopulateLists()
                 object_data[type_index[6]].push_back(obj);
                 break;
             default:
-                IF_PRINT_WARNING(SHOP_DEBUG) << "added object of unknown type: " << obj->GetObject()->GetObjectType() << std::endl;
+                IF_PRINT_WARNING(SHOP_DEBUG) << "added object of unknown type: "
+                                             << obj->GetObject()->GetObjectType()
+                                             << std::endl;
                 break;
             }
 
@@ -339,20 +343,21 @@ void SellInterface::Update()
             shop->ChangeState(SHOP_STATE_SELL);
         } else if(InputManager->CancelPress()) {
             ChangeViewMode(SHOP_VIEW_MODE_LIST);
-            while(_list_displays[_current_category]->ChangeSellQuantity(false) == true) {}
+            while(_list_displays[_current_category]->ChangeSellQuantity(false))
+            {}
             GlobalManager->Media().PlaySound("cancel");
             shop->ClearOrder();
         }
 
         // Left/right change the quantity of the object to sell
         else if(InputManager->LeftPress()) {
-            if(_list_displays[_current_category]->ChangeSellQuantity(false) == true) {
+            if(_list_displays[_current_category]->ChangeSellQuantity(false)) {
                 shop->ObjectViewer()->UpdateCountText();
                 GlobalManager->Media().PlaySound("confirm");
             } else
                 GlobalManager->Media().PlaySound("bump");
         } else if(InputManager->RightPress()) {
-            if(_list_displays[_current_category]->ChangeSellQuantity(true) == true) {
+            if(_list_displays[_current_category]->ChangeSellQuantity(true)) {
                 shop->ObjectViewer()->UpdateCountText();
                 GlobalManager->Media().PlaySound("confirm");
             } else
@@ -425,7 +430,8 @@ void SellInterface::ChangeViewMode(SHOP_VIEW_MODE new_mode)
         _selected_properties.SetOptionText(0, MakeUnicodeString(NumberToString(_selected_object->GetSellPrice())));
         _selected_properties.SetOptionText(1, MakeUnicodeString("×" + NumberToString(_selected_object->GetOwnCount())));
     } else {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "tried to change to an invalid/unsupported view mode: " << new_mode << std::endl;
+        IF_PRINT_WARNING(SHOP_DEBUG) << "tried to change to an invalid/unsupported view mode: "
+                                     << new_mode << std::endl;
     }
 }
 
@@ -436,19 +442,18 @@ bool SellInterface::_ChangeCategory(bool left_or_right)
         return false;
 
     if(left_or_right == false) {
-        _current_category = (_current_category == 0) ? (_number_categories - 1) : (_current_category - 1);
+        _current_category = (_current_category == 0)
+          ? (_number_categories - 1) : (_current_category - 1);
     } else {
-        _current_category = (_current_category >= (_number_categories - 1)) ? 0 : (_current_category + 1);
+        _current_category = (_current_category >= (_number_categories - 1))
+          ? 0 : (_current_category + 1);
     }
 
     _category_display.ChangeCategory(_category_names[_current_category], _category_icons[_current_category]);
 
     ShopObject *last_obj = _selected_object;
     _selected_object = _list_displays[_current_category]->GetSelectedObject();
-    if(last_obj == _selected_object)
-        return false;
-    else
-        return true;
+    return last_obj != _selected_object;
 }
 
 
@@ -470,10 +475,7 @@ bool SellInterface::_ChangeSelection(bool down)
 
     ShopObject *last_obj = _selected_object;
     _selected_object = _list_displays[_current_category]->GetSelectedObject();
-    if(last_obj == _selected_object)
-        return false;
-    else
-        return true;
+    return last_obj != _selected_object;
 }
 
 // *****************************************************************************
@@ -519,8 +521,8 @@ bool SellListDisplay::ChangeSellQuantity(bool more, uint32_t amount)
 
     if(!more) {
         // Make sure that there is at least one more count to sell and that the player has enough funds to return it
-        if((obj->GetSellCount() == 0) ||
-                (obj->GetSellPrice() > ShopMode::CurrentInstance()->GetTotalRemaining())) {
+        if(obj->GetSellCount() == 0 ||
+           obj->GetSellPrice() > ShopMode::CurrentInstance()->GetTotalRemaining()) {
             return false;
         }
 
@@ -540,26 +542,29 @@ bool SellListDisplay::ChangeSellQuantity(bool more, uint32_t amount)
         }
 
         obj->DecrementSellCount(change_amount);
-        ShopMode::CurrentInstance()->UpdateFinances(-obj->GetSellPrice() * change_amount);
-        return true;
-    } else { // more
-        // Make sure that there is at least one more object available to sell in the player's inventory
-        if(obj->GetSellCount() >= obj->GetOwnCount()) {
-            return false;
-        }
-
-        // Determine if there's enough of the object in stock to sell.
-        // If not, sell as many left as possible
-        if((obj->GetOwnCount() - obj->GetSellCount()) < change_amount) {
-            change_amount = obj->GetOwnCount() - obj->GetSellCount();
-        }
-
-        obj->IncrementSellCount(change_amount);
-
-        ShopMode::CurrentInstance()->UpdateFinances(obj->GetSellPrice() * change_amount);
+        ShopMode::CurrentInstance()->UpdateFinances(-obj->GetSellPrice() *
+                                                    change_amount);
         return true;
     }
-} // bool SellListDisplay::ChangeSellQuantity(bool less_or_more, uint32_t amount)
+
+    // more
+    // Make sure that there is at least one more object available to sell in the player's inventory
+    if(obj->GetSellCount() >= obj->GetOwnCount()) {
+        return false;
+    }
+
+    // Determine if there's enough of the object in stock to sell.
+    // If not, sell as many left as possible
+    if((obj->GetOwnCount() - obj->GetSellCount()) < change_amount) {
+        change_amount = obj->GetOwnCount() - obj->GetSellCount();
+    }
+
+    obj->IncrementSellCount(change_amount);
+
+    ShopMode::CurrentInstance()->UpdateFinances(obj->GetSellPrice() *
+                                                change_amount);
+    return true;
+} // bool SellListDisplay::ChangeSellQuantity(bool more, uint32_t amount)
 
 } // namespace private_shop
 

@@ -118,7 +118,8 @@ void TradeInterface::_UpdateAvailableTradeDealTypes()
             _trade_deal_types |= DEALS_SPIRIT;
             break;
         default:
-            IF_PRINT_WARNING(SHOP_DEBUG) << "unknown object type sold in shop: " << object_type << std::endl;
+            IF_PRINT_WARNING(SHOP_DEBUG) << "unknown object type sold in shop: "
+                                         << object_type << std::endl;
             break;
         }
 
@@ -166,7 +167,8 @@ void TradeInterface::Reinitialize()
     _current_category = _number_categories > 0 ? _number_categories - 1 : 0;
     // Initialize the category display with the initial category
     if(_number_categories > 0)
-        _category_display.ChangeCategory(_category_names[_current_category], _category_icons[_current_category]);
+        _category_display.ChangeCategory(_category_names[_current_category],
+                                         _category_icons[_current_category]);
 
     // Prepare object data containers and determine category index mappings
     // Containers of object data used to populate the display lists
@@ -322,20 +324,21 @@ void TradeInterface::Update()
         }
         if(InputManager->CancelPress()) {
             ChangeViewMode(SHOP_VIEW_MODE_LIST);
-            while(_list_displays[_current_category]->ChangeTradeQuantity(false) == true) {}
+            while(_list_displays[_current_category]->ChangeTradeQuantity(false))
+	    {}
             GlobalManager->Media().PlaySound("cancel");
             shop->ClearOrder();
         }
 
         // Left/right change the quantity of the object to trade
         else if(InputManager->LeftPress()) {
-            if(_list_displays[_current_category]->ChangeTradeQuantity(false) == true) {
+            if(_list_displays[_current_category]->ChangeTradeQuantity(false)) {
                 shop->ObjectViewer()->UpdateCountText();
                 GlobalManager->Media().PlaySound("confirm");
             } else
                 GlobalManager->Media().PlaySound("bump");
         } else if(InputManager->RightPress()) {
-            if(_list_displays[_current_category]->ChangeTradeQuantity(true) == true) {
+            if(_list_displays[_current_category]->ChangeTradeQuantity(true)) {
                 shop->ObjectViewer()->UpdateCountText();
                 GlobalManager->Media().PlaySound("confirm");
             } else
@@ -416,7 +419,8 @@ void TradeInterface::ChangeViewMode(SHOP_VIEW_MODE new_mode)
             _selected_properties.SetOptionText(1, MakeUnicodeString("×" + NumberToString(_selected_object->GetStockCount())));
         _selected_properties.SetOptionText(2, MakeUnicodeString("×" + NumberToString(_selected_object->GetOwnCount())));
     } else {
-        IF_PRINT_WARNING(SHOP_DEBUG) << "tried to change to an invalid/unsupported view mode: " << new_mode << std::endl;
+        IF_PRINT_WARNING(SHOP_DEBUG) << "tried to change to an invalid/unsupported view mode: "
+                                     << new_mode << std::endl;
     }
 }
 
@@ -428,19 +432,19 @@ bool TradeInterface::_ChangeCategory(bool left_or_right)
         return false;
 
     if(left_or_right == false) {
-        _current_category = (_current_category == 0) ? (_number_categories - 1) : (_current_category - 1);
+        _current_category = (_current_category == 0)
+          ? (_number_categories - 1) : (_current_category - 1);
     } else {
-        _current_category = (_current_category >= (_number_categories - 1)) ? 0 : (_current_category + 1);
+        _current_category = (_current_category >= (_number_categories - 1))
+          ? 0 : (_current_category + 1);
     }
 
-    _category_display.ChangeCategory(_category_names[_current_category], _category_icons[_current_category]);
+    _category_display.ChangeCategory(_category_names[_current_category],
+                                     _category_icons[_current_category]);
 
     ShopObject *last_obj = _selected_object;
     _selected_object = _list_displays[_current_category]->GetSelectedObject();
-    if(last_obj == _selected_object)
-        return false;
-    else
-        return true;
+    return last_obj != _selected_object;
 }
 
 
@@ -523,14 +527,16 @@ bool TradeListDisplay::ChangeTradeQuantity(bool more, uint32_t amount)
             change_amount = obj->GetTradeCount();
 
         obj->DecrementTradeCount(change_amount);
-        ShopMode::CurrentInstance()->UpdateFinances(obj->GetTradePrice() * change_amount);
+        ShopMode::CurrentInstance()->UpdateFinances(obj->GetTradePrice() *
+                                                    change_amount);
         return true;
     }
 
     // Adds an item case
 
     // Determine if there's enough of the object in stock to buy. If not, buy as many left as possible
-    if(!obj->IsInfiniteAmount() && (obj->GetStockCount() - obj->GetTradeCount()) < change_amount) {
+    if(!obj->IsInfiniteAmount() &&
+       (obj->GetStockCount() - obj->GetTradeCount()) < change_amount) {
         change_amount = obj->GetStockCount() - obj->GetTradeCount();
     }
 
@@ -541,7 +547,8 @@ bool TradeListDisplay::ChangeTradeQuantity(bool more, uint32_t amount)
     uint32_t new_trade_amount = obj->GetTradeCount() + change_amount;
 
     // check party's finances.
-    if (obj->GetTradePrice() * new_trade_amount > ShopMode::CurrentInstance()->GetTotalRemaining())
+    if (obj->GetTradePrice() * new_trade_amount >
+        ShopMode::CurrentInstance()->GetTotalRemaining())
         return false;
 
     if(obj->GetObject()->GetTradeConditions().empty())
@@ -549,11 +556,13 @@ bool TradeListDisplay::ChangeTradeQuantity(bool more, uint32_t amount)
 
     // Make sure  and the player has enough funds to purchase it
     for(uint32_t i = 0; i < obj->GetObject()->GetTradeConditions().size(); ++i) {
-        if(!GlobalManager->IsItemInInventory(obj->GetObject()->GetTradeConditions()[i].first))
+        auto tradeCondition = obj->GetObject()->GetTradeConditions()[i];
+
+        if(!GlobalManager->IsItemInInventory(tradeCondition.first))
             return false;
 
-        uint32_t item_possessed = GlobalManager->HowManyObjectsInInventory(obj->GetObject()->GetTradeConditions()[i].first);
-        uint32_t item_needed_number = new_trade_amount * obj->GetObject()->GetTradeConditions()[i].second;
+        uint32_t item_possessed = GlobalManager->HowManyObjectsInInventory(tradeCondition.first);
+        uint32_t item_needed_number = new_trade_amount * tradeCondition.second;
 
         if(item_possessed < item_needed_number)
             return false;
