@@ -1243,4 +1243,3 @@ void MapMode::_DrawGUI()
 } // void MapMode::_DrawGUI()
 
 } // namespace vt_map
-

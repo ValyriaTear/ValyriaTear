@@ -1938,4 +1938,3 @@ void GameGlobal::_LoadShopData(vt_script::ReadScriptDescriptor& file)
 }
 
 } // namespace vt_global
-

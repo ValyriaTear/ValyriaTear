@@ -95,7 +95,6 @@ void AudioStream::Seek(uint32_t sample)
 
 
 
-
 void AudioStream::SetLoopStart(uint32_t sample)
 {
     if(sample >= _audio_input->GetTotalNumberSamples()) {

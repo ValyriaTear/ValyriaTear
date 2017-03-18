@@ -269,5 +269,3 @@ private:
 } // namespace vt_battle
 
 #endif // __BATTLE_ACTIONS_HEADER__
-
-
