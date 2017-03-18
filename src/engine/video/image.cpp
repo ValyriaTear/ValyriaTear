@@ -164,7 +164,6 @@ void ImageDescriptor::Clear()
 
 
 
-
 void ImageDescriptor::SetColor(const Color &color)
 {
     _color[0] = color;
@@ -172,11 +171,7 @@ void ImageDescriptor::SetColor(const Color &color)
     _color[2] = color;
     _color[3] = color;
 
-    if(IsFloatEqual(color[3], 1.0f) == false)
-        _blend = true;
-    else
-        _blend = false;
-
+    _blend = !IsFloatEqual(color[3], 1.0f);
     _unichrome_vertices = true;
 }
 
@@ -189,18 +184,16 @@ void ImageDescriptor::SetVertexColors(const Color &tl, const Color &tr, const Co
     _color[2] = bl;
     _color[3] = br;
 
-    if(IsFloatEqual(tl[3], 1.0f) && IsFloatEqual(tr[3], 1.0f) && IsFloatEqual(bl[3], 1.0f) && IsFloatEqual(br[3], 1.0f))
-        _blend = false;
-    else
-        _blend = true;
+    _blend = !(
+      IsFloatEqual(tl[3], 1.0f) && IsFloatEqual(tr[3], 1.0f) &&
+      IsFloatEqual(bl[3], 1.0f) && IsFloatEqual(br[3], 1.0f)
+    );
 
-    if(tl == tr && tl == bl && tl == br)
-        _unichrome_vertices = true;
-    else
-        _unichrome_vertices = false;
+    _unichrome_vertices = tl == tr && tl == bl && tl == br;
 }
 
-bool ImageDescriptor::GetImageInfo(const std::string &filename, uint32_t &rows, uint32_t &cols, uint32_t &bpp)
+bool ImageDescriptor::GetImageInfo(const std::string &filename,
+                                   uint32_t &rows, uint32_t &cols, uint32_t &bpp)
 {
     // Init with invalid data to ease early returns,
     rows = 0;
@@ -316,7 +309,8 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     if(images.size() < grid_rows * grid_columns) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "images vector argument did not contain enough images to save for file: " << filename << std::endl;
         return false;
-    } else if(images.size() > grid_rows * grid_columns) {
+    }
+    if(images.size() > grid_rows * grid_columns) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "images vector argument had a size greater than the number of images to save for file: " << filename << std::endl;
         // NOTE: no return false for this case because we have enough images to continue
     }
@@ -326,10 +320,12 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     float img_height = images[0]->_height;
     for(uint32_t i = 0; i < images.size(); i++) {
         if(images[i] == nullptr || images[i]->_image_texture == nullptr) {
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr StillImage or ImageElement was present in images vector argument when saving file: " << filename << std::endl;
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "nullptr StillImage or ImageElement was present in images vector argument when saving file: "
+                                          << filename << std::endl;
             return false;
         }
-        if(IsFloatEqual(images[i]->_width, img_width) == false || IsFloatEqual(images[i]->_height, img_height)) {
+        if(!IsFloatEqual(images[i]->_width, img_width) ||
+           IsFloatEqual(images[i]->_height, img_height)) {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "images contained in vector argument did not share the same dimensions" << std::endl;
             return false;
         }
@@ -345,7 +341,8 @@ bool ImageDescriptor::SaveMultiImage(const std::vector<StillImage *>& images, co
     std::string extension = std::string(filename, ext_position, filename.length() - ext_position);
 
     if(extension != ".png") {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "unsupported file extension: \"" << extension << "\" for filename: " << filename << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "unsupported file extension: \"" << extension
+                                      << "\" for filename: " << filename << std::endl;
         return false;
     }
 
@@ -799,7 +796,7 @@ bool StillImage::Load(const std::string &filename)
     _filename = filename;
 
     // TEMP: This is a temporary hack to support procedural images by using empty filenames. It should be removed later
-    if(filename.empty() == true) {
+    if(filename.empty()) {
         return true;
     }
 
@@ -1267,7 +1264,8 @@ void AnimatedImage::Draw(const Color &draw_color) const
     _frames[_frame_index].image.Draw(blended_color);
 }
 
-bool AnimatedImage::Save(const std::string &filename, uint32_t grid_rows, uint32_t grid_cols) const
+bool AnimatedImage::Save(const std::string &filename,
+                         uint32_t grid_rows, uint32_t grid_cols) const
 {
     std::vector<StillImage *> image_frames;
     image_frames.reserve(_frames.size());
@@ -1277,9 +1275,9 @@ bool AnimatedImage::Save(const std::string &filename, uint32_t grid_rows, uint32
 
     if(grid_rows == 0 || grid_cols == 0) {
         return ImageDescriptor::SaveMultiImage(image_frames, filename, 1, _frames.size());
-    } else {
-        return ImageDescriptor::SaveMultiImage(image_frames, filename, grid_rows, grid_cols);
     }
+    return ImageDescriptor::SaveMultiImage(image_frames, filename,
+					   grid_rows, grid_cols);
 }
 
 void AnimatedImage::_EnableGrayscale()

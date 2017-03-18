@@ -99,7 +99,8 @@ SHOP_OBJECT ShopObject::DetermineShopObjectType()
 
 
 
-void ShopObject::SetPricing(SHOP_PRICE_LEVEL buy_level, SHOP_PRICE_LEVEL sell_level)
+void ShopObject::SetPricing(SHOP_PRICE_LEVEL buy_level,
+                            SHOP_PRICE_LEVEL sell_level)
 {
     _buy_price = _object->GetPrice();
     _sell_price = _object->GetPrice();
@@ -432,11 +433,10 @@ void ObjectCategoryDisplay::SetSelectedObject(ShopObject *shop_object)
         _object_icon = nullptr;
         _name_text.SetText("");
         return;
-    } else {
-        GLOBAL_OBJECT object_type = _selected_object->GetObject()->GetObjectType();
-        _name_text.SetText(*(ShopMode::CurrentInstance()->Media()->GetCategoryName(object_type)));
-        _object_icon = GlobalManager->Media().GetItemCategoryIcon(object_type);
     }
+    GLOBAL_OBJECT object_type = _selected_object->GetObject()->GetObjectType();
+    _name_text.SetText(*(ShopMode::CurrentInstance()->Media()->GetCategoryName(object_type)));
+    _object_icon = GlobalManager->Media().GetItemCategoryIcon(object_type);
 }
 
 
@@ -506,7 +506,7 @@ void ObjectListDisplay::PopulateList(const std::vector<ShopObject *>& objects)
 
 ShopObject *ObjectListDisplay::GetSelectedObject()
 {
-    if(IsListEmpty() == true)
+    if(IsListEmpty())
         return nullptr;
 
     if(static_cast<uint32_t>(_identify_list.GetSelection()) >= _objects.size()) {
@@ -531,10 +531,9 @@ void ObjectListDisplay::ResetSelection()
 
 uint32_t ObjectListDisplay::GetCurrentSelection()
 {
-    if(IsListEmpty() == true)
+    if(IsListEmpty())
         return 0;
-    else
-        return static_cast<uint32_t>(_identify_list.GetSelection());
+    return static_cast<uint32_t>(_identify_list.GetSelection());
 }
 
 

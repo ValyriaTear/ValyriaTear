@@ -300,10 +300,12 @@ void MapMode::Update()
     if(InputManager->QuitPress()) {
         ModeManager->Push(new PauseMode(true));
         return;
-    } else if(InputManager->PausePress()) {
+    }
+    if(InputManager->PausePress()) {
         ModeManager->Push(new PauseMode(false));
         return;
-    } else if(InputManager->MinimapPress()) {
+    }
+    if(InputManager->MinimapPress()) {
         //! Toggles the minimap view as requested by the user.
         GlobalManager->ShowMinimap(!GlobalManager->ShouldShowMinimap());
         return;
@@ -440,7 +442,7 @@ void MapMode::PushState(MAP_STATE state)
 void MapMode::PopState()
 {
     _state_stack.pop_back();
-    if(_state_stack.empty() == true) {
+    if(_state_stack.empty()) {
         IF_PRINT_WARNING(MAP_DEBUG)
                 << "stack was empty after operation, reseting state stack"
                 << std::endl;
@@ -504,7 +506,7 @@ void MapMode::MoveVirtualFocus(float loc_x, float loc_y, uint32_t duration)
 
 bool MapMode::IsCameraOnVirtualFocus()
 {
-    return (_camera == _virtual_focus);
+    return _camera == _virtual_focus;
 }
 
 void MapMode::SetPartyMemberVisibleSprite(private_map::MapSprite* sprite)
@@ -519,7 +521,7 @@ void MapMode::SetAllEnemyStatesToDead()
 
 bool MapMode::AttackAllowed()
 {
-    return (CurrentState() == STATE_EXPLORE && !IsCameraOnVirtualFocus());
+    return CurrentState() == STATE_EXPLORE && !IsCameraOnVirtualFocus();
 }
 
 void MapMode::ApplyPotentialStaminaMalus()
@@ -538,9 +540,10 @@ void MapMode::ApplyPotentialStaminaMalus()
     std::vector<GlobalCharacter*>* characters = GlobalManager->GetOrderedCharacters();
     // We only apply the effect on characters that will be present in battle
     for (uint32_t i = 0; i < characters->size() && i < GLOBAL_MAX_PARTY_SIZE; ++i) {
+        auto character = characters->at(i);
         // Apply the effect only on living characters.
-        if (characters->at(i)->IsAlive()) {
-            _status_effect_supervisor.ChangeActiveStatusEffect(characters->at(i), GLOBAL_STATUS_STAMINA,
+        if (character->IsAlive()) {
+            _status_effect_supervisor.ChangeActiveStatusEffect(character, GLOBAL_STATUS_STAMINA,
                                                                intensity, STAMINA_FULL * 2, 0, false);
         }
     }
@@ -842,7 +845,8 @@ void MapMode::_UpdateExplore()
     }
 }
 
-void MapMode::StartEnemyEncounter(EnemySprite* enemy, bool hero_init_boost, bool enemy_init_boost)
+void MapMode::StartEnemyEncounter(EnemySprite* enemy,
+                                  bool hero_init_boost, bool enemy_init_boost)
 {
     if (!enemy)
         return;
@@ -877,9 +881,10 @@ void MapMode::StartEnemyEncounter(EnemySprite* enemy, bool hero_init_boost, bool
 
     const std::vector<BattleEnemyInfo>& enemy_party = enemy->RetrieveRandomParty();
     for(uint32_t i = 0; i < enemy_party.size(); ++i) {
-        BM->AddEnemy(enemy_party[i].enemy_id,
-                     enemy_party[i].position_x,
-                     enemy_party[i].position_y);
+        auto enemy_party_i = enemy_party[i];
+        BM->AddEnemy(enemy_party_i.enemy_id,
+                     enemy_party_i.position_x,
+                     enemy_party_i.position_y);
     }
 
     std::vector<std::string> enemy_battle_scripts = enemy->GetBattleScripts();
@@ -1243,4 +1248,3 @@ void MapMode::_DrawGUI()
 } // void MapMode::_DrawGUI()
 
 } // namespace vt_map
-
