@@ -1034,14 +1034,14 @@ void BattleMode::_DrawSprites()
     if((_state == BATTLE_STATE_COMMAND)
             && ((_command_supervisor->GetState() == COMMAND_STATE_ACTOR) || (_command_supervisor->GetState() == COMMAND_STATE_POINT))) {
         draw_actor_selection = true;
-        if((_command_supervisor->GetState() == COMMAND_STATE_POINT) && (IsTargetPoint(target.GetType()) == true))
+        if((_command_supervisor->GetState() == COMMAND_STATE_POINT) && (IsTargetPoint(target.GetType())))
             draw_point_selection = true;
     }
 
     // Draw the actor selector graphic
-    if(draw_actor_selection == true) {
+    if(draw_actor_selection) {
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-        if(IsTargetParty(target.GetType()) == true) {
+        if(IsTargetParty(target.GetType())) {
             const std::deque<BattleActor *>& party_target = target.GetPartyTarget();
             for(uint32_t i = 0; i < party_target.size(); i++) {
                 VideoManager->Move(party_target[i]->GetXLocation(),  party_target[i]->GetYLocation());

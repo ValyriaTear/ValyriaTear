@@ -1357,10 +1357,10 @@ void ShopMode::Update()
 {
     // Pause and quit events have highest priority.
     // If either type of event is detected, no other update processing will be done.
-    if(InputManager->QuitPress() == true) {
+    if(InputManager->QuitPress()) {
         ModeManager->Push(new PauseMode(true));
         return;
-    } else if(InputManager->PausePress() == true) {
+    } else if(InputManager->PausePress()) {
         ModeManager->Push(new PauseMode(false));
         return;
     }
@@ -1806,7 +1806,7 @@ void ShopMode::ChangeViewMode(SHOP_VIEW_MODE new_mode)
 
 void ShopMode::SetShopName(const ustring& name)
 {
-    if(IsInitialized() == true) {
+    if(IsInitialized()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "function called after shop was already initialized" << std::endl;
         return;
     }
@@ -1816,7 +1816,7 @@ void ShopMode::SetShopName(const ustring& name)
 
 void ShopMode::SetGreetingText(const ustring& greeting)
 {
-    if(IsInitialized() == true) {
+    if(IsInitialized()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "function called after shop was already initialized" << std::endl;
         return;
     }
@@ -1826,7 +1826,7 @@ void ShopMode::SetGreetingText(const ustring& greeting)
 
 void ShopMode::SetPriceLevels(SHOP_PRICE_LEVEL buy_level, SHOP_PRICE_LEVEL sell_level)
 {
-    if(IsInitialized() == true) {
+    if(IsInitialized()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "function called after shop was already initialized" << std::endl;
         return;
     }
@@ -1837,7 +1837,7 @@ void ShopMode::SetPriceLevels(SHOP_PRICE_LEVEL buy_level, SHOP_PRICE_LEVEL sell_
 
 void ShopMode::AddItem(uint32_t object_id, uint32_t stock)
 {
-    if(IsInitialized() == true) {
+    if(IsInitialized()) {
         PRINT_WARNING << "function called after shop was already initialized" << std::endl;
         return;
     }
@@ -1865,7 +1865,7 @@ void ShopMode::AddItem(uint32_t object_id, uint32_t stock)
 
 void ShopMode::AddTrade(uint32_t object_id, uint32_t stock)
 {
-    if(IsInitialized() == true) {
+    if(IsInitialized()) {
         PRINT_WARNING << "function called after shop was already initialized" << std::endl;
         return;
     }

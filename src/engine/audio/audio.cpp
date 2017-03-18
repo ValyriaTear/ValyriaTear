@@ -65,7 +65,7 @@ bool AudioEngine::SingletonInitialize()
     if(alcIsExtensionPresent(nullptr, "ALC_ENUMERATION_EXT") == AL_TRUE) {
         const ALCchar *device_list = 0;
         device_list = alcGetString(0, ALC_DEVICE_SPECIFIER); // Get list of all devices (terminated with two '0')
-        if(CheckALCError() == true) {
+        if(CheckALCError()) {
             IF_PRINT_WARNING(AUDIO_DEBUG) << "failed to retrieve the list of available audio devices: " << CreateALCErrorString() << std::endl;
         }
 
@@ -132,7 +132,7 @@ bool AudioEngine::SingletonInitialize()
     ALuint source;
     for(uint16_t i = 0; i < _max_sources; ++i) {
         alGenSources(1, &source);
-        if(CheckALError() == true) {
+        if(CheckALError()) {
             _max_sources = i;
             _max_cache_size = i / 4;
             break;
@@ -474,7 +474,7 @@ MusicDescriptor *AudioEngine::RetrieveMusic(const std::string &filename)
 
     if(element == _audio_cache.end()) {
         return nullptr;
-    } else if(element->second.audio->IsSound() == true) {
+    } else if(element->second.audio->IsSound()) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "incorrectly requested to retrieve music for a sound filename: " << filename << std::endl;
         return nullptr;
     } else {

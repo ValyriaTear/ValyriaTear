@@ -965,7 +965,7 @@ bool OptionBox::_ConstructOption(const ustring &format_string, Option &op)
 bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
 {
     // Do nothing if the movement is horizontal and there is only one column with no horizontal wrap shifting
-    if((horizontal == true) && (_number_cell_columns == 1) && (_horizontal_wrap_mode != VIDEO_WRAP_MODE_SHIFTED))
+    if((horizontal) && (_number_cell_columns == 1) && (_horizontal_wrap_mode != VIDEO_WRAP_MODE_SHIFTED))
         return false;
 
     // Do nothing if the movement is vertical and there is only one row with no vertical wrap shifting
@@ -979,7 +979,7 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
 
     // Determine if the movement selection will exceed a column or row boundary
     int32_t new_row = (row + offset) * _number_columns;
-    if((horizontal == true && ((col + offset < 0) || (col + offset >= _number_columns) ||
+    if((horizontal && ((col + offset < 0) || (col + offset >= _number_columns) ||
                                (col + offset >= static_cast<int32_t>(GetNumberOptions())))) ||
             (horizontal == false && ((new_row < 0) || (new_row >= _number_rows) ||
                                      (new_row >= static_cast<int32_t>(GetNumberOptions()))))) {
@@ -997,13 +997,13 @@ bool OptionBox::_ChangeSelection(int32_t offset, bool horizontal)
     }
 
     // Case #2: movement exceeds bounds, no wrapping enabled
-    else if((horizontal == true && _horizontal_wrap_mode == VIDEO_WRAP_MODE_NONE) ||
+    else if((horizontal && _horizontal_wrap_mode == VIDEO_WRAP_MODE_NONE) ||
             (horizontal == false && _vertical_wrap_mode == VIDEO_WRAP_MODE_NONE)) {
         return false;
     }
 
     // Case #3: horizontal movement with wrapping enabled
-    else if(horizontal == true) {
+    else if(horizontal) {
         if(col + offset <= 0) {  // The left boundary was exceeded
             if(_horizontal_wrap_mode == VIDEO_WRAP_MODE_STRAIGHT) {
                 offset = _number_columns - 1;

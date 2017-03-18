@@ -60,7 +60,7 @@ ImageDescriptor::~ImageDescriptor()
     // The destructor for the inherited class should have disabled grayscale mode
     // If it didn't, the grayscale image might not have been properly dereferenced
     // and/or removed from texture memory
-    if(_grayscale == true)
+    if(_grayscale)
         IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was still enabled when destructor was invoked -- possible memory leak" << std::endl;
 
     // Remove the reference to the original, colored texture
@@ -433,7 +433,7 @@ void ImageDescriptor::_RemoveTextureReference()
         return;
     }
 
-    if(_texture->RemoveReference() == true) {
+    if(_texture->RemoveReference()) {
         _texture->texture_sheet->RemoveTexture(_texture);
 
         // If the image exceeds 512 in either width or height, it has an un-shared texture sheet, which we
@@ -700,7 +700,7 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
 
             // If this image already exists in a texture sheet somewhere, add a reference to it
             // and add a new ImageElement to the current StillImage
-            if(loaded[current_image] == true) {
+            if(loaded[current_image]) {
                 img = TextureManager->_GetImageTexture(filename + tags[current_image]);
 
                 if(img == nullptr) {
@@ -799,7 +799,7 @@ bool StillImage::Load(const std::string &filename)
     _filename = filename;
 
     // TEMP: This is a temporary hack to support procedural images by using empty filenames. It should be removed later
-    if(filename.empty() == true) {
+    if(filename.empty()) {
         return true;
     }
 
@@ -846,10 +846,10 @@ bool StillImage::Load(const std::string &filename)
     _image_texture->AddReference();
 
     // If width or height members are zero, set them to the dimensions of the image data (which are in number of pixels)
-    if(IsFloatEqual(_width, 0.0f) == true)
+    if(IsFloatEqual(_width, 0.0f))
         _width = static_cast<float>(img_data.GetWidth());
 
-    if(IsFloatEqual(_height, 0.0f) == true)
+    if(IsFloatEqual(_height, 0.0f))
         _height = static_cast<float>(img_data.GetHeight());
 
     // If we don't need to create a grayscale version, we finished successfully
@@ -1284,7 +1284,7 @@ bool AnimatedImage::Save(const std::string &filename, uint32_t grid_rows, uint32
 
 void AnimatedImage::_EnableGrayscale()
 {
-    if(_grayscale == true) {
+    if(_grayscale) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "grayscale mode was already enabled when function was invoked" << std::endl;
         return;
     }
@@ -1523,7 +1523,7 @@ void CompositeImage::Draw(const Color &draw_color) const
 void CompositeImage::SetWidth(float width)
 {
     // Case 1: No image elements loaded, just change the internal width
-    if(_elements.empty() == true) {
+    if(_elements.empty()) {
         _width = width;
         return;
     }
@@ -1537,7 +1537,7 @@ void CompositeImage::SetWidth(float width)
 
     // Case 3: We must set the width of each element appropriately. That is,
     // scale its width relative to the width of the composite image
-    if(IsFloatEqual(_width, 0.0f) == true) {
+    if(IsFloatEqual(_width, 0.0f)) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "internal width was 0.0f when trying to re-size multiple image elements" << std::endl;
         return;
     }
@@ -1552,7 +1552,7 @@ void CompositeImage::SetWidth(float width)
 void CompositeImage::SetHeight(float height)
 {
     // Case 1: No image elements loaded, just change the internal height
-    if(_elements.empty() == true) {
+    if(_elements.empty()) {
         _height = height;
         return;
     }
@@ -1566,7 +1566,7 @@ void CompositeImage::SetHeight(float height)
 
     // Case 3: We must set the height of each element appropriately. That is,
     // scale its height relative to the height of the composite image
-    if(IsFloatEqual(_height, 0.0f) == true) {
+    if(IsFloatEqual(_height, 0.0f)) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "internal height was 0.0f when trying to re-size multiple image elements" << std::endl;
         return;
     }

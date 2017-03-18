@@ -339,7 +339,7 @@ void BattleActor::RegisterDamage(uint32_t amount, BattleTarget *target)
     _hurt_timer.Run();
 
     // If the damage dealt was to a point target type, check for and apply any status effects triggered by this point hit
-    if((target != nullptr) && (IsTargetPoint(target->GetType()) == true)) {
+    if((target != nullptr) && (IsTargetPoint(target->GetType()))) {
         GlobalAttackPoint* damaged_point = _global_actor->GetAttackPoint(target->GetAttackPoint());
         if(damaged_point == nullptr) {
             IF_PRINT_WARNING(BATTLE_DEBUG) << "target argument contained an invalid point index: " << target->GetAttackPoint() << std::endl;
@@ -1516,7 +1516,7 @@ void BattleCharacter::DrawStatus(uint32_t order, BattleCharacter* character_comm
 
     // If this character can be issued a command, draw the appropriate command button to indicate this. The type of button drawn depends on
     // whether or not the character already has an action set. Characters that can not be issued a command have no button drawn
-    if(CanSelectCommand() == true) {
+    if(CanSelectCommand()) {
         uint32_t button_index = 0;
         if(IsActionSet() == false)
             button_index = 1;

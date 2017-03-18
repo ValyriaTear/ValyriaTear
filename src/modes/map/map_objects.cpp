@@ -1566,7 +1566,7 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
         }
 
         MapRectangle object_rect = (*it)->GetGridCollisionRectangle();
-        if(MapRectangle::CheckIntersection(object_rect, search_area) == true)
+        if(MapRectangle::CheckIntersection(object_rect, search_area))
             valid_objects.push_back(*it);
     } // for (std::map<MapObject*>::iterator i = _all_objects.begin(); i != _all_objects.end(); i++)
 
@@ -1868,7 +1868,7 @@ Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const MapPosition &destin
         } // for (uint8_t i = 0; i < 8; ++i)
     } // while (open_list.empty() == false)
 
-    if(open_list.empty() == true) {
+    if(open_list.empty()) {
         IF_PRINT_WARNING(MAP_DEBUG) << "could not find path to destination" << std::endl;
         return path;
     }

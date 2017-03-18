@@ -153,7 +153,7 @@ public:
 *** \note Because this class will be used quite often to check the status of the various
 *** booleans, encapsulation has been used so that one can't accidentally change the value
 *** of one of the members and introduce hard-to-find bugs in the code.
-*** (eg. `if (up_state = true)` instead of `if (up_state == true)`.
+*** (eg. `if (up_state = true)` instead of `if (up_state)`.
 ***
 *** \note In the end, all you really need to know about this class are the
 *** member access functions in the public section of this class (its not that hard).

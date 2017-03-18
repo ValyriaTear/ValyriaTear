@@ -292,19 +292,19 @@ void TradeInterface::Update()
 
         // Swap cycles through the object categories
         else if(InputManager->MenuPress() && (_number_categories > 1)) {
-            if(_ChangeCategory(true) == true)
+            if(_ChangeCategory(true))
                 shop->ObjectViewer()->SetSelectedObject(_selected_object);
             GlobalManager->Media().PlaySound("confirm");
         }
 
         // Up/down changes the selected object in the current list
         else if(InputManager->UpPress()) {
-            if(_ChangeSelection(false) == true) {
+            if(_ChangeSelection(false)) {
                 shop->ObjectViewer()->SetSelectedObject(_selected_object);
                 GlobalManager->Media().PlaySound("bump");
             }
         } else if(InputManager->DownPress()) {
-            if(_ChangeSelection(true) == true) {
+            if(_ChangeSelection(true)) {
                 shop->ObjectViewer()->SetSelectedObject(_selected_object);
                 GlobalManager->Media().PlaySound("bump");
             }
@@ -322,20 +322,20 @@ void TradeInterface::Update()
         }
         if(InputManager->CancelPress()) {
             ChangeViewMode(SHOP_VIEW_MODE_LIST);
-            while(_list_displays[_current_category]->ChangeTradeQuantity(false) == true) {}
+            while(_list_displays[_current_category]->ChangeTradeQuantity(false)) {}
             GlobalManager->Media().PlaySound("cancel");
             shop->ClearOrder();
         }
 
         // Left/right change the quantity of the object to trade
         else if(InputManager->LeftPress()) {
-            if(_list_displays[_current_category]->ChangeTradeQuantity(false) == true) {
+            if(_list_displays[_current_category]->ChangeTradeQuantity(false)) {
                 shop->ObjectViewer()->UpdateCountText();
                 GlobalManager->Media().PlaySound("confirm");
             } else
                 GlobalManager->Media().PlaySound("bump");
         } else if(InputManager->RightPress()) {
-            if(_list_displays[_current_category]->ChangeTradeQuantity(true) == true) {
+            if(_list_displays[_current_category]->ChangeTradeQuantity(true)) {
                 shop->ObjectViewer()->UpdateCountText();
                 GlobalManager->Media().PlaySound("confirm");
             } else

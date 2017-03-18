@@ -79,14 +79,14 @@ bool ParseProgramOptions(int32_t &return_code, int32_t argc, const char **argv)
             return_code = 0;
             return false;
         } else if(options[i] == "-i" || options[i] == "--info") {
-            if(PrintSystemInformation() == true) {
+            if(PrintSystemInformation()) {
                 return_code = 0;
             } else {
                 return_code = 1;
             }
             return false;
         } else if(options[i] == "-r" || options[i] == "--reset") {
-            if(ResetSettings() == true) {
+            if(ResetSettings()) {
                 return_code = 0;
             } else {
                 return_code = 1;

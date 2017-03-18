@@ -57,13 +57,13 @@ uint32_t AudioStream::FillBuffer(uint8_t *buffer, uint32_t size)
 
     while(num_samples_read < size) {
         // If looping is enabled and the end of the stream has been reached, seek to the starting position
-        if(_looping == true && (_read_position == _loop_end_position || _read_position == _audio_input->GetTotalNumberSamples())) {
+        if(_looping && (_read_position == _loop_end_position || _read_position == _audio_input->GetTotalNumberSamples())) {
             _audio_input->Seek(_loop_start_position);
             _read_position = _loop_start_position;
         }
 
         // Determine the number of samples we should request for the input to read
-        uint32_t remaining_data = (_looping == true) ? _loop_end_position : _audio_input->GetTotalNumberSamples();
+        uint32_t remaining_data = (_looping) ? _loop_end_position : _audio_input->GetTotalNumberSamples();
         remaining_data -= _read_position;
 
         // The number of samples to request the audio input to read
@@ -73,7 +73,7 @@ uint32_t AudioStream::FillBuffer(uint8_t *buffer, uint32_t size)
         _read_position += num_samples_read;
 
         // Detect early exit condition
-        if(_looping == false && _end_of_stream == true) {
+        if(_looping == false && _end_of_stream) {
             return num_samples_read;
         }
     }

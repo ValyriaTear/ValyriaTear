@@ -69,7 +69,7 @@ bool GlobalAttackPoint::LoadData(ReadScriptDescriptor &script)
     _evade_modifier = script.ReadFloat("evade_modifier");
 
     // Status effect data is optional so check if a status_effect table exists first
-    if(script.DoesTableExist("status_effects") == true) {
+    if(script.DoesTableExist("status_effects")) {
         script.OpenTable("status_effects");
 
         std::vector<int32_t> table_keys;
@@ -742,7 +742,7 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
                               << char_script.GetErrorMessages() << std::endl;
             }
         }
-    } // if (initial == true)
+    } // if (initial)
     else {
         // Make sure the _armor_equipped vector is sized appropriately. Armor should be equipped on the character
         // externally to this constructor.
