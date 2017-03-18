@@ -168,7 +168,7 @@ private:
     *** \return A pointer to the registered ImageTexture object, or nullptr if the nametag could not be found
      **/
     vt_video::private_video::ImageTexture *_GetImageTexture(std::string nametag) {
-        if(_IsImageTextureRegistered(nametag) == true) return _images[nametag];
+        if(_IsImageTextureRegistered(nametag)) return _images[nametag];
         else return nullptr;
     }
     //@}

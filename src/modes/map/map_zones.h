@@ -199,12 +199,12 @@ public:
 
     //! \brief Returns true if the sprite pointed to by the camera is entering the zone
     bool IsCameraEntering() const {
-        return ((_camera_inside == true) && (_was_camera_inside == false));
+        return ((_camera_inside) && (_was_camera_inside == false));
     }
 
     //! \brief Returns true if the sprite pointed to by the camera is leaving the zone
     bool IsCameraExiting() const {
-        return ((_camera_inside == false) && (_was_camera_inside == true));
+        return ((_camera_inside == false) && (_was_camera_inside));
     }
 
 protected:

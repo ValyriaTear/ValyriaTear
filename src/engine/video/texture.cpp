@@ -65,7 +65,7 @@ bool TexSheet::Unload()
 
 bool TexSheet::Reload()
 {
-    if (loaded == true) {
+    if (loaded) {
         if(VIDEO_DEBUG)
             IF_PRINT_WARNING(VIDEO_DEBUG) << "attempted to load an already loaded texture sheet" << std::endl;
         return false;
@@ -102,7 +102,7 @@ bool TexSheet::CopyRect(int32_t x, int32_t y, ImageMemory& data)
 
     data.GlTexSubImage(x, y);
 
-    if(VideoManager->CheckGLError() == true) {
+    if(VideoManager->CheckGLError()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occured: " << VideoManager->CreateGLErrorString() << std::endl;
         return false;
     }
@@ -125,7 +125,7 @@ bool TexSheet::CopyScreenRect(int32_t x, int32_t y, const ScreenRect &screen_rec
         screen_rect.height // height in pixels of image
     );
 
-    if(VideoManager->CheckGLError() == true) {
+    if(VideoManager->CheckGLError()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "an OpenGL error occured: " << VideoManager->CreateGLErrorString() << std::endl;
         return false;
     }

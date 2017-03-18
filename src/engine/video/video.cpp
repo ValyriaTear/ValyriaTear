@@ -1078,7 +1078,7 @@ void VideoEngine::MakeScreenshot(const std::string &filename)
     // Read the viewport pixel data
     buffer.GlReadPixels(viewport_dimensions[0], viewport_dimensions[1]);
 
-    if(CheckGLError() == true) {
+    if(CheckGLError()) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "An OpenGL error occured: " << CreateGLErrorString() << std::endl;
         return;
     }

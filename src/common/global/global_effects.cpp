@@ -58,9 +58,9 @@ std::string GetStatusName(GLOBAL_STATUS type)
     int32_t table_id = static_cast<int32_t>(type);
 
     ReadScriptDescriptor &script_file = GlobalManager->GetStatusEffectsScript();
-    if(script_file.DoesTableExist(table_id) == true) {
+    if(script_file.DoesTableExist(table_id)) {
         script_file.OpenTable(table_id);
-        if(script_file.DoesStringExist("name") == true) {
+        if(script_file.DoesStringExist("name")) {
             result = script_file.ReadString("name");
         } else {
             IF_PRINT_WARNING(GLOBAL_DEBUG) << "Lua definition file contained an entry but no name for status effect: " << type << std::endl;

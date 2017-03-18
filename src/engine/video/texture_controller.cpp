@@ -292,7 +292,7 @@ TexSheet *TextureController::_InsertImageInTexSheet(BaseTexture *image, ImageMem
             return nullptr;
         }
 
-        if(sheet->AddTexture(image, load_info) == true)
+        if(sheet->AddTexture(image, load_info))
             return sheet;
         else {
             IF_PRINT_WARNING(VIDEO_DEBUG) << "TexSheet::AddTexture returned false when trying to insert a large image" << std::endl;
@@ -322,7 +322,7 @@ TexSheet *TextureController::_InsertImageInTexSheet(BaseTexture *image, ImageMem
         }
 
         if(sheet->type == type && sheet->is_static == is_static) {
-            if(sheet->AddTexture(image, load_info) == true) {
+            if(sheet->AddTexture(image, load_info)) {
                 return sheet;
             }
         }
@@ -463,7 +463,7 @@ void TextureController::_RegisterImageTexture(ImageTexture *img)
     }
 
     std::string nametag = img->filename + img->tags;
-    if(_IsImageTextureRegistered(nametag) == true) {
+    if(_IsImageTextureRegistered(nametag)) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "this ImageTexture was already registered: " << nametag << std::endl;
         return;
     }
@@ -498,7 +498,7 @@ void TextureController::_RegisterTextTexture(TextTexture *tex)
         return;
     }
 
-    if(_IsTextTextureRegistered(tex) == true) {
+    if(_IsTextTextureRegistered(tex)) {
         IF_PRINT_WARNING(VIDEO_DEBUG) << "attempted to register an already registered TextTexture" << std::endl;
         return;
     }

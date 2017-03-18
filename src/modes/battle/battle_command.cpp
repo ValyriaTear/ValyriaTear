@@ -799,7 +799,7 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
 
     // Warn if there are no enabled options in the category list
     for(uint32_t i = 0; i < _category_options.GetNumberOptions(); i++) {
-        if(_category_options.IsOptionEnabled(i) == true)
+        if(_category_options.IsOptionEnabled(i))
             return;
     }
 
@@ -921,9 +921,9 @@ bool CommandSupervisor::_IsItemCategorySelected() const
 
 GLOBAL_TARGET CommandSupervisor::_ActionTargetType()
 {
-    if(_IsSkillCategorySelected() == true)
+    if(_IsSkillCategorySelected())
         return _skill_command.GetSelectedSkill()->GetTargetType();
-    else if(_IsItemCategorySelected() == true)
+    else if(_IsItemCategorySelected())
         return _item_command.GetSelectedItem()->GetTargetType();
     else
         return GLOBAL_TARGET_INVALID;
@@ -1116,12 +1116,12 @@ void CommandSupervisor::_UpdateAction()
         _show_information = false;
     }
 
-    if(_IsSkillCategorySelected() == true) {
+    if(_IsSkillCategorySelected()) {
         _selected_skill = _skill_command.GetSelectedSkill();
 
         if(InputManager->ConfirmPress()) {
             bool is_skill_enabled = _skill_command.GetSelectedSkillEnabled();
-            if(is_skill_enabled == true) {
+            if(is_skill_enabled) {
                 _ChangeState(COMMAND_STATE_ACTOR);
                 GlobalManager->Media().PlaySound("confirm");
             } else {
@@ -1132,7 +1132,7 @@ void CommandSupervisor::_UpdateAction()
             _skill_command.UpdateList();
             _UpdateActionInformation();
         }
-    } else if(_IsItemCategorySelected() == true) {
+    } else if(_IsItemCategorySelected()) {
         _selected_item = _item_command.GetSelectedItem();
 
         if(InputManager->ConfirmPress()) {
@@ -1163,7 +1163,7 @@ void CommandSupervisor::_UpdateActorTarget()
     }
 
     else if(InputManager->ConfirmPress()) {
-        if(IsTargetPoint(_selected_target.GetType()) == true) {
+        if(IsTargetPoint(_selected_target.GetType())) {
             _ChangeState(COMMAND_STATE_POINT);
         } else {
             _FinalizeCommand();
@@ -1176,7 +1176,7 @@ void CommandSupervisor::_UpdateActorTarget()
         else
             _target_options.InputUp();
 
-        if((IsTargetActor(_selected_target.GetType()) == true) || (IsTargetPoint(_selected_target.GetType()) == true)) {
+        if((IsTargetActor(_selected_target.GetType())) || (IsTargetPoint(_selected_target.GetType()))) {
             _selected_target.SelectNextActor(InputManager->DownPress());
             _UpdateActorTargetText();
             GlobalManager->Media().PlaySound("bump");
@@ -1298,7 +1298,7 @@ void CommandSupervisor::_UpdateActionInformation()
             info_text += MakeUnicodeString("      -> " + NumberToString(effects[i].second) + "%\n");
         }
 
-    } else if(_IsSkillCategorySelected() == true) {
+    } else if(_IsSkillCategorySelected()) {
         _info_header.SetText(_selected_skill->GetName()
                              + MakeUnicodeString(" - "
                              + VTranslate("%s SP", NumberToString(_selected_skill->GetSPRequired()))));
@@ -1307,7 +1307,7 @@ void CommandSupervisor::_UpdateActionInformation()
         info_text += MakeUnicodeString(VTranslate("Prep Time: %s", _TurnIntoSeconds(_selected_skill->GetWarmupTime())) + " - ");
         info_text += MakeUnicodeString(VTranslate("Cool Time: %s", _TurnIntoSeconds(_selected_skill->GetCooldownTime())) + "\n\n");
         info_text += _selected_skill->GetDescription();
-    } else if(_IsItemCategorySelected() == true) {
+    } else if(_IsItemCategorySelected()) {
         _info_header.SetText(_selected_item->GetGlobalItem().GetName()
                              + MakeUnicodeString(" x " + NumberToString(_selected_item->GetBattleCount())));
         info_text = MakeUnicodeString(VTranslate("Target Type: %s", GetTargetText(_selected_item->GetTargetType())) + "\n\n");
@@ -1407,15 +1407,15 @@ void CommandSupervisor::_UpdateActorTargetText()
     _window_header.SetText(UTranslate("Select Target"));
 
     _target_options.ClearOptions();
-    if(IsTargetParty(_selected_target.GetType()) == true) {
+    if(IsTargetParty(_selected_target.GetType())) {
         if(_selected_target.GetType() == GLOBAL_TARGET_ALL_ALLIES) {
             _target_options.AddOption(UTranslate("All Allies"));
         } else {
             _target_options.AddOption(UTranslate("All Enemies"));
         }
-    } else if(IsTargetSelf(_selected_target.GetType()) == true) {
+    } else if(IsTargetSelf(_selected_target.GetType())) {
         _target_options.AddOption(_selected_target.GetActor()->GetName());
-    } else if(IsTargetAlly(_selected_target.GetType()) == true) {
+    } else if(IsTargetAlly(_selected_target.GetType())) {
         for(uint32_t i = 0; i < BattleMode::CurrentInstance()->GetCharacterActors().size(); i++) {
             _target_options.AddOption(BattleMode::CurrentInstance()->GetCharacterActors().at(i)->GetName());
             if(_selected_target.GetType() != GLOBAL_TARGET_ALLY_EVEN_DEAD
@@ -1423,7 +1423,7 @@ void CommandSupervisor::_UpdateActorTargetText()
                 _target_options.EnableOption(i, false);
             }
         }
-    } else if(IsTargetFoe(_selected_target.GetType()) == true) {
+    } else if(IsTargetFoe(_selected_target.GetType())) {
         for(uint32_t i = 0; i < BattleMode::CurrentInstance()->GetEnemyActors().size(); i++) {
             _target_options.AddOption(BattleMode::CurrentInstance()->GetEnemyActors().at(i)->GetName());
             if(BattleMode::CurrentInstance()->GetEnemyActors().at(i)->IsAlive() == false) {
@@ -1437,7 +1437,7 @@ void CommandSupervisor::_UpdateActorTargetText()
     // Clear the shown effects first.
     _selected_target_status_effects.clear();
 
-    if(IsTargetParty(_selected_target.GetType()) == true) {
+    if(IsTargetParty(_selected_target.GetType())) {
         if(_selected_target.GetType() == GLOBAL_TARGET_ALL_ALLIES) {
             _selected_target_name.SetText(UTranslate("All Allies"));
         } else {
@@ -1489,9 +1489,9 @@ void CommandSupervisor::_FinalizeCommand()
 
     _active_settings->SaveLastTarget(_selected_target);
 
-    if (_IsSkillCategorySelected() == true) {
+    if (_IsSkillCategorySelected()) {
         new_action = new SkillAction(character, _selected_target, _selected_skill);
-    } else if (_IsItemCategorySelected() == true) {
+    } else if (_IsItemCategorySelected()) {
         new_action = new ItemAction(character, _selected_target, _selected_item);
 
         // Reserve the item for use by the character.

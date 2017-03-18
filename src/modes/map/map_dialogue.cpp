@@ -404,8 +404,8 @@ void MapDialogueSupervisor::EndDialogue()
         (*it)->UpdateDialogueStatus();
 
         // Restore the state (orientation, animation, etc.) of all speaker sprites if necessary
-        if(_current_dialogue->IsRestoreState() == true) {
-            if((*it)->IsStateSaved() == true)
+        if(_current_dialogue->IsRestoreState()) {
+            if((*it)->IsStateSaved())
                 (*it)->RestoreState();
         }
     }
@@ -447,7 +447,7 @@ void MapDialogueSupervisor::_UpdateLine()
     _dialogue_window.GetDisplayTextBox().Update();
 
     // If the line has a valid display time and the timer is finished, move on to the next line
-    if((_line_timer.GetDuration() > 0) && (_line_timer.IsFinished() == true)) {
+    if((_line_timer.GetDuration() > 0) && (_line_timer.IsFinished())) {
         _EndLine();
         return;
     }
@@ -462,7 +462,7 @@ void MapDialogueSupervisor::_UpdateLine()
     }
 
     // If this dialogue does not allow user input, we are finished
-    if(_current_dialogue->IsInputBlocked() == true) {
+    if(_current_dialogue->IsInputBlocked()) {
         return;
     }
 

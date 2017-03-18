@@ -310,19 +310,19 @@ void SellInterface::Update()
 
         // Swap cycles through the object categories
         else if(InputManager->MenuPress() && (_number_categories > 1)) {
-            if(_ChangeCategory(true) == true)
+            if(_ChangeCategory(true))
                 shop->ObjectViewer()->SetSelectedObject(_selected_object);
             GlobalManager->Media().PlaySound("confirm");
         }
 
         // Up/down changes the selected object in the current list
         else if(InputManager->UpPress() && (_selected_object != nullptr)) {
-            if(_ChangeSelection(false) == true) {
+            if(_ChangeSelection(false)) {
                 shop->ObjectViewer()->SetSelectedObject(_selected_object);
                 GlobalManager->Media().PlaySound("bump");
             }
         } else if(InputManager->DownPress() && (_selected_object != nullptr)) {
-            if(_ChangeSelection(true) == true) {
+            if(_ChangeSelection(true)) {
                 shop->ObjectViewer()->SetSelectedObject(_selected_object);
                 GlobalManager->Media().PlaySound("bump");
             }
@@ -339,20 +339,20 @@ void SellInterface::Update()
             shop->ChangeState(SHOP_STATE_SELL);
         } else if(InputManager->CancelPress()) {
             ChangeViewMode(SHOP_VIEW_MODE_LIST);
-            while(_list_displays[_current_category]->ChangeSellQuantity(false) == true) {}
+            while(_list_displays[_current_category]->ChangeSellQuantity(false)) {}
             GlobalManager->Media().PlaySound("cancel");
             shop->ClearOrder();
         }
 
         // Left/right change the quantity of the object to sell
         else if(InputManager->LeftPress()) {
-            if(_list_displays[_current_category]->ChangeSellQuantity(false) == true) {
+            if(_list_displays[_current_category]->ChangeSellQuantity(false)) {
                 shop->ObjectViewer()->UpdateCountText();
                 GlobalManager->Media().PlaySound("confirm");
             } else
                 GlobalManager->Media().PlaySound("bump");
         } else if(InputManager->RightPress()) {
-            if(_list_displays[_current_category]->ChangeSellQuantity(true) == true) {
+            if(_list_displays[_current_category]->ChangeSellQuantity(true)) {
                 shop->ObjectViewer()->UpdateCountText();
                 GlobalManager->Media().PlaySound("confirm");
             } else

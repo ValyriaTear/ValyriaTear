@@ -547,7 +547,7 @@ float VirtualSprite::CalculateDistanceMoved()
     float distance_moved = static_cast<float>(SystemManager->GetUpdateTime()) / _movement_speed;
 
     // Double the distance to move if the sprite is running
-    if(_is_running == true)
+    if(_is_running)
         distance_moved *= 2.0f;
     // If the movement is diagonal, decrease the lateral movement distance by sin(45 degress)
     if(_direction & MOVING_DIAGONALLY)

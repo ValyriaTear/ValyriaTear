@@ -512,14 +512,14 @@ void DialogueSupervisor::_UpdateLine()
     _dialogue_window.GetDisplayTextBox().Update();
 
     if(_current_options != nullptr) {
-        if(_dialogue_window.GetDisplayTextBox().IsFinished() == true) {
+        if(_dialogue_window.GetDisplayTextBox().IsFinished()) {
             _state = DIALOGUE_STATE_OPTION;
             return;
         }
     }
 
     // If the line has a valid display time and the timer is finished, move on to the next line
-    if((_line_timer.GetDuration() > 0) && (_line_timer.IsFinished() == true)) {
+    if((_line_timer.GetDuration() > 0) && (_line_timer.IsFinished())) {
         _EndLine();
         return;
     }

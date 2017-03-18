@@ -149,7 +149,7 @@ void PauseMode::Update()
         return;
     }
 
-    // (_quit_state == true)
+    // (_quit_state)
 
     // Handles the options menu
     if (_options_handler.IsActive()) {

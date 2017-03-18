@@ -1023,10 +1023,10 @@ void MenuMode::UpdateTimeAndDrunes()
 
 void MenuMode::Update()
 {
-    if(InputManager->QuitPress() == true) {
+    if(InputManager->QuitPress()) {
         ModeManager->Push(new PauseMode(true));
         return;
-    } else if(InputManager->PausePress() == true) {
+    } else if(InputManager->PausePress()) {
         ModeManager->Push(new PauseMode(false));
         return;
     }

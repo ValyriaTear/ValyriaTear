@@ -387,7 +387,7 @@ void EnemyZone::Update()
     }
 
     // If there are dead enemies, no enemies are respawning, and the dead timer is not active, begin the dead timer
-    if (_dead_timer.IsInitial() == true) {
+    if (_dead_timer.IsInitial()) {
         _dead_timer.Run();
         return;
     }

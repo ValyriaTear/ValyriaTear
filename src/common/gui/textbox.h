@@ -100,7 +100,7 @@ public:
     *** This is useful if a player gets impatient while text is scrolling to the screen.
     **/
     void ForceFinish() {
-        if(_text.empty() == true) return;
+        if(_text.empty()) return;
         _finished = true;
     }
 

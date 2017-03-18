@@ -156,7 +156,7 @@ void SequenceSupervisor::_UpdateInitialSequence()
     else if(_sequence_step == INIT_STEP_BACKGROUND_FADE) {
         _sequence_timer.Update();
 
-        if(_sequence_timer.IsFinished() == true) {
+        if(_sequence_timer.IsFinished()) {
             _sequence_timer.Initialize(STEP_02_TIME);
             _sequence_timer.Run();
             _sequence_step = INIT_STEP_SPRITE_MOVEMENT;
@@ -177,7 +177,7 @@ void SequenceSupervisor::_UpdateInitialSequence()
             _battle->_enemy_actors[i]->SetXLocation(_battle->_enemy_actors[i]->GetXOrigin() + (MAX_ENEMY_OFFSET * percent_incomplete));
         }
 
-        if(_sequence_timer.IsFinished() == true) {
+        if(_sequence_timer.IsFinished()) {
             // Done to ensure that all actors are at their correct locations
             for(uint32_t i = 0; i < _battle->_character_actors.size(); i++) {
                 _battle->_character_actors[i]->SetXLocation(_battle->_character_actors[i]->GetXOrigin());
@@ -201,7 +201,7 @@ void SequenceSupervisor::_UpdateInitialSequence()
         _gui_position_offset = MAX_GUI_OFFSET - (_sequence_timer.PercentComplete() * MAX_GUI_OFFSET);
 
         // Finished with the final step, reset the sequence step counter and begin normal battle state
-        if(_sequence_timer.IsFinished() == true) {
+        if(_sequence_timer.IsFinished()) {
             _sequence_step = 0;
             BattleMode::CurrentInstance()->ChangeState(BATTLE_STATE_NORMAL);
         }
@@ -239,7 +239,7 @@ void SequenceSupervisor::_UpdateExitingSequence()
         _sequence_timer.Update();
         _gui_position_offset = GUI_OFFSCREEN_OFFSET * _sequence_timer.PercentComplete();
 
-        if(_sequence_timer.IsFinished() == true) {
+        if(_sequence_timer.IsFinished()) {
             _sequence_timer.Initialize(STEP_02_TIME);
             _sequence_timer.Run();
             _sequence_step = EXIT_STEP_SCREEN_FADE;

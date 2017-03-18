@@ -922,7 +922,7 @@ void FinishSupervisor::Initialize(bool victory)
 void FinishSupervisor::Update()
 {
     if(_state == FINISH_ANNOUNCE_RESULT) {
-        if(_battle_victory == true) {
+        if(_battle_victory) {
             _state = FINISH_VICTORY_GROWTH;
         } else {
             _state = FINISH_DEFEAT_SELECT;
@@ -930,7 +930,7 @@ void FinishSupervisor::Update()
         return;
     }
 
-    if(_battle_victory == true) {
+    if(_battle_victory) {
         _victory_assistant.Update();
     } else {
         _defeat_assistant.Update();
@@ -964,7 +964,7 @@ void FinishSupervisor::Draw()
 {
     _outcome_text.Draw();
 
-    if(_battle_victory == true) {
+    if(_battle_victory) {
         _victory_assistant.Draw();
     } else {
         _defeat_assistant.Draw();

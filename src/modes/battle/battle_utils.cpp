@@ -379,7 +379,7 @@ bool BattleTarget::SelectNextPoint(bool direction)
     if(num_points == 1)
         return true;
 
-    if(direction == true) {
+    if(direction) {
         ++_attack_point;
         if(_attack_point >= num_points)
             _attack_point = 0;
@@ -431,7 +431,7 @@ bool BattleTarget::SelectNextActor(bool direction)
     uint32_t new_target_index = original_target_index;
     while(true) {
         // Increment or decrement the target index based on the direction argument
-        if(direction == true) {
+        if(direction) {
             new_target_index = (new_target_index >= _party_target.size() - 1) ? 0 : new_target_index + 1;
         } else {
             new_target_index = (new_target_index == 0) ? _party_target.size() - 1 : new_target_index - 1;
