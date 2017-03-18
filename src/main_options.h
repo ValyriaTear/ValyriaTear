@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2016 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2017 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -30,7 +30,7 @@ namespace vt_main {
 *** \param argv A pointer to the list of arguments
 *** \return False if the program should exit with a return code, or true if it should continue
 **/
-bool ParseProgramOptions(int32_t& return_code, int32_t argc, const char **argv);
+bool ParseProgramOptions(int32_t& return_code, int32_t argc, char *argv[]);
 
 /** \brief Parses a secondary list of options provided to a primary program option
 *** \param vars The list of secondary options in single string format

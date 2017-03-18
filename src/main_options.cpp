@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2016 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2017 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -53,7 +53,7 @@ using namespace vt_utils;
 namespace vt_main
 {
 
-bool ParseProgramOptions(int32_t &return_code, int32_t argc, const char **argv)
+bool ParseProgramOptions(int32_t &return_code, int32_t argc, char *argv[])
 {
     // Convert the argument list to a vector of strings for convenience
     std::vector<std::string> options(argv, argv + argc);
@@ -102,7 +102,7 @@ bool ParseProgramOptions(int32_t &return_code, int32_t argc, const char **argv)
     }
 
     return true;
-} // bool ParseProgramOptions(int32_t &return_code, int32_t argc, char **argv)
+} // bool ParseProgramOptions(int32_t &return_code, int32_t argc, char *argv[])
 
 bool ParseSecondaryOptions(const std::string &vars, std::vector<std::string>& options)
 {

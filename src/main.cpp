@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2016 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2017 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -433,7 +433,7 @@ static void InitializeEngine() throw(Exception)
 }
 
 // Every great game begins with a single function :)
-int main(int argc, const char *argv[])
+int main(int argc, char *argv[])
 {
 #   if defined (_MSC_VER) && defined(_DEBUG)
         // Enable the debug heap manager for Visual Studio debug builds.
