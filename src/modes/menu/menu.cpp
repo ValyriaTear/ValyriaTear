@@ -361,7 +361,7 @@ void InventoryState::Reset()
 {
     // Setup the option box
     SetupOptionBoxCommonSettings(&_options);
-    _options.SetDimensions(555.0f, 50.0f, INV_OPTIONS_SIZE, 1, INV_OPTIONS_SIZE, 1);
+    _options.SetDimensions(745.0f, 50.0f, INV_OPTIONS_SIZE, 1, INV_OPTIONS_SIZE, 1);
 
     // Generate the strings
     std::vector<ustring> options;
@@ -847,11 +847,11 @@ MenuMode::MenuMode() :
     _spirit_description.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _spirit_description.SetDisplayText(UTranslate("This item is an elemental spirit and can be associated with equipment."));
 
-    _help_information.SetPosition(250, 570);
-    _help_information.SetDimensions(500, 100);
+    _help_information.SetPosition(150, 570);
+    _help_information.SetDimensions(700, 100);
     _help_information.SetTextStyle(TextStyle("text20"));
     _help_information.SetDisplayMode(VIDEO_TEXT_INSTANT);
-    _help_information.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+    _help_information.SetTextAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
 
     _atk_icon = media.GetStatusIcon(GLOBAL_STATUS_PHYS_ATK, GLOBAL_INTENSITY_NEUTRAL);
     _matk_icon = media.GetStatusIcon(GLOBAL_STATUS_MAG_ATK, GLOBAL_INTENSITY_NEUTRAL);
@@ -1306,7 +1306,8 @@ void MenuMode::DrawEquipmentInfo()
     _mag_header.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_RIGHT, 0);
-    VideoManager->MoveRelative(110.0f, -30.0f);
+    const float header_width = std::max(_phys_header.GetWidth(), _mag_header.GetWidth()) + 16.0f;
+    VideoManager->MoveRelative(header_width, -30.0f);
     _phys_stat.Draw();
     VideoManager->MoveRelative(0.0f, 30.0f);
     _mag_stat.Draw();
