@@ -333,7 +333,7 @@ void TextBox::_ReformatText()
     if (_text_xalign == VIDEO_X_LEFT) {
         _text_xpos = left;
     } else if (_text_xalign == VIDEO_X_CENTER) {
-        _text_xpos = (left + right) * 0.5f;
+        _text_xpos = (left + right - _text_image.GetWidth()) * 0.5f;
     } else { // (_text_xalign == VIDEO_X_RIGHT)
         _text_xpos = right;
     }

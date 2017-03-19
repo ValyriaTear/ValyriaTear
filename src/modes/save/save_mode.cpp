@@ -75,11 +75,15 @@ SaveMode::SaveMode(bool save_mode, uint32_t x_position, uint32_t y_position) :
     _title_window.SetPosition(212.0f, 88.0f);
     _title_window.Show();
 
+    const float centered_text_xpos = _window.GetXPosition() + 50.0f;
+    const float centered_text_width = _window.GetWidth() - 100.f;
+
     // Initialize the save successful message box
-    _title_textbox.SetPosition(552.0f, 103.0f);
-    _title_textbox.SetDimensions(200.0f, 50.0f);
+    _title_textbox.SetPosition(centered_text_xpos, 103.0f);
+    _title_textbox.SetDimensions(centered_text_width, 50.0f);
     _title_textbox.SetTextStyle(TextStyle("title22"));
-    _title_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _title_textbox.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _title_textbox.SetTextAlignment(VIDEO_X_CENTER, VIDEO_Y_BOTTOM);
     if(_save_mode)
         _title_textbox.SetDisplayText(UTranslate("Save Game"));
     else
@@ -111,7 +115,7 @@ SaveMode::SaveMode(bool save_mode, uint32_t x_position, uint32_t y_position) :
 
     // Initialize the confirmation option box
     _confirm_save_optionbox.SetPosition(512.0f, 384.0f);
-    _confirm_save_optionbox.SetDimensions(280.0f, 200.0f, 1, 2, 1, 2);
+    _confirm_save_optionbox.SetDimensions(centered_text_width, 200.0f, 1, 2, 1, 2);
     _confirm_save_optionbox.SetTextStyle(TextStyle("title22"));
 
     _confirm_save_optionbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -125,7 +129,7 @@ SaveMode::SaveMode(bool save_mode, uint32_t x_position, uint32_t y_position) :
 
     // Initialize the auto-save option box
     _load_auto_save_optionbox.SetPosition(512.0f, 384.0f);
-    _load_auto_save_optionbox.SetDimensions(250.0f, 200.0f, 1, 3, 1, 3);
+    _load_auto_save_optionbox.SetDimensions(centered_text_width, 200.0f, 1, 3, 1, 3);
     _load_auto_save_optionbox.SetTextStyle(TextStyle("title22"));
 
     _load_auto_save_optionbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -139,23 +143,26 @@ SaveMode::SaveMode(bool save_mode, uint32_t x_position, uint32_t y_position) :
     _load_auto_save_optionbox.SetSelection(0);
 
     // Initialize the save successful message box
-    _save_success_message.SetPosition(552.0f, 314.0f);
-    _save_success_message.SetDimensions(250.0f, 100.0f);
+    _save_success_message.SetPosition(centered_text_xpos, 314.0f);
+    _save_success_message.SetDimensions(centered_text_width, 100.0f);
     _save_success_message.SetTextStyle(TextStyle("title22"));
-    _save_success_message.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _save_success_message.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _save_success_message.SetTextAlignment(VIDEO_X_CENTER, VIDEO_Y_BOTTOM);
     _save_success_message.SetDisplayText(UTranslate("Save successful!"));
 
     // Initialize the save failure message box
-    _save_failure_message.SetPosition(512.0f, 384.0f);
-    _save_failure_message.SetDimensions(250.0f, 100.0f);
+    _save_failure_message.SetPosition(centered_text_xpos, 314.0f);
+    _save_failure_message.SetDimensions(centered_text_width, 100.0f);
     _save_failure_message.SetTextStyle(TextStyle("title22"));
-    _save_failure_message.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _save_failure_message.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _save_failure_message.SetTextAlignment(VIDEO_X_CENTER, VIDEO_Y_BOTTOM);
     _save_failure_message.SetDisplayText(UTranslate("Unable to save game!\nSave FAILED!"));
 
-    _no_valid_saves_message.SetPosition(512.0f, 384.0f);
-    _no_valid_saves_message.SetDimensions(250.0f, 100.0f);
+    _no_valid_saves_message.SetPosition(centered_text_xpos, 314.0f);
+    _no_valid_saves_message.SetDimensions(centered_text_width, 100.0f);
     _no_valid_saves_message.SetTextStyle(TextStyle("title22"));
-    _no_valid_saves_message.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _no_valid_saves_message.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
+    _no_valid_saves_message.SetTextAlignment(VIDEO_X_CENTER, VIDEO_Y_BOTTOM);
     _no_valid_saves_message.SetDisplayText(UTranslate("No valid saves found!"));
 
     // Initialize the save preview text boxes

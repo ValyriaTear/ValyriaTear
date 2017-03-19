@@ -327,10 +327,10 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE& state) :
     _spoils_window.Show();
 
     _header_growth.SetOwner(&_header_window);
-    _header_growth.SetPosition(TOP_WINDOW_WIDTH / 2 - 50.0f, 15.0f);
-    _header_growth.SetDimensions(400.0f, 40.0f);
+    _header_growth.SetPosition(SPOILS_WINDOW_XPOS - SPOILS_WINDOW_WIDTH + 50.0f, 15.0f);
+    _header_growth.SetDimensions(SPOILS_WINDOW_WIDTH - 100.0f, 40.0f);
     _header_growth.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _header_growth.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+    _header_growth.SetTextAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
     _header_growth.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _header_growth.SetTextStyle(TextStyle("text20", Color::white));
     _header_growth.SetDisplayMode(VIDEO_TEXT_INSTANT);
@@ -360,10 +360,10 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE& state) :
     }
 
     _object_header_text.SetOwner(&_spoils_window);
-    _object_header_text.SetPosition(SPOILS_WINDOW_WIDTH / 2 - 50.0f, 15.0f);
-    _object_header_text.SetDimensions(350.0f, 40.0f);
+    _object_header_text.SetPosition(SPOILS_WINDOW_XPOS - SPOILS_WINDOW_WIDTH + 50.0f, 15.0f);
+    _object_header_text.SetDimensions(SPOILS_WINDOW_WIDTH - 100.0f, 40.0f);
     _object_header_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _object_header_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+    _object_header_text.SetTextAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
     _object_header_text.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _object_header_text.SetTextStyle(TextStyle("title20", Color::white));
     _object_header_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
@@ -896,10 +896,10 @@ FinishSupervisor::FinishSupervisor() :
     _defeat_assistant(_state),
     _victory_assistant(_state)
 {
-    _outcome_text.SetPosition(400.0f, 48.0f);
+    _outcome_text.SetPosition(TOP_WINDOW_XPOS - TOP_WINDOW_WIDTH / 2.0f, 48.0f);
+    _outcome_text.SetDimensions(TOP_WINDOW_WIDTH, 50.0f);
     _outcome_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _outcome_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _outcome_text.SetDimensions(400.0f, 50.0f);
+    _outcome_text.SetTextAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
     _outcome_text.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _outcome_text.SetTextStyle(TextStyle("text24", Color::white));
     _outcome_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
