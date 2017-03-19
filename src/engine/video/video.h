@@ -383,7 +383,7 @@ public:
     *** \param height Coordinate for the height of scissoring rectangle
     *** \note The arguments are based on screen coordinates
     **/
-    void SetScissorRect(unsigned x, unsigned y, unsigned width, unsigned height);
+    void SetScissorRect(int32_t x, int32_t y, int32_t width, int32_t height);
 
     /** \brief Sets the rectangle area to use for scissorring
     *** \param rect The rectangle to set the scissoring rectangle to
@@ -402,6 +402,15 @@ public:
         y = _y_cursor;
     }
 
+    /** \brief Saves the current modelview transformation on to the stack
+    *** What this means is that it save the combined result of all transformation
+    *** calls (Move/MoveRelative/Scale/Rotate)
+    **/
+    void PushMatrix();
+
+    //! \brief Pops the modelview transformation from the stack
+    void PopMatrix();
+
     /** \brief Moves the draw cursor position to (x,y)
     *** \param x The x coordinate to move the draw cursor to
     *** \param y The y coordinate to move the draw cursor to
@@ -414,14 +423,20 @@ public:
     **/
     void MoveRelative(float x, float y);
 
-    /** \brief Saves the current modelview transformation on to the stack
-    *** What this means is that it save the combined result of all transformation
-    *** calls (Move/MoveRelative/Scale/Rotate)
+    /** \brief Rotates images counterclockwise by the specified number of degrees.
+    *** \param angle How many degrees to perform the rotation by.
+    *** \note You should understand how transformation matrices work in OpenGL
+    *** prior to using this function.
     **/
-    void PushMatrix();
+    void Rotate(float angle);
 
-    //! \brief Pops the modelview transformation from the stack
-    void PopMatrix();
+    /** \brief Scales all subsequent image drawing calls in the horizontal and vertical direction
+    *** \param x The amount of horizontal scaling to perform (0.5 for half, 1.0 for normal, 2.0 for double, etc)
+    *** \param y The amount of vertical scaling to perform (0.5 for half, 1.0 for normal, 2.0 for double, etc)
+    *** \note You should understand how transformation matrices work in OpenGL
+    *** prior to using this function.
+    **/
+    void Scale(float x, float y);
 
     /** \brief Saves relevant state of the video engine on to an internal stack
     *** The contents saved include the modelview transformation and the current
@@ -438,21 +453,6 @@ public:
 
     //! \brief Restores the most recently pushed video engine state
     void PopState();
-
-    /** \brief Rotates images counterclockwise by the specified number of degrees.
-    *** \param angle How many degrees to perform the rotation by.
-    *** \note You should understand how transformation matrices work in OpenGL
-    *** prior to using this function.
-    **/
-    void Rotate(float angle);
-
-    /** \brief Scales all subsequent image drawing calls in the horizontal and vertical direction
-    *** \param x The amount of horizontal scaling to perform (0.5 for half, 1.0 for normal, 2.0 for double, etc)
-    *** \param y The amount of vertical scaling to perform (0.5 for half, 1.0 for normal, 2.0 for double, etc)
-    *** \note You should understand how transformation matrices work in OpenGL
-    *** prior to using this function.
-    **/
-    void Scale(float x, float y);
 
     // ----------  Image operation methods
 

@@ -21,20 +21,20 @@ systems[0] =
     emitter =
     {
         x = 0,
-        y = -64,
+        y = -32,
         x2 = 0, --useless when using a circle shape
         y2 = 0, --useless when using a circle shape
         center_x = 0,  --useless when using a circle shape
         center_y = 0,  --useless when using a circle shape
         x_variation = 0,
         y_variation = 0,
-        radius = 70,
+        radius = 35,
         shape = 'circle outline',
         omnidirectional = false,
         orientation = -1.6, --up
         angle_variation = 0.0,
-        initial_speed = 100,
-        initial_speed_variation = 30,
+        initial_speed = 50,
+        initial_speed_variation = 15,
         emission_rate = 100,
         start_time = 0,
         emitter_mode = 'looping',
@@ -44,24 +44,24 @@ systems[0] =
     keyframes =
     {
         {  -- keyframe 1
-            size_x = 0.6,
-            size_y = 0.6,
+            size_x = 0.3,
+            size_y = 0.3,
             color={1.0, 1.0, 1.0, 0.6},
             rotation_speed = 0.0,
-            size_variation_x = 0.2,
-            size_variation_y = 0.2,
+            size_variation_x = 0.1,
+            size_variation_y = 0.1,
             rotation_speed_variation = 0.0,
             color_variation = {0.3, 0.0, 0.3, 0.0},
             time = 0.0
         },
 
         {  -- keyframe 2
-            size_x = 0.3,
-            size_y = 0.3,
+            size_x = 0.15,
+            size_y = 0.15,
             color = {1.0, 1.0, 1.0, 0.4},
             rotation_speed = 0.0,
-            size_variation_x = 0.2,
-            size_variation_y = 0.2,
+            size_variation_x = 0.1,
+            size_variation_y = 0.1,
             rotation_speed_variation = 0.0,
             color_variation = {0.3, 0.0, 0.3, 0.0},
             time = 1.0
@@ -117,21 +117,21 @@ systems[1] =
     emitter =
     {
         x = 0,
-        y = -64,
+        y = -32,
         x2 = 0, --useless when using a circle shape
         y2 = 0, --useless when using a circle shape
         center_x = 0,  --useless when using a circle shape
         center_y = 0,  --useless when using a circle shape
         x_variation = 0,
         y_variation = 0,
-        radius = 80,
+        radius = 40,
         shape = 'circle',
         omnidirectional = false,
         orientation = -1.6, --up
         outer_cone = 0.0,
         inner_cone = 0,
-        initial_speed = 10,
-        initial_speed_variation = 15,
+        initial_speed = 5,
+        initial_speed_variation = 8,
         emission_rate = 100,
         start_time = 0,
         emitter_mode = 'looping',
@@ -141,24 +141,24 @@ systems[1] =
     keyframes =
     {
         {  -- keyframe 1
-            size_x = 0.6,
-            size_y = 0.6,
+            size_x = 0.3,
+            size_y = 0.3,
             color={0.0, 1.0, 0.0, 0.6},
             rotation_speed = 0.0,
-            size_variation_x = 0.2,
-            size_variation_y = 0.2,
+            size_variation_x = 0.1,
+            size_variation_y = 0.1,
             rotation_speed_variation = 0.0,
             color_variation = {0.0, 0.0, 0.0, 0.0},
             time = 0.0
         },
 
         {  -- keyframe 2
-            size_x = 0.3,
-            size_y = 0.3,
+            size_x = 0.15,
+            size_y = 0.15,
             color = {0.5, 0.5, 1.0, 0.4},
             rotation_speed = 0.0,
-            size_variation_x = 0.2,
-            size_variation_y = 0.2,
+            size_variation_x = 0.1,
+            size_variation_y = 0.1,
             rotation_speed_variation = 0.0,
             color_variation = {0.0, 0.0, 0.0, 0.0},
             time = 1.0
@@ -191,7 +191,7 @@ systems[1] =
     wind_velocity_variation_x = 0,
     wind_velocity_variation_y = 0,
 
-    tangential_acceleration = 300,
+    tangential_acceleration = 150,
     tangential_acceleration_variation = 0,
     radial_acceleration = 0,
     radial_acceleration_variation = 0,

@@ -73,4 +73,9 @@ float FloorToFloatMultiple(const float value, const float multiple)
     return multiple * std::floor(value / multiple);
 }
 
+float CeilToFloatMultiple(const float value, const float multiple)
+{
+    return multiple * std::ceil(value / multiple);
+}
+
 } // namespace utils

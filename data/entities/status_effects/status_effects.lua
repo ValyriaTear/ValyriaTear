@@ -556,7 +556,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
         local map_indicator = map_mode:GetIndicatorSupervisor();
         if (hp_change > 0) then
             -- We move the healing indicator above the head of the sprite.
-            y_pos = y_pos - map_mode:GetCamera():GetImgScreenHeight() * 16;
+            y_pos = y_pos - map_mode:GetCamera():GetImgPixelHeight() * 16;
             map_indicator:AddHealingIndicator(x_pos, y_pos, hp_change, vt_video.TextStyle("text22", vt_video.Color(0.0, 0.0, 1.0, 0.9)), true);
         else
             map_indicator:AddDamageIndicator(x_pos, y_pos, -hp_change, vt_video.TextStyle("text22", vt_video.Color(1.0, 0.0, 0.0, 0.9)), true);
@@ -730,7 +730,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
         local map_indicator = map_mode:GetIndicatorSupervisor();
         if (sp_change > 0) then
             -- We move the healing indicator above the head of the sprite.
-            y_pos = y_pos - map_mode:GetCamera():GetImgScreenHeight() * 16;
+            y_pos = y_pos - map_mode:GetCamera():GetImgPixelHeight() * 16;
             map_indicator:AddHealingIndicator(x_pos, y_pos, sp_change, vt_video.TextStyle("text22", vt_video.Color(0.0, 0.8, 0.8, 0.9)), true);
         else
             map_indicator:AddDamageIndicator(x_pos, y_pos, -sp_change, vt_video.TextStyle("text22", vt_video.Color(0.0, 1.0, 0.0, 0.9)), true);

@@ -42,23 +42,20 @@ namespace private_map
 *** number of rows and columns of tiles.
 **/
 //@{
-// The zoom ratio will set how magnified (if > 1.0f) the map mode will display the tiles,
-// sprites and objects.
+//! The zoom ratio determines how magnified map mode will display its tiles, sprites, and objects.
+//  Zoom ratios < 1.0f are not fully supported because the secondary render target will not be
+//  guaranteed to be large enough to composite the entire visual area of the map. 
 const float MAP_ZOOM_RATIO = 2.0f;
 
-const float SCREEN_GRID_X_LENGTH = 64.0f / MAP_ZOOM_RATIO; // was 32 for zoom ratio 2.0f;
-const float SCREEN_GRID_Y_LENGTH = 48.0f / MAP_ZOOM_RATIO;
-const float HALF_SCREEN_GRID_X_LENGTH = SCREEN_GRID_X_LENGTH / 2.0f;
-const float HALF_SCREEN_GRID_Y_LENGTH = SCREEN_GRID_Y_LENGTH / 2.0f;
+const float SCREEN_GRID_X_LENGTH = 64.0f;
+const float SCREEN_GRID_Y_LENGTH = 48.0f;
 
-const uint16_t TILES_ON_X_AXIS = static_cast<uint16_t>(SCREEN_GRID_X_LENGTH / 2.0f); // Number of tile columns that fit on the screen
-const uint16_t TILES_ON_Y_AXIS = static_cast<uint16_t>(SCREEN_GRID_Y_LENGTH / 2.0f); // Number of tile rows that fit on the screen
-const uint16_t HALF_TILES_ON_X_AXIS = TILES_ON_X_AXIS / 2;
-const uint16_t HALF_TILES_ON_Y_AXIS = TILES_ON_Y_AXIS / 2;
+const uint16_t TILES_ON_X_AXIS = static_cast<uint16_t>(SCREEN_GRID_X_LENGTH / 2.0f); // Number of tile columns that fit on the screen.
+const uint16_t TILES_ON_Y_AXIS = static_cast<uint16_t>(SCREEN_GRID_Y_LENGTH / 2.0f); // Number of tile rows that fit on the screen.
 
-// Length of a grid element in pixels (taken from the grid to screen width ratio)
+// Length of a grid element in pixels.
 const uint16_t GRID_LENGTH = vt_video::VIDEO_STANDARD_RES_WIDTH / SCREEN_GRID_X_LENGTH;
-// Length of a tile in pixels
+// Length of a tile in pixels.
 const uint16_t TILE_LENGTH = GRID_LENGTH * 2;
 //@}
 

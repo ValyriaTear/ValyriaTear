@@ -177,7 +177,8 @@ public:
     *** that the default implementation of this function does nothing.
     **/
     virtual void RestoreSaved()
-    {}
+    {
+    }
 
     /** \name Lua Access Functions
     *** These functions are specifically written to enable Lua to access the members of this class.
@@ -202,28 +203,24 @@ public:
     //! \note The value in map tiles is also stored.
     void SetImgPixelHalfWidth(float width) {
         _img_pixel_half_width = width;
-        _img_screen_half_width = width * MAP_ZOOM_RATIO;
-        _img_grid_half_width = width / GRID_LENGTH * MAP_ZOOM_RATIO;
+        _img_grid_half_width = width / GRID_LENGTH;
     }
 
     //! \brief Set the object image half width (in pixels).
     //! \note The value in map tiles is also stored.
     void SetImgPixelHeight(float height) {
         _img_pixel_height = height;
-        _img_screen_height = height * MAP_ZOOM_RATIO;
-        _img_grid_height = height / GRID_LENGTH * MAP_ZOOM_RATIO;
+        _img_grid_height = height / GRID_LENGTH;
     }
 
     void SetCollPixelHalfWidth(float collision) {
         _coll_pixel_half_width = collision;
-        _coll_screen_half_width = collision * MAP_ZOOM_RATIO;
-        _coll_grid_half_width = collision / GRID_LENGTH * MAP_ZOOM_RATIO;
+        _coll_grid_half_width = collision / GRID_LENGTH;
     }
 
     void SetCollPixelHeight(float collision) {
         _coll_pixel_height = collision;
-        _coll_screen_height = collision * MAP_ZOOM_RATIO;
-        _coll_grid_height = collision / GRID_LENGTH * MAP_ZOOM_RATIO;
+        _coll_grid_height = collision / GRID_LENGTH;
     }
 
     void SetUpdatable(bool update) {
@@ -265,12 +262,12 @@ public:
         return _tile_position.y;
     }
 
-    float GetImgScreenHalfWidth() const {
-        return _img_screen_half_width;
+    float GetImgPixelHalfWidth() const {
+        return _img_pixel_half_width;
     }
 
-    float GetImgScreenHeight() const {
-        return _img_screen_height;
+    float GetImgPixelHeight() const {
+        return _img_pixel_height;
     }
 
     float GetCollGridHalfWidth() const {
@@ -342,14 +339,9 @@ protected:
     **/
     MapPosition _tile_position;
 
-    //! \brief The originally desired half-width and height of the image, in pixels
-    //! Used as a base value to later get the screen and tile corresponding values.
+    //! \brief The originally desired half-width and height of the image, in pixels.
     float _img_pixel_half_width;
     float _img_pixel_height;
-
-    //! \brief The image half-width and height as seen on screen. (pixel value * zoom ratio).
-    float _img_screen_half_width;
-    float _img_screen_height;
 
     //! \brief The half-width and height of the image, in map tile coordinates.
     //! (A grid unit is half a tile).
@@ -363,15 +355,9 @@ protected:
     *** \note These members should always be positive and non-zero. Setting these members to
     *** zero does <b>not</b> eliminate collision detection for the object.
     ***
-    *** Used as a base value to later get the screen and tile corresponding values.
     **/
     float _coll_pixel_half_width;
     float _coll_pixel_height;
-
-    //! \brief The collision half-width and height as seen on screen in the debug view.
-    //! (pixel value * zoom ratio).
-    float _coll_screen_half_width;
-    float _coll_screen_height;
 
     //! \brief Determines the collision rectangle for the object in map grid coordinates.
     //! (A grid unit is half a tile).
@@ -406,10 +392,9 @@ protected:
     //! \note This one should be deleted in the destructor.
     vt_video::AnimatedImage* _interaction_icon;
 
-    //! \brief The emote animation drawing offset in screen coordinates (pixel value * zoom ratio)
-    //! (depending on the map object direction)
-    float _emote_screen_offset_x;
-    float _emote_screen_offset_y;
+    //! \brief The emote animation drawing offset.
+    float _emote_pixel_offset_x;
+    float _emote_pixel_offset_y;
 
     //! \brief the time the emote animation will last in milliseconds,
     int32_t _emote_time;

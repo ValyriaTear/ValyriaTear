@@ -110,6 +110,14 @@ float GetFloatInteger(float value);
  */
 float FloorToFloatMultiple(const float value, const float multiple);
 
+//! \brief Rounds up a float to a multiple of another float
+/*!
+*  \return Rounded float
+*  \param value Number to be rounded
+*  \param multiple Multiple to be considered when rounding
+*/
+float CeilToFloatMultiple(const float value, const float multiple);
+
 } // namespace vt_utils
 
 #endif // __UTILS_NUMERIC_HEADER__
