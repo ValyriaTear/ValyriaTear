@@ -671,9 +671,9 @@ void ShopObjectViewer::_SetDescriptionText()
         _description_text.SetOwner(ShopMode::CurrentInstance()->GetBottomWindow());
         // For key items, draw position is a little higher than other cases to center it in the blank area
         if(_selected_object && _selected_object->GetObject()->IsKeyItem()) {
-            _description_text.SetPosition(102.0f, 64.0f);
+            _description_text.SetPosition(102.0f, 104.0f);
         } else {
-            _description_text.SetPosition(102.0f, 84.0f);
+            _description_text.SetPosition(102.0f, 124.0f);
         }
         _description_text.SetDimensions(675.0f, 50.0f);
     }
@@ -797,8 +797,14 @@ void ShopObjectViewer::_DrawItem()
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, 0);
 
     VideoManager->MoveRelative(80.0f, -15.0f);
+    _target_type_header.Draw();
+    float move_offset = _target_type_header.GetWidth() + 5.0f;
+    VideoManager->MoveRelative(move_offset, 0.0f);
+    _target_type_text[_target_type_index].Draw();
+
+    VideoManager->MoveRelative(-move_offset, 28.0f);
     _field_use_header.Draw();
-    float move_offset = _field_use_header.GetWidth() + 5.0f; // 5.0f is a small buffer space between text and graphic
+    move_offset = _field_use_header.GetWidth() + 5.0f; // 5.0f is a small buffer space between text and graphic
     VideoManager->MoveRelative(move_offset, 0.0f);
     if(_map_usable) {
         _check_icon->Draw();
@@ -815,12 +821,6 @@ void ShopObjectViewer::_DrawItem()
     } else {
         _x_icon->Draw();
     }
-
-    VideoManager->MoveRelative(175.0f - move_offset, 0.0f);
-    _target_type_header.Draw();
-    move_offset = _target_type_header.GetWidth() + 5.0f;
-    VideoManager->MoveRelative(move_offset, 0.0f);
-    _target_type_text[_target_type_index].Draw();
 
     _description_text.Draw();
     _hint_text.Draw();
@@ -848,7 +848,8 @@ void ShopObjectViewer::_DrawEquipment()
     _mag_header.Draw();
 
     VideoManager->SetDrawFlags(VIDEO_X_RIGHT, 0);
-    VideoManager->MoveRelative(110.0f, -30.0f);
+    const float header_width = std::max(_phys_header.GetWidth(), _mag_header.GetWidth()) + 16.0f;
+    VideoManager->MoveRelative(header_width, -30.0f);
     _phys_rating.Draw();
     VideoManager->MoveRelative(0.0f, 30.0f);
     _mag_rating.Draw();
@@ -1003,12 +1004,12 @@ ShopMode::ShopMode(const std::string& shop_id) :
     _top_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _top_window.Show();
 
-    _middle_window.Create(800.0f, 400.0f, VIDEO_MENU_EDGE_ALL, VIDEO_MENU_EDGE_TOP | VIDEO_MENU_EDGE_BOTTOM);
+    _middle_window.Create(800.0f, 380.0f, VIDEO_MENU_EDGE_ALL, VIDEO_MENU_EDGE_TOP | VIDEO_MENU_EDGE_BOTTOM);
     _middle_window.SetPosition(112.0f, 164.0f);
     _middle_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _middle_window.Show();
 
-    _bottom_window.Create(800.0f, 140.0f, ~VIDEO_MENU_EDGE_TOP);
+    _bottom_window.Create(800.0f, 160.0f, ~VIDEO_MENU_EDGE_TOP);
     _bottom_window.SetPosition(112.0f, 544.0f);
     _bottom_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _bottom_window.Show();
