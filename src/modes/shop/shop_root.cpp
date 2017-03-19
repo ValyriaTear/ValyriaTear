@@ -124,9 +124,10 @@ void RootInterface::Reinitialize()
     gray_star = star;
     gray_star.SetGrayscale(true);
 
+
     // Finally, construct the composite images with the correct star rating
-    _buy_price_rating.SetDimensions(200.0f, 30.0f);
-    _sell_price_rating.SetDimensions(200.0f, 30.0f);
+    _buy_price_rating.SetDimensions(160.0f + star.GetWidth(), 30.0f);
+    _sell_price_rating.SetDimensions(160.0f + star.GetWidth(), 30.0f);
 
     float offset = 0.0f;
     for(uint8_t count = 5; count > 0; count--) {
@@ -166,16 +167,17 @@ void RootInterface::Draw()
     VideoManager->Move(512.0f, 188.0f);
     _shop_name.Draw();
 
+    const float rating_offset = (512.0f - _buy_price_rating.GetWidth()) / 2.0f;
     // Middle window: below the shop name draw the pricing text and rating image
-    VideoManager->MoveRelative(-140.0f, 60.0f);
-    _buy_price_text.Draw();
-    VideoManager->MoveRelative(280.0f, 0.0f);
-    _sell_price_text.Draw();
-
-    VideoManager->MoveRelative(-280.0f, 40.0f);
+    VideoManager->MoveRelative(-rating_offset, 100.0f);
     _buy_price_rating.Draw();
-    VideoManager->MoveRelative(280.0f, 0.0f);
+    VideoManager->MoveRelative(0.0f, -40.0f);
+    _buy_price_text.Draw();
+
+    VideoManager->MoveRelative(2.0f * rating_offset, 40.0f);
     _sell_price_rating.Draw();
+    VideoManager->MoveRelative(0.0f, -40.0f);
+    _sell_price_text.Draw();
 
     // Bottom window: draw the greeting text
     _greeting_text.Draw();
