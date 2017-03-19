@@ -1083,12 +1083,14 @@ void PartyWindow::Draw()
     VideoManager->Move(440.0f, 130.0f);
     _full_portraits[_char_select.GetSelection()].Draw();
 
-    VideoManager->Move(660.0f, 130.0f);
+    const float status_x = _x_position + _width - 48.0f
+          - _character_status_text.GetWidth() - _character_status_numbers.GetWidth() - _character_status_icons.GetWidth();
+    VideoManager->Move(status_x, 140.0f);
     _character_status_text.Draw();
-    VideoManager->MoveRelative(200.0f, 0.0f);
-    _character_status_numbers.Draw();
-    VideoManager->MoveRelative(-25.0f, 67.0f);
+    VideoManager->MoveRelative(_character_status_text.GetWidth() + 8.0f, 67.0f);
     _character_status_icons.Draw();
+    VideoManager->MoveRelative(_character_status_icons.GetWidth() + 8.0f, -67.0f);
+    _character_status_numbers.Draw();
 
     if (GetActiveState() != FORM_ACTIVE_NONE) {
         VideoManager->Move(450.0f, 500.0f);
