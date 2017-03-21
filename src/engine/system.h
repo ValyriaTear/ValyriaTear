@@ -119,6 +119,15 @@ std::string VTranslate(const std::string &text, float arg1);
 std::string VTranslate(const std::string &text, uint32_t arg1, uint32_t arg2);
 std::string VTranslate(const std::string &text, const std::string &arg1, const std::string &arg2);
 
+/** \brief Returns the translated string fprinted with the c-formatted number.
+***        Add as many printf variables as you like to the end.
+*** \param singular The singular form of the text to transform containing c-format number
+*** \param plural The plural form of the text to transform containing c-format number
+*** \param arg1 The number.
+*** \param ... Any number of further arguments to hand over to the formatting part.
+**/
+std::string NVTranslate(const std::string &singular, const std::string &plural, unsigned long number, ...);
+
 /** ****************************************************************************
 *** \brief Class of properties about locales
 *** ***************************************************************************/
