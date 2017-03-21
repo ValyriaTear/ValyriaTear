@@ -119,6 +119,28 @@ std::string VTranslate(const std::string &text, float arg1);
 std::string VTranslate(const std::string &text, uint32_t arg1, uint32_t arg2);
 std::string VTranslate(const std::string &text, const std::string &arg1, const std::string &arg2);
 
+// TODO: Use Lua Array with luabind so pass a random amount of parameters.
+/** \brief Returns the translated string fprinted with the c-formatted number.
+*** \param singular The singular form of the text to transform containing c-format number
+*** \param plural The plural form of the text to transform containing c-format number
+*** \param number The number to use the sentence.
+**/
+std::string NVTranslate(const std::string& singular,
+                        const std::string& plural,
+                        const uint32_t number);
+
+/** \brief Returns the translated string fprinted with the c-formatted number.
+***        Adds an additional printf string argument to the end.
+*** \param singular The singular form of the text to transform containing c-format number
+*** \param plural The plural form of the text to transform containing c-format number
+*** \param number The number to use in the sentence.
+*** \param str An additional string argument to use in the sentence.
+**/
+std::string NVTranslate(const std::string& singular,
+                        const std::string& plural,
+                        const uint32_t number,
+                        const std::string& str);
+
 /** ****************************************************************************
 *** \brief Class of properties about locales
 *** ***************************************************************************/

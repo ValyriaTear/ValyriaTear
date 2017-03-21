@@ -318,9 +318,19 @@ void TreasureSupervisor::_UpdateList()
             // If true, the drunes have been selected
             _selection_name.SetText(UTranslate("Drunes"));
             _selection_icon = GlobalManager->Media().GetDrunesIcon();
-            _detail_textbox.SetDisplayText(VTranslate("With the additional %u drunes found in this treasure added, "
-                                                      "the party now holds a total of %u drunes.",
-                                                      _treasure->_drunes, GlobalManager->GetDrunes()));
+
+            // Plural gettext for the 1st sentence.
+            const std::string temp_string =
+                NVTranslate("the party now holds a total of %u drune.", // singular
+                            "the party now holds a total of %u drunes.", // plural
+                            GlobalManager->GetDrunes());
+
+            // Plural gettext for the 2nd sentence.
+            _detail_textbox.SetDisplayText(
+                NVTranslate("With the additional %u drune found in this treasure added, %s.", // sinlgular
+                            "With the additional %u drunes found in this treasure added, %s.", // plural
+                            _treasure->_drunes,
+                            temp_string));
             _is_key_item = false;
         } else { // Otherwise, a GlobalObject is selected
             if(_treasure->_drunes != 0)

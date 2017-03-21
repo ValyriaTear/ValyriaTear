@@ -131,6 +131,28 @@ std::string VTranslate(const std::string& text, uint32_t arg1, uint32_t arg2)
 std::string VTranslate(const std::string& text, const std::string& arg1, const std::string& arg2)
 { return _VTranslate(text, arg1.c_str(), arg2.c_str()); }
 
+std::string NVTranslate(const std::string& singular,
+                        const std::string& plural,
+                        const uint32_t number) {
+    // Don't translate an empty string as it will return the PO meta data.
+    if (singular.empty() || plural.empty())
+        return std::string();
+    std::string translation = ngettext(singular.c_str(), plural.c_str(), number);
+    translation = strprintf(translation.c_str(), number);
+    return translation;
+}
+
+std::string NVTranslate(const std::string& singular,
+                        const std::string& plural,
+                        const uint32_t number,
+                        const std::string& str) {
+    // Don't translate an empty string as it will return the PO meta data.
+    if (singular.empty() || plural.empty())
+        return std::string();
+    std::string translation = ngettext(singular.c_str(), plural.c_str(), number);
+    translation = strprintf(translation.c_str(), number, str.c_str());
+    return translation;
+}
 
 // -----------------------------------------------------------------------------
 // SystemTimer Class
@@ -528,7 +550,6 @@ void SystemEngine::AddAutoTimer(SystemTimer *timer)
         return;
     }
 
-// 	pair<set<SystemTimer*>::iterator, bool> return_value;
     if(_auto_system_timers.insert(timer).second == false) {
         IF_PRINT_WARNING(SYSTEM_DEBUG) << "timer already existed in auto system timer container" << std::endl;
     }
