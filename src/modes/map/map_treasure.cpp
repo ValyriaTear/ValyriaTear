@@ -330,7 +330,7 @@ void TreasureSupervisor::_UpdateList()
                     NVTranslate("With the additional %u drune found in this treasure added, %s.",
                                 "With the additional %u drunes found in this treasure added, %s.",
                                 _treasure->_drunes,
-                                temp_string));
+                                temp_string.c_str()));
             _is_key_item = false;
         } else { // Otherwise, a GlobalObject is selected
             if(_treasure->_drunes != 0)
