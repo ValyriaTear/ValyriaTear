@@ -319,14 +319,14 @@ void TreasureSupervisor::_UpdateList()
             _selection_name.SetText(UTranslate("Drunes"));
             _selection_icon = GlobalManager->Media().GetDrunesIcon();
 
-            // Plural gettext for the 1st sentence.
             const std::string temp_string =
+                // Part 2 of "With the additional %u drune(s) found in this treasure added, ... "
                 NVTranslate("the party now holds a total of %u drune.", // singular
                             "the party now holds a total of %u drunes.", // plural
                             GlobalManager->GetDrunes());
 
-            // Plural gettext for the 2nd sentence.
             _detail_textbox.SetDisplayText(
+                // %s will be replaced with "the party now holds a total of %u drune(s)."
                 NVTranslate("With the additional %u drune found in this treasure added, %s.", // sinlgular
                             "With the additional %u drunes found in this treasure added, %s.", // plural
                             _treasure->_drunes,
