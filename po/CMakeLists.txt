@@ -64,14 +64,11 @@ MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
 
    ADD_CUSTOM_TARGET(
       update-pot
-      # Standard keywords
-      COMMAND xgettext -c/ -C --files-from=translatable-files --directory=. --output=${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --from-code=UTF-8
-      # Contextual translation keywords
-      COMMAND xgettext -c/ -C --files-from=translatable-files -j --directory=. --output=${_potFile} -d valyriatear --keyword=CTranslate --keyword=CUTranslate --from-code=UTF-8
-      # C-formatted translation keywords
-      COMMAND xgettext -c/ -C --files-from=translatable-files -j --directory=. --output=${_potFile} -d valyriatear --keyword=VTranslate:1 --from-code=UTF-8
+      # Strings from C++
+      COMMAND xgettext -C --files-from=translatable-files --directory=. --output=${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments --from-code=UTF-8
+      # Strings from Lua
       COMMAND bash create_map_names_translatable_strings.sh
-      COMMAND xgettext -c/ -C --directory=. -j --output=${_potFile} -d valyriatear --keyword=Translate --from-code=UTF-8  map_names_tr.lua
+      COMMAND xgettext -C --directory=. -j --output=${_potFile} -d valyriatear --keyword=Translate --add-comments --from-code=UTF-8  map_names_tr.lua
 
       # The pot file is ready - We can remove the temp files
       COMMAND rm -f translatable-files
