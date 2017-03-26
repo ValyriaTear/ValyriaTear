@@ -460,7 +460,7 @@ void PartyState::Reset()
 {
     // Setup the status option box
     SetupOptionBoxCommonSettings(&_options);
-    _options.SetDimensions(550.0f, 50.0f, PARTY_OPTIONS_SIZE, 1, PARTY_OPTIONS_SIZE, 1);
+    _options.SetDimensions(700.0f, 50.0f, PARTY_OPTIONS_SIZE, 1, PARTY_OPTIONS_SIZE, 1);
 
     // Generate the strings
     std::vector<ustring> options;
