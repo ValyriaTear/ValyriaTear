@@ -209,6 +209,17 @@ void BindEngineCode()
             luabind::def("VTranslate", (std::string(*)(const std::string&, int32_t)) &vt_system::VTranslate),
             luabind::def("VTranslate", (std::string(*)(const std::string&, float)) &vt_system::VTranslate),
             luabind::def("VTranslate", (std::string(*)(const std::string&, const std::string&)) &vt_system::VTranslate),
+            luabind::def("NVTranslate", (std::string(*)
+                                        (const std::string&,
+                                         const std::string&,
+                                         uint32_t))
+                                        &vt_system::NVTranslate),
+            luabind::def("NVTranslate", (std::string(*)
+                                        (const std::string&,
+                                         const std::string&,
+                                         uint32_t,
+                                         const std::string&))
+                                        &vt_system::NVTranslate),
 
             luabind::class_<SystemTimer>("SystemTimer")
             .def(luabind::constructor<>())
