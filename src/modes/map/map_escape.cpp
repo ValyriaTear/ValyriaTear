@@ -16,6 +16,8 @@
 #include "modes/map/map_escape.h"
 #include "modes/map/map_mode.h"
 
+#include "engine/audio/audio.h"
+
 #include "engine/input.h"
 #include "engine/system.h"
 #include "engine/video/video.h"
@@ -161,6 +163,7 @@ void EscapeSupervisor::Cancel()
 void EscapeSupervisor::Finish()
 {
     // Escape to given map coordinates.
+    vt_audio::AudioManager->PlaySound("data/sounds/warp.ogg");
     vt_global::GlobalManager->SetPreviousLocation(std::string());
     MapMode* MM = new MapMode(_map_location.GetMapDataFilename(),
                               _map_location.GetMapScriptFilename(),

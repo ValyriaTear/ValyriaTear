@@ -561,8 +561,7 @@ EscapePoint::EscapePoint(float x, float y):
     SetImgPixelHeight(_animation->GetHeight() / MAP_ZOOM_RATIO);
 
     // Preload the escape active sound
-    // TODO: Add escape point specific sound
-    AudioManager->LoadSound("data/sounds/save_point_activated_dokashiteru_oga.wav", map_mode);
+    AudioManager->LoadSound("data/sounds/escape_activate.ogg", map_mode);
 
     // The escape point is going along with two particle objects used to show
     // whether the player is in or out the save point
@@ -607,7 +606,7 @@ void EscapePoint::SetActive(bool active)
 
         // Play a sound when the save point become active
         if(!_is_active)
-            AudioManager->PlaySound("data/sounds/save_point_activated_dokashiteru_oga.wav");
+            AudioManager->PlaySound("data/sounds/escape_activate.ogg");
     } else {
         _animation = &MapMode::CurrentInstance()->inactive_escape_point_anim;
         _active_particle_object->Stop();

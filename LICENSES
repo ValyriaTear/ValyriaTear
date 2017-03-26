@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2017.03.18
+Last update: 2017.03.26
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -771,6 +771,8 @@ data/sounds/door_close.wav                                                    GP
 data/sounds/cancel.wav                                                        GPLv2+                   Allacrost
 data/sounds/female_scream.ogg                                                 GPLv2+                   Allacrost
 data/sounds/swordslice3.wav                                                   GPLv2+                   Allacrost
+data/sounds/escape_activate.ogg                                               CC by SA 3.0             p0ss (OGA) - http://opengameart.org/content/spell-sounds-starter-pack
+data/sounds/warp.ogg                                                          CC by SA 3.0             p0ss (OGA) - http://opengameart.org/content/spell-sounds-starter-pack
 
 data/story/common/locations/layna_forest.png                                  CC by SA 3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) + Bertram's modifications.
 data/story/common/locations/mt_elbrus.png                                     GPLv2                    JAP (OGA)
