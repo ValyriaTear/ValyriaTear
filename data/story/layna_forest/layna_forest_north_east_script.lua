@@ -84,6 +84,9 @@ function _CreateObjects()
     local npc = nil
     local event = nil
 
+    -- Escape point before the wolf event
+    vt_map.EscapePoint.Create(71, 8);
+
     -- The boss map sprite
     wolf = CreateSprite(Map, "Fenrir", 104, 3, vt_map.MapMode.GROUND_OBJECT); -- pre place it at the right place.
     wolf:SetCollisionMask(vt_map.MapMode.NO_COLLISION);

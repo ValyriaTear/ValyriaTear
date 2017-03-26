@@ -8,6 +8,7 @@ setfenv(1, ns);
 map_name = "Layna Forest"
 map_image_filename = "data/story/common/locations/layna_forest.png"
 map_subname = "Forest entrance"
+is_home_map = true
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.

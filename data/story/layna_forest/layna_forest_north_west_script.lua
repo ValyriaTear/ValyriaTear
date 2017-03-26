@@ -117,6 +117,8 @@ function _CreateObjects()
     local npc = nil
     local event = nil
 
+    vt_map.EscapePoint.Create(22, 35);
+
     -- Only add the squirrels and butterflies when the night isn't about to happen
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
 
