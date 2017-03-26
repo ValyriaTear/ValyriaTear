@@ -1046,7 +1046,7 @@ ShopMode::ShopMode(const std::string& shop_id) :
     _middle_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _middle_window.Show();
 
-    _bottom_window.Create(800.0f, 160.0f, ~VIDEO_MENU_EDGE_TOP);
+    _bottom_window.Create(800.0f, 200.0f, ~VIDEO_MENU_EDGE_TOP);
     _bottom_window.SetPosition(112.0f, 544.0f);
     _bottom_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _bottom_window.Show();
