@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
@@ -93,7 +93,8 @@ public:
     *** \param sheet_type The type of texture data that the texture sheet should hold
     *** \param sheet_static Whether the sheet should be labeled static or not
     **/
-    TexSheet(uint32_t sheet_width, uint32_t sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static);
+    TexSheet(uint32_t sheet_width, uint32_t sheet_height, GLuint sheet_id,
+             TexSheetType sheet_type, bool sheet_static);
     virtual ~TexSheet();
 
     // ---------- Public methods
@@ -284,7 +285,9 @@ public:
     *** \note The block_width and block_height parameters must evenly divide into the sheet_width and
     *** sheet_height parameters. Otherwise the constructor will throw an exception
     **/
-    FixedTexSheet(int32_t sheet_width, int32_t sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static, int32_t img_width, int32_t img_height);
+    FixedTexSheet(int32_t sheet_width, int32_t sheet_height, GLuint sheet_id,
+                  TexSheetType sheet_type, bool sheet_static,
+                  int32_t img_width, int32_t img_height);
     virtual ~FixedTexSheet();
 
     //! \name Methods inherited from TexSheet
@@ -373,7 +376,8 @@ public:
     *** \param sheet_type The type of texture data that the texture sheet should hold
     *** \param sheet_static Whether the sheet should be labeled static or not
     **/
-    VariableTexSheet(int32_t sheet_width, int32_t sheet_height, GLuint sheet_id, TexSheetType sheet_type, bool sheet_static);
+    VariableTexSheet(int32_t sheet_width, int32_t sheet_height, GLuint sheet_id,
+                     TexSheetType sheet_type, bool sheet_static);
     virtual ~VariableTexSheet();
 
     //! \name Methods inherited from TexSheet
