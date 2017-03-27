@@ -12,15 +12,7 @@
 #define __MAP_EVENT_SUPERVISOR_HEADER__
 
 #include "modes/map/map_events.h"
-/*
-#include "modes/map/map_treasure_supervisor.h"
-#include "modes/map/map_treasure_content.h"
-#include "modes/shop/shop_utils.h"
 
-#include "engine/audio/audio_descriptor.h"
-
-#include "engine/script/script.h"
-*/
 namespace vt_map
 {
 

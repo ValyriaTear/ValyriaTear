@@ -8,26 +8,13 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "utils/utils_pch.h"
 #include "modes/map/map_objects/map_object.h"
 
-#include "modes/map/map_mode.h"
-#include "modes/map/map_sprites.h"
-#include "modes/map/map_events.h"
+#include "modes/map/map_object_supervisor.h"
 
+#include "engine/system.h"
+#include "engine/video/video.h"
 #include "common/global/global.h"
-
-#include "engine/video/particle_effect.h"
-#include "engine/audio/audio.h"
-
-#include "utils/utils_random.h"
-
-using namespace vt_utils;
-using namespace vt_audio;
-using namespace vt_script;
-using namespace vt_system;
-using namespace vt_video;
-using namespace vt_global;
 
 namespace vt_map
 {
@@ -95,7 +82,7 @@ bool MapObject::ShouldDraw()
     float x_pos = MM->GetScreenXCoordinate(GetXPosition());
     float y_pos = MM->GetScreenYCoordinate(GetYPosition());
 
-    VideoManager->Move(x_pos, y_pos);
+    vt_video::VideoManager->Move(x_pos, y_pos);
 
     return true;
 }
@@ -168,7 +155,7 @@ MapRectangle MapObject::GetGridImageRectangle() const
 
 void MapObject::Emote(const std::string &emote_name, vt_map::private_map::ANIM_DIRECTIONS dir)
 {
-    _emote_animation = GlobalManager->GetEmoteAnimation(emote_name);
+    _emote_animation = vt_global::GlobalManager->GetEmoteAnimation(emote_name);
 
     if(!_emote_animation) {
         PRINT_WARNING << "Invalid emote requested: " << emote_name << " for map object: "
@@ -177,7 +164,10 @@ void MapObject::Emote(const std::string &emote_name, vt_map::private_map::ANIM_D
     }
 
     // Make the offset depend on the sprite direction and emote animation.
-    GlobalManager->GetEmoteOffset(_emote_screen_offset_x, _emote_screen_offset_y, emote_name, dir);
+    vt_global::GlobalManager->GetEmoteOffset(_emote_screen_offset_x,
+                                             _emote_screen_offset_y,
+                                             emote_name,
+                                             dir);
     // Scale the offsets for the map mode
     _emote_screen_offset_x = _emote_screen_offset_x * MAP_ZOOM_RATIO;
     _emote_screen_offset_y = _emote_screen_offset_y * MAP_ZOOM_RATIO;
@@ -191,7 +181,7 @@ void MapObject::_UpdateEmote()
     if(!_emote_animation)
         return;
 
-    _emote_time -= SystemManager->GetUpdateTime();
+    _emote_time -= vt_system::SystemManager->GetUpdateTime();
 
     // Once the animation has reached its end, we dereference it
     if(_emote_time <= 0) {
@@ -209,7 +199,8 @@ void MapObject::_DrawEmote()
         return;
 
     // Move the emote to the sprite head top, where the offset should applied from.
-    VideoManager->MoveRelative(_emote_screen_offset_x, -_img_screen_height + _emote_screen_offset_y);
+    vt_video::VideoManager->MoveRelative(_emote_screen_offset_x,
+                                         -_img_screen_height + _emote_screen_offset_y);
     _emote_animation->Draw();
 }
 
@@ -232,14 +223,14 @@ void MapObject::DrawInteractionIcon()
         return;
 
     MapMode* map_mode = MapMode::CurrentInstance();
-    Color icon_color(1.0f, 1.0f, 1.0f, 0.0f);
+    vt_video::Color icon_color(1.0f, 1.0f, 1.0f, 0.0f);
     float icon_alpha = 1.0f - (fabs(GetXPosition() - map_mode->GetCamera()->GetXPosition())
                             + fabs(GetYPosition() - map_mode->GetCamera()->GetYPosition())) / INTERACTION_ICON_VISIBLE_RANGE;
     if (icon_alpha < 0.0f)
         icon_alpha = 0.0f;
     icon_color.SetAlpha(icon_alpha);
 
-    VideoManager->MoveRelative(0, -GetImgScreenHeight());
+    vt_video::VideoManager->MoveRelative(0, -GetImgScreenHeight());
     _interaction_icon->Draw(icon_color);
 }
 
