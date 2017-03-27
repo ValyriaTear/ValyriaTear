@@ -31,6 +31,8 @@
 
 #include "common/global/global_actors.h"
 
+#include "modes/battle/battle_enemy_info.h"
+
 namespace vt_common
 {
 class DialogueSupervisor;
@@ -82,35 +84,6 @@ const float BATTLE_WAIT_FACTOR          = 3.0f;
 const float BATTLE_SEMI_ACTIVE_FACTOR   = 1.5f;
 const float BATTLE_ACTIVE_FACTOR        = 1.0f;
 //@}
-
-//! \brief A simple structure keeping the enemy info to later permit to reinsert
-//! it as it was first requested, on battles restarts.
-struct BattleEnemyInfo {
-    BattleEnemyInfo():
-        id(0),
-        pos_x(0.0f),
-        pos_y(0.0f)
-    {}
-
-    BattleEnemyInfo(uint32_t _id):
-        id(_id),
-        pos_x(0.0f),
-        pos_y(0.0f)
-    {}
-
-    BattleEnemyInfo(uint32_t _id, float x, float y):
-        id(_id),
-        pos_x(x),
-        pos_y(y)
-    {}
-
-    //! \brief the battle enemy id
-    uint32_t id;
-    //! \brief The x enemy position on the battle field, or 0 if default one.
-    float pos_x;
-    //! \brief The y enemy position on the battle field, or 0 if default one.
-    float pos_y;
-};
 
 } // namespace private_battle
 
@@ -418,7 +391,7 @@ private:
 
     //! \brief A copy of the enemy actors id at the beginning of the battle. Useful when restarting the battle,
     //! as the number of enemies might have changed.
-    std::deque<private_battle::BattleEnemyInfo> _initial_enemy_actors_info;
+    std::deque<BattleEnemyInfo> _initial_enemy_actors_info;
 
     /** \brief The effects container.
     *** It will permit to draw particle effects and animations in the right order,

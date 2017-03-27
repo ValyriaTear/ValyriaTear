@@ -16,7 +16,7 @@
 #include "utils/utils_pch.h"
 #include "modes/map/map_minimap.h"
 
-#include "modes/map/map_objects.h"
+#include "modes/map/map_object_supervisor.h"
 #include "modes/map/map_sprites.h"
 
 #include "engine/video/video.h"

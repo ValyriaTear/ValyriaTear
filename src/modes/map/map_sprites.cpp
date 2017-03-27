@@ -18,7 +18,9 @@
 #include "utils/utils_pch.h"
 #include "modes/map/map_sprites.h"
 
-#include "modes/map/map_events.h"
+#include "modes/map/map_objects/map_physical_object.h"
+
+#include "modes/map/map_event_supervisor.h"
 
 #include "modes/battle/battle.h"
 #include "common/global/global.h"
@@ -1349,6 +1351,11 @@ void EnemySprite::Update()
         break;
     }
 } // void EnemySprite::Update()
+
+void EnemySprite::ChangeStateDead() {
+    Reset();
+    if(_zone) _zone->EnemyDead();
+}
 
 void EnemySprite::_HandleHostileUpdate()
 {

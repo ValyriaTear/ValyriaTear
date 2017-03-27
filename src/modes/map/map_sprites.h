@@ -21,6 +21,8 @@
 #include "modes/map/map_dialogue.h"
 #include "modes/map/map_zones.h"
 
+#include "modes/battle/battle_enemy_info.h"
+
 namespace vt_map
 {
 
@@ -28,6 +30,7 @@ namespace private_map
 {
 
 class SpriteEvent;
+class EnemyZone;
 
 //! Standard time values for spawning enemies on a map. All values are in number of milliseconds.
 //@{
@@ -511,28 +514,6 @@ protected:
     void _DrawDebugInfo();
 }; // class MapSprite : public VirtualSprite
 
-//! \brief Data used to load an place enemies on battle grounds
-struct BattleEnemyInfo {
-    BattleEnemyInfo():
-        enemy_id(0),
-        position_x(0.0f),
-        position_y(0.0f)
-    {}
-
-    BattleEnemyInfo(uint32_t id, float x, float y):
-        enemy_id(id),
-        position_x(x),
-        position_y(y)
-    {}
-
-    //! \brief  The enemy id see in enemies.lua
-    uint32_t enemy_id;
-
-    //! \brief The enemy position in the battle ground, in pixels.
-    float position_x;
-    float position_y;
-};
-
 /** ****************************************************************************
 *** \brief A mobile map object that induces a battle to occur if the player touches it
 ***
@@ -582,7 +563,7 @@ public:
     *** \note Make sure to populate this vector by adding at least one enemy!
     **/
     void NewEnemyParty() {
-        _enemy_parties.push_back(std::vector<BattleEnemyInfo>());
+        _enemy_parties.push_back(std::vector<vt_battle::BattleEnemyInfo>());
     }
 
     /** \brief Adds an enemy with the specified ID to the last party in _enemy_parties
@@ -598,7 +579,7 @@ public:
     }
 
     //! \brief Returns a reference to a random party of enemies
-    const std::vector<BattleEnemyInfo>& RetrieveRandomParty() const;
+    const std::vector<vt_battle::BattleEnemyInfo>& RetrieveRandomParty() const;
 
     //! \brief Returns the enemy's encounter event id.
     //! If this event is not empty, it is triggered instead of a battle,
@@ -690,10 +671,7 @@ public:
         _script_files.push_back(script_file);
     }
 
-    void ChangeStateDead() {
-        Reset();
-        if(_zone) _zone->EnemyDead();
-    }
+    void ChangeStateDead();
 
     void ChangeStateSpawning() {
         _updatable = true;
@@ -749,7 +727,7 @@ private:
     /** \brief Contains the possible groups of enemies that may appear in a battle should the player encounter this enemy sprite
     *** The numbers contained within this member are ID numbers for the enemy.
     **/
-    std::vector<std::vector<BattleEnemyInfo> > _enemy_parties;
+    std::vector<std::vector<vt_battle::BattleEnemyInfo> > _enemy_parties;
 
     //! \brief The enemy's encounter event.
     //! If this event is not empty, it is triggered instead of a battle.

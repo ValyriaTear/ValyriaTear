@@ -19,7 +19,7 @@
 #define __MAP_ZONES_HEADER__
 
 #include "modes/map/map_mode.h"
-#include "modes/map/map_objects.h"
+#include "modes/map/map_object_supervisor.h"
 
 namespace vt_map
 {

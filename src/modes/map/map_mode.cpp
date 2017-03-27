@@ -20,8 +20,13 @@
 
 #include "modes/map/map_dialogue.h"
 #include "modes/map/map_escape.h"
-#include "modes/map/map_events.h"
-#include "modes/map/map_objects.h"
+#include "modes/map/map_event_supervisor.h"
+
+#include "modes/map/map_object_supervisor.h"
+#include "modes/map/map_objects/map_object.h"
+#include "modes/map/map_objects/map_physical_object.h"
+#include "modes/map/map_objects/map_treasure.h"
+
 #include "modes/map/map_sprites.h"
 #include "modes/map/map_tiles.h"
 
@@ -936,10 +941,10 @@ void MapMode::StartEnemyEncounter(EnemySprite* enemy,
     if(!enemy_battle_music.empty())
         battle_media.SetBattleMusic(enemy_battle_music);
 
-    const std::vector<BattleEnemyInfo>& enemy_party =
+    const std::vector<vt_battle::BattleEnemyInfo>& enemy_party =
         enemy->RetrieveRandomParty();
     for(uint32_t i = 0; i < enemy_party.size(); ++i) {
-        BattleEnemyInfo current_enemy = enemy_party[i];
+        vt_battle::BattleEnemyInfo current_enemy = enemy_party[i];
         BM->AddEnemy(current_enemy.enemy_id,
                      current_enemy.position_x,
                      current_enemy.position_y);

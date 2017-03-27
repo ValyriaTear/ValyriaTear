@@ -15,11 +15,12 @@
 *** \brief   Source file for map mode treasures.
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
-#include "modes/map/map_treasure.h"
+#include "modes/map/map_treasure_supervisor.h"
 
 #include "modes/map/map_mode.h"
-#include "modes/map/map_objects.h"
+#include "modes/map/map_treasure_content.h"
+#include "modes/map/map_object_supervisor.h"
+#include "modes/map/map_objects/map_treasure.h"
 
 #include "modes/menu/menu.h"
 
@@ -42,32 +43,6 @@ namespace vt_map
 
 namespace private_map
 {
-
-// -----------------------------------------------------------------------------
-// ---------- MapTreasure Class Functions
-// -----------------------------------------------------------------------------
-
-MapTreasure::MapTreasure() :
-    _taken(false),
-    _drunes(0)
-{
-}
-
-bool MapTreasure::AddItem(uint32_t id, uint32_t quantity)
-{
-    std::shared_ptr<vt_global::GlobalObject> obj = GlobalCreateNewObject(id, quantity);
-    if (obj == nullptr) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "invalid object id argument passed to function: " << id << std::endl;
-        return false;
-    }
-
-    _items_list.push_back(obj);
-    return true;
-}
-
-// -----------------------------------------------------------------------------
-// ---------- TreasureSupervisor class methods
-// -----------------------------------------------------------------------------
 
 TreasureSupervisor::TreasureSupervisor() :
     _treasure(nullptr),
@@ -118,7 +93,7 @@ TreasureSupervisor::TreasureSupervisor() :
     _detail_textbox.SetOwner(&_list_window);
 
     _selection_name.SetStyle(TextStyle("text22", Color::white, VIDEO_TEXT_SHADOW_DARK, 1, -2));
-} // TreasureSupervisor::TreasureSupervisor()
+}
 
 TreasureSupervisor::~TreasureSupervisor()
 {
@@ -126,7 +101,7 @@ TreasureSupervisor::~TreasureSupervisor()
     _list_window.Destroy();
 }
 
-void TreasureSupervisor::Initialize(TreasureObject *map_object)
+void TreasureSupervisor::Initialize(TreasureObject* map_object)
 {
     if(map_object == nullptr) {
         IF_PRINT_WARNING(MAP_DEBUG) << "function argument was nullptr" << std::endl;
@@ -136,7 +111,7 @@ void TreasureSupervisor::Initialize(TreasureObject *map_object)
     Initialize(map_object->GetTreasure());
 }
 
-void TreasureSupervisor::Initialize(MapTreasure *treasure)
+void TreasureSupervisor::Initialize(MapTreasureContent* treasure)
 {
     if(!treasure) {
         IF_PRINT_WARNING(MAP_DEBUG) << "function argument was nullptr" << std::endl;
