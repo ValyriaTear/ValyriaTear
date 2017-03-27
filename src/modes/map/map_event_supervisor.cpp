@@ -9,23 +9,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "modes/map/map_event_supervisor.h"
-#include "modes/map/map_events.h"
 
 #include "modes/map/map_mode.h"
-
 #include "modes/map/map_sprites.h"
 
-#include "modes/shop/shop.h"
-#include "modes/battle/battle.h"
-
-using namespace vt_audio;
-using namespace vt_mode_manager;
-using namespace vt_script;
-using namespace vt_system;
-using namespace vt_video;
-
-using namespace vt_battle;
-using namespace vt_shop;
+#include "engine/system.h"
 
 namespace vt_map
 {
@@ -432,7 +420,7 @@ void EventSupervisor::Update()
     // Update all launch event timers and start all events whose timers have finished
     for(std::vector<std::pair<int32_t, MapEvent *> >::iterator it = _active_delayed_events.begin();
             it != _active_delayed_events.end();) {
-        it->first -= SystemManager->GetUpdateTime();
+        it->first -= vt_system::SystemManager->GetUpdateTime();
 
         if(it->first <= 0) {  // Timer has expired
             MapEvent *start_event = it->second;
