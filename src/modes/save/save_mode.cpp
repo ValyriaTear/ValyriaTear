@@ -775,9 +775,12 @@ void SmallCharacterWindow::SetCharacter(GlobalCharacter* character)
     _character_name.SetText(_character->GetName(), TextStyle("title22"));
 
     // And the rest of the data
+    /// tr: level
     ustring char_data = UTranslate("Lv: ") + MakeUnicodeString(NumberToString(_character->GetExperienceLevel()) + "\n");
+    /// tr: hit points
     char_data += UTranslate("HP: ") + MakeUnicodeString(NumberToString(_character->GetHitPoints()) +
                                " / " + NumberToString(_character->GetMaxHitPoints()) + "\n");
+    /// tr: skill points
     char_data += UTranslate("SP: ") + MakeUnicodeString(NumberToString(_character->GetSkillPoints()) +
                                " / " + NumberToString(_character->GetMaxSkillPoints()));
 

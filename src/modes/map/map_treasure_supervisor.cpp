@@ -295,13 +295,13 @@ void TreasureSupervisor::_UpdateList()
             _selection_icon = GlobalManager->Media().GetDrunesIcon();
 
             const std::string temp_string =
-                // Part 2 of "With the additional %u drune(s) found in this treasure added, ... "
+                /// tr: Part 2 of "With the additional %u drune(s) found in this treasure added, ... "
                 NVTranslate("the party now holds a total of %u drune.", // singular
                             "the party now holds a total of %u drunes.", // plural
                             GlobalManager->GetDrunes());
 
             _detail_textbox.SetDisplayText(
-                // %s will be replaced with "the party now holds a total of %u drune(s)."
+                /// tr: %s will be replaced with "the party now holds a total of %u drune(s)."
                 NVTranslate("With the additional %u drune found in this treasure added, %s.", // sinlgular
                             "With the additional %u drunes found in this treasure added, %s.", // plural
                             _treasure->_drunes,

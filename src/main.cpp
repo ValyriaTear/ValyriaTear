@@ -538,7 +538,7 @@ int main(int argc, char* argv[])
     VideoManager->ApplySettings();
 
     // Now the settings are loaded, let's set the windows translated title.
-    /// Translators: The window title only supports UTF-8 characters in SDL2.
+    /// tr: The window title only supports UTF-8 characters in SDL2.
     std::string app_fullname = vt_system::Translate("Valyria Tear");
     SDL_SetWindowTitle(sdl_window, app_fullname.c_str());
 

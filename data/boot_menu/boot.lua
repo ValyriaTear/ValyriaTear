@@ -48,8 +48,8 @@ function Initialize(boot_instance)
     satellite_shadow_image:SetDimensions(48.0, 32.0);
     flare_image = Script:CreateImage("data/boot_menu/ep1/flare.png");
 
-    -- /// Translators: The logo file path here can be overidden to an image of the logo made for your country language.
-    -- /// Leave the same value if you don't plan to change this image.
+    -- /// tr: The logo file path here can be overidden to an image of the logo made for your country language.
+    -- /// tr: Leave the same value if you don't plan to change this image.
     local logo_filepath = vt_system.Translate("data/boot_menu/valyria_logo.png");
     logo_image = Script:CreateImage(logo_filepath);
 
