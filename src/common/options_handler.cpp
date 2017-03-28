@@ -365,7 +365,7 @@ void GameOptionsMenuHandler::ReloadTranslatableMenus()
     // Reset the window title
     SDL_Window* sdl_window = VideoManager->GetWindowHandle();
     if (sdl_window) {
-        /// Translators: The window title only supports UTF-8 characters in SDL2.
+        /// tr: The window title only supports UTF-8 characters in SDL2.
         std::string AppFullName = vt_system::Translate("Valyria Tear");
         SDL_SetWindowTitle(sdl_window, AppFullName.c_str());
     }
@@ -691,7 +691,7 @@ void GameOptionsMenuHandler::_RefreshVideoOptions()
     // Update the Vsync mode
     std::string vsync_str;
     bool update_mode_enabled = true;
-    /// Translators: Do not translate the part before the '|'.
+    /// tr: Do not translate the part before the '|'.
     /// It is used for contextual translation support.
     switch(VideoManager->GetVSyncMode()) {
     default:
@@ -713,7 +713,7 @@ void GameOptionsMenuHandler::_RefreshVideoOptions()
     // The VSync method will auto limit the framerate.
     if (update_mode_enabled) {
         std::string update_mode_str;
-        /// Translators: Do not translate the part before the '|'.
+        /// tr: Do not translate the part before the '|'.
         /// It is used for contextual translation support.
         if (VideoManager->GetGameUpdateMode())
             update_mode_str = CTranslate("UpdateMode|Performance");

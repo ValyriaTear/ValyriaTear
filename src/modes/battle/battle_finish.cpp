@@ -785,7 +785,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
                 _growth_list[i].AddOptionElementImage(line, media.GetStatusIcon(vt_global::GLOBAL_STATUS_EVADE,
                                                                                 vt_global::GLOBAL_INTENSITY_NEUTRAL));
                 _growth_list[i].AddOptionElementPosition(line, 32);
-                /// TRANSLATORS: This is the evade growth score. E.g.: +1%, +1.5%
+                /// tr: This is the evade growth score. E.g.: +1%, +1.5%
                 _growth_list[i].AddOptionElementText(line, MakeUnicodeString(VTranslate("+%f%%", NumberToString(_character_growths[i].evade))));
                 line = line + 2;
             }

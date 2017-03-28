@@ -66,11 +66,13 @@ void CharacterWindow::SetCharacter(vt_global::GlobalCharacter* character)
     _character_name.SetText(character->GetName(), TextStyle("title22"));
 
     // And the rest of the data
+    /// tr: level
     ustring char_data = UTranslate("Lv: ") + MakeUnicodeString(NumberToString(character->GetExperienceLevel()) + "\n");
     char_data += MakeUnicodeString("      " + NumberToString(character->GetHitPoints()) +
                  " / " + NumberToString(character->GetMaxHitPoints()) + "\n");
     char_data += MakeUnicodeString("      " + NumberToString(character->GetSkillPoints()) +
                  " / " + NumberToString(character->GetMaxSkillPoints()) + "\n");
+    /// tr: experience points
     char_data += UTranslate("XP to Next: ") + MakeUnicodeString(NumberToString(character->GetExperienceForNextLevel()));
 
     _character_data.SetText(char_data, TextStyle("text20"));
