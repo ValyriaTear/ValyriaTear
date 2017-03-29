@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[valyria-tear.valyriatearpot]
+file_filter = po/<lang>.po
+source_file = po/valyriatear.pot
+source_lang = en
+type = PO
