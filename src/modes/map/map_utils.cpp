@@ -9,10 +9,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
-*** \file    map_utils.cpp
 *** \author  Tyler Olsen, roots@allacrost.org
 *** \author  Yohann Ferreira, yohann ferreira orange fr
-*** \brief   Source file for map mode utility code
 *** ***************************************************************************/
 
 #include "utils/utils_pch.h"
@@ -33,6 +31,40 @@ bool MapRectangle::CheckIntersection(const MapRectangle& first,
              first.right  < second.left   ||
              first.top    > second.bottom ||
              first.bottom < second.top);
+}
+
+uint16_t GetOppositeDirection(const uint16_t direction)
+{
+    switch(direction) {
+    case NORTH:
+        return SOUTH;
+    case SOUTH:
+        return NORTH;
+    case WEST:
+        return EAST;
+    case EAST:
+        return WEST;
+    case NW_NORTH:
+        return SE_SOUTH;
+    case NW_WEST:
+        return SE_EAST;
+    case NE_NORTH:
+        return SW_SOUTH;
+    case NE_EAST:
+        return SW_WEST;
+    case SW_SOUTH:
+        return NE_NORTH;
+    case SW_WEST:
+        return NE_EAST;
+    case SE_SOUTH:
+        return NW_NORTH;
+    case SE_EAST:
+        return NW_WEST;
+    default:
+        IF_PRINT_WARNING(MAP_DEBUG) << "invalid direction argument: "
+                                    << direction << std::endl;
+        return SOUTH;
+    }
 }
 
 } // namespace private_map

@@ -23,12 +23,6 @@ namespace private_map
 
 class SpriteDialogue;
 
-/** \brief Returns the opposite facing direction of the direction given in parameter.
-*** \return A direction that faces opposite to the argument direction
-*** \note This is mostly used as an helper function to make sprites face each other in a conversation.
-**/
-uint16_t CalculateOppositeDirection(const uint16_t direction);
-
 /** ****************************************************************************
 *** \brief A mobile map object with which the player can interact with.
 ***

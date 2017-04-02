@@ -222,6 +222,12 @@ const uint32_t MAX_DIALOGUE_OPTIONS = 5;
 //! \brief The number of milliseconds to take to fade out the map
 const uint32_t MAP_FADE_OUT_TIME = 800;
 
+/** \brief Returns the opposite facing direction of the direction given in parameter.
+*** \return A direction that faces opposite to the argument direction
+*** \note This is mostly used as an helper function to make sprites face each other in a conversation.
+**/
+uint16_t GetOppositeDirection(const uint16_t direction);
+
 /** ****************************************************************************
 *** \brief Represents a rectangular section of a map
 ***
