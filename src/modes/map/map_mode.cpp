@@ -27,7 +27,8 @@
 #include "modes/map/map_objects/map_physical_object.h"
 #include "modes/map/map_objects/map_treasure.h"
 
-#include "modes/map/map_sprites.h"
+#include "modes/map/map_sprites/map_enemy_sprite.h"
+#include "modes/map/map_zones.h"
 #include "modes/map/map_tiles.h"
 
 #include "modes/map/map_location.h"

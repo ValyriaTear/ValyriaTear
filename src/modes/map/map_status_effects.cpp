@@ -17,7 +17,6 @@
 #include "modes/map/map_status_effects.h"
 
 #include "modes/map/map_mode.h"
-#include "modes/map/map_sprites.h"
 
 #include "engine/script/script_read.h"
 #include "common/global/global.h"

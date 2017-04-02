@@ -16,10 +16,6 @@
 *** \brief   Header file for video utils constants.
 ***
 *** Provides the default constants used for the Video component.
-***
-*** \note This code uses the OpenGL library for graphics rendering.
-*** \note This code uses the SDL_Image library to load images.
-*** \note This code uses the SDL_ttf 2.0 library for font rendering.
 *** ***************************************************************************/
 
 #ifndef __VIDEO_UTILS_HEADER__

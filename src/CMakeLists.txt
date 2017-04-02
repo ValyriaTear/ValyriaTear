@@ -347,7 +347,9 @@ modes/map/map_escape.cpp
 modes/map/map_events.cpp
 modes/map/map_event_supervisor.cpp
 modes/map/map_tiles.cpp
-modes/map/map_sprites.cpp
+modes/map/map_sprites/map_sprite.cpp
+modes/map/map_sprites/map_virtual_sprite.cpp
+modes/map/map_sprites/map_enemy_sprite.cpp
 modes/map/map_treasure_supervisor.cpp
 modes/map/map_treasure_content.cpp
 modes/map/map_zones.cpp

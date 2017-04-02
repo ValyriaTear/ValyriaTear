@@ -10,8 +10,9 @@
 
 #include "modes/map/map_objects/map_trigger.h"
 
-#include "modes/map/map_sprites.h"
+#include "modes/map/map_mode.h"
 #include "modes/map/map_event_supervisor.h"
+#include "modes/map/map_sprites/map_virtual_sprite.h"
 
 #include "common/global/global.h"
 

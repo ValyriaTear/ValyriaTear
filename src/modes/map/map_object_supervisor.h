@@ -12,7 +12,6 @@
 #define __MAP_OBJECT_SUPERVISOR_HEADER__
 
 #include "modes/map/map_objects/map_object.h"
-#include "modes/map/map_sprites.h"
 
 #include "engine/script/script_read.h"
 

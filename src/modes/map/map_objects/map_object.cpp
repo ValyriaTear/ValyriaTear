@@ -10,7 +10,9 @@
 
 #include "modes/map/map_objects/map_object.h"
 
+#include "modes/map/map_mode.h"
 #include "modes/map/map_object_supervisor.h"
+#include "modes/map/map_sprites/map_virtual_sprite.h"
 
 #include "engine/system.h"
 #include "engine/video/video.h"

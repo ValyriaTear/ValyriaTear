@@ -49,7 +49,7 @@
 #include "modes/map/map_objects/map_sound.h"
 #include "modes/map/map_objects/map_treasure.h"
 #include "modes/map/map_objects/map_trigger.h"
-#include "modes/map/map_sprites.h"
+#include "modes/map/map_sprites/map_enemy_sprite.h"
 #include "modes/map/map_treasure_supervisor.h"
 #include "modes/map/map_utils.h"
 #include "modes/map/map_zones.h"

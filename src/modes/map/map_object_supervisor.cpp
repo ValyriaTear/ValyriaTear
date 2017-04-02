@@ -19,6 +19,9 @@
 #include "modes/map/map_objects/map_sound.h"
 #include "modes/map/map_objects/map_treasure.h"
 
+#include "modes/map/map_sprites/map_enemy_sprite.h"
+#include "modes/map/map_zones.h"
+
 #include "common/global/global.h"
 
 #include "utils/utils_numeric.h"

@@ -8,6 +8,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "modes/map/map_objects/map_halo.h"
+
+#include "modes/map/map_mode.h"
 #include "modes/map/map_object_supervisor.h"
 
 #include "engine/video/video.h"

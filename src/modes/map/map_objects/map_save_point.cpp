@@ -10,6 +10,7 @@
 #include "modes/map/map_objects/map_save_point.h"
 
 #include "modes/map/map_objects/map_particle.h"
+#include "modes/map/map_mode.h"
 #include "modes/map/map_object_supervisor.h"
 
 #include "engine/audio/audio.h"

@@ -7,17 +7,12 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-/** ****************************************************************************
-*** \file    minimap.cpp
-*** \author  TNik N (IkarusDowned) nihonnik@gmail.com
-*** \brief   Source file for the minimaps.
-*** ***************************************************************************/
-
-#include "utils/utils_pch.h"
 #include "modes/map/map_minimap.h"
 
+#include "modes/map/map_mode.h"
+
 #include "modes/map/map_object_supervisor.h"
-#include "modes/map/map_sprites.h"
+#include "modes/map/map_sprites/map_virtual_sprite.h"
 
 #include "engine/video/video.h"
 #include "common/gui/menu_window.h"

@@ -18,7 +18,7 @@
 #include "utils/utils_pch.h"
 #include "modes/map/map_zones.h"
 
-#include "modes/map/map_sprites.h"
+#include "modes/map/map_sprites/map_enemy_sprite.h"
 
 #include "utils/utils_random.h"
 
