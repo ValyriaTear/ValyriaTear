@@ -330,7 +330,9 @@ modes/battle/battle_sequence.cpp
 modes/boot/boot.cpp
 modes/save/save_mode.cpp
 modes/map/map_mode.cpp
-modes/map/map_dialogue.cpp
+modes/map/map_dialogue_supervisor.cpp
+modes/map/map_dialogues/map_dialogue_options.cpp
+modes/map/map_dialogues/map_sprite_dialogue.cpp
 modes/map/map_utils.cpp
 modes/map/map_object_supervisor.cpp
 modes/map/map_objects/map_object.cpp

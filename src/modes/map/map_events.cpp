@@ -17,9 +17,11 @@
 
 #include "utils/utils_pch.h"
 #include "modes/map/map_events.h"
+
 #include "modes/map/map_event_supervisor.h"
 #include "modes/map/map_object_supervisor.h"
-#include "modes/map/map_dialogue.h"
+#include "modes/map/map_dialogue_supervisor.h"
+#include "modes/map/map_dialogues/map_sprite_dialogue.h"
 
 #include "modes/map/map_mode.h"
 #include "modes/map/map_sprites/map_sprite.h"

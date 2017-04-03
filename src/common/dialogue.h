@@ -47,13 +47,16 @@ const uint8_t DIALOGUE_NO_INDICATOR   = 0;
 const uint8_t DIALOGUE_NEXT_INDICATOR = 1;
 //! \brief The dialogue window should have the indicator that the last line is reached
 const uint8_t DIALOGUE_LAST_INDICATOR = 2;
+//! \brief The maximum number of options that a line of dialogue can present to the player
+const uint32_t MAX_DIALOGUE_OPTIONS = 5;
 //@}
 
 //! \brief Defines the different states the dialogue can be in.
 enum DIALOGUE_STATE {
-    DIALOGUE_STATE_INACTIVE =  0, //!< No dialogue is active
+    DIALOGUE_STATE_INACTIVE =  0, //!< Active when the dialogue window is in the process of displaying a line of text
     DIALOGUE_STATE_LINE     =  1, //!< Active when the dialogue window is in the process of displaying a line of text
     DIALOGUE_STATE_OPTION   =  2, //!< Active when player-selectable options are present in the dialogue window
+    DIALOGUE_STATE_EMOTE    =  3  //!< Active when the dialogue supervisor is waiting for an emote event to finish before drawing a line.
 };
 
 /** ****************************************************************************
