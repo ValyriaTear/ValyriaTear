@@ -54,7 +54,7 @@
 #include "modes/map/map_treasure_supervisor.h"
 #include "modes/map/map_utils.h"
 #include "modes/map/map_zones.h"
-#include "modes/menu/menu.h"
+#include "modes/menu/menu_mode.h"
 #include "modes/shop/shop.h"
 
 namespace vt_defs

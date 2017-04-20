@@ -33,7 +33,7 @@
 
 #include "modes/map/map_location.h"
 
-#include "modes/menu/menu.h"
+#include "modes/menu/menu_mode.h"
 #include "modes/pause.h"
 #include "modes/boot/boot.h"
 #include "modes/save/save_mode.h"

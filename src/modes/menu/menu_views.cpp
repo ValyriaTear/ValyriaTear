@@ -20,7 +20,7 @@
 #include "utils/utils_pch.h"
 #include "modes/menu/menu_views.h"
 
-#include "modes/menu/menu.h"
+#include "modes/menu/menu_mode.h"
 
 #include "engine/audio/audio.h"
 #include "engine/input.h"

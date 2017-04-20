@@ -22,7 +22,7 @@
 #include "modes/map/map_object_supervisor.h"
 #include "modes/map/map_objects/map_treasure.h"
 
-#include "modes/menu/menu.h"
+#include "modes/menu/menu_mode.h"
 
 #include "engine/input.h"
 #include "engine/video/video.h"
