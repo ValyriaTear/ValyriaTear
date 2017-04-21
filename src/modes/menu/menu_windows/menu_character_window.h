@@ -8,15 +8,6 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-/** ****************************************************************************
-*** \file    menu_character_window.h
-*** \author  Daniel Steuernol steu@allacrost.org
-*** \author  Andy Gardner chopperdave@allacrost.org
-*** \author  Nik Nadig (IkarusDowned) nihonnik@gmail.com
-*** \author  Yohann Ferreira, yohann ferreira orange fr
-*** \brief   Header file for CharacterWindow class.
-*** ***************************************************************************/
-
 #ifndef __MENU_CHARACTER_WINDOW__
 #define __MENU_CHARACTER_WINDOW__
 

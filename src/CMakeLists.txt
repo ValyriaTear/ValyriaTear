@@ -358,8 +358,6 @@ modes/map/map_zones.cpp
 modes/map/map_minimap.cpp
 modes/map/map_status_effects.cpp
 modes/menu/menu_mode.cpp
-modes/menu/menu_views.cpp
-modes/menu/menu_character_window.cpp
 modes/menu/menu_states/menu_abstract_state.cpp
 modes/menu/menu_states/menu_main_state.cpp
 modes/menu/menu_states/menu_inventory_state.cpp
@@ -368,6 +366,15 @@ modes/menu/menu_states/menu_skill_state.cpp
 modes/menu/menu_states/menu_party_state.cpp
 modes/menu/menu_states/menu_quest_state.cpp
 modes/menu/menu_states/menu_worldmap_state.cpp
+modes/menu/menu_windows/menu_battle_formation_window.cpp
+modes/menu/menu_windows/menu_character_window.cpp
+modes/menu/menu_windows/menu_equip_window.cpp
+modes/menu/menu_windows/menu_inventory_window.cpp
+modes/menu/menu_windows/menu_party_window.cpp
+modes/menu/menu_windows/menu_quest_window.cpp
+modes/menu/menu_windows/menu_quest_list_window.cpp
+modes/menu/menu_windows/menu_skills_window.cpp
+modes/menu/menu_windows/menu_worldmap_window.cpp
 modes/pause.cpp
 modes/mode_bindings.cpp
 modes/mode_help_window.cpp

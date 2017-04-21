@@ -18,9 +18,16 @@
 #include "modes/menu/menu_states/menu_equip_state.h"
 #include "modes/menu/menu_states/menu_quest_state.h"
 #include "modes/menu/menu_states/menu_worldmap_state.h"
-#include "modes/menu/menu_character_window.h"
 
-#include "menu_views.h"
+#include "modes/menu/menu_windows/menu_battle_formation_window.h"
+#include "modes/menu/menu_windows/menu_character_window.h"
+#include "modes/menu/menu_windows/menu_equip_window.h"
+#include "modes/menu/menu_windows/menu_inventory_window.h"
+#include "modes/menu/menu_windows/menu_party_window.h"
+#include "modes/menu/menu_windows/menu_quest_window.h"
+#include "modes/menu/menu_windows/menu_quest_list_window.h"
+#include "modes/menu/menu_windows/menu_skills_window.h"
+#include "modes/menu/menu_windows/menu_worldmap_window.h"
 
 #include "engine/mode_manager.h"
 
