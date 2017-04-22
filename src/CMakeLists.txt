@@ -271,7 +271,9 @@ common/global/global_effects.cpp
 common/global/global_objects.cpp
 common/global/global_skills.cpp
 common/global/global_utils.cpp
-common/global/worldmap.cpp
+common/global/worldmap_location.cpp
+common/global/skill_tree/skill_node.cpp
+common/global/skill_tree/skill_tree.cpp
 common/gui/option.cpp
 common/gui/menu_window.cpp
 common/gui/textbox.cpp
@@ -374,6 +376,7 @@ modes/menu/menu_windows/menu_party_window.cpp
 modes/menu/menu_windows/menu_quest_window.cpp
 modes/menu/menu_windows/menu_quest_list_window.cpp
 modes/menu/menu_windows/menu_skills_window.cpp
+modes/menu/menu_windows/menu_skilltree_window.cpp
 modes/menu/menu_windows/menu_worldmap_window.cpp
 modes/pause.cpp
 modes/mode_bindings.cpp

@@ -30,6 +30,7 @@
 #include "engine/script/script_read.h"
 #include "engine/script/script_write.h"
 
+#include "skill_tree/skill_tree.h"
 #include "global_actors.h"
 #include "global_effects.h"
 #include "global_objects.h"
@@ -39,7 +40,7 @@
 #include "global_event_group.h"
 #include "quest_log.h"
 #include "shop_data.h"
-#include "worldmap.h"
+#include "worldmap_location.h"
 
 #include "battle_media.h"
 
@@ -989,6 +990,8 @@ private:
     //! \brief A map of the curent shop data.
     //! shop_id, corresponding shop data
     std::map<std::string, ShopData> _shop_data;
+
+    SkillTree _skill_tree;
 
     //! \brief Stores whether the map mode minimap should be shown.
     bool _show_minimap;

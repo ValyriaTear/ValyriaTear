@@ -8,8 +8,8 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __WORLDMAP_HEADER__
-#define __WORLDMAP_HEADER__
+#ifndef __WORLDMAP_LOCATION_HEADER__
+#define __WORLDMAP_LOCATION_HEADER__
 
 #include "engine/video/image.h"
 
@@ -66,4 +66,4 @@ public:
 
 } // namespace vt_global
 
-#endif // WORLDMAP_HEADER
+#endif // __WORLDMAP_LOCATION_HEADER__

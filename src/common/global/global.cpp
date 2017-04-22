@@ -189,6 +189,9 @@ bool GameGlobal::_LoadGlobalScripts()
     if(!_LoadWorldLocationsScript("data/config/world_locations.lua"))
         return false;
 
+    if (!_skill_tree.Initialize("data/config/skill_tree.lua"))
+        return false;
+
     return true;
 }
 
@@ -247,6 +250,8 @@ void GameGlobal::ClearAllData()
     _show_minimap = true;
 
     _home_map.Clear();
+
+    _skill_tree.Clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

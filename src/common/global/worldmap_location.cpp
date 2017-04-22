@@ -8,12 +8,15 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "worldmap.h"
+#include "worldmap_location.h"
 
 namespace vt_global {
 
-WorldMapLocation::WorldMapLocation(float x, float y, const std::string& location_name,
-                                   const std::string& image_path, const std::string& world_map_location_id) :
+WorldMapLocation::WorldMapLocation(float x,
+                                   float y,
+                                   const std::string& location_name,
+                                   const std::string& image_path,
+                                   const std::string& world_map_location_id) :
     _x(x),
     _y(y),
     _location_name(location_name),
