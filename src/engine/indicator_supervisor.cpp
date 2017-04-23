@@ -173,7 +173,9 @@ IndicatorText::IndicatorText(float x_position, float y_position,
 void IndicatorText::Draw()
 {
     VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(_x_origin_position + _x_relative_position, _y_origin_position - _y_relative_position);
+    VideoManager->Move(
+        _x_origin_position + _x_relative_position + _text_image.GetWidth() / 2,
+        _y_origin_position - _y_relative_position);
 
     _text_image.Draw(_alpha_color);
 }

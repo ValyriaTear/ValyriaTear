@@ -532,6 +532,9 @@ void FinishVictoryAssistant::_SetHeaderText()
     } else {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid finish state: " << _state << std::endl;
     }
+
+    const uint32_t no_of_options = _object_list.GetNumberOptions();
+    _object_header_text.SetDisplayText(no_of_options == 0 ? UTranslate("No Items Found") : no_of_options == 1 ? UTranslate("Item Found") : UTranslate("Items Found"));
 }
 
 void FinishVictoryAssistant::_CreateCharacterGUIObjects()
