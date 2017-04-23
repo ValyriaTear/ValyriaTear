@@ -498,10 +498,12 @@ bool SaveMode::_LoadGame(const std::string& filename)
 
 void SaveMode::_ClearSaveData(bool selected_file_exists)
 {
-    if (selected_file_exists)
+    if (selected_file_exists) {
         _map_name_textbox.SetDisplayText(UTranslate("Invalid data!"));
-    else
-        _map_name_textbox.SetDisplayText(UTranslate("No data"));
+    } else {
+        // tr: A slot for saving the same
+        _map_name_textbox.SetDisplayText(UTranslate("This slot is unused"));
+    }
     _time_textbox.ClearText();
     _drunes_textbox.ClearText();
     _location_image.Clear();
