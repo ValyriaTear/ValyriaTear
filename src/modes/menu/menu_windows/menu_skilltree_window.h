@@ -24,6 +24,14 @@ class MenuMode;
 namespace private_menu
 {
 
+//! \brief A simple line showing a link between two nodes
+struct NodeLine {
+    float x1;
+    float y1;
+    float x2;
+    float y2;
+};
+
 /**
 *** \brief handles showing the skill tree and the selection of new nodes.
 *** The player will be able to use skill points and other items to get his/her way
@@ -33,7 +41,7 @@ namespace private_menu
 class SkillTreeWindow : public vt_gui::MenuWindow
 {
     friend class vt_menu::MenuMode;
-    //friend class WorldMapState;
+    //friend class SkillTreeState;
 
 public:
     SkillTreeWindow();
@@ -59,12 +67,22 @@ public:
     //! \param activate or deactivate
     void Activate(bool new_state);
 
+    //! \brief Set the character for this window
+    //! \param character the character to associate with this window
+    void SetCharacter(vt_global::GlobalCharacter& character);
+
 private:
+    //! \brief the current selected character id
+    uint32_t _selected_character_id;
+
     //! \brief TEMP: the default location marker. this is loaded in the constructor
     vt_video::AnimatedImage _location_marker;
 
     //! \brief the location pointer. this is loaded in the constructor
     vt_video::StillImage _location_pointer;
+
+    //! \brief the location pointer. this is loaded in the constructor
+    vt_video::StillImage _character_icon;
 
     //! \brief offsets for the current skill tree to view in the center of the window
     float _current_x_offset;
@@ -75,6 +93,17 @@ private:
 
     //! \brief indicates whether this window is active or not
     bool _active;
+
+    //! \brief The currently displayed skill nodes
+    std::vector<vt_global::SkillNode*> _displayed_skill_nodes;
+    //! \brief The currentlw displayed link between the nodes
+    std::vector<NodeLine> _displayed_node_links;
+
+    //! \brief Reset the view centered on the currently selected node.
+    void _ResetSkillTreeView();
+
+    //! \brief Update the skill tree view based on the current offset information
+    void _UpdateSkillTreeView();
 };
 
 } // namespace private_menu

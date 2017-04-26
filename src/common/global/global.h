@@ -789,6 +789,11 @@ public:
         else return 0;
     }
 
+    //! \brief Get a reference to the skill tree handler
+    SkillTree& GetSkillTree() {
+        return _skill_tree;
+    }
+
     //! \brief Gives access to global media files.
     //! Note: The reference is passed non const to be able to give modifiable references
     //! and pointers.

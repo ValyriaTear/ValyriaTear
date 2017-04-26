@@ -34,9 +34,18 @@ public:
         _skill_tree_data.clear();
     }
 
+    //! \brief Returns the skill node corresponding to the desired id,
+    //! or nullptr is not found.
+    SkillNode* GetSkillNode(uint32_t skill_node_id);
+
+    //! \brief Returns the skill tree data
+    const std::vector<SkillNode>& GetSkillNodes() const {
+        return _skill_tree_data;
+    }
+
 private:
-    //! \brief The list of skill nodes
-    std::map<uint32_t, SkillNode> _skill_tree_data;
+    //! \brief The vector of skill nodes.
+    std::vector<SkillNode> _skill_tree_data;
 
     //! \brief Read item data and add them in the skill node data
     void _ReadItemsNeeded(vt_script::ReadScriptDescriptor& script,

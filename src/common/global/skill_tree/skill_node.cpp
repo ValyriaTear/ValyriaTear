@@ -11,11 +11,13 @@
 
 namespace vt_global {
 
-SkillNode::SkillNode(float x_location,
-          float y_location,
-          const std::string& icon_path,
-          uint32_t skill_points_needed,
-          uint32_t skill_id_learned) :
+SkillNode::SkillNode(uint32_t id,
+                     float x_location,
+                     float y_location,
+                     const std::string& icon_path,
+                     uint32_t skill_points_needed,
+                     uint32_t skill_id_learned) :
+    _id(id),
     _x_location(x_location),
     _y_location(y_location),
     _skill_points_needed(skill_points_needed),

@@ -23,11 +23,25 @@ class SkillNode
 friend class SkillTree;
 
 public:
-    SkillNode(float x_location,
+    SkillNode(uint32_t id,
+              float x_location,
               float y_location,
               const std::string& icon_path,
               uint32_t skill_points_needed,
               uint32_t skill_id_learned);
+
+    //! \brief Gets skill node id
+    uint32_t GetId() const {
+        return _id;
+    }
+
+    float GetXLocation() const {
+        return _x_location;
+    }
+
+    float GetYLocation() const {
+        return _y_location;
+    }
 
     const vt_video::StillImage& GetIconImage() const {
         return _icon_image;
@@ -61,6 +75,9 @@ public:
     void AddNodeLink(uint32_t node_id);
 
 private:
+    //! \brief The Skill Node Id
+    uint32_t _id;
+
     //! \brief Location in the skill tree
     float _x_location;
     float _y_location;

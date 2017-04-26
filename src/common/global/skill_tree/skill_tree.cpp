@@ -47,7 +47,8 @@ bool SkillTree::Initialize(const std::string& skill_tree_file)
         uint32_t skill_points_needed = script.ReadUInt("skill_points_needed");
         uint32_t skill_id_learned = script.ReadUInt("skill_id_learned");
 
-        SkillNode skill_node(x_location,
+        SkillNode skill_node(node_id,
+                             x_location,
                              y_location,
                              icon_file,
                              skill_points_needed,
@@ -73,7 +74,7 @@ void SkillTree::_ReadItemsNeeded(vt_script::ReadScriptDescriptor& script,
     if (item_ids.empty() || !script.OpenTable("items_needed"))
         return;
 
-    for (uint32_t item_id: item_ids) {
+    for (uint32_t item_id : item_ids) {
         uint32_t item_number = script.ReadUInt(item_id);
         skill_node.AddNeededItem(item_id, item_number);
     }
@@ -114,6 +115,15 @@ void SkillTree::_ReadNodeLinks(vt_script::ReadScriptDescriptor& script,
     }
 
     script.CloseTable(); // links
+}
+
+SkillNode* SkillTree::GetSkillNode(uint32_t skill_node_id)
+{
+    for (SkillNode& skill_node : _skill_tree_data) {
+        if (skill_node.GetId() == skill_node_id)
+            return &skill_node;
+    }
+    return nullptr;
 }
 
 } // namespace vt_global
