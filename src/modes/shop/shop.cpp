@@ -170,8 +170,8 @@ ShopObjectViewer::ShopObjectViewer() :
     // Position and dimensions for _count_text are set by _SetCountText()
     _count_text.SetTextStyle(TextStyle("text28"));
     _count_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
-    _count_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _count_text.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
+    _count_text.SetAlignment(VIDEO_X_RIGHT, VIDEO_Y_TOP);
+    _count_text.SetTextAlignment(VIDEO_X_RIGHT, VIDEO_Y_TOP);
     _count_text.SetPosition(550.0f, 22.0f);
     _count_text.SetDimensions(325.0f, 10.0f);
 

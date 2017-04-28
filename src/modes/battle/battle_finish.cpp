@@ -534,7 +534,14 @@ void FinishVictoryAssistant::_SetHeaderText()
     }
 
     const uint32_t no_of_options = _object_list.GetNumberOptions();
-    _object_header_text.SetDisplayText(no_of_options == 0 ? UTranslate("No Items Found") : no_of_options == 1 ? UTranslate("Item Found") : UTranslate("Items Found"));
+    _object_header_text.SetDisplayText(no_of_options == 0 ?
+        // tr: Header in battle result screen: 0 items found
+            UTranslate("No Items Found") :
+                no_of_options == 1 ?
+                    // tr: Header in battle result screen: 1 item found
+                    UTranslate("Item Found") :
+                    // tr: Header in battle result screen: more than 1 item found
+                    UTranslate("Items Found"));
 }
 
 void FinishVictoryAssistant::_CreateCharacterGUIObjects()
