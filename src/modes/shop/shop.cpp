@@ -1,11 +1,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
 //            Copyright (C) 2012-2016 by Bertram (Valyria Tear)
+//            Copyright (C) 2017      by Nicola Spanti
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
@@ -1902,85 +1903,92 @@ void ShopMode::SetPriceLevels(SHOP_PRICE_LEVEL buy_level,
     _sell_price_level = sell_level;
 }
 
-void ShopMode::AddItem(uint32_t object_id, uint32_t stock)
+bool ShopMode::AddItem(uint32_t object_id, uint32_t stock)
 {
     if(IsInitialized()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "Function called after shop was already initialized."
                                      << std::endl;
-        return;
+        return false;
     }
 
     if(object_id == private_global::OBJECT_ID_INVALID ||
            object_id >= private_global::OBJECT_ID_EXCEEDS) {
         PRINT_WARNING << "attempted to add object with invalid id: "
                       << object_id << std::endl;
-        return;
+        return false;
     }
 
     if(_available_buy.find(object_id) != _available_buy.end()) {
         PRINT_WARNING << "attempted to add object that already existed: "
                       << object_id << std::endl;
-        return;
+        return false;
     }
 
     std::shared_ptr<GlobalObject> new_object =
         GlobalCreateNewObject(object_id, 1);
-    if (new_object != nullptr) {
-        ShopObject *new_shop_object = new ShopObject(new_object);
-        if (stock > 0)
-            new_shop_object->IncrementStockCount(stock);
-        else // When the stock is set to 0, it means there is an infinity amount of object to buy.
-            new_shop_object->SetInfiniteAmount(true);
-        _available_buy.insert(std::make_pair(object_id, new_shop_object));
+    if (new_object == nullptr) {
+        return false;
     }
+
+    ShopObject* new_shop_object = new ShopObject(new_object);
+    if (stock > 0)
+        new_shop_object->IncrementStockCount(stock);
+    else // When the stock is set to 0, it means there is an infinity amount of object to buy.
+        new_shop_object->SetInfiniteAmount(true);
+    _available_buy.insert(std::make_pair(object_id, new_shop_object));
+    return true;
 }
 
-void ShopMode::AddTrade(uint32_t object_id, uint32_t stock)
+bool ShopMode::AddTrade(uint32_t object_id, uint32_t stock)
 {
     if(IsInitialized()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "Function called after shop was already initialized."
                                      << std::endl;
-        return;
+        return false;
     }
 
     if(object_id == private_global::OBJECT_ID_INVALID ||
            object_id >= private_global::OBJECT_ID_EXCEEDS) {
         PRINT_WARNING << "attempted to add object with invalid id: "
                       << object_id << std::endl;
-        return;
+        return false;
     }
 
     if(_available_trade.find(object_id) != _available_trade.end()) {
         PRINT_WARNING << "attempted to add object that already existed: "
                       << object_id << std::endl;
-        return;
+        return false;
     }
 
     std::shared_ptr<GlobalObject> new_object =
         GlobalCreateNewObject(object_id, 1);
-    if (new_object != nullptr) {
-        ShopObject *new_shop_object = new ShopObject(new_object);
-        if (stock > 0)
-            new_shop_object->IncrementStockCount(stock);
-        else // When the stock is set to 0, it means there is an infinity amount of object to trade.
-            new_shop_object->SetInfiniteAmount(true);
-        _available_trade.insert(std::make_pair(object_id, new_shop_object));
+    if (new_object == nullptr) {
+        return false;
     }
+
+    ShopObject *new_shop_object = new ShopObject(new_object);
+    if (stock > 0)
+        new_shop_object->IncrementStockCount(stock);
+    else // When the stock is set to 0, it means there is an infinity amount of object to trade.
+        new_shop_object->SetInfiniteAmount(true);
+    _available_trade.insert(std::make_pair(object_id, new_shop_object));
+    return true;
 }
 
-void ShopMode::RemoveObjectToBuy(uint32_t object_id)
+bool ShopMode::RemoveObjectToBuy(uint32_t object_id)
 {
-    std::map<uint32_t, ShopObject *>::iterator shop_iter = _available_buy.find(object_id);
+    std::map<uint32_t, ShopObject *>::iterator shop_iter =
+        _available_buy.find(object_id);
     if(shop_iter == _available_buy.end()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to remove object that did not exist: "
                                      << object_id << std::endl;
-        return;
+        return false;
     }
 
     if(shop_iter->second->GetStockCount() != 0) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "object's ownership count was non-zero: "
                                      << object_id << std::endl;
-        return;
+        return false;
     }
 
     if (shop_iter->second != nullptr) {
@@ -1988,22 +1996,23 @@ void ShopMode::RemoveObjectToBuy(uint32_t object_id)
         shop_iter->second = nullptr;
     }
     _available_buy.erase(shop_iter);
+    return true;
 }
 
-void ShopMode::RemoveObjectToSell(uint32_t object_id)
+bool ShopMode::RemoveObjectToSell(uint32_t object_id)
 {
     std::map<uint32_t, ShopObject *>::iterator shop_iter =
         _available_sell.find(object_id);
     if(shop_iter == _available_sell.end()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to remove object that did not exist: "
                                      << object_id << std::endl;
-        return;
+        return false;
     }
 
     if(shop_iter->second->GetOwnCount() != 0) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "object's ownership count was non-zero: "
                                      << object_id << std::endl;
-        return;
+        return false;
     }
 
     if (shop_iter->second != nullptr) {
@@ -2011,22 +2020,23 @@ void ShopMode::RemoveObjectToSell(uint32_t object_id)
         shop_iter->second = nullptr;
     }
     _available_sell.erase(shop_iter);
+    return true;
 }
 
-void ShopMode::RemoveObjectToTrade(uint32_t object_id)
+bool ShopMode::RemoveObjectToTrade(uint32_t object_id)
 {
     std::map<uint32_t, ShopObject *>::iterator shop_iter =
         _available_trade.find(object_id);
     if(shop_iter == _available_trade.end()) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "attempted to remove object that did not exist: "
                                      << object_id << std::endl;
-        return;
+        return false;
     }
 
     if(shop_iter->second->GetStockCount() != 0) {
         IF_PRINT_WARNING(SHOP_DEBUG) << "object's ownership count was non-zero: "
                                      << object_id << std::endl;
-        return;
+        return false;
     }
 
     if (shop_iter->second != nullptr) {
@@ -2034,6 +2044,7 @@ void ShopMode::RemoveObjectToTrade(uint32_t object_id)
         shop_iter->second = nullptr;
     }
     _available_trade.erase(shop_iter);
+    return true;
 }
 
 } // namespace vt_shop
