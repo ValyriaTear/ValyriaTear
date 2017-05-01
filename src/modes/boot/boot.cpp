@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
@@ -202,7 +202,8 @@ void BootMode::Update()
     if(help_window && help_window->IsActive()) {
         // Any key, except F1
         if(!InputManager->HelpPress()
-                && (InputManager->AnyKeyboardKeyPress() || InputManager->AnyJoystickKeyPress())) {
+                && (InputManager->AnyKeyboardKeyPress() ||
+                    InputManager->AnyJoystickKeyPress())) {
             GlobalManager->Media().PlaySound("confirm");
             help_window->Hide();
         }
@@ -212,7 +213,8 @@ void BootMode::Update()
     // Updates the main menu when the option menu handler isn't active.
     bool is_menu_active = _menu_handler.IsActive();
     if(is_menu_active) {
-        bool was_showing_first_run_dlg = _menu_handler.IsShowingFirstRunLanguageMenu();
+        bool was_showing_first_run_dlg =
+          _menu_handler.IsShowingFirstRunLanguageMenu();
         _menu_handler.Update();
 
         // We do this to prevent unwanted input going to the main menu
@@ -227,12 +229,14 @@ void BootMode::Update()
     // Update also the bar and f1 help text alpha
     uint32_t time_expired = SystemManager->GetUpdateTime();
     _boot_timer.Update(time_expired);
-    if (_boot_timer.GetTimeExpired() >= 4000.0 && _boot_timer.GetTimeExpired() < 12000.0) {
+    if (_boot_timer.GetTimeExpired() >= 4000.0 &&
+        _boot_timer.GetTimeExpired() < 12000.0) {
         _help_text_alpha += 0.001f * time_expired;
         if (_help_text_alpha > 1.0f)
             _help_text_alpha = 1.0f;
     }
-    else if (_boot_timer.GetTimeExpired() >= 12000.0 && _boot_timer.GetTimeExpired() < 14000.0) {
+    else if (_boot_timer.GetTimeExpired() >= 12000.0 &&
+             _boot_timer.GetTimeExpired() < 14000.0) {
         _help_text_alpha -= 0.001f * time_expired;
         if (_help_text_alpha < 0.0f)
             _help_text_alpha = 0.0f;
@@ -373,7 +377,7 @@ void BootMode::DrawPostEffects()
 // ****************************************************************************
 // ***** BootMode menu setup and refresh methods
 // ****************************************************************************
-bool BootMode::_SavesAvailable()
+int32_t BootMode::_NbSavesAvailable()
 {
     int32_t savesAvailable = 0;
     std::string data_path = GetUserDataPath();
@@ -381,13 +385,18 @@ bool BootMode::_SavesAvailable()
     for(uint32_t id = 0; id < max_slot_id; ++id) {
         std::ostringstream f;
         f << data_path + "saved_game_" << id << ".lua";
-        const std::string filename = f.str();
+        const std::string& filename = f.str();
 
         if(DoesFileExist(filename)) {
             ++savesAvailable;
         }
     }
-    return (savesAvailable > 0);
+    return savesAvailable;
+}
+
+bool BootMode::_SavesAvailable()
+{
+    return _NbSavesAvailable() > 0;
 }
 
 void BootMode::ReloadTranslatedTexts()
@@ -475,7 +484,8 @@ void BootMode::_DEBUG_OnDebugScriptRun()
     if (_debug_script_menu.GetNumberOptions() == 0)
         return;
 
-    std::string debug_script = "./data/debug/" + _debug_scripts[_debug_script_menu.GetSelection()];
+    std::string debug_script = "./data/debug/" +
+                               _debug_scripts[_debug_script_menu.GetSelection()];
     ReadScriptDescriptor read_data;
     read_data.RunScriptFunction(debug_script, "TestFunction", true);
 }
@@ -490,7 +500,7 @@ void BootMode::_ShowLanguageSelectionWindow()
 {
     // Load the settings file for reading in the welcome variable
     ReadScriptDescriptor settings_lua;
-    std::string file = GetSettingsFilename();
+    const std::string& file = GetSettingsFilename();
     if(!settings_lua.OpenFile(file)) {
         PRINT_WARNING << "failed to load the settings file" << std::endl;
         return;
