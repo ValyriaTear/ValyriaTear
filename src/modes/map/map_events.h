@@ -1088,7 +1088,7 @@ public:
     /** \brief Adds an event triggered at start of the treasure event.
     *** \param event_id The id of the event to add
     **/
-    void AddEvent(const std::string& event_id);
+    bool AddEvent(const std::string& event_id);
 
 protected:
     //! \brief A pointer to the treasure content, used by the TreasureSupervisor.
