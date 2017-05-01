@@ -505,6 +505,10 @@ public:
     uint32_t GetNumberOptions() const {
         return _options.size();
     }
+    
+    bool HasAtLeastOneOption() const {
+        return _options.size() > 0;
+    }
     //@}
 
 private:
