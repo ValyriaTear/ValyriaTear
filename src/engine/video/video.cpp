@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
@@ -195,7 +195,8 @@ bool VideoEngine::FinalizeInitialization()
     _sprite = new gl::Sprite();
 
     // Create the secondary render target.
-    _secondary_render_target = new gl::RenderTarget(VIDEO_STANDARD_RES_WIDTH, VIDEO_STANDARD_RES_HEIGHT);
+    _secondary_render_target = new gl::RenderTarget(VIDEO_STANDARD_RES_WIDTH,
+                                                    VIDEO_STANDARD_RES_HEIGHT);
 
     // Create the particle system.
     _particle_system = new gl::ParticleSystem();
@@ -205,11 +206,21 @@ bool VideoEngine::FinalizeInitialization()
     //
 
     // Create the shaders.
-    gl::Shader* default_vertex                 = new gl::Shader(GL_VERTEX_SHADER, gl::shader_definitions::DEFAULT_VERTEX);
-    gl::Shader* solid_color_fragment           = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SOLID_FRAGMENT);
-    gl::Shader* solid_color_grayscale_fragment = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SOLID_GRAYSCALE_FRAGMENT);
-    gl::Shader* sprite_fragment                = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SPRITE_FRAGMENT);
-    gl::Shader* sprite_grayscale_fragment      = new gl::Shader(GL_FRAGMENT_SHADER, gl::shader_definitions::SPRITE_GRAYSCALE_FRAGMENT);
+    gl::Shader* default_vertex =
+        new gl::Shader(GL_VERTEX_SHADER,
+                       gl::shader_definitions::DEFAULT_VERTEX);
+    gl::Shader* solid_color_fragment =
+        new gl::Shader(GL_FRAGMENT_SHADER,
+                       gl::shader_definitions::SOLID_FRAGMENT);
+    gl::Shader* solid_color_grayscale_fragment =
+        new gl::Shader(GL_FRAGMENT_SHADER,
+                       gl::shader_definitions::SOLID_GRAYSCALE_FRAGMENT);
+    gl::Shader* sprite_fragment =
+        new gl::Shader(GL_FRAGMENT_SHADER,
+                       gl::shader_definitions::SPRITE_FRAGMENT);
+    gl::Shader* sprite_grayscale_fragment =
+        new gl::Shader(GL_FRAGMENT_SHADER,
+                       gl::shader_definitions::SPRITE_GRAYSCALE_FRAGMENT);
 
     // Store the shaders.
     _shaders[gl::shaders::VertexDefault] = default_vertex;
@@ -227,21 +238,25 @@ bool VideoEngine::FinalizeInitialization()
     attributes.push_back("in_TexCoords");
     attributes.push_back("in_Color");
 
-    gl::ShaderProgram* solid_program = new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
-                                                             _shaders[gl::shaders::FragmentSolid],
-                                                             attributes);
+    gl::ShaderProgram* solid_program =
+        new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
+                              _shaders[gl::shaders::FragmentSolid],
+                              attributes);
 
-    gl::ShaderProgram* solid_grayscale_program = new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
-                                                                       _shaders[gl::shaders::FragmentSolidGrayscale],
-                                                                       attributes);
+    gl::ShaderProgram* solid_grayscale_program =
+        new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
+                              _shaders[gl::shaders::FragmentSolidGrayscale],
+                              attributes);
 
-    gl::ShaderProgram* sprite_program = new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
-                                                              _shaders[gl::shaders::FragmentSprite],
-                                                              attributes);
+    gl::ShaderProgram* sprite_program =
+        new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
+                              _shaders[gl::shaders::FragmentSprite],
+                              attributes);
 
-    gl::ShaderProgram* sprite_grayscale_program = new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
-                                                                        _shaders[gl::shaders::FragmentSpriteGrayscale],
-                                                                        attributes);
+    gl::ShaderProgram* sprite_grayscale_program =
+        new gl::ShaderProgram(_shaders[gl::shaders::VertexDefault],
+                              _shaders[gl::shaders::FragmentSpriteGrayscale],
+                              attributes);
 
     //
     // Store the shader programs.
@@ -275,7 +290,7 @@ bool VideoEngine::FinalizeInitialization()
     Clear();
 
     // Empty image used to draw colored rectangles.
-    if (_rectangle_image.Load("") == false) {
+    if (!_rectangle_image.Load("")) {
         PRINT_ERROR << "_rectangle_image could not be created" << std::endl;
         return false;
     }
@@ -341,7 +356,8 @@ void VideoEngine::SetDrawFlags(int32_t first_flag, ...)
             break;
 
         default:
-            IF_PRINT_WARNING(VIDEO_DEBUG) << "Unknown flag in argument list: " << flag << std::endl;
+            IF_PRINT_WARNING(VIDEO_DEBUG) << "Unknown flag in argument list: "
+                                          << flag << std::endl;
             break;
         }
         flag = va_arg(args, int32_t);
@@ -385,12 +401,11 @@ bool VideoEngine::CheckGLError() {
 
 const std::string VideoEngine::CreateGLErrorString()
 {
-    const GLubyte *error_string = gluErrorString(_gl_error_code);
+    const GLubyte* error_string = gluErrorString(_gl_error_code);
 
     if(error_string == nullptr)
         return ("Unknown GL error code: " + NumberToString(_gl_error_code));
-    else
-        return (char *)error_string;
+    return reinterpret_cast<const char*>(error_string);
 }
 
 //-----------------------------------------------------------------------------
@@ -399,14 +414,20 @@ const std::string VideoEngine::CreateGLErrorString()
 
 void VideoEngine::GetPixelSize(float &x, float &y)
 {
-    x = fabs(_current_context.coordinate_system.GetRight() - _current_context.coordinate_system.GetLeft()) / _viewport_width;
-    y = fabs(_current_context.coordinate_system.GetTop() - _current_context.coordinate_system.GetBottom()) / _viewport_height;
+    x = fabs(_current_context.coordinate_system.GetRight()
+             - _current_context.coordinate_system.GetLeft())
+        / _viewport_width;
+    y = fabs(_current_context.coordinate_system.GetTop()
+             - _current_context.coordinate_system.GetBottom())
+        / _viewport_height;
 }
 
 bool VideoEngine::ApplySettings()
 {
     if (!_sdl_window) {
-        PRINT_WARNING << "Invalid SDL_Window instance. Can't apply video settings." << std::endl;
+        PRINT_WARNING << "Invalid SDL_Window instance. "
+                      << "Can't apply video settings."
+                      << std::endl;
         return false;
     }
 
@@ -452,7 +473,8 @@ bool VideoEngine::ApplySettings()
         SDL_SetWindowSize(_sdl_window, _temp_width, _temp_height);
     }
 
-    // Now that the new settings worked, apply them on the config (and the viewport)
+    // Now that the new settings worked,
+    // apply them on the config (and the viewport)
     _screen_width = _temp_width;
     _screen_height = _temp_height;
     _fullscreen = _temp_fullscreen;
@@ -519,7 +541,8 @@ void VideoEngine::SetCoordSys(const CoordSys &coordinate_system)
                                 0.0f, 0.0f, 0.0f, 1.0f);
 }
 
-void VideoEngine::GetCurrentViewport(float &x, float &y, float &width, float &height)
+void VideoEngine::GetCurrentViewport(float &x, float &y,
+                                     float &width, float &height)
 {
     GLint viewport_dimensions[4] = { 0, 0, 0, 0 };
     glGetIntegerv(GL_VIEWPORT, viewport_dimensions);
@@ -534,7 +557,8 @@ void VideoEngine::SetViewport(float x, float y, float width, float height)
 {
     if (width <= 0 || height <= 0)
     {
-        PRINT_WARNING << "attempted to set an invalid viewport size: " << x << "," << y
+        PRINT_WARNING << "attempted to set an invalid viewport size: "
+            << x << "," << y
             << " at " << width << ":" << height << std::endl;
         return;
     }
@@ -544,7 +568,8 @@ void VideoEngine::SetViewport(float x, float y, float width, float height)
     _viewport_width = width;
     _viewport_height = height;
 
-    glViewport(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
+    glViewport(_viewport_x_offset, _viewport_y_offset,
+               _viewport_width, _viewport_height);
 }
 
 void VideoEngine::EnableBlending()
@@ -788,7 +813,8 @@ void VideoEngine::DisableScissoring()
     }
 }
 
-void VideoEngine::SetScissorRect(unsigned x, unsigned y, unsigned width, unsigned height)
+void VideoEngine::SetScissorRect(unsigned x, unsigned y,
+                                 unsigned width, unsigned height)
 {
     SetScissorRect(ScreenRect(x, y, width, height));
 }
@@ -853,7 +879,8 @@ void VideoEngine::PopState()
 {
     // Restore the most recent context information and pop it from stack.
     if (_context_stack.empty()) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "no video states were saved on the stack" << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "no video states were saved on the stack"
+                                      << std::endl;
         return;
     }
 
@@ -939,26 +966,30 @@ StillImage VideoEngine::CaptureScreen() throw(Exception)
     // Ensure that texture sheet creation succeeded, insert the texture image into the sheet, and copy the screen into the sheet
     if (sheet == nullptr) {
         delete new_image;
-        throw Exception("could not create texture sheet to store captured screen", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("could not create texture sheet to store captured screen",
+                        __FILE__, __LINE__, __FUNCTION__);
     }
 
     if (sheet->InsertTexture(new_image) == false) {
         TextureManager->_RemoveSheet(sheet);
         delete new_image;
-        throw Exception("could not insert captured screen image into texture sheet", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("could not insert captured screen image into texture sheet",
+                        __FILE__, __LINE__, __FUNCTION__);
     }
 
     if (sheet->CopyScreenRect(0, 0, screen_rect) == false) {
         TextureManager->_RemoveSheet(sheet);
         delete new_image;
-        throw Exception("call to TexSheet::CopyScreenRect() failed", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("call to TexSheet::CopyScreenRect() failed",
+                        __FILE__, __LINE__, __FUNCTION__);
     }
 
     // Store the image element to the saved image (with a flipped y axis)
     screen_image._image_texture = new_image;
     screen_image._texture = new_image;
 
-    // Vertically flip the texture image by swapping the v coordinates, since OpenGL returns the image upside down in the CopyScreenRect call
+    // Vertically flip the texture image by swapping the v coordinates,
+    // since OpenGL returns the image upside down in the CopyScreenRect call
     float temp = new_image->v1;
     new_image->v1 = new_image->v2;
     new_image->v2 = temp;
@@ -967,7 +998,9 @@ StillImage VideoEngine::CaptureScreen() throw(Exception)
     return screen_image;
 }
 
-StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &image_name, bool delete_on_exist) throw(Exception)
+StillImage VideoEngine::CreateImage(ImageMemory *raw_image,
+                                    const std::string &image_name,
+                                    bool delete_on_exist) throw(Exception)
 {
     //the returning image
     StillImage still_image;
@@ -975,7 +1008,8 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
     //check if the raw_image pointer is valid
     if(!raw_image)
     {
-        throw Exception("raw_image is nullptr, cannot create a StillImage", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("raw_image is nullptr, cannot create a StillImage",
+                        __FILE__, __LINE__, __FUNCTION__);
     }
 
     still_image.SetDimensions(raw_image->GetWidth(), raw_image->GetHeight());
@@ -993,14 +1027,17 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
         }
         else
         {
-            throw Exception("image already exists in texture manager", __FILE__, __LINE__, __FUNCTION__);
+            throw Exception("image already exists in texture manager",
+                            __FILE__, __LINE__, __FUNCTION__);
         }
     }
 
     // Create a new texture image.
     // The next few steps are similar to CaptureImage.
     // So, in the future, we may want to do a code cleanup.
-    ImageTexture* new_image = new ImageTexture(image_name, "", raw_image->GetWidth(), raw_image->GetHeight());
+    ImageTexture* new_image = new ImageTexture(image_name, "",
+                                               raw_image->GetWidth(),
+                                               raw_image->GetHeight());
     new_image->AddReference();
 
     // Create a texture sheet of an appropriate size that can retain the capture.
@@ -1011,21 +1048,24 @@ StillImage VideoEngine::CreateImage(ImageMemory *raw_image, const std::string &i
     // Ensure that texture sheet creation succeeded, insert the texture image into the sheet, and copy the screen into the sheet
     if(sheet == nullptr) {
         delete new_image;
-        throw Exception("could not create texture sheet to store still image", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("could not create texture sheet to store still image",
+                        __FILE__, __LINE__, __FUNCTION__);
     }
 
-    if(sheet->InsertTexture(new_image) == false)
+    if(!sheet->InsertTexture(new_image))
     {
         TextureManager->_RemoveSheet(sheet);
         delete new_image;
-        throw Exception("could not insert raw image into texture sheet", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("could not insert raw image into texture sheet",
+                        __FILE__, __LINE__, __FUNCTION__);
     }
 
-    if(sheet->CopyRect(0, 0, *raw_image) == false)
+    if(!sheet->CopyRect(0, 0, *raw_image))
     {
         TextureManager->_RemoveSheet(sheet);
         delete new_image;
-        throw Exception("call to TexSheet::CopyRect() failed", __FILE__, __LINE__, __FUNCTION__);
+        throw Exception("call to TexSheet::CopyRect() failed",
+                        __FILE__, __LINE__, __FUNCTION__);
     }
 
     // Store the image element to the saved image (with a flipped y axis)
@@ -1079,7 +1119,8 @@ void VideoEngine::MakeScreenshot(const std::string &filename)
     buffer.GlReadPixels(viewport_dimensions[0], viewport_dimensions[1]);
 
     if(CheckGLError()) {
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "An OpenGL error occured: " << CreateGLErrorString() << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "An OpenGL error occured: "
+                                      << CreateGLErrorString() << std::endl;
         return;
     }
 
@@ -1088,7 +1129,8 @@ void VideoEngine::MakeScreenshot(const std::string &filename)
     buffer.SaveImage(filename);
 }
 
-void VideoEngine::DrawLine(float x1, float y1, unsigned width1, float x2, float y2, unsigned width2, const Color &color)
+void VideoEngine::DrawLine(float x1, float y1, unsigned width1,
+                           float x2, float y2, unsigned width2, const Color &color)
 {
     //
     // Compute the line's vertex positions.
@@ -1146,7 +1188,9 @@ void VideoEngine::DrawLine(float x1, float y1, unsigned width1, float x2, float 
     UnloadShaderProgram();
 }
 
-void VideoEngine::DrawGrid(float left, float top, float right, float bottom, float width_cell_horizontal, float width_cell_vertical, unsigned width_line, const Color& color)
+void VideoEngine::DrawGrid(float left, float top, float right, float bottom,
+                           float width_cell_horizontal, float width_cell_vertical,
+                           unsigned width_line, const Color& color)
 {
     assert(right > left);
     assert(bottom > top);
@@ -1176,7 +1220,9 @@ void VideoEngine::DrawRectangle(float width, float height, const Color &color)
     _rectangle_image.Draw(color);
 }
 
-void VideoEngine::DrawRectangleOutline(float left, float right, float bottom, float top, unsigned width, const Color &color)
+void VideoEngine::DrawRectangleOutline(float left, float right,
+                                       float bottom, float top,
+                                       unsigned width, const Color &color)
 {
     DrawLine(left, bottom, width, right, bottom, width, color);
     DrawLine(left, top, width, right, top, width, color);
@@ -1202,7 +1248,8 @@ int32_t VideoEngine::_ConvertYAlign(int32_t y_align)
     case VIDEO_Y_TOP:
         return 1;
     default:
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown value for argument flag: " << y_align << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown value for argument flag: "
+                                      << y_align << std::endl;
         return 0;
     }
 }
@@ -1217,14 +1264,16 @@ int32_t VideoEngine::_ConvertXAlign(int32_t x_align)
     case VIDEO_X_RIGHT:
         return 1;
     default:
-        IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown value for argument flag: " << x_align << std::endl;
+        IF_PRINT_WARNING(VIDEO_DEBUG) << "unknown value for argument flag: "
+                                      << x_align << std::endl;
         return 0;
     }
 }
 
 void VideoEngine::_UpdateViewportMetrics()
 {
-    // Test the desired resolution and adds the necessary offsets if it's not a 4:3 one
+    // Test the desired resolution
+    // and adds the necessary offsets if it's not a 4:3 one
     float width = _screen_width;
     float height = _screen_height;
     float scr_ratio = height > 0.2f ? width / height : 1.33f;
@@ -1257,7 +1306,8 @@ void VideoEngine::_UpdateViewportMetrics()
     }
 
     // Update the viewport.
-    SetViewport(_viewport_x_offset, _viewport_y_offset, _viewport_width, _viewport_height);
+    SetViewport(_viewport_x_offset, _viewport_y_offset,
+                _viewport_width, _viewport_height);
 
     // Update the current context.
     _current_context.viewport.left = _viewport_x_offset;
@@ -1337,7 +1387,8 @@ void VideoEngine::_DrawFPS()
 
     PushState();
     SetStandardCoordSys();
-    SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_X_NOFLIP, VIDEO_Y_NOFLIP, VIDEO_BLEND, 0);
+    SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_X_NOFLIP, VIDEO_Y_NOFLIP,
+                 VIDEO_BLEND, 0);
     Move(930.0f, 40.0f); // Upper right hand corner of the screen
     _FPS_textimage->Draw();
     PopState();
