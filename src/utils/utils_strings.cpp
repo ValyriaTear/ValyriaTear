@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
@@ -66,7 +66,8 @@ bool IsStringNumeric(const std::string &text)
     if(text.empty())
         return false;
 
-    // Keep track of whether decimal point is allowed. It is allowed to be present in the text zero or one times only.
+    // Keep track of whether decimal point is allowed.
+    // It is allowed to be present in the text zero or one times only.
     bool decimal_allowed = true;
 
     size_t len = text.length();
