@@ -462,6 +462,7 @@ int main(int argc, char* argv[])
         PRINT_ERROR << "SDL window creation failed: " << SDL_GetError() << std::endl;
         return false;
     }
+    SDL_HideWindow(sdl_window);
 
     // Set the window icon
     SDL_Surface* icon = IMG_Load("data/icons/program_icon.png");
@@ -537,6 +538,7 @@ int main(int argc, char* argv[])
     std::string app_fullname = vt_system::Translate("Valyria Tear");
     SDL_SetWindowTitle(sdl_window, app_fullname.c_str());
 
+    SDL_ShowWindow(sdl_window);
     ModeManager->Push(new BootMode(), false, true);
 
     // Used for a variable game speed, sleeping when on sufficiently fast hardware, and max FPS.
