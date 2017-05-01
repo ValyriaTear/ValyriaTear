@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-05 16:26+0100\n"
-"PO-Revision-Date: 2016-08-25 12:43+0200\n"
-"Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
+"PO-Revision-Date: 2017-04-30 20:59+0100\n"
+"Last-Translator: Nicola Spanti <translation@nicola-spanti.info>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/valyria-tear/"
 "language/fr/)\n"
 "Language: fr\n"
@@ -20,7 +20,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.8.8\n"
 
 #: ../src/common/global/battle_media.cpp:98
 #: ../src/modes/battle/battle_menu.cpp:143
@@ -857,7 +856,8 @@ msgstr "Inverser"
 #: ../src/modes/menu/menu_views.cpp:1156
 msgid "Select a battle formation to change characters placement."
 msgstr ""
-"Sélectionnez formation de combat pour modifier la position des personnages."
+"Sélectionner une formation de combat pour changer le placement des "
+"personnages."
 
 #: ../src/modes/menu/menu_views.cpp:1159
 msgid "Rear - Front"
@@ -4681,7 +4681,8 @@ msgstr ""
 #: ../data/story/layna_village/layna_village_bronanns_home_script.lua:268
 msgid "Sorry, son. It's maybe a bit early, but I'd like you to be careful."
 msgstr ""
-"Désolé, fils. C'est peut-être un peu tôt, mais j'aimerais tu sois prudent."
+"Désolé, fils. C'est peut-être un peu tôt, mais j'aimerais que tu sois "
+"prudent."
 
 #: ../data/story/layna_village/layna_village_bronanns_home_script.lua:270
 msgid ""
