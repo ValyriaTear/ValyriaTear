@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ***************************************************************************
@@ -65,7 +65,8 @@ GameMode::~GameMode()
     IF_PRINT_WARNING(MODE_MANAGER_DEBUG)
             << "MODE MANAGER: GameMode destructor invoked" << std::endl;
 
-    // Tells the audio manager that the mode is ending to permit freeing self-managed audio files.
+    // Tells the audio manager that the mode is ending
+    // to permit freeing self-managed audio files.
     AudioManager->RemoveGameModeOwner(this);
 }
 
@@ -182,7 +183,7 @@ void ModeEngine::Pop(bool fade_out, bool fade_in)
 {
     _fade_in = fade_in;
 
-    _pop_count++;
+    ++_pop_count;
     _state_change = true;
 
     if(fade_out) {
@@ -232,8 +233,7 @@ uint8_t ModeEngine::GetGameType()
 {
     if(_game_stack.empty())
         return MODE_MANAGER_DUMMY_MODE;
-    else
-        return _game_stack.back()->GetGameType();
+    return _game_stack.back()->GetGameType();
 }
 
 
@@ -242,8 +242,7 @@ uint8_t ModeEngine::GetGameType(uint32_t index)
 {
     if(_game_stack.size() < index)
         return MODE_MANAGER_DUMMY_MODE;
-    else
-        return _game_stack.at(_game_stack.size() - index)->GetGameType();
+    return _game_stack.at(_game_stack.size() - index)->GetGameType();
 }
 
 
@@ -252,8 +251,7 @@ GameMode *ModeEngine::GetTop()
 {
     if(_game_stack.empty())
         return nullptr;
-    else
-        return _game_stack.back();
+    return _game_stack.back();
 }
 
 // Returns a pointer to a game mode on the stack
@@ -273,7 +271,8 @@ GameMode *ModeEngine::Get(uint32_t index)
 void ModeEngine::Update()
 {
     // Check whether the fade out is done.
-    if(_fade_out && VideoManager->IsLastFadeTransitional() && !VideoManager->IsFading()) {
+    if(_fade_out && VideoManager->IsLastFadeTransitional() &&
+            !VideoManager->IsFading()) {
         _fade_out = false;
         _fade_out_finished = true;
     }
@@ -302,13 +301,15 @@ void ModeEngine::Update()
             _push_stack.pop_back();
         }
 
-        // Make sure there is a game mode on the stack, otherwise we'll get a segmentation fault.
+        // Make sure there is a game mode on the stack,
+	// otherwise we'll get a segmentation fault.
         if(_game_stack.empty()) {
             PRINT_WARNING << "game stack is empty, exiting application" << std::endl;
             SystemManager->ExitGame();
         }
 
-        // Call the newly active game mode's Reset() function to re-initialize the game mode
+        // Call the newly active game mode's Reset() function
+        // to re-initialize the game mode
         _game_stack.back()->Reset();
 
         // Reset the state change variable
@@ -320,7 +321,8 @@ void ModeEngine::Update()
         // We can now fade in, or not
         VideoManager->_TransitionalFadeIn(_fade_in ? FADE_IN_OUT_TIME : 0);
 
-        // Call the system manager and tell it that the active game mode changed so it can update timers accordingly
+        // Call the system manager and tell it that the active game mode changed
+        // so it can update timers accordingly
         SystemManager->ExamineSystemTimers();
 
         // Re-initialize the game update timer so that the new active game mode does not begin with any update time to process
@@ -372,7 +374,8 @@ void ModeEngine::DEBUG_PrintStack()
 
     PRINT_WARNING << "***top of stack***" << std::endl;
     for(int32_t i = static_cast<int32_t>(_game_stack.size()) - 1; i >= 0; i--)
-        PRINT_WARNING << " index: " << i << " type: " << _game_stack[i]->GetGameType() << std::endl;
+        PRINT_WARNING << " index: " << i
+                      << " type: " << _game_stack[i]->GetGameType() << std::endl;
     PRINT_WARNING << "***bottom of stack***" << std::endl;
 }
 

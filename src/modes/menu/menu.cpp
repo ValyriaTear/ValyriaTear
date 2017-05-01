@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
@@ -277,7 +277,6 @@ AbstractMenuState* MainMenuState::GetTransitionState(uint32_t selection)
         default:
             PRINT_ERROR << "MENU ERROR: Invalid option in " << GetStateName() << "::GetTransitionState" << std::endl;
             break;
-
     }
     return nullptr;
 }
@@ -569,7 +568,6 @@ void SkillsState::Reset()
 
 AbstractMenuState* SkillsState::GetTransitionState(uint32_t selection)
 {
-
     switch(selection)
     {
         case SKILLS_OPTIONS_BACK:
@@ -590,7 +588,8 @@ void EquipState::Reset()
     if(_from_state == &_menu_mode->_inventory_state)
     {
         // if its from the inventory EQUIP selection, activate the window with the equip flag set to true
-        if(_from_state->GetOptions()->GetSelection() == InventoryState::INV_OPTIONS_EQUIP)
+        if(_from_state->GetOptions()->GetSelection()
+                == InventoryState::INV_OPTIONS_EQUIP)
             _menu_mode->_equip_window.Activate(true, true);
         // otherwise, it was from the REMOVE selection, activate the window with the equip flag set to false
         else
@@ -668,13 +667,11 @@ void QuestState::_OnDrawMainWindow()
 {
     _DrawBottomMenu();
     _menu_mode->_quest_window.Draw();
-
 }
 
 void QuestState::_OnDrawSideWindow()
 {
     _menu_mode->_quest_list_window.Draw();
-
 }
 
 void QuestState::_DrawBottomMenu()
@@ -696,7 +693,6 @@ WorldMapState::WorldMapState(MenuMode *menu_mode):
     _location_text.SetDimensions(500.0f, 50.0f);
     _location_text.SetTextStyle(TextStyle("title22"));
     _location_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-
 }
 
 void WorldMapState::Reset()
@@ -731,7 +727,6 @@ void WorldMapState::_DrawBottomMenu()
             VideoManager->Move(390, 685);
             _location_image->Draw();
         }
-
     }
 }
 
@@ -1053,7 +1048,9 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character,
                                    EQUIP_VIEW view_type)
 {
     // Only update when necessary
-    if ((_object == object) && (_character == character) && (_equip_view_type == view_type))
+    if ((_object == object) &&
+            (_character == character) &&
+            (_equip_view_type == view_type))
         return;
 
     _object = object;
@@ -1091,12 +1088,14 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character,
     _object_name.SetText(_object->GetName());
 
     // Loads status effects.
-    const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& status_effects = _object->GetStatusEffects();
+    const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& status_effects =
+        _object->GetStatusEffects();
     _status_icons.clear();
     for(std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >::const_iterator it = status_effects.begin();
             it != status_effects.end(); ++it) {
         if(it->second != GLOBAL_INTENSITY_NEUTRAL)
-            _status_icons.push_back(GlobalManager->Media().GetStatusIcon(it->first, it->second));
+            _status_icons.push_back(GlobalManager->Media().GetStatusIcon(it->first,
+                                                                         it->second));
     }
 
     uint32_t equip_phys_stat = 0;
@@ -1108,8 +1107,10 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character,
         case GLOBAL_OBJECT_WEAPON: {
             _is_weapon = true;
             std::shared_ptr<GlobalWeapon> wpn = nullptr;
-            // If character view or unequipping, we take the character current weapon as a base
-            if (view_type == EQUIP_VIEW_CHAR || view_type == EQUIP_VIEW_UNEQUIPPING)
+            // If character view or unequipping,
+            // we take the character current weapon as a base
+            if (view_type == EQUIP_VIEW_CHAR ||
+                    view_type == EQUIP_VIEW_UNEQUIPPING)
                 wpn = _character ? _character->GetWeaponEquipped() : nullptr;
             else // We can take the given object as a base
                 wpn = std::dynamic_pointer_cast<GlobalWeapon>(_object);
@@ -1125,7 +1126,8 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character,
             for (uint32_t i = 0; i < equip_skills.size() && i < 5; ++i) {
                 GlobalSkill *skill = new GlobalSkill(equip_skills[i]);
                 if (skill && skill->IsValid()) {
-                    _equip_skills.push_back(vt_video::TextImage(skill->GetName(), TextStyle("text20")));
+                    _equip_skills.push_back(vt_video::TextImage(skill->GetName(),
+                                                                TextStyle("text20")));
                     _equip_skill_icons.push_back(vt_video::StillImage());
                     vt_video::StillImage& img = _equip_skill_icons.back();
                     img.Load(skill->GetIconFilename());
@@ -1164,7 +1166,8 @@ void MenuMode::UpdateEquipmentInfo(GlobalCharacter *character,
             for (uint32_t i = 0; i < equip_skills.size() && i < 5; ++i) {
                 GlobalSkill *skill = new GlobalSkill(equip_skills[i]);
                 if (skill && skill->IsValid()) {
-                    _equip_skills.push_back(vt_video::TextImage(skill->GetName(), TextStyle("text20")));
+                    _equip_skills.push_back(vt_video::TextImage(skill->GetName(),
+                                                                TextStyle("text20")));
                     _equip_skill_icons.push_back(vt_video::StillImage());
                     vt_video::StillImage& img = _equip_skill_icons.back();
                     img.Load(skill->GetIconFilename());

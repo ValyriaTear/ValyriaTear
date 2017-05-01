@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
@@ -164,7 +164,8 @@ static bool UTF8ToUTF16(const std::string& source, uint16_t *dest)
         return false;
     }
 
-#if (defined(_LIBICONV_VERSION) && _LIBICONV_VERSION == 0x0109) || defined(__FreeBSD__)
+#if (defined(_LIBICONV_VERSION) && _LIBICONV_VERSION == 0x0109) || \
+    defined(__FreeBSD__)
     // We are using an iconv API that uses const char*
     const char *sourceChar = source.c_str();
 #else
