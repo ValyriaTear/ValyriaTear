@@ -1,8 +1,11 @@
 language: cpp
+
 compiler:
   - gcc
   - clang
+
 cache: apt
+
 # Forces gcc 4.8 for c++11 support
 env:
   global:
@@ -11,30 +14,38 @@ env:
 git:
   submodules: false
 
+addons:
+  apt:
+    packages:
+      - freeglut3-dev
+      - libopenal-dev
+      - libalut-dev
+      - libvorbis-dev
+      - libogg-dev
+      - liblua5.1-0-dev
+      - libgettextpo-dev
+      - libboost-all-dev
+      - libqt4-opengl-dev
+      - libglew-dev
+      - cppcheck
+
 before_install:
   # Force th update of the submodule manually
   - git submodule update --init --recursive --force --remote
   # Add gcc 4.8
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq cppcheck freeglut3-dev
-  - sudo apt-get install -qq libopenal-dev libalut-dev libvorbis-dev libogg-dev
-  - sudo apt-get install -qq liblua5.1-0-dev libgettextpo-dev libboost-all-dev
-  - sudo apt-get install -qq libqt4-opengl-dev
-  - sudo apt-get install -qq libglew-dev
-
   # Clang is not system wide.  This is a work around.
   - $CC --version
   - which $CC
   - export CC=`which $CC`
 
-  - wget http://www.libsdl.org/release/SDL2-2.0.3.tar.gz -O - | tar xz
-  - (cd SDL2-2.0.3 && ./configure --prefix=/usr && sudo make -j5 && sudo make install)
-  - wget http://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.0.tar.gz -O - | tar xz
-  - (cd SDL2_image-2.0.0 && ./configure --prefix=/usr && sudo make -j5 && sudo make install)
-  - wget http://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.12.tar.gz -O - | tar xz
-  - (cd SDL2_ttf-2.0.12 && ./configure --prefix=/usr && sudo make -j5 && sudo make install)
+  - wget https://www.libsdl.org/release/SDL2-2.0.5.tar.gz -O - | tar xz
+  - (cd SDL2-2.0.5 && ./configure --prefix=/usr && sudo make -j`nproc` && sudo make install)
+  - wget https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.1.tar.gz -O - | tar xz
+  - (cd SDL2_image-2.0.1 && ./configure --prefix=/usr && sudo make -j`nproc` && sudo make install)
+  - wget https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.14.tar.gz -O - | tar xz
+  - (cd SDL2_ttf-2.0.14 && ./configure --prefix=/usr && sudo make -j`nproc` && sudo make install)
 
 install:
   - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq "g++-${GCC_VERSION}"; fi
