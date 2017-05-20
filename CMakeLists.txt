@@ -27,6 +27,78 @@ ELSE()
     SET(VER_BUILD 0)
 ENDIF()
 
+# Configuration of compilers
+## Compiler flags to add
+### Flags for GCC and Clang
+set(GNU_FLAGS_WARNING_YES "-Wall -Wextra -Wformat=2 -Wpedantic -Wshadow -Wmissing-declarations -Wfloat-equal")
+set(GNU_FLAGS_WARNING_NO  "-Wno-unused-command-line-argument -Wno-documentation -Wno-format-nonliteral")
+set(GNU_FLAGS_WARNING     "${GNU_FLAGS_WARNING_YES} ${GNU_FLAGS_WARNING_NO}")
+set(GNU_FLAGS_ERROR       "-pedantic-errors -Werror") # warning is error
+if (CMAKE_C_COMPILER_ID STREQUAL "GNU" OR
+    CMAKE_C_COMPILER_ID STREQUAL "GCC")
+  set(GNU_FLAGS_SUGGEST   "-Wsuggest-attribute=pure")
+endif()
+set(GNU_FLAGS_DEFAULT     "${GNU_FLAGS_WARNING} ${GNU_FLAGS_ERROR} ${GNU_FLAGS_SUGGEST}")
+if (CMAKE_C_COMPILER_ID STREQUAL "GNU"   AND
+    CMAKE_C_COMPILER_VERSION VERSION_GREATER 4.9)
+  # A color output is easier to read.
+  set(GNU_FLAGS_DEFAULT   "${GNU_FLAGS_DEFAULT} -fdiagnostics-color=auto")
+endif()
+set(GNU_FLAGS_OPTIMIZE    "-O2 -s")
+set(GNU_FLAGS_SECURITY_PI "-fPIC -fPIE -pie")
+if (( CMAKE_C_COMPILER_ID STREQUAL "GNU"   AND
+      CMAKE_C_COMPILER_VERSION VERSION_LESS 4.9 ) OR
+    ( CMAKE_C_COMPILER_ID STREQUAL "Clang" AND
+      CMAKE_C_COMPILER_VERSION VERSION_LESS 3.5 ))
+  set(GNU_FLAGS_SECURITY_STACK "-fstack-protector-all")
+  # Protects a bit "too much", but better that nothing
+else()
+  set(GNU_FLAGS_SECURITY_STACK "-fstack-protector-strong")
+endif()
+set(GNU_FLAGS_SECURITY_COMPILE "-D_FORTIFY_SOURCE=2")
+set(GNU_FLAGS_SECURITY_COMPILE
+  "${GNU_FLAGS_SECURITY_COMPILE} ${GNU_FLAGS_SECURITY_PI}")
+set(GNU_FLAGS_SECURITY_COMPILE
+  "${GNU_FLAGS_SECURITY_COMPILE} ${GNU_FLAGS_SECURITY_STACK}")
+set(GNU_FLAGS_SECURITY_LINK    "-Wl,-z,relro -Wl,-z,now")
+if (WIN32)
+  set(GNU_FLAGS_SECURITY_LINK  "${GNU_FLAGS_SECURITY_LINK} -Wl,dynamicbase") # ASLR
+  set(GNU_FLAGS_SECURITY_LINK  "${GNU_FLAGS_SECURITY_LINK} -Wl,nxcompat")    # DEP
+endif()
+set(GNU_FLAGS_SECURITY  "${GNU_FLAGS_SECURITY_COMPILE} ${GNU_FLAGS_SECURITY_LINK}")
+set(GNU_FLAGS_DEBUG     "-O0 -g -D_FORTIFY_SOURCE=0")
+set(GNU_C_FLAGS_RELEASE "${GNU_FLAGS_OPTIMIZE} ${GNU_FLAGS_SECURITY}")
+set(GNU_C_FLAGS_DEBUG   "${GNU_FLAGS_DEBUG}")
+set(GNU_C_FLAGS         "${GNU_FLAGS_DEFAULT}")
+if (CMAKE_BUILD_TYPE MATCHES "RELEASE" OR
+    CMAKE_BUILD_TYPE MATCHES "release" OR
+    CMAKE_BUILD_TYPE MATCHES "Release")
+  set(GNU_C_FLAGS       "${GNU_C_FLAGS} ${GNU_C_FLAGS_RELEASE}")
+endif()
+### Flags for LLVM/Clang
+set(LLVM_FLAGS_WARNING_YES
+  "-Weverything")
+set(LLVM_FLAGS_WARNING_NO
+  "-Wno-disabled-macro-expansion -Wno-padded -Wno-bad-function-cast -Wno-unreachable-code -Wno-missing-prototypes")
+set(LLVM_FLAGS_WARNING
+  "${LLVM_FLAGS_WARNING_YES} ${LLVM_FLAGS_WARNING_NO}")
+set(LLVM_FLAGS_SANITIZE
+  "-fsanitize=alignment -fsanitize=bool -fsanitize=bounds -fsanitize=enum -fsanitize=float-divide-by-zero -fsanitize=integer-divide-by-zero -fsanitize=null -fsanitize=object-size -fsanitize=shift")
+set(LLVM_FLAGS_DEFAULT "${LLVM_FLAGS_WARNING} ${LLVM_FLAGS_SANITIZE}")
+## Add C compiler options
+if (CMAKE_C_COMPILER_ID STREQUAL "GNU"   OR
+    CMAKE_C_COMPILER_ID STREQUAL "GCC"   OR
+    CMAKE_C_COMPILER_ID STREQUAL "Clang" OR
+    CMAKE_C_COMPILER_ID STREQUAL "LLVM")
+  set(CMAKE_C_FLAGS       "${CMAKE_C_FLAGS}       ${GNU_C_FLAGS}")
+  set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} ${GNU_C_FLAGS_DEBUG}")
+endif()
+if (CMAKE_C_COMPILER_ID STREQUAL "Clang" OR
+    CMAKE_C_COMPILER_ID STREQUAL "LLVM")
+  set(CMAKE_C_FLAGS       "${CMAKE_C_FLAGS}       ${LLVM_FLAGS_DEFAULT}")
+  set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} ${LLVM_FLAGS_DEFAULT}")
+endif()
+
 # where to look for cmake modules
 SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
 
@@ -57,9 +129,16 @@ ENDIF(NOT DISABLE_TRANSLATIONS)
 # CPack installation part
 If(UNIX)
     # Shortcut desktop file
-    INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/valyriatear.desktop" DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications)
+    INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/valyriatear.desktop"
+            DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications)
     # data files
-    INSTALL(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/data" DESTINATION ${PKG_DATADIR} FILES_MATCHING PATTERN "*.lua" PATTERN "*.png" PATTERN "*.ttf" PATTERN "*.wav" PATTERN "*.ogg")
+    INSTALL(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/data"
+            DESTINATION ${PKG_DATADIR} FILES_MATCHING
+            PATTERN "*.lua"
+            PATTERN "*.png"
+            PATTERN "*.ttf"
+            PATTERN "*.wav"
+            PATTERN "*.ogg")
     # icon file
     INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/data/icons/program_icon_48x48.png"
             DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/48x48/apps RENAME valyriatear.png)
