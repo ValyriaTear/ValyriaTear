@@ -127,7 +127,7 @@ bool WriteScriptDescriptor::SaveFile()
     }
 
     _outfile.flush();
-    return _outfile.bad();
+    return !_outfile;
 }
 
 //-----------------------------------------------------------------------------
