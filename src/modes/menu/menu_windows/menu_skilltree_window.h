@@ -87,6 +87,10 @@ private:
     float _current_x_offset;
     float _current_y_offset;
 
+    //! \brief The current centered view offsets
+    float _view_x_position;
+    float _view_y_position;
+
     //! \brief the current index to the location the pointer is on
     uint32_t _selected_node_index;
 

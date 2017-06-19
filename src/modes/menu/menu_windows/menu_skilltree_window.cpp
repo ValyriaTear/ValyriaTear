@@ -43,6 +43,8 @@ SkillTreeWindow::SkillTreeWindow() :
     _selected_character_id(std::numeric_limits<uint32_t>::max()), // Invalid id
     _current_x_offset(-1.0f), // Invalid view
     _current_y_offset(-1.0f),
+    _view_x_position(0.0f),
+    _view_y_position(0.0f),
     _selected_node_index(std::numeric_limits<uint32_t>::max()), // Invalid index
     _active(false)
 {
@@ -74,9 +76,25 @@ void SkillTreeWindow::Update()
     if (!_active)
         return;
 
+    // Updates view center coordinates
+    GetPosition(_view_x_position, _view_y_position);
+    _view_x_position += SKILL_TREE_AREA_WIDTH / 2.0f;
+    _view_y_position += SKILL_TREE_AREA_HEIGHT / 2.0f;
+
     // TODO: Handle the appropriate input events
     if(InputManager->CancelPress()) {
         SetActive(false);
+    }
+    else if (InputManager->LeftPress()) {
+        if (_selected_node_index > 0) {
+            --_selected_node_index;
+        }
+    }
+    else if (InputManager->RightPress()) {
+        // FIXME: Hardcoded
+        if (_selected_node_index < 3) {
+            ++_selected_node_index;
+        }
     }
 
     // TODO
@@ -84,36 +102,38 @@ void SkillTreeWindow::Update()
 
 void SkillTreeWindow::Draw()
 {
-    // TODO: Add true background window
+    // Background window
     MenuWindow::Draw();
-
-    // Setup view center coordinates
-    // TODO: To move toward Update()
-    float view_position_x = 0.0f;
-    float view_position_y = 0.0f;
-    GetPosition(view_position_x, view_position_y);
-    view_position_x += SKILL_TREE_AREA_WIDTH / 2.0f;
-    view_position_y += SKILL_TREE_AREA_HEIGHT / 2.0f;
 
     // Draw the visible lines
     for (NodeLine node_line : _displayed_node_links) {
-        vt_video::VideoManager->DrawLine(node_line.x1 + view_position_x,
-                                         node_line.y1 + view_position_y, 5,
-                                         node_line.x2 + view_position_x,
-                                         node_line.y2 + view_position_y, 5,
+        vt_video::VideoManager->DrawLine(node_line.x1 + _view_x_position,
+                                         node_line.y1 + _view_y_position, 5,
+                                         node_line.x2 + _view_x_position,
+                                         node_line.y2 + _view_y_position, 5,
                                          grayed_path);
     }
 
     // Draw the visible skill nodes
     for (SkillNode* skill_node : _displayed_skill_nodes) {
-        VideoManager->Move(view_position_x, view_position_y);
+        VideoManager->Move(_view_x_position, _view_y_position);
         VideoManager->MoveRelative(skill_node->GetXLocation() - _current_x_offset,
                                    skill_node->GetYLocation() - _current_y_offset);
         // Center the image
         vt_video::StillImage& image = skill_node->GetIconImage();
         VideoManager->MoveRelative(-image.GetWidth() / 2.0f,
                                    -image.GetHeight() / 2.0f);
-        skill_node->GetIconImage().Draw();
+        image.Draw();
+
+        // Draw the marker on the currently selected node
+        if (_selected_node_index == skill_node->GetId()) {
+            VideoManager->Move(_view_x_position, _view_y_position);
+            VideoManager->MoveRelative(skill_node->GetXLocation() - _current_x_offset,
+                                       skill_node->GetYLocation() - _current_y_offset);
+            VideoManager->MoveRelative(-_location_pointer.GetWidth() / 3.0f,
+                                       -image.GetHeight() - _location_pointer.GetHeight());
+            _location_pointer.Draw();
+        }
     }
 }
 
