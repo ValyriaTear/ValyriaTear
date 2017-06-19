@@ -250,8 +250,6 @@ void GameGlobal::ClearAllData()
     _show_minimap = true;
 
     _home_map.Clear();
-
-    _skill_tree.Clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

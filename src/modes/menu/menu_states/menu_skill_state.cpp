@@ -18,11 +18,21 @@ namespace private_menu {
 
 void SkillsState::_ActiveWindowUpdate()
 {
-    _menu_mode->_skills_window.Update();
+    switch (_current_category) {
+        default:
+            _menu_mode->_skills_window.Update();
+            break;
+        case SKILLS_OPTIONS_SKILL_TREE:
+            _menu_mode->_skilltree_window.Update();
+        break;
+    }
 }
 
 bool SkillsState::_IsActive()
 {
+    if (_current_category == SKILLS_OPTIONS_SKILL_TREE) {
+        return _menu_mode->_skilltree_window.IsActive();
+    }
     return _menu_mode->_skills_window.IsActive();
 }
 
@@ -35,25 +45,30 @@ void SkillsState::Reset()
     // Generate the strings
     std::vector<vt_utils::ustring> options;
     options.push_back(vt_system::UTranslate("Use"));
+    options.push_back(vt_system::UTranslate("Improve"));
     options.push_back(vt_system::UTranslate("Back"));
 
     // Add strings and set default selection.
     _options.SetOptions(options);
-    _options.SetSelection(SKILLS_OPTIONS_USE);
+    _current_category = SKILLS_OPTIONS_USE;
+    _options.SetSelection(_current_category);
 }
 
 AbstractMenuState* SkillsState::GetTransitionState(uint32_t selection)
 {
-    switch(selection)
+    _current_category = static_cast<SKILLS_CATEGORY>(selection);
+    switch(_current_category)
     {
         case SKILLS_OPTIONS_BACK:
             return &(_menu_mode->_main_menu_state);
+        case SKILLS_OPTIONS_SKILL_TREE:
+            _menu_mode->_skilltree_window.SetActive(true);
+            break;
         case SKILLS_OPTIONS_USE:
             _menu_mode->_skills_window.Activate(true);
             break;
         default:
             break;
-
     }
     return nullptr;
 }
@@ -61,18 +76,32 @@ AbstractMenuState* SkillsState::GetTransitionState(uint32_t selection)
 void SkillsState::_OnDrawMainWindow()
 {
     _DrawBottomMenu();
-    _menu_mode->_skills_window.Draw();
+    switch (_current_category) {
+        default:
+            _menu_mode->_skills_window.Draw();
+            break;
+        case SKILLS_OPTIONS_SKILL_TREE:
+            _menu_mode->_skilltree_window.Draw();
+        break;
+    }
 }
 
 void SkillsState::_DrawBottomMenu()
 {
     _menu_mode->_bottom_window.Draw();
 
-    vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_TOP, 0);
-    vt_video::VideoManager->Move(90, 580);
-    _menu_mode->_skills_window._skill_icon.Draw();
+    switch (_current_category) {
+        default:
+            vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_TOP, 0);
+            vt_video::VideoManager->Move(90, 580);
+            _menu_mode->_skills_window._skill_icon.Draw();
 
-    _menu_mode->_skills_window._description.Draw();
+            _menu_mode->_skills_window._description.Draw();
+            break;
+        case SKILLS_OPTIONS_SKILL_TREE:
+            // TODO: Display skill tree window bottom info
+            break;
+    }
 }
 
 } // namespace private_menu

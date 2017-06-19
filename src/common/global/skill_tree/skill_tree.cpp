@@ -47,17 +47,20 @@ bool SkillTree::Initialize(const std::string& skill_tree_file)
         uint32_t skill_points_needed = script.ReadUInt("skill_points_needed");
         uint32_t skill_id_learned = script.ReadUInt("skill_id_learned");
 
-        SkillNode skill_node(node_id,
-                             x_location,
-                             y_location,
-                             icon_file,
-                             skill_points_needed,
-                             skill_id_learned);
+        SkillNode* skill_node = new SkillNode(node_id,
+                                              x_location,
+                                              y_location,
+                                              icon_file,
+                                              skill_points_needed,
+                                              skill_id_learned);
 
         // Read potential other data
         _ReadItemsNeeded(script, skill_node);
         _ReadStatsUpgrades(script, skill_node);
         _ReadNodeLinks(script, skill_node);
+
+        // Add the node to the graph
+        _skill_tree_data.emplace_back(skill_node);
 
         script.CloseTable(); // node_id
     }
@@ -65,7 +68,7 @@ bool SkillTree::Initialize(const std::string& skill_tree_file)
 }
 
 void SkillTree::_ReadItemsNeeded(vt_script::ReadScriptDescriptor& script,
-                                 SkillNode& skill_node)
+                                 SkillNode* skill_node)
 {
     std::vector<uint32_t> item_ids;
     script.ReadTableKeys("items_needed", item_ids);
@@ -76,14 +79,14 @@ void SkillTree::_ReadItemsNeeded(vt_script::ReadScriptDescriptor& script,
 
     for (uint32_t item_id : item_ids) {
         uint32_t item_number = script.ReadUInt(item_id);
-        skill_node.AddNeededItem(item_id, item_number);
+        skill_node->AddNeededItem(item_id, item_number);
     }
 
     script.CloseTable(); // items_needed
 }
 
 void SkillTree::_ReadStatsUpgrades(vt_script::ReadScriptDescriptor& script,
-                                   SkillNode& skill_node)
+                                   SkillNode* skill_node)
 {
     std::vector<uint32_t> stat_ids;
     script.ReadTableKeys("stat", stat_ids);
@@ -94,24 +97,24 @@ void SkillTree::_ReadStatsUpgrades(vt_script::ReadScriptDescriptor& script,
 
     for (uint32_t stat_id: stat_ids) {
         uint32_t upgrade = script.ReadUInt(stat_id);
-        skill_node.AddStatUpgrade(stat_id, upgrade);
+        skill_node->AddStatUpgrade(stat_id, upgrade);
     }
 
     script.CloseTable(); // stat
 }
 
 void SkillTree::_ReadNodeLinks(vt_script::ReadScriptDescriptor& script,
-                               SkillNode& skill_node)
+                               SkillNode* skill_node)
 {
     std::vector<uint32_t> node_ids;
-    script.ReadTableKeys("links", node_ids);
+    script.ReadUIntVector("links", node_ids);
 
     // No node ids can happen for end of tree.
     if (node_ids.empty() || !script.OpenTable("links"))
         return;
 
     for (uint32_t node_id: node_ids) {
-        skill_node.AddNodeLink(node_id);
+        skill_node->AddNodeLink(node_id);
     }
 
     script.CloseTable(); // links
@@ -119,9 +122,9 @@ void SkillTree::_ReadNodeLinks(vt_script::ReadScriptDescriptor& script,
 
 SkillNode* SkillTree::GetSkillNode(uint32_t skill_node_id)
 {
-    for (SkillNode& skill_node : _skill_tree_data) {
-        if (skill_node.GetId() == skill_node_id)
-            return &skill_node;
+    for (SkillNode* skill_node : _skill_tree_data) {
+        if (skill_node->GetId() == skill_node_id)
+            return skill_node;
     }
     return nullptr;
 }

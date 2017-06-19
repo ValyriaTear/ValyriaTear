@@ -19,7 +19,7 @@ skill_tree = {
         -- X location
         x_location = 300,
         -- Y location
-        y_location = 120,
+        y_location = 100,
         -- icon filename,
         icon_file = "data/gui/menus/socket.png",
         -- skill point cost needed to reach this node
@@ -42,7 +42,7 @@ skill_tree = {
     -- node id
     [1] = {
         -- X location
-        x_location = 310,
+        x_location = 350,
         -- Y location
         y_location = 120,
         -- icon filename,
@@ -68,9 +68,9 @@ skill_tree = {
     -- node id
     [2] = {
         -- X location
-        x_location = 310,
+        x_location = 380,
         -- Y location
-        y_location = 120,
+        y_location = 60,
         -- icon filename,
         icon_file = "data/gui/menus/key.png",
         -- skill point cost needed to reach this node
@@ -93,9 +93,9 @@ skill_tree = {
     -- node id
     [3] = {
         -- X location
-        x_location = 310,
+        x_location = 420,
         -- Y location
-        y_location = 120,
+        y_location = 60,
         -- icon filename,
         icon_file = "data/gui/menus/key.png",
         -- skill point cost needed to reach this node

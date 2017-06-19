@@ -50,7 +50,6 @@ MenuMode::MenuMode() :
     _equip_view_type(private_menu::EQUIP_VIEW_NONE),
     _is_weapon(false),
     _spirit_number(0)
-
 {
     _current_instance = this;
 
@@ -166,6 +165,10 @@ MenuMode::MenuMode() :
     _skills_window.Create(static_cast<float>(win_width * 4 + 16), 448, vt_gui::VIDEO_MENU_EDGE_ALL);
     _skills_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
 
+    // Set up the skilltree window
+    _skilltree_window.Create(static_cast<float>(win_width * 4 + 16), 448, vt_gui::VIDEO_MENU_EDGE_ALL);
+    _skilltree_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
+
     // Set up the equipment window
     _equip_window.Create(static_cast<float>(win_width * 4 + 16), 448, vt_gui::VIDEO_MENU_EDGE_ALL);
     _equip_window.SetPosition(static_cast<float>(win_start_x), static_cast<float>(win_start_y + 10));
@@ -209,6 +212,7 @@ MenuMode::MenuMode() :
     _party_window.Show();
     _battle_formation_window.Show();
     _skills_window.Show();
+    _skilltree_window.Show();
     _equip_window.Show();
     _quest_window.Show();
     _world_map_window.Show();
@@ -245,6 +249,7 @@ MenuMode::~MenuMode()
     _party_window.Destroy();
     _battle_formation_window.Destroy();
     _skills_window.Destroy();
+    _skilltree_window.Destroy();
     _main_options_window.Destroy();
     _equip_window.Destroy();
     _quest_window.Destroy();

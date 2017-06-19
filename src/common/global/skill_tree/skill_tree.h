@@ -26,11 +26,18 @@ public:
     SkillTree()
     {}
 
+    ~SkillTree() {
+        Clear();
+    }
+
     //! \brief Initialize the skill tree data.
     //! \returns true if everthing went fine.
     bool Initialize(const std::string& skill_tree_file);
 
     void Clear() {
+        for (SkillNode* node : _skill_tree_data) {
+            delete node;
+        }
         _skill_tree_data.clear();
     }
 
@@ -39,25 +46,25 @@ public:
     SkillNode* GetSkillNode(uint32_t skill_node_id);
 
     //! \brief Returns the skill tree data
-    const std::vector<SkillNode>& GetSkillNodes() const {
+    const std::vector<SkillNode*>& GetSkillNodes() const {
         return _skill_tree_data;
     }
 
 private:
     //! \brief The vector of skill nodes.
-    std::vector<SkillNode> _skill_tree_data;
+    std::vector<SkillNode*> _skill_tree_data;
 
     //! \brief Read item data and add them in the skill node data
     void _ReadItemsNeeded(vt_script::ReadScriptDescriptor& script,
-                          SkillNode& skill_node);
+                          SkillNode* skill_node);
 
     //! \brief Read stat upgrades and add them in the skill node data
     void _ReadStatsUpgrades(vt_script::ReadScriptDescriptor& script,
-                            SkillNode& skill_node);
+                            SkillNode* skill_node);
 
     //! \brief Read node links and add them in the skill node data
     void _ReadNodeLinks(vt_script::ReadScriptDescriptor& script,
-                        SkillNode& skill_node);
+                        SkillNode* skill_node);
 };
 
 } // namespace vt_global

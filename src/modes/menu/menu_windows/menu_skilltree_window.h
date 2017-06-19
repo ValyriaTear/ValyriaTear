@@ -63,9 +63,8 @@ public:
         return _active;
     }
 
-    //! \brief switch the active state of this window, and do any associated work
-    //! \param activate or deactivate
-    void Activate(bool new_state);
+    //! \brief Set the active state of this window, and do any associated work.
+    void SetActive(bool new_state);
 
     //! \brief Set the character for this window
     //! \param character the character to associate with this window

@@ -27,6 +27,7 @@ class SkillsState : virtual public AbstractMenuState {
 public:
     enum SKILLS_CATEGORY {
         SKILLS_OPTIONS_USE,
+        SKILLS_OPTIONS_SKILL_TREE,
         SKILLS_OPTIONS_BACK,
         SKILLS_OPTIONS_SIZE
 
@@ -34,17 +35,22 @@ public:
 
     //! \brief Skills state constructor
     explicit SkillsState(MenuMode* menu_mode):
-        AbstractMenuState("Skills State", menu_mode)
+        AbstractMenuState("Skills State", menu_mode),
+        _current_category(SKILLS_OPTIONS_USE)
     {}
 
     ~SkillsState(){}
     void Reset();
-    AbstractMenuState *GetTransitionState(uint32_t selection);
+    AbstractMenuState* GetTransitionState(uint32_t selection);
+
 protected:
     void _DrawBottomMenu();
     void _OnDrawMainWindow();
     void _ActiveWindowUpdate();
     bool _IsActive();
+
+private:
+    SKILLS_CATEGORY _current_category;
 };
 
 } // namespace private_menu

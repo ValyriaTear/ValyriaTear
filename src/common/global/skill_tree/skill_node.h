@@ -43,7 +43,7 @@ public:
         return _y_location;
     }
 
-    const vt_video::StillImage& GetIconImage() const {
+    vt_video::StillImage& GetIconImage() {
         return _icon_image;
     }
 
