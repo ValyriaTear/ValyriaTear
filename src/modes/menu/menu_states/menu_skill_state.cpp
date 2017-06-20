@@ -99,7 +99,7 @@ void SkillsState::_DrawBottomMenu()
             _menu_mode->_skills_window._description.Draw();
             break;
         case SKILLS_OPTIONS_SKILL_TREE:
-            // TODO: Display skill tree window bottom info
+            _menu_mode->_skilltree_window.DrawBottomWindow();
             break;
     }
 }

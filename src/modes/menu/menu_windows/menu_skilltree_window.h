@@ -53,9 +53,11 @@ public:
     //! \brief Performs updates
     void Update();
 
-    //! \brief Draws window
-    //! \return success/failure
+    //! \brief Draws skill graph main window
     void Draw();
+
+    //! \brief Draws bottom window
+    void DrawBottomWindow();
 
     //! \brief Result of whether or not this window is active
     //! \return true if this window is active
@@ -73,9 +75,6 @@ public:
 private:
     //! \brief the current selected character id
     uint32_t _selected_character_id;
-
-    //! \brief TEMP: the default location marker. this is loaded in the constructor
-    vt_video::AnimatedImage _location_marker;
 
     //! \brief the location pointer. this is loaded in the constructor
     vt_video::StillImage _location_pointer;
@@ -101,6 +100,12 @@ private:
     std::vector<vt_global::SkillNode*> _displayed_skill_nodes;
     //! \brief The currentlw displayed link between the nodes
     std::vector<NodeLine> _displayed_node_links;
+
+    //! \brief The skill node description text, icon, ...
+    //! TODO: Move in a struct
+    int32_t _current_skill_id;
+    vt_video::TextImage _skill_name;
+    vt_video::StillImage _skill_icon;
 
     //! \brief Reset the view centered on the currently selected node.
     void _ResetSkillTreeView();

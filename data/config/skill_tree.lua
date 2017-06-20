@@ -80,7 +80,7 @@ skill_tree = {
             -- no items
         },
         -- Skill earned
-        skill_id_learned = 2,
+        skill_id_learned = 10001,
         -- stats modifier
         stats = {
             -- No stats improvement
@@ -106,7 +106,7 @@ skill_tree = {
             [1] = 10,
         },
         -- Skill earned
-        skill_id_learned = 3,
+        skill_id_learned = 10002,
         -- stats modifier
         stats = {
             -- No stats improvement
