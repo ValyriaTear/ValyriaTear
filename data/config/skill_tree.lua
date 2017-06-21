@@ -22,8 +22,8 @@ skill_tree = {
         y_location = 100,
         -- icon filename,
         icon_file = "data/gui/menus/socket.png",
-        -- skill point cost needed to reach this node
-        skill_points_needed = 0,
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 0,
         -- items needed to reach this node
         items_needed = {
             -- no items
@@ -47,8 +47,8 @@ skill_tree = {
         y_location = 120,
         -- icon filename,
         icon_file = "data/gui/menus/star.png",
-        -- skill point cost needed to reach this node
-        skill_points_needed = 1,
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 1,
         -- items needed to reach this node
         items_needed = {
             -- no items
@@ -73,8 +73,8 @@ skill_tree = {
         y_location = 60,
         -- icon filename,
         icon_file = "data/gui/menus/key.png",
-        -- skill point cost needed to reach this node
-        skill_points_needed = 2,
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 2,
         -- items needed to reach this node
         items_needed = {
             -- no items
@@ -98,8 +98,8 @@ skill_tree = {
         y_location = 60,
         -- icon filename,
         icon_file = "data/gui/menus/key.png",
-        -- skill point cost needed to reach this node
-        skill_points_needed = 2,
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 2,
         -- items needed to reach this node
         items_needed = {
             -- item id; number

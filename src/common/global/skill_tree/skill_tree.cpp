@@ -44,14 +44,14 @@ bool SkillTree::Initialize(const std::string& skill_tree_file)
         uint32_t x_location = script.ReadUInt("x_location");
         uint32_t y_location = script.ReadUInt("y_location");
         std::string icon_file = script.ReadString("icon_file");
-        uint32_t skill_points_needed = script.ReadUInt("skill_points_needed");
+        uint32_t experience_points_needed = script.ReadUInt("experience_points_needed");
         uint32_t skill_id_learned = script.ReadUInt("skill_id_learned");
 
         SkillNode* skill_node = new SkillNode(node_id,
                                               x_location,
                                               y_location,
                                               icon_file,
-                                              skill_points_needed,
+                                              experience_points_needed,
                                               skill_id_learned);
 
         // Read potential other data

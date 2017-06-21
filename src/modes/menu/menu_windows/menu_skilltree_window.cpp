@@ -46,8 +46,7 @@ SkillTreeWindow::SkillTreeWindow() :
     _view_x_position(0.0f),
     _view_y_position(0.0f),
     _selected_node_index(std::numeric_limits<uint32_t>::max()), // Invalid index
-    _active(false),
-    _current_skill_id(-1)
+    _active(false)
 {
     _location_pointer.SetStatic(true);
     if(!_location_pointer.Load("data/gui/menus/hand_down.png"))
@@ -97,39 +96,8 @@ void SkillTreeWindow::Update()
     SkillTree& skill_tree = vt_global::GlobalManager->GetSkillTree();
     SkillNode* current_skill_node = skill_tree.GetSkillNode(_selected_node_index);
 
-    if (current_skill_node == nullptr) {
-        _current_skill_id = -1;
-        return;
-    }
-
-    int32_t skill_id = current_skill_node->GetSkillIdLearned();
-
-    // Don't draw anything for empty skills
-    if (skill_id == -1) {
-        _skill_name.Clear();
-        _skill_icon.Clear();
-        _current_skill_id = -1;
-        return;
-    }
-
-    // Update current skill data if necessary
-    if (_current_skill_id != skill_id) {
-        _current_skill_id = skill_id;
-        std::unique_ptr<GlobalSkill> skill(new GlobalSkill(skill_id));
-        if (skill->IsValid()) {
-            _skill_name.SetText(skill->GetName());
-            if (_skill_icon.Load(skill->GetIconFilename()))
-                _skill_icon.SetWidthKeepRatio(50.0f);
-        }
-        else {
-            _skill_name.Clear();
-            _skill_icon.Clear();
-        }
-    }
-
-    auto stats = current_skill_node->GetStatsUpgrades();
-    //if (stats.empty())
-    //    return;
+    if (current_skill_node)
+        _bottom_info.SetNode(*current_skill_node);
 }
 
 void SkillTreeWindow::Draw()
@@ -175,18 +143,7 @@ void SkillTreeWindow::Draw()
 
 void SkillTreeWindow::DrawBottomWindow()
 {
-    VideoManager->PushState();
-
-    VideoManager->Move(110.0f, 565.0f);
-    if (_current_skill_id != -1) {
-        //skill_learned_text.Draw();
-        VideoManager->MoveRelative(5.0f, 30.0f);
-        _skill_icon.Draw();
-        VideoManager->MoveRelative(_skill_icon.GetWidth() + 5.0f, 0.0f);
-        _skill_name.Draw();
-    }
-
-    VideoManager->PopState();
+    _bottom_info.Draw(110.0f, 565.0f);
 }
 
 void SkillTreeWindow::SetCharacter(vt_global::GlobalCharacter& character)

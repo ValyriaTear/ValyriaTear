@@ -378,6 +378,7 @@ modes/menu/menu_windows/menu_quest_list_window.cpp
 modes/menu/menu_windows/menu_skills_window.cpp
 modes/menu/menu_windows/menu_skilltree_window.cpp
 modes/menu/menu_windows/menu_worldmap_window.cpp
+modes/menu/menu_windows/skill_node_bottom_info.cpp
 modes/pause.cpp
 modes/mode_bindings.cpp
 modes/mode_help_window.cpp

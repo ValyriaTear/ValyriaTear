@@ -10,6 +10,8 @@
 #ifndef __MENU_SKILLTREE_WINDOW__
 #define __MENU_SKILLTREE_WINDOW__
 
+#include "skill_node_bottom_info.h"
+
 #include "common/global/global.h"
 #include "common/gui/textbox.h"
 
@@ -102,10 +104,7 @@ private:
     std::vector<NodeLine> _displayed_node_links;
 
     //! \brief The skill node description text, icon, ...
-    //! TODO: Move in a struct
-    int32_t _current_skill_id;
-    vt_video::TextImage _skill_name;
-    vt_video::StillImage _skill_icon;
+    SkillNodeBottomInfo _bottom_info;
 
     //! \brief Reset the view centered on the currently selected node.
     void _ResetSkillTreeView();

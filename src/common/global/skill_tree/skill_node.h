@@ -27,7 +27,7 @@ public:
               float x_location,
               float y_location,
               const std::string& icon_path,
-              uint32_t skill_points_needed,
+              uint32_t experience_points_needed,
               uint32_t skill_id_learned);
 
     //! \brief Gets skill node id
@@ -52,8 +52,8 @@ public:
         return _skill_id_learned;
     }
 
-    uint32_t GetSkillPointsNeeded() const {
-        return _skill_points_needed;
+    uint32_t GetExperiencePointsNeeded() const {
+        return _experience_points_needed;
     }
 
     const std::vector<std::pair<uint32_t, uint32_t> >& GetItemsNeeded() const {
@@ -85,8 +85,8 @@ private:
     //! \brief Icon used to represent this node.
     vt_video::StillImage _icon_image;
 
-    //! \brief Skill points needed to reach this node
-    uint32_t _skill_points_needed;
+    //! \brief Experience points needed to reach this node
+    uint32_t _experience_points_needed;
 
     //! \brief Skill learned, or -1 if none
     uint32_t _skill_id_learned;
