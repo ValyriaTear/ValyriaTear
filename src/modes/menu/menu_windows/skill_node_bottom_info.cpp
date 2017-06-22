@@ -15,12 +15,14 @@
 
 using namespace vt_video;
 using namespace vt_global;
+using namespace vt_utils;
+using namespace vt_system;
 
 SkillNodeBottomInfo::SkillNodeBottomInfo()
 {
     // Cost
     _node_cost.SetStyle(TextStyle("text18"));
-    _items_cost.SetTextStyle(TextStyle("text20"));
+    _items_cost.SetTextStyle(TextStyle("text14"));
     _items_cost.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _items_cost.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _items_cost.SetSelectMode(vt_gui::VIDEO_SELECT_SINGLE);
@@ -29,8 +31,8 @@ SkillNodeBottomInfo::SkillNodeBottomInfo()
 
     _skill_name.SetStyle(TextStyle("text20"));
     _skill_sp_cost.SetStyle(TextStyle("text18"));
-    _skill_description.SetStyle(TextStyle("text18"));
-    _skill_description.SetWordWrapWidth(350);
+    _skill_description.SetStyle(TextStyle("text14"));
+    _skill_description.SetWordWrapWidth(300);
 }
 
 void SkillNodeBottomInfo::Clear()
@@ -59,15 +61,15 @@ void SkillNodeBottomInfo::Draw(float x_left, float y_top)
     // Draw the cost block if not unlocked
     // TODO: Handle the unlocked case
     _cost_title.Draw();
-    VideoManager->MoveRelative(5.0f, 30.0f);
+    VideoManager->MoveRelative(2.0f, 30.0f);
     _node_cost.Draw();
     VideoManager->MoveRelative(0.0f, 30.0f);
-    _items_cost.SetPosition(x_left + 5.0f, y_top + 60.0f);
+    _items_cost.SetPosition(x_left, y_top + 55.0f);
     _items_cost.Draw();
 
     // Draw skill block if present
-    VideoManager->MoveRelative(150.0f, -60.0f);
     if (!_skill_learned_text.GetString().empty()) {
+        VideoManager->MoveRelative(220.0f, -60.0f);
         _skill_learned_text.Draw();
         VideoManager->MoveRelative(5.0f, 30.0f);
         _skill_icon.Draw();
@@ -96,9 +98,38 @@ void SkillNodeBottomInfo::_SetCostInfo(uint32_t exp_points_needed,
     // Update list dimension according to the numberof items
     _items_cost.ClearOptions();
     uint32_t items_nb = items_needed.size();
-    _items_cost.SetDimensions(200.0f, 10.0f * items_nb, 1, items_nb, 1, items_nb);
-    for (auto pair : items_needed) {
-        _items_cost.AddOption(vt_utils::MakeUnicodeString(vt_system::VTranslate("id: %d x %d", pair.first, pair.second)));
+    _items_cost.SetDimensions(100.0f, 30.0f * items_nb, 1, items_nb, 1, items_nb);
+    size_t list_index = 0;
+    for (auto item_info : items_needed) {
+        uint32_t item_id = item_info.first;
+        uint32_t item_number = item_info.second;
+
+        // Create a global object to get info from.
+        std::shared_ptr<GlobalObject> item = GlobalCreateNewObject(item_id, 1);
+        if (!item) {
+            PRINT_WARNING << "Invalid Skill node (item id: "
+                          << item_id << ")" << std::endl;
+            ++list_index;
+            continue;
+        }
+
+        ustring item_nb_text = MakeUnicodeString(vt_system::VTranslate(" x %d", item_number));
+        if (item->GetIconImage().GetFilename().empty()) {
+            _items_cost.AddOption(MakeUnicodeString("<30>")
+                                  + item->GetName()
+                                  + item_nb_text);
+        }
+        else {
+            _items_cost.AddOption(MakeUnicodeString("<" + item->GetIconImage().GetFilename() + "><30>")
+                                  + item->GetName()
+                                  + item_nb_text);
+        }
+
+        StillImage* img = _items_cost.GetEmbeddedImage(list_index);
+        if (img)
+            img->SetDimensions(30.0f, 30.0f);
+
+        ++list_index;
     }
 }
 

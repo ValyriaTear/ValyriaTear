@@ -143,7 +143,7 @@ void SkillTreeWindow::Draw()
 
 void SkillTreeWindow::DrawBottomWindow()
 {
-    _bottom_info.Draw(110.0f, 565.0f);
+    _bottom_info.Draw(90.0f, 565.0f);
 }
 
 void SkillTreeWindow::SetCharacter(vt_global::GlobalCharacter& character)
