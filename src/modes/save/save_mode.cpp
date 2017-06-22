@@ -589,16 +589,19 @@ bool SaveMode::_PreviewGame(const std::string& filename)
         return false;
     }
 
+    // Read characters table content
     file.OpenTable("characters");
     std::vector<uint32_t> char_ids;
     file.ReadUIntVector("order", char_ids);
-    GlobalCharacter* character[CHARACTERS_SHOWN_SLOTS];
+    // Prereserve characters slots
+    std::vector<GlobalCharacter*> characters;
+    characters.assign(CHARACTERS_SHOWN_SLOTS, nullptr);
 
     // Loads only up to the first four slots (Visible battle characters)
-    for(uint32_t i = 0; i < CHARACTERS_SHOWN_SLOTS; ++i) {
+    for(uint32_t i = 0; i < char_ids.size() && i < CHARACTERS_SHOWN_SLOTS; ++i) {
         // Create a new GlobalCharacter object using the provided id
         // This loads all of the character's "static" data, such as their name, etc.
-        character[i] = nullptr;
+        characters[i] = nullptr;
 
         if(!file.DoesTableExist(char_ids[i]))
             continue;
@@ -606,14 +609,14 @@ bool SaveMode::_PreviewGame(const std::string& filename)
         file.OpenTable(char_ids[i]);
 
         // Read in all of the character's stats data
-        character[i] = new GlobalCharacter(char_ids[i], false);
-        character[i]->SetExperienceLevel(file.ReadUInt("experience_level"));
-        character[i]->SetExperiencePoints(file.ReadUInt("experience_points"));
+        characters[i] = new GlobalCharacter(char_ids[i], false);
+        characters[i]->SetExperienceLevel(file.ReadUInt("experience_level"));
+        characters[i]->SetExperiencePoints(file.ReadUInt("experience_points"));
 
-        character[i]->SetMaxHitPoints(file.ReadUInt("max_hit_points"));
-        character[i]->SetHitPoints(file.ReadUInt("hit_points"));
-        character[i]->SetMaxSkillPoints(file.ReadUInt("max_skill_points"));
-        character[i]->SetSkillPoints(file.ReadUInt("skill_points"));
+        characters[i]->SetMaxHitPoints(file.ReadUInt("max_hit_points"));
+        characters[i]->SetHitPoints(file.ReadUInt("hit_points"));
+        characters[i]->SetMaxSkillPoints(file.ReadUInt("max_skill_points"));
+        characters[i]->SetSkillPoints(file.ReadUInt("skill_points"));
 
         file.CloseTable(); // character id
     }
@@ -630,7 +633,7 @@ bool SaveMode::_PreviewGame(const std::string& filename)
     file.CloseFile();
 
     for(uint32_t i = 0; i < CHARACTERS_SHOWN_SLOTS; ++i) {
-        _character_window[i].SetCharacter(character[i]);
+        _character_window[i].SetCharacter(characters[i]);
     }
 
     std::ostringstream time_text;
