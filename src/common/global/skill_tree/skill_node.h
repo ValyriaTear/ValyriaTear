@@ -61,7 +61,7 @@ public:
     }
 
     const std::vector<std::pair<uint32_t, uint32_t> >& GetStatsUpgrades() const {
-        return _items_needed;
+        return _stats_upgrades;
     }
 
     const std::vector<uint32_t>& GetNodeLinks() const {
@@ -70,6 +70,8 @@ public:
 
     void AddNeededItem(uint32_t item_id, uint32_t item_number);
 
+    //! \brief Add the linked stat upgrade.
+    //! Note that for evade stat, the upgrade value is later divided by 10.
     void AddStatUpgrade(uint32_t stat, uint32_t upgrade);
 
     void AddNodeLink(uint32_t node_id);

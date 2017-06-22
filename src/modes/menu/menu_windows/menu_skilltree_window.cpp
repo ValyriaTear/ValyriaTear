@@ -51,6 +51,8 @@ SkillTreeWindow::SkillTreeWindow() :
     _location_pointer.SetStatic(true);
     if(!_location_pointer.Load("data/gui/menus/hand_down.png"))
         PRINT_ERROR << "Could not load pointer image!" << std::endl;
+
+    _bottom_info.SetPosition(90.0f, 565.0f);
 }
 
 void SkillTreeWindow::SetActive(bool new_state)
@@ -90,6 +92,10 @@ void SkillTreeWindow::Update()
         if (_selected_node_index < 3) {
             ++_selected_node_index;
         }
+    }
+    else {
+        // Only update when necessary
+        return;
     }
 
     // Update bottom windows info
@@ -143,7 +149,7 @@ void SkillTreeWindow::Draw()
 
 void SkillTreeWindow::DrawBottomWindow()
 {
-    _bottom_info.Draw(90.0f, 565.0f);
+    _bottom_info.Draw();
 }
 
 void SkillTreeWindow::SetCharacter(vt_global::GlobalCharacter& character)

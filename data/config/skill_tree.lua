@@ -57,8 +57,10 @@ skill_tree = {
         skill_id_learned = -1,
         -- stats modifier
         stats = {
-            -- Strength +1
+            -- Phys. Atk +1
             [0] = 1,
+            [1] = 2,
+            [2] = 2,
         },
         -- links with other nodes
         links = {
@@ -83,7 +85,9 @@ skill_tree = {
         skill_id_learned = 10001,
         -- stats modifier
         stats = {
-            -- No stats improvement
+            [3] = 3,
+            [4] = 2,
+            [5] = 1,
         },
         -- links with other nodes
         links = {
@@ -109,7 +113,11 @@ skill_tree = {
         skill_id_learned = 10002,
         -- stats modifier
         stats = {
-            -- No stats improvement
+            [3] = 2,
+            [4] = 5,
+            [5] = 2,
+            [6] = 5,
+            [7] = 4,
         },
         -- links with other nodes
         links = {

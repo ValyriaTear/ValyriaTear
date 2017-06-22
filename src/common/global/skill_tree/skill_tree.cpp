@@ -89,10 +89,10 @@ void SkillTree::_ReadStatsUpgrades(vt_script::ReadScriptDescriptor& script,
                                    SkillNode* skill_node)
 {
     std::vector<uint32_t> stat_ids;
-    script.ReadTableKeys("stat", stat_ids);
+    script.ReadTableKeys("stats", stat_ids);
 
     // No stats upgrades can happen
-    if (stat_ids.empty() || !script.OpenTable("stat"))
+    if (stat_ids.empty() || !script.OpenTable("stats"))
         return;
 
     for (uint32_t stat_id: stat_ids) {

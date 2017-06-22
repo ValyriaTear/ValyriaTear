@@ -22,20 +22,20 @@ class SkillNodeBottomInfo {
 public:
     SkillNodeBottomInfo();
 
-    SkillNodeBottomInfo(const vt_global::SkillNode& node) {
-        SetNode(node);
-    }
-
-    //! \brief Clear displayed info
-    void Clear();
-
     //! \brief Set info corresponding to the given skill node.
     void SetNode(const vt_global::SkillNode& node);
 
-    //! \brief Draw the panel info using the given topleft coordinates.
-    void Draw(float x_left, float y_top);
+    //! \brief Set the panel info position
+    //! using the given topleft coordinates.
+    void SetPosition(float x_left, float y_top);
+
+    void Draw();
 
 private:
+    //! \brief Info location on screen
+    float _x_pos;
+    float _y_pos;
+
     /// Cost
     //! \brief cost title
     vt_video::TextImage _cost_title;
@@ -62,6 +62,13 @@ private:
     //! \brief The skill sp cost text
     vt_video::TextImage _skill_sp_cost;
 
+    /// Stats
+    //! \brief cost title
+    vt_video::TextImage _stats_title;
+
+    //! \brief The stats upgrade list.
+    vt_gui::OptionBox _stats_upgrade;
+
     //! \brief Updates cost info
     void _SetCostInfo(uint32_t exp_points_needed,
                       const std::vector<std::pair<uint32_t, uint32_t> >& items_needed);
@@ -69,9 +76,8 @@ private:
     //! \brief Updates skill info
     void _SetSkillInfo(int32_t new_skill_id);
 
-    /// Stats
-    //! \brief The stats upgrade list.
-    vt_gui::OptionBox _stats_upgrade;
+    //! \brief Updates skill info
+    void _SetStatsInfo(const std::vector<std::pair<uint32_t, uint32_t> >& stats_upgrade);
 };
 
 #endif // __SKILL_NODE_BOTTOM_INFO__
