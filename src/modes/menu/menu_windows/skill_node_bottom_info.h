@@ -10,7 +10,7 @@
 #ifndef __SKILL_NODE_BOTTOM_INFO__
 #define __SKILL_NODE_BOTTOM_INFO__
 
-#include "common/global/skill_tree/skill_node.h"
+#include "common/global/skill_graph/skill_node.h"
 
 #include "engine/video/text.h"
 #include "common/gui/option.h"

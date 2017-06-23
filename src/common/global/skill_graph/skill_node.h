@@ -20,7 +20,7 @@ namespace vt_global {
 *** *****************************************************************************/
 class SkillNode
 {
-friend class SkillTree;
+friend class SkillGraph;
 
 public:
     SkillNode(uint32_t id,
@@ -80,7 +80,7 @@ private:
     //! \brief The Skill Node Id
     uint32_t _id;
 
-    //! \brief Location in the skill tree
+    //! \brief Location in the skill graph
     float _x_location;
     float _y_location;
 

@@ -7,7 +7,7 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "modes/menu/menu_windows/menu_skilltree_window.h"
+#include "modes/menu/menu_windows/menu_skillgraph_window.h"
 
 #include "modes/menu/menu_mode.h"
 
@@ -15,7 +15,7 @@
 #include "engine/input.h"
 #include "engine/system.h"
 
-#include "common/global/skill_tree/skill_tree.h"
+#include "common/global/skill_graph/skill_graph.h"
 
 #include <limits>
 
@@ -35,11 +35,11 @@ namespace private_menu
 {
 
 // Area where on can draw the skill tree nodes
-const float SKILL_TREE_AREA_WIDTH = 950.0f;
-const float SKILL_TREE_AREA_HEIGHT = 550.0f;
+const float SKILL_GRAPH_AREA_WIDTH = 950.0f;
+const float SKILL_GRAPH_AREA_HEIGHT = 550.0f;
 const vt_video::Color grayed_path = vt_video::Color(0.5f, 0.5f, 0.5f, 0.2f);
 
-SkillTreeWindow::SkillTreeWindow() :
+SkillGraphWindow::SkillGraphWindow() :
     _selected_character_id(std::numeric_limits<uint32_t>::max()), // Invalid id
     _current_x_offset(-1.0f), // Invalid view
     _current_y_offset(-1.0f),
@@ -55,7 +55,7 @@ SkillTreeWindow::SkillTreeWindow() :
     _bottom_info.SetPosition(90.0f, 565.0f);
 }
 
-void SkillTreeWindow::SetActive(bool new_state)
+void SkillGraphWindow::SetActive(bool new_state)
 {
     _active = new_state;
 
@@ -65,18 +65,18 @@ void SkillTreeWindow::SetActive(bool new_state)
         _selected_node_index = 0;
 
     // Set view on node
-    _ResetSkillTreeView();
+    _ResetSkillGraphView();
 }
 
-void SkillTreeWindow::Update()
+void SkillGraphWindow::Update()
 {
     if (!_active)
         return;
 
     // Updates view center coordinates
     GetPosition(_view_x_position, _view_y_position);
-    _view_x_position += SKILL_TREE_AREA_WIDTH / 2.0f;
-    _view_y_position += SKILL_TREE_AREA_HEIGHT / 2.0f;
+    _view_x_position += SKILL_GRAPH_AREA_WIDTH / 2.0f;
+    _view_y_position += SKILL_GRAPH_AREA_HEIGHT / 2.0f;
 
     // TODO: Handle the appropriate input events
     if(InputManager->CancelPress()) {
@@ -99,14 +99,14 @@ void SkillTreeWindow::Update()
     }
 
     // Update bottom windows info
-    SkillTree& skill_tree = vt_global::GlobalManager->GetSkillTree();
-    SkillNode* current_skill_node = skill_tree.GetSkillNode(_selected_node_index);
+    SkillGraph& skill_graph = vt_global::GlobalManager->GetSkillGraph();
+    SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_index);
 
     if (current_skill_node)
         _bottom_info.SetNode(*current_skill_node);
 }
 
-void SkillTreeWindow::Draw()
+void SkillGraphWindow::Draw()
 {
     VideoManager->PushState();
 
@@ -147,12 +147,12 @@ void SkillTreeWindow::Draw()
     VideoManager->PopState();
 }
 
-void SkillTreeWindow::DrawBottomWindow()
+void SkillGraphWindow::DrawBottomWindow()
 {
     _bottom_info.Draw();
 }
 
-void SkillTreeWindow::SetCharacter(vt_global::GlobalCharacter& character)
+void SkillGraphWindow::SetCharacter(vt_global::GlobalCharacter& character)
 {
     // Set base data
     _selected_character_id = character.GetID();
@@ -163,13 +163,13 @@ void SkillTreeWindow::SetCharacter(vt_global::GlobalCharacter& character)
     _selected_node_index = 0;
 
     // Set view on node
-    _ResetSkillTreeView();
+    _ResetSkillGraphView();
 }
 
-void SkillTreeWindow::_ResetSkillTreeView()
+void SkillGraphWindow::_ResetSkillGraphView()
 {
     // Set current offset based on the currently selected node
-    SkillTree& skill_tree = vt_global::GlobalManager->GetSkillTree();
+    SkillGraph& skill_tree = vt_global::GlobalManager->GetSkillGraph();
     SkillNode* current_skill_node = skill_tree.GetSkillNode(_selected_node_index);
 
     // If the node is invalid, try the default one.
@@ -190,24 +190,24 @@ void SkillTreeWindow::_ResetSkillTreeView()
     _current_x_offset = current_skill_node->GetXLocation();
     _current_y_offset = current_skill_node->GetYLocation();
 
-    _UpdateSkillTreeView();
+    _UpdateSkillGraphView();
 }
 
-void SkillTreeWindow::_UpdateSkillTreeView()
+void SkillGraphWindow::_UpdateSkillGraphView()
 {
     // Check to prevent invalid updates
     if (_selected_node_index == std::numeric_limits<uint32_t>::max())
         return;
 
-    float min_x_view = _current_x_offset - (SKILL_TREE_AREA_WIDTH / 2.0f);
-    float max_x_view = _current_x_offset + (SKILL_TREE_AREA_WIDTH / 2.0f);
-    float min_y_view = _current_y_offset - (SKILL_TREE_AREA_HEIGHT / 2.0f);
-    float max_y_view = _current_y_offset + (SKILL_TREE_AREA_HEIGHT / 2.0f);
+    float min_x_view = _current_x_offset - (SKILL_GRAPH_AREA_WIDTH / 2.0f);
+    float max_x_view = _current_x_offset + (SKILL_GRAPH_AREA_WIDTH / 2.0f);
+    float min_y_view = _current_y_offset - (SKILL_GRAPH_AREA_HEIGHT / 2.0f);
+    float max_y_view = _current_y_offset + (SKILL_GRAPH_AREA_HEIGHT / 2.0f);
 
     // Based on current offset, reload visible nodes
     _displayed_skill_nodes.clear();
-    SkillTree& skill_tree = vt_global::GlobalManager->GetSkillTree();
-    auto skill_nodes = skill_tree.GetSkillNodes();
+    SkillGraph& skill_graph = vt_global::GlobalManager->GetSkillGraph();
+    auto skill_nodes = skill_graph.GetSkillNodes();
     for (SkillNode* skill_node : skill_nodes) {
         float node_x = skill_node->GetXLocation();
         float node_y = skill_node->GetYLocation();
@@ -233,7 +233,7 @@ void SkillTreeWindow::_UpdateSkillTreeView()
 
         // For each link, add a line end
         for (uint32_t link_id : node_links) {
-            SkillNode* linked_node = skill_tree.GetSkillNode(link_id);
+            SkillNode* linked_node = skill_graph.GetSkillNode(link_id);
             if (!linked_node)
                 continue;
 

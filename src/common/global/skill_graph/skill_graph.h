@@ -7,8 +7,8 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __SKILL_TREE_HEADER__
-#define __SKILL_TREE_HEADER__
+#ifndef __SKILL_GRAPH_HEADER__
+#define __SKILL_GRAPH_HEADER__
 
 #include "skill_node.h"
 
@@ -17,28 +17,28 @@
 namespace vt_global {
 
 /** *****************************************************************************
-*** \brief Skill tree manager
-*** Handles related data management of skill nodes in the skill tree.
+*** \brief Skill graph manager
+*** Handles related data management of skill nodes in the skill graph.
 *** *****************************************************************************/
-class SkillTree
+class SkillGraph
 {
 public:
-    SkillTree()
+    SkillGraph()
     {}
 
-    ~SkillTree() {
+    ~SkillGraph() {
         Clear();
     }
 
-    //! \brief Initialize the skill tree data.
+    //! \brief Initialize the skill graph data.
     //! \returns true if everthing went fine.
-    bool Initialize(const std::string& skill_tree_file);
+    bool Initialize(const std::string& skill_graph_file);
 
     void Clear() {
-        for (SkillNode* node : _skill_tree_data) {
+        for (SkillNode* node : _skill_graph_data) {
             delete node;
         }
-        _skill_tree_data.clear();
+        _skill_graph_data.clear();
     }
 
     //! \brief Returns the skill node corresponding to the desired id,
@@ -47,12 +47,12 @@ public:
 
     //! \brief Returns the skill tree data
     const std::vector<SkillNode*>& GetSkillNodes() const {
-        return _skill_tree_data;
+        return _skill_graph_data;
     }
 
 private:
     //! \brief The vector of skill nodes.
-    std::vector<SkillNode*> _skill_tree_data;
+    std::vector<SkillNode*> _skill_graph_data;
 
     //! \brief Read item data and add them in the skill node data
     void _ReadItemsNeeded(vt_script::ReadScriptDescriptor& script,
@@ -69,4 +69,4 @@ private:
 
 } // namespace vt_global
 
-#endif // __SKILL_TREE_HEADER__
+#endif // __SKILL_GRAPH_HEADER__

@@ -7,28 +7,28 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "skill_tree.h"
+#include "skill_graph.h"
 
 namespace vt_global {
 
-bool SkillTree::Initialize(const std::string& skill_tree_file)
+bool SkillGraph::Initialize(const std::string& skill_graph_file)
 {
     vt_script::ReadScriptDescriptor script;
-    if (!script.OpenFile(skill_tree_file)) {
-        PRINT_WARNING << "Couldn't open file: " << skill_tree_file << std::endl;
+    if (!script.OpenFile(skill_graph_file)) {
+        PRINT_WARNING << "Couldn't open file: " << skill_graph_file << std::endl;
         return false;
     }
 
     // Load skill tree data
     std::vector<uint32_t> nodes_ids;
-    script.ReadTableKeys("skill_tree", nodes_ids);
+    script.ReadTableKeys("skill_graph", nodes_ids);
     if (nodes_ids.empty()) {
-        PRINT_WARNING << "Empty 'skill_tree' table in " << skill_tree_file << std::endl;
+        PRINT_WARNING << "Empty 'skill_graph' table in " << skill_graph_file << std::endl;
         return false;
     }
 
-    if (!script.OpenTable("skill_tree")) {
-        PRINT_WARNING << "Couldn't open table 'skill_tree' in " << skill_tree_file << std::endl;
+    if (!script.OpenTable("skill_graph")) {
+        PRINT_WARNING << "Couldn't open table 'skill_graph' in " << skill_graph_file << std::endl;
         return false;
     }
 
@@ -36,7 +36,7 @@ bool SkillTree::Initialize(const std::string& skill_tree_file)
     for (uint32_t node_id : nodes_ids) {
         if (!script.OpenTable(node_id)) {
             PRINT_WARNING << "Couldn't open table '" << node_id
-                          << "' in " << skill_tree_file << std::endl;
+                          << "' in " << skill_graph_file << std::endl;
             return false;
         }
 
@@ -60,14 +60,14 @@ bool SkillTree::Initialize(const std::string& skill_tree_file)
         _ReadNodeLinks(script, skill_node);
 
         // Add the node to the graph
-        _skill_tree_data.emplace_back(skill_node);
+        _skill_graph_data.emplace_back(skill_node);
 
         script.CloseTable(); // node_id
     }
     return true;
 }
 
-void SkillTree::_ReadItemsNeeded(vt_script::ReadScriptDescriptor& script,
+void SkillGraph::_ReadItemsNeeded(vt_script::ReadScriptDescriptor& script,
                                  SkillNode* skill_node)
 {
     std::vector<uint32_t> item_ids;
@@ -85,7 +85,7 @@ void SkillTree::_ReadItemsNeeded(vt_script::ReadScriptDescriptor& script,
     script.CloseTable(); // items_needed
 }
 
-void SkillTree::_ReadStatsUpgrades(vt_script::ReadScriptDescriptor& script,
+void SkillGraph::_ReadStatsUpgrades(vt_script::ReadScriptDescriptor& script,
                                    SkillNode* skill_node)
 {
     std::vector<uint32_t> stat_ids;
@@ -103,7 +103,7 @@ void SkillTree::_ReadStatsUpgrades(vt_script::ReadScriptDescriptor& script,
     script.CloseTable(); // stat
 }
 
-void SkillTree::_ReadNodeLinks(vt_script::ReadScriptDescriptor& script,
+void SkillGraph::_ReadNodeLinks(vt_script::ReadScriptDescriptor& script,
                                SkillNode* skill_node)
 {
     std::vector<uint32_t> node_ids;
@@ -120,9 +120,9 @@ void SkillTree::_ReadNodeLinks(vt_script::ReadScriptDescriptor& script,
     script.CloseTable(); // links
 }
 
-SkillNode* SkillTree::GetSkillNode(uint32_t skill_node_id)
+SkillNode* SkillGraph::GetSkillNode(uint32_t skill_node_id)
 {
-    for (SkillNode* skill_node : _skill_tree_data) {
+    for (SkillNode* skill_node : _skill_graph_data) {
         if (skill_node->GetId() == skill_node_id)
             return skill_node;
     }

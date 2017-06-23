@@ -1,9 +1,9 @@
--- Describes all the skills and other items in the skill tree the characters can get.
--- Every items are nodes that are linked to a list of other nodes, permiting to set paths between them.
--- Cross a path costs skill points, items, or both.
+-- Describes all the skills and other improvements in the skill graph the characters can get.
+-- Each entries are nodes that are linked to a list of other nodes, permiting to set paths between them.
+-- Cross a path costs experience points, items, or both.
 -- And also the character's start location.
 
-skill_tree_start = {
+skill_graph_start = {
     -- Character id; node id
     [BRONANN] = 0,
     [KALYA] = 0,
@@ -12,8 +12,8 @@ skill_tree_start = {
 }
 
 
--- FIXME: This is a test skill tree
-skill_tree = {
+-- FIXME: This is a test skill graph
+skill_graph = {
     -- node id
     [0] = {
         -- X location

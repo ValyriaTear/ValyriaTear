@@ -7,8 +7,8 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __MENU_SKILLTREE_WINDOW__
-#define __MENU_SKILLTREE_WINDOW__
+#ifndef __MENU_SKILLGRAPH_WINDOW__
+#define __MENU_SKILLGRAPH_WINDOW__
 
 #include "skill_node_bottom_info.h"
 
@@ -40,15 +40,15 @@ struct NodeLine {
 *** through the skill tree and earns either new stats upgrades or new skills.
 *** The "tree" is in fact a way point map.
 **/
-class SkillTreeWindow : public vt_gui::MenuWindow
+class SkillGraphWindow : public vt_gui::MenuWindow
 {
     friend class vt_menu::MenuMode;
-    //friend class SkillTreeState;
+    //friend class SkillGraphState;
 
 public:
-    SkillTreeWindow();
+    SkillGraphWindow();
 
-    virtual ~SkillTreeWindow() override
+    virtual ~SkillGraphWindow() override
     {
     }
 
@@ -107,14 +107,14 @@ private:
     SkillNodeBottomInfo _bottom_info;
 
     //! \brief Reset the view centered on the currently selected node.
-    void _ResetSkillTreeView();
+    void _ResetSkillGraphView();
 
     //! \brief Update the skill tree view based on the current offset information
-    void _UpdateSkillTreeView();
+    void _UpdateSkillGraphView();
 };
 
 } // namespace private_menu
 
 } // namespace vt_menu
 
-#endif // __MENU_SKILLTREE_WINDOW__
+#endif // __MENU_SKILLGRAPH_WINDOW__

@@ -27,7 +27,7 @@
 #include "modes/menu/menu_windows/menu_quest_window.h"
 #include "modes/menu/menu_windows/menu_quest_list_window.h"
 #include "modes/menu/menu_windows/menu_skills_window.h"
-#include "modes/menu/menu_windows/menu_skilltree_window.h"
+#include "modes/menu/menu_windows/menu_skillgraph_window.h"
 #include "modes/menu/menu_windows/menu_worldmap_window.h"
 
 #include "engine/mode_manager.h"
@@ -61,7 +61,7 @@ class MenuMode : public vt_mode_manager::GameMode
     friend class private_menu::InventoryWindow;
     friend class private_menu::PartyWindow;
     friend class private_menu::SkillsWindow;
-    friend class private_menu::SkillTreeWindow;
+    friend class private_menu::SkillGraphWindow;
     friend class private_menu::EquipWindow;
     friend class private_menu::QuestListWindow;
     friend class private_menu::QuestWindow;
@@ -198,7 +198,7 @@ private:
     private_menu::PartyWindow _party_window;
     private_menu::BattleFormationWindow _battle_formation_window;
     private_menu::SkillsWindow _skills_window;
-    private_menu::SkillTreeWindow _skilltree_window;
+    private_menu::SkillGraphWindow _skilltree_window;
     private_menu::EquipWindow _equip_window;
     private_menu::QuestWindow _quest_window;
     private_menu::WorldMapWindow _world_map_window;

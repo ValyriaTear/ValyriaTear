@@ -30,7 +30,7 @@
 #include "engine/script/script_read.h"
 #include "engine/script/script_write.h"
 
-#include "skill_tree/skill_tree.h"
+#include "skill_graph/skill_graph.h"
 #include "global_actors.h"
 #include "global_effects.h"
 #include "global_objects.h"
@@ -789,9 +789,9 @@ public:
         else return 0;
     }
 
-    //! \brief Get a reference to the skill tree handler
-    SkillTree& GetSkillTree() {
-        return _skill_tree;
+    //! \brief Get a reference to the skill graph handler
+    SkillGraph& GetSkillGraph() {
+        return _skill_graph;
     }
 
     //! \brief Gives access to global media files.
@@ -996,7 +996,7 @@ private:
     //! shop_id, corresponding shop data
     std::map<std::string, ShopData> _shop_data;
 
-    SkillTree _skill_tree;
+    SkillGraph _skill_graph;
 
     //! \brief Stores whether the map mode minimap should be shown.
     bool _show_minimap;

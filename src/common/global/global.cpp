@@ -189,7 +189,7 @@ bool GameGlobal::_LoadGlobalScripts()
     if(!_LoadWorldLocationsScript("data/config/world_locations.lua"))
         return false;
 
-    if (!_skill_tree.Initialize("data/config/skill_tree.lua"))
+    if (!_skill_graph.Initialize("data/config/skill_graph.lua"))
         return false;
 
     return true;
