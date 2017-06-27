@@ -121,8 +121,398 @@ skill_graph = {
         },
         -- links with other nodes
         links = {
-            -- end of test path
+            4,
+        },
+    },
+    -- node id
+    [4] = {
+        -- X location
+        x_location = 450,
+        -- Y location
+        y_location = 120,
+        -- icon filename,
+        icon_file = "data/gui/menus/star.png",
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 1,
+        -- items needed to reach this node
+        items_needed = {
+            -- no items
+        },
+        -- no new skill earned
+        skill_id_learned = -1,
+        -- stats modifier
+        stats = {
+            -- Phys. Atk +1
+            [0] = 1,
+            [1] = 2,
+            [2] = 2,
+        },
+        -- links with other nodes
+        links = {
+            5,
+        },
+    },
+    -- node id
+    [5] = {
+        -- X location
+        x_location = 480,
+        -- Y location
+        y_location = 120,
+        -- icon filename,
+        icon_file = "data/gui/menus/star.png",
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 1,
+        -- items needed to reach this node
+        items_needed = {
+            -- no items
+        },
+        -- no new skill earned
+        skill_id_learned = -1,
+        -- stats modifier
+        stats = {
+            -- Phys. Atk +1
+            [0] = 1,
+            [1] = 2,
+            [2] = 2,
+        },
+        -- links with other nodes
+        links = {
+            6,
+        },
+    },
+    -- node id
+    [6] = {
+        -- X location
+        x_location = 510,
+        -- Y location
+        y_location = 120,
+        -- icon filename,
+        icon_file = "data/gui/menus/star.png",
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 1,
+        -- items needed to reach this node
+        items_needed = {
+            -- no items
+        },
+        -- no new skill earned
+        skill_id_learned = -1,
+        -- stats modifier
+        stats = {
+            -- Phys. Atk +1
+            [0] = 1,
+            [1] = 2,
+            [2] = 2,
+        },
+        -- links with other nodes
+        links = {
+            7, 14,
+        },
+    },
+    -- node id
+    [7] = {
+        -- X location
+        x_location = 540,
+        -- Y location
+        y_location = 120,
+        -- icon filename,
+        icon_file = "data/gui/menus/star.png",
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 1,
+        -- items needed to reach this node
+        items_needed = {
+            -- no items
+        },
+        -- no new skill earned
+        skill_id_learned = -1,
+        -- stats modifier
+        stats = {
+            -- Phys. Atk +1
+            [0] = 1,
+            [1] = 2,
+            [2] = 2,
+        },
+        -- links with other nodes
+        links = {
+            8,
+        },
+    },
+    -- node id
+    [8] = {
+        -- X location
+        x_location = 580,
+        -- Y location
+        y_location = 120,
+        -- icon filename,
+        icon_file = "data/gui/menus/star.png",
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 1,
+        -- items needed to reach this node
+        items_needed = {
+            -- no items
+        },
+        -- no new skill earned
+        skill_id_learned = -1,
+        -- stats modifier
+        stats = {
+            -- Phys. Atk +1
+            [0] = 1,
+            [1] = 2,
+            [2] = 2,
+        },
+        -- links with other nodes
+        links = {
+            9, 10,
+        },
+    },
+    -- node id
+    [9] = {
+        -- X location
+        x_location = 600,
+        -- Y location
+        y_location = 120,
+        -- icon filename,
+        icon_file = "data/gui/menus/star.png",
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 1,
+        -- items needed to reach this node
+        items_needed = {
+            -- no items
+        },
+        -- no new skill earned
+        skill_id_learned = -1,
+        -- stats modifier
+        stats = {
+            -- Phys. Atk +1
+            [0] = 1,
+            [1] = 2,
+            [2] = 2,
+        },
+        -- links with other nodes
+        links = {
+            10,
+        },
+    },
+    -- node id
+    [10] = {
+        -- X location
+        x_location = 600,
+        -- Y location
+        y_location = 60,
+        -- icon filename,
+        icon_file = "data/gui/menus/star.png",
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 1,
+        -- items needed to reach this node
+        items_needed = {
+            -- no items
+        },
+        -- no new skill earned
+        skill_id_learned = -1,
+        -- stats modifier
+        stats = {
+            -- Phys. Atk +1
+            [0] = 1,
+            [1] = 2,
+            [2] = 2,
+        },
+        -- links with other nodes
+        links = {
+            11,
+        },
+    },
+    -- node id
+    [11] = {
+        -- X location
+        x_location = 650,
+        -- Y location
+        y_location = 60,
+        -- icon filename,
+        icon_file = "data/gui/menus/star.png",
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 1,
+        -- items needed to reach this node
+        items_needed = {
+            -- no items
+        },
+        -- no new skill earned
+        skill_id_learned = -1,
+        -- stats modifier
+        stats = {
+            -- Phys. Atk +1
+            [0] = 1,
+            [1] = 2,
+            [2] = 2,
+        },
+        -- links with other nodes
+        links = {
+            12,
+        },
+    },
+    -- node id
+    [12] = {
+        -- X location
+        x_location = 700,
+        -- Y location
+        y_location = 80,
+        -- icon filename,
+        icon_file = "data/gui/menus/star.png",
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 1,
+        -- items needed to reach this node
+        items_needed = {
+            -- no items
+        },
+        -- no new skill earned
+        skill_id_learned = -1,
+        -- stats modifier
+        stats = {
+            -- Phys. Atk +1
+            [0] = 1,
+            [1] = 2,
+            [2] = 2,
+        },
+        -- links with other nodes
+        links = {
+            13,
+        },
+    },
+    -- node id
+    [13] = {
+        -- X location
+        x_location = 720,
+        -- Y location
+        y_location = 120,
+        -- icon filename,
+        icon_file = "data/gui/menus/star.png",
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 1,
+        -- items needed to reach this node
+        items_needed = {
+            -- no items
+        },
+        -- no new skill earned
+        skill_id_learned = -1,
+        -- stats modifier
+        stats = {
+            -- Phys. Atk +1
+            [0] = 1,
+            [1] = 2,
+            [2] = 2,
+        },
+        -- links with other nodes
+        links = {
+            -- end of path
+        },
+    },
+    -- node id
+    [14] = {
+        -- X location
+        x_location = 510,
+        -- Y location
+        y_location = 140,
+        -- icon filename,
+        icon_file = "data/gui/menus/star.png",
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 1,
+        -- items needed to reach this node
+        items_needed = {
+            -- no items
+        },
+        -- no new skill earned
+        skill_id_learned = -1,
+        -- stats modifier
+        stats = {
+            -- Phys. Atk +1
+            [0] = 1,
+            [1] = 2,
+            [2] = 2,
+        },
+        -- links with other nodes
+        links = {
+            15,
+        },
+    },
+    -- node id
+    [15] = {
+        -- X location
+        x_location = 520,
+        -- Y location
+        y_location = 250,
+        -- icon filename,
+        icon_file = "data/gui/menus/star.png",
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 1,
+        -- items needed to reach this node
+        items_needed = {
+            -- no items
+        },
+        -- no new skill earned
+        skill_id_learned = -1,
+        -- stats modifier
+        stats = {
+            -- Phys. Atk +1
+            [0] = 1,
+            [1] = 2,
+            [2] = 2,
+        },
+        -- links with other nodes
+        links = {
+            16, 1,
+        },
+    },
+    -- node id
+    [16] = {
+        -- X location
+        x_location = 520,
+        -- Y location
+        y_location = 300,
+        -- icon filename,
+        icon_file = "data/gui/menus/star.png",
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 1,
+        -- items needed to reach this node
+        items_needed = {
+            -- no items
+        },
+        -- no new skill earned
+        skill_id_learned = -1,
+        -- stats modifier
+        stats = {
+            -- Phys. Atk +1
+            [0] = 1,
+            [1] = 2,
+            [2] = 2,
+        },
+        -- links with other nodes
+        links = {
+            17,
+        },
+    },
+    [17] = {
+        -- X location
+        x_location = 520,
+        -- Y location
+        y_location = 380,
+        -- icon filename,
+        icon_file = "data/gui/menus/star.png",
+        -- Experience points cost needed to reach this node
+        experience_points_needed = 1,
+        -- items needed to reach this node
+        items_needed = {
+            -- no items
+        },
+        -- no new skill earned
+        skill_id_learned = -1,
+        -- stats modifier
+        stats = {
+            -- Phys. Atk +1
+            [0] = 1,
+            [1] = 2,
+            [2] = 2,
+        },
+        -- links with other nodes
+        links = {
+            -- end of path
         },
     },
 }
---skills = { [1] = 1, [2] = 2, [8] = 3, [16] = 10003, [32] = 4, [64] = 10004, [100] = 6 }

@@ -27,7 +27,7 @@ class SkillsState : virtual public AbstractMenuState {
 public:
     enum SKILLS_CATEGORY {
         SKILLS_OPTIONS_USE,
-        SKILLS_OPTIONS_SKILL_TREE,
+        SKILLS_OPTIONS_SKILL_GRAPH,
         SKILLS_OPTIONS_BACK,
         SKILLS_OPTIONS_SIZE
 
@@ -45,6 +45,7 @@ public:
 
 protected:
     void _DrawBottomMenu();
+    void _OnDrawSideWindow();
     void _OnDrawMainWindow();
     void _ActiveWindowUpdate();
     bool _IsActive();

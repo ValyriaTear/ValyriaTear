@@ -31,6 +31,7 @@ namespace vt_menu
 namespace private_menu
 {
 
+//! \brief Menu translated strings
 static ustring choose_character_message;
 static ustring choose_skill_category_message;
 
@@ -57,10 +58,10 @@ SkillsWindow::SkillsWindow() :
 
 }
 
-void SkillsWindow::Activate(bool new_status)
+void SkillsWindow::Activate(bool is_active_state)
 {
     // Activate window and first option box...or deactivate both
-    if(new_status) {
+    if(is_active_state) {
         _char_select.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
         _active_box = SKILL_ACTIVE_CHAR;
     } else {

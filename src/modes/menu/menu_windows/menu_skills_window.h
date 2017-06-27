@@ -75,7 +75,7 @@ public:
     * \brief Activates the window
     * \param new_value true to activate window, false to deactivate window
     */
-    void Activate(bool new_status);
+    void Activate(bool is_active_state);
 
     /*!
     * \brief Checks to see if the skills window is active

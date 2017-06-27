@@ -22,7 +22,7 @@ void SkillsState::_ActiveWindowUpdate()
         default:
             _menu_mode->_skills_window.Update();
             break;
-        case SKILLS_OPTIONS_SKILL_TREE:
+        case SKILLS_OPTIONS_SKILL_GRAPH:
             _menu_mode->_skilltree_window.Update();
         break;
     }
@@ -30,7 +30,7 @@ void SkillsState::_ActiveWindowUpdate()
 
 bool SkillsState::_IsActive()
 {
-    if (_current_category == SKILLS_OPTIONS_SKILL_TREE) {
+    if (_current_category == SKILLS_OPTIONS_SKILL_GRAPH) {
         return _menu_mode->_skilltree_window.IsActive();
     }
     return _menu_mode->_skills_window.IsActive();
@@ -61,7 +61,7 @@ AbstractMenuState* SkillsState::GetTransitionState(uint32_t selection)
     {
         case SKILLS_OPTIONS_BACK:
             return &(_menu_mode->_main_menu_state);
-        case SKILLS_OPTIONS_SKILL_TREE:
+        case SKILLS_OPTIONS_SKILL_GRAPH:
             _menu_mode->_skilltree_window.SetActive(true);
             break;
         case SKILLS_OPTIONS_USE:
@@ -73,6 +73,18 @@ AbstractMenuState* SkillsState::GetTransitionState(uint32_t selection)
     return nullptr;
 }
 
+void SkillsState::_OnDrawSideWindow()
+{
+    if ((_current_category == SKILLS_OPTIONS_SKILL_GRAPH
+            && _menu_mode->_skilltree_window.GetSkillGraphState() != SKILLGRAPH_STATE_LIST)
+            || _current_category != SKILLS_OPTIONS_SKILL_GRAPH) {
+        _menu_mode->_character_window0.Draw();
+        _menu_mode->_character_window1.Draw();
+        _menu_mode->_character_window2.Draw();
+        _menu_mode->_character_window3.Draw();
+    }
+}
+
 void SkillsState::_OnDrawMainWindow()
 {
     _DrawBottomMenu();
@@ -80,7 +92,7 @@ void SkillsState::_OnDrawMainWindow()
         default:
             _menu_mode->_skills_window.Draw();
             break;
-        case SKILLS_OPTIONS_SKILL_TREE:
+        case SKILLS_OPTIONS_SKILL_GRAPH:
             _menu_mode->_skilltree_window.Draw();
         break;
     }
@@ -95,10 +107,9 @@ void SkillsState::_DrawBottomMenu()
             vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_TOP, 0);
             vt_video::VideoManager->Move(90, 580);
             _menu_mode->_skills_window._skill_icon.Draw();
-
             _menu_mode->_skills_window._description.Draw();
             break;
-        case SKILLS_OPTIONS_SKILL_TREE:
+        case SKILLS_OPTIONS_SKILL_GRAPH:
             _menu_mode->_skilltree_window.DrawBottomWindow();
             break;
     }

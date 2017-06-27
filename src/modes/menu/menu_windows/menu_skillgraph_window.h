@@ -34,6 +34,14 @@ struct NodeLine {
     float y2;
 };
 
+//! \brief The menu sub states
+enum SKILLGRAPH_STATE {
+    SKILLGRAPH_STATE_NONE = 0,
+    SKILLGRAPH_STATE_CHAR = 1,
+    SKILLGRAPH_STATE_LIST = 2,
+    SKILLGRAPH_STATE_SIZE = 3
+};
+
 /**
 *** \brief handles showing the skill tree and the selection of new nodes.
 *** The player will be able to use skill points and other items to get his/her way
@@ -68,13 +76,20 @@ public:
     }
 
     //! \brief Set the active state of this window, and do any associated work.
-    void SetActive(bool new_state);
+    void SetActive(bool is_active_state);
+
+    SKILLGRAPH_STATE GetSkillGraphState() const {
+        return _skillgraph_state;
+    }
 
     //! \brief Set the character for this window
     //! \param character the character to associate with this window
     void SetCharacter(vt_global::GlobalCharacter& character);
 
 private:
+    //! \brief the current selected character id
+    SKILLGRAPH_STATE _skillgraph_state;
+
     //! \brief the current selected character id
     uint32_t _selected_character_id;
 
@@ -105,6 +120,27 @@ private:
 
     //! \brief The skill node description text, icon, ...
     SkillNodeBottomInfo _bottom_info;
+
+    //! The character select option box
+    vt_gui::OptionBox _char_select;
+
+    //! \brief Text te select character
+    vt_video::TextImage _select_character_text;
+
+    //! \brief Initializes the character selector
+    void _InitCharSelect();
+
+    //! \brief Update function when in character select state
+    void _UpdateSkillCharacterSelectState();
+
+    //! \brief Update function when in skill graph list state
+    void _UpdateSkillGraphListState();
+
+    //! \brief Draw function when in character select state
+    void _DrawCharacterState();
+
+    //! \brief Draw function when in skill graph list state
+    void _DrawSkillGraphState();
 
     //! \brief Reset the view centered on the currently selected node.
     void _ResetSkillGraphView();
