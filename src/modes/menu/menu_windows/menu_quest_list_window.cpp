@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "modes/menu/menu_windows/menu_quest_list_window.h"
@@ -32,9 +32,12 @@ namespace private_menu
 {
 
 static const ustring spacing = MakeUnicodeString("<30>");
-static const ustring new_quest_file = MakeUnicodeString("<data/gui/menus/star.png>") + spacing;
-static const ustring check_file = MakeUnicodeString("<data/gui/menus/green_check.png>") + spacing;
-static const ustring cross_file = MakeUnicodeString("<data/gui/menus/red_x.png>") + spacing;
+static const ustring new_quest_file =
+    MakeUnicodeString("<data/gui/menus/star.png>") + spacing;
+static const ustring check_file =
+    MakeUnicodeString("<data/gui/menus/green_check.png>") + spacing;
+static const ustring cross_file =
+    MakeUnicodeString("<data/gui/menus/red_x.png>") + spacing;
 
 QuestListWindow::QuestListWindow() :
     _active_box(false)
@@ -112,7 +115,8 @@ void QuestListWindow::Update()
 /**
 *** \brief sorts the quest log keys based on the actual quest entry number, putting the highest value at the top of the list
 **/
-static inline bool sort_by_number_reverse(QuestLogEntry* quest_log1, QuestLogEntry* quest_log2)
+static inline bool sort_by_number_reverse(QuestLogEntry* quest_log1,
+                                          QuestLogEntry* quest_log2)
 {
     return (quest_log1->GetQuestLogNumber() > quest_log2->GetQuestLogNumber());
 }

@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "modes/menu/menu_windows/menu_worldmap_window.h"
@@ -66,13 +66,16 @@ void WorldMapWindow::Draw()
     }
 }
 
-void WorldMapWindow::_DrawViewableLocations(float window_position_x, float window_position_y)
+void WorldMapWindow::_DrawViewableLocations(float window_position_x,
+                                            float window_position_y)
 {
-    const std::vector<std::string> &current_location_ids = GlobalManager->GetViewableLocationIds();
+    const std::vector<std::string> &current_location_ids =
+        GlobalManager->GetViewableLocationIds();
     const uint32_t N = current_location_ids.size();
     for(uint32_t i = 0; i < N; ++i)
     {
-        const WorldMapLocation *location = GlobalManager->GetWorldLocation(current_location_ids[i]);
+        const WorldMapLocation *location =
+            GlobalManager->GetWorldLocation(current_location_ids[i]);
         if(location == nullptr)
         {
             PRINT_WARNING << "location for id: "
@@ -87,12 +90,16 @@ void WorldMapWindow::_DrawViewableLocations(float window_position_x, float windo
         //draw the pointer
         if(i == _location_pointer_index)
         {
-            //this is a slight offset for the pointer so that it points where we want it to, roughly in the center
-            //of the location marker
+            // this is a slight offset for the pointer
+            // so that it points where we want it to, roughly in the center
+            // of the location marker
             static const float minor_offset_x = 2.0f;
             static const float minor_offset_y = -8.0f;
-            VideoManager->Move(window_position_x + _current_image_x_offset + location->_x + minor_offset_x,
-                               window_position_y + _current_image_y_offset + location->_y - _location_pointer.GetHeight() + minor_offset_y);
+            VideoManager->Move(window_position_x + _current_image_x_offset
+                               + location->_x + minor_offset_x,
+                               window_position_y + _current_image_y_offset
+                               + location->_y - _location_pointer.GetHeight()
+                               + minor_offset_y);
             _location_pointer.Draw();
         }
     }
@@ -179,13 +186,15 @@ void WorldMapWindow::Activate(bool new_state)
 {
     _active = new_state;
 
-    //set the pointer to the appropriate location
-    //we only do this on activation of the window. after that it is handled by the left / right press
+    // set the pointer to the appropriate location
+    // we only do this on activation of the window.
+    // after that it is handled by the left / right press
     const std::string &location_id = GlobalManager->GetCurrentLocationId();
     const std::vector<std::string> &current_location_ids =
         GlobalManager->GetViewableLocationIds();
     std::vector<std::string>::const_iterator loc =
-        std::find(current_location_ids.begin(), current_location_ids.end(), location_id);
+        std::find(current_location_ids.begin(), current_location_ids.end(),
+                  location_id);
     if(location_id.empty() || loc == current_location_ids.end() )
         _location_pointer_index = 0;
     else

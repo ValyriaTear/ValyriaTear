@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "utils/utils_pch.h"
@@ -31,8 +31,10 @@ CharacterWindow::CharacterWindow():
 {
     // Loads HP/SP icons
     vt_global::GlobalMedia& media = vt_global::GlobalManager->Media();
-    _hp_icon = media.GetStatusIcon(vt_global::GLOBAL_STATUS_HP, vt_global::GLOBAL_INTENSITY_NEUTRAL);
-    _sp_icon = media.GetStatusIcon(vt_global::GLOBAL_STATUS_SP, vt_global::GLOBAL_INTENSITY_NEUTRAL);
+    _hp_icon = media.GetStatusIcon(vt_global::GLOBAL_STATUS_HP,
+                                   vt_global::GLOBAL_INTENSITY_NEUTRAL);
+    _sp_icon = media.GetStatusIcon(vt_global::GLOBAL_STATUS_SP,
+                                   vt_global::GLOBAL_INTENSITY_NEUTRAL);
 }
 
 void CharacterWindow::SetCharacter(vt_global::GlobalCharacter* character)
@@ -129,7 +131,8 @@ void CharacterWindow::Draw()
     if (nb_effects < 12)
         return;
 
-    // Show a third column when there are more than 12 active status effects (max 15)
+    // Show a third column when there are more than 12 active status effects
+    // (maximum 15)
     VideoManager->MoveRelative(-15.0f, -6.0f * 15.0f);
     for (uint32_t i = 12; i < nb_effects; ++i) {
         if (_active_status_effects[i])
@@ -146,11 +149,13 @@ void CharacterWindow::_UpdateActiveStatusEffects(vt_global::GlobalCharacter* cha
 
     GlobalMedia& media = GlobalManager->Media();
 
-    const std::vector<ActiveStatusEffect> effects = character->GetActiveStatusEffects();
+    const std::vector<ActiveStatusEffect> effects =
+        character->GetActiveStatusEffects();
     for (uint32_t i = 0; i < effects.size(); ++i) {
         GLOBAL_STATUS status = effects[i].GetEffect();
         GLOBAL_INTENSITY intensity = effects[i].GetIntensity();
-        if (status != GLOBAL_STATUS_INVALID && intensity != GLOBAL_INTENSITY_NEUTRAL) {
+        if (status != GLOBAL_STATUS_INVALID &&
+                intensity != GLOBAL_INTENSITY_NEUTRAL) {
             StillImage* image = media.GetStatusIcon(status, intensity);
             if (image)
                 _active_status_effects.push_back(image);

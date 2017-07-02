@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "modes/menu/menu_windows/menu_battle_formation_window.h"
@@ -34,7 +34,8 @@ namespace private_menu
 BattleFormationWindow::BattleFormationWindow() :
     _formation_select_active(false)
 {
-    std::vector<GlobalCharacter *>* characters = GlobalManager->GetOrderedCharacters();
+    std::vector<GlobalCharacter *>* characters =
+        GlobalManager->GetOrderedCharacters();
     uint32_t characters_number = characters->size() > 4 ? 4 : characters->size();
 
     // Init the option box.
@@ -178,13 +179,18 @@ void BattleFormationWindow::_ComputeModificators()
 
     // Otherwise the number of characters in front determines the protection
     // of the characters in rear.
-    uint32_t pos_chance_modifier = (chance_to_target / 2) / number_in_front;
-    uint32_t neg_chance_modifier = (chance_to_target / 2) / (characters_number - number_in_front);
+    uint32_t pos_chance_modifier =
+        (chance_to_target / 2) / number_in_front;
+    uint32_t neg_chance_modifier =
+        (chance_to_target / 2) / (characters_number - number_in_front);
     for(uint32_t i = 0; i < characters_number; ++i) {
-        if (_characters_position[i])
-            chance_to_target_txt = VTranslate("%d %%", chance_to_target + pos_chance_modifier);
-        else
-            chance_to_target_txt = VTranslate("%d %%", chance_to_target - neg_chance_modifier);
+        if (_characters_position[i]) {
+            chance_to_target_txt =
+               VTranslate("%d %%", chance_to_target + pos_chance_modifier);
+        } else {
+            chance_to_target_txt =
+               VTranslate("%d %%", chance_to_target - neg_chance_modifier);
+        }
         _character_target_texts[i].SetStyle(TextStyle("text22"));
         _character_target_texts[i].SetText(chance_to_target_txt);
     }

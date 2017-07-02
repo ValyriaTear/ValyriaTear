@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "modes/menu/menu_windows/menu_quest_window.h"
@@ -41,8 +41,9 @@ QuestWindow::QuestWindow():
     _quest_description.SetTextStyle(TextStyle("text20"));
     _quest_description.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
 
-    // preferably, we want the completion description to show underneath the description text
-    // last line. Unfortunatly, it seems CalculateTextHeight() doesn't work right
+    // preferably, we want the completion description
+    // to show underneath the description text last line.
+    // Unfortunatly, it seems CalculateTextHeight() doesn't work right
     // so we fix the position for now
     _quest_completion_description.SetPosition(445, 350);
     _quest_completion_description.SetDimensions(455, 200);
@@ -80,7 +81,7 @@ void QuestWindow::DrawBottom()
     _location_subname.Draw();
 
     //check location image and draw
-    if(_location_image != nullptr && _location_image->GetFilename().empty() == false) {
+    if(_location_image != nullptr && !_location_image->GetFilename().empty()) {
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
         VideoManager->Move(102, 685);
@@ -88,7 +89,7 @@ void QuestWindow::DrawBottom()
     }
 
     //check location subimage and draw
-    if(_location_subimage != nullptr && _location_subimage->GetFilename().empty() == false) {
+    if(_location_subimage != nullptr && !_location_subimage->GetFilename().empty()) {
         VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, 0);
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, 0);
         VideoManager->Move(500, 685);
@@ -100,7 +101,8 @@ void QuestWindow::Update()
 {
     MenuWindow::Update();
 
-    // Check to see if the id is empty or if the quest doesn't exist. if so, draw an empty space
+    // Check to see if the id is empty or if the quest doesn't exist.
+    // if so, draw an empty space
     if(_viewing_quest_id.empty()) {
         _quest_description.ClearText();
         _location_name.ClearText();

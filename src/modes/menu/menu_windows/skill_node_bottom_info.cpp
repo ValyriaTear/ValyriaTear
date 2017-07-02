@@ -4,7 +4,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "skill_node_bottom_info.h"
@@ -114,14 +114,16 @@ void SkillNodeBottomInfo::_SetCostInfo(uint32_t exp_points_needed,
     _cost_title.SetText(vt_system::UTranslate("To Unlock:"));
 
     if (exp_points_needed > 0)
-        _node_cost.SetText(vt_system::VTranslate("XP Needed: %d", exp_points_needed));
+        _node_cost.SetText(vt_system::VTranslate("XP Needed: %d",
+                                                 exp_points_needed));
     else
         _node_cost.SetText(vt_system::UTranslate("No XP Needed"));
 
     // Update list dimension according to the number of items
     _items_cost.ClearOptions();
     uint32_t items_nb = items_needed.size();
-    _items_cost.SetDimensions(100.0f, 30.0f * items_nb, 1, items_nb, 1, items_nb);
+    _items_cost.SetDimensions(100.0f, 30.0f * items_nb,
+                              1, items_nb, 1, items_nb);
     size_t list_index = 0;
     for (auto item_info : items_needed) {
         uint32_t item_id = item_info.first;
@@ -177,7 +179,8 @@ void SkillNodeBottomInfo::_SetSkillInfo(int32_t skill_id)
     _skill_description.SetText(skill->GetDescription());
     if (_skill_icon.Load(skill->GetIconFilename()))
         _skill_icon.SetWidthKeepRatio(50.0f);
-    _skill_sp_cost.SetText(vt_system::VTranslate("%d SP", skill->GetSPRequired()));
+    _skill_sp_cost.SetText(vt_system::VTranslate("%d SP",
+                                                 skill->GetSPRequired()));
 
     // Set title. This is done thqt way to ensure correct translation
     _skill_learned_text.SetText(vt_system::UTranslate("Skill learned:"));
@@ -194,7 +197,8 @@ void SkillNodeBottomInfo::_SetStatsInfo(const std::vector<std::pair<uint32_t, ui
     // Update list dimension according to the numberof items
     _stats_upgrade.ClearOptions();
     uint32_t stat_nb = stats_upgrades.size();
-    _stats_upgrade.SetDimensions(280.0f, 30.0f * stat_nb, 2, stat_nb, 2, stat_nb);
+    _stats_upgrade.SetDimensions(280.0f, 30.0f * stat_nb,
+                                 2, stat_nb, 2, stat_nb);
 
     size_t list_index = 0;
     for (auto stat_info : stats_upgrades) {
@@ -204,33 +208,41 @@ void SkillNodeBottomInfo::_SetStatsInfo(const std::vector<std::pair<uint32_t, ui
         ustring stat_text;
         switch (stat_id) {
             default:
-                PRINT_WARNING << "Invalid stat id: "  << stat_id << std::endl;
+                PRINT_WARNING << "Invalid stat id: " << stat_id << std::endl;
                 ++list_index;
                 continue;
                 break;
             case GLOBAL_STATUS_PHYS_ATK:
-                stat_text = MakeUnicodeString(VTranslate("Phys. Atk +%d", stat_upgrade));
+                stat_text = MakeUnicodeString(VTranslate("Phys. Atk +%d",
+                                                         stat_upgrade));
                 break;
             case GLOBAL_STATUS_MAG_ATK:
-                stat_text = MakeUnicodeString(VTranslate("Mag. Atk +%d", stat_upgrade));
+                stat_text = MakeUnicodeString(VTranslate("Mag. Atk +%d",
+                                                         stat_upgrade));
                 break;
             case GLOBAL_STATUS_PHYS_DEF:
-                stat_text = MakeUnicodeString(VTranslate("Phys. Def +%d", stat_upgrade));
+                stat_text = MakeUnicodeString(VTranslate("Phys. Def +%d",
+                                                         stat_upgrade));
                 break;
             case GLOBAL_STATUS_MAG_DEF:
-                stat_text = MakeUnicodeString(VTranslate("Mag. Def +%d", stat_upgrade));
+                stat_text = MakeUnicodeString(VTranslate("Mag. Def +%d",
+                                                         stat_upgrade));
                 break;
             case GLOBAL_STATUS_STAMINA:
-                stat_text = MakeUnicodeString(VTranslate("Stamina +%d", stat_upgrade));
+                stat_text = MakeUnicodeString(VTranslate("Stamina +%d",
+                                                         stat_upgrade));
                 break;
             case GLOBAL_STATUS_EVADE:
-                stat_text = MakeUnicodeString(VTranslate("Evade +%.1f%%", static_cast<float>(stat_upgrade) / 10.0f));
+                stat_text = MakeUnicodeString(VTranslate("Evade +%.1f%%",
+                                                         static_cast<float>(stat_upgrade) / 10.0f));
                 break;
             case GLOBAL_STATUS_HP:
-                stat_text = MakeUnicodeString(VTranslate("HP +%d", stat_upgrade));
+                stat_text = MakeUnicodeString(VTranslate("HP +%d",
+                                                         stat_upgrade));
                 break;
             case GLOBAL_STATUS_SP:
-                stat_text = MakeUnicodeString(VTranslate("SP +%d", stat_upgrade));
+                stat_text = MakeUnicodeString(VTranslate("SP +%d",
+                                                         stat_upgrade));
                 break;
         }
 
@@ -238,7 +250,9 @@ void SkillNodeBottomInfo::_SetStatsInfo(const std::vector<std::pair<uint32_t, ui
 
         // Set the image
         GlobalMedia& media = GlobalManager->Media();
-        StillImage* img = media.GetStatusIcon(static_cast<GLOBAL_STATUS>(stat_id), GLOBAL_INTENSITY_NEUTRAL);
+        StillImage* img =
+            media.GetStatusIcon(static_cast<GLOBAL_STATUS>(stat_id),
+                                GLOBAL_INTENSITY_NEUTRAL);
         if (img)
             _stats_upgrade.AddOptionElementImage(list_index, img);
 
