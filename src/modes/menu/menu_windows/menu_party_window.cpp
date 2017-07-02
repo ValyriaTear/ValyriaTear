@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "modes/menu/menu_windows/menu_party_window.h"
@@ -45,13 +45,16 @@ PartyWindow::PartyWindow() :
 
     // Set up the full body portrait
     for(uint32_t i = 0; i < partysize; i++) {
-        GlobalCharacter* ch = GlobalManager->GetActiveParty()->GetCharacterAtIndex(i);
+        GlobalCharacter* ch =
+            GlobalManager->GetActiveParty()->GetCharacterAtIndex(i);
         _full_portraits.push_back(ch->GetFullPortrait());
     }
 
     // We set them here in case the language has changed since the game start
-    change_position_message = UTranslate("Select a character to change position with.");
-    change_formation_message = UTranslate("Select a character to change formation.");
+    change_position_message =
+        UTranslate("Select a character to change position with.");
+    change_formation_message =
+        UTranslate("Select a character to change formation.");
 
     // Init char select option box
     _InitCharSelect();
@@ -135,8 +138,12 @@ void PartyWindow::_InitCharSelect()
     _focused_mdef_numbers.SetStyle(TextStyle("text18"));
 
     _focused_def_category_icons.Load("data/gui/menus/menu_point_atk_def.png");
-    _focused_def_icon = GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_PHYS_DEF, GLOBAL_INTENSITY_NEUTRAL);
-    _focused_mdef_icon = GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_MAG_DEF, GLOBAL_INTENSITY_NEUTRAL);
+    _focused_def_icon =
+        GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_PHYS_DEF,
+                                             GLOBAL_INTENSITY_NEUTRAL);
+    _focused_mdef_icon =
+        GlobalManager->Media().GetStatusIcon(GLOBAL_STATUS_MAG_DEF,
+                                             GLOBAL_INTENSITY_NEUTRAL);
 
     UpdateStatus();
 }
@@ -197,8 +204,10 @@ void PartyWindow::Update()
     case FORM_ACTIVE_SECOND:
         if(event == VIDEO_OPTION_CONFIRM) {
             // Switch Characters
-            GlobalManager->SwapCharactersByIndex(_char_select.GetSelection(), _second_char_select.GetSelection());
-            std::swap(_full_portraits[_char_select.GetSelection()],_full_portraits[_second_char_select.GetSelection()]);
+            GlobalManager->SwapCharactersByIndex(_char_select.GetSelection(),
+                                                 _second_char_select.GetSelection());
+            std::swap(_full_portraits[_char_select.GetSelection()],
+                      _full_portraits[_second_char_select.GetSelection()]);
 
             // Update the character's view
             MenuMode::CurrentInstance()->ReloadCharacterWindows();
@@ -229,7 +238,8 @@ void PartyWindow::UpdateStatus()
     _focused_def_numbers.Clear();
     _focused_mdef_numbers.Clear();
 
-    GlobalCharacter *ch =  GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
+    GlobalCharacter *ch =
+        GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
     if (!ch)
         return;
 
@@ -256,9 +266,12 @@ void PartyWindow::UpdateStatus()
 
     _character_status_numbers.SetText(text);
 
-    text = MakeUnicodeString(NumberToString(ch->GetTotalPhysicalAttack())) + MakeUnicodeString("\n")
-        + MakeUnicodeString(NumberToString(ch->GetTotalMagicalAttack(GLOBAL_ELEMENTAL_NEUTRAL))) + MakeUnicodeString("\n\n")
-        + MakeUnicodeString(NumberToString(ch->GetAverageDefense())) + MakeUnicodeString("\n")
+    text = MakeUnicodeString(NumberToString(ch->GetTotalPhysicalAttack()))
+        + MakeUnicodeString("\n")
+        + MakeUnicodeString(NumberToString(ch->GetTotalMagicalAttack(GLOBAL_ELEMENTAL_NEUTRAL)))
+        + MakeUnicodeString("\n\n")
+        + MakeUnicodeString(NumberToString(ch->GetAverageDefense()))
+        + MakeUnicodeString("\n")
         + MakeUnicodeString(NumberToString(ch->GetAverageMagicalDefense(GLOBAL_ELEMENTAL_NEUTRAL)));
 
     _average_atk_def_numbers.SetText(text);

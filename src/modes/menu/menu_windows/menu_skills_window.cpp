@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "modes/menu/menu_windows/menu_skills_window.h"
@@ -126,7 +126,9 @@ void SkillsWindow::_InitCharSelect()
 void SkillsWindow::_InitSkillsCategories()
 {
     _skills_categories.SetPosition(458.0f, 120.0f);
-    _skills_categories.SetDimensions(448.0f, 30.0f, SKILL_CATEGORY_SIZE, 1, SKILL_CATEGORY_SIZE, 1);
+    _skills_categories.SetDimensions(448.0f, 30.0f,
+                                     SKILL_CATEGORY_SIZE, 1,
+                                     SKILL_CATEGORY_SIZE, 1);
     _skills_categories.SetTextStyle(TextStyle("text20"));
     _skills_categories.SetCursorOffset(-52.0f, -20.0f);
     _skills_categories.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
@@ -198,10 +200,13 @@ void SkillsWindow::Update()
         // Handle skill application
         if(event == VIDEO_OPTION_CONFIRM) {
             GlobalSkill *skill = _GetCurrentSkill();
-            GlobalCharacter* user = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_skillset);
-            GlobalCharacter* target = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
+            GlobalCharacter* user =
+                GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_skillset);
+            GlobalCharacter* target =
+                GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
 
-            const luabind::object &script_function = skill->GetFieldExecuteFunction();
+            const luabind::object &script_function =
+                skill->GetFieldExecuteFunction();
 
             if(!script_function.is_valid()) {
                 media.PlaySound("cancel");
@@ -214,20 +219,24 @@ void SkillsWindow::Update()
 
             bool success = false;
             try {
-                success = luabind::call_function<bool>(script_function, user, target);
+                success =
+                    luabind::call_function<bool>(script_function, user, target);
             } catch(const luabind::error& e) {
-                PRINT_ERROR << "Error while loading FieldExecute() function" << std::endl;
+                PRINT_ERROR << "Error while loading FieldExecute() function"
+                            << std::endl;
                 vt_script::ScriptManager->HandleLuaError(e);
                 success = false;
             } catch(const luabind::cast_failed& e) {
-                PRINT_ERROR << "Error while loading FieldExecute() function" << std::endl;
+                PRINT_ERROR << "Error while loading FieldExecute() function"
+                            << std::endl;
                 vt_script::ScriptManager->HandleCastError(e);
                 success = false;
             }
 
             if (success) {
                 user->SubtractSkillPoints(skill->GetSPRequired());
-                // We also update the Characters stats as the item might have some effects there.
+                // We also update the Characters stats
+                // as the item might have some effects there.
                 MenuMode::CurrentInstance()->ReloadCharacterWindows();
                 media.PlaySound("confirm");
             }
@@ -310,14 +319,16 @@ void SkillsWindow::Update()
 
     // If the selection is invalid, we clear up the list and return
     if(_skills_list.GetNumberOptions() <= 0 || _skills_list.GetSelection() < 0
-            || static_cast<int32_t>(_skills_list.GetNumberOptions()) <= _skills_list.GetSelection()) {
+            || static_cast<int32_t>(_skills_list.GetNumberOptions())
+               <= _skills_list.GetSelection()) {
         _skill_icon.Clear();
         _description.ClearText();
         return;
     }
 
     // If the menu isn't selecting any particular skill, we also return.
-    if (_active_box != SKILL_ACTIVE_LIST && _active_box != SKILL_ACTIVE_CHAR_APPLY) {
+    if (_active_box != SKILL_ACTIVE_LIST &&
+            _active_box != SKILL_ACTIVE_CHAR_APPLY) {
         _skill_icon.Clear();
 
         if (_active_box == SKILL_ACTIVE_NONE)
@@ -330,7 +341,8 @@ void SkillsWindow::Update()
     }
 
     GlobalSkill *skill = _GetCurrentSkill();
-    GlobalCharacter *skill_owner = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_skillset);
+    GlobalCharacter *skill_owner =
+        GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_skillset);
 
     // Get the skill type
     vt_utils::ustring skill_type;
@@ -375,18 +387,23 @@ void SkillsWindow::Update()
 
 GlobalSkill *SkillsWindow::_GetCurrentSkill()
 {
-    GlobalCharacter *ch = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_skillset);
+    GlobalCharacter *ch =
+        GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_skillset);
 
     std::vector<GlobalSkill *> menu_skills;
     std::vector<GlobalSkill *> battle_skills;
     std::vector<GlobalSkill *> all_skills;
 
     if (ch->GetWeaponEquipped())
-        _BuildMenuBattleSkillLists(ch->GetWeaponSkills(), &menu_skills, &battle_skills, &all_skills);
+        _BuildMenuBattleSkillLists(ch->GetWeaponSkills(),
+                                   &menu_skills, &battle_skills, &all_skills);
     else
-        _BuildMenuBattleSkillLists(ch->GetBareHandsSkills(), &menu_skills, &battle_skills, &all_skills);
-    _BuildMenuBattleSkillLists(ch->GetMagicSkills(), &menu_skills, &battle_skills, &all_skills);
-    _BuildMenuBattleSkillLists(ch->GetSpecialSkills(), &menu_skills, &battle_skills, &all_skills);
+        _BuildMenuBattleSkillLists(ch->GetBareHandsSkills(),
+                                   &menu_skills, &battle_skills, &all_skills);
+    _BuildMenuBattleSkillLists(ch->GetMagicSkills(),
+                               &menu_skills, &battle_skills, &all_skills);
+    _BuildMenuBattleSkillLists(ch->GetSpecialSkills(),
+                               &menu_skills, &battle_skills, &all_skills);
 
     GlobalSkill *skill;
     switch(_skills_categories.GetSelection()) {
@@ -401,7 +418,8 @@ GlobalSkill *SkillsWindow::_GetCurrentSkill()
         break;
     default:
         skill = nullptr;
-        PRINT_ERROR << "MENU ERROR: Invalid skill type in SkillsWindow::_GetCurrentSkill()" << std::endl;
+        PRINT_ERROR << "MENU ERROR: Invalid skill type in SkillsWindow::_GetCurrentSkill()"
+                    << std::endl;
         break;
     }
 
@@ -410,7 +428,8 @@ GlobalSkill *SkillsWindow::_GetCurrentSkill()
 
 void SkillsWindow::_UpdateSkillList()
 {
-    GlobalCharacter *ch = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
+    GlobalCharacter *ch =
+        GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
     assert(ch);
     std::vector<ustring> options;
     std::vector<ustring> cost_options;
@@ -425,11 +444,15 @@ void SkillsWindow::_UpdateSkillList()
     std::vector<GlobalSkill*>::const_iterator it_end;
 
     if (ch->GetWeaponEquipped())
-        _BuildMenuBattleSkillLists(ch->GetWeaponSkills(), &menu_skills, &battle_skills, &all_skills);
+        _BuildMenuBattleSkillLists(ch->GetWeaponSkills(),
+                                   &menu_skills, &battle_skills, &all_skills);
     else
-        _BuildMenuBattleSkillLists(ch->GetBareHandsSkills(), &menu_skills, &battle_skills, &all_skills);
-    _BuildMenuBattleSkillLists(ch->GetMagicSkills(), &menu_skills, &battle_skills, &all_skills);
-    _BuildMenuBattleSkillLists(ch->GetSpecialSkills(), &menu_skills, &battle_skills, &all_skills);
+        _BuildMenuBattleSkillLists(ch->GetBareHandsSkills(),
+                                   &menu_skills, &battle_skills, &all_skills);
+    _BuildMenuBattleSkillLists(ch->GetMagicSkills(),
+                               &menu_skills, &battle_skills, &all_skills);
+    _BuildMenuBattleSkillLists(ch->GetSpecialSkills(),
+                               &menu_skills, &battle_skills, &all_skills);
 
     switch(_skills_categories.GetSelection()) {
     case SKILL_ALL:
@@ -482,7 +505,9 @@ void SkillsWindow::_UpdateSkillList()
 }
 
 void SkillsWindow::_BuildMenuBattleSkillLists(std::vector<GlobalSkill *> *skill_list,
-        std::vector<GlobalSkill *> *field, std::vector<GlobalSkill *> *battle, std::vector<GlobalSkill *> *all)
+                                              std::vector<GlobalSkill *> *field,
+                                              std::vector<GlobalSkill *> *battle,
+                                              std::vector<GlobalSkill *> *all)
 {
     std::vector<GlobalSkill *>::iterator it;
     for(it = skill_list->begin(); it != skill_list->end(); ++it) {

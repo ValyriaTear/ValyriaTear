@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "modes/menu/menu_windows/menu_equip_window.h"
@@ -119,7 +119,8 @@ void EquipWindow::_InitEquipmentSelect()
 {
     //Set params
     _equip_select.SetPosition(680.0f, 145.0f);
-    _equip_select.SetDimensions(180.0f, 350.0f, 1, EQUIP_CATEGORY_SIZE, 1, EQUIP_CATEGORY_SIZE);
+    _equip_select.SetDimensions(180.0f, 350.0f,
+                                1, EQUIP_CATEGORY_SIZE, 1, EQUIP_CATEGORY_SIZE);
     _equip_select.SetTextStyle(TextStyle("text20"));
 
     _equip_select.SetCursorOffset(-132.0f, -20.0f);
@@ -277,7 +278,8 @@ void EquipWindow::Update()
             }
 
             case EQUIP_TORSO: {
-                std::shared_ptr<GlobalArmor> arm = GlobalManager->GetInventoryTorsoArmors()->at(inventory_id);
+                std::shared_ptr<GlobalArmor> arm =
+                    GlobalManager->GetInventoryTorsoArmors()->at(inventory_id);
                 if(arm->GetUsableBy() & _character->GetID()) {
                     id_num = arm->GetID();
                     GlobalManager->AddToInventory(_character->EquipTorsoArmor(std::dynamic_pointer_cast<GlobalArmor>(GlobalManager->GetGlobalObject(id_num))));
@@ -289,7 +291,8 @@ void EquipWindow::Update()
             }
 
             case EQUIP_ARMS: {
-                std::shared_ptr<GlobalArmor> shld = GlobalManager->GetInventoryArmArmors()->at(inventory_id);
+                std::shared_ptr<GlobalArmor> shld =
+                    GlobalManager->GetInventoryArmArmors()->at(inventory_id);
                 if(shld->GetUsableBy() & _character->GetID()) {
                     id_num = shld->GetID();
                     GlobalManager->AddToInventory(_character->EquipArmArmor(std::dynamic_pointer_cast<GlobalArmor>(GlobalManager->GetGlobalObject(id_num))));
@@ -301,7 +304,8 @@ void EquipWindow::Update()
             }
 
             case EQUIP_LEGS: {
-                std::shared_ptr<GlobalArmor> lgs = GlobalManager->GetInventoryLegArmors()->at(inventory_id);
+                std::shared_ptr<GlobalArmor> lgs =
+                    GlobalManager->GetInventoryLegArmors()->at(inventory_id);
                 if(lgs->GetUsableBy() & _character->GetID()) {
                     id_num = lgs->GetID();
                     GlobalManager->AddToInventory(_character->EquipLegArmor(std::dynamic_pointer_cast<GlobalArmor>(GlobalManager->GetGlobalObject(id_num))));
@@ -371,10 +375,12 @@ void EquipWindow::_UpdateEquipList()
         for(uint32_t j = 0; j < gearsize; j++) {
             uint32_t usability_bitmask = 0;
             if(_equip_select.GetSelection() == EQUIP_WEAPON) {
-                std::shared_ptr<GlobalWeapon> selected_weapon = std::dynamic_pointer_cast<GlobalWeapon>(equipment_list->at(j));
+                std::shared_ptr<GlobalWeapon> selected_weapon =
+                    std::dynamic_pointer_cast<GlobalWeapon>(equipment_list->at(j));
                 usability_bitmask = selected_weapon->GetUsableBy();
             } else {
-                std::shared_ptr<GlobalArmor> selected_armor = std::dynamic_pointer_cast<GlobalArmor>(equipment_list->at(j));
+                std::shared_ptr<GlobalArmor> selected_armor =
+                    std::dynamic_pointer_cast<GlobalArmor>(equipment_list->at(j));
                 usability_bitmask = selected_armor->GetUsableBy();
             }
 
@@ -400,7 +406,8 @@ void EquipWindow::_UpdateEquipList()
         StillImage i;
 
         std::shared_ptr<GlobalWeapon> wpn = _character->GetWeaponEquipped();
-        i.Load(wpn ? wpn->GetIconImage().GetFilename() : "data/inventory/weapons/fist-human.png");
+        i.Load(wpn ? wpn->GetIconImage().GetFilename()
+                   : "data/inventory/weapons/fist-human.png");
         _equip_images.push_back(i);
 
         std::shared_ptr<GlobalArmor> head_armor = _character->GetHeadArmorEquipped();
@@ -421,10 +428,14 @@ void EquipWindow::_UpdateEquipList()
 
         // Now, update the NAMES of the equipped items
         options.push_back(wpn ? wpn->GetName() : UTranslate("No weapon"));
-        options.push_back(head_armor ? head_armor->GetName() : UTranslate("No head armor"));
-        options.push_back(torso_armor ? torso_armor->GetName() : UTranslate("No torso armor"));
-        options.push_back(arm_armor ? arm_armor->GetName() : UTranslate("No arms armor"));
-        options.push_back(leg_armor ? leg_armor->GetName() : UTranslate("No legs armor"));
+        options.push_back(head_armor ? head_armor->GetName()
+                                     : UTranslate("No head armor"));
+        options.push_back(torso_armor ? torso_armor->GetName()
+                                      : UTranslate("No torso armor"));
+        options.push_back(arm_armor ? arm_armor->GetName()
+                                    : UTranslate("No arms armor"));
+        options.push_back(leg_armor ? leg_armor->GetName()
+                                    : UTranslate("No legs armor"));
 
         _equip_select.SetOptions(options);
     }
@@ -439,7 +450,8 @@ void EquipWindow::_UpdateSelectedObject()
     // Don't show anything when there is no item selected
     if (_active_box == EQUIP_ACTIVE_CHAR || _active_box == EQUIP_ACTIVE_NONE) {
         _object = nullptr;
-        MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, EQUIP_VIEW_NONE);
+        MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object,
+                                                         EQUIP_VIEW_NONE);
         return;
     }
 
@@ -469,7 +481,8 @@ void EquipWindow::_UpdateSelectedObject()
                 break;
         }
         EQUIP_VIEW view_type = _equip ? EQUIP_VIEW_CHAR : EQUIP_VIEW_UNEQUIPPING;
-        MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, view_type);
+        MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object,
+                                                         view_type);
         return;
     }
 
@@ -512,7 +525,8 @@ void EquipWindow::_UpdateSelectedObject()
     }
 
     // We now update equipment info
-    MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, EQUIP_VIEW_EQUIPPING);
+    MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object,
+                                                     EQUIP_VIEW_EQUIPPING);
 }
 
 void EquipWindow::Draw()

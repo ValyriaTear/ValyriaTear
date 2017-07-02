@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "modes/menu/menu_windows/menu_inventory_window.h"
@@ -121,7 +121,8 @@ void InventoryWindow::_InitCharSelect()
 void InventoryWindow::_InitCategory()
 {
     _item_categories.SetPosition(458.0f, 120.0f);
-    _item_categories.SetDimensions(448.0f, 30.0f, ITEM_CATEGORY_SIZE, 1, ITEM_CATEGORY_SIZE, 1);
+    _item_categories.SetDimensions(448.0f, 30.0f,
+                                   ITEM_CATEGORY_SIZE, 1, ITEM_CATEGORY_SIZE, 1);
     _item_categories.SetTextStyle(TextStyle("text20"));
 
     _item_categories.SetCursorOffset(-52.0f, -20.0f);
@@ -242,7 +243,7 @@ void InventoryWindow::Update()
                     _inventory_items.SetSelection(0);
                     _item_categories.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
                     _inventory_items.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
-                    _description.SetDisplayText(_item_objects[ 0 ]->GetDescription());
+                    _description.SetDisplayText(_item_objects[0]->GetDescription());
                     _active_box = ITEM_ACTIVE_LIST;
                     media.PlaySound("confirm");
                 } // if _inventory_items.GetNumberOptions() > 0
@@ -281,7 +282,8 @@ void InventoryWindow::Update()
                 }
 
                 // Check first whether the item is usable from the menu
-                std::shared_ptr<GlobalItem> item = std::dynamic_pointer_cast<GlobalItem>(GlobalManager->GetGlobalObject(_object->GetID()));
+                std::shared_ptr<GlobalItem> item =
+                    std::dynamic_pointer_cast<GlobalItem>(GlobalManager->GetGlobalObject(_object->GetID()));
                 if (item && !item->IsUsableInField()) {
                     media.PlaySound("cancel");
                     break;
@@ -297,7 +299,9 @@ void InventoryWindow::Update()
                     case GLOBAL_OBJECT_HEAD_ARMOR:
                     case GLOBAL_OBJECT_TORSO_ARMOR:
                     case GLOBAL_OBJECT_LEG_ARMOR:
-                        MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, EQUIP_VIEW_EQUIPPING);
+                        MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character,
+                                                                         _object,
+                                                                         EQUIP_VIEW_EQUIPPING);
                         break;
                     default: // other objects
                         break;
@@ -331,7 +335,8 @@ void InventoryWindow::Update()
                     {
                         // Returns an item object, already removed from inventory.
                         // Don't forget to readd the item if not used, or to delete the pointer.
-                        std::shared_ptr<GlobalItem> item = std::dynamic_pointer_cast<GlobalItem>(GlobalManager->GetGlobalObject(_object->GetID()));
+                        std::shared_ptr<GlobalItem> item =
+                            std::dynamic_pointer_cast<GlobalItem>(GlobalManager->GetGlobalObject(_object->GetID()));
                         if (!item)
                             break;
 
@@ -340,7 +345,8 @@ void InventoryWindow::Update()
                             IF_PRINT_WARNING(MENU_DEBUG) << "item did not have a menu use function" << std::endl;
                         } else {
                             if(IsTargetParty(item->GetTargetType())) {
-                                GlobalParty *ch_party = GlobalManager->GetActiveParty();
+                                GlobalParty *ch_party =
+                                    GlobalManager->GetActiveParty();
 
                                 bool success = false;
                                 try {
@@ -402,7 +408,8 @@ void InventoryWindow::Update()
                                     MenuMode::CurrentInstance()->ReloadCharacterWindows();
                                     item = nullptr;
                                     // Now the item is used, we can remove it from the inventory.
-                                    if(_object->GetCount() == 1 && _object == _menu_mode->_object){
+                                    if(_object->GetCount() == 1 &&
+                                          _object == _menu_mode->_object){
                                         _menu_mode->_object = nullptr;
                                     }
                                     GlobalManager->DecrementItemCount(_object->GetID(), 1);
@@ -415,7 +422,8 @@ void InventoryWindow::Update()
                     case GLOBAL_OBJECT_WEAPON:
                     {
                         //get the item from the inventory list. this also removes the item from the list
-                        selected_weapon = std::dynamic_pointer_cast<GlobalWeapon>(GlobalManager->GetGlobalObject(_object->GetID()));
+                        selected_weapon =
+                            std::dynamic_pointer_cast<GlobalWeapon>(GlobalManager->GetGlobalObject(_object->GetID()));
                         break;
                     }
                     case GLOBAL_OBJECT_HEAD_ARMOR:
@@ -424,7 +432,8 @@ void InventoryWindow::Update()
                     case GLOBAL_OBJECT_LEG_ARMOR:
                     {
                         //get the item from the inventory list. this also removes the item from the list
-                        selected_armor = std::dynamic_pointer_cast<GlobalArmor>(GlobalManager->GetGlobalObject(_object->GetID()));
+                        selected_armor =
+                            std::dynamic_pointer_cast<GlobalArmor>(GlobalManager->GetGlobalObject(_object->GetID()));
                         break;
                     }
 
@@ -439,16 +448,20 @@ void InventoryWindow::Update()
                     switch(_object_type)
                     {
                         case GLOBAL_OBJECT_HEAD_ARMOR:
-                            selected_armor = _character->EquipHeadArmor(selected_armor);
+                            selected_armor =
+                                _character->EquipHeadArmor(selected_armor);
                             break;
                         case GLOBAL_OBJECT_TORSO_ARMOR:
-                            selected_armor = _character->EquipTorsoArmor(selected_armor);
+                            selected_armor =
+                                _character->EquipTorsoArmor(selected_armor);
                             break;
                         case GLOBAL_OBJECT_ARM_ARMOR:
-                            selected_armor = _character->EquipArmArmor(selected_armor);
+                            selected_armor =
+                                _character->EquipArmArmor(selected_armor);
                             break;
                         case GLOBAL_OBJECT_LEG_ARMOR:
-                            selected_armor = _character->EquipLegArmor(selected_armor);
+                            selected_armor =
+                                _character->EquipLegArmor(selected_armor);
                         default:
                             break;
                     }
@@ -470,7 +483,8 @@ void InventoryWindow::Update()
                 //if we can equip and it is a weapon
                 else if(_can_equip && selected_weapon)
                 {
-                    //get the old weapon by swapping the selected_weapon for the current one
+                    // get the old weapon by swapping
+                    // the selected_weapon for the current one
                     selected_weapon = _character->EquipWeapon(selected_weapon);
                     //add the old weapon back into the inventory
                     GlobalManager->AddToInventory(selected_weapon);
@@ -529,7 +543,8 @@ void InventoryWindow::_UpdateSelection()
         _inventory_items.SetSelection(0);
 
     // Upper bound check to avoid crashes when selecting the last item at list's end.
-    if (static_cast<uint32_t>(_inventory_items.GetSelection()) >= _item_objects.size())
+    if (static_cast<uint32_t>(_inventory_items.GetSelection())
+           >= _item_objects.size())
         _inventory_items.SetSelection(_item_objects.size() - 1);
 
     _object = _item_objects[ _inventory_items.GetSelection() ];
@@ -543,11 +558,13 @@ void InventoryWindow::_UpdateSelection()
     switch(_object_type) {
         case GLOBAL_OBJECT_WEAPON:
         {
-            std::shared_ptr<GlobalWeapon> selected_weapon = std::dynamic_pointer_cast<GlobalWeapon>(_object);
+            std::shared_ptr<GlobalWeapon> selected_weapon =
+                std::dynamic_pointer_cast<GlobalWeapon>(_object);
             uint32_t usability_bitmask = selected_weapon->GetUsableBy();
             _is_equipment = true;
             _can_equip = usability_bitmask & _character->GetID();
-            MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, EQUIP_VIEW_EQUIPPING);
+            MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object,
+                                                             EQUIP_VIEW_EQUIPPING);
             break;
         }
         case GLOBAL_OBJECT_HEAD_ARMOR:
@@ -555,11 +572,13 @@ void InventoryWindow::_UpdateSelection()
         case GLOBAL_OBJECT_ARM_ARMOR:
         case GLOBAL_OBJECT_LEG_ARMOR:
         {
-            std::shared_ptr<GlobalArmor> selected_armor = std::dynamic_pointer_cast<GlobalArmor>(_object);
+            std::shared_ptr<GlobalArmor> selected_armor =
+                std::dynamic_pointer_cast<GlobalArmor>(_object);
             uint32_t usability_bitmask = selected_armor->GetUsableBy();
             _is_equipment = true;
             _can_equip = usability_bitmask & _character->GetID();
-            MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object, EQUIP_VIEW_EQUIPPING);
+            MenuMode::CurrentInstance()->UpdateEquipmentInfo(_character, _object,
+                                                             EQUIP_VIEW_EQUIPPING);
             break;
         }
         default:
@@ -584,7 +603,8 @@ void InventoryWindow::_UpdateItemText()
     _item_objects.clear();
     _inventory_items.ClearOptions();
 
-    ITEM_CATEGORY current_selected_category = static_cast<ITEM_CATEGORY>(_item_categories.GetSelection());
+    ITEM_CATEGORY current_selected_category =
+        static_cast<ITEM_CATEGORY>(_item_categories.GetSelection());
     switch(current_selected_category) {
         case ITEM_ALL: {
             auto inv = GlobalManager->GetInventory();
@@ -594,31 +614,38 @@ void InventoryWindow::_UpdateItemText()
             break;
         }
         case ITEM_ITEM:
-            _item_objects = _GetObjectVector(GlobalManager->GetInventoryItems());
+            _item_objects =
+                _GetObjectVector(GlobalManager->GetInventoryItems());
             break;
 
         case ITEM_WEAPON:
-            _item_objects = _GetObjectVector(GlobalManager->GetInventoryWeapons());
+            _item_objects =
+                _GetObjectVector(GlobalManager->GetInventoryWeapons());
             break;
 
         case ITEM_HEAD_ARMOR:
-            _item_objects = _GetObjectVector(GlobalManager->GetInventoryHeadArmors());
+            _item_objects =
+                _GetObjectVector(GlobalManager->GetInventoryHeadArmors());
             break;
 
         case ITEM_TORSO_ARMOR:
-            _item_objects = _GetObjectVector(GlobalManager->GetInventoryTorsoArmors());
+            _item_objects =
+                _GetObjectVector(GlobalManager->GetInventoryTorsoArmors());
             break;
 
         case ITEM_ARMS_ARMOR:
-            _item_objects = _GetObjectVector(GlobalManager->GetInventoryArmArmors());
+            _item_objects =
+                _GetObjectVector(GlobalManager->GetInventoryArmArmors());
             break;
 
         case ITEM_LEGS_ARMOR:
-            _item_objects = _GetObjectVector(GlobalManager->GetInventoryLegArmors());
+            _item_objects =
+                _GetObjectVector(GlobalManager->GetInventoryLegArmors());
             break;
 
         case ITEM_KEY: {
-            _item_objects = _GetObjectVector(GlobalManager->GetInventoryKeyItems());
+            _item_objects =
+                _GetObjectVector(GlobalManager->GetInventoryKeyItems());
             break;
         }
         default:
@@ -650,7 +677,8 @@ void InventoryWindow::_UpdateItemText()
     }
 
     // Upper bound check to avoid a crash at when selecting the last item of the list's end.
-    if (static_cast<uint32_t>(_inventory_items.GetSelection()) >= _item_objects.size())
+    if (static_cast<uint32_t>(_inventory_items.GetSelection())
+            >= _item_objects.size())
         _inventory_items.SetSelection(_item_objects.size() - 1);
 
     if(current_selected_category != _previous_category)
@@ -716,9 +744,11 @@ void InventoryWindow::_DrawBottomInfo()
         _description.Draw();
 
         if (_object->IsKeyItem())
-            _DrawSpecialItemDescription(menu->_key_item_icon, menu->_key_item_description);
+            _DrawSpecialItemDescription(menu->_key_item_icon,
+                                        menu->_key_item_description);
         else if (_object_type == GLOBAL_OBJECT_SPIRIT)
-            _DrawSpecialItemDescription(menu->_spirit_icon, menu->_spirit_description);
+            _DrawSpecialItemDescription(menu->_spirit_icon,
+                                        menu->_spirit_description);
     }
     else if(_active_box == ITEM_ACTIVE_CHAR) {
         menu->_bottom_window.Draw();

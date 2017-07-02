@@ -4,7 +4,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "modes/menu/menu_windows/menu_skillgraph_window.h"
@@ -63,7 +63,8 @@ SkillGraphWindow::SkillGraphWindow() :
     _InitCharSelect();
 
     // We set them here so that they are re-translated when changing the language.
-    _select_character_text.SetText(UTranslate("Choose a character."), TextStyle("text20"));
+    _select_character_text.SetText(UTranslate("Choose a character."),
+                                   TextStyle("text20"));
 }
 
 void SkillGraphWindow::SetActive(bool is_active_state)
@@ -198,7 +199,8 @@ void SkillGraphWindow::_UpdateSkillCharacterSelectState()
 
 
         // If the character is unset, set the default node
-        GlobalCharacter* character = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
+        GlobalCharacter* character =
+            GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
         if (!character) {
             _selected_character_id = std::numeric_limits<uint32_t>::max();
             _selected_node_index = 0;
