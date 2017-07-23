@@ -829,6 +829,39 @@ void VideoEngine::SetScissorRect(const ScreenRect& screen_rectangle)
               static_cast<GLsizei>(_current_context.scissor_rectangle.height));
 }
 
+void VideoEngine::PushScissoredViewport(float x, float y, float width, float height)
+{
+    // Store current state
+    vt_video::VideoManager->PushState();
+
+    // Set the new coordinates to match our viewport.
+    vt_video::VideoManager->SetStandardCoordSys();
+
+    // Compute the scissored viewport.
+    const float ratio_x = vt_video::VideoManager->GetViewportWidth() / vt_video::VIDEO_VIEWPORT_WIDTH;
+    const float ratio_y = vt_video::VideoManager->GetViewportHeight() / vt_video::VIDEO_VIEWPORT_HEIGHT;
+    float viewport_x = (x * ratio_x) + vt_video::VideoManager->GetViewportXOffset();
+    float viewport_y = (y * ratio_y) + vt_video::VideoManager->GetViewportYOffset();
+    float viewport_width = width * ratio_x;
+    float viewport_height = height * ratio_y;
+
+    // Update the scissor rectangle.
+    vt_video::VideoManager->EnableScissoring();
+    vt_video::VideoManager->SetScissorRect(viewport_x, viewport_y, viewport_width, viewport_height);
+
+    // Assign the viewport to be "inside" the above area.
+    vt_video::VideoManager->SetViewport(viewport_x, viewport_y, viewport_width, viewport_height);
+}
+
+void VideoEngine::PopScissoredViewport()
+{
+    // Remove scissoring
+    vt_video::VideoManager->DisableScissoring();
+
+    // Restore the original viewport
+    vt_video::VideoManager->PopState();
+}
+
 //-----------------------------------------------------------------------------
 // VideoEngine class - Transformation methods
 //-----------------------------------------------------------------------------

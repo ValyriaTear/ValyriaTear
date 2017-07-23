@@ -29,6 +29,10 @@ namespace vt_video
 const float VIDEO_STANDARD_RES_WIDTH  = 1024.0f;
 const float VIDEO_STANDARD_RES_HEIGHT = 768.0f;
 
+//! \brief The default viewport size
+const float VIDEO_VIEWPORT_WIDTH  = 800.0f;
+const float VIDEO_VIEWPORT_HEIGHT = 600.0f;
+
 //! \brief The number of FPS samples to retain across frames
 const uint32_t FPS_SAMPLES = 250;
 

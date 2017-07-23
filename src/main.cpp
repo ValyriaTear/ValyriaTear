@@ -457,7 +457,8 @@ int main(int argc, char* argv[])
     SDL_Window* sdl_window = SDL_CreateWindow(APPFULLNAME,
                          SDL_WINDOWPOS_CENTERED,
                          SDL_WINDOWPOS_CENTERED,
-                         800, 600, // default size
+                         vt_video::VIDEO_VIEWPORT_WIDTH,
+                         vt_video::VIDEO_VIEWPORT_HEIGHT,
                          SDL_WINDOW_OPENGL);
     if (!sdl_window) {
         PRINT_ERROR << "SDL window creation failed: " << SDL_GetError()

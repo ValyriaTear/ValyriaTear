@@ -454,6 +454,21 @@ public:
     **/
     void Scale(float x, float y);
 
+    /** \brief Convenience function used to easily set a subpart of the screen as drawable.
+    *** The screen part is relative to the standard coordinate system (with top left alignment).
+    *** The scissored area must be restored with PopScissoredViewport()
+    *** \param x The left coordinate of the scissored area
+    *** \param y The top coordinate of the scissored area
+    *** \param width The width of the scissored area
+    *** \param height The height of the scissored area
+    **/
+    void PushScissoredViewport(float x, float y, float width, float height);
+
+    /** \brief restore a previously scissored viewport
+    *** \note Must be called after PushScissoredViewport()
+    **/
+    void PopScissoredViewport();
+
     // ----------  Image operation methods
 
     /** \brief Captures the contents of the screen and saves it as an image texture
@@ -618,6 +633,7 @@ public:
 
     SDL_Window* GetWindowHandle()
     { return _sdl_window; }
+
 private:
     VideoEngine();
 

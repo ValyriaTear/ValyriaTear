@@ -222,9 +222,9 @@ void Minimap::Draw()
     if (_current_position_x <= -1.0f)
         return;
 
-    vt_video::Color resultant_opacity = *_current_opacity;
-    if (_map_alpha_scale < resultant_opacity.GetAlpha())
-        resultant_opacity.SetAlpha(_map_alpha_scale);
+    vt_video::Color minimap_opacity = *_current_opacity;
+    if (_map_alpha_scale < minimap_opacity.GetAlpha())
+        minimap_opacity.SetAlpha(_map_alpha_scale);
 
     // Save the current video manager state.
     vt_video::VideoManager->PushState();
@@ -234,52 +234,27 @@ void Minimap::Draw()
     // Draw the background in the current viewport and coordinate space
     vt_video::VideoManager->Move(MINIMAP_POS_X, MINIMAP_POS_Y);
     vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_TOP, 0);
-    _background.Draw(resultant_opacity);
+    _background.Draw(minimap_opacity);
 
-    // Store the current viewport.
-    float viewport_original_x = 0.0f;
-    float viewport_original_y = 0.0f;
-    float viewport_original_width = 0.0f;
-    float viewport_original_height = 0.0f;
-    vt_video::VideoManager->GetCurrentViewport(viewport_original_x, viewport_original_y,
-                                               viewport_original_width, viewport_original_height);
-
-    // Compute the minimap's viewport.
-    const float ratio_x = vt_video::VideoManager->GetViewportWidth() / 800.0f;
-    const float ratio_y = vt_video::VideoManager->GetViewportHeight() / 600.0f;
-    float viewport_x = (610.0f * ratio_x) + vt_video::VideoManager->GetViewportXOffset();
-    float viewport_y = (42.0f * ratio_y) + vt_video::VideoManager->GetViewportYOffset();
-    float viewport_width = 175.0f * ratio_x;
-    float viewport_height = 128.0f * ratio_y;
-
-    // Update the scissor rectangle.
-    vt_video::VideoManager->EnableScissoring();
-    vt_video::VideoManager->SetScissorRect(viewport_x, viewport_y, viewport_width, viewport_height);
-
-    // Assign the viewport to be "inside" the above area.
-    vt_video::VideoManager->SetViewport(viewport_x, viewport_y, viewport_width, viewport_height);
+    vt_video::VideoManager->PushScissoredViewport(610.0f, 42.0f, 175.0f, 128.0);
 
     // Scale and translate the orthographic projection such that it "centers" on our calculated positions.
-    vt_video::VideoManager->SetCoordSys(_x_cent - _x_half_len, _x_cent + _x_half_len, _y_cent + _y_half_len, _y_cent - _y_half_len);
-
-    float x_location = _current_position_x * _box_x_length - _location_marker.GetWidth() / 2.0f;
-    float y_location = _current_position_y * _box_y_length - _location_marker.GetHeight() / 2.0f;
+    vt_video::VideoManager->SetCoordSys(_x_cent - _x_half_len,
+                                        _x_cent + _x_half_len,
+                                        _y_cent + _y_half_len,
+                                        _y_cent - _y_half_len);
 
     vt_video::VideoManager->Move(0, 0);
 
     // Adjust the current opacity for the map scale.
-    _minimap_image.Draw(resultant_opacity);
+    _minimap_image.Draw(minimap_opacity);
 
+    float x_location = _current_position_x * _box_x_length - _location_marker.GetWidth() / 2.0f;
+    float y_location = _current_position_y * _box_y_length - _location_marker.GetHeight() / 2.0f;
     vt_video::VideoManager->Move(x_location, y_location);
-    _location_marker.Draw(resultant_opacity);
+    _location_marker.Draw(minimap_opacity);
 
-    vt_video::VideoManager->DisableScissoring();
-
-    vt_video::VideoManager->PopState();
-
-    // Reset the original viewport.
-    vt_video::VideoManager->SetViewport(viewport_original_x, viewport_original_y,
-                                        viewport_original_width, viewport_original_height);
+    vt_video::VideoManager->PopScissoredViewport();
 }
 
 void Minimap::Update(VirtualSprite *camera, float map_alpha_scale)
