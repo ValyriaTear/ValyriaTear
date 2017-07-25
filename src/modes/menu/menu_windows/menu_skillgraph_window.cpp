@@ -225,6 +225,8 @@ void SkillGraphWindow::_UpdateSkillGraphListState()
         return;
     }
 
+    _UpdateSkillGraphView();
+
     // TODO: Handle the appropriate input events
     if (InputManager->LeftPress()) {
         if (_selected_node_index > 0) {
@@ -245,8 +247,6 @@ void SkillGraphWindow::_UpdateSkillGraphListState()
     // Cancel right press if not possible
     if (!current_skill_node && InputManager->RightPress())
         --_selected_node_index;
-
-    _UpdateSkillGraphView();
 
     // Update bottom windows info
     if (current_skill_node)
@@ -333,10 +333,10 @@ void SkillGraphWindow::_ResetSkillGraphView()
         return;
     }
 
-    _UpdateSkillGraphView();
+    _UpdateSkillGraphView(false);
 }
 
-void SkillGraphWindow::_UpdateSkillGraphView()
+void SkillGraphWindow::_UpdateSkillGraphView(bool scroll)
 {
     // Check to prevent invalid updates
     if (_selected_node_index == std::numeric_limits<uint32_t>::max())
@@ -348,17 +348,56 @@ void SkillGraphWindow::_UpdateSkillGraphView()
     _current_x_offset = current_skill_node->GetXLocation();
     _current_y_offset = current_skill_node->GetYLocation();
 
-    // Get the current view offset.
-    GetPosition(_view_x_position, _view_y_position);
-    _view_x_position = _view_x_position
+    // Get the current view offset
+    float target_x_position, target_y_position;
+    GetPosition(target_x_position, target_y_position);
+    target_x_position = target_x_position
                        + (SKILL_GRAPH_AREA_WIDTH / 2.0f)
                        + WINDOW_BORDER_WIDTH
                        - _current_x_offset;
-    _view_y_position = _view_y_position
+    target_y_position = target_y_position
                        + (SKILL_GRAPH_AREA_HEIGHT / 2.0f)
                        + WINDOW_BORDER_WIDTH
                        - _current_y_offset;
 
+    // Don't update the view if it is already centered
+    if (_view_x_position == target_x_position
+            && _view_y_position == target_y_position) {
+        return;
+    }
+
+    if (!scroll) {
+        // Make it instant
+        _view_x_position = target_x_position;
+        _view_y_position = target_y_position;
+    }
+    else {
+        float update_move = static_cast<float>(vt_system::SystemManager->GetUpdateTime()) / 7.0f;
+        // Make the view scroll
+        if (_view_x_position < target_x_position) {
+            _view_x_position += update_move;
+            if (_view_x_position > target_x_position)
+                _view_x_position = target_x_position;
+        }
+        else if (_view_x_position > target_x_position) {
+            _view_x_position -= update_move;
+            if (_view_x_position < target_x_position)
+                _view_x_position = target_x_position;
+        }
+
+        if (_view_y_position < target_y_position) {
+            _view_y_position += update_move;
+            if (_view_y_position > target_y_position)
+                _view_y_position = target_y_position;
+        }
+        else if (_view_y_position > target_y_position) {
+            _view_y_position -= update_move;
+            if (_view_y_position < target_y_position)
+                _view_y_position = target_y_position;
+        }
+    }
+
+    // TODO: Fix dynamic point view when scrolling
     float min_x_view = _current_x_offset - (SKILL_GRAPH_AREA_WIDTH / 2.0f);
     float max_x_view = _current_x_offset + (SKILL_GRAPH_AREA_WIDTH / 2.0f);
     float min_y_view = _current_y_offset - (SKILL_GRAPH_AREA_HEIGHT / 2.0f);

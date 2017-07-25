@@ -146,7 +146,7 @@ private:
     void _ResetSkillGraphView();
 
     //! \brief Update the skill tree view based on the current offset information
-    void _UpdateSkillGraphView();
+    void _UpdateSkillGraphView(bool scroll = true);
 };
 
 } // namespace private_menu
