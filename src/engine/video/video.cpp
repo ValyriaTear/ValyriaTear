@@ -836,15 +836,23 @@ void VideoEngine::PushScissoredRect(float x, float y, float width, float height)
 
     // Compute the scissored viewport from the coord sys
     const CoordSys& coords = _current_context.coordinate_system;
-    const float scissor_x = coords.GetLeft() / coords.GetWidth() * _viewport_width
-        + x / coords.GetWidth() * _viewport_width
-        + _viewport_x_offset;
 
-    // We invert the y position as the std coord sys use inverted y position
-    // compared to the gl default metrics
-    const float scissor_y = coords.GetTop() / coords.GetHeight() * _viewport_height
-        + (coords.GetBottom() - y - height) / coords.GetHeight() * _viewport_height
-        + _viewport_y_offset;
+    float scissor_x = _viewport_x_offset
+        + coords.GetLeft() / coords.GetWidth() * _viewport_width;
+    // Handle both inverted and non inverted coord systems on x axis
+    if (coords.GetLeft() < coords.GetRight())
+        scissor_x += x / coords.GetWidth() * _viewport_width;
+    else
+        scissor_x += (coords.GetRight() - x - width) / coords.GetWidth() * _viewport_width;
+
+    // Handle both inverted and non inverted coord systems on y axis
+    float scissor_y = _viewport_y_offset
+        + coords.GetTop() / coords.GetHeight() * _viewport_height;
+    if (coords.GetBottom() < coords.GetTop())
+        scissor_y += y / coords.GetHeight() * _viewport_height;
+    else
+        scissor_y += (coords.GetBottom() - y - height) / coords.GetHeight() * _viewport_height;
+
     const float scissor_width = width / coords.GetWidth() * _viewport_width;
     const float scissor_height = height / coords.GetHeight() * _viewport_height;
 
