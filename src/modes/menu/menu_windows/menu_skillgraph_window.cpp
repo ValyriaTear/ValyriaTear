@@ -288,6 +288,9 @@ void SkillGraphWindow::_DrawSkillGraphState()
                                          grayed_path);
     }
 
+    float pointer_x_location = -1.0f;
+    float pointer_y_location = -1.0f;
+
     // Draw the visible skill nodes
     for (SkillNode* skill_node : _displayed_skill_nodes) {
         VideoManager->Move(_view_x_position, _view_y_position);
@@ -301,13 +304,17 @@ void SkillGraphWindow::_DrawSkillGraphState()
 
         // Draw the marker on the currently selected node
         if (_selected_node_index == skill_node->GetId()) {
-            VideoManager->Move(_view_x_position, _view_y_position);
-            VideoManager->MoveRelative(skill_node->GetXLocation(),
-                                       skill_node->GetYLocation());
-            VideoManager->MoveRelative(-_location_pointer.GetWidth() / 3.0f,
-                                       -image.GetHeight() - _location_pointer.GetHeight());
-            _location_pointer.Draw();
+            pointer_x_location = _view_x_position + skill_node->GetXLocation()
+                - _location_pointer.GetWidth() / 3.0f;
+            pointer_y_location = _view_y_position + skill_node->GetYLocation()
+                - image.GetHeight() - _location_pointer.GetHeight();
         }
+    }
+
+    // Draw the location pointer if the node was found
+    if (pointer_x_location > 0.0f || pointer_y_location > 0.0f) {
+        VideoManager->Move(pointer_x_location, pointer_y_location);
+        _location_pointer.Draw();
     }
 
     VideoManager->PopScissoredRect();
