@@ -232,20 +232,23 @@ void SkillGraphWindow::_UpdateSkillGraphListState()
         }
     }
     else if (InputManager->RightPress()) {
-        // FIXME: Hardcoded
-        if (_selected_node_index < 3) {
-            ++_selected_node_index;
-        }
+        ++_selected_node_index;
     }
     else {
         // Only update when necessary
         return;
     }
 
-    // Update bottom windows info
     SkillGraph& skill_graph = vt_global::GlobalManager->GetSkillGraph();
     SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_index);
 
+    // Cancel right press if not possible
+    if (!current_skill_node && InputManager->RightPress())
+        --_selected_node_index;
+
+    _UpdateSkillGraphView();
+
+    // Update bottom windows info
     if (current_skill_node)
         _bottom_info.SetNode(*current_skill_node);
 }
@@ -312,12 +315,12 @@ void SkillGraphWindow::_DrawSkillGraphState()
 void SkillGraphWindow::_ResetSkillGraphView()
 {
     // Set current offset based on the currently selected node
-    SkillGraph& skill_tree = vt_global::GlobalManager->GetSkillGraph();
-    SkillNode* current_skill_node = skill_tree.GetSkillNode(_selected_node_index);
+    SkillGraph& skill_graph = vt_global::GlobalManager->GetSkillGraph();
+    SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_index);
 
     // If the node is invalid, try the default one.
     if (current_skill_node == nullptr) {
-        current_skill_node = skill_tree.GetSkillNode(0);
+        current_skill_node = skill_graph.GetSkillNode(0);
         _selected_node_index = 0;
     }
 
@@ -330,7 +333,18 @@ void SkillGraphWindow::_ResetSkillGraphView()
         return;
     }
 
-    // Reset the current node center offset position
+    _UpdateSkillGraphView();
+}
+
+void SkillGraphWindow::_UpdateSkillGraphView()
+{
+    // Check to prevent invalid updates
+    if (_selected_node_index == std::numeric_limits<uint32_t>::max())
+        return;
+
+    SkillGraph& skill_graph = vt_global::GlobalManager->GetSkillGraph();
+    SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_index);
+
     _current_x_offset = current_skill_node->GetXLocation();
     _current_y_offset = current_skill_node->GetYLocation();
 
@@ -345,15 +359,6 @@ void SkillGraphWindow::_ResetSkillGraphView()
                        + WINDOW_BORDER_WIDTH
                        - _current_y_offset;
 
-    _UpdateSkillGraphView();
-}
-
-void SkillGraphWindow::_UpdateSkillGraphView()
-{
-    // Check to prevent invalid updates
-    if (_selected_node_index == std::numeric_limits<uint32_t>::max())
-        return;
-
     float min_x_view = _current_x_offset - (SKILL_GRAPH_AREA_WIDTH / 2.0f);
     float max_x_view = _current_x_offset + (SKILL_GRAPH_AREA_WIDTH / 2.0f);
     float min_y_view = _current_y_offset - (SKILL_GRAPH_AREA_HEIGHT / 2.0f);
@@ -361,7 +366,6 @@ void SkillGraphWindow::_UpdateSkillGraphView()
 
     // Based on current offset, reload visible nodes
     _displayed_skill_nodes.clear();
-    SkillGraph& skill_graph = vt_global::GlobalManager->GetSkillGraph();
     auto skill_nodes = skill_graph.GetSkillNodes();
     for (SkillNode* skill_node : skill_nodes) {
         float node_x = skill_node->GetXLocation();
