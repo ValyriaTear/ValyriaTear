@@ -456,18 +456,18 @@ public:
 
     /** \brief Convenience function used to easily set a subpart of the screen as drawable.
     *** The screen part is relative to the standard coordinate system (with top left alignment).
-    *** The scissored area must be restored with PopScissoredViewport()
+    *** The scissored area should be restored with PopScissoredRect()
     *** \param x The left coordinate of the scissored area
     *** \param y The top coordinate of the scissored area
     *** \param width The width of the scissored area
     *** \param height The height of the scissored area
     **/
-    void PushScissoredViewport(float x, float y, float width, float height);
+    void PushScissoredRect(float x, float y, float width, float height);
 
     /** \brief restore a previously scissored viewport
-    *** \note Must be called after PushScissoredViewport()
+    *** \note Should be called after PushScissoredRect()
     **/
-    void PopScissoredViewport();
+    void PopScissoredRect();
 
     // ----------  Image operation methods
 
@@ -598,7 +598,7 @@ public:
     *** \param width The width/thickness of the outline to draw.
     *** \param color The color to draw the outline in.
     **/
-    void DrawRectangleOutline(float x1, float y1, float x2, float y2, unsigned width, const Color &color);
+    void DrawRectangleOutline(float left, float right, float bottom, float top, unsigned width, const Color &color);
 
     /** \brief Takes a screenshot and saves the image to a file
     *** \param filename The name of the file, if any, to save the screenshot as. Default is "screenshot.png"

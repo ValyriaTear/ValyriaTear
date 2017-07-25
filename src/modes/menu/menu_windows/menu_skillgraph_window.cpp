@@ -257,16 +257,23 @@ void SkillGraphWindow::_DrawCharacterState()
 
 void SkillGraphWindow::_DrawSkillGraphState()
 {
-    VideoManager->PushState();
+    // Scissor the view to cut the layout properly
+    float left = GetXPosition() + WINDOW_BORDER_WIDTH;
+    float top = GetYPosition() + WINDOW_BORDER_WIDTH;
+    float width = SKILL_GRAPH_AREA_WIDTH;
+    float height = SKILL_GRAPH_AREA_HEIGHT;
+
+    VideoManager->PushScissoredRect(left,
+                                    top,
+                                    width,
+                                    height);
 
     // Debug draw limits
-    VideoManager->DrawRectangleOutline(GetXPosition() + WINDOW_BORDER_WIDTH,
-                                       GetXPosition() + WINDOW_BORDER_WIDTH + SKILL_GRAPH_AREA_WIDTH,
-                                       GetYPosition() + WINDOW_BORDER_WIDTH,
-                                       GetYPosition() + WINDOW_BORDER_WIDTH + SKILL_GRAPH_AREA_HEIGHT,
-                                       2, Color::white);
-
-    //FIXME: Simplify scissoring functions and then use them here.
+//    VideoManager->DrawRectangleOutline(left,
+//                                       left + SKILL_GRAPH_AREA_WIDTH,
+//                                       top + SKILL_GRAPH_AREA_HEIGHT,
+//                                       top,
+//                                       2, Color::white);
 
     // Draw the visible lines
     for (NodeLine node_line : _displayed_node_links) {
@@ -299,7 +306,7 @@ void SkillGraphWindow::_DrawSkillGraphState()
         }
     }
 
-    VideoManager->PopState();
+    VideoManager->PopScissoredRect();
 }
 
 void SkillGraphWindow::_ResetSkillGraphView()

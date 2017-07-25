@@ -829,31 +829,34 @@ void VideoEngine::SetScissorRect(const ScreenRect& screen_rectangle)
               static_cast<GLsizei>(_current_context.scissor_rectangle.height));
 }
 
-void VideoEngine::PushScissoredViewport(float x, float y, float width, float height)
+void VideoEngine::PushScissoredRect(float x, float y, float width, float height)
 {
     // Store current state
-    vt_video::VideoManager->PushState();
+    PushState();
 
-    // Set the new coordinates to match our viewport.
-    vt_video::VideoManager->SetStandardCoordSys();
+    // Compute the scissored viewport from the coord sys
+    const CoordSys& coords = _current_context.coordinate_system;
+    const float scissor_x = coords.GetLeft() / coords.GetWidth() * _viewport_width
+        + x / coords.GetWidth() * _viewport_width
+        + _viewport_x_offset;
 
-    // Compute the scissored viewport.
-    const float ratio_x = vt_video::VideoManager->GetViewportWidth() / vt_video::VIDEO_VIEWPORT_WIDTH;
-    const float ratio_y = vt_video::VideoManager->GetViewportHeight() / vt_video::VIDEO_VIEWPORT_HEIGHT;
-    float viewport_x = (x * ratio_x) + vt_video::VideoManager->GetViewportXOffset();
-    float viewport_y = (y * ratio_y) + vt_video::VideoManager->GetViewportYOffset();
-    float viewport_width = width * ratio_x;
-    float viewport_height = height * ratio_y;
+    // We invert the y position as the std coord sys use inverted y position
+    // compared to the gl default metrics
+    const float scissor_y = coords.GetTop() / coords.GetHeight() * _viewport_height
+        + (coords.GetBottom() - y - height) / coords.GetHeight() * _viewport_height
+        + _viewport_y_offset;
+    const float scissor_width = width / coords.GetWidth() * _viewport_width;
+    const float scissor_height = height / coords.GetHeight() * _viewport_height;
 
-    // Update the scissor rectangle.
+    // Update the scissor rectangle
     vt_video::VideoManager->EnableScissoring();
-    vt_video::VideoManager->SetScissorRect(viewport_x, viewport_y, viewport_width, viewport_height);
-
-    // Assign the viewport to be "inside" the above area.
-    vt_video::VideoManager->SetViewport(viewport_x, viewport_y, viewport_width, viewport_height);
+    vt_video::VideoManager->SetScissorRect(scissor_x,
+                                           scissor_y,
+                                           scissor_width,
+                                           scissor_height);
 }
 
-void VideoEngine::PopScissoredViewport()
+void VideoEngine::PopScissoredRect()
 {
     // Remove scissoring
     vt_video::VideoManager->DisableScissoring();
