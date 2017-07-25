@@ -38,6 +38,7 @@ namespace private_menu
 const float SKILL_GRAPH_AREA_WIDTH = 815.0f;
 const float SKILL_GRAPH_AREA_HEIGHT = 415.0f;
 const float WINDOW_BORDER_WIDTH = 18.0f;
+const float NODES_DISPLAY_MARGIN = 100.0f;
 const vt_video::Color grayed_path = vt_video::Color(0.5f, 0.5f, 0.5f, 0.2f);
 
 //! \brief Top left bottom menu position
@@ -397,11 +398,15 @@ void SkillGraphWindow::_UpdateSkillGraphView(bool scroll)
         }
     }
 
-    // TODO: Fix dynamic point view when scrolling
-    float min_x_view = _current_x_offset - (SKILL_GRAPH_AREA_WIDTH / 2.0f);
-    float max_x_view = _current_x_offset + (SKILL_GRAPH_AREA_WIDTH / 2.0f);
-    float min_y_view = _current_y_offset - (SKILL_GRAPH_AREA_HEIGHT / 2.0f);
-    float max_y_view = _current_y_offset + (SKILL_GRAPH_AREA_HEIGHT / 2.0f);
+    // Update the skill node displayed list
+    const float target_x_distance = target_x_position - _view_x_position;
+    const float target_y_distance = target_y_position - _view_y_position;
+    const float area_width = SKILL_GRAPH_AREA_WIDTH / 2.0f + NODES_DISPLAY_MARGIN;
+    const float area_height = SKILL_GRAPH_AREA_HEIGHT / 2.0f + NODES_DISPLAY_MARGIN;
+    const float min_x_view = _current_x_offset - area_width + target_x_distance;
+    const float max_x_view = _current_x_offset + area_width + target_x_distance;
+    const float min_y_view = _current_y_offset - area_height + target_y_distance;
+    const float max_y_view = _current_y_offset + area_height + target_y_distance;
 
     // Based on current offset, reload visible nodes
     _displayed_skill_nodes.clear();
