@@ -236,7 +236,22 @@ void Minimap::Draw()
     vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_TOP, 0);
     _background.Draw(minimap_opacity);
 
-    vt_video::VideoManager->PushScissoredViewport(610.0f, 42.0f, 175.0f, 128.0);
+    // Setup the minimap area
+    const float x = 610.0f;
+    const float y = 42.0f;
+    const float width = 175.0f;
+    const float height = 128.0f;
+
+    // Compute the minimap zoom metrics
+    const float ratio_x = vt_video::VideoManager->GetViewportWidth() / vt_video::VIDEO_VIEWPORT_WIDTH;
+    const float ratio_y = vt_video::VideoManager->GetViewportHeight() / vt_video::VIDEO_VIEWPORT_HEIGHT;
+    const float viewport_x = (x * ratio_x) + vt_video::VideoManager->GetViewportXOffset();
+    const float viewport_y = (y * ratio_y) + vt_video::VideoManager->GetViewportYOffset();
+    const float viewport_width = width * ratio_x;
+    const float viewport_height = height * ratio_y;
+
+    // Assign the viewport to be "inside" the above area.
+    vt_video::VideoManager->SetViewport(viewport_x, viewport_y, viewport_width, viewport_height);
 
     // Scale and translate the orthographic projection such that it "centers" on our calculated positions.
     vt_video::VideoManager->SetCoordSys(_x_cent - _x_half_len,
@@ -254,7 +269,7 @@ void Minimap::Draw()
     vt_video::VideoManager->Move(x_location, y_location);
     _location_marker.Draw(minimap_opacity);
 
-    vt_video::VideoManager->PopScissoredViewport();
+    vt_video::VideoManager->PopState();
 }
 
 void Minimap::Update(VirtualSprite *camera, float map_alpha_scale)
