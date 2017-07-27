@@ -374,40 +374,51 @@ void SkillGraphWindow::_UpdateSkillGraphView(bool scroll)
         return;
     }
 
+    const float target_x_distance = target_x_position - _view_x_position;
+    const float target_y_distance = target_y_position - _view_y_position;
+
     if (!scroll) {
         // Make it instant
         _view_x_position = target_x_position;
         _view_y_position = target_y_position;
     }
     else {
-        float update_move = static_cast<float>(vt_system::SystemManager->GetUpdateTime()) / 7.0f;
+        // Smooth the view move
+        const float max_speed = 30.0f;
+        const float min_speed = 100.0f;
+        const float pixel_move_x = (min_speed - std::abs(target_x_distance)) / 10.0f < max_speed / 10.0f ?
+                                   max_speed / 10.0f : (min_speed - std::abs(target_x_distance)) / 10.0f;
+        const float pixel_move_y = (min_speed - std::abs(target_y_distance)) / 10.0f < max_speed / 10.0f ?
+                                   max_speed / 10.0f : (min_speed - std::abs(target_y_distance)) / 10.0f;
+        const float update_time = static_cast<float>(vt_system::SystemManager->GetUpdateTime());
+        const float update_move_x = update_time / pixel_move_x;
+        const float update_move_y = update_time / pixel_move_y;
+
         // Make the view scroll
         if (_view_x_position < target_x_position) {
-            _view_x_position += update_move;
+            _view_x_position += update_move_x;
             if (_view_x_position > target_x_position)
                 _view_x_position = target_x_position;
         }
         else if (_view_x_position > target_x_position) {
-            _view_x_position -= update_move;
+            _view_x_position -= update_move_x;
             if (_view_x_position < target_x_position)
                 _view_x_position = target_x_position;
         }
 
         if (_view_y_position < target_y_position) {
-            _view_y_position += update_move;
+            _view_y_position += update_move_y;
             if (_view_y_position > target_y_position)
                 _view_y_position = target_y_position;
         }
         else if (_view_y_position > target_y_position) {
-            _view_y_position -= update_move;
+            _view_y_position -= update_move_y;
             if (_view_y_position < target_y_position)
                 _view_y_position = target_y_position;
         }
     }
 
     // Update the skill node displayed list
-    const float target_x_distance = target_x_position - _view_x_position;
-    const float target_y_distance = target_y_position - _view_y_position;
     const float area_width = SKILL_GRAPH_AREA_WIDTH / 2.0f + NODES_DISPLAY_MARGIN;
     const float area_height = SKILL_GRAPH_AREA_HEIGHT / 2.0f + NODES_DISPLAY_MARGIN;
     const float min_x_view = _current_x_offset - area_width + target_x_distance;
