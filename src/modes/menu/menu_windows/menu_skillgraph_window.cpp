@@ -53,6 +53,7 @@ SkillGraphWindow::SkillGraphWindow() :
     _view_x_position(0.0f),
     _view_y_position(0.0f),
     _selected_node_index(std::numeric_limits<uint32_t>::max()), // Invalid index
+    _character_node_index(std::numeric_limits<uint32_t>::max()), // Invalid index
     _active(false)
 {
     _location_pointer.SetStatic(true);
@@ -147,12 +148,9 @@ void SkillGraphWindow::SetCharacter(vt_global::GlobalCharacter& character)
     _selected_character_id = character.GetID();
     _character_icon = character.GetStaminaIcon();
 
-    // FIXME: Load character current position or start position for now
-    // e.g: _selected_node_index = character.GetLatestNodeLocationId();
-    _selected_node_index = 0;
-
-    // Set view on node
-    _ResetSkillGraphView();
+    // Set the selection node to where the character was last located.
+    _selected_node_index = character.GetSkillNodeLocation();
+    _character_node_index = _selected_node_index;
 }
 
 void SkillGraphWindow::_InitCharSelect()
@@ -209,8 +207,6 @@ void SkillGraphWindow::_UpdateSkillCharacterSelectState()
 
         SetCharacter(*character);
         _skillgraph_state = SKILLGRAPH_STATE_LIST;
-
-        // TODO: Set the selection node to where the character was last located.
 
         // Set view on node
         _ResetSkillGraphView();
@@ -301,12 +297,23 @@ void SkillGraphWindow::_DrawSkillGraphState()
                                    -image.GetHeight() / 2.0f);
         image.Draw();
 
-        // Draw the marker on the currently selected node
+        // Setup the marker location to be on the currently selected node
         if (_selected_node_index == skill_node->GetId()) {
             pointer_x_location = _view_x_position + skill_node->GetXLocation()
                 - _location_pointer.GetWidth() / 3.0f;
             pointer_y_location = _view_y_position + skill_node->GetYLocation()
                 - image.GetHeight() - _location_pointer.GetHeight();
+        }
+
+        // Draw the character portrait if the character is on its latest learned skill.
+        if (_character_node_index == skill_node->GetId()) {
+            VideoManager->Move(_view_x_position, _view_y_position);
+            VideoManager->MoveRelative(skill_node->GetXLocation(),
+                                       skill_node->GetYLocation());
+            // Center the image
+            VideoManager->MoveRelative(-_character_icon.GetWidth() / 2.0f,
+                                       -_character_icon.GetHeight() / 2.0f);
+            _character_icon.Draw();
         }
     }
 

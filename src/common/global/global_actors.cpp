@@ -585,7 +585,8 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
     _phys_def_growth(0),
     _mag_def_growth(0),
     _stamina_growth(0),
-    _evade_growth(0.0f)
+    _evade_growth(0.0f),
+    _current_skill_node_id(0)
 {
     _id = id;
 

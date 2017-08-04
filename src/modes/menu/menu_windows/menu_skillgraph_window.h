@@ -110,6 +110,9 @@ private:
     //! \brief the current index to the location the pointer is on
     uint32_t _selected_node_index;
 
+    //! \brief the current index to the location the character is on
+    uint32_t _character_node_index;
+
     //! \brief indicates whether this window is active or not
     bool _active;
 
