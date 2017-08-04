@@ -432,17 +432,25 @@ void SkillGraphWindow::_UpdateSkillGraphView(bool scroll)
     const float min_y_view = _current_y_offset - area_height + target_y_distance;
     const float max_y_view = _current_y_offset + area_height + target_y_distance;
 
-    // Based on current offset, reload visible nodes
-    _displayed_skill_nodes.clear();
-    auto skill_nodes = skill_graph.GetSkillNodes();
-    for (SkillNode* skill_node : skill_nodes) {
-        float node_x = skill_node->GetXLocation();
-        float node_y = skill_node->GetYLocation();
-        if (node_x < min_x_view || node_x > max_x_view
-                || node_y < min_y_view || node_y > max_y_view) {
-            continue;
+    // Do not reload visible nodes more than necessary
+    static uint32_t update_timer = 0;
+    update_timer += vt_system::SystemManager->GetUpdateTime();
+    if ((_view_x_position == target_x_position
+            && _view_y_position == target_y_position)
+            || update_timer >= 200) {
+        update_timer = 0;
+        // Based on current offset, reload visible nodes
+        _displayed_skill_nodes.clear();
+        auto skill_nodes = skill_graph.GetSkillNodes();
+        for (SkillNode* skill_node : skill_nodes) {
+            float node_x = skill_node->GetXLocation();
+            float node_y = skill_node->GetYLocation();
+            if (node_x < min_x_view || node_x > max_x_view
+                    || node_y < min_y_view || node_y > max_y_view) {
+                continue;
+            }
+            _displayed_skill_nodes.push_back(skill_node);
         }
-        _displayed_skill_nodes.push_back(skill_node);
     }
 
     // Prepare lines coordinates for draw time
