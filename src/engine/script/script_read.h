@@ -186,20 +186,20 @@ public:
     *** These functions call the template _ReadData() functions with a default return value.
     **/
     //@{
-    bool ReadBool(const std::string &key) {
-        return _ReadData<bool>(key, false);
+    bool ReadBool(const std::string& key, bool default_value = false) {
+        return _ReadData<bool>(key, default_value);
     }
 
-    bool ReadBool(int32_t key) {
-        return _ReadData<bool>(key, false);
+    bool ReadBool(int32_t key, bool default_value = false) {
+        return _ReadData<bool>(key, default_value);
     }
 
-    int32_t ReadInt(const std::string &key) {
-        return _ReadData<int32_t>(key, 0);
+    int32_t ReadInt(const std::string& key, int32_t default_value = 0) {
+        return _ReadData<int32_t>(key, default_value);
     }
 
-    int32_t ReadInt(int32_t key) {
-        return _ReadData<uint32_t>(key, 0);
+    int32_t ReadInt(int32_t key, int32_t default_value = 0) {
+        return _ReadData<uint32_t>(key, default_value);
     }
 
     uint32_t ReadUInt(const std::string& key, uint32_t default_value = 0) {
@@ -210,28 +210,30 @@ public:
         return _ReadData<uint32_t>(key, default_value);
     }
 
-    float ReadFloat(const std::string &key) {
-        return _ReadData<float>(key, 0.0f);
+    float ReadFloat(const std::string& key, float default_value = 0.0f) {
+        return _ReadData<float>(key, default_value);
     }
 
-    float ReadFloat(int32_t key) {
-        return _ReadData<float>(key, 0.0f);
+    float ReadFloat(int32_t key, float default_value = 0.0f) {
+        return _ReadData<float>(key, default_value);
     }
 
-    std::string ReadString(const std::string &key) {
-        return _ReadData<std::string>(key, "");
+    std::string ReadString(const std::string& key,
+                           const std::string& default_value = "") {
+        return _ReadData<std::string>(key, default_value);
     }
 
-    std::string ReadString(int32_t key) {
-        return _ReadData<std::string>(key, "");
+    std::string ReadString(int32_t key, const std::string& default_value = "") {
+        return _ReadData<std::string>(key, default_value);
     }
 
-    vt_utils::ustring ReadUString(const std::string &key) {
-        return _ReadData<vt_utils::ustring>(key, vt_utils::MakeUnicodeString(""));
+    vt_utils::ustring ReadUString(const std::string& key,
+                                  const std::string& default_value = "") {
+        return _ReadData<vt_utils::ustring>(key, vt_utils::MakeUnicodeString(default_value));
     }
 
-    vt_utils::ustring ReadUString(int32_t key) {
-        return _ReadData<vt_utils::ustring>(key, vt_utils::MakeUnicodeString(""));
+    vt_utils::ustring ReadUString(int32_t key, const std::string& default_value = "") {
+        return _ReadData<vt_utils::ustring>(key, vt_utils::MakeUnicodeString(default_value));
     }
     //@}
 
