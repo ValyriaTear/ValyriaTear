@@ -202,12 +202,12 @@ public:
         return _ReadData<uint32_t>(key, 0);
     }
 
-    uint32_t ReadUInt(const std::string &key) {
-        return _ReadData<int32_t>(key, 0);
+    uint32_t ReadUInt(const std::string& key, uint32_t default_value = 0) {
+        return _ReadData<int32_t>(key, default_value);
     }
 
-    uint32_t ReadUInt(int32_t key) {
-        return _ReadData<uint32_t>(key, 0);
+    uint32_t ReadUInt(int32_t key, uint32_t default_value = 0) {
+        return _ReadData<uint32_t>(key, default_value);
     }
 
     float ReadFloat(const std::string &key) {

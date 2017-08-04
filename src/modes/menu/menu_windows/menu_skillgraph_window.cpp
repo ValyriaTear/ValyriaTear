@@ -198,7 +198,6 @@ void SkillGraphWindow::_UpdateSkillCharacterSelectState()
         _char_select.InputConfirm();
         _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 
-
         // If the character is unset, set the default node
         GlobalCharacter* character =
             GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());

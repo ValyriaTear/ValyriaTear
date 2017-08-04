@@ -6,9 +6,9 @@
 skill_graph_start = {
     -- Character id; node id
     [BRONANN] = 0,
-    [KALYA] = 0,
-    [SYLVE] = 0,
-    [THANIS] = 0,
+    [KALYA] = 1,
+    [SYLVE] = 2,
+    [THANIS] = 3,
 }
 
 

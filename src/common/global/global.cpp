@@ -1236,6 +1236,23 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
     }
     file.WriteLine("\n\t\t},");
 
+    // Write out the character's obtained skill nodes.
+    file.InsertNewLine();
+    file.WriteLine("\t\tobtained_skill_nodes = {");
+    const std::vector<uint32_t>& skill_nodes = character->GetObtainedSkillNodes();
+    for(uint32_t i = 0; i < skill_nodes.size(); i++) {
+        uint32_t skill_node = skill_nodes.at(i);
+
+        if(i == 0)
+            file.WriteLine("\t\t\t", false);
+        else
+            file.WriteLine(", ", false);
+        bool newline = (i > 0) && !(i % 10);
+        file.WriteLine(NumberToString(skill_node), newline);
+    }
+    file.WriteLine("\n\t\t},");
+    file.WriteLine("\t\tcurrent_skill_node = " + NumberToString(character->GetSkillNodeLocation()) + ",");
+
     // Writes active status effects at the time of the save
     file.InsertNewLine();
     file.WriteLine("\t\tactive_status_effects = {");
@@ -1258,9 +1275,7 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
         file.WriteLine("\t}");
     else
         file.WriteLine("\t},");
-} // void GameGlobal::_SaveCharacter(WriteScriptDescriptor& file, GlobalCharacter* character, bool last)
-
-
+}
 
 void GameGlobal::_SaveEvents(WriteScriptDescriptor &file, GlobalEventGroup *event_group)
 {
@@ -1293,7 +1308,6 @@ void GameGlobal::_SaveEvents(WriteScriptDescriptor &file, GlobalEventGroup *even
         ++i;
     }
     file.WriteLine("\n\t},");
-
 }
 
 void GameGlobal::_SaveQuests(WriteScriptDescriptor &file, const QuestLogEntry *quest_log_entry)
@@ -1319,7 +1333,6 @@ void GameGlobal::_SaveQuests(WriteScriptDescriptor &file, const QuestLogEntry *q
     file.WriteLine("\"" + is_read + "\"", false);
     // End writing
     file.WriteLine("},");
-
 }
 
 void GameGlobal::_SaveWorldMap(vt_script::WriteScriptDescriptor &file)
@@ -1561,6 +1574,16 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32_t id)
     for(uint32_t i = 0; i < skill_ids.size(); ++i) {
         character->AddSkill(skill_ids[i]);
     }
+
+    // Read the character's obtained skill nodes
+    character->ResetObtainedSkillNodes();
+    std::vector<uint32_t> skill_node_ids;
+    file.ReadTableKeys("obtained_skill_nodes", skill_node_ids);
+    character->SetObtainedSkillNodes(skill_node_ids);
+
+    // Read the current skill node location
+    uint32_t default_character_location = _skill_graph.GetStartingSkillNodeId(character->GetID());
+    character->SetSkillNodeLocation(file.ReadUInt("current_skill_node", default_character_location));
 
     // Read the character's active status effects data
     character->ResetActiveStatusEffects();

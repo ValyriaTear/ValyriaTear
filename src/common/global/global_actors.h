@@ -988,10 +988,42 @@ public:
         return &_special_skills;
     }
 
-    //! The permanent skills are saved between two game sessions.
+    //! \brief The permanent skills are saved between two game sessions.
     //! whereas the equipment skills are reloaded through equipment.
     std::vector<uint32_t>& GetPermanentSkills() {
         return _permanent_skills;
+    }
+
+    //! \brief Returns the skill nodes learned
+    const std::vector<uint32_t>& GetObtainedSkillNodes() const {
+        return _obtained_skill_nodes;
+    }
+
+    //! \brief reset the skill nodes learned
+    void ResetObtainedSkillNodes() {
+        _obtained_skill_nodes.clear();
+    }
+
+    //! \brief Set the skill nodes learned
+    void SetObtainedSkillNodes(std::vector<uint32_t>& skill_nodes) {
+        _obtained_skill_nodes.swap(skill_nodes);
+    }
+
+    //! \brief Adds a new skill nodes learned
+    void AddObtainedSkillNodes(uint32_t skill_node_id) {
+        _obtained_skill_nodes.emplace_back(skill_node_id);
+        // The character location is on the latest obtained skill_node_id.
+        SetSkillNodeLocation(skill_node_id);
+    }
+
+    //! \brief Set the skill nodes location
+    void SetSkillNodeLocation(uint32_t skill_node_id) {
+        _current_skill_node_id = skill_node_id;
+    }
+
+    //! \brief Get the skill nodes location
+    uint32_t GetSkillNodeLocation() const {
+        return _current_skill_node_id;
     }
 
     const std::vector<GLOBAL_INTENSITY>& GetEquipementStatusEffects() const {
@@ -1106,7 +1138,7 @@ protected:
     // Skills available when no weapon is equipped.
     std::vector<GlobalSkill *> _bare_hands_skills;
 
-    //! A vector storing only the skills that are permanently learned. This is useful when recomputing
+    //! \brief A vector storing only the skills that are permanently learned. This is useful when recomputing
     //! the available skills, on equip/unequip.
     std::vector<uint32_t> _permanent_skills;
     //@}
@@ -1224,7 +1256,7 @@ private:
     *** experience level growth easier.
     ***
     **/
-    int32_t _experience_for_next_level;
+    int32_t _experience_for_next_level; // TODO: Drop this using skill nodes
 
     /** \brief The amount of growth that should be added to each of the character's stats
     *** These members are incremented by the _ProcessPeriodicGrowth() function, which detects when a character
@@ -1244,7 +1276,7 @@ private:
     uint32_t _mag_def_growth;
     uint32_t _stamina_growth;
     float _evade_growth;
-    //@}
+    //@} // TODO: Drop this using skill nodes
 
     /** \brief Contains pointers to all skills that were learned by achieving the current experience level
     ***
@@ -1262,7 +1294,14 @@ private:
     *** location (assuming the GlobalSkill object that was removed was also deleted). Therefore, any skills that
     *** are removed from a character should also be removed from this container if they exist.
     **/
-    std::vector<GlobalSkill*> _new_skills_learned;
+    std::vector<GlobalSkill*> _new_skills_learned; // TODO: Drop this using skill nodes
+
+    //! \brief Stores the list of skill nodes already learned by the character
+    std::vector<uint32_t> _obtained_skill_nodes;
+
+    //! \brief Stores the current skill node id the character is located at,
+    //! in the skill_graph
+    uint32_t _current_skill_node_id;
 
     /** \brief Calculates an actor's physical and magical attack ratings
     *** This function sums the actor's phys_atk/mag_atk with their weapon's attack ratings

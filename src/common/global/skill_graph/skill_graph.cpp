@@ -64,6 +64,32 @@ bool SkillGraph::Initialize(const std::string& skill_graph_file)
 
         script.CloseTable(); // node_id
     }
+
+    script.CloseTable(); // skill_graph
+
+    // Load starting positions
+    std::vector<uint32_t> characters_ids;
+    script.ReadTableKeys("skill_graph_start", characters_ids);
+    if (characters_ids.empty()) {
+        PRINT_WARNING << "Empty 'skill_graph_start' table in "
+                      << skill_graph_file << std::endl;
+        return false;
+    }
+
+    if (!script.OpenTable("skill_graph_start")) {
+        PRINT_WARNING << "Couldn't open table 'skill_graph_start' in "
+                      << skill_graph_file << std::endl;
+        return false;
+    }
+
+    // Read each node data
+    for (uint32_t character_id : characters_ids) {
+        uint32_t starting_node_id = script.ReadUInt(character_id);
+        _starting_node_ids.insert(std::pair<uint32_t, uint32_t>(character_id, starting_node_id));
+    }
+
+    script.CloseTable(); // skill_graph_start
+
     return true;
 }
 
@@ -127,6 +153,14 @@ SkillNode* SkillGraph::GetSkillNode(uint32_t skill_node_id)
             return skill_node;
     }
     return nullptr;
+}
+
+uint32_t SkillGraph::GetStartingSkillNodeId(uint32_t character_id) const
+{
+    auto it = _starting_node_ids.find(character_id);
+    if (it == _starting_node_ids.end())
+        return 0; // Sane default value
+    return it->second;
 }
 
 } // namespace vt_global
