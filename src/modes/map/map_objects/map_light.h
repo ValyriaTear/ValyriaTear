@@ -87,7 +87,7 @@ private:
     /** \brief Used for optimization, keeps the last center position.
     *** So that we update the distance and angle only when this position has changed.
     **/
-    MapPosition _last_center_pos;
+    vt_common::Position2D _last_center_pos;
 }; // class Light : public MapObject
 
 } // namespace private_map

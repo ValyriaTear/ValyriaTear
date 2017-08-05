@@ -13,6 +13,8 @@
 #include "modes/map/map_mode.h"
 #include "modes/map/map_zones.h"
 
+using namespace vt_common;
+
 namespace vt_map
 {
 
@@ -285,7 +287,7 @@ void EnemySprite::Draw()
 
 void EnemySprite::AddWayPoint(float destination_x, float destination_y)
 {
-    MapPosition destination(destination_x, destination_y);
+    Position2D destination(destination_x, destination_y);
 
     // Check whether the way point is already existing
     for (uint32_t i = 0; i < _way_points.size(); ++i) {
@@ -365,7 +367,7 @@ bool EnemySprite::_SetDestination(float destination_x, float destination_y, uint
     if (pos_x == dest_x && pos_y == dest_y)
         return false;
 
-    MapPosition dest(destination_x, destination_y);
+    Position2D dest(destination_x, destination_y);
     // We set the correct mask before finding the path
     _collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
     _path = MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(this, dest, max_cost);

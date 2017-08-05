@@ -16,6 +16,8 @@
 
 #include "utils/utils_random.h"
 
+using namespace vt_common;
+
 namespace vt_map
 {
 
@@ -92,7 +94,7 @@ void Light::_UpdateLightAngle()
         return;
     const MapFrame &frame = mm->GetMapFrame();
 
-    MapPosition center;
+    Position2D center;
     center.x = frame.screen_edges.left + (frame.screen_edges.right - frame.screen_edges.left) / 2.0f;
     center.y = frame.screen_edges.top + (frame.screen_edges.bottom - frame.screen_edges.top) / 2.0f;
 
@@ -103,9 +105,7 @@ void Light::_UpdateLightAngle()
     _last_center_pos.x = center.x;
     _last_center_pos.y = center.y;
 
-    _distance = (_tile_position.x - center.x) * (_tile_position.x - center.x);
-    _distance += (_tile_position.y - center.y) * (_tile_position.y - center.y);
-    _distance = sqrtf(_distance);
+    _distance = sqrtf(_tile_position.GetDistance2(center));
 
     if(vt_utils::IsFloatEqual(_tile_position.x, center.x, 0.2f))
         _a = 2.5f;

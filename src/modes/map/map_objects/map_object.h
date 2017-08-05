@@ -250,7 +250,7 @@ public:
     }
 
     //! \brief Get the object position in tiles.
-    MapPosition GetPosition() const {
+    vt_common::Position2D GetPosition() const {
         return _tile_position;
     }
 
@@ -337,7 +337,7 @@ protected:
     *** The position coordinates point to the map grid tile that the object currently occupies
     *** and may range from 0 to the number of columns or rows of grid tiles on the map.
     **/
-    MapPosition _tile_position;
+    vt_common::Position2D _tile_position;
 
     //! \brief The originally desired half-width and height of the image, in pixels
     //! Used as a base value to later get the screen and tile corresponding values.

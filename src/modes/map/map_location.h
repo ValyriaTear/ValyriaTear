@@ -31,7 +31,7 @@ public:
     //! when loading the map.
     MapLocation(const std::string& map_data_filename,
                 const std::string& map_script_filename,
-                const vt_map::MapPosition& map_position):
+                const vt_common::Position2D& map_position):
         _map_data_filename(map_data_filename),
         _map_script_filename(map_script_filename),
         _map_position(map_position)
@@ -42,7 +42,7 @@ public:
                 float x, float y):
         _map_data_filename(map_data_filename),
         _map_script_filename(map_script_filename),
-        _map_position(vt_map::MapPosition(x, y))
+        _map_position(vt_common::Position2D(x, y))
     {}
 
     //! \brief Returns whether the current location is valid.
@@ -62,7 +62,8 @@ public:
         return _map_script_filename;
     }
 
-    const vt_map::MapPosition& GetMapPosition() const {
+    //! \brief Returns the map position in tiles.
+    const vt_common::Position2D& GetMapPosition() const {
         return _map_position;
     }
 
@@ -79,8 +80,8 @@ private:
     std::string _map_data_filename;
     std::string _map_script_filename;
 
-    //! \brief The position inside the given map
-    vt_map::MapPosition _map_position;
+    //! \brief The position inside the given map in tiles
+    vt_common::Position2D _map_position;
 };
 
 } // namespace vt_map

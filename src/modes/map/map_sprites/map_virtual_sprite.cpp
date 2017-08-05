@@ -22,6 +22,8 @@
 #include "utils/utils_numeric.h"
 #include "utils/utils_random.h"
 
+using namespace vt_common;
+
 namespace vt_map
 {
 
@@ -423,7 +425,7 @@ void VirtualSprite::SetRandomDirection()
     }
 }
 
-void VirtualSprite::LookAt(const MapPosition &pos)
+void VirtualSprite::LookAt(const Position2D& pos)
 {
     // If the two positions are the same,
     // don't update the direction since it's only a matter of keeping

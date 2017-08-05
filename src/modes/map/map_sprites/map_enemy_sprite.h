@@ -273,7 +273,7 @@ private:
     Path _path;
 
     //! \brief Way points used by the enemy when not hostile
-    std::vector<MapPosition> _way_points;
+    std::vector<vt_common::Position2D> _way_points;
     uint32_t _current_way_point_id;
 
     //! \brief Set the new path destination of the sprite.

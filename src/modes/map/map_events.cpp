@@ -38,6 +38,7 @@ using namespace vt_video;
 
 using namespace vt_battle;
 using namespace vt_shop;
+using namespace vt_common;
 
 namespace vt_map
 {
@@ -662,7 +663,7 @@ void PathMoveSpriteEvent::_Start()
         _destination_y = _target_sprite->GetYPosition();
     }
 
-    MapPosition dest(_destination_x, _destination_y);
+    Position2D dest(_destination_x, _destination_y);
 
     // If the sprite is at the destination, we don't have to compute anything
     if ((uint32_t)_sprite->GetXPosition() == (uint32_t)_destination_x

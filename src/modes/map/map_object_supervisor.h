@@ -204,7 +204,9 @@ public:
     ***
     *** \note If an error is detected or a path could not be found, the function will empty the path vector before returning
     **/
-    Path FindPath(private_map::VirtualSprite *sprite, const MapPosition &destination, uint32_t max_cost = 0);
+    Path FindPath(private_map::VirtualSprite *sprite,
+                  const vt_common::Position2D& destination,
+                  uint32_t max_cost = 0);
 
     /** \brief Tells the object supervisor that the given sprite pointer
     *** is the party member object.

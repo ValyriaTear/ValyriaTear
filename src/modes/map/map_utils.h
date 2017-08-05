@@ -20,7 +20,7 @@
 
 #include "utils/utils_pch.h"
 
-#include "modes/map/map_position.h"
+#include "common/position_2d.h"
 
 #include "engine/video/video_utils.h"
 
@@ -343,7 +343,7 @@ public:
     }
 }; // class PathNode
 
-typedef std::vector<MapPosition> Path;
+typedef std::vector<vt_common::Position2D> Path;
 
 } // namespace private_map
 

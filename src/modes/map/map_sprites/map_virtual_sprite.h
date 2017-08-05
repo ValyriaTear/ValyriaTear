@@ -66,9 +66,9 @@ public:
     /**
     *** Make the sprite used the direction making it "look at" the given position or sprite.
     **/
-    void LookAt(const MapPosition &pos);
+    void LookAt(const vt_common::Position2D& pos);
     void LookAt(float x, float y) {
-        LookAt(MapPosition(x, y));
+        LookAt(vt_common::Position2D(x, y));
     }
     void LookAt(MapObject *object) {
         if(object) LookAt(object->GetPosition());

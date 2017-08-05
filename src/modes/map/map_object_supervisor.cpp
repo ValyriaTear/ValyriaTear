@@ -26,6 +26,8 @@
 
 #include "utils/utils_numeric.h"
 
+using namespace vt_common;
+
 namespace vt_map
 {
 
@@ -678,9 +680,9 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(MapObject* object,
     }
 
     return NO_COLLISION;
-} // bool ObjectSupervisor::DetectCollision(VirtualSprite* sprite, float x, float y, MapObject** collision_object_ptr)
+}
 
-Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const MapPosition &destination, uint32_t max_cost)
+Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const Position2D& destination, uint32_t max_cost)
 {
     // NOTE: Refer to the implementation of the A* algorithm to understand
     // what all these lists and score values are for.
@@ -846,7 +848,7 @@ Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const MapPosition &destin
     // Go backwards through the closed list following the parent nodes to construct the path
     for(std::vector<PathNode>::iterator iter = closed_list.end() - 1; iter != closed_list.begin(); --iter) {
         if(iter->tile_y == parent_y && iter->tile_x == parent_x) {
-            MapPosition next_pos(((float)iter->tile_x) + offset_x, ((float)iter->tile_y) + offset_y);
+            Position2D next_pos(((float)iter->tile_x) + offset_x, ((float)iter->tile_y) + offset_y);
             path.push_back(next_pos);
 
             parent_x = iter->parent_x;
@@ -856,7 +858,7 @@ Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const MapPosition &destin
     std::reverse(path.begin(), path.end());
 
     return path;
-} // Path ObjectSupervisor::FindPath(const VirtualSprite* sprite, const MapPosition& destination)
+}
 
 void ObjectSupervisor::ReloadVisiblePartyMember()
 {
