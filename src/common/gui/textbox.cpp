@@ -221,6 +221,7 @@ void TextBox::SetDisplayText(const ustring &text)
     switch(_mode) {
     default:
         _mode = VIDEO_TEXT_INSTANT;
+        /* Falls through. */
     case VIDEO_TEXT_INSTANT:
         _end_time = 0;
         // Set finished to true only if the display mode is VIDEO_TEXT_INSTANT

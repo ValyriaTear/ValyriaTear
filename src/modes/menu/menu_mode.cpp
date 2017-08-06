@@ -643,10 +643,13 @@ void MenuMode::ReloadCharacterWindows()
     switch(characters.GetPartySize()) {
     case 4:
         _character_window3.SetCharacter(characters.GetCharacterAtIndex(3));
+        /* Falls through. */
     case 3:
         _character_window2.SetCharacter(characters.GetCharacterAtIndex(2));
+        /* Falls through. */
     case 2:
         _character_window1.SetCharacter(characters.GetCharacterAtIndex(1));
+        /* Falls through. */
     case 1:
         _character_window0.SetCharacter(characters.GetCharacterAtIndex(0));
         break;

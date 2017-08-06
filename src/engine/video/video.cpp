@@ -971,7 +971,7 @@ void VideoEngine::DisableFadeEffect()
         FadeIn(0);
 }
 
-StillImage VideoEngine::CaptureScreen() throw(Exception)
+StillImage VideoEngine::CaptureScreen()
 {
     // Static variable used to make sure the capture has a unique name in the texture image map
     static uint32_t capture_id = 0;
@@ -1044,7 +1044,7 @@ StillImage VideoEngine::CaptureScreen() throw(Exception)
 
 StillImage VideoEngine::CreateImage(ImageMemory *raw_image,
                                     const std::string &image_name,
-                                    bool delete_on_exist) throw(Exception)
+                                    bool delete_on_exist)
 {
     //the returning image
     StillImage still_image;

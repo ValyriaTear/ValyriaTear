@@ -481,7 +481,7 @@ public:
     *** screen captures existing at one time, because each image capture requires a relatively
     *** large amount of texutre memory (roughly 3GB for a 1024x768 screen).
     **/
-    StillImage CaptureScreen() throw(vt_utils::Exception);
+    StillImage CaptureScreen();
 
     /** \brief Creates an image based on the raw image information passed in. This
     *** image can be rendered or used as a texture by the rendering system
@@ -494,7 +494,9 @@ public:
     *** \return a valid StillImage that is created from the input parameter
     *** \throw Exception if the new image cannot be created
     **/
-    StillImage CreateImage(private_video::ImageMemory *raw_image, const std::string &image_name, bool delete_on_exist = true) throw(vt_utils::Exception);
+    StillImage CreateImage(private_video::ImageMemory* raw_image,
+                           const std::string& image_name,
+                           bool delete_on_exist = true);
 
     //-- Overlays: Lighting, Lightning  -----------------------------------------------------
 

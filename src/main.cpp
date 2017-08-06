@@ -324,8 +324,9 @@ static void LoadGUIThemes(const std::string& theme_script_filename)
 
 /** \brief Initializes all engine components and makes other preparations for the game to start
 *** \return True if the game engine was initialized successfully, false if an unrecoverable error occurred
+*** \throw exception if initialization failed.
 **/
-static void InitializeEngine() throw(Exception)
+static void InitializeEngine()
 {
     // use display #0 unless already specified
     // behavior of fullscreen mode is erratic without this value set

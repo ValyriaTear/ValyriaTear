@@ -471,6 +471,7 @@ void GameOptionsMenuHandler::_SetupGameOptions()
         break;
     default:
         SystemManager->SetGameDifficulty(2);
+        /* Falls through. */
     case 2:
         difficulty_text = Translate("Normal");
         break;
@@ -797,6 +798,7 @@ void GameOptionsMenuHandler::_RefreshGameOptions()
         break;
     default:
         SystemManager->SetGameDifficulty(2);
+        /* Falls through. */
     case 2:
         difficulty_text = Translate("Normal");
         break;

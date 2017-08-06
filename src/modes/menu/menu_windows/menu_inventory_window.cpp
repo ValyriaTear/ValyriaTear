@@ -317,7 +317,7 @@ void InventoryWindow::Update()
                 _item_categories.SetCursorState(VIDEO_CURSOR_STATE_VISIBLE);
                 media.PlaySound("cancel");
             } // else if VIDEO_OPTION_CANCEL
-            else if(event == VIDEO_OPTION_BOUNDS_UP || VIDEO_OPTION_BOUNDS_DOWN) {
+            else if(event == VIDEO_OPTION_BOUNDS_UP || event == VIDEO_OPTION_BOUNDS_DOWN) {
                 _description.SetDisplayText(_object->GetDescription());
             } // else if VIDEO_OPTION_BOUNDS_UP
             break;
