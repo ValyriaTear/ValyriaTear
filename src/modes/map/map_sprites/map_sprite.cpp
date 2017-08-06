@@ -16,6 +16,7 @@
 #include "modes/map/map_events.h"
 
 #include "common/global/global.h"
+#include "common/rectangle_2d.h"
 
 #include "engine/script/script_read.h"
 #include "engine/system.h"
@@ -24,6 +25,8 @@
 #include "utils/utils_files.h"
 #include "utils/utils_numeric.h"
 #include "utils/utils_strings.h"
+
+using namespace vt_common;
 
 namespace vt_map
 {
@@ -470,7 +473,7 @@ void MapSprite::_DrawDebugInfo()
     // Draw collision rectangle if the debug view is on.
     float x, y = 0.0f;
     vt_video::VideoManager->GetDrawPosition(x, y);
-    MapRectangle rect = GetScreenCollisionRectangle(x, y);
+    Rectangle2D rect = GetScreenCollisionRectangle(x, y);
     vt_video::VideoManager->DrawRectangle(rect.right - rect.left,
                                           rect.bottom - rect.top,
                                           vt_video::Color(0.0f, 0.0f, 1.0f, 0.6f));

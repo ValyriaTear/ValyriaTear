@@ -141,32 +141,32 @@ public:
     bool IsCollidingWith(MapObject* other_object);
 
     //! \brief Returns the collision rectangle for the current object on the map collision grid
-    MapRectangle GetGridCollisionRectangle() const;
+    vt_common::Rectangle2D GetGridCollisionRectangle() const;
 
     /** \brief Returns the collision rectangle for the current object for the given position
     *** \return rect A MapRectangle object storing the collision rectangle data
     *** using the given position.
     **/
-    MapRectangle GetGridCollisionRectangle(float tile_x, float tile_y) const;
+    vt_common::Rectangle2D GetGridCollisionRectangle(float tile_x, float tile_y) const;
 
     //! \brief Returns the collision rectangle for the current object.
-    MapRectangle GetScreenCollisionRectangle() const;
+    vt_common::Rectangle2D GetScreenCollisionRectangle() const;
 
     /** \brief Returns the collision rectangle for the current object for the given position
     *** \return rect A MapRectangle object storing the collision rectangle data
     *** using the given pixel position.
     **/
-    MapRectangle GetScreenCollisionRectangle(float screen_x, float screen_y) const;
+    vt_common::Rectangle2D GetScreenCollisionRectangle(float screen_x, float screen_y) const;
 
     /** \brief Returns the image rectangle for the current object
     *** \param rect A MapRectangle object storing the image rectangle data
     **/
-    virtual MapRectangle GetScreenImageRectangle() const;
+    virtual vt_common::Rectangle2D GetScreenImageRectangle() const;
 
     /** \brief Returns the image rectangle for the current object
     *** \param rect A MapRectangle object storing the image rectangle data
     **/
-    virtual MapRectangle GetGridImageRectangle() const;
+    virtual vt_common::Rectangle2D GetGridImageRectangle() const;
 
     /** \brief Restores the saved state of the object
     *** This state data is retained in the saved game file. When any map object is created and added

@@ -92,8 +92,7 @@ void TriggerObject::Update()
 
     MapMode *map_mode = MapMode::CurrentInstance();
     if (!map_mode->IsCameraOnVirtualFocus()
-            && MapRectangle::CheckIntersection(map_mode->GetCamera()->GetGridCollisionRectangle(),
-                                               GetGridCollisionRectangle())) {
+            && GetGridCollisionRectangle().IntersectsWith(map_mode->GetCamera()->GetGridCollisionRectangle())) {
         map_mode->GetCamera()->SetMoving(false);
         SetState(true);
     }

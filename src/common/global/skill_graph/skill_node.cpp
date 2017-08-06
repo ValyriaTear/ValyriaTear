@@ -18,8 +18,7 @@ SkillNode::SkillNode(uint32_t id,
                      uint32_t experience_points_needed,
                      uint32_t skill_id_learned) :
     _id(id),
-    _x_location(x_location),
-    _y_location(y_location),
+    _position(x_location, y_location),
     _experience_points_needed(experience_points_needed),
     _skill_id_learned(skill_id_learned)
 {

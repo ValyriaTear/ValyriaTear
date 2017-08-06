@@ -158,7 +158,8 @@ public:
     *** \note This test is "absolute", and does not factor in things such as map contexts or whether or
     *** not the no_collision property is enabled on the MapObject.
     **/
-    bool CheckObjectCollision(const MapRectangle &rect, const private_map::MapObject *const obj);
+    bool CheckObjectCollision(const vt_common::Rectangle2D& rect,
+                              const private_map::MapObject *const obj);
 
     /** \brief Determines if a specific map object occupies a specific element of the collision grid
     *** \param x The x axis position

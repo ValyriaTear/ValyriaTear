@@ -12,6 +12,8 @@
 
 #include "engine/video/video.h"
 
+using namespace vt_common;
+
 namespace vt_map
 {
 
@@ -58,7 +60,7 @@ void PhysicalObject::Draw()
     float x = 0.0f;
     float y = 0.0f;
     vt_video::VideoManager->GetDrawPosition(x, y);
-    MapRectangle rect = GetScreenCollisionRectangle(x, y);
+    Rectangle2D rect = GetScreenCollisionRectangle(x, y);
     vt_video::VideoManager->DrawRectangle(rect.right - rect.left,
                                           rect.bottom - rect.top,
                                           vt_video::Color(0.0f, 1.0f, 0.0f, 0.6f));

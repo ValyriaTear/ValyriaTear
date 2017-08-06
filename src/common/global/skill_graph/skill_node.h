@@ -11,6 +11,7 @@
 #define __SKILL_NODE_HEADER__
 
 #include "engine/video/image.h"
+#include "common/position_2d.h"
 
 namespace vt_global {
 
@@ -35,12 +36,16 @@ public:
         return _id;
     }
 
-    float GetXLocation() const {
-        return _x_location;
+    const vt_common::Position2D& GetPosition() const {
+        return _position;
     }
 
-    float GetYLocation() const {
-        return _y_location;
+    float GetXPosition() const {
+        return _position.x;
+    }
+
+    float GetYPosition() const {
+        return _position.y;
     }
 
     vt_video::StillImage& GetIconImage() {
@@ -81,8 +86,7 @@ private:
     uint32_t _id;
 
     //! \brief Location in the skill graph
-    float _x_location;
-    float _y_location;
+    vt_common::Position2D _position;
 
     //! \brief Icon used to represent this node.
     vt_video::StillImage _icon_image;

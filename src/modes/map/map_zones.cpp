@@ -23,6 +23,7 @@
 #include "utils/utils_random.h"
 
 using namespace vt_utils;
+using namespace vt_common;
 
 namespace vt_map
 {
@@ -135,7 +136,7 @@ void MapZone::DrawInteractionIcon()
             continue;
 
         // Determine the center position coordinates for the camera
-        MapRectangle rect;
+        Rectangle2D rect;
         rect.top = section.top_row;
         rect.bottom = section.bottom_row;
         rect.left = section.left_col;
@@ -160,14 +161,14 @@ bool MapZone::_ShouldDraw(const ZoneSection &section)
 {
     MapMode* map_mode = MapMode::CurrentInstance();
 
-    MapRectangle rect;
+    Rectangle2D rect;
     rect.top = section.top_row;
     rect.bottom = section.bottom_row;
     rect.left = section.left_col;
     rect.right = section.right_col;
 
     // Determine if the sprite is off-screen and if so, don't draw it.
-    if (!MapRectangle::CheckIntersection(rect, map_mode->GetMapFrame().screen_edges))
+    if (!rect.IntersectsWith(map_mode->GetMapFrame().screen_edges))
         return false;
 
     // Determine the center position coordinates for the camera

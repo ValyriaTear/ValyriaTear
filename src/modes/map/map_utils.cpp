@@ -24,15 +24,6 @@ bool MAP_DEBUG = false;
 namespace private_map
 {
 
-bool MapRectangle::CheckIntersection(const MapRectangle& first,
-                                     const MapRectangle& second)
-{
-    return !(first.left   > second.right  ||
-             first.right  < second.left   ||
-             first.top    > second.bottom ||
-             first.bottom < second.top);
-}
-
 uint16_t GetOppositeDirection(const uint16_t direction)
 {
     switch(direction) {

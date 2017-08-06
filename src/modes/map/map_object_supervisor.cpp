@@ -350,7 +350,7 @@ void ObjectSupervisor::_UpdateMapPoints()
     MapMode* map_mode = MapMode::CurrentInstance();
     VirtualSprite *sprite = map_mode->GetCamera();
 
-    MapRectangle spr_rect;
+    Rectangle2D spr_rect;
     if(sprite)
         spr_rect = sprite->GetGridCollisionRectangle();
 
@@ -358,8 +358,8 @@ void ObjectSupervisor::_UpdateMapPoints()
     for(std::vector<SavePoint *>::iterator it = _save_points.begin();
             it != _save_points.end(); ++it) {
         if (map_mode->AreMapPointsEnabled()) {
-            (*it)->SetActive(MapRectangle::CheckIntersection(spr_rect,
-                             (*it)->GetGridCollisionRectangle()));
+            (*it)->SetActive(spr_rect.IntersectsWith(
+                                 (*it)->GetGridCollisionRectangle()));
         }
         else {
             (*it)->SetActive(false);
@@ -372,8 +372,8 @@ void ObjectSupervisor::_UpdateMapPoints()
     for(std::vector<EscapePoint *>::iterator it = _escape_points.begin();
             it != _escape_points.end(); ++it) {
         if (map_mode->AreMapPointsEnabled()) {
-            (*it)->SetActive(MapRectangle::CheckIntersection(spr_rect,
-                             (*it)->GetGridCollisionRectangle()));
+            (*it)->SetActive(spr_rect.IntersectsWith(
+                                 (*it)->GetGridCollisionRectangle()));
         }
         else {
             (*it)->SetActive(false);
@@ -435,8 +435,8 @@ MapObject* ObjectSupervisor::_FindNearestMapPoint(const VirtualSprite* sprite)
     for(std::vector<SavePoint *>::iterator it = _save_points.begin();
             it != _save_points.end(); ++it) {
 
-        if(MapRectangle::CheckIntersection(sprite->GetGridCollisionRectangle(),
-                                           (*it)->GetGridCollisionRectangle())) {
+        if(sprite->GetGridCollisionRectangle().IntersectsWith(
+               (*it)->GetGridCollisionRectangle())) {
             return (*it);
         }
     }
@@ -445,8 +445,8 @@ MapObject* ObjectSupervisor::_FindNearestMapPoint(const VirtualSprite* sprite)
     for(std::vector<EscapePoint *>::iterator it = _escape_points.begin();
             it != _escape_points.end(); ++it) {
 
-        if(MapRectangle::CheckIntersection(sprite->GetGridCollisionRectangle(),
-                                           (*it)->GetGridCollisionRectangle())) {
+        if(sprite->GetGridCollisionRectangle().IntersectsWith(
+                (*it)->GetGridCollisionRectangle())) {
             return (*it);
         }
     }
@@ -475,7 +475,7 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
         return 0;
 
     // Using the sprite's direction, determine the boundaries of the search area to check for objects
-    MapRectangle search_area = sprite->GetGridCollisionRectangle();
+    Rectangle2D search_area = sprite->GetGridCollisionRectangle();
     if(sprite->GetDirection() & FACING_NORTH) {
         search_area.bottom = search_area.top;
         search_area.top = search_area.top - search_distance;
@@ -529,8 +529,8 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
                 continue;
         }
 
-        MapRectangle object_rect = (*it)->GetGridCollisionRectangle();
-        if(MapRectangle::CheckIntersection(object_rect, search_area))
+        Rectangle2D object_rect = (*it)->GetGridCollisionRectangle();
+        if(object_rect.IntersectsWith(search_area))
             valid_objects.push_back(*it);
     } // for (std::map<MapObject*>::iterator i = _all_objects.begin(); i != _all_objects.end(); i++)
 
@@ -563,30 +563,24 @@ MapObject *ObjectSupervisor::FindNearestInteractionObject(const VirtualSprite *s
     return closest_obj;
 }
 
-bool ObjectSupervisor::CheckObjectCollision(const MapRectangle &rect, const private_map::MapObject *const obj)
+bool ObjectSupervisor::CheckObjectCollision(const Rectangle2D& rect,
+                                            const private_map::MapObject* const obj)
 {
     if(!obj)
         return false;
 
-    MapRectangle obj_rect = obj->GetGridCollisionRectangle();
-    return MapRectangle::CheckIntersection(rect, obj_rect);
+    Rectangle2D obj_rect = obj->GetGridCollisionRectangle();
+    return rect.IntersectsWith(obj_rect);
 }
 
-bool ObjectSupervisor::IsPositionOccupiedByObject(float x, float y, MapObject *object)
+bool ObjectSupervisor::IsPositionOccupiedByObject(float x, float y, MapObject* object)
 {
     if(object == nullptr) {
         IF_PRINT_WARNING(MAP_DEBUG) << "nullptr pointer passed into function argument" << std::endl;
         return false;
     }
 
-    MapRectangle rect = object->GetGridCollisionRectangle();
-
-    if(x >= rect.left && x <= rect.right) {
-        if(y <= rect.bottom && y >= rect.top) {
-            return true;
-        }
-    }
-    return false;
+    return object->GetGridCollisionRectangle().Contains(Position2D(x, y));
 }
 
 COLLISION_TYPE ObjectSupervisor::GetCollisionFromObjectType(MapObject *obj) const
@@ -621,7 +615,7 @@ COLLISION_TYPE ObjectSupervisor::DetectCollision(MapObject* object,
         return NO_COLLISION;
 
     // Get the collision rectangle at the given position
-    MapRectangle sprite_rect = object->GetGridCollisionRectangle(x_pos, y_pos);
+    Rectangle2D sprite_rect = object->GetGridCollisionRectangle(x_pos, y_pos);
 
     // Check if any part of the object's collision rectangle is outside of the map boundary
     if(sprite_rect.left < 0.0f || sprite_rect.right >= static_cast<float>(_num_grid_x_axis) ||
@@ -939,10 +933,9 @@ bool ObjectSupervisor::IsStaticCollision(float x, float y)
             continue;
 
         //get the rect. if the x and y fields are within the rect, we have a collision here
-        MapRectangle rect = collision_object->GetGridCollisionRectangle();
+        Rectangle2D rect = collision_object->GetGridCollisionRectangle();
         //we know x and y are inside the map. So, just test then as a box vs point test
-        if(rect.top < y && y < rect.bottom &&
-           rect.left < x && x < rect.right)
+        if(rect.Contains(Position2D(x, y)))
            return true;
     }
 

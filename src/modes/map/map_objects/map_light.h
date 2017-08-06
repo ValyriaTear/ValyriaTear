@@ -56,7 +56,7 @@ public:
     /** \brief Returns the image rectangle for the current object
     *** \param rect A MapRectangle object storing the image rectangle data
     **/
-    MapRectangle GetGridImageRectangle() const;
+    vt_common::Rectangle2D GetGridImageRectangle() const;
 private:
     //! Updates the angle and distance from the camera viewpoint
     void _UpdateLightAngle();

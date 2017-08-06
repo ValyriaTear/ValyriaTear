@@ -27,6 +27,7 @@ using namespace vt_gui;
 using namespace vt_global;
 using namespace vt_input;
 using namespace vt_system;
+using namespace vt_common;
 
 namespace vt_menu
 {
@@ -48,10 +49,8 @@ const float BOTTOM_MENU_Y_POS = 565.0f;
 SkillGraphWindow::SkillGraphWindow() :
     _skillgraph_state(SKILLGRAPH_STATE_NONE),
     _selected_character_id(std::numeric_limits<uint32_t>::max()), // Invalid id
-    _current_x_offset(-1.0f), // Invalid view
-    _current_y_offset(-1.0f),
-    _view_x_position(0.0f),
-    _view_y_position(0.0f),
+    _current_offset(-1.0f, -1.0f), // Invalid view
+    _view_position(0.0f, 0.0f),
     _selected_node_index(std::numeric_limits<uint32_t>::max()), // Invalid index
     _character_node_index(std::numeric_limits<uint32_t>::max()), // Invalid index
     _active(false)
@@ -275,22 +274,21 @@ void SkillGraphWindow::_DrawSkillGraphState()
 //                                       2, Color::white);
 
     // Draw the visible lines
-    for (NodeLine node_line : _displayed_node_links) {
-        vt_video::VideoManager->DrawLine(node_line.x1,
-                                         node_line.y1, 5,
-                                         node_line.x2,
-                                         node_line.y2, 5,
+    for (Line2D node_line : _displayed_node_links) {
+        vt_video::VideoManager->DrawLine(node_line.begin.x,
+                                         node_line.begin.y, 5,
+                                         node_line.end.x,
+                                         node_line.end.y, 5,
                                          grayed_path);
     }
 
-    float pointer_x_location = -1.0f;
-    float pointer_y_location = -1.0f;
+    Position2D pointer_location(-1.0f, -1.0f);
 
     // Draw the visible skill nodes
     for (SkillNode* skill_node : _displayed_skill_nodes) {
-        VideoManager->Move(_view_x_position, _view_y_position);
-        VideoManager->MoveRelative(skill_node->GetXLocation(),
-                                   skill_node->GetYLocation());
+        VideoManager->Move(_view_position.x, _view_position.y);
+        VideoManager->MoveRelative(skill_node->GetXPosition(),
+                                   skill_node->GetYPosition());
         // Center the image
         vt_video::StillImage& image = skill_node->GetIconImage();
         VideoManager->MoveRelative(-image.GetWidth() / 2.0f,
@@ -299,17 +297,17 @@ void SkillGraphWindow::_DrawSkillGraphState()
 
         // Setup the marker location to be on the currently selected node
         if (_selected_node_index == skill_node->GetId()) {
-            pointer_x_location = _view_x_position + skill_node->GetXLocation()
+            pointer_location.x = _view_position.x + skill_node->GetXPosition()
                 - _location_pointer.GetWidth() / 3.0f;
-            pointer_y_location = _view_y_position + skill_node->GetYLocation()
+            pointer_location.y = _view_position.y + skill_node->GetYPosition()
                 - image.GetHeight() - _location_pointer.GetHeight();
         }
 
         // Draw the character portrait if the character is on its latest learned skill.
         if (_character_node_index == skill_node->GetId()) {
-            VideoManager->Move(_view_x_position, _view_y_position);
-            VideoManager->MoveRelative(skill_node->GetXLocation(),
-                                       skill_node->GetYLocation());
+            VideoManager->Move(_view_position.x, _view_position.y);
+            VideoManager->MoveRelative(skill_node->GetXPosition(),
+                                       skill_node->GetYPosition());
             // Center the image
             VideoManager->MoveRelative(-_character_icon.GetWidth() / 2.0f,
                                        -_character_icon.GetHeight() / 2.0f);
@@ -318,8 +316,8 @@ void SkillGraphWindow::_DrawSkillGraphState()
     }
 
     // Draw the location pointer if the node was found
-    if (pointer_x_location > 0.0f || pointer_y_location > 0.0f) {
-        VideoManager->Move(pointer_x_location, pointer_y_location);
+    if (pointer_location.x > 0.0f || pointer_location.y > 0.0f) {
+        VideoManager->Move(pointer_location.x, pointer_location.y);
         _location_pointer.Draw();
     }
 
@@ -340,8 +338,8 @@ void SkillGraphWindow::_ResetSkillGraphView()
 
     // If the default one fails, set an empty view
     if (current_skill_node == nullptr) {
-        _current_x_offset = -1.0f;
-        _current_y_offset = -1.0f;
+        _current_offset.x = -1.0f;
+        _current_offset.y = -1.0f;
         _selected_node_index = std::numeric_limits<uint32_t>::max();
         PRINT_WARNING << "Empty Skill Graph View" << std::endl;
         return;
@@ -359,94 +357,88 @@ void SkillGraphWindow::_UpdateSkillGraphView(bool scroll)
     SkillGraph& skill_graph = vt_global::GlobalManager->GetSkillGraph();
     SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_index);
 
-    _current_x_offset = current_skill_node->GetXLocation();
-    _current_y_offset = current_skill_node->GetYLocation();
+    _current_offset = current_skill_node->GetPosition();
 
     // Get the current view offset
-    float target_x_position, target_y_position;
-    GetPosition(target_x_position, target_y_position);
-    target_x_position = target_x_position
+    Position2D target_position;
+    GetPosition(target_position.x, target_position.y);
+    target_position.x = target_position.x
                        + (SKILL_GRAPH_AREA_WIDTH / 2.0f)
                        + WINDOW_BORDER_WIDTH
-                       - _current_x_offset;
-    target_y_position = target_y_position
+                       - _current_offset.x;
+    target_position.y = target_position.y
                        + (SKILL_GRAPH_AREA_HEIGHT / 2.0f)
                        + WINDOW_BORDER_WIDTH
-                       - _current_y_offset;
+                       - _current_offset.y;
 
     // Don't update the view if it is already centered
-    if (_view_x_position == target_x_position
-            && _view_y_position == target_y_position) {
+    if (_view_position == target_position) {
         return;
     }
 
-    const float target_x_distance = target_x_position - _view_x_position;
-    const float target_y_distance = target_y_position - _view_y_position;
+    const Position2D target_distance(target_position.x - _view_position.x,
+                                     target_position.y - _view_position.y);
 
     if (!scroll) {
         // Make it instant
-        _view_x_position = target_x_position;
-        _view_y_position = target_y_position;
+        _view_position = target_position;
     }
     else {
         // Smooth the view move
         const float max_speed = 30.0f;
         const float min_speed = 100.0f;
-        const float pixel_move_x = (min_speed - std::abs(target_x_distance)) / 10.0f < max_speed / 10.0f ?
-                                   max_speed / 10.0f : (min_speed - std::abs(target_x_distance)) / 10.0f;
-        const float pixel_move_y = (min_speed - std::abs(target_y_distance)) / 10.0f < max_speed / 10.0f ?
-                                   max_speed / 10.0f : (min_speed - std::abs(target_y_distance)) / 10.0f;
+        const float pixel_move_x = (min_speed - std::abs(target_distance.x)) / 10.0f < max_speed / 10.0f ?
+                                   max_speed / 10.0f : (min_speed - std::abs(target_distance.x)) / 10.0f;
+        const float pixel_move_y = (min_speed - std::abs(target_distance.y)) / 10.0f < max_speed / 10.0f ?
+                                   max_speed / 10.0f : (min_speed - std::abs(target_distance.y)) / 10.0f;
         const float update_time = static_cast<float>(vt_system::SystemManager->GetUpdateTime());
-        const float update_move_x = update_time / pixel_move_x;
-        const float update_move_y = update_time / pixel_move_y;
+        const Position2D update_move(update_time / pixel_move_x,
+                                     update_time / pixel_move_y);
 
         // Make the view scroll
-        if (_view_x_position < target_x_position) {
-            _view_x_position += update_move_x;
-            if (_view_x_position > target_x_position)
-                _view_x_position = target_x_position;
+        if (_view_position.x < target_position.x) {
+            _view_position.x += update_move.x;
+            if (_view_position.x > target_position.x)
+                _view_position.x = target_position.x;
         }
-        else if (_view_x_position > target_x_position) {
-            _view_x_position -= update_move_x;
-            if (_view_x_position < target_x_position)
-                _view_x_position = target_x_position;
+        else if (_view_position.x > target_position.x) {
+            _view_position.x -= update_move.x;
+            if (_view_position.x < target_position.x)
+                _view_position.x = target_position.x;
         }
 
-        if (_view_y_position < target_y_position) {
-            _view_y_position += update_move_y;
-            if (_view_y_position > target_y_position)
-                _view_y_position = target_y_position;
+        if (_view_position.y < target_position.y) {
+            _view_position.y += update_move.y;
+            if (_view_position.y > target_position.y)
+                _view_position.y = target_position.y;
         }
-        else if (_view_y_position > target_y_position) {
-            _view_y_position -= update_move_y;
-            if (_view_y_position < target_y_position)
-                _view_y_position = target_y_position;
+        else if (_view_position.y > target_position.y) {
+            _view_position.y -= update_move.y;
+            if (_view_position.y < target_position.y)
+                _view_position.y = target_position.y;
         }
     }
 
     // Update the skill node displayed list
     const float area_width = SKILL_GRAPH_AREA_WIDTH / 2.0f + NODES_DISPLAY_MARGIN;
     const float area_height = SKILL_GRAPH_AREA_HEIGHT / 2.0f + NODES_DISPLAY_MARGIN;
-    const float min_x_view = _current_x_offset - area_width + target_x_distance;
-    const float max_x_view = _current_x_offset + area_width + target_x_distance;
-    const float min_y_view = _current_y_offset - area_height + target_y_distance;
-    const float max_y_view = _current_y_offset + area_height + target_y_distance;
+    const Position2D min_view(_current_offset.x - area_width + target_distance.x,
+                              _current_offset.y - area_height + target_distance.y);
+    const Position2D max_view(_current_offset.x + area_width + target_distance.x,
+                              _current_offset.y + area_height + target_distance.y);
+    Rectangle2D nodes_rect(min_view.x, max_view.x,
+                           min_view.y, max_view.y);
 
     // Do not reload visible nodes more than necessary
     static uint32_t update_timer = 0;
     update_timer += vt_system::SystemManager->GetUpdateTime();
-    if ((_view_x_position == target_x_position
-            && _view_y_position == target_y_position)
-            || update_timer >= 200) {
+    if (_view_position == target_position || update_timer >= 200) {
         update_timer = 0;
         // Based on current offset, reload visible nodes
         _displayed_skill_nodes.clear();
         auto skill_nodes = skill_graph.GetSkillNodes();
         for (SkillNode* skill_node : skill_nodes) {
-            float node_x = skill_node->GetXLocation();
-            float node_y = skill_node->GetYLocation();
-            if (node_x < min_x_view || node_x > max_x_view
-                    || node_y < min_y_view || node_y > max_y_view) {
+            if (!nodes_rect.Contains(skill_node->GetPosition())) {
                 continue;
             }
             _displayed_skill_nodes.push_back(skill_node);
@@ -463,9 +455,9 @@ void SkillGraphWindow::_UpdateSkillGraphView(bool scroll)
             continue;
 
         // Load line start
-        NodeLine node_line;
-        node_line.x1 = skill_node->GetXLocation() + _view_x_position;
-        node_line.y1 = skill_node->GetYLocation() + _view_y_position;
+        Line2D node_line;
+        node_line.begin.x = skill_node->GetXPosition() + _view_position.x;
+        node_line.begin.y = skill_node->GetYPosition() + _view_position.y;
 
         // For each link, add a line end
         for (uint32_t link_id : node_links) {
@@ -474,11 +466,10 @@ void SkillGraphWindow::_UpdateSkillGraphView(bool scroll)
                 continue;
 
             // Don't draw the line if it goes over the edge.
-            float node_x = linked_node->GetXLocation();
-            float node_y = linked_node->GetYLocation();
+            Position2D node_pos = linked_node->GetPosition();
 
-            node_line.x2 = node_x + _view_x_position;
-            node_line.y2 = node_y + _view_y_position;
+            node_line.end.x = node_pos.x + _view_position.x;
+            node_line.end.y = node_pos.y + _view_position.y;
 
             _displayed_node_links.push_back(node_line);
         }

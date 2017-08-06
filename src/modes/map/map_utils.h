@@ -21,6 +21,7 @@
 #include "utils/utils_pch.h"
 
 #include "common/position_2d.h"
+#include "common/rectangle_2d.h"
 
 #include "engine/video/video_utils.h"
 
@@ -218,42 +219,6 @@ const uint32_t MAP_FADE_OUT_TIME = 800;
 uint16_t GetOppositeDirection(const uint16_t direction);
 
 /** ****************************************************************************
-*** \brief Represents a rectangular section of a map
-***
-*** This is a small class that is used to represent rectangular map areas. These
-*** areas are used very frequently throughout the map code to check for collision
-*** detection, determining objects that are within a certain radius of one
-*** another, etc.
-*** ***************************************************************************/
-class MapRectangle
-{
-public:
-    MapRectangle() :
-        left(0.0f), right(0.0f), top(0.0f), bottom(0.0f)
-    {}
-
-    MapRectangle(float l, float r, float t, float b) :
-        left(l), right(r), top(t), bottom(b)
-    {}
-
-    //! \brief The four edges of the rectangle's area
-    float left, right, top, bottom;
-
-    /** \brief Determines if two rectangle objects intersect with one another
-    *** \param first A reference to the first rectangle object
-    *** \param second A reference to the second rectangle object
-    *** \return True if the two rectangles intersect at any location
-    ***
-    *** This function assumes that the rectangle objects hold map collision grid
-    *** coordinates, where the top of the rectangle is a smaller number than the
-    *** bottom of the rectangle and the left is a smaller number than the right.
-    **/
-    static bool CheckIntersection(const MapRectangle& first,
-                                  const MapRectangle& second);
-}; // class MapRectangle
-
-
-/** ****************************************************************************
 *** \brief Retains information about how the next map frame should be drawn.
 ***
 *** This class is used by the MapMode class to determine how the next map frame
@@ -283,7 +248,7 @@ public:
     *** not they should be drawn on the screen. Note that these are <b>not</b> used as drawing
     *** cursor positions, but rather are map grid coordinates indicating where the screen edges lie.
     **/
-    MapRectangle screen_edges;
+    vt_common::Rectangle2D screen_edges;
 }; // class MapFrame
 
 

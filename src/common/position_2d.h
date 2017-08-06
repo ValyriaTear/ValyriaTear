@@ -56,8 +56,22 @@ struct Position2D {
         return *this;
     }
 
+    bool operator == (const Position2D& other_pos) {
+        // Handles upon-self test.
+        if (&other_pos == this)
+            return true;
+
+        return x == other_pos.x && y == other_pos.y;
+    }
+
     float x;
     float y;
+};
+
+//! \brief A simple line struct
+struct Line2D {
+    Position2D begin;
+    Position2D end;
 };
 
 } // namespace vt_common

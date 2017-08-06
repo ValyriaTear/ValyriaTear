@@ -76,9 +76,9 @@ Light* Light::Create(const std::string& main_flare_filename,
                      x, y, main_color, secondary_color);
 }
 
-MapRectangle Light::GetGridImageRectangle() const
+Rectangle2D Light::GetGridImageRectangle() const
 {
-    MapRectangle rect;
+    Rectangle2D rect;
     rect.left = _tile_position.x - _img_grid_half_width;
     rect.right = _tile_position.x + _img_grid_half_width;
     // The y coord is also centered in that case

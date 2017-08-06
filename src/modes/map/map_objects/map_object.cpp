@@ -18,6 +18,8 @@
 #include "engine/video/video.h"
 #include "common/global/global.h"
 
+using namespace vt_common;
+
 namespace vt_map
 {
 
@@ -77,7 +79,7 @@ bool MapObject::ShouldDraw()
     MapMode* MM = MapMode::CurrentInstance();
 
     // Determine if the sprite is off-screen and if so, don't draw it.
-    if(!MapRectangle::CheckIntersection(GetGridImageRectangle(), MM->GetMapFrame().screen_edges))
+    if(!GetGridImageRectangle().IntersectsWith(MM->GetMapFrame().screen_edges))
         return false;
 
     // Move the drawing cursor to the appropriate coordinates for this sprite
@@ -89,9 +91,9 @@ bool MapObject::ShouldDraw()
     return true;
 }
 
-MapRectangle MapObject::GetGridCollisionRectangle() const
+Rectangle2D MapObject::GetGridCollisionRectangle() const
 {
-    MapRectangle rect;
+    Rectangle2D rect;
     rect.left = _tile_position.x - _coll_grid_half_width;
     rect.right = _tile_position.x + _coll_grid_half_width;
     rect.top = _tile_position.y - _coll_grid_height;
@@ -99,9 +101,9 @@ MapRectangle MapObject::GetGridCollisionRectangle() const
     return rect;
 }
 
-MapRectangle MapObject::GetGridCollisionRectangle(float tile_x, float tile_y) const
+Rectangle2D MapObject::GetGridCollisionRectangle(float tile_x, float tile_y) const
 {
-    MapRectangle rect;
+    Rectangle2D rect;
     rect.left = tile_x - _coll_grid_half_width;
     rect.right = tile_x + _coll_grid_half_width;
     rect.top = tile_y - _coll_grid_height;
@@ -109,9 +111,9 @@ MapRectangle MapObject::GetGridCollisionRectangle(float tile_x, float tile_y) co
     return rect;
 }
 
-MapRectangle MapObject::GetScreenCollisionRectangle(float x, float y) const
+Rectangle2D MapObject::GetScreenCollisionRectangle(float x, float y) const
 {
-    MapRectangle rect;
+    Rectangle2D rect;
     rect.left = x - _coll_screen_half_width;
     rect.right = x + _coll_screen_half_width;
     rect.top = y - _coll_screen_height;
@@ -119,10 +121,10 @@ MapRectangle MapObject::GetScreenCollisionRectangle(float x, float y) const
     return rect;
 }
 
-MapRectangle MapObject::GetScreenCollisionRectangle() const
+Rectangle2D MapObject::GetScreenCollisionRectangle() const
 {
     MapMode* mm = MapMode::CurrentInstance();
-    MapRectangle rect;
+    Rectangle2D rect;
     float x_screen_pos = mm->GetScreenXCoordinate(_tile_position.x);
     float y_screen_pos = mm->GetScreenYCoordinate(_tile_position.y);
     rect.left = x_screen_pos - _coll_screen_half_width;
@@ -132,10 +134,10 @@ MapRectangle MapObject::GetScreenCollisionRectangle() const
     return rect;
 }
 
-MapRectangle MapObject::GetScreenImageRectangle() const
+Rectangle2D MapObject::GetScreenImageRectangle() const
 {
     MapMode* mm = MapMode::CurrentInstance();
-    MapRectangle rect;
+    Rectangle2D rect;
     float x_screen_pos = mm->GetScreenXCoordinate(_tile_position.x);
     float y_screen_pos = mm->GetScreenYCoordinate(_tile_position.y);
     rect.left = x_screen_pos - _img_screen_half_width;
@@ -145,9 +147,9 @@ MapRectangle MapObject::GetScreenImageRectangle() const
     return rect;
 }
 
-MapRectangle MapObject::GetGridImageRectangle() const
+Rectangle2D MapObject::GetGridImageRectangle() const
 {
-    MapRectangle rect;
+    Rectangle2D rect;
     rect.left = _tile_position.x - _img_grid_half_width;
     rect.right = _tile_position.x + _img_grid_half_width;
     rect.top = _tile_position.y - _img_grid_height;
@@ -253,9 +255,8 @@ bool MapObject::IsCollidingWith(MapObject* other_object)
      if (other_object->GetCollisionMask() == NO_COLLISION)
         return false;
 
-    MapRectangle other_rect = other_object->GetGridCollisionRectangle();
-
-    if (!MapRectangle::CheckIntersection(GetGridCollisionRectangle(), other_rect))
+    Rectangle2D other_rect = other_object->GetGridCollisionRectangle();
+    if (!GetGridCollisionRectangle().IntersectsWith(other_rect))
         return false;
 
     return _collision_mask & other_object->GetCollisionMask();

@@ -26,14 +26,6 @@ class MenuMode;
 namespace private_menu
 {
 
-//! \brief A simple line showing a link between two nodes
-struct NodeLine {
-    float x1;
-    float y1;
-    float x2;
-    float y2;
-};
-
 //! \brief The menu sub states
 enum SKILLGRAPH_STATE {
     SKILLGRAPH_STATE_NONE = 0,
@@ -100,12 +92,10 @@ private:
     vt_video::StillImage _character_icon;
 
     //! \brief offsets for the current skill tree to view in the center of the window
-    float _current_x_offset;
-    float _current_y_offset;
+    vt_common::Position2D _current_offset;
 
     //! \brief The current centered view offsets
-    float _view_x_position;
-    float _view_y_position;
+    vt_common::Position2D _view_position;
 
     //! \brief the current index to the location the pointer is on
     uint32_t _selected_node_index;
@@ -119,7 +109,7 @@ private:
     //! \brief The currently displayed skill nodes
     std::vector<vt_global::SkillNode*> _displayed_skill_nodes;
     //! \brief The currentlw displayed link between the nodes
-    std::vector<NodeLine> _displayed_node_links;
+    std::vector<vt_common::Line2D> _displayed_node_links;
 
     //! \brief The skill node description text, icon, ...
     SkillNodeBottomInfo _bottom_info;

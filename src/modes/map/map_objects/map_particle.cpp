@@ -14,6 +14,8 @@
 
 #include "engine/video/video.h"
 
+using namespace vt_common;
+
 namespace vt_map
 {
 
@@ -106,7 +108,7 @@ void ParticleObject::Draw()
     if(!vt_video::VideoManager->DebugInfoOn())
         return;
 
-    MapRectangle rect = GetScreenImageRectangle();
+    Rectangle2D rect = GetScreenImageRectangle();
     vt_video::VideoManager->DrawRectangle(rect.right - rect.left,
                                           rect.bottom - rect.top,
                                           vt_video::Color(0.0f, 1.0f, 1.0f, 0.6f));
