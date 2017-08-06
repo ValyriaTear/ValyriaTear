@@ -405,8 +405,7 @@ protected:
 
     //! \brief The emote animation drawing offset in screen coordinates (pixel value * zoom ratio)
     //! (depending on the map object direction)
-    float _emote_screen_offset_x;
-    float _emote_screen_offset_y;
+    vt_common::Position2D _emote_screen_offset;
 
     //! \brief the time the emote animation will last in milliseconds,
     int32_t _emote_time;

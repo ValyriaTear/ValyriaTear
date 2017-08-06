@@ -816,7 +816,7 @@ public:
 
 protected:
     //! \brief Retains the position to look at when the event starts.
-    float _x, _y;
+    vt_common::Position2D _pos;
 
     /** \brief Retains the position to look at when the even starts.
     *** \note The event will take the sprite coord only at _Start() call, since
@@ -901,16 +901,17 @@ public:
 
 protected:
     //! \brief Stores the destination coordinates for the path movement. These may be either absolute or relative coordinates.
-    float _destination_x, _destination_y;
+    vt_common::Position2D _destination;
 
     //! \brief The destination target, useful when willing to reach a moving point.
     VirtualSprite* _target_sprite;
 
-    //! \brief Used to store the previous coordinates of the sprite during path movement, so as to set the proper direction of the sprite as it moves
-    float _last_x_position, _last_y_position;
+    //! \brief Used to store the previous coordinates of the sprite during path movement,
+    //! so as to set the proper direction of the sprite as it moves.
+    vt_common::Position2D _last_position;
 
     //! \brief Used to store the current node collision position (with offset)
-    float _current_node_x, _current_node_y;
+    vt_common::Position2D _current_node_pos;
 
     //! \brief An index to the path vector containing the node that the sprite currently occupies
     uint32_t _current_node;

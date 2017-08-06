@@ -47,8 +47,7 @@ MapObject::MapObject(MapObjectDrawLayer layer) :
     _object_type(OBJECT_TYPE),
     _emote_animation(nullptr),
     _interaction_icon(nullptr),
-    _emote_screen_offset_x(0.0f),
-    _emote_screen_offset_y(0.0f),
+    _emote_screen_offset(0.0f, 0.0f),
     _emote_time(0),
     _draw_layer(layer),
     _grayscale(false)
@@ -168,13 +167,13 @@ void MapObject::Emote(const std::string &emote_name, vt_map::private_map::ANIM_D
     }
 
     // Make the offset depend on the sprite direction and emote animation.
-    vt_global::GlobalManager->GetEmoteOffset(_emote_screen_offset_x,
-                                             _emote_screen_offset_y,
+    vt_global::GlobalManager->GetEmoteOffset(_emote_screen_offset.x,
+                                             _emote_screen_offset.y,
                                              emote_name,
                                              dir);
     // Scale the offsets for the map mode
-    _emote_screen_offset_x = _emote_screen_offset_x * MAP_ZOOM_RATIO;
-    _emote_screen_offset_y = _emote_screen_offset_y * MAP_ZOOM_RATIO;
+    _emote_screen_offset.x = _emote_screen_offset.x * MAP_ZOOM_RATIO;
+    _emote_screen_offset.y = _emote_screen_offset.y * MAP_ZOOM_RATIO;
 
     _emote_animation->ResetAnimation();
     _emote_time = _emote_animation->GetAnimationLength();
@@ -203,8 +202,8 @@ void MapObject::_DrawEmote()
         return;
 
     // Move the emote to the sprite head top, where the offset should applied from.
-    vt_video::VideoManager->MoveRelative(_emote_screen_offset_x,
-                                         -_img_screen_height + _emote_screen_offset_y);
+    vt_video::VideoManager->MoveRelative(_emote_screen_offset.x,
+                                         -_img_screen_height + _emote_screen_offset.y);
     _emote_animation->Draw();
 }
 

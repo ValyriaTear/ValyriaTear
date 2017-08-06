@@ -440,8 +440,8 @@ public:
     *** \param y Vertical offset (the sign determines whether its up or down)
     **/
     void SetCursorOffset(float x, float y) {
-        _cursor_xoffset = x;
-        _cursor_yoffset = y;
+        _cursor_offset.x = x;
+        _cursor_offset.y = y;
     }
 
     /** \brief Sets the text style to use for this option box.
@@ -548,7 +548,7 @@ private:
     uint32_t _draw_left_column, _draw_top_row;
 
     //! \brief Retains the x and y offsets for where the cursor should be drawn relative to the selected option
-    float _cursor_xoffset, _cursor_yoffset;
+    vt_common::Position2D _cursor_offset;
 
     //! \brief A draw offset used for the option box when it is scrolling
     int32_t _scroll_offset;

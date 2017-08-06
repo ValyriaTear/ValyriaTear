@@ -57,12 +57,9 @@ void EnemySprite::Reset()
     _color.SetAlpha(0.0f);
 
     // Reset path finding info
-    _last_node_x_position = 0.0f;
-    _last_node_x_position = 0.0f;
-    _current_node_x = 0.0f;
-    _current_node_y = 0.0f;
-    _destination_x = 0.0f;
-    _destination_y = 0.0f;
+    _last_node_position = Position2D(0.0f, 0.0f);
+    _current_node = Position2D(0.0f, 0.0f);
+    _destination = Position2D(0.0f, 0.0f);
     _current_node_id = 0;
     _path.clear();
     _use_path = false;
@@ -276,10 +273,8 @@ void EnemySprite::Draw()
     if (!vt_video::VideoManager->DebugInfoOn())
         return;
 
-    float x = 0.0f;
-    float y = 0.0f;
-    vt_video::VideoManager->GetDrawPosition(x, y);
-    Rectangle2D rect = GetScreenCollisionRectangle(x, y);
+    Position2D pos = vt_video::VideoManager->GetDrawPosition();
+    Rectangle2D rect = GetScreenCollisionRectangle(pos.x, pos.y);
     vt_video::VideoManager->DrawRectangle(rect.right - rect.left,
                                           rect.bottom - rect.top,
                                           vt_video::Color(1.0f, 0.0f, 0.0f, 0.6f));
@@ -324,31 +319,30 @@ void EnemySprite::_UpdatePath()
     if(!_use_path || _path.empty())
         return;
 
-    float sprite_position_x = GetXPosition();
-    float sprite_position_y = GetYPosition();
-    float distance_moved = CalculateDistanceMoved();
+    const Position2D sprite_position = GetPosition();
+    const float distance_moved = CalculateDistanceMoved();
 
     // Check whether the sprite has arrived at the position of the current node
-    if(vt_utils::IsFloatEqual(sprite_position_x, _current_node_x, distance_moved)
-            && vt_utils::IsFloatEqual(sprite_position_y, _current_node_y, distance_moved)) {
+    if(vt_utils::IsFloatEqual(sprite_position.x, _current_node.x, distance_moved)
+            && vt_utils::IsFloatEqual(sprite_position.y, _current_node.y, distance_moved)) {
         ++_current_node_id;
 
         if(_current_node_id < _path.size()) {
-            _current_node_x = _path[_current_node_id].x;
-            _current_node_y = _path[_current_node_id].y;
+            _current_node.x = _path[_current_node_id].x;
+            _current_node.y = _path[_current_node_id].y;
         }
     }
     // If the sprite has moved to a new position other than the next node, adjust its direction so it is trying to move to the next node
-    else if((sprite_position_x != _last_node_x_position) || (sprite_position_y != _last_node_y_position)) {
-        _last_node_x_position = sprite_position_x;
-        _last_node_y_position = sprite_position_y;
+    else if((sprite_position.x != _last_node_position.x)
+            || (sprite_position.y != _last_node_position.y)) {
+        _last_node_position = sprite_position;
     }
 
     _SetSpritePathDirection();
 
     // End the path event
-    if(vt_utils::IsFloatEqual(sprite_position_x, _destination_x, distance_moved)
-            && vt_utils::IsFloatEqual(sprite_position_y, _destination_y, distance_moved)) {
+    if(vt_utils::IsFloatEqual(sprite_position.x, _destination.x, distance_moved)
+            && vt_utils::IsFloatEqual(sprite_position.y, _destination.y, distance_moved)) {
         _path.clear();
     }
 }
@@ -358,10 +352,10 @@ bool EnemySprite::_SetDestination(float destination_x, float destination_y, uint
     _path.clear();
     _use_path = false;
 
-    uint32_t dest_x = (uint32_t) destination_x;
-    uint32_t dest_y = (uint32_t) destination_y;
-    uint32_t pos_x = (uint32_t) GetXPosition();
-    uint32_t pos_y = (uint32_t) GetYPosition();
+    uint32_t dest_x = static_cast<uint32_t>(destination_x);
+    uint32_t dest_y = static_cast<uint32_t>( destination_y);
+    uint32_t pos_x = static_cast<uint32_t>(GetXPosition());
+    uint32_t pos_y = static_cast<uint32_t>(GetYPosition());
 
     // Don't check the path if the sprite is there.
     if (pos_x == dest_x && pos_y == dest_y)
@@ -381,13 +375,10 @@ bool EnemySprite::_SetDestination(float destination_x, float destination_y, uint
     _collision_mask = CHARACTER_COLLISION;
 
     _current_node_id = 0;
-    _last_node_x_position = GetXPosition();
-    _last_node_y_position = GetYPosition();
-    _destination_x = destination_x;
-    _destination_y = destination_y;
+    _last_node_position = GetPosition();
+    _destination = dest;
 
-    _current_node_x = _path[_current_node_id].x;
-    _current_node_y = _path[_current_node_id].y;
+    _current_node = _path[_current_node_id];
 
     _moving = true;
     _use_path = true;
@@ -401,19 +392,18 @@ void EnemySprite::_SetSpritePathDirection()
 
     uint16_t direction = 0;
 
-    float sprite_position_x = GetXPosition();
-    float sprite_position_y = GetYPosition();
-    float distance_moved = CalculateDistanceMoved();
+    const Position2D sprite_position = GetPosition();
+    const float distance_moved = CalculateDistanceMoved();
 
-    if(sprite_position_y - _current_node_y > distance_moved) {
+    if(sprite_position.y - _current_node.y > distance_moved) {
         direction |= NORTH;
-    } else if(sprite_position_y - _current_node_y < -distance_moved) {
+    } else if(sprite_position.y - _current_node.y < -distance_moved) {
         direction |= SOUTH;
     }
 
-    if(sprite_position_x - _current_node_x > distance_moved) {
+    if(sprite_position.x - _current_node.x > distance_moved) {
         direction |= WEST;
-    } else if(sprite_position_x - _current_node_x < -distance_moved) {
+    } else if(sprite_position.x - _current_node.x < -distance_moved) {
         direction |= EAST;
     }
 

@@ -17,8 +17,7 @@ WorldMapLocation::WorldMapLocation(float x,
                                    const std::string& location_name,
                                    const std::string& image_path,
                                    const std::string& world_map_location_id) :
-    _x(x),
-    _y(y),
+    _pos(x, y),
     _location_name(location_name),
     _world_map_location_id(world_map_location_id)
 {

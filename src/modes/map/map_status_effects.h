@@ -240,8 +240,7 @@ public:
     { return _global_character; }
 private:
     //! \brief The portrait position
-    float _x_position;
-    float _y_position;
+    vt_common::Position2D _position;
 
     //! \brief The image alpha
     float _image_alpha;

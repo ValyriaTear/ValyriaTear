@@ -202,12 +202,8 @@ public:
         return _num_particles;
     }
 
-    /*!
-     *  \brief return the position of the effect into x and y
-     * \param x parameter to store x value of system in
-     * \param y parameter to store y value of system in
-     */
-    void GetPosition(float &x, float &y) const;
+    //! \brief return the position of the effect into x and y
+    const vt_common::Position2D& GetPosition() const;
 
     /*!
      *  \brief return the age of the system, i.e. how many seconds it has been since
@@ -282,10 +278,10 @@ private:
     bool _loaded;
 
     //! position of the effect
-    float _x, _y;
+    vt_common::Position2D _pos;
 
     //! position of attractor point
-    float _attractor_x, _attractor_y;
+    vt_common::Position2D _attractor;
 
     //! orientation of the effect (angle in radians)
     float _orientation;

@@ -238,8 +238,7 @@ private:
     // Holds the height of the text to be drawn
     float _text_height;
     // Holds the actual x and y position where the text should be drawn
-    float _text_xpos;
-    float _text_ypos;
+    vt_common::Position2D _text_pos;
 
     /** \brief Draws the textbox text, taking the display mode into account.
     *** \param text_x The x value to use, depending on the alignment.

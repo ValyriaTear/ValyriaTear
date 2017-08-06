@@ -30,6 +30,7 @@
 
 using namespace vt_utils;
 using namespace vt_video::private_video;
+using namespace vt_common;
 
 namespace vt_video
 {
@@ -480,41 +481,47 @@ void ImageDescriptor::_DrawOrientation() const
     Context &current_context = VideoManager->_current_context;
 
     // Fix the image offset according to the current context alignment.
-    // Takes the image width/height and divides it by 2 (equal to * 0.5f) and applies the offset (left, right, center/top, bottom, center).
-    float x_align_offset = ((current_context.x_align + 1) * _width) * 0.5f * -current_context.coordinate_system.GetHorizontalDirection();
-    float y_align_offset = ((current_context.y_align + 1) * _height) * 0.5f * -current_context.coordinate_system.GetVerticalDirection();
+    // Takes the image width/height and divides it by 2 (equal to * 0.5f)
+    // and applies the offset (left, right, center/top, bottom, center).
+    Position2D align_offset (((current_context.x_align + 1) * _width) * 0.5f
+                             * -current_context.coordinate_system.GetHorizontalDirection(),
+                             ((current_context.y_align + 1) * _height) * 0.5f
+                             * -current_context.coordinate_system.GetVerticalDirection());
 
-    VideoManager->MoveRelative(x_align_offset, y_align_offset);
+    VideoManager->MoveRelative(align_offset.x, align_offset.y);
 
-    // x/y draw offsets, which are a function of the flip draw flags, screen shaking, and the orientation of the current coordinate system
-    float x_off = 0.0f, y_off = 0.0f;
+    // x/y draw offsets, which are a function of the flip draw flags,
+    // screen shaking, and the orientation of the current coordinate system
+    Position2D shake_offset;
 
     if(current_context.x_flip) {
-        x_off = _width;
+        shake_offset.x = _width;
     }
     if(current_context.y_flip) {
-        y_off = _height;
+        shake_offset.y = _height;
     }
 
     if(VideoManager->IsScreenShaking()) {
         // Calculate x and y draw offsets due to any screen shaking effects
-        float x_shake = VideoManager->_x_shake * (current_context.coordinate_system.GetRight() - current_context.coordinate_system.GetLeft()) / VIDEO_STANDARD_RES_WIDTH;
-        float y_shake = VideoManager->_y_shake * (current_context.coordinate_system.GetTop() - current_context.coordinate_system.GetBottom()) / VIDEO_STANDARD_RES_HEIGHT;
-        x_off += x_shake;
-        y_off += y_shake;
+        shake_offset.x += VideoManager->_shake_offset.x
+                          * (current_context.coordinate_system.GetRight() - current_context.coordinate_system.GetLeft())
+                          / VIDEO_STANDARD_RES_WIDTH;
+        shake_offset.y += VideoManager->_shake_offset.y
+                          * (current_context.coordinate_system.GetTop() - current_context.coordinate_system.GetBottom())
+                          / VIDEO_STANDARD_RES_HEIGHT;
     }
 
-    VideoManager->MoveRelative(x_off * current_context.coordinate_system.GetHorizontalDirection(), y_off * current_context.coordinate_system.GetVerticalDirection());
+    VideoManager->MoveRelative(shake_offset.x * current_context.coordinate_system.GetHorizontalDirection(),
+                               shake_offset.y * current_context.coordinate_system.GetVerticalDirection());
 
     // x/y scale degrees
-    float x_scale = _width;
-    float y_scale = _height;
+    Vector2D scale(_width, _height);
 
     if(current_context.coordinate_system.GetHorizontalDirection() < 0.0f)
-        x_scale = -x_scale;
+        scale.x = -scale.x;
     if(current_context.coordinate_system.GetVerticalDirection() < 0.0f)
-        y_scale = -y_scale;
-    VideoManager->Scale(x_scale, y_scale);
+        scale.y = -scale.y;
+    VideoManager->Scale(scale.x, scale.y);
 }
 
 void ImageDescriptor::_DrawTexture(const Color* draw_color) const
@@ -786,8 +793,7 @@ bool ImageDescriptor::_LoadMultiImage(std::vector<StillImage>& images, const std
 StillImage::StillImage(const bool grayscale) :
     ImageDescriptor(),
     _image_texture(nullptr),
-    _x_offset(0.0f),
-    _y_offset(0.0f)
+    _offset(0.0f, 0.0f)
 {
     Clear();
     _grayscale = grayscale;
@@ -803,8 +809,8 @@ void StillImage::Clear()
     ImageDescriptor::Clear(); // This call will remove the texture reference for us
     _filename.clear();
     _image_texture = nullptr;
-    _x_offset = 0.0f;
-    _y_offset = 0.0f;
+    _offset.x = 0.0f;
+    _offset.y = 0.0f;
 }
 
 bool StillImage::Load(const std::string &filename)
@@ -815,8 +821,8 @@ bool StillImage::Load(const std::string &filename)
         _image_texture = nullptr;
         _width = 0.0f;
         _height = 0.0f;
-        _x_offset = 0.0f;
-        _y_offset = 0.0f;
+        _offset.x = 0.0f;
+        _offset.y = 0.0f;
     }
 
     _filename = filename;
@@ -911,8 +917,8 @@ void StillImage::Draw(const Color &draw_color) const
 
     VideoManager->PushMatrix();
 
-    if (_x_offset != 0.0f || _y_offset != 0.0f)
-        VideoManager->MoveRelative(_x_offset, _y_offset);
+    if (_offset.x != 0.0f || _offset.y != 0.0f)
+        VideoManager->MoveRelative(_offset.x, _offset.y);
 
     _DrawOrientation();
 
@@ -1487,50 +1493,54 @@ void CompositeImage::Draw(const Color &draw_color) const
 
     CoordSys coord_sys = VideoManager->_current_context.coordinate_system;
 
-    float x_shake = VideoManager->_x_shake * (coord_sys.GetRight() - coord_sys.GetLeft()) / 1024.0f;
-    float y_shake = VideoManager->_y_shake * (coord_sys.GetTop() - coord_sys.GetBottom()) / 768.0f;
+    Position2D shake(VideoManager->_shake_offset.x
+                     * (coord_sys.GetRight() - coord_sys.GetLeft())
+                     / VIDEO_STANDARD_RES_WIDTH,
+                     VideoManager->_shake_offset.y
+                     * (coord_sys.GetTop() - coord_sys.GetBottom())
+                     / VIDEO_STANDARD_RES_HEIGHT);
 
-    float x_align_offset = ((VideoManager->_current_context.x_align + 1) * _width) * 0.5f * -
-                           coord_sys.GetHorizontalDirection();
-    float y_align_offset = ((VideoManager->_current_context.y_align + 1) * _height) * 0.5f * -
-                           coord_sys.GetVerticalDirection();
+    Position2D align_offset(((VideoManager->_current_context.x_align + 1) * _width) * 0.5f
+                            * -coord_sys.GetHorizontalDirection(),
+                            ((VideoManager->_current_context.y_align + 1) * _height) * 0.5f
+                            * -coord_sys.GetVerticalDirection());
 
     // Save the draw cursor position as we move to draw each element
     VideoManager->PushMatrix();
 
-    VideoManager->MoveRelative(x_align_offset, y_align_offset);
+    VideoManager->MoveRelative(align_offset.x, align_offset.y);
 
     for(uint32_t i = 0; i < _elements.size(); ++i) {
-        float x_off, y_off;
+        Position2D offset;
 
         if(VideoManager->_current_context.x_flip) {
-            x_off = _width - _elements[i].x_offset - _elements[i].image.GetWidth();
+            offset.x = _width - _elements[i].offset.x - _elements[i].image.GetWidth();
         } else {
-            x_off = _elements[i].x_offset;
+            offset.x = _elements[i].offset.x;
         }
 
         if(VideoManager->_current_context.y_flip) {
-            y_off = _height - _elements[i].y_offset - _elements[i].image.GetHeight();
+            offset.y = _height - _elements[i].offset.y - _elements[i].image.GetHeight();
         } else {
-            y_off = _elements[i].y_offset;
+            offset.y = _elements[i].offset.y;
         }
 
-        x_off += x_shake;
-        y_off += y_shake;
+        offset.x += shake.x;
+        offset.y += shake.y;
 
         VideoManager->PushMatrix();
-        VideoManager->MoveRelative(x_off * coord_sys.GetHorizontalDirection(),
-                                   y_off * coord_sys.GetVerticalDirection());
+        VideoManager->MoveRelative(offset.x * coord_sys.GetHorizontalDirection(),
+                                   offset.y * coord_sys.GetVerticalDirection());
 
-        float x_scale = _elements[i].image.GetWidth();
-        float y_scale = _elements[i].image.GetHeight();
+        Vector2D scale(_elements[i].image.GetWidth(),
+                       _elements[i].image.GetHeight());
 
         if(coord_sys.GetHorizontalDirection() < 0.0f)
-            x_scale = -x_scale;
+            scale.x = -scale.x;
         if(coord_sys.GetVerticalDirection() < 0.0f)
-            y_scale = -y_scale;
+            scale.y = -scale.y;
 
-        VideoManager->Scale(x_scale, y_scale);
+        VideoManager->Scale(scale.x, scale.y);
 
         if(draw_color == Color::white)
             _elements[i].image._DrawTexture(_color);

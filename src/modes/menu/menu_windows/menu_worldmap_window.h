@@ -116,8 +116,7 @@ private:
     vt_video::StillImage _location_pointer;
 
     //! \brief offsets for the current image to view in the center of the window
-    float _current_image_x_offset;
-    float _current_image_y_offset;
+    vt_common::Position2D _current_image_offset;
 
     //! \brief the current index to the location the pointer should be on
     uint32_t _location_pointer_index;

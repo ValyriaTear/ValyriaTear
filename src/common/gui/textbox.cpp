@@ -43,8 +43,7 @@ TextBox::TextBox() :
     _end_time(0),
     _mode(VIDEO_TEXT_INSTANT),
     _text_height(0.0f),
-    _text_xpos(0.0f),
-    _text_ypos(0.0f)
+    _text_pos(0.0f, 0.0f)
 {
     _width = 0.0f;
     _height = 0.0f;
@@ -61,8 +60,7 @@ TextBox::TextBox(float x, float y, float width, float height, const TEXT_DISPLAY
     _end_time(0),
     _mode(mode),
     _text_height(0.0f),
-    _text_xpos(0.0f),
-    _text_ypos(0.0f)
+    _text_pos(0.0f, 0.0f)
 {
     _width = width;
     _height = height;
@@ -110,14 +108,14 @@ void TextBox::Draw()
 
     // Set the draw cursor, draw flags, and draw the text
     if (_mode == VIDEO_TEXT_INSTANT) {
-        VideoManager->Move(_text_xpos, _text_ypos);
+        VideoManager->Move(_text_pos.x, _text_pos.y);
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
         _text_image.Draw();
     }
     else {
-        VideoManager->Move(0.0f, _text_ypos);
+        VideoManager->Move(0.0f, _text_pos.y);
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, VIDEO_BLEND, 0);
-        _DrawTextLines(_text_xpos, _text_ypos, _scissor_rect);
+        _DrawTextLines(_text_pos.x, _text_pos.y, _scissor_rect);
     }
 
     if(GUIManager->DEBUG_DrawOutlines())
@@ -323,20 +321,22 @@ void TextBox::_ReformatText()
 
     // Determine the vertical position of the text based on the alignment.
     if (_text_yalign == VIDEO_Y_TOP) {
-        _text_ypos = top;
+        _text_pos.y = top;
     } else if (_text_yalign == VIDEO_Y_CENTER) {
-        _text_ypos = top - (VideoManager->_current_context.coordinate_system.GetVerticalDirection() * (_height - _text_height) * 0.5f);
+        _text_pos.y = top - (VideoManager->_current_context.coordinate_system.GetVerticalDirection()
+                      * (_height - _text_height) * 0.5f);
     } else { // (_yalign == VIDEO_Y_BOTTOM)
-        _text_ypos = top - (VideoManager->_current_context.coordinate_system.GetVerticalDirection() * (_height - _text_height));
+        _text_pos.y = top - (VideoManager->_current_context.coordinate_system.GetVerticalDirection()
+                      * (_height - _text_height));
     }
 
     // Determine the horizontal position of the text based on the alignment.
     if (_text_xalign == VIDEO_X_LEFT) {
-        _text_xpos = left;
+        _text_pos.x = left;
     } else if (_text_xalign == VIDEO_X_CENTER) {
-        _text_xpos = (left + right - _text_image.GetWidth()) * 0.5f;
+        _text_pos.x = (left + right - _text_image.GetWidth()) * 0.5f;
     } else { // (_text_xalign == VIDEO_X_RIGHT)
-        _text_xpos = right;
+        _text_pos.x = right;
     }
 }
 

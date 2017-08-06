@@ -32,6 +32,8 @@
 #ifndef __PARTICLE_EMITTER_HEADER__
 #define __PARTICLE_EMITTER_HEADER__
 
+#include "common/position_2d.h"
+
 namespace vt_mode_manager
 {
 
@@ -90,14 +92,10 @@ class ParticleEmitter
 {
 public:
     ParticleEmitter():
-        _x(0.0f),
-        _y(0.0f),
-        _x2(0.0f),
-        _y2(0.0f),
-        _center_x(0.0f),
-        _center_y(0.0f),
-        _x_variation(0.0f),
-        _y_variation(0.0f),
+        _pos(0.0f, 0.0f),
+        _pos2(0.0f, 0.0f),
+        _center(0.0f, 0.0f),
+        _variation(0.0f, 0.0f),
         _radius(0.0f),
         _shape(EMITTER_SHAPE_INVALID),
         _omnidirectional(false),
@@ -111,25 +109,21 @@ public:
         _spin(EMITTER_SPIN_INVALID)
     {}
 
-    //! position of emitter, or in the case of line or rectangle emitters, this is
-    //! one point/corner of the emitter
-    float _x;
-    float _y;
+    //! position of emitter, or in the case of line or rectangle emitters,
+    //! this is one point/corner of the emitter
+    vt_common::Position2D _pos;
 
     //! The second point/corner of the emitter, for line or rectangle emitters ONLY
-    float _x2;
-    float _y2;
+    vt_common::Position2D _pos2;
 
     //! position of the emitter's center. In many cases this is just the same thing
     //! as _x and _y, but we store it anyway because then if we have a rectangle
     //! shaped emitter, we don't have to calculate the midpoint every time we want
     //! to know where the center is
-    float _center_x;
-    float _center_y;
+    vt_common::Position2D _center;
 
     //! add some variation to the position of each particle
-    float _x_variation;
-    float _y_variation;
+    vt_common::Position2D _variation;
 
     //! The radius of the emitter, for circular emitters
     float _radius;

@@ -421,7 +421,7 @@ public:
 
 private:
     //! \brief Stores the draw coordinates for the bottom center of the dialogue window
-    float _pos_x, _pos_y;
+    vt_common::Position2D _pos;
 
     //! \brief A parchment paper image embedded within the dialogue window
     vt_video::StillImage _parchment_image;

@@ -25,6 +25,8 @@
 #include "utils/singleton.h"
 #include "utils/ustring.h"
 
+#include "common/position_2d.h"
+
 namespace vt_video
 {
 class StillImage;
@@ -100,8 +102,8 @@ public:
     *** \note X and y are in terms of a 1024x768 coordinate system
     **/
     void SetPosition(float x, float y) {
-        _x_position = x;
-        _y_position = y;
+        _position.x = x;
+        _position.y = y;
     }
 
     /** \brief Sets the alignment of the element.
@@ -130,23 +132,20 @@ public:
     }
 
     /** \brief Gets the position of the object.
-    *** \param x A reference to store the x coordinate of the object.
-    *** \param y A reference to store the y coordinate of the object.
     *** \note X and y are in terms of a 1024x768 coordinate system
     **/
-    void GetPosition(float& x, float& y) const {
-        x = _x_position;
-        y = _y_position;
+    const vt_common::Position2D& GetPosition() const {
+        return _position;
     }
 
     //! \brief Returns the position of the GUI element on the x axis.
     inline float GetXPosition() const {
-        return _x_position;
+        return _position.x;
     }
 
     //! \brief Returns the position of the GUI element on the y axis.
     inline float GetYPosition() const {
-        return _y_position;
+        return _position.y;
     }
 
     /** \brief Gets the x and y alignment of the element.
@@ -177,7 +176,7 @@ protected:
     int32_t _xalign, _yalign;
 
     //! \brief The x and y position of the gui element.
-    float _x_position, _y_position;
+    vt_common::Position2D _position;
 
     //! \brief The dimensions of the GUI element in pixels.
     float _width, _height;

@@ -97,19 +97,19 @@ public:
     }
 
     float GetXOrigin() const {
-        return _x_origin_position;
+        return _origin_position.x;
     }
 
     float GetYOrigin() const {
-        return _y_origin_position;
+        return _origin_position.y;
     }
 
     void SetXOrigin(float x) {
-        _x_origin_position = x;
+        _origin_position.x = x;
     }
 
     void SetYOrigin(float y) {
-        _y_origin_position = y;
+        _origin_position.y = y;
     }
 
     bool UseParallax() const {
@@ -133,23 +133,14 @@ protected:
     //! \brief A modulation color used to modify the alpha (transparency) of the drawn element
     vt_video::Color _alpha_color;
 
-    //! \brief Represent the force currently applied on the effects per second on the x axis.
-    float _x_force;
+    //! \brief Represent the force currently applied on the effects per second on the x/y axices.
+    vt_common::Vector2D _force;
 
-    //! \brief Represent the force currently applied on the effects per second on the y axis.
-    float _y_force;
+    //! \brief Represent the origin position of the effect.
+    vt_common::Position2D _origin_position;
 
-    //! \brief Represent the origin x position of the effect.
-    float _x_origin_position;
-
-    //! \brief Represent the origin y position of the effect.
-    float _y_origin_position;
-
-    //! \brief Represent the current x position of the effect, relative to its base coordinates.
-    float _x_relative_position;
-
-    //! \brief Represent the current y position of the effect, relative to its base coordinates.
-    float _y_relative_position;
+    //! \brief Represent the current position of the effect, relative to its base coordinates.
+    vt_common::Position2D _relative_position;
 
     //! \brief Permits to apply parallax effects on the indicator.
     //! This is useful when the indicator tries to simulate the camera movement.

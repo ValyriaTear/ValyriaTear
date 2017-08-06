@@ -97,10 +97,9 @@ void ParticleObject::Draw()
     if(!_particle_effect || !MapObject::ShouldDraw())
         return;
 
-    float standard_pos_x, standard_pos_y;
-    vt_video::VideoManager->GetDrawPosition(standard_pos_x, standard_pos_y);
+    Position2D position = vt_video::VideoManager->GetDrawPosition();
     vt_video::VideoManager->SetStandardCoordSys();
-    _particle_effect->Move(standard_pos_x, standard_pos_y);
+    _particle_effect->Move(position.x, position.y);
     _particle_effect->Draw();
     // Reset the map mode coord sys afterward.
 

@@ -48,12 +48,9 @@ const float INITIAL_FORCE = 12.0f;
 IndicatorElement::IndicatorElement(float x_position, float y_position, INDICATOR_TYPE indicator_type) :
     _timer(INDICATOR_TIME),
     _alpha_color(1.0f, 1.0f, 1.0f, 0.0f),
-    _x_force(0.0f),
-    _y_force(INITIAL_FORCE),
-    _x_origin_position(x_position),
-    _y_origin_position(y_position),
-    _x_relative_position(0.0f),
-    _y_relative_position(0.0f),
+    _force(0.0f, INITIAL_FORCE),
+    _origin_position(x_position, y_position),
+    _relative_position(0.0f, 0.0f),
     _use_parallax(false),
     _indicator_type(indicator_type)
 {
@@ -68,10 +65,10 @@ void IndicatorElement::Start()
 
     // Reinit the indicator push
     if (vt_utils::RandomFloat(0.0f, 100.0f) >= 50.0f)
-        _x_force = vt_utils::RandomFloat(30.0f, 60.0f);
+        _force.x = vt_utils::RandomFloat(30.0f, 60.0f);
     else
-        _x_force = vt_utils::RandomFloat(-60.0f, -30.0f);
-    _y_force = INITIAL_FORCE;
+        _force.x = vt_utils::RandomFloat(-60.0f, -30.0f);
+    _force.y = INITIAL_FORCE;
 }
 
 void IndicatorElement::Update()
@@ -94,45 +91,45 @@ void IndicatorElement::_UpdateDrawPosition()
         // Indicator gravity appliance in pixels / seconds
         const float INDICATOR_WEIGHT = 26.0f;
 
-        _y_force -= elapsed_ms / 1000 * INDICATOR_WEIGHT;
+        _force.y -= elapsed_ms / 1000 * INDICATOR_WEIGHT;
 
         // Compute a potential maximum fall speed
-        if(_y_force < -15.0f)
-            _y_force = -15.0f;
+        if(_force.y < -15.0f)
+            _force.y = -15.0f;
 
-        _y_relative_position += _y_force;
+        _relative_position.y += _force.y;
 
         // Resolve a ground collision
-        if(_y_relative_position <= 0.0f) {
-            _y_relative_position = 0.0f;
+        if(_relative_position.y <= 0.0f) {
+            _relative_position.y = 0.0f;
 
             // If the force is very low, the bouncing is over
-            if(std::abs(_y_force) <= INDICATOR_WEIGHT / 10.0f) {
-                _y_force = 0.0f;
+            if(std::abs(_force.y) <= INDICATOR_WEIGHT / 10.0f) {
+                _force.y = 0.0f;
             } else {
                 // Make the object bounce
-                _y_force = -(_y_force * 0.6f);
+                _force.y = -(_force.y * 0.6f);
             }
         }
 
         // Make the object advance only if it still can.
-        if(_y_relative_position > 0.0f)
-            _x_relative_position += (_x_force / 1000 * elapsed_ms);
+        if(_relative_position.y > 0.0f)
+            _relative_position.x += (_force.x / 1000 * elapsed_ms);
     }
     break;
 
     default:
     case HEALING_INDICATOR:
     case POSITIVE_STATUS_EFFECT_INDICATOR:
-        _y_relative_position += 5.0f / 1000 * elapsed_ms;
+        _relative_position.y += 5.0f / 1000 * elapsed_ms;
         break;
     case ITEM_INDICATOR:
     case NEGATIVE_STATUS_EFFECT_INDICATOR:
-        _y_relative_position -= 5.0f / 1000 * elapsed_ms;
+        _relative_position.y -= 5.0f / 1000 * elapsed_ms;
         break;
     case TEXT_INDICATOR:
         // Move vertically
-        _x_relative_position -= 5.0f / 1000 * elapsed_ms;
+        _relative_position.x -= 5.0f / 1000 * elapsed_ms;
         break;
     }
 }
@@ -174,8 +171,8 @@ void IndicatorText::Draw()
 {
     VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
     VideoManager->Move(
-        _x_origin_position + _x_relative_position + _text_image.GetWidth() / 2,
-        _y_origin_position - _y_relative_position);
+        _origin_position.x + _relative_position.x + _text_image.GetWidth() / 2,
+        _origin_position.y - _relative_position.y);
 
     _text_image.Draw(_alpha_color);
 }
@@ -207,7 +204,8 @@ IndicatorImage::IndicatorImage(float x_position, float y_position, const StillIm
 void IndicatorImage::Draw()
 {
     VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(_x_origin_position + _x_relative_position, _y_origin_position - _y_relative_position);
+    VideoManager->Move(_origin_position.x + _relative_position.x,
+                       _origin_position.y - _relative_position.y);
 
     _image.Draw(_alpha_color);
 }
@@ -251,7 +249,8 @@ IndicatorBlendedImage::IndicatorBlendedImage(float x_position, float y_position,
 void IndicatorBlendedImage::Draw()
 {
     VideoManager->SetDrawFlags(VIDEO_X_RIGHT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(_x_origin_position + _x_relative_position, _y_origin_position - _y_relative_position);
+    VideoManager->Move(_origin_position.x + _relative_position.x,
+                       _origin_position.y - _relative_position.y);
 
     // Initial fade in of first image
     if(_timer.GetTimeExpired() <= INDICATOR_FADEIN_TIME) {

@@ -393,13 +393,9 @@ public:
 
     // ----------  Transformation methods
 
-    /** \brief Gets the location of the draw cursor
-    * \param x stores x position of the cursor
-    * \param y stores y position of the cursor
-    */
-    void GetDrawPosition(float &x, float &y) const {
-        x = _x_cursor;
-        y = _y_cursor;
+    //! \brief Gets the location of the draw cursor
+    const vt_common::Position2D& GetDrawPosition() const {
+        return _cursor_pos;
     }
 
     /** \brief Moves the draw cursor position to (x,y)
@@ -715,7 +711,7 @@ private:
     bool _fullscreen;
 
     //! \brief The x and y coordinates of the current draw cursor position
-    float _x_cursor, _y_cursor;
+    vt_common::Position2D _cursor_pos;
 
     //! \brief Contains information about the current video engine's context, such as draw flags, the coordinate system, etc.
     private_video::Context _current_context;
@@ -728,11 +724,8 @@ private:
 
     // Shaking effects
 
-    //! X offset to shake the screen by (if any)
-    float _x_shake;
-
-    //! Y offset to shake the screen by (if any)
-    float _y_shake;
+    //! \brief offset to shake the screen by (if any)
+    vt_common::Position2D _shake_offset;
 
     //! Current brightness value between 0.0f and 2.0f. 1.0f is the original brightness value.
     float _brightness_value;

@@ -94,7 +94,7 @@ void MenuWindow::Draw(const Color& color)
     VideoManager->PushState();
     VideoManager->SetDrawFlags(_xalign, _yalign, VIDEO_BLEND, 0);
 
-    VideoManager->Move(_x_position, _y_position);
+    VideoManager->Move(_position.x, _position.y);
     _menu_image.Draw(color);
 
     if(GUIManager->DEBUG_DrawOutlines()) {

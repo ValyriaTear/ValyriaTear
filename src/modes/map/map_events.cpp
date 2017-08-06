@@ -247,7 +247,9 @@ void BattleEncounterEvent::_Start()
 
         BattleMode *BM = new BattleMode();
         for(uint32_t i = 0; i < _enemies.size(); ++i)
-            BM->AddEnemy(_enemies.at(i).enemy_id, _enemies.at(i).position_x, _enemies.at(i).position_y);
+            BM->AddEnemy(_enemies.at(i).enemy_id,
+                         _enemies.at(i).position.x,
+                         _enemies.at(i).position.y);
 
         vt_global::BattleMedia& battle_media = vt_global::GlobalManager->GetBattleMedia();
         battle_media.SetBackgroundImage(_battle_background);
@@ -523,7 +525,7 @@ LookAtSpriteEvent::LookAtSpriteEvent(const std::string& event_id, VirtualSprite*
     SpriteEvent(event_id, LOOK_AT_SPRITE_EVENT, sprite)
 {
     // Invalid position.
-    _x = _y = -1.0f;
+    _pos = Position2D(-1.0f, -1.0f);
     _target_sprite = other_sprite;
 
     if(!_target_sprite)
@@ -532,8 +534,7 @@ LookAtSpriteEvent::LookAtSpriteEvent(const std::string& event_id, VirtualSprite*
 
 LookAtSpriteEvent::LookAtSpriteEvent(const std::string& event_id, VirtualSprite* sprite, float x, float y) :
     SpriteEvent(event_id, LOOK_AT_SPRITE_EVENT, sprite),
-    _x(x),
-    _y(y),
+    _pos(x, y),
     _target_sprite(0)
 {}
 
@@ -557,12 +558,12 @@ void LookAtSpriteEvent::_Start()
 
     // When there is a target sprite, use it.
     if(_target_sprite) {
-        _x = _target_sprite->GetXPosition();
-        _y = _target_sprite->GetYPosition();
+        _pos.x = _target_sprite->GetXPosition();
+        _pos.y = _target_sprite->GetYPosition();
     }
 
-    if(_x >= 0.0f && _y >= 0.0f)
-        _sprite->LookAt(_x, _y);
+    if(_pos.x >= 0.0f && _pos.y >= 0.0f)
+        _sprite->LookAt(_pos.x, _pos.y);
 }
 
 bool LookAtSpriteEvent::_Update()
@@ -578,13 +579,10 @@ bool LookAtSpriteEvent::_Update()
 PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
                                          float x_coord, float y_coord, bool run) :
     SpriteEvent(event_id, PATH_MOVE_SPRITE_EVENT, sprite),
-    _destination_x(x_coord),
-    _destination_y(y_coord),
+    _destination(x_coord, y_coord),
     _target_sprite(nullptr),
-    _last_x_position(0.0f),
-    _last_y_position(0.0f),
-    _current_node_x(0.0f),
-    _current_node_y(0.0f),
+    _last_position(0.0f, 0.0f),
+    _current_node_pos(0.0f, 0.0f),
     _current_node(0),
     _run(run)
 {}
@@ -592,13 +590,10 @@ PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, VirtualSpr
 PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
                                          VirtualSprite* target_sprite, bool run) :
     SpriteEvent(event_id, PATH_MOVE_SPRITE_EVENT, sprite),
-    _destination_x(-1.0f),
-    _destination_y(-1.0f),
+    _destination(-1.0f, -1.0f),
     _target_sprite(target_sprite),
-    _last_x_position(0.0f),
-    _last_y_position(0.0f),
-    _current_node_x(0.0f),
-    _current_node_y(0.0f),
+    _last_position(0.0f, 0.0f),
+    _current_node_pos(0.0f, 0.0f),
     _current_node(0),
     _run(run)
 {}
@@ -625,8 +620,8 @@ void PathMoveSpriteEvent::SetDestination(float x_coord, float y_coord, bool run)
         return;
     }
 
-    _destination_x = x_coord;
-    _destination_y = y_coord;
+    _destination.x = x_coord;
+    _destination.y = y_coord;
     _target_sprite = nullptr;
     _path.clear();
     _run = run;
@@ -640,8 +635,8 @@ void PathMoveSpriteEvent::SetDestination(VirtualSprite* target_sprite, bool run)
         return;
     }
 
-    _destination_x = -1.0f;
-    _destination_y = -1.0f;
+    _destination.x = -1.0f;
+    _destination.y = -1.0f;
     _target_sprite = target_sprite;
     _path.clear();
     _run = run;
@@ -652,34 +647,28 @@ void PathMoveSpriteEvent::_Start()
     SpriteEvent::_Start();
 
     _current_node = 0;
-    _last_x_position = _sprite->GetXPosition();
-    _last_y_position = _sprite->GetYPosition();
+    _last_position = _sprite->GetPosition();
     _sprite->SetRunning(_run);
 
     // Only set the destination at start call since the target coord may have changed
     // between the load time and the event actual start.
     if(_target_sprite) {
-        _destination_x = _target_sprite->GetXPosition();
-        _destination_y = _target_sprite->GetYPosition();
+        _destination = _target_sprite->GetPosition();
     }
 
-    Position2D dest(_destination_x, _destination_y);
-
     // If the sprite is at the destination, we don't have to compute anything
-    if ((uint32_t)_sprite->GetXPosition() == (uint32_t)_destination_x
-            && (uint32_t)_sprite->GetYPosition() == (uint32_t)_destination_y)
+    if (_sprite->GetPosition() == _destination)
         return;
 
-    _path = MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(_sprite, dest);
+    _path = MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(_sprite, _destination);
     if(_path.empty()) {
-        PRINT_ERROR << "No path to destination (" << _destination_x
-                    << ", " << _destination_y << ") for sprite: "
+        PRINT_ERROR << "No path to destination (" << _destination.x
+                    << ", " << _destination.y << ") for sprite: "
                     << _sprite->GetObjectID() << std::endl;
         return;
     }
 
-    _current_node_x = _path[_current_node].x;
-    _current_node_y = _path[_current_node].y;
+    _current_node_pos = _path[_current_node];
 
     _sprite->SetMoving(true);
 }
@@ -692,31 +681,30 @@ bool PathMoveSpriteEvent::_Update()
         return true;
     }
 
-    float sprite_position_x = _sprite->GetXPosition();
-    float sprite_position_y = _sprite->GetYPosition();
-    float distance_moved = _sprite->CalculateDistanceMoved();
+    const Position2D sprite_position = _sprite->GetPosition();
+    const float distance_moved = _sprite->CalculateDistanceMoved();
 
     // Check whether the sprite has arrived at the position of the current node
-    if(vt_utils::IsFloatEqual(sprite_position_x, _current_node_x, distance_moved)
-            && vt_utils::IsFloatEqual(sprite_position_y, _current_node_y, distance_moved)) {
+    if(vt_utils::IsFloatEqual(sprite_position.x, _current_node_pos.x, distance_moved)
+            && vt_utils::IsFloatEqual(sprite_position.y, _current_node_pos.y, distance_moved)) {
         ++_current_node;
 
         if(_current_node < _path.size()) {
-            _current_node_x = _path[_current_node].x;
-            _current_node_y = _path[_current_node].y;
+            _current_node_pos = _path[_current_node];
         }
     }
-    // If the sprite has moved to a new position other than the next node, adjust its direction so it is trying to move to the next node
-    else if((_sprite->GetXPosition() != _last_x_position) || (_sprite->GetYPosition() != _last_y_position)) {
-        _last_x_position = _sprite->GetXPosition();
-        _last_y_position = _sprite->GetYPosition();
+    // If the sprite has moved to a new position other than the next node,
+    // adjust its direction so it is trying to move to the next node
+    else if((sprite_position.x != _last_position.x)
+            || (sprite_position.y != _last_position.y)) {
+        _last_position = _sprite->GetPosition();
     }
 
     _SetSpriteDirection();
 
     // End the path event
-    if(vt_utils::IsFloatEqual(sprite_position_x, _destination_x, distance_moved)
-            && vt_utils::IsFloatEqual(sprite_position_y, _destination_y, distance_moved)) {
+    if(vt_utils::IsFloatEqual(sprite_position.x, _destination.x, distance_moved)
+            && vt_utils::IsFloatEqual(sprite_position.y, _destination.y, distance_moved)) {
         Terminate();
         return true;
     }
@@ -734,19 +722,18 @@ void PathMoveSpriteEvent::_SetSpriteDirection()
 {
     uint16_t direction = 0;
 
-    float sprite_position_x = _sprite->GetXPosition();
-    float sprite_position_y = _sprite->GetYPosition();
-    float distance_moved = _sprite->CalculateDistanceMoved();
+    const Position2D sprite_position = _sprite->GetPosition();
+    const float distance_moved = _sprite->CalculateDistanceMoved();
 
-    if(sprite_position_y - _current_node_y > distance_moved) {
+    if(sprite_position.y - _current_node_pos.y > distance_moved) {
         direction |= NORTH;
-    } else if(sprite_position_y - _current_node_y < -distance_moved) {
+    } else if(sprite_position.y - _current_node_pos.y < -distance_moved) {
         direction |= SOUTH;
     }
 
-    if(sprite_position_x - _current_node_x > distance_moved) {
+    if(sprite_position.x - _current_node_pos.x > distance_moved) {
         direction |= WEST;
-    } else if(sprite_position_x - _current_node_x < -distance_moved) {
+    } else if(sprite_position.x - _current_node_pos.x < -distance_moved) {
         direction |= EAST;
     }
 

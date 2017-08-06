@@ -46,8 +46,8 @@ EffectSupervisor::EffectSupervisor()
     _info.overlay.is_parallax = false;
 
     // Shake members
-    _x_shake = 0.0f;
-    _y_shake = 0.0f;
+    _shake.x = 0.0f;
+    _shake.y = 0.0f;
 }
 
 
@@ -263,8 +263,8 @@ void EffectSupervisor::_UpdateShake(uint32_t frame_time)
     const uint32_t TIME_BETWEEN_SHAKE_UPDATES = 50;
 
     if(_shake_forces.empty()) {
-        _x_shake = 0.0f;
-        _y_shake = 0.0f;
+        _shake.x = 0.0f;
+        _shake.y = 0.0f;
         return;
     }
 
@@ -298,8 +298,8 @@ void EffectSupervisor::_UpdateShake(uint32_t frame_time)
 
     // Calculate random shake offsets using the negative and positive net force values
     // Note that this doesn't produce a radially symmetric distribution of offsets
-    _x_shake = _RoundForce(vt_utils::RandomFloat(-net_force, net_force));
-    _y_shake = _RoundForce(vt_utils::RandomFloat(-net_force, net_force));
+    _shake.x = _RoundForce(vt_utils::RandomFloat(-net_force, net_force));
+    _shake.y = _RoundForce(vt_utils::RandomFloat(-net_force, net_force));
 }
 
 } // namespace vt_mode_manager

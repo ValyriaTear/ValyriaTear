@@ -25,6 +25,7 @@
 #define __PARTICLE_KEYFRAME_HEADER__
 
 #include "color.h"
+#include "common/position_2d.h"
 
 namespace vt_mode_manager
 {
@@ -42,20 +43,17 @@ class ParticleKeyframe
 public:
 
     ParticleKeyframe():
-        size_x(0.0f),
-        size_y(0.0f),
+        size(0.0f, 0.0f),
         color(0.0f, 0.0f, 0.0f, 0.0f),
         rotation_speed(0.0f),
-        size_variation_x(0.0f),
-        size_variation_y(0.0f),
+        size_variation(0.0f, 0.0f),
         rotation_speed_variation(0.0f),
         color_variation(0.0f, 0.0f, 0.0f, 0.0f),
         time(0.0f)
     {}
 
     //! width and height scale. 1.0 means to use the normal height
-    float size_x;
-    float size_y;
+    vt_common::Position2D size;
 
     //! color (includes alpha)
     vt_video::Color color;
@@ -64,8 +62,7 @@ public:
     float rotation_speed;
 
     //! random variation added to size
-    float size_variation_x;
-    float size_variation_y;
+    vt_common::Position2D size_variation;
 
     //! random variation added to rotation speed
     float rotation_speed_variation;

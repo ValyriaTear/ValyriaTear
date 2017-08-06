@@ -102,10 +102,8 @@ private:
     bool _has_image;
 
     //! \brief Positions of the icon and text precomputed to avoid doing it at each draw calls.
-    float _text_x_pos;
-    float _text_y_pos;
-    float _icon_x_pos;
-    float _icon_y_pos;
+    vt_common::Position2D _text_pos;
+    vt_common::Position2D _icon_pos;
 }; // class ShortNoticeWindow
 
 } // namespace vt_common

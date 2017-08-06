@@ -103,14 +103,14 @@ ShortNoticeWindow::ShortNoticeWindow(const vt_utils::ustring& message,
 
     // Set the icon and text draw positions
     float initial_width = _has_image ? _icon_image.GetWidth() + 5.0f + _text_image.GetWidth() : _text_image.GetWidth();
-    _text_x_pos = MenuWindow::GetXPosition() + (MenuWindow::GetWidth() - initial_width) / 2.0f;
-    _text_y_pos = MenuWindow::GetYPosition() + (MenuWindow::GetHeight() - _text_image.GetHeight()) / 2.0f;
+    _text_pos.x = MenuWindow::GetXPosition() + (MenuWindow::GetWidth() - initial_width) / 2.0f;
+    _text_pos.y = MenuWindow::GetYPosition() + (MenuWindow::GetHeight() - _text_image.GetHeight()) / 2.0f;
 
     if (_has_image)
-        _text_x_pos += _icon_image.GetWidth() + 5.0f;
+        _text_pos.x += _icon_image.GetWidth() + 5.0f;
 
-    _icon_x_pos = MenuWindow::GetXPosition() + 15.0f;
-    _icon_y_pos = MenuWindow::GetYPosition() + (MenuWindow::GetHeight() - _icon_image.GetHeight()) / 2.0f;
+    _icon_pos.x = MenuWindow::GetXPosition() + 15.0f;
+    _icon_pos.y = MenuWindow::GetYPosition() + (MenuWindow::GetHeight() - _icon_image.GetHeight()) / 2.0f;
 }
 
 ShortNoticeWindow::~ShortNoticeWindow()
@@ -139,12 +139,12 @@ void ShortNoticeWindow::Draw()
     vt_video::VideoManager->SetStandardCoordSys();
     vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_TOP, vt_video::VIDEO_BLEND, 0);
 
-    vt_video::VideoManager->Move(_text_x_pos, _text_y_pos);
+    vt_video::VideoManager->Move(_text_pos.x, _text_pos.y);
     // Determine the text and icon position based on the window current size
     _text_image.Draw();
 
     if (_has_image) {
-        vt_video::VideoManager->Move(_icon_x_pos, _icon_y_pos);
+        vt_video::VideoManager->Move(_icon_pos.x, _icon_pos.y);
         _icon_image.Draw();
     }
     vt_video::VideoManager->PopState();

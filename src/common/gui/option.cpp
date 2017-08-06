@@ -114,8 +114,7 @@ OptionBox::OptionBox() :
     _enable_switching(false),
     _draw_left_column(0),
     _draw_top_row(0),
-    _cursor_xoffset(0.0f),
-    _cursor_yoffset(0.0f),
+    _cursor_offset(0.0f, 0.0f),
     _scroll_offset(0.0f),
     _option_xalign(VIDEO_X_LEFT),
     _option_yalign(VIDEO_Y_CENTER),
@@ -1322,7 +1321,7 @@ void OptionBox::_DrawCursor(const OptionCellBounds &bounds, float left_edge, boo
 
     _SetupAlignment(VIDEO_X_LEFT, _option_yalign, bounds, x, y);
     VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
-    VideoManager->MoveRelative(left_edge + _cursor_xoffset, _cursor_yoffset);
+    VideoManager->MoveRelative(left_edge + _cursor_offset.x, _cursor_offset.y);
 
     StillImage* default_cursor = GUIManager->GetCursor();
     if (default_cursor == nullptr)

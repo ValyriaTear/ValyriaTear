@@ -37,6 +37,7 @@ using namespace vt_boot;
 using namespace vt_global;
 using namespace vt_map;
 using namespace vt_script;
+using namespace vt_common;
 
 namespace vt_save
 {
@@ -798,13 +799,12 @@ void SmallCharacterWindow::Draw()
     MenuWindow::Draw();
 
     // Get the window metrics
-    float x, y;
-    GetPosition(x, y);
+    Position2D position = GetPosition();
     // Adjust the current position to make it look better
-    y -= 5;
+    position.y -= 5;
 
     //Draw character portrait
-    VideoManager->Move(x + 50, y + 110);
+    VideoManager->Move(position.x + 50, position.y + 110);
     _portrait.Draw();
 
     // Write character name

@@ -946,8 +946,8 @@ void MapMode::StartEnemyEncounter(EnemySprite* enemy,
     for(uint32_t i = 0; i < enemy_party.size(); ++i) {
         vt_battle::BattleEnemyInfo current_enemy = enemy_party[i];
         BM->AddEnemy(current_enemy.enemy_id,
-                     current_enemy.position_x,
-                     current_enemy.position_y);
+                     current_enemy.position.x,
+                     current_enemy.position.y);
     }
 
     std::vector<std::string> enemy_battle_scripts = enemy->GetBattleScripts();

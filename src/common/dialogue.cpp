@@ -214,8 +214,7 @@ void DialogueOptions::AddOption(const std::string& text, int32_t next_line)
 ///////////////////////////////////////////////////////////////////////////////
 
 DialogueWindow::DialogueWindow() :
-    _pos_x(512.0f),
-    _pos_y(512.0f),
+    _pos(512.0f, 512.0f),
     _indicator_symbol(DIALOGUE_NO_INDICATOR),
     _blink_time(0),
     _blink_state(true),
@@ -260,11 +259,11 @@ DialogueWindow::DialogueWindow() :
 
 void DialogueWindow::SetPosition(float pos_x, float pos_y)
 {
-    _pos_x = pos_x;
-    _pos_y = pos_y;
+    _pos.x = pos_x;
+    _pos.y = pos_y;
 
-    _display_textbox.SetPosition(_pos_x + 80.0f, _pos_y - 110.0f);
-    _display_optionbox.SetPosition(_pos_x - 220.0f, _pos_y - 112.0f);
+    _display_textbox.SetPosition(_pos.x + 80.0f, _pos.y - 110.0f);
+    _display_optionbox.SetPosition(_pos.x - 220.0f, _pos.y - 112.0f);
 }
 
 void DialogueWindow::Clear()
@@ -281,7 +280,7 @@ void DialogueWindow::Draw()
     VideoManager->SetStandardCoordSys();
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
 
-    VideoManager->Move(_pos_x, _pos_y);
+    VideoManager->Move(_pos.x, _pos.y);
     _parchment_image.Draw();
 
     VideoManager->MoveRelative(-370.0f, -45.0f);

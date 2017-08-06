@@ -68,16 +68,14 @@ class EffectParameters
 public:
     EffectParameters():
         orientation(0.0f),
-        attractor_x(0.0f),
-        attractor_y(0.0f)
+        attractor(0.0f, 0.0f)
     {}
 
     //! orientation of the effect, called with ParticleEffect::SetOrientation()
     float orientation;
 
     //! attraction point, particles gravitate towards this
-    float attractor_x;
-    float attractor_y;
+    vt_common::Position2D attractor;
 };
 
 
@@ -93,14 +91,10 @@ public:
         max_particles(0),
         damping(0.0f),
         damping_variation(0.0f),
-        acceleration_x(0.0f),
-        acceleration_y(0.0f),
-        acceleration_variation_x(0.0f),
-        acceleration_variation_y(0.0f),
-        wind_velocity_x(0.0f),
-        wind_velocity_y(0.0f),
-        wind_velocity_variation_x(0.0f),
-        wind_velocity_variation_y(0.0f),
+        acceleration(0.0f, 0.0f),
+        acceleration_variation(0.0f, 0.0f),
+        wind_velocity(0.0f, 0.0f),
+        wind_velocity_variation(0.0f, 0.0f),
         wave_motion_used(false),
         wave_length(0.0f),
         wave_length_variation(0.0f),
@@ -168,19 +162,15 @@ public:
 
     //! constant acceleration, good example is gravity. Note that down is in the positive y
     //! direction since we are using screen coordinates
-    float acceleration_x;
-    float acceleration_y;
+    vt_common::Position2D acceleration;
 
-    float acceleration_variation_x;
-    float acceleration_variation_y;
+    vt_common::Position2D acceleration_variation;
 
     //! wind velocity, more generally any velocity which is added to each particle's velocity
-    float wind_velocity_x;
-    float wind_velocity_y;
+    vt_common::Position2D wind_velocity;
 
     //! wind velocity variation
-    float wind_velocity_variation_x;
-    float wind_velocity_variation_y;
+    vt_common::Position2D wind_velocity_variation;
 
     //! true if we should use wave motion for this system
     bool wave_motion_used;

@@ -22,6 +22,8 @@
 #include "engine/script/script_write.h"
 #endif
 
+using namespace vt_common;
+
 namespace vt_map
 {
 
@@ -94,14 +96,12 @@ static bool _PrepareSurface(SDL_Surface* temp_surface)
 }
 
 Minimap::Minimap(const std::string& minimap_image_filename) :
-    _current_position_x(-1.0f),
-    _current_position_y(-1.0f),
+    _current_position(-1.0f, -1.0f),
     _box_x_length(10),
     _box_y_length(_box_x_length * .75f),
-    _x_cent(0.0f),
-    _y_cent(0.0f),
-    _x_half_len(1.75f * TILES_ON_X_AXIS * _box_x_length),
-    _y_half_len(1.75f * TILES_ON_Y_AXIS * _box_y_length),
+    _center_pos(0.0f, 0.0f),
+    _half_len(1.75f * TILES_ON_X_AXIS * _box_x_length,
+              1.75f * TILES_ON_Y_AXIS * _box_y_length),
     _grid_width(0),
     _grid_height(0),
     _current_opacity(nullptr),
@@ -219,7 +219,7 @@ vt_video::StillImage Minimap::_CreateProcedurally()
 
 void Minimap::Draw()
 {
-    if (_current_position_x <= -1.0f)
+    if (_current_position.x <= -1.0f)
         return;
 
     vt_video::Color minimap_opacity = *_current_opacity;
@@ -254,19 +254,19 @@ void Minimap::Draw()
     vt_video::VideoManager->SetViewport(viewport_x, viewport_y, viewport_width, viewport_height);
 
     // Scale and translate the orthographic projection such that it "centers" on our calculated positions.
-    vt_video::VideoManager->SetCoordSys(_x_cent - _x_half_len,
-                                        _x_cent + _x_half_len,
-                                        _y_cent + _y_half_len,
-                                        _y_cent - _y_half_len);
+    vt_video::VideoManager->SetCoordSys(_center_pos.x - _half_len.x,
+                                        _center_pos.x + _half_len.x,
+                                        _center_pos.y + _half_len.y,
+                                        _center_pos.y - _half_len.y);
 
     vt_video::VideoManager->Move(0, 0);
 
     // Adjust the current opacity for the map scale.
     _minimap_image.Draw(minimap_opacity);
 
-    float x_location = _current_position_x * _box_x_length - _location_marker.GetWidth() / 2.0f;
-    float y_location = _current_position_y * _box_y_length - _location_marker.GetHeight() / 2.0f;
-    vt_video::VideoManager->Move(x_location, y_location);
+    const Position2D pos(_current_position.x * _box_x_length - _location_marker.GetWidth() / 2.0f,
+                         _current_position.y * _box_y_length - _location_marker.GetHeight() / 2.0f);
+    vt_video::VideoManager->Move(pos.x, pos.y);
     _location_marker.Draw(minimap_opacity);
 
     vt_video::VideoManager->PopState();
@@ -283,15 +283,14 @@ void Minimap::Update(VirtualSprite *camera, float map_alpha_scale)
     _map_alpha_scale = map_alpha_scale;
 
     // Get the collision-map transformed location of the camera
-    _current_position_x = camera->GetPosition().x;
-    _current_position_y = camera->GetPosition().y;
-    _x_cent = _box_x_length * _current_position_x;
-    _y_cent = _box_y_length * _current_position_y;
+    _current_position = camera->GetPosition();
+    _center_pos.x = _box_x_length * _current_position.x;
+    _center_pos.y = _box_y_length * _current_position.y;
 
     // Update the opacity based on the camera location.
     // We decrease the opacity if it is in the region covered by the collision map
-    if(map_mode->GetScreenXCoordinate(_current_position_x) >= MINIMAP_POS_X &&
-            map_mode->GetScreenYCoordinate(_current_position_y) >= MINIMAP_POS_Y)
+    if(map_mode->GetScreenXCoordinate(_current_position.x) >= MINIMAP_POS_X &&
+            map_mode->GetScreenYCoordinate(_current_position.y) >= MINIMAP_POS_Y)
         _current_opacity = &OVERLAP_OPACITY;
     else
         _current_opacity = &DEFAULT_OPACITY;
@@ -299,15 +298,15 @@ void Minimap::Update(VirtualSprite *camera, float map_alpha_scale)
     // Update the orthographic projection information based on the camera location
     // We "lock" the minimap so that if it is against an edge of the map the orthographic
     // projection doesn't roll over the edge.
-    if(_x_cent - _x_half_len < 0)
-        _x_cent = _x_half_len;
-    if(_x_cent + _x_half_len > _grid_width * _box_x_length)
-        _x_cent = _grid_width * _box_x_length - _x_half_len;
+    if(_center_pos.x - _half_len.x < 0.0f)
+        _center_pos.x = _half_len.x;
+    if(_center_pos.x + _half_len.x > _grid_width * _box_x_length)
+        _center_pos.x = _grid_width * _box_x_length - _half_len.x;
 
-    if(_y_cent - _y_half_len < 0)
-        _y_cent = _y_half_len;
-    if(_y_cent + _y_half_len > _grid_height * _box_y_length)
-        _y_cent = _grid_height * _box_y_length - _y_half_len;
+    if(_center_pos.y - _half_len.y < 0.0f)
+        _center_pos.y = _half_len.y;
+    if(_center_pos.y + _half_len.y > _grid_height * _box_y_length)
+        _center_pos.y = _grid_height * _box_y_length - _half_len.y;
 
     // Set the indicator frame based on what direction the camera is moving
     switch(camera->GetDirection())

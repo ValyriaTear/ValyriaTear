@@ -211,8 +211,7 @@ void ActiveMapStatusEffect::_ProcessIntensityChange(bool reset_timer_only)
 
 CharacterIndication::CharacterIndication(vt_global::GlobalCharacter* character,
                                          float x_position, float y_position):
-        _x_position(x_position),
-        _y_position(y_position),
+        _position(x_position, y_position),
         _image_alpha(0.0f),
         _fade_in(false),
         _fade_out(false),
@@ -262,7 +261,7 @@ void CharacterIndication::Draw() {
         return;
 
     vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_RIGHT, vt_video::VIDEO_Y_BOTTOM, vt_video::VIDEO_BLEND, 0);
-    vt_video::VideoManager->Move(_x_position , _y_position);
+    vt_video::VideoManager->Move(_position.x, _position.y);
 
     _portrait.Draw(vt_video::Color(1.0f, 1.0f, 1.0f, _image_alpha));
 }

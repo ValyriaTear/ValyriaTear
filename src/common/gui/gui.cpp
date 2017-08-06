@@ -42,8 +42,7 @@ namespace private_gui
 GUIElement::GUIElement() :
     _xalign(VIDEO_X_LEFT),
     _yalign(VIDEO_Y_TOP),
-    _x_position(0.0f),
-    _y_position(0.0f),
+    _position(0.0f, 0.0f),
     _width(0.0f),
     _height(0.0f)
 {}
@@ -99,9 +98,9 @@ void GUIElement::CalculateAlignedRect(float &left, float &right, float &bottom, 
 
     float x_off, y_off;
 
-    x_off = _x_position + ((VideoManager->_current_context.x_align + 1) * width)  * 0.5f *
+    x_off = _position.x + ((VideoManager->_current_context.x_align + 1) * width)  * 0.5f *
             -VideoManager->_current_context.coordinate_system.GetHorizontalDirection();
-    y_off = _y_position + ((VideoManager->_current_context.y_align + 1) * height) * 0.5f *
+    y_off = _position.y + ((VideoManager->_current_context.y_align + 1) * height) * 0.5f *
             -VideoManager->_current_context.coordinate_system.GetVerticalDirection();
 
     left   += x_off;

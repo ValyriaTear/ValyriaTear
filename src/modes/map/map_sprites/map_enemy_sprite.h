@@ -258,16 +258,16 @@ private:
 
     //! \brief Used to store the previous coordinates of the sprite during path movement,
     //! so as to set the proper direction of the sprite as it moves
-    float _last_node_x_position, _last_node_y_position;
+    vt_common::Position2D _last_node_position;
 
     //! \brief Used to store the current node collision position (with offset)
-    float _current_node_x, _current_node_y;
+    vt_common::Position2D _current_node;
 
     //! \brief An index to the path vector containing the node that the sprite currently occupies
     uint32_t _current_node_id;
 
     //! \brief The current destination of the sprite.
-    float _destination_x, _destination_y;
+    vt_common::Position2D _destination;
 
     //! \brief Holds the path needed to traverse from source to destination
     Path _path;

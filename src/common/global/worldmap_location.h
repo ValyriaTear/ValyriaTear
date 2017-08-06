@@ -26,16 +26,14 @@ class WorldMapLocation
 {
 public:
     WorldMapLocation():
-        _x(0.0f),
-        _y(0.0f)
+        _pos(0.0f, 0.0f)
     {}
 
     WorldMapLocation(float x, float y, const std::string& location_name,
                      const std::string& image_path, const std::string& world_map_location_id);
 
     WorldMapLocation(const WorldMapLocation& other):
-        _x(other._x),
-        _y(other._y),
+        _pos(other._pos),
         _location_name(other._location_name),
         _world_map_location_id(other._world_map_location_id),
         _image(other._image)
@@ -45,8 +43,7 @@ public:
     {
         if(this == &other)
             return *this;
-        _x = other._x;
-        _y = other._y;
+        _pos = other._pos;
         _location_name = other._location_name;
         _world_map_location_id = other._world_map_location_id;
         _image = other._image;
@@ -57,8 +54,7 @@ public:
         _image.Clear();
     }
 
-    float _x;
-    float _y;
+    vt_common::Position2D _pos;
     std::string _location_name;
     std::string _world_map_location_id;
     vt_video::StillImage _image;

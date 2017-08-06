@@ -74,16 +74,15 @@ private:
     vt_video::AnimatedImage _location_marker;
 
     //! \brief the current map locations
-    float _current_position_x;
-    float _current_position_y;
+    vt_common::Position2D _current_position;
 
     //! \brief the current box length for this collision map
     uint32_t _box_x_length;
     uint32_t _box_y_length;
 
     //! \brief map offset information
-    float _x_cent, _y_cent;
-    float _x_half_len, _y_half_len;
+    vt_common::Position2D _center_pos;
+    vt_common::Position2D _half_len;
 
     //! \brief grid height and width
     uint32_t _grid_width;

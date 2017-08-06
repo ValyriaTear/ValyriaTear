@@ -57,10 +57,8 @@ void PhysicalObject::Draw()
     if(!vt_video::VideoManager->DebugInfoOn())
         return;
 
-    float x = 0.0f;
-    float y = 0.0f;
-    vt_video::VideoManager->GetDrawPosition(x, y);
-    Rectangle2D rect = GetScreenCollisionRectangle(x, y);
+    Position2D position = vt_video::VideoManager->GetDrawPosition();
+    Rectangle2D rect = GetScreenCollisionRectangle(position.x, position.y);
     vt_video::VideoManager->DrawRectangle(rect.right - rect.left,
                                           rect.bottom - rect.top,
                                           vt_video::Color(0.0f, 1.0f, 0.0f, 0.6f));

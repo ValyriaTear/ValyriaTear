@@ -106,14 +106,14 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
 
         ParticleSystemDef sys_def;
 
-        sys_def.emitter._x = particle_script.ReadFloat("x");
-        sys_def.emitter._y = particle_script.ReadFloat("y");
-        sys_def.emitter._x2 = particle_script.ReadFloat("x2");
-        sys_def.emitter._y2 = particle_script.ReadFloat("y2");
-        sys_def.emitter._center_x = particle_script.ReadFloat("center_x");
-        sys_def.emitter._center_y = particle_script.ReadFloat("center_y");
-        sys_def.emitter._x_variation = particle_script.ReadFloat("x_variation");
-        sys_def.emitter._y_variation = particle_script.ReadFloat("y_variation");
+        sys_def.emitter._pos.x = particle_script.ReadFloat("x");
+        sys_def.emitter._pos.y = particle_script.ReadFloat("y");
+        sys_def.emitter._pos2.x = particle_script.ReadFloat("x2");
+        sys_def.emitter._pos2.y = particle_script.ReadFloat("y2");
+        sys_def.emitter._center.x = particle_script.ReadFloat("center_x");
+        sys_def.emitter._center.y = particle_script.ReadFloat("center_y");
+        sys_def.emitter._variation.x = particle_script.ReadFloat("x_variation");
+        sys_def.emitter._variation.y = particle_script.ReadFloat("y_variation");
         sys_def.emitter._radius = particle_script.ReadFloat("radius");
 
         std::string shape_string = particle_script.ReadString("shape");
@@ -179,12 +179,12 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
             // unamed tables starts at offset 1 in lua.
             particle_script.OpenTable(kf + 1);
 
-            sys_def.keyframes[kf].size_x = particle_script.ReadFloat("size_x");
-            sys_def.keyframes[kf].size_y = particle_script.ReadFloat("size_y");
+            sys_def.keyframes[kf].size.x = particle_script.ReadFloat("size_x");
+            sys_def.keyframes[kf].size.y = particle_script.ReadFloat("size_y");
             sys_def.keyframes[kf].color = _ReadColor(particle_script, "color");
             sys_def.keyframes[kf].rotation_speed = particle_script.ReadFloat("rotation_speed");
-            sys_def.keyframes[kf].size_variation_x = particle_script.ReadFloat("size_variation_x");
-            sys_def.keyframes[kf].size_variation_y = particle_script.ReadFloat("size_variation_y");
+            sys_def.keyframes[kf].size_variation.x = particle_script.ReadFloat("size_variation_x");
+            sys_def.keyframes[kf].size_variation.y = particle_script.ReadFloat("size_variation_y");
             sys_def.keyframes[kf].color_variation = _ReadColor(particle_script, "color_variation");
             sys_def.keyframes[kf].rotation_speed_variation = particle_script.ReadFloat("rotation_speed_variation");
             sys_def.keyframes[kf].time = particle_script.ReadFloat("time");
@@ -248,15 +248,15 @@ bool ParticleEffect::_LoadEffectDef(const std::string &particle_file)
         sys_def.damping = particle_script.ReadFloat("damping");
         sys_def.damping_variation = particle_script.ReadFloat("damping_variation");
 
-        sys_def.acceleration_x = particle_script.ReadFloat("acceleration_x");
-        sys_def.acceleration_y = particle_script.ReadFloat("acceleration_y");
-        sys_def.acceleration_variation_x = particle_script.ReadFloat("acceleration_variation_x");
-        sys_def.acceleration_variation_y = particle_script.ReadFloat("acceleration_variation_y");
+        sys_def.acceleration.x = particle_script.ReadFloat("acceleration_x");
+        sys_def.acceleration.y = particle_script.ReadFloat("acceleration_y");
+        sys_def.acceleration_variation.x = particle_script.ReadFloat("acceleration_variation_x");
+        sys_def.acceleration_variation.y = particle_script.ReadFloat("acceleration_variation_y");
 
-        sys_def.wind_velocity_x = particle_script.ReadFloat("wind_velocity_x");
-        sys_def.wind_velocity_y = particle_script.ReadFloat("wind_velocity_y");
-        sys_def.wind_velocity_variation_x = particle_script.ReadFloat("wind_velocity_variation_x");
-        sys_def.wind_velocity_variation_y = particle_script.ReadFloat("wind_velocity_variation_y");
+        sys_def.wind_velocity.x = particle_script.ReadFloat("wind_velocity_x");
+        sys_def.wind_velocity.y = particle_script.ReadFloat("wind_velocity_y");
+        sys_def.wind_velocity_variation.x = particle_script.ReadFloat("wind_velocity_variation_x");
+        sys_def.wind_velocity_variation.y = particle_script.ReadFloat("wind_velocity_variation_y");
 
         if (particle_script.OpenTable("wave_motion")) {
 
@@ -405,7 +405,7 @@ bool ParticleEffect::LoadEffect(const std::string &filename)
 void ParticleEffect::Draw()
 {
     // Move to the effect's location.
-    VideoManager->Move(_x, _y);
+    VideoManager->Move(_pos.x, _pos.y);
 
     std::vector<ParticleSystem>::iterator iSystem = _systems.begin();
     while (iSystem != _systems.end()) {
@@ -434,8 +434,8 @@ void ParticleEffect::Update(float frame_time)
 
     // note we subtract the effect position to put the attractor point in effect
     // space instead of screen space
-    effect_parameters.attractor_x = _attractor_x - _x;
-    effect_parameters.attractor_y = _attractor_y - _y;
+    effect_parameters.attractor.x = _attractor.x - _pos.x;
+    effect_parameters.attractor.y = _attractor.y - _pos.y;
 
     std::vector<ParticleSystem>::iterator iSystem = _systems.begin();
 
@@ -458,10 +458,10 @@ void ParticleEffect::Update(float frame_time)
 void ParticleEffect::_Destroy()
 {
     _alive = false;
-    _x = 0.0f;
-    _y = 0.0f;
-    _attractor_x = 0.0f;
-    _attractor_y = 0.0f;
+    _pos.x = 0.0f;
+    _pos.y = 0.0f;
+    _attractor.x = 0.0f;
+    _attractor.y = 0.0f;
     _age = 0.0f;
     _orientation = 0.0f;
 
@@ -473,20 +473,20 @@ void ParticleEffect::_Destroy()
 
 void ParticleEffect::Move(float x, float y)
 {
-    _x = x;
-    _y = y;
+    _pos.x = x;
+    _pos.y = y;
 }
 
 void ParticleEffect::MoveRelative(float dx, float dy)
 {
-    _x += dx;
-    _y += dy;
+    _pos.x += dx;
+    _pos.y += dy;
 }
 
 void ParticleEffect::SetAttractorPoint(float x, float y)
 {
-    _attractor_x = x;
-    _attractor_y = y;
+    _attractor.x = x;
+    _attractor.y = y;
 }
 
 void ParticleEffect::Stop(bool kill_immediate)
@@ -514,10 +514,9 @@ bool ParticleEffect::Start()
     return _CreateEffect();
 }
 
-void ParticleEffect::GetPosition(float &x, float &y) const
+const vt_common::Position2D& ParticleEffect::GetPosition() const
 {
-    x = _x;
-    y = _y;
+    return _pos;
 }
 
 } // namespace vt_mode_manager

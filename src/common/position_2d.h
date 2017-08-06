@@ -68,6 +68,9 @@ struct Position2D {
     float y;
 };
 
+// Add a useful alias
+typedef Position2D Vector2D;
+
 //! \brief A simple line struct
 struct Line2D {
     Position2D begin;

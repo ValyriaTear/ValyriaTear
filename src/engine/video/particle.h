@@ -79,32 +79,24 @@ class Particle
 {
 public:
     Particle():
-        x(0.0f),
-        y(0.0f),
-        size_x(0.0f),
-        size_y(0.0f),
-        velocity_x(0.0f),
-        velocity_y(0.0f),
-        combined_velocity_x(0.0f),
-        combined_velocity_y(0.0f),
+        pos(0.0f, 0.0f),
+        size(0.0f, 0.0f),
+        velocity(0.0f, 0.0f),
+        combined_velocity(0.0f, 0.0f),
         rotation_angle(0.0f),
         rotation_speed(0.0f),
         time(0.0f),
         lifetime(0.0f),
         wave_length_coefficient(0.0f),
         wave_half_amplitude(0.0f),
-        acceleration_x(0.0f),
-        acceleration_y(0.0f),
+        acceleration(0.0f, 0.0f),
         tangential_acceleration(0.0f),
         radial_acceleration(0.0f),
-        wind_velocity_x(0.0f),
-        wind_velocity_y(0.0f),
+        wind_velocity(0.0f, 0.0f),
         damping(0.0f),
         rotation_direction(0.0f),
-        current_size_variation_x(0.0f),
-        current_size_variation_y(0.0f),
-        next_size_variation_x(0.0f),
-        next_size_variation_y(0.0f),
+        current_size_variation(0.0f, 0.0f),
+        next_size_variation(0.0f, 0.0f),
         current_rotation_speed_variation(0.0f),
         next_rotation_speed_variation(0.0f),
         current_keyframe(nullptr),
@@ -112,21 +104,17 @@ public:
     {}
 
     //! position
-    float x;
-    float y;
+    vt_common::Position2D pos;
 
     //! size
-    float size_x;
-    float size_y;
+    vt_common::Position2D size;
 
     //! velocity
-    float velocity_x;
-    float velocity_y;
+    vt_common::Position2D velocity;
 
     //! store the combined velocity (particle + wind + wave) so we only have
     //! to calculate it once
-    float combined_velocity_x;
-    float combined_velocity_y;
+    vt_common::Position2D combined_velocity;
 
     //! color
     vt_video::Color color;
@@ -157,8 +145,7 @@ public:
     //! for this is for simulating gravity. If you have multiple constant
     //! forces acting on particles, then this vector should be the sum of
     //! those forces.
-    float acceleration_x;
-    float acceleration_y;
+    vt_common::Position2D acceleration;
 
     //! tangential acceleration- just like normal acceleration, except it
     //! is applied in the tangent direction. positive = clockwise.
@@ -173,8 +160,7 @@ public:
     //! wind velocity. this gets added to the particle's velocity each frame.
     //! note that different particles might also have a slightly different wind
     //! velocity, if the system has some wind velocity variation
-    float wind_velocity_x;
-    float wind_velocity_y;
+    vt_common::Position2D wind_velocity;
 
     //! damping- the particle's velocity gets multiplied by this value each second.
     //! So for example, a damping of .6 means that a particle slows down by 40% each
@@ -186,10 +172,8 @@ public:
     float rotation_direction;
 
     //! property variations
-    float current_size_variation_x;
-    float current_size_variation_y;
-    float next_size_variation_x;
-    float next_size_variation_y;
+    vt_common::Position2D current_size_variation;
+    vt_common::Position2D next_size_variation;
     float current_rotation_speed_variation;
     float next_rotation_speed_variation;
     vt_video::Color current_color_variation;

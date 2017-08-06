@@ -205,8 +205,8 @@ void BattleMode::RestartBattle()
 
     for(uint32_t i = 0; i < _initial_enemy_actors_info.size(); ++i)
         AddEnemy(_initial_enemy_actors_info[i].enemy_id,
-                 _initial_enemy_actors_info[i].position_x,
-                 _initial_enemy_actors_info[i].position_y);
+                 _initial_enemy_actors_info[i].position.x,
+                 _initial_enemy_actors_info[i].position.y);
 
     // Reset the state of all characters and enemies
     for(uint32_t i = 0; i < _character_actors.size(); ++i)

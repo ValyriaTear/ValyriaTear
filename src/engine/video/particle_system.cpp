@@ -25,6 +25,7 @@
 
 using namespace vt_utils;
 using namespace vt_video;
+using namespace vt_common;
 
 namespace vt_mode_manager
 {
@@ -132,20 +133,21 @@ void ParticleSystem::Draw()
         int32_t v = 0;
 
         for (int32_t j = 0; j < _num_particles; ++j) {
-            float scaled_width_half  = img_width_half * _particles[j].size_x;
-            float scaled_height_half = img_height_half * _particles[j].size_y;
+            float scaled_width_half  = img_width_half * _particles[j].size.x;
+            float scaled_height_half = img_height_half * _particles[j].size.y;
 
             float rotation_angle = _particles[j].rotation_angle;
 
             if(_system_def->rotate_to_velocity) {
                 // Calculate the angle based on the velocity.
-                rotation_angle += UTILS_HALF_PI + atan2f(_particles[j].combined_velocity_y, _particles[j].combined_velocity_x);
+                rotation_angle += UTILS_HALF_PI + atan2f(_particles[j].combined_velocity.y,
+                                                         _particles[j].combined_velocity.x);
 
                 // Calculate the scaling due to speed.
                 if(_system_def->speed_scale_used) {
                     // Speed is the magnitude of velocity.
-                    float speed = sqrtf(_particles[j].combined_velocity_x * _particles[j].combined_velocity_x
-                                        + _particles[j].combined_velocity_y * _particles[j].combined_velocity_y);
+                    float speed = sqrtf(_particles[j].combined_velocity.x * _particles[j].combined_velocity.x
+                                        + _particles[j].combined_velocity.y * _particles[j].combined_velocity.y);
                     float scale_factor = _system_def->speed_scale * speed;
 
                     if (scale_factor < _system_def->min_speed_scale)
@@ -161,59 +163,59 @@ void ParticleSystem::Draw()
             _particle_vertices[v]._x = -scaled_width_half;
             _particle_vertices[v]._y = -scaled_height_half;
             RotatePoint(_particle_vertices[v]._x, _particle_vertices[v]._y, rotation_angle);
-            _particle_vertices[v]._x += _particles[j].x;
-            _particle_vertices[v]._y += _particles[j].y;
+            _particle_vertices[v]._x += _particles[j].pos.x;
+            _particle_vertices[v]._y += _particles[j].pos.y;
             ++v;
 
             // The upper-right vertex.
             _particle_vertices[v]._x = scaled_width_half;
             _particle_vertices[v]._y = -scaled_height_half;
             RotatePoint(_particle_vertices[v]._x, _particle_vertices[v]._y, rotation_angle);
-            _particle_vertices[v]._x += _particles[j].x;
-            _particle_vertices[v]._y += _particles[j].y;
+            _particle_vertices[v]._x += _particles[j].pos.x;
+            _particle_vertices[v]._y += _particles[j].pos.y;
             ++v;
 
             // The lower-right vertex.
             _particle_vertices[v]._x = scaled_width_half;
             _particle_vertices[v]._y = scaled_height_half;
             RotatePoint(_particle_vertices[v]._x, _particle_vertices[v]._y, rotation_angle);
-            _particle_vertices[v]._x += _particles[j].x;
-            _particle_vertices[v]._y += _particles[j].y;
+            _particle_vertices[v]._x += _particles[j].pos.x;
+            _particle_vertices[v]._y += _particles[j].pos.y;
             ++v;
 
             // The lower-left vertex.
             _particle_vertices[v]._x = -scaled_width_half;
             _particle_vertices[v]._y = scaled_height_half;
             RotatePoint(_particle_vertices[v]._x, _particle_vertices[v]._y, rotation_angle);
-            _particle_vertices[v]._x += _particles[j].x;
-            _particle_vertices[v]._y += _particles[j].y;
+            _particle_vertices[v]._x += _particles[j].pos.x;
+            _particle_vertices[v]._y += _particles[j].pos.y;
             ++v;
         }
     } else {
         int32_t v = 0;
 
         for (int32_t j = 0; j < _num_particles; ++j) {
-            float scaled_width_half  = img_width_half * _particles[j].size_x;
-            float scaled_height_half = img_height_half * _particles[j].size_y;
+            float scaled_width_half  = img_width_half * _particles[j].size.x;
+            float scaled_height_half = img_height_half * _particles[j].size.y;
 
             // The upper-left vertex.
-            _particle_vertices[v]._x = _particles[j].x - scaled_width_half;
-            _particle_vertices[v]._y = _particles[j].y - scaled_height_half;
+            _particle_vertices[v]._x = _particles[j].pos.x - scaled_width_half;
+            _particle_vertices[v]._y = _particles[j].pos.y - scaled_height_half;
             ++v;
 
             // The upper-right vertex.
-            _particle_vertices[v]._x = _particles[j].x + scaled_width_half;
-            _particle_vertices[v]._y = _particles[j].y - scaled_height_half;
+            _particle_vertices[v]._x = _particles[j].pos.x + scaled_width_half;
+            _particle_vertices[v]._y = _particles[j].pos.y - scaled_height_half;
             ++v;
 
             // The lower-right vertex.
-            _particle_vertices[v]._x = _particles[j].x + scaled_width_half;
-            _particle_vertices[v]._y = _particles[j].y + scaled_height_half;
+            _particle_vertices[v]._x = _particles[j].pos.x + scaled_width_half;
+            _particle_vertices[v]._y = _particles[j].pos.y + scaled_height_half;
             ++v;
 
             // lower-left vertex
-            _particle_vertices[v]._x = _particles[j].x - scaled_width_half;
-            _particle_vertices[v]._y = _particles[j].y + scaled_height_half;
+            _particle_vertices[v]._x = _particles[j].pos.x - scaled_width_half;
+            _particle_vertices[v]._y = _particles[j].pos.y + scaled_height_half;
             ++v;
         }
     }
@@ -453,8 +455,7 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
                     // keyframe
                     _particles[j].color          = _particles[j].current_keyframe->color;
                     _particles[j].rotation_speed = _particles[j].current_keyframe->rotation_speed;
-                    _particles[j].size_x         = _particles[j].current_keyframe->size_x;
-                    _particles[j].size_y         = _particles[j].current_keyframe->size_y;
+                    _particles[j].size         = _particles[j].current_keyframe->size;
                 }
 
                 // if we skipped ahead only 1 keyframe, then inherit the current variations
@@ -462,14 +463,15 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
                 if(_particles[j].current_keyframe == old_next) {
                     _particles[j].current_color_variation = _particles[j].next_color_variation;
                     _particles[j].current_rotation_speed_variation = _particles[j].next_rotation_speed_variation;
-                    _particles[j].current_size_variation_x = _particles[j].next_size_variation_x;
-                    _particles[j].current_size_variation_y = _particles[j].next_size_variation_y;
+                    _particles[j].current_size_variation = _particles[j].next_size_variation;
                 } else {
                     _particles[j].current_rotation_speed_variation = RandomFloat(-_particles[j].current_keyframe->rotation_speed_variation, _particles[j].current_keyframe->rotation_speed_variation);
                     for(int32_t c = 0; c < 4; ++c)
                         _particles[j].current_color_variation[c] = RandomFloat(-_particles[j].current_keyframe->color_variation[c], _particles[j].current_keyframe->color_variation[c]);
-                    _particles[j].current_size_variation_x = RandomFloat(-_particles[j].current_keyframe->size_variation_x, _particles[j].current_keyframe->size_variation_x);
-                    _particles[j].current_size_variation_y = RandomFloat(-_particles[j].current_keyframe->size_variation_y, _particles[j].current_keyframe->size_variation_y);
+                    _particles[j].current_size_variation.x = RandomFloat(-_particles[j].current_keyframe->size_variation.x,
+                                                                         _particles[j].current_keyframe->size_variation.x);
+                    _particles[j].current_size_variation.y = RandomFloat(-_particles[j].current_keyframe->size_variation.y,
+                                                                         _particles[j].current_keyframe->size_variation.y);
                 }
 
                 // if there is a next keyframe, generate variations for it
@@ -477,8 +479,10 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
                     _particles[j].next_rotation_speed_variation = RandomFloat(-_particles[j].next_keyframe->rotation_speed_variation, _particles[j].next_keyframe->rotation_speed_variation);
                     for(int32_t c = 0; c < 4; ++c)
                         _particles[j].next_color_variation[c] = RandomFloat(-_particles[j].next_keyframe->color_variation[c], _particles[j].next_keyframe->color_variation[c]);
-                    _particles[j].next_size_variation_x = RandomFloat(-_particles[j].next_keyframe->size_variation_x, _particles[j].next_keyframe->size_variation_x);
-                    _particles[j].next_size_variation_y = RandomFloat(-_particles[j].next_keyframe->size_variation_y, _particles[j].next_keyframe->size_variation_y);
+                    _particles[j].next_size_variation.x = RandomFloat(-_particles[j].next_keyframe->size_variation.x,
+                                                                      _particles[j].next_keyframe->size_variation.x);
+                    _particles[j].next_size_variation.y = RandomFloat(-_particles[j].next_keyframe->size_variation.y,
+                                                                      _particles[j].next_keyframe->size_variation.y);
                 }
             }
         }
@@ -487,50 +491,73 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
         // current keyframed properties
         if(_particles[j].next_keyframe) {
             // figure out how far we are from the current to the next (0.0 to 1.0)
-            float a = (scaled_time - _particles[j].current_keyframe->time) / (_particles[j].next_keyframe->time - _particles[j].current_keyframe->time);
+            float cur_a = (scaled_time - _particles[j].current_keyframe->time) /
+                          (_particles[j].next_keyframe->time - _particles[j].current_keyframe->time);
 
-            _particles[j].rotation_speed = Lerp(a, _particles[j].current_keyframe->rotation_speed + _particles[j].current_rotation_speed_variation, _particles[j].next_keyframe->rotation_speed + _particles[j].next_rotation_speed_variation);
-            _particles[j].size_x         = Lerp(a, _particles[j].current_keyframe->size_x + _particles[j].current_size_variation_x, _particles[j].next_keyframe->size_x + _particles[j].next_size_variation_x);
-            _particles[j].size_y         = Lerp(a, _particles[j].current_keyframe->size_y + _particles[j].current_size_variation_y, _particles[j].next_keyframe->size_y + _particles[j].next_size_variation_y);
-            _particles[j].color[0]       = Lerp(a, _particles[j].current_keyframe->color[0] + _particles[j].current_color_variation[0], _particles[j].next_keyframe->color[0] + _particles[j].next_color_variation[0]);
-            _particles[j].color[1]       = Lerp(a, _particles[j].current_keyframe->color[1] + _particles[j].current_color_variation[1], _particles[j].next_keyframe->color[1] + _particles[j].next_color_variation[1]);
-            _particles[j].color[2]       = Lerp(a, _particles[j].current_keyframe->color[2] + _particles[j].current_color_variation[2], _particles[j].next_keyframe->color[2] + _particles[j].next_color_variation[2]);
-            _particles[j].color[3]       = Lerp(a, _particles[j].current_keyframe->color[3] + _particles[j].current_color_variation[3], _particles[j].next_keyframe->color[3] + _particles[j].next_color_variation[3]);
+            _particles[j].rotation_speed = Lerp(cur_a, _particles[j].current_keyframe->rotation_speed
+                                                + _particles[j].current_rotation_speed_variation,
+                                                _particles[j].next_keyframe->rotation_speed
+                                                + _particles[j].next_rotation_speed_variation);
+            _particles[j].size.x         = Lerp(cur_a, _particles[j].current_keyframe->size.x
+                                                + _particles[j].current_size_variation.x,
+                                                _particles[j].next_keyframe->size.x
+                                                + _particles[j].next_size_variation.x);
+            _particles[j].size.y         = Lerp(cur_a, _particles[j].current_keyframe->size.y
+                                                + _particles[j].current_size_variation.y,
+                                                _particles[j].next_keyframe->size.y
+                                                + _particles[j].next_size_variation.y);
+            _particles[j].color[0]       = Lerp(cur_a, _particles[j].current_keyframe->color[0]
+                                                + _particles[j].current_color_variation[0],
+                                                _particles[j].next_keyframe->color[0]
+                                                + _particles[j].next_color_variation[0]);
+            _particles[j].color[1]       = Lerp(cur_a, _particles[j].current_keyframe->color[1]
+                                                + _particles[j].current_color_variation[1],
+                                                _particles[j].next_keyframe->color[1]
+                                                + _particles[j].next_color_variation[1]);
+            _particles[j].color[2]       = Lerp(cur_a, _particles[j].current_keyframe->color[2]
+                                                + _particles[j].current_color_variation[2],
+                                                _particles[j].next_keyframe->color[2]
+                                                + _particles[j].next_color_variation[2]);
+            _particles[j].color[3]       = Lerp(cur_a, _particles[j].current_keyframe->color[3]
+                                                + _particles[j].current_color_variation[3],
+                                                _particles[j].next_keyframe->color[3]
+                                                + _particles[j].next_color_variation[3]);
         }
 
         _particles[j].rotation_angle += _particles[j].rotation_speed * _particles[j].rotation_direction * t;
 
-        float wind_velocity_x = _particles[j].wind_velocity_x;
-        float wind_velocity_y = _particles[j].wind_velocity_y;
+        Position2D wind_velocity = _particles[j].wind_velocity;
 
-        _particles[j].combined_velocity_x = _particles[j].velocity_x + wind_velocity_x;
-        _particles[j].combined_velocity_y = _particles[j].velocity_y + wind_velocity_y;
+        _particles[j].combined_velocity.x = _particles[j].velocity.x + wind_velocity.x;
+        _particles[j].combined_velocity.y = _particles[j].velocity.y + wind_velocity.y;
 
         if(_system_def->wave_motion_used && _particles[j].wave_half_amplitude > 0.0f) {
             // find the magnitude of the wave velocity
-            float wave_speed = _particles[j].wave_half_amplitude * sinf(_particles[j].wave_length_coefficient * _particles[j].time);
+            float wave_speed = _particles[j].wave_half_amplitude
+                               * sinf(_particles[j].wave_length_coefficient * _particles[j].time);
 
             // now the wave velocity is just that wave speed times the particle's tangential vector
-            float tangent_x = -_particles[j].combined_velocity_y;
-            float tangent_y = _particles[j].combined_velocity_x;
-            float speed = sqrtf(tangent_x * tangent_x + tangent_y * tangent_y);
-            tangent_x /= speed;
-            tangent_y /= speed;
+            // Note the inverted x and y assignments
+            Position2D tangent(-_particles[j].combined_velocity.y,
+                               _particles[j].combined_velocity.x);
+            float speed = sqrtf(tangent.GetLength2());
+            tangent.x /= speed;
+            tangent.y /= speed;
 
-            float wave_velocity_x = tangent_x * wave_speed;
-            float wave_velocity_y = tangent_y * wave_speed;
+            Position2D wave_velocity(tangent.x * wave_speed,
+                                     tangent.y * wave_speed);
 
-            _particles[j].combined_velocity_x += wave_velocity_x;
-            _particles[j].combined_velocity_y += wave_velocity_y;
+            _particles[j].combined_velocity.x += wave_velocity.x;
+            _particles[j].combined_velocity.y += wave_velocity.y;
         }
 
-        _particles[j].x += (_particles[j].combined_velocity_x) * t;
-        _particles[j].y += (_particles[j].combined_velocity_y) * t;
+        _particles[j].pos.x += (_particles[j].combined_velocity.x) * t;
+        _particles[j].pos.y += (_particles[j].combined_velocity.y) * t;
 
 
         // client-specified acceleration (dv = a * t)
-        _particles[j].velocity_x += _particles[j].acceleration_x * t;
-        _particles[j].velocity_y += _particles[j].acceleration_y * t;
+        _particles[j].velocity.x += _particles[j].acceleration.x * t;
+        _particles[j].velocity.y += _particles[j].acceleration.y * t;
 
         // radial acceleration: calculate unit vector from emitter center to this particle,
         // and scale by the radial acceleration, if there is any
@@ -540,23 +567,21 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
 
         if(use_radial || use_tangential) {
             // unit vector from attractor to particle
-            float attractor_to_particle_x;
-            float attractor_to_particle_y;
+            Position2D attractor_to_particle;
 
             if(_system_def->user_defined_attractor) {
-                attractor_to_particle_x = _particles[j].x - params.attractor_x;
-                attractor_to_particle_y = _particles[j].y - params.attractor_y;
+                attractor_to_particle.x = _particles[j].pos.x - params.attractor.x;
+                attractor_to_particle.y = _particles[j].pos.y - params.attractor.y;
             } else {
-                attractor_to_particle_x = _particles[j].x - _system_def->emitter._center_x;
-                attractor_to_particle_y = _particles[j].y - _system_def->emitter._center_y;
+                attractor_to_particle.x = _particles[j].pos.x - _system_def->emitter._center.x;
+                attractor_to_particle.y = _particles[j].pos.y - _system_def->emitter._center.y;
             }
 
-            float distance = sqrtf(attractor_to_particle_x * attractor_to_particle_x
-                                   + attractor_to_particle_y * attractor_to_particle_y);
+            float distance = sqrtf(attractor_to_particle.GetLength2());
 
             if(distance != 0.0f) {
-                attractor_to_particle_x /= distance;
-                attractor_to_particle_y /= distance;
+                attractor_to_particle.x /= distance;
+                attractor_to_particle.y /= distance;
             }
 
             // radial acceleration
@@ -564,31 +589,38 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
                 if(_system_def->attractor_falloff != 0.0f) {
                     float attraction = 1.0f - _system_def->attractor_falloff * distance;
                     if(attraction > 0.0f) {
-                        _particles[j].velocity_x += attractor_to_particle_x * _particles[j].radial_acceleration * t * attraction;
-                        _particles[j].velocity_y += attractor_to_particle_y * _particles[j].radial_acceleration * t * attraction;
+                        _particles[j].velocity.x += attractor_to_particle.x
+                                                    * _particles[j].radial_acceleration
+                                                    * t * attraction;
+                        _particles[j].velocity.y += attractor_to_particle.y
+                                                    * _particles[j].radial_acceleration
+                                                    * t * attraction;
                     }
                 } else {
-                    _particles[j].velocity_x += attractor_to_particle_x * _particles[j].radial_acceleration * t;
-                    _particles[j].velocity_y += attractor_to_particle_y * _particles[j].radial_acceleration * t;
+                    _particles[j].velocity.x += attractor_to_particle.x
+                                                * _particles[j].radial_acceleration * t;
+                    _particles[j].velocity.y += attractor_to_particle.y
+                                                * _particles[j].radial_acceleration * t;
                 }
             }
 
             // tangential acceleration
             if(use_tangential) {
                 // tangent vector is simply perpendicular vector
-                float tangent_x = -attractor_to_particle_y;
-                float tangent_y = attractor_to_particle_x;
+                // Note the inversion of x and y
+                Position2D tangent(-attractor_to_particle.y,
+                                   attractor_to_particle.x);
 
-                _particles[j].velocity_x += tangent_x * _particles[j].tangential_acceleration * t;
-                _particles[j].velocity_y += tangent_y * _particles[j].tangential_acceleration * t;
+                _particles[j].velocity.x += tangent.x * _particles[j].tangential_acceleration * t;
+                _particles[j].velocity.y += tangent.y * _particles[j].tangential_acceleration * t;
             }
         }
 
         // damp the velocity
 
         if(_particles[j].damping != 1.0f) {
-            _particles[j].velocity_x *= pow(_particles[j].damping, t);
-            _particles[j].velocity_y *= pow(_particles[j].damping, t);
+            _particles[j].velocity.x *= pow(_particles[j].damping, t);
+            _particles[j].velocity.y *= pow(_particles[j].damping, t);
         }
 
         _particles[j].time += t;
@@ -661,31 +693,31 @@ void ParticleSystem::_RespawnParticle(int32_t i, const EffectParameters &params)
 
     switch(emitter._shape) {
     case EMITTER_SHAPE_POINT: {
-        _particles[i].x = emitter._x;
-        _particles[i].y = emitter._y;
+        _particles[i].pos.x = emitter._pos.x;
+        _particles[i].pos.y = emitter._pos.y;
         break;
     }
     case EMITTER_SHAPE_LINE: {
-        _particles[i].x = RandomFloat(emitter._x, emitter._x2);
-        _particles[i].y = RandomFloat(emitter._y, emitter._y2);
+        _particles[i].pos.x = RandomFloat(emitter._pos.x, emitter._pos2.x);
+        _particles[i].pos.y = RandomFloat(emitter._pos.y, emitter._pos2.y);
         break;
     }
     case EMITTER_SHAPE_CIRCLE: {
         float angle = RandomFloat(0.0f, UTILS_2PI);
-        _particles[i].x = emitter._radius * cosf(angle);
-        _particles[i].y = emitter._radius * sinf(angle);
+        _particles[i].pos.x = emitter._radius * cosf(angle);
+        _particles[i].pos.y = emitter._radius * sinf(angle);
         // Apply offset
-        _particles[i].x += emitter._x;
-        _particles[i].y += emitter._y;
+        _particles[i].pos.x += emitter._pos.x;
+        _particles[i].pos.y += emitter._pos.y;
         break;
     }
     case EMITTER_SHAPE_ELLIPSE: {
         float angle = RandomFloat(0.0f, UTILS_2PI);
-        _particles[i].x = emitter._x * cosf(angle);
-        _particles[i].y = emitter._y * sinf(angle);
+        _particles[i].pos.x = emitter._pos.x * cosf(angle);
+        _particles[i].pos.y = emitter._pos.y * sinf(angle);
         // Apply offset
-        _particles[i].x += emitter._x2;
-        _particles[i].y += emitter._y2;
+        _particles[i].pos.x += emitter._pos2.x;
+        _particles[i].pos.y += emitter._pos2.y;
         break;
     }
     case EMITTER_SHAPE_FILLED_CIRCLE: {
@@ -696,18 +728,18 @@ void ParticleSystem::_RespawnParticle(int32_t i, const EffectParameters &params)
         // this may need to be replaced by a speedier algorithm later on
         do {
             float half_radius = emitter._radius * 0.5f;
-            _particles[i].x = RandomFloat(-half_radius, half_radius);
-            _particles[i].y = RandomFloat(-half_radius, half_radius);
-        } while(_particles[i].x * _particles[i].x +
-                _particles[i].y * _particles[i].y > radius_squared);
+            _particles[i].pos.x = RandomFloat(-half_radius, half_radius);
+            _particles[i].pos.y = RandomFloat(-half_radius, half_radius);
+        } while(_particles[i].pos.x * _particles[i].pos.x +
+                _particles[i].pos.y * _particles[i].pos.y > radius_squared);
         // Apply offset
-        _particles[i].x += emitter._x;
-        _particles[i].y += emitter._y;
+        _particles[i].pos.x += emitter._pos.x;
+        _particles[i].pos.y += emitter._pos.y;
         break;
     }
     case EMITTER_SHAPE_FILLED_RECTANGLE: {
-        _particles[i].x = RandomFloat(emitter._x, emitter._x2);
-        _particles[i].y = RandomFloat(emitter._y, emitter._y2);
+        _particles[i].pos.x = RandomFloat(emitter._pos.x, emitter._pos2.x);
+        _particles[i].pos.y = RandomFloat(emitter._pos.y, emitter._pos2.y);
         break;
     }
     default:
@@ -715,18 +747,17 @@ void ParticleSystem::_RespawnParticle(int32_t i, const EffectParameters &params)
     };
 
 
-    _particles[i].x += RandomFloat(-emitter._x_variation, emitter._x_variation);
-    _particles[i].y += RandomFloat(-emitter._y_variation, emitter._y_variation);
+    _particles[i].pos.x += RandomFloat(-emitter._variation.x, emitter._variation.x);
+    _particles[i].pos.y += RandomFloat(-emitter._variation.y, emitter._variation.y);
 
     if(params.orientation != 0.0f)
-        RotatePoint(_particles[i].x, _particles[i].y, params.orientation);
+        RotatePoint(_particles[i].pos.x, _particles[i].pos.y, params.orientation);
 
     _particles[i].color = _system_def->keyframes[0].color;
 
     _particles[i].rotation_speed  = _system_def->keyframes[0].rotation_speed;
     _particles[i].time            = 0.0f;
-    _particles[i].size_x          = _system_def->keyframes[0].size_x;
-    _particles[i].size_y          = _system_def->keyframes[0].size_y;
+    _particles[i].size            = _system_def->keyframes[0].size;
 
     if(_system_def->random_initial_angle)
         _particles[i].rotation_angle = RandomFloat(0.0f, UTILS_2PI);
@@ -764,15 +795,15 @@ void ParticleSystem::_RespawnParticle(int32_t i, const EffectParameters &params)
             angle += RandomFloat(-emitter._angle_variation, emitter._angle_variation);
     }
 
-    _particles[i].velocity_x = speed * cosf(angle);
-    _particles[i].velocity_y = speed * sinf(angle);
+    _particles[i].velocity.x = speed * cosf(angle);
+    _particles[i].velocity.y = speed * sinf(angle);
 
     // figure out property variations
 
-    _particles[i].current_size_variation_x  = RandomFloat(-_system_def->keyframes[0].size_variation_x,
-            _system_def->keyframes[0].size_variation_x);
-    _particles[i].current_size_variation_y  = RandomFloat(-_system_def->keyframes[0].size_variation_y,
-            _system_def->keyframes[0].size_variation_y);
+    _particles[i].current_size_variation.x  = RandomFloat(-_system_def->keyframes[0].size_variation.x,
+            _system_def->keyframes[0].size_variation.x);
+    _particles[i].current_size_variation.y  = RandomFloat(-_system_def->keyframes[0].size_variation.y,
+            _system_def->keyframes[0].size_variation.y);
 
     for(int32_t j = 0; j < 4; ++j) {
         _particles[i].current_color_variation[j] = RandomFloat(-_system_def->keyframes[0].color_variation[j],
@@ -784,10 +815,10 @@ void ParticleSystem::_RespawnParticle(int32_t i, const EffectParameters &params)
 
     if(_system_def->keyframes.size() > 1) {
         // figure out the next keyframe's variations
-        _particles[i].next_size_variation_x  = RandomFloat(-_system_def->keyframes[1].size_variation_x,
-                                               _system_def->keyframes[1].size_variation_x);
-        _particles[i].next_size_variation_y  = RandomFloat(-_system_def->keyframes[1].size_variation_y,
-                                               _system_def->keyframes[1].size_variation_y);
+        _particles[i].next_size_variation.x  = RandomFloat(-_system_def->keyframes[1].size_variation.x,
+                                               _system_def->keyframes[1].size_variation.x);
+        _particles[i].next_size_variation.y  = RandomFloat(-_system_def->keyframes[1].size_variation.y,
+                                               _system_def->keyframes[1].size_variation.y);
 
         for(int32_t j = 0; j < 4; ++j) {
             _particles[i].next_color_variation[j] = RandomFloat(-_system_def->keyframes[1].color_variation[j],
@@ -803,10 +834,10 @@ void ParticleSystem::_RespawnParticle(int32_t i, const EffectParameters &params)
                                                   _particles[i].current_color_variation[j]);
         }
 
-        _particles[i].size_x += RandomFloat(-_particles[i].current_size_variation_x,
-                                            _particles[i].current_size_variation_x);
-        _particles[i].size_y += RandomFloat(-_particles[i].current_size_variation_y,
-                                            _particles[i].current_size_variation_y);
+        _particles[i].size.x += RandomFloat(-_particles[i].current_size_variation.x,
+                                            _particles[i].current_size_variation.x);
+        _particles[i].size.y += RandomFloat(-_particles[i].current_size_variation.y,
+                                            _particles[i].current_size_variation.y);
 
         _particles[i].rotation_speed += RandomFloat(-_particles[i].current_rotation_speed_variation,
                                         _particles[i].current_rotation_speed_variation);
@@ -822,25 +853,25 @@ void ParticleSystem::_RespawnParticle(int32_t i, const EffectParameters &params)
         _particles[i].radial_acceleration += RandomFloat(-_system_def->radial_acceleration_variation,
                                              _system_def->radial_acceleration_variation);
 
-    _particles[i].acceleration_x = _system_def->acceleration_x;
-    if(_system_def->acceleration_variation_x != 0.0f)
-        _particles[i].acceleration_x += RandomFloat(-_system_def->acceleration_variation_x,
-                                        _system_def->acceleration_variation_x);
+    _particles[i].acceleration.x = _system_def->acceleration.x;
+    if(_system_def->acceleration_variation.x != 0.0f)
+        _particles[i].acceleration.x += RandomFloat(-_system_def->acceleration_variation.x,
+                                        _system_def->acceleration_variation.x);
 
-    _particles[i].acceleration_y = _system_def->acceleration_y;
-    if(_system_def->acceleration_variation_y != 0.0f)
-        _particles[i].acceleration_y += RandomFloat(-_system_def->acceleration_variation_y,
-                                        _system_def->acceleration_variation_y);
+    _particles[i].acceleration.y = _system_def->acceleration.y;
+    if(_system_def->acceleration_variation.y != 0.0f)
+        _particles[i].acceleration.y += RandomFloat(-_system_def->acceleration_variation.y,
+                                        _system_def->acceleration_variation.y);
 
-    _particles[i].wind_velocity_x = _system_def->wind_velocity_x;
-    if(_system_def->wind_velocity_variation_x != 0.0f)
-        _particles[i].wind_velocity_x += RandomFloat(-_system_def->wind_velocity_variation_x,
-                                         _system_def->wind_velocity_variation_x);
+    _particles[i].wind_velocity.x = _system_def->wind_velocity.x;
+    if(_system_def->wind_velocity_variation.x != 0.0f)
+        _particles[i].wind_velocity.x += RandomFloat(-_system_def->wind_velocity_variation.x,
+                                         _system_def->wind_velocity_variation.x);
 
-    _particles[i].wind_velocity_y = _system_def->wind_velocity_y;
-    if(_system_def->wind_velocity_variation_y != 0.0f)
-        _particles[i].wind_velocity_y += RandomFloat(-_system_def->wind_velocity_variation_y,
-                                         _system_def->wind_velocity_variation_y);
+    _particles[i].wind_velocity.y = _system_def->wind_velocity.y;
+    if(_system_def->wind_velocity_variation.y != 0.0f)
+        _particles[i].wind_velocity.y += RandomFloat(-_system_def->wind_velocity_variation.y,
+                                         _system_def->wind_velocity_variation.y);
 
     _particles[i].damping = _system_def->damping;
     if(_system_def->damping_variation != 0.0f)

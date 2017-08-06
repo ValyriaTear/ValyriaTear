@@ -18,28 +18,24 @@ namespace vt_battle
 struct BattleEnemyInfo {
     BattleEnemyInfo():
         enemy_id(0),
-        position_x(0.0f),
-        position_y(0.0f)
+        position(0.0f, 0.0f)
     {}
 
     BattleEnemyInfo(uint32_t id):
         enemy_id(id),
-        position_x(0.0f),
-        position_y(0.0f)
+        position(0.0f, 0.0f)
     {}
 
     BattleEnemyInfo(uint32_t id, float x, float y):
         enemy_id(id),
-        position_x(x),
-        position_y(y)
+        position(x, y)
     {}
 
     //! \brief  The enemy id. See: enemies.lua
     uint32_t enemy_id;
 
     //! \brief The enemy position in the battle ground, in pixels.
-    float position_x;
-    float position_y;
+    vt_common::Position2D position;
 };
 
 } // namespace vt_battle

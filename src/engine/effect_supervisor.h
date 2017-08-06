@@ -129,8 +129,8 @@ public:
     //! \brief Terminates all current screen shake effects
     void StopShaking() {
         _shake_forces.clear();
-        _x_shake = 0.0f;
-        _y_shake = 0.0f;
+        _shake.x = 0.0f;
+        _shake.y = 0.0f;
     }
 
     bool IsScreenShaking() const {
@@ -138,9 +138,8 @@ public:
     }
 
     //! \brief Give back the shaking offsets
-    void GetShakingOffsets(float &shake_x, float &shake_y) {
-        shake_x = _x_shake;
-        shake_y = _y_shake;
+    const vt_common::Position2D& GetShakingOffsets() const {
+        return _shake;
     }
 
 private:
@@ -161,11 +160,8 @@ private:
     //! current shake forces affecting screen
     std::deque<ShakeForce> _shake_forces;
 
-    //! X offset to shake the screen by (if any)
-    float _x_shake;
-
-    //! Y offset to shake the screen by (if any)
-    float _y_shake;
+    //! offset to shake the screen by (if any)
+    vt_common::Position2D _shake;
 
     /** \brief Updates all active shaking effects
     *** \param frame_time The number of milliseconds that have elapsed

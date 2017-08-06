@@ -52,6 +52,8 @@
 
 #include "utils/exception.h"
 
+#include "common/position_2d.h"
+
 namespace vt_mode_manager
 {
 class ParticleSystem;
@@ -410,8 +412,8 @@ public:
     *** \param width Width of the image
     **/
     void SetWidth(float width) {
-        if (_width > 0.0f && _x_offset != 0.0f)
-            _x_offset = _x_offset != 0.0f ? _x_offset / _width * width : 0.0f;
+        if (_width > 0.0f && _offset.x != 0.0f)
+            _offset.x = _offset.x != 0.0f ? _offset.x / _width * width : 0.0f;
         _width = width;
     }
 
@@ -419,8 +421,8 @@ public:
     *** \param height Height of the image
     **/
     void SetHeight(float height) {
-        if (_height > 0.0f && _y_offset != 0.0f)
-            _y_offset = _y_offset != 0.0f ? _y_offset / _height * height : 0.0f;
+        if (_height > 0.0f && _offset.y != 0.0f)
+            _offset.y = _offset.y != 0.0f ? _offset.y / _height * height : 0.0f;
         _height = height;
     }
 
@@ -447,14 +449,14 @@ public:
     *** \param x_offset The horizontal offset in pixels
     **/
     void SetXDrawOffset(float x_offset) {
-        _x_offset = x_offset;
+        _offset.x = x_offset;
     }
 
     /** \brief Sets the image Y drawing offset
     *** \param y_offset The vertical offset in pixels
     **/
     void SetYDrawOffset(float y_offset) {
-        _y_offset = y_offset;
+        _offset.y = y_offset;
     }
 
     /** \brief Sets the image drawing offset
@@ -462,8 +464,8 @@ public:
     *** \param y_offset The vertical offset in pixels
     **/
     void SetDrawOffsets(float x_offset, float y_offset) {
-        _x_offset = x_offset;
-        _y_offset = y_offset;
+        _offset.x = x_offset;
+        _offset.y = y_offset;
     }
 
     /** \brief Sets image to static/animated
@@ -486,7 +488,7 @@ protected:
     private_video::ImageTexture *_image_texture;
 
     //! \brief X and y draw position offsets of this element
-    float _x_offset, _y_offset;
+    vt_common::Position2D _offset;
 
     //! \brief Enables grayscaling for the image then reloads it
     void _EnableGrayscale();
@@ -519,15 +521,13 @@ class ImageElement
 public:
     ImageElement() :
         image(),
-        x_offset(0.0f),
-        y_offset(0.0f)
+        offset(0.0f, 0.0f)
     {
     }
 
     ImageElement(const StillImage &img, float x, float y) :
         image(img),
-        x_offset(x),
-        y_offset(y)
+        offset(x, y)
     {
     }
 
@@ -535,7 +535,7 @@ public:
     StillImage image;
 
     //! \brief X and y draw position offsets of this element
-    float x_offset, y_offset;
+    vt_common::Position2D offset;
 };
 
 } // namespace private_video

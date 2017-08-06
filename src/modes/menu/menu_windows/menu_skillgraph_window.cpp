@@ -360,8 +360,7 @@ void SkillGraphWindow::_UpdateSkillGraphView(bool scroll)
     _current_offset = current_skill_node->GetPosition();
 
     // Get the current view offset
-    Position2D target_position;
-    GetPosition(target_position.x, target_position.y);
+    Position2D target_position = GetPosition();
     target_position.x = target_position.x
                        + (SKILL_GRAPH_AREA_WIDTH / 2.0f)
                        + WINDOW_BORDER_WIDTH

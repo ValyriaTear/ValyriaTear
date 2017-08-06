@@ -19,6 +19,7 @@ using namespace vt_global;
 using namespace vt_video;
 using namespace vt_utils;
 using namespace vt_system;
+using namespace vt_common;
 
 namespace vt_menu
 {
@@ -82,13 +83,12 @@ void CharacterWindow::Draw()
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
 
     // Get the window metrics
-    float x, y;
-    GetPosition(x, y);
+    Position2D pos = GetPosition();
     // Adjust the current position to make it look better
-    y += 5;
+    pos.y += 5;
 
     //Draw character portrait
-    VideoManager->Move(x + 12.0f, y + 8.0f);
+    VideoManager->Move(pos.x + 12.0f, pos.y + 8.0f);
     _portrait.Draw();
 
     // Write character name

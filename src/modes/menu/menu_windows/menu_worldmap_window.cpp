@@ -24,6 +24,7 @@ using namespace vt_gui;
 using namespace vt_global;
 using namespace vt_input;
 using namespace vt_system;
+using namespace vt_common;
 
 namespace vt_menu
 {
@@ -33,8 +34,7 @@ namespace private_menu
 
 WorldMapWindow::WorldMapWindow() :
     _current_world_map(nullptr),
-    _current_image_x_offset(0),
-    _current_image_y_offset(0),
+    _current_image_offset(0.0f, 0.0f),
     _location_pointer_index(0),
     _active(false)
 {
@@ -52,9 +52,9 @@ void WorldMapWindow::Draw()
     MenuWindow::Draw();
     if(_current_world_map == nullptr)
         return;
-    float window_position_x, window_position_y;
-    GetPosition(window_position_x, window_position_y);
-    VideoManager->Move(window_position_x + _current_image_x_offset, window_position_y + _current_image_y_offset);
+    Position2D window_position = GetPosition();
+    VideoManager->Move(window_position.x + _current_image_offset.x,
+                       window_position.y + _current_image_offset.y);
 
     _current_world_map->Draw();
 
@@ -62,7 +62,7 @@ void WorldMapWindow::Draw()
     if(IsActive())
     {
         //get the list of currently viewable world locations with the pointer
-        _DrawViewableLocations(window_position_x, window_position_y);
+        _DrawViewableLocations(window_position.x, window_position.y);
     }
 }
 
@@ -84,7 +84,8 @@ void WorldMapWindow::_DrawViewableLocations(float window_position_x,
             continue;
         }
         //draw the location marker
-        VideoManager->Move(window_position_x + _current_image_x_offset + location->_x, window_position_y + _current_image_y_offset + location->_y);
+        VideoManager->Move(window_position_x + _current_image_offset.x + location->_pos.x,
+                           window_position_y + _current_image_offset.y + location->_pos.y);
         _location_marker.Draw();
 
         //draw the pointer
@@ -93,13 +94,12 @@ void WorldMapWindow::_DrawViewableLocations(float window_position_x,
             // this is a slight offset for the pointer
             // so that it points where we want it to, roughly in the center
             // of the location marker
-            static const float minor_offset_x = 2.0f;
-            static const float minor_offset_y = -8.0f;
-            VideoManager->Move(window_position_x + _current_image_x_offset
-                               + location->_x + minor_offset_x,
-                               window_position_y + _current_image_y_offset
-                               + location->_y - _location_pointer.GetHeight()
-                               + minor_offset_y);
+            const Position2D pointer_offset(2.0f, -8.0f);
+            VideoManager->Move(window_position_x + _current_image_offset.x
+                               + location->_pos.x + pointer_offset.x,
+                               window_position_y + _current_image_offset.y
+                               + location->_pos.y - _location_pointer.GetHeight()
+                               + pointer_offset.y);
             _location_pointer.Draw();
         }
     }
@@ -124,9 +124,9 @@ void WorldMapWindow::Update()
         PRINT_WARNING << "World Map Image Width is too wide " << std::endl;
 
     //calculate neccesary offset from left.
-    _current_image_x_offset = (window_width - image_width) / 2.0;
+    _current_image_offset.x = (window_width - image_width) / 2.0;
     //calculae neccesary offset fromtop
-    _current_image_y_offset = (window_height - image_height) / 2.0;
+    _current_image_offset.y = (window_height - image_height) / 2.0;
 
     //if this window is active, we check the cursor states
     if(IsActive())

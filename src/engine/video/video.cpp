@@ -93,11 +93,9 @@ VideoEngine::VideoEngine():
     _screen_width(0),
     _screen_height(0),
     _fullscreen(false),
-    _x_cursor(0),
-    _y_cursor(0),
+    _cursor_pos(0.0f, 0.0f),
     _debug_info(false),
-    _x_shake(0),
-    _y_shake(0),
+    _shake_offset(0.0f, 0.0f),
     _brightness_value(1.0f),
     _temp_fullscreen(false),
     _temp_width(0),
@@ -882,16 +880,16 @@ void VideoEngine::Move(float x, float y)
     _transform_stack.top().Reset();
     _transform_stack.top().Translate(x, y);
 
-    _x_cursor = x;
-    _y_cursor = y;
+    _cursor_pos.x = x;
+    _cursor_pos.y = y;
 }
 
 void VideoEngine::MoveRelative(float x, float y)
 {
     _transform_stack.top().Translate(x, y);
 
-    _x_cursor += x;
-    _y_cursor += y;
+    _cursor_pos.x += x;
+    _cursor_pos.y += y;
 }
 
 void VideoEngine::PushMatrix()
@@ -1130,7 +1128,7 @@ bool VideoEngine::IsScreenShaking()
         return false;
 
     // update the shaking offsets before returning
-    effects.GetShakingOffsets(_x_shake, _y_shake);
+    _shake_offset = effects.GetShakingOffsets();
     return true;
 }
 
