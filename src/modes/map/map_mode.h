@@ -357,11 +357,11 @@ public:
     //! Used to properly place sprites and avoid glitches.
     //! \see _UpdateMapFrame() for a better explanation.
     float GetMapPixelXLength() const {
-        return _pixel_length_x;
+        return _pixel_length.x;
     }
 
     float GetMapPixelYLength() const {
-        return _pixel_length_y;
+        return _pixel_length.y;
     }
 
     //! \brief toggles visibility of the minimap
@@ -548,11 +548,8 @@ private:
     //! \brief the camera position debug text
     vt_video::TextImage _debug_camera_position;
 
-    //! \brief The way in x-direction, the camera will move
-    float _delta_x;
-
-    //! \brief The way in y-direction, the camera will move
-    float _delta_y;
+    //! \brief The direction the camera will move on next update
+    vt_common::Position2D _camera_move;
 
     //! \brief A time for camera movement
     vt_system::SystemTimer _camera_timer;
@@ -565,8 +562,7 @@ private:
     //! and kept in memory to avoid useless recomputations.
     //! This also should be dropped once the map mode uses a standard coordinate system.
     //! \see _UpdateMapFrame() for more info.
-    float _pixel_length_x;
-    float _pixel_length_y;
+    vt_common::Position2D _pixel_length;
 
     //! \brief If true, the player is allowed to run.
     bool _running_enabled;

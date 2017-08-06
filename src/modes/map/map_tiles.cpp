@@ -341,7 +341,8 @@ void TileSupervisor::DrawLayers(const MapFrame *frame, const LAYER_TYPE &layer_t
         // because the video engine will display the map tiles using their
         // top left coordinates to avoid a position computation flaw when specifying the tile
         // coordinates from the bottom center point, as the engine does for everything else.
-        VideoManager->Move(GRID_LENGTH * (frame->tile_x_offset - 1.0f), GRID_LENGTH * (frame->tile_y_offset - 2.0f));
+        VideoManager->Move(GRID_LENGTH * (frame->tile_offset.x - 1.0f),
+                           GRID_LENGTH * (frame->tile_offset.y - 2.0f));
         for(uint32_t y = static_cast<uint32_t>(frame->tile_y_start); y < y_end; ++y) {
             for(uint32_t x = static_cast<uint32_t>(frame->tile_x_start); x < x_end; ++x) {
                 // Draw a tile image if it exists at this location

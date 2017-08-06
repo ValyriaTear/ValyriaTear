@@ -57,6 +57,7 @@ using namespace vt_menu;
 using namespace vt_pause;
 using namespace vt_save;
 using namespace vt_map::private_map;
+using namespace vt_common;
 
 namespace vt_map
 {
@@ -93,10 +94,8 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     _camera_y_in_map_corner(false),
     _camera(nullptr),
     _virtual_focus(nullptr),
-    _delta_x(0),
-    _delta_y(0),
-    _pixel_length_x(-1.0f),
-    _pixel_length_y(-1.0f),
+    _camera_move(0.0f, 0.0f),
+    _pixel_length(-1.0f, -1.0f),
     _running_enabled(true),
     _unlimited_stamina(false),
     _show_gui(true),
@@ -519,8 +518,8 @@ void MapMode::SetCamera(private_map::VirtualSprite *sprite, uint32_t duration)
                                     << std::endl;
     } else {
         if(duration > 0) {
-            _delta_x = _camera->GetXPosition() - sprite->GetXPosition();
-            _delta_y = _camera->GetYPosition() - sprite->GetYPosition();
+            _camera_move.x = _camera->GetXPosition() - sprite->GetXPosition();
+            _camera_move.y = _camera->GetYPosition() - sprite->GetYPosition();
             _camera_timer.Reset();
             _camera_timer.SetDuration(duration);
             _camera_timer.Run();
@@ -541,8 +540,8 @@ void MapMode::MoveVirtualFocus(float loc_x, float loc_y, uint32_t duration)
                 << "Attempt to move camera although on different sprite" << std::endl;
     } else {
         if(duration > 0) {
-            _delta_x = _virtual_focus->GetXPosition() - static_cast<float>(loc_x);
-            _delta_y = _virtual_focus->GetYPosition() - static_cast<float>(loc_y);
+            _camera_move.x = _virtual_focus->GetXPosition() - static_cast<float>(loc_x);
+            _camera_move.y = _virtual_focus->GetYPosition() - static_cast<float>(loc_y);
             _camera_timer.Reset();
             _camera_timer.SetDuration(duration);
             _camera_timer.Run();
@@ -981,23 +980,23 @@ void MapMode::_UpdateMapFrame()
 {
     // Determine the center position coordinates for the camera
     // Holds the final X, Y coordinates of the camera
-    float camera_x = _camera ? _camera->GetXPosition() : 0.0f;
-    float camera_y = _camera ? _camera->GetYPosition() : 0.0f;
+    Position2D camera_pos(_camera ? _camera->GetXPosition() : 0.0f,
+                          _camera ? _camera->GetYPosition() : 0.0f);
 
     if(_camera_timer.IsRunning()) {
-        camera_x += (1.0f - _camera_timer.PercentComplete()) * _delta_x;
-        camera_y += (1.0f - _camera_timer.PercentComplete()) * _delta_y;
+        camera_pos.x += (1.0f - _camera_timer.PercentComplete()) * _camera_move.x;
+        camera_pos.y += (1.0f - _camera_timer.PercentComplete()) * _camera_move.y;
     }
 
     // Actual position of the view, either the camera sprite
     // or a point on the camera movement path
-    uint16_t current_x = GetFloatInteger(camera_x);
-    uint16_t current_y = GetFloatInteger(camera_y);
+    uint16_t current_x = GetFloatInteger(camera_pos.x);
+    uint16_t current_y = GetFloatInteger(camera_pos.y);
 
     // Update the pixel length.
-    VideoManager->GetPixelSize(_pixel_length_x, _pixel_length_y);
-    _pixel_length_x /= GRID_LENGTH;
-    _pixel_length_y /= GRID_LENGTH;
+    VideoManager->GetPixelSize(_pixel_length.x, _pixel_length.y);
+    _pixel_length.x /= GRID_LENGTH;
+    _pixel_length.y /= GRID_LENGTH;
 
     //std::cout << "the ratio is: " << _pixel_length_x << ", " << _pixel_length_y << " for resolution: "
     //<< VideoManager->GetScreenWidth() << " x " << VideoManager->GetScreenHeight() << std::endl;
@@ -1006,31 +1005,29 @@ void MapMode::_UpdateMapFrame()
     // to avoid glitches on tiles with transparent parts and black edges.
     // The size of the edge would have a variable size
     // and look like vibrating when scrolling without this fix.
-    float current_offset_x =
-        vt_utils::FloorToFloatMultiple(GetFloatFraction(camera_x),
-                                       _pixel_length_x);
-    float current_offset_y =
-        vt_utils::FloorToFloatMultiple(GetFloatFraction(camera_y),
-                                       _pixel_length_y);
+    Position2D current_offset(vt_utils::FloorToFloatMultiple(GetFloatFraction(camera_pos.x),
+                                                             _pixel_length.x),
+                              vt_utils::FloorToFloatMultiple(GetFloatFraction(camera_pos.y),
+                                                             _pixel_length.y));
 
     // Determine the draw coordinates of the top left corner
     // using the camera's current position
-    _map_frame.tile_x_offset = 1.0f - current_offset_x;
+    _map_frame.tile_offset.x = 1.0f - current_offset.x;
     if(IsOddNumber(current_x))
-        _map_frame.tile_x_offset -= 1.0f;
+        _map_frame.tile_offset.x -= 1.0f;
 
-    _map_frame.tile_y_offset = 2.0f - current_offset_y;
+    _map_frame.tile_offset.y = 2.0f - current_offset.y;
     if(IsOddNumber(current_y))
-        _map_frame.tile_y_offset -= 1.0f;
+        _map_frame.tile_offset.y -= 1.0f;
 
     // The starting row and column of tiles to draw is determined by the map camera's position
     _map_frame.tile_x_start = (current_x / 2) - HALF_TILES_ON_X_AXIS;
     _map_frame.tile_y_start = (current_y / 2) - HALF_TILES_ON_Y_AXIS;
 
-    _map_frame.screen_edges.top    = camera_y - HALF_SCREEN_GRID_Y_LENGTH;
-    _map_frame.screen_edges.bottom = camera_y + HALF_SCREEN_GRID_Y_LENGTH;
-    _map_frame.screen_edges.left   = camera_x - HALF_SCREEN_GRID_X_LENGTH;
-    _map_frame.screen_edges.right  = camera_x + HALF_SCREEN_GRID_X_LENGTH;
+    _map_frame.screen_edges.left   = camera_pos.x - HALF_SCREEN_GRID_X_LENGTH;
+    _map_frame.screen_edges.right  = camera_pos.x + HALF_SCREEN_GRID_X_LENGTH;
+    _map_frame.screen_edges.top    = camera_pos.y - HALF_SCREEN_GRID_Y_LENGTH;
+    _map_frame.screen_edges.bottom = camera_pos.y + HALF_SCREEN_GRID_Y_LENGTH;
 
     // Check for boundary conditions and re-adjust as necessary so we don't draw outside the map area
 
@@ -1048,7 +1045,7 @@ void MapMode::_UpdateMapFrame()
     // Camera exceeds the left boundary of the map
     if(_map_frame.tile_x_start < 0) {
         _map_frame.tile_x_start = 0;
-        _map_frame.tile_x_offset = vt_utils::FloorToFloatMultiple(1.0f, _pixel_length_x);
+        _map_frame.tile_offset.x = vt_utils::FloorToFloatMultiple(1.0f, _pixel_length.x);
         _map_frame.screen_edges.left = 0.0f;
         _map_frame.screen_edges.right = SCREEN_GRID_X_LENGTH;
         _map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
@@ -1057,7 +1054,7 @@ void MapMode::_UpdateMapFrame()
     // Camera exceeds the right boundary of the map
     else if(_map_frame.tile_x_start + TILES_ON_X_AXIS >= _tile_supervisor->_num_tile_on_x_axis) {
         _map_frame.tile_x_start = static_cast<int16_t>(_tile_supervisor->_num_tile_on_x_axis - TILES_ON_X_AXIS);
-        _map_frame.tile_x_offset = vt_utils::FloorToFloatMultiple(1.0f, _pixel_length_x);
+        _map_frame.tile_offset.x = vt_utils::FloorToFloatMultiple(1.0f, _pixel_length.x);
         _map_frame.screen_edges.right = static_cast<float>(_object_supervisor->_num_grid_x_axis);
         _map_frame.screen_edges.left = _map_frame.screen_edges.right - SCREEN_GRID_X_LENGTH;
         _map_frame.num_draw_x_axis = TILES_ON_X_AXIS;
@@ -1067,7 +1064,7 @@ void MapMode::_UpdateMapFrame()
     // Camera exceeds the top boundary of the map
     if(_map_frame.tile_y_start < 0) {
         _map_frame.tile_y_start = 0;
-        _map_frame.tile_y_offset = vt_utils::FloorToFloatMultiple(2.0f, _pixel_length_y);
+        _map_frame.tile_offset.y = vt_utils::FloorToFloatMultiple(2.0f, _pixel_length.y);
         _map_frame.screen_edges.top = 0.0f;
         _map_frame.screen_edges.bottom = SCREEN_GRID_Y_LENGTH;
         _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS;
@@ -1076,7 +1073,7 @@ void MapMode::_UpdateMapFrame()
     // Camera exceeds the bottom boundary of the map
     else if(_map_frame.tile_y_start + TILES_ON_Y_AXIS >= _tile_supervisor->_num_tile_on_y_axis) {
         _map_frame.tile_y_start = static_cast<int16_t>(_tile_supervisor->_num_tile_on_y_axis - TILES_ON_Y_AXIS);
-        _map_frame.tile_y_offset = vt_utils::FloorToFloatMultiple(2.0f, _pixel_length_y);
+        _map_frame.tile_offset.y = vt_utils::FloorToFloatMultiple(2.0f, _pixel_length.y);
         _map_frame.screen_edges.bottom = static_cast<float>(_object_supervisor->_num_grid_y_axis);
         _map_frame.screen_edges.top = _map_frame.screen_edges.bottom - SCREEN_GRID_Y_LENGTH;
         _map_frame.num_draw_y_axis = TILES_ON_Y_AXIS;
@@ -1088,24 +1085,24 @@ void MapMode::_UpdateMapFrame()
         // Inform the effect supervisor about camera movement.
         float duration = (float)_camera_timer.GetDuration();
         float time_elapsed = (float)SystemManager->GetUpdateTime();
-        float x_parallax = !_camera_x_in_map_corner ?
-                           _delta_x * time_elapsed / duration
-                           / SCREEN_GRID_X_LENGTH * VIDEO_STANDARD_RES_WIDTH :
-                           0.0f;
-        float y_parallax = !_camera_y_in_map_corner ?
-                           _delta_y * time_elapsed / duration
-                           / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT :
-                           0.0f;
+        Position2D parallax(!_camera_x_in_map_corner ?
+                                _camera_move.x * time_elapsed / duration
+                                / SCREEN_GRID_X_LENGTH * VIDEO_STANDARD_RES_WIDTH :
+                                0.0f,
+                            !_camera_y_in_map_corner ?
+                                _camera_move.y * time_elapsed / duration
+                                / SCREEN_GRID_Y_LENGTH * VIDEO_STANDARD_RES_HEIGHT :
+                                0.0f);
 
-        GetEffectSupervisor().AddParallax(x_parallax, y_parallax);
-        GetIndicatorSupervisor().AddParallax(x_parallax, y_parallax);
+        GetEffectSupervisor().AddParallax(parallax.x, parallax.y);
+        GetIndicatorSupervisor().AddParallax(parallax.x, parallax.y);
     }
 
     // Comment this out to print out map draw debugging info about once a second.
 //  static int loops = 0;
 //  if (loops == 0) {
 //      printf("--- MAP DRAW INFO ---\n");
-//      printf("Rounded offsets:   [%f, %f]\n", current_offset_x, current_offset_y);
+//      printf("Rounded offsets:   [%f, %f]\n", current_offset.x, current_offset.y);
 //      printf("Starting row, col: [%d, %d]\n", _map_frame.starting_row, _map_frame.starting_col);
 //      printf("# draw rows, cols: [%d, %d]\n", _map_frame.num_draw_rows, _map_frame.num_draw_cols);
 //      printf("Camera position:   [%f, %f]\n", camera_x, camera_y);
@@ -1125,8 +1122,8 @@ void MapMode::_DrawDebugGrid()
     VideoManager->SetStandardCoordSys();
     VideoManager->PushMatrix();
 
-    float x = _map_frame.tile_x_offset * GRID_LENGTH;
-    float y = _map_frame.tile_y_offset * GRID_LENGTH;
+    float x = _map_frame.tile_offset.x * GRID_LENGTH;
+    float y = _map_frame.tile_offset.y * GRID_LENGTH;
     VideoManager->Move(x, y);
 
     // Calculate the dimensions of the grid.

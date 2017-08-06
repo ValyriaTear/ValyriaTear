@@ -32,6 +32,8 @@
 
 #include "engine/script/script_read.h"
 
+#include "common/position_2d.h"
+
 namespace vt_battle
 {
 
@@ -49,44 +51,42 @@ class BattleObject
 {
 public:
     BattleObject():
-        _x_origin(0.0f),
-        _y_origin(0.0f),
-        _x_location(0.0f),
-        _y_location(0.0f)
+        _origin(0.0f, 0.0f),
+        _location(0.0f, 0.0f)
     {}
     virtual ~BattleObject()
     {}
 
     float GetXOrigin() const {
-        return _x_origin;
+        return _origin.x;
     }
 
     float GetYOrigin() const {
-        return _y_origin;
+        return _origin.y;
     }
 
     float GetXLocation() const {
-        return _x_location;
+        return _location.x;
     }
 
     float GetYLocation() const {
-        return _y_location;
+        return _location.y;
     }
 
     void SetXOrigin(float x_origin) {
-        _x_origin = x_origin;
+        _origin.x = x_origin;
     }
 
     void SetYOrigin(float y_origin) {
-        _y_origin = y_origin;
+        _origin.y = y_origin;
     }
 
     void SetXLocation(float x_location) {
-        _x_location = x_location;
+        _location.x = x_location;
     }
 
     void SetYLocation(float y_location) {
-        _y_location = y_location;
+        _location.y = y_location;
     }
 
     virtual void DrawSprite()
@@ -103,10 +103,10 @@ public:
 
 protected:
     //! \brief The "home" coordinates for the actor's default location on the battle field
-    float _x_origin, _y_origin;
+    vt_common::Position2D _origin;
 
     //! \brief The x and y coordinates of the actor's current location on the battle field
-    float _x_location, _y_location;
+    vt_common::Position2D _location;
 };
 
 //! \brief A class representing particle effects used as battle objects:
@@ -554,7 +554,7 @@ protected:
     vt_system::SystemTimer _animation_timer;
 
     //! \brief The x and y coordinates of the actor's current stamina icon on the stamina bar.
-    float _x_stamina_location, _y_stamina_location;
+    vt_common::Position2D _stamina_location;
 
     //! \brief An assistant class to the actor that manages all the actor's status and elemental effects
     BattleStatusEffectsSupervisor* _effects_supervisor;

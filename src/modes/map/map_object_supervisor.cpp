@@ -892,8 +892,8 @@ bool ObjectSupervisor::IsWithinMapBounds(VirtualSprite *sprite) const
 
 void ObjectSupervisor::DrawCollisionArea(const MapFrame *frame)
 {
-    vt_video::VideoManager->Move(GRID_LENGTH * (frame->tile_x_offset - 0.5f),
-                                 GRID_LENGTH * (frame->tile_y_offset - 1.0f));
+    vt_video::VideoManager->Move(GRID_LENGTH * (frame->tile_offset.x - 0.5f),
+                                 GRID_LENGTH * (frame->tile_offset.y - 1.0f));
 
     for (uint32_t y = static_cast<uint32_t>(frame->tile_y_start * 2);
          y < static_cast<uint32_t>((frame->tile_y_start + frame->num_draw_y_axis) * 2); ++y) {

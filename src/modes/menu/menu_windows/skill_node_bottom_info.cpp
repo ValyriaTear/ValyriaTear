@@ -19,8 +19,7 @@ using namespace vt_utils;
 using namespace vt_system;
 
 SkillNodeBottomInfo::SkillNodeBottomInfo() :
-    _x_pos(0.0f),
-    _y_pos(0.0f)
+    _pos(0.0f, 0.0f)
 {
     // Cost
     _node_cost.SetStyle(TextStyle("text18"));
@@ -58,8 +57,8 @@ void SkillNodeBottomInfo::SetNode(const vt_global::SkillNode& node)
 
 void SkillNodeBottomInfo::SetPosition(float x_left, float y_top)
 {
-    _x_pos = x_left;
-    _y_pos = y_top;
+    _pos.x = x_left;
+    _pos.y = y_top;
 
     // Update cost item list position
     _items_cost.SetPosition(x_left, y_top + 55.0f);
@@ -69,7 +68,7 @@ void SkillNodeBottomInfo::Draw()
 {
     VideoManager->PushState();
 
-    VideoManager->Move(_x_pos, _y_pos);
+    VideoManager->Move(_pos.x, _pos.y);
     // Draw the cost block if not unlocked
     // TODO: Handle the unlocked case
     _cost_title.Draw();
@@ -170,7 +169,7 @@ void SkillNodeBottomInfo::_SetSkillInfo(int32_t skill_id)
         _skill_sp_cost.Clear();
 
         // Update stats list position
-        _stats_upgrade.SetPosition(_x_pos + 220.0f, _y_pos + 30.0f);
+        _stats_upgrade.SetPosition(_pos.x + 220.0f, _pos.y + 30.0f);
         return;
     }
 
@@ -186,7 +185,7 @@ void SkillNodeBottomInfo::_SetSkillInfo(int32_t skill_id)
     _skill_learned_text.SetText(vt_system::UTranslate("Skill learned:"));
 
     // Update stats list position
-    _stats_upgrade.SetPosition(_x_pos + 540.0f, _y_pos + 30.0f);
+    _stats_upgrade.SetPosition(_pos.x + 540.0f, _pos.y + 30.0f);
 }
 
 void SkillNodeBottomInfo::_SetStatsInfo(const std::vector<std::pair<uint32_t, uint32_t> >& stats_upgrades)

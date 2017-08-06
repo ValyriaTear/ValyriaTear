@@ -237,7 +237,7 @@ public:
     int16_t tile_x_start, tile_y_start;
 
     //! \brief The x and y position screen coordinates to start drawing tiles from.
-    float tile_x_offset, tile_y_offset;
+    vt_common::Position2D tile_offset;
 
     //! \brief The number of tiles to draw on the x and y axes on the screen.
     uint8_t num_draw_x_axis, num_draw_y_axis;

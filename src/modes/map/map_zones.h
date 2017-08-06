@@ -30,33 +30,6 @@ namespace private_map
 class EnemySprite;
 
 /** ****************************************************************************
-*** \brief Represents a rectangular area on a map.
-***
-*** The area is represented by the coordinates of the top-left and bottom-right
-*** corners. Both are represented in the row / column format of collision grid
-*** elements. Zone sections can only include entire grid elements, not portions
-*** of an element.
-***
-*** \note The primary intent of this class is to be able to combine several
-*** ZoneSections to create a non-rectangular shape. This is how a map zone is
-*** formed.
-*** ***************************************************************************/
-class ZoneSection
-{
-public:
-    ZoneSection(uint16_t left, uint16_t right, uint16_t top, uint16_t bottom) :
-        left_col(left), right_col(right), top_row(top), bottom_row(bottom)
-    {
-    }
-
-    //! \brief Collision grid columns for the top and bottom section of the area
-    uint16_t left_col, right_col;
-
-    //! \brief Collision grid rows for the top and bottom section of the area
-    uint16_t top_row, bottom_row;
-};
-
-/** ****************************************************************************
 *** \brief Represents a zone on a map that can take any shape
 ***
 *** The area is made up of many ZoneSection instances, so it can be any shape
@@ -133,13 +106,13 @@ public:
 
 protected:
     //! \brief The rectangular sections which compose the map zone
-    std::vector<ZoneSection> _sections;
+    std::vector<vt_common::Rectangle2D> _sections;
 
     //! \brief Interaction icon
     vt_video::AnimatedImage* _interaction_icon;
 
     //! \brief Tells whether a section is on screen and place the drawing cursor in that case.
-    bool _ShouldDraw(const ZoneSection &section);
+    bool _ShouldDraw(const vt_common::Rectangle2D& section);
 
 private:
     //

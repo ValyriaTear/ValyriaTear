@@ -70,17 +70,15 @@ void MapZone::AddSection(uint16_t left_col, uint16_t right_col, uint16_t top_row
         top_row = temp;
     }
 
-    _sections.push_back(ZoneSection(left_col, right_col, top_row, bottom_row));
+    _sections.push_back(Rectangle2D(left_col, right_col, top_row, bottom_row));
 }
 
 bool MapZone::IsInsideZone(float pos_x, float pos_y) const
 {
-    uint16_t x = (uint16_t)GetFloatInteger(pos_x);
-    uint16_t y = (uint16_t)GetFloatInteger(pos_y);
-    // Verify each section of the zone and check if the position is within the section bounds.
-    for(std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
-        if(x >= it->left_col && x <= it->right_col &&
-                y >= it->top_row && y <= it->bottom_row) {
+    // Check each section of the zone
+    // and check whether the tile position is within the section bounds.
+    for(auto it = _sections.begin(); it != _sections.end(); ++it) {
+        if((*it).Contains(Position2D(GetFloatInteger(pos_x), GetFloatInteger(pos_y)))) {
             return true;
         }
     }
@@ -96,23 +94,23 @@ void MapZone::Update()
 void MapZone::Draw()
 {
     // Verify each section of the zone and check if the position is within the section bounds.
-    for(std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
+    for(auto it = _sections.begin(); it != _sections.end(); ++it) {
         if(_ShouldDraw(*it)) {
-            vt_video::VideoManager->DrawRectangle((it->right_col - it->left_col) * GRID_LENGTH,
-                                                  (it->bottom_row - it->top_row) * GRID_LENGTH,
+            vt_video::VideoManager->DrawRectangle((it->right - it->left) * GRID_LENGTH,
+                                                  (it->bottom - it->top) * GRID_LENGTH,
                                                    vt_video::Color(1.0f, 0.6f, 0.0f, 0.6f));
         }
     }
 }
 
-void MapZone::RandomPosition(float &x, float &y)
+void MapZone::RandomPosition(float& x, float& y)
 {
     // Select a random ZoneSection
     uint16_t i = RandomBoundedInteger(0, _sections.size() - 1);
 
     // Select a random x and y position inside that section
-    x = (float)RandomBoundedInteger(_sections[i].left_col, _sections[i].right_col);
-    y = (float)RandomBoundedInteger(_sections[i].top_row, _sections[i].bottom_row);
+    x = (float)RandomBoundedInteger(_sections[i].left, _sections[i].right);
+    y = (float)RandomBoundedInteger(_sections[i].top, _sections[i].bottom);
 }
 
 void MapZone::SetInteractionIcon(const std::string& animation_filename)
@@ -130,24 +128,19 @@ void MapZone::DrawInteractionIcon()
     if (!_interaction_icon)
         return;
 
-    for(std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
-        const ZoneSection& section = *it;
+    for(auto it = _sections.begin(); it != _sections.end(); ++it) {
+        const Rectangle2D& section = *it;
         if(!_ShouldDraw(section))
             continue;
 
         // Determine the center position coordinates for the camera
-        Rectangle2D rect;
-        rect.top = section.top_row;
-        rect.bottom = section.bottom_row;
-        rect.left = section.left_col;
-        rect.right = section.right_col;
-        float x_pos = rect.left + (rect.right - rect.left) / 2;
-        float y_pos = rect.top + (rect.bottom - rect.top);
+        Position2D pos(section.left + (section.right - section.left) / 2.0f,
+                       section.top + (section.bottom - section.top));
 
         MapMode* map_mode = MapMode::CurrentInstance();
         vt_video::Color icon_color(1.0f, 1.0f, 1.0f, 0.0f);
-        float icon_alpha = 1.0f - (fabs(x_pos - map_mode->GetCamera()->GetXPosition())
-                                + fabs(y_pos - map_mode->GetCamera()->GetYPosition())) / INTERACTION_ICON_VISIBLE_RANGE;
+        float icon_alpha = 1.0f - (fabs(pos.x - map_mode->GetCamera()->GetXPosition())
+                                + fabs(pos.y - map_mode->GetCamera()->GetYPosition())) / INTERACTION_ICON_VISIBLE_RANGE;
         if (icon_alpha < 0.0f)
             icon_alpha = 0.0f;
         icon_color.SetAlpha(icon_alpha);
@@ -157,27 +150,21 @@ void MapZone::DrawInteractionIcon()
     }
 }
 
-bool MapZone::_ShouldDraw(const ZoneSection &section)
+bool MapZone::_ShouldDraw(const Rectangle2D& section)
 {
     MapMode* map_mode = MapMode::CurrentInstance();
 
-    Rectangle2D rect;
-    rect.top = section.top_row;
-    rect.bottom = section.bottom_row;
-    rect.left = section.left_col;
-    rect.right = section.right_col;
-
     // Determine if the sprite is off-screen and if so, don't draw it.
-    if (!rect.IntersectsWith(map_mode->GetMapFrame().screen_edges))
+    if (!section.IntersectsWith(map_mode->GetMapFrame().screen_edges))
         return false;
 
     // Determine the center position coordinates for the camera
-    float x_pos = rect.left + (rect.right - rect.left) / 2;
-    float y_pos = rect.top + (rect.bottom - rect.top);
+    Position2D pos(section.left + (section.right - section.left) / 2.0f,
+                   section.top + (section.bottom - section.top));
 
     // Move the drawing cursor to the appropriate coordinates for this sprite
-    vt_video::VideoManager->Move(map_mode->GetScreenXCoordinate(x_pos),
-                                 map_mode->GetScreenYCoordinate(y_pos));
+    vt_video::VideoManager->Move(map_mode->GetScreenXCoordinate(pos.x),
+                                 map_mode->GetScreenYCoordinate(pos.y));
     return true;
 }
 
@@ -322,9 +309,9 @@ void EnemyZone::AddSpawnSection(uint16_t left_col, uint16_t right_col, uint16_t 
 
     // Make sure that this spawn section fits entirely inside one of the roaming sections
     bool okay_to_add = false;
-    for(uint32_t i = 0; i < _sections.size(); i++) {
-        if((left_col >= _sections[i].left_col) && (right_col <= _sections[i].right_col)
-                && (top_row >= _sections[i].top_row) && (bottom_row <= _sections[i].bottom_row)) {
+    for(Rectangle2D section : _sections) {
+        if (section.Contains(Position2D(left_col, top_row)) &&
+                section.Contains(Position2D(right_col, bottom_row))) {
             okay_to_add = true;
             break;
         }
@@ -457,10 +444,10 @@ void EnemyZone::Draw()
         return;
 
     // Verify each section of the zone and check if the position is within the section bounds.
-    for(std::vector<ZoneSection>::const_iterator it = _sections.begin(); it != _sections.end(); ++it) {
+    for(auto it = _sections.begin(); it != _sections.end(); ++it) {
         if(_ShouldDraw(*it)) {
-            vt_video::VideoManager->DrawRectangle((it->right_col - it->left_col) * GRID_LENGTH,
-                                                  (it->bottom_row - it->top_row) * GRID_LENGTH,
+            vt_video::VideoManager->DrawRectangle((it->right - it->left) * GRID_LENGTH,
+                                                  (it->bottom - it->top) * GRID_LENGTH,
                                                    vt_video::Color(0.0f, 0.0f, 0.0f, 0.5f));
         }
     }

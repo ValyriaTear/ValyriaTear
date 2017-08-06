@@ -35,6 +35,7 @@ using namespace vt_input;
 using namespace vt_system;
 using namespace vt_global;
 using namespace vt_script;
+using namespace vt_common;
 
 namespace vt_battle
 {
@@ -108,8 +109,7 @@ BattleActor::BattleActor(GlobalActor *actor) :
     _is_stunned(false),
     _sprite_alpha(1.0f),
     _animation_timer(0),
-    _x_stamina_location(0.0f),
-    _y_stamina_location(0.0f),
+    _stamina_location(0.0f, 0.0f),
     _effects_supervisor(new BattleStatusEffectsSupervisor(this))
 {
     if(actor == nullptr) {
@@ -628,54 +628,52 @@ void BattleActor::Update()
 
 void BattleActor::_UpdateStaminaIconPosition()
 {
-    float x_pos = _x_stamina_location;
-    float y_pos = _y_stamina_location;
+    Position2D pos = _stamina_location;
 
     if(CanFight()) {
         if(IsEnemy())
-            x_pos = STAMINA_BAR_POSITION_X + 25.0f;
+            pos.x = STAMINA_BAR_POSITION_X + 25.0f;
         else
-            x_pos = STAMINA_BAR_POSITION_X - 25.0f;
+            pos.x = STAMINA_BAR_POSITION_X - 25.0f;
     }
 
     switch(_state) {
     case ACTOR_STATE_IDLE:
-        y_pos = STAMINA_LOCATION_BOTTOM + ((STAMINA_LOCATION_COMMAND - STAMINA_LOCATION_BOTTOM) *
+        pos.y = STAMINA_LOCATION_BOTTOM + ((STAMINA_LOCATION_COMMAND - STAMINA_LOCATION_BOTTOM) *
                                            _state_timer.PercentComplete());
         break;
     case ACTOR_STATE_COMMAND:
-        y_pos = STAMINA_LOCATION_COMMAND;
+        pos.y = STAMINA_LOCATION_COMMAND;
         break;
     case ACTOR_STATE_WARM_UP:
-        y_pos = STAMINA_LOCATION_COMMAND + ((STAMINA_LOCATION_TOP - STAMINA_LOCATION_COMMAND) *
+        pos.y = STAMINA_LOCATION_COMMAND + ((STAMINA_LOCATION_TOP - STAMINA_LOCATION_COMMAND) *
                                             _state_timer.PercentComplete());
         break;
     case ACTOR_STATE_READY:
-        y_pos = STAMINA_LOCATION_TOP;
+        pos.y = STAMINA_LOCATION_TOP;
         break;
     case ACTOR_STATE_SHOWNOTICE:
     case ACTOR_STATE_NOTICEDONE:
     case ACTOR_STATE_ACTING:
-        y_pos = STAMINA_LOCATION_TOP - 25.0f;
+        pos.y = STAMINA_LOCATION_TOP - 25.0f;
         break;
     case ACTOR_STATE_COOL_DOWN:
-        y_pos = STAMINA_LOCATION_BOTTOM;
+        pos.y = STAMINA_LOCATION_BOTTOM;
         break;
     case ACTOR_STATE_DYING:
         // Make the icon fall while disappearing...
-        y_pos += _state_timer.PercentComplete();
+        pos.y += _state_timer.PercentComplete();
         break;
     default:
-        y_pos = STAMINA_LOCATION_BOTTOM + 50.0f;
+        pos.y = STAMINA_LOCATION_BOTTOM + 50.0f;
         break;
     }
 
     // Add a shake effect when the battle actor has received damages
     if(_hurt_timer.IsRunning())
-        x_pos += RandomFloat(-4.0f, 4.0f);
+        pos.x += RandomFloat(-4.0f, 4.0f);
 
-    _x_stamina_location = x_pos;
-    _y_stamina_location = y_pos;
+    _stamina_location = pos;
 }
 
 void BattleActor::DrawStaminaIcon(const vt_video::Color &color) const
@@ -683,7 +681,7 @@ void BattleActor::DrawStaminaIcon(const vt_video::Color &color) const
     if(!IsAlive())
         return;
 
-    VideoManager->Move(_x_stamina_location, _y_stamina_location);
+    VideoManager->Move(_stamina_location.x, _stamina_location.y);
     // Make the stamina icon fade away when dying
     if(_state == ACTOR_STATE_DYING)
         _stamina_icon.Draw(Color(color.GetRed(), color.GetGreen(),
@@ -1225,8 +1223,7 @@ void BattleCharacter::Update()
     // Only set the origin when actor are in normal battle mode,
     // Otherwise the battle sequence manager will take care of them.
     if(BM->GetState() == BATTLE_STATE_NORMAL) {
-        _x_location = _x_origin;
-        _y_location = _y_origin;
+        _location = _origin;
     }
 
     if(_sprite_animation_alias == "idle") {
@@ -1265,14 +1262,14 @@ void BattleCharacter::Update()
         uint32_t dist = _state_timer.GetDuration() > 0 ?
                       120 * _state_timer.GetTimeExpired() / _state_timer.GetDuration() :
                       0;
-        _x_location = _x_origin + dist;
+        _location.x = _origin.x + dist;
     } else if(_sprite_animation_alias == "dodge") {
-        _x_location = _x_origin - 20.0f;
+        _location.x = _origin.x - 20.0f;
     }
 
     // Add a shake effect when the battle actor has received damages
     if(_hurt_timer.IsRunning())
-        _x_location = _x_origin + RandomFloat(-6.0f, 6.0f);
+        _location.x = _origin.x + RandomFloat(-6.0f, 6.0f);
 
     // If the character has finished to execute its battle action,
     if(_state == ACTOR_STATE_ACTING && _state_timer.IsFinished()) {
@@ -1298,7 +1295,7 @@ void BattleCharacter::Update()
 
 void BattleCharacter::DrawSprite()
 {
-    VideoManager->Move(_x_location, _y_location);
+    VideoManager->Move(_location.x, _location.y);
     _current_sprite_animation->Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
     _current_weapon_animation.Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
 
@@ -1659,7 +1656,7 @@ void BattleEnemy::Update()
 
         // Hardcoded action handling
         if(_state_timer.PercentComplete() <= 0.50f) {
-            _x_location = _x_origin - MOVEMENT_SIZE * (2.0f * _state_timer.PercentComplete());
+            _location.x = _origin.x - MOVEMENT_SIZE * (2.0f * _state_timer.PercentComplete());
         }
         else {
             // Execute before moving back
@@ -1680,7 +1677,7 @@ void BattleEnemy::Update()
                 _action_finished = true;
             }
 
-            _x_location = _x_origin - MOVEMENT_SIZE * (2.0f - 2.0f * _state_timer.PercentComplete());
+            _location.x = _origin.x - MOVEMENT_SIZE * (2.0f - 2.0f * _state_timer.PercentComplete());
         }
 
         if(_action_finished && _state_timer.IsFinished()) {
@@ -1702,14 +1699,14 @@ void BattleEnemy::Update()
     else if(_animation_timer.IsFinished()) {
         // Reset the animations set below to idle once done
         ChangeSpriteAnimation("idle");
-        _x_location = _x_origin;
+        _location.x = _origin.x;
     } else if(_sprite_animation_alias == "dodge") {
-        _x_location = _x_origin + 20.0f;
+        _location.x = _origin.x + 20.0f;
     }
 
     // Add a shake effect when the battle actor has received damages
     if(_hurt_timer.IsRunning())
-        _x_location = _x_origin + RandomFloat(-2.0f, 2.0f);
+        _location.x = _origin.x + RandomFloat(-2.0f, 2.0f);
 }
 
 void BattleEnemy::DrawSprite()
@@ -1720,7 +1717,7 @@ void BattleEnemy::DrawSprite()
 
     float hp_percent = static_cast<float>(GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
 
-    VideoManager->Move(_x_location, _y_location);
+    VideoManager->Move(_location.x, _location.y);
     // Alpha will range from 1.0 to 0.0 in the following calculations
     if(_state == ACTOR_STATE_DYING) {
         _sprite_animations->at(GLOBAL_ENEMY_HURT_HEAVILY).Draw(Color(1.0f, 1.0f, 1.0f, _sprite_alpha));
@@ -1759,7 +1756,7 @@ void BattleEnemy::DrawStaminaIcon(const vt_video::Color &color) const
     if(!IsAlive())
         return;
 
-    VideoManager->Move(_x_stamina_location, _y_stamina_location);
+    VideoManager->Move(_stamina_location.x, _stamina_location.y);
     // Make the stamina icon fade away when dying, use the enemy sprite alpha
     if(_state == ACTOR_STATE_DYING) {
         _stamina_icon.Draw(Color(color.GetRed(), color.GetGreen(),

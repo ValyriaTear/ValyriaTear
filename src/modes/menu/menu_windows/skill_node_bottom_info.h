@@ -33,8 +33,7 @@ public:
 
 private:
     //! \brief Info location on screen
-    float _x_pos;
-    float _y_pos;
+    vt_common::Position2D _pos;
 
     /// Cost
     //! \brief cost title
