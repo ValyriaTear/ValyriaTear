@@ -1,0 +1,29 @@
+Source: valyria-tear
+Homepage: https://valyriatear.blogspot.md/
+Vcs-browser: https://github.com/ValyriaTear/ValyriaTear
+Vcs-Git: https://github.com/ValyriaTear/ValyriaTear.git
+Maintainer: Nicola Spanti <dev@nicola-spanti.info>
+Standards-Version: 3.9.4
+
+Package: valyria-tear
+Section: games
+Priority: optional
+Architecture: any
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, valyria-tear-data,
+         libopenal-dev, libalut-dev, libvorbis-dev, libogg-dev,
+         freeglut3-dev, libglew-dev, libqt4-opengl-dev,
+         liblua5.1-0-dev, libgettextpo-dev, libboost-all-dev
+Description: Single-player medieval-fantasy 2D J-RPG
+ Valyria Tear is an open-source single-player medieval-fantasy 2D J-RPG based on an extended Hero of Allacrost engine and inspired by classic console RPGs.
+
+Package: valyria-tear-data
+Section: games
+Priority: optional
+Architecture: any
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Single-player medieval-fantasy 2D J-RPG
+ Valyria Tear is an open-source single-player medieval-fantasy 2D J-RPG based on an extended Hero of Allacrost engine and inspired by classic console RPGs.
+ .
+ This package contains data for the game.
