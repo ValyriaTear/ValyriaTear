@@ -4,7 +4,7 @@
 - [**Bug Tracker**](https://github.com/ValyriaTear/ValyriaTear/issues)
 - [**Forums**](http://forum.freegamedev.net/viewforum.php?f=76)
 
-Valyria Tear is an open-source single-player medieval-fantasy 2D J-RPG based on an extended [Hero of Allacrost](http://www.allacrost.org/) engine and inspired by classic console RPGs.
+Valyria Tear is an open-source single-player medieval-fantasy 2D J-RPG based on an extended [Hero of Allacrost](https://allacrost.org/) engine and inspired by classic console RPGs.
 
 The player incarnates Bronann, a young boy forced to take part into the struggle for the possession of a mysterious crystal.
 This powerful artifact will lead him to discover the actual threat set upon his world, but also courage and love.
@@ -14,7 +14,7 @@ It is also translated in several languages.
 
 ## Licensing
 
-**Copyright (C) 2012-2016 by Bertram  
+**Copyright (C) 2012-2017 by Bertram  
 Copyright (C) 2004-2011 by The Allacrost Project**
 
 The source code is licensed under the *GNU GPL*.
