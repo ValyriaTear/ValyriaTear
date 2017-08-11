@@ -4,7 +4,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef __MAP_SOUND_HEADER__
@@ -26,8 +26,8 @@ namespace private_map
 class SoundObject : public MapObject
 {
 public:
-    /** \brief An environmental sound object which sound is played looped and with a volume
-    *** computed against the distance of the object with the camera.
+    /** \brief An environmental sound object which sound is played looped and with
+    *** a volume computed against the distance of the object with the camera.
     *** \param sound_filename The sound filename to play.
     *** \param x, y The sound map location
     *** \param strength The "strength" of the sound, the maximal distance
@@ -51,17 +51,19 @@ public:
     void UpdateVolume();
 
     //! \brief Applies the object's currently desired volume.
-    void ApplyVolume();
+    bool ApplyVolume();
 
     //! \brief Does nothing
-    void Draw()
-    {}
+    bool Draw()
+    {
+        return true;
+    }
 
     //! \brief Stop the ambient sound
-    void Stop();
+    bool Stop();
 
     //! \brief Start the ambient sound
-    void Start();
+    bool Start();
 
     //! \brief Tells whether the ambient sound is active
     bool IsActive() const {
@@ -79,7 +81,8 @@ public:
     }
 
     //! \brief Gets the current desired sound volume.
-    //! Used by the object manager to determine the best volume to play the sound object at.
+    //! Used by the object manager to determine the best volume to play
+    // the sound object at.
     float GetSoundVolume() const {
         return (_activated && _playing) ? _sound_volume : 0.0f;
     }

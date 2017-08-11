@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "modes/map/map_objects/map_object.h"
@@ -64,10 +64,14 @@ MapObject::~MapObject()
         delete _interaction_icon;
 }
 
-void MapObject::Update()
+bool MapObject::Update()
 {
     if (_interaction_icon)
+    {
         _interaction_icon->Update();
+        return true;
+    }
+    return false;
 }
 
 bool MapObject::ShouldDraw()
@@ -156,12 +160,14 @@ Rectangle2D MapObject::GetGridImageRectangle() const
     return rect;
 }
 
-void MapObject::Emote(const std::string &emote_name, vt_map::private_map::ANIM_DIRECTIONS dir)
+void MapObject::Emote(const std::string &emote_name,
+                      vt_map::private_map::ANIM_DIRECTIONS dir)
 {
     _emote_animation = vt_global::GlobalManager->GetEmoteAnimation(emote_name);
 
     if(!_emote_animation) {
-        PRINT_WARNING << "Invalid emote requested: " << emote_name << " for map object: "
+        PRINT_WARNING << "Invalid emote requested: " << emote_name
+                      << " for map object: "
                       << GetObjectID() << std::endl;
         return;
     }
@@ -213,7 +219,8 @@ void MapObject::SetInteractionIcon(const std::string& animation_filename)
         delete _interaction_icon;
     _interaction_icon = new vt_video::AnimatedImage();
     if (!_interaction_icon->LoadFromAnimationScript(animation_filename)) {
-        PRINT_WARNING << "Interaction icon animation filename couldn't be loaded: " << animation_filename << std::endl;
+        PRINT_WARNING << "Interaction icon animation filename couldn't be loaded: "
+                      << animation_filename << std::endl;
     }
 }
 

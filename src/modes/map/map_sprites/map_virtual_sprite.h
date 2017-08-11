@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef __MAP_VIRTUAL_SPRITE_HEADER__
@@ -44,11 +44,12 @@ public:
     virtual ~VirtualSprite() override;
 
     //! \brief Updates the virtual object's position if it is moving, otherwise does nothing.
-    virtual void Update() override;
+    virtual bool Update() override;
 
     //! \brief Does nothing since virtual sprites have no image to draw
-    virtual void Draw() override
+    virtual bool Draw() override
     {
+      return true;
     }
 
     /** \note This method takes into account the current direction when setting the new direction
@@ -56,12 +57,12 @@ public:
     *** and this function indicates that the sprite should move northwest, it will face north
     *** during the northwest movement.
     **/
-    void SetDirection(uint16_t dir);
+    bool SetDirection(uint16_t dir);
 
     /** \brief Sets the sprite's direction to a random value
     *** This function is used mostly for the ActionRandomMove class.
     **/
-    void SetRandomDirection();
+    bool SetRandomDirection();
 
     /**
     *** Make the sprite used the direction making it "look at" the given position or sprite.
@@ -110,12 +111,12 @@ public:
     /** \brief Saves the state of the sprite
     *** Attributes saved: direction, speed, moving state
     **/
-    virtual void SaveState();
+    virtual bool SaveState();
 
     /** \brief Restores the saved state of the sprite
     *** Attributes restored: direction, speed, moving state
     **/
-    virtual void RestoreState();
+    virtual bool RestoreState();
 
     /** \name Lua Access Functions
     *** These functions are specifically written to enable Lua to access the members of this class.

@@ -4,7 +4,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef __MAP_TRIGGER_HEADER__
@@ -18,7 +18,8 @@ namespace vt_map
 namespace private_map
 {
 
-//! \brief Represents a flat object that can be visually triggered when "talking" or stepping on it.
+//! \brief Represents a flat object that can be visually triggered
+// when "talking" or stepping on it.
 //! The object will then trigger an event.
 class TriggerObject : public PhysicalObject
 {
@@ -36,8 +37,10 @@ public:
     *** \param on_event_id The event id to call when setting the trigger to on.
     **/
     TriggerObject(const std::string &trigger_name, MapObjectDrawLayer layer,
-                  const std::string &off_animation_file, const std::string &on_animation_file,
-                  const std::string& off_event_id, const std::string& on_event_id);
+                  const std::string &off_animation_file,
+                  const std::string &on_animation_file,
+                  const std::string& off_event_id,
+                  const std::string& on_event_id);
 
     ~TriggerObject()
     {}
@@ -54,12 +57,13 @@ public:
                                  const std::string& on_event_id);
 
     //! \brief Changes the current animation if the character collides with the trigger.
-    void Update();
+    bool Update();
 
     std::string GetTriggerName() const
     { return _trigger_name; }
 
-    //! \brief Triggers the object from off to on, or the contrary, calling the on or off event.
+    //! \brief Triggers the object from off to on, or the contrary,
+    // calling the on or off event.
     //! true == triggered/on.
     void SetState(bool state = true);
 

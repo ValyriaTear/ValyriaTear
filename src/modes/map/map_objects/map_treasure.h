@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef __MAP_TREASURE_HEADER__
@@ -83,10 +83,10 @@ public:
     }
 
     //! \brief Opens the treasure, which changes the active animation and initializes the treasure supervisor when the opening animation finishes.
-    void Open();
+    bool Open();
 
     //! \brief Changes the current animation if it has finished looping
-    void Update();
+    bool Update();
 
     //! \brief Retrieves a pointer to the MapTreasure object holding the treasure.
     MapTreasureContent* GetTreasure() {
@@ -108,7 +108,7 @@ public:
     /** \brief Adds an event triggered at start of the treasure event.
     *** \param event_id The id of the event to add
     **/
-    void AddEvent(const std::string& event_id);
+    bool AddEvent(const std::string& event_id);
 
 private:
     //! \brief Stores the contents of the treasure which will be processed by the treasure supervisor

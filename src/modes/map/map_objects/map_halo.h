@@ -4,7 +4,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef __MAP_HALOS_HEADER__
@@ -39,11 +39,11 @@ public:
 
     //! \brief Updates the object's current animation.
     //! \note the actual image resources is handled by the main map object.
-    void Update();
+    bool Update();
 
     //! \brief Draws the object to the screen, if it is visible.
     //! \note the actual image resources is handled by the main map object.
-    void Draw();
+    bool Draw();
 
 private:
     //! \brief A reference to the current map save animation.

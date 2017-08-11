@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "modes/map/map_objects/map_particle.h"
@@ -63,10 +63,14 @@ ParticleObject* ParticleObject::Create(const std::string &filename,
     return new ParticleObject(filename, x, y, layer);
 }
 
-void ParticleObject::Stop()
+bool ParticleObject::Stop()
 {
     if(_particle_effect)
+    {
         _particle_effect->Stop();
+        return true;
+    }
+    return false;
 }
 
 bool ParticleObject::Start()
@@ -80,22 +84,22 @@ bool ParticleObject::IsAlive() const
 {
     if (_particle_effect)
         return _particle_effect->IsAlive();
-    else
-        return false;
+    return false;
 }
 
-void ParticleObject::Update()
+bool ParticleObject::Update()
 {
     if(!_particle_effect || !_updatable)
-        return;
+        return false;
 
     _particle_effect->Update();
+    return true;
 }
 
-void ParticleObject::Draw()
+bool ParticleObject::Draw()
 {
     if(!_particle_effect || !MapObject::ShouldDraw())
-        return;
+        return false;
 
     Position2D position = vt_video::VideoManager->GetDrawPosition();
     vt_video::VideoManager->SetStandardCoordSys();
@@ -105,7 +109,7 @@ void ParticleObject::Draw()
 
     // Draw collision rectangle if the debug view is on.
     if(!vt_video::VideoManager->DebugInfoOn())
-        return;
+        return true;
 
     Rectangle2D rect = GetScreenImageRectangle();
     vt_video::VideoManager->DrawRectangle(rect.right - rect.left,
@@ -115,6 +119,7 @@ void ParticleObject::Draw()
     vt_video::VideoManager->DrawRectangle(rect.right - rect.left,
                                           rect.bottom - rect.top,
                                           vt_video::Color(0.0f, 0.0f, 1.0f, 0.5f));
+    return true;
 }
 
 } // namespace private_map
