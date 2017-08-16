@@ -47,8 +47,8 @@ TriggerObject::TriggerObject(const std::string &trigger_name,
     off_anim.LoadFromAnimationScript(off_animation_file);
     on_anim.LoadFromAnimationScript(on_animation_file);
 
-    // Set a default collision area making the trigger respond when the character
-    // is rather having his/her two feet on it.
+    // Set a default collision area making the trigger respond when
+    // the character is rather having his/her two feet on it.
     SetCollPixelHalfWidth(off_anim.GetWidth() / 4.0f);
     SetCollPixelHeight(off_anim.GetHeight() * 2.0f / 3.0f);
     SetImgPixelHalfWidth(off_anim.GetWidth() / 2.0f);
@@ -123,7 +123,8 @@ void TriggerObject::SetState(bool state)
     _trigger_state = state;
 
     // If the event exists, the treasure has already been opened
-    EventSupervisor* event_supervisor = MapMode::CurrentInstance()->GetEventSupervisor();
+    EventSupervisor* event_supervisor =
+        MapMode::CurrentInstance()->GetEventSupervisor();
     if(_trigger_state) {
         SetCurrentAnimation(TRIGGER_ON_ANIM);
         if (!_on_event.empty())

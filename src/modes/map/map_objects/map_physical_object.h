@@ -26,8 +26,8 @@ namespace private_map
 *** are usually fixed in place and do not change their position.
 ***
 *** \note If the object does not have any animated images, set the 'updatable'
-*** member of the base class to false. Forgetting to do this will do no harm, but
-*** it will make it heavier.
+*** member of the base class to false. Forgetting to do this will do no harm,
+*** but it will make it heavier.
 *** ***************************************************************************/
 class PhysicalObject : public MapObject
 {
@@ -37,8 +37,8 @@ public:
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
-    //! \note We don't permit luabind to use constructors here as it can't currently
-    //! give the object ownership at construction time.
+    //! \note We don't permit luabind to use constructors here
+    //! as it can't currently give the object ownership at construction time.
     static PhysicalObject* Create(MapObjectDrawLayer layer);
 
     //! \brief Updates the object's current animation.
@@ -105,15 +105,17 @@ public:
 
 protected:
     /** \brief A vector containing all the object's animations.
-    *** These need not be actual animations. If you just want a still image, add only a single
-    *** frame to the animation. Usually only need a single still image or animation will be
-    *** needed, but a vector is used here in case others are needed.
+    *** These need not be actual animations. If you just want a still image,
+    *** add only a single frame to the animation. Usually only need
+    *** a single still image or animation will be needed,
+    *** but a vector is used here in case others are needed.
     **/
     std::vector<vt_video::AnimatedImage> _animations;
 
 private:
     /** \brief The index to the animations vector that contains the current image to display
-    *** When modifying this member, take care not to exceed the bounds of the animations vector
+    *** When modifying this member, take care not to exceed the bounds
+    *** of the animations vector
     **/
     uint32_t _current_animation_id;
 

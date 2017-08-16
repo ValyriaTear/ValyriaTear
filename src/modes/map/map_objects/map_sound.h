@@ -26,8 +26,8 @@ namespace private_map
 class SoundObject : public MapObject
 {
 public:
-    /** \brief An environmental sound object which sound is played looped and with a volume
-    *** computed against the distance of the object with the camera.
+    /** \brief An environmental sound object which sound is played looped and with
+    *** a volume computed against the distance of the object with the camera.
     *** \param sound_filename The sound filename to play.
     *** \param x, y The sound map location
     *** \param strength The "strength" of the sound, the maximal distance
@@ -79,7 +79,8 @@ public:
     }
 
     //! \brief Gets the current desired sound volume.
-    //! Used by the object manager to determine the best volume to play the sound object at.
+    //! Used by the object manager to determine the best volume
+    //! to play the sound object at.
     float GetSoundVolume() const {
         return (_activated && _playing) ? _sound_volume : 0.0f;
     }

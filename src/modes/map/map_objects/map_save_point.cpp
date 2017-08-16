@@ -21,9 +21,12 @@ namespace vt_map
 namespace private_map
 {
 
-const std::string SAVE_POINT_ACTIVATION_SOUND = "data/sounds/save_point_activated_dokashiteru_oga.wav";
-const std::string SAVE_POINT_ACTIVE_PARTICLE_EFFECT = "data/visuals/particle_effects/active_save_point.lua";
-const std::string SAVE_POINT_INACTIVE_PARTICLE_EFFECT = "data/visuals/particle_effects/inactive_save_point.lua";
+const std::string SAVE_POINT_ACTIVATION_SOUND =
+    "data/sounds/save_point_activated_dokashiteru_oga.wav";
+const std::string SAVE_POINT_ACTIVE_PARTICLE_EFFECT =
+    "data/visuals/particle_effects/active_save_point.lua";
+const std::string SAVE_POINT_INACTIVE_PARTICLE_EFFECT =
+    "data/visuals/particle_effects/inactive_save_point.lua";
 
 SavePoint::SavePoint(float x, float y):
     MapObject(NO_LAYER_OBJECT), // This is a special object
@@ -44,7 +47,8 @@ SavePoint::SavePoint(float x, float y):
     // enter the save point before colliding with it.
     // Note: We divide by the map zoom ratio because the animation are already rescaled following it.
     SetCollPixelHalfWidth((_animations->at(0).GetWidth() / MAP_ZOOM_RATIO) / 2.0f);
-    SetCollPixelHeight((_animations->at(0).GetHeight() / MAP_ZOOM_RATIO) - 0.3f * GRID_LENGTH);
+    SetCollPixelHeight((_animations->at(0).GetHeight() / MAP_ZOOM_RATIO)
+                       - 0.3f * GRID_LENGTH);
 
     // Setup the image collision for the display update
     SetImgPixelHalfWidth(_animations->at(0).GetWidth() / MAP_ZOOM_RATIO / 2.0f);

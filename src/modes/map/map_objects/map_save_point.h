@@ -53,7 +53,8 @@ private:
     std::vector<vt_video::AnimatedImage>* _animations;
 
     //! \brief The corresponding particle object for active/inactive save points pointers
-    // Note that those pointers are managed by the object supervisor. Don't delete them.
+    // Note that those pointers are managed by the object supervisor.
+    // Don't delete them.
     ParticleObject* _active_particle_object;
     ParticleObject* _inactive_particle_object;
 

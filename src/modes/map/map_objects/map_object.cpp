@@ -53,7 +53,8 @@ MapObject::MapObject(MapObjectDrawLayer layer) :
     _grayscale(false)
 {
     // Generate the object Id at creation time.
-    ObjectSupervisor* obj_sup = MapMode::CurrentInstance()->GetObjectSupervisor();
+    ObjectSupervisor* obj_sup =
+        MapMode::CurrentInstance()->GetObjectSupervisor();
     _object_id = obj_sup->GenerateObjectID();
     obj_sup->RegisterObject(this);
 }
@@ -100,7 +101,8 @@ Rectangle2D MapObject::GetGridCollisionRectangle() const
     return rect;
 }
 
-Rectangle2D MapObject::GetGridCollisionRectangle(float tile_x, float tile_y) const
+Rectangle2D MapObject::GetGridCollisionRectangle(float tile_x,
+                                                 float tile_y) const
 {
     Rectangle2D rect;
     rect.left = tile_x - _coll_grid_half_width;
@@ -156,12 +158,14 @@ Rectangle2D MapObject::GetGridImageRectangle() const
     return rect;
 }
 
-void MapObject::Emote(const std::string &emote_name, vt_map::private_map::ANIM_DIRECTIONS dir)
+void MapObject::Emote(const std::string &emote_name,
+                      vt_map::private_map::ANIM_DIRECTIONS dir)
 {
     _emote_animation = vt_global::GlobalManager->GetEmoteAnimation(emote_name);
 
     if(!_emote_animation) {
-        PRINT_WARNING << "Invalid emote requested: " << emote_name << " for map object: "
+        PRINT_WARNING << "Invalid emote requested: " << emote_name
+                      << " for map object: "
                       << GetObjectID() << std::endl;
         return;
     }
@@ -213,7 +217,8 @@ void MapObject::SetInteractionIcon(const std::string& animation_filename)
         delete _interaction_icon;
     _interaction_icon = new vt_video::AnimatedImage();
     if (!_interaction_icon->LoadFromAnimationScript(animation_filename)) {
-        PRINT_WARNING << "Interaction icon animation filename couldn't be loaded: " << animation_filename << std::endl;
+        PRINT_WARNING << "Interaction icon animation filename couldn't be loaded: "
+                      << animation_filename << std::endl;
     }
 }
 
@@ -239,7 +244,8 @@ void MapObject::DrawInteractionIcon()
 
 bool MapObject::IsColliding(float x, float y)
 {
-    ObjectSupervisor* obj_sup = MapMode::CurrentInstance()->GetObjectSupervisor();
+    ObjectSupervisor* obj_sup =
+        MapMode::CurrentInstance()->GetObjectSupervisor();
     return obj_sup->DetectCollision(this, x, y);
 }
 
