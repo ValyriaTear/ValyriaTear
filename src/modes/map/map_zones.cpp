@@ -35,7 +35,8 @@ namespace private_map
 // ---------- MapZone Class Functions
 // -----------------------------------------------------------------------------
 
-MapZone::MapZone(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row) :
+MapZone::MapZone(uint16_t left_col, uint16_t right_col,
+                 uint16_t top_row, uint16_t bottom_row) :
     _interaction_icon(nullptr)
 {
     AddSection(left_col, right_col, top_row, bottom_row);
@@ -49,14 +50,16 @@ MapZone::~MapZone()
         delete _interaction_icon;
 }
 
-MapZone* MapZone::Create(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row)
+MapZone* MapZone::Create(uint16_t left_col, uint16_t right_col,
+                         uint16_t top_row, uint16_t bottom_row)
 {
     // The zone auto registers to the object supervisor
     // and will later handle deletion.
     return new MapZone(left_col, right_col, top_row, bottom_row);
 }
 
-void MapZone::AddSection(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row)
+void MapZone::AddSection(uint16_t left_col, uint16_t right_col,
+                         uint16_t top_row, uint16_t bottom_row)
 {
     if(left_col >= right_col) {
         uint16_t temp = left_col;
@@ -78,7 +81,8 @@ bool MapZone::IsInsideZone(float pos_x, float pos_y) const
     // Check each section of the zone
     // and check whether the tile position is within the section bounds.
     for(auto it = _sections.begin(); it != _sections.end(); ++it) {
-        if((*it).Contains(Position2D(GetFloatInteger(pos_x), GetFloatInteger(pos_y)))) {
+        if((*it).Contains(Position2D(GetFloatInteger(pos_x),
+                                     GetFloatInteger(pos_y)))) {
             return true;
         }
     }
@@ -119,7 +123,8 @@ void MapZone::SetInteractionIcon(const std::string& animation_filename)
         delete _interaction_icon;
     _interaction_icon = new vt_video::AnimatedImage();
     if (!_interaction_icon->LoadFromAnimationScript(animation_filename)) {
-        PRINT_WARNING << "Interaction icon animation filename couldn't be loaded: " << animation_filename << std::endl;
+        PRINT_WARNING << "Interaction icon animation filename couldn't be loaded: "
+                      << animation_filename << std::endl;
     }
 }
 
@@ -170,12 +175,14 @@ bool MapZone::_ShouldDraw(const Rectangle2D& section)
 
 MapZone::MapZone(const MapZone&)
 {
-    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+    throw vt_utils::Exception("Not Implemented!",
+                              __FILE__, __LINE__, __FUNCTION__);
 }
 
 MapZone& MapZone::operator=(const MapZone&)
 {
-    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+    throw vt_utils::Exception("Not Implemented!",
+                              __FILE__, __LINE__, __FUNCTION__);
     return *this;
 }
 
@@ -183,14 +190,16 @@ MapZone& MapZone::operator=(const MapZone&)
 // ---------- CameraZone Class Functions
 // -----------------------------------------------------------------------------
 
-CameraZone::CameraZone(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row) :
+CameraZone::CameraZone(uint16_t left_col, uint16_t right_col,
+                       uint16_t top_row, uint16_t bottom_row) :
     MapZone(left_col, right_col, top_row, bottom_row),
     _camera_inside(false),
     _was_camera_inside(false)
 {
 }
 
-CameraZone* CameraZone::Create(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row)
+CameraZone* CameraZone::Create(uint16_t left_col, uint16_t right_col,
+                               uint16_t top_row, uint16_t bottom_row)
 {
     // The zone auto registers to the object supervisor
     // and will later handle deletion.
@@ -222,12 +231,14 @@ void CameraZone::Update()
 CameraZone::CameraZone(const CameraZone&) :
     MapZone(0, 0, 0, 0)
 {
-    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+    throw vt_utils::Exception("Not Implemented!",
+                              __FILE__, __LINE__, __FUNCTION__);
 }
 
 CameraZone& CameraZone::operator=(const CameraZone&)
 {
-    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+    throw vt_utils::Exception("Not Implemented!",
+                              __FILE__, __LINE__, __FUNCTION__);
     return *this;
 }
 
@@ -246,7 +257,8 @@ EnemyZone::EnemyZone(uint16_t left_col, uint16_t right_col,
     _dead_timer(STANDARD_ENEMY_DEAD_TIME),
     _spawn_zone(nullptr)
 {
-    // Done so that when the zone updates for the first time, an inactive enemy will immediately be selected and begin spawning
+    // Done so that when the zone updates for the first time,
+    // an inactive enemy will immediately be selected and begin spawning
     _dead_timer.Finish();
 }
 
@@ -266,7 +278,8 @@ EnemyZone::~EnemyZone()
     _enemies_owned.clear();
 }
 
-EnemyZone* EnemyZone::Create(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row)
+EnemyZone* EnemyZone::Create(uint16_t left_col, uint16_t right_col,
+                             uint16_t top_row, uint16_t bottom_row)
 {
     // The zone auto registers to the object supervisor
     // and will later handle deletion.
@@ -276,7 +289,8 @@ EnemyZone* EnemyZone::Create(uint16_t left_col, uint16_t right_col, uint16_t top
 void EnemyZone::AddEnemy(EnemySprite* enemy, uint8_t enemy_number)
 {
     if(enemy_number == 0) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "function called with a zero value count argument" << std::endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "function called with a zero value count argument"
+                                    << std::endl;
         return;
     }
 
@@ -293,7 +307,8 @@ void EnemyZone::AddEnemy(EnemySprite* enemy, uint8_t enemy_number)
     }
 }
 
-void EnemyZone::AddSpawnSection(uint16_t left_col, uint16_t right_col, uint16_t top_row, uint16_t bottom_row)
+void EnemyZone::AddSpawnSection(uint16_t left_col, uint16_t right_col,
+                                uint16_t top_row, uint16_t bottom_row)
 {
     if(left_col >= right_col) {
         uint16_t temp = left_col;
@@ -318,7 +333,8 @@ void EnemyZone::AddSpawnSection(uint16_t left_col, uint16_t right_col, uint16_t 
     }
 
     if(okay_to_add == false) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "could not add section as it did not fit inside any single roaming zone section" << std::endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "could not add section as it did not fit inside any single roaming zone section"
+                                    << std::endl;
         return;
     }
 
@@ -333,7 +349,8 @@ void EnemyZone::AddSpawnSection(uint16_t left_col, uint16_t right_col, uint16_t 
 void EnemyZone::EnemyDead()
 {
     if(_active_enemies == 0) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "function called when no enemies were active" << std::endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "function called when no enemies were active"
+                                    << std::endl;
     } else {
         --_active_enemies;
     }
@@ -341,10 +358,12 @@ void EnemyZone::EnemyDead()
 
 void EnemyZone::Update()
 {
-    // When spawning an enemy in a random zone location, sometimes it is occupied by another
-    // object or that section is unwalkable. We try only a few different spawn locations before
-    // giving up and waiting for the next call to Update(). Otherwise this function could
-    // potentially take a noticable amount of time to complete
+    // When spawning an enemy in a random zone location,
+    // sometimes it is occupied by another object or that section is unwalkable.
+    // We try only a few different spawn locations before
+    // giving up and waiting for the next call to Update().
+    // Otherwise this function could potentially
+    // take a noticable amount of time to complete
     const int8_t SPAWN_RETRIES = 50;
 
     // Don't update when the zone is disabled.
@@ -364,17 +383,20 @@ void EnemyZone::Update()
     _spawn_timer.Update();
     _dead_timer.Update();
 
-    // If we're in the process of spawning an enemy, exit immediately as we want to wait for the timer to continue
+    // If we're in the process of spawning an enemy,
+    // exit immediately as we want to wait for the timer to continue
     if (_spawn_timer.IsRunning()) {
         return;
     }
 
-    // If no enemies are inactive (in the dead state), there's nothing left to do
+    // If no enemies are inactive (in the dead state),
+    // there's nothing left to do
     if (_active_enemies >= _enemies.size()) {
         return;
     }
 
-    // If there are dead enemies, no enemies are respawning, and the dead timer is not active, begin the dead timer
+    // If there are dead enemies, no enemies are respawning,
+    // and the dead timer is not active, begin the dead timer
     if (_dead_timer.IsInitial()) {
         _dead_timer.Run();
         return;
@@ -433,7 +455,8 @@ void EnemyZone::Update()
     } else {
         PRINT_WARNING << "Couldn't spawn a monster within " << SPAWN_RETRIES
                       << " tries. Check the enemy zones of map script:"
-                      << MapMode::CurrentInstance()->GetMapScriptFilename() << std::endl;
+                      << MapMode::CurrentInstance()->GetMapScriptFilename()
+                      << std::endl;
     }
 } // void EnemyZone::Update()
 
@@ -456,12 +479,14 @@ void EnemyZone::Draw()
 EnemyZone::EnemyZone(const EnemyZone&) :
     MapZone(0, 0, 0, 0)
 {
-    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+    throw vt_utils::Exception("Not Implemented!",
+                              __FILE__, __LINE__, __FUNCTION__);
 }
 
 EnemyZone& EnemyZone::operator=(const EnemyZone&)
 {
-    throw vt_utils::Exception("Not Implemented!", __FILE__, __LINE__, __FUNCTION__);
+    throw vt_utils::Exception("Not Implemented!",
+                              __FILE__, __LINE__, __FUNCTION__);
     return *this;
 }
 
