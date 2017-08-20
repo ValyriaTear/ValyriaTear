@@ -462,8 +462,8 @@ int main(int argc, char* argv[])
                          vt_video::VIDEO_VIEWPORT_HEIGHT,
                          SDL_WINDOW_OPENGL);
     if (!sdl_window) {
-        PRINT_ERROR << "SDL window creation failed: " << SDL_GetError()
-                    << std::endl;
+        PRINT_ERROR << "SDL window creation failed: "
+                    << SDL_GetError() << std::endl;
         return false;
     }
     SDL_HideWindow(sdl_window);
@@ -541,14 +541,15 @@ int main(int argc, char* argv[])
     VideoManager->ApplySettings();
 
     // Now the settings are loaded, let's set the windows translated title.
-    /// tr: The window title only supports UTF-8 characters in SDL2.
+    // tr: The window title only supports UTF-8 characters in SDL2.
     std::string app_fullname = vt_system::Translate("Valyria Tear");
     SDL_SetWindowTitle(sdl_window, app_fullname.c_str());
 
     SDL_ShowWindow(sdl_window);
     ModeManager->Push(new BootMode(), false, true);
 
-    // Used for a variable game speed, sleeping when on sufficiently fast hardware, and max FPS.
+    // Used for a variable game speed,
+    // sleeping when on sufficiently fast hardware, and max FPS.
     const uint32_t UPDATES_PER_SECOND = 60;
     const uint32_t SKIP_UPDATE_TICKS = 1000 / UPDATES_PER_SECOND; // 25
     uint32_t update_tick = SDL_GetTicks();
@@ -557,7 +558,8 @@ int main(int argc, char* argv[])
     try {
         bool cpu_gentle_update_mode = true;
 
-        // This is the main loop for the game. The loop iterates once for every frame drawn to the screen.
+        // This is the main loop for the game.
+        // The loop iterates once for every frame drawn to the screen.
         while (SystemManager->NotDone()) {
             // Set the game update mode.
             cpu_gentle_update_mode = !(
@@ -629,7 +631,8 @@ int main(int argc, char* argv[])
     // Delete the mode manager first so that all game modes free their resources
     ModeEngine::SingletonDestroy();
 
-    // Delete the global manager second to remove all object references corresponding to other engine subsystems
+    // Delete the global manager second
+    // to remove all object references corresponding to other engine subsystems
     GameGlobal::SingletonDestroy();
 
     // Delete all of the reamining independent engine components
@@ -638,7 +641,8 @@ int main(int argc, char* argv[])
     InputEngine::SingletonDestroy();
     SystemEngine::SingletonDestroy();
     VideoEngine::SingletonDestroy();
-    // Do it last since all luabind objects must be freed before closing the lua state.
+    // Do it last since all luabind objects must be freed
+    // before closing the lua state.
     ScriptEngine::SingletonDestroy();
 
     // Once finished with OpenGL functions, the SDL_GLContext can be deleted.

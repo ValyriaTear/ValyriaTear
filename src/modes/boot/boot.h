@@ -145,8 +145,10 @@ private:
 
     // ---------- Setup and refresh methods for boot menus
 
+    //! \brief Returns number of saves available to be loaded.
+    int32_t _NbSavesAvailable();
     //! \brief Returns whether at least one save is available to be loaded.
-    bool _SavesAvailable();
+    bool    _SavesAvailable();
 
     //! \brief Setup main menu
     //@{
