@@ -56,27 +56,32 @@ MapEvent::MapEvent(const std::string& id, EVENT_TYPE type):
         return;
     }
 
-    vt_map::private_map::EventSupervisor* event_sup = map_mode->GetEventSupervisor();
+    vt_map::private_map::EventSupervisor* event_sup =
+        map_mode->GetEventSupervisor();
     if (!event_sup) {
-        PRINT_ERROR << "Event created without existing event supervisor!!" << std::endl;
+        PRINT_ERROR << "Event created without existing event supervisor!!"
+                    << std::endl;
         return;
     }
 
     if (!event_sup->_RegisterEvent(this))
-        PRINT_ERROR << "Couldn't register event: " << id << " in the event supervisor!!" << std::endl;
+        PRINT_ERROR << "Couldn't register event: " << id
+                    << " in the event supervisor!!" << std::endl;
 }
 
 // -----------------------------------------------------------------------------
 // ---------- DialogueEvent Class Methods
 // -----------------------------------------------------------------------------
 
-DialogueEvent::DialogueEvent(const std::string& event_id, SpriteDialogue* dialogue) :
+DialogueEvent::DialogueEvent(const std::string& event_id,
+                             SpriteDialogue* dialogue) :
     MapEvent(event_id, DIALOGUE_EVENT),
     _dialogue_id(dialogue->GetDialogueID()),
     _stop_camera_movement(false)
 {}
 
-DialogueEvent* DialogueEvent::Create(const std::string& event_id, SpriteDialogue* dialogue)
+DialogueEvent* DialogueEvent::Create(const std::string& event_id,
+                                     SpriteDialogue* dialogue)
 {
     return new DialogueEvent(event_id, dialogue);
 }
@@ -94,7 +99,8 @@ void DialogueEvent::_Start()
 
 bool DialogueEvent::_Update()
 {
-    SpriteDialogue *active_dialogue = MapMode::CurrentInstance()->GetDialogueSupervisor()->GetCurrentDialogue();
+    SpriteDialogue *active_dialogue =
+        MapMode::CurrentInstance()->GetDialogueSupervisor()->GetCurrentDialogue();
     if((active_dialogue != nullptr) && (active_dialogue->GetDialogueID() == _dialogue_id))
         return false;
     else
@@ -105,7 +111,8 @@ bool DialogueEvent::_Update()
 // ---------- ShopEvent Class Methods
 // -----------------------------------------------------------------------------
 
-ShopEvent* ShopEvent::Create(const std::string& event_id, const std::string& shop_name)
+ShopEvent* ShopEvent::Create(const std::string& event_id,
+                             const std::string& shop_name)
 {
     return new ShopEvent(event_id, shop_name);
 }
@@ -140,12 +147,14 @@ void ShopEvent::_Start()
 // ---------- SoundEvent Class Methods
 // -----------------------------------------------------------------------------
 
-SoundEvent* SoundEvent::Create(const std::string& event_id, const std::string& sound_filename)
+SoundEvent* SoundEvent::Create(const std::string& event_id,
+                               const std::string& sound_filename)
 {
     return new SoundEvent(event_id, sound_filename);
 }
 
-SoundEvent::SoundEvent(const std::string& event_id, const std::string& sound_filename) :
+SoundEvent::SoundEvent(const std::string& event_id,
+                       const std::string& sound_filename) :
     MapEvent(event_id, SOUND_EVENT)
 {
     if(_sound.LoadAudio(sound_filename) == false) {
@@ -232,15 +241,18 @@ BattleEncounterEvent* BattleEncounterEvent::Create(const std::string& event_id)
     return new BattleEncounterEvent(event_id);
 }
 
-void BattleEncounterEvent::AddEnemy(uint32_t enemy_id, float position_x, float position_y)
+void BattleEncounterEvent::AddEnemy(uint32_t enemy_id,
+                                    float position_x, float position_y)
 {
-    _enemies.push_back(vt_battle::BattleEnemyInfo(enemy_id, position_x, position_y));
+    _enemies.push_back(vt_battle::BattleEnemyInfo(enemy_id,
+                                                  position_x, position_y));
 }
 
 void BattleEncounterEvent::_Start()
 {
     try {
-        // Check the current map stamina and apply a malus on stamina when it is low
+        // Check the current map stamina and apply a malus on stamina
+        // when it is low
         MapMode* MM = MapMode::CurrentInstance();
         if (MM)
             MM->ApplyPotentialStaminaMalus();
@@ -251,7 +263,8 @@ void BattleEncounterEvent::_Start()
                          _enemies.at(i).position.x,
                          _enemies.at(i).position.y);
 
-        vt_global::BattleMedia& battle_media = vt_global::GlobalManager->GetBattleMedia();
+        vt_global::BattleMedia& battle_media =
+            vt_global::GlobalManager->GetBattleMedia();
         battle_media.SetBackgroundImage(_battle_background);
         battle_media.SetBattleMusic(_battle_music);
         for(uint32_t i = 0; i < _battle_scripts.size(); ++i)
@@ -277,11 +290,14 @@ void BattleEncounterEvent::_Start()
 // ---------- IfEvent Class Methods
 // -----------------------------------------------------------------------------
 
-IfEvent::IfEvent(const std::string& event_id, const std::string& check_function,
-                 const std::string& on_true_event, const std::string& on_false_event) :
+IfEvent::IfEvent(const std::string& event_id,
+                 const std::string& check_function,
+                 const std::string& on_true_event,
+                 const std::string& on_false_event) :
     MapEvent(event_id, IF_EVENT)
 {
-    ReadScriptDescriptor &map_script = MapMode::CurrentInstance()->GetMapScript();
+    ReadScriptDescriptor &map_script =
+        MapMode::CurrentInstance()->GetMapScript();
     if (!MapMode::CurrentInstance()->OpenMapTablespace(true))
         return;
     if (!map_script.OpenTable("map_functions"))
@@ -297,8 +313,10 @@ IfEvent::IfEvent(const std::string& event_id, const std::string& check_function,
     _false_event_id = on_false_event;
 }
 
-IfEvent* IfEvent::Create(const std::string& event_id, const std::string& check_function,
-                         const std::string& on_true_event, const std::string& on_false_event)
+IfEvent* IfEvent::Create(const std::string& event_id,
+                         const std::string& check_function,
+                         const std::string& on_true_event,
+                         const std::string& on_false_event)
 {
     return new IfEvent(event_id, check_function, on_true_event, on_false_event);
 }
@@ -311,8 +329,9 @@ void IfEvent::_Start()
     EventSupervisor* events = MapMode::CurrentInstance()->GetEventSupervisor();
 
     try {
-        // We had a timer of 100ms her to avoid launching an event within an event
-        // for the sake of the engine loop. That time is unnoticeable, anyway.
+        // We had a timer of 100ms her to avoid launching an event
+        // within an event for the sake of the engine loop.
+        // That time is unnoticeable, anyway.
         if (luabind::call_function<bool>(_check_function)
             && !_true_event_id.empty() && !events->IsEventActive(_true_event_id)) {
             events->StartEvent(_true_event_id, 100);
@@ -321,10 +340,12 @@ void IfEvent::_Start()
             events->StartEvent(_false_event_id, 100);
         }
     } catch(const luabind::error &e) {
-        PRINT_ERROR << "Error while loading IFEvent check function." << std::endl;
+        PRINT_ERROR << "Error while loading IFEvent check function."
+                    << std::endl;
         ScriptManager->HandleLuaError(e);
     } catch(const luabind::cast_failed &e) {
-        PRINT_ERROR << "Error while loading IFEvent check function." << std::endl;
+        PRINT_ERROR << "Error while loading IFEvent check function."
+                    << std::endl;
         ScriptManager->HandleCastError(e);
     }
 }
@@ -338,7 +359,8 @@ ScriptedEvent::ScriptedEvent(const std::string& event_id,
                              const std::string& update_function) :
     MapEvent(event_id, SCRIPTED_EVENT)
 {
-    ReadScriptDescriptor &map_script = MapMode::CurrentInstance()->GetMapScript();
+    ReadScriptDescriptor &map_script =
+        MapMode::CurrentInstance()->GetMapScript();
     if (!MapMode::CurrentInstance()->OpenMapTablespace(true))
         return;
     if (!map_script.OpenTable("map_functions"))
@@ -369,10 +391,12 @@ void ScriptedEvent::_Start()
     try {
         luabind::call_function<void>(_start_function);
     } catch(const luabind::error &e) {
-        PRINT_ERROR << "Error while loading ScriptedEvent start function" << std::endl;
+        PRINT_ERROR << "Error while loading ScriptedEvent start function"
+                    << std::endl;
         ScriptManager->HandleLuaError(e);
     } catch(const luabind::cast_failed &e) {
-        PRINT_ERROR << "Error while loading ScriptedEvent start function" << std::endl;
+        PRINT_ERROR << "Error while loading ScriptedEvent start function"
+                    << std::endl;
         ScriptManager->HandleCastError(e);
     }
 }
@@ -385,10 +409,12 @@ bool ScriptedEvent::_Update()
     try {
         return luabind::call_function<bool>(_update_function);
     } catch(const luabind::error &e) {
-        PRINT_ERROR << "Error while loading ScriptedEvent update function" << std::endl;
+        PRINT_ERROR << "Error while loading ScriptedEvent update function"
+                    << std::endl;
         ScriptManager->HandleLuaError(e);
     } catch(const luabind::cast_failed &e) {
-        PRINT_ERROR << "Error while loading ScriptedEvent update function" << std::endl;
+        PRINT_ERROR << "Error while loading ScriptedEvent update function"
+                    << std::endl;
         ScriptManager->HandleCastError(e);
     }
     return true;
@@ -398,7 +424,8 @@ bool ScriptedEvent::_Update()
 // ---------- SpriteEvent Class Methods
 // -----------------------------------------------------------------------------
 
-SpriteEvent::SpriteEvent(const std::string& event_id, EVENT_TYPE event_type, VirtualSprite* sprite) :
+SpriteEvent::SpriteEvent(const std::string& event_id, EVENT_TYPE event_type,
+                         VirtualSprite* sprite) :
     MapEvent(event_id, event_type),
     _sprite(sprite)
 {
@@ -410,11 +437,13 @@ SpriteEvent::SpriteEvent(const std::string& event_id, EVENT_TYPE event_type, Vir
 void SpriteEvent::_Start()
 {
     if (!_sprite) {
-        PRINT_WARNING << "No valid sprite given in event: " << GetEventID() << std::endl;
+        PRINT_WARNING << "No valid sprite given in event: "
+                      << GetEventID() << std::endl;
         return;
     }
 
-    EventSupervisor *event_supervisor = MapMode::CurrentInstance()->GetEventSupervisor();
+    EventSupervisor *event_supervisor =
+        MapMode::CurrentInstance()->GetEventSupervisor();
     // Terminate the previous event whenever it is another sprite event.
     if(_sprite->GetControlEvent() && event_supervisor) {
         event_supervisor->EndEvent(_sprite->GetControlEvent(), false);
@@ -435,12 +464,14 @@ void SpriteEvent::Terminate()
 // ---------- ScriptedSpriteEvent Class Methods
 // -----------------------------------------------------------------------------
 
-ScriptedSpriteEvent::ScriptedSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
+ScriptedSpriteEvent::ScriptedSpriteEvent(const std::string& event_id,
+                                         VirtualSprite* sprite,
                                          const std::string& start_function,
                                          const std::string& update_function) :
     SpriteEvent(event_id, SCRIPTED_SPRITE_EVENT, sprite)
 {
-    ReadScriptDescriptor &map_script = MapMode::CurrentInstance()->GetMapScript();
+    ReadScriptDescriptor &map_script =
+        MapMode::CurrentInstance()->GetMapScript();
     if (!MapMode::CurrentInstance()->OpenMapTablespace(true))
         return;
     if (!map_script.OpenTable("map_functions"))
@@ -461,7 +492,8 @@ ScriptedSpriteEvent* ScriptedSpriteEvent::Create(const std::string& event_id,
                                                  const std::string& start_function,
                                                  const std::string& update_function)
 {
-    return new ScriptedSpriteEvent(event_id, sprite, start_function, update_function);
+    return new ScriptedSpriteEvent(event_id, sprite,
+                                   start_function, update_function);
 }
 
 void ScriptedSpriteEvent::_Start()
@@ -490,7 +522,9 @@ bool ScriptedSpriteEvent::_Update()
 // ---------- ChangeDirectionSpriteEvent Class Methods
 // -----------------------------------------------------------------------------
 
-ChangeDirectionSpriteEvent::ChangeDirectionSpriteEvent(const std::string& event_id, VirtualSprite* sprite, uint16_t direction) :
+ChangeDirectionSpriteEvent::ChangeDirectionSpriteEvent(const std::string& event_id,
+                                                       VirtualSprite* sprite,
+                                                       uint16_t direction) :
     SpriteEvent(event_id, CHANGE_DIRECTION_SPRITE_EVENT, sprite),
     _direction(direction)
 {
@@ -521,7 +555,9 @@ bool ChangeDirectionSpriteEvent::_Update()
 
 // ---------- LookAtSpriteEvent Class Methods
 
-LookAtSpriteEvent::LookAtSpriteEvent(const std::string& event_id, VirtualSprite* sprite, VirtualSprite* other_sprite) :
+LookAtSpriteEvent::LookAtSpriteEvent(const std::string& event_id,
+                                     VirtualSprite* sprite,
+                                     VirtualSprite* other_sprite) :
     SpriteEvent(event_id, LOOK_AT_SPRITE_EVENT, sprite)
 {
     // Invalid position.
@@ -532,7 +568,9 @@ LookAtSpriteEvent::LookAtSpriteEvent(const std::string& event_id, VirtualSprite*
         IF_PRINT_WARNING(MAP_DEBUG) << "Invalid other sprite specified in event: " << event_id << std::endl;
 }
 
-LookAtSpriteEvent::LookAtSpriteEvent(const std::string& event_id, VirtualSprite* sprite, float x, float y) :
+LookAtSpriteEvent::LookAtSpriteEvent(const std::string& event_id,
+                                     VirtualSprite* sprite,
+                                     float x, float y) :
     SpriteEvent(event_id, LOOK_AT_SPRITE_EVENT, sprite),
     _pos(x, y),
     _target_sprite(0)
@@ -576,8 +614,10 @@ bool LookAtSpriteEvent::_Update()
 // ---------- PathMoveSpriteEvent Class Methods
 // -----------------------------------------------------------------------------
 
-PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
-                                         float x_coord, float y_coord, bool run) :
+PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id,
+                                         VirtualSprite* sprite,
+                                         float x_coord, float y_coord,
+                                         bool run) :
     SpriteEvent(event_id, PATH_MOVE_SPRITE_EVENT, sprite),
     _destination(x_coord, y_coord),
     _target_sprite(nullptr),
@@ -587,8 +627,10 @@ PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, VirtualSpr
     _run(run)
 {}
 
-PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
-                                         VirtualSprite* target_sprite, bool run) :
+PathMoveSpriteEvent::PathMoveSpriteEvent(const std::string& event_id,
+                                         VirtualSprite* sprite,
+                                         VirtualSprite* target_sprite,
+                                         bool run) :
     SpriteEvent(event_id, PATH_MOVE_SPRITE_EVENT, sprite),
     _destination(-1.0f, -1.0f),
     _target_sprite(target_sprite),
@@ -607,7 +649,8 @@ PathMoveSpriteEvent* PathMoveSpriteEvent::Create(const std::string& event_id,
 
 PathMoveSpriteEvent* PathMoveSpriteEvent::Create(const std::string& event_id,
                                                  VirtualSprite* sprite,
-                                                 VirtualSprite* target_sprite, bool run)
+                                                 VirtualSprite* target_sprite,
+                                                 bool run)
 {
     return new PathMoveSpriteEvent(event_id, sprite, target_sprite, run);
 }
@@ -762,8 +805,8 @@ void PathMoveSpriteEvent::_SetSpriteDirection()
 // ---------- RandomMoveSpriteEvent Class Methods
 // -----------------------------------------------------------------------------
 
-RandomMoveSpriteEvent::RandomMoveSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
-        uint32_t move_time, uint32_t direction_time) :
+RandomMoveSpriteEvent::RandomMoveSpriteEvent(const std::string& event_id,
+        VirtualSprite* sprite, uint32_t move_time, uint32_t direction_time) :
     SpriteEvent(event_id, RANDOM_MOVE_SPRITE_EVENT, sprite),
     _total_movement_time(move_time),
     _total_direction_time(direction_time),
@@ -776,9 +819,11 @@ RandomMoveSpriteEvent::~RandomMoveSpriteEvent()
 
 RandomMoveSpriteEvent* RandomMoveSpriteEvent::Create(const std::string& event_id,
                                                      VirtualSprite* sprite,
-                                                     uint32_t move_time, uint32_t direction_time)
+                                                     uint32_t move_time,
+                                                     uint32_t direction_time)
 {
-    return new RandomMoveSpriteEvent(event_id, sprite, move_time, direction_time);
+    return new RandomMoveSpriteEvent(event_id, sprite,
+                                     move_time, direction_time);
 }
 
 void RandomMoveSpriteEvent::_Start()
@@ -818,8 +863,10 @@ void RandomMoveSpriteEvent::Terminate()
 // ---------- AnimateSpriteEvent Class Methods
 // -----------------------------------------------------------------------------
 
-AnimateSpriteEvent::AnimateSpriteEvent(const std::string& event_id, VirtualSprite* sprite,
-                                       const std::string& animation_name, int32_t animation_time) :
+AnimateSpriteEvent::AnimateSpriteEvent(const std::string& event_id,
+                                       VirtualSprite* sprite,
+                                       const std::string& animation_name,
+                                       int32_t animation_time) :
     SpriteEvent(event_id, ANIMATE_SPRITE_EVENT, sprite),
     _animation_name(animation_name),
     _animation_time(animation_time)
@@ -832,7 +879,8 @@ AnimateSpriteEvent* AnimateSpriteEvent::Create(const std::string& event_id,
                                                const std::string& animation_name,
                                                int32_t animation_time)
 {
-    return new AnimateSpriteEvent(event_id, sprite, animation_name, animation_time);
+    return new AnimateSpriteEvent(event_id, sprite,
+                                  animation_name, animation_time);
 }
 
 void AnimateSpriteEvent::_Start()
