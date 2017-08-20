@@ -29,25 +29,27 @@ namespace private_map
 class ParticleObject : public MapObject
 {
 public:
-    ParticleObject(const std::string& filename, float x, float y, MapObjectDrawLayer layer);
+    ParticleObject(const std::string& filename, float x, float y,
+                   MapObjectDrawLayer layer);
     virtual ~ParticleObject() override;
 
     //! \brief A C++ wrapper made to create a new object from scripting,
     //! without letting Lua handling the object life-cycle.
     //! \note We don't permit luabind to use constructors here as it can't currently
     //! give the object ownership at construction time.
-    static ParticleObject* Create(const std::string& filename, float x, float y, MapObjectDrawLayer layer);
+    static ParticleObject* Create(const std::string& filename, float x, float y,
+                                  MapObjectDrawLayer layer);
 
     //! \brief Updates the object's current animation.
     //! \note the actual image resources is handled by the main map object.
-    void Update();
+    bool Update();
 
     //! \brief Draws the object to the screen, if it is visible.
     //! \note the actual image resources is handled by the main map object.
-    void Draw();
+    bool Draw();
 
     //! \brief Start or restart the particle effect
-    void Stop();
+    bool Stop();
 
     //! \brief Stop the particle effect
     bool Start();

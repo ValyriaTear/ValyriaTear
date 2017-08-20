@@ -44,7 +44,8 @@ EscapePoint::EscapePoint(float x, float y):
     // enter the save point before colliding with it.
     // Note: We divide by the map zoom ratio because the animation are already rescaled following it.
     SetCollPixelHalfWidth((_animation->GetWidth() / MAP_ZOOM_RATIO) / 2.0f);
-    SetCollPixelHeight((_animation->GetHeight() / MAP_ZOOM_RATIO) - 0.3f * GRID_LENGTH);
+    SetCollPixelHeight((_animation->GetHeight() / MAP_ZOOM_RATIO)
+                       - 0.3f * GRID_LENGTH);
 
     // Setup the image collision for the display update
     SetImgPixelHalfWidth(_animation->GetWidth() / MAP_ZOOM_RATIO / 2.0f);
@@ -73,20 +74,22 @@ EscapePoint* EscapePoint::Create(float x, float y)
     return new EscapePoint(x, y);
 }
 
-void EscapePoint::Update()
+bool EscapePoint::Update()
 {
     if(!_animation || !_updatable)
-        return;
+        return false;
 
     _animation->Update();
+    return true;
 }
 
-void EscapePoint::Draw()
+bool EscapePoint::Draw()
 {
     if(!_animation || !MapObject::ShouldDraw())
-        return;
+        return false;
 
     _animation->Draw();
+    return true;
 }
 
 void EscapePoint::SetActive(bool active)

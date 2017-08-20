@@ -103,7 +103,7 @@ public:
     *** function. So it is the case that the implementation of this function in derived classes may
     *** simply do nothing.
     **/
-    virtual void Update();
+    virtual bool Update();
 
     /** \brief Draws the object to the frame buffer.
     *** Objects are drawn differently depending on what type of object they are and what their current
@@ -111,7 +111,7 @@ public:
     *** Many implementations of this function in the derived classes first call the ShouldDraw() method
     *** to determine if the object should be drawn at all.
     **/
-    virtual void Draw() = 0;
+    virtual bool Draw() = 0;
 
     /** \brief Determines if an object should be drawn to the screen.
     *** \return True if the object should be drawn.

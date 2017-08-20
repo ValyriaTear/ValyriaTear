@@ -70,7 +70,8 @@ public:
     *** \param filename The name of the image file holding the given custom animation (one direction only)
     *** \return False if there was a problem loading the animation.
     **/
-    bool LoadCustomAnimation(const std::string &animation_name, const std::string& filename);
+    bool LoadCustomAnimation(const std::string &animation_name,
+                             const std::string& filename);
 
     //! \brief Clear out all the sprite animation. Useful in case of reloading.
     void ClearAnimations();
@@ -78,13 +79,13 @@ public:
     void LoadFacePortrait(const std::string& filename);
 
     //! \brief Updates the sprite's position and state.
-    virtual void Update();
+    virtual bool Update();
 
     //! \brief Draws the sprite frame in the appropriate position on the screen, if it is visible.
-    virtual void Draw();
+    virtual bool Draw();
 
     //! \brief Draws the dialogue icon at the top of the sprite
-    virtual void DrawDialogIcon();
+    virtual bool DrawDialogIcon();
 
     /** \brief Adds a new reference to a dialogue that the sprite uses
     *** \param dialogue The SpriteDialogue used.
@@ -107,7 +108,7 @@ public:
     *** a warning will be printed and no dialogue will take place. It is the caller's responsibility to first
     *** check that the sprite has dialogue available.
     **/
-    void InitiateDialogue();
+    bool InitiateDialogue();
 
     //! \brief Updates all dialogue status members based on the status of all referenced dialogues
     void UpdateDialogueStatus();
@@ -122,20 +123,20 @@ public:
     *** \param next The index value of the dialogue_references vector to set the next_dialogue member to
     *** \note You can not set the next_dialogue member to a negative number. This could cause run-time errors if it was supported here.
     **/
-    void SetNextDialogue(uint16_t next);
+    bool SetNextDialogue(uint16_t next);
 
     /** \brief This method will save the state of a sprite.
     *** Attributes saved: direction, speed, moving state, name
     *** current animation.
     **/
-    virtual void SaveState();
+    virtual bool SaveState();
 
     /** \brief This method will load the saved state of a sprite.
     *** Attributes loaded: direction, speed, moving state, name
     *** current animation.
     *** \return false if there was no saved state, true otherwise.
     **/
-    virtual void RestoreState();
+    virtual bool RestoreState();
 
     /** \name Lua Access Functions
     *** These functions are specifically written to enable Lua to access the members of this class.

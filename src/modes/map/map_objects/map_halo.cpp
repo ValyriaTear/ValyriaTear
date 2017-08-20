@@ -33,7 +33,8 @@ Halo::Halo(const std::string& filename,
     _collision_mask = NO_COLLISION;
 
     if(!_animation.LoadFromAnimationScript(filename))
-        PRINT_WARNING << "Couldn't load the Halo animation " << filename << " properly." << std::endl;
+        PRINT_WARNING << "Couldn't load the Halo animation "
+                      << filename << " properly." << std::endl;
 
     // Setup the image collision for the display update
     SetImgPixelHalfWidth(_animation.GetWidth() / 2.0f);
@@ -54,16 +55,24 @@ Halo* Halo::Create(const std::string& filename,
     return new Halo(filename, x, y, color);
 }
 
-void Halo::Update()
+bool Halo::Update()
 {
     if(_updatable)
+    {
         _animation.Update();
+        return true;
+    }
+    return false;
 }
 
-void Halo::Draw()
+bool Halo::Draw()
 {
     if(MapObject::ShouldDraw() && _animation.GetCurrentFrame())
+    {
         vt_video::VideoManager->DrawHalo(*_animation.GetCurrentFrame(), _color);
+        return true;
+    }
+    return false;
 }
 
 } // namespace private_map

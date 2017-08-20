@@ -74,10 +74,10 @@ public:
     void Reset();
 
     //! \brief Updates the sprite's position and state.
-    virtual void Update();
+    virtual bool Update();
 
     //! \brief Draws the sprite frame in the appropriate position on the screen, if it is visible.
-    virtual void Draw();
+    virtual bool Draw();
 
     /** \brief Adds a new empty vector to the _enemy_parties member
     *** \note Make sure to populate this vector by adding at least one enemy!
@@ -92,10 +92,10 @@ public:
     *** \note MapMode should have already loaded a GlobalEnemy with this ID and retained it within the MapMode#_enemies member.
     *** If this is not the case, this function will print a warning message.
     **/
-    void AddEnemy(uint32_t enemy_id, float position_x, float position_y);
+    bool AddEnemy(uint32_t enemy_id, float position_x, float position_y);
     //! \brief A simpler function used to auto set default enemy position on the battle ground
-    void AddEnemy(uint32_t enemy_id) {
-        AddEnemy(enemy_id, 0.0f, 0.0f);
+    bool AddEnemy(uint32_t enemy_id) {
+        return AddEnemy(enemy_id, 0.0f, 0.0f);
     }
 
     //! \brief Returns a reference to a random party of enemies
@@ -204,7 +204,7 @@ public:
     //! Makes an enemy follow way point when not running after a hero
     //! \note You'll have to add at least two valid way point to make those
     //! taken into account by the enemy sprite.
-    void AddWayPoint(float destination_x, float destination_y);
+    bool AddWayPoint(float destination_x, float destination_y);
     //@}
 
 private:
@@ -288,7 +288,7 @@ private:
     void _SetSpritePathDirection();
 
     //! \brief Update the sprite direction according to the current path.
-    void _UpdatePath();
+    bool _UpdatePath();
 
     //! \brief Set a path for the sprite being the next way point given.
     //! \return whether it failed.

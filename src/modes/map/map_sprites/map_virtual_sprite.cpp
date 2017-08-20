@@ -50,7 +50,7 @@ VirtualSprite::~VirtualSprite()
 {
 }
 
-void VirtualSprite::Update()
+bool VirtualSprite::Update()
 {
     _moved_position = false;
 
@@ -58,10 +58,11 @@ void VirtualSprite::Update()
     MapObject::_UpdateEmote();
 
     if(!_updatable || !_moving)
-        return;
+        return false;
 
     _SetNextPosition();
-} // void VirtualSprite::Update()
+    return true;
+}
 
 bool VirtualSprite::_HandleWallEdges(float& next_pos_x,
                                      float& next_pos_y,
@@ -247,7 +248,8 @@ void VirtualSprite::_SetNextPosition()
         // Don't consider physical objects with an event to avoid sliding on their edges,
         // making them harder to "talk with".
         if (collision_object && this == map_mode->GetCamera()) {
-            PhysicalObject *phs = reinterpret_cast<PhysicalObject *>(collision_object);
+            PhysicalObject *phs =
+                reinterpret_cast<PhysicalObject *>(collision_object);
             if(phs && !phs->GetEventIdWhenTalking().empty())
                 return;
         }
@@ -301,7 +303,8 @@ void VirtualSprite::_SetNextPosition()
         // Check whether the sprite is tangled with another character, even without moving
         // For instance, when colliding with a path follower npc.
         // And let it through in that case.
-        if(object_supervisor->CheckObjectCollision(GetGridCollisionRectangle(), collision_object)) {
+        if(object_supervisor->CheckObjectCollision(GetGridCollisionRectangle(),
+                                                   collision_object)) {
             collision_type = NO_COLLISION;
             break;
         }
@@ -361,7 +364,7 @@ void VirtualSprite::_SetNextPosition()
 }
 
 
-void VirtualSprite::SetDirection(uint16_t dir)
+bool VirtualSprite::SetDirection(uint16_t dir)
 {
     // Nothing complicated needed for lateral directions
     if(dir & (NORTH | SOUTH | EAST | WEST)) {
@@ -390,38 +393,34 @@ void VirtualSprite::SetDirection(uint16_t dir)
             _direction = SE_EAST;
     } else {
         IF_PRINT_WARNING(MAP_DEBUG) << "attempted to set an invalid direction: " << dir << std::endl;
+        return false;
     }
+    return true;
 }
 
-void VirtualSprite::SetRandomDirection()
+bool VirtualSprite::SetRandomDirection()
 {
     switch(vt_utils::RandomBoundedInteger(1, 8)) {
     case 1:
-        SetDirection(NORTH);
-        break;
+        return SetDirection(NORTH);
     case 2:
-        SetDirection(SOUTH);
-        break;
+        return SetDirection(SOUTH);
     case 3:
-        SetDirection(EAST);
-        break;
+        return SetDirection(EAST);
     case 4:
-        SetDirection(WEST);
-        break;
+        return SetDirection(WEST);
     case 5:
-        SetDirection(MOVING_NORTHEAST);
-        break;
+        return SetDirection(MOVING_NORTHEAST);
     case 6:
-        SetDirection(MOVING_NORTHWEST);
-        break;
+        return SetDirection(MOVING_NORTHWEST);
     case 7:
-        SetDirection(MOVING_SOUTHEAST);
-        break;
+        return SetDirection(MOVING_SOUTHEAST);
     case 8:
-        SetDirection(MOVING_SOUTHWEST);
-        break;
+        return SetDirection(MOVING_SOUTHWEST);
     default:
-        IF_PRINT_WARNING(MAP_DEBUG) << "invalid randomized direction was chosen" << std::endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "invalid randomized direction was chosen"
+                                    << std::endl;
+        return false;
     }
 }
 
@@ -534,33 +533,41 @@ void VirtualSprite::ReleaseControl(SpriteEvent *event)
     }
 
     if(_control_event == nullptr) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "no event had control over this sprite, object id: " << GetObjectID() << std::endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "no event had control over this sprite, object id: "
+                                    << GetObjectID() << std::endl;
     } else if(_control_event != event) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "a different event has control of this sprite, object id: " << GetObjectID() << std::endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "a different event has control of this sprite, object id: "
+                                    << GetObjectID() << std::endl;
     } else {
         _control_event = nullptr;
     }
 }
 
-void VirtualSprite::SaveState()
+bool VirtualSprite::SaveState()
 {
     _state_saved = true;
     _saved_direction = _direction;
     _saved_movement_speed = _movement_speed;
     _saved_moving = _moving;
     MapMode::CurrentInstance()->GetEventSupervisor()->PauseAllEvents(this);
+    return true;
 }
 
-void VirtualSprite::RestoreState()
+bool VirtualSprite::RestoreState()
 {
-    if(_state_saved == false)
-        IF_PRINT_WARNING(MAP_DEBUG) << "restoring state when no saved state was detected" << std::endl;
-
+    if(!_state_saved)
+    {
+        IF_PRINT_WARNING(MAP_DEBUG) << "restoring state when no saved state was detected"
+                                    << std::endl;
+        return false;
+    }
+    
     _state_saved = false;
     _direction = _saved_direction;
     _movement_speed = _saved_movement_speed;
     _moving = _saved_moving;
     MapMode::CurrentInstance()->GetEventSupervisor()->ResumeAllEvents(this);
+    return true;
 }
 
 } // namespace private_map

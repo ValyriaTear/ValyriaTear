@@ -60,7 +60,6 @@ TriggerObject::TriggerObject(const std::string &trigger_name,
     AddAnimation(off_anim);
     AddAnimation(on_anim);
 
-
     _LoadState();
 }
 
@@ -78,17 +77,17 @@ TriggerObject* TriggerObject::Create(const std::string &trigger_name,
                              off_event_id, on_event_id);
 }
 
-void TriggerObject::Update()
+bool TriggerObject::Update()
 {
     PhysicalObject::Update();
 
     // The trigger can't be toggle by the character, nothing will happen
     if (!_triggerable_by_character)
-        return;
+        return true;
 
     // TODO: Permit other behaviour
     if (_trigger_state)
-        return;
+        return true;
 
     MapMode *map_mode = MapMode::CurrentInstance();
     if (!map_mode->IsCameraOnVirtualFocus()
@@ -96,7 +95,7 @@ void TriggerObject::Update()
         map_mode->GetCamera()->SetMoving(false);
         SetState(true);
     }
-
+    return true;
 }
 
 void TriggerObject::_LoadState()
@@ -123,7 +122,8 @@ void TriggerObject::SetState(bool state)
     _trigger_state = state;
 
     // If the event exists, the treasure has already been opened
-    EventSupervisor* event_supervisor = MapMode::CurrentInstance()->GetEventSupervisor();
+    EventSupervisor* event_supervisor =
+        MapMode::CurrentInstance()->GetEventSupervisor();
     if(_trigger_state) {
         SetCurrentAnimation(TRIGGER_ON_ANIM);
         if (!_on_event.empty())

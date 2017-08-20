@@ -39,29 +39,34 @@ PhysicalObject* PhysicalObject::Create(MapObjectDrawLayer layer)
     return new PhysicalObject(layer);
 }
 
-void PhysicalObject::Update()
+bool PhysicalObject::Update()
 {
     MapObject::Update();
     if(!_animations.empty() && _updatable)
+    {
         _animations[_current_animation_id].Update();
+        return true;
+    }
+    return false;
 }
 
-void PhysicalObject::Draw()
+bool PhysicalObject::Draw()
 {
     if(_animations.empty() || !MapObject::ShouldDraw())
-        return;
+        return false;
 
     _animations[_current_animation_id].Draw();
 
     // Draw collision rectangle if the debug view is on.
     if(!vt_video::VideoManager->DebugInfoOn())
-        return;
+        return true;
 
     Position2D position = vt_video::VideoManager->GetDrawPosition();
     Rectangle2D rect = GetScreenCollisionRectangle(position.x, position.y);
     vt_video::VideoManager->DrawRectangle(rect.right - rect.left,
                                           rect.bottom - rect.top,
                                           vt_video::Color(0.0f, 1.0f, 0.0f, 0.6f));
+    return true;
 }
 
 int32_t PhysicalObject::AddAnimation(const std::string& animation_filename)
@@ -93,12 +98,14 @@ int32_t PhysicalObject::AddStillFrame(const std::string& image_filename)
     return (int32_t)_animations.size() - 1;
 }
 
-void PhysicalObject::SetCurrentAnimation(uint32_t animation_id)
+bool PhysicalObject::SetCurrentAnimation(uint32_t animation_id)
 {
     if(animation_id < _animations.size()) {
         _animations[_current_animation_id].SetTimeProgress(0);
         _current_animation_id = animation_id;
+        return true;
     }
+    return false;
 }
 
 } // namespace private_map

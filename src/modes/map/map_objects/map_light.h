@@ -47,11 +47,11 @@ public:
 
     //! \brief Updates the object's current animation and orientation
     //! \note the actual image resources is handled by the main map object.
-    void Update();
+    bool Update();
 
     //! \brief Draws the object to the screen, if it is visible.
     //! \note the actual image resources is handled by the main map object.
-    void Draw();
+    bool Draw();
 
     /** \brief Returns the image rectangle for the current object
     *** \param rect A MapRectangle object storing the image rectangle data
@@ -59,7 +59,7 @@ public:
     vt_common::Rectangle2D GetGridImageRectangle() const;
 private:
     //! Updates the angle and distance from the camera viewpoint
-    void _UpdateLightAngle();
+    bool _UpdateLightAngle();
 
     //! \brief A reference to the current light animation.
     vt_video::AnimatedImage _main_animation;

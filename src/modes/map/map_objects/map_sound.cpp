@@ -23,7 +23,8 @@ namespace vt_map
 namespace private_map
 {
 
-SoundObject::SoundObject(const std::string& sound_filename, float x, float y, float strength):
+SoundObject::SoundObject(const std::string& sound_filename,
+                         float x, float y, float strength):
     MapObject(NO_LAYER_OBJECT), // This is a special object
     _strength(strength),
     _sound_volume(0.0f),
@@ -36,7 +37,8 @@ SoundObject::SoundObject(const std::string& sound_filename, float x, float y, fl
 
     // We use the AudioManager to mutualize the sound descriptors instances.
     bool loaded = true;
-    loaded = vt_audio::AudioManager->LoadSound(sound_filename, MapMode::CurrentInstance());
+    loaded = vt_audio::AudioManager->LoadSound(sound_filename,
+                                               MapMode::CurrentInstance());
     _sound = vt_audio::AudioManager->RetrieveSound(sound_filename);
     if (!loaded || _sound == nullptr) {
         PRINT_WARNING << "Couldn't load environmental sound file: "
@@ -94,7 +96,8 @@ void SoundObject::UpdateVolume()
     }
 
     // Update the volume only every 100ms
-    _time_remaining -= static_cast<int32_t>(vt_system::SystemManager->GetUpdateTime());
+    _time_remaining -=
+        static_cast<int32_t>(vt_system::SystemManager->GetUpdateTime());
     if (_time_remaining > 0)
         return;
     _time_remaining = 100;
@@ -108,8 +111,10 @@ void SoundObject::UpdateVolume()
     const MapFrame& frame = mm->GetMapFrame();
 
     Position2D center;
-    center.x = frame.screen_edges.left + (frame.screen_edges.right - frame.screen_edges.left) / 2.0f;
-    center.y = frame.screen_edges.top + (frame.screen_edges.bottom - frame.screen_edges.top) / 2.0f;
+    center.x = frame.screen_edges.left +
+               (frame.screen_edges.right - frame.screen_edges.left) / 2.0f;
+    center.y = frame.screen_edges.top +
+               (frame.screen_edges.bottom - frame.screen_edges.top) / 2.0f;
 
     float distance = _tile_position.GetDistance2(center);
     //distance = sqrtf(_distance); <-- We don't actually need it as it is slow.
@@ -134,10 +139,10 @@ void SoundObject::UpdateVolume()
     _playing = true;
 }
 
-void SoundObject::ApplyVolume()
+bool SoundObject::ApplyVolume()
 {
     if (!_sound)
-        return;
+        return false;
 
     // Stop sound if needed.
     if (_sound_volume <= 0.1f) {
@@ -145,7 +150,7 @@ void SoundObject::ApplyVolume()
                || _sound->GetState() == vt_audio::AUDIO_STATE_FADE_IN) {
            _sound->FadeOut(1000.0f);
         }
-        return;
+        return true;
     }
 
     if (_sound->GetState() != vt_audio::AUDIO_STATE_PLAYING
@@ -153,27 +158,30 @@ void SoundObject::ApplyVolume()
         _sound->FadeIn(1000.0f);
     }
     _sound->SetVolume(_sound_volume);
+    return true;
 }
 
-void SoundObject::Stop()
+bool SoundObject::Stop()
 {
     if (!_activated)
-        return;
+        return false;
 
     if (_sound)
         _sound->FadeOut(1000.0f);
     _activated = false;
+    return true;
 }
 
-void SoundObject::Start()
+bool SoundObject::Start()
 {
     if (_activated)
-        return;
+        return false;
 
     _activated = true;
 
     // Restores the sound state
     UpdateVolume();
+    return true;
 }
 
 } // namespace private_map

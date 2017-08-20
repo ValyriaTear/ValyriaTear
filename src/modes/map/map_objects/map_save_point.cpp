@@ -44,7 +44,8 @@ SavePoint::SavePoint(float x, float y):
     // enter the save point before colliding with it.
     // Note: We divide by the map zoom ratio because the animation are already rescaled following it.
     SetCollPixelHalfWidth((_animations->at(0).GetWidth() / MAP_ZOOM_RATIO) / 2.0f);
-    SetCollPixelHeight((_animations->at(0).GetHeight() / MAP_ZOOM_RATIO) - 0.3f * GRID_LENGTH);
+    SetCollPixelHeight((_animations->at(0).GetHeight() / MAP_ZOOM_RATIO)
+                       - 0.3f * GRID_LENGTH);
 
     // Setup the image collision for the display update
     SetImgPixelHalfWidth(_animations->at(0).GetWidth() / MAP_ZOOM_RATIO / 2.0f);
@@ -73,23 +74,25 @@ SavePoint* SavePoint::Create(float x, float y)
     return new SavePoint(x, y);
 }
 
-void SavePoint::Update()
+bool SavePoint::Update()
 {
     if(!_animations || !_updatable)
-        return;
+        return false;
 
     for(uint32_t i = 0; i < _animations->size(); ++i)
         _animations->at(i).Update();
+    return true;
 }
 
 
-void SavePoint::Draw()
+bool SavePoint::Draw()
 {
     if(!_animations || !MapObject::ShouldDraw())
-        return;
+        return false;
 
     for(uint32_t i = 0; i < _animations->size(); ++i)
         _animations->at(i).Draw();
+    return true;
 }
 
 void SavePoint::SetActive(bool active)

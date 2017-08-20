@@ -87,20 +87,22 @@ Rectangle2D Light::GetGridImageRectangle() const
     return rect;
 }
 
-void Light::_UpdateLightAngle()
+bool Light::_UpdateLightAngle()
 {
     MapMode *mm = MapMode::CurrentInstance();
     if(!mm)
-        return;
+        return false;
     const MapFrame &frame = mm->GetMapFrame();
 
     Position2D center;
-    center.x = frame.screen_edges.left + (frame.screen_edges.right - frame.screen_edges.left) / 2.0f;
-    center.y = frame.screen_edges.top + (frame.screen_edges.bottom - frame.screen_edges.top) / 2.0f;
+    center.x = frame.screen_edges.left +
+               (frame.screen_edges.right - frame.screen_edges.left) / 2.0f;
+    center.y = frame.screen_edges.top +
+               (frame.screen_edges.bottom - frame.screen_edges.top) / 2.0f;
 
     // Don't update the distance and angle data in that case.
     if(center.x == _last_center_pos.x && center.y == _last_center_pos.y)
-        return;
+        return true;
 
     _last_center_pos.x = center.x;
     _last_center_pos.y = center.y;
@@ -132,36 +134,39 @@ void Light::_UpdateLightAngle()
     _main_color_alpha.SetAlpha(_main_color.GetAlpha() / distance);
     _secondary_color_alpha = _secondary_color;
     _secondary_color_alpha.SetAlpha(_secondary_color.GetAlpha() / distance);
+
+    return true;
 }
 
-void Light::Update()
+bool Light::Update()
 {
     if(!_updatable)
-        return;
+        return false;
 
     _main_animation.Update();
     _secondary_animation.Update();
-    _UpdateLightAngle();
+    return _UpdateLightAngle();
 }
 
-void Light::Draw()
+bool Light::Draw()
 {
     if(!MapObject::ShouldDraw() || !_main_animation.GetCurrentFrame())
-        return;
+        return false;
 
     MapMode *mm = MapMode::CurrentInstance();
     if(!mm)
-        return;
+        return false;
 
     vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_CENTER,
                                          vt_video::VIDEO_Y_CENTER, 0);
 
-    vt_video::VideoManager->DrawHalo(*_main_animation.GetCurrentFrame(), _main_color_alpha);
+    vt_video::VideoManager->DrawHalo(*_main_animation.GetCurrentFrame(),
+                                     _main_color_alpha);
 
     if(!_secondary_animation.GetCurrentFrame()) {
         vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_CENTER,
                                              vt_video::VIDEO_Y_BOTTOM, 0);
-        return;
+        return true;
     }
 
     float next_pos_x = _tile_position.x - _distance / _distance_factor_1;
@@ -195,6 +200,8 @@ void Light::Draw()
 
     vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_CENTER,
                                          vt_video::VIDEO_Y_BOTTOM, 0);
+
+    return true;
 }
 
 } // namespace private_map

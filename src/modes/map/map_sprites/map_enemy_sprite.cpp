@@ -68,15 +68,16 @@ void EnemySprite::Reset()
     _current_way_point_id = 0;
 }
 
-void EnemySprite::AddEnemy(uint32_t enemy_id, float position_x, float position_y)
+bool EnemySprite::AddEnemy(uint32_t enemy_id, float position_x, float position_y)
 {
     if(_enemy_parties.empty()) {
         IF_PRINT_WARNING(MAP_DEBUG) << "can not add new enemy when no parties have been declared" << std::endl;
-        return;
+        return false;
     }
 
     vt_battle::BattleEnemyInfo enemy_info(enemy_id, position_x, position_y);
     _enemy_parties.back().push_back(enemy_info);
+    return true;
 }
 
 // Static empty enemy party used to prevent temporary reference returns.
@@ -102,7 +103,7 @@ void EnemySprite::ChangeStateHostile()
     _time_to_spawn = _time_to_respawn;
 }
 
-void EnemySprite::Update()
+bool EnemySprite::Update()
 {
     switch(_state) {
         // Gradually increase the alpha while the sprite is fading in during spawning
@@ -125,7 +126,8 @@ void EnemySprite::Update()
     default:
         break;
     }
-} // void EnemySprite::Update()
+    return true;
+}
 
 void EnemySprite::ChangeStateDead() {
     Reset();
@@ -261,39 +263,41 @@ void EnemySprite::_HandleHostileUpdate()
     }
 }
 
-void EnemySprite::Draw()
+bool EnemySprite::Draw()
 {
     // Otherwise, only draw it if it is not in the DEAD state
     if (!MapObject::ShouldDraw() || _state == DEAD)
-        return;
+        return false;
 
     _animation->at(_current_anim_direction).Draw(_color);
 
     // Draw collision rectangle if the debug view is on.
     if (!vt_video::VideoManager->DebugInfoOn())
-        return;
+        return true;
 
     Position2D pos = vt_video::VideoManager->GetDrawPosition();
     Rectangle2D rect = GetScreenCollisionRectangle(pos.x, pos.y);
     vt_video::VideoManager->DrawRectangle(rect.right - rect.left,
                                           rect.bottom - rect.top,
                                           vt_video::Color(1.0f, 0.0f, 0.0f, 0.6f));
+    return true;
 }
 
-void EnemySprite::AddWayPoint(float destination_x, float destination_y)
+bool EnemySprite::AddWayPoint(float destination_x, float destination_y)
 {
     Position2D destination(destination_x, destination_y);
 
     // Check whether the way point is already existing
-    for (uint32_t i = 0; i < _way_points.size(); ++i) {
-        if (_way_points[i].x == destination_x && _way_points[i].y == destination_y) {
+    for (auto& way_point : _way_points) {
+        if (way_point.x == destination_x && way_point.y == destination_y) {
             PRINT_WARNING << "Way point already added: (" << destination_x << ", "
                 << destination_y << ")" << std::endl;
-            return;
+            return false;
         }
     }
 
     _way_points.push_back(destination);
+    return true;
 }
 
 bool EnemySprite::_SetPathToNextWayPoint()
@@ -308,16 +312,17 @@ bool EnemySprite::_SetPathToNextWayPoint()
     if (_current_way_point_id >= _way_points.size())
         _current_way_point_id = 0;
 
-    bool ret = _SetDestination(_way_points[_current_way_point_id].x, _way_points[_current_way_point_id].y, 0);
+    bool ret = _SetDestination(_way_points[_current_way_point_id].x,
+                               _way_points[_current_way_point_id].y, 0);
     ++_current_way_point_id;
 
     return ret;
 }
 
-void EnemySprite::_UpdatePath()
+bool EnemySprite::_UpdatePath()
 {
     if(!_use_path || _path.empty())
-        return;
+        return false;
 
     const Position2D sprite_position = GetPosition();
     const float distance_moved = CalculateDistanceMoved();
@@ -345,9 +350,12 @@ void EnemySprite::_UpdatePath()
             && vt_utils::IsFloatEqual(sprite_position.y, _destination.y, distance_moved)) {
         _path.clear();
     }
+
+    return true;
 }
 
-bool EnemySprite::_SetDestination(float destination_x, float destination_y, uint32_t max_cost)
+bool EnemySprite::_SetDestination(float destination_x, float destination_y,
+                                  uint32_t max_cost)
 {
     _path.clear();
     _use_path = false;
@@ -364,7 +372,8 @@ bool EnemySprite::_SetDestination(float destination_x, float destination_y, uint
     Position2D dest(destination_x, destination_y);
     // We set the correct mask before finding the path
     _collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
-    _path = MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(this, dest, max_cost);
+    _path = MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(this, dest,
+                                                                        max_cost);
 
     if (_path.empty())
         return false;

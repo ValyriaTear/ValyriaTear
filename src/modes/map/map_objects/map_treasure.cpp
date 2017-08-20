@@ -34,7 +34,8 @@ TreasureObject::TreasureObject(const std::string& treasure_name,
 
     _treasure_name = treasure_name;
     if(treasure_name.empty())
-        PRINT_WARNING << "Empty treasure name found. The treasure won't function normally." << std::endl;
+        PRINT_WARNING << "Empty treasure name found. "
+                      << "The treasure won't function normally." << std::endl;
 
     _treasure = new vt_map::private_map::MapTreasureContent();
 
@@ -88,16 +89,18 @@ void TreasureObject::_LoadState()
     }
 }
 
-void TreasureObject::Open()
+bool TreasureObject::Open()
 {
     if(!_treasure) {
-        PRINT_ERROR << "Can't open treasure with invalid treasure content." << std::endl;
-        return;
+        PRINT_ERROR << "Can't open treasure with invalid treasure content."
+                    << std::endl;
+        return false;
     }
 
     if(_treasure->IsTaken()) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "attempted to retrieve an already taken treasure: " << _object_id << std::endl;
-        return;
+        IF_PRINT_WARNING(MAP_DEBUG) << "attempted to retrieve an already taken treasure: "
+                                    << _object_id << std::endl;
+        return false;
     }
 
     // Test whether events should be triggered
@@ -106,9 +109,10 @@ void TreasureObject::Open()
 
     SetCurrentAnimation(TREASURE_OPENING_ANIM);
     _is_opening = true;
+    return true;
 }
 
-void TreasureObject::Update()
+bool TreasureObject::Update()
 {
     PhysicalObject::Update();
 
@@ -116,18 +120,19 @@ void TreasureObject::Update()
         SetCurrentAnimation(TREASURE_OPEN_ANIM);
 
     if (!_is_opening || GetCurrentAnimationId() != TREASURE_OPEN_ANIM)
-        return;
+        return false;
 
     MapMode* mm = MapMode::CurrentInstance();
 
-    // Once opened, we handle potential events and the display of the treasure supervisor
+    // Once opened,
+    // we handle potential events and the display of the treasure supervisor
     EventSupervisor* event_manager = mm->GetEventSupervisor();
 
     if (!_events_triggered) {
         // Trigger potential events after opening
-        for (uint32_t i = 0; i < _events.size(); ++i) {
-            if (!event_manager->IsEventActive(_events[i]))
-                 event_manager->StartEvent(_events[i]);
+        for (auto event : _events) {
+            if (!event_manager->IsEventActive(event))
+                 event_manager->StartEvent(event);
         }
         _events_triggered = true;
     }
@@ -150,6 +155,7 @@ void TreasureObject::Update()
         // End the opening sequence
         _is_opening = false;
     }
+    return true;
 }
 
 bool TreasureObject::AddItem(uint32_t id, uint32_t quantity)
@@ -159,10 +165,12 @@ bool TreasureObject::AddItem(uint32_t id, uint32_t quantity)
     return _treasure->AddItem(id, quantity);
 }
 
-void TreasureObject::AddEvent(const std::string& event_id)
+bool TreasureObject::AddEvent(const std::string& event_id)
 {
-    if (!event_id.empty())
-        _events.push_back(event_id);
+    if (event_id.empty())
+        return false;
+    _events.push_back(event_id);
+    return true;
 }
 
 } // namespace private_map

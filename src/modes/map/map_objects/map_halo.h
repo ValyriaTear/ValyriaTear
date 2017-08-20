@@ -39,11 +39,11 @@ public:
 
     //! \brief Updates the object's current animation.
     //! \note the actual image resources is handled by the main map object.
-    void Update();
+    bool Update();
 
     //! \brief Draws the object to the screen, if it is visible.
     //! \note the actual image resources is handled by the main map object.
-    void Draw();
+    bool Draw();
 
 private:
     //! \brief A reference to the current map save animation.

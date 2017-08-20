@@ -42,10 +42,10 @@ public:
     static PhysicalObject* Create(MapObjectDrawLayer layer);
 
     //! \brief Updates the object's current animation.
-    virtual void Update();
+    virtual bool Update();
 
     //! \brief Draws the object to the screen, if it is visible.
-    virtual void Draw();
+    virtual bool Draw();
 
     /** \brief Sets a new animation using the animation filename provided
     *** \param animation_filename The name of the animation file to use for the animation
@@ -63,7 +63,7 @@ public:
         _animations.push_back(new_img);
     }
 
-    void SetCurrentAnimation(uint32_t animation_id);
+    bool SetCurrentAnimation(uint32_t animation_id);
 
     void SetAnimationProgress(uint32_t progress) {
         _animations[_current_animation_id].SetTimeProgress(progress);
