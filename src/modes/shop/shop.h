@@ -503,8 +503,13 @@ public:
     *** Adding an object after the shop mode instance has already been initialized (by being made the active game state)
     *** this call will add the object but will not be visible to the player.
     **/
-    void AddItem(uint32_t object_id, uint32_t stock);
+    bool AddItem(uint32_t object_id, uint32_t stock);
     //@}
+
+    bool AddItemWithPair(const std::pair<uint32_t, uint32_t>& values)
+    {
+        return AddItem(values.first, values.second);
+    }
 
     /** \brief Adds a new trade for the shop to sell
     *** \param object_id The id number of the object to add
@@ -514,7 +519,12 @@ public:
     *** Adding an object after the shop mode instance has already been initialized (by being made the active game state)
     *** this call will add the object but will not be visible to the player.
     **/
-    void AddTrade(uint32_t object_id, uint32_t stock);
+    bool AddTrade(uint32_t object_id, uint32_t stock);
+
+    bool AddTradeWithPair(const std::pair<uint32_t, uint32_t>& values)
+    {
+        return AddTrade(values.first, values.second);
+    }
     //@}
 
     /** \brief Deletes an object from the shop sell list
@@ -525,7 +535,7 @@ public:
     *** Trying to remove an object that the shop sells to the player or trying to remove an object
     *** that still remains in the shop's inventory will result in a warning message and the object will not be removed.
     **/
-    void RemoveObjectToBuy(uint32_t object_id);
+    bool RemoveObjectToBuy(uint32_t object_id);
 
     /** \brief Deletes an object from the shop sell list
     *** \param object_id The id number of the object to remove
@@ -535,7 +545,7 @@ public:
     *** an object that the shop sells to the player or trying to remove an object that still remains in the party's
     *** inventory will result in a warning message and the object will not be removed.
     **/
-    void RemoveObjectToSell(uint32_t object_id);
+    bool RemoveObjectToSell(uint32_t object_id);
 
     /** \brief Deletes an object from the shop
     *** \param object_id The id number of the object to remove
@@ -545,7 +555,7 @@ public:
     *** an object that the shop sells to the player or trying to remove an object that still remains in the party's
     *** inventory will result in a warning message and the object will not be removed.
     **/
-    void RemoveObjectToTrade(uint32_t object_id);
+    bool RemoveObjectToTrade(uint32_t object_id);
 
     //! \name Class member access functions
     //@{
