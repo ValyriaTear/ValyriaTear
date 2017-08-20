@@ -1,9 +1,9 @@
-
 [Desktop Entry]
 Version=1.0
 Name=Valyria Tear
 Name[gl]=A bágoa de Valïria
-Comment=A 2D RPG
+Comment=A 2D J-RPG
+Comment[fr]=Un J-RPG 2D
 Comment[gl]=Xogo de rol en dúas dimensións
 Exec=valyriatear
 StartupNotify=false
