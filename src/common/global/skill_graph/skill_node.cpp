@@ -42,16 +42,28 @@ void SkillNode::AddStatUpgrade(uint32_t stat, uint32_t upgrade) {
     _stats_upgrades.push_back(std::pair<uint32_t, uint32_t>(stat, upgrade));
 }
 
-void SkillNode::AddNodeLink(uint32_t node_id) {
+void SkillNode::AddChildNodeLink(uint32_t node_id) {
     // Prevent from double insertion
-    for(uint32_t cur_node_id : _nodes_links) {
+    for(uint32_t cur_node_id : _children_nodes_links) {
         if (cur_node_id == node_id) {
             PRINT_WARNING << "Node link id: (" << node_id
                           << ") already added: " << std::endl;
             return;
         }
     }
-    _nodes_links.push_back(node_id);
+    _children_nodes_links.push_back(node_id);
+}
+
+void SkillNode::AddParentNodeLink(uint32_t node_id) {
+    // Prevent from double insertion
+    for(uint32_t cur_node_id : _parent_nodes_links) {
+        if (cur_node_id == node_id) {
+            PRINT_WARNING << "Parent node link id: (" << node_id
+                          << ") already added: " << std::endl;
+            return;
+        }
+    }
+    _parent_nodes_links.push_back(node_id);
 }
 
 } // namespace vt_global

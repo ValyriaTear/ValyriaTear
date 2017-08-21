@@ -69,8 +69,12 @@ public:
         return _stats_upgrades;
     }
 
-    const std::vector<uint32_t>& GetNodeLinks() const {
-        return _nodes_links;
+    const std::vector<uint32_t>& GetChildrenNodeLinks() const {
+        return _children_nodes_links;
+    }
+
+    const std::vector<uint32_t>& GetParentNodeLinks() const {
+        return _parent_nodes_links;
     }
 
     void AddNeededItem(uint32_t item_id, uint32_t item_number);
@@ -79,7 +83,11 @@ public:
     //! Note that for evade stat, the upgrade value is later divided by 10.
     void AddStatUpgrade(uint32_t stat, uint32_t upgrade);
 
-    void AddNodeLink(uint32_t node_id);
+    //! \brief Adds a child link to the skill node
+    void AddChildNodeLink(uint32_t node_id);
+
+    //! \brief Adds a parent link to the skill node
+    void AddParentNodeLink(uint32_t node_id);
 
 private:
     //! \brief The Skill Node Id
@@ -103,8 +111,11 @@ private:
     //! \brief The list of stats upgrade the character gets when reaching the node
     std::vector<std::pair<uint32_t, uint32_t> > _stats_upgrades;
 
-    //! \brief Permited links to other nodes
-    std::vector<uint32_t> _nodes_links;
+    //! \brief Permited children links to other nodes
+    std::vector<uint32_t> _children_nodes_links;
+
+    //! \brief Permited parent links to other nodes
+    std::vector<uint32_t> _parent_nodes_links;
 };
 
 } // namespace vt_global

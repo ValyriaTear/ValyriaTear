@@ -140,6 +140,11 @@ private:
 
     //! \brief Update the skill tree view based on the current offset information
     void _UpdateSkillGraphView(bool scroll = true);
+
+    //! \brief Handles navigation to the neighbor node
+    //! in given direction based on key press.
+    //! \returns Whether a new node was selected.
+    bool _Navigate();
 };
 
 } // namespace private_menu
