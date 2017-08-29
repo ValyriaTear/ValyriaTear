@@ -14,16 +14,16 @@ namespace vt_global {
 SkillNode::SkillNode(uint32_t id,
                      float x_location,
                      float y_location,
-                     const std::string& icon_path,
+                     const std::string& icon_animation_filename,
                      uint32_t experience_points_needed,
-                     uint32_t skill_id_learned) :
+                     int32_t skill_id_learned) :
     _id(id),
     _position(x_location, y_location),
     _experience_points_needed(experience_points_needed),
     _skill_id_learned(skill_id_learned)
 {
-    if(!_icon_image.Load(icon_path))
-        PRINT_WARNING << "Couldn't load image: " << icon_path << std::endl;
+    if(!_icon_image.LoadFromAnimationScript(icon_animation_filename))
+        PRINT_WARNING << "Couldn't load animation from script: " << icon_animation_filename << std::endl;
 }
 
 void SkillNode::AddNeededItem(uint32_t item_id, uint32_t item_number) {

@@ -29,7 +29,7 @@ public:
               float y_location,
               const std::string& icon_path,
               uint32_t experience_points_needed,
-              uint32_t skill_id_learned);
+              int32_t skill_id_learned);
 
     //! \brief Gets skill node id
     uint32_t GetId() const {
@@ -48,12 +48,12 @@ public:
         return _position.y;
     }
 
-    vt_video::StillImage& GetIconImage() {
+    vt_video::AnimatedImage& GetIconImage() {
         return _icon_image;
     }
 
     //! \brief Gets skill id learned, or -1 if none.
-    uint32_t GetSkillIdLearned() const {
+    int32_t GetSkillIdLearned() const {
         return _skill_id_learned;
     }
 
@@ -97,13 +97,13 @@ private:
     vt_common::Position2D _position;
 
     //! \brief Icon used to represent this node.
-    vt_video::StillImage _icon_image;
+    vt_video::AnimatedImage _icon_image;
 
     //! \brief Experience points needed to reach this node
     uint32_t _experience_points_needed;
 
     //! \brief Skill learned, or -1 if none
-    uint32_t _skill_id_learned;
+    int32_t _skill_id_learned;
 
     //! \brief The list of items needs to reach the node
     std::vector<std::pair<uint32_t, uint32_t> > _items_needed;

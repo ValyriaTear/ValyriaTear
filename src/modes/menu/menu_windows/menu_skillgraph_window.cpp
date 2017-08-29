@@ -276,7 +276,7 @@ void SkillGraphWindow::_DrawSkillGraphState()
         VideoManager->MoveRelative(skill_node->GetXPosition(),
                                    skill_node->GetYPosition());
         // Center the image
-        vt_video::StillImage& image = skill_node->GetIconImage();
+        vt_video::AnimatedImage& image = skill_node->GetIconImage();
         VideoManager->MoveRelative(-image.GetWidth() / 2.0f,
                                    -image.GetHeight() / 2.0f);
         image.Draw();
