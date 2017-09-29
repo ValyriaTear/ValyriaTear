@@ -73,8 +73,11 @@ private:
                             SkillNode* skill_node);
 
     //! \brief Read node links and add them in the skill node data
-    void _ReadNodeLinks(vt_script::ReadScriptDescriptor& script,
-                        SkillNode* skill_node);
+    void _ReadChildrenNodeLinks(vt_script::ReadScriptDescriptor& script,
+                                SkillNode* skill_node);
+
+    //! \brief Computes and adds node links to previous ones.
+    void _ComputeNodeParentLinks();
 };
 
 } // namespace vt_global

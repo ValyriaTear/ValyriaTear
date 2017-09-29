@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
@@ -463,11 +463,6 @@ public:
         return (vt_global::GlobalManager->GetDrunes() + _total_change_amount);
     }
 
-    /** \name Exported class methods
-    *** The methods in this group are avaiable to be called from within Lua. Their intended use is for setting shop settings
-    *** and initializing data before the shop is opened.
-    **/
-    //@{
     /** \brief Sets the name of the store that should be displayed to the player
     *** \param name The name of the shop
     *** \note This method will only work if it is called before the shop is initialized. Calling it afterwards will
@@ -499,53 +494,66 @@ public:
     *** \param object_id The id number of the object to add
     *** \param stock The amount of the object to make available for sale at the shop.
     *** If set to 0, the number of objects to buy is infinite.
+    *** \return Whether the item was actually added
     ***
     *** Adding an object after the shop mode instance has already been initialized (by being made the active game state)
     *** this call will add the object but will not be visible to the player.
     **/
-    void AddItem(uint32_t object_id, uint32_t stock);
-    //@}
+    bool AddItem(uint32_t object_id, uint32_t stock);
+
+    //! \brief Convenience wrapper for adding items using pairs
+    bool AddItem(const std::pair<uint32_t, uint32_t>& values) {
+        return AddItem(values.first, values.second);
+    }
 
     /** \brief Adds a new trade for the shop to sell
     *** \param object_id The id number of the object to add
     *** \param stock The amount of the object to make available for sale at the shop.
     *** If set to 0, the number of objects is infinite.
+    *** \return Whether the item was actually added
     ***
     *** Adding an object after the shop mode instance has already been initialized (by being made the active game state)
     *** this call will add the object but will not be visible to the player.
     **/
-    void AddTrade(uint32_t object_id, uint32_t stock);
-    //@}
+    bool AddTrade(uint32_t object_id, uint32_t stock);
+
+    //! \brief Convenience wrapper for adding items using pairs
+    bool AddTrade(const std::pair<uint32_t, uint32_t>& values) {
+        return AddTrade(values.first, values.second);
+    }
 
     /** \brief Deletes an object from the shop sell list
     *** \param object_id The id number of the object to remove
+    *** \return Whether the item was actually removed
     ***
     *** This function should be used in only one specific case. This case is when the player buys all instances
     *** of one object type.
     *** Trying to remove an object that the shop sells to the player or trying to remove an object
     *** that still remains in the shop's inventory will result in a warning message and the object will not be removed.
     **/
-    void RemoveObjectToBuy(uint32_t object_id);
+    bool RemoveObjectToBuy(uint32_t object_id);
 
     /** \brief Deletes an object from the shop sell list
     *** \param object_id The id number of the object to remove
+    *** \return Whether the item was actually added
     ***
     *** This function should be used in only one specific case. This case is when the player owns this object and
     *** chooses to sell all instances of it and additionally the shop does not sell this item. Trying to remove
     *** an object that the shop sells to the player or trying to remove an object that still remains in the party's
     *** inventory will result in a warning message and the object will not be removed.
     **/
-    void RemoveObjectToSell(uint32_t object_id);
+    bool RemoveObjectToSell(uint32_t object_id);
 
     /** \brief Deletes an object from the shop
     *** \param object_id The id number of the object to remove
+    *** \return Whether the item was actually added
     ***
     *** This function should be used in only one specific case. This case is when the player owns this object and
     *** chooses to sell all instances of it and additionally the shop does not sell this item. Trying to remove
     *** an object that the shop sells to the player or trying to remove an object that still remains in the party's
     *** inventory will result in a warning message and the object will not be removed.
     **/
-    void RemoveObjectToTrade(uint32_t object_id);
+    bool RemoveObjectToTrade(uint32_t object_id);
 
     //! \name Class member access functions
     //@{

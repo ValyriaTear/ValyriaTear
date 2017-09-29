@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ***************************************************************************
@@ -947,8 +947,8 @@ void BindModeCode()
             .def(luabind::constructor<const std::string&>())
             .def("SetShopName", &ShopMode::SetShopName)
             .def("SetGreetingText", &ShopMode::SetGreetingText)
-            .def("AddItem", &ShopMode::AddItem)
-            .def("AddTrade", &ShopMode::AddTrade)
+            .def("AddItem", (bool(ShopMode:: *)(uint32_t, uint32_t))&ShopMode::AddItem)
+            .def("AddTrade", (bool(ShopMode:: *)(uint32_t, uint32_t))&ShopMode::AddTrade)
             .def("SetPriceLevels", &ShopMode::SetPriceLevels)
             .def("SetSellModeEnabled", &ShopMode::SetSellModeEnabled)
             .def("GetDialogueSupervisor", &ShopMode::GetDialogueSupervisor)

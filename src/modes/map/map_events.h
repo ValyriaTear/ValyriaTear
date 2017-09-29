@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
@@ -1088,7 +1088,7 @@ public:
     /** \brief Adds an event triggered at start of the treasure event.
     *** \param event_id The id of the event to add
     **/
-    void AddEvent(const std::string& event_id);
+    bool AddEvent(const std::string& event_id);
 
 protected:
     //! \brief A pointer to the treasure content, used by the TreasureSupervisor.

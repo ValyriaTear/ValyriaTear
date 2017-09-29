@@ -41,11 +41,11 @@ bool SkillGraph::Initialize(const std::string& skill_graph_file)
         }
 
         // Read base data
-        uint32_t x_location = script.ReadUInt("x_location");
-        uint32_t y_location = script.ReadUInt("y_location");
+        float x_location = script.ReadFloat("x_location");
+        float y_location = script.ReadFloat("y_location");
         std::string icon_file = script.ReadString("icon_file");
         uint32_t experience_points_needed = script.ReadUInt("experience_points_needed");
-        uint32_t skill_id_learned = script.ReadUInt("skill_id_learned");
+        int32_t skill_id_learned = script.ReadInt("skill_id_learned", -1);
 
         SkillNode* skill_node = new SkillNode(node_id,
                                               x_location,
@@ -57,7 +57,7 @@ bool SkillGraph::Initialize(const std::string& skill_graph_file)
         // Read potential other data
         _ReadItemsNeeded(script, skill_node);
         _ReadStatsUpgrades(script, skill_node);
-        _ReadNodeLinks(script, skill_node);
+        _ReadChildrenNodeLinks(script, skill_node);
 
         // Add the node to the graph
         _skill_graph_data.emplace_back(skill_node);
@@ -90,7 +90,27 @@ bool SkillGraph::Initialize(const std::string& skill_graph_file)
 
     script.CloseTable(); // skill_graph_start
 
+    // Costy
+    _ComputeNodeParentLinks();
+
     return true;
+}
+
+SkillNode* SkillGraph::GetSkillNode(uint32_t skill_node_id)
+{
+    for (SkillNode* skill_node : _skill_graph_data) {
+        if (skill_node->GetId() == skill_node_id)
+            return skill_node;
+    }
+    return nullptr;
+}
+
+uint32_t SkillGraph::GetStartingSkillNodeId(uint32_t character_id) const
+{
+    auto it = _starting_node_ids.find(character_id);
+    if (it == _starting_node_ids.end())
+        return 0; // Sane default value
+    return it->second;
 }
 
 void SkillGraph::_ReadItemsNeeded(vt_script::ReadScriptDescriptor& script,
@@ -129,8 +149,8 @@ void SkillGraph::_ReadStatsUpgrades(vt_script::ReadScriptDescriptor& script,
     script.CloseTable(); // stat
 }
 
-void SkillGraph::_ReadNodeLinks(vt_script::ReadScriptDescriptor& script,
-                               SkillNode* skill_node)
+void SkillGraph::_ReadChildrenNodeLinks(vt_script::ReadScriptDescriptor& script,
+                                        SkillNode* skill_node)
 {
     std::vector<uint32_t> node_ids;
     script.ReadUIntVector("links", node_ids);
@@ -140,27 +160,32 @@ void SkillGraph::_ReadNodeLinks(vt_script::ReadScriptDescriptor& script,
         return;
 
     for (uint32_t node_id: node_ids) {
-        skill_node->AddNodeLink(node_id);
+        skill_node->AddChildNodeLink(node_id);
     }
 
     script.CloseTable(); // links
 }
 
-SkillNode* SkillGraph::GetSkillNode(uint32_t skill_node_id)
+void SkillGraph::_ComputeNodeParentLinks()
 {
-    for (SkillNode* skill_node : _skill_graph_data) {
-        if (skill_node->GetId() == skill_node_id)
-            return skill_node;
-    }
-    return nullptr;
-}
+    for (SkillNode* current_node : _skill_graph_data) {
+        // If parent nodes were already added, skip it.
+        if (!current_node->GetParentNodeLinks().empty())
+            continue;
+        // Reparse every node and add the nodes as parent
+        // when they are listing the current one as a child.
+        for (SkillNode* parent_node : _skill_graph_data) {
+            // Don't check self
+            if (current_node == parent_node)
+                continue;
 
-uint32_t SkillGraph::GetStartingSkillNodeId(uint32_t character_id) const
-{
-    auto it = _starting_node_ids.find(character_id);
-    if (it == _starting_node_ids.end())
-        return 0; // Sane default value
-    return it->second;
+            auto children_node_links = parent_node->GetChildrenNodeLinks();
+            for (uint32_t child_link : children_node_links) {
+                if (current_node->GetId() == child_link)
+                    current_node->AddParentNodeLink(parent_node->GetId());
+            }
+        }
+    }
 }
 
 } // namespace vt_global

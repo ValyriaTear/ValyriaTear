@@ -222,26 +222,12 @@ void SkillGraphWindow::_UpdateSkillGraphListState()
 
     _UpdateSkillGraphView();
 
-    // TODO: Handle the appropriate input events
-    if (InputManager->LeftPress()) {
-        if (_selected_node_index > 0) {
-            --_selected_node_index;
-        }
-    }
-    else if (InputManager->RightPress()) {
-        ++_selected_node_index;
-    }
-    else {
-        // Only update when necessary
+    // Only update animation when necessary
+    if (!_Navigate())
         return;
-    }
 
     SkillGraph& skill_graph = vt_global::GlobalManager->GetSkillGraph();
     SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_index);
-
-    // Cancel right press if not possible
-    if (!current_skill_node && InputManager->RightPress())
-        --_selected_node_index;
 
     // Update bottom windows info
     if (current_skill_node)
@@ -290,7 +276,7 @@ void SkillGraphWindow::_DrawSkillGraphState()
         VideoManager->MoveRelative(skill_node->GetXPosition(),
                                    skill_node->GetYPosition());
         // Center the image
-        vt_video::StillImage& image = skill_node->GetIconImage();
+        vt_video::AnimatedImage& image = skill_node->GetIconImage();
         VideoManager->MoveRelative(-image.GetWidth() / 2.0f,
                                    -image.GetHeight() / 2.0f);
         image.Draw();
@@ -375,8 +361,8 @@ void SkillGraphWindow::_UpdateSkillGraphView(bool scroll)
         return;
     }
 
-    const Position2D target_distance(target_position.x - _view_position.x,
-                                     target_position.y - _view_position.y);
+    const Vector2D target_distance(target_position.x - _view_position.x,
+                                   target_position.y - _view_position.y);
 
     if (!scroll) {
         // Make it instant
@@ -448,7 +434,7 @@ void SkillGraphWindow::_UpdateSkillGraphView(bool scroll)
     _displayed_node_links.clear();
     // default ones (white, grayed out)
     for (SkillNode* skill_node : _displayed_skill_nodes) {
-        auto node_links = skill_node->GetNodeLinks();
+        auto node_links = skill_node->GetChildrenNodeLinks();
         // Don't load anything if there are no links
         if (node_links.empty())
             continue;
@@ -475,6 +461,83 @@ void SkillGraphWindow::_UpdateSkillGraphView(bool scroll)
     }
 
     // TODO colored lines per characters for paths done by them.
+}
+
+//! \brief Returns whether the node link is within the given links
+static bool isNodeWithin(const std::vector<uint32_t>& node_links, uint32_t node_id)
+{
+    for (auto node_link : node_links) {
+        if (node_link == node_id)
+            return true;
+    }
+    return false;
+}
+
+bool SkillGraphWindow::_Navigate()
+{
+    if (!InputManager->ArrowPress())
+        return false;
+
+    SkillGraph& skill_graph = vt_global::GlobalManager->GetSkillGraph();
+    SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_index);
+    const Position2D current_pos = current_skill_node->GetPosition();
+    // Get every node links
+    auto node_links = current_skill_node->GetChildrenNodeLinks();
+    const auto parent_node_links = current_skill_node->GetParentNodeLinks();
+    node_links.insert(node_links.end(), parent_node_links.begin(), parent_node_links.end());
+
+    SkillNode* selected_node = nullptr;
+    for (SkillNode* target_node : _displayed_skill_nodes) {
+        // Don't check against self
+        if (target_node == current_skill_node)
+            continue;
+
+        // Check whether the node is within current links
+        if (!isNodeWithin(node_links, target_node->GetId()))
+            continue;
+
+        // Do a simple position check
+        Position2D target_pos = target_node->GetPosition();
+        if (InputManager->LeftPress()) {
+            if (target_pos.x >= current_pos.x)
+                continue;
+        }
+        if (InputManager->RightPress()) {
+            if (target_pos.x <= current_pos.x)
+                continue;
+        }
+        if (InputManager->UpPress()) {
+            if (target_pos.y >= current_pos.y)
+                continue;
+        }
+        else if (InputManager->DownPress()) {
+            if (target_pos.y <= current_pos.y)
+                continue;
+        }
+
+        /* TODO: check whether tan search helps or is useful
+        // Get the tangent of the 2 points
+        // and check whether the angle correspond to the direction
+        Position2D tan_pos = current_pos;
+        tan_pos.x = target_pos.y;
+
+        // Tan X = O / A
+        // Actually we have Tan^2 but the result angle is the same.
+        // We use the default of undefined (angle of 90°)
+        float target_tangent = 90; // Actually, any value above ~25 will do
+        if (current_pos.GetDistance2(tan_pos) != 0.0f)
+            target_tangent = tan_pos.GetDistance2(target_pos) / current_pos.GetDistance2(tan_pos);
+        */
+
+        selected_node = target_node;
+        break;
+    }
+
+    // Select the new closest node
+    if (selected_node)
+        _selected_node_index = selected_node->GetId();
+
+    return (selected_node != nullptr);
 }
 
 } // namespace private_menu

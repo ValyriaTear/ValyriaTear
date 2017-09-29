@@ -7,11 +7,11 @@ This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
 Note: The licensing of the allacrost's files is assumed to be GPLv2 or later,
 as told on the allacrost web site:
-http://www.allacrost.org
+https://allacrost.org/
 
 'OGA' stands for: Open Game Art - https://opengameart.org
-'dA' stands for: Deviant Art - https://deviantart.com
-'The Mana World' or 'TMW' is referring to: https://themanaworld.org
+'dA' stands for: Deviant Art - https://www.deviantart.com
+'The Mana World' or 'TMW' is referring to: https://www.themanaworld.org
 
 GPLv2+ or GPLv3+ refer to assets under the standard license with the
 "or any later version" text.  "GPLv2" markings are for assets where it
@@ -361,7 +361,7 @@ data/entities/map/objects/bed2.png                                            GP
 data/entities/map/objects/bench1.png                                          GPLv2+                   Allacrost
 data/entities/map/objects/bench2.png                                          GPLv2+                   Allacrost
 data/entities/map/objects/box1.png                                            GPLv2+                   Allacrost
-data/entities/map/objects/bones1.png                                          CC by SA 3,0             Bertram
+data/entities/map/objects/bones1.png                                          CC-BY-SA-3.0             Bertram
 data/entities/map/objects/bubble.png                                          CC-BY-SA-3.0             Julien (OGA) - https://opengameart.org/content/large-bubble-and-some-bubbles-going-out-of-a-ground
 data/entities/map/objects/bush1.png                                           CC-BY-SA-3.0             Zabin (OGA)
 data/entities/map/objects/bush2.png                                           CC-BY-SA-3.0             Zabin (OGA) + Variation from Bertram
@@ -370,7 +370,7 @@ data/entities/map/objects/bush4.png                                           CC
 data/entities/map/objects/bridge_down.png                                     CC-BY-SA-3.0             Xenodora (OGA) - https://opengameart.org/content/lpc-style-wood-bridges-and-steel-flooring
 data/entities/map/objects/bridge_middle.png                                   CC-BY-SA-3.0             Xenodora (OGA) - https://opengameart.org/content/lpc-style-wood-bridges-and-steel-flooring
 data/entities/map/objects/bridge_up.png                                       CC-BY-SA-3.0             Xenodora (OGA) - https://opengameart.org/content/lpc-style-wood-bridges-and-steel-flooring
-data/entities/map/objects/cat1.png                                            CC By SA 3.0             Strawheart (OGA)  http://mtsids.com/
+data/entities/map/objects/cat1.png                                            CC-BY-SA-3.0             Strawheart (OGA)  http://mtsids.com/
 data/entities/map/objects/campfire.png                                        CC-BY-SA-3.0             Jetrel + Zabin (OGA) - https://opengameart.org/content/camp-fire-animation-for-rpgs-finished
 data/entities/map/objects/chair1.png                                          GPLv2+                   Allacrost
 data/entities/map/objects/chair1_inverted.png                                 GPLv2+                   Allacrost
@@ -516,7 +516,7 @@ data/inventory/leg_armor.lua                                                  GP
 data/inventory/weapons.lua                                                    GPLv2+                   Allacrost + Bertram
 data/inventory/drunes.png                                                     CC-BY-3.0                sunburn (OGA) - https://opengameart.org/content/loot
 data/inventory/object_category_icons.png                                      GPLv2+                   Allacrost
-data/inventory/category_icons.png                                             GPLv2+                    Allacrost
+data/inventory/category_icons.png                                             GPLv2+                   Allacrost
 
 data/inventory/armor/winged_circlet.png                                       GPLv2+                   Allacrost
 data/inventory/armor/shouldered_breastplate.png                               GPLv2+                   Allacrost

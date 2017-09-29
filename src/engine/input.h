@@ -395,6 +395,10 @@ public:
         return _right_press;
     }
 
+    bool ArrowPress() const {
+        return _up_press || _down_press || _left_press || _right_press;
+    }
+
     bool ConfirmPress() const {
         return _confirm_press;
     }

@@ -5,7 +5,7 @@
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
-// See http://www.gnu.org/copyleft/gpl.html for details.
+// See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
 /** ****************************************************************************
@@ -145,8 +145,8 @@ private:
 
     // ---------- Setup and refresh methods for boot menus
 
-    //! \brief Returns whether at least one save is available to be loaded.
-    bool _SavesAvailable();
+    //! \brief Returns number of saves available to be loaded.
+    uint32_t _GetNbSavesAvailable();
 
     //! \brief Setup main menu
     //@{

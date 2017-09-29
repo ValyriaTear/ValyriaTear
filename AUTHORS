@@ -15,6 +15,7 @@ Josh Niehenke (Codergreen)    -   Shop mode simplification, trade support.
 James Lammlein (Authenticate) -   Bug fixes, OpenGL programmable pipeline, UI theme support, VS compilation support, and precompiled header support.
 (logzero)                     -   Bug fixes, OpenGL improvements, and precompiled header support.
 (endoalir)                    -   Bug fixes, SDL multi-screen better support.
+Nicola Spanti (RyDroid)       -   Code formatting
 
 
 Packaging:
