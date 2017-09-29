@@ -24,10 +24,16 @@ fi
 tmp_file=$(mktemp  ${TMPDIR:-/tmp}/XXXXX)
 
 # update the dates, creating the interval if it doesn't exist yet
-find src/ -iname '*.c' -or -iname '*.cpp' -or -iname '*.h' -or -iname '*.hpp' |
+find src/ -iname '*.c' -or -iname '*.cc' -or -iname '*.cpp' -or -iname '*.h' -or -iname '*.hh' -or -iname '*.hpp' |
   xargs sed -i "/Copyright.*$copyright_notice/ s,\(20[0-9]*\) \|\(20[0-9]*\)-20[0-9]* ,\1\2-$new_year ,"
 
 # do a semi-automated commit check
+command -v git > /dev/null
+if [ "$?" -ne 0 ]
+then
+    >&2 echo 'The program git is needed'
+    exit 2
+fi
 git diff > $tmp_file
 echo 'The next +/- counts mentioning copyrights should match:'
 grep "^[-+][^-+]" $tmp_file | sort | uniq -c
@@ -38,5 +44,6 @@ rm -f -- "$tmp_file"
 # Indicate the source file that may miss the copyright notice.
 echo 'Those files are missing the given Copyright notice.'
 echo 'You might want to check them:'
-find src/ -type f -name "*.[Cc][Pp][Pp]" -or -name "*.[Hh]" -or -name "*.[Cc]" -or -name "*.[Hh][Pp][Pp]" | xargs grep -RiL "$copyright_notice"
+find src/ -type f -name "*.[Cc][Pp][Pp]" -or -name "*.[Hh]" -or -name "*.[Cc]" -or -name "*.[Hh][Pp][Pp]" |
+  xargs grep -RiL "$copyright_notice"
 echo "End of $0 script."
