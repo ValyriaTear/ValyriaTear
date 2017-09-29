@@ -329,7 +329,7 @@ data/entities/map/enemies/skeleton_spritesheet.png                            CC
 data/entities/map/enemies/slime_walk.png                                      GPLv2+                   Allacrost
 data/entities/map/enemies/snake_walk.png                                      GPLv2+                   Allacrost
 data/entities/map/enemies/spider_spritesheet.png                              GPLv2+                   The Mana World + Made it brown (Bertram)
-data/entities/map/enemies/spiky_mushroom.png                                  GPLv2+                   Yuuki - The Mana World - http://www.themanaworld.org
+data/entities/map/enemies/spiky_mushroom.png                                  GPLv2+                   Yuuki - The Mana World - https://www.themanaworld.org
 data/entities/map/enemies/wolf_spritesheet.png                                GPLv2+                   The Mana World
 data/entities/map/enemies/yeti_spritesheet.png                                GPLv2                    Modanung, Pateame (TMW) - https://github.com/themanaworld/tmwa-client-data/blob/master/graphics/sprites/monsters/moggun.png
 
@@ -501,7 +501,7 @@ data/entities/status_effects/status.png                                       GP
 
 data/fonts/LinBiolinum_RBah.ttf                                               OFL 1.1 or GPLv2+        Philipp H. Poll - http://www.linuxlibertine.org
 data/fonts/LinLibertine_aBS.ttf                                               OFL 1.1 or GPLv2+        Philipp H. Poll - http://www.linuxlibertine.org
-data/fonts/Berenika-Oblique.ttf                                               OFL 1.1                  wmk69 - http://openfontlibrary.org/en/font/klaudia-and-berenika
+data/fonts/Berenika-Oblique.ttf                                               OFL 1.1                  wmk69 - https://fontlibrary.org/en/font/klaudia-and-berenika
 data/fonts/SourceHanSansJP-Medium.otf                                         OFL 1.1                  kenlunde - https://github.com/adobe-fonts/source-han-sans/tree/release
 
 data/icons/program_icon.png                                                   GPLv2+                   Bertram (using the scriptina font which is CC0, see DaFont.com)
@@ -516,7 +516,7 @@ data/inventory/leg_armor.lua                                                  GP
 data/inventory/weapons.lua                                                    GPLv2+                   Allacrost + Bertram
 data/inventory/drunes.png                                                     CC by 3.0                sunburn (OGA) - https://opengameart.org/content/loot
 data/inventory/object_category_icons.png                                      GPLv2+                   Allacrost
-data/inventory/category_icons.png                                             GPLv2+                    Allacrost
+data/inventory/category_icons.png                                             GPLv2+                   Allacrost
 
 data/inventory/armor/winged_circlet.png                                       GPLv2+                   Allacrost
 data/inventory/armor/shouldered_breastplate.png                               GPLv2+                   Allacrost
@@ -785,14 +785,14 @@ data/story/common/quests/*.png                                                CC
 
 data/story/common/worldmaps/layna_region.png                                  CC by SA 3.0             Combination of: https://opengameart.org/content/old-time-3-islands-map (CC0) - Gaming4JC and MrBeast - https://opengameart.org/content/worldmapoverworld-tileset + map by Bertram
 
-data/story/layna_forest/minimaps/layna_forest_cave1_1_minimap.png             CC by SA 3.0          Bertram
-data/story/layna_forest/minimaps/layna_forest_cave1_2_minimap.png             CC by SA 3.0          Bertram
-data/story/layna_forest/minimaps/layna_forest_entrance_minimap.png            CC by SA 3.0          Bertram
-data/story/layna_forest/minimaps/layna_forest_north_east_minimap.png          CC by SA 3.0          Bertram
-data/story/layna_forest/minimaps/layna_forest_north_west_minimap.png          CC by SA 3.0          Bertram
-data/story/layna_forest/minimaps/layna_forest_south_east_minimap.png          CC by SA 3.0          Bertram
-data/story/layna_forest/minimaps/layna_forest_south_west_minimap.png          CC by SA 3.0          Bertram
-data/story/layna_forest/minimaps/layna_forest_wolf_cave_minimap.png           CC by SA 3.0          Bertram
+data/story/layna_forest/minimaps/layna_forest_cave1_1_minimap.png             CC by SA 3.0             Bertram
+data/story/layna_forest/minimaps/layna_forest_cave1_2_minimap.png             CC by SA 3.0             Bertram
+data/story/layna_forest/minimaps/layna_forest_entrance_minimap.png            CC by SA 3.0             Bertram
+data/story/layna_forest/minimaps/layna_forest_north_east_minimap.png          CC by SA 3.0             Bertram
+data/story/layna_forest/minimaps/layna_forest_north_west_minimap.png          CC by SA 3.0             Bertram
+data/story/layna_forest/minimaps/layna_forest_south_east_minimap.png          CC by SA 3.0             Bertram
+data/story/layna_forest/minimaps/layna_forest_south_west_minimap.png          CC by SA 3.0             Bertram
+data/story/layna_forest/minimaps/layna_forest_wolf_cave_minimap.png           CC by SA 3.0             Bertram
 
 data/story/layna_forest/wolfpain_necklace.png                                 CC by SA 3.0             Bertram - adapted from Scrittl's work (OGA) - https://opengameart.org/content/armor-icons-32x32-px-painterly
 data/story/layna_forest/stone_sign.png                                        CC by SA 3.0             Lilou (Valyria Tear)
