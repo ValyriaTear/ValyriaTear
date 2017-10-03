@@ -8,9 +8,9 @@
                |___/
 
 
-**Development blog:** http://valyriatear.blogspot.com
+**Development blog:** https://valyriatear.blogspot.com
 **Bug Tracker:** https://github.com/ValyriaTearValyriaTear/issues
-**Forums:** http://forum.freegamedev.net/viewforum.php?f=76
+**Forums:** https://forum.freegamedev.net/viewforum.php?f=76
 
 Valyria Tear is an open-source single-player medieval-fantasy 2D J-RPG based on an extended Hero of Allacrost engine
 and inspired by classic console RPGs. See: http://www.allacrost.org
@@ -23,7 +23,7 @@ active side-view battles, character management, puzzles... It is also translated
 
 ## Licensing ##
 
-Copyright (C) 2012-2016 by Bertram
+Copyright (C) 2012-2017 by Bertram
 Copyright (C) 2004-2011 by The Allacrost Project
 
 The source code is licensed under the *GNU GPL*. It is free software and you may
