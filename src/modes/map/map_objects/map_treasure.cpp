@@ -34,7 +34,8 @@ TreasureObject::TreasureObject(const std::string& treasure_name,
 
     _treasure_name = treasure_name;
     if(treasure_name.empty())
-        PRINT_WARNING << "Empty treasure name found. The treasure won't function normally." << std::endl;
+        PRINT_WARNING << "Empty treasure name found. "
+                      << "The treasure won't function normally." << std::endl;
 
     _treasure = new vt_map::private_map::MapTreasureContent();
 
@@ -91,12 +92,14 @@ void TreasureObject::_LoadState()
 void TreasureObject::Open()
 {
     if(!_treasure) {
-        PRINT_ERROR << "Can't open treasure with invalid treasure content." << std::endl;
+        PRINT_ERROR << "Can't open treasure with invalid treasure content."
+                    << std::endl;
         return;
     }
 
     if(_treasure->IsTaken()) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "attempted to retrieve an already taken treasure: " << _object_id << std::endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "attempted to retrieve an already taken treasure: "
+                                    << _object_id << std::endl;
         return;
     }
 
@@ -112,7 +115,8 @@ void TreasureObject::Update()
 {
     PhysicalObject::Update();
 
-    if ((GetCurrentAnimationId() == TREASURE_OPENING_ANIM) && (_animations[TREASURE_OPENING_ANIM].IsAnimationFinished()))
+    if ((GetCurrentAnimationId() == TREASURE_OPENING_ANIM) &&
+            (_animations[TREASURE_OPENING_ANIM].IsAnimationFinished()))
         SetCurrentAnimation(TREASURE_OPEN_ANIM);
 
     if (!_is_opening || GetCurrentAnimationId() != TREASURE_OPEN_ANIM)
@@ -120,7 +124,8 @@ void TreasureObject::Update()
 
     MapMode* mm = MapMode::CurrentInstance();
 
-    // Once opened, we handle potential events and the display of the treasure supervisor
+    // Once opened, we handle potential events
+    // and the display of the treasure supervisor
     EventSupervisor* event_manager = mm->GetEventSupervisor();
 
     if (!_events_triggered) {
@@ -145,7 +150,8 @@ void TreasureObject::Update()
     else {
         // Once all events are finished, we can open the treasure supervisor
         mm->GetTreasureSupervisor()->Initialize(this);
-        // Add an event to the treasures group indicating that the treasure has now been opened
+        // Add an event to the treasures group indicating that
+        // the treasure has now been opened
         vt_global::GlobalManager->SetEventValue("treasures", _treasure_name, 1);
         // End the opening sequence
         _is_opening = false;

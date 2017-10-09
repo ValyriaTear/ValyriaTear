@@ -61,7 +61,8 @@ void PhysicalObject::Draw()
     Rectangle2D rect = GetScreenCollisionRectangle(position.x, position.y);
     vt_video::VideoManager->DrawRectangle(rect.right - rect.left,
                                           rect.bottom - rect.top,
-                                          vt_video::Color(0.0f, 1.0f, 0.0f, 0.6f));
+                                          vt_video::Color(0.0f, 1.0f, 0.0f,
+                                                          0.6f));
 }
 
 int32_t PhysicalObject::AddAnimation(const std::string& animation_filename)

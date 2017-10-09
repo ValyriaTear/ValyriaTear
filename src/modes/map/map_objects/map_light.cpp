@@ -95,8 +95,10 @@ void Light::_UpdateLightAngle()
     const MapFrame &frame = mm->GetMapFrame();
 
     Position2D center;
-    center.x = frame.screen_edges.left + (frame.screen_edges.right - frame.screen_edges.left) / 2.0f;
-    center.y = frame.screen_edges.top + (frame.screen_edges.bottom - frame.screen_edges.top) / 2.0f;
+    center.x = frame.screen_edges.left +
+               (frame.screen_edges.right - frame.screen_edges.left) / 2.0f;
+    center.y = frame.screen_edges.top +
+               (frame.screen_edges.bottom - frame.screen_edges.top) / 2.0f;
 
     // Don't update the distance and angle data in that case.
     if(center.x == _last_center_pos.x && center.y == _last_center_pos.y)
@@ -156,7 +158,8 @@ void Light::Draw()
     vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_CENTER,
                                          vt_video::VIDEO_Y_CENTER, 0);
 
-    vt_video::VideoManager->DrawHalo(*_main_animation.GetCurrentFrame(), _main_color_alpha);
+    vt_video::VideoManager->DrawHalo(*_main_animation.GetCurrentFrame(),
+                                     _main_color_alpha);
 
     if(!_secondary_animation.GetCurrentFrame()) {
         vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_CENTER,

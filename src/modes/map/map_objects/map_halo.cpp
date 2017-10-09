@@ -33,7 +33,8 @@ Halo::Halo(const std::string& filename,
     _collision_mask = NO_COLLISION;
 
     if(!_animation.LoadFromAnimationScript(filename))
-        PRINT_WARNING << "Couldn't load the Halo animation " << filename << " properly." << std::endl;
+        PRINT_WARNING << "Couldn't load the Halo animation "
+                      << filename << " properly." << std::endl;
 
     // Setup the image collision for the display update
     SetImgPixelHalfWidth(_animation.GetWidth() / 2.0f);
