@@ -68,7 +68,8 @@ MapSprite* MapSprite::Create(MapObjectDrawLayer layer)
     return new MapSprite(layer);
 }
 
-bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std::string &filename)
+bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations,
+                     const std::string &filename)
 {
     // Prepare to add the animations for each directions, if needed.
 
@@ -82,7 +83,8 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
         return false;
 
     if(!animations_script.DoesTableExist("sprite_animation")) {
-        PRINT_WARNING << "No 'sprite_animation' table in 4-direction animation script file: " << filename << std::endl;
+        PRINT_WARNING << "No 'sprite_animation' table in 4-direction animation script file: "
+                      << filename << std::endl;
         animations_script.CloseFile();
         return false;
     }
@@ -91,7 +93,8 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
 
     std::string image_filename = animations_script.ReadString("image_filename");
     if(!vt_utils::DoesFileExist(image_filename)) {
-        PRINT_WARNING << "The image file doesn't exist: " << image_filename << std::endl;
+        PRINT_WARNING << "The image file doesn't exist: "
+                      << image_filename << std::endl;
         animations_script.CloseTable();
         animations_script.CloseFile();
         return false;
@@ -114,8 +117,12 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
 
     std::vector<vt_video::StillImage> image_frames;
     // Load the image data
-    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(image_frames, image_filename, rows, columns)) {
-        PRINT_WARNING << "Couldn't load elements from image file: " << image_filename
+    if(!vt_video::ImageDescriptor::LoadMultiImageFromElementGrid(image_frames,
+                                                                 image_filename,
+                                                                 rows,
+                                                                 columns)) {
+        PRINT_WARNING << "Couldn't load elements from image file: "
+                      << image_filename
                       << " (in file: " << filename << ")" << std::endl;
         animations_script.CloseAllTables();
         animations_script.CloseFile();
@@ -153,10 +160,11 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
             int32_t frame_duration = animations_script.ReadInt("duration");
 
             if(frame_id < 0 || frame_duration < 0 || frame_id >= (int32_t)image_frames.size()) {
-                PRINT_WARNING << "Invalid frame (" << frames_table_id << ") in file: "
-                              << filename << std::endl;
-                PRINT_WARNING << "Request for frame id: " << frame_id << ", duration: "
-                              << frame_duration << " is not possible." << std::endl;
+                PRINT_WARNING << "Invalid frame (" << frames_table_id << ")"
+                              <<" in file: " << filename << std::endl;
+                PRINT_WARNING << "Request for frame id: " << frame_id
+                              << ", duration: " << frame_duration
+                              << " is not possible." << std::endl;
                 continue;
             }
 
@@ -172,7 +180,8 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
         animations[anim_direction].SetAnimationBlended(blended_animation);
         for(uint32_t j = 0; j < frames_ids.size(); ++j) {
             // Set the dimension of the requested frame
-            animations[anim_direction].AddFrame(image_frames[frames_ids[j]], frames_duration[j]);
+            animations[anim_direction].AddFrame(image_frames[frames_ids[j]],
+                                                frames_duration[j]);
         }
 
         // Closes frames[ANIM_DIRECTION]
@@ -192,7 +201,8 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
             animations[i].SetDimensions(frame_width, frame_height);
         } else if(vt_utils::IsFloatEqual(animations[i].GetWidth(), 0.0f)
                   && vt_utils::IsFloatEqual(animations[i].GetHeight(), 0.0f)) {
-            // If the animation dimensions are not set, we're using the first frame size.
+            // If the animation dimensions are not set,
+            // we're using the first frame size.
             animations[i].SetDimensions(image_frames.begin()->GetWidth(), image_frames.begin()->GetHeight());
         }
 
@@ -239,10 +249,12 @@ bool MapSprite::LoadRunningAnimations(const std::string &filename)
     return _has_running_animations;
 }
 
-bool MapSprite::LoadCustomAnimation(const std::string &animation_name, const std::string &filename)
+bool MapSprite::LoadCustomAnimation(const std::string &animation_name,
+                                    const std::string &filename)
 {
     if(_custom_animations.find(animation_name) != _custom_animations.end()) {
-        PRINT_WARNING << "The animation " << animation_name << " is already existing." << std::endl;
+        PRINT_WARNING << "The animation " << animation_name
+                      << " is already existing." << std::endl;
         return false;
     }
 
@@ -256,7 +268,8 @@ bool MapSprite::LoadCustomAnimation(const std::string &animation_name, const std
     return false;
 }
 
-void MapSprite::SetCustomAnimation(const std::string &animation_name, int32_t time)
+void MapSprite::SetCustomAnimation(const std::string &animation_name,
+                                   int32_t time)
 {
     // If there is no key, there will be no custom animation to display
     if(animation_name.empty()) {
@@ -267,8 +280,9 @@ void MapSprite::SetCustomAnimation(const std::string &animation_name, int32_t ti
     // Same if the key isn't found
     auto it = _custom_animations.find(animation_name);
     if(it == _custom_animations.end()) {
-        PRINT_WARNING << "Couldn't find any custom animation '" << animation_name
-            << "' for sprite: " << GetSpriteName() << std::endl;
+        PRINT_WARNING << "Couldn't find any custom animation '"
+                      << animation_name
+                      << "' for sprite: " << GetSpriteName() << std::endl;
         _custom_animation_on = false;
         return;
     }
@@ -294,7 +308,8 @@ void MapSprite::ReloadSprite(const std::string& sprite_name)
     if (sprite_name == GetSpriteName())
         return;
 
-    vt_script::ReadScriptDescriptor& script = vt_global::GlobalManager->GetMapSpriteScript();
+    vt_script::ReadScriptDescriptor& script =
+        vt_global::GlobalManager->GetMapSpriteScript();
 
     if (!script.IsFileOpen())
         return;
@@ -380,10 +395,12 @@ void MapSprite::SetGrayscale(bool grayscale) {
 
 void MapSprite::Update()
 {
-    // Stores the last value of moved_position to determine when a change in sprite movement between calls to this function occurs
+    // Stores the last value of moved_position to determine
+    // when a change in sprite movement between calls to this function occurs
     bool was_moved = _moved_position;
 
-    // This call will update the sprite's position and perform collision detection
+    // This call will update the sprite's position
+    // and perform collision detection
     VirtualSprite::Update();
 
     // if it's a custom animation, just display that and ignore everything else
@@ -395,7 +412,8 @@ void MapSprite::Update()
             _custom_animation_time = 0;
         } else {
             if (!_infinite_custom_animation)
-                _custom_animation_time -= vt_system::SystemManager->GetUpdateTime();
+                _custom_animation_time -=
+                    vt_system::SystemManager->GetUpdateTime();
             _current_custom_animation->Update();
         }
         return;
@@ -405,7 +423,8 @@ void MapSprite::Update()
     uint8_t last_anim_direction = _current_anim_direction;
     std::vector<vt_video::AnimatedImage>* last_animation = _animation;
 
-    // Set the sprite's animation to the standing still position if movement has just stopped
+    // Set the sprite's animation to the standing still position
+    // if movement has just stopped
     if(!_moved_position) {
         // Set the current movement animation to zero progress
         if(was_moved)
@@ -424,7 +443,8 @@ void MapSprite::Update()
             } else if(_direction & FACING_EAST) {
                 _current_anim_direction = ANIM_EAST;
             } else {
-                PRINT_ERROR << "invalid sprite direction, could not find proper standing animation to draw" << std::endl;
+                PRINT_ERROR << "invalid sprite direction, could not find proper standing animation to draw"
+                            << std::endl;
             }
         }
     }
@@ -440,7 +460,8 @@ void MapSprite::Update()
         } else if(_direction & FACING_EAST) {
             _current_anim_direction = ANIM_EAST;
         } else {
-            PRINT_ERROR << "invalid sprite direction, could not find proper standing animation to draw" << std::endl;
+            PRINT_ERROR << "invalid sprite direction, could not find proper standing animation to draw"
+                        << std::endl;
         }
 
         // Increasing the animation index by four from the walking _animations leads to the running _animations
@@ -451,18 +472,22 @@ void MapSprite::Update()
         }
     }
 
-    // If the direction of movement changed in mid-flight, update the animation timer on the
-    // new animated image to reflect the old, so the walking _animations do not appear to
+    // If the direction of movement changed in mid-flight,
+    // update the animation timer on the new animated image to reflect the old,
+    // so the walking _animations do not appear to
     // "start and stop" whenever the direction is changed.
-    if(last_anim_direction != _current_anim_direction || last_animation != _animation) {
+    if(last_anim_direction != _current_anim_direction ||
+           last_animation != _animation) {
         _animation->at(_current_anim_direction).SetTimeProgress(last_animation->at(last_anim_direction).GetTimeProgress());
         last_animation->at(last_anim_direction).ResetAnimation();
     }
 
     // Take care of adapting the update time according to the sprite speed when walking or running
     uint32_t elapsed_time = 0;
-    if(_animation == &_walking_animations || (_has_running_animations && _animation == &_running_animations)) {
-        elapsed_time = (uint32_t)(((float)vt_system::SystemManager->GetUpdateTime()) * NORMAL_SPEED / _movement_speed);
+    if(_animation == &_walking_animations ||
+           (_has_running_animations && _animation == &_running_animations)) {
+        elapsed_time =
+            (uint32_t)(((float)vt_system::SystemManager->GetUpdateTime()) * NORMAL_SPEED / _movement_speed);
     }
 
     _animation->at(_current_anim_direction).Update(elapsed_time);
@@ -475,10 +500,12 @@ void MapSprite::_DrawDebugInfo()
     Rectangle2D rect = GetScreenCollisionRectangle(pos.x, pos.y);
     vt_video::VideoManager->DrawRectangle(rect.right - rect.left,
                                           rect.bottom - rect.top,
-                                          vt_video::Color(0.0f, 0.0f, 1.0f, 0.6f));
+                                          vt_video::Color(0.0f, 0.0f, 1.0f,
+                                                          0.6f));
 
     // Show a potential active path
-    if(_control_event && _control_event->GetEventType() == PATH_MOVE_SPRITE_EVENT) {
+    if(_control_event && _control_event->GetEventType()
+           == PATH_MOVE_SPRITE_EVENT) {
         PathMoveSpriteEvent *path_event = (PathMoveSpriteEvent *)_control_event;
         if(path_event) {
             Path path = path_event->GetPath();
@@ -548,7 +575,8 @@ void MapSprite::ClearDialogueReferences()
 void MapSprite::RemoveDialogueReference(SpriteDialogue* dialogue)
 {
     std::string dialogue_id = dialogue->GetDialogueID();
-    // Remove all dialogues with the given reference (for the case, the same dialogue was add several times)
+    // Remove all dialogues with the given reference
+    // (for the case, the same dialogue was add several times)
     for(uint32_t i = 0; i < _dialogue_references.size(); i++) {
         if(_dialogue_references[i] == dialogue_id)
             _dialogue_references.erase(_dialogue_references.begin() + i);
@@ -559,7 +587,9 @@ void MapSprite::RemoveDialogueReference(SpriteDialogue* dialogue)
 void MapSprite::InitiateDialogue()
 {
     if(_dialogue_references.empty()) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "sprite: " << _object_id << " has no dialogue referenced" << std::endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "sprite: " << _object_id
+                                    << " has no dialogue referenced"
+                                    << std::endl;
         return;
     }
 
@@ -579,7 +609,8 @@ void MapSprite::UpdateDialogueStatus()
     for(uint32_t i = 0; i < _dialogue_references.size(); i++) {
         SpriteDialogue* dialogue = MapMode::CurrentInstance()->GetDialogueSupervisor()->GetDialogue(_dialogue_references[i]);
         if(!dialogue) {
-            PRINT_WARNING << "sprite: " << _object_id << " is referencing unknown dialogue: "
+            PRINT_WARNING << "sprite: " << _object_id
+                          << " is referencing unknown dialogue: "
                           << _dialogue_references[i] << std::endl;
             continue;
         }
@@ -601,7 +632,8 @@ void MapSprite::IncrementNextDialogue()
 {
     // Handle the case where no dialogue is referenced by the sprite
     if(_next_dialogue < 0) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "function invoked when no dialogues were referenced by the sprite" << std::endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "function invoked when no dialogues were referenced by the sprite"
+                                    << std::endl;
         return;
     }
 
@@ -609,12 +641,14 @@ void MapSprite::IncrementNextDialogue()
 
     while(true) {
         ++_next_dialogue;
-        if(static_cast<uint16_t>(_next_dialogue) >= _dialogue_references.size()) {
+        if(static_cast<uint16_t>(_next_dialogue) >=
+               _dialogue_references.size()) {
             --_next_dialogue;
             return;
         }
 
-        SpriteDialogue *dialogue = MapMode::CurrentInstance()->GetDialogueSupervisor()->GetDialogue(_dialogue_references[_next_dialogue]);
+        SpriteDialogue *dialogue =
+            MapMode::CurrentInstance()->GetDialogueSupervisor()->GetDialogue(_dialogue_references[_next_dialogue]);
         if(dialogue)
             return;
 
@@ -631,7 +665,8 @@ void MapSprite::SetNextDialogue(uint16_t next)
 {
     // If a negative value is passed in, this means the user wants to disable
     if(next >= _dialogue_references.size()) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "tried to set _next_dialogue to an value that was invalid (exceeds maximum bounds): " << next << std::endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "tried to set _next_dialogue to an value that was invalid (exceeds maximum bounds): "
+                                    << next << std::endl;
     } else {
         _next_dialogue = static_cast<int16_t>(next);
     }
@@ -653,7 +688,8 @@ void MapSprite::RestoreState()
 
 const std::string& MapSprite::GetNextDialogueID() const
 {
-    if (_next_dialogue >= 0 && _next_dialogue < static_cast<int16_t>(_dialogue_references.size()))
+    if (_next_dialogue >= 0 &&
+            _next_dialogue < static_cast<int16_t>(_dialogue_references.size()))
         return _dialogue_references[_next_dialogue];
     else
         return vt_utils::_empty_string;

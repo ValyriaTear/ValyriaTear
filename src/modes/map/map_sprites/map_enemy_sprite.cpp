@@ -68,10 +68,12 @@ void EnemySprite::Reset()
     _current_way_point_id = 0;
 }
 
-void EnemySprite::AddEnemy(uint32_t enemy_id, float position_x, float position_y)
+void EnemySprite::AddEnemy(uint32_t enemy_id,
+                           float position_x, float position_y)
 {
     if(_enemy_parties.empty()) {
-        IF_PRINT_WARNING(MAP_DEBUG) << "can not add new enemy when no parties have been declared" << std::endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "can not add new enemy when no parties have been declared"
+                                    << std::endl;
         return;
     }
 
@@ -85,7 +87,8 @@ static const std::vector<vt_battle::BattleEnemyInfo> empty_enemy_party;
 const std::vector<vt_battle::BattleEnemyInfo>& EnemySprite::RetrieveRandomParty() const
 {
     if(_enemy_parties.empty()) {
-        PRINT_ERROR << "No enemy parties exist and none can be created." << std::endl;
+        PRINT_ERROR << "No enemy parties exist and none can be created."
+                    << std::endl;
         return empty_enemy_party;
     }
 
@@ -277,7 +280,8 @@ void EnemySprite::Draw()
     Rectangle2D rect = GetScreenCollisionRectangle(pos.x, pos.y);
     vt_video::VideoManager->DrawRectangle(rect.right - rect.left,
                                           rect.bottom - rect.top,
-                                          vt_video::Color(1.0f, 0.0f, 0.0f, 0.6f));
+                                          vt_video::Color(1.0f, 0.0f, 0.0f,
+                                                          0.6f));
 }
 
 void EnemySprite::AddWayPoint(float destination_x, float destination_y)
@@ -287,8 +291,9 @@ void EnemySprite::AddWayPoint(float destination_x, float destination_y)
     // Check whether the way point is already existing
     for (uint32_t i = 0; i < _way_points.size(); ++i) {
         if (_way_points[i].x == destination_x && _way_points[i].y == destination_y) {
-            PRINT_WARNING << "Way point already added: (" << destination_x << ", "
-                << destination_y << ")" << std::endl;
+            PRINT_WARNING << "Way point already added: "
+                          << "(" << destination_x << ", "
+                          << destination_y << ")" << std::endl;
             return;
         }
     }
@@ -308,7 +313,8 @@ bool EnemySprite::_SetPathToNextWayPoint()
     if (_current_way_point_id >= _way_points.size())
         _current_way_point_id = 0;
 
-    bool ret = _SetDestination(_way_points[_current_way_point_id].x, _way_points[_current_way_point_id].y, 0);
+    bool ret = _SetDestination(_way_points[_current_way_point_id].x,
+                               _way_points[_current_way_point_id].y, 0);
     ++_current_way_point_id;
 
     return ret;
@@ -347,7 +353,8 @@ void EnemySprite::_UpdatePath()
     }
 }
 
-bool EnemySprite::_SetDestination(float destination_x, float destination_y, uint32_t max_cost)
+bool EnemySprite::_SetDestination(float destination_x, float destination_y,
+                                  uint32_t max_cost)
 {
     _path.clear();
     _use_path = false;
@@ -364,7 +371,9 @@ bool EnemySprite::_SetDestination(float destination_x, float destination_y, uint
     Position2D dest(destination_x, destination_y);
     // We set the correct mask before finding the path
     _collision_mask = WALL_COLLISION | CHARACTER_COLLISION;
-    _path = MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(this, dest, max_cost);
+    _path =
+        MapMode::CurrentInstance()->GetObjectSupervisor()->FindPath(this, dest,
+                                                                    max_cost);
 
     if (_path.empty())
         return false;
