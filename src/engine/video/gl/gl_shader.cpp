@@ -16,6 +16,7 @@
 #include "common/include_pch.h"
 #include "gl_shader.h"
 
+#include "utils/utils_common.h"
 #include "utils/exception.h"
 #include "utils/utils_strings.h"
 

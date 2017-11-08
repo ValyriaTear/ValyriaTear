@@ -18,6 +18,7 @@
 
 #include "utils/exception.h"
 #include "utils/utils_strings.h"
+#include "utils/utils_common.h"
 
 namespace vt_video
 {

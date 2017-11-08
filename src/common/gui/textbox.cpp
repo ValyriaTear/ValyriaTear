@@ -21,6 +21,8 @@
 #include "common/gui/menu_window.h"
 #include "engine/video/video.h"
 
+#include "utils/utils_common.h"
+
 using namespace vt_utils;
 using namespace vt_video;
 using namespace vt_video::private_video;

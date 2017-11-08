@@ -282,6 +282,7 @@ common/message_window.cpp
 common/dialogue.cpp
 common/common.cpp
 common/options_handler.cpp
+common/app_settings.cpp
 common/common_bindings.cpp
 engine/audio/audio.cpp
 engine/audio/audio_descriptor.cpp

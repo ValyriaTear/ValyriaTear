@@ -24,10 +24,13 @@
 #include "utils/utils_strings.h"
 #include "utils/utils_files.h"
 
+#include "common/app_name.h"
+#include "common/app_settings.h"
 #include "common/gui/textbox.h"
 
 #include "mode_manager.h"
 
+using namespace vt_common;
 using namespace vt_utils;
 using namespace vt_script;
 using namespace vt_mode_manager;

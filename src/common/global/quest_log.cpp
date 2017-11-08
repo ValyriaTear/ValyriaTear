@@ -10,6 +10,8 @@
 
 #include "quest_log.h"
 
+#include "utils/utils_common.h"
+
 namespace vt_global
 {
 

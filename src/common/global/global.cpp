@@ -21,9 +21,10 @@
 #include "engine/system.h"
 #include "modes/map/map_mode.h"
 
-#include "utils/utils_files.h"
+#include "common/app_settings.h"
 
 using namespace vt_utils;
+using namespace vt_common;
 
 using namespace vt_video;
 using namespace vt_script;

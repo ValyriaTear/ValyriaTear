@@ -27,10 +27,12 @@
 #include "modes/mode_help_window.h"
 
 #include "utils/utils_files.h"
+#include "common/app_settings.h"
 
 #include "common/global/global.h"
 
 using namespace vt_utils;
+using namespace vt_common;
 using namespace vt_video;
 using namespace vt_input;
 using namespace vt_global;

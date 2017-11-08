@@ -19,8 +19,9 @@
 #include "engine/video/particle_manager.h"
 
 #include "engine/video/video.h"
-
 #include "engine/video/particle_effect.h"
+
+#include "utils/utils_common.h"
 
 using namespace vt_script;
 using namespace vt_video;

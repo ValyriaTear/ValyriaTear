@@ -12,6 +12,8 @@
 
 #include "common/global/global_utils.h"
 
+#include "utils/utils_common.h"
+
 namespace vt_map
 {
 

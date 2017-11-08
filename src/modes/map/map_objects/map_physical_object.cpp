@@ -12,6 +12,8 @@
 
 #include "engine/video/video.h"
 
+#include "utils/utils_common.h"
+
 using namespace vt_common;
 
 namespace vt_map

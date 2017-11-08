@@ -21,6 +21,7 @@
 #include "engine/video/gl/gl_vector.h"
 #include "engine/video/video.h"
 
+#include "utils/utils_common.h"
 #include "utils/utils_strings.h"
 
 using namespace vt_utils;

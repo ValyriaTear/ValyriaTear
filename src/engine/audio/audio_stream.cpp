@@ -24,6 +24,8 @@
 
 #include "audio_input.h"
 
+#include "utils/utils_common.h"
+
 namespace vt_audio
 {
 

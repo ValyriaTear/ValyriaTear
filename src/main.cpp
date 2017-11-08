@@ -29,8 +29,6 @@
 
 #include "common/include_pch.h"
 
-#include "utils/utils_files.h"
-
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"
@@ -39,11 +37,14 @@
 
 #include "common/global/global.h"
 #include "common/gui/gui.h"
+#include "common/app_settings.h"
+#include "common/app_name.h"
 
 #include "modes/boot/boot.h"
 #include "main_options.h"
 
 using namespace vt_utils;
+using namespace vt_common;
 using namespace vt_audio;
 using namespace vt_video;
 using namespace vt_gui;

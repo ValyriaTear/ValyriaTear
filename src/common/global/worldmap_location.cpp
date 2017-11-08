@@ -10,6 +10,8 @@
 
 #include "worldmap_location.h"
 
+#include "utils/utils_common.h"
+
 namespace vt_global {
 
 WorldMapLocation::WorldMapLocation(float x,

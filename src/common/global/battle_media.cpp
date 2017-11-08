@@ -20,6 +20,8 @@
 #include "engine/system.h"
 #include "engine/audio/audio.h"
 
+#include "utils/utils_common.h"
+
 namespace vt_global
 {
 

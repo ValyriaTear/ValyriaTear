@@ -20,6 +20,8 @@
 
 #include "video.h"
 
+#include "utils/utils_common.h"
+
 using namespace vt_utils;
 
 namespace vt_video

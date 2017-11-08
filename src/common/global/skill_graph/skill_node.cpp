@@ -9,6 +9,8 @@
 
 #include "skill_node.h"
 
+#include "utils/utils_common.h"
+
 namespace vt_global {
 
 SkillNode::SkillNode(uint32_t id,

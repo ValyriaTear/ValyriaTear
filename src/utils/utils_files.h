@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2016 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2017 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -17,6 +17,9 @@
 
 #ifndef __UTILS_FILES_HEADER__
 #define __UTILS_FILES_HEADER__
+
+#include <vector>
+#include <string>
 
 //! Contains utility code used across the entire source code
 namespace vt_utils
@@ -49,29 +52,29 @@ uint32_t GetFileModTime(const std::string& filename);
 *** it will be overwritten without warning or indication. Be careful when using this
 *** function! (Had to be modified for Win32 to explicitly delete the file)
 **/
-bool MoveFile(const std::string &source_name, const std::string &destination_name);
+bool MoveFile(const std::string& source_name, const std::string& destination_name);
 
 /** \brief same as move, but leaves the source file and there is no return value
  **/
-void CopyFile(const std::string &source, const std::string &destination);
+void CopyFile(const std::string& source, const std::string& destination);
 
 /** \brief Removes all files in a directory.
 *** \param dir_name The name of the directory to clean (e.g. "/temp/screenshots")
 *** \return True upon success, false upon failure
 **/
-bool CleanDirectory(const std::string &dir_name);
+bool CleanDirectory(const std::string& dir_name);
 
 /** \brief Creates a directory.
 *** \param dir_name The name of the directory to create (e.g. "/temp/screenshots")
 *** \return True upon success, false upon failure
 **/
-bool MakeDirectory(const std::string &dir_name);
+bool MakeDirectory(const std::string& dir_name);
 
 /** \brief Deletes a directory and any files in the directory.
 *** \param dir_name The name of the directory to remove (e.g. "/temp/screenshots")
 *** \return True upon success, false upon failure
 **/
-bool RemoveDirectory(const std::string &dir_name);
+bool RemoveDirectory(const std::string& dir_name);
 
 /** \brief Lists the contents of a directory
 *** \param dir_name The name of the directory to list (e.g. "/temp/screenshots")
@@ -79,28 +82,14 @@ bool RemoveDirectory(const std::string &dir_name);
 *** displayed), an empty string value of "" can be passed if you wish to display everything with no filter.
 *** \return A vector with the directory listing , a blank vector if the directory doesnt exist
 **/
-std::vector<std::string> ListDirectory(const std::string &dir_name, const std::string &filter);
+std::vector<std::string> ListDirectory(const std::string& dir_name, const std::string& filter);
 //@}
 
 /** \brief Deletes a specified file
 *** \param filename The name of the file to be deleted
 *** \return true on success false on failure
 **/
-bool DeleteFile(const std::string &filename);
-
-//! \name User directory and settings paths
-//@{
-//! \brief Gives the OS specific directory path to save and retrieve user data
-const std::string GetUserDataPath();
-
-//! \brief Gives the OS specific directory path to save and retrieve user config data
-const std::string GetUserConfigPath();
-
-/** \brief Gives the path and filename of the settings file to use
-*** \return A string with the settings filename, or an empty string if the settings file could not be found
-**/
-const std::string GetSettingsFilename();
-//@}
+bool DeleteFile(const std::string& filename);
 
 } // namespace vt_utils
 

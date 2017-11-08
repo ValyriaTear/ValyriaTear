@@ -16,6 +16,8 @@
 #include "common/include_pch.h"
 #include "map_utils.h"
 
+#include "utils/utils_common.h"
+
 namespace vt_map
 {
 

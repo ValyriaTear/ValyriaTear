@@ -27,6 +27,8 @@
 
 #include "utils/utils_files.h"
 
+#include "common/app_name.h"
+#include "common/app_settings.h"
 #include "common/global/global.h"
 
 namespace vt_battle {
@@ -49,6 +51,7 @@ extern bool SHOP_DEBUG;
 }
 
 using namespace vt_utils;
+using namespace vt_common;
 
 namespace vt_main
 {

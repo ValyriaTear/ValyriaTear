@@ -10,6 +10,8 @@
 
 #include "global_event_group.h"
 
+#include "utils/utils_common.h"
+
 namespace vt_global {
 
 extern bool GLOBAL_DEBUG;

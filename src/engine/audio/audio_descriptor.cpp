@@ -28,6 +28,7 @@
 #include "audio.h"
 #include "engine/system.h"
 
+#include "utils/utils_common.h"
 #include "utils/utils_strings.h"
 
 using namespace vt_audio::private_audio;

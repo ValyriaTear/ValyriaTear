@@ -18,6 +18,7 @@
 #include "common/include_pch.h"
 #include "interpolator.h"
 
+#include "utils/utils_common.h"
 #include "utils/utils_numeric.h"
 
 namespace vt_mode_manager

@@ -26,12 +26,14 @@
 #include "modes/mode_help_window.h"
 
 #include "utils/utils_files.h"
+#include "common/app_settings.h"
 
 using namespace vt_utils;
 using namespace vt_video;
 using namespace vt_script;
 using namespace vt_mode_manager;
 using namespace vt_system;
+using namespace vt_common;
 using namespace vt_input::private_input;
 
 namespace vt_input
@@ -313,7 +315,7 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
                 static uint32_t i = 1;
                 std::string path = "";
                 while(true) {
-                    path = vt_utils::GetUserDataPath() + "screenshot_" + NumberToString<uint32_t>(i) + ".png";
+                    path = GetUserDataPath() + "screenshot_" + NumberToString<uint32_t>(i) + ".png";
                     if(!DoesFileExist(path))
                         break;
                     i++;
