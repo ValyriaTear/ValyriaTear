@@ -26,7 +26,7 @@
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"
-#include "engine/script/script.h"
+#include "utils/script/script.h"
 #include "engine/video/video.h"
 
 #include "modes/pause.h"

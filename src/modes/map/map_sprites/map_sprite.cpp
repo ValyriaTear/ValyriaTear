@@ -18,7 +18,7 @@
 #include "common/global/global.h"
 #include "common/rectangle_2d.h"
 
-#include "engine/script/script_read.h"
+#include "utils/script/script_read.h"
 #include "engine/system.h"
 #include "engine/video/image.h"
 

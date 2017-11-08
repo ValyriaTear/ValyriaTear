@@ -19,7 +19,7 @@
 #include "engine/video/video.h"
 
 #include "engine/mode_manager.h"
-#include "engine/script/script_read.h"
+#include "utils/script/script_read.h"
 #include "engine/system.h"
 #include "engine/video/gl/gl_particle_system.h"
 #include "engine/video/gl/gl_render_target.h"

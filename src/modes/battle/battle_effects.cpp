@@ -18,7 +18,7 @@
 #include "utils/utils_pch.h"
 #include "modes/battle/battle_effects.h"
 
-#include "engine/script/script.h"
+#include "utils/script/script.h"
 #include "engine/system.h"
 #include "engine/video/video.h"
 

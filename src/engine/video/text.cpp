@@ -26,7 +26,7 @@
 #include "text.h"
 #include "video.h"
 
-#include "engine/script/script_read.h"
+#include "utils/script/script_read.h"
 #include "engine/system.h"
 
 // The script filename used to configure the text styles used in game.

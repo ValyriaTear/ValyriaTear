@@ -18,7 +18,7 @@
 #include "utils/utils_pch.h"
 #include "global_skills.h"
 
-#include "engine/script/script.h"
+#include "utils/script/script.h"
 #include "engine/video/video.h"
 
 #include "global.h"

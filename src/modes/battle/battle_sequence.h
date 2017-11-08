@@ -30,7 +30,7 @@
 
 #include "engine/audio/audio.h"
 #include "engine/mode_manager.h"
-#include "engine/script/script.h"
+#include "utils/script/script.h"
 #include "engine/system.h"
 
 #include "common/global/global.h"

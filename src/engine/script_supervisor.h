@@ -16,7 +16,7 @@
 #ifndef __SCRIPT_SUPERVISOR_HEADER__
 #define __SCRIPT_SUPERVISOR_HEADER__
 
-#include "engine/script/script_read.h"
+#include "utils/script/script_read.h"
 #include "engine/video/video.h"
 
 namespace vt_video {

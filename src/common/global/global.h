@@ -27,8 +27,8 @@
 
 #include "utils/utils_strings.h"
 
-#include "engine/script/script_read.h"
-#include "engine/script/script_write.h"
+#include "utils/script/script_read.h"
+#include "utils/script/script_write.h"
 
 #include "skill_graph/skill_graph.h"
 #include "global_actors.h"

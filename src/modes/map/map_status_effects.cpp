@@ -18,7 +18,7 @@
 
 #include "modes/map/map_mode.h"
 
-#include "engine/script/script_read.h"
+#include "utils/script/script_read.h"
 #include "common/global/global.h"
 #include "engine/video/video.h"
 

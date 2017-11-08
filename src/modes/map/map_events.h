@@ -32,7 +32,7 @@
 
 #include "engine/audio/audio_descriptor.h"
 
-#include "engine/script/script.h"
+#include "utils/script/script.h"
 
 namespace vt_map
 {

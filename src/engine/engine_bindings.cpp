@@ -28,7 +28,7 @@
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"
-#include "engine/script/script.h"
+#include "utils/script/script.h"
 #include "engine/system.h"
 #include "engine/video/video.h"
 #include "engine/video/particle_effect.h"

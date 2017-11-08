@@ -18,7 +18,7 @@
 #include "utils/utils_pch.h"
 #include "image.h"
 
-#include "engine/script/script_read.h"
+#include "utils/script/script_read.h"
 #include "engine/system.h"
 #include "engine/video/color.h"
 

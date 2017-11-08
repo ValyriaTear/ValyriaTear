@@ -20,7 +20,7 @@
 
 #include "global.h"
 
-#include "engine/script/script.h"
+#include "utils/script/script.h"
 #include "engine/video/video.h"
 
 using namespace vt_utils;

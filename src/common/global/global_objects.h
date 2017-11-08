@@ -24,7 +24,7 @@
 #include "global_utils.h"
 
 #include "engine/video/image.h"
-#include "engine/script/script.h"
+#include "utils/script/script.h"
 
 #include "utils/ustring.h"
 

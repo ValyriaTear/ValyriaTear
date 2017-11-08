@@ -19,7 +19,7 @@
 #include "utils/utils_pch.h"
 #include "engine/system.h"
 
-#include "engine/script/script.h"
+#include "utils/script/script.h"
 
 #include "utils/utils_strings.h"
 #include "utils/utils_files.h"

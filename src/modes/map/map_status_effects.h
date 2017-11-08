@@ -19,7 +19,7 @@
 #ifndef __MAP_STATUS_EFFECTS_HEADER__
 #define __MAP_STATUS_EFFECTS_HEADER__
 
-#include "engine/script/script.h"
+#include "utils/script/script.h"
 
 #include "common/global/global_effects.h"
 

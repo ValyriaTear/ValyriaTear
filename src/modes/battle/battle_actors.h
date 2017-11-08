@@ -30,7 +30,7 @@
 #include "engine/video/text.h"
 #include "engine/video/particle_effect.h"
 
-#include "engine/script/script_read.h"
+#include "utils/script/script_read.h"
 
 #include "common/position_2d.h"
 

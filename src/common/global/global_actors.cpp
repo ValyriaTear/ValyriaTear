@@ -18,7 +18,7 @@
 #include "utils/utils_pch.h"
 #include "global_actors.h"
 
-#include "engine/script/script_read.h"
+#include "utils/script/script_read.h"
 #include "global_objects.h"
 #include "global_effects.h"
 #include "global_skills.h"

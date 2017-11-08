@@ -23,7 +23,7 @@
 
 #include "modes/map/map_utils.h"
 
-#include "engine/script/script_read.h"
+#include "utils/script/script_read.h"
 
 namespace vt_video {
 class ImageDescriptor;

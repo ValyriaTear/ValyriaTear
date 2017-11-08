@@ -250,9 +250,9 @@ luabind/luabind/wrapper_base.hpp
 
 # Files used by both the game and the editor
 SET(SRCS_COMMON
-engine/script/script.cpp
-engine/script/script_read.cpp
-engine/script/script_write.cpp
+utils/script/script.cpp
+utils/script/script_read.cpp
+utils/script/script_write.cpp
 utils/utils_pch.cpp
 utils/utils_random.cpp
 utils/utils_files.cpp

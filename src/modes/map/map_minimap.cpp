@@ -19,7 +19,7 @@
 
 // Used for the collision to XPM dev function
 #ifdef DEBUG_FEATURES
-#include "engine/script/script_write.h"
+#include "utils/script/script_write.h"
 #endif
 
 using namespace vt_common;
