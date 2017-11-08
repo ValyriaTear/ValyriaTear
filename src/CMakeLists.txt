@@ -222,7 +222,6 @@ luabind/luabind/detail/primitives.hpp
 luabind/luabind/detail/convert_to_lua.hpp
 luabind/luabind/detail/most_derived.hpp
 luabind/luabind/detail/stack_utils.hpp
-luabind/luabind/detail/open.hpp
 luabind/luabind/detail/property.hpp
 luabind/luabind/detail/other.hpp
 luabind/luabind/detail/link_compatibility.hpp
