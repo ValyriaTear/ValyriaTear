@@ -11,7 +11,7 @@
 *** \brief   Source file for map mode escape circles handling.
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 
 #include "modes/map/map_escape.h"
 #include "modes/map/map_mode.h"

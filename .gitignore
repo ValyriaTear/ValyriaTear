@@ -45,7 +45,7 @@ ValyriaTear.layout
 
 # The precompiled header file
 # with gcc/mingw compilation
-src/utils/utils_pch.h.gch
+src/common/include_pch.h.gch
 
 # files created by Qt Creator
 valyriatear.creator.user*

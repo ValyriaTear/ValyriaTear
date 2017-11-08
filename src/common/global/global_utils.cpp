@@ -15,7 +15,7 @@
 *** \brief   Source file for global game utility code
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "global_utils.h"
 
 #include "global.h"

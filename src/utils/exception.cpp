@@ -15,7 +15,7 @@
 *** \brief   Source file for the exception code.
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "exception.h"
 
 template <typename T>

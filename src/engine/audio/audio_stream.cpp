@@ -19,7 +19,7 @@
 *** enables support for features such as customized looping.
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "audio_stream.h"
 
 #include "audio_input.h"

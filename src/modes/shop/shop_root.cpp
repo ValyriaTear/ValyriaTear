@@ -15,7 +15,7 @@
 *** \brief   Source file for root interface of shop mode
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "shop_root.h"
 
 #include "engine/audio/audio.h"

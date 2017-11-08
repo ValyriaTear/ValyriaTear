@@ -15,7 +15,7 @@
 *** \brief   Source file for pause mode interface.
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "modes/pause.h"
 
 #include "engine/audio/audio.h"

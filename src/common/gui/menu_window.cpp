@@ -15,7 +15,7 @@
 *** \brief   Header file for menu window class
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "menu_window.h"
 
 #include "engine/video/video.h"

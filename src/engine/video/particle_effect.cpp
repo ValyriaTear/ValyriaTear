@@ -15,7 +15,7 @@
 *** \brief   Source file for particle effects
 *** **************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "engine/video/particle_effect.h"
 
 #include "engine/video/particle_system.h"

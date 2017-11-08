@@ -15,7 +15,7 @@
 *** \brief   Source file for Interpolator class
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "interpolator.h"
 
 #include "utils/utils_numeric.h"

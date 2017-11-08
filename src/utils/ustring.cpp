@@ -15,7 +15,7 @@
 *** \brief   Source file for the UTF16 string code.
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "ustring.h"
 
 namespace vt_utils

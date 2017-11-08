@@ -15,7 +15,7 @@
 *** \brief   Header file for OptionBox GUI control and supporting classes
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "option.h"
 
 #include "engine/video/gl/gl_vector.h"

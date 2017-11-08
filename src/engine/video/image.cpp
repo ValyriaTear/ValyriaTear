@@ -15,7 +15,7 @@
 *** \brief   Source file for image classes
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "image.h"
 
 #include "utils/script/script_read.h"

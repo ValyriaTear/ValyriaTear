@@ -15,7 +15,7 @@
 *** \brief   Source file for particle system
 *** **************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "particle_system.h"
 
 #include "particle_keyframe.h"

@@ -15,7 +15,7 @@
 *** \brief   Source file for map mode zones.
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "modes/map/map_zones.h"
 
 #include "modes/map/map_sprites/map_enemy_sprite.h"

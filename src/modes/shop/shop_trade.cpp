@@ -16,7 +16,7 @@
 *** \brief   Source file for sell interface of shop mode
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "shop_trade.h"
 
 #include "shop.h"

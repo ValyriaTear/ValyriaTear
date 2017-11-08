@@ -13,7 +13,7 @@
 *** \brief   Source file for shader programs used in OpenGL.
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "gl_shader_program.h"
 
 #include "gl_shader.h"

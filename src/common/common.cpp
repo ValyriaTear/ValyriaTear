@@ -15,7 +15,7 @@
 *** \brief   Source file for common code shared across the source tree
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "common.h"
 
 namespace vt_common {

@@ -18,7 +18,7 @@
 *** \brief   Source file for battle mode interface.
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "modes/battle/battle.h"
 
 #include "common/dialogue.h"

@@ -253,11 +253,12 @@ SET(SRCS_COMMON
 utils/script/script.cpp
 utils/script/script_read.cpp
 utils/script/script_write.cpp
-utils/utils_pch.cpp
 utils/utils_random.cpp
 utils/utils_files.cpp
 utils/utils_numeric.cpp
 utils/utils_strings.cpp
+utils/ustring.cpp
+utils/exception.cpp
 )
 
 SET(SRCS
@@ -381,8 +382,6 @@ modes/menu/menu_windows/skill_node_bottom_info.cpp
 modes/pause.cpp
 modes/mode_bindings.cpp
 modes/mode_help_window.cpp
-utils/ustring.cpp
-utils/exception.cpp
 main_options.cpp
 main.cpp
     )
@@ -420,7 +419,7 @@ IF (CMAKE_COMPILER_IS_GNUCXX AND USE_PCH_COMPILATION)
                     DEPENDS ${_header_filename})
     ENDMACRO(ADD_PCH_RULE _header_filename _src_list)
 
-    ADD_PCH_RULE(${CMAKE_CURRENT_SOURCE_DIR}/utils/utils_pch.h SRCS)
+    ADD_PCH_RULE(${CMAKE_CURRENT_SOURCE_DIR}/common/include_pch.h SRCS)
 ENDIF()
 
 ADD_EXECUTABLE(valyriatear WIN32 ${SRCS} ${SRCS_COMMON} ${SRCS_LUABIND})

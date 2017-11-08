@@ -15,7 +15,7 @@
 *** \brief   Source file for the help window
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "modes/mode_help_window.h"
 
 #include "engine/video/video.h"

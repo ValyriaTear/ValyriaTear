@@ -13,7 +13,7 @@
 *** \brief   Source file for buffers for a particle system.
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "gl_particle_system.h"
 
 #include "utils/exception.h"

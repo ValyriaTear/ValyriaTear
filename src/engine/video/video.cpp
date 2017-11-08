@@ -15,7 +15,7 @@
 *** \brief   Source file for video engine interface.
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "engine/video/video.h"
 
 #include "engine/mode_manager.h"

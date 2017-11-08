@@ -15,7 +15,7 @@
 *** \brief   Implementations for functions that handle command-line arguments.
 *** **************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "main_options.h"
 
 #include "engine/audio/audio.h"
@@ -321,7 +321,6 @@ bool EnableDebugging(const std::string &vars)
             vt_menu::MENU_DEBUG                    = true;
             vt_pause::PAUSE_DEBUG                  = true;
             vt_shop::SHOP_DEBUG                    = true;
-            vt_utils::UTILS_DEBUG                  = true;
             vt_video::VIDEO_DEBUG                  = true;
         } else if(args[i] == "audio") {
             vt_audio::AUDIO_DEBUG = true;
@@ -349,8 +348,6 @@ bool EnableDebugging(const std::string &vars)
             vt_pause::PAUSE_DEBUG = true;
         } else if(args[i] == "shop") {
             vt_shop::SHOP_DEBUG = true;
-        } else if(args[i] == "utils") {
-            vt_utils::UTILS_DEBUG = true;
         } else if(args[i] == "video") {
             vt_video::VIDEO_DEBUG = true;
         } else {

@@ -19,7 +19,7 @@
 *** to see if it should have similar changes made.
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "shop_buy.h"
 
 #include "shop.h"

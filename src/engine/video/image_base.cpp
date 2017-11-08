@@ -15,7 +15,7 @@
 *** \brief   Source file for image base classes
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "image_base.h"
 
 #include "video.h"

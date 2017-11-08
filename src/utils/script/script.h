@@ -26,7 +26,7 @@
 #ifndef __SCRIPT_HEADER__
 #define __SCRIPT_HEADER__
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "utils/singleton.h"
 
 //! \brief All calls to the scripting engine are wrapped in this namespace.

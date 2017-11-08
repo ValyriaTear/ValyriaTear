@@ -223,13 +223,4 @@ extern "C" {
 #define APPSHORTNAME "valyriatear"
 #define APPUPCASEDIRNAME "ValyriaTear"
 
-//! Contains utility code used across the entire source code
-namespace vt_utils
-{
-
-//! Determines whether the code in the vt_utils namespace should print debug statements or not.
-extern bool UTILS_DEBUG;
-
-} // vt_utils
-
 #endif // __UTILS_PCH_HEADER__

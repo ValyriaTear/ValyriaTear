@@ -15,7 +15,7 @@
 *** \brief   Source file for the utility code.
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "utils_strings.h"
 
 // Fix linkage when using vsnprintf by undefining the libintl equivalent function.

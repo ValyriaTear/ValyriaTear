@@ -17,7 +17,7 @@
 *** \brief   Source file for the scripting engine.
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "script.h"
 
 #include "script_read.h"

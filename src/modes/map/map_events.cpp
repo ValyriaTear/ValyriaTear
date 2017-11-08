@@ -15,7 +15,7 @@
 *** \brief   Source file for map mode events and event processing.
 *** ***************************************************************************/
 
-#include "utils/utils_pch.h"
+#include "common/include_pch.h"
 #include "modes/map/map_events.h"
 
 #include "modes/map/map_event_supervisor.h"
