@@ -16,7 +16,6 @@
 ***
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "gui.h"
 
 #include "engine/video/video.h"

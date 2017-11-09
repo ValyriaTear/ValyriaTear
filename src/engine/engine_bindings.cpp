@@ -23,8 +23,6 @@
 *** as necessary to gain an understanding of this code style.
 *** **************************************************************************/
 
-#include "common/include_pch.h"
-
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"
@@ -34,6 +32,8 @@
 #include "engine/video/particle_effect.h"
 
 #include "common/global/global.h"
+
+#include <luabind/adopt_policy.hpp>
 
 namespace vt_defs
 {

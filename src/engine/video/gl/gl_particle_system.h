@@ -13,8 +13,12 @@
 *** \brief   Header file for buffers for a particle system.
 *** ***************************************************************************/
 
-#ifndef __PARTICLE_SYSTEM_HEADER__
-#define __PARTICLE_SYSTEM_HEADER__
+#ifndef __GL_PARTICLE_SYSTEM_HEADER__
+#define __GL_PARTICLE_SYSTEM_HEADER__
+
+#include "utils/gl_include.h"
+
+#include <cstddef>
 
 namespace vt_video
 {
@@ -56,4 +60,4 @@ private:
 
 } // namespace vt_video
 
-#endif
+#endif // __GL_PARTICLE_SYSTEM_HEADER__

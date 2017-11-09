@@ -16,7 +16,6 @@
 *** \brief   Source file for system code management
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "engine/system.h"
 
 #include "utils/script/script.h"
@@ -29,6 +28,11 @@
 #include "common/gui/textbox.h"
 
 #include "mode_manager.h"
+
+// Gettext
+#ifndef DISABLE_TRANSLATIONS
+#include <libintl.h>
+#endif
 
 using namespace vt_common;
 using namespace vt_utils;
@@ -238,8 +242,6 @@ void SystemTimer::Update(uint32_t time)
 
     _UpdateTimer(time);
 }
-
-
 
 float SystemTimer::PercentComplete() const
 {
@@ -528,7 +530,6 @@ bool SystemEngine::SingletonInitialize()
     return true;
 }
 
-
 void SystemEngine::InitializeTimers()
 {
     _last_update = SDL_GetTicks();
@@ -540,7 +541,11 @@ void SystemEngine::InitializeTimers()
     _auto_system_timers.clear();
 }
 
-
+void SystemEngine::InitializeUpdateTimer()
+{
+    _last_update = SDL_GetTicks();
+    _update_time = 1;
+}
 
 void SystemEngine::AddAutoTimer(SystemTimer *timer)
 {
@@ -558,8 +563,6 @@ void SystemEngine::AddAutoTimer(SystemTimer *timer)
     }
 }
 
-
-
 void SystemEngine::RemoveAutoTimer(SystemTimer *timer)
 {
     if(timer == nullptr) {
@@ -574,8 +577,6 @@ void SystemEngine::RemoveAutoTimer(SystemTimer *timer)
         IF_PRINT_WARNING(SYSTEM_DEBUG) << "timer was not found in auto system timer container" << std::endl;
     }
 }
-
-
 
 void SystemEngine::UpdateTimers()
 {
@@ -618,87 +619,6 @@ void SystemEngine::ExamineSystemTimers()
         else
             (*i)->Pause();
     }
-}
-
-void SystemEngine::WaitForThread(Thread *thread)
-{
-#if (THREAD_TYPE == SDL_THREADS)
-    SDL_WaitThread(thread, nullptr);
-#endif
-}
-
-
-Semaphore *SystemEngine::CreateSemaphore(uint32_t max)
-{
-#if (THREAD_TYPE == SDL_THREADS)
-    return SDL_CreateSemaphore(max);
-#endif
-}
-
-
-
-void SystemEngine::DestroySemaphore(Semaphore *s)
-{
-#if (THREAD_TYPE == SDL_THREADS)
-    SDL_DestroySemaphore(s);
-#endif
-}
-
-
-
-void SystemEngine::LockThread(Semaphore *s)
-{
-#if (THREAD_TYPE == SDL_THREADS)
-    SDL_SemWait(s);
-#endif
-}
-
-
-
-void SystemEngine::UnlockThread(Semaphore *s)
-{
-#if (THREAD_TYPE == SDL_THREADS)
-    SDL_SemPost(s);
-#endif
-}
-
-template <class T> struct generic_class_func_info {
-    static int SpawnThread_Intermediate(void *vptr) {
-        ((((generic_class_func_info <T> *) vptr)->myclass)->*(((generic_class_func_info <T> *) vptr)->func))();
-        return 0;
-    }
-
-    T *myclass;
-    void (T::*func)();
-};
-
-
-
-template <class T> Thread *SystemEngine::SpawnThread(void (T::*func)(), T *myclass)
-{
-#if (THREAD_TYPE == SDL_THREADS)
-    Thread *thread;
-    static generic_class_func_info <T> gen;
-    gen.func = func;
-    gen.myclass = myclass;
-
-    // Winter Knight: There is a potential, but unlikely race condition here.
-    // gen may be overwritten prematurely if this function, SpawnThread, gets
-    // called a second time before SpawnThread_Intermediate calls myclass->*func
-    // This will result in a segfault.
-    thread = SDL_CreateThread(gen.SpawnThread_Intermediate, &gen, nullptr);
-    if(thread == nullptr) {
-        PRINT_ERROR << "Unable to create thread: " << SDL_GetError() << std::endl;
-        return nullptr;
-    }
-    return thread;
-#elif (THREAD_TYPE == NO_THREADS)
-    (myclass->*func)();
-    return 1;
-#else
-    PRINT_ERROR << "Invalid THREAD_TYPE." << std::endl;
-    return 0;
-#endif
 }
 
 } // namespace vt_system

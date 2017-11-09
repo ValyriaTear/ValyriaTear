@@ -13,7 +13,6 @@
 *** \brief   Source file for managing scriptable animated effects for any game mode.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "engine/script_supervisor.h"
 
 #include "engine/mode_manager.h"

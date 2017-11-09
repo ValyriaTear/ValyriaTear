@@ -13,12 +13,13 @@
 *** \brief   Source file for buffers for a render target.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "gl_render_target.h"
 
 #include "utils/utils_common.h"
 #include "utils/exception.h"
 #include "utils/utils_strings.h"
+
+#include <cassert>
 
 namespace vt_video
 {

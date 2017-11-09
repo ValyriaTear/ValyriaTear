@@ -21,7 +21,6 @@
 *** \note This code uses the OpenAL audio library. See http://www.openal.com/
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "engine/audio/audio.h"
 
 #include "engine/system.h"
@@ -356,6 +355,21 @@ void AudioEngine::SetListenerOrientation(const float orientation[3])
 {
     alListenerfv(AL_ORIENTATION, orientation);
     memcpy(_listener_orientation, orientation, sizeof(float) * 3);
+}
+
+void AudioEngine::GetListenerPosition(float position[3]) const
+{
+    memcpy(position, _listener_position, sizeof(float) * 3);
+}
+
+void AudioEngine::GetListenerVelocity(float velocity[3]) const
+{
+    memcpy(velocity, _listener_velocity, sizeof(float) * 3);
+}
+
+void AudioEngine::GetListenerOrientation(float orientation[3]) const
+{
+    memcpy(orientation, _listener_orientation, sizeof(float) * 3);
 }
 
 bool AudioEngine::LoadSound(const std::string &filename, vt_mode_manager::GameMode *gm)

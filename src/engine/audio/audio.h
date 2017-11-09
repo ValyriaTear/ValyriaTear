@@ -30,6 +30,8 @@
 #include "audio_descriptor.h"
 #include "audio_effects.h"
 
+#include <map>
+
 //! \brief All related audio engine code is wrapped within this namespace
 namespace vt_audio
 {
@@ -184,17 +186,9 @@ public:
     void SetListenerVelocity(const float velocity[3]);
     void SetListenerOrientation(const float orientation[3]);
 
-    void GetListenerPosition(float position[3]) const {
-        memcpy(position, _listener_position, sizeof(float) * 3);
-    }
-
-    void GetListenerVelocity(float velocity[3]) const {
-        memcpy(velocity, _listener_velocity, sizeof(float) * 3);
-    }
-
-    void GetListenerOrientation(float orientation[3]) const {
-        memcpy(orientation, _listener_orientation, sizeof(float) * 3);
-    }
+    void GetListenerPosition(float position[3]) const;
+    void GetListenerVelocity(float velocity[3]) const;
+    void GetListenerOrientation(float orientation[3]) const;
     //@}
 
     //! \name Audio Effect Functions

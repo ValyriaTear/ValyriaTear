@@ -17,10 +17,15 @@
 *** \brief   Source file for the scripting engine.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "script.h"
 
 #include "script_read.h"
+
+extern "C" {
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
+}
 
 using namespace luabind;
 

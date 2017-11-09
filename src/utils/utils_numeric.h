@@ -18,7 +18,7 @@
 #ifndef __UTILS_NUMERIC_HEADER__
 #define __UTILS_NUMERIC_HEADER__
 
-#include "common/include_pch.h"
+#include <cstdint>
 
 //! Contains utility code used across the entire source code
 namespace vt_utils

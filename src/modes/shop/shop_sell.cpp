@@ -19,7 +19,6 @@
 *** to see if it should have similar changes made.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "shop_sell.h"
 
 #include "shop.h"

@@ -23,6 +23,8 @@
 
 #include "utils/utils_strings.h"
 
+#include <fstream>
+
 namespace vt_script
 {
 

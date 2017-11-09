@@ -13,8 +13,8 @@
 *** \brief   Header file for shader program definitions.
 *** ***************************************************************************/
 
-#ifndef __SHADER_PROGRAMS_HEADER__
-#define __SHADER_PROGRAMS_HEADER__
+#ifndef __GL_SHADER_PROGRAMS_HEADER__
+#define __GL_SHADER_PROGRAMS_HEADER__
 
 namespace vt_video
 {
@@ -38,4 +38,4 @@ enum ShaderPrograms
 
 } // namespace vt_video
 
-#endif
+#endif // __GL_SHADER_PROGRAMS_HEADER__

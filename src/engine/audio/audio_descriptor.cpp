@@ -22,7 +22,6 @@
 *** \note This code uses the OpenAL audio library. See http://www.openal.com/
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "audio_descriptor.h"
 
 #include "audio.h"
@@ -30,6 +29,8 @@
 
 #include "utils/utils_common.h"
 #include "utils/utils_strings.h"
+
+#include <cstring>
 
 using namespace vt_audio::private_audio;
 
@@ -376,8 +377,6 @@ void AudioDescriptor::Stop()
     _state = AUDIO_STATE_STOPPED;
 }
 
-
-
 void AudioDescriptor::Pause()
 {
     if(_state == AUDIO_STATE_PAUSED || _state == AUDIO_STATE_UNLOADED)
@@ -395,8 +394,6 @@ void AudioDescriptor::Pause()
     _state = AUDIO_STATE_PAUSED;
 }
 
-
-
 void AudioDescriptor::Resume()
 {
     if(_state != AUDIO_STATE_PAUSED)
@@ -404,8 +401,6 @@ void AudioDescriptor::Resume()
 
     Play();
 }
-
-
 
 void AudioDescriptor::Rewind()
 {
@@ -419,8 +414,6 @@ void AudioDescriptor::Rewind()
         IF_PRINT_WARNING(AUDIO_DEBUG) << "rewinding the source failed: " << AudioManager->CreateALErrorString() << std::endl;
     }
 }
-
-
 
 void AudioDescriptor::SetLooping(bool loop)
 {
@@ -438,8 +431,6 @@ void AudioDescriptor::SetLooping(bool loop)
     }
 }
 
-
-
 void AudioDescriptor::SetLoopStart(uint32_t loop_start)
 {
     if(_stream == nullptr) {
@@ -449,8 +440,6 @@ void AudioDescriptor::SetLoopStart(uint32_t loop_start)
     _stream->SetLoopStart(loop_start);
 }
 
-
-
 void AudioDescriptor::SetLoopEnd(uint32_t loop_end)
 {
     if(_stream == nullptr) {
@@ -459,8 +448,6 @@ void AudioDescriptor::SetLoopEnd(uint32_t loop_end)
     }
     _stream->SetLoopEnd(loop_end);
 }
-
-
 
 void AudioDescriptor::SeekSample(uint32_t sample)
 {
@@ -529,8 +516,6 @@ void AudioDescriptor::SeekSecond(float second)
     }
 }
 
-
-
 void AudioDescriptor::SetPosition(const float position[3])
 {
     if(_format != AL_FORMAT_MONO8 && _format != AL_FORMAT_MONO16) {
@@ -546,8 +531,6 @@ void AudioDescriptor::SetPosition(const float position[3])
         }
     }
 }
-
-
 
 void AudioDescriptor::SetVelocity(const float velocity[3])
 {
@@ -565,8 +548,6 @@ void AudioDescriptor::SetVelocity(const float velocity[3])
     }
 }
 
-
-
 void AudioDescriptor::SetDirection(const float direction[3])
 {
     if(_format != AL_FORMAT_MONO8 && _format != AL_FORMAT_MONO16) {
@@ -581,6 +562,21 @@ void AudioDescriptor::SetDirection(const float direction[3])
             IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source's direction failed: " << AudioManager->CreateALErrorString() << std::endl;
         }
     }
+}
+
+void AudioDescriptor::GetPosition(float position[3]) const
+{
+    memcpy(&position, _position, sizeof(float) * 3);
+}
+
+void AudioDescriptor::GetVelocity(float velocity[3]) const
+{
+    memcpy(&velocity, _velocity, sizeof(float) * 3);
+}
+
+void AudioDescriptor::GetDirection(float direction[3]) const
+{
+    memcpy(&direction, _direction, sizeof(float) * 3);
 }
 
 void AudioDescriptor::AddGameModeOwner(vt_mode_manager::GameMode *gm)

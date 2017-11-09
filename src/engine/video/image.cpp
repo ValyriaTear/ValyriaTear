@@ -15,7 +15,6 @@
 *** \brief   Source file for image classes
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "image.h"
 
 #include "utils/script/script_read.h"
@@ -27,6 +26,8 @@
 #include "utils/utils_strings.h"
 
 #include "video.h"
+
+#include <SDL_image.h>
 
 using namespace vt_utils;
 using namespace vt_video::private_video;

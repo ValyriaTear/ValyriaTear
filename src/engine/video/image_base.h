@@ -43,6 +43,9 @@
 #include "color.h"
 #include "texture.h"
 
+#include <string>
+#include <vector>
+
 namespace vt_video
 {
 

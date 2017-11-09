@@ -15,7 +15,6 @@
 *** \brief   Source file for boot mode interface.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "modes/boot/boot.h"
 
 #include "common/global/global.h"

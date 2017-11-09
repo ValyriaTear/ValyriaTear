@@ -15,8 +15,9 @@
 *** \brief   Source file for the exception code.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "exception.h"
+
+#include <sstream>
 
 template <typename T>
 std::string _NumberToString(const T t)
@@ -44,7 +45,7 @@ std::string Exception::ToString() const throw()
     return std::string("EXCEPTION:" + _file + ":" + _function + ":" + _NumberToString(_line) + ": " + _message);
 }
 
-std::string Exception::GetMessage() const throw()
+std::string Exception::GetExceptionMessage() const throw()
 {
     return _message;
 }

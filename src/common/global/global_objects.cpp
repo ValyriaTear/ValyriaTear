@@ -15,7 +15,6 @@
 *** \brief   Source file for global game objects
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "global_objects.h"
 
 #include "global.h"

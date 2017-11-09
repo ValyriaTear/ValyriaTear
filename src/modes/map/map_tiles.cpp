@@ -15,7 +15,6 @@
 *** \brief   Source file for map mode tile management.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "modes/map/map_tiles.h"
 
 #include "modes/map/map_mode.h"

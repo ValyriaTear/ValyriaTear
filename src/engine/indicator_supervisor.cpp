@@ -15,7 +15,6 @@
 *** \brief   Source file for battle indicator displays.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "indicator_supervisor.h"
 
 #include "engine/system.h"

@@ -13,8 +13,10 @@
 *** \brief   Header file for buffers for a sprite.
 *** ***************************************************************************/
 
-#ifndef __SPRITE_HEADER__
-#define __SPRITE_HEADER__
+#ifndef __GL_SPRITE_HEADER__
+#define __GL_SPRITE_HEADER__
+
+#include "utils/gl_include.h"
 
 namespace vt_video
 {
@@ -53,4 +55,4 @@ private:
 
 } // namespace vt_video
 
-#endif
+#endif // __GL_SPRITE_HEADER__

@@ -15,7 +15,6 @@
 *** \brief   Source file for common dialogue code.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "dialogue.h"
 
 #include "common/global/global.h"

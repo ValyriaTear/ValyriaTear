@@ -12,6 +12,8 @@
 
 #include "modes/map/map_utils.h"
 
+#include <string>
+
 namespace vt_map
 {
 

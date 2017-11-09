@@ -44,6 +44,8 @@
 #include "engine/video/text.h"
 #include "engine/video/texture_controller.h"
 
+#include <stack>
+
 namespace vt_gui {
 class TextBox;
 class OptionBox;

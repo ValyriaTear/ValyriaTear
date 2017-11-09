@@ -17,8 +17,8 @@
 ***
 *** ***************************************************************************/
 
-#ifndef __TRANSFORM_HEADER__
-#define __TRANSFORM_HEADER__
+#ifndef __GL_TRANSFORM_HEADER__
+#define __GL_TRANSFORM_HEADER__
 
 namespace vt_video
 {
@@ -27,12 +27,12 @@ namespace gl
 
 // Forward declarations.
 class Transform;
-class Vector;
+class Vector4f;
 
 class Transform
 {
-    //! \brief Vector transformation operator.
-    friend Vector operator*(const Transform& transform, const Vector& vector);
+    //! \brief Vector4f transformation operator.
+    friend Vector4f operator*(const Transform& transform, const Vector4f& vector);
 
 public:
     //! \brief Default constructor.
@@ -73,4 +73,4 @@ private:
 
 } // namespace vt_video
 
-#endif
+#endif // __GL_TRANSFORM_HEADER__

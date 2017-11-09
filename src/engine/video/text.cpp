@@ -22,12 +22,17 @@
 *** requests integer arguments.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "text.h"
 #include "video.h"
 
 #include "utils/script/script_read.h"
 #include "engine/system.h"
+
+#ifdef __APPLE__
+#   include <SDL_ttf.h>
+#else
+#   include <SDL2/SDL_ttf.h>
+#endif
 
 // The script filename used to configure the text styles used in game.
 const std::string _font_script_filename = "data/config/fonts.lua";

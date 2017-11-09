@@ -27,6 +27,8 @@
 
 #include "common/position_2d.h"
 
+#include <map>
+
 namespace vt_video
 {
 class StillImage;

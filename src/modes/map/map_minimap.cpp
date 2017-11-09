@@ -22,6 +22,9 @@
 #include "utils/script/script_write.h"
 #endif
 
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_endian.h>
+
 using namespace vt_common;
 
 namespace vt_map

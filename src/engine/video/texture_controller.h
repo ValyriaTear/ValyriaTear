@@ -27,6 +27,8 @@
 #include "texture.h"
 #include "image_base.h"
 
+#include <map>
+
 namespace vt_mode_manager {
 class ParticleSystem;
 }

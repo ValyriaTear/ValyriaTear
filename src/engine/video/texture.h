@@ -43,6 +43,10 @@
 #ifndef __TEXTURE_HEADER__
 #define __TEXTURE_HEADER__
 
+#include "utils/gl_include.h"
+
+#include <set>
+
 namespace vt_video
 {
 
@@ -256,17 +260,17 @@ public:
 *** the size of the images that it holds. For example, you can't create a 256x256
 *** sheet which holds tiles which are 17x93.
 
-	*** The open list keeps track of which blocks of memory are open. Note that
-	*** we track blocks with both an array and a list. Although it takes up
-	*** more memory, this makes all operations dealing with the blocklist
-	*** O(1) so that performance is awesome. Memory isn't too bad either,
-	*** since the block list is fairly small.
+*** The open list keeps track of which blocks of memory are open. Note that
+*** we track blocks with both an array and a list. Although it takes up
+*** more memory, this makes all operations dealing with the blocklist
+*** O(1) so that performance is awesome. Memory isn't too bad either,
+*** since the block list is fairly small.
 
-	*** The open list keeps track of which blocks of memory are open. The tail
-	*** pointer is also kept so that we can add newly freed blocks to the end
-	*** of the list. That way, essentially blocks that are freed are given a
-	*** little bit of time from the time they're freed to the time they're
-	*** removed, in case they are loaded again in the near future.
+*** The open list keeps track of which blocks of memory are open. The tail
+*** pointer is also kept so that we can add newly freed blocks to the end
+*** of the list. That way, essentially blocks that are freed are given a
+*** little bit of time from the time they're freed to the time they're
+*** removed, in case they are loaded again in the near future.
 *** ***************************************************************************/
 class FixedTexSheet : public TexSheet
 {

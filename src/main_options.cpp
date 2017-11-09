@@ -15,7 +15,6 @@
 *** \brief   Implementations for functions that handle command-line arguments.
 *** **************************************************************************/
 
-#include "common/include_pch.h"
 #include "main_options.h"
 
 #include "engine/audio/audio.h"
@@ -30,6 +29,8 @@
 #include "common/app_name.h"
 #include "common/app_settings.h"
 #include "common/global/global.h"
+
+#include <SDL2/SDL_ttf.h>
 
 namespace vt_battle {
 extern bool BATTLE_DEBUG;

@@ -23,13 +23,16 @@
 
 #include "engine/video/image.h"
 
+#include <memory>
+#include <map>
+
 namespace vt_audio {
 class SoundDescriptor;
 }
 
 namespace vt_video {
 class StillImage;
-};
+}
 
 namespace vt_global
 {

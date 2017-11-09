@@ -15,7 +15,6 @@
 *** \brief   Source file for texture management code
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "texture_controller.h"
 #include "utils/utils_files.h"
 

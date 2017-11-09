@@ -18,7 +18,6 @@
 *** classes.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "shop_utils.h"
 
 #include "engine/video/video.h"

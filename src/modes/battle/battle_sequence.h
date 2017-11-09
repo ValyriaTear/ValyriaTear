@@ -26,14 +26,10 @@
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_utils.h"
 
-#include "common/include_pch.h"
-
 #include "engine/audio/audio.h"
 #include "engine/mode_manager.h"
 #include "utils/script/script.h"
 #include "engine/system.h"
-
-#include "common/global/global.h"
 
 namespace vt_battle
 {

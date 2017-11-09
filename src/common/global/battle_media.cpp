@@ -14,7 +14,6 @@
 *** \author  Yohann Ferreira, yohann ferreira orange fr
 *** ***************************************************************************/ 
 
-#include "common/include_pch.h"
 #include "battle_media.h"
 
 #include "engine/system.h"

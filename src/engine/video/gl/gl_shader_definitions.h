@@ -14,8 +14,8 @@
 *** \brief   Header file for shader definitions.
 *** ***************************************************************************/
 
-#ifndef __SHADER_DEFINITIONS_HEADER__
-#define __SHADER_DEFINITIONS_HEADER__
+#ifndef __GL_SHADER_DEFINITIONS_HEADER__
+#define __GL_SHADER_DEFINITIONS_HEADER__
 
 namespace vt_video
 {
@@ -162,4 +162,4 @@ namespace shader_definitions
 
 } // namespace vt_video
 
-#endif
+#endif // __GL_SHADER_DEFINITIONS_HEADER__

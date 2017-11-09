@@ -15,13 +15,14 @@
 *** \brief   Header file for TextBox class
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "textbox.h"
 
 #include "common/gui/menu_window.h"
 #include "engine/video/video.h"
 
 #include "utils/utils_common.h"
+
+#include <cassert>
 
 using namespace vt_utils;
 using namespace vt_video;
@@ -70,7 +71,6 @@ TextBox::TextBox(float x, float y, float width, float height, const TEXT_DISPLAY
     SetPosition(x, y);
 }
 
-
 void TextBox::ClearText()
 {
     _finished = true;
@@ -79,8 +79,6 @@ void TextBox::ClearText()
     _text_save.clear();
     _text_image.Clear();
 }
-
-
 
 void TextBox::Update(uint32_t time)
 {
@@ -92,8 +90,6 @@ void TextBox::Update(uint32_t time)
     if(_text.empty() == false && _current_time > _end_time)
         _finished = true;
 }
-
-
 
 void TextBox::Draw()
 {
@@ -124,9 +120,7 @@ void TextBox::Draw()
         _DEBUG_DrawOutline();
 
     VideoManager->PopState();
-} // void TextBox::Draw()
-
-
+}
 
 void TextBox::SetDimensions(float w, float h)
 {
@@ -145,16 +139,12 @@ void TextBox::SetDimensions(float w, float h)
     _ReformatText();
 }
 
-
-
 void TextBox::SetTextAlignment(int32_t xalign, int32_t yalign)
 {
     _text_xalign = xalign;
     _text_yalign = yalign;
     _ReformatText();
 }
-
-
 
 void TextBox::SetTextStyle(const TextStyle &style)
 {
@@ -169,8 +159,6 @@ void TextBox::SetTextStyle(const TextStyle &style)
     _ReformatText();
 }
 
-
-
 void TextBox::SetDisplayMode(const TEXT_DISPLAY_MODE &mode)
 {
     if(mode < VIDEO_TEXT_INSTANT || mode >= VIDEO_TEXT_TOTAL) {
@@ -180,8 +168,6 @@ void TextBox::SetDisplayMode(const TEXT_DISPLAY_MODE &mode)
 
     _mode = mode;
 }
-
-
 
 void TextBox::SetDisplaySpeed(float display_speed)
 {
@@ -195,14 +181,10 @@ void TextBox::SetDisplaySpeed(float display_speed)
     _display_speed = display_speed;
 }
 
-
-
 void TextBox::SetDisplayText(const std::string &text)
 {
     SetDisplayText(MakeUnicodeString(text));
 }
-
-
 
 void TextBox::SetDisplayText(const ustring &text)
 {
@@ -242,9 +224,7 @@ void TextBox::SetDisplayText(const ustring &text)
         break;
     };
 
-} // void TextBox::SetDisplayText(const ustring& text)
-
-
+}
 
 void TextBox::_ReformatText()
 {

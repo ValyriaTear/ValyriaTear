@@ -26,8 +26,10 @@
 #ifndef __SCRIPT_HEADER__
 #define __SCRIPT_HEADER__
 
-#include "common/include_pch.h"
 #include "utils/singleton.h"
+
+#include <luabind/luabind.hpp>
+#include <sstream>
 
 //! \brief All calls to the scripting engine are wrapped in this namespace.
 namespace vt_script

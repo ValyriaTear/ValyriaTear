@@ -17,7 +17,6 @@
 *** \brief   Source file for actions that occur in battles.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "modes/battle/battle_actions.h"
 
 #include "utils/script/script.h"

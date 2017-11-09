@@ -15,7 +15,6 @@
 *** \brief   Source file for battle actor effects.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "modes/battle/battle_effects.h"
 
 #include "utils/script/script.h"

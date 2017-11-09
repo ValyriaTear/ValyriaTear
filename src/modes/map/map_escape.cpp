@@ -11,13 +11,11 @@
 *** \brief   Source file for map mode escape circles handling.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
-
 #include "modes/map/map_escape.h"
+
 #include "modes/map/map_mode.h"
 
 #include "engine/audio/audio.h"
-
 #include "engine/input.h"
 #include "engine/system.h"
 #include "engine/video/video.h"

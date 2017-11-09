@@ -15,7 +15,6 @@
 *** \brief   Source file for the global game manager
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "global.h"
 
 #include "engine/system.h"

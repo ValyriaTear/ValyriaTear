@@ -28,6 +28,9 @@
 #include "utils/ustring.h"
 #include "utils/singleton.h"
 
+#include <set>
+#include <map>
+
 namespace vt_mode_manager {
 class GameMode;
 }
@@ -443,10 +446,7 @@ public:
     *** This function should typically only be called when the active game mode is changed. This ensures that
     *** the active game mode's execution begins with only 1 millisecond of time expired instead of several.
     **/
-    void InitializeUpdateTimer() {
-        _last_update = SDL_GetTicks();
-        _update_time = 1;
-    }
+    void InitializeUpdateTimer();
 
     /** \brief Adds a timer to the set system timers for auto updating
     *** \param timer A pointer to the timer to add
@@ -569,15 +569,6 @@ public:
     void ExitGame() {
         _not_done = false;
     }
-
-    //! Threading classes
-    template <class T> Thread *SpawnThread(void (T:: *)(), T *);
-    void WaitForThread(Thread *thread);
-
-    void LockThread(Semaphore *);
-    void UnlockThread(Semaphore *);
-    Semaphore *CreateSemaphore(uint32_t max);
-    void DestroySemaphore(Semaphore *);
 
     //! \brief Get the dialogue text message growth in characters per second.
     //! Mostly seen in characters dialogues while in game.

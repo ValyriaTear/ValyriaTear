@@ -11,7 +11,8 @@
 #ifndef __GLOBAL_EVENT_GROUP_HEADER__
 #define __GLOBAL_EVENT_GROUP_HEADER__
 
-#include "common/include_pch.h"
+#include <string>
+#include <map>
 
 namespace vt_global
 {

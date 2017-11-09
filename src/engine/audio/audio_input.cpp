@@ -22,10 +22,11 @@
 *** \note This code uses Ogg-vorbis library for loading Ogg files
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "audio_input.h"
 
 #include "utils/utils_common.h"
+
+#include <cstring>
 
 namespace vt_audio
 {
@@ -214,6 +215,18 @@ uint32_t WavFile::Read(uint8_t *buffer, uint32_t size, bool &end)
 ////////////////////////////////////////////////////////////////////////////////
 // OggFile class methods
 ////////////////////////////////////////////////////////////////////////////////
+
+OggFile::OggFile(const std::string& file_name) :
+    AudioInput(),
+    _read_buffer_position(0),
+    _read_buffer_size(0),
+    _initialized(false)
+{
+    // Fill the buffer with 0
+    memset(_read_buffer, 0, 4096);
+
+    _filename = file_name;
+}
 
 OggFile::~OggFile()
 {

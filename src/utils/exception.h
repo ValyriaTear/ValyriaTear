@@ -20,6 +20,8 @@
 #ifndef __EXCEPTION_HEADER__
 #define __EXCEPTION_HEADER__
 
+#include <string>
+
 /** \brief Forces the application to abort with an error
 *** \param message An error message string to report
 *** This macro throws an Exception which if unhandled, will be caught at the end of the main game loop.
@@ -61,7 +63,7 @@ public:
     virtual std::string ToString() const throw();
 
     //! \brief Returns the message set by the user
-    virtual std::string GetMessage() const throw();
+    virtual std::string GetExceptionMessage() const throw();
 
     //! \brief Returns the file the exception was thrown
     virtual std::string GetFile() const throw();

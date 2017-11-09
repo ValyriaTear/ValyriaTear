@@ -15,11 +15,12 @@
 *** \brief   Source file for Interpolator class
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "interpolator.h"
 
 #include "utils/utils_common.h"
 #include "utils/utils_numeric.h"
+
+#include <cmath>
 
 namespace vt_mode_manager
 {

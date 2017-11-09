@@ -15,7 +15,6 @@
 *** \brief   Source file for battle sequence manager.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "modes/battle/battle_sequence.h"
 
 #include "engine/audio/audio.h"
@@ -28,6 +27,7 @@
 #include "modes/battle/battle_utils.h"
 
 #include "common/global/battle_media.h"
+#include "common/global/global.h"
 
 using namespace vt_utils;
 using namespace vt_audio;

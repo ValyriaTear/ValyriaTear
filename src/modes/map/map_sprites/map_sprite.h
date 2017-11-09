@@ -15,6 +15,8 @@
 
 #include "utils/ustring.h"
 
+#include <map>
+
 namespace vt_map
 {
 

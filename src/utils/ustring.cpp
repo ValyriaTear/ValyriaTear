@@ -15,8 +15,15 @@
 *** \brief   Source file for the UTF16 string code.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "ustring.h"
+
+#include <iconv.h>
+
+#include <stdexcept>
+#include <limits>
+
+// For correct endianess support
+#include <SDL2/SDL_endian.h>
 
 namespace vt_utils
 {

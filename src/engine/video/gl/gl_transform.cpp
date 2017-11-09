@@ -17,10 +17,13 @@
 ***
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "gl_transform.h"
 
 #include "utils/utils_numeric.h"
+
+#include <cassert>
+#include <cstring>
+#include <math.h>
 
 namespace vt_video
 {

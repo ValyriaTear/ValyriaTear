@@ -16,10 +16,11 @@
 ***
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "gl_vector.h"
 
 #include "gl_transform.h"
+
+#include <cassert>
 
 namespace vt_video
 {
@@ -41,9 +42,9 @@ static float _ComputeDotProduct(const float* a, const float* b)
     return result;
 }
 
-Vector operator*(const Transform& transform, const Vector& vector)
+Vector4f operator*(const Transform& transform, const Vector4f& vector)
 {
-    Vector result = Vector();
+    Vector4f result = Vector4f();
 
     // Store the vector in an array.
     float vector_inner[4] = { vector._x, vector._y, vector._z, vector._w };
@@ -57,7 +58,7 @@ Vector operator*(const Transform& transform, const Vector& vector)
     return result;
 }
 
-Vector::Vector() :
+Vector4f::Vector4f() :
     _x(0.0f),
     _y(0.0f),
     _z(0.0f),
@@ -65,7 +66,7 @@ Vector::Vector() :
 {
 }
 
-Vector::Vector(float x, float y, float z, float w) :
+Vector4f::Vector4f(float x, float y, float z, float w) :
     _x(x),
     _y(y),
     _z(z),
@@ -73,7 +74,7 @@ Vector::Vector(float x, float y, float z, float w) :
 {
 }
 
-Vector& Vector::operator/=(float scale)
+Vector4f& Vector4f::operator/=(float scale)
 {
     _x /= scale;
     _y /= scale;

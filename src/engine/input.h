@@ -21,6 +21,10 @@
 #include "utils/utils_strings.h"
 #include "utils/singleton.h"
 
+#include <SDL2/SDL_keycode.h>
+#include <SDL2/SDL_joystick.h>
+#include <SDL2/SDL_events.h>
+
 //! All calls to the input engine are wrapped in this namespace.
 namespace vt_input
 {

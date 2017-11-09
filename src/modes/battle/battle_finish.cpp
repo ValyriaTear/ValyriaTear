@@ -15,7 +15,6 @@
 *** \brief   Source file for battle finish menu
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "modes/battle/battle_finish.h"
 
 #include "engine/audio/audio.h"

@@ -15,7 +15,6 @@
 *** \brief   Source file for particle manager
 *** **************************************************************************/
 
-#include "common/include_pch.h"
 #include "engine/video/particle_manager.h"
 
 #include "engine/video/video.h"

@@ -15,8 +15,9 @@
 *** \brief   Source file for the utility code.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "utils_numeric.h"
+
+#include <cmath>
 
 namespace vt_utils
 {

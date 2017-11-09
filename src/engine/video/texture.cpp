@@ -15,12 +15,13 @@
 *** \brief   Source file for texture management code
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "texture.h"
 
 #include "video.h"
 
 #include "utils/utils_common.h"
+
+#include <cassert>
 
 using namespace vt_utils;
 

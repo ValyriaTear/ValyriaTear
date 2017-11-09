@@ -15,7 +15,6 @@
 *** \brief   Source file for the options menus
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "options_handler.h"
 
 #include "engine/system.h"

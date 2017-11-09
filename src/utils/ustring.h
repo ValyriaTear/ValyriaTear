@@ -21,7 +21,9 @@
 #ifndef __USTRING_HEADER__
 #define __USTRING_HEADER__
 
-#include "common/include_pch.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 //! Contains utility code used across the entire source code
 namespace vt_utils

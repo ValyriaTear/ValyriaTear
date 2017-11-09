@@ -14,12 +14,10 @@
 *** \brief   Source file for battle menu
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
+#include "modes/battle/battle_menu.h"
 
 #include "common/global/global.h"
 #include "engine/input.h"
-#include "modes/battle/battle_menu.h"
-
 #include "engine/video/video.h"
 
 using namespace vt_video;

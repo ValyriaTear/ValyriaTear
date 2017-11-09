@@ -13,7 +13,6 @@
 *** \author  Yohann Ferreira, yohann ferreira orange fr
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "map_utils.h"
 
 #include "utils/utils_common.h"

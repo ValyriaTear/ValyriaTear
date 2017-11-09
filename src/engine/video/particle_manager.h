@@ -22,6 +22,10 @@
 #ifndef __PARTICLE_MANAGER_HEADER__
 #define __PARTICLE_MANAGER_HEADER__
 
+#include <string>
+#include <vector>
+#include <cstdint>
+
 namespace vt_mode_manager
 {
 

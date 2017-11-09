@@ -15,7 +15,6 @@
 *** \brief   Source file for global game skills.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "global_skills.h"
 
 #include "utils/script/script.h"

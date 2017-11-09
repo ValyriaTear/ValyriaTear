@@ -21,6 +21,8 @@
 #ifndef __INTERPOLATOR_HEADER__
 #define __INTERPOLATOR_HEADER__
 
+#include <cstdint>
+
 namespace vt_mode_manager
 {
 

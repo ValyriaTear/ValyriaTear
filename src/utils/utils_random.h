@@ -18,11 +18,13 @@
 #ifndef __UTILS_RANDOM_HEADER__
 #define __UTILS_RANDOM_HEADER__
 
+#include <cstdint>
+
 //! Contains utility code used across the entire source code
 namespace vt_utils
 {
 
-//! \name Random Variable Genreator Fucntions
+//! \name Random Variable Generator Functions
 //@{
 /** \brief Creates a uniformly distributed random floating point number
 *** \return A floating-point value between [0.0f, 1.0f]

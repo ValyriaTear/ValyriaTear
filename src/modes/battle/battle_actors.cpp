@@ -17,7 +17,6 @@
 *** \brief   Source file for actors present in battles.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "modes/battle/battle_actors.h"
 
 #include "modes/battle/battle.h"

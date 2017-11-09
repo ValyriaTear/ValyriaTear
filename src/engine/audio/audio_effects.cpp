@@ -15,7 +15,6 @@
 *** \brief  Source file for audio effects
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "audio_effects.h"
 
 #include "engine/system.h"

@@ -19,7 +19,6 @@
 *** shop keeper.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "shop.h"
 
 #include "shop_root.h"

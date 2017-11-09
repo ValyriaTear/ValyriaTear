@@ -13,12 +13,13 @@
 *** \brief   Source file for buffers for a sprite.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "gl_sprite.h"
 
 #include "utils/utils_common.h"
 #include "utils/exception.h"
 #include "utils/utils_strings.h"
+
+#include <cassert>
 
 #ifdef __APPLE__
 #   define glBindVertexArray    glBindVertexArrayAPPLE

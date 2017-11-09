@@ -15,7 +15,6 @@
 *** \brief   Source file for battle menu windows
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "modes/battle/battle_command.h"
 
 #include "engine/audio/audio.h"

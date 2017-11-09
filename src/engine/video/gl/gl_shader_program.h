@@ -13,8 +13,13 @@
 *** \brief   Header file for shader programs used in OpenGL.
 *** ***************************************************************************/
 
-#ifndef __SHADER_PROGRAM_HEADER__
-#define __SHADER_PROGRAM_HEADER__
+#ifndef __GL_SHADER_PROGRAM_HEADER__
+#define __GL_SHADER_PROGRAM_HEADER__
+
+#include "utils/gl_include.h"
+
+#include <vector>
+#include <string>
 
 namespace vt_video
 {
@@ -55,4 +60,4 @@ private:
 
 } // namespace vt_video
 
-#endif
+#endif // __GL_SHADER_PROGRAM_HEADER__

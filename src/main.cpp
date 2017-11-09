@@ -27,8 +27,6 @@
 *** -# Update the game status based on how much time expired from the last update.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
-
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/mode_manager.h"
@@ -42,6 +40,8 @@
 
 #include "modes/boot/boot.h"
 #include "main_options.h"
+
+#include <SDL2/SDL_image.h>
 
 using namespace vt_utils;
 using namespace vt_common;

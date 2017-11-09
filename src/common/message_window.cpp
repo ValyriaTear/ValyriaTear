@@ -17,7 +17,6 @@
 *** \brief   Source file for a common message window.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "message_window.h"
 
 #include "engine/video/video.h"

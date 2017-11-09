@@ -18,8 +18,6 @@
 #ifndef __MAP_UTILS_HEADER__
 #define __MAP_UTILS_HEADER__
 
-#include "common/include_pch.h"
-
 #include "common/position_2d.h"
 #include "common/rectangle_2d.h"
 

@@ -15,7 +15,6 @@
 *** \brief   Header file for ScreenFader class.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "fade.h"
 
 #include "video.h"

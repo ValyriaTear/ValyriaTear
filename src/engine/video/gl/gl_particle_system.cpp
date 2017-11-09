@@ -13,22 +13,21 @@
 *** \brief   Source file for buffers for a particle system.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "gl_particle_system.h"
 
 #include "utils/exception.h"
 #include "utils/utils_strings.h"
 #include "utils/utils_common.h"
 
+#include <cassert>
+#include <vector>
+
 namespace vt_video
 {
 namespace gl
 {
 
-//
-// Constants.
-//
-
+//! \brief constants.
 const unsigned VERTICES_PER_PARTICLE = 4;
 const unsigned INDICES_PER_PARTICLE = 6;
 const unsigned POSITIONS_PER_VERTEX = 3;

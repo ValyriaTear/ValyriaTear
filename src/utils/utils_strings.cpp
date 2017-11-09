@@ -15,8 +15,10 @@
 *** \brief   Source file for the utility code.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "utils_strings.h"
+
+#include <algorithm>
+#include <cstdarg>
 
 // Fix linkage when using vsnprintf by undefining the libintl equivalent function.
 #ifndef DISABLE_TRANSLATIONS

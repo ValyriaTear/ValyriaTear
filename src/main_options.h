@@ -19,6 +19,10 @@
 #ifndef __MAIN_OPTIONS_HEADER__
 #define __MAIN_OPTIONS_HEADER__
 
+#include <cstdint>
+#include <string>
+#include <vector>
+
 /** \brief Namespace containing functions central to main program execution.
 *** \note Normally no other code should need to use this namespace.
 **/

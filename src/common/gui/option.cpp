@@ -15,7 +15,6 @@
 *** \brief   Header file for OptionBox GUI control and supporting classes
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "option.h"
 
 #include "engine/video/gl/gl_vector.h"
@@ -23,6 +22,9 @@
 
 #include "utils/utils_common.h"
 #include "utils/utils_strings.h"
+
+#include <cassert>
+#include <limits>
 
 using namespace vt_utils;
 using namespace vt_video;
@@ -230,10 +232,10 @@ void OptionBox::Draw()
     VideoManager->EnableScissoring();
 
     // Transform into clip space.
-    vt_video::gl::Vector top_left = vt_video::gl::Vector(left, top, 0.0f, 1.0f);
+    vt_video::gl::Vector4f top_left = vt_video::gl::Vector4f(left, top, 0.0f, 1.0f);
     top_left = VideoManager->_projection * top_left;
 
-    vt_video::gl::Vector bottom_right = vt_video::gl::Vector(right, bottom, 0.0f, 1.0f);
+    vt_video::gl::Vector4f bottom_right = vt_video::gl::Vector4f(right, bottom, 0.0f, 1.0f);
     bottom_right = VideoManager->_projection * bottom_right;
 
     // Transform into normalized device coordinates.

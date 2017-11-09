@@ -15,12 +15,17 @@
 *** \brief   Source file for image base classes
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "image_base.h"
 
 #include "video.h"
 
 #include "utils/utils_common.h"
+
+#include <cassert>
+
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_endian.h>
+#include <png.h>
 
 using namespace vt_utils;
 

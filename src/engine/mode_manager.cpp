@@ -15,7 +15,6 @@
 *** \brief  Source file for managing user settings
 *** **************************************************************************/
 
-#include "common/include_pch.h"
 #include "mode_manager.h"
 
 #include "system.h"

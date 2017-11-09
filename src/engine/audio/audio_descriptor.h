@@ -28,6 +28,17 @@
 #include "audio_stream.h"
 #include "audio_effects.h"
 
+// OpenAL includes
+#ifdef __APPLE__
+#include <OpenAL/al.h>
+#include <OpenAL/alc.h>
+#else
+#include "al.h"
+#include "alc.h"
+#endif
+
+#include <vector>
+
 namespace vt_mode_manager {
 class GameMode;
 }
@@ -307,17 +318,9 @@ public:
     void SetVelocity(const float velocity[3]);
     void SetDirection(const float direction[3]);
 
-    void GetPosition(float position[3]) const {
-        memcpy(&position, _position, sizeof(float) * 3);
-    }
-
-    void GetVelocity(float velocity[3]) const {
-        memcpy(&velocity, _velocity, sizeof(float) * 3);
-    }
-
-    void GetDirection(float direction[3]) const {
-        memcpy(&direction, _direction, sizeof(float) * 3);
-    }
+    void GetPosition(float position[3]) const;
+    void GetVelocity(float velocity[3]) const;
+    void GetDirection(float direction[3]) const;
     //@}
 
     /**

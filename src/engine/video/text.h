@@ -26,6 +26,8 @@
 #include "utils/singleton.h"
 #include "utils/ustring.h"
 
+#include <map>
+
 typedef struct _TTF_Font TTF_Font;
 
 namespace vt_video

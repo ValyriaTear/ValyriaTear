@@ -15,7 +15,6 @@
 *** \brief   Source file for global game actors
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "global_actors.h"
 
 #include "utils/script/script_read.h"

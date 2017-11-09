@@ -26,6 +26,10 @@
 #ifndef __AUDIO_INPUT_HEADER__
 #define __AUDIO_INPUT_HEADER__
 
+#include <vorbis/vorbisfile.h>
+
+#include <fstream>
+
 namespace vt_audio
 {
 
@@ -153,7 +157,10 @@ public:
     }
 
     ~WavFile()
-    { if (_file_input.is_open()) _file_input.close(); }
+    {
+        if (_file_input.is_open())
+            _file_input.close();
+    }
 
     //! \brief Inherited functions from AudioInput class
     //@{
@@ -184,17 +191,7 @@ private:
 class OggFile : public AudioInput
 {
 public:
-    explicit OggFile(const std::string &file_name) :
-        AudioInput(),
-        _read_buffer_position(0),
-        _read_buffer_size(0),
-        _initialized(false)
-    {
-        // Fill the buffer with 0
-        memset(_read_buffer, 0, 4096);
-
-        _filename = file_name;
-    }
+    explicit OggFile(const std::string &file_name);
 
     ~OggFile();
 

@@ -15,7 +15,6 @@
 *** \brief  Source file for processing user input
 *** **************************************************************************/
 
-#include "common/include_pch.h"
 #include "engine/input.h"
 
 #include "engine/video/video.h"

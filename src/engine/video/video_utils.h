@@ -21,6 +21,8 @@
 #ifndef __VIDEO_UTILS_HEADER__
 #define __VIDEO_UTILS_HEADER__
 
+#include <cstdint>
+
 //! \brief All calls to the video engine are wrapped in this namespace.
 namespace vt_video
 {

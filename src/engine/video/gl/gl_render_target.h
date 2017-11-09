@@ -13,8 +13,10 @@
 *** \brief   Header file for buffers for a render target.
 *** ***************************************************************************/
 
-#ifndef __RENDER_TARGET_HEADER__
-#define __RENDER_TARGET_HEADER__
+#ifndef __GL_RENDER_TARGET_HEADER__
+#define __GL_RENDER_TARGET_HEADER__
+
+#include "utils/gl_include.h"
 
 namespace vt_video
 {
@@ -63,4 +65,4 @@ private:
 
 } // namespace vt_video
 
-#endif
+#endif // __GL_RENDER_TARGET_HEADER__

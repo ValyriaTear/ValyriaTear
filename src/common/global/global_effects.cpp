@@ -15,7 +15,6 @@
 *** \brief   Source file for global game effects
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "global_effects.h"
 
 #include "global.h"

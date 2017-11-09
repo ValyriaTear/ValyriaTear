@@ -396,33 +396,6 @@ ENDIF ()
 
 SET (PROGRAMS valyriatear)
 
-# Adds pch compilation support for gcc using cmake
-IF (CMAKE_COMPILER_IS_GNUCXX AND USE_PCH_COMPILATION)
-    MACRO (ADD_PCH_RULE  _header_filename _src_list)
-        SET(_gch_filename "${_header_filename}.gch")
-        LIST(APPEND ${_src_list} ${_gch_filename})
-        SET (_args ${CMAKE_CXX_FLAGS} ${FLAGS})
-
-        IF (CMAKE_BUILD_TYPE_TOLOWER MATCHES release)
-            # Adds the release cxx compile flags
-            LIST(APPEND _args ${CMAKE_CXX_FLAGS_RELEASE})
-        ENDIF()
-
-        LIST(APPEND _args -c ${_header_filename} -o ${_gch_filename})
-        GET_DIRECTORY_PROPERTY(DIRINC INCLUDE_DIRECTORIES)
-        foreach (_inc ${DIRINC})
-            LIST(APPEND _args " -I" ${_inc})
-        endforeach(_inc ${DIRINC})
-        SEPARATE_ARGUMENTS(_args)
-        add_custom_command(OUTPUT ${_gch_filename}
-            COMMAND rm -f ${_gch_filename}
-            COMMAND ${CMAKE_CXX_COMPILER} ${_args}
-                    DEPENDS ${_header_filename})
-    ENDMACRO(ADD_PCH_RULE _header_filename _src_list)
-
-    ADD_PCH_RULE(${CMAKE_CURRENT_SOURCE_DIR}/common/include_pch.h SRCS)
-ENDIF()
-
 ADD_EXECUTABLE(valyriatear WIN32 ${SRCS} ${SRCS_COMMON} ${SRCS_LUABIND})
 
 # Vorbis, vorbisfile and ogg are explcitely needed on OpenBSD

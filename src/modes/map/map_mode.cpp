@@ -15,7 +15,6 @@
 *** \brief   Source file for map mode interface.
 *** ***************************************************************************/
 
-#include "common/include_pch.h"
 #include "modes/map/map_mode.h"
 
 #include "modes/map/map_dialogue_supervisor.h"

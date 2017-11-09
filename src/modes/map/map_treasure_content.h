@@ -11,7 +11,8 @@
 #ifndef __MAP_TREASURE_CONTENT_HEADER__
 #define __MAP_TREASURE_CONTENT_HEADER__
 
-#include "common/include_pch.h"
+#include <memory>
+#include <vector>
 
 namespace vt_global {
 class GlobalObject;

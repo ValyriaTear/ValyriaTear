@@ -20,6 +20,8 @@
 
 #include "utils/utils_numeric.h"
 
+#include <SDL2/SDL.h>
+
 namespace vt_video
 {
 

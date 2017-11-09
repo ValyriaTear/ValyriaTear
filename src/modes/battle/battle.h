@@ -33,6 +33,8 @@
 
 #include "modes/battle/battle_enemy_info.h"
 
+#include <list>
+
 namespace vt_common
 {
 class DialogueSupervisor;

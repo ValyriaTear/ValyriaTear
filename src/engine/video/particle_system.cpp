@@ -15,13 +15,14 @@
 *** \brief   Source file for particle system
 *** **************************************************************************/
 
-#include "common/include_pch.h"
 #include "particle_system.h"
 
 #include "particle_keyframe.h"
 #include "engine/video/video.h"
 
 #include "utils/utils_random.h"
+
+#include <cassert>
 
 using namespace vt_utils;
 using namespace vt_video;
