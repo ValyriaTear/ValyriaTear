@@ -127,6 +127,9 @@ INCLUDE_DIRECTORIES(
 INCLUDE_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}/luabind")
 MESSAGE(STATUS "Using included luabind files")
 
+INCLUDE_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}/utils/src/")
+MESSAGE(STATUS "Using included utils files")
+
 CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/luabind/build_information.hpp.cmake_in" "${CMAKE_CURRENT_SOURCE_DIR}/luabind/luabind/build_information.hpp")
 MESSAGE(STATUS "Configured luabind information file...")
 
@@ -253,12 +256,12 @@ SET(SRCS_COMMON
 utils/src/script/script.cpp
 utils/src/script/script_read.cpp
 utils/src/script/script_write.cpp
-utils/src/utils_random.cpp
-utils/src/utils_files.cpp
-utils/src/utils_numeric.cpp
-utils/src/utils_strings.cpp
-utils/src/ustring.cpp
-utils/src/exception.cpp
+utils/src/utils/utils_random.cpp
+utils/src/utils/utils_files.cpp
+utils/src/utils/utils_numeric.cpp
+utils/src/utils/utils_strings.cpp
+utils/src/utils/ustring.cpp
+utils/src/utils/exception.cpp
 )
 
 SET(SRCS

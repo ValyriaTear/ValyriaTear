@@ -21,7 +21,7 @@
 #ifndef __BATTLE_EFFECTS_HEADER__
 #define __BATTLE_EFFECTS_HEADER__
 
-#include "utils/script/script.h"
+#include "script/script.h"
 
 #include "common/global/global_effects.h"
 

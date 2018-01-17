@@ -17,7 +17,7 @@
 
 #include "modes/battle/battle_effects.h"
 
-#include "utils/script/script.h"
+#include "script/script.h"
 #include "engine/system.h"
 #include "engine/video/video.h"
 

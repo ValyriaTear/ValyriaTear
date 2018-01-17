@@ -18,7 +18,7 @@
 #include "engine/input.h"
 
 #include "engine/video/video.h"
-#include "utils/script/script_read.h"
+#include "script/script_read.h"
 #include "engine/mode_manager.h"
 #include "engine/system.h"
 

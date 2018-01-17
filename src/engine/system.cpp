@@ -18,7 +18,7 @@
 
 #include "engine/system.h"
 
-#include "utils/script/script.h"
+#include "script/script.h"
 
 #include "utils/utils_strings.h"
 #include "utils/utils_files.h"

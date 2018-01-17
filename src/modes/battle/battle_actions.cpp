@@ -19,7 +19,7 @@
 
 #include "modes/battle/battle_actions.h"
 
-#include "utils/script/script.h"
+#include "script/script.h"
 
 #include "modes/battle/battle.h"
 #include "modes/battle/battle_actors.h"

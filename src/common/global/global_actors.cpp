@@ -17,7 +17,7 @@
 
 #include "global_actors.h"
 
-#include "utils/script/script_read.h"
+#include "script/script_read.h"
 #include "global_objects.h"
 #include "global_effects.h"
 #include "global_skills.h"

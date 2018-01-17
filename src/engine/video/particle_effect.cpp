@@ -20,7 +20,7 @@
 #include "engine/video/particle_system.h"
 #include "engine/video/video.h"
 
-#include "utils/script/script_read.h"
+#include "script/script_read.h"
 #include "engine/system.h"
 
 #include "utils/utils_files.h"

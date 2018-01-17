@@ -19,7 +19,7 @@
 
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
-#include "utils/script/script_write.h"
+#include "script/script_write.h"
 #include "engine/input.h"
 #include "engine/system.h"
 #include "engine/mode_manager.h"

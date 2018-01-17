@@ -17,7 +17,7 @@
 
 #include "global_skills.h"
 
-#include "utils/script/script.h"
+#include "script/script.h"
 #include "engine/video/video.h"
 
 #include "global.h"

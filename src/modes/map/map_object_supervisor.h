@@ -13,7 +13,7 @@
 
 #include "modes/map/map_objects/map_object.h"
 
-#include "utils/script/script_read.h"
+#include "script/script_read.h"
 
 namespace vt_map
 {

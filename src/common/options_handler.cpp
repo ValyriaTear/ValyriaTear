@@ -20,7 +20,7 @@
 #include "engine/system.h"
 #include "engine/input.h"
 #include "engine/audio/audio.h"
-#include "utils/script/script_write.h"
+#include "script/script_write.h"
 
 #include "engine/mode_manager.h"
 #include "modes/mode_help_window.h"

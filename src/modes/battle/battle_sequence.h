@@ -28,7 +28,7 @@
 
 #include "engine/audio/audio.h"
 #include "engine/mode_manager.h"
-#include "utils/script/script.h"
+#include "script/script.h"
 #include "engine/system.h"
 
 namespace vt_battle

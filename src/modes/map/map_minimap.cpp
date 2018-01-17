@@ -19,7 +19,7 @@
 
 // Used for the collision to XPM dev function
 #ifdef DEBUG_FEATURES
-#include "utils/script/script_write.h"
+#include "script/script_write.h"
 #endif
 
 #include <SDL2/SDL_image.h>
