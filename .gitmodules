@@ -2,3 +2,9 @@
 	path = src/luabind
 	url = https://github.com/ValyriaTear/luabind.git
 	branch = master
+
+[submodule "src/utils"]
+       path = src/utils
+       url = https://github.com/ValyriaTear/vt-utils.git
+       branch = master
+
