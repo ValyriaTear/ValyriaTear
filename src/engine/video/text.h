@@ -310,20 +310,20 @@ public:
         _width = width;
     }
 
-    void SetHeight(float height) {
+    void SetHeight(float height) override {
         _height = height;
     }
 
-    void SetDimensions(float width, float height) {
+    void SetDimensions(float width, float height) override {
         SetWidth(width);
         SetHeight(height);
     }
 
 private:
-    void _EnableGrayscale()
+    void _EnableGrayscale() override
     {}
 
-    void _DisableGrayscale()
+    void _DisableGrayscale() override
     {}
 };
 
@@ -357,36 +357,36 @@ public:
     // ---------- Public methods
 
     //! \brief Clears the image by resetting its properties
-    void Clear();
+    void Clear() override;
 
     /** \brief Draws the rendered text to the screen with a color modulation
     *** \param draw_color The color to modulate the text by
     **/
-    void Draw(const Color &draw_color = vt_video::Color::white) const;
+    void Draw(const Color &draw_color = vt_video::Color::white) const override;
 
     //! \brief Sets image to static/animated
-    virtual void SetStatic(bool is_static) {
+    virtual void SetStatic(bool is_static) override {
         _is_static = is_static;
     }
 
     //! \brief Sets width of the image
-    virtual void SetWidth(float width) {
+    virtual void SetWidth(float width) override {
         _width = width;
     }
 
     //! \brief Sets height of the image
-    virtual void SetHeight(float height) {
+    virtual void SetHeight(float height) override {
         _height = height;
     }
 
     //! \brief Sets the dimensions (width + height) of the image.
-    virtual void SetDimensions(float width, float height) {
+    virtual void SetDimensions(float width, float height) override {
         _width  = width;
         _height = height;
     }
 
     //! \brief Sets the color for the image (for all four verteces).
-    void SetColor(const Color &color) {
+    void SetColor(const Color &color) override {
         _color[0] = _color[1] = _color[2] = _color[3] = color;
     }
 
@@ -396,7 +396,7 @@ public:
     *** \param bl bottom left vertex color
     *** \param br bottom right vertex color
     **/
-    void SetVertexColors(const Color &tl, const Color &tr, const Color &bl, const Color &br) {
+    void SetVertexColors(const Color& tl, const Color& tr, const Color& bl, const Color& br) override {
         _color[0] = tl;
         _color[1] = tr;
         _color[2] = bl;
@@ -404,7 +404,7 @@ public:
     }
 
     //! \brief Sets the text contained
-    void SetText(const vt_utils::ustring &text) {
+    void SetText(const vt_utils::ustring& text) {
         // Don't do anything if it's the same text
         if (_text == text)
             return;
@@ -413,14 +413,14 @@ public:
         _Regenerate();
     }
 
-    void SetText(const vt_utils::ustring &text, const TextStyle& text_style) {
+    void SetText(const vt_utils::ustring& text, const TextStyle& text_style) {
         _text = text;
         _style = text_style;
         _Regenerate();
     }
 
     //! \brief Sets the text (std::string version)
-    void SetText(const std::string &text) {
+    void SetText(const std::string& text) {
         SetText(vt_utils::MakeUnicodeString(text));
     }
 
@@ -430,7 +430,7 @@ public:
         _Regenerate();
     }
 
-    void SetText(const std::string &text, const TextStyle& text_style) {
+    void SetText(const std::string& text, const TextStyle& text_style) {
         SetText(vt_utils::MakeUnicodeString(text), text_style);
     }
 
@@ -448,7 +448,7 @@ public:
         return _style;
     }
 
-    virtual float GetWidth() const {
+    virtual float GetWidth() const override {
         return _width;
     }
 
@@ -476,11 +476,11 @@ private:
     void _Regenerate();
 
     //! \brief Dervied from ImageDescriptor, this method is not used by TextImage
-    void _EnableGrayscale()
+    void _EnableGrayscale() override
     {}
 
     //! \brief Dervied from ImageDescriptor, this method is not used by TextImage
-    void _DisableGrayscale()
+    void _DisableGrayscale() override
     {}
 };
 

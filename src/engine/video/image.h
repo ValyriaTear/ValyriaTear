@@ -359,7 +359,7 @@ public:
     virtual ~StillImage() override;
 
     //! \brief Resets the image's properties and removes any references to image data that it maintains
-    void Clear();
+    void Clear() override;
 
     /** \brief Loads a single image file to be represented by the class object
     *** \param filename The filename of the image to load (should have a SDL_image compatible extension)
@@ -380,7 +380,7 @@ public:
     /** \brief Draws a color-modulated version of the image
     *** \param draw_color The color to modulate the image by
     **/
-    void Draw(const Color& draw_color = vt_video::Color::white) const;
+    void Draw(const Color& draw_color = vt_video::Color::white) const override;
 
     /** \brief Saves the image to a file
     *** \param filename The filename of the image to save (must have a .png extension)
@@ -411,7 +411,7 @@ public:
     /** \brief Sets width of the image
     *** \param width Width of the image
     **/
-    void SetWidth(float width) {
+    void SetWidth(float width) override {
         if (_width > 0.0f && _offset.x != 0.0f)
             _offset.x = _offset.x != 0.0f ? _offset.x / _width * width : 0.0f;
         _width = width;
@@ -440,7 +440,7 @@ public:
     *** \param width The width of the image
     *** \param height The height of the image
     **/
-    void SetDimensions(float width, float height) {
+    void SetDimensions(float width, float height) override {
         SetWidth(width);
         SetHeight(height);
     }
@@ -471,7 +471,7 @@ public:
     /** \brief Sets image to static/animated
     ***	\param is_static Flag indicating whether the image should be made static or not
     **/
-    void SetStatic(bool is_static) {
+    void SetStatic(bool is_static) override {
         _is_static = is_static;
     }
     //@}
@@ -491,10 +491,10 @@ protected:
     vt_common::Position2D _offset;
 
     //! \brief Enables grayscaling for the image then reloads it
-    void _EnableGrayscale();
+    void _EnableGrayscale() override;
 
     //! \brief Disables grayscaling for the image then reloads it
-    void _DisableGrayscale();
+    void _DisableGrayscale() override;
 };
 
 namespace private_video
@@ -848,7 +848,7 @@ public:
     }
 
     //! \brief Removes all image elements held by this class
-    void Clear();
+    void Clear() override;
 
     /** \brief Draws the image to the display buffer
     *** The location and orientation of the drawn image is dependent upon the current cursor position
@@ -859,32 +859,32 @@ public:
     /** \brief Draws a color modulated version of the image to the display buffer
     *** \param draw_color The color to modulate the image by
     **/
-    void Draw(const Color &draw_color) const;
+    void Draw(const Color &draw_color) const override;
 
     /** \brief Sets the static member for all future element images
     *** \param is_static Flag indicating whether the image will be static or not
     *** \note If the elements are already loaded, it doesn't bother to try to unload them
     *** and then reload them again statically.
     **/
-    void SetStatic(bool is_static) {
+    void SetStatic(bool is_static) override {
         _is_static = is_static;
     }
 
     /** \brief Sets the image's width, expressed as coordinate system units
     *** \param width The desired width of the image
     **/
-    void SetWidth(float width);
+    void SetWidth(float width) override;
 
     /** \brief Sets the image's height, expressed as coordinate system units
     *** \param height The desired height of the image
     **/
-    void SetHeight(float height);
+    void SetHeight(float height) override;
 
     /** \brief Sets the image's dimensions, expressed as coordinate system units
     *** \param width The desired width of the image
     *** \param height The desired height of the image
     **/
-    void SetDimensions(float width, float height) {
+    void SetDimensions(float width, float height) override {
         SetWidth(width);
         SetHeight(height);
     }
@@ -892,7 +892,7 @@ public:
     /** \brief Sets the image's four vertices to a single color
     *** \param color The desired color of all image vertices
     **/
-    void SetColor(const Color &color);
+    void SetColor(const Color &color) override;
 
     /** \brief Sets the image's vertex colors
     *** \param tl The top left vertex color
@@ -900,7 +900,7 @@ public:
     *** \param bl The bottom left vertex color
     *** \param br The bottom right vertex color
     **/
-    void SetVertexColors(const Color &tl, const Color &tr, const Color &bl, const Color &br);
+    void SetVertexColors(const Color &tl, const Color &tr, const Color &bl, const Color &br) override;
 
     /** \brief Adds a new image element to the composite image
     *** \param img The image to add to the composite image.
@@ -922,10 +922,10 @@ private:
     //! \brief A container for each element in the composite image
     std::vector<private_video::ImageElement> _elements;
 
-    void _EnableGrayscale()
+    void _EnableGrayscale() override
     {}
 
-    void _DisableGrayscale()
+    void _DisableGrayscale() override
     {}
 };
 
