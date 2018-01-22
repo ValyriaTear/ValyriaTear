@@ -59,7 +59,7 @@ class TextureController : public vt_utils::Singleton<TextureController>
 public:
     TextureController();
 
-    bool SingletonInitialize();
+    bool SingletonInitialize() override;
 
     //! \brief Cycles forward to show the next texture sheet
     void DEBUG_NextTexSheet();

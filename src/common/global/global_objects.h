@@ -248,7 +248,7 @@ public:
     GlobalItem(const GlobalItem& copy);
     GlobalItem& operator=(const GlobalItem& copy);
 
-    GLOBAL_OBJECT GetObjectType() const {
+    GLOBAL_OBJECT GetObjectType() const override {
         return GLOBAL_OBJECT_ITEM;
     }
 
@@ -343,7 +343,7 @@ public:
     {
     }
 
-    GLOBAL_OBJECT GetObjectType() const {
+    GLOBAL_OBJECT GetObjectType() const override {
         return GLOBAL_OBJECT_WEAPON;
     }
 
@@ -435,7 +435,7 @@ public:
     }
 
     //! \brief Returns the approriate armor type (head, torso, arm, leg) depending on the object ID
-    GLOBAL_OBJECT GetObjectType() const;
+    GLOBAL_OBJECT GetObjectType() const override;
 
     uint32_t GetPhysicalDefense() const {
         return _physical_defense;
@@ -497,7 +497,7 @@ public:
     {
     }
 
-    GLOBAL_OBJECT GetObjectType() const {
+    GLOBAL_OBJECT GetObjectType() const override {
         return GLOBAL_OBJECT_SPIRIT;
     }
 }; // class GlobalSpirit : public GlobalObject

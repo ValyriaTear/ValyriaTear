@@ -272,7 +272,7 @@ class TextElement : public ImageDescriptor
 public:
     TextElement();
 
-    explicit TextElement(TextTexture *texture);
+    explicit TextElement(TextTexture* texture);
 
     virtual ~TextElement() override;
 
@@ -283,11 +283,11 @@ public:
 
     // ---------- Public methods
 
-    void Clear();
+    void Clear() override;
 
     void Draw() const;
 
-    void Draw(const Color &draw_color) const;
+    void Draw(const Color& draw_color) const override;
 
     /** \brief Sets the texture used by the class and modifies the width and height members
     *** \param texture A pointer to the TextTexture object that this class object should manage
@@ -302,11 +302,11 @@ public:
     **/
     void SetTexture(TextTexture *texture);
 
-    void SetStatic(bool is_static) {
+    void SetStatic(bool is_static) override {
         _is_static = is_static;
     }
 
-    void SetWidth(float width) {
+    void SetWidth(float width) override {
         _width = width;
     }
 

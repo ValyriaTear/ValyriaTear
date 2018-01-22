@@ -795,61 +795,61 @@ public:
     }
 
     // Character's stats changers, taking equipment in account
-    virtual void SetPhysAtk(uint32_t base) {
+    virtual void SetPhysAtk(uint32_t base) override {
         _char_phys_atk.SetBase(base);
         _CalculateAttackRatings();
     }
 
-    virtual void SetPhysAtkModifier(float mod) {
+    virtual void SetPhysAtkModifier(float mod) override {
         _char_phys_atk.SetModifier(mod);
         _CalculateAttackRatings();
     }
 
-    virtual void SetMagAtk(uint32_t base) {
+    virtual void SetMagAtk(uint32_t base) override {
         _char_mag_atk.SetBase(base);
         _CalculateAttackRatings();
     }
 
-    virtual void SetMagAtkModifier(float mod) {
+    virtual void SetMagAtkModifier(float mod) override {
         _char_mag_atk.SetModifier(mod);
         _CalculateAttackRatings();
     }
 
-    virtual void SetPhysDef(uint32_t base) {
+    virtual void SetPhysDef(uint32_t base) override {
         _char_phys_def.SetBase(base);
         _CalculateDefenseRatings();
     }
 
-    virtual void SetPhysDefModifier(float mod) {
+    virtual void SetPhysDefModifier(float mod) override {
         _char_phys_def.SetModifier(mod);
         _CalculateDefenseRatings();
     }
 
-    virtual void SetMagDef(uint32_t pr) {
+    virtual void SetMagDef(uint32_t pr) override {
         _char_mag_def.SetBase(pr);
         _CalculateDefenseRatings();
     }
 
-    virtual void SetMagDefModifier(float mod) {
+    virtual void SetMagDefModifier(float mod) override {
         _char_mag_def.SetModifier(mod);
         _CalculateDefenseRatings();
     }
 
-    virtual void AddPhysAtk(uint32_t amount);
+    virtual void AddPhysAtk(uint32_t amount) override;
 
-    virtual void SubtractPhysAtk(uint32_t amount);
+    virtual void SubtractPhysAtk(uint32_t amount) override;
 
-    virtual void AddMagAtk(uint32_t amount);
+    virtual void AddMagAtk(uint32_t amount) override;
 
-    virtual void SubtractMagAtk(uint32_t amount);
+    virtual void SubtractMagAtk(uint32_t amount) override;
 
-    virtual void AddPhysDef(uint32_t amount);
+    virtual void AddPhysDef(uint32_t amount) override;
 
-    virtual void SubtractPhysDef(uint32_t amount);
+    virtual void SubtractPhysDef(uint32_t amount) override;
 
-    virtual void AddMagDef(uint32_t amount);
+    virtual void AddMagDef(uint32_t amount) override;
 
-    virtual void SubtractMagDef(uint32_t amount);
+    virtual void SubtractMagDef(uint32_t amount) override;
 
     /** \brief Adds experience points to the character
     *** \param xp The amount of experience points to add
@@ -896,7 +896,7 @@ public:
 
     //! \brief Permanently adds a new skill to the character (inherited from GlobalActor)
     //! \returns whether the skill was successfully added.
-    bool AddSkill(uint32_t skill_id) {
+    bool AddSkill(uint32_t skill_id) override {
         return AddSkill(skill_id, true);
     }
 
@@ -1313,10 +1313,10 @@ private:
     *** This function sums the actor's phys_atk/mag_atk with their weapon's attack ratings
     *** and places the result in total physical/magical attack members
     **/
-    virtual void _CalculateAttackRatings();
+    virtual void _CalculateAttackRatings() override;
 
     //! \brief Calculates the physical and magical defense ratings for each attack point
-    virtual void _CalculateDefenseRatings();
+    virtual void _CalculateDefenseRatings() override;
 
 }; // class GlobalCharacter : public GlobalActor
 
@@ -1357,7 +1357,7 @@ public:
     *** and gain access to new skills after certain criteria are met. Normally you would want to define
     *** any skills that you wish an enemy to be able to use within their Lua definition file.
     **/
-    bool AddSkill(uint32_t skill_id);
+    bool AddSkill(uint32_t skill_id) override;
 
     /** \brief Uses random variables to calculate which objects, if any, the enemy dropped.
     **/

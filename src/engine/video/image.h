@@ -420,7 +420,7 @@ public:
     /** \brief Sets height of the image
     *** \param height Height of the image
     **/
-    void SetHeight(float height) {
+    void SetHeight(float height) override {
         if (_height > 0.0f && _offset.y != 0.0f)
             _offset.y = _offset.y != 0.0f ? _offset.y / _height * height : 0.0f;
         _height = height;
