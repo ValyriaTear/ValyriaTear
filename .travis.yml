@@ -11,6 +11,9 @@ git:
   submodules: false
 
 before_install:
+  # Add SDL2 support
+  - sudo add-apt-repository -y ppa:zoogie/sdl2-snapshots
+
   - sudo apt-get update -qq
   - sudo apt-get install -qq cppcheck freeglut3-dev
   - sudo apt-get install -qq libopenal-dev libalut-dev libvorbis-dev libogg-dev
