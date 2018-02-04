@@ -452,7 +452,7 @@ int main(int argc, char* argv[])
 
     if(SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
         PRINT_ERROR << "SDL video initialization failed" << std::endl;
-        return false;
+        return EXIT_FAILURE;
     }
 
     // Create a default window
@@ -465,7 +465,7 @@ int main(int argc, char* argv[])
     if (!sdl_window) {
         PRINT_ERROR << "SDL window creation failed: "
                     << SDL_GetError() << std::endl;
-        return false;
+        return EXIT_FAILURE;
     }
     SDL_HideWindow(sdl_window);
 
