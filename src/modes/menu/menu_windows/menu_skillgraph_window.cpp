@@ -361,12 +361,14 @@ void SkillGraphWindow::_UpdateSkillGraphView(bool scroll)
         return;
     }
 
-    const Vector2D target_distance(target_position.x - _view_position.x,
-                                   target_position.y - _view_position.y);
+    Vector2D target_distance(target_position.x - _view_position.x,
+                             target_position.y - _view_position.y);
 
     if (!scroll) {
         // Make it instant
         _view_position = target_position;
+        // Reset the distance in that case to avoid a faulty view.
+        target_distance = Position2D(0.0f, 0.0f);
     }
     else {
         // Smooth the view move

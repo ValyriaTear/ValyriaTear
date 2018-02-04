@@ -88,7 +88,7 @@ private:
     //! \brief the location pointer. this is loaded in the constructor
     vt_video::StillImage _location_pointer;
 
-    //! \brief the location pointer. this is loaded in the constructor
+    //! \brief the character icon. this is loaded in the constructor
     vt_video::StillImage _character_icon;
 
     //! \brief offsets for the current skill tree to view in the center of the window
