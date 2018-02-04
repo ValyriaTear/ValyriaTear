@@ -40,11 +40,11 @@ public:
 
     //! \brief Updates the object's current animation.
     //! \note the actual image resources is handled by the main map object.
-    void Update();
+    void Update() override;
 
     //! \brief Draws the object to the screen, if it is visible.
     //! \note the actual image resources is handled by the main map object.
-    void Draw();
+    void Draw() override;
 
     //! \brief Start or restart the particle effect
     void Stop();

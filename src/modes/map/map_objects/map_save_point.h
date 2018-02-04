@@ -39,11 +39,11 @@ public:
 
     //! \brief Updates the object's current animation.
     //! \note the actual image resources is handled by the main map object.
-    void Update();
+    void Update() override;
 
     //! \brief Draws the object to the screen, if it is visible.
     //! \note the actual image resources is handled by the main map object.
-    void Draw();
+    void Draw() override;
 
     //! \brief Tells whether a character is in or not, and setup the animation accordingly.
     void SetActive(bool active);

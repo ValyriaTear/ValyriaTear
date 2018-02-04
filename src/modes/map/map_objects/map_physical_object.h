@@ -95,7 +95,7 @@ public:
         return _event_when_talking;
     }
 
-    virtual void SetGrayscale(bool grayscale = true) {
+    virtual void SetGrayscale(bool grayscale = true) override {
         _grayscale = grayscale;
         for (vt_video::AnimatedImage& animation : _animations) {
             animation.SetGrayscale(grayscale);

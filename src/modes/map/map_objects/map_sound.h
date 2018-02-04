@@ -54,7 +54,7 @@ public:
     void ApplyVolume();
 
     //! \brief Does nothing
-    void Draw()
+    void Draw() override
     {}
 
     //! \brief Stop the ambient sound

@@ -47,16 +47,16 @@ public:
 
     //! \brief Updates the object's current animation and orientation
     //! \note the actual image resources is handled by the main map object.
-    void Update();
+    void Update() override;
 
     //! \brief Draws the object to the screen, if it is visible.
     //! \note the actual image resources is handled by the main map object.
-    void Draw();
+    void Draw() override;
 
     /** \brief Returns the image rectangle for the current object
     *** \param rect A MapRectangle object storing the image rectangle data
     **/
-    vt_common::Rectangle2D GetGridImageRectangle() const;
+    vt_common::Rectangle2D GetGridImageRectangle() const override;
 private:
     //! Updates the angle and distance from the camera viewpoint
     void _UpdateLightAngle();
