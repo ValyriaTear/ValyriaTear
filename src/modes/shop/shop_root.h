@@ -61,15 +61,15 @@ public:
     }
 
     //! \brief (Re)initializes various textual and image data based on the shop properties
-    void Reinitialize();
+    void Reinitialize() override;
 
     //! \brief No actions need to take place when this interface becomes activated
-    void MakeActive()
+    void MakeActive() override
     {
     }
 
     //! \brief No actions need to take place when a transaction occurs
-    void TransactionNotification()
+    void TransactionNotification() override
     {
     }
 
@@ -79,10 +79,10 @@ public:
     }
 
     //! \brief Updates the state of GUI objects and may also process user input
-    void Update();
+    void Update() override;
 
     //! \brief Draws the root window and, if shop mode is in the correct state, the greeting window
-    void Draw();
+    void Draw() override;
 
     /** \brief Create's the shop name's text
     *** \param name The name of the shop

@@ -53,17 +53,17 @@ public:
     }
 
     //! \brief Performs updates
-    void Update();
+    void Update() override;
 
     //! \brief Draws skill graph main window
-    void Draw();
+    void Draw() override;
 
     //! \brief Draws bottom window
     void DrawBottomWindow();
 
     //! \brief Result of whether or not this window is active
     //! \return true if this window is active
-    bool IsActive() {
+    bool IsActive() override {
         return _active;
     }
 

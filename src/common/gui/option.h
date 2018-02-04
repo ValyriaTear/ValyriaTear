@@ -666,7 +666,7 @@ private:
     void _DrawCursor(const private_gui::OptionCellBounds &bounds, float left_edge, bool darken);
 
     //! \brief Draws an outline of the option box and the inner cell boundaries
-    void _DEBUG_DrawOutline();
+    void _DEBUG_DrawOutline() override;
 }; // class OptionBox : public private_gui::GUIControl
 
 } // namespace vt_gui

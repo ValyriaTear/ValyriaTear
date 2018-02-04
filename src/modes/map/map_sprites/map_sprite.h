@@ -80,10 +80,10 @@ public:
     void LoadFacePortrait(const std::string& filename);
 
     //! \brief Updates the sprite's position and state.
-    virtual void Update();
+    virtual void Update() override;
 
     //! \brief Draws the sprite frame in the appropriate position on the screen, if it is visible.
-    virtual void Draw();
+    virtual void Draw() override;
 
     //! \brief Draws the dialogue icon at the top of the sprite
     virtual void DrawDialogIcon();
@@ -130,14 +130,14 @@ public:
     *** Attributes saved: direction, speed, moving state, name
     *** current animation.
     **/
-    virtual void SaveState();
+    virtual void SaveState() override;
 
     /** \brief This method will load the saved state of a sprite.
     *** Attributes loaded: direction, speed, moving state, name
     *** current animation.
     *** \return false if there was no saved state, true otherwise.
     **/
-    virtual void RestoreState();
+    virtual void RestoreState() override;
 
     /** \name Lua Access Functions
     *** These functions are specifically written to enable Lua to access the members of this class.
@@ -230,7 +230,7 @@ public:
     }
 
     //! \brief Sets/unsets the sprite animations as grayscale.
-    virtual void SetGrayscale(bool grayscale = true);
+    virtual void SetGrayscale(bool grayscale = true) override;
     //@}
 
 protected:

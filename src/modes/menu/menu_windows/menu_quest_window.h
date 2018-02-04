@@ -39,7 +39,7 @@ public:
     virtual ~QuestWindow() override {}
 
     //! \brief Draws window
-    void Draw();
+    void Draw() override;
 
     /*!
     * \brief Draws the bottom window information
@@ -58,7 +58,7 @@ public:
     }
 
     //! \brief Performs updates
-    void Update();
+    void Update() override;
 
     //! \brief sets the viewing quest id information for the quest.
     //! We use this to query the text description

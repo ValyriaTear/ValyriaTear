@@ -47,13 +47,13 @@ public:
     virtual ~TradeInterface() override;
 
     //! \brief (Re)initializes the data containers and GUI objects to be used
-    void Reinitialize();
+    void Reinitialize() override;
 
     //! \brief Sets the selected object for the ShopObjectViewer class
-    void MakeActive();
+    void MakeActive() override;
 
     //! \brief Reconstructs all buy display lists and resets the current category
-    void TransactionNotification();
+    void TransactionNotification() override;
 
     /** \brief Takes all necessary action for when the active view mode is to be altered
     *** \param new_mode The new view mode to set
@@ -61,10 +61,10 @@ public:
     void ChangeViewMode(SHOP_VIEW_MODE new_mode);
 
     //! \brief Processes user input and sends appropriate commands to helper class objects
-    void Update();
+    void Update() override;
 
     //! \brief Draws the GUI elements to the screen
-    void Draw();
+    void Draw() override;
 
 private:
     //! \brief Stores the active view state of the buy interface

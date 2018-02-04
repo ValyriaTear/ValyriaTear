@@ -42,7 +42,7 @@ public:
     *** The following option properties are set when using this call:
     *** - proceed to next sequential line, no event
     **/
-    void AddOption(const std::string &text);
+    void AddOption(const std::string &text) override;
 
     /** \brief Adds a new option to the set of options
     *** \param text The text for the new option
@@ -51,7 +51,7 @@ public:
     *** The following option properties are set when using this call:
     *** - no event
     **/
-    void AddOption(const std::string &text, int32_t next_line);
+    void AddOption(const std::string &text, int32_t next_line) override;
 
     /** \brief Adds a new option to the set of options with the addition of a map event to be executed
     *** \param text The text for the new option

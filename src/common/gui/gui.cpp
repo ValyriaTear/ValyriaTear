@@ -428,7 +428,6 @@ void GUISystem::DeleteMenuSkin(const std::string &skin_id)
             IF_PRINT_WARNING(VIDEO_DEBUG) << "the MenuSkin \"" << skin_id << "\" was not deleted because a MenuWindow object was found to be using it" << std::endl;
             return;
         }
-        ++i;
     }
 
     _menu_skins.erase(skin_id);

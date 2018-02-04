@@ -236,7 +236,7 @@ protected:
     *** \note This implementation uses the
     ***
     **/
-    virtual void _DEBUG_DrawOutline();
+    virtual void _DEBUG_DrawOutline() override;
 }; // class GUIControl : public GUIElement
 
 } // namespace private_gui

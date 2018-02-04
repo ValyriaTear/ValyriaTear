@@ -42,10 +42,10 @@ public:
     static PhysicalObject* Create(MapObjectDrawLayer layer);
 
     //! \brief Updates the object's current animation.
-    virtual void Update();
+    virtual void Update() override;
 
     //! \brief Draws the object to the screen, if it is visible.
-    virtual void Draw();
+    virtual void Draw() override;
 
     /** \brief Sets a new animation using the animation filename provided
     *** \param animation_filename The name of the animation file to use for the animation

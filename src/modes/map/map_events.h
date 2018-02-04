@@ -228,10 +228,10 @@ protected:
     bool _stop_camera_movement;
 
     //! \brief Begins the dialogue
-    void _Start();
+    void _Start() override;
 
     //! \brief Returns true when the last line of the dialogue has been read
-    bool _Update();
+    bool _Update() override;
 }; // class DialogueEvent : public MapEvent
 
 
@@ -332,10 +332,10 @@ protected:
     std::vector<std::string> _shop_scripts;
 
     //! \brief Creates an instance of ShopMode and pushes it to the game mode stack
-    void _Start();
+    void _Start() override;
 
     //! \brief Performs no operation (returns true)
-    bool _Update() {
+    bool _Update() override {
         return true;
     }
 };
@@ -390,11 +390,11 @@ public:
 
 protected:
     //! \brief Begins playback of the sound
-    void _Start()
+    void _Start() override
     { _sound.Play(); }
 
     //! \brief Returns true when the sound has finished playing, or finished looping
-    bool _Update();
+    bool _Update() override;
 
     //! \brief The sound that this event will play
     vt_audio::SoundDescriptor _sound;
@@ -434,10 +434,10 @@ public:
 
 protected:
     //! \brief Begins the transition process by fading out the screen and music
-    void _Start();
+    void _Start() override;
 
     //! \brief Once the fading process completes, creates the new map mode to transition to
-    bool _Update();
+    bool _Update() override;
 
     //! \brief The data and script filenames of the map to transition to
     std::string _transition_map_data_filename;
@@ -514,12 +514,12 @@ protected:
     bool _is_boss;
 
     //! \brief Starts the battle
-    void _Start();
+    void _Start() override;
 
     /** \brief Currently does nothing, since the battle transition management
     *** is done through games modes.
     **/
-    bool _Update() {
+    bool _Update() override {
         return true;
     }
 }; // class BattleEncounterEvent : public MapEvent
@@ -562,10 +562,10 @@ protected:
     std::string _false_event_id;
 
     //! \brief Calls the Lua _start_function, if one was defined
-    void _Start();
+    void _Start() override;
 
     //! \brief Calls the Lua _update_function. If no update function was defined, does nothing and returns true
-    bool _Update()
+    bool _Update() override
     { return true; }
 }; // class IfEvent : public MapEvent
 
@@ -614,10 +614,10 @@ protected:
     luabind::object _update_function;
 
     //! \brief Calls the Lua _start_function, if one was defined
-    void _Start();
+    void _Start() override;
 
     //! \brief Calls the Lua _update_function. If no update function was defined, does nothing and returns true
-    bool _Update();
+    bool _Update() override;
 }; // class ScriptedEvent : public MapEvent
 
 
@@ -671,10 +671,10 @@ protected:
     *** and will potentially end the previous event before
     *** Acquiring control of the sprite.
     **/
-    virtual void _Start();
+    virtual void _Start() override;
 
     //! \brief Updates the state of the sprite and returns true if the event is finished
-    virtual bool _Update() = 0;
+    virtual bool _Update() override = 0;
 }; // class SpriteEvent : public MapEvent
 
 
@@ -1101,10 +1101,10 @@ protected:
     ***
     *** This method will open the treasure dialog with the treasure content set for this event.
     **/
-    void _Start();
+    void _Start() override;
 
     //! \brief Returns true once the treasure dialog is closed, and false otherwise.
-    bool _Update();
+    bool _Update() override;
 }; // class TreasureEvent : public MapEvent
 
 } // namespace private_map

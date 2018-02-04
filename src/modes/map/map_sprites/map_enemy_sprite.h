@@ -74,10 +74,10 @@ public:
     void Reset();
 
     //! \brief Updates the sprite's position and state.
-    virtual void Update();
+    virtual void Update() override;
 
     //! \brief Draws the sprite frame in the appropriate position on the screen, if it is visible.
-    virtual void Draw();
+    virtual void Draw() override;
 
     /** \brief Adds a new empty vector to the _enemy_parties member
     *** \note Make sure to populate this vector by adding at least one enemy!
