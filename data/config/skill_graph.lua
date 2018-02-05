@@ -9,8 +9,8 @@ THANIS   = 8;
 
 skill_graph_start = {
 	-- [Character id] = node id
-	[BRONANN] = 0,
-	[KALYA] = 0,
+	[BRONANN] = 27,
+	[KALYA] = 99,
 	[SYLVE] = 0,
 	[THANIS] = 0
 }
@@ -492,7 +492,7 @@ skill_graph = {
 		},
 	},
 	[25] = {
-		x_location = 290,
+		x_location = 291,
 		y_location = 981,
 		icon_file = "",
 		-- Experience points cost needed to reach this node
@@ -507,7 +507,7 @@ skill_graph = {
 		},
 		-- links with other nodes
 		links = {
-			26,
+			26,177,
 		},
 	},
 	[26] = {
@@ -853,8 +853,8 @@ skill_graph = {
 		},
 	},
 	[44] = {
-		x_location = 1148,
-		y_location = 662,
+		x_location = 1151,
+		y_location = 663,
 		icon_file = "",
 		-- Experience points cost needed to reach this node
 		experience_points_needed = 0,
@@ -868,7 +868,7 @@ skill_graph = {
 		},
 		-- links with other nodes
 		links = {
-			45,
+			45,171,
 		},
 	},
 	[45] = {
@@ -1062,8 +1062,8 @@ skill_graph = {
 		},
 	},
 	[55] = {
-		x_location = 644,
-		y_location = 697,
+		x_location = 647,
+		y_location = 699,
 		icon_file = "",
 		-- Experience points cost needed to reach this node
 		experience_points_needed = 0,
@@ -1077,7 +1077,7 @@ skill_graph = {
 		},
 		-- links with other nodes
 		links = {
-			56,
+			56,185,
 		},
 	},
 	[56] = {
@@ -1786,6 +1786,1849 @@ skill_graph = {
 	[93] = {
 		x_location = 1705,
 		y_location = 418,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			
+		},
+	},
+	[94] = {
+		x_location = 1376,
+		y_location = 313,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			
+		},
+	},
+	[95] = {
+		x_location = 1463,
+		y_location = 250,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			94,
+		},
+	},
+	[96] = {
+		x_location = 1541,
+		y_location = 200,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			95,
+		},
+	},
+	[97] = {
+		x_location = 1599,
+		y_location = 156,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			96,
+		},
+	},
+	[98] = {
+		x_location = 1672,
+		y_location = 111,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			97,
+		},
+	},
+	[99] = {
+		x_location = 1737,
+		y_location = 58,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			98,100,
+		},
+	},
+	[100] = {
+		x_location = 1811,
+		y_location = 141,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			101,
+		},
+	},
+	[101] = {
+		x_location = 1850,
+		y_location = 229,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			102,
+		},
+	},
+	[102] = {
+		x_location = 1888,
+		y_location = 330,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			103,113,114,
+		},
+	},
+	[103] = {
+		x_location = 1922,
+		y_location = 431,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			104,
+		},
+	},
+	[104] = {
+		x_location = 1943,
+		y_location = 517,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			105,
+		},
+	},
+	[105] = {
+		x_location = 1951,
+		y_location = 634,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			106,
+		},
+	},
+	[106] = {
+		x_location = 1946,
+		y_location = 744,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			107,
+		},
+	},
+	[107] = {
+		x_location = 1935,
+		y_location = 841,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			108,
+		},
+	},
+	[108] = {
+		x_location = 1924,
+		y_location = 937,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			109,
+		},
+	},
+	[109] = {
+		x_location = 1911,
+		y_location = 1027,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			110,
+		},
+	},
+	[110] = {
+		x_location = 1893,
+		y_location = 1101,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			111,
+		},
+	},
+	[111] = {
+		x_location = 1865,
+		y_location = 1168,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			112,
+		},
+	},
+	[112] = {
+		x_location = 1804,
+		y_location = 1227,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			
+		},
+	},
+	[113] = {
+		x_location = 1952,
+		y_location = 276,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			
+		},
+	},
+	[114] = {
+		x_location = 1813,
+		y_location = 373,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			115,
+		},
+	},
+	[115] = {
+		x_location = 1854,
+		y_location = 466,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			116,
+		},
+	},
+	[116] = {
+		x_location = 1866,
+		y_location = 550,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			117,
+		},
+	},
+	[117] = {
+		x_location = 1863,
+		y_location = 643,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			118,
+		},
+	},
+	[118] = {
+		x_location = 1853,
+		y_location = 750,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			119,
+		},
+	},
+	[119] = {
+		x_location = 1831,
+		y_location = 834,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			120,
+		},
+	},
+	[120] = {
+		x_location = 1807,
+		y_location = 933,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			121,154,155,
+		},
+	},
+	[121] = {
+		x_location = 1787,
+		y_location = 1036,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			
+		},
+	},
+	[122] = {
+		x_location = 824,
+		y_location = 1024,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			123,
+		},
+	},
+	[123] = {
+		x_location = 870,
+		y_location = 1124,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			124,
+		},
+	},
+	[124] = {
+		x_location = 894,
+		y_location = 1236,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			125,
+		},
+	},
+	[125] = {
+		x_location = 894,
+		y_location = 1346,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			126,
+		},
+	},
+	[126] = {
+		x_location = 887,
+		y_location = 1432,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			127,
+		},
+	},
+	[127] = {
+		x_location = 884,
+		y_location = 1528,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			150,128,
+		},
+	},
+	[128] = {
+		x_location = 861,
+		y_location = 1599,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			129,
+		},
+	},
+	[129] = {
+		x_location = 845,
+		y_location = 1680,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			130,
+		},
+	},
+	[130] = {
+		x_location = 803,
+		y_location = 1771,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			
+		},
+	},
+	[131] = {
+		x_location = 1067,
+		y_location = 1125,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			132,
+		},
+	},
+	[132] = {
+		x_location = 1073,
+		y_location = 1237,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			133,
+		},
+	},
+	[133] = {
+		x_location = 1067,
+		y_location = 1348,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			134,
+		},
+	},
+	[134] = {
+		x_location = 1076,
+		y_location = 1430,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			135,
+		},
+	},
+	[135] = {
+		x_location = 1071,
+		y_location = 1523,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			151,136,
+		},
+	},
+	[136] = {
+		x_location = 1074,
+		y_location = 1609,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			
+		},
+	},
+	[137] = {
+		x_location = 1234,
+		y_location = 986,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			138,
+		},
+	},
+	[138] = {
+		x_location = 1217,
+		y_location = 1103,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			139,
+		},
+	},
+	[139] = {
+		x_location = 1212,
+		y_location = 1224,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			140,
+		},
+	},
+	[140] = {
+		x_location = 1214,
+		y_location = 1333,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			141,
+		},
+	},
+	[141] = {
+		x_location = 1222,
+		y_location = 1426,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			142,
+		},
+	},
+	[142] = {
+		x_location = 1229,
+		y_location = 1529,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			152,143,
+		},
+	},
+	[143] = {
+		x_location = 1245,
+		y_location = 1618,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			144,
+		},
+	},
+	[144] = {
+		x_location = 1272,
+		y_location = 1695,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			145,
+		},
+	},
+	[145] = {
+		x_location = 1307,
+		y_location = 1774,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			
+		},
+	},
+	[146] = {
+		x_location = 795,
+		y_location = 1528,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			127,
+		},
+	},
+	[147] = {
+		x_location = 713,
+		y_location = 1555,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			146,
+		},
+	},
+	[148] = {
+		x_location = 653,
+		y_location = 1605,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			147,183,
+		},
+	},
+	[149] = {
+		x_location = 598,
+		y_location = 1645,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			148,
+		},
+	},
+	[150] = {
+		x_location = 997,
+		y_location = 1525,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			135,
+		},
+	},
+	[151] = {
+		x_location = 1157,
+		y_location = 1523,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			142,
+		},
+	},
+	[152] = {
+		x_location = 1341,
+		y_location = 1532,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			162,153,
+		},
+	},
+	[153] = {
+		x_location = 1425,
+		y_location = 1577,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			
+		},
+	},
+	[154] = {
+		x_location = 1874,
+		y_location = 891,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			
+		},
+	},
+	[155] = {
+		x_location = 1739,
+		y_location = 967,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			156,
+		},
+	},
+	[156] = {
+		x_location = 1655,
+		y_location = 1034,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			157,
+		},
+	},
+	[157] = {
+		x_location = 1601,
+		y_location = 1090,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			158,
+		},
+	},
+	[158] = {
+		x_location = 1525,
+		y_location = 1177,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			159,
+		},
+	},
+	[159] = {
+		x_location = 1458,
+		y_location = 1280,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			160,163,164,
+		},
+	},
+	[160] = {
+		x_location = 1415,
+		y_location = 1367,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			161,
+		},
+	},
+	[161] = {
+		x_location = 1374,
+		y_location = 1458,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			152,
+		},
+	},
+	[162] = {
+		x_location = 1333,
+		y_location = 1634,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			
+		},
+	},
+	[163] = {
+		x_location = 1504,
+		y_location = 1367,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			
+		},
+	},
+	[164] = {
+		x_location = 1442,
+		y_location = 1165,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			165,
+		},
+	},
+	[165] = {
+		x_location = 1460,
+		y_location = 1047,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			166,
+		},
+	},
+	[166] = {
+		x_location = 1485,
+		y_location = 941,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			167,
+		},
+	},
+	[167] = {
+		x_location = 1542,
+		y_location = 867,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			168,
+		},
+	},
+	[168] = {
+		x_location = 1642,
+		y_location = 800,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			169,
+		},
+	},
+	[169] = {
+		x_location = 1626,
+		y_location = 897,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			170,
+		},
+	},
+	[170] = {
+		x_location = 1664,
+		y_location = 967,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			
+		},
+	},
+	[171] = {
+		x_location = 1212,
+		y_location = 746,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			172,
+		},
+	},
+	[172] = {
+		x_location = 1294,
+		y_location = 828,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			173,
+		},
+	},
+	[173] = {
+		x_location = 1365,
+		y_location = 901,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			166,
+		},
+	},
+	[174] = {
+		x_location = 422,
+		y_location = 796,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			184,
+		},
+	},
+	[175] = {
+		x_location = 442,
+		y_location = 881,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			174,
+		},
+	},
+	[176] = {
+		x_location = 413,
+		y_location = 956,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			175,
+		},
+	},
+	[177] = {
+		x_location = 372,
+		y_location = 1023,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			178,
+		},
+	},
+	[178] = {
+		x_location = 453,
+		y_location = 1101,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			179,
+		},
+	},
+	[179] = {
+		x_location = 513,
+		y_location = 1210,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			180,
+		},
+	},
+	[180] = {
+		x_location = 558,
+		y_location = 1314,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			181,
+		},
+	},
+	[181] = {
+		x_location = 597,
+		y_location = 1410,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			182,190,
+		},
+	},
+	[182] = {
+		x_location = 630,
+		y_location = 1493,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			148,
+		},
+	},
+	[183] = {
+		x_location = 686,
+		y_location = 1687,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			
+		},
+	},
+	[184] = {
+		x_location = 519,
+		y_location = 859,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			186,
+		},
+	},
+	[185] = {
+		x_location = 576,
+		y_location = 778,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			184,
+		},
+	},
+	[186] = {
+		x_location = 595,
+		y_location = 966,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			187,
+		},
+	},
+	[187] = {
+		x_location = 642,
+		y_location = 1077,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			188,
+		},
+	},
+	[188] = {
+		x_location = 649,
+		y_location = 1195,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			189,
+		},
+	},
+	[189] = {
+		x_location = 648,
+		y_location = 1289,
+		icon_file = "",
+		-- Experience points cost needed to reach this node
+		experience_points_needed = 0,
+		-- Skill id learned when reaching this node
+		skill_id_learned = -1,
+		-- items needed to reach this node
+		items_needed = {
+		},
+		-- stats upgrade when reaching this node
+		stats = {
+		},
+		-- links with other nodes
+		links = {
+			181,
+		},
+	},
+	[190] = {
+		x_location = 532,
+		y_location = 1495,
 		icon_file = "",
 		-- Experience points cost needed to reach this node
 		experience_points_needed = 0,
