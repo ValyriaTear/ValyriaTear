@@ -498,30 +498,13 @@ bool SkillGraphWindow::_Navigate()
         if (!isNodeWithin(node_links, target_node->GetId()))
             continue;
 
-        // Do a simple position check
-        Position2D target_pos = target_node->GetPosition();
-        if (InputManager->LeftPress()) {
-            if (target_pos.x >= current_pos.x)
-                continue;
-        }
-        if (InputManager->RightPress()) {
-            if (target_pos.x <= current_pos.x)
-                continue;
-        }
-        if (InputManager->UpPress()) {
-            if (target_pos.y >= current_pos.y)
-                continue;
-        }
-        else if (InputManager->DownPress()) {
-            if (target_pos.y <= current_pos.y)
-                continue;
-        }
-
-        /* TODO: check whether tan search helps or is useful
+        // We use tan search to help with navigation target angles
+        // Basically this permits to split the direction every 45°
         // Get the tangent of the 2 points
         // and check whether the angle correspond to the direction
+        Position2D target_pos = target_node->GetPosition();
         Position2D tan_pos = current_pos;
-        tan_pos.x = target_pos.y;
+        tan_pos.x = target_pos.x;
 
         // Tan X = O / A
         // Actually we have Tan^2 but the result angle is the same.
@@ -529,7 +512,51 @@ bool SkillGraphWindow::_Navigate()
         float target_tangent = 90; // Actually, any value above ~25 will do
         if (current_pos.GetDistance2(tan_pos) != 0.0f)
             target_tangent = tan_pos.GetDistance2(target_pos) / current_pos.GetDistance2(tan_pos);
-        */
+
+        if (InputManager->LeftPress()) {
+            if (target_pos.x >= current_pos.x)
+                continue;
+            if (InputManager->UpPress()) {
+                if (target_pos.y >= current_pos.y)
+                    continue;
+            }
+            else if (InputManager->DownPress()) {
+                if (target_pos.y <= current_pos.y)
+                    continue;
+            }
+            else { // Left press alone
+                if (target_tangent > 1)
+                    continue;
+            }
+        }
+        else if (InputManager->RightPress()) {
+            if (target_pos.x <= current_pos.x)
+                continue;
+            if (InputManager->UpPress()) {
+                if (target_pos.y >= current_pos.y)
+                    continue;
+            }
+            else if (InputManager->DownPress()) {
+                if (target_pos.y <= current_pos.y)
+                    continue;
+            }
+            else { // Right press alone
+                if (target_tangent > 1)
+                    continue;
+            }
+        }
+        else if (InputManager->UpPress()) { // Up press alone
+            if (target_pos.y >= current_pos.y)
+                continue;
+            if (target_tangent < 1)
+                continue;
+        }
+        else if (InputManager->DownPress()) { // Down press alone
+            if (target_pos.y <= current_pos.y)
+                continue;
+            if (target_tangent < 1)
+                continue;
+        }
 
         selected_node = target_node;
         break;
