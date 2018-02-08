@@ -269,21 +269,26 @@ void GameGlobal::AddCharacter(uint32_t id)
         }
     }
 
-    GlobalCharacter *ch = 0;
+    GlobalCharacter* character = nullptr;
 
     // Add the character if not existing in the main character data
     if(it == _characters.end()) {
-        ch = new GlobalCharacter(id);
-        _characters.insert(std::make_pair(id, ch));
+        character = new GlobalCharacter(id);
+
+        // Set a default skill node at character creation
+        uint32_t default_character_location = _skill_graph.GetStartingSkillNodeId(id);
+        character->SetSkillNodeLocation(default_character_location);
+
+        _characters.insert(std::make_pair(id, character));
     } else {
-        ch = it->second;
+        character = it->second;
     }
 
     // Add the new character to the active party if the active party contains less than four characters
     if(_ordered_characters.size() < GLOBAL_MAX_PARTY_SIZE)
-        _active_party.AddCharacter(ch);
+        _active_party.AddCharacter(character);
 
-    _ordered_characters.push_back(ch);
+    _ordered_characters.push_back(character);
 }
 
 
