@@ -2,18 +2,6 @@
 -- Each entries are nodes that are linked to a list of other nodes, permiting to set paths between them.
 -- Cross a path costs experience points, items, or both.
 -- And also the character's start location.
-BRONANN  = 1;
-KALYA    = 2;
-SYLVE    = 4;
-THANIS   = 8;
-
-skill_graph_start = {
-	-- [Character id] = node id
-	[BRONANN] = 27,
-	[KALYA] = 99,
-	[SYLVE] = 0,
-	[THANIS] = 0
-}
 
 skill_graph = {
 	[0] = {

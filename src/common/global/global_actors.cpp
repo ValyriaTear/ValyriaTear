@@ -667,6 +667,9 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
             AddSkill(bare_skills[i]);
     }
 
+    // Load the starting skill node
+    _current_skill_node_id = char_script.ReadUInt("starting_skill_node_id", 0);
+
     // Read each battle_animations table keys and store the corresponding animation in memory.
     std::vector<std::string> keys_vect;
     char_script.ReadTableKeys("battle_animations", keys_vect);

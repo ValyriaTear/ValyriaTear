@@ -50,19 +50,9 @@ public:
         return _skill_graph_data;
     }
 
-    //! \brief Gets the character's starting skill node id.
-    //! \param character_id The given character id.
-    //! \returns the given starting skill node id
-    //! or uint32_t max if not found.
-    uint32_t GetStartingSkillNodeId(uint32_t character_id) const;
-
 private:
     //! \brief The vector of skill nodes.
     std::vector<SkillNode*> _skill_graph_data;
-
-    //! \brief Contains the starting node ids per character ids.
-    //! Contains <character_id, skill_node_id>
-    std::map<uint32_t, uint32_t> _starting_node_ids;
 
     //! \brief Read item data and add them in the skill node data
     void _ReadItemsNeeded(vt_script::ReadScriptDescriptor& script,

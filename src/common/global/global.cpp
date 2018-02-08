@@ -275,10 +275,6 @@ void GameGlobal::AddCharacter(uint32_t id)
     if(it == _characters.end()) {
         character = new GlobalCharacter(id);
 
-        // Set a default skill node at character creation
-        uint32_t default_character_location = _skill_graph.GetStartingSkillNodeId(id);
-        character->SetSkillNodeLocation(default_character_location);
-
         _characters.insert(std::make_pair(id, character));
     } else {
         character = it->second;
@@ -1587,8 +1583,11 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32_t id)
     character->SetObtainedSkillNodes(skill_node_ids);
 
     // Read the current skill node location
-    uint32_t default_character_location = _skill_graph.GetStartingSkillNodeId(character->GetID());
-    character->SetSkillNodeLocation(file.ReadUInt("current_skill_node", default_character_location));
+    uint32_t default_character_location = file.ReadUInt("current_skill_node",
+                                                        std::numeric_limits<uint32_t>::max());
+    if (default_character_location != std::numeric_limits<uint32_t>::max()) {
+        character->SetSkillNodeLocation(default_character_location);
+    }
 
     // Read the character's active status effects data
     character->ResetActiveStatusEffects();

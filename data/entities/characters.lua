@@ -18,6 +18,7 @@ characters[BRONANN] = {
     map_sprite_name = "Bronann",
     special_skill_category_name = vt_system.Translate("Holy"),
     special_skill_category_icon = "data/gui/battle/holy.png",
+    starting_skill_node_id = 27,
 
     battle_animations = {
         idle = "data/entities/battle/characters/bronann/bronann_idle.lua",
@@ -234,6 +235,7 @@ characters[KALYA] = {
     map_sprite_name = "Kalya",
     special_skill_category_name = vt_system.Translate("Invocation"),
     special_skill_category_icon = "data/gui/battle/invocation.png",
+    starting_skill_node_id = 99,
 
     battle_animations = {
         idle = "data/entities/battle/characters/kalya/kalya_idle.lua",
@@ -446,6 +448,7 @@ characters[SYLVE] = {
     map_sprite_name = "Sylve",
     special_skill_category_name = vt_system.Translate("Mist"),
     special_skill_category_icon = "data/gui/battle/mist.png",
+    starting_skill_node_id = 0,
 
     battle_animations = {
         idle = "data/entities/battle/characters/sylve_idle.lua",
@@ -582,6 +585,7 @@ characters[THANIS] = {
     map_sprite_name = "Thanis",
     special_skill_category_name = vt_system.Translate("Acheron"),
     special_skill_category_icon = "data/gui/battle/acheron.png",
+    starting_skill_node_id = 0,
 
     battle_animations = {
         idle = "data/entities/battle/characters/thanis_idle.lua",
