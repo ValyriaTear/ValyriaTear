@@ -520,7 +520,7 @@ skill_graph = {
 	[27] = {
 		x_location = 957,
 		y_location = 515,
-		icon_file = "",
+		icon_file = "data/gui/menus/socket.lua",
 		-- Experience points cost needed to reach this node
 		experience_points_needed = 0,
 		-- Skill id learned when reaching this node
@@ -539,9 +539,9 @@ skill_graph = {
 	[28] = {
 		x_location = 883,
 		y_location = 504,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/hp_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 16,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -549,6 +549,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[6] = 5,
 		},
 		-- links with other nodes
 		links = {
@@ -558,9 +559,9 @@ skill_graph = {
 	[29] = {
 		x_location = 821,
 		y_location = 560,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/atk_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 20,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -568,6 +569,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[0] = 2,
 		},
 		-- links with other nodes
 		links = {
@@ -577,9 +579,9 @@ skill_graph = {
 	[30] = {
 		x_location = 852,
 		y_location = 646,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/def_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 15,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -587,6 +589,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[2] = 1,
 		},
 		-- links with other nodes
 		links = {
@@ -596,9 +599,9 @@ skill_graph = {
 	[31] = {
 		x_location = 960,
 		y_location = 659,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/stamina_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 16,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -606,6 +609,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[4] = 1,
 		},
 		-- links with other nodes
 		links = {
@@ -615,9 +619,9 @@ skill_graph = {
 	[32] = {
 		x_location = 1030,
 		y_location = 609,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/mdef_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 15,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -625,6 +629,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[3] = 1,
 		},
 		-- links with other nodes
 		links = {
@@ -634,9 +639,9 @@ skill_graph = {
 	[33] = {
 		x_location = 1074,
 		y_location = 534,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/matk_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 16,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -644,6 +649,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[1] = 2,
 		},
 		-- links with other nodes
 		links = {
@@ -653,9 +659,9 @@ skill_graph = {
 	[34] = {
 		x_location = 1040,
 		y_location = 447,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/sp_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 14,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -663,6 +669,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[7] = 1,
 		},
 		-- links with other nodes
 		links = {
@@ -672,9 +679,9 @@ skill_graph = {
 	[35] = {
 		x_location = 959,
 		y_location = 419,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/sp_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 18,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -682,6 +689,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[7] = 1,
 		},
 		-- links with other nodes
 		links = {
@@ -691,9 +699,9 @@ skill_graph = {
 	[36] = {
 		x_location = 865,
 		y_location = 424,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/sp_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 19,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -701,6 +709,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[7] = 1,
 		},
 		-- links with other nodes
 		links = {
@@ -710,9 +719,9 @@ skill_graph = {
 	[37] = {
 		x_location = 803,
 		y_location = 446,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/sp_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 23,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -720,6 +729,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[7] = 1,
 		},
 		-- links with other nodes
 		links = {
@@ -729,9 +739,9 @@ skill_graph = {
 	[38] = {
 		x_location = 757,
 		y_location = 523,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/sp_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 24,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -739,6 +749,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[7] = 1,
 		},
 		-- links with other nodes
 		links = {
@@ -862,9 +873,9 @@ skill_graph = {
 	[45] = {
 		x_location = 1191,
 		y_location = 586,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/mdef_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 19,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -872,6 +883,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[3] = 1,
 		},
 		-- links with other nodes
 		links = {
@@ -900,9 +912,9 @@ skill_graph = {
 	[47] = {
 		x_location = 1083,
 		y_location = 384,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/hp_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 19,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -910,6 +922,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[6] = 5,
 		},
 		-- links with other nodes
 		links = {
@@ -919,9 +932,9 @@ skill_graph = {
 	[48] = {
 		x_location = 1002,
 		y_location = 341,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/atk_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 20,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -929,6 +942,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[0] = 2,
 		},
 		-- links with other nodes
 		links = {
@@ -938,9 +952,9 @@ skill_graph = {
 	[49] = {
 		x_location = 912,
 		y_location = 330,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/def_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 19,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -948,6 +962,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[2] = 1,
 		},
 		-- links with other nodes
 		links = {
@@ -957,9 +972,9 @@ skill_graph = {
 	[50] = {
 		x_location = 820,
 		y_location = 350,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/atk_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 24,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -967,6 +982,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[0] = 2,
 		},
 		-- links with other nodes
 		links = {
@@ -976,9 +992,9 @@ skill_graph = {
 	[51] = {
 		x_location = 740,
 		y_location = 389,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/matk_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 23,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -986,6 +1002,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[1] = 2,
 		},
 		-- links with other nodes
 		links = {
@@ -995,9 +1012,9 @@ skill_graph = {
 	[52] = {
 		x_location = 682,
 		y_location = 458,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/hp_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 20,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -1005,6 +1022,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[6] = 5,
 		},
 		-- links with other nodes
 		links = {
@@ -1014,9 +1032,9 @@ skill_graph = {
 	[53] = {
 		x_location = 658,
 		y_location = 543,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/matk_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 18,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -1024,6 +1042,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[1] = 2,
 		},
 		-- links with other nodes
 		links = {
@@ -1033,9 +1052,9 @@ skill_graph = {
 	[54] = {
 		x_location = 641,
 		y_location = 614,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/atk_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 24,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -1043,6 +1062,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[0] = 2,
 		},
 		-- links with other nodes
 		links = {
@@ -1052,9 +1072,9 @@ skill_graph = {
 	[55] = {
 		x_location = 647,
 		y_location = 699,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/hp_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 24,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -1062,6 +1082,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[6] = 5,
 		},
 		-- links with other nodes
 		links = {
@@ -1147,9 +1168,9 @@ skill_graph = {
 	[60] = {
 		x_location = 619,
 		y_location = 406,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/stamina_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 20,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -1157,6 +1178,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[4] = 1,
 		},
 		-- links with other nodes
 		links = {
@@ -1166,9 +1188,9 @@ skill_graph = {
 	[61] = {
 		x_location = 520,
 		y_location = 378,
-		icon_file = "",
+		icon_file = "data/entities/status_effects/evade_icon.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 150,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
@@ -1176,6 +1198,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
+			[5] = 10,
 		},
 		-- links with other nodes
 		links = {
@@ -1185,11 +1208,11 @@ skill_graph = {
 	[62] = {
 		x_location = 1153,
 		y_location = 475,
-		icon_file = "",
+		icon_file = "data/gui/menus/star.lua",
 		-- Experience points cost needed to reach this node
-		experience_points_needed = 0,
+		experience_points_needed = 30,
 		-- Skill id learned when reaching this node
-		skill_id_learned = -1,
+		skill_id_learned = 2,
 		-- items needed to reach this node
 		items_needed = {
 		},
@@ -1204,13 +1227,14 @@ skill_graph = {
 	[63] = {
 		x_location = 1238,
 		y_location = 402,
-		icon_file = "",
+		icon_file = "data/gui/menus/rotating_crystal_grey.lua",
 		-- Experience points cost needed to reach this node
 		experience_points_needed = 0,
 		-- Skill id learned when reaching this node
 		skill_id_learned = -1,
 		-- items needed to reach this node
 		items_needed = {
+			[3001] = 1,
 		},
 		-- stats upgrade when reaching this node
 		stats = {
