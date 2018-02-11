@@ -736,6 +736,16 @@ public:
     **/
     void SetHeight(float height);
 
+    /** \brief Sets all animation frames to be a certain height, keeping width ratio
+    *** \param width Width to set each frame (in coordinate system units)
+    **/
+    void SetWidthKeepRatio(float width);
+
+    /** \brief Sets all animation frames to be a certain height, keeping height ratio
+    *** \param height Height to set each frame (in coordinate system units)
+    **/
+    void SetHeightKeepRatio(float height);
+
     /** \brief Sets all animation frames to be a certain width and height
     *** \param width Width to set each frame (in coordinate system units)
     *** \param height Height to set each frame (in coordinate system units)

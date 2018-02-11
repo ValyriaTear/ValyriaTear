@@ -466,11 +466,10 @@ void ImageDescriptor::_RemoveTextureReference()
         if(_texture->width > 512 || _texture->height > 512) {
             TextureManager->_RemoveSheet(_texture->texture_sheet);
         }
-// 		else {
-//
-// 			// TODO: Otherise simply mark the image as free in the texture sheet
-// // 			texture->texture_sheet->FreeTexture(texture);
-// 		}
+//      else {
+//          // TODO: Otherise simply mark the image as free in the texture sheet
+//          texture->texture_sheet->FreeTexture(texture);
+//      }
         delete _texture;
     }
 
@@ -1428,7 +1427,17 @@ void AnimatedImage::SetHeight(float height)
     }
 }
 
+void AnimatedImage::SetWidthKeepRatio(float width)
+{
+    float img_ratio = (_width > 0.0f ? width / _width : 0.0f);
+    SetDimensions(width, _height * img_ratio);
+}
 
+void AnimatedImage::SetHeightKeepRatio(float height)
+{
+    float img_ratio = (_height > 0.0f ? height / _height : 0.0f);
+    SetDimensions(_width * img_ratio, height);
+}
 
 void AnimatedImage::SetDimensions(float width, float height)
 {
