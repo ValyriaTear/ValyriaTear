@@ -1296,6 +1296,59 @@ void GlobalCharacter::AcknowledgeGrowth() {
         AddEvade(_evade_growth);
 }
 
+bool GlobalCharacter::IsSkillNodeObtained(uint32_t skill_node_id) const
+{
+    for (uint32_t id : _obtained_skill_nodes) {
+        if (id == skill_node_id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void GlobalCharacter::AddObtainedSkillNode(uint32_t skill_node_id) {
+    // Check whether the skill node is already there
+    if (IsSkillNodeObtained(skill_node_id)) {
+        PRINT_WARNING << "Attempted to add already obtained node skill id: "
+                      << skill_node_id << std::endl;
+        return;
+    }
+
+    SkillNode* node = GlobalManager->GetSkillGraph().GetSkillNode(skill_node_id);
+    if (!node) {
+        PRINT_WARNING << "Invalid Skill Node id: " << skill_node_id << std::endl;
+        return;
+    }
+
+    // FIXME: Removes XP
+    //RemoveXP(node->GetExperiencePointsNeeded());
+
+    // Apply stats upgrades
+    const std::vector<std::pair<uint32_t, uint32_t> >& stats = node->GetStatsUpgrades();
+    for (auto stat : stats) {
+        switch (stat.first) {
+            default:
+                PRINT_WARNING << "Unsupported stat id: (" << stat.first
+                              << ") in skill node id: (" << node->GetId() << ")" << std::endl;
+            break;
+            case GLOBAL_STATUS_PHYS_ATK: // FIXME: Improve API for stats, it is sooo duplicated.
+                AddPhysAtk(stat.second);
+                break;
+                // TODO
+        }
+    }
+
+    // Permanently add new skill
+    if (node->GetSkillIdLearned() != -1) {
+        AddSkill(node->GetSkillIdLearned(), true);
+    }
+
+    _obtained_skill_nodes.emplace_back(skill_node_id);
+
+    // The character location is on the latest obtained skill_node_id.
+    SetSkillNodeLocation(skill_node_id);
+}
+
 void GlobalCharacter::ApplyActiveStatusEffect(GLOBAL_STATUS status_effect,
                                               GLOBAL_INTENSITY intensity,
                                               uint32_t duration)

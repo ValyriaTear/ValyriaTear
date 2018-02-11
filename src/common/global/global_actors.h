@@ -1010,17 +1010,10 @@ public:
     }
 
     //! \brief Adds a new skill nodes learned
-    void AddObtainedSkillNode(uint32_t skill_node_id) {
-        // Check whether the skill node is already there
-        for (uint32_t id : _obtained_skill_nodes) {
-            if (id == skill_node_id)
-                return;
-        }
+    void AddObtainedSkillNode(uint32_t skill_node_id);
 
-        _obtained_skill_nodes.emplace_back(skill_node_id);
-        // The character location is on the latest obtained skill_node_id.
-        SetSkillNodeLocation(skill_node_id);
-    }
+    //! \brief Tells whether the given skill node is obtained by the character
+    bool IsSkillNodeObtained(uint32_t skill_node_id) const;
 
     //! \brief Set the skill nodes location
     void SetSkillNodeLocation(uint32_t skill_node_id) {

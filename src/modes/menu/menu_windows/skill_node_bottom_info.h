@@ -23,7 +23,12 @@ public:
     SkillNodeBottomInfo();
 
     //! \brief Set info corresponding to the given skill node.
-    void SetNode(const vt_global::SkillNode& node);
+    //! \param node The current skill node to display
+    //! \param The currently usable character XP
+    //! \param Whether the character has already obtained the skill node
+    void SetNode(const vt_global::SkillNode& node,
+                 uint32_t character_xp,
+                 bool is_obtained);
 
     //! \brief Set the panel info position
     //! using the given topleft coordinates.
@@ -69,7 +74,9 @@ private:
     vt_gui::OptionBox _stats_upgrade;
 
     //! \brief Updates cost info
-    void _SetCostInfo(uint32_t exp_points_needed,
+    void _SetCostInfo(uint32_t character_xp,
+                      uint32_t exp_points_needed,
+                      bool is_obtained,
                       const std::vector<std::pair<uint32_t, uint32_t> >& items_needed);
 
     //! \brief Updates skill info

@@ -45,9 +45,13 @@ SkillNodeBottomInfo::SkillNodeBottomInfo() :
     _stats_upgrade.SetCursorOffset(-58.0f, -18.0f);
 }
 
-void SkillNodeBottomInfo::SetNode(const vt_global::SkillNode& node)
+void SkillNodeBottomInfo::SetNode(const vt_global::SkillNode& node,
+                                  uint32_t character_xp,
+                                  bool is_obtained)
 {
-    _SetCostInfo(node.GetExperiencePointsNeeded(),
+    _SetCostInfo(character_xp,
+                 node.GetExperiencePointsNeeded(),
+                 is_obtained,
                  node.GetItemsNeeded());
 
     _SetSkillInfo(node.GetSkillIdLearned());
@@ -106,15 +110,23 @@ void SkillNodeBottomInfo::Draw()
     VideoManager->PopState();
 }
 
-void SkillNodeBottomInfo::_SetCostInfo(uint32_t exp_points_needed,
+void SkillNodeBottomInfo::_SetCostInfo(uint32_t character_xp,
+                                       uint32_t exp_points_needed,
+                                       bool is_obtained,
                                        const std::vector<std::pair<uint32_t, uint32_t> >& items_needed)
 {
     // Done this way to ensure the right translation
+    if (is_obtained) {
+        _cost_title.SetText(vt_system::UTranslate("Unlocked"));
+        return;
+    }
+
     _cost_title.SetText(vt_system::UTranslate("To Unlock:"));
 
     if (exp_points_needed > 0)
-        _node_cost.SetText(vt_system::VTranslate("XP Needed: %d",
-                                                 exp_points_needed));
+        _node_cost.SetText(vt_system::VTranslate("XP Needed: %d /\nAvailable: %d",
+                                                 exp_points_needed,
+                                                 character_xp));
     else
         _node_cost.SetText(vt_system::UTranslate("No XP Needed"));
 

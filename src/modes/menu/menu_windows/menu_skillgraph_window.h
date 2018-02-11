@@ -74,36 +74,36 @@ public:
         return _skillgraph_state;
     }
 
-    //! \brief Set the character for this window
-    //! \param character the character to associate with this window
-    void SetCharacter(vt_global::GlobalCharacter& character);
+    //! \brief Set the character for this window using the character selection
+    //! \returns Whether the character was set
+    bool SetCharacter();
 
 private:
-    //! \brief the current selected character id
+    //! \brief The current selected character id
     SKILLGRAPH_STATE _skillgraph_state;
 
-    //! \brief the current selected character id
-    uint32_t _selected_character_id;
+    //! \brief The current selected character id
+    vt_global::GlobalCharacter* _selected_character;
 
     //! \brief the location pointer. this is loaded in the constructor
     vt_video::StillImage _location_pointer;
 
-    //! \brief the character icon. this is loaded in the constructor
+    //! \brief The character icon. this is loaded in the constructor
     vt_video::StillImage _character_icon;
 
-    //! \brief offsets for the current skill tree to view in the center of the window
+    //! \brief Offsets for the current skill tree to view in the center of the window
     vt_common::Position2D _current_offset;
 
     //! \brief The current centered view offsets
     vt_common::Position2D _view_position;
 
-    //! \brief the current index to the location the pointer is on
-    uint32_t _selected_node_index;
+    //! \brief The current index to the location the pointer is on
+    uint32_t _selected_node_id;
 
-    //! \brief the current index to the location the character is on
-    uint32_t _character_node_index;
+    //! \brief The current index to the location the character is on
+    uint32_t _character_node_id;
 
-    //! \brief indicates whether this window is active or not
+    //! \brief Indicates whether this window is active or not
     bool _active;
 
     //! \brief The currently displayed skill nodes
@@ -117,7 +117,7 @@ private:
     //! The character select option box
     vt_gui::OptionBox _char_select;
 
-    //! \brief Text te select character
+    //! \brief Text to select character
     vt_video::TextImage _select_character_text;
 
     //! \brief Initializes the character selector
@@ -145,6 +145,10 @@ private:
     //! in given direction based on key press.
     //! \returns Whether a new node was selected.
     bool _Navigate();
+
+    //! \brief Handles pressing confirm when on the skill graph.
+    //! This permits to buy nodes for XP.
+    void _HandleNodeTransaction();
 };
 
 } // namespace private_menu

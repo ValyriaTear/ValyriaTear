@@ -48,11 +48,11 @@ const float BOTTOM_MENU_Y_POS = 565.0f;
 
 SkillGraphWindow::SkillGraphWindow() :
     _skillgraph_state(SKILLGRAPH_STATE_NONE),
-    _selected_character_id(std::numeric_limits<uint32_t>::max()), // Invalid id
+    _selected_character(nullptr), // Invalid character
     _current_offset(-1.0f, -1.0f), // Invalid view
     _view_position(0.0f, 0.0f),
-    _selected_node_index(std::numeric_limits<uint32_t>::max()), // Invalid index
-    _character_node_index(std::numeric_limits<uint32_t>::max()), // Invalid index
+    _selected_node_id(std::numeric_limits<uint32_t>::max()), // Invalid index
+    _character_node_id(std::numeric_limits<uint32_t>::max()), // Invalid index
     _active(false)
 {
     _location_pointer.SetStatic(true);
@@ -141,15 +141,37 @@ void SkillGraphWindow::DrawBottomWindow()
     }
 }
 
-void SkillGraphWindow::SetCharacter(vt_global::GlobalCharacter& character)
+bool SkillGraphWindow::SetCharacter()
 {
-    // Set base data
-    _selected_character_id = character.GetID();
-    _character_icon = character.GetStaminaIcon();
+    _selected_character =
+        GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
+    if (!_selected_character) {
+        _selected_node_id = 0;
+        return false;
+    }
+
+    // Set base data for memoization
+    _character_icon = _selected_character->GetStaminaIcon();
 
     // Set the selection node to where the character was last located.
-    _selected_node_index = character.GetSkillNodeLocation();
-    _character_node_index = _selected_node_index;
+    _selected_node_id = _selected_character->GetSkillNodeLocation();
+    _character_node_id = _selected_node_id;
+
+    // Add the current node position as obtained if it is not in the data
+    // This permits to fix obtaining the first nodes
+    const std::vector<uint32_t> obtained_nodes = _selected_character->GetObtainedSkillNodes();
+    // If the node was already obtained, we can buy it again
+    bool already_obtained = false;
+    for (uint32_t obtained_node_id : obtained_nodes) {
+        if (_character_node_id == obtained_node_id) {
+            already_obtained = true;
+            break;
+        }
+    }
+    if (!already_obtained)
+        _selected_character->AddObtainedSkillNode(_character_node_id);
+
+    return true;
 }
 
 void SkillGraphWindow::_InitCharSelect()
@@ -196,15 +218,9 @@ void SkillGraphWindow::_UpdateSkillCharacterSelectState()
         _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 
         // If the character is unset, set the default node
-        GlobalCharacter* character =
-            GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
-        if (!character) {
-            _selected_character_id = std::numeric_limits<uint32_t>::max();
-            _selected_node_index = 0;
+        if(!SetCharacter()) {
             return;
         }
-
-        SetCharacter(*character);
         _skillgraph_state = SKILLGRAPH_STATE_LIST;
 
         // Set view on node
@@ -227,11 +243,14 @@ void SkillGraphWindow::_UpdateSkillGraphListState()
         return;
 
     SkillGraph& skill_graph = vt_global::GlobalManager->GetSkillGraph();
-    SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_index);
+    SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_id);
 
     // Update bottom windows info
-    if (current_skill_node)
-        _bottom_info.SetNode(*current_skill_node);
+    if (current_skill_node) {
+        _bottom_info.SetNode(*current_skill_node,
+                             _selected_character->GetExperiencePoints(), // FIXME: use true XP function
+                             _selected_character->IsSkillNodeObtained(_selected_node_id));
+    }
 }
 
 void SkillGraphWindow::_DrawCharacterState()
@@ -283,7 +302,7 @@ void SkillGraphWindow::_DrawSkillGraphState()
         image.Draw();
 
         // Setup the marker location to be on the currently selected node
-        if (_selected_node_index == skill_node->GetId()) {
+        if (_selected_node_id == skill_node->GetId()) {
             pointer_location.x = _view_position.x + skill_node->GetXPosition()
                 - _location_pointer.GetWidth() / 3.0f;
             pointer_location.y = _view_position.y + skill_node->GetYPosition()
@@ -291,7 +310,7 @@ void SkillGraphWindow::_DrawSkillGraphState()
         }
 
         // Draw the character portrait if the character is on its latest learned skill.
-        if (_character_node_index == skill_node->GetId()) {
+        if (_character_node_id == skill_node->GetId()) {
             VideoManager->Move(_view_position.x, _view_position.y);
             VideoManager->MoveRelative(skill_node->GetXPosition(),
                                        skill_node->GetYPosition());
@@ -315,19 +334,19 @@ void SkillGraphWindow::_ResetSkillGraphView()
 {
     // Set current offset based on the currently selected node
     SkillGraph& skill_graph = vt_global::GlobalManager->GetSkillGraph();
-    SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_index);
+    SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_id);
 
     // If the node is invalid, try the default one.
     if (current_skill_node == nullptr) {
         current_skill_node = skill_graph.GetSkillNode(0);
-        _selected_node_index = 0;
+        _selected_node_id = 0;
     }
 
     // If the default one fails, set an empty view
     if (current_skill_node == nullptr) {
         _current_offset.x = -1.0f;
         _current_offset.y = -1.0f;
-        _selected_node_index = std::numeric_limits<uint32_t>::max();
+        _selected_node_id = std::numeric_limits<uint32_t>::max();
         PRINT_WARNING << "Empty Skill Graph View" << std::endl;
         return;
     }
@@ -338,11 +357,11 @@ void SkillGraphWindow::_ResetSkillGraphView()
 void SkillGraphWindow::_UpdateSkillGraphView(bool scroll)
 {
     // Check to prevent invalid updates
-    if (_selected_node_index == std::numeric_limits<uint32_t>::max())
+    if (_selected_node_id == std::numeric_limits<uint32_t>::max())
         return;
 
     SkillGraph& skill_graph = vt_global::GlobalManager->GetSkillGraph();
-    SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_index);
+    SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_id);
 
     _current_offset = current_skill_node->GetPosition();
 
@@ -482,7 +501,7 @@ bool SkillGraphWindow::_Navigate()
         return false;
 
     SkillGraph& skill_graph = vt_global::GlobalManager->GetSkillGraph();
-    SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_index);
+    SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_id);
     const Position2D current_pos = current_skill_node->GetPosition();
     // Get every node links
     auto node_links = current_skill_node->GetChildrenNodeLinks();
@@ -565,9 +584,76 @@ bool SkillGraphWindow::_Navigate()
 
     // Select the new closest node
     if (selected_node)
-        _selected_node_index = selected_node->GetId();
+        _selected_node_id = selected_node->GetId();
 
     return (selected_node != nullptr);
+}
+
+void SkillGraphWindow::_HandleNodeTransaction()
+{
+    vt_global::GlobalMedia& media = vt_global::GlobalManager->Media();
+    // Only attempt to buy when the player confirms on the node
+    if (!InputManager->ConfirmPress()) {
+        media.PlaySound("bump");
+        return;
+    }
+
+    if (!_selected_character)
+        return;
+
+    SkillGraph& skill_graph = vt_global::GlobalManager->GetSkillGraph();
+    SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_id);
+
+    // Check whether there is enough XP to buy the node
+    /*
+    if (_selected_character->GetExperiencePoints() < current_skill_node->GetExperiencePointsNeeded())
+        return;
+        */
+
+    // Cannot obtain a node where the character is
+    uint32_t char_node_id = _selected_character->GetSkillNodeLocation();
+    if (char_node_id == current_skill_node->GetId())
+        return;
+
+    // Check whether at least one of the neighbor nodes in the list is obtained.
+    const std::vector<uint32_t> obtained_nodes = _selected_character->GetObtainedSkillNodes();
+    // If the node was already obtained, we can buy it again
+    bool neighbor_obtained = false;
+    for (uint32_t obtained_node_id : obtained_nodes) {
+        // Check the node has not already been obtained
+        if (current_skill_node->GetId() == obtained_node_id)
+            return;
+
+        // Check the parent or child node of this one has been obtained
+        for (uint32_t child_node_id : current_skill_node->GetChildrenNodeLinks()) {
+            if (child_node_id == obtained_node_id) {
+                neighbor_obtained = true;
+                break;
+            }
+        }
+
+        for (uint32_t parent_node_id : current_skill_node->GetParentNodeLinks()) {
+            if (parent_node_id == obtained_node_id) {
+                neighbor_obtained = true;
+                break;
+            }
+        }
+
+        // The node can be obtained, so let's skip the rest of the loop
+        if (neighbor_obtained)
+            break;
+    }
+
+    // No obtained neighbor found, we can't get this node
+    if (!neighbor_obtained)
+        return;
+
+    // Obtain Node
+    _selected_character->AddObtainedSkillNode(current_skill_node->GetId());
+    media.PlaySound("confirm");
+
+    // Refresh info
+    // TODO
 }
 
 } // namespace private_menu
