@@ -40,7 +40,7 @@ const float SKILL_GRAPH_AREA_WIDTH = 815.0f;
 const float SKILL_GRAPH_AREA_HEIGHT = 415.0f;
 const float WINDOW_BORDER_WIDTH = 18.0f;
 const float NODES_DISPLAY_MARGIN = 100.0f;
-const vt_video::Color grayed_path = vt_video::Color(0.5f, 0.5f, 0.5f, 0.2f);
+const vt_video::Color grayed_path = vt_video::Color(0.4f, 0.4f, 0.4f, 0.2f);
 
 //! \brief Top left bottom menu position
 const float BOTTOM_MENU_X_POS = 90.0f;
@@ -262,9 +262,9 @@ void SkillGraphWindow::_DrawSkillGraphState()
     // Draw the visible lines
     for (Line2D node_line : _displayed_node_links) {
         vt_video::VideoManager->DrawLine(node_line.begin.x,
-                                         node_line.begin.y, 5,
+                                         node_line.begin.y, 7,
                                          node_line.end.x,
-                                         node_line.end.y, 5,
+                                         node_line.end.y, 7,
                                          grayed_path);
     }
 
@@ -277,6 +277,7 @@ void SkillGraphWindow::_DrawSkillGraphState()
                                    skill_node->GetYPosition());
         // Center the image
         vt_video::AnimatedImage& image = skill_node->GetIconImage();
+        image.SetWidthKeepRatio(36.0f);
         VideoManager->MoveRelative(-image.GetWidth() / 2.0f,
                                    -image.GetHeight() / 2.0f);
         image.Draw();
