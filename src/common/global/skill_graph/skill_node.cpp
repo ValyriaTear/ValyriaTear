@@ -24,7 +24,7 @@ SkillNode::SkillNode(uint32_t id,
     _experience_points_needed(experience_points_needed),
     _skill_id_learned(skill_id_learned)
 {
-    if(!_icon_image.LoadFromAnimationScript(icon_animation_filename))
+    if(!icon_animation_filename.empty() && !_icon_image.LoadFromAnimationScript(icon_animation_filename))
         PRINT_WARNING << "Couldn't load animation from script: " << icon_animation_filename << std::endl;
 }
 
