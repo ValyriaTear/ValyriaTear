@@ -118,6 +118,8 @@ void SkillNodeBottomInfo::_SetCostInfo(uint32_t character_xp,
     // Done this way to ensure the right translation
     if (is_obtained) {
         _cost_title.SetText(vt_system::UTranslate("Unlocked"));
+        _node_cost.Clear();
+        _items_cost.ClearOptions();
         return;
     }
 

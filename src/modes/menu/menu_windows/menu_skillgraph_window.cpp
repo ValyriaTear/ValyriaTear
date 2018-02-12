@@ -238,6 +238,8 @@ void SkillGraphWindow::_UpdateSkillGraphListState()
 
     _UpdateSkillGraphView();
 
+    _HandleNodeTransaction();
+
     // Only update animation when necessary
     if (!_Navigate())
         return;
@@ -248,7 +250,7 @@ void SkillGraphWindow::_UpdateSkillGraphListState()
     // Update bottom windows info
     if (current_skill_node) {
         _bottom_info.SetNode(*current_skill_node,
-                             _selected_character->GetExperiencePoints(), // FIXME: use true XP function
+                             _selected_character->GetTotalExperiencePoints(), // FIXME: use true XP function
                              _selected_character->IsSkillNodeObtained(_selected_node_id));
     }
 }
@@ -591,18 +593,20 @@ bool SkillGraphWindow::_Navigate()
 
 void SkillGraphWindow::_HandleNodeTransaction()
 {
-    vt_global::GlobalMedia& media = vt_global::GlobalManager->Media();
     // Only attempt to buy when the player confirms on the node
-    if (!InputManager->ConfirmPress()) {
-        media.PlaySound("bump");
+    if (!InputManager->ConfirmPress())
         return;
-    }
 
     if (!_selected_character)
         return;
 
+    // FIXME: return for now in order to deactivate the unfinished feature
+    return;
+
     SkillGraph& skill_graph = vt_global::GlobalManager->GetSkillGraph();
     SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_id);
+
+    vt_global::GlobalMedia& media = vt_global::GlobalManager->Media();
 
     // Check whether there is enough XP to buy the node
     /*
@@ -612,8 +616,10 @@ void SkillGraphWindow::_HandleNodeTransaction()
 
     // Cannot obtain a node where the character is
     uint32_t char_node_id = _selected_character->GetSkillNodeLocation();
-    if (char_node_id == current_skill_node->GetId())
+    if (char_node_id == current_skill_node->GetId()) {
+        media.PlaySound("bump");
         return;
+    }
 
     // Check whether at least one of the neighbor nodes in the list is obtained.
     const std::vector<uint32_t> obtained_nodes = _selected_character->GetObtainedSkillNodes();
@@ -621,8 +627,10 @@ void SkillGraphWindow::_HandleNodeTransaction()
     bool neighbor_obtained = false;
     for (uint32_t obtained_node_id : obtained_nodes) {
         // Check the node has not already been obtained
-        if (current_skill_node->GetId() == obtained_node_id)
+        if (current_skill_node->GetId() == obtained_node_id) {
+            media.PlaySound("bump");
             return;
+        }
 
         // Check the parent or child node of this one has been obtained
         for (uint32_t child_node_id : current_skill_node->GetChildrenNodeLinks()) {
@@ -645,15 +653,19 @@ void SkillGraphWindow::_HandleNodeTransaction()
     }
 
     // No obtained neighbor found, we can't get this node
-    if (!neighbor_obtained)
+    if (!neighbor_obtained) {
+        media.PlaySound("bump");
         return;
+    }
 
     // Obtain Node
     _selected_character->AddObtainedSkillNode(current_skill_node->GetId());
     media.PlaySound("confirm");
 
     // Refresh info
-    // TODO
+    _bottom_info.SetNode(*current_skill_node,
+                         _selected_character->GetTotalExperiencePoints(), // FIXME
+                         _selected_character->IsSkillNodeObtained(current_skill_node->GetId()));
 }
 
 } // namespace private_menu

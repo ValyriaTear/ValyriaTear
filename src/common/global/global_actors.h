@@ -346,8 +346,8 @@ public:
         return _max_skill_points;
     }
 
-    uint32_t GetExperiencePoints() const {
-        return _experience_points;
+    uint32_t GetTotalExperiencePoints() const {
+        return _total_experience_points;
     }
 
     uint32_t GetPhysAtk() const {
@@ -448,8 +448,8 @@ public:
     *** re-calculated when an appropriately related stat is changed.
     **/
     //@{
-    void SetExperiencePoints(uint32_t xp_points) {
-        _experience_points = xp_points;
+    void SetTotalExperiencePoints(uint32_t xp_points) {
+        _total_experience_points = xp_points;
     }
 
     void SetHitPoints(uint32_t hp) {
@@ -623,8 +623,8 @@ protected:
 
     //! \name Base Actor Statistics
     //@{
-    //! \brief The number of experience points the actor has earned
-    uint32_t _experience_points;
+    //! \brief The number of total experience points the actor has earned
+    uint32_t _total_experience_points;
 
     //! \brief The current number of hit points that the actor has
     uint32_t _hit_points;
@@ -1123,6 +1123,9 @@ public:
 protected:
     //! \brief The current experience level of the actor
     uint32_t _experience_level;
+
+    //! \brief The number of experience points that can be spent to obtain skill nodes
+    uint32_t _experience_points;
 
     /** \brief Sortable skill containers
     *** Skills are divided into three types: weapon, magic, and special. There is really no functional

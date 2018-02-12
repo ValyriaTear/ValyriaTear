@@ -148,7 +148,7 @@ void GlobalAttackPoint::CalculateTotalEvade()
 
 GlobalActor::GlobalActor() :
     _id(0),
-    _experience_points(0),
+    _total_experience_points(0),
     _hit_points(0),
     _max_hit_points(0),
     _skill_points(0),
@@ -187,7 +187,7 @@ GlobalActor::GlobalActor(const GlobalActor &copy):
 {
     _id = copy._id;
     _name = copy._name;
-    _experience_points = copy._experience_points;
+    _total_experience_points = copy._total_experience_points;
     _hit_points = copy._hit_points;
     _max_hit_points = copy._max_hit_points;
     _skill_points = copy._skill_points;
@@ -243,7 +243,7 @@ GlobalActor &GlobalActor::operator=(const GlobalActor &copy)
     _portrait = copy._portrait;
     _full_portrait = copy._full_portrait;
     _stamina_icon = copy._stamina_icon;
-    _experience_points = copy._experience_points;
+    _total_experience_points = copy._total_experience_points;
     _hit_points = copy._hit_points;
     _max_hit_points = copy._max_hit_points;
     _skill_points = copy._skill_points;
@@ -574,6 +574,7 @@ void GlobalActor::_CalculateEvadeRatings()
 
 GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
     _experience_level(0),
+    _experience_points(0),
     _enabled(true),
     _weapon_equipped(nullptr),
     _experience_for_next_level(0),
@@ -693,7 +694,7 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
     if(initial && char_script.OpenTable("initial_stats")) {
         char_script.OpenTable("initial_stats");
         _experience_level = char_script.ReadUInt("experience_level");
-        _experience_points = char_script.ReadUInt("experience_points");
+        _total_experience_points = char_script.ReadUInt("experience_points");
         _max_hit_points = char_script.ReadUInt("max_hit_points");
         _hit_points = _max_hit_points;
         _max_skill_points = char_script.ReadUInt("max_skill_points");
@@ -862,7 +863,7 @@ GlobalCharacter::~GlobalCharacter()
 
 bool GlobalCharacter::AddExperiencePoints(uint32_t xp)
 {
-    _experience_points += xp;
+    _total_experience_points += xp;
     _experience_for_next_level -= xp;
     return ReachedNewExperienceLevel();
 }
@@ -1334,7 +1335,27 @@ void GlobalCharacter::AddObtainedSkillNode(uint32_t skill_node_id) {
             case GLOBAL_STATUS_PHYS_ATK: // FIXME: Improve API for stats, it is sooo duplicated.
                 AddPhysAtk(stat.second);
                 break;
-                // TODO
+            case GLOBAL_STATUS_MAG_ATK:
+                AddMagAtk(stat.second);
+                break;
+            case GLOBAL_STATUS_PHYS_DEF:
+                AddPhysDef(stat.second);
+                break;
+            case GLOBAL_STATUS_MAG_DEF:
+                AddMagDef(stat.second);
+                break;
+            case GLOBAL_STATUS_STAMINA:
+                AddStamina(stat.second);
+                break;
+            case GLOBAL_STATUS_EVADE:
+                AddEvade(static_cast<float>(stat.second) / 10.0f);
+                break;
+            case GLOBAL_STATUS_HP:
+                AddMaxHitPoints(stat.second);
+                break;
+            case GLOBAL_STATUS_SP:
+                AddMaxSkillPoints(stat.second);
+                break;
         }
     }
 
@@ -1490,7 +1511,7 @@ GlobalEnemy::GlobalEnemy(uint32_t id) :
         _hit_points = _max_hit_points;
         _max_skill_points = enemy_data.ReadUInt("skill_points");
         _skill_points = _max_skill_points;
-        _experience_points = enemy_data.ReadUInt("experience_points");
+        _total_experience_points = enemy_data.ReadUInt("experience_points");
         _char_phys_atk.SetBase(enemy_data.ReadUInt("phys_atk"));
         _char_mag_atk.SetBase(enemy_data.ReadUInt("mag_atk"));
         _char_phys_def.SetBase(enemy_data.ReadUInt("phys_def"));
@@ -1589,7 +1610,7 @@ void GlobalEnemy::_Initialize()
     // Randomize the stats by using a random diff of 10%
     _max_hit_points = RandomDiffValue(_max_hit_points, _max_hit_points / 10.0f);
     _max_skill_points = RandomDiffValue(_max_skill_points, _max_skill_points / 10.0f);
-    _experience_points = RandomDiffValue(_experience_points, _experience_points / 10.0f);
+    _total_experience_points = RandomDiffValue(_total_experience_points, _total_experience_points / 10.0f);
     _char_phys_atk.SetBase(RandomDiffValue(_char_phys_atk.GetBase(), _char_phys_atk.GetBase() / 10.0f));
     _char_mag_atk.SetBase(RandomDiffValue(_char_mag_atk.GetBase(), _char_mag_atk.GetBase() / 10.0f));
     _char_phys_def.SetBase(RandomDiffValue(_char_phys_def.GetBase(), _char_phys_def.GetBase() / 10.0f));

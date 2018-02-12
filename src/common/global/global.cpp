@@ -1168,7 +1168,7 @@ void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *ch
 
     // ----- (1): Write out the character's stats
     file.WriteLine("\t\texperience_level = " + NumberToString(character->GetExperienceLevel()) + ",");
-    file.WriteLine("\t\texperience_points = " + NumberToString(character->GetExperiencePoints()) + ",");
+    file.WriteLine("\t\texperience_points = " + NumberToString(character->GetTotalExperiencePoints()) + ",");
     file.WriteLine("\t\texperience_points_next = " + NumberToString(character->GetExperienceForNextLevel()) + ", ");
 
     // The values stored are the unmodified ones.
@@ -1452,7 +1452,7 @@ void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32_t id)
 
     // Read in all of the character's stats data
     character->SetExperienceLevel(file.ReadUInt("experience_level"));
-    character->SetExperiencePoints(file.ReadUInt("experience_points"));
+    character->SetTotalExperiencePoints(file.ReadUInt("experience_points"));
     character->_experience_for_next_level = file.ReadInt("experience_points_next");
 
     character->SetMaxHitPoints(file.ReadUInt("max_hit_points"));
