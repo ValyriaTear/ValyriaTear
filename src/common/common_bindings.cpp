@@ -27,8 +27,8 @@
 #include "common.h"
 #include "dialogue.h"
 
+#include "common/global/actors/global_attack_point.h"
 #include "common/global/global.h"
-#include "common/global/global_actors.h"
 #include "common/global/global_effects.h"
 #include "common/global/global_objects.h"
 #include "common/global/global_skills.h"

@@ -31,7 +31,8 @@
 #include "script/script_write.h"
 
 #include "skill_graph/skill_graph.h"
-#include "global_actors.h"
+#include "actors/global_actor.h"
+#include "actors/global_party.h"
 #include "global_effects.h"
 #include "global_objects.h"
 #include "global_skills.h"

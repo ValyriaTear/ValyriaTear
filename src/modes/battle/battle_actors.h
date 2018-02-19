@@ -23,7 +23,9 @@
 #ifndef __BATTLE_ACTORS_HEADER__
 #define __BATTLE_ACTORS_HEADER__
 
-#include "common/global/global_actors.h"
+//#include "common/global/actors/global_actor.h"
+#include "common/global/actors/global_character.h"
+#include "common/global/actors/global_enemy.h"
 #include "common/global/global_effects.h"
 
 #include "battle_utils.h"

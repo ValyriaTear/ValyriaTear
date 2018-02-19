@@ -21,12 +21,16 @@
 #ifndef __BATTLE_FINISH_HEADER__
 #define __BATTLE_FINISH_HEADER__
 
-#include "common/global/global_actors.h"
 #include "common/gui/option.h"
 #include "common/gui/menu_window.h"
 #include "common/gui/textbox.h"
 
 #include "modes/battle/battle_utils.h"
+
+namespace vt_global {
+class GlobalSkill;
+class GlobalCharacter;
+}
 
 namespace vt_battle
 {

@@ -24,6 +24,7 @@
 #include "modes/battle/battle_actors.h"
 
 #include "common/global/global.h"
+#include "common/global/actors/global_attack_point.h"
 
 #include "engine/system.h"
 

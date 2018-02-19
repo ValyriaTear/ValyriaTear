@@ -29,8 +29,6 @@
 
 #include "engine/mode_manager.h"
 
-#include "common/global/global_actors.h"
-
 #include "modes/battle/battle_enemy_info.h"
 
 #include <list>

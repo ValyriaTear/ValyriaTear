@@ -269,7 +269,11 @@ common/global/battle_media.cpp
 common/global/quest_log.cpp
 common/global/global.cpp
 common/global/global_event_group.cpp
-common/global/global_actors.cpp
+common/global/actors/global_actor.cpp
+common/global/actors/global_attack_point.cpp
+common/global/actors/global_character.cpp
+common/global/actors/global_enemy.cpp
+common/global/actors/global_party.cpp
 common/global/global_effects.cpp
 common/global/global_objects.cpp
 common/global/global_skills.cpp

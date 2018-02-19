@@ -25,6 +25,8 @@
 #include "modes/battle/battle_effects.h"
 #include "modes/battle/battle_utils.h"
 
+#include "common/global/actors/global_attack_point.h"
+
 #include "engine/input.h"
 
 using namespace vt_utils;

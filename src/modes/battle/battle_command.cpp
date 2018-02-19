@@ -28,6 +28,8 @@
 #include "modes/battle/battle_menu.h"
 #include "modes/battle/battle_utils.h"
 
+#include "common/global/actors/global_attack_point.h"
+
 using namespace vt_utils;
 
 using namespace vt_audio;
