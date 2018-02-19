@@ -28,6 +28,7 @@ extern bool GLOBAL_DEBUG;
 
 GlobalEnemy::GlobalEnemy(uint32_t id) :
     GlobalActor(),
+    _experience_points(0),
     _sprite_width(0),
     _sprite_height(0),
     _drunes_dropped(0)
@@ -104,7 +105,7 @@ GlobalEnemy::GlobalEnemy(uint32_t id) :
         _hit_points = _max_hit_points;
         _max_skill_points = enemy_data.ReadUInt("skill_points");
         _skill_points = _max_skill_points;
-        _total_experience_points = enemy_data.ReadUInt("experience_points");
+        _experience_points = enemy_data.ReadUInt("experience_points");
         _char_phys_atk.SetBase(enemy_data.ReadUInt("phys_atk"));
         _char_mag_atk.SetBase(enemy_data.ReadUInt("mag_atk"));
         _char_phys_def.SetBase(enemy_data.ReadUInt("phys_def"));
@@ -203,7 +204,7 @@ void GlobalEnemy::_Initialize()
     // Randomize the stats by using a random diff of 10%
     _max_hit_points = RandomDiffValue(_max_hit_points, _max_hit_points / 10.0f);
     _max_skill_points = RandomDiffValue(_max_skill_points, _max_skill_points / 10.0f);
-    _total_experience_points = RandomDiffValue(_total_experience_points, _total_experience_points / 10.0f);
+    _experience_points = RandomDiffValue(_experience_points, _experience_points / 10.0f);
     _char_phys_atk.SetBase(RandomDiffValue(_char_phys_atk.GetBase(), _char_phys_atk.GetBase() / 10.0f));
     _char_mag_atk.SetBase(RandomDiffValue(_char_mag_atk.GetBase(), _char_mag_atk.GetBase() / 10.0f));
     _char_phys_def.SetBase(RandomDiffValue(_char_phys_def.GetBase(), _char_phys_def.GetBase() / 10.0f));

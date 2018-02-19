@@ -26,10 +26,11 @@ namespace vt_global
 extern bool GLOBAL_DEBUG;
 
 GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
-    _experience_level(0),
-    _experience_points(0),
     _enabled(true),
     _weapon_equipped(nullptr),
+    _unspent_experience_points(0),
+    _total_experience_points(0),
+    _experience_level(0),
     _experience_for_next_level(0),
     _hit_points_growth(0),
     _skill_points_growth(0),

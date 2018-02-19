@@ -26,7 +26,6 @@ extern bool GLOBAL_DEBUG;
 
 GlobalActor::GlobalActor() :
     _id(0),
-    _total_experience_points(0),
     _hit_points(0),
     _max_hit_points(0),
     _skill_points(0),
@@ -63,7 +62,6 @@ GlobalActor::GlobalActor(const GlobalActor &copy):
 {
     _id = copy._id;
     _name = copy._name;
-    _total_experience_points = copy._total_experience_points;
     _hit_points = copy._hit_points;
     _max_hit_points = copy._max_hit_points;
     _skill_points = copy._skill_points;
@@ -119,7 +117,6 @@ GlobalActor &GlobalActor::operator=(const GlobalActor &copy)
     _portrait = copy._portrait;
     _full_portrait = copy._full_portrait;
     _stamina_icon = copy._stamina_icon;
-    _total_experience_points = copy._total_experience_points;
     _hit_points = copy._hit_points;
     _max_hit_points = copy._max_hit_points;
     _skill_points = copy._skill_points;

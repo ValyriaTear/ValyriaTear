@@ -80,9 +80,16 @@ public:
     std::vector<vt_video::AnimatedImage>* GetBattleAnimations() {
         return &_battle_animations;
     }
+
+    uint32_t GetExperiencePoints() const {
+        return _experience_points;
+    }
     //@}
 
 protected:
+    //! \brief The Amount of XP the enemy holds
+    uint32_t _experience_points;
+
     //! \brief The dimensions of the enemy's battle sprite in pixels
     uint32_t _sprite_width, _sprite_height;
 

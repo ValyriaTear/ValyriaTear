@@ -104,10 +104,6 @@ public:
         return _max_skill_points;
     }
 
-    uint32_t GetTotalExperiencePoints() const {
-        return _total_experience_points;
-    }
-
     uint32_t GetPhysAtk() const {
         return (uint32_t)_char_phys_atk.GetValue();
     }
@@ -206,10 +202,6 @@ public:
     *** re-calculated when an appropriately related stat is changed.
     **/
     //@{
-    void SetTotalExperiencePoints(uint32_t xp_points) {
-        _total_experience_points = xp_points;
-    }
-
     void SetHitPoints(uint32_t hp) {
         if(hp > _max_hit_points) _hit_points = _max_hit_points;
         else _hit_points = hp;
@@ -381,10 +373,6 @@ protected:
 
     //! \name Base Actor Statistics
     //@{
-    //! \brief The number of total experience points the actor has earned
-    //! TODO: To remove from here.
-    uint32_t _total_experience_points;
-
     //! \brief The current number of hit points that the actor has
     uint32_t _hit_points;
 

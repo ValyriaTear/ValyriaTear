@@ -290,6 +290,18 @@ public:
         return _experience_for_next_level;
     }
 
+    uint32_t GetTotalExperiencePoints() const {
+        return _total_experience_points;
+    }
+
+    void SetTotalExperiencePoints(uint32_t xp) {
+        _total_experience_points = xp;
+    }
+
+    uint32_t GetUnspentExperiencePoints() const {
+        return _unspent_experience_points;
+    }
+
     std::shared_ptr<GlobalArmor> GetHeadArmorEquipped() {
         return _armor_equipped[GLOBAL_POSITION_HEAD];
     }
@@ -456,12 +468,6 @@ public:
     //@}
 
 protected:
-    //! \brief The current experience level of the actor
-    uint32_t _experience_level;
-
-    //! \brief The number of experience points that can be spent to obtain skill nodes
-    uint32_t _experience_points;
-
     /** \brief Sortable skill containers
     *** Skills are divided into three types: weapon, magic, and special. There is really no functional
     *** distinguishment between the various skill types, they just serve an organizational means and are
@@ -583,17 +589,17 @@ protected:
     void _UpdatesAvailableSkills();
 
 private:
-    /** \brief The remaining experience points required to reach the next experience level
-    ***
-    *** As a character earns experience points, the value held in this member decreases by the amount of XP learned. Whenever the value stored member
-    *** zero or a negative number, the character has gained a new level. When a new level is achieved, the amount of experience required to then
-    *** proceed another level is added to this member.
-    ***
-    *** \note The reason this member is a signed integer and not unsigned is so that it may be allowed to go negative. This makes the logic for processing
-    *** experience level growth easier.
-    ***
-    **/
-    int32_t _experience_for_next_level; // TODO: Drop this using skill nodes
+    //! \brief The amount of XP the character can spend to buy skill nodes
+    uint32_t _unspent_experience_points;
+
+    //! \brief The total (spent and unspent) amount of experience points
+    uint32_t _total_experience_points;
+
+    //! \brief The current experience level of the actor
+    uint32_t _experience_level;
+
+    //! \brief The remaining experience points required to reach the next experience level
+    int32_t _experience_for_next_level;
 
     /** \brief The amount of growth that should be added to each of the character's stats
     *** These members are incremented by the _ProcessPeriodicGrowth() function, which detects when a character

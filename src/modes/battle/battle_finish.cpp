@@ -434,7 +434,7 @@ void FinishVictoryAssistant::Initialize()
         GlobalEnemy* enemy = all_enemies[i]->GetGlobalEnemy();
         assert(enemy != nullptr);
 
-        _xp_earned += enemy->GetTotalExperiencePoints();
+        _xp_earned += enemy->GetExperiencePoints();
         _drunes_dropped += enemy->GetDrunesDropped();
 
         std::vector<std::shared_ptr<GlobalObject>> objects = enemy->DetermineDroppedObjects();
