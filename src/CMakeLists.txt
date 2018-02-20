@@ -275,7 +275,11 @@ common/global/actors/global_character.cpp
 common/global/actors/global_enemy.cpp
 common/global/actors/global_party.cpp
 common/global/global_effects.cpp
-common/global/global_objects.cpp
+common/global/objects/global_object.cpp
+common/global/objects/global_item.cpp
+common/global/objects/global_weapon.cpp
+common/global/objects/global_armor.cpp
+common/global/objects/global_spirit.cpp
 common/global/global_skills.cpp
 common/global/global_utils.cpp
 common/global/worldmap_location.cpp

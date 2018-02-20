@@ -29,6 +29,7 @@
 #include "modes/battle/battle_utils.h"
 
 #include "common/global/actors/global_attack_point.h"
+#include "common/global/objects/global_weapon.h"
 
 using namespace vt_utils;
 

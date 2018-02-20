@@ -12,6 +12,8 @@
 
 #include "modes/menu/menu_mode.h"
 
+#include "common/global/objects/global_weapon.h"
+
 #include "engine/audio/audio.h"
 #include "engine/input.h"
 #include "engine/system.h"

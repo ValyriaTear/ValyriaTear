@@ -18,6 +18,9 @@
 #include "global_utils.h"
 
 #include "global.h"
+#include "common/global/objects/global_weapon.h"
+#include "common/global/objects/global_armor.h"
+#include "common/global/objects/global_spirit.h"
 
 #include "engine/system.h"
 #include "engine/audio/audio_descriptor.h"
@@ -113,8 +116,6 @@ bool IsTargetSelf(GLOBAL_TARGET target)
     else
         return false;
 }
-
-
 
 bool IsTargetAlly(GLOBAL_TARGET target)
 {

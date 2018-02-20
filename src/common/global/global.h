@@ -34,7 +34,7 @@
 #include "actors/global_actor.h"
 #include "actors/global_party.h"
 #include "global_effects.h"
-#include "global_objects.h"
+
 #include "global_skills.h"
 #include "global_utils.h"
 
@@ -53,6 +53,7 @@ namespace vt_global
 {
 
 class GameGlobal;
+class GlobalSpirit;
 
 //! \brief The singleton pointer responsible for the management of global game data.
 extern GameGlobal* GlobalManager;

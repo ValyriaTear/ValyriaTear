@@ -15,6 +15,8 @@
 
 #include "common/message_window.h"
 #include "common/global/global.h"
+#include "common/global/objects/global_weapon.h"
+#include "common/global/objects/global_armor.h"
 
 #include "engine/system.h"
 #include "engine/video/video.h"

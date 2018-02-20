@@ -12,6 +12,8 @@
 #include "global_attack_point.h"
 
 #include "common/global/global.h"
+#include "common/global/objects/global_armor.h"
+#include "common/global/objects/global_weapon.h"
 
 #include "script/script_read.h"
 #include "utils/utils_files.h"

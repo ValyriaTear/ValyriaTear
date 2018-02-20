@@ -10,10 +10,10 @@
 
 #include "global_attack_point.h"
 
-#include "script/script_read.h"
-
 #include "global_actor.h"
-#include "common/global/global_objects.h"
+#include "common/global/objects/global_armor.h"
+
+#include "script/script_read.h"
 
 using namespace vt_utils;
 using namespace vt_video;

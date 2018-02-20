@@ -30,7 +30,8 @@
 #include "common/global/actors/global_attack_point.h"
 #include "common/global/global.h"
 #include "common/global/global_effects.h"
-#include "common/global/global_objects.h"
+#include "common/global/objects/global_weapon.h"
+#include "common/global/objects/global_armor.h"
 #include "common/global/global_skills.h"
 #include "common/global/global_utils.h"
 

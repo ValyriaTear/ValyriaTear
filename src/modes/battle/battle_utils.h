@@ -21,8 +21,8 @@
 #ifndef __BATTLE_UTILS_HEADER__
 #define __BATTLE_UTILS_HEADER__
 
+#include "common/global/objects/global_item.h"
 #include "engine/system.h"
-#include "common/global/global_objects.h"
 
 #include <deque>
 

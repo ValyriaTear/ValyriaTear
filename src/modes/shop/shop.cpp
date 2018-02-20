@@ -32,6 +32,8 @@
 #include "engine/system.h"
 
 #include "common/global/global.h"
+#include "common/global/objects/global_weapon.h"
+#include "common/global/objects/global_armor.h"
 #include "common/dialogue.h"
 
 #include "engine/mode_manager.h"
@@ -385,8 +387,6 @@ void ShopObjectViewer::SetSelectedObject(ShopObject *object)
     _SetHintText();
     UpdateCountText();
 } // void ShopObjectViewer::SetSelectedObject(ShopObject* object)
-
-
 
 void ShopObjectViewer::ChangeViewMode(SHOP_VIEW_MODE new_mode)
 {

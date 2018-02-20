@@ -17,6 +17,10 @@
 
 #include "global.h"
 
+#include "objects/global_weapon.h"
+#include "objects/global_armor.h"
+#include "objects/global_spirit.h"
+
 #include "engine/system.h"
 #include "modes/map/map_mode.h"
 
