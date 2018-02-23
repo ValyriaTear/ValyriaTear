@@ -253,21 +253,19 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
             }
         }
 
-        if (char_script.OpenTable("growth")) {
-            // If initial, determine the character's XP for next level.
-            std::vector<int32_t> xp_per_levels;
-            char_script.ReadIntVector("experience_for_next_level", xp_per_levels);
-            if (_experience_level <= xp_per_levels.size()) {
-                _experience_for_next_level = xp_per_levels[_experience_level - 1];
-            }
-            else {
-                PRINT_ERROR << "No XP for next level found for character id: " << _id
-                    << " at level " << _experience_level << std::endl;
-                // Bad default
-                _experience_for_next_level = 100000;
-            }
-            char_script.CloseTable(); // growth
+        // If initial, determine the character's XP for next level.
+        std::vector<int32_t> xp_per_levels;
+        char_script.ReadIntVector("experience_for_next_level", xp_per_levels);
+        if (_experience_level <= xp_per_levels.size()) {
+            _experience_for_next_level = xp_per_levels[_experience_level - 1];
         }
+        else {
+            PRINT_ERROR << "No XP for next level found for character id: " << _id
+                << " at level " << _experience_level << std::endl;
+            // Bad default
+            _experience_for_next_level = 100000;
+        }
+
     } // if (initial)
 
     // Reloads available skill according to equipment
