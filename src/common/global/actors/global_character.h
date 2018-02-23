@@ -15,16 +15,9 @@
 
 #include "common/global/global_utils.h"
 
-/** \brief Namespace which contains all binding functions
-*** Contains the binding code which makes the C++ engine available to Lua
-*** This method should <b>only be called once</b>. It must be called after the
-*** ScriptEngine is initialized, otherwise the application will crash.
-**/
-//! FIXME: Remove this once the common bindings code doesn't modify private members
-//! anymore. See common_bindings.cpp
-namespace vt_defs
-{
-void BindCommonCode();
+namespace vt_script {
+class ReadScriptDescriptor;
+class WriteScriptDescriptor;
 }
 
 namespace vt_global
@@ -42,50 +35,9 @@ class GlobalWeapon;
 *** Armor may also be equipped to cover all four of these points. This class
 *** additionally retains references to loaded images of the character in various
 *** formats such as sprites and portraits that are used across the different game modes.
-***
-*** Whenever a character gains additional experience points, there is a possibility that
-*** growth may occur. Growth can occur even when the character has not reached a new experience
-*** level, as the code allows for a gradual growth over time. A significant amount of growth should
-*** always occur after achieving a new experience level.
-***
-*** The advised procedure for processing character growth is as follows.
-*** -# Call AddExperiencePoints() to give the character additional XP.
-*** -# If this method returns false, no further action is needed. Otherwise, growth has occurred and needs to be processed.
-*** -# Call ReachedNewExperienceLevel() to determine whether the type growth is gradual or due to a
-***    new experience level being reached.
-*** -# If the growth type is gradual, call the various Get[STAT]Growth() methods and
-***    report any non-zero values to the player. Then call AcknoledgeGrowth().
-*** -# Otherwise if the growth type is a new level, report growth plus any skills
-***    learned and call AcknoledgeGrowth() (*see note)
-***
-*** \note When an experience level is gained, after the call to AcknowledgeGrowth()
-*** there may be new growth available (because the character gained multiple
-*** experience levels or met the requirements for additional gradual growth for
-*** the new experience level to gain). It is recommended practice to call AcknowledgeGrowth()
-*** continuously until the fuction returns a false value, which indicates that no additional
-*** growth is available.
-***
-*** \note When adding a large number of experience points to a character (at the end of a
-*** battle for instance), it is advisable to add those points gradually over many calls in a
-*** short period of time rather than all at once. Not only is it more aesthetically appealing to
-*** the player to see their growth numbers add up in this way, but it also helps to mitigate issues
-*** that may occur when a character earns so much experience that they gain more than one experience
-*** level (an unlikely but not impossible scenario).
-***
-*** \todo This class needs a better organized set of containers for its images.
-*** The current containers and accessor methods are considered temporary.
 *** ***************************************************************************/
 class GlobalCharacter : public GlobalActor
 {
-    //! FIXME: Remove this once the common bindings code doesn't modify private members
-    //! anymore. See common_bindings.cpp
-    friend void vt_defs::BindCommonCode();
-
-    // TODO: investigate whether we can replace declaring the entire GameGlobal class as a friend with declaring
-    // the GameGlobal::_SaveCharacter and GameGlobal::_LoadCharacter methods instead.
-    friend class GameGlobal;
-//     friend void GameGlobal::_SaveCharacter(vt_script::WriteScriptDescriptor &file, GlobalCharacter *character, bool last);
-//     friend void GameGlobal::_LoadCharacter(vt_script::ReadScriptDescriptor &file, uint32_t id);
 public:
     /** \brief Constructs a new character from its definition in a script file
     *** \param id The integer ID of the character to create
@@ -96,6 +48,18 @@ public:
     **/
     explicit GlobalCharacter(uint32_t id, bool initial = true);
     virtual ~GlobalCharacter() override;
+
+    /** \brief Loads character data from a saved game file and id key.
+    *** \param file A reference to the open and valid file from where to read the character from
+    *** \returns Whether the character was successfully loaded.
+    **/
+    bool LoadCharacter(vt_script::ReadScriptDescriptor& file);
+
+    /** \brief Writes character data to the saved game file
+    *** \param file A reference to the open and valid file where to write the character data
+    *** \returns Whether the character could successfully be saved to the save file.
+    **/
+    bool SaveCharacter(vt_script::WriteScriptDescriptor& file);
 
     //! \brief Tells whether a character is in the visible game formation
     void Enable(bool enable) {
@@ -242,35 +206,6 @@ public:
     //! \returns whether the skill was successfully added.
     bool AddSkill(uint32_t skill_id, bool permanently);
 
-    /** \brief Adds a new skill for the character to learn once the next experience level is gained
-    *** \param skill_id The ID number of the skill to add
-    *** \returns whether the skill was successfully added.
-    *** \note This function is bound to Lua and used whenever a character gains a level.
-    ***
-    *** The difference between this method and AddSkill() is that the skill added is also copied to the
-    *** _new_skills_learned container. This allows external code to easily know what skill or skills have
-    *** been added to the character.
-    **/
-    bool AddNewSkillLearned(uint32_t skill_id);
-
-    //! \brief Returns true if the character has earned enough experience points to reach the next level
-    bool ReachedNewExperienceLevel() const
-    { return _experience_for_next_level <= 0; }
-
-    /** \brief Adds any growth that has occured by modifying the character's stats
-    *** \return True if additional growth is detected and requires another AcknowledgeGrowth() call.
-    ***
-    *** If an experience level is gained, this function will open up the script file that contains
-    *** the character's definition and get new growth stats for the next experience level. Often this
-    *** requires another call to this function to process growth that has occurred after the level
-    *** was gained.
-    ***
-    *** \note If multiple experience levels were gained as a result of adding a large amount of XP, this
-    *** function will only increment the experience level by one. In the case where multiple levels are
-    *** gained, this function will need to be called once for each level up.
-    **/
-    void AcknowledgeGrowth();
-
     //! \name Public Member Access Functions
     //@{
     uint32_t GetExperienceLevel() const {
@@ -407,43 +342,6 @@ public:
     void RemoveActiveStatusEffect(GLOBAL_STATUS status_effect) {
         _active_status_effects[status_effect] = ActiveStatusEffect();
     }
-
-    uint32_t GetHitPointsGrowth() const {
-        return _hit_points_growth;
-    }
-
-    uint32_t GetSkillPointsGrowth() const {
-        return _skill_points_growth;
-    }
-
-    uint32_t GetPhysAtkGrowth() const {
-        return _phys_atk_growth;
-    }
-
-    uint32_t GetMagAtkGrowth() const {
-        return _mag_atk_growth;
-    }
-
-    uint32_t GetPhysDefGrowth() const {
-        return _phys_def_growth;
-    }
-
-    uint32_t GetMagDefGrowth() const {
-        return _mag_def_growth;
-    }
-
-    uint32_t GetStaminaGrowth() const {
-        return _stamina_growth;
-    }
-
-    float GetEvadeGrowth() const {
-        return _evade_growth;
-    }
-
-    std::vector<GlobalSkill*>* GetNewSkillsLearned() {
-        return &_new_skills_learned;
-    }
-    //@}
 
     //! Image accessor functions
     //@{
@@ -600,44 +498,6 @@ private:
 
     //! \brief The remaining experience points required to reach the next experience level
     int32_t _experience_for_next_level;
-
-    /** \brief The amount of growth that should be added to each of the character's stats
-    *** These members are incremented by the _ProcessPeriodicGrowth() function, which detects when a character
-    *** has enough experience points to meet a growth requirement. They are all cleared to zero after
-    *** a call to AcknowledgeGrowth().
-    ***
-    *** \note These members are given read/write access in Lua so that Lua may use them to hold new
-    *** growth amounts when a character reaches a new level. Refer to the function DetermineLevelGrowth(character)
-    *** defined in data/entities/characters.lua
-    **/
-    //@{
-    uint32_t _hit_points_growth;
-    uint32_t _skill_points_growth;
-    uint32_t _phys_atk_growth;
-    uint32_t _mag_atk_growth;
-    uint32_t _phys_def_growth;
-    uint32_t _mag_def_growth;
-    uint32_t _stamina_growth;
-    float _evade_growth;
-    //@} // TODO: Drop this using skill nodes
-
-    /** \brief Contains pointers to all skills that were learned by achieving the current experience level
-    ***
-    *** This container will not contain skills learned if the character was constructed using their initial stats.
-    *** The skills listed within this container have already been added to the character's active usable skill set.
-    *** This container is cleared and reset after every level up. The most common use for this container is for
-    *** external code to be able to show the player what skills have been learned upon their character reaching a
-    *** new experience level.
-    ***
-    *** \note The pointers in this container are copies of the pointers contained within the _skills container. No
-    *** memory management needs to be performed by this vector.
-    ***
-    *** \note An issue that needs to be considered is that if the character has an existing skill removed
-    *** and that skill is also referenced by this container, the container will then point to an invalid memory
-    *** location (assuming the GlobalSkill object that was removed was also deleted). Therefore, any skills that
-    *** are removed from a character should also be removed from this container if they exist.
-    **/
-    std::vector<GlobalSkill*> _new_skills_learned; // TODO: Drop this using skill nodes
 
     //! \brief Stores the list of skill nodes already learned by the character
     std::vector<uint32_t> _obtained_skill_nodes;
