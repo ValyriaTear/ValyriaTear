@@ -33,7 +33,7 @@
 #include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_actions.h"
 #include "modes/battle/battle_command.h"
-#include "modes/battle/battle_finish.h"
+#include "modes/battle/finish/battle_finish_supervisor.h"
 #include "modes/battle/battle_sequence.h"
 #include "modes/battle/battle_utils.h"
 #include "modes/battle/battle_effects.h"
