@@ -8,36 +8,27 @@
 // See https://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-/** ****************************************************************************
-*** \file    battle_finish.cpp
-*** \author  Tyler Olsen, roots@allacrost.org
-*** \author  Yohann Ferreira, yohann ferreira orange fr
-*** \brief   Source file for battle finish menu
-*** ***************************************************************************/
-
-#include "modes/battle/battle_finish.h"
-
-#include "engine/audio/audio.h"
-#include "engine/mode_manager.h"
-#include "engine/input.h"
-#include "engine/system.h"
-#include "engine/video/video.h"
+#include "modes/battle/finish/battle_victory.h"
 
 #include "modes/battle/battle.h"
-#include "modes/battle/battle_actions.h"
-#include "modes/battle/battle_actors.h"
-#include "modes/battle/battle_utils.h"
 
-#include "modes/boot/boot.h"
+#include "common/gui/menu_window.h"
 
-using namespace vt_utils;
-using namespace vt_audio;
-using namespace vt_video;
+#include "engine/video/video_utils.h"
+#include "engine/system.h"
+#include "common/global/global.h"
+#include "engine/input.h"
+#include "engine/audio/audio.h"
+
+#include <assert.h>
+
 using namespace vt_gui;
-using namespace vt_input;
-using namespace vt_mode_manager;
+using namespace vt_video;
 using namespace vt_system;
 using namespace vt_global;
+using namespace vt_input;
+using namespace vt_utils;
+using namespace vt_audio;
 
 namespace vt_battle
 {
@@ -68,194 +59,7 @@ const float SPOILS_WINDOW_WIDTH    = TOP_WINDOW_WIDTH;
 const float SPOILS_WINDOW_HEIGHT   = 220.0f;
 //@}
 
-////////////////////////////////////////////////////////////////////////////////
-// FinishDefeatAssistant class
-////////////////////////////////////////////////////////////////////////////////
-
-FinishDefeatAssistant::FinishDefeatAssistant(FINISH_STATE &state) :
-    _state(state)
-{
-    _options_window.Create(TOP_WINDOW_WIDTH, TOP_WINDOW_HEIGHT, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM);
-    _options_window.SetPosition(TOP_WINDOW_XPOS, TOP_WINDOW_YPOS);
-    _options_window.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
-    _options_window.Show();
-
-    _tooltip_window.Create(TOOLTIP_WINDOW_WIDTH, TOOLTIP_WINDOW_HEIGHT);
-    _tooltip_window.SetPosition(TOOLTIP_WINDOW_XPOS, TOOLTIP_WINDOW_YPOS);
-    _tooltip_window.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
-    _tooltip_window.Show();
-
-    _options.SetOwner(&_options_window);
-    _options.SetPosition(TOP_WINDOW_WIDTH / 2, 28.0f);
-    _options.SetDimensions(480.0f, 50.0f, 2, 1, 2, 1);
-    _options.SetTextStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
-    _options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-    _options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-    _options.SetSelectMode(VIDEO_SELECT_SINGLE);
-    _options.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-    _options.SetCursorOffset(-60.0f, -25.0f);
-    _options.AddOption(UTranslate("Retry"));
-    _options.AddOption(UTranslate("End"));
-    _options.SetSelection(0);
-
-    _confirm_options.SetOwner(&_options_window);
-    _confirm_options.SetPosition(TOP_WINDOW_WIDTH / 2, 28.0f);
-    _confirm_options.SetDimensions(240.0f, 50.0f, 2, 1, 2, 1);
-    _confirm_options.SetTextStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
-    _confirm_options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-    _confirm_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
-    _confirm_options.SetSelectMode(VIDEO_SELECT_SINGLE);
-    _confirm_options.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
-    _confirm_options.SetCursorOffset(-60.0f, -25.0f);
-    _confirm_options.AddOption(UTranslate("OK"));
-    _confirm_options.AddOption(UTranslate("Cancel"));
-    _confirm_options.SetSelection(0);
-
-    _tooltip.SetOwner(&_tooltip_window);
-    _tooltip.SetPosition(32.0f, 40.0f);
-    _tooltip.SetDimensions(480.0f, 80.0f);
-    _tooltip.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _tooltip.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _tooltip.SetDisplaySpeed(SystemManager->GetMessageSpeed());
-    _tooltip.SetTextStyle(TextStyle("text20", Color::white));
-    _tooltip.SetDisplayMode(VIDEO_TEXT_INSTANT);
-}
-
-FinishDefeatAssistant::~FinishDefeatAssistant()
-{
-    _options_window.Destroy();
-    _tooltip_window.Destroy();
-}
-
-void FinishDefeatAssistant::Initialize()
-{
-    _SetTooltipText();
-
-    _options_window.Show();
-    _tooltip_window.Show();
-}
-
-void FinishDefeatAssistant::Update()
-{
-    switch(_state) {
-    case FINISH_DEFEAT_SELECT:
-        _options.Update();
-        if(InputManager->ConfirmPress()) {
-            if(!_options.IsOptionEnabled(_options.GetSelection())) {
-                AudioManager->PlaySound("data/sounds/cancel.wav");
-            } else {
-                _state = FINISH_DEFEAT_CONFIRM;
-                // Set default confirm option to "Cancel"
-                if(_options.GetSelection() == (int32_t)DEFEAT_OPTION_END)
-                    _confirm_options.SetSelection(1);
-                else
-                    _confirm_options.SetSelection(0);
-
-                _SetTooltipText();
-            }
-        }
-
-        else if(InputManager->LeftPress()) {
-            _options.InputLeft();
-            _SetTooltipText();
-        } else if(InputManager->RightPress()) {
-            _options.InputRight();
-            _SetTooltipText();
-        }
-
-        break;
-
-    case FINISH_DEFEAT_CONFIRM:
-        _confirm_options.Update();
-        if(InputManager->ConfirmPress()) {
-            switch(_confirm_options.GetSelection()) {
-            case 0: // "OK"
-                _state = FINISH_END;
-                _options_window.Hide();
-                _tooltip_window.Hide();
-                break;
-            case 1: // "Cancel"
-                _state = FINISH_DEFEAT_SELECT;
-                _SetTooltipText();
-                break;
-            default:
-                IF_PRINT_WARNING(BATTLE_DEBUG)
-                        << "invalid confirm option selection: "
-                        << _confirm_options.GetSelection() << std::endl;
-                break;
-            }
-        }
-
-        else if(InputManager->CancelPress()) {
-            _state = FINISH_DEFEAT_SELECT;
-            _SetTooltipText();
-        }
-
-        else if(InputManager->LeftPress()) {
-            _confirm_options.InputLeft();
-        } else if(InputManager->RightPress()) {
-            _confirm_options.InputRight();
-        }
-
-        break;
-
-    case FINISH_END:
-        break;
-
-    default:
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid finish state: " << _state << std::endl;
-        break;
-    }
-}
-
-void FinishDefeatAssistant::Draw()
-{
-    _options_window.Draw();
-    _tooltip_window.Draw();
-
-    if(_state == FINISH_DEFEAT_SELECT) {
-        _options.Draw();
-    } else if(_state == FINISH_DEFEAT_CONFIRM) {
-        _confirm_options.Draw();
-    }
-
-    _tooltip.Draw();
-}
-
-void FinishDefeatAssistant::_SetTooltipText()
-{
-    if((_state == FINISH_ANNOUNCE_RESULT) || (_state == FINISH_DEFEAT_SELECT)) {
-        switch(_options.GetSelection()) {
-        case DEFEAT_OPTION_RETRY:
-            _tooltip.SetDisplayText(Translate("Start over from the beginning of this battle."));
-            break;
-        case DEFEAT_OPTION_END:
-            _tooltip.SetDisplayText(UTranslate("Exit to main menu."));
-            break;
-        default:
-            _tooltip.SetDisplayText("");
-            break;
-        }
-    } else if(_state == FINISH_DEFEAT_CONFIRM) {
-        switch(_options.GetSelection()) {
-        case DEFEAT_OPTION_RETRY:
-            _tooltip.SetDisplayText(UTranslate("Confirm: retry battle."));
-            break;
-        case DEFEAT_OPTION_END:
-            _tooltip.SetDisplayText(UTranslate("Confirm: return to main menu."));
-            break;
-        default:
-            _tooltip.SetDisplayText("");
-            break;
-        }
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// FinishVictoryAssistant class
-////////////////////////////////////////////////////////////////////////////////
-
-FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE& state) :
+BattleVictory::BattleVictory(VICTORY_STATE state) :
     _state(state),
     _characters_number(0),
     _xp_earned(0),
@@ -315,7 +119,7 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE& state) :
     _object_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 }
 
-FinishVictoryAssistant::~FinishVictoryAssistant()
+BattleVictory::~BattleVictory()
 {
     _header_window.Destroy();
     _spoils_window.Destroy();
@@ -337,7 +141,7 @@ FinishVictoryAssistant::~FinishVictoryAssistant()
     _SetCharacterStatus();
 }
 
-void FinishVictoryAssistant::Initialize()
+void BattleVictory::Initialize()
 {
     // Prepare all character data
     std::deque<BattleCharacter *>& all_characters = BattleMode::CurrentInstance()->GetCharacterActors();
@@ -419,20 +223,20 @@ void FinishVictoryAssistant::Initialize()
     _SetHeaderText();
 }
 
-void FinishVictoryAssistant::Update()
+void BattleVictory::Update()
 {
     switch(_state) {
-    case FINISH_VICTORY_START:
+    case VICTORY_START:
         _UpdateXP();
         _UpdateSpoils();
         break;
 
-    case FINISH_VICTORY_MENU: //TODO
+    case VICTORY_MENU: //TODO
         if (InputManager->ConfirmPress())
-            _state = FINISH_END;
+            _state = VICTORY_END;
         break;
 
-    case FINISH_END:
+    case VICTORY_END:
         break;
 
     default:
@@ -441,7 +245,7 @@ void FinishVictoryAssistant::Update()
     }
 }
 
-void FinishVictoryAssistant::Draw()
+void BattleVictory::Draw()
 {
     _header_window.Draw();
 
@@ -458,9 +262,9 @@ void FinishVictoryAssistant::Draw()
         _object_list.Draw();
 }
 
-void FinishVictoryAssistant::_SetHeaderText()
+void BattleVictory::_SetHeaderText()
 {
-    if(_state == FINISH_ANNOUNCE_RESULT) {
+    if(_state == VICTORY_ANNOUNCE_RESULT) {
         _header_xp.SetDisplayText(UTranslate("XP Earned: ") + MakeUnicodeString(NumberToString(_xp_earned)));
         _header_drunes_dropped.SetDisplayText(UTranslate("Drunes Found: ") + MakeUnicodeString(NumberToString(_drunes_dropped)));
         _header_total_drunes.SetDisplayText(UTranslate("Total Drunes: ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
@@ -477,7 +281,7 @@ void FinishVictoryAssistant::_SetHeaderText()
                     UTranslate("Items Found"));
 }
 
-void FinishVictoryAssistant::_CreateCharacterGUIObjects()
+void BattleVictory::_CreateCharacterGUIObjects()
 {
     // Create the character windows. The lowest one does not have its lower border removed
     float next_ypos = CHAR_WINDOW_YPOS;
@@ -531,7 +335,7 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
     }
 }
 
-void FinishVictoryAssistant::_CreateObjectList()
+void BattleVictory::_CreateObjectList()
 {
     for (auto i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
         std::shared_ptr<GlobalObject> obj = i->first;
@@ -553,7 +357,7 @@ void FinishVictoryAssistant::_CreateObjectList()
     }
 }
 
-void FinishVictoryAssistant::_SetCharacterStatus()
+void BattleVictory::_SetCharacterStatus()
 {
     std::deque<BattleCharacter *>& battle_characters = BattleMode::CurrentInstance()->GetCharacterActors();
 
@@ -566,7 +370,7 @@ void FinishVictoryAssistant::_SetCharacterStatus()
     }
 }
 
-void FinishVictoryAssistant::_UpdateXP()
+void BattleVictory::_UpdateXP()
 {
     // The number of milliseconds that we wait in between updating the XP count
     const uint32_t UPDATE_PERIOD = 50;
@@ -588,7 +392,7 @@ void FinishVictoryAssistant::_UpdateXP()
         }
         // Counting has finished. Move on to the spoils screen
         else {
-            _state = FINISH_VICTORY_MENU;
+            _state = VICTORY_MENU;
             _SetHeaderText();
         }
     }
@@ -676,7 +480,7 @@ void FinishVictoryAssistant::_UpdateXP()
     _SetHeaderText();
 }
 
-void FinishVictoryAssistant::_UpdateSpoils()
+void BattleVictory::_UpdateSpoils()
 {
     // The number of milliseconds that we wait in between updating the drunes count
     const uint32_t UPDATE_PERIOD = 50;
@@ -733,7 +537,7 @@ void FinishVictoryAssistant::_UpdateSpoils()
     }
 }
 
-void FinishVictoryAssistant::_DrawXP(uint32_t index)
+void BattleVictory::_DrawXP(uint32_t index)
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
     VideoManager->Move(CHAR_WINDOW_XPOS - (CHAR_WINDOW_WIDTH / 2) + 20.0f,
@@ -745,95 +549,10 @@ void FinishVictoryAssistant::_DrawXP(uint32_t index)
     _unspent_xp[index].Draw();
 }
 
-void FinishVictoryAssistant::_DrawSpoils()
+void BattleVictory::_DrawSpoils()
 {
     _object_header_text.Draw();
     _object_list.Draw();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// FinishSupervisor class
-////////////////////////////////////////////////////////////////////////////////
-
-FinishSupervisor::FinishSupervisor() :
-    _state(FINISH_INVALID),
-    _battle_victory(false),
-    _defeat_assistant(_state),
-    _victory_assistant(_state)
-{
-    _outcome_text.SetPosition(TOP_WINDOW_XPOS - TOP_WINDOW_WIDTH / 2.0f, 48.0f);
-    _outcome_text.SetDimensions(TOP_WINDOW_WIDTH, 50.0f);
-    _outcome_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _outcome_text.SetTextAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
-    _outcome_text.SetDisplaySpeed(SystemManager->GetMessageSpeed());
-    _outcome_text.SetTextStyle(TextStyle("text24", Color::white));
-    _outcome_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
-}
-
-void FinishSupervisor::Initialize(bool victory)
-{
-    _battle_victory = victory;
-    _state = FINISH_ANNOUNCE_RESULT;
-
-    if(_battle_victory) {
-        _victory_assistant.Initialize();
-        _outcome_text.SetDisplayText(UTranslate("The heroes were victorious!"));
-    } else {
-        _defeat_assistant.Initialize();
-        _outcome_text.SetDisplayText(UTranslate("The heroes fell in battle..."));
-    }
-}
-
-void FinishSupervisor::Update()
-{
-    if(_state == FINISH_ANNOUNCE_RESULT) {
-        if(_battle_victory) {
-            _state = FINISH_VICTORY_START;
-        } else {
-            _state = FINISH_DEFEAT_SELECT;
-        }
-        return;
-    }
-
-    if(_battle_victory) {
-        _victory_assistant.Update();
-    } else {
-        _defeat_assistant.Update();
-    }
-
-    if(_state == FINISH_END) {
-        if(_battle_victory) {
-            BattleMode::CurrentInstance()->ChangeState(BATTLE_STATE_EXITING);
-        }
-
-        else {
-            switch(_defeat_assistant.GetDefeatOption()) {
-            case DEFEAT_OPTION_RETRY:
-                BattleMode::CurrentInstance()->RestartBattle();
-                break;
-            case DEFEAT_OPTION_END:
-                ModeManager->PopAll();
-                ModeManager->Push(new vt_boot::BootMode(), false, true);
-                break;
-            default:
-                IF_PRINT_WARNING(BATTLE_DEBUG)
-                        << "invalid defeat option selected: "
-                        << _defeat_assistant.GetDefeatOption() << std::endl;
-                break;
-            }
-        }
-    }
-}
-
-void FinishSupervisor::Draw()
-{
-    _outcome_text.Draw();
-
-    if(_battle_victory) {
-        _victory_assistant.Draw();
-    } else {
-        _defeat_assistant.Draw();
-    }
 }
 
 } // namespace private_battle
