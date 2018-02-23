@@ -44,8 +44,8 @@ enum FINISH_STATE {
     FINISH_ANNOUNCE_RESULT = 0, //!< Short sequence announcing outcome of the battle (victory or defeat) and showing GUI objects
     FINISH_DEFEAT_SELECT   = 1, //!< Player selects what to do after defeat (go to main menu, exit game, etc.)
     FINISH_DEFEAT_CONFIRM  = 2, //!< Player confirms defeat selection
-    FINISH_VICTORY_GROWTH  = 4, //!< XP earned is displayed and gradually awarded to characters
-    FINISH_VICTORY_SPOILS  = 5, //!< Drunes and objects dropped are displayed and gradually awarded to party
+    FINISH_VICTORY_GROWTH  = 4, //!< Drunes and objects dropped, XP earned are displayed and gradually awarded to characters
+    FINISH_VICTORY_MENU    = 5, //!< Menu to quit combqt or improve skill is diplayed.
     FINISH_END             = 6, //!< Short sequence of hiding finish GUI objects
 };
 
@@ -56,63 +56,6 @@ const uint32_t DEFEAT_OPTION_RETRY     = 0;
 //! End game and return to boot menu
 const uint32_t DEFEAT_OPTION_END       = 1;
 //@}
-
-
-/** ****************************************************************************
-*** \brief A container class for managing all of a character's growth information
-***
-*** Each character that participated in the battle will have an instance of this
-*** object dedicated to it. This class is used to retain all of the growth in
-*** stats and skills learned. The reason this class is needed is because when a
-*** character gains a level, their internal growth data is reset, so we need to
-*** retain this information until battle mode exits.
-***
-*** \note The public stats and skills members are kept public for convenience.
-*** However, you should not change the values of these members as their data
-*** is updated and managed intenerally.
-*** ***************************************************************************/
-class CharacterGrowth
-{
-public:
-    //! \param ch A pointer to the character that this growth information represents
-    CharacterGrowth(vt_global::GlobalCharacter* ch);
-
-    ~CharacterGrowth()
-        {}
-
-    //! \brief Holds the accumulated growth for all stats
-    //@{
-    uint32_t hit_points;
-    uint32_t skill_points;
-    uint32_t phys_atk;
-    uint32_t mag_atk;
-    uint32_t phys_def;
-    uint32_t mag_def;
-    uint32_t stamina;
-    float evade;
-    //@}
-
-    //! \brief A vector holding valid object pointers to all skills that have been learned
-    std::vector<vt_global::GlobalSkill*> skills_learned;
-
-    /** \brief Updates all class members with the latest growth from the character
-    ***
-    *** The best way to use this function is to call it after experience points have been added
-    *** to the character. If GlobalCharacter::AddExperiencePoints() returns true (indicating growth),
-    *** then call this method to handle all of the growth data. This method will make all necessary
-    *** calls to GlobalCharacter::AcknowledgeGrowth() and handle corner cases such as multiple experience
-    *** levels being gained.
-    **/
-    void UpdateGrowthData();
-
-private:
-    //! \brief A valid object pointer to the character that the growth in this class represents
-    vt_global::GlobalCharacter* _character;
-
-    //! \brief A counter that reflects the number of experience levels that the character has gained (0 for no levels gained)
-    uint32_t _experience_levels_gained;
-}; // class CharacterGrowth
-
 
 /** ****************************************************************************
 *** \brief Represents a collection of GUI objects drawn when the player loses the battle
@@ -176,7 +119,7 @@ private:
 *** This class presents the user with the results of the battle. More specifically,
 *** the following events are accomplished
 ***
-*** -#) Display experience points gained and any growth acquired for each character
+*** -#) Display experience points gained for each character
 *** -#) Display the number of drunes earned and the type and quantity of any objects recovered
 ***
 *** If the player lost the battle one or more times before they achieved victory, their XP and
@@ -200,7 +143,7 @@ public:
 
 private:
     //! \brief A reference to where the state of the finish GUI menus is maintained
-    FINISH_STATE &_state;
+    FINISH_STATE& _state;
 
     //! \brief The total number of characters in the victorious party, living or dead
     uint32_t _characters_number;
@@ -228,9 +171,6 @@ private:
     //! \brief Pointers to all characters who took part in the battle
     std::vector<vt_global::GlobalCharacter *> _characters;
 
-    //! \brief The growth data container objects for each corresponding character in _characters
-    std::vector<CharacterGrowth> _character_growths;
-
     //! \brief Holds portrait images for each character portraits
     vt_video::StillImage _character_portraits[4];
 
@@ -247,19 +187,16 @@ private:
     vt_gui::MenuWindow _spoils_window;
 
     //! \brief Drawn to the top header window displaying information about the stats/items obtained
-    vt_gui::TextBox _header_growth;
+    vt_gui::TextBox _header_xp;
     vt_gui::TextBox _header_drunes_dropped;
     vt_gui::TextBox _header_total_drunes;
 
-    //! \brief Four row, four column option box for each character to display their stat growth
-    vt_gui::OptionBox _growth_list[4];
+    //! \brief Four XP of total unspent XP point for each character
+    vt_gui::TextBox _unspent_xp[4];
 
     //! \brief Holds the experience level and XP points remaining for each character
     vt_gui::TextBox _level_text[4];
     vt_gui::TextBox _xp_text[4];
-
-    //! \brief Holds the text indicating new skills that each character has learned
-    vt_gui::TextBox _skill_text[4];
 
     //! \brief Header text for the object list option box
     vt_gui::TextBox _object_header_text;
@@ -280,13 +217,13 @@ private:
     void _SetHeaderText();
 
     //! \brief Gradually rewards the characters with the XP that they earned
-    void _UpdateGrowth();
+    void _UpdateXP();
 
     //! \brief Gradually counts out the amount of drunes that the party has earned
     void _UpdateSpoils();
 
     //! \brief Draws the XP earned by the party and any attribute growth they have made
-    void _DrawGrowth(uint32_t index);
+    void _DrawXP(uint32_t index);
 
     //! \brief Draws the number of drunes and items dropped by the enemy party
     void _DrawSpoils();

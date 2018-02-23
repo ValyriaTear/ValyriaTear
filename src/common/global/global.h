@@ -1034,14 +1034,6 @@ private:
     **/
     template <class T> void _SaveInventory(vt_script::WriteScriptDescriptor &file, const std::string &name, const std::vector<std::shared_ptr<T>>& inv);
 
-    /** \brief A helper function to GameGlobal::SaveGame() that writes character data to the saved game file
-    *** \param file A reference to the open and valid file where to write the character data
-    *** \param objects A ponter to the character whose data should be saved
-    *** \param last Set to true if this is the final character that needs to be saved
-    *** This method will need to be called once for each character in the player's party
-    **/
-    void _SaveCharacter(vt_script::WriteScriptDescriptor &file, GlobalCharacter *character, bool last);
-
     /** \brief A helper function to GameGlobal::SaveGame() that writes a group of event data to the saved game file
     *** \param file A reference to the open and valid file where to write the event data
     *** \param event_group A pointer to the group of events to store
@@ -1088,12 +1080,6 @@ private:
     *** \param category_name The name of the table in the file that should contain the inventory for a specific category
     **/
     void _LoadInventory(vt_script::ReadScriptDescriptor &file, const std::string &category_name);
-
-    /** \brief A helper function to GameGlobal::LoadGame() that loads a saved game character and adds it to the party
-    *** \param file A reference to the open and valid file from where to read the character from
-    *** \param id The character's integer ID, used to find and restore the character data
-    **/
-    void _LoadCharacter(vt_script::ReadScriptDescriptor &file, uint32_t id);
 
     /** \brief A helper function to GameGlobal::LoadGame() that loads a group of game events from a saved game file
     *** \param file A reference to the open and valid file from where to read the event data from

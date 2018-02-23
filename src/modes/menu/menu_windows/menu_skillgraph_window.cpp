@@ -250,7 +250,7 @@ void SkillGraphWindow::_UpdateSkillGraphListState()
     // Update bottom windows info
     if (current_skill_node) {
         _bottom_info.SetNode(*current_skill_node,
-                             _selected_character->GetTotalExperiencePoints(), // FIXME: use true XP function
+                             _selected_character->GetUnspentExperiencePoints(),
                              _selected_character->IsSkillNodeObtained(_selected_node_id));
     }
 }
@@ -664,7 +664,7 @@ void SkillGraphWindow::_HandleNodeTransaction()
 
     // Refresh info
     _bottom_info.SetNode(*current_skill_node,
-                         _selected_character->GetTotalExperiencePoints(), // FIXME
+                         _selected_character->GetUnspentExperiencePoints(),
                          _selected_character->IsSkillNodeObtained(current_skill_node->GetId()));
 }
 

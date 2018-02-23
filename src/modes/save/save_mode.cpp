@@ -612,7 +612,12 @@ bool SaveMode::_PreviewGame(const std::string& filename)
         // Read in all of the character's stats data
         characters[i] = new GlobalCharacter(char_ids[i], false);
         characters[i]->SetExperienceLevel(file.ReadUInt("experience_level"));
-        characters[i]->SetTotalExperiencePoints(file.ReadUInt("experience_points"));
+        // DEPRECATED: Do not read experience_points anymore in one release
+        uint32_t total_xp = file.ReadUInt("experience_points");
+        if (total_xp == 0) {
+            total_xp = file.ReadUInt("total_experience_points");
+        }
+        characters[i]->SetTotalExperiencePoints(total_xp);
 
         characters[i]->SetMaxHitPoints(file.ReadUInt("max_hit_points"));
         characters[i]->SetHitPoints(file.ReadUInt("hit_points"));

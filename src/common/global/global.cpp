@@ -871,11 +871,8 @@ bool GameGlobal::SaveGame(const std::string& filename, uint32_t slot_id, uint32_
     file.WriteLine("\n\t},"); // order
 
     // Now save each individual character's data
-    for(uint32_t i = 0; i < _ordered_characters.size(); i++) {
-        if((i + 1) == _ordered_characters.size())
-            _SaveCharacter(file, _ordered_characters[i], true);
-        else
-            _SaveCharacter(file, _ordered_characters[i], false);
+    for(uint32_t i = 0; i < _ordered_characters.size(); ++i) {
+        _ordered_characters[i]->SaveCharacter(file);
     }
     file.WriteLine("},"); // characters
 
@@ -1019,7 +1016,15 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32_t slot_id)
     }
 
     for(uint32_t i = 0; i < char_ids.size(); i++) {
-        _LoadCharacter(file, char_ids[i]);
+        uint32_t id= char_ids[i];
+        GlobalCharacter* character = new GlobalCharacter(id, false);
+        if (character->LoadCharacter(file)) {
+            AddCharacter(character);
+        }
+        else {
+            delete character;
+        }
+
     }
     file.CloseTable(); // characters
 
@@ -1153,134 +1158,6 @@ void GameGlobal::GetEmoteOffset(float &x, float &y, const std::string &emote_id,
 ////////////////////////////////////////////////////////////////////////////////
 // GameGlobal class - Private Methods
 ////////////////////////////////////////////////////////////////////////////////
-
-void GameGlobal::_SaveCharacter(WriteScriptDescriptor &file, GlobalCharacter *character, bool last)
-{
-    if(file.IsFileOpen() == false) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
-        return;
-    }
-    if(character == nullptr) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a nullptr character pointer argument" << std::endl;
-        return;
-    }
-
-    file.WriteLine("\t[" + NumberToString(character->GetID()) + "] = {");
-
-    // Store whether the character is available
-    file.WriteLine("\t\tenabled = " + std::string(character->IsEnabled() ? "true" : "false") + ",");
-
-    // ----- (1): Write out the character's stats
-    file.WriteLine("\t\texperience_level = " + NumberToString(character->GetExperienceLevel()) + ",");
-    file.WriteLine("\t\texperience_points = " + NumberToString(character->GetTotalExperiencePoints()) + ",");
-    file.WriteLine("\t\texperience_points_next = " + NumberToString(character->GetExperienceForNextLevel()) + ", ");
-
-    // The values stored are the unmodified ones.
-    file.WriteLine("\t\tmax_hit_points = " + NumberToString(character->GetMaxHitPoints()) + ",");
-    file.WriteLine("\t\thit_points = " + NumberToString(character->GetHitPoints()) + ",");
-    file.WriteLine("\t\tmax_skill_points = " + NumberToString(character->GetMaxSkillPoints()) + ",");
-    file.WriteLine("\t\tskill_points = " + NumberToString(character->GetSkillPoints()) + ",");
-
-    file.WriteLine("\t\tphys_atk = " + NumberToString(character->GetPhysAtkBase()) + ",");
-    file.WriteLine("\t\tmag_atk = " + NumberToString(character->GetMagAtkBase()) + ",");
-    file.WriteLine("\t\tphys_def = " + NumberToString(character->GetPhysDefBase()) + ",");
-    file.WriteLine("\t\tmag_def = " + NumberToString(character->GetMagDefBase()) + ",");
-    file.WriteLine("\t\tstamina = " + NumberToString(character->GetStaminaBase()) + ",");
-    file.WriteLine("\t\tevade = " + NumberToString(character->GetEvadeBase()) + ",");
-
-    // ----- (2): Write out the character's equipment
-    uint32_t weapon_id = 0;
-    uint32_t head_id = 0;
-    uint32_t torso_id = 0;
-    uint32_t arm_id = 0;
-    uint32_t leg_id = 0;
-    std::shared_ptr<GlobalObject> obj_tmp = nullptr;
-
-    obj_tmp = character->GetWeaponEquipped();
-    if(obj_tmp != nullptr)
-        weapon_id = obj_tmp->GetID();
-
-    obj_tmp = character->GetHeadArmorEquipped();
-    if(obj_tmp != nullptr)
-        head_id = obj_tmp->GetID();
-
-    obj_tmp = character->GetTorsoArmorEquipped();
-    if(obj_tmp != nullptr)
-        torso_id = obj_tmp->GetID();
-
-    obj_tmp = character->GetArmArmorEquipped();
-    if(obj_tmp != nullptr)
-        arm_id = obj_tmp->GetID();
-
-    obj_tmp = character->GetLegArmorEquipped();
-    if(obj_tmp != nullptr)
-        leg_id = obj_tmp->GetID();
-
-    file.InsertNewLine();
-    file.WriteLine("\t\tequipment = {");
-    file.WriteLine("\t\t\tweapon = " + NumberToString(weapon_id) + ",");
-    file.WriteLine("\t\t\thead_armor = " + NumberToString(head_id) + ",");
-    file.WriteLine("\t\t\ttorso_armor = " + NumberToString(torso_id) + ",");
-    file.WriteLine("\t\t\tarm_armor = " + NumberToString(arm_id) + ",");
-    file.WriteLine("\t\t\tleg_armor = " + NumberToString(leg_id));
-    file.WriteLine("\t\t},");
-
-    // Write out the character's permanent skills.
-    // The equipment skills will be reloaded through equipment.
-    file.InsertNewLine();
-    file.WriteLine("\t\tskills = {");
-    const std::vector<uint32_t>& skill_vector = character->GetPermanentSkills();
-    for(uint32_t i = 0; i < skill_vector.size(); i++) {
-        uint32_t skill_id = skill_vector.at(i);
-
-        if(i == 0)
-            file.WriteLine("\t\t\t", false);
-        else
-            file.WriteLine(", ", false);
-        file.WriteLine(NumberToString(skill_id), false);
-    }
-    file.WriteLine("\n\t\t},");
-
-    // Write out the character's obtained skill nodes.
-    file.InsertNewLine();
-    file.WriteLine("\t\tobtained_skill_nodes = {");
-    const std::vector<uint32_t>& skill_nodes = character->GetObtainedSkillNodes();
-    for(uint32_t i = 0; i < skill_nodes.size(); i++) {
-        uint32_t skill_node = skill_nodes.at(i);
-
-        if(i == 0)
-            file.WriteLine("\t\t\t", false);
-        else
-            file.WriteLine(", ", false);
-        bool newline = (i > 0) && !(i % 10);
-        file.WriteLine(NumberToString(skill_node), newline);
-    }
-    file.WriteLine("\n\t\t},");
-    file.WriteLine("\t\tcurrent_skill_node = " + NumberToString(character->GetSkillNodeLocation()) + ",");
-
-    // Writes active status effects at the time of the save
-    file.InsertNewLine();
-    file.WriteLine("\t\tactive_status_effects = {");
-    const std::vector<ActiveStatusEffect>& status_effects = character->GetActiveStatusEffects();
-    for(uint32_t i = 0; i < status_effects.size(); ++i) {
-        const ActiveStatusEffect& effect = status_effects.at(i);
-        if (!effect.IsActive())
-            continue;
-
-        std::string effect_str = "\t\t\t[" + NumberToString((int32_t)effect.GetEffect()) + "] = { ";
-        effect_str += "intensity = " + NumberToString((int32_t)effect.GetIntensity()) + ", ";
-        effect_str += "duration = " + NumberToString((int32_t)effect.GetEffectTime()) + ", ";
-        effect_str += "elapsed_time = " + NumberToString((int32_t)effect.GetElapsedTime()) + "},";
-
-        file.WriteLine(effect_str);
-    }
-    file.WriteLine("\n\t\t}");
-
-    if(last)
-        file.WriteLine("\t}");
-    else
-        file.WriteLine("\t},");
-}
 
 void GameGlobal::_SaveEvents(WriteScriptDescriptor &file, GlobalEventGroup *event_group)
 {
@@ -1428,216 +1305,6 @@ void GameGlobal::_LoadInventory(ReadScriptDescriptor &file, const std::string &c
         file.CloseTable();
     }
 }
-
-void GameGlobal::_LoadCharacter(ReadScriptDescriptor &file, uint32_t id)
-{
-    if(!file.IsFileOpen()) {
-        PRINT_WARNING << "Can't load character, the file " << file.GetFilename()
-            << " is not open." << std::endl;
-        return;
-    }
-
-    // This function assumes that the characters table in the saved game file is already open.
-    // So all we need to open is the character's table
-    if (!file.OpenTable(id)) {
-        PRINT_WARNING << "Can't load unexisting character id: " << id << std::endl;
-        return;
-    }
-
-    // Create a new GlobalCharacter object using the provided id
-    // This loads all of the character's "static" data, such as their name, etc.
-    GlobalCharacter *character = new GlobalCharacter(id, false);
-
-    // Gets whether the character is currently enabled
-    if(file.DoesBoolExist("enabled"))
-        character->Enable(file.ReadBool("enabled"));
-    else // old format DEPRECATED: Removed in one release
-        character->Enable(true);
-
-    // Read in all of the character's stats data
-    character->SetExperienceLevel(file.ReadUInt("experience_level"));
-    character->SetTotalExperiencePoints(file.ReadUInt("experience_points"));
-    character->_experience_for_next_level = file.ReadInt("experience_points_next");
-
-    character->SetMaxHitPoints(file.ReadUInt("max_hit_points"));
-    character->SetHitPoints(file.ReadUInt("hit_points"));
-    character->SetMaxSkillPoints(file.ReadUInt("max_skill_points"));
-    character->SetSkillPoints(file.ReadUInt("skill_points"));
-
-    // DEPRECATED: Old confusing character's stats. Remove for Episode II release.
-    if (file.DoesUIntExist("strength")) {
-        character->SetPhysAtk(file.ReadUInt("strength"));
-        character->SetMagAtk(file.ReadUInt("vigor"));
-        character->SetPhysDef(file.ReadUInt("fortitude"));
-        character->SetMagDef(file.ReadUInt("protection"));
-        character->SetStamina(file.ReadUInt("agility"));
-    }
-    else {
-        character->SetPhysAtk(file.ReadUInt("phys_atk"));
-        character->SetMagAtk(file.ReadUInt("mag_atk"));
-        character->SetPhysDef(file.ReadUInt("phys_def"));
-        character->SetMagDef(file.ReadUInt("mag_def"));
-        character->SetStamina(file.ReadUInt("stamina"));
-    }
-    character->SetEvade(file.ReadFloat("evade"));
-
-    // Read the character's equipment and load it onto the character
-    if (file.OpenTable("equipment")) {
-        uint32_t equip_id;
-
-        // Equip the objects on the character as long as valid equipment IDs were read
-        equip_id = file.ReadUInt("weapon");
-        if(equip_id != 0) {
-            character->EquipWeapon(std::make_shared<GlobalWeapon>(equip_id));
-        }
-
-        equip_id = file.ReadUInt("head_armor");
-        if(equip_id != 0) {
-            character->EquipHeadArmor(std::make_shared<GlobalArmor>(equip_id));
-        }
-
-        equip_id = file.ReadUInt("torso_armor");
-        if(equip_id != 0) {
-            character->EquipTorsoArmor(std::make_shared<GlobalArmor>(equip_id));
-        }
-
-        equip_id = file.ReadUInt("arm_armor");
-        if(equip_id != 0) {
-            character->EquipArmArmor(std::make_shared<GlobalArmor>(equip_id));
-        }
-
-        equip_id = file.ReadUInt("leg_armor");
-        if(equip_id != 0) {
-            character->EquipLegArmor(std::make_shared<GlobalArmor>(equip_id));
-        }
-
-        file.CloseTable(); // equipment
-    }
-
-    // Read the character's skills and pass those onto the character object
-    std::vector<uint32_t> skill_ids;
-
-    skill_ids.clear();
-    file.ReadUIntVector("skills", skill_ids);
-    for(uint32_t i = 0; i < skill_ids.size(); i++) {
-        // DEPRECATED HACK: Remove that in one release.
-        // Turn old bare hands skills id into new ones at load time.
-        if (skill_ids[i] == 999)
-            skill_ids[i] = 30002;
-        else if (skill_ids[i] == 1000)
-            skill_ids[i] = 30001;
-
-        character->AddSkill(skill_ids[i]);
-    }
-
-    //DEPRECATED: Will be removed in one release!
-    skill_ids.clear();
-    file.ReadUIntVector("weapon_skills", skill_ids);
-    for(uint32_t i = 0; i < skill_ids.size(); i++) {
-        // DEPRECATED HACK: Remove that in one release.
-        // Turn old bare hands skills id into new ones at load time.
-        if (skill_ids[i] == 999)
-            skill_ids[i] = 30002;
-        else if (skill_ids[i] == 1000)
-            skill_ids[i] = 30001;
-
-        character->AddSkill(skill_ids[i]);
-    }
-    //DEPRECATED: Will be removed in one release!
-    skill_ids.clear();
-    file.ReadUIntVector("magic_skills", skill_ids);
-    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
-        character->AddSkill(skill_ids[i]);
-    }
-    //DEPRECATED: Will be removed in one release!
-    skill_ids.clear();
-    file.ReadUIntVector("special_skills", skill_ids);
-    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
-        character->AddSkill(skill_ids[i]);
-    }
-    //DEPRECATED: Will be removed in one release!
-    skill_ids.clear();
-    file.ReadUIntVector("bare_hands_skills", skill_ids);
-    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
-        character->AddSkill(skill_ids[i]);
-    }
-
-    // DEPRECATED: Remove in one release
-    skill_ids.clear();
-    file.ReadUIntVector("defense_skills", skill_ids);
-    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
-        character->AddSkill(skill_ids[i]);
-    }
-    // DEPRECATED: Remove in one release
-    file.ReadUIntVector("attack_skills", skill_ids);
-    for(uint32_t i = 0; i < skill_ids.size(); i++) {
-        character->AddSkill(skill_ids[i]);
-    }
-    // DEPRECATED: Remove in one release
-    skill_ids.clear();
-    file.ReadUIntVector("support_skills", skill_ids);
-    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
-        character->AddSkill(skill_ids[i]);
-    }
-
-    // Read the character's obtained skill nodes
-    character->ResetObtainedSkillNodes();
-    std::vector<uint32_t> skill_node_ids;
-    file.ReadTableKeys("obtained_skill_nodes", skill_node_ids);
-    character->SetObtainedSkillNodes(skill_node_ids);
-
-    // Read the current skill node location
-    uint32_t default_character_location = file.ReadUInt("current_skill_node",
-                                                        std::numeric_limits<uint32_t>::max());
-    if (default_character_location != std::numeric_limits<uint32_t>::max()) {
-        character->SetSkillNodeLocation(default_character_location);
-    }
-
-    // Read the character's active status effects data
-    character->ResetActiveStatusEffects();
-    std::vector<int32_t> status_effects_ids;
-    file.ReadTableKeys("active_status_effects", status_effects_ids);
-
-    if (file.OpenTable("active_status_effects")) {
-
-        for(uint32_t i = 0; i < status_effects_ids.size(); ++i) {
-            int32_t status_effect = status_effects_ids[i];
-
-            if (!file.OpenTable(status_effect))
-                continue;
-
-            // Check the status effect validity
-            if (status_effect <= (int32_t)GLOBAL_STATUS_INVALID || status_effect >= (int32_t)GLOBAL_STATUS_TOTAL) {
-                file.CloseTable(); // status_effect
-                continue;
-            }
-
-            // Check the status intensity validity
-            int32_t intensity = file.ReadInt("intensity");
-            if (intensity <= GLOBAL_INTENSITY_INVALID || intensity >= GLOBAL_INTENSITY_TOTAL) {
-                file.CloseTable(); // status_effect
-                continue;
-            }
-
-            uint32_t duration = file.ReadInt("duration");
-            uint32_t elapsed_time = file.ReadInt("elapsed_time");
-
-            character->SetActiveStatusEffect((GLOBAL_STATUS)status_effect,
-                                             (GLOBAL_INTENSITY)intensity,
-                                             duration, elapsed_time);
-
-            file.CloseTable(); // status_effect
-        }
-
-        file.CloseTable(); // active_status_effects
-    }
-
-    file.CloseTable(); // character id
-
-    AddCharacter(character);
-} // void GameGlobal::_LoadCharacter(ReadScriptDescriptor& file, uint32_t id);
-
-
 
 void GameGlobal::_LoadEvents(ReadScriptDescriptor &file, const std::string &group_name)
 {

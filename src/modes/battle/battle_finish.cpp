@@ -63,59 +63,10 @@ const float CHAR_WINDOW_WIDTH      = TOP_WINDOW_WIDTH;
 const float CHAR_WINDOW_HEIGHT     = 120.0f;
 
 const float SPOILS_WINDOW_XPOS     = TOP_WINDOW_XPOS;
-const float SPOILS_WINDOW_YPOS     = TOOLTIP_WINDOW_YPOS;
+const float SPOILS_WINDOW_YPOS     = CHAR_WINDOW_YPOS + CHAR_WINDOW_HEIGHT + 30;
 const float SPOILS_WINDOW_WIDTH    = TOP_WINDOW_WIDTH;
 const float SPOILS_WINDOW_HEIGHT   = 220.0f;
 //@}
-
-////////////////////////////////////////////////////////////////////////////////
-// CharacterGrowth class
-////////////////////////////////////////////////////////////////////////////////
-
-CharacterGrowth::CharacterGrowth(GlobalCharacter* ch) :
-    hit_points(0),
-    skill_points(0),
-    phys_atk(0),
-    mag_atk(0),
-    phys_def(0),
-    mag_def(0),
-    stamina(0),
-    evade(0.0f),
-    _character(ch),
-    _experience_levels_gained(0)
-{
-    if (ch == nullptr) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "nullptr pointer passed to constructor" << std::endl;
-    }
-}
-
-void CharacterGrowth::UpdateGrowthData() {
-    while (_character->ReachedNewExperienceLevel()) {
-        // Makes the character gain its level.
-        _character->AcknowledgeGrowth();
-
-        // Update the battle finish growth info members
-        hit_points += _character->GetHitPointsGrowth();
-        skill_points += _character->GetSkillPointsGrowth();
-        phys_atk += _character->GetPhysAtkGrowth();
-        mag_atk += _character->GetMagAtkGrowth();
-        phys_def += _character->GetPhysDefGrowth();
-        mag_def += _character->GetMagDefGrowth();
-        stamina += _character->GetStaminaGrowth();
-        evade += _character->GetEvadeGrowth();
-
-        ++_experience_levels_gained;
-        AudioManager->PlaySound("data/sounds/levelup.wav");
-
-        // New skills are only found in growth data when the character has reached a new level
-        // Note that the character's new skills learned container will be cleared upon the next
-        // call to AcknowledgeGrowth, so skills will not be duplicated in the skills_learned container
-        std::vector<GlobalSkill*>* skills = _character->GetNewSkillsLearned();
-        for (uint32_t i = 0; i < skills->size(); i++) {
-            skills_learned.push_back(skills->at(i));
-        }
-    }
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 // FinishDefeatAssistant class
@@ -325,35 +276,13 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE& state) :
     _spoils_window.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
     _spoils_window.Show();
 
-    _header_growth.SetOwner(&_header_window);
-    _header_growth.SetPosition(SPOILS_WINDOW_XPOS - SPOILS_WINDOW_WIDTH + 50.0f, 15.0f);
-    _header_growth.SetDimensions(SPOILS_WINDOW_WIDTH - 100.0f, 40.0f);
-    _header_growth.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _header_growth.SetTextAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
-    _header_growth.SetDisplaySpeed(SystemManager->GetMessageSpeed());
-    _header_growth.SetTextStyle(TextStyle("text20", Color::white));
-    _header_growth.SetDisplayMode(VIDEO_TEXT_INSTANT);
-
-    _header_drunes_dropped.SetOwner(&_header_window);
-    _header_drunes_dropped.SetPosition(TOP_WINDOW_WIDTH / 2 - 200.0f, 15.0f);
-    _header_drunes_dropped.SetDimensions(400.0f, 40.0f);
-    _header_drunes_dropped.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _header_drunes_dropped.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _header_drunes_dropped.SetDisplaySpeed(SystemManager->GetMessageSpeed());
-    _header_drunes_dropped.SetTextStyle(TextStyle("text20", Color::white));
-    _header_drunes_dropped.SetDisplayMode(VIDEO_TEXT_INSTANT);
-
-    _header_total_drunes.SetOwner(&_header_window);
-    _header_total_drunes.SetPosition(TOP_WINDOW_WIDTH / 2 + 50.0f, 15.0f);
-    _header_total_drunes.SetDimensions(400.0f, 40.0f);
-    _header_total_drunes.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _header_total_drunes.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _header_total_drunes.SetDisplaySpeed(SystemManager->GetMessageSpeed());
-    _header_total_drunes.SetTextStyle(TextStyle("text20", Color::white));
-    _header_total_drunes.SetDisplayMode(VIDEO_TEXT_INSTANT);
+    _header_xp.SetOwner(&_header_window);
+    _header_xp.SetPosition(TOP_WINDOW_WIDTH / 2 - 200.0f, 15.0f);
+    _header_xp.SetDimensions(CHAR_WINDOW_WIDTH - 100.0f, 40.0f);
+    _header_xp.SetTextStyle(TextStyle("text20", Color::white));
+    _header_xp.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
     for(uint32_t i = 0; i < 4; i++) {
-        _growth_list[i].SetOwner(&(_character_window[i]));
         _raw_xp_given[i] = true;
         _raw_xp_won[i] = false;
     }
@@ -361,12 +290,21 @@ FinishVictoryAssistant::FinishVictoryAssistant(FINISH_STATE& state) :
     _object_header_text.SetOwner(&_spoils_window);
     _object_header_text.SetPosition(SPOILS_WINDOW_XPOS - SPOILS_WINDOW_WIDTH + 50.0f, 15.0f);
     _object_header_text.SetDimensions(SPOILS_WINDOW_WIDTH - 100.0f, 40.0f);
-    _object_header_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    _object_header_text.SetTextAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
-    _object_header_text.SetDisplaySpeed(SystemManager->GetMessageSpeed());
     _object_header_text.SetTextStyle(TextStyle("title20", Color::white));
     _object_header_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _object_header_text.SetDisplayText(UTranslate("Items Found"));
+
+    _header_drunes_dropped.SetOwner(&_spoils_window);
+    _header_drunes_dropped.SetPosition(SPOILS_WINDOW_XPOS - SPOILS_WINDOW_WIDTH + 50.0f, 15.0f);
+    _header_drunes_dropped.SetDimensions(400.0f, 40.0f);
+    _header_drunes_dropped.SetTextStyle(TextStyle("text20", Color::white));
+    _header_drunes_dropped.SetDisplayMode(VIDEO_TEXT_INSTANT);
+
+    _header_total_drunes.SetOwner(&_spoils_window);
+    _header_total_drunes.SetPosition(TOP_WINDOW_WIDTH / 2 + 50.0f, 15.0f);
+    _header_total_drunes.SetDimensions(400.0f, 40.0f);
+    _header_total_drunes.SetTextStyle(TextStyle("text20", Color::white));
+    _header_total_drunes.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
     _object_list.SetOwner(&_spoils_window);
     _object_list.SetPosition(100.0f, 45.0f);
@@ -410,7 +348,6 @@ void FinishVictoryAssistant::Initialize()
 
     for(uint32_t i = 0; i < _characters_number; ++i) {
         _characters.push_back(all_characters[i]->GetGlobalCharacter());
-        _character_growths.push_back(CharacterGrowth(_characters[i]));
         _character_portraits[i] = all_characters[i]->GetPortrait();
 
         // Only size up non valid images
@@ -486,11 +423,13 @@ void FinishVictoryAssistant::Update()
 {
     switch(_state) {
     case FINISH_VICTORY_GROWTH:
-        _UpdateGrowth();
+        _UpdateXP();
+        _UpdateSpoils();
         break;
 
-    case FINISH_VICTORY_SPOILS:
-        _UpdateSpoils();
+    case FINISH_VICTORY_MENU: //TODO
+        if (InputManager->ConfirmPress())
+            _state = FINISH_END;
         break;
 
     case FINISH_END:
@@ -506,30 +445,25 @@ void FinishVictoryAssistant::Draw()
 {
     _header_window.Draw();
 
-    if(_state == FINISH_VICTORY_GROWTH) {
-        _header_growth.Draw();
+        _header_xp.Draw();
         for(uint32_t i = 0; i < _characters_number; ++i) {
             _character_window[i].Draw();
-            _DrawGrowth(i);
+            _DrawXP(i);
         }
-    } else if(_state == FINISH_VICTORY_SPOILS) {
+
         _header_drunes_dropped.Draw();
         _header_total_drunes.Draw();
         _spoils_window.Draw();
         _DrawSpoils();
         _object_list.Draw();
-    }
 }
 
 void FinishVictoryAssistant::_SetHeaderText()
 {
-    if((_state == FINISH_ANNOUNCE_RESULT) || (_state == FINISH_VICTORY_GROWTH)) {
-        _header_growth.SetDisplayText(UTranslate("XP Earned: ") + MakeUnicodeString(NumberToString(_xp_earned)));
-    } else if(_state == FINISH_VICTORY_SPOILS) {
+    if(_state == FINISH_ANNOUNCE_RESULT) {
+        _header_xp.SetDisplayText(UTranslate("XP Earned: ") + MakeUnicodeString(NumberToString(_xp_earned)));
         _header_drunes_dropped.SetDisplayText(UTranslate("Drunes Found: ") + MakeUnicodeString(NumberToString(_drunes_dropped)));
         _header_total_drunes.SetDisplayText(UTranslate("Total Drunes: ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
-    } else {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "invalid finish state: " << _state << std::endl;
     }
 
     const uint32_t no_of_options = _object_list.GetNumberOptions();
@@ -563,34 +497,23 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
 
     // Construct GUI objects that will fill each character window
     for(uint32_t i = 0; i < _characters_number; ++i) {
-        _growth_list[i].SetOwner(&_character_window[i]);
-        _growth_list[i].SetPosition(340.0f, 55.0f);
-        _growth_list[i].SetDimensions(200.0f, 70.0f, 4, 4, 4, 4);
-        _growth_list[i].SetTextStyle(TextStyle("text14", Color::white, VIDEO_TEXT_SHADOW_DARK));
-        _growth_list[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-        _growth_list[i].SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-        _growth_list[i].SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
-        for(uint32_t j = 0; j < 16; ++j) {
-            _growth_list[i].AddOption();
-        }
-
         _level_text[i].SetOwner(&_character_window[i]);
         _level_text[i].SetPosition(130.0f, 10.0f);
-        _level_text[i].SetDimensions(200.0f, 40.0f);
-        _level_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-        _level_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-        _level_text[i].SetDisplaySpeed(SystemManager->GetMessageSpeed());
+        _level_text[i].SetDimensions(300.0f, 25.0f);
         _level_text[i].SetTextStyle(TextStyle("text20", Color::white));
         _level_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
 
         _xp_text[i].SetOwner(&_character_window[i]);
-        _xp_text[i].SetPosition(130.0f, 30.0f);
-        _xp_text[i].SetDimensions(200.0f, 50.0f);
-        _xp_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-        _xp_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-        _xp_text[i].SetDisplaySpeed(SystemManager->GetMessageSpeed());
+        _xp_text[i].SetPosition(130.0f, 40.0f);
+        _xp_text[i].SetDimensions(300.0f, 25.0f);
         _xp_text[i].SetTextStyle(TextStyle("text20", Color::white));
         _xp_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
+
+        _unspent_xp[i].SetOwner(&_character_window[i]);
+        _unspent_xp[i].SetPosition(130.0f, 70.0f);
+        _unspent_xp[i].SetDimensions(300.0f, 25.0f);
+        _unspent_xp[i].SetTextStyle(TextStyle("text20", Color::white));
+        _unspent_xp[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
 
         // Don't show XP when the maximum level has been reached.
         if(_characters[i]->GetExperienceLevel() >= GlobalManager->GetMaxExperienceLevel()) {
@@ -602,16 +525,9 @@ void FinishVictoryAssistant::_CreateCharacterGUIObjects()
                                              + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel())));
             _xp_text[i].SetDisplayText(UTranslate("XP left: ")
                                        + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel())));
+            _unspent_xp[i].SetDisplayText(UTranslate("XP available for skills: ")
+                                          + MakeUnicodeString(NumberToString(_characters[i]->GetUnspentExperiencePoints())));
         }
-
-        _skill_text[i].SetOwner(&_character_window[i]);
-        _skill_text[i].SetPosition(130.0f, 65.0f);
-        _skill_text[i].SetDimensions(200.0f, 40.0f);
-        _skill_text[i].SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-        _skill_text[i].SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
-        _skill_text[i].SetDisplaySpeed(SystemManager->GetMessageSpeed());
-        _skill_text[i].SetTextStyle(TextStyle("text20", Color::white));
-        _skill_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
     }
 }
 
@@ -650,7 +566,7 @@ void FinishVictoryAssistant::_SetCharacterStatus()
     }
 }
 
-void FinishVictoryAssistant::_UpdateGrowth()
+void FinishVictoryAssistant::_UpdateXP()
 {
     // The number of milliseconds that we wait in between updating the XP count
     const uint32_t UPDATE_PERIOD = 50;
@@ -672,7 +588,7 @@ void FinishVictoryAssistant::_UpdateGrowth()
         }
         // Counting has finished. Move on to the spoils screen
         else {
-            _state = FINISH_VICTORY_SPOILS;
+            _state = FINISH_VICTORY_MENU;
             _SetHeaderText();
         }
     }
@@ -734,79 +650,12 @@ void FinishVictoryAssistant::_UpdateGrowth()
         }
 
         if(!level_maxed_out && _characters[i]->AddExperiencePoints(xp_added)) {
-            _character_growths[i].UpdateGrowthData();
-            // Only add text for the stats that experienced growth
-            uint32_t line = 0;
-
-            GlobalMedia& media = vt_global::GlobalManager->Media();
-
-            if(_character_growths[i].hit_points > 0) {
-                _growth_list[i].AddOptionElementImage(line, media.GetStatusIcon(vt_global::GLOBAL_STATUS_HP,
-                                                                                vt_global::GLOBAL_INTENSITY_NEUTRAL));
-                _growth_list[i].AddOptionElementPosition(line, 32);
-                _growth_list[i].AddOptionElementText(line, MakeUnicodeString("+" + NumberToString(_character_growths[i].hit_points)));
-                line = line + 2;
-            }
-            if(_character_growths[i].skill_points > 0) {
-                _growth_list[i].AddOptionElementImage(line, media.GetStatusIcon(vt_global::GLOBAL_STATUS_SP,
-                                                                                vt_global::GLOBAL_INTENSITY_NEUTRAL));
-                _growth_list[i].AddOptionElementPosition(line, 32);
-                _growth_list[i].AddOptionElementText(line, MakeUnicodeString("+" + NumberToString(_character_growths[i].skill_points)));
-
-                line = line + 2;
-            }
-            if(_character_growths[i].phys_atk > 0) {
-                _growth_list[i].AddOptionElementImage(line, media.GetStatusIcon(vt_global::GLOBAL_STATUS_PHYS_ATK,
-                                                                                vt_global::GLOBAL_INTENSITY_NEUTRAL));
-                _growth_list[i].AddOptionElementPosition(line, 32);
-                _growth_list[i].AddOptionElementText(line, MakeUnicodeString("+" + NumberToString(_character_growths[i].phys_atk)));
-                line = line + 2;
-            }
-            if(_character_growths[i].mag_atk > 0) {
-                _growth_list[i].AddOptionElementImage(line, media.GetStatusIcon(vt_global::GLOBAL_STATUS_MAG_ATK,
-                                                                                vt_global::GLOBAL_INTENSITY_NEUTRAL));
-                _growth_list[i].AddOptionElementPosition(line, 32);
-                _growth_list[i].AddOptionElementText(line, MakeUnicodeString("+" + NumberToString(_character_growths[i].mag_atk)));
-                line = line + 2;
-            }
-            if(_character_growths[i].phys_def > 0) {
-                _growth_list[i].AddOptionElementImage(line, media.GetStatusIcon(vt_global::GLOBAL_STATUS_PHYS_DEF,
-                                                                                vt_global::GLOBAL_INTENSITY_NEUTRAL));
-                _growth_list[i].AddOptionElementPosition(line, 32);
-                _growth_list[i].AddOptionElementText(line, MakeUnicodeString("+" + NumberToString(_character_growths[i].phys_def)));
-                line = line + 2;
-            }
-            if(_character_growths[i].mag_def > 0) {
-                _growth_list[i].AddOptionElementImage(line, media.GetStatusIcon(vt_global::GLOBAL_STATUS_MAG_DEF,
-                                                                                vt_global::GLOBAL_INTENSITY_NEUTRAL));
-                _growth_list[i].AddOptionElementPosition(line, 32);
-                _growth_list[i].AddOptionElementText(line, MakeUnicodeString("+" + NumberToString(_character_growths[i].mag_def)));
-                line = line + 2;
-            }
-            if(_character_growths[i].stamina > 0) {
-                _growth_list[i].AddOptionElementImage(line, media.GetStatusIcon(vt_global::GLOBAL_STATUS_STAMINA,
-                                                                                vt_global::GLOBAL_INTENSITY_NEUTRAL));
-                _growth_list[i].AddOptionElementPosition(line, 32);
-                _growth_list[i].AddOptionElementText(line, MakeUnicodeString("+" + NumberToString(_character_growths[i].stamina)));
-                line = line + 2;
-            }
-            if(_character_growths[i].evade > 0.0f) {
-                _growth_list[i].AddOptionElementImage(line, media.GetStatusIcon(vt_global::GLOBAL_STATUS_EVADE,
-                                                                                vt_global::GLOBAL_INTENSITY_NEUTRAL));
-                _growth_list[i].AddOptionElementPosition(line, 32);
-                /// tr: This is the evade growth score. E.g.: +1%, +1.5%
-                _growth_list[i].AddOptionElementText(line, MakeUnicodeString(VTranslate("+%f%%", NumberToString(_character_growths[i].evade))));
-                line = line + 2;
-            }
-
-            if(_character_growths[i].skills_learned.empty() == false) {
-                // DEPRECATED: The skills will have to be learnt through a skill tree.
-                _skill_text[i].SetDisplayText(UTranslate("New Skill Learned:\n") + _character_growths[i].skills_learned[0]->GetName());
-            }
+            AudioManager->PlaySound("data/sounds/levelup.wav");
         }
 
         ustring level_text;
         ustring xp_text;
+        ustring unspent_xp;
         if(level_maxed_out) {
             level_text = UTranslate("Level (Max): ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()));
         } else {
@@ -814,10 +663,13 @@ void FinishVictoryAssistant::_UpdateGrowth()
             xp_text = UTranslate("XP left: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()));
             if (_raw_xp_won[i])
                 xp_text += UTranslate(" (+20%)");
+            unspent_xp = UTranslate("XP available for skills: ")
+                         + MakeUnicodeString(NumberToString(_characters[i]->GetUnspentExperiencePoints()));
         }
 
         _level_text[i].SetDisplayText(level_text);
         _xp_text[i].SetDisplayText(xp_text);
+        _unspent_xp[i].SetDisplayText(unspent_xp);
     }
 
     _xp_earned -= xp_to_add;
@@ -842,10 +694,6 @@ void FinishVictoryAssistant::_UpdateSpoils()
         // If confirm received during counting, instantly add all remaining drunes
         else if(_drunes_dropped != 0) {
             drunes_to_add = _drunes_dropped;
-        }
-        // Counting is done. Finish supervisor should now terminate
-        else {
-            _state = FINISH_END;
         }
     }
 
@@ -885,7 +733,7 @@ void FinishVictoryAssistant::_UpdateSpoils()
     }
 }
 
-void FinishVictoryAssistant::_DrawGrowth(uint32_t index)
+void FinishVictoryAssistant::_DrawXP(uint32_t index)
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_TOP, 0);
     VideoManager->Move(CHAR_WINDOW_XPOS - (CHAR_WINDOW_WIDTH / 2) + 20.0f,
@@ -894,8 +742,7 @@ void FinishVictoryAssistant::_DrawGrowth(uint32_t index)
 
     _level_text[index].Draw();
     _xp_text[index].Draw();
-    _growth_list[index].Draw();
-    _skill_text[index].Draw();
+    _unspent_xp[index].Draw();
 }
 
 void FinishVictoryAssistant::_DrawSpoils()

@@ -34,14 +34,6 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
     _total_experience_points(0),
     _experience_level(0),
     _experience_for_next_level(0),
-    _hit_points_growth(0),
-    _skill_points_growth(0),
-    _phys_atk_growth(0),
-    _mag_atk_growth(0),
-    _phys_def_growth(0),
-    _mag_def_growth(0),
-    _stamina_growth(0),
-    _evade_growth(0.0f),
     _current_skill_node_id(0)
 {
     _id = id;
@@ -305,10 +297,7 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
 
 GlobalCharacter::~GlobalCharacter()
 {
-    //
     // Delete all equipment.
-    //
-
     _weapon_equipped = nullptr;
 
     for (uint32_t i = 0; i < _armor_equipped.size(); ++i) {
@@ -317,11 +306,337 @@ GlobalCharacter::~GlobalCharacter()
     _armor_equipped.clear();
 }
 
+bool GlobalCharacter::LoadCharacter(ReadScriptDescriptor& file)
+{
+    if(!file.IsFileOpen()) {
+        PRINT_WARNING << "Can't load character, the file " << file.GetFilename()
+            << " is not open." << std::endl;
+        return false;
+    }
+
+    // This function assumes that the characters table in the saved game file is already open.
+    // So all we need to open is the character's table
+    if (!file.OpenTable(_id)) {
+        PRINT_WARNING << "Can't load unexisting character id: " << _id << std::endl;
+        return false;
+    }
+
+    // Gets whether the character is currently enabled
+    if(file.DoesBoolExist("enabled")) {
+        Enable(file.ReadBool("enabled"));
+    }
+    else { // old format DEPRECATED: Removed in one release
+        Enable(true);
+    }
+
+    // Read in all of the character's stats data
+    SetExperienceLevel(file.ReadUInt("experience_level"));
+
+    uint32_t total_xp = file.ReadUInt("experience_points");
+    // DEPRECATED: Used to upgrade old saves without skill trees.
+    if (total_xp == 0) {
+        total_xp = file.ReadUInt("total_experience_points");
+    }
+    SetTotalExperiencePoints(total_xp);
+
+    _experience_for_next_level = file.ReadInt("experience_points_next");
+
+    uint32_t unspent_xp = file.ReadUInt("unspent_experience_points", std::numeric_limits<uint32_t>::max());
+    // DEPRECATED: Used to upgrade old saves without skill trees.
+    if (unspent_xp == std::numeric_limits<uint32_t>::max()) {
+        unspent_xp = GetTotalExperiencePoints();
+    }
+    _unspent_experience_points = unspent_xp;
+
+    SetMaxHitPoints(file.ReadUInt("max_hit_points"));
+    SetHitPoints(file.ReadUInt("hit_points"));
+    SetMaxSkillPoints(file.ReadUInt("max_skill_points"));
+    SetSkillPoints(file.ReadUInt("skill_points"));
+
+    // DEPRECATED: Old confusing character's stats. Remove for Episode II release.
+    if (file.DoesUIntExist("strength")) {
+        SetPhysAtk(file.ReadUInt("strength"));
+        SetMagAtk(file.ReadUInt("vigor"));
+        SetPhysDef(file.ReadUInt("fortitude"));
+        SetMagDef(file.ReadUInt("protection"));
+        SetStamina(file.ReadUInt("agility"));
+    }
+    else {
+        SetPhysAtk(file.ReadUInt("phys_atk"));
+        SetMagAtk(file.ReadUInt("mag_atk"));
+        SetPhysDef(file.ReadUInt("phys_def"));
+        SetMagDef(file.ReadUInt("mag_def"));
+        SetStamina(file.ReadUInt("stamina"));
+    }
+    SetEvade(file.ReadFloat("evade"));
+
+    // Read the character's equipment and load it onto the character
+    if (file.OpenTable("equipment")) {
+        uint32_t equip_id;
+
+        // Equip the objects on the character as long as valid equipment IDs were read
+        equip_id = file.ReadUInt("weapon");
+        if(equip_id != 0) {
+            EquipWeapon(std::make_shared<GlobalWeapon>(equip_id));
+        }
+
+        equip_id = file.ReadUInt("head_armor");
+        if(equip_id != 0) {
+            EquipHeadArmor(std::make_shared<GlobalArmor>(equip_id));
+        }
+
+        equip_id = file.ReadUInt("torso_armor");
+        if(equip_id != 0) {
+            EquipTorsoArmor(std::make_shared<GlobalArmor>(equip_id));
+        }
+
+        equip_id = file.ReadUInt("arm_armor");
+        if(equip_id != 0) {
+            EquipArmArmor(std::make_shared<GlobalArmor>(equip_id));
+        }
+
+        equip_id = file.ReadUInt("leg_armor");
+        if(equip_id != 0) {
+            EquipLegArmor(std::make_shared<GlobalArmor>(equip_id));
+        }
+
+        file.CloseTable(); // equipment
+    }
+
+    // Read the character's skills and pass those onto the character object
+    std::vector<uint32_t> skill_ids;
+
+    skill_ids.clear();
+    file.ReadUIntVector("skills", skill_ids);
+    for(uint32_t i = 0; i < skill_ids.size(); i++) {
+        // DEPRECATED HACK: Remove that in one release.
+        // Turn old bare hands skills id into new ones at load time.
+        if (skill_ids[i] == 999)
+            skill_ids[i] = 30002;
+        else if (skill_ids[i] == 1000)
+            skill_ids[i] = 30001;
+
+        AddSkill(skill_ids[i]);
+    }
+
+    //DEPRECATED: Will be removed in one release!
+    skill_ids.clear();
+    file.ReadUIntVector("weapon_skills", skill_ids);
+    for(uint32_t i = 0; i < skill_ids.size(); i++) {
+        // DEPRECATED HACK: Remove that in one release.
+        // Turn old bare hands skills id into new ones at load time.
+        if (skill_ids[i] == 999)
+            skill_ids[i] = 30002;
+        else if (skill_ids[i] == 1000)
+            skill_ids[i] = 30001;
+
+        AddSkill(skill_ids[i]);
+    }
+    //DEPRECATED: Will be removed in one release!
+    skill_ids.clear();
+    file.ReadUIntVector("magic_skills", skill_ids);
+    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
+        AddSkill(skill_ids[i]);
+    }
+    //DEPRECATED: Will be removed in one release!
+    skill_ids.clear();
+    file.ReadUIntVector("special_skills", skill_ids);
+    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
+        AddSkill(skill_ids[i]);
+    }
+    //DEPRECATED: Will be removed in one release!
+    skill_ids.clear();
+    file.ReadUIntVector("bare_hands_skills", skill_ids);
+    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
+        AddSkill(skill_ids[i]);
+    }
+
+    // DEPRECATED: Remove in one release
+    skill_ids.clear();
+    file.ReadUIntVector("defense_skills", skill_ids);
+    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
+        AddSkill(skill_ids[i]);
+    }
+    // DEPRECATED: Remove in one release
+    file.ReadUIntVector("attack_skills", skill_ids);
+    for(uint32_t i = 0; i < skill_ids.size(); i++) {
+        AddSkill(skill_ids[i]);
+    }
+    // DEPRECATED: Remove in one release
+    skill_ids.clear();
+    file.ReadUIntVector("support_skills", skill_ids);
+    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
+        AddSkill(skill_ids[i]);
+    }
+
+    // Read the character's obtained skill nodes
+    ResetObtainedSkillNodes();
+    std::vector<uint32_t> skill_node_ids;
+    file.ReadTableKeys("obtained_skill_nodes", skill_node_ids);
+    SetObtainedSkillNodes(skill_node_ids);
+
+    // Read the current skill node location
+    uint32_t default_character_location = file.ReadUInt("current_skill_node",
+                                                        std::numeric_limits<uint32_t>::max());
+    if (default_character_location != std::numeric_limits<uint32_t>::max()) {
+        SetSkillNodeLocation(default_character_location);
+    }
+
+    // Read the character's active status effects data
+    ResetActiveStatusEffects();
+    std::vector<int32_t> status_effects_ids;
+    file.ReadTableKeys("active_status_effects", status_effects_ids);
+
+    if (file.OpenTable("active_status_effects")) {
+
+        for(uint32_t i = 0; i < status_effects_ids.size(); ++i) {
+            int32_t status_effect = status_effects_ids[i];
+
+            if (!file.OpenTable(status_effect))
+                continue;
+
+            // Check the status effect validity
+            if (status_effect <= (int32_t)GLOBAL_STATUS_INVALID || status_effect >= (int32_t)GLOBAL_STATUS_TOTAL) {
+                file.CloseTable(); // status_effect
+                continue;
+            }
+
+            // Check the status intensity validity
+            int32_t intensity = file.ReadInt("intensity");
+            if (intensity <= GLOBAL_INTENSITY_INVALID || intensity >= GLOBAL_INTENSITY_TOTAL) {
+                file.CloseTable(); // status_effect
+                continue;
+            }
+
+            uint32_t duration = file.ReadInt("duration");
+            uint32_t elapsed_time = file.ReadInt("elapsed_time");
+
+            SetActiveStatusEffect((GLOBAL_STATUS)status_effect,
+                                  (GLOBAL_INTENSITY)intensity,
+                                  duration, elapsed_time);
+
+            file.CloseTable(); // status_effect
+        }
+
+        file.CloseTable(); // active_status_effects
+    }
+
+    file.CloseTable(); // character id
+    return true;
+}
+
+bool GlobalCharacter::SaveCharacter(WriteScriptDescriptor& file)
+{
+    if(!file.IsFileOpen()) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
+        return false;
+    }
+
+    file.WriteLine("\t[" + NumberToString(GetID()) + "] = {");
+
+    // Store whether the character is available
+    file.WriteLine("\t\tenabled = " + std::string(IsEnabled() ? "true" : "false") + ",");
+
+    // Write out the character's stats
+    file.WriteLine("\t\texperience_level = " + NumberToString(GetExperienceLevel()) + ",");
+    file.WriteLine("\t\tunspent_experience_points = " + NumberToString(GetUnspentExperiencePoints()) + ", ");
+    file.WriteLine("\t\ttotal_experience_points = " + NumberToString(GetTotalExperiencePoints()) + ",");
+    file.WriteLine("\t\texperience_points_next = " + NumberToString(GetExperienceForNextLevel()) + ", ");
+
+    // The values stored are the unmodified ones.
+    file.WriteLine("\t\tmax_hit_points = " + NumberToString(GetMaxHitPoints()) + ",");
+    file.WriteLine("\t\thit_points = " + NumberToString(GetHitPoints()) + ",");
+    file.WriteLine("\t\tmax_skill_points = " + NumberToString(GetMaxSkillPoints()) + ",");
+    file.WriteLine("\t\tskill_points = " + NumberToString(GetSkillPoints()) + ",");
+
+    file.WriteLine("\t\tphys_atk = " + NumberToString(GetPhysAtkBase()) + ",");
+    file.WriteLine("\t\tmag_atk = " + NumberToString(GetMagAtkBase()) + ",");
+    file.WriteLine("\t\tphys_def = " + NumberToString(GetPhysDefBase()) + ",");
+    file.WriteLine("\t\tmag_def = " + NumberToString(GetMagDefBase()) + ",");
+    file.WriteLine("\t\tstamina = " + NumberToString(GetStaminaBase()) + ",");
+    file.WriteLine("\t\tevade = " + NumberToString(GetEvadeBase()) + ",");
+
+    // Write out the character's equipment
+    uint32_t weapon_id = GetWeaponEquipped() ? GetWeaponEquipped()->GetID() : 0;
+    uint32_t head_id = GetHeadArmorEquipped() ? GetHeadArmorEquipped()->GetID() : 0;
+    uint32_t torso_id = GetTorsoArmorEquipped() ? GetTorsoArmorEquipped()->GetID() : 0;
+    uint32_t arm_id = GetArmArmorEquipped() ? GetArmArmorEquipped()->GetID() : 0;
+    uint32_t leg_id = GetLegArmorEquipped() ? GetLegArmorEquipped()->GetID() : 0;
+
+    file.InsertNewLine();
+    file.WriteLine("\t\tequipment = {");
+    file.WriteLine("\t\t\tweapon = " + NumberToString(weapon_id) + ",");
+    file.WriteLine("\t\t\thead_armor = " + NumberToString(head_id) + ",");
+    file.WriteLine("\t\t\ttorso_armor = " + NumberToString(torso_id) + ",");
+    file.WriteLine("\t\t\tarm_armor = " + NumberToString(arm_id) + ",");
+    file.WriteLine("\t\t\tleg_armor = " + NumberToString(leg_id));
+    file.WriteLine("\t\t},");
+
+    // Write out the character's permanent skills.
+    // The equipment skills will be reloaded through equipment.
+    file.InsertNewLine();
+    file.WriteLine("\t\tskills = {");
+    const std::vector<uint32_t>& skill_vector = GetPermanentSkills();
+    for(uint32_t i = 0; i < skill_vector.size(); i++) {
+        uint32_t skill_id = skill_vector.at(i);
+
+        if(i == 0)
+            file.WriteLine("\t\t\t", false);
+        else
+            file.WriteLine(", ", false);
+        file.WriteLine(NumberToString(skill_id), false);
+    }
+    file.WriteLine("\n\t\t},");
+
+    // Write out the character's obtained skill nodes.
+    file.InsertNewLine();
+    file.WriteLine("\t\tobtained_skill_nodes = {");
+    const std::vector<uint32_t>& skill_nodes = GetObtainedSkillNodes();
+    for(uint32_t i = 0; i < skill_nodes.size(); i++) {
+        uint32_t skill_node = skill_nodes.at(i);
+
+        if(i == 0)
+            file.WriteLine("\t\t\t", false);
+        else
+            file.WriteLine(", ", false);
+        bool newline = (i > 0) && !(i % 10);
+        file.WriteLine(NumberToString(skill_node), newline);
+    }
+    file.WriteLine("\n\t\t},");
+    file.WriteLine("\t\tcurrent_skill_node = " + NumberToString(GetSkillNodeLocation()) + ",");
+
+    // Writes active status effects at the time of the save
+    file.InsertNewLine();
+    file.WriteLine("\t\tactive_status_effects = {");
+    for(uint32_t i = 0; i < _active_status_effects.size(); ++i) {
+        const ActiveStatusEffect& effect = _active_status_effects.at(i);
+        if (!effect.IsActive())
+            continue;
+
+        std::string effect_str = "\t\t\t[" + NumberToString((int32_t)effect.GetEffect()) + "] = { ";
+        effect_str += "intensity = " + NumberToString((int32_t)effect.GetIntensity()) + ", ";
+        effect_str += "duration = " + NumberToString((int32_t)effect.GetEffectTime()) + ", ";
+        effect_str += "elapsed_time = " + NumberToString((int32_t)effect.GetElapsedTime()) + "},";
+
+        file.WriteLine(effect_str);
+    }
+    file.WriteLine("\n\t\t}");
+
+    file.WriteLine("\t},");
+    return true;
+}
+
 bool GlobalCharacter::AddExperiencePoints(uint32_t xp)
 {
     _total_experience_points += xp;
     _experience_for_next_level -= xp;
-    return ReachedNewExperienceLevel();
+    _unspent_experience_points += xp;
+
+    if (_experience_for_next_level <= 0) {
+        ++_experience_level;
+        return true;
+    }
+    return false;
 }
 
 void GlobalCharacter::AddPhysAtk(uint32_t amount)
@@ -616,30 +931,6 @@ bool GlobalCharacter::AddSkill(uint32_t skill_id, bool permanently)
     return true;
 }
 
-bool GlobalCharacter::AddNewSkillLearned(uint32_t skill_id)
-{
-    if(skill_id == 0) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received an invalid skill_id argument: " << skill_id << std::endl;
-        return false;
-    }
-
-    // Make sure we don't add a skill more than once
-    for(std::vector<GlobalSkill*>::iterator it = _new_skills_learned.begin(); it != _new_skills_learned.end(); ++it) {
-        if(skill_id == (*it)->GetID()) {
-            IF_PRINT_WARNING(GLOBAL_DEBUG) << "the skill to add was already present in the list of newly learned skills: "
-                                           << skill_id << std::endl;
-            return false;
-        }
-    }
-
-    if (!AddSkill(skill_id))
-        PRINT_WARNING << "Failed because the new skill was not added successfully: " << skill_id << std::endl;
-    else
-        _new_skills_learned.push_back(_skills.back());
-
-    return true;
-}
-
 void GlobalCharacter::_UpdatesAvailableSkills()
 {
     // Clears out the skills <and parse the current equipment to tells which ones are available.
@@ -685,72 +976,6 @@ vt_video::AnimatedImage* GlobalCharacter::RetrieveBattleAnimation(const std::str
         return &_battle_animation["idle"];
 
     return &_battle_animation.at(name);
-}
-
-void GlobalCharacter::AcknowledgeGrowth() {
-    if (!ReachedNewExperienceLevel())
-        return;
-
-    // A new experience level has been gained. Retrieve the growth data for the new experience level
-    ++_experience_level;
-
-    // Retrieve the growth data for the new experience level and check for any additional growth
-    ReadScriptDescriptor& character_script = GlobalManager->GetCharactersScript();
-
-    // Clear the growth members before filling their data
-    _hit_points_growth = 0;
-    _skill_points_growth = 0;
-    _phys_atk_growth = 0;
-    _mag_atk_growth = 0;
-    _phys_def_growth = 0;
-    _mag_def_growth = 0;
-    _stamina_growth = 0;
-    _evade_growth = 0.0f;
-
-    try {
-        // Update Growth data and set XP for next level
-        luabind::call_function<void>(character_script.GetLuaState(), "DetermineLevelGrowth", this);
-    } catch(const luabind::error& e) {
-        ScriptManager->HandleLuaError(e);
-    } catch(const luabind::cast_failed& e) {
-        ScriptManager->HandleCastError(e);
-    }
-
-    // Reset the skills learned container and add any skills learned at this level
-    _new_skills_learned.clear();
-    try {
-        luabind::call_function<void>(character_script.GetLuaState(), "DetermineNewSkillsLearned", this);
-    } catch(const luabind::error& e) {
-        ScriptManager->HandleLuaError(e);
-    } catch(const luabind::cast_failed& e) {
-        ScriptManager->HandleCastError(e);
-    }
-
-    // Add all growth stats to the character actor
-    if(_hit_points_growth != 0) {
-        AddMaxHitPoints(_hit_points_growth);
-        if (_hit_points > 0)
-            AddHitPoints(_hit_points_growth);
-    }
-
-    if(_skill_points_growth != 0) {
-        AddMaxSkillPoints(_skill_points_growth);
-        if (_skill_points > 0)
-            AddSkillPoints(_skill_points_growth);
-    }
-
-    if(_phys_atk_growth != 0)
-        AddPhysAtk(_phys_atk_growth);
-    if(_mag_atk_growth != 0)
-        AddMagAtk(_mag_atk_growth);
-    if(_phys_def_growth != 0)
-        AddPhysDef(_phys_def_growth);
-    if(_mag_def_growth != 0)
-        AddMagDef(_mag_def_growth);
-    if(_stamina_growth != 0)
-        AddStamina(_stamina_growth);
-    if(!IsFloatEqual(_evade_growth, 0.0f))
-        AddEvade(_evade_growth);
 }
 
 bool GlobalCharacter::IsSkillNodeObtained(uint32_t skill_node_id) const
