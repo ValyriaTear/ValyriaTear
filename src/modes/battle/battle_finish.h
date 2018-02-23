@@ -44,8 +44,8 @@ enum FINISH_STATE {
     FINISH_ANNOUNCE_RESULT = 0, //!< Short sequence announcing outcome of the battle (victory or defeat) and showing GUI objects
     FINISH_DEFEAT_SELECT   = 1, //!< Player selects what to do after defeat (go to main menu, exit game, etc.)
     FINISH_DEFEAT_CONFIRM  = 2, //!< Player confirms defeat selection
-    FINISH_VICTORY_GROWTH  = 4, //!< Drunes and objects dropped, XP earned are displayed and gradually awarded to characters
-    FINISH_VICTORY_MENU    = 5, //!< Menu to quit combqt or improve skill is diplayed.
+    FINISH_VICTORY_START   = 4, //!< Drunes and objects dropped, XP earned are displayed and gradually awarded to characters
+    FINISH_VICTORY_MENU    = 5, //!< Menu to quit combat or improve skills is displayed.
     FINISH_END             = 6, //!< Short sequence of hiding finish GUI objects
 };
 
@@ -222,7 +222,7 @@ private:
     //! \brief Gradually counts out the amount of drunes that the party has earned
     void _UpdateSpoils();
 
-    //! \brief Draws the XP earned by the party and any attribute growth they have made
+    //! \brief Draws the XP earned by the party
     void _DrawXP(uint32_t index);
 
     //! \brief Draws the number of drunes and items dropped by the enemy party

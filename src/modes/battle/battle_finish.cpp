@@ -422,7 +422,7 @@ void FinishVictoryAssistant::Initialize()
 void FinishVictoryAssistant::Update()
 {
     switch(_state) {
-    case FINISH_VICTORY_GROWTH:
+    case FINISH_VICTORY_START:
         _UpdateXP();
         _UpdateSpoils();
         break;
@@ -788,7 +788,7 @@ void FinishSupervisor::Update()
 {
     if(_state == FINISH_ANNOUNCE_RESULT) {
         if(_battle_victory) {
-            _state = FINISH_VICTORY_GROWTH;
+            _state = FINISH_VICTORY_START;
         } else {
             _state = FINISH_DEFEAT_SELECT;
         }

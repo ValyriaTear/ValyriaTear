@@ -152,7 +152,7 @@ public:
 
     /** \brief Adds experience points to the character
     *** \param xp The amount of experience points to add
-    *** \return True if the new experience points triggered character growth
+    *** \return True if the new experience points triggered character level up
     **/
     bool AddExperiencePoints(uint32_t xp);
 
