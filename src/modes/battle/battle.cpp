@@ -33,7 +33,8 @@
 #include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_actions.h"
 #include "modes/battle/battle_command.h"
-#include "modes/battle/finish/battle_finish_supervisor.h"
+#include "modes/battle/finish/battle_defeat.h"
+#include "modes/battle/finish/battle_victory.h"
 #include "modes/battle/battle_sequence.h"
 #include "modes/battle/battle_utils.h"
 #include "modes/battle/battle_effects.h"
@@ -91,7 +92,7 @@ BattleMode::BattleMode() :
     _sequence_supervisor(nullptr),
     _command_supervisor(nullptr),
     _dialogue_supervisor(nullptr),
-    _finish_supervisor(nullptr),
+    _battle_finish(nullptr),
     _current_number_swaps(0),
     _last_enemy_dying(false),
     _stamina_icon_alpha(1.0f),
@@ -109,7 +110,6 @@ BattleMode::BattleMode() :
     _sequence_supervisor = new SequenceSupervisor(this);
     _command_supervisor = new CommandSupervisor();
     _dialogue_supervisor = new vt_common::DialogueSupervisor();
-    _finish_supervisor = new FinishSupervisor();
 }
 
 BattleMode::~BattleMode()
@@ -117,7 +117,7 @@ BattleMode::~BattleMode()
     delete _sequence_supervisor;
     delete _command_supervisor;
     delete _dialogue_supervisor;
-    delete _finish_supervisor;
+    delete _battle_finish;
 
     // Delete all character and enemy actors
     for(uint32_t i = 0; i < _character_actors.size(); i++) {
@@ -378,7 +378,8 @@ void BattleMode::Update()
         if (_battle_menu.IsOpen())
             _battle_menu.Close();
 
-        _finish_supervisor->Update();
+        if (_battle_finish)
+            _battle_finish->Update();
 
         // Make the heroes and/or enemies stamina icons fade out
         if(_stamina_icon_alpha > 0.0f) {
@@ -594,7 +595,8 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
             victory_music->Rewind();
             victory_music->Play();
         }
-        _finish_supervisor->Initialize(true);
+        _battle_finish = new BattleVictory();
+        _battle_finish->Initialize();
         break;
     }
     case BATTLE_STATE_DEFEAT: {
@@ -604,7 +606,8 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
             defeat_music->Rewind();
             defeat_music->FadeIn(1000.0f);
         }
-        _finish_supervisor->Initialize(false);
+        _battle_finish = new BattleDefeat();
+        _battle_finish->Initialize();
         break;
     }
     default:
@@ -1110,8 +1113,10 @@ void BattleMode::_DrawGUI()
     if(_dialogue_supervisor->IsDialogueActive())
         _dialogue_supervisor->Draw();
 
-    if((_state == BATTLE_STATE_VICTORY || _state == BATTLE_STATE_DEFEAT))
-        _finish_supervisor->Draw();
+    if((_state == BATTLE_STATE_VICTORY || _state == BATTLE_STATE_DEFEAT)) {
+        if (_battle_finish)
+            _battle_finish->Draw();
+    }
 }
 
 void BattleMode::_DrawBottomMenu()

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2016 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2018 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software and
@@ -59,14 +59,20 @@ const float SPOILS_WINDOW_WIDTH    = TOP_WINDOW_WIDTH;
 const float SPOILS_WINDOW_HEIGHT   = 220.0f;
 //@}
 
-BattleVictory::BattleVictory(VICTORY_STATE state) :
-    _state(state),
+BattleVictory::BattleVictory() :
+    _state(VICTORY_INVALID),
     _characters_number(0),
     _xp_earned(0),
     _drunes_dropped(0),
     _begin_counting(false),
     _number_character_windows_created(0)
 {
+    _outcome_text.SetPosition(TOP_WINDOW_XPOS - TOP_WINDOW_WIDTH / 2.0f, 48.0f);
+    _outcome_text.SetDimensions(TOP_WINDOW_WIDTH, 50.0f);
+    _outcome_text.SetTextStyle(TextStyle("text24", Color::white));
+    _outcome_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
+    _outcome_text.SetDisplayText(UTranslate("The heroes were victorious!"));
+
     _header_window.Create(TOP_WINDOW_WIDTH, TOP_WINDOW_HEIGHT, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM);
     _header_window.SetPosition(TOP_WINDOW_XPOS, TOP_WINDOW_YPOS);
     _header_window.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
@@ -221,6 +227,9 @@ void BattleVictory::Initialize()
     _CreateCharacterGUIObjects();
     _CreateObjectList();
     _SetHeaderText();
+
+    // Start victory
+    _state = VICTORY_START;
 }
 
 void BattleVictory::Update()
@@ -237,6 +246,7 @@ void BattleVictory::Update()
         break;
 
     case VICTORY_END:
+        BattleMode::CurrentInstance()->ChangeState(BATTLE_STATE_EXITING);
         break;
 
     default:
@@ -247,6 +257,7 @@ void BattleVictory::Update()
 
 void BattleVictory::Draw()
 {
+    _outcome_text.Draw();
     _header_window.Draw();
 
         _header_xp.Draw();
@@ -264,11 +275,9 @@ void BattleVictory::Draw()
 
 void BattleVictory::_SetHeaderText()
 {
-    if(_state == VICTORY_ANNOUNCE_RESULT) {
-        _header_xp.SetDisplayText(UTranslate("XP Earned: ") + MakeUnicodeString(NumberToString(_xp_earned)));
-        _header_drunes_dropped.SetDisplayText(UTranslate("Drunes Found: ") + MakeUnicodeString(NumberToString(_drunes_dropped)));
-        _header_total_drunes.SetDisplayText(UTranslate("Total Drunes: ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
-    }
+    _header_xp.SetDisplayText(UTranslate("XP Earned: ") + MakeUnicodeString(NumberToString(_xp_earned)));
+    _header_drunes_dropped.SetDisplayText(UTranslate("Drunes Found: ") + MakeUnicodeString(NumberToString(_drunes_dropped)));
+    _header_total_drunes.SetDisplayText(UTranslate("Total Drunes: ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
 
     const uint32_t no_of_options = _object_list.GetNumberOptions();
     _object_header_text.SetDisplayText(no_of_options == 0 ?
