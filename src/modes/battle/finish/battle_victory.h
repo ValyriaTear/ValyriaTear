@@ -11,6 +11,8 @@
 #ifndef __BATTLE_VICTORY_HEADER__
 #define __BATTLE_VICTORY_HEADER__
 
+#include "battle_finish.h"
+
 #include "common/gui/menu_window.h"
 #include "common/gui/textbox.h"
 #include "common/gui/option.h"
@@ -31,10 +33,9 @@ namespace private_battle
 //! \brief Enums for the various states that the FinishWindow class may be in
 enum VICTORY_STATE {
     VICTORY_INVALID = -1,
-    VICTORY_ANNOUNCE_RESULT = 0, //!< Short sequence announcing outcome of the battle (victory or defeat) and showing GUI objects
-    VICTORY_START   = 4, //!< Drunes and objects dropped, XP earned are displayed and gradually awarded to characters
-    VICTORY_MENU    = 5, //!< Menu to quit combat or improve skills is displayed.
-    VICTORY_END             = 6, //!< Short sequence of hiding finish GUI objects
+    VICTORY_START   = 0, //!< Drunes and objects dropped, XP earned are displayed and gradually awarded to characters
+    VICTORY_MENU    = 1, //!< Menu to quit combat or improve skills is displayed.
+    VICTORY_END     = 2, //!< Short sequence of hiding finish GUI objects
 };
 
 /** ****************************************************************************
@@ -49,25 +50,28 @@ enum VICTORY_STATE {
 *** If the player lost the battle one or more times before they achieved victory, their XP and
 *** drune rewards will be cut significantly for each retry.
 *** ***************************************************************************/
-class BattleVictory
+class BattleVictory : public BattleFinish
 {
 public:
-    BattleVictory(VICTORY_STATE state);
+    BattleVictory();
 
-    ~BattleVictory();
+    virtual ~BattleVictory();
 
     //! \brief Instructs the class to prepare itself for future updating and drawing
-    void Initialize();
+    virtual void Initialize() override;
 
     //! \brief Updates the state of the victory displays
-    void Update();
+    virtual void Update() override;
 
     //! \brief Draws the appropriate information to the screen
-    void Draw();
+    virtual void Draw() override;
 
 private:
     //! \brief A reference to where the state of the finish GUI menus is maintained
     VICTORY_STATE _state;
+
+    //! \brief Used to announce the battle's outcome
+    vt_gui::TextBox _outcome_text;
 
     //! \brief The total number of characters in the victorious party, living or dead
     uint32_t _characters_number;

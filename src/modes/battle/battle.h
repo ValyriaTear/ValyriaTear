@@ -54,8 +54,8 @@ class BattleEnemy;
 class BattleObject;
 class BattleParticleEffect;
 class BattleAnimation;
+class BattleFinish;
 class CommandSupervisor;
-class FinishSupervisor;
 class SequenceSupervisor;
 
 /** \name Battle setting type
@@ -357,7 +357,7 @@ private:
     vt_common::DialogueSupervisor* _dialogue_supervisor;
 
     //! \brief Presents player with information and options after a battle has concluded
-    private_battle::FinishSupervisor* _finish_supervisor;
+    private_battle::BattleFinish* _battle_finish;
     //@}
 
     //! \name Battle Actor Containers

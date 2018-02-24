@@ -339,7 +339,6 @@ modes/battle/battle_utils.cpp
 modes/battle/battle_command.cpp
 modes/battle/battle_menu.cpp
 modes/battle/battle.cpp
-modes/battle/finish/battle_finish_supervisor.cpp
 modes/battle/finish/battle_defeat.cpp
 modes/battle/finish/battle_victory.cpp
 modes/battle/battle_sequence.cpp

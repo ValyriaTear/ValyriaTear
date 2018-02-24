@@ -11,6 +11,8 @@
 #ifndef __BATTLE_DEFEAT_HEADER__
 #define __BATTLE_DEFEAT_HEADER__
 
+#include "battle_finish.h"
+
 #include "common/gui/menu_window.h"
 #include "common/gui/option.h"
 #include "common/gui/textbox.h"
@@ -29,14 +31,6 @@ enum DEFEAT_STATE {
     DEFEAT_END     = 3, //!< Short sequence of hiding finish GUI objects
 };
 
-//! \brief The set of defeat options that the player can select
-//@{
-//! Retry the battle
-const uint32_t DEFEAT_OPTION_RETRY     = 0;
-//! End game and return to boot menu
-const uint32_t DEFEAT_OPTION_END       = 1;
-//@}
-
 /** ****************************************************************************
 *** \brief Represents a collection of GUI objects drawn when the player loses the battle
 ***
@@ -44,29 +38,27 @@ const uint32_t DEFEAT_OPTION_END       = 1;
 *** player's characters are defeated in battle and presents the player with a
 *** number of options.
 *** ***************************************************************************/
-class BattleDefeat
+class BattleDefeat : public BattleFinish
 {
 public:
-    BattleDefeat(DEFEAT_STATE state);
+    BattleDefeat();
 
-    ~BattleDefeat();
+    virtual ~BattleDefeat();
 
-    void Initialize();
+    virtual void Initialize() override;
 
     //! \brief Processes user input and updates the GUI controls
-    void Update();
+    virtual void Update() override;
 
     //! \brief Draws the finish window and GUI contents to the screen
-    void Draw();
-
-    //! \brief Returns the defeat option that the player selected
-    uint32_t GetDefeatOption() const {
-        return _options.GetSelection();
-    }
+    virtual void Draw() override;
 
 private:
     //! \brief A reference to where the state of the finish GUI menus is maintained
     DEFEAT_STATE _state;
+
+    //! \brief Used to announce the battle's outcome
+    vt_gui::TextBox _outcome_text;
 
     //! \brief The window that the defeat message and options are displayed upon
     vt_gui::MenuWindow _options_window;
@@ -75,7 +67,7 @@ private:
     vt_gui::MenuWindow _tooltip_window;
 
     //! \brief The list of options that the player may choose from when they lose the battle
-    vt_gui::OptionBox _options;
+    vt_gui::OptionBox _defeat_options;
 
     //! \brief A simple "yes/no" confirmation to the selected option
     vt_gui::OptionBox _confirm_options;
