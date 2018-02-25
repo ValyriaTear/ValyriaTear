@@ -73,18 +73,6 @@ enum BATTLE_TYPE {
     BATTLE_TYPE_TOTAL         =  3
 };
 
-/** \brief Factors which adjust the speed of all actors for the various battle types
-*** This adjustment is necessary because a single speed will not work well for the various types,
-*** as the player needs more time to select an action in the active type, where the battle action
-*** never pauses, and less time in the wait type, where the battle will always pause when the
-*** player is selecting an action.
-**/
-//@{
-const float BATTLE_WAIT_FACTOR          = 3.0f;
-const float BATTLE_SEMI_ACTIVE_FACTOR   = 1.5f;
-const float BATTLE_ACTIVE_FACTOR        = 1.0f;
-//@}
-
 } // namespace private_battle
 
 /** ****************************************************************************
