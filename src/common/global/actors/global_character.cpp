@@ -470,7 +470,7 @@ bool GlobalCharacter::LoadCharacter(ReadScriptDescriptor& file)
     // Read the character's obtained skill nodes
     ResetObtainedSkillNodes();
     std::vector<uint32_t> skill_node_ids;
-    file.ReadTableKeys("obtained_skill_nodes", skill_node_ids);
+    file.ReadUIntVector("obtained_skill_nodes", skill_node_ids);
     SetObtainedSkillNodes(skill_node_ids);
 
     // Read the current skill node location
@@ -478,6 +478,12 @@ bool GlobalCharacter::LoadCharacter(ReadScriptDescriptor& file)
                                                         std::numeric_limits<uint32_t>::max());
     if (default_character_location != std::numeric_limits<uint32_t>::max()) {
         SetSkillNodeLocation(default_character_location);
+
+        // Add the current node position as obtained if it is not in the data
+        // This permits to fix obtaining the first nodes
+        if (!IsSkillNodeObtained(default_character_location)) {
+            _obtained_skill_nodes.push_back(default_character_location);
+        }
     }
 
     // Read the character's active status effects data

@@ -40,7 +40,9 @@ const float SKILL_GRAPH_AREA_WIDTH = 815.0f;
 const float SKILL_GRAPH_AREA_HEIGHT = 415.0f;
 const float WINDOW_BORDER_WIDTH = 18.0f;
 const float NODES_DISPLAY_MARGIN = 100.0f;
+//! \brief Skill node colors
 const vt_video::Color grayed_path = vt_video::Color(0.4f, 0.4f, 0.4f, 0.2f);
+const vt_video::Color node_blue = vt_video::Color(0.0f, 0.0f, 0.8f, 0.7f);
 
 //! \brief Top left bottom menu position
 const float BOTTOM_MENU_X_POS = 90.0f;
@@ -156,20 +158,6 @@ bool SkillGraphWindow::SetCharacter()
     // Set the selection node to where the character was last located.
     _selected_node_id = _selected_character->GetSkillNodeLocation();
     _character_node_id = _selected_node_id;
-
-    // Add the current node position as obtained if it is not in the data
-    // This permits to fix obtaining the first nodes
-    const std::vector<uint32_t> obtained_nodes = _selected_character->GetObtainedSkillNodes();
-    // If the node was already obtained, we can buy it again
-    bool already_obtained = false;
-    for (uint32_t obtained_node_id : obtained_nodes) {
-        if (_character_node_id == obtained_node_id) {
-            already_obtained = true;
-            break;
-        }
-    }
-    if (!already_obtained)
-        _selected_character->AddObtainedSkillNode(_character_node_id);
 
     return true;
 }
@@ -287,6 +275,15 @@ void SkillGraphWindow::_DrawSkillGraphState()
                                          node_line.end.x,
                                          node_line.end.y, 7,
                                          grayed_path);
+    }
+
+    // Color links between obtained nodes
+    for (Line2D node_line : _colored_displayed_node_links) {
+        vt_video::VideoManager->DrawLine(node_line.begin.x,
+                                         node_line.begin.y, 10,
+                                         node_line.end.x,
+                                         node_line.end.y, 10,
+                                         node_blue);
     }
 
     Position2D pointer_location(-1.0f, -1.0f);
@@ -456,6 +453,7 @@ void SkillGraphWindow::_UpdateSkillGraphView(bool scroll)
 
     // Prepare lines coordinates for draw time
     _displayed_node_links.clear();
+    _colored_displayed_node_links.clear();
     // default ones (white, grayed out)
     for (SkillNode* skill_node : _displayed_skill_nodes) {
         auto node_links = skill_node->GetChildrenNodeLinks();
@@ -480,11 +478,15 @@ void SkillGraphWindow::_UpdateSkillGraphView(bool scroll)
             node_line.end.x = node_pos.x + _view_position.x;
             node_line.end.y = node_pos.y + _view_position.y;
 
+            // Prepare the line to be colored if both nodes were acquired by the character
+            if (_selected_character->IsSkillNodeObtained(skill_node->GetId())
+                        && _selected_character->IsSkillNodeObtained(link_id)) {
+                _colored_displayed_node_links.push_back(node_line);
+            }
+
             _displayed_node_links.push_back(node_line);
         }
     }
-
-    // TODO colored lines per characters for paths done by them.
 }
 
 //! \brief Returns whether the node link is within the given links
@@ -620,7 +622,7 @@ void SkillGraphWindow::_HandleNodeTransaction()
 
     // Check whether at least one of the neighbor nodes in the list is obtained.
     const std::vector<uint32_t> obtained_nodes = _selected_character->GetObtainedSkillNodes();
-    // If the node was already obtained, we can buy it again
+    // If the node was already obtained, we can't buy it again
     bool neighbor_obtained = false;
     for (uint32_t obtained_node_id : obtained_nodes) {
         // Check the node has not already been obtained
