@@ -353,7 +353,7 @@ void SkillGraphWindow::_ResetSkillGraphView()
     _UpdateSkillGraphView(false);
 }
 
-void SkillGraphWindow::_UpdateSkillGraphView(bool scroll)
+void SkillGraphWindow::_UpdateSkillGraphView(bool scroll, bool force)
 {
     // Check to prevent invalid updates
     if (_selected_node_id == std::numeric_limits<uint32_t>::max())
@@ -376,7 +376,7 @@ void SkillGraphWindow::_UpdateSkillGraphView(bool scroll)
                        - _current_offset.y;
 
     // Don't update the view if it is already centered
-    if (_view_position == target_position) {
+    if (_view_position == target_position && !force) {
         return;
     }
 
@@ -663,6 +663,7 @@ void SkillGraphWindow::_HandleNodeTransaction()
 
     // Refresh skill graph view
     _character_node_id = _selected_character->GetSkillNodeLocation();
+    _UpdateSkillGraphView(true, true);
 
     // Refresh info
     _bottom_info.SetNode(*current_skill_node,
