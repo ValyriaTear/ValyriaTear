@@ -240,7 +240,8 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
         if(_action == nullptr) {
             IF_PRINT_WARNING(BATTLE_DEBUG) << "no action available during state change: " << _state << std::endl;
         } else {
-            _state_timer.Initialize(_action->GetWarmUpTime() * GetStaminaModifier());
+            _state_timer.Initialize(_action->GetWarmUpTime() * GetStaminaModifier()
+                                    / BattleMode::CurrentInstance()->GetBattleTypeTimeFactor());
             _state_timer.Run();
         }
         break;
@@ -255,7 +256,8 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
     {
         uint32_t cool_down_time = 1000; // Default value, overridden by valid actions
         if(_action)
-            cool_down_time = _action->GetCoolDownTime() * GetStaminaModifier();
+            cool_down_time = _action->GetCoolDownTime() * GetStaminaModifier()
+                             / BattleMode::CurrentInstance()->GetBattleTypeTimeFactor();
 
         _state_timer.Initialize(cool_down_time);
         _state_timer.Run();
