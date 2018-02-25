@@ -19,15 +19,8 @@ KALYA    = 2;
 SYLVE    = 4;
 THANIS   = 8;
 
--- TODO
--- Enemies IDs
-
--- Skills IDs
-
--- items IDs
-
 -- level cap
-GlobalManager:SetMaxExperienceLevel(30);
+GlobalManager:SetMaxExperienceLevel(20);
 
 function NewGame()
     -- Prepare the new game data
