@@ -64,6 +64,18 @@ BattleMode *BattleMode::_current_instance = nullptr;
 namespace private_battle
 {
 
+/** \brief Factors which adjust the speed of all actors for the various battle types
+*** This adjustment is necessary because a single speed will not work well for the various types,
+*** as the player needs more time to select an action in the active type, where the battle action
+*** never pauses, and less time in the wait type, where the battle will always pause when the
+*** player is selecting an action.
+**/
+//@{
+const float BATTLE_WAIT_FACTOR          = 10.0f;
+const float BATTLE_SEMI_ACTIVE_FACTOR   = 6.0f;
+const float BATTLE_ACTIVE_FACTOR        = 3.0f;
+//@}
+
 //! \brief This is the idle state wait time for the fastest actor, used to set idle state timers for all other actors
 const uint32_t MIN_IDLE_WAIT_TIME = 10000;
 
