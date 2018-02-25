@@ -50,6 +50,11 @@ public:
     static const Color blue;      //!< Blue color (r=0.0, g=0.0, b=1.0, a=1.0)
     static const Color violet;    //!< Violet color (r=1.0, g=0.0, b=1.0, a=1.0)
     static const Color brown;     //!< Brown color (r=0.6, g=0.3, b=0.1, a=1.0)
+    //! \brief Used for HP and SP
+    static const Color green_hp;
+    static const Color dark_green_hp;
+    static const Color blue_sp;
+    static const Color dark_blue_sp;
     //@}
 
     Color() {
