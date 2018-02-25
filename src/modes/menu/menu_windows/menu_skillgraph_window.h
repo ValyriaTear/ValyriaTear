@@ -141,7 +141,7 @@ private:
     void _ResetSkillGraphView();
 
     //! \brief Update the skill tree view based on the current offset information
-    void _UpdateSkillGraphView(bool scroll = true);
+    void _UpdateSkillGraphView(bool scroll = true, bool force = false);
 
     //! \brief Handles navigation to the neighbor node
     //! in given direction based on key press.
