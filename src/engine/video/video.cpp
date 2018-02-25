@@ -57,6 +57,10 @@ const Color Color::aqua(0.0f, 1.0f, 1.0f, 1.0f);
 const Color Color::blue(0.0f, 0.0f, 1.0f, 1.0f);
 const Color Color::violet(0.0f, 0.0f, 1.0f, 1.0f);
 const Color Color::brown(0.6f, 0.3f, 0.1f, 1.0f);
+const Color Color::green_hp(0.294f, 0.776f, 0.184f, 1.0f);
+const Color Color::dark_green_hp(0.104f, 0.476f, 0.014f, 1.0f);
+const Color Color::blue_sp(0.196f, 0.522f, 0.859f, 1.0f);
+const Color Color::dark_blue_sp(0.096f, 0.322f, 0.709f, 1.0f);
 
 void RotatePoint(float &x, float &y, float angle)
 {

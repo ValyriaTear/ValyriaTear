@@ -1424,10 +1424,6 @@ void BattleCharacter::DrawStatus(uint32_t order, BattleCharacter* character_comm
     // Used to determine where to draw the character's status
     float y_offset = 0.0f;
 
-    // Colors used for the HP/SP bars
-    const Color green_hp(0.294f, 0.776f, 0.184f, 1.0f);
-    const Color blue_sp(0.196f, 0.522f, 0.859f, 1.0f);
-
     // Determine what vertical order the character is in and set the y_offset accordingly
     switch(order) {
     case 0:
@@ -1474,19 +1470,25 @@ void BattleCharacter::DrawStatus(uint32_t order, BattleCharacter* character_comm
     float bar_size = static_cast<float>(BAR_BASE_SIZE_X * GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
     VideoManager->Move(313.0f, 678.0f + y_offset);
 
+    // Add HP Bar Shadow
+    VideoManager->DrawRectangle(BAR_BASE_SIZE_X, BAR_BASE_SIZE_Y, Color::dark_green_hp);
+
     if (GetHitPoints() > 0) {
         if (bar_size < BAR_BASE_SIZE_X / 4.0f)
             VideoManager->DrawRectangle(bar_size, BAR_BASE_SIZE_Y, Color::orange);
         else
-            VideoManager->DrawRectangle(bar_size, BAR_BASE_SIZE_Y, green_hp);
+            VideoManager->DrawRectangle(bar_size, BAR_BASE_SIZE_Y, Color::green_hp);
     }
 
     // Draw the SP bar in blue.
     bar_size = static_cast<float>(BAR_BASE_SIZE_X * GetSkillPoints()) / static_cast<float>(GetMaxSkillPoints());
     VideoManager->Move(425.0f, 678.0f + y_offset);
 
+    // Add SP bar shadow
+    VideoManager->DrawRectangle(BAR_BASE_SIZE_X, BAR_BASE_SIZE_Y, Color::dark_blue_sp);
+
     if (GetSkillPoints() > 0)
-        VideoManager->DrawRectangle(bar_size, BAR_BASE_SIZE_Y, blue_sp);
+        VideoManager->DrawRectangle(bar_size, BAR_BASE_SIZE_Y, Color::blue_sp);
 
     // Draw the cover image over the top of the bar.
     VideoManager->SetDrawFlags(VIDEO_BLEND, 0);
