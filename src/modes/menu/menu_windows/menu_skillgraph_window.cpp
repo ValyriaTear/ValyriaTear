@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-//            Copyright (C) 2012-2017 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2018 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -176,7 +176,7 @@ bool SkillGraphWindow::SetCharacter()
 
 void SkillGraphWindow::_InitCharSelect()
 {
-    //character selection set up
+    // Character selection set up
     std::vector<ustring> options;
     uint32_t size = GlobalManager->GetActiveParty()->GetPartySize();
 
@@ -188,12 +188,12 @@ void SkillGraphWindow::_InitCharSelect()
     _char_select.SetVerticalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
     _char_select.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
 
-    //Use blank strings....won't be seen anyway
+    // Use blank strings....won't be seen anyway
     for(uint32_t i = 0; i < size; i++) {
         options.push_back(MakeUnicodeString(" "));
     }
 
-    //Set options, selection and cursor state
+    // Set options, selection and cursor state
     _char_select.SetOptions(options);
     _char_select.SetSelection(0);
     _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
@@ -600,19 +600,16 @@ void SkillGraphWindow::_HandleNodeTransaction()
     if (!_selected_character)
         return;
 
-    // FIXME: return for now in order to deactivate the unfinished feature
-    return;
-
     SkillGraph& skill_graph = vt_global::GlobalManager->GetSkillGraph();
     SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_id);
 
     vt_global::GlobalMedia& media = vt_global::GlobalManager->Media();
 
     // Check whether there is enough XP to buy the node
-    /*
-    if (_selected_character->GetExperiencePoints() < current_skill_node->GetExperiencePointsNeeded())
+    if (_selected_character->GetUnspentExperiencePoints() < current_skill_node->GetExperiencePointsNeeded()) {
+        media.PlaySound("bump");
         return;
-        */
+    }
 
     // Cannot obtain a node where the character is
     uint32_t char_node_id = _selected_character->GetSkillNodeLocation();
@@ -662,10 +659,16 @@ void SkillGraphWindow::_HandleNodeTransaction()
     _selected_character->AddObtainedSkillNode(current_skill_node->GetId());
     media.PlaySound("confirm");
 
+    // Refresh skill graph view
+    _character_node_id = _selected_character->GetSkillNodeLocation();
+
     // Refresh info
     _bottom_info.SetNode(*current_skill_node,
                          _selected_character->GetUnspentExperiencePoints(),
                          _selected_character->IsSkillNodeObtained(current_skill_node->GetId()));
+
+    // Refresh character info
+    MenuMode::CurrentInstance()->ReloadCharacterWindows();
 }
 
 } // namespace private_menu

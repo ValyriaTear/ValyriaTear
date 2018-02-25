@@ -237,6 +237,15 @@ public:
         return _unspent_experience_points;
     }
 
+    void RemoveUnspentExperiencePoints(uint32_t xp) {
+        if (xp >= _unspent_experience_points) {
+            _unspent_experience_points = 0;
+        }
+        else {
+            _unspent_experience_points -= xp;
+        }
+    }
+
     std::shared_ptr<GlobalArmor> GetHeadArmorEquipped() {
         return _armor_equipped[GLOBAL_POSITION_HEAD];
     }

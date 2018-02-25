@@ -1000,8 +1000,8 @@ void GlobalCharacter::AddObtainedSkillNode(uint32_t skill_node_id) {
         return;
     }
 
-    // FIXME: Removes XP
-    //RemoveXP(node->GetExperiencePointsNeeded());
+    // Removes unspent XP
+    RemoveUnspentExperiencePoints(node->GetExperiencePointsNeeded());
 
     // Apply stats upgrades
     const std::vector<std::pair<uint32_t, uint32_t> >& stats = node->GetStatsUpgrades();
