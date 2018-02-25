@@ -38,25 +38,20 @@ namespace private_battle
 
 //! \brief Draw position and dimension constants used for GUI objects
 //@{
-const float TOP_WINDOW_XPOS        = 512.0f;
+const float TOP_WINDOW_XPOS        = 240.0f;
 const float TOP_WINDOW_YPOS        = 104.0f;
-const float TOP_WINDOW_WIDTH       = 512.0f;
+const float TOP_WINDOW_WIDTH       = 600.0f;
 const float TOP_WINDOW_HEIGHT      = 64.0f;
 
-const float TOOLTIP_WINDOW_XPOS    = TOP_WINDOW_XPOS;
-const float TOOLTIP_WINDOW_YPOS    = TOP_WINDOW_YPOS + TOP_WINDOW_HEIGHT - 16.0f;
-const float TOOLTIP_WINDOW_WIDTH   = TOP_WINDOW_WIDTH;
-const float TOOLTIP_WINDOW_HEIGHT  = 112.0f;
+const float CHAR_WINDOW_XPOS       = 360.0f;
+const float CHAR_WINDOW_YPOS       = 104.0f+ TOP_WINDOW_HEIGHT - 1.0f;
+const float CHAR_WINDOW_WIDTH      = 380.0f;
+const float CHAR_WINDOW_HEIGHT     = 118.0f;
 
-const float CHAR_WINDOW_XPOS       = TOP_WINDOW_XPOS;
-const float CHAR_WINDOW_YPOS       = TOOLTIP_WINDOW_YPOS;
-const float CHAR_WINDOW_WIDTH      = TOP_WINDOW_WIDTH;
-const float CHAR_WINDOW_HEIGHT     = 120.0f;
-
-const float SPOILS_WINDOW_XPOS     = TOP_WINDOW_XPOS;
-const float SPOILS_WINDOW_YPOS     = CHAR_WINDOW_YPOS + CHAR_WINDOW_HEIGHT + 30;
-const float SPOILS_WINDOW_WIDTH    = TOP_WINDOW_WIDTH;
-const float SPOILS_WINDOW_HEIGHT   = 220.0f;
+const float SPOILS_WINDOW_XPOS     = 550.0f;
+const float SPOILS_WINDOW_YPOS     = 104.0f + TOP_WINDOW_HEIGHT - 1.0f;
+const float SPOILS_WINDOW_WIDTH    = 360.0f;
+const float SPOILS_WINDOW_HEIGHT   = 320.0f;
 //@}
 
 BattleVictory::BattleVictory() :
@@ -64,61 +59,60 @@ BattleVictory::BattleVictory() :
     _characters_number(0),
     _xp_earned(0),
     _drunes_dropped(0),
-    _begin_counting(false),
+    _begin_counting_xp(false),
+    _begin_counting_drunes(false),
     _number_character_windows_created(0)
 {
-    _outcome_text.SetPosition(TOP_WINDOW_XPOS - TOP_WINDOW_WIDTH / 2.0f, 48.0f);
-    _outcome_text.SetDimensions(TOP_WINDOW_WIDTH, 50.0f);
-    _outcome_text.SetTextStyle(TextStyle("text24", Color::white));
+    _outcome_text.SetPosition(212.0f, 30.0f);
+    _outcome_text.SetDimensions(512.0f, 50.0f);
+    _outcome_text.SetTextStyle(TextStyle("text28", Color::white));
     _outcome_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _outcome_text.SetDisplayText(UTranslate("The heroes were victorious!"));
 
     _header_window.Create(TOP_WINDOW_WIDTH, TOP_WINDOW_HEIGHT, ~VIDEO_MENU_EDGE_BOTTOM, VIDEO_MENU_EDGE_BOTTOM);
     _header_window.SetPosition(TOP_WINDOW_XPOS, TOP_WINDOW_YPOS);
-    _header_window.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
+    _header_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _header_window.Show();
-
-    // Note: Character windows are created later when the Initialize() function is called. This is done because the borders
-    // used with these windows depend on the number of characters in the party.
 
     _spoils_window.Create(SPOILS_WINDOW_WIDTH, SPOILS_WINDOW_HEIGHT);
     _spoils_window.SetPosition(SPOILS_WINDOW_XPOS, SPOILS_WINDOW_YPOS);
-    _spoils_window.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_TOP);
+    _spoils_window.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _spoils_window.Show();
 
     _header_xp.SetOwner(&_header_window);
-    _header_xp.SetPosition(TOP_WINDOW_WIDTH / 2 - 200.0f, 15.0f);
-    _header_xp.SetDimensions(CHAR_WINDOW_WIDTH - 100.0f, 40.0f);
+    _header_xp.SetPosition(75.0f, 10.0f);
+    _header_xp.SetDimensions(TOP_WINDOW_WIDTH / 5.0f * 4.0f, 40.0f);
     _header_xp.SetTextStyle(TextStyle("text20", Color::white));
     _header_xp.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
+    // Reset raw XP bonus
     for(uint32_t i = 0; i < 4; i++) {
         _raw_xp_given[i] = true;
         _raw_xp_won[i] = false;
     }
 
+    _drunes_dropped_text.SetOwner(&_header_window);
+    _drunes_dropped_text.SetPosition(TOP_WINDOW_WIDTH / 5.0f * 3.1f, 10.0f);
+    _drunes_dropped_text.SetDimensions(TOP_WINDOW_WIDTH / 5.0f * 2.0f, 40.0f);
+    _drunes_dropped_text.SetTextStyle(TextStyle("text20", Color::white));
+    _drunes_dropped_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
+
+    _total_drunes.SetOwner(&_spoils_window);
+    _total_drunes.SetPosition(SPOILS_WINDOW_WIDTH / 4.0f, 0.0f);
+    _total_drunes.SetDimensions(SPOILS_WINDOW_WIDTH / 4.0f * 3.0f, 40.0f);
+    _total_drunes.SetTextStyle(TextStyle("text20", Color::white));
+    _total_drunes.SetDisplayMode(VIDEO_TEXT_INSTANT);
+
     _object_header_text.SetOwner(&_spoils_window);
-    _object_header_text.SetPosition(SPOILS_WINDOW_XPOS - SPOILS_WINDOW_WIDTH + 50.0f, 15.0f);
-    _object_header_text.SetDimensions(SPOILS_WINDOW_WIDTH - 100.0f, 40.0f);
+    _object_header_text.SetPosition(SPOILS_WINDOW_WIDTH / 4.0f, 50.0f);
+    _object_header_text.SetDimensions(SPOILS_WINDOW_WIDTH / 4.0f * 3.0f, 40.0f);
     _object_header_text.SetTextStyle(TextStyle("title20", Color::white));
     _object_header_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
     _object_header_text.SetDisplayText(UTranslate("Items Found"));
 
-    _header_drunes_dropped.SetOwner(&_spoils_window);
-    _header_drunes_dropped.SetPosition(SPOILS_WINDOW_XPOS - SPOILS_WINDOW_WIDTH + 50.0f, 15.0f);
-    _header_drunes_dropped.SetDimensions(400.0f, 40.0f);
-    _header_drunes_dropped.SetTextStyle(TextStyle("text20", Color::white));
-    _header_drunes_dropped.SetDisplayMode(VIDEO_TEXT_INSTANT);
-
-    _header_total_drunes.SetOwner(&_spoils_window);
-    _header_total_drunes.SetPosition(TOP_WINDOW_WIDTH / 2 + 50.0f, 15.0f);
-    _header_total_drunes.SetDimensions(400.0f, 40.0f);
-    _header_total_drunes.SetTextStyle(TextStyle("text20", Color::white));
-    _header_total_drunes.SetDisplayMode(VIDEO_TEXT_INSTANT);
-
     _object_list.SetOwner(&_spoils_window);
-    _object_list.SetPosition(100.0f, 45.0f);
-    _object_list.SetDimensions(300.0f, 160.0f, 1, 8, 1, 8);
+    _object_list.SetPosition(50.0f, 100.0f);
+    _object_list.SetDimensions(250.0f, 160.0f, 1, 8, 1, 8);
     _object_list.SetTextStyle(TextStyle("text20", Color::white));
     _object_list.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _object_list.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -226,7 +220,11 @@ void BattleVictory::Initialize()
 
     _CreateCharacterGUIObjects();
     _CreateObjectList();
-    _SetHeaderText();
+
+    // Initialize dynamic texts
+    _header_xp.SetDisplayText(UTranslate("XP Earned: ") + MakeUnicodeString(NumberToString(_xp_earned)));
+    _drunes_dropped_text.SetDisplayText(UTranslate("Drunes Found: ") + MakeUnicodeString(NumberToString(_drunes_dropped)));
+    _total_drunes.SetDisplayText(UTranslate("Total Drunes: ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
 
     // Start victory
     _state = VICTORY_START;
@@ -236,13 +234,15 @@ void BattleVictory::Update()
 {
     switch(_state) {
     case VICTORY_START:
+        // Exit battle once count is done
+        if (InputManager->ConfirmPress()) {
+            if (_xp_earned == 0 && _drunes_dropped == 0) {
+                _state = VICTORY_END;
+            }
+        }
+
         _UpdateXP();
         _UpdateSpoils();
-        break;
-
-    case VICTORY_MENU: //TODO
-        if (InputManager->ConfirmPress())
-            _state = VICTORY_END;
         break;
 
     case VICTORY_END:
@@ -258,36 +258,22 @@ void BattleVictory::Update()
 void BattleVictory::Draw()
 {
     _outcome_text.Draw();
+
+    // Header Windows
     _header_window.Draw();
+    _header_xp.Draw();
+    _drunes_dropped_text.Draw();
 
-        _header_xp.Draw();
-        for(uint32_t i = 0; i < _characters_number; ++i) {
-            _character_window[i].Draw();
-            _DrawXP(i);
-        }
+    for(uint32_t i = 0; i < _characters_number; ++i) {
+        _character_window[i].Draw();
+        _DrawXP(i);
+    }
 
-        _header_drunes_dropped.Draw();
-        _header_total_drunes.Draw();
-        _spoils_window.Draw();
-        _DrawSpoils();
-        _object_list.Draw();
-}
-
-void BattleVictory::_SetHeaderText()
-{
-    _header_xp.SetDisplayText(UTranslate("XP Earned: ") + MakeUnicodeString(NumberToString(_xp_earned)));
-    _header_drunes_dropped.SetDisplayText(UTranslate("Drunes Found: ") + MakeUnicodeString(NumberToString(_drunes_dropped)));
-    _header_total_drunes.SetDisplayText(UTranslate("Total Drunes: ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
-
-    const uint32_t no_of_options = _object_list.GetNumberOptions();
-    _object_header_text.SetDisplayText(no_of_options == 0 ?
-        // tr: Header in battle result screen: 0 items found
-            UTranslate("No Items Found") :
-                no_of_options == 1 ?
-                    // tr: Header in battle result screen: 1 item found
-                    UTranslate("Item Found") :
-                    // tr: Header in battle result screen: more than 1 item found
-                    UTranslate("Items Found"));
+    // Items and drunes
+    _spoils_window.Draw();
+    _total_drunes.Draw();
+    _object_header_text.Draw();
+    _object_list.Draw();
 }
 
 void BattleVictory::_CreateCharacterGUIObjects()
@@ -311,19 +297,19 @@ void BattleVictory::_CreateCharacterGUIObjects()
     // Construct GUI objects that will fill each character window
     for(uint32_t i = 0; i < _characters_number; ++i) {
         _level_text[i].SetOwner(&_character_window[i]);
-        _level_text[i].SetPosition(130.0f, 10.0f);
+        _level_text[i].SetPosition(130.0f, 20.0f);
         _level_text[i].SetDimensions(300.0f, 25.0f);
         _level_text[i].SetTextStyle(TextStyle("text20", Color::white));
         _level_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
 
         _xp_text[i].SetOwner(&_character_window[i]);
-        _xp_text[i].SetPosition(130.0f, 40.0f);
+        _xp_text[i].SetPosition(130.0f, 50.0f);
         _xp_text[i].SetDimensions(300.0f, 25.0f);
         _xp_text[i].SetTextStyle(TextStyle("text20", Color::white));
         _xp_text[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
 
         _unspent_xp[i].SetOwner(&_character_window[i]);
-        _unspent_xp[i].SetPosition(130.0f, 70.0f);
+        _unspent_xp[i].SetPosition(130.0f, 80.0f);
         _unspent_xp[i].SetDimensions(300.0f, 25.0f);
         _unspent_xp[i].SetTextStyle(TextStyle("text20", Color::white));
         _unspent_xp[i].SetDisplayMode(VIDEO_TEXT_INSTANT);
@@ -336,9 +322,9 @@ void BattleVictory::_CreateCharacterGUIObjects()
         } else {
             _level_text[i].SetDisplayText(UTranslate("Level: ")
                                              + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel())));
-            _xp_text[i].SetDisplayText(UTranslate("XP left: ")
+            _xp_text[i].SetDisplayText(UTranslate("XP for level up: ")
                                        + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel())));
-            _unspent_xp[i].SetDisplayText(UTranslate("XP available for skills: ")
+            _unspent_xp[i].SetDisplayText(UTranslate("XP for skills: ")
                                           + MakeUnicodeString(NumberToString(_characters[i]->GetUnspentExperiencePoints())));
         }
     }
@@ -346,6 +332,7 @@ void BattleVictory::_CreateCharacterGUIObjects()
 
 void BattleVictory::_CreateObjectList()
 {
+    // Add all dropped items in the list
     for (auto i = _objects_dropped.begin(); i != _objects_dropped.end(); ++i) {
         std::shared_ptr<GlobalObject> obj = i->first;
         if (obj->GetIconImage().GetFilename().empty()) {
@@ -364,6 +351,17 @@ void BattleVictory::_CreateObjectList()
         if (image != nullptr)
             _object_list.GetEmbeddedImage(i)->SetDimensions(30.0f, 30.0f);
     }
+
+    // Set item found title accordingly
+    const uint32_t no_of_options = _object_list.GetNumberOptions();
+    _object_header_text.SetDisplayText(no_of_options == 0 ?
+        // tr: Header in battle result screen: 0 items found
+            UTranslate("No Items Found") :
+                no_of_options == 1 ?
+                    // tr: Header in battle result screen: 1 item found
+                    UTranslate("Item Found") :
+                    // tr: Header in battle result screen: more than 1 item found
+                    UTranslate("Items Found"));
 }
 
 void BattleVictory::_SetCharacterStatus()
@@ -392,22 +390,17 @@ void BattleVictory::_UpdateXP()
     // Process confirm press inputs.
     if(InputManager->ConfirmPress()) {
         // Begin counting out XP earned
-        if(!_begin_counting) {
-            _begin_counting = true;
+        if(!_begin_counting_xp) {
+            _begin_counting_xp = true;
         }
         // If confirm received during counting, instantly add all remaining XP
         else if(_xp_earned != 0) {
             xp_to_add = _xp_earned;
         }
-        // Counting has finished. Move on to the spoils screen
-        else {
-            _state = VICTORY_MENU;
-            _SetHeaderText();
-        }
     }
 
     // If counting has not began or counting is alreasy finished, there is nothing more to do here
-    if(!_begin_counting || (_xp_earned == 0))
+    if(!_begin_counting_xp || (_xp_earned == 0))
         return;
 
     // Update the timer and determine how much XP to add if the time has been reached
@@ -473,10 +466,10 @@ void BattleVictory::_UpdateXP()
             level_text = UTranslate("Level (Max): ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()));
         } else {
             level_text = UTranslate("Level: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceLevel()));
-            xp_text = UTranslate("XP left: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()));
+            xp_text = UTranslate("XP for level up: ") + MakeUnicodeString(NumberToString(_characters[i]->GetExperienceForNextLevel()));
             if (_raw_xp_won[i])
                 xp_text += UTranslate(" (+20%)");
-            unspent_xp = UTranslate("XP available for skills: ")
+            unspent_xp = UTranslate("XP for skills: ")
                          + MakeUnicodeString(NumberToString(_characters[i]->GetUnspentExperiencePoints()));
         }
 
@@ -486,7 +479,7 @@ void BattleVictory::_UpdateXP()
     }
 
     _xp_earned -= xp_to_add;
-    _SetHeaderText();
+    _header_xp.SetDisplayText(UTranslate("XP Earned: ") + MakeUnicodeString(NumberToString(_xp_earned)));
 }
 
 void BattleVictory::_UpdateSpoils()
@@ -501,8 +494,8 @@ void BattleVictory::_UpdateSpoils()
     // Process confirm press inputs.
     if(InputManager->ConfirmPress()) {
         // Begin counting out drunes dropped
-        if(!_begin_counting)
-            _begin_counting = true;
+        if(!_begin_counting_drunes)
+            _begin_counting_drunes = true;
 
         // If confirm received during counting, instantly add all remaining drunes
         else if(_drunes_dropped != 0) {
@@ -511,7 +504,7 @@ void BattleVictory::_UpdateSpoils()
     }
 
     // If counting has not began or counting is alreasy finished, there is nothing more to do here
-    if(!_begin_counting || (_drunes_dropped == 0))
+    if(!_begin_counting_drunes || (_drunes_dropped == 0))
         return;
 
     // Update the timer and determine how many drunes to add if the time has been reached
@@ -542,7 +535,8 @@ void BattleVictory::_UpdateSpoils()
 
         GlobalManager->AddDrunes(drunes_to_add);
         _drunes_dropped -= drunes_to_add;
-        _SetHeaderText();
+        _drunes_dropped_text.SetDisplayText(UTranslate("Drunes Found: ") + MakeUnicodeString(NumberToString(_drunes_dropped)));
+        _total_drunes.SetDisplayText(UTranslate("Total Drunes: ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
     }
 }
 
@@ -556,12 +550,6 @@ void BattleVictory::_DrawXP(uint32_t index)
     _level_text[index].Draw();
     _xp_text[index].Draw();
     _unspent_xp[index].Draw();
-}
-
-void BattleVictory::_DrawSpoils()
-{
-    _object_header_text.Draw();
-    _object_list.Draw();
 }
 
 } // namespace private_battle
