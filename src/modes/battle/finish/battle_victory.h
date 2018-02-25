@@ -34,8 +34,7 @@ namespace private_battle
 enum VICTORY_STATE {
     VICTORY_INVALID = -1,
     VICTORY_START   = 0, //!< Drunes and objects dropped, XP earned are displayed and gradually awarded to characters
-    VICTORY_MENU    = 1, //!< Menu to quit combat or improve skills is displayed.
-    VICTORY_END     = 2, //!< Short sequence of hiding finish GUI objects
+    VICTORY_END     = 1, //!< Short sequence of hiding finish GUI objects
 };
 
 /** ****************************************************************************
@@ -91,7 +90,8 @@ private:
     uint32_t _drunes_dropped;
 
     //! \brief When set to true, counting out of XP or Drunes will begin
-    bool _begin_counting;
+    bool _begin_counting_xp;
+    bool _begin_counting_drunes;
 
     //! \brief Retains the number of character windows that were created
     uint32_t _number_character_windows_created;
@@ -116,8 +116,8 @@ private:
 
     //! \brief Drawn to the top header window displaying information about the stats/items obtained
     vt_gui::TextBox _header_xp;
-    vt_gui::TextBox _header_drunes_dropped;
-    vt_gui::TextBox _header_total_drunes;
+    vt_gui::TextBox _drunes_dropped_text;
+    vt_gui::TextBox _total_drunes;
 
     //! \brief Four XP of total unspent XP point for each character
     vt_gui::TextBox _unspent_xp[4];
@@ -141,9 +141,6 @@ private:
     //! \brief Updates the character HP/SP before the battle exits
     void _SetCharacterStatus();
 
-    //! \brief Sets the text to display in the header window depending upon the current state
-    void _SetHeaderText();
-
     //! \brief Gradually rewards the characters with the XP that they earned
     void _UpdateXP();
 
@@ -152,9 +149,6 @@ private:
 
     //! \brief Draws the XP earned by the party
     void _DrawXP(uint32_t index);
-
-    //! \brief Draws the number of drunes and items dropped by the enemy party
-    void _DrawSpoils();
 };
 
 } // namespace private_battle
