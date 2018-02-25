@@ -108,8 +108,10 @@ private:
 
     //! \brief The currently displayed skill nodes
     std::vector<vt_global::SkillNode*> _displayed_skill_nodes;
-    //! \brief The currentlw displayed link between the nodes
+    //! \brief The currently displayed link between the nodes
     std::vector<vt_common::Line2D> _displayed_node_links;
+    //! \brief The currenty displayed link between nodes obtained by the character
+    std::vector<vt_common::Line2D> _colored_displayed_node_links;
 
     //! \brief The skill node description text, icon, ...
     SkillNodeBottomInfo _bottom_info;
