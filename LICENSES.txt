@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2017.03.26
+Last update: 2018.02.26
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -148,6 +148,7 @@ data/gui/menus/rotating_crystal_grey.png                                      CC
 data/gui/menus/red_x.png                                                      CC-BY-3.0                Ravenmore (OGA) - https://opengameart.org/content/fantasy-icon-pack-by-ravenmore-20
 data/gui/menus/spirit.png                                                     CC-BY-3.0                Osmic (OGA) - https://opengameart.org/content/gem-jewel-diamond-glass
 data/gui/menus/star.png                                                       CC-BY-3.0                Osmic (OGA) - https://opengameart.org/content/gem-jewel-diamond-glass
+data/gui/menus/orb.png                                                        CC-BY-3.0                Osmic (OGA) - https://opengameart.org/content/gem-jewel-diamond-glass
 data/gui/menus/menu_avg_atk_def.png                                           GPLv2+                   Allacrost + Modifications by Bertram & Lilou
 data/gui/menus/menu_point_atk_def.png                                         GPLv2+                   Allacrost + Modifications by Bertram
 data/gui/menus/menu_stats_icons.png                                           GPLv2+                   Allacrost + Modifications by Bertram & Lilou
