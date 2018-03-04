@@ -815,20 +815,11 @@ function _UpdateGeorgesDialogue()
 
     georges:ClearDialogueReferences();
 
-    if (GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == true) then
-    -- default behaviour once the barley meal is given
-    elseif (GlobalManager:DoesEventExist("layna_center", "quest1_pen_given_done") == true
-        and GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == false) then
-        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_georges_barley_meal_for_lilly");
-        text = vt_system.Translate("Actually, I bought the barley meal for Lilly.");
-        dialogue:AddLine(text, georges);
-        text = vt_system.Translate("What?");
-        dialogue:AddLineEmote(text, bronann, "exclamation");
-        text = vt_system.Translate("There's no need to thank me for that. It's my pleasure.");
+    if (GlobalManager:DoesEventExist("layna_center", "quest1_pen_given_done") == true) then
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_georges_default");
+        text = vt_system.Translate("Ah, the river is so beautiful at this time of the year. I feel like writing some poetry...");
         dialogue:AddLine(text, georges);
         georges:AddDialogueReference(dialogue);
-        return;
-        -- Quest 1 done as for Georges
     elseif (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == true) then
         -- Give the pen to Georges
         dialogue = vt_map.SpriteDialogue.Create();
@@ -849,54 +840,34 @@ function _UpdateGeorgesDialogue()
         georges:AddDialogueReference(dialogue);
         return;
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_georges_dialogue_done") == true) then
-        -- Once talked to him after the shop conversation, just put the end of the dialogue
-        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_georges_pen_lost");
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_georges_pen_lost_short");
         text = vt_system.Translate("You see, I lost my beloved pen. Was it near a tree or next to the waving child of the mountain snow?");
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("Shall you find it, I would be extremely obliged to you!");
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("Inquire our comrades in the settlement, perhaps somebody has laid their eyes on it.");
         dialogue:AddLine(text, georges);
-        text = vt_system.Translate("(sigh...) Hmm, fine.");
+        text = vt_system.Translate("(sigh...) Hmm, fine. I'll have a look.");
         dialogue:AddLine(text, bronann);
         georges:AddDialogueReference(dialogue);
-        return;
-    elseif (GlobalManager:DoesEventExist("layna_center_shop", "quest1_flora_dialogue_done") == true) then
-        dialogue = vt_map.SpriteDialogue.Create();
-        text = vt_system.Translate("Hi Georges. Erm, I'm coming from the shop and I ...");
+    else
+        -- Once talked to him after the shop conversation, just put the end of the dialogue
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_georges_pen_lost");
+        text = vt_system.Translate("Oh Bronann, sad is the poet today.");
+        dialogue:AddLine(text, georges);
+        text = vt_system.Translate("Hi Georges, well, I was just passing by you know, and");
         dialogue:AddLine(text, bronann);
-        text = vt_system.Translate("Can you hear this?");
-        dialogue:AddLine(text, georges);
-        text = vt_system.Translate("Erm, ... Well, I don't hear anything special...");
-        dialogue:AddLineEmote(text, bronann, "interrogation");
-        text = vt_system.Translate("That's the point! Can't you hear the magnificent sound of nature, so invisible to our adapted ears?");
-        dialogue:AddLine(text, georges);
-        text = vt_system.Translate("Huh, please Georges. I do not want to run away like the last time...");
-        dialogue:AddLine(text, bronann);
-        text = vt_system.Translate("... The incredible and amazing. I could even say, the stunning feel of it in the wind...");
-        dialogue:AddLine(text, georges);
-        text = vt_system.Translate("Georges, I simply wanted to ask you whether or not you had any barley meal left!");
-        dialogue:AddLineEmote(text, bronann, "sweat drop");
-        text = vt_system.Translate("Ah, I see. Well unfortunately, I'm so sad about a recent loss that I can't find the right words with which to tell you.");
-        dialogue:AddLine(text, georges);
-        text = vt_system.Translate("Huh?");
-        dialogue:AddLineEmote(text, bronann, "interrogation");
         text = vt_system.Translate("You see, I lost my beloved pen. Was it near a tree or next to the waving child of the mountain snow?");
         dialogue:AddLine(text, georges);
-        text = vt_system.Translate("Shall you find it, I would be extremely obliged!");
+        text = vt_system.Translate("Shall you find it, I would be extremely obliged to you!");
         dialogue:AddLine(text, georges);
         text = vt_system.Translate("Inquire our comrades in the settlement, perhaps somebody has laid their eyes on it.");
         dialogue:AddLine(text, georges);
-        text = vt_system.Translate("(Sigh)... Hmm, fine.");
+        text = vt_system.Translate("(sigh...) Hmm, fine. I'll have a look.");
         dialogue:AddLineEvent(text, bronann, "", "Quest1: GeorgesDialogueDone");
         georges:AddDialogueReference(dialogue);
         return;
     end
-
-    dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_georges_default");
-    text = vt_system.Translate("Ah, the river is so beautiful at this time of the year. I feel like writing some poetry...");
-    dialogue:AddLine(text, georges);
-    georges:AddDialogueReference(dialogue);
 end
 
 -- Updates Orlinn's dialogue and state depending on how far is the story going.

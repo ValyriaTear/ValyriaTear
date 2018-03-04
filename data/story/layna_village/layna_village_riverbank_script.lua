@@ -491,7 +491,7 @@ function _SetLillyState()
         text = vt_system.Translate("You should go back home. Your mom must be waiting for you.");
         dialogue:AddLine(text, lilly);
         lilly :AddDialogueReference(dialogue);
-    elseif (GlobalManager:DoesEventExist("layna_center", "quest1_pen_given_done") == true) then
+    elseif (GlobalManager:DoesEventExist("layna_center_shop", "quest1_flora_dialogue_done") == true) then
         dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("What a nice day, isn't it?");
         dialogue:AddLine(text, lilly);
@@ -506,7 +506,8 @@ function _SetLillyState()
         text = vt_system.Translate("What?!");
         dialogue:AddLineEmote(text, bronann, "sweat drop");
         text = vt_system.Translate("Ah hah! I just wanted to see your reaction. I still have some. Let me go grab it and bring it back to you.");
-        dialogue:AddLineEvent(text, lilly, "", "Quest1: Prepare Lilly for a walk");
+        dialogue:AddLine(text, lilly);
+        dialogue:SetEventAtDialogueEnd("Quest1: Prepare Lilly for a walk")
         lilly :AddDialogueReference(dialogue);
     else
         dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_lilly_default");

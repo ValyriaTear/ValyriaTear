@@ -20,9 +20,12 @@ local EventManager = nil
 
 -- The main character handlers
 local bronann = nil
-local bronanns_dad = nil
-local bronanns_mother = nil
+local carson = nil
+local malta = nil
 local quest2_start_scene = false
+
+-- Used at the beginning to show the wooden sword when giving it to Bronann
+local wooden_sword = nil
 
 -- the main map loading code
 function Load(m)
@@ -70,62 +73,55 @@ function _CreateNPCs()
     local dialogue = nil
     local text = nil
 
-    bronanns_dad = CreateSprite(Map, "Carson", 33.5, 11.5, vt_map.MapMode.GROUND_OBJECT);
+    carson = CreateSprite(Map, "Carson", 33.5, 11.5, vt_map.MapMode.GROUND_OBJECT);
 
-    event = vt_map.RandomMoveSpriteEvent.Create("Dad random move", bronanns_dad, 2000, 2000);
+    event = vt_map.RandomMoveSpriteEvent.Create("Dad random move", carson, 2000, 2000);
     event:AddEventLinkAtEnd("Dad random move", 3000); -- Loop on itself
 
     if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
         -- Carson isn't here anymore
-        bronanns_dad:SetVisible(false);
-        bronanns_dad:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        bronanns_dad:SetPosition(0, 0);
+        carson:SetVisible(false);
+        carson:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+        carson:SetPosition(0, 0);
     else
         EventManager:StartEvent("Dad random move");
     end
 
-    dialogue = vt_map.SpriteDialogue.Create("ep1_bronann_home_talk_with_dad");
-    text = vt_system.Translate("Hey son! Did you sleep well? Hmm, now where did I leave that oil lamp?");
-    dialogue:AddLine(text, bronanns_dad);
-    text = vt_system.Translate("Hi Dad! Um, I don't know. Sorry.");
-    dialogue:AddLineEmote(text, bronann, "thinking dots");
-    text = vt_system.Translate("Nah, no problem, I'll find it somewhere, eventually.");
-    dialogue:AddLine(text, bronanns_dad);
-    bronanns_dad:AddDialogueReference(dialogue);
+    _UpdateCarsonDialogue()
 
-    bronanns_mother = CreateSprite(Map, "Malta", 33.1, 17.5, vt_map.MapMode.GROUND_OBJECT);
-    bronanns_mother:SetDirection(vt_map.MapMode.SOUTH);
+    malta = CreateSprite(Map, "Malta", 33.1, 17.5, vt_map.MapMode.GROUND_OBJECT);
+    malta:SetDirection(vt_map.MapMode.SOUTH);
 
     _UpdateMotherDialogue();
 
     -- Make her walk in front of the table to prepare the lunch.
-    event = vt_map.PathMoveSpriteEvent.Create("Kitchen: Mother goes middle", bronanns_mother, 33.1, 19.9, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Kitchen: Mother goes middle", malta, 33.1, 19.9, false);
     event:AddEventLinkAtEnd("Kitchen: Mother looks left");
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kitchen: Mother looks left", bronanns_mother, vt_map.MapMode.WEST);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Kitchen: Mother looks left", malta, vt_map.MapMode.WEST);
     event:AddEventLinkAtEnd("Kitchen: Mother goes right", 2000);
-    event = vt_map.PathMoveSpriteEvent.Create("Kitchen: Mother goes right", bronanns_mother, 35, 19.9, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Kitchen: Mother goes right", malta, 35, 19.9, false);
     event:AddEventLinkAtEnd("Kitchen: Mother looks down");
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kitchen: Mother looks down", bronanns_mother, vt_map.MapMode.SOUTH);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Kitchen: Mother looks down", malta, vt_map.MapMode.SOUTH);
     event:AddEventLinkAtEnd("Kitchen: Mother goes middle 2", 2000);
-    event = vt_map.PathMoveSpriteEvent.Create("Kitchen: Mother goes middle 2", bronanns_mother, 33.1, 19.9, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Kitchen: Mother goes middle 2", malta, 33.1, 19.9, false);
     event:AddEventLinkAtEnd("Kitchen: Mother goes up");
-    event = vt_map.PathMoveSpriteEvent.Create("Kitchen: Mother goes up", bronanns_mother, 33.1, 17.5, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Kitchen: Mother goes up", malta, 33.1, 17.5, false);
     event:AddEventLinkAtEnd("Kitchen: Mother looks left 2");
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Kitchen: Mother looks left 2", bronanns_mother, vt_map.MapMode.WEST);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Kitchen: Mother looks left 2", malta, vt_map.MapMode.WEST);
     event:AddEventLinkAtEnd("Kitchen: Mother goes middle", 2000);
 
     -- The mother routine event
     EventManager:StartEvent("Kitchen: Mother goes middle");
 
     -- The Hero's first noble quest briefing...
-    vt_map.ScriptedSpriteEvent.Create("Start Quest1", bronanns_mother, "StartQuest1", "");
+    vt_map.ScriptedSpriteEvent.Create("Start Quest1", malta, "StartQuest1", "");
 
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Quest1: Mother looks south", bronanns_mother, vt_map.MapMode.SOUTH);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Quest1: Mother looks south", malta, vt_map.MapMode.SOUTH);
     event:AddEventLinkAtEnd("Mother calls Bronann");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann!");
-    dialogue:AddLine(text, bronanns_mother);
+    dialogue:AddLine(text, malta);
 
     event = vt_map.DialogueEvent.Create("Mother calls Bronann", dialogue);
     event:SetStopCameraMovement(true);
@@ -134,25 +130,25 @@ function _CreateNPCs()
 
     vt_map.ChangeDirectionSpriteEvent.Create("BronannLooksUp", bronann, vt_map.MapMode.NORTH);
 
-    event = vt_map.ScriptedSpriteEvent.Create("SetCameraOnMother", bronanns_mother, "Map_SetCamera", "");
+    event = vt_map.ScriptedSpriteEvent.Create("SetCameraOnMother", malta, "Map_SetCamera", "");
     event:AddEventLinkAtEnd("ClearDialogueRefOnMother");
 
-    event = vt_map.ScriptedSpriteEvent.Create("ClearDialogueRefOnMother", bronanns_mother, "ClearDialogueReferences", "");
+    event = vt_map.ScriptedSpriteEvent.Create("ClearDialogueRefOnMother", malta, "ClearDialogueReferences", "");
     event:AddEventLinkAtEnd("Mother moves near entrance1");
 
-    event = vt_map.PathMoveSpriteEvent.Create("Mother moves near entrance1", bronanns_mother, 38, 19, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Mother moves near entrance1", malta, 38, 19, false);
     event:AddEventLinkAtEnd("MotherLooksSouth2");
 
-    event = vt_map.ChangeDirectionSpriteEvent.Create("MotherLooksSouth2", bronanns_mother, vt_map.MapMode.SOUTH);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("MotherLooksSouth2", malta, vt_map.MapMode.SOUTH);
     event:AddEventLinkAtEnd("Mother quest1 dialogue");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Now that you're *finally* up, could you go buy some barley meal for us?");
-    dialogue:AddLine(text, bronanns_mother);
+    dialogue:AddLine(text, malta);
     text = vt_system.Translate("Barley meal? Again?");
     dialogue:AddLineEmote(text, bronann, "sweat drop");
     text = vt_system.Translate("Hmph, just go boy. You'll be free after that, ok?");
-    dialogue:AddLine(text, bronanns_mother);
+    dialogue:AddLine(text, malta);
 
     event = vt_map.DialogueEvent.Create("Mother quest1 dialogue", dialogue);
     event:AddEventLinkAtEnd("Map_PopState");
@@ -201,6 +197,11 @@ function _CreateObjects()
     sauce_pot = CreateObject(Map, "Sauce Pot1", 33, 22, vt_map.MapMode.GROUND_OBJECT);
     knife = CreateObject(Map, "Knife1", 35, 22, vt_map.MapMode.GROUND_OBJECT);
 
+    -- The wooden sword sprite
+    wooden_sword = CreateObject(Map, "Wooden Sword1", 1, 1, vt_map.MapMode.GROUND_OBJECT);
+    wooden_sword:SetVisible(false);
+    wooden_sword:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
     _UpdateDishesAndFood();
 end
 
@@ -238,35 +239,35 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Quest2: Father looks west");
 
     -- Quest 2 start: Bronann is told not to leave town
-    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Father looks west", bronanns_dad, vt_map.MapMode.WEST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Father looks west", carson, vt_map.MapMode.WEST);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Thanks for helping me out with the dishes.");
-    dialogue:AddLine(text, bronanns_mother);
+    dialogue:AddLine(text, malta);
     text = vt_system.Translate("Say, mom? Why is the village entrance blocked?");
     dialogue:AddLineEmote(text, bronann, "thinking dots");
     text = vt_system.Translate("...");
-    dialogue:AddLineEmote(text, bronanns_mother, "sweat drop");
+    dialogue:AddLineEmote(text, malta, "sweat drop");
     event = vt_map.DialogueEvent.Create("Quest2: Bronann is told not to leave town - part 1", dialogue)
     -- Make a pause here
     event:AddEventLinkAtEnd("Quest2: Father looks south to think");
     event:AddEventLinkAtEnd("Audio:FadeOutMusic()");
 
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Father looks south to think", bronanns_dad, vt_map.MapMode.SOUTH);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Father looks south to think", carson, vt_map.MapMode.SOUTH);
     event:AddEventLinkAtEnd("Quest2: Father looks at Bronann", 2000);
 
-    event = vt_map.LookAtSpriteEvent.Create("Quest2: Father looks at Bronann", bronanns_dad, bronann);
+    event = vt_map.LookAtSpriteEvent.Create("Quest2: Father looks at Bronann", carson, bronann);
     event:AddEventLinkAtEnd("Quest2: Bronann is told not to leave town - part 2");
 
     vt_map.AnimateSpriteEvent.Create("Quest2: Bronann looks at both parents", bronann, "searching", 1000);
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann, I'd like for you to not leave the village today.");
-    dialogue:AddLine(text, bronanns_dad);
+    dialogue:AddLine(text, carson);
     text = vt_system.Translate("Huh?! What? Why? You told me that I could go into the forest and...");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("Sorry, son. It's maybe a bit early, but I'd like you to be careful.");
-    dialogue:AddLine(text, bronanns_dad);
+    dialogue:AddLine(text, carson);
     text = vt_system.Translate("Hey, wait! All of the village elders' nerves are on edge. There is something going on here! Why won't you tell me?");
     dialogue:AddLineEventEmote(text, bronann, "", "Quest2: Bronann looks at both parents", "interrogation");
     text = vt_system.Translate("Neither of you?");
@@ -274,20 +275,20 @@ function _CreateEvents()
     text = vt_system.Translate("You really won't tell me?");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("... It's not that simple, Bronann. Believe me.");
-    dialogue:AddLineEmote(text, bronanns_dad, "thinking dots");
+    dialogue:AddLineEmote(text, carson, "thinking dots");
     event = vt_map.DialogueEvent.Create("Quest2: Bronann is told not to leave town - part 2", dialogue)
     event:AddEventLinkAtEnd("Quest2: Mother looks at Bronann", 2000);
 
-    event = vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Mother looks at Bronann", bronanns_mother, vt_map.MapMode.NORTH);
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Mother looks at Bronann", malta, vt_map.MapMode.NORTH);
     event:AddEventLinkAtEnd("Quest2: Bronann is told not to leave town - part 3");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Bronann, this time I want you to listen to your father very carefully. Please, my dear.");
-    dialogue:AddLine(text, bronanns_mother);
+    dialogue:AddLine(text, malta);
     text = vt_system.Translate("But mom!");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Bronann, please.");
-    dialogue:AddLine(text, bronanns_dad);
+    dialogue:AddLine(text, carson);
     text = vt_system.Translate("(grumble)... Crap!");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     event = vt_map.DialogueEvent.Create("Quest2: Bronann is told not to leave town - part 3", dialogue);
@@ -306,17 +307,17 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Quest2: SetCamera on mother", 1000);
     event:AddEventLinkAtEnd("Quest2: Father looks at mother", 2000);
 
-    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Father looks at mother", bronanns_dad, vt_map.MapMode.WEST);
-    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Mother looks at father", bronanns_mother, vt_map.MapMode.EAST);
-    vt_map.ScriptedSpriteEvent.Create("Quest2: SetCamera on mother", bronanns_mother, "Map_SetCamera", "");
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Father looks at mother", carson, vt_map.MapMode.WEST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Mother looks at father", malta, vt_map.MapMode.EAST);
+    vt_map.ScriptedSpriteEvent.Create("Quest2: SetCamera on mother", malta, "Map_SetCamera", "");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Maybe we should tell him.");
-    dialogue:AddLine(text, bronanns_mother);
+    dialogue:AddLine(text, malta);
     text = vt_system.Translate("It's too early, darling. We might be wrong.");
-    dialogue:AddLineEmote(text, bronanns_dad, "thinking dots");
+    dialogue:AddLineEmote(text, carson, "thinking dots");
     text = vt_system.Translate("I really hope we are.");
-    dialogue:AddLine(text, bronanns_dad);
+    dialogue:AddLine(text, carson);
     event = vt_map.DialogueEvent.Create("Quest2: Bronann is told not to leave town - part 4", dialogue);
     event:AddEventLinkAtEnd("Map_PopState");
     event:AddEventLinkAtEnd("to village");
@@ -386,26 +387,109 @@ function _UpdateDishesAndFood()
     end
 end
 
+function _UpdateCarsonDialogue()
+    local dialogue = nil
+    local text = nil
+    local event = nil
+
+    carson:ClearDialogueReferences()
+
+    if (GlobalManager:DoesEventExist("story", "Olivia_well_rat_killed") == true) then
+        dialogue = vt_map.SpriteDialogue.Create()
+        text = vt_system.Translate("Nice job, son.")
+        dialogue:AddLine(text, carson)
+        carson:AddDialogueReference(dialogue)
+        return;
+    elseif (GlobalManager:DoesEventExist("story", "Carson_wooden_sword_given") == true) then
+        dialogue = vt_map.SpriteDialogue.Create()
+        text = vt_system.Translate("Please have go and see Olivia. She will explain everything to you.")
+        dialogue:AddLine(text, carson)
+        carson:AddDialogueReference(dialogue)
+        return;
+    else
+        -- Show sword event
+        -- First dialogue - speaks of Olivia's quest
+        dialogue = vt_map.SpriteDialogue.Create()
+        text = vt_system.Translate("Hey son! Did you sleep well? Hmm, now where did I leave that oil lamp?")
+        dialogue:AddLine(text, carson);
+        text = vt_system.Translate("Hi Dad! Um, I don't know. Sorry.")
+        dialogue:AddLineEmote(text, bronann, "thinking dots")
+        text = vt_system.Translate("Nah, no problem, I'll find it somewhere, eventually.")
+        dialogue:AddLine(text, carson)
+        text = vt_system.Translate("By the way, I have great news for you, son.")
+        dialogue:AddLine(text, carson)
+        text = vt_system.Translate("Something you've been waiting for. Come here I'll show you.")
+        dialogue:AddLineEvent(text, carson, "", "")
+        dialogue:SetEventAtDialogueEnd("Show sword start event")
+        carson:AddDialogueReference(dialogue)
+
+        event = vt_map.ScriptedEvent.Create("Show sword start event", "StartSwordShowScene", "")
+        event:AddEventLinkAtEnd("Bronann goes in front of Carson")
+        event:AddEventLinkAtEnd("Carson goes in front of Bronann")
+
+        event = vt_map.PathMoveSpriteEvent.Create("Carson goes in front of Bronann", carson, 34, 12, false)
+        event:AddEventLinkAtEnd("Carson looks at Bronann")
+        vt_map.ChangeDirectionSpriteEvent.Create("Carson looks at Bronann", carson, vt_map.MapMode.EAST)
+
+        event = vt_map.PathMoveSpriteEvent.Create("Bronann goes in front of Carson", bronann, 37, 12, false)
+        event:AddEventLinkAtEnd("Bronann looks at Carson")
+
+        event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks at Carson", bronann, vt_map.MapMode.WEST)
+        event:AddEventLinkAtEnd("Carson gives sword to Bronann dialogue")
+
+        dialogue = vt_map.SpriteDialogue.Create()
+        text = vt_system.Translate("Today, you're going to help Olivia with this.")
+        dialogue:AddLineEvent(text, carson, "", "Show sword event")
+        vt_map.DialogueEvent.Create("Carson gives sword to Bronann dialogue", dialogue)
+
+        -- Show Wooden Sword
+        event = vt_map.ScriptedEvent.Create("Show sword event", "ShowSwordEvent", "")
+        event:AddEventLinkAtEnd("Carson gives sword part 2")
+
+        dialogue = vt_map.SpriteDialogue.Create()
+        text = vt_system.Translate("Wow, your practice sword. Many thanks Dad.")
+        dialogue:AddLineEmote(text, bronann, "exclamation")
+        text = vt_system.Translate("Your mother and I believe you've now grown enough to start dealing with the critters around the village.")
+        dialogue:AddLineEvent(text, carson, "", "Carson hide sword event")
+        vt_map.DialogueEvent.Create("Carson gives sword part 2", dialogue)
+
+        -- Hide Wooden Sword
+        event = vt_map.ScriptedEvent.Create("Carson hide sword event", "HideSwordEvent", "")
+        event:AddEventLinkAtEnd("Carson gives sword part 3")
+
+        dialogue = vt_map.SpriteDialogue.Create()
+        text = vt_system.Translate("Go see Olivia. She will explain everything to you.")
+        dialogue:AddLineEvent(text, carson, "", "End Sword Giving scene event")
+        vt_map.DialogueEvent.Create("Carson gives sword part 3", dialogue)
+
+        event = vt_map.ScriptedEvent.Create("End Sword Giving scene event", "EndSwordShowEvent", "")
+    end
+end
+
 function _UpdateMotherDialogue()
-    bronanns_mother:ClearDialogueReferences();
+    local dialogue = nil
+    local text = nil
+    local event = nil
+
+    malta:ClearDialogueReferences();
 
     if (GlobalManager:DoesEventExist("story", "Malta_Items_given") == true) then
-        local dialogue = vt_map.SpriteDialogue.Create();
-        local text = vt_system.Translate("Bronann, promise me that you'll be careful, ok?");
-        dialogue:AddLine(text, bronanns_mother);
-        bronanns_mother:AddDialogueReference(dialogue);
+        dialogue = vt_map.SpriteDialogue.Create();
+        text = vt_system.Translate("Bronann, promise me that you'll be careful, ok?");
+        dialogue:AddLine(text, malta);
+        malta:AddDialogueReference(dialogue);
         return;
     end
     if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
         -- Bronann'mother gives some items to Bronann.
-        local dialogue = vt_map.SpriteDialogue.Create();
-        local text = vt_system.Translate("So, finally you're going away.");
-        dialogue:AddLineEmote(text, bronanns_mother, "thinking dots");
+        dialogue = vt_map.SpriteDialogue.Create();
+        text = vt_system.Translate("So, finally you're going away.");
+        dialogue:AddLineEmote(text, malta, "thinking dots");
         text = vt_system.Translate("Please, take this. It's not much but I hope it will help.");
-        dialogue:AddLineEvent(text, bronanns_mother, "", "Prepare item giving scene");
-        bronanns_mother:AddDialogueReference(dialogue);
+        dialogue:AddLineEvent(text, malta, "", "Prepare item giving scene");
+        malta:AddDialogueReference(dialogue);
 
-        local event = vt_map.ScriptedEvent.Create("Prepare item giving scene", "StartItemGivingScene", "");
+        event = vt_map.ScriptedEvent.Create("Prepare item giving scene", "StartItemGivingScene", "");
         event:AddEventLinkAtEnd("Malta gives items")
 
         event = vt_map.TreasureEvent.Create("Malta gives items");
@@ -418,44 +502,53 @@ function _UpdateMotherDialogue()
         text = vt_system.Translate("Thanks, mom.");
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("Take care, my son.");
-        dialogue:AddLine(text, bronanns_mother);
+        dialogue:AddLine(text, malta);
         event = vt_map.DialogueEvent.Create("Bronann says thanks", dialogue)
         event:AddEventLinkAtEnd("Update Malta's dialogue after giving items");
 
         event = vt_map.ScriptedEvent.Create("Update Malta's dialogue after giving items", "EndItemGivingScene", "");
         return;
     end
-    if (GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == true) then
+    if (GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == true
+            and GlobalManager:DoesEventExist("story", "Olivia_well_rat_killed") == true) then
         -- Got some barley meal, Mom!
-        -- Begining dialogue
-        local dialogue = vt_map.SpriteDialogue.Create();
-        local text = vt_system.Translate("(sigh)... Got it, mom!");
+        dialogue = vt_map.SpriteDialogue.Create();
+        text = vt_system.Translate("(sigh)... Got it, mom!");
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("Perfect timing, let's have dinner.");
-        dialogue:AddLineEvent(text, bronanns_mother, "", "Quest1: end and transition to after-dinner");
-        bronanns_mother:AddDialogueReference(dialogue);
+        dialogue:AddLineEvent(text, malta, "", "Quest1: end and transition to after-dinner");
+        malta:AddDialogueReference(dialogue);
+    elseif (GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == true
+            and GlobalManager:DoesEventExist("story", "Olivia_well_rat_killed") == false) then
+        -- Still dad's quest to do
+        dialogue = vt_map.SpriteDialogue.Create();
+        text = vt_system.Translate("(sigh)... Got it, mom!");
+        dialogue:AddLine(text, bronann);
+        text = vt_system.Translate("Perfect timing, I'll cook dinner. Have you helped your father yet?");
+        dialogue:AddLine(text, malta);
+        malta:AddDialogueReference(dialogue);
     elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == true) then
         -- 1st quest dialogue
-        local dialogue = vt_map.SpriteDialogue.Create("ep1_bronann_home_talk_about_barley_meal");
-        local text = vt_system.Translate("Could you go and buy some barley meal for the three of us?");
-        dialogue:AddLine(text, bronanns_mother);
-        bronanns_mother:AddDialogueReference(dialogue);
+        dialogue = vt_map.SpriteDialogue.Create("ep1_bronann_home_talk_about_barley_meal");
+        text = vt_system.Translate("Could you go and buy some barley meal for the three of us?");
+        dialogue:AddLine(text, malta);
+        malta:AddDialogueReference(dialogue);
     elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == false) then
         -- Begining dialogue
-        local dialogue = vt_map.SpriteDialogue.Create("ep1_bronann_home_talk_with_mother1");
-        local text = vt_system.Translate("Hi son, did you have a nightmare again last night?");
-        dialogue:AddLine(text, bronanns_mother);
+        dialogue = vt_map.SpriteDialogue.Create("ep1_bronann_home_talk_with_mother1");
+        text = vt_system.Translate("Hi son, did you have a nightmare again last night?");
+        dialogue:AddLine(text, malta);
         text = vt_system.Translate("Hi mom. Huh, how did you know?");
         dialogue:AddLineEmote(text, bronann, "interrogation");
         text = vt_system.Translate("Eh eh? Have you already forgotten that I'm your mother?");
-        dialogue:AddLine(text, bronanns_mother);
-        bronanns_mother:AddDialogueReference(dialogue);
+        dialogue:AddLine(text, malta);
+        malta:AddDialogueReference(dialogue);
     else
         -- Last default dialogue
-        local dialogue = vt_map.SpriteDialogue.Create();
-        local text = vt_system.Translate("Don't venture too far, I'll need your help soon!");
-        dialogue:AddLine(text, bronanns_mother);
-        bronanns_mother:AddDialogueReference(dialogue);
+        dialogue = vt_map.SpriteDialogue.Create();
+        text = vt_system.Translate("Don't venture too far, I'll need your help soon!");
+        dialogue:AddLine(text, malta);
+        malta:AddDialogueReference(dialogue);
     end
 end
 
@@ -505,12 +598,12 @@ map_functions = {
         -- Start scene
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         -- Stop everyone
-        bronanns_dad:SetMoving(false);
-        bronanns_dad:ClearDialogueReferences();
-        EventManager:EndAllEvents(bronanns_dad);
-        bronanns_mother:SetMoving(false);
-        bronanns_mother:ClearDialogueReferences();
-        EventManager:EndAllEvents(bronanns_mother);
+        carson:SetMoving(false);
+        carson:ClearDialogueReferences();
+        EventManager:EndAllEvents(carson);
+        malta:SetMoving(false);
+        malta:ClearDialogueReferences();
+        EventManager:EndAllEvents(malta);
 
         bronann:SetMoving(false);
     end,
@@ -531,10 +624,10 @@ map_functions = {
         bronann:SetPosition(41.5, 15.0);
         bronann:SetDirection(vt_map.MapMode.SOUTH);
 
-        bronanns_mother:SetPosition(40, 19);
-        bronanns_mother:SetDirection(vt_map.MapMode.EAST);
-        bronanns_dad:SetPosition(48, 19);
-        bronanns_dad:SetDirection(vt_map.MapMode.WEST);
+        malta:SetPosition(40, 19);
+        malta:SetDirection(vt_map.MapMode.EAST);
+        carson:SetPosition(48, 19);
+        carson:SetDirection(vt_map.MapMode.WEST);
 
         -- Remove the barley meal key item from inventory
         local barley_meal_item_id = 70002;
@@ -556,7 +649,7 @@ map_functions = {
 
     StartItemGivingScene = function()
         Map:PushState(vt_map.MapMode.STATE_SCENE);
-        EventManager:EndAllEvents(bronanns_mother);
+        EventManager:EndAllEvents(malta);
         bronann:SetMoving(false);
     end,
 
@@ -564,5 +657,31 @@ map_functions = {
         GlobalManager:SetEventValue("story", "Malta_Items_given", 1);
         _UpdateMotherDialogue()
         Map:PopState()
+    end,
+
+    StartSwordShowScene = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE)
+        EventManager:EndAllEvents(carson)
+        carson:SetMoving(false)
+        bronann:SetMoving(false)
+    end,
+
+    ShowSwordEvent = function()
+        -- Show sword
+        wooden_sword:SetPosition(carson:GetXPosition() + 1.5, carson:GetYPosition() - 2.0);
+        wooden_sword:SetVisible(true)
+    end,
+
+    HideSwordEvent = function()
+        -- Hide sword
+        wooden_sword:SetVisible(false);
+        wooden_sword:SetPosition(0.0, 0.0);
+    end,
+
+    EndSwordShowEvent = function()
+        GlobalManager:SetEventValue("story", "Carson_wooden_sword_given", 1)
+        _UpdateCarsonDialogue()
+        Map:PopState()
+        EventManager:StartEvent("Dad random move")
     end
 }
