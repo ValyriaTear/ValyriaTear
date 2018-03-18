@@ -264,9 +264,6 @@ function _CreateObjects()
     wooden_sword:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 end
 
-local not_granted_dialogue = nil
-local not_granted2_dialogue = nil
-
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
     local event = nil
@@ -306,6 +303,9 @@ function _CreateEvents()
     vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, kalya);
     vt_map.LookAtSpriteEvent.Create("Orlinn looks at Bronann", orlinn, bronann);
     vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya, orlinn);
+
+    -- Init Olivia Dialogue
+    _UpdateOliviaDialogue();
 
     -- Quest events
     -- Bronann wonders where he can find barley meal
@@ -668,31 +668,6 @@ function _CreateEvents()
 
     event = vt_map.ScriptedSpriteEvent.Create("Quest2: Kalya disappears after speech", kalya, "MakeInvisible", "");
     event:AddEventLinkAtEnd("Map:PopState()");
-
-    -- Olivia first dialogue
-    -- Access not granted dialogue
-    not_granted_dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_olivia_no_access_to_forest2");
-    text = vt_system.Translate("Bronann! Sorry, you can't access the forest without permission. You don't even have a sword.");
-    not_granted_dialogue:AddLineEmote(text, olivia, "exclamation");
-    text = vt_system.Translate("Aww...");
-    not_granted_dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
-    text = vt_system.Translate("(Hmm, maybe I should ask Flora then.)");
-    not_granted_dialogue:AddLineEventEmote(text, bronann, "Bronann looks south", "", "thinking dots");
-    -- Special event triggered when Bronann hasn't go the right to enter the forest yet.
-    -- Shouldn't trigger once access is granted.
-    event = vt_map.DialogueEvent.Create("Bronann can't enter the forest so easily", not_granted_dialogue);
-    event:SetStopCameraMovement(true);
-
-    not_granted2_dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_olivia_no_access_to_forest1");
-    text = vt_system.Translate("Bronann! Sorry, you know that you can't access the forest without permission.");
-    not_granted2_dialogue:AddLineEmote(text, olivia, "exclamation");
-    text = vt_system.Translate("Aww...");
-    not_granted2_dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
-    event = vt_map.DialogueEvent.Create("Bronann can't enter the forest so easily2", not_granted2_dialogue);
-    event:SetStopCameraMovement(true);
-
-    -- Init Olivia Dialogue
-    _UpdateOliviaDialogue();
 end
 
 -- zones
@@ -743,12 +718,7 @@ function _CheckZones()
     elseif (to_layna_forest_zone:IsCameraEntering() == true) then
         bronann:SetMoving(false);
         if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
-            if (GlobalManager:DoesEventExist("story", "Quest2_wants_to_buy_sword_dialogue") == false
-                    and GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
-                EventManager:StartEvent("Bronann can't enter the forest so easily");
-            else
-                EventManager:StartEvent("Bronann can't enter the forest so easily2");
-            end
+            EventManager:StartEvent("Bronann can't enter the forest so easily");
         elseif (GlobalManager:DoesEventExist("story", "Quest2_kalya_equip_n_dungeons_speech_done") == false) then
             EventManager:StartEvent("Quest2: Kalya's equipment and dungeons speech start");
         else
@@ -792,14 +762,32 @@ end
 function _UpdateOliviaDialogue()
     olivia:ClearDialogueReferences();
 
+    local default_dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_olivia_no_access_to_forest1");
+    text = vt_system.Translate("Bronann! Sorry, you know that you can't access the forest without permission.");
+    default_dialogue:AddLineEmote(text, olivia, "exclamation");
+    text = vt_system.Translate("Aww...");
+    default_dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
+
     -- Don't grant access to the forest so easily
     if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
-        if (GlobalManager:DoesEventExist("story", "Quest2_wants_to_buy_sword_dialogue") == false
-                and GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
-            olivia:AddDialogueReference(not_granted_dialogue);
+        if (GlobalManager:DoesEventExist("story", "Carson_wooden_sword_given") == true) then
+            -- The well quest dialogue
+            local dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_olivia_well_quest");
+            text = vt_system.Translate("Hey Bronann. Ready for your first real challenge?");
+            dialogue:AddLine(text, olivia);
+            text = vt_system.Translate("Hey Olivia. I guess so. What is it all about?");
+            dialogue:AddLineEmote(text, bronann, "interrogation");
+            text = vt_system.Translate("Follow me.");
+            dialogue:AddLine(text, olivia);
+            olivia:AddDialogueReference(dialogue);
+            -- TODO Event to go to the well.
         else
-            olivia:AddDialogueReference(not_granted2_dialogue);
+            olivia:AddDialogueReference(default_dialogue);
         end
+
+        -- Add the map even to prevent going to the forest
+        event = vt_map.DialogueEvent.Create("Bronann can't enter the forest so easily", default_dialogue);
+        event:SetStopCameraMovement(true);
     else
         local dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_olivia_access_to_forest");
         local text = vt_system.Translate("Good luck Bronann.");
