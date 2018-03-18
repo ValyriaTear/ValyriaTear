@@ -455,7 +455,11 @@ function _UpdateCarsonDialogue()
 
         -- Hide Wooden Sword
         event = vt_map.ScriptedEvent.Create("Carson hide sword event", "HideSwordEvent", "")
-        event:AddEventLinkAtEnd("Carson gives sword part 3")
+        event:AddEventLinkAtEnd("Add the wooden sword in inventory")
+
+        event = vt_map.TreasureEvent.Create("Add the wooden sword in inventory");
+        event:AddItem(10001, 1); -- The wooden sword item
+        event:AddEventLinkAtEnd("Carson gives sword part 3");
 
         dialogue = vt_map.SpriteDialogue.Create()
         text = vt_system.Translate("Go see Olivia. She will explain everything to you.")
