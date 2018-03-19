@@ -431,7 +431,7 @@ function _UpdateCarsonDialogue()
         event:AddEventLinkAtEnd("Carson looks at Bronann")
         vt_map.ChangeDirectionSpriteEvent.Create("Carson looks at Bronann", carson, vt_map.MapMode.EAST)
 
-        event = vt_map.PathMoveSpriteEvent.Create("Bronann goes in front of Carson", bronann, 37, 12, false)
+        event = vt_map.PathMoveSpriteEvent.Create("Bronann goes in front of Carson", bronann, 36, 12, false)
         event:AddEventLinkAtEnd("Bronann looks at Carson")
 
         event = vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks at Carson", bronann, vt_map.MapMode.WEST)
@@ -443,7 +443,7 @@ function _UpdateCarsonDialogue()
         vt_map.DialogueEvent.Create("Carson gives sword to Bronann dialogue", dialogue)
 
         -- Show Wooden Sword
-        event = vt_map.ScriptedEvent.Create("Show sword event", "ShowSwordEvent", "")
+        event = vt_map.ScriptedEvent.Create("Show sword event", "ShowSwordEvent", "ShowSwordEventUpdate")
         event:AddEventLinkAtEnd("Carson gives sword part 2")
 
         dialogue = vt_map.SpriteDialogue.Create()
@@ -555,6 +555,9 @@ function _UpdateMotherDialogue()
         malta:AddDialogueReference(dialogue);
     end
 end
+
+local wooden_sword_x_offset_start = 0.5
+local wooden_sword_x_offset = 0
 
 -- Map Custom functions
 map_functions = {
@@ -672,8 +675,21 @@ map_functions = {
 
     ShowSwordEvent = function()
         -- Show sword
-        wooden_sword:SetPosition(carson:GetXPosition() + 1.5, carson:GetYPosition() - 2.0);
+        wooden_sword:SetPosition(carson:GetXPosition() + wooden_sword_x_offset_start, carson:GetYPosition() - 1.0);
+        wooden_sword_x_offset = wooden_sword_x_offset_start
         wooden_sword:SetVisible(true)
+    end,
+
+    ShowSwordEventUpdate = function()
+        -- Move sword slowly to Bronann
+        local update_x = SystemManager:GetUpdateTime() / 200.0
+        wooden_sword_x_offset = wooden_sword_x_offset + update_x
+        wooden_sword:SetPosition(carson:GetXPosition() + wooden_sword_x_offset, carson:GetYPosition() - 1.0);
+        if (wooden_sword_x_offset < 1.0) then
+            return false
+        else
+            return true
+        end
     end,
 
     HideSwordEvent = function()
