@@ -847,7 +847,7 @@ function _UpdateOliviaDialogue()
             event:AddEventLinkAtEnd("Bronann enters the well")
             event = vt_map.PathMoveSpriteEvent.Create("Bronann enters the well", bronann, 63, 32, false)
             event:AddEventLinkAtEnd("To well underground")
-            event = vt_map.MapTransitionEvent.Create("To well underground", "layna_village_well_underground_map.lua", "layna_village_well_underground_script.lua", "from layna village")
+            event = vt_map.MapTransitionEvent.Create("To well underground", "data/story/layna_village/layna_village_well_underground_map.lua", "data/story/layna_village/layna_village_well_underground_script.lua", "from layna village")
         else
             olivia:AddDialogueReference(default_dialogue)
         end
