@@ -29,6 +29,7 @@ local herth = nil
 local olivia = nil -- Olivia npc, guarding the forest entrance
 
 local wooden_sword = nil
+local well_entrance_rock = nil
 
 -- the main map loading code
 function Load(m)
@@ -181,8 +182,9 @@ function _CreateNPCs()
     _UpdateGeorgesDialogue(georges);
 
     -- Olivia, guardian of the forest access
-    olivia = CreateNPCSprite(Map, "Girl1", vt_system.Translate("Olivia"), 115, 34, vt_map.MapMode.GROUND_OBJECT);
-    olivia:SetDirection(vt_map.MapMode.SOUTH);
+    olivia = CreateNPCSprite(Map, "Girl1", vt_system.Translate("Olivia"), 115, 36, vt_map.MapMode.GROUND_OBJECT)
+    olivia:SetDirection(vt_map.MapMode.SOUTH)
+    olivia:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED)
 
     -- Needed look at events
     vt_map.LookAtSpriteEvent.Create("Bronann looks at Olivia", bronann, olivia);
@@ -262,6 +264,26 @@ function _CreateObjects()
     wooden_sword = CreateObject(Map, "Wooden Sword1", 1, 1, vt_map.MapMode.GROUND_OBJECT);
     wooden_sword:SetVisible(false);
     wooden_sword:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+
+    -- rock hiding the well underground entrance
+    well_entrance_rock = CreateObject(Map, "Rock1", 63, 32, vt_map.MapMode.GROUND_OBJECT);
+
+    -- Surrounding grass
+    local well_grass = {
+    { "Grass Clump1", 62, 32.5 },
+    { "Grass Clump1", 64, 33 },
+    { "Grass Clump1", 58, 33 },
+    { "Grass Clump1", 60, 33.4 },
+    { "Grass Clump1", 65, 32 },
+    { "Grass Clump1", 62, 30.3 },
+    }
+
+    -- Loads the trees according to the array
+    for my_index, my_array in pairs(well_grass) do
+        --print(my_array[1], my_array[2], my_array[3]);
+        object = CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
+        object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -760,6 +782,10 @@ end
 
 -- Updates Olivia dialogues according to the story events
 function _UpdateOliviaDialogue()
+    local dialogue = nil
+    local text = nil
+    local event = nil
+
     olivia:ClearDialogueReferences();
 
     local default_dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_olivia_no_access_to_forest1");
@@ -772,27 +798,68 @@ function _UpdateOliviaDialogue()
     if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
         if (GlobalManager:DoesEventExist("story", "Carson_wooden_sword_given") == true) then
             -- The well quest dialogue
-            local dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_olivia_well_quest");
-            text = vt_system.Translate("Hey Bronann. Ready for your first real challenge?");
-            dialogue:AddLine(text, olivia);
-            text = vt_system.Translate("Hey Olivia. I guess so. What is it all about?");
-            dialogue:AddLineEmote(text, bronann, "interrogation");
-            text = vt_system.Translate("Follow me.");
-            dialogue:AddLine(text, olivia);
-            olivia:AddDialogueReference(dialogue);
-            -- TODO Event to go to the well.
+            dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_olivia_well_quest")
+            text = vt_system.Translate("Hey Bronann. I can see you have your father practice sword. Ready for your first real challenge?")
+            dialogue:AddLine(text, olivia)
+            text = vt_system.Translate("Hey Olivia. I guess so. What is it all about?")
+            dialogue:AddLineEmote(text, bronann, "interrogation")
+            text = vt_system.Translate("Follow me.")
+            dialogue:AddLine(text, olivia)
+            dialogue:SetEventAtDialogueEnd("Olivia goes to well with Bronann")
+            olivia:AddDialogueReference(dialogue)
+
+            -- Event to go to the well.
+            event = vt_map.ScriptedEvent.Create("Olivia goes to well with Bronann", "Well_event_scene_start", "")
+            event:AddEventLinkAtEnd("Olivia moves to the well")
+            event:AddEventLinkAtEnd("Bronann looks at Olivia for a few seconds")
+            event = vt_map.PathMoveSpriteEvent.Create("Olivia moves to the well", olivia, 57, 27, true)
+            event:AddEventLinkAtEnd("Olivia looks at Bronann 1")
+            event = vt_map.LookAtSpriteEvent.Create("Olivia looks at Bronann 1", olivia, bronann)
+
+            event = vt_map.ScriptedEvent.Create("Bronann looks at Olivia for a few seconds", "bronann_watch_olivia_start", "bronann_watch_olivia_update")
+            event:AddEventLinkAtEnd("Bronann moves to the well")
+
+            event = vt_map.PathMoveSpriteEvent.Create("Bronann moves to the well", bronann, 61, 27, true)
+            event:AddEventLinkAtEnd("Olivia looks at Bronann")
+            event = vt_map.LookAtSpriteEvent.Create("Olivia looks at Bronann", olivia, bronann)
+            event:AddEventLinkAtEnd("Olivia opens path to well underground")
+            dialogue = vt_map.SpriteDialogue.Create()
+            text = vt_system.Translate("Here we go!")
+            dialogue:AddLine(text, olivia)
+            event = vt_map.DialogueEvent.Create("Olivia opens path to well underground", dialogue)
+            event:AddEventLinkAtEnd("Olivia moves close to the well")
+
+            event = vt_map.PathMoveSpriteEvent.Create("Olivia moves close to the well", olivia, 59, 28.5, false)
+            event:AddEventLinkAtEnd("Olivia opens well path")
+            event = vt_map.ScriptedEvent.Create("Olivia opens well path", "well_open_trigger_start", "well_open_trigger_update")
+            event:AddEventLinkAtEnd("Olivia speech before entering well")
+
+            dialogue = vt_map.SpriteDialogue.Create()
+            text = vt_system.Translate("Time to dive in, Bronann.")
+            dialogue:AddLine(text, olivia)
+            text = vt_system.Translate("Follow me inside.")
+            dialogue:AddLine(text, olivia)
+            event = vt_map.DialogueEvent.Create("Olivia speech before entering well", dialogue)
+            event:AddEventLinkAtEnd("Olivia enters the well")
+            event = vt_map.PathMoveSpriteEvent.Create("Olivia enters the well", olivia, 63, 32, false)
+            event:AddEventLinkAtEnd("Set Olivia invisible")
+            event = vt_map.ScriptedEvent.Create("Set Olivia invisible", "set_olivia_invisible", "")
+            event:AddEventLinkAtEnd("Bronann enters the well")
+            event = vt_map.PathMoveSpriteEvent.Create("Bronann enters the well", bronann, 63, 32, false)
+            event:AddEventLinkAtEnd("To well underground")
+            event = vt_map.MapTransitionEvent.Create("To well underground", "layna_village_well_underground_map.lua", "layna_village_well_underground_script.lua", "from layna village")
         else
-            olivia:AddDialogueReference(default_dialogue);
+            olivia:AddDialogueReference(default_dialogue)
         end
 
         -- Add the map even to prevent going to the forest
-        event = vt_map.DialogueEvent.Create("Bronann can't enter the forest so easily", default_dialogue);
-        event:SetStopCameraMovement(true);
+        event = vt_map.DialogueEvent.Create("Bronann can't enter the forest so easily", default_dialogue)
+        event:SetStopCameraMovement(true)
     else
-        local dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_olivia_access_to_forest");
-        local text = vt_system.Translate("Good luck Bronann.");
-        dialogue:AddLine(text, olivia);
-        olivia:AddDialogueReference(dialogue);
+        dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_olivia_access_to_forest")
+        text = vt_system.Translate("Good luck Bronann.")
+        dialogue:AddLine(text, olivia)
+        olivia:AddDialogueReference(dialogue)
     end
 end
 
@@ -962,6 +1029,12 @@ end
 -- Helps with the two step fade in the forest event
 local bright_light_time = 0.0
 local bright_light_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
+
+-- Bronann watch Olivia event
+local bronann_watch_time = 0
+
+-- move well stone event
+local well_rock_y_pos = 32
 
 -- Map Custom functions
 map_functions = {
@@ -1138,5 +1211,48 @@ map_functions = {
             sprite:SetVisible(false);
             sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         end
+    end,
+
+    Well_event_scene_start = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE)
+        EventManager:EndAllEvents(olivia)
+        olivia:SetMoving(false)
+        bronann:SetMoving(false)
+        -- Olivia can get stuck because of Bronann start position*
+        olivia:SetCollisionMask(vt_map.MapMode.WALL_COLLISION)
+    end,
+
+    bronann_watch_olivia_start = function()
+        bronann:LookAt(olivia)
+        bronann_watch_time = 0.0
+    end,
+
+    bronann_watch_olivia_update = function()
+        bronann_watch_time = bronann_watch_time + SystemManager:GetUpdateTime()
+        if (bronann_watch_time > 1000) then
+            return true
+        end
+        bronann:LookAt(olivia)
+        return false
+    end,
+
+    well_open_trigger_start = function()
+        Effects:ShakeScreen(0.6, 1000, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL)
+        AudioManager:PlaySound("data/sounds/cave-in.ogg")
+        -- Place the stone
+        well_rock_y_pos = 32
+    end,
+
+    well_open_trigger_update = function()
+        well_rock_y_pos = well_rock_y_pos + (SystemManager:GetUpdateTime() * 0.01)
+        well_entrance_rock:SetYPosition(well_rock_y_pos)
+        if (well_rock_y_pos < 34) then
+            return false
+        end
+        return true
+    end,
+
+    set_olivia_invisible = function()
+        olivia:SetVisible(false)
     end
 }
