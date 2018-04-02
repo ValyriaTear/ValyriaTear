@@ -419,7 +419,7 @@ function _UpdateCarsonDialogue()
         text = vt_system.Translate("By the way, I have great news for you, son.")
         dialogue:AddLine(text, carson)
         text = vt_system.Translate("Something you've been waiting for. Come here I'll show you.")
-        dialogue:AddLineEvent(text, carson, "", "")
+        dialogue:AddLine(text, carson)
         dialogue:SetEventAtDialogueEnd("Show sword start event")
         carson:AddDialogueReference(dialogue)
 
