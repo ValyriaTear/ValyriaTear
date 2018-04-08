@@ -409,6 +409,14 @@ objects["Locker"] = {
     img_height = 1.43 * 16
 }
 
+objects["Oil Lamp"] = {
+    animation_filename = "data/entities/map/objects/oil_lamp.lua",
+    coll_half_width = 0.5 * 16,
+    coll_height = 0.9 * 16,
+    img_half_width = 0.625 * 16,
+    img_height = 1.81 * 16
+}
+
 objects["Paper and Feather"] = {
     animation_filename = "data/entities/map/objects/paper_feather.lua",
     coll_half_width = 0.93 * 16,

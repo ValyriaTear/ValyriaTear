@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2018.02.26
+Last update: 2018.04.09
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -390,6 +390,7 @@ data/entities/map/objects/gate1_open.png                                      CC
 data/entities/map/objects/grass_clump1.png                                    CC-BY-SA-3.0             Len + Zabin (OGA) From the mountain_landscape tileset.
 data/entities/map/objects/layna_statue.png                                    GPLv2+                   Allacrost
 data/entities/map/objects/locker.png                                          GPLv2+                   Allacrost
+data/entities/map/objects/oil_lamp.png                                        CC-BY-3.0                Hyptosis (OGA) - https://opengameart.org/node/13880
 data/entities/map/objects/paper_feather.png                                   GPLv2+                   Allacrost
 data/entities/map/objects/parchment.png                                       GPLv2+                   Allacrost
 data/entities/map/objects/rock1.png                                           CC-BY-3.0                Daniel Cook + Outline fix from Bertram
