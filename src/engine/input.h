@@ -558,6 +558,10 @@ public:
     *** \return Joystick button number for the action
     **/
     //@{
+    int32_t GetJoyIndex() const {
+        return _joystick.joy_index;
+    }
+
     int32_t GetConfirmJoy() const {
         return _joystick.confirm;
     }

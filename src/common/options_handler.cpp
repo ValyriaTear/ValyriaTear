@@ -1384,6 +1384,8 @@ bool GameOptionsMenuHandler::_SaveSettingsFile(const std::string& filename)
     settings_lua.WriteInt("pause", InputManager->GetPauseJoy());
     settings_lua.WriteInt("help", InputManager->GetHelpJoy());
     settings_lua.WriteInt("quit", InputManager->GetQuitJoy());
+    settings_lua.WriteComment("Not supported yet");
+    settings_lua.WriteInt("index", InputManager->GetJoyIndex());
     settings_lua.EndTable(); // joystick_settings
 
     // game
