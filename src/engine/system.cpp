@@ -372,8 +372,6 @@ bool SystemEngine::LoadLanguages()
         return false;
     }
 
-    _default_language_locale = read_data.ReadString("default_locale");
-
     std::vector<std::string> locale_list;
     read_data.ReadTableKeys("languages", locale_list);
 
@@ -390,8 +388,10 @@ bool SystemEngine::LoadLanguages()
     _locales_properties.clear();
 
     for (const std::string& locale : locale_list) {
-        if (locale == "default_locale")
+        if (locale == "default_locale") {
+            _default_language_locale = read_data.ReadString("default_locale");
             continue;
+        }
 
         if (!read_data.OpenTable(locale)) {
             PRINT_WARNING << "Couldn't open locale table: '" << locale << "' in "
