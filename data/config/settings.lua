@@ -11,8 +11,8 @@ settings.video_settings.smooth_graphics = true
 settings.video_settings.ui_theme = "Royal Silk"
 
 settings.audio_settings = {}
-settings.audio_settings.music_vol = 70
-settings.audio_settings.sound_vol = 80
+settings.audio_settings.music_vol = 0.7
+settings.audio_settings.sound_vol = 0.8
 
 settings.key_settings = {}
 settings.key_settings.up = 1073741906
