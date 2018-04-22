@@ -21,6 +21,7 @@ local EventManager = nil
 -- Characters handler
 local bronann = nil
 local olivia = nil
+local hero = nil
 
 -- the main map loading code
 function Load(m)
@@ -56,15 +57,20 @@ function _CreateCharacters()
     bronann = CreateSprite(Map, "Bronann", 18, 3, vt_map.MapMode.GROUND_OBJECT)
     bronann:SetDirection(vt_map.MapMode.SOUTH)
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED)
+    hero = bronann
 
     olivia = CreateNPCSprite(Map, "Girl1", vt_system.Translate("Olivia"), 18, 3, vt_map.MapMode.GROUND_OBJECT)
     olivia:SetDirection(vt_map.MapMode.SOUTH)
     olivia:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED)
 end
 
+-- oil lamp
 local oil_lamp = nil
 local lamp_halo = nil
 local lamp_flare = nil
+
+-- The heal particle effect map object
+local heal_effect = nil
 
 function _CreateObjects()
     local object = nil
@@ -87,6 +93,24 @@ function _CreateObjects()
         lamp_flare:SetVisible(false)
     end
 
+    -- Add the heal icon
+    local npc = CreateObject(Map, "Layna Statue", 11, 10, vt_map.MapMode.GROUND_OBJECT);
+    npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    npc:SetInteractionIcon("data/gui/map/heal_anim.lua")
+    npc = CreateSprite(Map, "Butterfly", 11, 10, vt_map.MapMode.GROUND_OBJECT);
+    npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    npc:SetVisible(false);
+    npc:SetName(""); -- Unset the speaker name
+    dialogue = vt_map.SpriteDialogue.Create();
+    text = vt_system.Translate("Your party feels better.");
+    dialogue:AddLineEvent(text, npc, "Well entrance heal", "");
+    npc:AddDialogueReference(dialogue);
+
+    vt_map.ScriptedEvent.Create("Well entrance heal", "heal_party", "heal_done");
+
+    -- Load the spring heal effect.
+    heal_effect = vt_map.ParticleObject.Create("data/visuals/particle_effects/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    heal_effect:Stop(); -- Don't run it until the character heals itself
 end
 
 local lamp_character = nil
@@ -104,16 +128,24 @@ function _UpdateLampLocation()
     local y_pos = lamp_character:GetYPosition()
     local x_offset = 0.0
     local y_offset = 0.0
-    if (character_direction == vt_map.MapMode.WEST) then
+    if (character_direction == vt_map.MapMode.WEST
+            or character_direction == vt_map.MapMode.NW_WEST
+            or character_direction == vt_map.MapMode.SW_WEST) then
         x_offset = -0.5
         y_offset = -0.5
-    elseif (character_direction == vt_map.MapMode.EAST) then
+    elseif (character_direction == vt_map.MapMode.EAST
+            or character_direction == vt_map.MapMode.NE_EAST
+            or character_direction == vt_map.MapMode.SE_EAST) then
         x_offset = 0.5
         y_offset = -0.5
-    elseif (character_direction == vt_map.MapMode.NORTH) then
+    elseif (character_direction == vt_map.MapMode.NORTH
+            or character_direction == vt_map.MapMode.NW_NORTH
+            or character_direction == vt_map.MapMode.NE_NORTH) then
         x_offset = -0.5
         y_offset = -0.5
-    elseif (character_direction == vt_map.MapMode.SOUTH) then
+    elseif (character_direction == vt_map.MapMode.SOUTH
+            or character_direction == vt_map.MapMode.SW_SOUTH
+            or character_direction == vt_map.MapMode.SE_SOUTH) then
         x_offset = 0.5
         y_offset = -0.5
     end
@@ -220,12 +252,18 @@ function _CreateEvents()
 
         -- Make the whole scene start at map fade in
         EventManager:StartEvent("Well undergrounds scene start");
+    elseif (GlobalManager:DoesEventExist("story", "well_rat_boss_beaten") == false) then
+        -- Should not happen
     else
         -- Stick the lamp to Bronann and make it visible
         lamp_character = bronann
         oil_lamp:SetVisible(true)
         lamp_halo:SetVisible(true)
         lamp_flare:SetVisible(true)
+
+        -- Disable Olivia when the event is done.
+        olivia:SetVisible(false)
+        olivia:SetPosition(0, 0)
     end
 end
 
@@ -254,6 +292,10 @@ local oil_lamp_move_x_pos = 0
 local oil_lamp_move_y_pos = 0
 local oil_lamp_move_y_pos_end = 0
 local oil_lamp_move_y_pos_end = 0
+
+-- Effect time used when applying the heal light effect
+local heal_effect_time = 0;
+local heal_color = vt_video.Color(0.0, 0.0, 1.0, 1.0);
 
 map_functions = {
 
@@ -324,5 +366,34 @@ map_functions = {
         -- Set intro event as done
         GlobalManager:SetEventValue("story", "well_intro_event_done", 1)
         Map:PopState()
+    end,
+
+    heal_party = function()
+        hero:SetMoving(false);
+        -- Should be sufficient to heal anybody
+        GlobalManager:GetActiveParty():AddHitPoints(10000);
+        GlobalManager:GetActiveParty():AddSkillPoints(10000);
+        Map:SetStamina(10000);
+        AudioManager:PlaySound("data/sounds/heal_spell.wav");
+        heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
+        heal_effect:Start();
+        heal_effect_time = 0;
+    end,
+
+    heal_done = function()
+        heal_effect_time = heal_effect_time + SystemManager:GetUpdateTime();
+
+        if (heal_effect_time < 300.0) then
+            heal_color:SetAlpha(heal_effect_time / 300.0 / 3.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(heal_color);
+            return false;
+        end
+
+        if (heal_effect_time < 1000.0) then
+            heal_color:SetAlpha(((1000.0 - heal_effect_time) / 700.0) / 3.0);
+            Map:GetEffectSupervisor():EnableLightingOverlay(heal_color);
+            return false;
+        end
+        return true;
     end,
 }
