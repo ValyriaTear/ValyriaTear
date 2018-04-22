@@ -1,10 +1,10 @@
 local ns = {}
 setmetatable(ns, {__index = _G})
-at_night = ns;
+lost_in_darkness = ns;
 setfenv(1, ns);
 
 local Script = nil
-local night_layer = nil
+local darkness_layer = nil
 
 -- TODO #611: Add support for multiple light layers, and get rid of this script.
 
@@ -13,16 +13,16 @@ function Initialize(battle_instance)
     Script = battle_instance:GetScriptSupervisor();
 
     -- Load a white empty image
-    night_layer = Script:CreateImage("");
-    night_layer:SetDimensions(1024.0, 768.0);
+    darkness_layer = Script:CreateImage("");
+    darkness_layer:SetDimensions(1024.0, 768.0);
 end
 
-local night_color = vt_video.Color(0.0, 0.0, 0.24, 0.6);
+local darkness_color = vt_video.Color(0.0, 0.0, 0.0, 0.9);
 
 function DrawForeground()
     -- Useful for the map mode
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_X_LEFT);
     Script:SetDrawFlag(vt_video.GameVideo.VIDEO_Y_TOP);
     VideoManager:Move(0.0, 0.0);
-    night_layer:Draw(night_color);
+    darkness_layer:Draw(darkness_color);
 end
