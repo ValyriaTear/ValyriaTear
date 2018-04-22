@@ -17,7 +17,7 @@ function Initialize(battle_instance)
     darkness_layer:SetDimensions(1024.0, 768.0);
 end
 
-local darkness_color = vt_video.Color(0.0, 0.0, 0.0, 0.9);
+local darkness_color = vt_video.Color(0.0, 0.0, 0.0, 0.8);
 
 function DrawForeground()
     -- Useful for the map mode

@@ -7,7 +7,7 @@ setfenv(1, ns);
 -- The map name, subname and location image
 map_name = "Mountain Village of Layna"
 map_image_filename = "data/story/common/locations/mountain_village.png"
-map_subname = "Well's undergrounds"
+map_subname = "Well Undergrounds"
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
@@ -52,11 +52,12 @@ end
 
 -- Character creation
 function _CreateCharacters()
-    bronann = CreateSprite(Map, "Bronann", 18, 2, vt_map.MapMode.GROUND_OBJECT)
-    bronann:SetDirection(vt_map.MapMode.NORTH)
+
+    bronann = CreateSprite(Map, "Bronann", 18, 3, vt_map.MapMode.GROUND_OBJECT)
+    bronann:SetDirection(vt_map.MapMode.SOUTH)
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED)
 
-    olivia = CreateNPCSprite(Map, "Girl1", vt_system.Translate("Olivia"), 18, 2, vt_map.MapMode.GROUND_OBJECT)
+    olivia = CreateNPCSprite(Map, "Girl1", vt_system.Translate("Olivia"), 18, 3, vt_map.MapMode.GROUND_OBJECT)
     olivia:SetDirection(vt_map.MapMode.SOUTH)
     olivia:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED)
 end
@@ -69,6 +70,7 @@ function _CreateObjects()
     local object = nil
 
     oil_lamp = CreateObject(Map, "Oil Lamp", 15, 14, vt_map.MapMode.GROUND_OBJECT)
+    oil_lamp:SetCollisionMask(vt_map.MapMode.NO_COLLISION)
     local lamp_x_pos = oil_lamp:GetXPosition()
     local lamp_y_pos = oil_lamp:GetYPosition()
 
@@ -140,28 +142,90 @@ function _CreateEvents()
     -- Generic events
     vt_map.LookAtSpriteEvent.Create("Olivia looks at Bronann", olivia, bronann)
     vt_map.LookAtSpriteEvent.Create("Bronann looks at Olivia", bronann, olivia)
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", bronann, vt_map.MapMode.SOUTH)
+    vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks east", bronann, vt_map.MapMode.EAST)
 
     if (GlobalManager:DoesEventExist("story", "well_intro_event_done") == false) then
         event = vt_map.ScriptedEvent.Create("Well undergrounds scene start", "well_intro_scene_start", "")
         event:AddEventLinkAtEnd("Olivia takes a few steps")
 
-        event = vt_map.PathMoveSpriteEvent.Create("Olivia takes a few steps", olivia, 18, 12, false)
+        event = vt_map.PathMoveSpriteEvent.Create("Olivia takes a few steps", olivia, 18, 13, false)
         event:AddEventLinkAtEnd("Olivia shows the oil lamp", 1000)
 
         event = vt_map.ScriptedEvent.Create("Olivia shows the oil lamp", "oil_lamp_move_start", "oil_lamp_move_update")
         event:AddEventLinkAtEnd("Olivia lights the oil lamp", 1000)
 
         event = vt_map.ScriptedEvent.Create("Olivia lights the oil lamp", "oil_lamp_light", "")
-        event:AddEventLinkAtEnd("Olivia looks at Bronann")
+        event:AddEventLinkAtEnd("Olivia looks at Bronann", 1000)
         event:AddEventLinkAtEnd("Olivia goes near the fountain", 2000)
 
         event = vt_map.PathMoveSpriteEvent.Create("Olivia goes near the fountain", olivia, 10, 14, false)
         event:AddEventLinkAtEnd("Olivia looks at Bronann")
+        event:AddEventLinkAtEnd("Olivia tells Bronann to come in the undergrounds", 1000)
+
+        dialogue = vt_map.SpriteDialogue.Create()
+        text = vt_system.Translate("You can come, Bronann")
+        dialogue:AddLine(text, olivia)
+        event = vt_map.DialogueEvent.Create("Olivia tells Bronann to come in the undergrounds", dialogue)
+        event:AddEventLinkAtEnd("Bronann goes near Olivia")
 
         event = vt_map.PathMoveSpriteEvent.Create("Bronann goes near Olivia", bronann, 12, 14, false)
-        --event:AddEventLinkAtEnd("Olivia looks at Bronann")
+        event:AddEventLinkAtEnd("Bronann looks at Olivia")
+        event:AddEventLinkAtEnd("Olivia tells Bronann about the undergrounds", 1000)
 
+        dialogue = vt_map.SpriteDialogue.Create()
+        text = vt_system.Translate("This is one of the many secrets of this village.")
+        dialogue:AddLine(text, olivia)
+        text = vt_system.Translate("This village was once a sanctuary and many people lived around here. Surprising, eh?")
+        dialogue:AddLineEvent(text, olivia, "", "Bronann looks south")
+        text = vt_system.Translate("Your father told me you were now ready.")
+        dialogue:AddLineEvent(text, olivia, "", "Bronann looks east")
+        text = vt_system.Translate("Huh? Ready for what?")
+        dialogue:AddLineEmote(text, bronann, "exclamation")
+        text = vt_system.Translate("For your first true trial.")
+        dialogue:AddLineEvent(text, olivia, "Olivia looks at Bronann", "")
+        text = vt_system.Translate("I know I will sound harsh Bronann, but we've been having issues with rats in the well recently.")
+        dialogue:AddLineEvent(text, olivia, "Bronann looks at Olivia", "")
+        text = vt_system.Translate("You're now going to go deep down this cave and chase them all before they start polluting our water.")
+        dialogue:AddLine(text, olivia)
+        text = vt_system.Translate("All by yourself.")
+        dialogue:AddLine(text, olivia)
+        text = vt_system.Translate("I'll stay around but I won't participate. This... will prepare you for the days to come.")
+        dialogue:AddLineEmote(text, olivia, "thinking dots")
+        text = vt_system.Translate("Take this lamp, your father gave it to me earlier. You can keep it.")
+        dialogue:AddLineEvent(text, olivia, "Move lamp near Bronann", "")
+
+        event = vt_map.ScriptedEvent.Create("Move lamp near Bronann", "move_lamp_to_bronann_start", "move_lamp_to_bronann_update")
+
+        text = vt_system.Translate("You can use the fountain here to restore your health, but you are to complete this before going out again. Not too afraid?")
+        dialogue:AddLine(text, olivia)
+        text = vt_system.Translate("I'm completely panicking, Olivia. Why now?")
+        dialogue:AddLineEmote(text, bronann, "exclamation")
+        text = vt_system.Translate("It will be fine.")
+        dialogue:AddLine(text, olivia)
+        event = vt_map.DialogueEvent.Create("Olivia tells Bronann about the undergrounds", dialogue)
+        event:AddEventLinkAtEnd("Olivia goes to the entrance and watch")
+
+        event = vt_map.PathMoveSpriteEvent.Create("Olivia goes to the entrance and watch", olivia, 18, 6, false)
+        event:AddEventLinkAtEnd("Olivia looks at Bronann")
+        event:AddEventLinkAtEnd("Olivia tells Bronann to go")
+
+        dialogue = vt_map.SpriteDialogue.Create()
+        text = vt_system.Translate("You can make it.")
+        dialogue:AddLine(text, olivia)
+        event = vt_map.DialogueEvent.Create("Olivia tells Bronann to go", dialogue)
+        event:AddEventLinkAtEnd("Well undergrounds scene end")
+
+        event = vt_map.ScriptedEvent.Create("Well undergrounds scene end", "well_intro_scene_end", "")
+
+        -- Make the whole scene start at map fade in
         EventManager:StartEvent("Well undergrounds scene start");
+    else
+        -- Stick the lamp to Bronann and make it visible
+        lamp_character = bronann
+        oil_lamp:SetVisible(true)
+        lamp_halo:SetVisible(true)
+        lamp_flare:SetVisible(true)
     end
 end
 
@@ -186,8 +250,10 @@ end
 -- Map Custom functions
 -- Used through scripted events
 
-oil_lamp_move_y_pos = 0
-oil_lamp_move_y_pos_end = 0
+local oil_lamp_move_x_pos = 0
+local oil_lamp_move_y_pos = 0
+local oil_lamp_move_y_pos_end = 0
+local oil_lamp_move_y_pos_end = 0
 
 map_functions = {
 
@@ -220,7 +286,43 @@ map_functions = {
         lamp_halo:SetVisible(true)
     end,
 
+    move_lamp_to_bronann_start = function()
+        -- unstick lamp from Olivia
+        lamp_character = nil
+        -- Set starting coords
+        oil_lamp_move_x_pos = oil_lamp:GetXPosition()
+        oil_lamp_move_y_pos = oil_lamp:GetYPosition()
+        oil_lamp_move_x_pos_end = oil_lamp_move_x_pos + 0.5
+        oil_lamp_move_y_pos_end = oil_lamp_move_y_pos - 0.5
+    end,
+
+    move_lamp_to_bronann_update = function()
+        local move_update = SystemManager:GetUpdateTime() / 200
+        _SetLampPosition(oil_lamp_move_x_pos, oil_lamp_move_y_pos)
+        if (oil_lamp_move_y_pos > oil_lamp_move_y_pos_end) then
+            oil_lamp_move_y_pos = oil_lamp_move_y_pos - move_update
+            return false
+        end
+        if (oil_lamp_move_x_pos < oil_lamp_move_x_pos_end) then
+            oil_lamp_move_x_pos = oil_lamp_move_x_pos + move_update
+            return false
+        end
+        -- Stick the lamp to Bronann
+        lamp_character = bronann
+        return true
+    end,
+
     well_intro_scene_end = function()
+        -- Set new Olivia dialogue
+        olivia:ClearDialogueReferences()
+        local dialogue = vt_map.SpriteDialogue.Create()
+        local text = vt_system.Translate("Bronann. Sorry, you have to complete this first.")
+        dialogue:AddLine(text, olivia)
+        text = vt_system.Translate("You can use the fountain here to restore your health.")
+        dialogue:AddLine(text, olivia)
+        olivia:AddDialogueReference(dialogue)
+        -- Set intro event as done
+        GlobalManager:SetEventValue("story", "well_intro_event_done", 1)
         Map:PopState()
     end,
 }
