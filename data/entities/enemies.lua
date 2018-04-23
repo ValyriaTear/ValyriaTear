@@ -1169,11 +1169,11 @@ enemies[22] = {
     },
 
     base_stats = {
-        hit_points = 19,
+        hit_points = 17,
         skill_points = 0,
-        phys_atk = 6,
+        phys_atk = 5,
         mag_atk = 0,
-        phys_def = 4,
+        phys_def = 3,
         mag_def = 1,
         stamina = 20,
         evade = 2.0,

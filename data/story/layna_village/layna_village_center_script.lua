@@ -110,6 +110,9 @@ function _CreateCharacters()
         bronann:SetDirection(vt_map.MapMode.WEST);
     elseif (GlobalManager:GetPreviousLocation() == "from_bronanns_home") then
         AudioManager:PlaySound("data/sounds/door_close.wav");
+    elseif (GlobalManager:GetPreviousLocation() == "from_well_undergrounds") then
+        bronann:SetPosition(63, 27.5);
+        bronann:SetDirection(vt_map.MapMode.NORTH);
     end
 end
 
@@ -266,7 +269,11 @@ function _CreateObjects()
     wooden_sword:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
     -- rock hiding the well underground entrance
-    well_entrance_rock = CreateObject(Map, "Rock1", 63, 32, vt_map.MapMode.GROUND_OBJECT);
+    well_entrance_rock = CreateObject(Map, "Rock1", 63, 32, vt_map.MapMode.GROUND_OBJECT)
+    if (GlobalManager:DoesEventExist("story", "well_rats_beaten") == true) then
+        -- The rock has moved
+        well_entrance_rock:SetPosition(63, 34)
+    end
 
     -- Surrounding grass
     local well_grass = {
@@ -316,6 +323,10 @@ function _CreateEvents()
 
     vt_map.MapTransitionEvent.Create("to layna forest entrance", "data/story/layna_forest/layna_forest_entrance_map.lua",
                                      "data/story/layna_forest/layna_forest_entrance_script.lua", "from_village_center")
+
+    event = vt_map.MapTransitionEvent.Create("To well underground", "data/story/layna_village/layna_village_well_underground_map.lua",
+        "data/story/layna_village/layna_village_well_underground_script.lua",
+        "from layna village")
 
     -- Generic events
     vt_map.ScriptedEvent.Create("Map:PushState(SCENE)", "Map_SceneState", "");
@@ -701,6 +712,7 @@ local shop_entrance_zone = nil
 local secret_path_zone = nil
 local to_layna_forest_zone = nil
 local sophia_house_entrance_zone = nil
+local to_well_undergrounds_zone = nil
 
 function _CreateZones()
     -- N.B.: left, right, top, bottom
@@ -712,6 +724,7 @@ function _CreateZones()
     secret_path_zone = vt_map.CameraZone.Create(0, 1, 55, 61);
     to_layna_forest_zone = vt_map.CameraZone.Create(117, 119, 30, 43);
     sophia_house_entrance_zone = vt_map.CameraZone.Create(21, 23, 21, 22);
+    to_well_undergrounds_zone = vt_map.CameraZone.Create(62, 64, 29, 30)
 end
 
 function _CheckZones()
@@ -754,6 +767,11 @@ function _CheckZones()
         bronann:SetMoving(false);
         EventManager:StartEvent("to sophia house");
         AudioManager:PlaySound("data/sounds/door_open2.wav");
+    elseif (to_well_undergrounds_zone:IsCameraEntering() == true
+            -- cannot enter until the well event is done.
+            and GlobalManager:DoesEventExist("story", "well_rats_beaten") == true) then
+        bronann:SetMoving(false)
+        EventManager:StartEvent("To well underground")
     end
 end
 
@@ -796,7 +814,8 @@ function _UpdateOliviaDialogue()
 
     -- Don't grant access to the forest so easily
     if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
-        if (GlobalManager:DoesEventExist("story", "Carson_wooden_sword_given") == true) then
+        if (GlobalManager:DoesEventExist("story", "Carson_wooden_sword_given") == true
+                and GlobalManager:DoesEventExist("story", "well_rats_beaten") == false) then
             -- The well quest dialogue
             dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_olivia_well_quest")
             text = vt_system.Translate("Hey Bronann. I can see you have your father practice sword. Ready for your first real challenge?")
@@ -846,8 +865,7 @@ function _UpdateOliviaDialogue()
             event = vt_map.ScriptedEvent.Create("Set Olivia invisible", "set_olivia_invisible", "")
             event:AddEventLinkAtEnd("Bronann enters the well")
             event = vt_map.PathMoveSpriteEvent.Create("Bronann enters the well", bronann, 63, 32, false)
-            event:AddEventLinkAtEnd("To well underground")
-            event = vt_map.MapTransitionEvent.Create("To well underground", "data/story/layna_village/layna_village_well_underground_map.lua", "data/story/layna_village/layna_village_well_underground_script.lua", "from layna village")
+            event:AddEventLinkAtEnd("To well underground") -- map transition
         else
             olivia:AddDialogueReference(default_dialogue)
         end

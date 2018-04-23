@@ -212,8 +212,17 @@ function _CheckMonstersState()
             local dialogue = vt_map.SpriteDialogue.Create()
             local text = vt_system.Translate("Congratulations, Bronann. Here is your reward.")
             dialogue:AddLineEmote(text, olivia, "exclamation")
+            dialogue:SetEventAtDialogueEnd("Bronann receives reward")
             olivia:AddDialogueReference(dialogue)
-            -- TODO: Make here leave, add reward, check the map can be reentered after quest
+
+            local event = vt_map.TreasureEvent.Create("Bronann receives reward");
+            event:AddItem(3112, 1); -- Silk
+            event:AddEventLinkAtEnd("Olivia leaves");
+
+            event = vt_map.PathMoveSpriteEvent.Create("Olivia leaves", olivia, 18, 1, false)
+            event:AddEventLinkAtEnd("Set Olivia invisible")
+
+            event = vt_map.ScriptedEvent.Create("Set Olivia invisible", "make_olivia_invisible", "")
 
             -- Set intro event as done
             GlobalManager:SetEventValue("story", "well_rats_beaten", 1);
@@ -226,6 +235,8 @@ function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
     enemy:AddBattleScript("data/battles/battle_scenes/desert_cave_battle_anim.lua");
+    enemy:AddBattleScript("data/story/common/lost_in_darkness.lua");
+    -- TODO: Add oil lamp as scenery in battles
 end
 
 -- Creates all events and sets up the entire event sequence chain
@@ -264,7 +275,7 @@ function _CreateEvents()
         event:AddEventLinkAtEnd("Olivia tells Bronann to come in the undergrounds", 1000)
 
         dialogue = vt_map.SpriteDialogue.Create()
-        text = vt_system.Translate("You can come, Bronann")
+        text = vt_system.Translate("You can come, Bronann.")
         dialogue:AddLine(text, olivia)
         event = vt_map.DialogueEvent.Create("Olivia tells Bronann to come in the undergrounds", dialogue)
         event:AddEventLinkAtEnd("Bronann goes near Olivia")
@@ -463,5 +474,10 @@ map_functions = {
             return false;
         end
         return true;
+    end,
+
+    make_olivia_invisible = function()
+        olivia:SetVisible(false)
+        olivia:SetPosition(0, 0)
     end,
 }
