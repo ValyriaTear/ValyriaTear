@@ -41,6 +41,7 @@ function Load(m)
 
     _CreateEvents()
     _CreateZones()
+    _CreateEnemies()
 end
 
 -- the map update function handles checks done on each game tick.
@@ -49,6 +50,8 @@ function Update()
     _CheckZones()
 
     _UpdateLampLocation()
+
+    _CheckMonstersState()
 end
 
 -- Character creation
@@ -160,6 +163,71 @@ function _SetLampPosition(x, y)
     lamp_flare:SetPosition(x, y + 2.0)
 end
 
+-- Special roam zones used to test whether Bronann did the fights
+local roam_zone1 = nil
+local roam_zone2 = nil
+local roam_zone3 = nil
+local rats_beaten = false
+
+function _CreateEnemies()
+    local enemy = nil
+
+    -- Hint: left, right, top, bottom
+    roam_zone1 = vt_map.EnemyZone.Create(48, 61, 2, 20)
+    enemy = CreateEnemySprite(Map, "ratto")
+    _SetBattleEnvironment(enemy)
+    enemy:NewEnemyParty()
+    enemy:AddEnemy(22)
+    roam_zone1:AddEnemy(enemy, 2)
+    roam_zone1:SetSpawnsLeft(1); -- This monster shall spawn only one time.
+
+    -- Hint: left, right, top, bottom
+    roam_zone2 = vt_map.EnemyZone.Create(2, 10, 42, 63)
+    enemy = CreateEnemySprite(Map, "ratto")
+    _SetBattleEnvironment(enemy)
+    enemy:NewEnemyParty()
+    enemy:AddEnemy(22)
+    roam_zone2:AddEnemy(enemy, 2)
+    roam_zone2:SetSpawnsLeft(1); -- This monster shall spawn only one time.
+
+    -- Hint: left, right, top, bottom
+    roam_zone3 = vt_map.EnemyZone.Create(58, 60, 58, 60)
+    enemy = CreateEnemySprite(Map, "ratto")
+    _SetBattleEnvironment(enemy)
+    enemy:NewEnemyParty()
+    enemy:AddEnemy(22)
+    enemy:AddEnemy(22)
+    enemy:SetBoss(true)
+    roam_zone3:AddEnemy(enemy, 1)
+    roam_zone3:SetSpawnsLeft(1); -- This monster shall spawn only one time.
+end
+
+function _CheckMonstersState()
+    if (rats_beaten == false and roam_zone1:GetSpawnsLeft() == 0 and roam_zone2:GetSpawnsLeft() == 0 and roam_zone3:GetSpawnsLeft() == 0) then
+        if (GlobalManager:DoesEventExist("story", "well_rats_beaten") == false) then
+            rats_beaten = true
+
+            -- Update Olivia dialogue to let Bronann go out
+            olivia:ClearDialogueReferences()
+            local dialogue = vt_map.SpriteDialogue.Create()
+            local text = vt_system.Translate("Congratulations, Bronann. Here is your reward.")
+            dialogue:AddLineEmote(text, olivia, "exclamation")
+            olivia:AddDialogueReference(dialogue)
+            -- TODO: Make here leave, add reward, check the map can be reentered after quest
+
+            -- Set intro event as done
+            GlobalManager:SetEventValue("story", "well_rats_beaten", 1);
+        end
+    end
+end
+
+-- Sets common battle environment settings for enemy sprites
+function _SetBattleEnvironment(enemy)
+    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
+    enemy:SetBattleBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
+    enemy:AddBattleScript("data/battles/battle_scenes/desert_cave_battle_anim.lua");
+end
+
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
     local event = nil
@@ -252,7 +320,7 @@ function _CreateEvents()
 
         -- Make the whole scene start at map fade in
         EventManager:StartEvent("Well undergrounds scene start");
-    elseif (GlobalManager:DoesEventExist("story", "well_rat_boss_beaten") == false) then
+    elseif (GlobalManager:DoesEventExist("story", "well_rats_beaten") == false) then
         -- Should not happen
     else
         -- Stick the lamp to Bronann and make it visible

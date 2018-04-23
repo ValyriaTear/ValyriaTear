@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2018.04.09
+Last update: 2018.04.23
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -325,6 +325,7 @@ data/entities/map/enemies/fenrir_spritesheet.png                              GP
 data/entities/map/enemies/gigas_walk.png                                      GPLv2+                   Allacrost
 data/entities/map/enemies/lord_spritesheet.png                                CC-BY-SA-3.0             Bertram, adapted from Redshrike (OGA) - https://opengameart.org/content/dark-soldier-for-valyria-tear
 data/entities/map/enemies/naga_walk.png                                       GPLv2+                   Allacrost
+data/entities/map/enemies/ratto_spritesheet.png                               CC_BY-SA-3.0             CK782 (EvolOnline) - https://raw.githubusercontent.com/themanaworld/client-data/master/graphics/sprites/monsters/ratto.png
 data/entities/map/enemies/scorpion_walk.png                                   GPLv2+                   Allacrost
 data/entities/map/enemies/skeleton_spritesheet.png                            CC-BY-SA-3.0 / GPLv2     FotherJ (TMW) - https://github.com/themanaworld/tmwa-client-data/blob/master/graphics/sprites/monsters/skeleton.png
 data/entities/map/enemies/slime_walk.png                                      GPLv2+                   Allacrost
