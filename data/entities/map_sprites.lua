@@ -349,6 +349,21 @@ sprites["Squirrel"] = {
 -- ---------
 -- Enemies
 -- ---------
+sprites["ratto"] = {
+    name = vt_system.Translate("Ratto"),
+    coll_half_width = 0.6 * 16,
+    coll_height = 1.6 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 2.0 * 16,
+    movement_speed = ENEMY_SPEED,
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "data/entities/map/enemies/rat_idle.lua",
+        walk = "data/entities/map/enemies/rat_walk.lua"
+    }
+}
+
 sprites["bat"] = {
     name = vt_system.Translate("Bat"),
     coll_half_width = 0.6 * 16,

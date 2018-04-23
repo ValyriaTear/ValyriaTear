@@ -1157,6 +1157,50 @@ enemies[21] = {
     }
 }
 
+enemies[22] = {
+    name = vt_system.Translate("Ratto"),
+    stamina_icon = "data/battles/stamina_icons/enemies/rat.png",
+
+    battle_animations = {
+        [HURT_NONE] = "data/entities/battle/enemies/rat_0.lua",
+        [HURT_SLIGHTLY] = "data/entities/battle/enemies/rat_1.lua",
+        [HURT_MEDIUM] = "data/entities/battle/enemies/rat_2.lua",
+        [HURT_HEAVILY] = "data/entities/battle/enemies/rat_3.lua"
+    },
+
+    base_stats = {
+        hit_points = 19,
+        skill_points = 0,
+        phys_atk = 6,
+        mag_atk = 0,
+        phys_def = 4,
+        mag_def = 1,
+        stamina = 20,
+        evade = 2.0,
+        experience_points = 6,
+        drunes = 0
+    },
+
+    attack_points = {
+        [1] = {
+            name = vt_system.Translate("Body"),
+            x_position = 5,
+            y_position = 34,
+            phys_def_modifier = 0.0,
+            mag_def_modifier = 0.0,
+            evade_modifier = 0.0
+        }
+    },
+
+    skills = {
+        1006, -- Normal attack
+    },
+
+    drop_objects = {
+        { 3109, 0.20 } -- Rodent Material
+    }
+}
+
 -- ======== Unbalanced ========
 
 -- Traits -----------------------------------------------------------------------
