@@ -427,38 +427,15 @@ function _CreateEvents()
     -- Georges event
     vt_map.ScriptedEvent.Create("Quest1: Georges tells whom the barley meal was for", "Quest1GeorgesTellsBronannAboutLilly", "");
 
-    -- Quest 2: Bronann wants to go to Flora's and buy a sword to go in the forest
-    event = vt_map.ScriptedEvent.Create("Quest2: Bronann wants to buy a sword from Flora", "Map_SceneState", "");
-    event:AddEventLinkAtEnd("Quest2: Bronann wants to see Flora for equipment", 1000);
-    event:AddEventLinkAtEnd("Bronann is sad");
-
-    vt_map.AnimateSpriteEvent.Create("Bronann is sad", bronann, "hero_stance", 2000);
-    vt_map.AnimateSpriteEvent.Create("Bronann is frightnened", bronann, "frightened", -1);
-    vt_map.AnimateSpriteEvent.Create("Bronann searches", bronann, "searching", 0);
-
-    dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Why doesn't anyone tell me what's going on!");
-    dialogue:AddLineEmote(text, bronann, "exclamation");
-    text = vt_system.Translate("Still, I have to go to the forest and figure out what they're trying to hide from me.");
-    dialogue:AddLineEmote(text, bronann, "thinking dots");
-    event = vt_map.DialogueEvent.Create("Quest2: Bronann wants to see Flora for equipment", dialogue);
-    event:SetStopCameraMovement(true);
-    event:AddEventLinkAtEnd("Map:PopState()");
-
-    -- Quest 2: Bronann doesn't want to see his parents for the moment
-    dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("No, I won't go there. I just can't talk to them at the moment. I'll go to the forest without my father.");
-    dialogue:AddLine(text, bronann);
-    event = vt_map.DialogueEvent.Create("Quest2: Bronann doesn't want to see his parents", dialogue);
-    event:SetStopCameraMovement(true);
-
     -- Quest 2: The forest event
     event = vt_map.ScriptedEvent.Create("Quest2: Forest event", "Prepare_forest_event", "");
     event:AddEventLinkAtEnd("Quest2: Forest event - light", 1200);
 
     event = vt_map.ScriptedEvent.Create("Quest2: Forest event - light", "BrightLightStart", "BrightLightUpdate");
-    event:AddEventLinkAtEnd("Quest2: Bronann wonders what was that", 500);
-    event:AddEventLinkAtEnd("Bronann searches");
+    event:AddEventLinkAtEnd("Bronann searches")
+
+    vt_map.AnimateSpriteEvent.Create("Bronann searches", bronann, "searching", 1000)
+    event:AddEventLinkAtEnd("Quest2: Bronann wonders what was that", 500)
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Huh? What was that light?");
@@ -729,12 +706,6 @@ end
 
 function _CheckZones()
     if (bronanns_home_entrance_zone:IsCameraEntering() == true) then
-        -- If Bronann has started the quest 2, he doesn't want to go back and see his parents.
-        if (GlobalManager:DoesEventExist("story", "Quest2_started") == true
-            and GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
-            EventManager:StartEvent("Quest2: Bronann doesn't want to see his parents");
-            return;
-        end
         bronann:SetMoving(false);
         AudioManager:PlaySound("data/sounds/door_open2.wav");
         EventManager:StartEvent("to Bronann's home");
@@ -785,13 +756,7 @@ function _TriggerPotentialDialogueAfterFadeIn()
         return;
     end
 
-    if (GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
-        if (GlobalManager:DoesEventExist("story", "Quest2_wants_to_buy_sword_dialogue") == false) then
-            EventManager:StartEvent("Quest2: Bronann wants to buy a sword from Flora");
-            GlobalManager:SetEventValue("story", "Quest2_wants_to_buy_sword_dialogue", 1);
-            return;
-        end
-    elseif (GlobalManager:DoesEventExist("layna_center", "first_time_in_village_center") == false) then
+    if (GlobalManager:DoesEventExist("layna_center", "first_time_in_village_center") == false) then
         EventManager:StartEvent("Quest1: Bronann wonders where he can find some barley meal");
         GlobalManager:SetEventValue("layna_center", "first_time_in_village_center", 1);
         return;
