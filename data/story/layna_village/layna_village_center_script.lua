@@ -180,7 +180,7 @@ function _CreateNPCs()
     vt_map.SoundEvent.Create("Nekko says Meoww!", "data/sounds/meow.wav");
     object:SetEventWhenTalking("Nekko says Meoww!");
 
-    georges = CreateNPCSprite(Map, "Man1", vt_system.Translate("Georges"), 32, 76, vt_map.MapMode.GROUND_OBJECT);
+    georges = CreateNPCSprite(Map, "Man1", vt_system.Translate("Georges"), 42.5, 65, vt_map.MapMode.GROUND_OBJECT);
     georges:SetDirection(vt_map.MapMode.WEST);
     _UpdateGeorgesDialogue(georges);
 
@@ -329,13 +329,15 @@ function _CreateEvents()
         "from layna village")
 
     -- Generic events
-    vt_map.ScriptedEvent.Create("Map:PushState(SCENE)", "Map_SceneState", "");
-    vt_map.ScriptedEvent.Create("Map:PopState()", "Map_PopState", "");
+    vt_map.ScriptedEvent.Create("Map:PushState(SCENE)", "Map_SceneState", "")
+    vt_map.ScriptedEvent.Create("Map:PopState()", "Map_PopState", "")
 
-    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
-    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, kalya);
-    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Bronann", orlinn, bronann);
-    vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya, orlinn);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks south", kalya, vt_map.MapMode.SOUTH)
+    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Kalya", orlinn, kalya)
+    vt_map.LookAtSpriteEvent.Create("Orlinn looks at Bronann", orlinn, bronann)
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya, orlinn)
+    vt_map.AnimateSpriteEvent.Create("Bronann is sad", bronann, "hero_stance", 1000)
+    vt_map.AnimateSpriteEvent.Create("Bronann is frightened", bronann, "frightened", 600)
 
     -- Init Olivia Dialogue
     _UpdateOliviaDialogue();
@@ -432,47 +434,50 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Quest2: Forest event - light", 1200);
 
     event = vt_map.ScriptedEvent.Create("Quest2: Forest event - light", "BrightLightStart", "BrightLightUpdate");
+    event:AddEventLinkAtEnd("Bronann moves out of the door")
+
+    event = vt_map.PathMoveSpriteEvent.Create("Bronann moves out of the door", bronann, 12, 66, false)
     event:AddEventLinkAtEnd("Bronann searches")
 
     vt_map.AnimateSpriteEvent.Create("Bronann searches", bronann, "searching", 1000)
     event:AddEventLinkAtEnd("Quest2: Bronann wonders what was that", 500)
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Huh? What was that light?");
+    text = vt_system.Translate("What was this?");
     dialogue:AddLineEmote(text, bronann, "interrogation");
     text = vt_system.Translate("Bronann! Wait!");
     dialogue:AddLine(text, carson);
     event = vt_map.DialogueEvent.Create("Quest2: Bronann wonders what was that", dialogue);
     event:SetStopCameraMovement(true);
-    event:AddEventLinkAtEnd("Quest2: Carson moves to Bronann");
-    event:AddEventLinkAtEnd("Quest2: Bronann looks at his father");
+    event:AddEventLinkAtEnd("Make Carson Visible")
+    event:AddEventLinkAtEnd("Quest2: Carson moves to Bronann", 100)
+    event:AddEventLinkAtEnd("Quest2: Bronann looks at his father", 100)
 
-    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Carson moves to Bronann", carson, 89.0, 74.0, false);
+    vt_map.ScriptedEvent.Create("Make Carson Visible", "set_carson_visible", "")
+
+    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Carson moves to Bronann", carson, 12, 63, false);
     event:AddEventLinkAtEnd("Quest2: Carson starts to talk to Bronann");
 
-    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Bronann looks at his father", bronann, vt_map.MapMode.WEST);
-    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Herth looks at Carson", herth, vt_map.MapMode.NORTH);
-    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Herth looks at Kalya", herth, vt_map.MapMode.WEST);
-    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Carson looks at Herth", carson, vt_map.MapMode.SOUTH);
-    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Carson looks at Kalya", carson, vt_map.MapMode.WEST);
-    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Carson looks at Bronann", carson, vt_map.MapMode.EAST);
-    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Kalya looks at Carson", kalya, vt_map.MapMode.NORTH);
-    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Kalya looks at Bronann", kalya, vt_map.MapMode.EAST);
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Bronann looks at his father", bronann, vt_map.MapMode.NORTH)
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Bronann looks at Herth", bronann, vt_map.MapMode.EAST)
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Herth looks at Carson", herth, vt_map.MapMode.WEST)
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Herth looks at Kalya", herth, vt_map.MapMode.EAST)
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Carson looks at Herth", carson, vt_map.MapMode.SOUTH)
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Carson looks at Kalya", carson, vt_map.MapMode.SOUTH)
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Carson looks at Bronann", carson, vt_map.MapMode.SOUTH)
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Kalya looks at Carson", kalya, vt_map.MapMode.NORTH)
+    vt_map.ChangeDirectionSpriteEvent.Create("Quest2: Kalya looks at Bronann", kalya, vt_map.MapMode.WEST)
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("I suppose you just saw that light, right?");
-    dialogue:AddLine(text, carson);
-    text = vt_system.Translate("Ummm...");
-    dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Bronann, there is something that I have to tell you. We've been fearing for this moment, your mother and I.");
     dialogue:AddLine(text, carson);
     text = vt_system.Translate("They're coming!");
-    dialogue:AddLineEvent(text, herth, "", "Quest2: Carson looks at Herth");
+    dialogue:AddLineEvent(text, herth, "Quest2: Bronann looks at Herth", "Quest2: Carson looks at Herth")
     event = vt_map.DialogueEvent.Create("Quest2: Carson starts to talk to Bronann", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Quest2: Herth moves to Carson");
 
-    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Herth moves to Carson", herth, 90.0, 76.0, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Herth moves to Carson", herth, 17, 71, false);
     event:AddEventLinkAtEnd("Quest2: Herth looks at Carson");
     event:AddEventLinkAtEnd("Quest2: Second part of talk");
 
@@ -485,17 +490,17 @@ function _CreateEvents()
     dialogue:AddLineEventEmote(text, bronann, "", "Quest2: Carson looks at Bronann", "exclamation");
     text = vt_system.Translate("Bronann, I...");
     dialogue:AddLine(text, carson);
-    text = vt_system.Translate("Father!");
+    text = vt_system.Translate("Herth!");
     dialogue:AddLineEvent(text, kalya, "", "Quest2: Herth looks at Kalya");
     event = vt_map.DialogueEvent.Create("Quest2: Second part of talk", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Quest2: Kalya runs to her father");
 
-    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Kalya runs to her father", kalya, 88.0, 76.0, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Kalya runs to her father", kalya, 21, 71, true);
     event:AddEventLinkAtEnd("Quest2: Third part of talk");
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Father! Orlinn has disappeared. I saw him taking the forest pathway!");
+    text = vt_system.Translate("Herth! Orlinn has disappeared. I saw him taking the forest pathway!");
     dialogue:AddLineEvent(text, kalya, "", "Quest2: Carson looks at Herth");
     text = vt_system.Translate("Kalya, you were supposed to keep an eye on him!");
     dialogue:AddLineEmote(text, herth, "exclamation");
@@ -514,20 +519,20 @@ function _CreateEvents()
     text = vt_system.Translate("But...");
     dialogue:AddLineEvent(text, kalya, "", "Quest2: Carson looks at Bronann");
     text = vt_system.Translate("Bronann, you should go with her.");
-    dialogue:AddLineEventEmote(text, carson, "", "Quest2: Kalya looks at Carson", "thinking dots");
+    dialogue:AddLineEventEmote(text, carson, "Quest2: Bronann looks at his father", "Quest2: Kalya looks at Carson", "thinking dots");
     text = vt_system.Translate("What?!");
     dialogue:AddLineEmote(text, kalya, "exclamation");
     text = vt_system.Translate("Huh?");
-    dialogue:AddLineEvent(text, bronann, "","Bronann is frightnened");
+    dialogue:AddLineEvent(text, bronann, "Bronann is frightened","");
     text = vt_system.Translate("Carson is right, Kalya. Bronann shall go with you.");
-    dialogue:AddLineEvent(text, herth, "", "Quest2: Kalya looks at Bronann");
+    dialogue:AddLineEvent(text, herth, "Quest2: Bronann looks at Herth", "Quest2: Kalya looks at Bronann");
     text = vt_system.Translate("But he would just be a burden!");
     dialogue:AddLineEvent(text, kalya, "", "Bronann is sad");
     text = vt_system.Translate("Huh? Hey! But...");
     dialogue:AddLineEmote(text, bronann, "exclamation");
     text = vt_system.Translate("He won't slow you down, believe me. Right, Bronann?");
     dialogue:AddLineEvent(text, carson, "", "Quest2: Carson looks at Bronann");
-    text = vt_system.Translate("But father!");
+    text = vt_system.Translate("But Herth!");
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Carson is right, Kalya. Bronann shall go with you. It's an order.");
     dialogue:AddLineEmote(text, herth, "thinking dots");
@@ -535,17 +540,17 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Quest2: Kalya goes back and forth");
 
     -- Small event chain making kalya go back and forth.
-    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Kalya goes back and forth", kalya, 85.0, 76.0, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Kalya goes back and forth", kalya, 19, 71, false);
     event:AddEventLinkAtEnd("Quest2: Carson looks at Kalya");
     event:AddEventLinkAtEnd("Quest2: Kalya goes back and forth 2");
 
-    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Kalya goes back and forth 2", kalya, 88.0, 76.0, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Kalya goes back and forth 2", kalya, 21, 71, false);
     event:AddEventLinkAtEnd("Quest2: Kalya goes back and forth 3");
 
-    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Kalya goes back and forth 3", kalya, 85.0, 76.0, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Kalya goes back and forth 3", kalya, 19, 71, false);
     event:AddEventLinkAtEnd("Quest2: Kalya goes back and forth 4");
 
-    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Kalya goes back and forth 4", kalya, 88.0, 76.0, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Kalya goes back and forth 4", kalya, 21, 71, false);
     event:AddEventLinkAtEnd("Quest2: Fourth part of talk");
 
     vt_map.ScriptedEvent.Create("Quest2: Show the wooden sword item in front of carson", "Show_wooden_sword", "");
@@ -553,40 +558,26 @@ function _CreateEvents()
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Gahh, ok.");
     dialogue:AddLineEvent(text, kalya, "", "Quest2: Carson looks at Bronann");
-    text = vt_system.Translate("Bronann, take this sword. You'll probably need it to make your way through there.");
-    dialogue:AddLineEvent(text, carson, "", "Quest2: Show the wooden sword item in front of carson");
-    text = vt_system.Translate("What? But one minute ago you said...");
-    dialogue:AddLineEmote(text, bronann, "exclamation");
-    text = vt_system.Translate("I know, but everything has changed. I'll explain it to you once it is all finished. Now go, my son.");
-    dialogue:AddLine(text, carson);
+    text = vt_system.Translate("Now go, my son. I'll explain it to you once it is all finished. I trust you will succeed.");
+    dialogue:AddLineEvent(text, carson, "Quest2: Bronann looks at his father", "")
     event = vt_map.DialogueEvent.Create("Quest2: Fourth part of talk", dialogue);
-    event:AddEventLinkAtEnd("Quest2: Bronann goes and take the sword");
-
-    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Bronann goes and take the sword", bronann, 92.0, 73.0, false);
-    event:AddEventLinkAtEnd("Quest2: Hide the wooden sword item");
-    event:AddEventLinkAtEnd("Quest2: Add the wooden sword in inventory");
-
-    vt_map.ScriptedEvent.Create("Quest2: Hide the wooden sword item", "Hide_wooden_sword", "");
-
-    event = vt_map.TreasureEvent.Create("Quest2: Add the wooden sword in inventory");
-    event:AddItem(10001, 1); -- The wooden sword item
     event:AddEventLinkAtEnd("Quest2: Fifth part of talk");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Thanks dad, we'll find him in no time.");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("We shall go now. Good luck, both of you.");
-    dialogue:AddLineEvent(text, herth, "", "Quest2: Herth looks at Kalya");
+    dialogue:AddLineEvent(text, herth, "Quest2: Bronann looks at Herth", "Quest2: Herth looks at Kalya");
     event = vt_map.DialogueEvent.Create("Quest2: Fifth part of talk", dialogue);
     event:AddEventLinkAtEnd("Quest2: Herth leaves to south");
     event:AddEventLinkAtEnd("Quest2: Carson starts to leave to south");
 
-    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Herth leaves to south", herth, 92.0, 78.0, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Herth leaves to south", herth, 26, 78, false);
     event:AddEventLinkAtEnd("Quest2: Herth disappears");
 
     vt_map.ScriptedSpriteEvent.Create("Quest2: Herth disappears", herth, "MakeInvisible", "");
 
-    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Carson starts to leave to south", carson, 90.0, 76.0, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Carson starts to leave to south", carson, 26, 74, false);
     event:AddEventLinkAtEnd("Quest2: Carson talks to Bronann once last time");
     event:AddEventLinkAtEnd("Quest2: Carson looks at Bronann from south");
 
@@ -598,7 +589,7 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Quest2: Carson talks to Bronann once last time", dialogue);
     event:AddEventLinkAtEnd("Quest2: Carson leaves to south");
 
-    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Carson leaves to south", carson, 92.0, 78.0, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Carson leaves to south", carson, 26, 78, false);
     event:AddEventLinkAtEnd("Quest2: Carson disappears");
 
     event = vt_map.ScriptedSpriteEvent.Create("Quest2: Carson disappears", carson, "MakeInvisible", "");
@@ -606,7 +597,7 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Ok, we'll go together. But slow me down and I'll make you regret it.");
-    dialogue:AddLine(text, kalya);
+    dialogue:AddLineEvent(text, kalya, "Quest2: Kalya looks at Bronann", "");
     text = vt_system.Translate("Don't worry, we'll find him. Ok?");
     dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Ok.");
@@ -614,7 +605,7 @@ function _CreateEvents()
     event = vt_map.DialogueEvent.Create("Quest2: End part of talk", dialogue);
     event:AddEventLinkAtEnd("Quest2: Kalya joins Bronann's party");
 
-    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Kalya joins Bronann's party", kalya, 92.0, 73.0, false);
+    event = vt_map.PathMoveSpriteEvent.Create("Quest2: Kalya joins Bronann's party", kalya, 12, 66, false);
     event:AddEventLinkAtEnd("Quest2: Kalya disappears");
     event:AddEventLinkAtEnd("Quest2: Add Kalya to the party");
 
@@ -749,7 +740,7 @@ end
 -- Inner custom functions
 function _TriggerPotentialDialogueAfterFadeIn()
     -- Trigger the forest and Orlinn runaway event
-    if (GlobalManager:DoesEventExist("story", "Quest2_flora_dialogue_done") == true
+    if (GlobalManager:DoesEventExist("story", "meal_event_done") == true
             and GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
         EventManager:StartEvent("Quest2: Forest event");
         GlobalManager:SetEventValue("story", "Quest2_forest_event_done", 1);
@@ -1092,16 +1083,16 @@ map_functions = {
     Prepare_forest_event = function()
         -- Scene event
         Map:PushState(vt_map.MapMode.STATE_SCENE);
-        carson:SetPosition(75.0, 72.0);
-        carson:SetVisible(true);
+        carson:SetPosition(12, 62);
+        carson:SetVisible(false);
         carson:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
 
-        herth:SetPosition(75.0, 77.0);
+        herth:SetPosition(36, 71);
         herth:SetVisible(true);
         herth:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
 
         EventManager:EndAllEvents(kalya);
-        kalya:SetPosition(75.0, 68.0);
+        kalya:SetPosition(36, 66);
         kalya:SetMoving(false);
         kalya:ClearDialogueReferences();
 
@@ -1110,6 +1101,10 @@ map_functions = {
         orlinn:SetMoving(false);
         orlinn:SetVisible(false);
         orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end,
+
+    set_carson_visible = function()
+        carson:SetVisible(true)
     end,
 
     BrightLightStart = function()

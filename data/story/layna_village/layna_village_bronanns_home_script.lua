@@ -312,14 +312,17 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Carson goes after Bronann", 200)
 
     -- Make Bronann leave house
-    event = vt_map.PathMoveSpriteEvent.Create("Bronann runs out of the house", bronann, 40, 24.5, true);
-    event:AddEventLinkAtEnd("Bronann disappears after running out of the house");
+    event = vt_map.PathMoveSpriteEvent.Create("Bronann runs out of the house", bronann, 40, 24.5, true)
+    event:AddEventLinkAtEnd("Bronann disappears after running out of the house")
 
-    vt_map.PathMoveSpriteEvent.Create("Carson goes after Bronann", carson, 40, 22, false);
+    vt_map.PathMoveSpriteEvent.Create("Carson goes after Bronann", carson, 40, 22, false)
 
-    event = vt_map.ScriptedSpriteEvent.Create("Bronann disappears after running out of the house", bronann, "MakeInvisible", "");
+    event = vt_map.ScriptedSpriteEvent.Create("Bronann disappears after running out of the house", bronann, "MakeInvisible", "")
     event:AddEventLinkAtEnd("Map_PopState")
+    event:AddEventLinkAtEnd("Set Meal Event done")
     event:AddEventLinkAtEnd("to village")
+
+    vt_map.ScriptedEvent.Create("Set Meal Event done", "SetMealEventDone", "")
 end
 
 -- zones
@@ -740,5 +743,9 @@ map_functions = {
             sprite:SetVisible(false);
             sprite:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         end
+    end,
+
+    SetMealEventDone = function()
+        GlobalManager:SetEventValue("story", "meal_event_done", 1)
     end
 }
