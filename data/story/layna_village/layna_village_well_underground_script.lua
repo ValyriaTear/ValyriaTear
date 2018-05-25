@@ -232,10 +232,12 @@ end
 
 -- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
-    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
-    enemy:SetBattleBackground("data/battles/battle_scenes/desert_cave/desert_cave.png");
-    enemy:AddBattleScript("data/battles/battle_scenes/desert_cave_battle_anim.lua");
-    enemy:AddBattleScript("data/story/common/lost_in_darkness.lua");
+    enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg")
+    enemy:SetBattleBackground("data/battles/battle_scenes/desert_cave/desert_cave.png")
+    enemy:AddBattleScript("data/battles/battle_scenes/desert_cave_battle_anim.lua")
+    enemy:AddBattleScript("data/story/common/lost_in_darkness.lua")
+    -- Add tutorial battle dialog with Olivia
+    enemy:AddBattleScript("data/story/common/tutorial_battle_dialogs.lua");
     -- TODO: Add oil lamp as scenery in battles
 end
 

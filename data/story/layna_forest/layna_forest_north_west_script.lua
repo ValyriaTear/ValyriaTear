@@ -184,10 +184,7 @@ function _CreateObjects()
     event:SetMusic("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     event:SetBackground("data/battles/battle_scenes/forest_background.png");
 
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
-        -- Add tutorial battle dialog with Kalya and Bronann
-        event:AddScript("data/story/layna_forest/tutorial_battle_dialogs.lua");
-    else
+    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
         -- Setup time of the day lighting on battles
         event:AddScript("data/story/layna_forest/after_crystal_twilight_battles.lua");
         if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") > 2) then
@@ -900,10 +897,7 @@ function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/forest_background.png");
 
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
-        -- Add tutorial battle dialog with Kalya and Bronann
-        enemy:AddBattleScript("data/story/layna_forest/tutorial_battle_dialogs.lua");
-    else
+    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
         -- Setup time of the day lighting on battles
         enemy:AddBattleScript("data/story/layna_forest/after_crystal_twilight_battles.lua");
         if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") > 2) then

@@ -59,15 +59,15 @@ function Initialize(battle_instance)
     DialogueManager = Battle:GetDialogueSupervisor();
 
     -- Add all speakers for the dialogues to be added
-    DialogueManager:AddSpeaker("Bronann", vt_system.Translate("Bronann"), "data/entities/portraits/bronann.png");
-    DialogueManager:AddSpeaker("Kalya", vt_system.Translate("Kalya"), "data/entities/portraits/kalya.png");
+    DialogueManager:AddSpeaker("Bronann", vt_system.Translate("Bronann"), "data/entities/portraits/bronann.png")
+    DialogueManager:AddSpeaker("Olivia", vt_system.Translate("Olivia"), "")
 
     -- The dialogue constructed below offers the player instructions on how to do battle. It is displayed only once in the first few seconds
     -- of battle, before any action can be taken. The player is presented with several options that they can read to get more information on
     -- the battle system. One of the options that the player may select from will finish the dialogue, allow the battle to resume.
     local main_dialogue = vt_common.Dialogue.Create(DialogueManager, "Battle tutorial dialogue");
-    local text = vt_system.Translate("Woah, I wouldn't have expected monsters so close to the village. Bronann, do you need a quick reminder about the basics of battle?");
-    main_dialogue:AddLine(text, "Kalya");
+    local text = vt_system.Translate("Bronann, do you need a quick reminder about the basics of battle?");
+    main_dialogue:AddLine(text, "Olivia");
     text = vt_system.Translate("...");
     main_dialogue:AddLine(text, "Bronann");
     text = vt_system.Translate("Ask about battle basics.");
@@ -78,23 +78,23 @@ function Initialize(battle_instance)
     text = vt_system.Translate("Er, I could use a refresher on the fundamentals of combat.");
     main_dialogue:AddLine(text, "Bronann");
     text = vt_system.Translate("Here you can find the hit points (HP) and skill points (SP) of the ally party. Don't let our HP reach 0 or we're doomed!");
-    main_dialogue:AddLine(text, "Kalya");
+    main_dialogue:AddLine(text, "Olivia");
     text = vt_system.Translate("In battle, our icons and those of our enemies will rise up on the stamina bar. The more stamina you have, the faster your icon will climb.");
-    main_dialogue:AddLine(text, "Kalya");
+    main_dialogue:AddLine(text, "Olivia");
     text = vt_system.Translate("Once an ally has reached the action level, you can select an action for that ally. The battle is then paused and you've got all the time you need to select one, so don't panic.");
-    main_dialogue:AddLine(text, "Kalya");
+    main_dialogue:AddLine(text, "Olivia");
     text = vt_system.Translate("There are two action types: The basic 'Weapon' to attack, and later you can also use 'Magic' skills. Last but not least, you'll also be able to use our 'Items'. Simply choose an action followed by a target to trigger it.");
-    main_dialogue:AddLine(text, "Kalya");
+    main_dialogue:AddLine(text, "Olivia");
     text = vt_system.Translate("The icon will still need to climb to the top of the stamina bar before the selected action is executed. This is called the 'preparation time'. Generally the more powerful the skill being executed, the longer it will take to prepare.");
-    main_dialogue:AddLine(text, "Kalya");
+    main_dialogue:AddLine(text, "Olivia");
     text = vt_system.Translate("By the way, you're not forced to wait for your icon to reach the action level before you can select an action. When these two little arrows here are highlighted, you can use your up and down keys to preselect an action for the corresponding ally.");
-    main_dialogue:AddLine(text, "Kalya");
+    main_dialogue:AddLine(text, "Olivia");
     text = vt_system.Translate("So long as the little arrows there are still visible, you can change the selected action at any time.");
-    main_dialogue:AddLine(text, "Kalya");
+    main_dialogue:AddLine(text, "Olivia");
     text = vt_system.Translate("Don't forget that you can press '") .. InputManager:GetHelpKeyName() .. vt_system.Translate("' if you need more details.");
-    main_dialogue:AddLine(text, "Kalya");
+    main_dialogue:AddLine(text, "Olivia");
     text = vt_system.Translate("Shall I repeat all that?");
-    main_dialogue:AddLine(text, "Kalya");
+    main_dialogue:AddLine(text, "Olivia");
     text = vt_system.Translate("...");
     main_dialogue:AddLine(text, "Bronann");
     text = vt_system.Translate("Yes, please.");
@@ -103,14 +103,14 @@ function Initialize(battle_instance)
     main_dialogue:AddOption(text, 14);
 
     -- [Line 13] End
-    text = vt_system.Translate("Don't worry Kalya, I have not forgotten my training.");
+    text = vt_system.Translate("Don't worry Olivia, I have not forgotten my training.");
     main_dialogue:AddLine(text, "Bronann", 15);
     -- [Line 14] After selecting option: Ask nothing. (After a topic has already been asked).
-    text = vt_system.Translate("Thanks Kalya, I'm prepared now.");
+    text = vt_system.Translate("Thanks Olivia, I'm prepared now.");
     main_dialogue:AddLine(text, "Bronann");
     -- [Line 25] Final line of dialogue
-    text = vt_system.Translate("Good. Let us quickly dispatch this minor threat.");
-    main_dialogue:AddLine(text, "Kalya");
+    text = vt_system.Translate("Good. I'll let you quickly dispatch this minor threat.");
+    main_dialogue:AddLine(text, "Olivia");
 
     -- Construct a timer so we can start the dialogue a couple seconds after the battle begins
     start_timer = vt_system.SystemTimer(100, 0);
