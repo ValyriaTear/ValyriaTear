@@ -650,8 +650,7 @@ map_functions = {
         end
 
         -- Set the quest 2 as started
-        GlobalManager:SetEventValue("story", "Quest2_started", 1);
-        GlobalManager:AddQuestLog("wants_to_go_into_the_forest");
+        GlobalManager:SetEventValue("story", "Quest2_started", 1)
         -- Make the food and dishes not appear anymore, once the dinner is done.
         _UpdateDishesAndFood();
 

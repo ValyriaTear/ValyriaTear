@@ -24,7 +24,7 @@ quests = {
         -- Location name and banner image filename
         vt_system.Translate("Village of Layna"), "data/story/common/locations/mountain_village.png",
         -- Location sub-name and image filename
-        vt_system.Translate("Bronann's home"), "data/story/common/quests/get_barley.png",
+        vt_system.Translate("Bronann's home"), "data/entities/portraits/npcs/malta.png",
     },
 
     -- Quest id
@@ -32,7 +32,7 @@ quests = {
         -- Title
         vt_system.Translate("Find Georges's pen"),
         -- Description
-        vt_system.Translate("In order to know who Georges gave the rest of his barley meal to, I need to get back his lost pen.\n \nHe said he lost it near a tree. He also told me that people in the village might know more."),
+        vt_system.Translate("I need to get back Georges lost pen.\n \nHe said he lost it near a tree. He also told me that people in the village might know more."),
         -- Completion Description
         vt_system.Translate("Orlinn had the pen and I ran after him all morning to get it back. I hope he won't have any problems with Kalya..."),
         -- Group and event for the quest to be complete.
@@ -40,7 +40,7 @@ quests = {
         -- Location name and banner image filename
         vt_system.Translate("Village of Layna"), "data/story/common/locations/mountain_village.png",
         -- Location sub-name and image filename
-        vt_system.Translate("Village center"), "data/story/common/quests/find_pen.png",
+        vt_system.Translate("Village center"), "data/inventory/items/key_items/ink.png",
     },
 
     -- Quest id
@@ -56,7 +56,7 @@ quests = {
         -- Location name and banner image filename
         vt_system.Translate("Village of Layna"), "data/story/common/locations/mountain_village.png",
         -- Location sub-name and image filename
-        vt_system.Translate("Village center"), "data/story/common/quests/hide_n_seek_with_orlinn.png",
+        vt_system.Translate("Village center"), "data/entities/portraits/npcs/orlinn.png",
     },
 
     -- Quest id
@@ -78,22 +78,6 @@ quests = {
     },
 
     -- Quest id
-    ["wants_to_go_into_the_forest"] = {
-        -- Title
-        vt_system.Translate("Let's go to the woods."),
-        -- Description
-        vt_system.Translate("It's been weeks since I could go outside the village.\n \nThe entrance has been shut with stones, and now they won't even let me go and breathe in the only place I could be alone?!?\n \nWhatever. I need a sword just in case, and I'll get there alone!"),
-        -- Completion Description
-        vt_system.Translate("I'm now equipped, and access to the forest has been granted!"),
-        -- Group and event for the quest to be complete.
-        "story", "kalya_has_joined",
-        -- Location name and banner image filename
-        vt_system.Translate("Village of Layna"), "data/story/common/locations/mountain_village.png",
-        -- Location sub-name and image filename
-        vt_system.Translate("Bronann's home"), "data/story/common/quests/wants_to_go_into_the_forest.png",
-    },
-
-    -- Quest id
     ["bring_orlinn_back"] = {
         -- Title
         vt_system.Translate("Orlinn might be in danger!"),
@@ -106,7 +90,7 @@ quests = {
         -- Location name and banner image filename
         vt_system.Translate("Village of Layna"), "data/story/common/locations/mountain_village.png",
         -- Location sub-name and image filename
-        vt_system.Translate("Village center"), "data/story/common/quests/bring_orlinn_back.png",
+        vt_system.Translate("Village center"), "data/entities/portraits/npcs/orlinn.png",
     },
 
     -- Quest id
@@ -122,6 +106,6 @@ quests = {
         -- Location name and banner image filename
         vt_system.Translate("Village of Layna"), "data/story/common/locations/mountain_village.png",
         -- Location sub-name and image filename
-        vt_system.Translate("Kalya's home basement"), "data/story/common/quests/flee_from_dark_soldiers.png",
+        vt_system.Translate("Kalya's home basement"), "data/entities/portraits/kalya.png",
     },
 }

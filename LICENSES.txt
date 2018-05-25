@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2018.04.23
+Last update: 2018.05.26
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -783,8 +783,6 @@ data/story/common/locations/mountain_shrine.png                               CC
 data/story/common/locations/mountain_village.png                              GPLv2                    Allacrost
 data/story/common/locations/desert_cave.png                                   GPLv2                    Allacrost
 data/story/common/locations/desert.png                                        GPLv2                    Allacrost
-
-data/story/common/quests/*.png                                                CC-BY-SA-3.0/GPLv2       Screens from the game, this mixing their free license.
 
 data/story/common/worldmaps/layna_region.png                                  CC-BY-SA-3.0             Combination of: https://opengameart.org/content/old-time-3-islands-map (CC0) - Gaming4JC and MrBeast - https://opengameart.org/content/worldmapoverworld-tileset + map by Bertram
 

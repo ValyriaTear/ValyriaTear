@@ -116,7 +116,6 @@ function TestFunction()
     -- Used to debug the quest log
     GlobalManager:AddQuestLog("get_barley");
     GlobalManager:AddQuestLog("find_pen");
-    GlobalManager:AddQuestLog("wants_to_go_into_the_forest");
     GlobalManager:AddQuestLog("bring_orlinn_back");
     GlobalManager:AddQuestLog("flee_from_the_dark_soldiers");
 
