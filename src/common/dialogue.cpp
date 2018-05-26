@@ -527,11 +527,12 @@ void DialogueSupervisor::_UpdateLine()
     // Set the correct indicator
     if(_current_options || !_dialogue_window.GetDisplayTextBox().IsFinished()) {
         _dialogue_window.SetIndicator(DIALOGUE_NO_INDICATOR);
-        vt_global::GlobalManager->Media().PlaySound("text");
     } else if(_line_counter == _current_dialogue->GetLineCount() - 1) {
-        _dialogue_window.SetIndicator(DIALOGUE_LAST_INDICATOR);
+        if (_dialogue_window.SetIndicator(DIALOGUE_LAST_INDICATOR))
+            vt_global::GlobalManager->Media().PlaySound("line_complete");
     } else {
-        _dialogue_window.SetIndicator(DIALOGUE_NEXT_INDICATOR);
+        if (_dialogue_window.SetIndicator(DIALOGUE_NEXT_INDICATOR))
+            vt_global::GlobalManager->Media().PlaySound("line_complete");
     }
 
     // If the current mode is accepting input, we can handle it.
@@ -547,7 +548,6 @@ void DialogueSupervisor::_UpdateLine()
         else if(_current_options != nullptr) {
             _state = DIALOGUE_STATE_OPTION;
         } else {
-            vt_global::GlobalManager->Media().PlaySound("confirm");
             _EndLine();
         }
     }

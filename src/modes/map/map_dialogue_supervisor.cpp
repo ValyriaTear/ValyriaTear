@@ -203,11 +203,12 @@ void MapDialogueSupervisor::_UpdateLine()
             || _current_options != nullptr
             || _dialogue_window.GetDisplayTextBox().IsFinished() == false) {
         _dialogue_window.SetIndicator(vt_common::DIALOGUE_NO_INDICATOR);
-        vt_global::GlobalManager->Media().PlaySound("text");
     } else if(_line_counter == _current_dialogue->GetLineCount() - 1) {
-        _dialogue_window.SetIndicator(vt_common::DIALOGUE_LAST_INDICATOR);
+        if (_dialogue_window.SetIndicator(vt_common::DIALOGUE_LAST_INDICATOR))
+            vt_global::GlobalManager->Media().PlaySound("line_complete");
     } else {
-        _dialogue_window.SetIndicator(vt_common::DIALOGUE_NEXT_INDICATOR);
+        if (_dialogue_window.SetIndicator(vt_common::DIALOGUE_NEXT_INDICATOR))
+            vt_global::GlobalManager->Media().PlaySound("line_complete");
     }
 
     // If this dialogue does not allow user input, we are finished
@@ -224,7 +225,6 @@ void MapDialogueSupervisor::_UpdateLine()
         else if(_current_options != nullptr) {
             _state = vt_common::DIALOGUE_STATE_OPTION;
         } else {
-            vt_global::GlobalManager->Media().PlaySound("confirm");
             _EndLine();
         }
     }

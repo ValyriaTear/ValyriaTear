@@ -776,6 +776,7 @@ data/sounds/female_scream.ogg                                                 GP
 data/sounds/swordslice3.wav                                                   GPLv2+                   Allacrost
 data/sounds/escape_activate.ogg                                               CC-BY-SA-3.0             p0ss (OGA) - https://opengameart.org/content/spell-sounds-starter-pack
 data/sounds/warp.ogg                                                          CC-BY-SA-3.0             p0ss (OGA) - https://opengameart.org/content/spell-sounds-starter-pack
+data/sounds/completion_sound.wav                                              CC0                      Brandon Morris (OGA) - https://opengameart.org/content/completion-sound
 
 data/story/common/locations/layna_forest.png                                  CC-BY-SA-3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) + Bertram's modifications.
 data/story/common/locations/mt_elbrus.png                                     GPLv2                    JAP (OGA)

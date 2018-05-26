@@ -291,7 +291,7 @@ void GlobalMedia::Initialize()
     _LoadSoundFile("cancel", "data/sounds/cancel.wav");
     _LoadSoundFile("coins", "data/sounds/coins.wav");
     _LoadSoundFile("bump", "data/sounds/bump.wav");
-    _LoadSoundFile("text", "data/sounds/text.wav");
+    _LoadSoundFile("line_complete", "data/sounds/completion_sound.wav");
     _LoadSoundFile("volume_test", "data/sounds/volume_test.wav");
     _LoadSoundFile("item_pickup", "data/sounds/itempick2_michel_baradari_oga.wav");
 }

@@ -414,8 +414,12 @@ public:
         _portrait_image = image;
     }
 
-    void SetIndicator(uint8_t type) {
+    //! \brief Returns whether the type was already set
+    bool SetIndicator(uint8_t type) {
+        if (type == _indicator_symbol)
+            return false;
         _indicator_symbol = type;
+        return true;
     }
     //@}
 
