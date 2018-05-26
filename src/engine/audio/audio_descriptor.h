@@ -74,6 +74,10 @@ enum AUDIO_LOAD {
     AUDIO_LOAD_STREAM_MEMORY  = 2
 };
 
+//! \brief ALfloat per 3D OpenAL sound vectors (position, direction, velocity)
+const uint32_t ALFLOAT3D = 3;
+typedef ALfloat ALfloatArray[ALFLOAT3D];
+
 namespace private_audio
 {
 
@@ -314,13 +318,20 @@ public:
     *** are mono channel will be affected by these methods. Stereo channel audio will see no difference.
     **/
     //@{
-    void SetPosition(const float position[3]);
-    void SetVelocity(const float velocity[3]);
-    void SetDirection(const float direction[3]);
+    void SetPosition(const ALfloat position[ALFLOAT3D]);
+    void SetVelocity(const ALfloat velocity[ALFLOAT3D]);
+    void SetDirection(const ALfloat direction[ALFLOAT3D]);
 
-    void GetPosition(float position[3]) const;
-    void GetVelocity(float velocity[3]) const;
-    void GetDirection(float direction[3]) const;
+    //! \brief Returns the pointer to corresponding ALfloat parameter array
+    const ALfloatArray& GetPosition() const {
+        return _position;
+    }
+    const ALfloatArray& GetVelocity() const {
+        return _velocity;
+    }
+    const ALfloatArray& GetDirection() const {
+        return _direction;
+    }
     //@}
 
     /**
@@ -420,9 +431,9 @@ protected:
 
     //! \brief The 3D orientation properties of the audio
     //@{
-    float _position[3];
-    float _velocity[3];
-    float _direction[3];
+    ALfloat _position[ALFLOAT3D];
+    ALfloat _velocity[ALFLOAT3D];
+    ALfloat _direction[ALFLOAT3D];
     //@}
 
     /** \brief The game modes loading the audio file.

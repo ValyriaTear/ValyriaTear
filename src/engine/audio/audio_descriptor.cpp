@@ -516,14 +516,14 @@ void AudioDescriptor::SeekSecond(float second)
     }
 }
 
-void AudioDescriptor::SetPosition(const float position[3])
+void AudioDescriptor::SetPosition(const ALfloat position[ALFLOAT3D])
 {
     if(_format != AL_FORMAT_MONO8 && _format != AL_FORMAT_MONO16) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "audio is stereo channel and will not be effected by function call" << std::endl;
         return;
     }
 
-    memcpy(_position, position, sizeof(float) * 3);
+    memcpy(_position, position, sizeof(ALfloat) * ALFLOAT3D);
     if(_source != nullptr) {
         alSourcefv(_source->source, AL_POSITION, _position);
         if(AudioManager->CheckALError()) {
@@ -532,14 +532,14 @@ void AudioDescriptor::SetPosition(const float position[3])
     }
 }
 
-void AudioDescriptor::SetVelocity(const float velocity[3])
+void AudioDescriptor::SetVelocity(const ALfloat velocity[ALFLOAT3D])
 {
     if(_format != AL_FORMAT_MONO8 && _format != AL_FORMAT_MONO16) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "audio is stereo channel and will not be effected by function call" << std::endl;
         return;
     }
 
-    memcpy(_velocity, velocity, sizeof(float) * 3);
+    memcpy(_velocity, velocity, sizeof(ALfloat) * ALFLOAT3D);
     if(_source != nullptr) {
         alSourcefv(_source->source, AL_VELOCITY, _position);
         if(AudioManager->CheckALError()) {
@@ -548,35 +548,20 @@ void AudioDescriptor::SetVelocity(const float velocity[3])
     }
 }
 
-void AudioDescriptor::SetDirection(const float direction[3])
+void AudioDescriptor::SetDirection(const ALfloat direction[ALFLOAT3D])
 {
     if(_format != AL_FORMAT_MONO8 && _format != AL_FORMAT_MONO16) {
         IF_PRINT_WARNING(AUDIO_DEBUG) << "audio is stereo channel and will not be effected by function call" << std::endl;
         return;
     }
 
-    memcpy(_direction, direction, sizeof(float) * 3);
+    memcpy(_direction, direction, sizeof(ALfloat) * ALFLOAT3D);
     if(_source != nullptr) {
         alSourcefv(_source->source, AL_DIRECTION, _direction);
         if(AudioManager->CheckALError()) {
             IF_PRINT_WARNING(AUDIO_DEBUG) << "setting a source's direction failed: " << AudioManager->CreateALErrorString() << std::endl;
         }
     }
-}
-
-void AudioDescriptor::GetPosition(float position[3]) const
-{
-    memcpy(&position, _position, sizeof(float) * 3);
-}
-
-void AudioDescriptor::GetVelocity(float velocity[3]) const
-{
-    memcpy(&velocity, _velocity, sizeof(float) * 3);
-}
-
-void AudioDescriptor::GetDirection(float direction[3]) const
-{
-    memcpy(&direction, _direction, sizeof(float) * 3);
 }
 
 void AudioDescriptor::AddGameModeOwner(vt_mode_manager::GameMode *gm)
