@@ -508,12 +508,19 @@ private:
     //! \brief The remaining experience points required to reach the next experience level
     int32_t _experience_for_next_level;
 
+    //! \brief Stores the XP needed for each next levels
+    //! i.e. _xp_per_level[0] returns XP needed to reach lvl 2
+    std::vector<int32_t> _xp_per_level;
+
     //! \brief Stores the list of skill nodes already learned by the character
     std::vector<uint32_t> _obtained_skill_nodes;
 
     //! \brief Stores the current skill node id the character is located at,
     //! in the skill_graph
     uint32_t _current_skill_node_id;
+
+    //! \brief Returns the XP needed for next level based on character data
+    int32_t _GetXPNeededForNextLevel() const;
 
     /** \brief Calculates an actor's physical and magical attack ratings
     *** This function sums the actor's phys_atk/mag_atk with their weapon's attack ratings

@@ -222,6 +222,9 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
         }
     }
 
+    // Load the XP needed for next level table
+    char_script.ReadIntVector("experience_for_next_level", _xp_per_level);
+
     // Construct the character's initial skill set if necessary
     if(initial) {
         if (char_script.OpenTable("skills")) {
@@ -254,17 +257,7 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
         }
 
         // If initial, determine the character's XP for next level.
-        std::vector<int32_t> xp_per_levels;
-        char_script.ReadIntVector("experience_for_next_level", xp_per_levels);
-        if (_experience_level <= xp_per_levels.size()) {
-            _experience_for_next_level = xp_per_levels[_experience_level - 1];
-        }
-        else {
-            PRINT_ERROR << "No XP for next level found for character id: " << _id
-                << " at level " << _experience_level << std::endl;
-            // Bad default
-            _experience_for_next_level = 100000;
-        }
+        _experience_for_next_level = _GetXPNeededForNextLevel();
 
     } // if (initial)
 
@@ -638,9 +631,27 @@ bool GlobalCharacter::AddExperiencePoints(uint32_t xp)
 
     if (_experience_for_next_level <= 0) {
         ++_experience_level;
+        // Set XP for new next level
+        // Stores the XP above what's needed
+        int32_t xp_surplus = -_experience_for_next_level;
+        _experience_for_next_level = _GetXPNeededForNextLevel();
+        _experience_for_next_level -= xp_surplus;
         return true;
     }
     return false;
+}
+
+int32_t GlobalCharacter::_GetXPNeededForNextLevel() const
+{
+    if (_experience_level <= _xp_per_level.size()) {
+        return _xp_per_level[_experience_level - 1];
+    }
+    else {
+        PRINT_ERROR << "No XP for next level found for character id: " << _id
+            << " at level " << _experience_level << std::endl;
+        // Bad default
+        return 100000;
+    }
 }
 
 void GlobalCharacter::AddPhysAtk(uint32_t amount)
