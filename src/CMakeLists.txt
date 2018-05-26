@@ -12,6 +12,21 @@ FIND_PACKAGE(PNG REQUIRED)
 FIND_PACKAGE(Gettext REQUIRED)
 FIND_PACKAGE(Boost 1.46.1 REQUIRED)
 
+# Check for Linux
+IF (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    # Check for Debian
+    find_file (DEBIAN_VERSION NAMES debian_version PATHS /etc NO_DEFAULT_PATH)
+    IF (${DEBIAN_VERSION} STREQUAL "/etc/debian_version")
+        MESSAGE(STATUS "Detected Debian System")
+        # Install dev target to ease development setup
+        ADD_CUSTOM_TARGET(install_debian_packages
+        sudo apt install libsdl2-ttf-dev libsdl2-image-dev libgl1-mesa-dev libglew-dev libopenal-dev libvorbis-dev liblua5.3-dev libpng-dev gettext libboost-dev
+        COMMENT "Installing Debian development dependencies ..."
+        VERBATIM
+        )
+    ENDIF()
+ENDIF()
+
 # Set the release mode if not told otherwise
 IF(NOT CMAKE_BUILD_TYPE)
     SET(CMAKE_BUILD_TYPE "Release")
