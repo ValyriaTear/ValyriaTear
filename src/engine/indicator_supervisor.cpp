@@ -353,7 +353,7 @@ void IndicatorSupervisor::Update()
     }
 }
 
-bool IndicatorSupervisor::_FixPotentialIndicatorOverlapping(IndicatorElement *element)
+bool IndicatorSupervisor::_FixPotentialIndicatorOverlapping(IndicatorElement* element)
 {
     if(!element)
         return false; // No overlapping
@@ -364,7 +364,8 @@ bool IndicatorSupervisor::_FixPotentialIndicatorOverlapping(IndicatorElement *el
     for(std::deque<IndicatorElement *>::iterator it = _active_queue.begin(),
             it_end = _active_queue.end(); it != it_end; ++it) {
         if((*it)->GetXOrigin() == element->GetXOrigin() &&
-           (*it)->GetYOrigin() == element->GetYOrigin()) {
+                (*it)->GetYOrigin() == element->GetYOrigin() &&
+                (*it) != element) {
             overlapped_element = *it;
             break;
         }
