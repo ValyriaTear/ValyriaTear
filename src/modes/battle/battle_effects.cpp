@@ -62,7 +62,8 @@ PassiveBattleStatusEffect::PassiveBattleStatusEffect(GLOBAL_STATUS type,
     }
 
     // Read in the status effect's property data
-    _name = script_file.ReadString("name");
+    std::string name = script_file.ReadString("name");
+    _name.SetText(name, TextStyle("text14"));
 
     if(script_file.DoesFunctionExist("BattleUpdatePassive")) {
         _update_passive_function = script_file.ReadFunctionPointer("BattleUpdatePassive");
@@ -110,7 +111,8 @@ ActiveBattleStatusEffect::ActiveBattleStatusEffect(GLOBAL_STATUS type, GLOBAL_IN
     }
 
     // Read in the status effect's property data
-    _name = script_file.ReadString("name");
+    std::string name = script_file.ReadString("name");
+    _name.SetText(name, TextStyle("text14"));
 
     // Read the fall back duration when none is given.
     if(duration == 0)
@@ -394,7 +396,9 @@ void BattleStatusEffectsSupervisor::DrawVertical()
         effect.GetIconImage()->Draw();
         VideoManager->MoveRelative(0.0f, 5.0f);
         _infinite_text.Draw();
-        VideoManager->MoveRelative(0.0f, -5.0f);
+        VideoManager->MoveRelative(20.0f, -5.0f);
+        effect.GetName().Draw();
+        VideoManager->MoveRelative(-20.0f, 0.0f);
         VideoManager->MoveRelative(0.0f, 16.0f);
     }
 
@@ -413,6 +417,10 @@ void BattleStatusEffectsSupervisor::DrawVertical()
         VideoManager->DrawRectangle(20.0f, 5.0f, Color::blue);
         uint32_t length_left = 20.0f / duration * time_left;
         VideoManager->DrawRectangle(length_left, 5.0f, Color::blue_sp);
+
+        VideoManager->MoveRelative(20.0f, 0.0f);
+        effect.GetName().Draw();
+        VideoManager->MoveRelative(-20.0f, 0.0f);
 
         VideoManager->MoveRelative(0.0f, 16.0f);
     }

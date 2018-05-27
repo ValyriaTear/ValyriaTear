@@ -54,7 +54,7 @@ public:
 
     //! \brief Class Member Access Functions
     //@{
-    const std::string& GetName() const {
+    const vt_video::TextImage& GetName() const {
         return _name;
     }
 
@@ -69,8 +69,8 @@ public:
     //@}
 
 private:
-    //! \brief Holds the translated name of the status effect
-    std::string _name;
+    //! \brief Holds the translated name of the status effect as an image
+    vt_video::TextImage _name;
 
     //! \brief A pointer to the icon image that represents the status. Will be nullptr if the status is invalid
     vt_video::StillImage* _icon_image;
@@ -127,7 +127,7 @@ public:
     //! \note This will cause the timer to reset and also
     void SetIntensity(vt_global::GLOBAL_INTENSITY intensity);
 
-    const std::string &GetName() const {
+    const vt_video::TextImage& GetName() const {
         return _name;
     }
 
@@ -144,11 +144,11 @@ public:
     }
 
     //! \note Returns a pointer instead of a reference so that Lua functions can access the timer
-    vt_system::SystemTimer *GetTimer() {
+    vt_system::SystemTimer* GetTimer() {
         return &_timer;
     }
 
-    vt_video::StillImage *GetIconImage() const {
+    vt_video::StillImage* GetIconImage() const {
         return _icon_image;
     }
 
@@ -163,7 +163,7 @@ public:
 
 private:
     //! \brief Holds the translated name of the status effect
-    std::string _name;
+    vt_video::TextImage _name;
 
     //! \brief A pointer to the script function that applies the initial effect
     luabind::object _apply_function;
