@@ -46,7 +46,8 @@ namespace private_battle
 
 PassiveBattleStatusEffect::PassiveBattleStatusEffect(GLOBAL_STATUS type,
                                                      GLOBAL_INTENSITY intensity):
-    GlobalStatusEffect(type, intensity)
+    GlobalStatusEffect(type, intensity),
+    _icon_image(nullptr)
 {
     // Check that status effect base value are making it actually active
     if (!IsActive())
@@ -75,6 +76,8 @@ PassiveBattleStatusEffect::PassiveBattleStatusEffect(GLOBAL_STATUS type,
         IF_PRINT_WARNING(BATTLE_DEBUG) << "one or more errors occurred while reading status effect data - they are listed below"
             << std::endl << script_file.GetErrorMessages() << std::endl;
     }
+
+    _icon_image = GlobalManager->Media().GetStatusIcon(type, intensity);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -196,6 +199,8 @@ BattleStatusEffectsSupervisor::BattleStatusEffectsSupervisor(BattleActor* actor)
 
     if(!actor)
         PRINT_WARNING << "Invalid BattleActor* when initializing the Battle status effects supervisor." << std::endl;
+
+    _infinite_text.SetText(" ∞ ");
 }
 
 void BattleStatusEffectsSupervisor::SetActiveStatusEffects(GlobalCharacter* character)
@@ -344,6 +349,19 @@ void BattleStatusEffectsSupervisor::Draw()
     // Draw in reverse to not overlap the arrow symbol
     VideoManager->MoveRelative(6.0f * 16.0f, 0.0f);
 
+    for(std::vector<PassiveBattleStatusEffect>::iterator it = _equipment_status_effects.begin();
+            it != _equipment_status_effects.end(); ++it) {
+        PassiveBattleStatusEffect& effect = *it;
+        if (!effect.IsActive())
+            continue;
+
+        effect.GetIconImage()->Draw();
+        VideoManager->MoveRelative(0.0f, 5.0f);
+        _infinite_text.Draw();
+        VideoManager->MoveRelative(0.0f, -5.0f);
+        VideoManager->MoveRelative(-16.0f, 0.0f);
+    }
+
     for(std::vector<ActiveBattleStatusEffect>::iterator it = _active_status_effects.begin();
             it != _active_status_effects.end(); ++it) {
         ActiveBattleStatusEffect& effect = *it;
@@ -351,12 +369,35 @@ void BattleStatusEffectsSupervisor::Draw()
             continue;
 
         effect.GetIconImage()->Draw();
+
+        // Draw remaining effect time
+        vt_system::SystemTimer* effect_timer = effect.GetTimer();
+        uint32_t duration = effect_timer->GetDuration();
+        uint32_t time_left = effect_timer->TimeLeft();
+        VideoManager->DrawRectangle(20.0f, 5.0f, Color::blue);
+        uint32_t length_left = 20.0f / duration * time_left;
+        VideoManager->DrawRectangle(length_left, 5.0f, Color::blue_sp);
+
         VideoManager->MoveRelative(-16.0f, 0.0f);
+
     }
 }
 
 void BattleStatusEffectsSupervisor::DrawVertical()
 {
+    for(std::vector<PassiveBattleStatusEffect>::reverse_iterator it = _equipment_status_effects.rbegin();
+            it != _equipment_status_effects.rend(); ++it) {
+        PassiveBattleStatusEffect& effect = *it;
+        if (!effect.IsActive())
+            continue;
+
+        effect.GetIconImage()->Draw();
+        VideoManager->MoveRelative(0.0f, 5.0f);
+        _infinite_text.Draw();
+        VideoManager->MoveRelative(0.0f, -5.0f);
+        VideoManager->MoveRelative(0.0f, 16.0f);
+    }
+
     for(std::vector<ActiveBattleStatusEffect>::reverse_iterator it = _active_status_effects.rbegin();
             it != _active_status_effects.rend(); ++it) {
         ActiveBattleStatusEffect& effect = *it;
@@ -364,6 +405,15 @@ void BattleStatusEffectsSupervisor::DrawVertical()
             continue;
 
         effect.GetIconImage()->Draw();
+
+        // Draw remaining effect time
+        vt_system::SystemTimer* effect_timer = effect.GetTimer();
+        uint32_t duration = effect_timer->GetDuration();
+        uint32_t time_left = effect_timer->TimeLeft();
+        VideoManager->DrawRectangle(20.0f, 5.0f, Color::blue);
+        uint32_t length_left = 20.0f / duration * time_left;
+        VideoManager->DrawRectangle(length_left, 5.0f, Color::blue_sp);
+
         VideoManager->MoveRelative(0.0f, 16.0f);
     }
 }

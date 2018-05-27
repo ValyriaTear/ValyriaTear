@@ -58,6 +58,10 @@ public:
         return _name;
     }
 
+    vt_video::StillImage* GetIconImage() const {
+        return _icon_image;
+    }
+
     //! \brief Returns the update script function of this passive effect.
     const luabind::object& GetUpdatePassiveFunction() const {
         return _update_passive_function;
@@ -67,6 +71,9 @@ public:
 private:
     //! \brief Holds the translated name of the status effect
     std::string _name;
+
+    //! \brief A pointer to the icon image that represents the status. Will be nullptr if the status is invalid
+    vt_video::StillImage* _icon_image;
 
     //! The UpdatePassive() scripted function of this effect when used as passive one (from equipment)
     luabind::object _update_passive_function;
@@ -182,7 +189,7 @@ private:
     *** This method should be called after every change in intensity is made.
     **/
     void _ProcessIntensityChange(bool reset_timer_only);
-}; // class BattleStatusEffect : public vt_global::GlobalStatusEffect
+}; // class ActiveBattleStatusEffect : public vt_global::GlobalStatusEffect
 
 /** ****************************************************************************
 *** \brief Manages all elemental and status elements for an actor
@@ -277,6 +284,9 @@ private:
     //! \brief Passive (from equipment) status effects.
     //! Those status effects can never be cancelled. They are simply updated.
     std::vector<PassiveBattleStatusEffect> _equipment_status_effects;
+
+    //! \brief Infinite TextImage
+    vt_video::TextImage _infinite_text;
 
     /** \brief Creates a new status effect and applies it to the actor
     *** \param status The type of the status to create
