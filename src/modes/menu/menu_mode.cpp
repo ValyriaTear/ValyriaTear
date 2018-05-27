@@ -662,4 +662,11 @@ void MenuMode::ReloadCharacterWindows()
     }
 }
 
+void MenuMode::GoToImproveSkillMenu()
+{
+    // Small hack to go directly to the improve selection
+    _current_menu_state = &_skills_state;
+    _skills_state.GetOptions()->InputRight();
+}
+
 } // namespace vt_menu

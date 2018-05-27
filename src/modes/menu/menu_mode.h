@@ -116,6 +116,9 @@ public:
         _update_of_time = 0;
     }
 
+    //! \brief Sets the improve skill menu active
+    void GoToImproveSkillMenu();
+
 private:
     //! \brief A static pointer to the last instantiated MenuMode object
     static MenuMode *_current_instance;

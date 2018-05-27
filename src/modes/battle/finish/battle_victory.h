@@ -132,6 +132,9 @@ private:
     //! \brief Displays all objects obtained by the character party
     vt_gui::OptionBox _object_list;
 
+    //! \brief The list of options that the player may choose at the victory's end
+    vt_gui::OptionBox _victory_options;
+
     //! \brief Creates the character windows and any GUI objects that populate them
     void _CreateCharacterGUIObjects();
 
@@ -146,6 +149,9 @@ private:
 
     //! \brief Gradually counts out the amount of drunes that the party has earned
     void _UpdateSpoils();
+
+    //! \brief Update battle end menu logic
+    void _UpdateEndMenu();
 
     //! \brief Draws the XP earned by the party
     void _DrawXP(uint32_t index);

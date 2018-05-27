@@ -11,6 +11,7 @@
 #include "modes/battle/finish/battle_victory.h"
 
 #include "modes/battle/battle.h"
+#include "modes/menu/menu_mode.h"
 
 #include "common/gui/menu_window.h"
 
@@ -52,6 +53,14 @@ const float SPOILS_WINDOW_XPOS     = 550.0f;
 const float SPOILS_WINDOW_YPOS     = 104.0f + TOP_WINDOW_HEIGHT - 1.0f;
 const float SPOILS_WINDOW_WIDTH    = 360.0f;
 const float SPOILS_WINDOW_HEIGHT   = 320.0f;
+//@}
+
+//! \brief The set of victory options that the player can select
+//@{
+//! End battle
+const uint32_t VICTORY_OPTION_END_BATTLE     = 0;
+//! Improve skills
+const uint32_t VICTORY_OPTION_IMPROVE_SKILLS = 1;
 //@}
 
 BattleVictory::BattleVictory() :
@@ -117,6 +126,19 @@ BattleVictory::BattleVictory() :
     _object_list.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _object_list.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _object_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
+
+    _victory_options.SetOwner(&_header_window);
+    _victory_options.SetPosition(TOP_WINDOW_WIDTH / 2, 28.0f);
+    _victory_options.SetDimensions(480.0f, 50.0f, 2, 1, 2, 1);
+    _victory_options.SetTextStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
+    _victory_options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _victory_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
+    _victory_options.SetSelectMode(VIDEO_SELECT_SINGLE);
+    _victory_options.SetHorizontalWrapMode(VIDEO_WRAP_MODE_STRAIGHT);
+    _victory_options.SetCursorOffset(-60.0f, -25.0f);
+    _victory_options.AddOption(UTranslate("End Battle"));
+    _victory_options.AddOption(UTranslate("Improve Skills"));
+    _victory_options.SetSelection(0);
 }
 
 BattleVictory::~BattleVictory()
@@ -234,11 +256,9 @@ void BattleVictory::Update()
 {
     switch(_state) {
     case VICTORY_START:
-        // Exit battle once count is done
-        if (InputManager->ConfirmPress()) {
-            if (_xp_earned == 0 && _drunes_dropped == 0) {
-                _state = VICTORY_END;
-            }
+        // Go to exit menu once count is done
+        if (_xp_earned == 0 && _drunes_dropped == 0) {
+            _state = VICTORY_END;
         }
 
         _UpdateXP();
@@ -246,7 +266,7 @@ void BattleVictory::Update()
         break;
 
     case VICTORY_END:
-        BattleMode::CurrentInstance()->ChangeState(BATTLE_STATE_EXITING);
+        _UpdateEndMenu();
         break;
 
     default:
@@ -261,8 +281,14 @@ void BattleVictory::Draw()
 
     // Header Windows
     _header_window.Draw();
-    _header_xp.Draw();
-    _drunes_dropped_text.Draw();
+
+    if (_state == VICTORY_END) {
+        _victory_options.Draw();
+    }
+    else {
+        _header_xp.Draw();
+        _drunes_dropped_text.Draw();
+    }
 
     for(uint32_t i = 0; i < _characters_number; ++i) {
         _character_window[i].Draw();
@@ -537,6 +563,32 @@ void BattleVictory::_UpdateSpoils()
         _drunes_dropped -= drunes_to_add;
         _drunes_dropped_text.SetDisplayText(UTranslate("Drunes Found: ") + MakeUnicodeString(NumberToString(_drunes_dropped)));
         _total_drunes.SetDisplayText(UTranslate("Total Drunes: ") + MakeUnicodeString(NumberToString(GlobalManager->GetDrunes())));
+    }
+}
+
+void BattleVictory::_UpdateEndMenu()
+{
+    _victory_options.Update();
+
+    if (InputManager->LeftPress()) {
+        _victory_options.InputLeft();
+    }
+    else if (InputManager->RightPress()) {
+        _victory_options.InputRight();
+    }
+    else if (InputManager->ConfirmPress()) {
+        switch(_victory_options.GetSelection()) {
+        default:
+        case VICTORY_OPTION_END_BATTLE:
+            BattleMode::CurrentInstance()->ChangeState(BATTLE_STATE_EXITING);
+            break;
+        case VICTORY_OPTION_IMPROVE_SKILLS:
+            vt_menu::MenuMode* menu_mode = new vt_menu::MenuMode();
+            menu_mode->GoToImproveSkillMenu();
+            _victory_options.SetSelection(VICTORY_OPTION_END_BATTLE);
+            vt_mode_manager::ModeManager->Push(menu_mode);
+            break;
+        }
     }
 }
 
