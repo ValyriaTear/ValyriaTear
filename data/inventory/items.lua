@@ -248,8 +248,7 @@ items[11] = {
 
     trade_conditions = {
         [0] = 20,    -- Drunes
-        [3100] = 1,  -- Slimy material
-        [3112] = 2,  -- Silk
+        [3102] = 1,  -- Insect material
     },
 
     BattleUse = function(user, target)
@@ -929,6 +928,20 @@ items[3117] = {
     standard_price = 90
 }
 
+items[3118] = {
+    name = vt_system.Translate("Thick Fabric"),
+    description = vt_system.Translate("Common fabric, but of good quality."),
+    icon = "data/inventory/items/thick_fabric.png",
+    standard_price = 20
+}
+
+items[3119] = {
+    name = vt_system.Translate("Fine Wood"),
+    description = vt_system.Translate("Common but durable wood. Always useful"),
+    icon = "data/inventory/items/fine_wood.png",
+    standard_price = 15
+}
+
 --------------------------------------------------------------------------------
 -- IDs 4,001 - 5,000 are reserved for items with special effects
 --------------------------------------------------------------------------------
@@ -995,7 +1008,6 @@ items[4001] = {
     trade_conditions = {
         [0] = 20,    -- Drunes
         [3111] = 1,  -- Soft Powder
-        [3112] = 1,  -- Silk
         [3116] = 1,  -- Orb
         [3102] = 1,  -- Insect Material
     },

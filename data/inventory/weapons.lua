@@ -86,7 +86,7 @@ weapons[10002] = {
 
     trade_conditions = {
         [0] = 35,    -- Drunes
-        [10001] = 1, -- Wooden sword
+        [3119] = 3,  -- Fine Wood
         [3112] = 1,  -- Silk
         [3101] = 1,  -- Refined Slimy Material
     },
@@ -127,7 +127,7 @@ weapons[10003] = {
 
     trade_conditions = {
         [0] = 1200,  -- price
-        [10001] = 1, -- 1 wooden sword
+        [3119] = 5,  -- Fine Wood
         [3001] = 3   -- 3 Copper ore
     },
 
@@ -476,7 +476,8 @@ weapons[11002] = {
 
     trade_conditions = {
         [0] = 50,    -- Price
-        [11001] = 1, -- Wooden Arbalest
+        [3119] = 3,  -- Fine Wood
+        [3112] = 1,  -- Silk
         [3102] = 2,  -- Insect Material
         [3103] = 1   -- Refined Insect Material
     },
@@ -516,9 +517,9 @@ weapons[11003] = {
 
     trade_conditions = {
         [0] = 1450,  -- price
-        [11001] = 1, -- 1 Wooden Arbalest
-        [3001] = 2,  -- 2 Copper ore
-        [3002] = 1   -- 1 Iron ore
+        [3119] = 3,  -- Fine Wood
+        [3001] = 2,  -- Copper ore
+        [3002] = 1   -- Iron ore
     },
 
     battle_animations = {
@@ -556,10 +557,10 @@ weapons[11004] = {
 
     trade_conditions = {
         [0] = 1650,  -- price
-        [11001] = 1, -- 1 Wooden Arbalest
-        [3001] = 1,  -- 2 Copper ore
-        [3002] = 2,  -- 1 Iron ore
-        [1003] = 1,  -- 1 Elixir
+        [3119] = 10, -- Fine Wood
+        [3001] = 1,  -- Copper ore
+        [3002] = 2,  -- Iron ore
+        [1003] = 1,  -- Elixir
     },
 
     battle_animations = {

@@ -91,7 +91,7 @@ armor[30005] = {
 
     trade_conditions = {
         [0] = 50,    -- Drunes
-        [30001] = 1, -- Rookie Tunic
+        [3118] = 1,  -- Thick Fabric
         [3100] = 8,  -- Slimy Material
         [3107] = 5,  -- Saurian Material
         [3102] = 8,  -- Insect Material
@@ -109,8 +109,8 @@ armor[30006] = {
     key_item = true,
 
     trade_conditions = {
-        [0] = 45,   -- Drunes
-        [30002] = 1, -- Old Willow Dress
+        [0] = 45,    -- Drunes
+        [3118] = 2,  -- Thick Fabric
         [3100] = 7,  -- Slimy Material
         [3109] = 3,  -- Rodent Material
         [3102] = 8,  -- Insect Material

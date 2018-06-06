@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2018.05.26
+Last update: 2018.06.06
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -597,6 +597,8 @@ data/inventory/items/soft_fur.png                                             CC
 data/inventory/items/silver_fur.png                                           CC0                      StumpyStrust (OGA) - https://opengameart.org/content/ui-orbs
 data/inventory/items/silk.png                                                 CC-BY-3.0                AhNinniah (OGA) - https://opengameart.org/content/free-game-items-pack-1
 data/inventory/items/soft_powder.png                                          CC-BY-3.0                LudicArts (OGA) - https://opengameart.org/content/handpainted-rpg-icons
+data/inventory/items/thick_fabric.png                                         CC-BY-3.0                AhNinniah (OGA) - https://opengameart.org/content/free-game-items-pack-1
+data/inventory/items/fine_wood.png                                            CC0                      Bertram
 
 data/inventory/items/key_items/barley_meal_bag.png                            CC-BY-SA-3.0             From Daniel Eddeland (OGA) from https://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
 data/inventory/items/key_items/necklace_wolfpain.png                          CC-BY-SA-3.0             Adapted from Scrittl (OGA) - https://opengameart.org/content/armor-icons-32x32-px-painterly
