@@ -74,7 +74,7 @@ weapons[10001] = {
 }
 
 weapons[10002] = {
-    name = vt_system.Translate("Improved Wooden Sword"),
+    name = vt_system.Translate("Hardened Practice Sword"),
     description = vt_system.Translate("A sword made of wood with a steel hilt, very good for practising."),
     icon = "data/inventory/weapons/woodensword.png",
     physical_attack = 15,
@@ -82,7 +82,7 @@ weapons[10002] = {
     standard_price = 0,
     usable_by = BRONANN + THANIS,
     slots = 0,
-    key_item = true,
+    key_item = false,
 
     trade_conditions = {
         [0] = 35,    -- Drunes
@@ -115,7 +115,7 @@ weapons[10002] = {
 }
 
 weapons[10003] = {
-    name = vt_system.Translate("Reinforced Wooden Sword"),
+    name = vt_system.Translate("Initiate Sword"),
     description = vt_system.Translate("A sword made of wood with a steel hilt, reinforced magically."),
     icon = "data/inventory/weapons/woodensword.png",
     physical_attack = 30,
@@ -123,7 +123,7 @@ weapons[10003] = {
     standard_price = 1200,
     usable_by = BRONANN + THANIS,
     slots = 0,
-    key_item = true,
+    key_item = false,
 
     trade_conditions = {
         [0] = 1200,  -- price
@@ -163,7 +163,7 @@ weapons[10004] = {
     standard_price = 4500,
     usable_by = BRONANN + THANIS,
     slots = 0,
-    key_item = true,
+    key_item = false,
 
     trade_conditions = {
         [0] = 4500,  -- price

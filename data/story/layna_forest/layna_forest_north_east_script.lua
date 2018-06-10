@@ -146,7 +146,7 @@ function _CreateObjects()
 
     -- Forest entrance treasure chest
     local chest1 = CreateTreasure(Map, "layna_forest_NE_chest1", "Wood_Chest1", 4, 55, vt_map.MapMode.GROUND_OBJECT);
-    chest1:AddItem(1, 1); -- small potion
+    chest1:AddItem(3119, 2); -- Fine Wood
 
     -- Trees array
     local map_trees = {

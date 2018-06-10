@@ -107,7 +107,7 @@ function _CreateObjects()
     -- Treasure chest, accessible later from the next cave.
     local chest1 = CreateTreasure(Map, "layna_forest_cave1_2_chest", "Wood_Chest1", 116, 38, vt_map.MapMode.GROUND_OBJECT);
     chest1:SetDrunes(50);
-    chest1:AddItem(16, 1); -- Candy
+    chest1:AddItem(16, 2); -- Candy
 
     -- Adapt the light color according to the time of the day.
     local light_color_red = 1.0;

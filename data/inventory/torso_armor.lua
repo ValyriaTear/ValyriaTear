@@ -87,7 +87,6 @@ armor[30005] = {
     magical_defense = 0,
     standard_price = 0,
     usable_by = BRONANN,
-    key_item = true,
 
     trade_conditions = {
         [0] = 50,    -- Drunes
@@ -106,7 +105,6 @@ armor[30006] = {
     magical_defense = 6,
     standard_price = 0,
     usable_by = KALYA,
-    key_item = true,
 
     trade_conditions = {
         [0] = 45,    -- Drunes

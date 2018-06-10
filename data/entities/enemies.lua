@@ -59,7 +59,8 @@ enemies[1] = {
     },
 
     drop_objects = {
-        { 3100, 0.40 } -- Slimy Material
+        { 3100, 0.40 }, -- Slimy Material
+        { 3119, 0.10 }, -- Fine Wood
     }
 }
 
@@ -115,6 +116,7 @@ enemies[2] = {
     drop_objects = {
         { 3102, 0.40 }, -- Insect Material
         { 3112, 0.20 }, -- Silk
+        { 3118, 0.10 }, -- Thick Fabric
     }
 }
 
