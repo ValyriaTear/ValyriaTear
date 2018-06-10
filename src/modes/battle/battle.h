@@ -515,48 +515,6 @@ private:
     //@}
 }; // class BattleMode : public vt_mode_manager::GameMode
 
-
-/** ****************************************************************************
-*** \brief Handles transition from an event or a mode to the battle mode
-***
-*** Must be called without fade transition, as it will do it.
-***
-*** ***************************************************************************/
-class TransitionToBattleMode : public vt_mode_manager::GameMode
-{
-public:
-    TransitionToBattleMode(BattleMode *BM, bool is_boss = false);
-
-    ~TransitionToBattleMode() {
-        // If the game quits while in pause mode during a transition to battle,
-        // The battle mode object needs to be freed.
-        if (_BM)
-            delete _BM;
-    }
-
-    void Update();
-
-    void Draw();
-
-    void Reset();
-
-private:
-    //! \brief The screen capture of the moment of the encounter
-    vt_video::StillImage _screen_capture;
-
-    //! \brief The transition timer, used to display the encounter visual effect
-    vt_system::SystemTimer _transition_timer;
-
-    //! \brief Used to display the effect
-    float _position;
-
-    //! \brief Tells whether the boss trigger sound is to be played or not.
-    bool _is_boss;
-
-    //! \brief The Battle mode to trigger afterward. Must not be nullptr.
-    BattleMode *_BM;
-};
-
 } // namespace vt_battle
 
 #endif // __BATTLE_HEADER__

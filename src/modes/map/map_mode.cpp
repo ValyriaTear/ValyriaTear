@@ -37,6 +37,7 @@
 #include "modes/boot/boot.h"
 #include "modes/save/save_mode.h"
 #include "modes/battle/battle.h"
+#include "modes/battle/transition_to_battle.h"
 
 #include "engine/audio/audio.h"
 #include "engine/input.h"

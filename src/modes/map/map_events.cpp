@@ -27,6 +27,7 @@
 
 #include "modes/shop/shop.h"
 #include "modes/battle/battle.h"
+#include "modes/battle/transition_to_battle.h"
 #include "modes/battle/battle_enemy_info.h"
 
 using namespace vt_audio;
