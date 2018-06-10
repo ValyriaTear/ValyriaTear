@@ -56,7 +56,7 @@ TransitionToBattleMode::TransitionToBattleMode(BattleMode* BM, bool is_boss):
         _screen_capture = VideoManager->CaptureScreen();
         _screen_capture.SetDimensions(VIDEO_STANDARD_RES_WIDTH, VIDEO_STANDARD_RES_HEIGHT);
     }
-    catch (const Exception &e) {
+    catch (const Exception& e) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << e.ToString() << std::endl;
     }
 }
@@ -81,7 +81,7 @@ void TransitionToBattleMode::Update()
 
     _transition_timer.Update();
 
-    _position += _transition_timer.PercentComplete();
+    _position += static_cast<float>(SystemManager->GetUpdateTime()) / 50.0f;
 
     if(_BM && _transition_timer.IsFinished()) {
         ModeManager->Pop();
