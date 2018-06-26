@@ -108,12 +108,8 @@ function _CreateEvents()
     event:AddTrade(1, 0);     -- (infinite) Small Potion
     event:AddTrade(11, 0);    -- (infinite) Tiny Moon Juice
     event:AddTrade(1001, 0);  -- (infinite) Minor Elixirs
-    event:AddTrade(4001, 0);  -- (infinite) Escape Smoke
-    event:AddTrade(10002, 1); -- Improved Wooden Sword
-    event:AddTrade(11002, 1); -- Improved Arbalest
     event:AddTrade(30005, 1); -- Improved Rookie Tunic for Bronann
     event:AddTrade(30006, 1); -- Patched Willow Dress for Kalya
-    event:AddTrade(40001, 2); -- Prismatic Rings for both
 
     event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_VERY_GOOD, -- Flora is a good friend
                          vt_shop.ShopMode.SHOP_PRICE_STANDARD);

@@ -993,7 +993,7 @@ items[4001] = {
     description = vt_system.Translate("A ninja potion that bursts out a damp mist when it is crashed on the ground. Used to hopefully escape from standard opponents."),
     icon = "data/inventory/items/escape_smoke.png",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_ALLIES,
-    standard_price = 100,
+    standard_price = 15,
 
     use_warmup_time = 1600,
     cooldown_time = 2100,
@@ -1006,10 +1006,8 @@ items[4001] = {
     },
 
     trade_conditions = {
-        [0] = 20,    -- Drunes
-        [3111] = 1,  -- Soft Powder
-        [3116] = 1,  -- Orb
-        [3102] = 1,  -- Insect Material
+        [0] = 5,    -- Drunes
+        [3102] = 2,  -- Insect Material
     },
 
     BattleUse = function(user, target)

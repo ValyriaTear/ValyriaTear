@@ -168,12 +168,28 @@ function _CreateNPCs()
     if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true and
             GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == false) then
         dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_sophia_hint_about_orlinn");
-        text = vt_system.Translate("If you're running after Orlinn, I just saw him near your house.");
+        text = vt_system.Translate("If you're running after Orlinn, I just saw him near your house.")
+        dialogue:AddLine(text, npc)
     else
         dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_sophia_no_trade");
-        text = vt_system.Translate("You're too young to trade with me!");
+        text = vt_system.Translate("Do you want to trade with me?")
+        dialogue:AddLine(text, npc)
+        dialogue:SetEventAtDialogueEnd("layna: Sophia trades")
+
+        event = vt_map.ShopEvent.Create("layna: Sophia trades", "Layna Sophia Trades");
+        event:SetShopName(vt_system.UTranslate("Sophia"));
+
+        -- Items
+        event:AddItem(4001, 0);   -- (infinite) Escape Smoke
+        -- Trades
+        event:AddTrade(10002, 1); -- Improved Wooden Sword
+        event:AddTrade(11002, 1); -- Improved Arbalest
+        event:AddTrade(40001, 2); -- Prismatic Rings for both
+
+        event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_VERY_GOOD, -- Sophia is a good friend
+                             vt_shop.ShopMode.SHOP_PRICE_STANDARD);
     end
-    dialogue:AddLine(text, npc);
+
     npc:AddDialogueReference(dialogue);
     -- Add her cat, Nekko
     object = CreateObject(Map, "Cat1", 24, 37.6, vt_map.MapMode.GROUND_OBJECT);
