@@ -5,7 +5,6 @@ PROJECT(VALYRIATEAR)
 
 OPTION(DEBUG_FEATURES "Compile the game with the debug features" OFF)
 OPTION(DISABLE_TRANSLATIONS "Disable gettext / l10n support" OFF)
-OPTION(USE_PCH_COMPILATION "Using precompiled header for compilation for GCC" ON)
 
 IF (NOT VERSION)
     SET(VERSION 0.1.0)
