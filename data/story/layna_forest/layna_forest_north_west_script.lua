@@ -202,8 +202,8 @@ function _CreateObjects()
     chest3:AddItem(40001, 1); -- prismatic ring
     chest3:AddEvent("Monster trap in chest");
 
-    CreateTreasure(Map, "layna_forest_nw_chest4", "Wood_Chest1", 122, 5, vt_map.MapMode.GROUND_OBJECT);
-    -- Empty chest, just to bother the player
+    local chest4 = CreateTreasure(Map, "layna_forest_nw_chest4", "Wood_Chest1", 122, 5, vt_map.MapMode.GROUND_OBJECT);
+    chest4:AddItem(3116, 1) -- Orb
 
     -- Trees of first path (the one next to the forest entrance).
     CreateObject(Map, "Tree Small3", 1, 80, vt_map.MapMode.GROUND_OBJECT);
