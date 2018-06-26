@@ -178,8 +178,6 @@ static bool LoadSettings()
     VideoManager->SetFullscreen(settings.ReadBool("full_screen"));
     if (settings.DoesUIntExist("vsync_mode"))
         VideoManager->SetVSyncMode(settings.ReadUInt("vsync_mode"));
-    if (settings.DoesBoolExist("game_update_mode"))
-        VideoManager->SetGameUpdateMode(settings.ReadBool("game_update_mode"));
     GUIManager->SetUserMenuSkin(settings.ReadString("ui_theme"));
     settings.CloseTable(); // video_settings
 
@@ -551,36 +549,29 @@ int main(int argc, char* argv[])
 
     // Used for a variable game speed,
     // sleeping when on sufficiently fast hardware, and max FPS.
-    const uint32_t UPDATES_PER_SECOND = 60;
-    const uint32_t SKIP_UPDATE_TICKS = 1000 / UPDATES_PER_SECOND; // 25
+    const uint32_t UPDATES_PER_SECOND = 60 + 10; // 10 is a smoothness safety margin
+    const uint32_t SKIP_UPDATE_TICKS = 1000 / UPDATES_PER_SECOND;
+    // The average time assumed to do a game logic cycle
+    const uint32_t MIN_LOGIC_DELAY = 16; // in ms
     uint32_t update_tick = SDL_GetTicks();
     uint32_t next_update_tick = update_tick;
 
     try {
-        bool cpu_gentle_update_mode = true;
-
         // This is the main loop for the game.
         // The loop iterates once for every frame drawn to the screen.
         while (SystemManager->NotDone()) {
-            // Set the game update mode.
-            cpu_gentle_update_mode = !(
-                VideoManager->GetVSyncMode() > 0 ||
-                VideoManager->GetGameUpdateMode()
-            );
 
-            if (cpu_gentle_update_mode) {
-                update_tick = SDL_GetTicks();
+            update_tick = SDL_GetTicks();
 
-                // If we want to be nice with the CPU % used.
-                if (update_tick <= next_update_tick &&
-                        next_update_tick - update_tick >= 10) {
-                    SDL_Delay(next_update_tick - update_tick);
-                }
+            // If we want to be nice with the CPU % used.
+            if (update_tick <= next_update_tick &&
+                    next_update_tick - update_tick >= MIN_LOGIC_DELAY) {
+                SDL_Delay(next_update_tick - update_tick);
             }
 
             // Render capped at UPDATES_PER_SECOND
             // if the update mode is gentle with the CPU(s).
-            if (!cpu_gentle_update_mode || update_tick > next_update_tick) {
+            if (update_tick > next_update_tick) {
 
                 // Clear the primary render target.
                 VideoManager->Clear();

@@ -81,9 +81,12 @@ void IndicatorElement::_UpdateDrawPosition()
 {
     // the time passed since the last call in ms.
     float elapsed_ms = static_cast<float>(vt_system::SystemManager->GetUpdateTime());
-    // Use only rational values.
-    if (elapsed_ms <= 0.0f || elapsed_ms > 15.0f)
-        elapsed_ms = 15.0f;
+    // Use only rational values:
+    // Prevent high jumps after pausing the battle
+    // Prevents too slow animation and cap the movement to the equivalent of a 30 FPS one.
+    const float elapsed_ms_cap = 32.0f;
+    if (elapsed_ms <= 0.0f || elapsed_ms > elapsed_ms_cap)
+        elapsed_ms = elapsed_ms_cap;
 
     switch(_indicator_type) {
     case DAMAGE_INDICATOR: {

@@ -246,7 +246,6 @@ private:
     void _OnBrightnessRight();
     void _OnChangeVSyncLeft();
     void _OnChangeVSyncRight();
-    void _OnChangeGameUpdateMode();
     void _OnUIThemeLeft();
     void _OnUIThemeRight();
     //@}

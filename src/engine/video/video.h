@@ -245,20 +245,6 @@ public:
         return _vsync_mode;
     }
 
-    //! \brief Sets the game main loop update mode.
-    //! \param update_mode true for performance, false for the CPU-gentle loop.
-    //! \note  It is always on performance when VSync is enabled.
-    void SetGameUpdateMode(bool update_mode) {
-        _game_update_mode = update_mode;
-    }
-
-    //! \brief Gets the game main loop update mode.
-    //! \param update_mode true for performance, false for the CPU-gentle loop.
-    //! \note  It is always on performance when VSync is enabled.
-    inline bool GetGameUpdateMode() const {
-        return _game_update_mode;
-    }
-
     //! \brief Returns a reference to the current coordinate system
     const CoordSys& GetCoordSys() const {
         return _current_context.coordinate_system;

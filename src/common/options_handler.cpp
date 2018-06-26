@@ -131,7 +131,7 @@ void OptionMenu::InputRight()
     }
 }
 
-const uint16_t SKIN_MENU_INDEX = 5;
+const uint16_t SKIN_MENU_INDEX = 4;
 
 GameOptionsMenuHandler::GameOptionsMenuHandler(vt_mode_manager::GameMode* parent_mode):
     _first_run(false),
@@ -422,8 +422,6 @@ void GameOptionsMenuHandler::_SetupVideoOptionsMenu()
     _video_options_menu.AddOption(UTranslate("VSync: "), this, nullptr, nullptr, nullptr,
                                   &GameOptionsMenuHandler::_OnChangeVSyncLeft,
                                   &GameOptionsMenuHandler::_OnChangeVSyncRight);
-    _video_options_menu.AddOption(UTranslate("Update method: "), this, &GameOptionsMenuHandler::_OnChangeGameUpdateMode,
-                                  nullptr, nullptr, nullptr, nullptr);
     _video_options_menu.AddOption(UTranslate("UI Theme: "), this, &GameOptionsMenuHandler::_OnUIThemeRight, nullptr, nullptr,
                                   &GameOptionsMenuHandler::_OnUIThemeLeft, &GameOptionsMenuHandler::_OnUIThemeRight);
 
@@ -692,7 +690,6 @@ void GameOptionsMenuHandler::_RefreshVideoOptions()
 
     // Update the Vsync mode
     std::string vsync_str;
-    bool update_mode_enabled = true;
     /// tr: Do not translate the part before the '|'.
     /// It is used for contextual translation support.
     switch(VideoManager->GetVSyncMode()) {
@@ -702,32 +699,12 @@ void GameOptionsMenuHandler::_RefreshVideoOptions()
         break;
     case 1:
         vsync_str = CTranslate("VSync_mode|On");
-        update_mode_enabled = false;
         break;
     case 2:
         vsync_str = CTranslate("VSync_mode|Swap Tearing");
-        update_mode_enabled = false;
         break;
     }
     _video_options_menu.SetOptionText(3, UTranslate("VSync: ") + MakeUnicodeString(vsync_str));
-
-    // With VSync support, there is no need to determine the update method, it can ve set to performance.
-    // The VSync method will auto limit the framerate.
-    if (update_mode_enabled) {
-        std::string update_mode_str;
-        /// tr: Do not translate the part before the '|'.
-        /// It is used for contextual translation support.
-        if (VideoManager->GetGameUpdateMode())
-            update_mode_str = CTranslate("UpdateMode|Performance");
-        else
-            update_mode_str = CTranslate("UpdateMode|Gentle");
-        _video_options_menu.SetOptionText(4, UTranslate("Update method: ") + MakeUnicodeString(update_mode_str));
-        _video_options_menu.EnableOption(4, true);
-    }
-    else {
-        _video_options_menu.SetOptionText(4, UTranslate("Update method: ") + UTranslate("Performance"));
-        _video_options_menu.EnableOption(4, false);
-    }
 
     // Update the UI theme.
     _video_options_menu.SetOptionText(SKIN_MENU_INDEX, UTranslate("UI Theme: ") + GUIManager->GetDefaultMenuSkinName());
@@ -948,14 +925,6 @@ void GameOptionsMenuHandler::_OnChangeVSyncRight()
     else
         ++vsync_mode;
     VideoManager->SetVSyncMode(vsync_mode);
-    VideoManager->ApplySettings();
-    _RefreshVideoOptions();
-    _has_modified_settings = true;
-}
-
-void GameOptionsMenuHandler::_OnChangeGameUpdateMode()
-{
-    VideoManager->SetGameUpdateMode(!VideoManager->GetGameUpdateMode());
     VideoManager->ApplySettings();
     _RefreshVideoOptions();
     _has_modified_settings = true;
@@ -1189,9 +1158,6 @@ void GameOptionsMenuHandler::_UpdateExplanationText()
             _explanation_window.SetText(UTranslate("Permits to change the Screen Vertical Synchronization mode. (Use the left and right arrow keys.)"));
             break;
         case 4:
-            _explanation_window.SetText(UTranslate("Permits to change the Game Update mode. Use 'Performance' for more FPS, and 'Gentle' to be kind with your CPU. Disabled when VSync is on."));
-            break;
-        case 5:
             _explanation_window.SetText(UTranslate("Permits to change the in-game GUI theme."));
             break;
         default:
@@ -1335,8 +1301,6 @@ bool GameOptionsMenuHandler::_SaveSettingsFile(const std::string& filename)
     settings_lua.WriteBool("full_screen", VideoManager->IsFullscreen());
     settings_lua.WriteComment("Get the desired VSync mode. 0: No VSync, 1: VSync, 2: Swap Tearing");
     settings_lua.WriteUInt("vsync_mode", VideoManager->GetVSyncMode());
-    settings_lua.WriteComment("The game update loop mode. 'false' for a more gentle update loop, 'true' for performance.");
-    settings_lua.WriteBool("game_update_mode", VideoManager->GetGameUpdateMode());
     settings_lua.WriteComment("The UI Theme to load.");
     settings_lua.WriteString("ui_theme", GUIManager->GetDefaultMenuSkinId());
     settings_lua.EndTable(); // video_settings
