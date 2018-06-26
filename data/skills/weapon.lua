@@ -492,6 +492,7 @@ skills[1001] = {
     animation_scripts = {
         -- N.B.: [1] is the enemy ID.
         [1] = "data/battles/enemies_animations/standard_enemy_attack.lua",
+        [6] = "data/battles/enemies_animations/standard_enemy_attack.lua",
     },
 
     BattleExecute = function(user, target)
@@ -565,9 +566,14 @@ skills[1004] = {
     icon = "data/skills/monster_attacks/animal-fangs.png",
     show_notice = true,
     sp_required = 1,
-    warmup_time = 900,
-    cooldown_time = 0,
+    warmup_time = 3000,
+    cooldown_time = 1000,
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+
+    animation_scripts = {
+        -- N.B.: [4] is the enemy ID.
+        [4] = "data/battles/enemies_animations/standard_enemy_attack.lua",
+    },
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
@@ -592,10 +598,15 @@ skills[1005] = {
     name = vt_system.Translate("Dampening Bite"),
     icon = "data/skills/monster_attacks/animal-fangs.png",
     show_notice = true,
-    sp_required = 1,
-    warmup_time = 900,
-    cooldown_time = 0,
+    sp_required = 2,
+    warmup_time = 5000,
+    cooldown_time = 2000,
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+
+    animation_scripts = {
+        -- N.B.: [4] is the enemy ID.
+        [4] = "data/battles/enemies_animations/standard_enemy_attack.lua",
+    },
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
@@ -640,11 +651,18 @@ skills[1006] = {
 }
 
 skills[1007] = {
-   name = "Bat HP Drain",
-   sp_required = 0,
-   warmup_time = 900,
-   cooldown_time = 0,
-   target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+    name = vt_system.Translate("Bat HP Drain"),
+    icon = "data/skills/monster_attacks/animal-fangs.png",
+    show_notice = true,
+    sp_required = 2,
+    warmup_time = 7000,
+    cooldown_time = 4000,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
+
+    animation_scripts = {
+        -- N.B.: [6] is the enemy ID.
+        [6] = "data/battles/enemies_animations/standard_enemy_attack.lua",
+    },
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();

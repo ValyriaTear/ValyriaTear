@@ -281,7 +281,7 @@ enemies[5] = {
     },
 
     skills = {
-        21001
+        21001  -- Create Slime
     },
 
     drop_objects = {
@@ -322,7 +322,8 @@ enemies[6] = {
             y_position = 95,
             phys_def_modifier = 0.2,
             mag_def_modifier = 0.0,
-            evade_modifier = 0.1
+            evade_modifier = 0.1,
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK] = 25.0 }
         },
         [2] = {
             name = vt_system.Translate("Wing"),
@@ -336,6 +337,7 @@ enemies[6] = {
     },
 
     skills = {
+        1001, -- Normal attack
         1007  -- HP drain
     },
 
@@ -514,7 +516,7 @@ enemies[9] = {
             phys_def_modifier = 0.0,
             mag_def_modifier = 0.0,
             evade_modifier = 0.1,
-            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = 10.0 }
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = 30.0 }
         }
     },
 
