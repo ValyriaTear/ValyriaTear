@@ -121,7 +121,7 @@ BattleVictory::BattleVictory() :
 
     _object_list.SetOwner(&_spoils_window);
     _object_list.SetPosition(50.0f, 100.0f);
-    _object_list.SetDimensions(250.0f, 160.0f, 1, 8, 1, 8);
+    _object_list.SetDimensions(250.0f, 180.0f, 1, 8, 1, 8);
     _object_list.SetTextStyle(TextStyle("text20", Color::white));
     _object_list.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
     _object_list.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
