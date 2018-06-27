@@ -32,6 +32,8 @@ bool SkillGraph::Initialize(const std::string& skill_graph_file)
         return false;
     }
 
+    _skill_graph_data.clear();
+
     // Read each node data
     for (uint32_t node_id : nodes_ids) {
         if (!script.OpenTable(node_id)) {
