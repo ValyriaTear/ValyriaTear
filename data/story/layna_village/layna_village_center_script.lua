@@ -443,7 +443,7 @@ function _CreateEvents()
     vt_map.ScriptedEvent.Create("Orlinn comes back event end", "orlinn_comes_back_event_end", "");
 
     -- Georges event
-    vt_map.ScriptedEvent.Create("Quest1: Georges tells whom the barley meal was for", "Quest1GeorgesTellsBronannAboutLilly", "");
+    vt_map.ScriptedEvent.Create("Quest1: Georges thanks Bronann", "Quest1GeorgesTellsBronannAboutLilly", "");
 
     -- Quest 2: The forest event
     event = vt_map.ScriptedEvent.Create("Quest2: Forest event", "Prepare_forest_event", "");
@@ -875,13 +875,7 @@ function _UpdateGeorgesDialogue()
         text = vt_system.Translate("(sigh)... Georges!");
         dialogue:AddLine(text, bronann);
         text = vt_system.Translate("Ok ok. Just having a bit of spirit, young man.");
-        dialogue:AddLine(text, georges);
-        text = vt_system.Translate("Actually, I bought the barley meal for Lilly.");
-        dialogue:AddLine(text, georges);
-        text = vt_system.Translate("What?");
-        dialogue:AddLineEmote(text, bronann, "exclamation");
-        text = vt_system.Translate("There's no need to thank me for that. It's my pleasure.");
-        dialogue:AddLineEvent(text, georges, "", "Quest1: Georges tells whom the barley meal was for");
+        dialogue:AddLineEvent(text, georges, "", "Quest1: Georges thanks Bronann");
         georges:AddDialogueReference(dialogue);
         return;
     elseif (GlobalManager:DoesEventExist("layna_center", "quest1_georges_dialogue_done") == true) then
