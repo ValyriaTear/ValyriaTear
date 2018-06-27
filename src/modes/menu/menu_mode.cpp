@@ -51,7 +51,8 @@ MenuMode::MenuMode() :
     _character(nullptr),
     _equip_view_type(private_menu::EQUIP_VIEW_NONE),
     _is_weapon(false),
-    _spirit_number(0)
+    _spirit_number(0),
+    _end_battle_mode(false)
 {
     _current_instance = this;
 
@@ -667,6 +668,9 @@ void MenuMode::GoToImproveSkillMenu()
     // Small hack to go directly to the improve selection
     _current_menu_state = &_skills_state;
     _skills_state.GetOptions()->InputRight();
+    _skills_state._current_category = private_menu::SkillsState::SKILLS_CATEGORY::SKILLS_OPTIONS_SKILL_GRAPH;
+    _skilltree_window.SetActive(true);
+    _end_battle_mode = true;
 }
 
 } // namespace vt_menu

@@ -267,6 +267,10 @@ private:
 
     //! \brief A static variable permitting to update the displayed game time only every 900ms
     int32_t _update_of_time = 0;
+
+    //! \brief Set the end battle mode
+    //! Makes the menu close when the skill tree window is closed.
+    bool _end_battle_mode = false;
     //@}
 };
 

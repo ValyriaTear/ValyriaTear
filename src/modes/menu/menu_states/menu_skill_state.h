@@ -24,6 +24,7 @@ namespace private_menu
 *** \brief Skills state. Allows user to view their skills and use them
 **/
 class SkillsState : virtual public AbstractMenuState {
+    friend class vt_menu::MenuMode;
 public:
     enum SKILLS_CATEGORY {
         SKILLS_OPTIONS_USE,

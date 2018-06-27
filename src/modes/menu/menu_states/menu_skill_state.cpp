@@ -30,6 +30,11 @@ void SkillsState::_ActiveWindowUpdate()
 
 bool SkillsState::_IsActive()
 {
+    // Make the skill graph menu be the sole menu available in end battle mode
+    if (_menu_mode->_end_battle_mode && !_menu_mode->_skilltree_window.IsActive()) {
+        vt_mode_manager::ModeManager->Pop();
+    }
+
     if (_current_category == SKILLS_OPTIONS_SKILL_GRAPH) {
         return _menu_mode->_skilltree_window.IsActive();
     }
