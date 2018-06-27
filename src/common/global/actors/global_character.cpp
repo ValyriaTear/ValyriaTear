@@ -1060,6 +1060,11 @@ void GlobalCharacter::AddObtainedSkillNode(uint32_t skill_node_id) {
         AddSkill(node->GetSkillIdLearned(), true);
     }
 
+    // Remove needed items
+    for (auto item : node->GetItemsNeeded()) {
+        GlobalManager->DecrementItemCount(item.first, item.second);
+    }
+
     _obtained_skill_nodes.emplace_back(skill_node_id);
 
     // The character location is on the latest obtained skill_node_id.

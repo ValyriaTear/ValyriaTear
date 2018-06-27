@@ -613,6 +613,21 @@ void SkillGraphWindow::_HandleNodeTransaction()
         return;
     }
 
+    // Check whether the needed items are available
+    for (auto item : current_skill_node->GetItemsNeeded()) {
+        auto gbl_obj = GlobalManager->GetGlobalObject(item.first);
+        if (gbl_obj == nullptr) {
+            // item not found
+            media.PlaySound("bump");
+            return;
+        }
+        else if (gbl_obj->GetCount() < item.second) {
+            // Not enough items needed
+            media.PlaySound("bump");
+            return;
+        }
+    }
+
     // Cannot obtain a node where the character is
     uint32_t char_node_id = _selected_character->GetSkillNodeLocation();
     if (char_node_id == current_skill_node->GetId()) {
