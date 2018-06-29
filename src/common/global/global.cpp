@@ -46,7 +46,7 @@ bool GLOBAL_DEBUG = false;
 ////////////////////////////////////////////////////////////////////////////////
 
 GameGlobal::GameGlobal() :
-    _game_slot_id(0),
+    _game_slot_id(std::numeric_limits<uint32_t>::max()),
     _drunes(0),
     _max_experience_level(100),
     _x_save_map_position(0),
@@ -787,6 +787,10 @@ bool GameGlobal::AutoSave(const std::string& map_data_file, const std::string& m
                           uint32_t stamina,
                           uint32_t x_position, uint32_t y_position)
 {
+    // Don't autosave when the save slot was not yet chosen
+    if (GetGameSlotId() == std::numeric_limits<uint32_t>::max())
+        return false;
+
     std::ostringstream filename;
     filename << GetUserDataPath() + "saved_game_" << GetGameSlotId() << "_autosave.lua";
 

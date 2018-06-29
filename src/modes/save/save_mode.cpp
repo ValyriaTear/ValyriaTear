@@ -200,7 +200,11 @@ SaveMode::SaveMode(bool save_mode, uint32_t x_position, uint32_t y_position) :
             _file_list.AddOption(MakeUnicodeString(VTranslate("Slot %d", i + 1)));
         }
         // Restore the cursor position to the last load/save position.
-        _file_list.SetSelection(GlobalManager->GetGameSlotId());
+        uint32_t game_slot_id = GlobalManager->GetGameSlotId();
+        // Propose the first slot when none where chosen yet
+        if (game_slot_id == std::numeric_limits<uint32_t>::max())
+            game_slot_id = 0;
+        _file_list.SetSelection(game_slot_id);
 
         _current_state = SAVE_MODE_SAVING;
     } else {
