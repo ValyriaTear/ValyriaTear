@@ -149,6 +149,10 @@ BattleMode::~BattleMode()
 
 void BattleMode::_ResetMusicState()
 {
+    // Don't change the music when in the middle of winning a battle
+    if (_state == BATTLE_STATE_VICTORY)
+        return;
+
     MusicDescriptor* music = AudioManager->RetrieveMusic(GlobalManager->GetBattleMedia().battle_music_filename);
     MusicDescriptor* active_music = AudioManager->GetActiveMusic();
 
