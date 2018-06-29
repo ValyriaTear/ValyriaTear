@@ -153,7 +153,11 @@ void BattleMode::_ResetMusicState()
     if (_state == BATTLE_STATE_VICTORY)
         return;
 
-    MusicDescriptor* music = AudioManager->RetrieveMusic(GlobalManager->GetBattleMedia().battle_music_filename);
+    // Reload if necessary
+    std::string battle_music = GlobalManager->GetBattleMedia().battle_music_filename;
+    AudioManager->LoadMusic(battle_music, this);
+    // Retrieve from audio cache
+    MusicDescriptor* music = AudioManager->RetrieveMusic(battle_music);
     MusicDescriptor* active_music = AudioManager->GetActiveMusic();
 
     // Stop the current music if it's not the right one.
@@ -163,11 +167,12 @@ void BattleMode::_ResetMusicState()
             music->Rewind();
     }
 
-    // If there is no map music or the music is already in the correct state, don't do anything.
+    // If there is no map music
     if (!music)
         return;
 
     switch(music->GetState()) {
+    // If the music is already in the correct state, don't do anything.
     case AUDIO_STATE_FADE_IN:
     case AUDIO_STATE_PLAYING:
         break;
