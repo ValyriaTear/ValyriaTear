@@ -458,7 +458,8 @@ function _CheckZones()
     end
 
     -- zone based story events
-    if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
+    if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true
+        and GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == false) then
         if (orlinn_hide_n_seek2_zone:IsCameraEntering() == true) then
             -- Updates the story state
             if (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == false) then
