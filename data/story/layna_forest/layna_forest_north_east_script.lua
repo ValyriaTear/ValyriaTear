@@ -20,6 +20,10 @@ local EventManager = nil
 -- the main character handler
 local hero = nil
 
+-- Dialogue characters
+local bronann = nil
+local kalya = nil
+
 -- the main map loading code
 function Load(m)
 
@@ -74,6 +78,17 @@ function _CreateCharacters()
         hero:SetPosition(71, 94);
         hero:SetDirection(vt_map.MapMode.NORTH);
     end
+
+    bronann = CreateSprite(Map, "Bronann", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    bronann:SetDirection(vt_map.MapMode.WEST);
+    bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+    bronann:SetVisible(false);
+
+    kalya = CreateSprite(Map, "Kalya", 0, 0, vt_map.MapMode.GROUND_OBJECT);
+    kalya:SetDirection(vt_map.MapMode.WEST);
+    kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+    kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    kalya:SetVisible(false);
 end
 
 -- The boss map sprite
@@ -599,6 +614,10 @@ function _CreateEnemies()
     roam_zone:AddEnemy(enemy, 1);
 end
 
+-- events that need global script access
+local move_next_to_bronann_event = nil
+local move_back_to_party_event = nil
+
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
     local event = nil
@@ -612,9 +631,6 @@ function _CreateEvents()
     vt_map.MapTransitionEvent.Create("to forest SE", "data/story/layna_forest/layna_forest_south_east_map.lua",
                                      "data/story/layna_forest/layna_forest_south_east_script.lua", "from_layna_forest_NE");
 
-    -- generic events
-    vt_map.ScriptedEvent.Create("Map:PopState()", "Map_PopState", "");
-
     vt_map.ChangeDirectionSpriteEvent.Create("The Hero looks north", hero, vt_map.MapMode.NORTH);
 
     -- Warning dialogue
@@ -623,48 +639,69 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What's that?!");
-    dialogue:AddLineEventEmote(text, hero, "The Hero looks north", "", "exclamation");
+    dialogue:AddLineEvent(text, bronann, "The Hero looks north", "");
     event = vt_map.DialogueEvent.Create("Warning dialogue", dialogue);
     event:SetStopCameraMovement(true);
 
     -- Boss fight scene
-    event = vt_map.ScriptedEvent.Create("boss fight scene", "start_boss_fight_scene", "");
-    event:AddEventLinkAtEnd("hero looks west");
+    event = vt_map.ScriptedEvent.Create("boss fight scene", "start_boss_fight_scene", "")
+    event:AddEventLinkAtEnd("Kalya moves next to Bronann", 50)
+    event:AddEventLinkAtEnd("Wolf appears", 300)
 
-    event = vt_map.ChangeDirectionSpriteEvent.Create("hero looks west", hero, vt_map.MapMode.WEST);
-    event:AddEventLinkAtEnd("hero looks east", 800);
+    vt_map.ScriptedEvent.Create("Wolf appears", "wolf_appears", "")
 
-    event = vt_map.ChangeDirectionSpriteEvent.Create("hero looks east", hero, vt_map.MapMode.EAST);
-    event:AddEventLinkAtEnd("The hero looks at wolf", 800);
+    -- NOTE: The actual destination is set just before the actual start call
+    move_next_to_bronann_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann", kalya, 0, 0, false)
+    move_next_to_bronann_event:AddEventLinkAtEnd("Kalya looks west")
 
-    event = vt_map.LookAtSpriteEvent.Create("The hero looks at wolf", hero, wolf);
-    event:AddEventLinkAtEnd("Wolf runs toward the hero");
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west", kalya, vt_map.MapMode.WEST)
+    event:AddEventLinkAtEnd("Kalya looks east", 800)
 
-    event = vt_map.PathMoveSpriteEvent.Create("Wolf runs toward the hero", wolf, hero, true);
-    event:AddEventLinkAtEnd("First Wolf battle");
+    event = vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks east", kalya, vt_map.MapMode.EAST)
+    event:AddEventLinkAtEnd("Kalya looks at wolf", 800)
+    event:AddEventLinkAtEnd("Bronann looks at wolf", 1100)
 
-    event = vt_map.BattleEncounterEvent.Create("First Wolf battle");
-    event:SetMusic("data/music/accion-OGA-djsaryon.ogg");
-    event:SetBackground("data/battles/battle_scenes/forest_background.png");
-    event:AddEnemy(3, 512, 500);
-    event:SetBoss(true);
-    event:AddEventLinkAtEnd("Make the wolf disappear");
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at wolf", kalya, wolf)
 
-    event = vt_map.ScriptedEvent.Create("Make the wolf disappear", "make_wolf_invisible", "");
-    event:AddEventLinkAtEnd("boss fight post-dialogue");
+    event = vt_map.LookAtSpriteEvent.Create("Bronann looks at wolf", bronann, wolf)
+    event:AddEventLinkAtEnd("Wolf runs toward Bronann", 1000)
+
+    event = vt_map.PathMoveSpriteEvent.Create("Wolf runs toward Bronann", wolf, bronann, true)
+    event:AddEventLinkAtEnd("First Wolf battle")
+
+    event = vt_map.BattleEncounterEvent.Create("First Wolf battle")
+    event:SetMusic("data/music/accion-OGA-djsaryon.ogg")
+    event:SetBackground("data/battles/battle_scenes/forest_background.png")
+    event:AddEnemy(3, 512, 500)
+    event:SetBoss(true)
+    event:AddEventLinkAtEnd("Make the wolf disappear")
+
+    event = vt_map.ScriptedEvent.Create("Make the wolf disappear", "make_wolf_invisible", "")
+    event:AddEventLinkAtEnd("Kalya looks at Bronann", 2000)
+    event:AddEventLinkAtEnd("Bronann looks at Kalya", 2400)
+    event:AddEventLinkAtEnd("boss fight post-dialogue")
+
+    vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, bronann)
+    vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", bronann, kalya)
 
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Woah, that was quite a nasty fight. Why on earth was a north arctic fenrir lurking in the forest? I thought it was merely a part of myths.");
-    dialogue:AddLineEmote(text, hero, "sweat drop");
-    text = vt_system.Translate("It ran away. I'm almost certain that we'll meet it again. We'd better be more prepared next time.");
-    dialogue:AddLineEmote(text, hero, "thinking dots");
-    text = vt_system.Translate("I'll try not to think about what it could have done to Orlinn. Let's find him... quickly.");
-    dialogue:AddLine(text, hero);
-    event = vt_map.DialogueEvent.Create("boss fight post-dialogue", dialogue);
-    event:AddEventLinkAtEnd("Map:PopState()");
-    event:AddEventLinkAtEnd("Restart music");
+    text = vt_system.Translate("Woah, that was quite a nasty fight. Why on earth was a north arctic fenrir lurking in the forest? I thought it was merely a part of myths.")
+    dialogue:AddLineEmote(text, kalya, "sweat drop")
+    text = vt_system.Translate("It ran away. I'm almost certain that we'll meet it again. We'd better be more prepared next time.")
+    dialogue:AddLineEmote(text, kalya, "thinking dots")
+    text = vt_system.Translate("I'll try not to think about what it could have done to Orlinn. Let's find him... quickly.")
+    dialogue:AddLine(text, bronann)
+    event = vt_map.DialogueEvent.Create("boss fight post-dialogue", dialogue)
+    event:AddEventLinkAtEnd("Prepare Kalya move back to party")
 
-    vt_map.ScriptedEvent.Create("Restart music", "restart_music", "");
+    event = vt_map.ScriptedEvent.Create("Prepare Kalya move back to party", "move_back_to_party_path", "")
+    event:AddEventLinkAtEnd("Kalya moves back to party")
+
+    -- Actual path set just before starting this event
+    move_back_to_party_event = vt_map.PathMoveSpriteEvent.Create("Kalya moves back to party", kalya, 0, 0, false)
+    move_back_to_party_event:AddEventLinkAtEnd("End boss fight scene")
+
+    vt_map.ScriptedEvent.Create("End boss fight scene", "end_boss_fight_scene", "")
 end
 
 -- zones
@@ -734,24 +771,55 @@ end
 
 map_functions = {
 
-    Map_PopState = function()
-        Map:PopState();
+    start_boss_fight_scene = function()
+        Map:PushState(vt_map.MapMode.STATE_SCENE)
+        hero:SetMoving(false)
+
+        bronann:SetDirection(hero:GetDirection())
+        bronann:SetPosition(hero:GetXPosition(), hero:GetYPosition())
+        bronann:SetVisible(true)
+        bronann:SetCollisionMask(vt_map.MapMode.ALL_COLLISION)
+        hero:SetVisible(false)
+        Map:SetCamera(bronann)
+        hero:SetPosition(0, 0)
+
+        kalya:SetPosition(bronann:GetXPosition(), bronann:GetYPosition());
+        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION)
+        kalya:SetVisible(true)
+
+        move_next_to_bronann_event:SetDestination(bronann:GetXPosition() + 2.0, bronann:GetYPosition(), false)
     end,
 
-    start_boss_fight_scene = function()
-        Map:PushState(vt_map.MapMode.STATE_SCENE);
-        hero:SetMoving(false);
+    wolf_appears = function()
         -- Play the wolf growling sound
-        AudioManager:PlaySound("data/sounds/growl1_IFartInUrGeneralDirection_freesound.wav");
-        wolf:SetVisible(true);
+        AudioManager:PlaySound("data/sounds/growl1_IFartInUrGeneralDirection_freesound.wav")
+        wolf:SetVisible(true)
     end,
 
     make_wolf_invisible = function()
-        wolf:SetVisible(false);
-        wolf:SetPosition(104, 3);
+        wolf:SetVisible(false)
+        wolf:SetPosition(104, 3)
     end,
 
-    restart_music = function()
-        AudioManager:FadeInActiveMusic(2000);
+    move_back_to_party_path = function()
+        move_back_to_party_event:SetDestination(bronann:GetXPosition(), bronann:GetYPosition(), false)
+    end,
+
+    end_boss_fight_scene = function()
+        bronann:SetMoving(false);
+        hero:SetDirection(bronann:GetDirection())
+        hero:SetPosition(bronann:GetXPosition(), bronann:GetYPosition())
+        hero:SetCollisionMask(vt_map.MapMode.ALL_COLLISION)
+        hero:SetVisible(true)
+        Map:SetCamera(hero)
+        bronann:SetVisible(false)
+        bronann:SetPosition(0, 0)
+
+        kalya:SetPosition(0, 0);
+        kalya:SetVisible(false)
+
+        -- Restart music
+        AudioManager:PlayMusic(music_filename)
+        Map:PopState()
     end
 }

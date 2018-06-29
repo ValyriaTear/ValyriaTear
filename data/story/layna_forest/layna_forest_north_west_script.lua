@@ -20,7 +20,7 @@ local EventManager = nil
 -- the main character handler
 local hero = nil
 
--- Dialogue character
+-- Dialogue characters
 local bronann = nil
 local kalya = nil
 local orlinn = nil
