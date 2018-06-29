@@ -117,7 +117,16 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
     }
 
     // Load the starting skill node
-    _current_skill_node_id = char_script.ReadUInt("starting_skill_node_id", 0);
+    _current_skill_node_id = char_script.ReadUInt("starting_skill_node_id",
+                                                  std::numeric_limits<uint32_t>::max());
+    if (_current_skill_node_id != std::numeric_limits<uint32_t>::max()) {
+
+        // Add the current node position as obtained if it is not in the data
+        // This permits to fix obtaining the first nodes
+        if (!IsSkillNodeObtained(_current_skill_node_id)) {
+            _obtained_skill_nodes.push_back(_current_skill_node_id);
+        }
+    }
 
     // Read each battle_animations table keys and store the corresponding animation in memory.
     std::vector<std::string> keys_vect;
@@ -467,15 +476,15 @@ bool GlobalCharacter::LoadCharacter(ReadScriptDescriptor& file)
     SetObtainedSkillNodes(skill_node_ids);
 
     // Read the current skill node location
-    uint32_t default_character_location = file.ReadUInt("current_skill_node",
+    uint32_t current_character_location = file.ReadUInt("current_skill_node",
                                                         std::numeric_limits<uint32_t>::max());
-    if (default_character_location != std::numeric_limits<uint32_t>::max()) {
-        SetSkillNodeLocation(default_character_location);
+    if (current_character_location != std::numeric_limits<uint32_t>::max()) {
+        SetSkillNodeLocation(current_character_location);
 
         // Add the current node position as obtained if it is not in the data
         // This permits to fix obtaining the first nodes
-        if (!IsSkillNodeObtained(default_character_location)) {
-            _obtained_skill_nodes.push_back(default_character_location);
+        if (!IsSkillNodeObtained(current_character_location)) {
+            _obtained_skill_nodes.push_back(current_character_location);
         }
     }
 
