@@ -844,7 +844,15 @@ objects["Well"] = {
 objects["Wood sign"] = {
     animation_filename = "data/entities/map/objects/wood_sign.lua",
     coll_half_width = 1.0 * 16,
-    coll_height = 2.5 * 16,
+    coll_height = 0.8 * 16,
+    img_half_width = 1.0 * 16,
+    img_height = 3.18 * 16
+}
+
+objects["Wood sign info"] = {
+    animation_filename = "data/entities/map/objects/wood_sign_info.lua",
+    coll_half_width = 1.0 * 16,
+    coll_height = 0.8 * 16,
     img_half_width = 1.0 * 16,
     img_height = 3.18 * 16
 }
@@ -852,7 +860,7 @@ objects["Wood sign"] = {
 objects["Wood sign snow"] = {
     animation_filename = "data/entities/map/objects/wood_sign_snow.lua",
     coll_half_width = 1.0 * 16,
-    coll_height = 2.5 * 16,
+    coll_height = 0.9 * 16,
     img_half_width = 1.0 * 16,
     img_height = 3.62 * 16
 }

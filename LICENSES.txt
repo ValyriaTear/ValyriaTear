@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2018.06.06
+Last update: 2018.07.05
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -439,6 +439,7 @@ data/entities/map/objects/tree_small1_snow.png                                CC
 data/entities/map/objects/tree_small2_snow.png                                CC-BY-SA-3.0             Daniel Cook + Jetrel's mockups + Zabin (OGA) + snow tree and ground from Yd (OGA)
 data/entities/map/objects/wood_sign.png                                       CC-BY-SA-3.0             Daniel Cook + Jetrel's mockups + Zabin (OGA) + snow tree and ground from Yd (OGA)
 data/entities/map/objects/wood_sign_snow.png                                  CC-BY-SA-3.0             Daniel Cook + Jetrel's mockups + Zabin (OGA) + snow tree and ground from Yd (OGA)
+data/entities/map/objects/wood_sign_info.png                                  CC-BY-SA-3.0             Daniel Cook + Jetrel's mockups + Zabin (OGA) + snow tree and ground from Yd (OGA)
 data/entities/map/objects/book1.png                                           CC-BY-SA-3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
 data/entities/map/objects/bread1.png                                          CC-BY-SA-3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)
 data/entities/map/objects/candle1.png                                         CC-BY-SA-3.0             Allacrost + From Jetrel's mockups + Bertram + adapted other Circle 2D graphics from Daniel Cook (lostgarden.com)

@@ -130,6 +130,8 @@ function _CreateObjects()
     local object = nil
     local npc = nil
     local event = nil
+    local dialogue = nil
+    local text = nil
 
     vt_map.SavePoint.Create(19, 27);
 
@@ -150,6 +152,14 @@ function _CreateObjects()
     npc = CreateObject(Map, "Layna Statue", 27, 20, vt_map.MapMode.GROUND_OBJECT);
     npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     npc:SetInteractionIcon("data/gui/map/heal_anim.lua")
+
+    -- Info sign
+    object = CreateObject(Map, "Wood sign info", 37, 24, vt_map.MapMode.GROUND_OBJECT)
+    object:SetEventWhenTalking("Info about skill improvement")
+    dialogue = vt_map.SpriteDialogue.Create();
+    text = vt_system.Translate("Did you know that you can improve spend your earned XP points to improve your skills and stats?\nSimply open the menu, select 'Skills' and 'Improve'.");
+    dialogue:AddLine(text, nil);
+    event = vt_map.DialogueEvent.Create("Info about skill improvement", dialogue)
 
     -- Only add the squirrels and butterflies when the night isn't about to happen
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
