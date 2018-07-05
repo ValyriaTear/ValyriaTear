@@ -213,6 +213,14 @@ end
 function _CreateObjects()
     local object = nil
 
+    -- Info sign
+    object = CreateObject(Map, "Wood sign info", 29, 68, vt_map.MapMode.GROUND_OBJECT)
+    object:SetEventWhenTalking("Info about running")
+    dialogue = vt_map.SpriteDialogue.Create();
+    text = vt_system.VTranslate("Tired of walking?\nYou can run when holding the Cancel (%s) key", InputManager:GetCancelKeyName());
+    dialogue:AddLine(text, nil);
+    event = vt_map.DialogueEvent.Create("Info about running", dialogue)
+
     CreateObject(Map, "Tree Big2", 22, 78, vt_map.MapMode.GROUND_OBJECT);
     CreateObject(Map, "Tree Small1", 22, 16, vt_map.MapMode.GROUND_OBJECT);
     CreateObject(Map, "Tree Big1", 9, 16, vt_map.MapMode.GROUND_OBJECT);

@@ -157,7 +157,7 @@ function _CreateObjects()
     object = CreateObject(Map, "Wood sign info", 37, 24, vt_map.MapMode.GROUND_OBJECT)
     object:SetEventWhenTalking("Info about skill improvement")
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Did you know that you can improve spend your earned XP points to improve your skills and stats?\nSimply open the menu, select 'Skills' and 'Improve'.");
+    text = vt_system.Translate("Did you know?\nYou can improve spend your earned XP points to improve your skills and stats.\nSimply open the menu, select 'Skills' and 'Improve'.");
     dialogue:AddLine(text, nil);
     event = vt_map.DialogueEvent.Create("Info about skill improvement", dialogue)
 

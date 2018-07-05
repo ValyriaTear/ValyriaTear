@@ -78,6 +78,14 @@ local heal_effect = nil
 function _CreateObjects()
     local object = nil
 
+    -- Info sign
+    object = CreateObject(Map, "Wood sign info", 5, 12, vt_map.MapMode.GROUND_OBJECT)
+    object:SetEventWhenTalking("Info about equipment")
+    dialogue = vt_map.SpriteDialogue.Create();
+    text = vt_system.Translate("Did you know?\nYou can equip weapons and armors from the menu.\nSimply open it and go to 'Inventory', and 'Equip'.");
+    dialogue:AddLine(text, nil);
+    event = vt_map.DialogueEvent.Create("Info about equipment", dialogue)
+
     oil_lamp = CreateObject(Map, "Oil Lamp", 15, 14, vt_map.MapMode.GROUND_OBJECT)
     oil_lamp:SetCollisionMask(vt_map.MapMode.NO_COLLISION)
     local lamp_x_pos = oil_lamp:GetXPosition()
