@@ -105,6 +105,14 @@ function _CreateObjects()
     local npc = nil
     local event = nil
 
+    -- Info sign
+    object = CreateObject(Map, "Wood sign info", 120, 82, vt_map.MapMode.GROUND_OBJECT)
+    object:SetEventWhenTalking("Info about status effects")
+    dialogue = vt_map.SpriteDialogue.Create();
+    text = vt_system.Translate("Did you know?\nSpecial attacks can trigger effects decreasing enemy defense, stamina, attack, ...\nThe enemy can do the same. For instance, snakes can stun you with their attacks.");
+    dialogue:AddLine(text, nil);
+    event = vt_map.DialogueEvent.Create("Info about status effects", dialogue)
+
     -- Only add the squirrels and butterflies when the night isn't about to happen
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
 
