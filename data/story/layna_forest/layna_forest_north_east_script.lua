@@ -100,7 +100,15 @@ function _CreateObjects()
     local event = nil
 
     -- Escape point before the wolf event
-    vt_map.EscapePoint.Create(71, 8);
+    vt_map.EscapePoint.Create(71, 8)
+
+    -- Info sign
+    object = CreateObject(Map, "Wood sign info", 66, 8, vt_map.MapMode.GROUND_OBJECT)
+    object:SetEventWhenTalking("Info about escape")
+    dialogue = vt_map.SpriteDialogue.Create();
+    text = vt_system.Translate("Did you know?\nEscape points like this one permit to go back to the latest safe location instantly.\nEscape smoke can also be used to flee from battles.");
+    dialogue:AddLine(text, nil);
+    event = vt_map.DialogueEvent.Create("Info about escape", dialogue)
 
     -- The boss map sprite
     wolf = CreateSprite(Map, "Fenrir", 104, 3, vt_map.MapMode.GROUND_OBJECT); -- pre place it at the right place.

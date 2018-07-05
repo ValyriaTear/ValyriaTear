@@ -117,6 +117,14 @@ function _CreateObjects()
     local npc = nil
     local event = nil
 
+    -- Info sign
+    object = CreateObject(Map, "Wood sign info", 34, 83, vt_map.MapMode.GROUND_OBJECT)
+    object:SetEventWhenTalking("Info about stamina")
+    dialogue = vt_map.SpriteDialogue.Create();
+    text = vt_system.Translate("Did you know?\nStamina (the bar on the bottom-right) is limited in dangerous areas.\nThe more you run, the more you're exhausted and it can show in combat.\nManage it well.");
+    dialogue:AddLine(text, nil);
+    event = vt_map.DialogueEvent.Create("Info about stamina", dialogue)
+
     vt_map.EscapePoint.Create(22, 35);
 
     -- Only add the squirrels and butterflies when the night isn't about to happen
