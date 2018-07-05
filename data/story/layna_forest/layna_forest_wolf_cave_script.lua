@@ -194,7 +194,7 @@ function _CreateObjects()
     -- Add the dialogue options on the fountain
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("This water looks weird. Shall we drink it anyway?");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("...");
     dialogue:AddLine(text, npc);
     text = vt_system.Translate("Yes, I'm so thirsty.");

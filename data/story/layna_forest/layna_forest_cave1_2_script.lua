@@ -259,7 +259,7 @@ function _CreateEvents()
     -- Dialogue when all the enemies are dead.
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Something heavy seems to have fallen nearby.");
-    dialogue:AddLineEmote(text, hero, "exclamation");
+    dialogue:AddLineEmote(text, kalya, "exclamation");
     vt_map.DialogueEvent.Create("Hero dialogue during tremor", dialogue);
 
     -- Kalya sees the mechanisms to go out.

@@ -439,9 +439,9 @@ function _CreateEvents()
     -- Dialogue when pushing first trigger
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("It seems the way is clear now.");
-    dialogue:AddLineEventEmote(text, hero, "", "Play falling tree sound", "exclamation");
+    dialogue:AddLineEventEmote(text, bronann, "", "Play falling tree sound", "exclamation");
     text = vt_system.Translate("(I also heard something falling outside. Let's hope it's nothing bad.)");
-    dialogue:AddLineEventEmote(text, hero, "Hero looks south", "", "interrogation");
+    dialogue:AddLineEventEmote(text, bronann, "Hero looks south", "", "interrogation");
     vt_map.DialogueEvent.Create("First trigger dialogue", dialogue);
 
     vt_map.SoundEvent.Create("Play falling tree sound", "data/sounds/falling_tree.ogg");

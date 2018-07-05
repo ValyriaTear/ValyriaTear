@@ -382,7 +382,7 @@ function _CreateEvents()
     text = vt_system.VTranslate("Just stand in front of the goddess below the spring and push '%s'.", InputManager:GetConfirmKeyName());
     dialogue:AddLine(text, kalya);
     text = vt_system.Translate("Ok, thanks.");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, bronann);
     text = vt_system.Translate("See? Now, let's find my brother before he gets hurt.");
     dialogue:AddLine(text, kalya);
     event = vt_map.DialogueEvent.Create("Kalya talks about the statue 2", dialogue);
