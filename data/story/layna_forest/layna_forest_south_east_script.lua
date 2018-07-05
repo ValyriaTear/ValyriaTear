@@ -127,6 +127,14 @@ function _CreateObjects()
     npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     npc:SetInteractionIcon("data/gui/map/heal_anim.lua")
 
+    -- Info sign
+    object = CreateObject(Map, "Wood sign info", 76, 10, vt_map.MapMode.GROUND_OBJECT)
+    object:SetEventWhenTalking("Info about ambush/first strike")
+    dialogue = vt_map.SpriteDialogue.Create();
+    text = vt_system.VTranslate("Did you know?\nIf you face an enemy and use the confirm key (%s), you get a boost to your first attack preparation in battle.\nThe enemy can do the same if it catches you unaware.", InputManager:GetConfirmKeyName());
+    dialogue:AddLine(text, nil);
+    event = vt_map.DialogueEvent.Create("Info about ambush/first strike", dialogue)
+
     -- Only add the squirrels and butterflies when the night isn't about to happen
     if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         npc = CreateSprite(Map, "Butterfly", 42, 18, vt_map.MapMode.GROUND_OBJECT);
