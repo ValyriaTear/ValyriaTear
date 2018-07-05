@@ -79,7 +79,7 @@ void EscapeSupervisor::Initialize(const vt_map::MapLocation& map_location)
     _escape_window.Show();
 
     _location_valid = _map_location.IsValid();
-    if (!_location_valid) {
+    if (!_location_valid || !_LoadMapLocationPreview()) {
         _action_options.EnableOption(1, false);
         _action_options.SetSelection(0);
 
@@ -87,11 +87,9 @@ void EscapeSupervisor::Initialize(const vt_map::MapLocation& map_location)
         _map_hud_name.SetText(vt_system::UTranslate("No available destination"));
         return;
     }
+    // If valid, attempt to add the map image and texts
     _action_options.EnableOption(1, true);
     _action_options.SetSelection(1);
-
-    // If valid, attempt to add the map image and texts
-    _LoadMapLocationPreview();
 }
 
 void EscapeSupervisor::Update()
