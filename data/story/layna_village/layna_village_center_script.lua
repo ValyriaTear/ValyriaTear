@@ -28,7 +28,6 @@ local carson = nil
 local herth = nil
 local olivia = nil -- Olivia npc, guarding the forest entrance
 
-local wooden_sword = nil
 local well_entrance_rock = nil
 
 -- the main map loading code
@@ -277,12 +276,6 @@ function _CreateObjects()
     -- Treasure vase
     local nekko_vase = CreateTreasure(Map, "layna_center_nekko_vase", "Vase1", 27, 37, vt_map.MapMode.GROUND_OBJECT);
     nekko_vase:AddItem(11, 1);
-
-    -- Quest 2: Forest event
-    -- The wooden sword sprite
-    wooden_sword = CreateObject(Map, "Wooden Sword1", 1, 1, vt_map.MapMode.GROUND_OBJECT);
-    wooden_sword:SetVisible(false);
-    wooden_sword:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
     -- rock hiding the well underground entrance
     well_entrance_rock = CreateObject(Map, "Rock1", 63, 32, vt_map.MapMode.GROUND_OBJECT)
@@ -568,8 +561,6 @@ function _CreateEvents()
 
     event = vt_map.PathMoveSpriteEvent.Create("Quest2: Kalya goes back and forth 4", kalya, 21, 71, false);
     event:AddEventLinkAtEnd("Quest2: Fourth part of talk");
-
-    vt_map.ScriptedEvent.Create("Quest2: Show the wooden sword item in front of carson", "Show_wooden_sword", "");
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Gahh, ok.");
@@ -1141,17 +1132,6 @@ map_functions = {
 
         -- end of the two-step fade in and out
         return true;
-    end,
-
-    Show_wooden_sword = function()
-        wooden_sword:SetPosition(carson:GetXPosition() + 1.5, carson:GetYPosition() - 2.0);
-        wooden_sword:SetVisible(true);
-        wooden_sword:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    end,
-
-    Hide_wooden_sword = function()
-        wooden_sword:SetVisible(false);
-        wooden_sword:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     end,
 
     Add_kalya_to_party = function()
