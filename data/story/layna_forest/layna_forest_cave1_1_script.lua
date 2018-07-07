@@ -119,6 +119,14 @@ function _CreateObjects()
     local npc = nil
     local event = nil
 
+    -- Info sign
+    object = CreateObject(Map, "Wood sign info", 122, 60, vt_map.MapMode.GROUND_OBJECT)
+    object:SetEventWhenTalking("Info about moon juice")
+    dialogue = vt_map.SpriteDialogue.Create();
+    text = vt_system.Translate("Running out of magic points?\nYou can restore you PMs using Moon juice.");
+    dialogue:AddLine(text, nil);
+    event = vt_map.DialogueEvent.Create("Info about moon juice", dialogue)
+
     -- Adapt the light color according to the time of the day.
     local light_color_red = 1.0;
     local light_color_green = 1.0;
