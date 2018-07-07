@@ -3361,7 +3361,7 @@ skill_graph = {
 		},
 		-- stats upgrade when reaching this node
 		stats = {
-			[1] = 4,
+			[3] = 4,
 		},
 		-- links with other nodes
 		links = {
