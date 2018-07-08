@@ -65,7 +65,7 @@ void SkillNodeBottomInfo::SetPosition(float x_left, float y_top)
     _pos.y = y_top;
 
     // Update cost item list position
-    _items_cost.SetPosition(x_left, y_top + 55.0f);
+    _items_cost.SetPosition(x_left, y_top + 70.0f);
 }
 
 void SkillNodeBottomInfo::Draw()
@@ -74,7 +74,6 @@ void SkillNodeBottomInfo::Draw()
 
     VideoManager->Move(_pos.x, _pos.y);
     // Draw the cost block if not unlocked
-    // TODO: Handle the unlocked case
     _cost_title.Draw();
     VideoManager->MoveRelative(2.0f, 30.0f);
     _node_cost.Draw();
