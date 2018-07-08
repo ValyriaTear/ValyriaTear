@@ -216,12 +216,14 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
             } catch(const luabind::error &e) {
                 PRINT_ERROR << "Error while triggering DecideAction() function of actor id: " << _global_actor->GetID() << std::endl;
                 ScriptManager->HandleLuaError(e);
+                // Make the actor keep on anyway.
+                _DecideAction();
             } catch(const luabind::cast_failed &e) {
                 PRINT_ERROR << "Error while triggering DecideAction() function of actor id: " << _global_actor->GetID() << std::endl;
                 ScriptManager->HandleCastError(e);
+                // Make the actor keep on anyway.
+                _DecideAction();
             }
-            // Make the actor keep on anyway.
-            _DecideAction();
         }
         else if (!_global_actor->GetBattleAIScriptFilename().empty()) {
             // Hardcoded fallback behaviour for AI-based actors.
