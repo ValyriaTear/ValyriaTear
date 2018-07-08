@@ -110,7 +110,7 @@ function Initialize(battle_instance)
     battle_exit_done = false;
 
     -- Add a charge time at the end of which Lilly can help Bronann
-    lilly_charge_time = 10000;
+    lilly_charge_time = 4000;
     -- Time Lilly waits before actually healing Bronann
     -- (to avoid triggering the Heal in the middle of Banesore's attack)
     lilly_reaction_time = 2000;
@@ -131,7 +131,7 @@ function Restart()
     battle_exit_done = false;
 
     -- Add a charge time at the end of which lilly can help Bronann
-    lilly_charge_time = 10000;
+    lilly_charge_time = 4000;
 
     -- Set Herth's starting x position
     herth_x_position = 0.0;
@@ -227,9 +227,9 @@ function Update()
         Battle:SetSceneMode(true);
         -- Set the time depending on the game difficulty
         if (SystemManager:GetGameDifficulty() == 1) then
-            lilly_charge_time = 5000; -- Easy
+            lilly_charge_time = 2000; -- Easy
         else
-            lilly_charge_time = 10000;
+            lilly_charge_time = 4000;
         end
         lilly_reaction_time = 2000;
         lilly_heals_bronann();
@@ -307,9 +307,9 @@ function lilly_heals_bronann()
     local hit_points = 60
 
     if (SystemManager:GetGameDifficulty() == 1) then
-        hit_points = hit_points + vt_utils.RandomBoundedInteger(50, 80); -- Easy
+        hit_points = hit_points + vt_utils.RandomBoundedInteger(70, 150); -- Easy
     else
-        hit_points = hit_points + vt_utils.RandomBoundedInteger(0, 15);
+        hit_points = hit_points + vt_utils.RandomBoundedInteger(50, 80);
     end
 
     bronann:RegisterHealing(hit_points, true);
