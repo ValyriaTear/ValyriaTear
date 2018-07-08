@@ -98,6 +98,7 @@ function Update()
         if (item_time > 5500) then
             character:RegisterMiss(false);
             AudioManager:PlaySound("data/sounds/cancel.wav");
+            Effects:DisableLightingOverlay()
             return true
         end
 
