@@ -162,7 +162,27 @@ function _CreateObjects()
 
     -- Treasure vase
     local nekko_vase = CreateTreasure(Map, "layna_center_nekko_vase", "Vase1", 27, 37, vt_map.MapMode.GROUND_OBJECT);
-    nekko_vase:AddItem(11, 1);
+    nekko_vase:AddItem(11, 1)
+
+    -- Rock hiding the well underground entrance
+    CreateObject(Map, "Rock1", 63, 32, vt_map.MapMode.GROUND_OBJECT)
+
+    -- Surrounding grass
+    local well_grass = {
+    { "Grass Clump1", 62, 32.5 },
+    { "Grass Clump1", 64, 33 },
+    { "Grass Clump1", 58, 33 },
+    { "Grass Clump1", 60, 33.4 },
+    { "Grass Clump1", 65, 32.2 },
+    { "Grass Clump1", 62, 30.3 },
+    }
+
+    -- Loads the grass according to the array
+    for my_index, my_array in pairs(well_grass) do
+        --print(my_array[1], my_array[2], my_array[3]);
+        object = CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
+        object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    end
 end
 
 -- Special event references which destinations must be updated just before being called.

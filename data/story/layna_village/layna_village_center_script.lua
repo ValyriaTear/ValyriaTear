@@ -285,7 +285,7 @@ function _CreateObjects()
     local nekko_vase = CreateTreasure(Map, "layna_center_nekko_vase", "Vase1", 27, 37, vt_map.MapMode.GROUND_OBJECT);
     nekko_vase:AddItem(11, 1);
 
-    -- rock hiding the well underground entrance
+    -- Rock hiding the well underground entrance
     well_entrance_rock = CreateObject(Map, "Rock1", 63, 32, vt_map.MapMode.GROUND_OBJECT)
     if (GlobalManager:DoesEventExist("story", "well_rats_beaten") == true) then
         -- The rock has moved
@@ -302,7 +302,7 @@ function _CreateObjects()
     { "Grass Clump1", 62, 30.3 },
     }
 
-    -- Loads the trees according to the array
+    -- Loads the grass according to the array
     for my_index, my_array in pairs(well_grass) do
         --print(my_array[1], my_array[2], my_array[3]);
         object = CreateObject(Map, my_array[1], my_array[2], my_array[3], vt_map.MapMode.GROUND_OBJECT);
