@@ -289,7 +289,7 @@ public:
     //! \param The effect filename is the particle effect definition file.
     //! \param x the x coordinates of the particle effect in pixels.
     //! \param y the y coordinates of the particle effect in pixels.
-    void TriggerBattleParticleEffect(const std::string& effect_filename, uint32_t x, uint32_t y);
+    void TriggerBattleParticleEffect(const std::string& effect_filename, float x, float y);
 
     //! \brief Creates a battle animation object.
     //! Those objects are also drawn sorted by their Y coordinate value.

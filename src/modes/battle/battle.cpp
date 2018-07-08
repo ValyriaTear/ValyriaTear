@@ -875,7 +875,7 @@ void BattleMode::SetActorIdleStateTime(BattleActor* actor)
     actor->SetIdleStateTime(static_cast<uint32_t>(MIN_IDLE_WAIT_TIME * proportion));
 }
 
-void BattleMode::TriggerBattleParticleEffect(const std::string &effect_filename, uint32_t x, uint32_t y)
+void BattleMode::TriggerBattleParticleEffect(const std::string &effect_filename, float x, float y)
 {
     BattleParticleEffect *effect = new BattleParticleEffect(effect_filename);
 
