@@ -1011,10 +1011,6 @@ items[4001] = {
     },
 
     BattleUse = function(user, target)
-        -- Remove the item from inventory, as the battle mode won't handle it properly
-        -- if at least one succeed during the battle.
-        GlobalManager:DecrementItemCount(4001, 1)
-
         local battle_instance = ModeManager:GetTop();
         -- If it's a boss battle, this can't work at all
         if (battle_instance:IsBossBattle() == true) then
@@ -1032,6 +1028,10 @@ items[4001] = {
         -- Quit the battle (A parent mode should always be there to take the relay)
         battle_instance:SetSceneMode(true);
         ModeManager:Pop(true, true);
+
+        -- Remove the item from inventory, as the battle mode won't handle it properly
+        -- if at least one succeed during the battle.
+        GlobalManager:DecrementItemCount(4001, 1)
         return true;
     end,
 
