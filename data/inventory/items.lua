@@ -383,7 +383,7 @@ items[15] = {
         elseif (intensity <= vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
             -- Removes a bit of a bigger poison.
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
-                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE, 30000);
+                                                 vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE, 120000);
         else
             target_actor:RemoveActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP);
         end
@@ -404,7 +404,7 @@ items[15] = {
             -- Removes a bit of a bigger poison.
             global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
                                                      vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
-                                                     30000);
+                                                     80000);
         else
             global_character:RemoveActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP);
         end
@@ -442,7 +442,7 @@ items[16] = {
         end
 
         target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
-                                             vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE, 30000);
+                                             vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE, 100000);
         return true;
     end,
 
@@ -453,7 +453,7 @@ items[16] = {
 
         global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
-                                                 30000);
+                                                 60000);
         return true;
     end
 }
@@ -465,12 +465,12 @@ items[16] = {
 _battle_apply_elixir_status_effects = function(target_actor, intensity)
     if (target_actor:IsAlive() == true) then
         -- decrement all the basic negative effects, or put positive effects depending on the intensity
-        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK, intensity, 30000);
-        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK, intensity, 30000);
-        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF, intensity, 30000);
-        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_MAG_DEF, intensity, 30000);
-        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA, intensity, 30000);
-        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EVADE, intensity, 30000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK, intensity, 120000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK, intensity, 120000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF, intensity, 120000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_MAG_DEF, intensity, 120000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA, intensity, 120000);
+        target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EVADE, intensity, 120000);
         AudioManager:PlaySound("data/sounds/potion_drink.wav");
         local battle_instance = ModeManager:GetTop();
         battle_instance:TriggerBattleParticleEffect("data/visuals/particle_effects/elixir_particle.lua",
@@ -486,12 +486,12 @@ end
 _field_apply_elixir_status_effects = function(global_character, intensity)
     if (global_character:IsAlive() == true) then
         -- decrement all the basic negative effects, or put positive effects depending on the intensity
-        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK, intensity, 30000);
-        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK, intensity, 30000);
-        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF, intensity, 30000);
-        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_MAG_DEF, intensity, 30000);
-        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA, intensity, 30000);
-        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EVADE, intensity, 30000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK, intensity, 120000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK, intensity, 120000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF, intensity, 120000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_MAG_DEF, intensity, 120000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA, intensity, 120000);
+        global_character:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EVADE, intensity, 120000);
         AudioManager:PlaySound("data/sounds/potion_drink.wav");
         return true;
     else
@@ -626,7 +626,7 @@ items[1004] = {
             -- Decrement any active negative base stats status effects when alive
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
-                                                 90000);
+                                                 120000);
             AudioManager:PlaySound("data/sounds/potion_drink.wav");
             return true;
         end
@@ -676,7 +676,7 @@ items[1005] = {
             -- Decrement any active negative base stats status effects when alive
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
-                                                 30000);
+                                                 90000);
             AudioManager:PlaySound("data/sounds/potion_drink.wav");
             return true;
         end
@@ -688,7 +688,7 @@ items[1005] = {
             -- increment active base stats status effects when alive.
             target:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
                                            vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
-                                           30000);
+                                           60000);
             AudioManager:PlaySound("data/sounds/potion_drink.wav");
             return true;
         end
@@ -725,7 +725,7 @@ items[1006] = {
             -- Decrement any active negative base stats status effects when alive
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
-                                                 30000);
+                                                 60000);
             return true;
         end
         return false;
