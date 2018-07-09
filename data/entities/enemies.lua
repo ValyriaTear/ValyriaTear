@@ -680,6 +680,7 @@ enemies[12] = {
     },
 
     skills = {
+        1006, -- std attack
         1007  -- HP drain
     },
 
