@@ -655,7 +655,7 @@ skills[1006] = {
 }
 
 skills[1007] = {
-    name = vt_system.Translate("Bat HP Drain"),
+    name = vt_system.Translate("HP Drain"),
     icon = "data/skills/monster_attacks/animal-fangs.png",
     show_notice = true,
     sp_required = 2,
@@ -676,8 +676,8 @@ skills[1007] = {
             local hp_drain = vt_battle.RndPhysicalDamage(user, target_actor, 8, 1.0, atk_point);
             target_actor:RegisterDamage(hp_drain, target);
             -- If the damage dealt was 1, don't recover any HP from the attack
-            if (hp_drain > 1) then
-                user:RegisterHealing(hp_drain / 2, true);
+            if (hp_drain > 0) then
+                user:RegisterHealing(hp_drain, true);
             end
             AudioManager:PlaySound("data/sounds/spider_attack.wav");
         else
