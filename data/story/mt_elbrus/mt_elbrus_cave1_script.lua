@@ -19,6 +19,7 @@ local EventManager = nil
 
 -- the main character handler
 local hero = nil
+local bronann = nil
 
 -- the main map loading code
 function Load(m)
@@ -59,6 +60,10 @@ function _CreateCharacters()
     hero = CreateSprite(Map, "Bronann", 88, 77, vt_map.MapMode.GROUND_OBJECT); -- exit/entrance 1
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+
+    -- For dialogues
+    bronann = CreateSprite(Map, "Bronann", 0, 0, vt_map.MapMode.GROUND_OBJECT)
+    bronann:SetVisible(false)
 
     if (GlobalManager:GetPreviousLocation() == "from_entrance2") then
         hero:SetDirection(vt_map.MapMode.NORTH);
@@ -140,16 +145,16 @@ function _CreateObjects()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Shall we jump?");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, bronann);
     text = vt_system.Translate("...");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Yes, let's go.");
     dialogue:AddOption(text, 2);
     text = vt_system.Translate("Not now.");
     dialogue:AddOptionEvent(text, 4, "Make hero step back from left jump");
     -- [Line 2] Yes
     text = vt_system.Translate("Ok!");
-    dialogue:AddLineEvent(text, hero, 4, "", "Make hero jump to exit 2"); -- 4 = Past the dialogue lines number. Makes the dialogue ends.
+    dialogue:AddLineEvent(text, bronann, 4, "", "Make hero jump to exit 2"); -- 4 = Past the dialogue lines number. Makes the dialogue ends.
     vt_map.DialogueEvent.Create("Jump to exit 2 choice", dialogue);
 
     -- After dialogue choice
@@ -167,16 +172,16 @@ function _CreateObjects()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Shall we jump?");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, bronann);
     text = vt_system.Translate("...");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Yes, let's go.");
     dialogue:AddOption(text, 2);
     text = vt_system.Translate("Not now.");
     dialogue:AddOptionEvent(text, 4, "Make hero step back from right jump");
     -- [Line 2] Yes
     text = vt_system.Translate("Ok!");
-    dialogue:AddLineEvent(text, hero, 4, "", "Make hero jump to exit 4"); -- 4 = Past the dialogue lines number. Makes the dialogue ends.
+    dialogue:AddLineEvent(text, bronann, 4, "", "Make hero jump to exit 4"); -- 4 = Past the dialogue lines number. Makes the dialogue ends.
     vt_map.DialogueEvent.Create("Jump to exit 4 choice", dialogue);
 
     -- After dialogue choice

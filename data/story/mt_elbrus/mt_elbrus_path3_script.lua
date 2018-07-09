@@ -566,7 +566,7 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Are those the soldiers up there?");
-    dialogue:AddLineEventEmote(text, hero, "Bronann looks north", "", "exclamation");
+    dialogue:AddLineEventEmote(text, bronann, "Bronann looks north", "", "exclamation");
     event = vt_map.DialogueEvent.Create("The hero notices the soldiers", dialogue);
     event:AddEventLinkAtEnd("West gate - The hero moves to a good watch point");
 
@@ -641,7 +641,7 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Oh no! The gate!");
-    dialogue:AddLineEventEmote(text, hero, "Hero looks south", "", "exclamation");
+    dialogue:AddLineEvent(text, bronann, "Hero looks south", "");
     event = vt_map.DialogueEvent.Create("The hero notices about the gate", dialogue);
     event:AddEventLinkAtEnd("The hero rushes to the gate");
 
