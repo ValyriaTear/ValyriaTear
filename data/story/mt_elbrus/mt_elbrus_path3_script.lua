@@ -650,7 +650,7 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We're trapped!");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, bronann);
     event = vt_map.DialogueEvent.Create("The hero is trapped", dialogue);
     event:AddEventLinkAtEnd("Harlequin talks to the hero");
 

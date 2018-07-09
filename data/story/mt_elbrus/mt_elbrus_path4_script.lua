@@ -231,7 +231,7 @@ function _CreateEvents()
     -- cant't go back event
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("We can't go back now.");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, bronann);
     vt_map.DialogueEvent.Create("Can't go back dialogue", dialogue);
 
     -- Snowing! event
@@ -274,9 +274,9 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("(Woah, this bridge doesn't look very sturdy.)");
-    dialogue:AddLineEmote(text, hero, "sweat drop");
+    dialogue:AddLine(text, bronann);
     text = vt_system.Translate("Well, here we go.");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, bronann);
     event = vt_map.DialogueEvent.Create("Dialogue about the bridge", dialogue);
     event:AddEventLinkAtEnd("End of bridge dialogue");
 
@@ -290,7 +290,7 @@ function _CreateEvents()
     text = vt_system.Translate("There!");
     dialogue:AddLine(text, soldier1);
     text = vt_system.Translate("Huh?");
-    dialogue:AddLineEventEmote(text, hero, "The hero looks south", "", "exclamation");
+    dialogue:AddLineEvent(text, bronann, "The hero looks south", "");
     event = vt_map.DialogueEvent.Create("Soldiers catching up Dialogue", dialogue);
     event:AddEventLinkAtEnd("Set focus on soldiers");
 
@@ -315,7 +315,7 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Let's run!");
-    dialogue:AddLineEmote(text, hero, "exclamation");
+    dialogue:AddLine(text, kalya);
     event = vt_map.DialogueEvent.Create("Soldiers catching up Dialogue3", dialogue);
     event:AddEventLinkAtEnd("The hero runs north of the bridge");
 
