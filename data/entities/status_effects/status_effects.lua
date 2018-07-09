@@ -416,9 +416,9 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = {
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
     name = vt_system.Translate("HP"),
-    default_duration = 30000,
+    default_duration = 60000,
     -- Applies on character only every 30 seconds at normal battle speed
-    update_every = 30000,
+    update_every = 20000,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
@@ -585,9 +585,9 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
     name = vt_system.Translate("SP"),
-    default_duration = 30000,
+    default_duration = 60000,
     -- Applies on character only every 30 seconds at normal battle speed
-    update_every = 30000,
+    update_every = 20000,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
