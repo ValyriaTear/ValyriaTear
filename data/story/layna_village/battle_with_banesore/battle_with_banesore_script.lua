@@ -26,7 +26,7 @@ local lilly = nil
 local herth_walking = nil; -- starting value
 
 local lilly_charge_time = 0;
-local lilly_reaction_time = 2000;
+local lilly_reaction_time = 1200;
 
 local herth_x_position = 0.0;
 local bronann = nil
@@ -110,10 +110,10 @@ function Initialize(battle_instance)
     battle_exit_done = false;
 
     -- Add a charge time at the end of which Lilly can help Bronann
-    lilly_charge_time = 4000;
+    lilly_charge_time = 1200;
     -- Time Lilly waits before actually healing Bronann
     -- (to avoid triggering the Heal in the middle of Banesore's attack)
-    lilly_reaction_time = 2000;
+    lilly_reaction_time = 1200;
 
     -- Set Herth's starting x position
     herth_x_position = 0.0;
@@ -131,7 +131,7 @@ function Restart()
     battle_exit_done = false;
 
     -- Add a charge time at the end of which lilly can help Bronann
-    lilly_charge_time = 4000;
+    lilly_charge_time = 1200;
 
     -- Set Herth's starting x position
     herth_x_position = 0.0;
@@ -214,7 +214,7 @@ function Update()
 
         if (lilly_charge_time > 0) then
            lilly_charge_time = lilly_charge_time - time_expired;
-        elseif (lilly_reaction_time > 0 and bronann:GetHitPoints() <= 50) then
+        elseif (lilly_reaction_time > 0 and bronann:GetHitPoints() <= 80) then
             lilly_reaction_time = lilly_reaction_time - time_expired;
         end
     end
@@ -227,11 +227,11 @@ function Update()
         Battle:SetSceneMode(true);
         -- Set the time depending on the game difficulty
         if (SystemManager:GetGameDifficulty() == 1) then
-            lilly_charge_time = 2000; -- Easy
+            lilly_charge_time = 500; -- Easy
         else
-            lilly_charge_time = 4000;
+            lilly_charge_time = 1200;
         end
-        lilly_reaction_time = 2000;
+        lilly_reaction_time = 1200;
         lilly_heals_bronann();
     end
 
@@ -241,14 +241,14 @@ function Update()
         dialogue1_done = true;
     end
 
-    if (battle_time >= 30000 and dialogue2_done == false) then
+    if (battle_time >= 10000 and dialogue2_done == false) then
         DialogueManager:StartDialogue("'Stronger than I thought' dialogue");
         Battle:SetSceneMode(true);
         dialogue2_done = true;
     end
 
     -- Make Herth appear and help Bronann to flee
-    if (battle_time >= 60000 and dialogue3_done == false) then
+    if (battle_time >= 20000 and dialogue3_done == false) then
         DialogueManager:StartDialogue("Herth appears");
         Battle:SetSceneMode(true);
         dialogue3_done = true;
