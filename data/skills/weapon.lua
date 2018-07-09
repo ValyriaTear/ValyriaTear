@@ -42,8 +42,9 @@ function trigger_potential_stun(user, target)
     end
 
     -- Compute an effect duration time based on the characters' stats
-    local effect_duration = (user:GetMagAtk() - target_actor:GetMagDef()) * duration_multiplier;
-    if (effect_duration < minimum_duration) then effect_duration = minimum_duration; end
+    -- Divide stun effect length by 2 has it makes the game more usable
+    local effect_duration = (user:GetMagAtk() - target_actor:GetMagDef()) * (duration_multiplier / 2);
+    if (effect_duration < (minimum_duration / 2)) then effect_duration = (minimum_duration / 2); end
     target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS,
                                          vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
                                          effect_duration);
