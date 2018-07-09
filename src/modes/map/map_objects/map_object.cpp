@@ -184,11 +184,12 @@ void MapObject::_UpdateEmote()
     if(!_emote_animation)
         return;
 
-    _emote_time -= vt_system::SystemManager->GetUpdateTime();
+    _emote_time -= static_cast<int32_t>(vt_system::SystemManager->GetUpdateTime());
 
     // Once the animation has reached its end, we dereference it
     if(_emote_time <= 0) {
-        _emote_animation = 0;
+        _emote_animation = nullptr;
+        _emote_time = 0;
         return;
     }
 
