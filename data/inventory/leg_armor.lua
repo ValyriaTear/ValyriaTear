@@ -47,6 +47,16 @@ armor[50001] = {
 	usable_by = BRONANN + KALYA + THANIS + SYLVE
 }
 
+armor[50002] = {
+    name = vt_system.Translate("Sturdy boots"),
+    description = vt_system.Translate("Simple but fairly good leather boots."),
+    icon = "data/inventory/armor/leather_boots.png",
+    physical_defense = 9,
+    magical_defense = 0,
+    standard_price = 70,
+    usable_by = BRONANN + KALYA + THANIS + SYLVE
+}
+
 armor[50011] = {
 	name = vt_system.Translate("Standard Greaves"),
 	description = vt_system.Translate("Standard equipment. Light metal alloy protects the legs while minimizing the negative impact on movement."),
