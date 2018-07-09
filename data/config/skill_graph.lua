@@ -1276,7 +1276,7 @@ skill_graph = {
 		skill_id_learned = -1,
 		-- items needed to reach this node
 		items_needed = {
-			[3001] = 1,
+			[3003] = 1,
 		},
 		-- stats upgrade when reaching this node
 		stats = {
