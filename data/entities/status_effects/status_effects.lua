@@ -418,7 +418,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
     name = vt_system.Translate("HP"),
     default_duration = 60000,
     -- Applies on character only every 30 seconds at normal battle speed
-    update_every = 20000,
+    update_every = 10000,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
@@ -473,7 +473,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
         if (battle_actor:GetHitPoints() < hp_change) then
             hp_change = battle_actor:GetHitPoints();
         end
-        battle_actor:RegisterDamage(hp_change);
+        battle_actor:RegisterDamage(math.floor(hp_change));
     end,
 
     BattleUpdate = function(battle_actor, battle_effect)

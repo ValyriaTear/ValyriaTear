@@ -611,7 +611,7 @@ enemies[11] = {
     },
 
     base_stats = {
-        hit_points = 75,
+        hit_points = 100,
         skill_points = 10,
         phys_atk = 22,
         mag_atk = 20,
@@ -619,7 +619,7 @@ enemies[11] = {
         mag_def = 8,
         stamina = 35,
         evade = 6.0,
-        experience_points = 32,
+        experience_points = 35,
         drunes = 2
     },
 
@@ -635,7 +635,8 @@ enemies[11] = {
     },
 
     skills = {
-        1007  -- HP drain
+        1007,  -- HP drain
+        10126  -- Poison
     },
 
     drop_objects = {

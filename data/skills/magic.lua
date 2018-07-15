@@ -29,6 +29,9 @@
 -- sprites.
 ------------------------------------------------------------------------------]]
 
+local duration_multiplier = 50000
+local minimum_duration = 200000
+
 -- All support skills definitions are stored in this table
 if (skills == nil) then
     skills = {}
@@ -817,7 +820,6 @@ skills[10125] = {
     end,
 }
 
-
 skills[10126] = {
     name = vt_system.Translate("Poison"),
     description = vt_system.Translate("Inflicts poison on an enemy."),
@@ -831,9 +833,8 @@ skills[10126] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
-        -- TODO : Balance this
-        local effect_duration = user:GetMagAtk() * 3000;
-
+        local effect_duration = user:GetMagAtk() * duration_multiplier;
+        if (effect_duration < minimum_duration) then effect_duration = minimum_duration; end
         target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
                                              vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                              effect_duration);
