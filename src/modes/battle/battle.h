@@ -58,21 +58,6 @@ class BattleFinish;
 class CommandSupervisor;
 class SequenceSupervisor;
 
-/** \name Battle setting type
-*** \brief Represents the play types of battle that the player may have to deal with
-**/
-enum BATTLE_TYPE {
-    BATTLE_TYPE_INVALID       = -1,
-    //! Battle action will pause only when one or more characters is in the ACTOR_STATE_COMMAND state
-    BATTLE_TYPE_WAIT          =  0,
-    //! Monsters will wait for characters to finish their command before attacking
-    //! but will move up until being ready anyway.
-    BATTLE_TYPE_SEMI_ACTIVE   =  1,
-    //! Battle action does not pause at any time during a battle, except for scripted events
-    BATTLE_TYPE_ACTIVE        =  2,
-    BATTLE_TYPE_TOTAL         =  3
-};
-
 } // namespace private_battle
 
 /** ****************************************************************************
@@ -222,22 +207,6 @@ public:
     **/
     void NotifyActorDeath(private_battle::BattleActor *actor);
     //@}
-
-    //! \brief Tells the battle type: Wait, semi-wait, active.
-    //! \see BATTLE_TYPE enum.
-    vt_battle::private_battle::BATTLE_TYPE GetBattleType() const {
-        return _battle_type;
-    }
-
-    //! \brief Tells the battle type: Wait, semi-wait, active.
-    //! \see BATTLE_TYPE enum.
-    void SetBattleType(vt_battle::private_battle::BATTLE_TYPE battle_type) {
-        _battle_type = battle_type;
-    }
-
-    float GetBattleTypeTimeFactor() const {
-        return _battle_type_time_factor;
-    }
 
     //! \name Class member accessor methods
     //@{
@@ -425,14 +394,8 @@ private:
     //! The effects shouldn't update though.
     bool _scene_mode;
 
-    //! \brief Retains the play type setting for battle that the user requested (e.g. wait mode, active mode, etc).
-    vt_battle::private_battle::BATTLE_TYPE _battle_type;
-
     //! \brief Setup at battle start, and used to normalize the battle actors speed in battle.
     uint32_t _highest_stamina;
-
-    //! \brief the battle type time factor, speeding the battle actors depending on the battle type.
-    float _battle_type_time_factor;
 
     //! \brief Tells whether the battle is a boss fight.
     bool _is_boss_battle;

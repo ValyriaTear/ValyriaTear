@@ -77,7 +77,7 @@ const float BATTLE_ACTIVE_FACTOR        = 3.0f;
 //@}
 
 //! \brief This is the idle state wait time for the fastest actor, used to set idle state timers for all other actors
-const uint32_t MIN_IDLE_WAIT_TIME = 10000;
+const uint32_t MIN_IDLE_WAIT_TIME = 1000;
 
 } // namespace private_battle
 
@@ -110,9 +110,7 @@ BattleMode::BattleMode() :
     _stamina_icon_alpha(1.0f),
     _actor_state_paused(false),
     _scene_mode(false),
-    _battle_type(BATTLE_TYPE_WAIT),
     _highest_stamina(0),
-    _battle_type_time_factor(BATTLE_WAIT_FACTOR),
     _is_boss_battle(false),
     _hero_init_boost(false),
     _enemy_init_boost(false)
@@ -425,8 +423,7 @@ void BattleMode::Update()
                     _AutoCharacterCommand(_character_actors[i]);
                 }
                 else if(_state != BATTLE_STATE_COMMAND) {
-                    if (_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE)
-                        OpenCommandMenu(_character_actors[i]);
+                    OpenCommandMenu(_character_actors[i]);
                 }
             }
         }
@@ -568,25 +565,23 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         if (_hero_init_boost && _enemy_init_boost)
         {
             GetIndicatorSupervisor().AddShortNotice(UTranslate("Double Rush!"),
-						    "data/gui/menus/star.png");
+                                                    "data/gui/menus/star.png");
         }
         else if (_hero_init_boost)
         {
             GetIndicatorSupervisor().AddShortNotice(UTranslate("First Strike!"),
-						    "data/gui/menus/star.png");
+                                                    "data/gui/menus/star.png");
         }
         else if (_enemy_init_boost)
         {
             GetIndicatorSupervisor().AddShortNotice(UTranslate("Ambush!"),
-						    "data/gui/battle/exclamation.png");
+                                                    "data/gui/battle/exclamation.png");
         }
         break;
     case BATTLE_STATE_NORMAL:
-        if(_battle_type == BATTLE_TYPE_WAIT || _battle_type == BATTLE_TYPE_SEMI_ACTIVE) {
-            for(uint32_t i = 0; i < _character_actors.size(); i++) {
-                if(_character_actors[i]->GetState() == ACTOR_STATE_COMMAND)
-                    return;
-            }
+        for(uint32_t i = 0; i < _character_actors.size(); i++) {
+            if(_character_actors[i]->GetState() == ACTOR_STATE_COMMAND)
+                return;
         }
         // If no other character is waiting for a command (in wait battle modes),
         // restart the battle actors in case they were paused.
@@ -804,22 +799,6 @@ void BattleMode::_Initialize()
     // Adjust each actor's idle state time based on their stamina proportion to the fastest actor
     // If an actor's stamina is half that of the actor with the highest stamina, then they will have an
     // idle state time that is twice that of the slowest actor.
-
-    // We also factor the idle time using the battle type setting
-    // ACTIVE BATTLE
-    _battle_type_time_factor = BATTLE_ACTIVE_FACTOR;
-    // WAIT battle type is always safe, since the character has got all the time
-    // he/she wants to think so we can dimish the idle time of character and jump
-    // right to the command status.
-    if(_battle_type == BATTLE_TYPE_WAIT)
-        _battle_type_time_factor = BATTLE_WAIT_FACTOR;
-    // SEMI_ACTIVE battle type is a bit more dangerous as if the player is taking
-    // too much time to think, the enemies will have slightly more chances to hit.
-    // Yet, the semi wait battles are far simpler than active ones, so we
-    // can make them relatively faster.
-    else if(_battle_type == BATTLE_TYPE_SEMI_ACTIVE)
-        _battle_type_time_factor = BATTLE_SEMI_ACTIVE_FACTOR;
-
     for(uint32_t i = 0; i < _character_actors.size(); ++i) {
         if(_character_actors[i]->IsAlive()) {
             SetActorIdleStateTime(_character_actors[i]);
@@ -866,11 +845,11 @@ void BattleMode::SetActorIdleStateTime(BattleActor* actor)
     if(!actor || actor->GetStamina() == 0)
         return;
 
-    if(_highest_stamina == 0 || _battle_type_time_factor == 0.0f)
+    if(_highest_stamina == 0)
         return;
 
     float proportion = static_cast<float>(_highest_stamina)
-                       / static_cast<float>(actor->GetStamina() * _battle_type_time_factor);
+                       / static_cast<float>(actor->GetStamina());
 
     actor->SetIdleStateTime(static_cast<uint32_t>(MIN_IDLE_WAIT_TIME * proportion));
 }

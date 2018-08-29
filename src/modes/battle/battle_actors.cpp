@@ -242,8 +242,7 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
         if(_action == nullptr) {
             IF_PRINT_WARNING(BATTLE_DEBUG) << "no action available during state change: " << _state << std::endl;
         } else {
-            _state_timer.Initialize(_action->GetWarmUpTime() * GetStaminaModifier()
-                                    / BattleMode::CurrentInstance()->GetBattleTypeTimeFactor());
+            _state_timer.Initialize(_action->GetWarmUpTime() * GetStaminaModifier());
             _state_timer.Run();
         }
         break;
@@ -258,8 +257,7 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
     {
         uint32_t cool_down_time = 1000; // Default value, overridden by valid actions
         if(_action)
-            cool_down_time = _action->GetCoolDownTime() * GetStaminaModifier()
-                             / BattleMode::CurrentInstance()->GetBattleTypeTimeFactor();
+            cool_down_time = _action->GetCoolDownTime() * GetStaminaModifier();
 
         _state_timer.Initialize(cool_down_time);
         _state_timer.Run();
@@ -335,10 +333,6 @@ void BattleActor::RegisterDamage(uint32_t amount, BattleTarget *target)
         hurt_time = 750;
     else // (damage_percent >= 0.50f)
         hurt_time = 1000;
-
-    // Make the stun effect disappear faster depending on the battle type,
-    // to not advantage the attacker.
-    hurt_time /= BM->GetBattleTypeTimeFactor();
 
     // Run a shake effect for the same time.
     _hurt_timer.Initialize(hurt_time);
@@ -1086,10 +1080,8 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state)
 
     switch(_state) {
     case ACTOR_STATE_COMMAND:
-        if(BattleMode::CurrentInstance()->GetBattleType() == BATTLE_TYPE_WAIT) {
-            // The battle action should pause whenever a character enters the command state in the WAIT battle type
-            BattleMode::CurrentInstance()->SetActorStatePaused(true);
-        }
+        // The battle action should pause whenever a character enters the command state in the WAIT battle type
+        BattleMode::CurrentInstance()->SetActorStatePaused(true);
         break;
     case ACTOR_STATE_WARM_UP: {
         // BattleActor::Update() changes to the warm up state if the actor has an action set when the idle time is expired. However for characters, we do not

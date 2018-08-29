@@ -37,6 +37,10 @@
 -- battle_effect:HasIntensityChanged() - returns true if the intensity level has undergone a recent change.
 ------------------------------------------------------------------------------]]
 
+-- in ms
+local default_status_duration = 15000
+local default_status_update_every = 5000
+
 -- All item definitions are stored in this table
 if (status_effects == nil) then
     status_effects = {}
@@ -72,7 +76,7 @@ end
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK] = {
     name = vt_system.Translate("Physical Attack"),
-    default_duration = 30000,
+    default_duration = default_status_duration,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
@@ -129,7 +133,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK] = {
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK] = {
     name = vt_system.Translate("Magical Attack"),
-    default_duration = 30000,
+    default_duration = default_status_duration,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
@@ -186,7 +190,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_MAG_ATK] = {
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF] = {
     name = vt_system.Translate("Physical Defense"),
-    default_duration = 30000,
+    default_duration = default_status_duration,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
@@ -243,7 +247,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF] = {
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_MAG_DEF] = {
     name = vt_system.Translate("Magical Defense"),
-    default_duration = 30000,
+    default_duration = default_status_duration,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
@@ -300,7 +304,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_MAG_DEF] = {
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = {
     name = vt_system.Translate("Stamina"),
-    default_duration = 30000,
+    default_duration = default_status_duration,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
@@ -359,7 +363,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = {
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = {
     name = vt_system.Translate("Evasion"),
-    default_duration = 30000,
+    default_duration = default_status_duration,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
@@ -416,9 +420,8 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EVADE] = {
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
     name = vt_system.Translate("HP"),
-    default_duration = 60000,
-    -- Applies on character only every 30 seconds at normal battle speed
-    update_every = 10000,
+    default_duration = default_status_duration,
+    update_every = default_status_update_every,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
@@ -585,9 +588,8 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
     name = vt_system.Translate("SP"),
-    default_duration = 60000,
-    -- Applies on character only every 30 seconds at normal battle speed
-    update_every = 20000,
+    default_duration = default_status_duration,
+    update_every = default_status_update_every,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
@@ -759,7 +761,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
     name = vt_system.Translate("Paralysis"),
-    default_duration = 10000,
+    default_duration = default_status_duration / 2,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
@@ -814,7 +816,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
 -- Elemental status effects
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE] = {
     name = vt_system.Translate("Fire Elemental Strength"),
-    default_duration = 30000,
+    default_duration = default_status_duration,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
@@ -871,7 +873,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_FIRE] = {
 -- Water
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER] = {
     name = vt_system.Translate("Water Elemental Strength"),
-    default_duration = 30000,
+    default_duration = default_status_duration,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
@@ -928,7 +930,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_WATER] = {
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT] = {
     name = vt_system.Translate("Wind Elemental Strength"),
-    default_duration = 30000,
+    default_duration = default_status_duration,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
@@ -984,7 +986,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_VOLT] = {
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH] = {
     name = vt_system.Translate("Earth Elemental Strength"),
-    default_duration = 30000,
+    default_duration = default_status_duration,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
@@ -1040,7 +1042,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_EARTH] = {
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE] = {
     name = vt_system.Translate("Life Elemental Strength"),
-    default_duration = 30000,
+    default_duration = default_status_duration,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
@@ -1096,7 +1098,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_LIFE] = {
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH] = {
     name = vt_system.Translate("Death Elemental Strength"),
-    default_duration = 30000,
+    default_duration = default_status_duration,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
@@ -1153,7 +1155,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_DEATH] = {
 -- Neutral (default magical strength)
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_NEUTRAL] = {
     name = vt_system.Translate("Neutral Elemental Strength"),
-    default_duration = 30000,
+    default_duration = default_status_duration,
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)

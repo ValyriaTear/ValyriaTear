@@ -29,8 +29,10 @@
 -- sprites.
 ------------------------------------------------------------------------------]]
 
-local duration_multiplier = 50000
-local minimum_duration = 200000
+function clampDuration(effect_duration)
+    local minimum_duration = 15000
+    return (effect_duration >= minimum_duration) and effect_duration or minimum_duration
+end
 
 -- All support skills definitions are stored in this table
 if (skills == nil) then
@@ -58,8 +60,7 @@ skills[10001] = {
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
-        local effect_duration = user:GetMagDef() * 2000;
-        if (effect_duration < 10000) then effect_duration = 10000 end
+        local effect_duration = clampDuration(user:GetMagDef() * 2000)
         target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF,
                                              vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                              effect_duration);
@@ -80,8 +81,7 @@ skills[10001] = {
             return false;
         end
 
-        local effect_duration = user:GetMagDef() * 2000;
-        if (effect_duration < 10000) then effect_duration = 10000 end
+        local effect_duration = clampDuration(user:GetMagDef() * 2000)
         target:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF,
                                        vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                        effect_duration);
@@ -148,7 +148,7 @@ skills[10003] = {
 
     BattleExecute = function(user, target)
         local index = 0;
-        local effect_duration = user:GetMagAtk() * 3000;
+        local effect_duration = clampDuration(user:GetMagAtk() * 3000)
         while true do
             local target_actor = target:GetPartyActor(index);
             if (target_actor == nil) then
@@ -175,7 +175,7 @@ skills[10004] = {
 
     BattleExecute = function(user, target)
         local index = 0;
-        local effect_duration = user:GetMagAtk() * 3000;
+        local effect_duration = clampDuration(user:GetMagAtk() * 3000)
         while true do
             local target_actor = target:GetPartyActor(index);
             if (target_actor == nil) then
@@ -207,7 +207,7 @@ skills[10005] = {
 
     BattleExecute = function(user, target)
         local index = 0;
-        local effect_duration = user:GetMagAtk() * 3000;
+        local effect_duration = clampDuration(user:GetMagAtk() * 3000)
         while true do
             local target_actor = target:GetPartyActor(index);
             if (target_actor == nil) then
@@ -253,8 +253,7 @@ skills[10007] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
         if (target_actor:IsAlive() == true) then
-            local effect_duration = user:GetMagDef() * 5000;
-            if (effect_duration < 10000) then effect_duration = 10000 end
+            local effect_duration = clampDuration(user:GetMagDef() * 5000)
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_SP,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                                  effect_duration);
@@ -328,7 +327,7 @@ skills[10011] = {
 
     BattleExecute = function(user, target)
         local index = 0;
-        local effect_duration = user:GetMagAtk() * 3000;
+        local effect_duration = clampDuration(user:GetMagAtk() * 3000)
         while true do
             local target_actor = target:GetPartyActor(index);
             if (target_actor == nil) then
@@ -562,7 +561,7 @@ skills[10111] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
         -- TODO : Balance this
-        local effect_duration = user:GetMagAtk() * 3000;
+        local effect_duration = clampDuration(user:GetMagAtk() * 3000)
         target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EARTH,
                                              vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                              effect_duration);
@@ -832,9 +831,8 @@ skills[10126] = {
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
 
     BattleExecute = function(user, target)
-        local target_actor = target:GetActor();
-        local effect_duration = user:GetMagAtk() * duration_multiplier;
-        if (effect_duration < minimum_duration) then effect_duration = minimum_duration; end
+        local target_actor = target:GetActor()
+        local effect_duration = clampDuration(user:GetMagAtk())
         target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
                                              vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                              effect_duration);
@@ -973,7 +971,7 @@ skills[10133] = {
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
         -- TODO : Balance this
-        local effect_duration = user:GetMagAtk() * 3000;
+        local effect_duration = clampDuration(user:GetMagAtk() * 3000)
 
         target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
                                              vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,

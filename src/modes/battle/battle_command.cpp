@@ -1069,12 +1069,8 @@ void CommandSupervisor::_UpdateCategory()
 
     // Event priority is given to the player requesting to abort the command selection process
     if(InputManager->CancelPress()) {
-        BattleMode *BM = BattleMode::CurrentInstance();
-        // The only time we do not allow the player to abort the command menu is if they are running the battle with the "wait" setting active and the
-        // current character is in the command state. Under these circumstances, the player has to enter a command for this character before the battle
-        // is allowed to continue.
-        if((BM->GetBattleType() != BATTLE_TYPE_WAIT && BM->GetBattleType() != BATTLE_TYPE_SEMI_ACTIVE)
-                || (GetCommandCharacter()->GetState() != ACTOR_STATE_COMMAND)) {
+        // The player has to enter a command for this character before the battle is allowed to continue.
+        if(GetCommandCharacter()->GetState() != ACTOR_STATE_COMMAND) {
             CancelCurrentCommand();
         }
 

@@ -26,8 +26,10 @@
 -- sprites.
 ------------------------------------------------------------------------------]]
 
-local duration_multiplier = 50000
-local minimum_duration = 200000
+function clampDuration(effect_duration)
+    local minimum_duration = 15000
+    return (effect_duration >= minimum_duration) and effect_duration or minimum_duration
+end
 
 -- common functions
 function trigger_potential_stun(user, target)
@@ -43,8 +45,7 @@ function trigger_potential_stun(user, target)
 
     -- Compute an effect duration time based on the characters' stats
     -- Divide stun effect length by 2 has it makes the game more usable
-    local effect_duration = (user:GetMagAtk() - target_actor:GetMagDef()) * (duration_multiplier / 2);
-    if (effect_duration < (minimum_duration / 2)) then effect_duration = (minimum_duration / 2); end
+    local effect_duration = clampDuration(user:GetMagAtk() - target_actor:GetMagDef())
     target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS,
                                          vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
                                          effect_duration);
@@ -64,8 +65,7 @@ function trigger_potential_attack_lowering(user, target)
     end
 
     -- Compute an effect duration time based on the characters' stats
-    local effect_duration = (user:GetMagAtk() - target_actor:GetMagDef()) * duration_multiplier;
-    if (effect_duration < minimum_duration) then effect_duration = minimum_duration; end
+    local effect_duration = clampDuration(user:GetMagAtk() - target_actor:GetMagDef())
     target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK,
                                          vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                          effect_duration);
@@ -187,8 +187,7 @@ skills[4] = {
         local target_actor = target:GetActor();
 
         if (vt_battle.RndEvade(target_actor, 8.5) == false) then
-            local effect_duration = user:GetMagAtk() * duration_multiplier;
-            if (effect_duration < minimum_duration) then effect_duration = minimum_duration; end
+            local effect_duration = clampDuration(user:GetMagAtk())
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
                                                  effect_duration);
@@ -248,8 +247,7 @@ skills[6] = {
         local target_actor = target:GetActor();
 
         if (vt_battle.RndEvade(target_actor, 8.5) == false) then
-            local effect_duration = user:GetMagAtk() * duration_multiplier;
-            if (effect_duration < minimum_duration) then effect_duration = minimum_duration; end
+            local effect_duration = clampDuration(user:GetMagAtk())
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER,
                                                  effect_duration);
@@ -617,8 +615,7 @@ skills[1005] = {
         local atk_point = target:GetAttackPoint();
 
         if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
-            local effect_duration = user:GetMagAtk() * duration_multiplier;
-            if (effect_duration < minimum_duration) then effect_duration = minimum_duration; end
+            local effect_duration = clampDuration(user:GetMagAtk())
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
                                                  effect_duration);
@@ -754,8 +751,7 @@ skills[1010] = {
 
             -- Only apply up to a moderate poison
             if (intensity > vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-                local effect_duration = user:GetMagAtk() * duration_multiplier;
-                if (effect_duration < minimum_duration) then effect_duration = minimum_duration; end
+                local effect_duration = clampDuration(user:GetMagAtk())
                 target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_HP,
                                                      vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
                                                      effect_duration);
@@ -812,8 +808,7 @@ skills[1012] = {
         local target_actor = target:GetActor();
 
         if (vt_battle.RndEvade(target_actor) == false) then
-            local effect_duration = user:GetMagAtk() * duration_multiplier;
-            if (effect_duration < minimum_duration) then effect_duration = minimum_duration; end
+            local effect_duration = clampDuration(user:GetMagAtk())
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                                  effect_duration);
@@ -840,8 +835,7 @@ skills[1013] = {
 
     BattleExecute = function(user, target) -- target is self, we'll use user...
         -- Add phys_atk & stamina, but decrease defense
-        local effect_duration = user:GetMagAtk() * duration_multiplier;
-        if (effect_duration < minimum_duration) then effect_duration = minimum_duration; end
+        local effect_duration = clampDuration(user:GetMagAtk())
         user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK,
                                      vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE,
                                      effect_duration);
@@ -867,8 +861,7 @@ skills[1014] = {
         local target_actor = target:GetActor();
 
         if (vt_battle.RndEvade(target_actor) == false) then
-            local effect_duration = user:GetMagAtk() * duration_multiplier;
-            if (effect_duration < minimum_duration) then effect_duration = minimum_duration; end
+            local effect_duration = clampDuration(user:GetMagAtk())
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                                  effect_duration);
@@ -896,8 +889,7 @@ skills[1015] = {
         local atk_point = target:GetAttackPoint();
 
         if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
-            local effect_duration = user:GetMagAtk() * duration_multiplier;
-            if (effect_duration < minimum_duration) then effect_duration = minimum_duration; end
+            local effect_duration = clampDuration(user:GetMagAtk())
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
                                                  effect_duration);
@@ -933,8 +925,7 @@ skills[1016] = {
         local atk_point = target:GetAttackPoint();
 
         if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
-            local effect_duration = user:GetMagAtk() * duration_multiplier;
-            if (effect_duration < minimum_duration) then effect_duration = minimum_duration; end
+            local effect_duration = clampDuration(user:GetMagAtk())
             target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_STAMINA,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE,
                                                  effect_duration);

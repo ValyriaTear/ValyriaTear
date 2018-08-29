@@ -233,12 +233,10 @@ void BattleStatusEffectsSupervisor::_UpdatePassive()
             continue;
 
         // Update the update timer if it is running
-        vt_system::SystemTimer *update_timer = effect.GetUpdateTimer();
+        vt_system::SystemTimer* update_timer = effect.GetUpdateTimer();
         bool use_update_timer = effect.IsUsingUpdateTimer();
         if (use_update_timer) {
-            BattleMode *BM = BattleMode::CurrentInstance();
-            uint32_t update_time = SystemManager->GetUpdateTime() * BM->GetBattleTypeTimeFactor();
-            update_timer->Update(update_time);
+            update_timer->Update();
         }
 
         if (!use_update_timer || update_timer->IsFinished()) {
@@ -282,13 +280,12 @@ void BattleStatusEffectsSupervisor::Update()
         vt_system::SystemTimer* update_timer = effect.GetUpdateTimer();
 
         // Update the effect time while taking in account the battle speed
-        uint32_t update_time = SystemManager->GetUpdateTime() * BM->GetBattleTypeTimeFactor();
-        effect_timer->Update(update_time);
+        effect_timer->Update();
 
         // Update the update timer if it is running
         bool use_update_timer = effect.IsUsingUpdateTimer();
         if (use_update_timer)
-            update_timer->Update(update_time);
+            update_timer->Update();
 
         // Decrease the intensity of the status by one level when its timer expires. This may result in
         // the status effect being removed from the actor if its intensity changes to the neutral level.

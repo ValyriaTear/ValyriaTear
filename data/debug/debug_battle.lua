@@ -36,11 +36,6 @@ function TestFunction()
     --battle:GetScriptSupervisor():AddScript("data/story/layna_village/battle_with_banesore/battle_with_banesore_script.lua");
     battle:BoostHeroPartyInitiative();
 
-    -- Set the battle to wait, semi active or active
-    --battle:SetBattleType(vt_battle.BattleMode.BATTLE_TYPE_WAIT);
-    --battle:SetBattleType(vt_battle.BattleMode.BATTLE_TYPE_SEMI_ACTIVE);
-    battle:SetBattleType(vt_battle.BattleMode.BATTLE_TYPE_ACTIVE);
-
     ModeManager:Push(battle, false, false);
 
     ScriptManager:DEBUG_DumpScriptsState()

@@ -767,8 +767,6 @@ void BindModeCode()
             .def("GetEnemyActor", &BattleMode::GetEnemyActor)
             .def("GetDialogueSupervisor", &BattleMode::GetDialogueSupervisor)
             .def("GetCommandSupervisor", &BattleMode::GetCommandSupervisor)
-            .def("GetBattleType", &BattleMode::GetBattleType)
-            .def("SetBattleType", &BattleMode::SetBattleType)
             .def("TriggerBattleParticleEffect", &BattleMode::TriggerBattleParticleEffect)
             .def("CreateBattleAnimation", &BattleMode::CreateBattleAnimation)
             .def("BoostHeroPartyInitiative", &BattleMode::BoostHeroPartyInitiative)
@@ -783,13 +781,6 @@ void BindModeCode()
                 luabind::value("BATTLE_STATE_VICTORY", BATTLE_STATE_VICTORY),
                 luabind::value("BATTLE_STATE_DEFEAT", BATTLE_STATE_DEFEAT),
                 luabind::value("BATTLE_STATE_EXITING", BATTLE_STATE_EXITING),
-
-                // Battle settings
-                luabind::value("BATTLE_TYPE_INVALID", BATTLE_TYPE_INVALID),
-                luabind::value("BATTLE_TYPE_WAIT", BATTLE_TYPE_WAIT),
-                luabind::value("BATTLE_TYPE_SEMI_ACTIVE", BATTLE_TYPE_SEMI_ACTIVE),
-                luabind::value("BATTLE_TYPE_ACTIVE", BATTLE_TYPE_ACTIVE),
-                luabind::value("BATTLE_TYPE_TOTAL", BATTLE_TYPE_TOTAL),
 
                 // Battle actor states
                 luabind::value("ACTOR_STATE_IDLE", ACTOR_STATE_IDLE),
