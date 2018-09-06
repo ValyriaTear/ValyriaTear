@@ -590,6 +590,9 @@ protected:
     //! \brief Updates the Stamina Icon position.
     void _UpdateStaminaIconPosition();
 
+    //! \brief Updates the actor state
+    void _UpdateState();
+
     //! \brief Initializes the Battle Actor stats values.
     //! The global actor final stats are used as base for the battle actors.
     //! This means that the final phys_atk value of the global actor is the base value

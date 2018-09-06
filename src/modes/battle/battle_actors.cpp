@@ -534,39 +534,11 @@ void BattleActor::RemoveActiveStatusEffect(GLOBAL_STATUS status_effect)
     _effects_supervisor->RemoveActiveStatusEffect(status_effect);
 }
 
-void BattleActor::Update()
+void BattleActor::_UpdateState()
 {
-    BattleMode *BM = BattleMode::CurrentInstance();
-
-    // Avoid updating the battle logic when finishing.
-    // This might break the character's animation.
-    switch (BM->GetState()) {
-    default:
-        break;
-    case BATTLE_STATE_VICTORY:
-    case BATTLE_STATE_DEFEAT:
-    case BATTLE_STATE_EXITING:
-        return;
-    }
-
-    // Don't update the state timer when the battle tells is to pause
-    // when in idle state.
-    // Also don't elapse the status effect time when paused.
-    if (!BM->AreActorStatesPaused() && !BM->IsInSceneMode()) {
-        // Don't update the state_timer if the character is hurt.
-        if (!_hurt_timer.IsRunning()) {
-
-            // Check the stun effect only when in idle, warm up or cool down state
-            if (!_is_stunned || (_state != ACTOR_STATE_IDLE && _state != ACTOR_STATE_WARM_UP && _state != ACTOR_STATE_COOL_DOWN))
-                _state_timer.Update();
-        }
-
-        if (IsAlive())
-            _effects_supervisor->Update();
-    }
-    else if (_state == ACTOR_STATE_DYING) {
-        // Permits the actor to die even in pause mode,
-        // so that the sprite fade out is properly done.
+    // Permits the actor to die even in pause mode,
+    // so that the sprite fade out is properly done.
+    if (_state == ACTOR_STATE_DYING) {
         _state_timer.Update();
 
         // Updates the scripted death animation if any.
@@ -588,6 +560,50 @@ void BattleActor::Update()
             }
         }
     }
+
+    // Don't update the state timer when the battle tells is to pause when in idle state.
+    // Also don't elapse the status effect time when paused.
+    BattleMode* BM = BattleMode::CurrentInstance();
+    if (BM->AreActorStatesPaused() || BM->IsInSceneMode())
+        return;
+
+    if (IsAlive())
+        _effects_supervisor->Update();
+
+    // Don't update the state_timer if the character is hurt.
+    if (_hurt_timer.IsRunning())
+        return;
+
+    switch(_state) {
+    // Check the stun effect only when in idle, warm up or cool down state
+    case ACTOR_STATE_IDLE:
+    case ACTOR_STATE_WARM_UP:
+    case ACTOR_STATE_COOL_DOWN:
+        if (!_is_stunned)
+            _state_timer.Update();
+        break;
+    default:
+        _state_timer.Update();
+        break;
+    }
+}
+
+void BattleActor::Update()
+{
+    BattleMode* BM = BattleMode::CurrentInstance();
+
+    // Avoid updating the battle logic when finishing.
+    // This might break the character's animation.
+    switch (BM->GetState()) {
+    default:
+        break;
+    case BATTLE_STATE_VICTORY:
+    case BATTLE_STATE_DEFEAT:
+    case BATTLE_STATE_EXITING:
+        return;
+    }
+
+    _UpdateState();
 
     // The shaking updates even in pause mode, so that the shaking
     // doesn't last indefinitely in that state.
