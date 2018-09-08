@@ -17,6 +17,8 @@
 
 #include "global_skills.h"
 
+#include "modes/battle/battle_target.h"
+
 #include "script/script.h"
 #include "engine/video/video.h"
 

@@ -11,6 +11,8 @@
 #include "menu_character_window.h"
 
 #include "common/global/global.h"
+#include "common/global/actors/global_character.h"
+
 #include "engine/video/video.h"
 #include "utils/ustring.h"
 

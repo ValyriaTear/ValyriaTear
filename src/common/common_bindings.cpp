@@ -34,6 +34,9 @@
 #include "common/global/objects/global_armor.h"
 #include "common/global/global_skills.h"
 #include "common/global/global_utils.h"
+#include "common/global/actors/global_character.h"
+#include "common/global/actors/global_enemy.h"
+#include "modes/battle/battle_target.h"
 
 #include "utils/utils_random.h"
 

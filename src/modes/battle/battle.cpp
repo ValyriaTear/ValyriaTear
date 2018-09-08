@@ -30,16 +30,23 @@
 
 #include "modes/pause.h"
 
-#include "modes/battle/battle_actors.h"
-#include "modes/battle/battle_actions.h"
-#include "modes/battle/battle_command.h"
 #include "modes/battle/finish/battle_defeat.h"
 #include "modes/battle/finish/battle_victory.h"
+#include "modes/battle/battle_objects/battle_animation.h"
+#include "modes/battle/battle_objects/battle_character.h"
+#include "modes/battle/battle_objects/battle_enemy.h"
+#include "modes/battle/battle_objects/battle_particle_effect.h"
+#include "modes/battle/battle_actions/skill_action.h"
+#include "modes/battle/battle_command.h"
+#include "modes/battle/battle_effects.h"
 #include "modes/battle/battle_sequence.h"
 #include "modes/battle/battle_utils.h"
-#include "modes/battle/battle_effects.h"
 
+#include "common/global/global.h"
+#include "common/global/actors/global_character.h"
 #include "common/global/actors/global_attack_point.h"
+
+#include "utils/utils_random.h"
 
 using namespace vt_utils;
 using namespace vt_audio;
@@ -856,7 +863,7 @@ void BattleMode::SetActorIdleStateTime(BattleActor* actor)
 
 void BattleMode::TriggerBattleParticleEffect(const std::string &effect_filename, float x, float y)
 {
-    BattleParticleEffect *effect = new BattleParticleEffect(effect_filename);
+    BattleParticleEffect* effect = new BattleParticleEffect(effect_filename);
 
     effect->SetXLocation(x);
     effect->SetYLocation(y);

@@ -17,6 +17,8 @@
 
 #include "global.h"
 
+#include "actors/global_character.h"
+
 #include "objects/global_weapon.h"
 #include "objects/global_armor.h"
 #include "objects/global_spirit.h"

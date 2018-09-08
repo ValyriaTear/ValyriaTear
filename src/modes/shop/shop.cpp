@@ -34,6 +34,7 @@
 #include "common/global/global.h"
 #include "common/global/objects/global_weapon.h"
 #include "common/global/objects/global_armor.h"
+#include "common/global/actors/global_character.h"
 #include "common/dialogue.h"
 
 #include "engine/mode_manager.h"

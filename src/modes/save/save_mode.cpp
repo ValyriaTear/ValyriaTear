@@ -17,14 +17,18 @@
 
 #include "save_mode.h"
 
-#include "common/global/global.h"
 #include "engine/audio/audio.h"
 #include "engine/video/video.h"
 #include "engine/input.h"
+
 #include "modes/boot/boot.h"
 #include "modes/map/map_mode.h"
-#include "utils/utils_files.h"
+
 #include "common/app_settings.h"
+#include "common/global/global.h"
+#include "common/global/actors/global_character.h"
+
+#include "utils/utils_files.h"
 
 using namespace vt_utils;
 using namespace vt_audio;

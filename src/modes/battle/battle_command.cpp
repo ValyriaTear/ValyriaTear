@@ -23,15 +23,18 @@
 #include "engine/video/video.h"
 
 #include "modes/battle/battle.h"
-#include "modes/battle/battle_actions.h"
-#include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_menu.h"
 #include "modes/battle/battle_utils.h"
+#include "modes/battle/battle_objects/battle_character.h"
+#include "modes/battle/battle_objects/battle_enemy.h"
+#include "modes/battle/battle_actions/item_action.h"
+#include "modes/battle/battle_actions/skill_action.h"
 
+#include "common/global/global.h"
 #include "common/global/actors/global_attack_point.h"
+#include "common/global/actors/global_character.h"
 #include "common/global/objects/global_weapon.h"
-
-using namespace vt_utils;
+#include "common/global/battle_media.h"
 
 using namespace vt_audio;
 using namespace vt_video;
@@ -39,6 +42,7 @@ using namespace vt_gui;
 using namespace vt_input;
 using namespace vt_system;
 using namespace vt_global;
+using namespace vt_utils;
 
 namespace vt_battle
 {

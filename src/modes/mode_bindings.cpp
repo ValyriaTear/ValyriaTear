@@ -26,13 +26,16 @@
 // Common code headers
 #include "common/dialogue.h"
 #include "common/global/global_effects.h"
+#include "common/global/actors/global_character.h"
 
 #include "modes/boot/boot.h"
 #include "modes/battle/battle.h"
-#include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_command.h"
 #include "modes/battle/battle_effects.h"
 #include "modes/battle/battle_utils.h"
+#include "modes/battle/battle_objects/battle_animation.h"
+#include "modes/battle/battle_objects/battle_character.h"
+#include "modes/battle/battle_objects/battle_enemy.h"
 #include "modes/map/map_mode.h"
 #include "modes/map/map_dialogue_supervisor.h"
 #include "modes/map/map_dialogues/map_sprite_dialogue.h"

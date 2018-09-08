@@ -11,13 +11,18 @@
 #include "modes/battle/finish/battle_victory.h"
 
 #include "modes/battle/battle.h"
+#include "modes/battle/battle_objects/battle_character.h"
+#include "modes/battle/battle_objects/battle_enemy.h"
+
 #include "modes/menu/menu_mode.h"
+
+#include "common/global/global.h"
+#include "common/global/actors/global_character.h"
 
 #include "common/gui/menu_window.h"
 
 #include "engine/video/video_utils.h"
 #include "engine/system.h"
-#include "common/global/global.h"
 #include "engine/input.h"
 #include "engine/audio/audio.h"
 

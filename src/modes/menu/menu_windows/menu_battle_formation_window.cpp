@@ -16,6 +16,8 @@
 #include "engine/input.h"
 #include "engine/system.h"
 
+#include "common/global/actors/global_character.h"
+
 using namespace vt_menu::private_menu;
 using namespace vt_utils;
 using namespace vt_audio;

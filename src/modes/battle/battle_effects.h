@@ -25,13 +25,20 @@
 
 #include "common/global/global_effects.h"
 
-#include "modes/battle/battle_actors.h"
+#include "engine/video/image.h"
+#include "engine/video/text.h"
+
+namespace vt_global {
+class GlobalCharacter;
+}
 
 namespace vt_battle
 {
 
 namespace private_battle
 {
+
+class BattleActor;
 
 /** ****************************************************************************
 *** \brief Manages all data related to a single passive status effect in battle

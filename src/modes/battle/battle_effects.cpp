@@ -17,15 +17,15 @@
 
 #include "modes/battle/battle_effects.h"
 
+#include "modes/battle/battle.h"
+#include "modes/battle/battle_utils.h"
+
 #include "script/script.h"
 #include "engine/system.h"
 #include "engine/video/video.h"
 
 #include "common/global/global.h"
-
-#include "modes/battle/battle.h"
-#include "modes/battle/battle_actors.h"
-#include "modes/battle/battle_utils.h"
+#include "common/global/actors/global_character.h"
 
 using namespace vt_utils;
 using namespace vt_system;

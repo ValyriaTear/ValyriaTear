@@ -23,8 +23,9 @@
 #include "engine/video/video.h"
 
 #include "modes/battle/battle.h"
-#include "modes/battle/battle_actors.h"
 #include "modes/battle/battle_utils.h"
+#include "modes/battle/battle_objects/battle_character.h"
+#include "modes/battle/battle_objects/battle_enemy.h"
 
 #include "common/global/battle_media.h"
 #include "common/global/global.h"

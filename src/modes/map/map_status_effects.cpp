@@ -18,7 +18,10 @@
 #include "modes/map/map_mode.h"
 
 #include "script/script_read.h"
+
 #include "common/global/global.h"
+#include "common/global/actors/global_character.h"
+
 #include "engine/video/video.h"
 
 using namespace vt_global;

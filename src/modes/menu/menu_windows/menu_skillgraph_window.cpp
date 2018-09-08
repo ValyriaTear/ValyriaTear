@@ -16,6 +16,7 @@
 #include "engine/system.h"
 
 #include "common/global/skill_graph/skill_graph.h"
+#include "common/global/actors/global_character.h"
 
 #include <limits>
 

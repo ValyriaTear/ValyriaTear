@@ -26,16 +26,22 @@
 #include "common/gui/menu_window.h"
 #include "common/gui/option.h"
 
-#include "battle_utils.h"
-#include "battle_actors.h"
+#include "battle_item.h"
+#include "battle_target.h"
 
 #include "battle_menu.h"
+
+namespace vt_global {
+class GlobalSkill;
+}
 
 namespace vt_battle
 {
 
 namespace private_battle
 {
+
+class BattleCharacter;
 
 /** ****************************************************************************
 *** \brief Manages skill selection lists and cursor memory for an individual character
@@ -57,7 +63,7 @@ public:
     /** \param character A pointer to the character represented by this class
     *** \param window A reference to the MenuWindow that should be the owner of the GUI displays
     **/
-    CharacterCommandSettings(BattleCharacter *character, vt_gui::MenuWindow &window);
+    CharacterCommandSettings(BattleCharacter* character, vt_gui::MenuWindow& window);
 
     ~CharacterCommandSettings()
     {}

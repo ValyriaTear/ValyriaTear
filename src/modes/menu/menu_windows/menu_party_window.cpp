@@ -12,6 +12,7 @@
 
 #include "modes/menu/menu_mode.h"
 
+#include "common/global/actors/global_character.h"
 #include "common/global/objects/global_weapon.h"
 #include "common/global/objects/global_armor.h"
 

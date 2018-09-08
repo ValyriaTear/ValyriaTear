@@ -8,26 +8,10 @@
 // See https://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-/** ****************************************************************************
-*** \file    battle_actions.h
-*** \author  Viljami Korhonen, mindflayer@allacrost.org
-*** \author  Andy Gardner, chopperdave@allacrost.org
-*** \author  Tyler Olsen, roots@allacrost.org
-*** \author  Yohann Ferreira, yohann ferreira orange fr
-*** \brief   Header file for actions that occur in battles.
-***
-*** Actions are events that are carried out by actors and include the execution
-*** of skills or the use of items.
-*** ***************************************************************************/
+#ifndef __BATTLE_ACTION_HEADER__
+#define __BATTLE_ACTION_HEADER__
 
-#ifndef __BATTLE_ACTIONS_HEADER__
-#define __BATTLE_ACTIONS_HEADER__
-
-#include "engine/system.h"
-
-#include "common/global/global.h"
-
-#include "utils/utils_random.h"
+#include "modes/battle/battle_target.h"
 
 namespace vt_battle
 {
@@ -140,132 +124,10 @@ protected:
     //! \brief Initialize (Calling #Initialize) a scripted battle animation when one is existing.
     virtual void _InitAnimationScript()
     {}
-}; // class BattleAction
-
-
-/** ****************************************************************************
-*** \brief A battle action which involves the execution of an actor's skill
-***
-*** This class invokes the execution of a GlobalSkill contained by the source
-*** actor. When the action is finished, any SP required to use the skill is
-*** subtracted from the source actor.
-*** ***************************************************************************/
-class SkillAction : public BattleAction
-{
-public:
-    SkillAction(BattleActor *actor, BattleTarget target, vt_global::GlobalSkill *skill);
-
-    virtual ~SkillAction();
-
-    bool IsItemAction() const {
-        return false;
-    }
-
-    // Init the battle action member and possible scripts
-    bool Initialize();
-
-    bool Execute();
-
-    //! \brief calls the corresponding skill animation file #Update method, returning it result.
-    bool Update();
-
-    void Cancel()
-    {}
-
-    vt_utils::ustring GetName() const;
-
-    std::string GetIconFilename() const;
-
-    bool ShouldShowSkillNotice() const;
-
-    uint32_t GetWarmUpTime() const;
-
-    uint32_t GetCoolDownTime() const;
-
-    std::string GetWarmupActionName() const;
-
-    std::string GetActionName() const;
-
-    vt_global::GlobalSkill *GetSkill() {
-        return _skill;
-    }
-
-private:
-    //! \brief Pointer to the skill attached to this script (for skill events only)
-    vt_global::GlobalSkill *_skill;
-
-    //! \brief Initialize (Calling #Initialize) a scripted battle animation when one is existing.
-    void _InitAnimationScript();
-}; // class SkillAction : public BattleAction
-
-
-/** ****************************************************************************
-*** \brief A battle action which involves the use of an item
-***
-*** This class invokes the usage of a GlobalItem. The item's count is decremented
-*** as soon as the action goes into the FIFO queue. After the action is executed,
-*** the item is removed if its count has become zero. If the action is removed
-*** from the queue before it is executed (because the source actor perished, or
-*** the battle ended, or other circumstances), then the item's count is
-*** incremented back to its original value since it was not used.
-*** ***************************************************************************/
-class ItemAction : public BattleAction
-{
-public:
-    ItemAction(BattleActor* source, BattleTarget target, const std::shared_ptr<BattleItem>& item);
-
-    virtual ~ItemAction();
-
-    bool IsItemAction() const {
-        return true;
-    }
-
-    bool Initialize();
-
-    bool Update();
-
-    bool Execute();
-
-    ///! \brief Cancel a waiting action, putting back the item in available battle items.
-    void Cancel();
-
-    vt_utils::ustring GetName() const;
-
-    std::string GetIconFilename() const;
-
-    bool ShouldShowSkillNotice() const {
-        return true;
-    }
-
-    uint32_t GetWarmUpTime() const;
-
-    uint32_t GetCoolDownTime() const;
-
-    std::string GetWarmupActionName() const {
-        return "idle";
-    }
-
-    std::string GetActionName() const {
-        return "item";
-    }
-
-    std::shared_ptr<BattleItem> GetBattleItem() {
-        return _battle_item;
-    }
-
-private:
-    //! \brief Pointer to the item attached to this script
-    const std::shared_ptr<BattleItem> _battle_item;
-
-    //! \brief Tells whether the action has already been canceled.
-    bool _action_canceled;
-
-    //! \brief Initialize (Calling #Initialize) a scripted battle animation when one is existing.
-    void _InitAnimationScript();
-}; // class ItemAction : public BattleAction
+};
 
 } // namespace private_battle
 
 } // namespace vt_battle
 
-#endif // __BATTLE_ACTIONS_HEADER__
+#endif // __BATTLE_ACTION_HEADER__

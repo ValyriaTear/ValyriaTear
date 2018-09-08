@@ -23,6 +23,7 @@
 #include "modes/map/map_zones.h"
 
 #include "common/global/global.h"
+#include "common/global/actors/global_character.h"
 
 #include "utils/utils_numeric.h"
 

@@ -33,8 +33,11 @@
 #include "skill_graph/skill_graph.h"
 #include "actors/global_actor.h"
 #include "actors/global_party.h"
-#include "global_effects.h"
 
+#include "objects/global_armor.h"
+#include "objects/global_weapon.h"
+
+#include "global_effects.h"
 #include "global_skills.h"
 #include "global_utils.h"
 
