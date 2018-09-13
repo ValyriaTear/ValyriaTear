@@ -24,8 +24,11 @@
 #define __INDICATOR_SUPERVISOR_HEADER__
 
 #include "engine/video/text.h"
+#include "engine/system.h"
 
-#include "modes/battle/battle_utils.h"
+#include "modes/battle/battle_damage.h"
+
+#include <deque>
 
 namespace vt_common
 {

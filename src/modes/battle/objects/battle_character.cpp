@@ -8,12 +8,12 @@
 // See https://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "modes/battle/battle_objects/battle_character.h"
+#include "battle_character.h"
 
 #include "modes/battle/battle.h"
-#include "modes/battle/battle_command.h"
-#include "modes/battle/battle_effects.h"
-#include "modes/battle/battle_actions/item_action.h"
+#include "modes/battle/actions/item_action.h"
+#include "modes/battle/status_effects/status_effects_supervisor.h"
+#include "modes/battle/command/command_supervisor.h"
 
 #include "common/global/global.h"
 #include "common/global/actors/global_character.h"
@@ -306,7 +306,7 @@ void BattleCharacter::Update()
 
         // If it was an item action, show the item used.
         if(_action->IsItemAction()) {
-            ItemAction *item_action = static_cast<ItemAction *>(_action);
+            ItemAction* item_action = static_cast<ItemAction *>(_action);
 
             // Creates an item indicator
             float y_pos = GetYLocation() - GetSpriteHeight();

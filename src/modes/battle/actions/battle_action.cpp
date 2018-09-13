@@ -8,12 +8,11 @@
 // See https://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "modes/battle/battle_objects/battle_animation.h"
+#include "battle_action.h"
 
-#include "utils/utils_common.h"
-#include "engine/video/video.h"
+#include "common/global/global_utils.h"
 
-using namespace vt_video;
+using namespace vt_global;
 
 namespace vt_battle
 {
@@ -21,23 +20,15 @@ namespace vt_battle
 namespace private_battle
 {
 
-BattleAnimation::BattleAnimation(const std::string& animation_filename):
-    BattleObject(),
-    _visible(true),
-    _can_be_removed(false)
+BattleAction::BattleAction(BattleActor* actor, BattleTarget target) :
+    _actor(actor),
+    _target(target),
+    _is_scripted(false)
 {
-    if(!_animation.LoadFromAnimationScript(animation_filename))
-        PRINT_WARNING << "Invalid battle animation file requested: "
-                      << animation_filename << std::endl;
-}
-
-void BattleAnimation::DrawSprite()
-{
-    if(!IsVisible() || CanBeRemoved())
-        return;
-
-    VideoManager->Move(GetXLocation(), GetYLocation());
-    _animation.Draw();
+    if(actor == nullptr)
+        PRINT_WARNING << "constructor received nullptr actor" << std::endl;
+    if(target.GetType() == GLOBAL_TARGET_INVALID)
+        PRINT_WARNING << "constructor received invalid target" << std::endl;
 }
 
 } // namespace private_battle

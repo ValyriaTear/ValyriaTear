@@ -8,11 +8,11 @@
 // See https://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "modes/battle/battle_objects/battle_actor.h"
+#include "modes/battle/objects/battle_actor.h"
 
 #include "modes/battle/battle.h"
-#include "modes/battle/battle_effects.h"
-#include "modes/battle/battle_actions/skill_action.h"
+#include "modes/battle/status_effects/status_effects_supervisor.h"
+#include "modes/battle/actions/skill_action.h"
 #include "modes/battle/battle_target.h"
 
 #include "common/global/actors/global_attack_point.h"
@@ -31,6 +31,10 @@ namespace vt_battle
 
 namespace private_battle
 {
+
+//! \brief The X and Y position of the stamina bar
+const float STAMINA_BAR_POSITION_X = 970.0f;
+const float STAMINA_BAR_POSITION_Y = 640.0f;
 
 //! \brief The bottom most position of the stamina bar
 const float STAMINA_LOCATION_BOTTOM = 640.0f;

@@ -23,9 +23,8 @@
 #include "engine/video/video.h"
 
 #include "modes/battle/battle.h"
-#include "modes/battle/battle_utils.h"
-#include "modes/battle/battle_objects/battle_character.h"
-#include "modes/battle/battle_objects/battle_enemy.h"
+#include "modes/battle/objects/battle_character.h"
+#include "modes/battle/objects/battle_enemy.h"
 
 #include "common/global/battle_media.h"
 #include "common/global/global.h"
@@ -315,11 +314,6 @@ void SequenceSupervisor::_DrawGUI()
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
     VideoManager->Move(0.0f, VIDEO_STANDARD_RES_HEIGHT +  _gui_position_offset);
     battle_media.bottom_menu_image.Draw();
-
-    // Draw the stamina bar
-    VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
-    VideoManager->Move(STAMINA_BAR_POSITION_X + _gui_position_offset, STAMINA_BAR_POSITION_Y);
-    battle_media.stamina_meter.Draw();
 }
 
 } // namespace private_battle

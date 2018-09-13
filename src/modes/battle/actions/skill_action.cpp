@@ -8,7 +8,7 @@
 // See https://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "modes/battle/battle_actions/skill_action.h"
+#include "skill_action.h"
 
 #include "common/global/global_skills.h"
 

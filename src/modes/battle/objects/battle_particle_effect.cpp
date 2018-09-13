@@ -8,11 +8,9 @@
 // See https://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "modes/battle/battle_actions/battle_action.h"
+#include "battle_particle_effect.h"
 
-#include "common/global/global_utils.h"
-
-using namespace vt_global;
+#include "utils/utils_common.h"
 
 namespace vt_battle
 {
@@ -20,15 +18,21 @@ namespace vt_battle
 namespace private_battle
 {
 
-BattleAction::BattleAction(BattleActor* actor, BattleTarget target) :
-    _actor(actor),
-    _target(target),
-    _is_scripted(false)
+BattleParticleEffect::BattleParticleEffect(const std::string &effect_filename):
+    BattleObject()
 {
-    if(actor == nullptr)
-        PRINT_WARNING << "constructor received nullptr actor" << std::endl;
-    if(target.GetType() == GLOBAL_TARGET_INVALID)
-        PRINT_WARNING << "constructor received invalid target" << std::endl;
+    if(!_effect.LoadEffect(effect_filename))
+        PRINT_WARNING << "Invalid battle particle effect file requested: "
+                      << effect_filename << std::endl;
+}
+
+void BattleParticleEffect::DrawSprite()
+{
+    if(!_effect.IsAlive())
+        return;
+
+    _effect.Move(GetXLocation(), GetYLocation());
+    _effect.Draw();
 }
 
 } // namespace private_battle

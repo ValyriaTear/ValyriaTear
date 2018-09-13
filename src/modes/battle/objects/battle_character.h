@@ -11,7 +11,7 @@
 #ifndef __BATTLE_CHARACTER_HEADER__
 #define __BATTLE_CHARACTER_HEADER__
 
-#include "modes/battle/battle_objects/battle_actor.h"
+#include "battle_actor.h"
 
 namespace vt_global {
 class GlobalCharacter;

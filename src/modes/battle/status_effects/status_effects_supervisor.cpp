@@ -8,190 +8,28 @@
 // See https://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-/** ****************************************************************************
-*** \file    battle_effects.cpp
-*** \author  Tyler Olsen, roots@allacrost.org
-*** \author  Yohann Ferreira, yohann ferreira orange fr
-*** \brief   Source file for battle actor effects.
-*** ***************************************************************************/
-
-#include "modes/battle/battle_effects.h"
+#include "status_effects_supervisor.h"
 
 #include "modes/battle/battle.h"
-#include "modes/battle/battle_utils.h"
+#include "modes/battle/objects/battle_actor.h"
 
-#include "script/script.h"
+#include "common/global/actors/global_character.h"
+
 #include "engine/system.h"
 #include "engine/video/video.h"
 
-#include "common/global/global.h"
-#include "common/global/actors/global_character.h"
-
-using namespace vt_utils;
-using namespace vt_system;
-using namespace vt_script;
-using namespace vt_video;
+#include "script/script.h"
 
 using namespace vt_global;
+using namespace vt_script;
+using namespace vt_system;
+using namespace vt_video;
 
 namespace vt_battle
 {
 
 namespace private_battle
 {
-
-////////////////////////////////////////////////////////////////////////////////
-// PassiveBattleStatusEffect class
-////////////////////////////////////////////////////////////////////////////////
-
-PassiveBattleStatusEffect::PassiveBattleStatusEffect(GLOBAL_STATUS type,
-                                                     GLOBAL_INTENSITY intensity):
-    GlobalStatusEffect(type, intensity),
-    _icon_image(nullptr)
-{
-    // Check that status effect base value are making it actually active
-    if (!IsActive())
-        return;
-
-    // Make sure that a table entry exists for this status element
-    uint32_t table_id = static_cast<uint32_t>(type);
-    ReadScriptDescriptor &script_file = GlobalManager->GetStatusEffectsScript();
-    if(!script_file.OpenTable(table_id)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "Lua definition file contained no entry for status effect: " << table_id << std::endl;
-        return;
-    }
-
-    // Read in the status effect's property data
-    std::string name = script_file.ReadString("name");
-    _name.SetText(name, TextStyle("text14"));
-
-    if(script_file.DoesFunctionExist("BattleUpdatePassive")) {
-        _update_passive_function = script_file.ReadFunctionPointer("BattleUpdatePassive");
-    } else {
-        PRINT_WARNING << "No BattleUpdatePassive() function found in Lua definition file for status: " << table_id << std::endl;
-    }
-
-    script_file.CloseTable(); // table_id
-
-    if(script_file.IsErrorDetected()) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "one or more errors occurred while reading status effect data - they are listed below"
-            << std::endl << script_file.GetErrorMessages() << std::endl;
-    }
-
-    _icon_image = GlobalManager->Media().GetStatusIcon(type, intensity);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// ActiveBattleStatusEffect class
-////////////////////////////////////////////////////////////////////////////////
-
-ActiveBattleStatusEffect::ActiveBattleStatusEffect():
-    GlobalStatusEffect(GLOBAL_STATUS_INVALID, GLOBAL_INTENSITY_NEUTRAL),
-    _timer(0),
-    _icon_image(nullptr),
-    _intensity_changed(false)
-{}
-
-ActiveBattleStatusEffect::ActiveBattleStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity, uint32_t duration) :
-    GlobalStatusEffect(type, intensity),
-    _timer(0),
-    _icon_image(nullptr),
-    _intensity_changed(false)
-{
-    // Check that status effect base value are making it actually active
-    if (!IsActive())
-        return;
-
-    // Make sure that a table entry exists for this status element
-    uint32_t table_id = static_cast<uint32_t>(type);
-    ReadScriptDescriptor &script_file = GlobalManager->GetStatusEffectsScript();
-    if(!script_file.OpenTable(table_id)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "Lua definition file contained no entry for status effect: " << table_id << std::endl;
-        return;
-    }
-
-    // Read in the status effect's property data
-    std::string name = script_file.ReadString("name");
-    _name.SetText(name, TextStyle("text14"));
-
-    // Read the fall back duration when none is given.
-    if(duration == 0)
-        duration = script_file.ReadUInt("default_duration");
-    _timer.SetDuration(duration);
-
-    if(script_file.DoesFunctionExist("BattleApply")) {
-        _apply_function = script_file.ReadFunctionPointer("BattleApply");
-    } else {
-        PRINT_WARNING << "No BattleApply() function found in Lua definition file for status: " << table_id << std::endl;
-    }
-
-    if(script_file.DoesFunctionExist("BattleUpdate")) {
-        _update_function = script_file.ReadFunctionPointer("BattleUpdate");
-    } else {
-        PRINT_WARNING << "No BattleUpdate() function found in Lua definition file for status: " << table_id << std::endl;
-    }
-
-    if(script_file.DoesFunctionExist("BattleRemove")) {
-        _remove_function = script_file.ReadFunctionPointer("BattleRemove");
-    } else {
-        PRINT_WARNING << "No BattleRemove() function found in Lua definition file for status: " << table_id << std::endl;
-    }
-    script_file.CloseTable(); // table_id
-
-    if(script_file.IsErrorDetected()) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "one or more errors occurred while reading status effect data - they are listed below"
-            << std::endl << script_file.GetErrorMessages() << std::endl;
-    }
-
-    // Init the effect timer
-    _timer.EnableManualUpdate();
-    _timer.Reset();
-    _timer.Run();
-
-    _icon_image = GlobalManager->Media().GetStatusIcon(_type, _intensity);
-}
-
-void ActiveBattleStatusEffect::SetIntensity(vt_global::GLOBAL_INTENSITY intensity)
-{
-    if((intensity <= GLOBAL_INTENSITY_INVALID) || (intensity >= GLOBAL_INTENSITY_TOTAL)) {
-        IF_PRINT_WARNING(BATTLE_DEBUG) << "attempted to set status effect to invalid intensity: " << intensity << std::endl;
-        return;
-    }
-
-    bool no_intensity_change = (_intensity == intensity);
-    _intensity = intensity;
-    _ProcessIntensityChange(no_intensity_change);
-}
-
-bool ActiveBattleStatusEffect::IncrementIntensity(uint8_t amount)
-{
-    bool change = GlobalStatusEffect::IncrementIntensity(amount);
-    _ProcessIntensityChange(!change);
-    return change;
-}
-
-bool ActiveBattleStatusEffect::DecrementIntensity(uint8_t amount)
-{
-    bool change = GlobalStatusEffect::DecrementIntensity(amount);
-    _ProcessIntensityChange(!change);
-    return change;
-}
-
-void ActiveBattleStatusEffect::_ProcessIntensityChange(bool reset_timer_only)
-{
-    _timer.Reset();
-    _timer.Run();
-
-    if(reset_timer_only)
-        return;
-
-    _intensity_changed = true;
-    _icon_image = GlobalManager->Media().GetStatusIcon(_type, _intensity);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// EffectsSupervisor class
-////////////////////////////////////////////////////////////////////////////////
 
 BattleStatusEffectsSupervisor::BattleStatusEffectsSupervisor(BattleActor* actor) :
     _actor(actor)
@@ -487,7 +325,7 @@ bool BattleStatusEffectsSupervisor::ChangeActiveStatusEffect(GLOBAL_STATUS statu
         indicator.AddStatusIndicator(x_pos, y_pos, status, previous_intensity, new_intensity);
     }
     return false;
-} // bool EffectsSupervisor::ChangeStatus( ... )
+}
 
 void BattleStatusEffectsSupervisor::AddPassiveStatusEffect(vt_global::GLOBAL_STATUS status_effect, vt_global::GLOBAL_INTENSITY intensity)
 {

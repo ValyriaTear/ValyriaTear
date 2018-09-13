@@ -11,8 +11,8 @@
 #include "modes/battle/finish/battle_victory.h"
 
 #include "modes/battle/battle.h"
-#include "modes/battle/battle_objects/battle_character.h"
-#include "modes/battle/battle_objects/battle_enemy.h"
+#include "modes/battle/objects/battle_character.h"
+#include "modes/battle/objects/battle_enemy.h"
 
 #include "modes/menu/menu_mode.h"
 

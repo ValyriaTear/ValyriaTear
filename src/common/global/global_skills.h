@@ -25,7 +25,7 @@
 #include "global_utils.h"
 
 #include "script/script.h"
-#include "modes/battle/battle_objects/battle_actor.h"
+#include "modes/battle/objects/battle_actor.h"
 
 namespace vt_global
 {

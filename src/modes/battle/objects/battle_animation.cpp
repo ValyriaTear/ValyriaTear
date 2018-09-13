@@ -8,9 +8,12 @@
 // See https://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "modes/battle/battle_objects/battle_particle_effect.h"
+#include "battle_animation.h"
 
 #include "utils/utils_common.h"
+#include "engine/video/video.h"
+
+using namespace vt_video;
 
 namespace vt_battle
 {
@@ -18,21 +21,23 @@ namespace vt_battle
 namespace private_battle
 {
 
-BattleParticleEffect::BattleParticleEffect(const std::string &effect_filename):
-    BattleObject()
+BattleAnimation::BattleAnimation(const std::string& animation_filename):
+    BattleObject(),
+    _visible(true),
+    _can_be_removed(false)
 {
-    if(!_effect.LoadEffect(effect_filename))
-        PRINT_WARNING << "Invalid battle particle effect file requested: "
-                      << effect_filename << std::endl;
+    if(!_animation.LoadFromAnimationScript(animation_filename))
+        PRINT_WARNING << "Invalid battle animation file requested: "
+                      << animation_filename << std::endl;
 }
 
-void BattleParticleEffect::DrawSprite()
+void BattleAnimation::DrawSprite()
 {
-    if(!_effect.IsAlive())
+    if(!IsVisible() || CanBeRemoved())
         return;
 
-    _effect.Move(GetXLocation(), GetYLocation());
-    _effect.Draw();
+    VideoManager->Move(GetXLocation(), GetYLocation());
+    _animation.Draw();
 }
 
 } // namespace private_battle

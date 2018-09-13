@@ -8,25 +8,11 @@
 // See https://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-/** ****************************************************************************
-*** \file    battle_effects.h
-*** \author  Tyler Olsen, roots@allacrost.org
-*** \author  Yohann Ferreira, yohann ferreira orange fr
-*** \brief   Header file for battle actor effects.
-***
-*** This file contains the code that manages effects that influence an actor's
-*** behavior and properties.
-*** ***************************************************************************/
+#ifndef __BATTLE_EFFECTS_SUPERVISOR_HEADER__
+#define __BATTLE_EFFECTS_SUPERVISOR_HEADER__
 
-#ifndef __BATTLE_EFFECTS_HEADER__
-#define __BATTLE_EFFECTS_HEADER__
-
-#include "script/script.h"
-
-#include "common/global/global_effects.h"
-
-#include "engine/video/image.h"
-#include "engine/video/text.h"
+#include "active_effects.h"
+#include "passive_effects.h"
 
 namespace vt_global {
 class GlobalCharacter;
@@ -39,164 +25,6 @@ namespace private_battle
 {
 
 class BattleActor;
-
-/** ****************************************************************************
-*** \brief Manages all data related to a single passive status effect in battle
-***
-*** This class extends the GlobalStatusEffect class, which contains nothing
-*** more than two enum members representing the status type and intensity.
-***
-*** This class represents a passive (from equipment) effect on a single actor.
-*** ***************************************************************************/
-class PassiveBattleStatusEffect : public vt_global::GlobalStatusEffect
-{
-public:
-    /** \param type The status effect type that this class object should represent
-    *** \param intensity The intensity of the status effect
-    **/
-    PassiveBattleStatusEffect(vt_global::GLOBAL_STATUS type, vt_global::GLOBAL_INTENSITY intensity);
-
-    ~PassiveBattleStatusEffect()
-    {}
-
-    //! \brief Class Member Access Functions
-    //@{
-    const vt_video::TextImage& GetName() const {
-        return _name;
-    }
-
-    vt_video::StillImage* GetIconImage() const {
-        return _icon_image;
-    }
-
-    //! \brief Returns the update script function of this passive effect.
-    const luabind::object& GetUpdatePassiveFunction() const {
-        return _update_passive_function;
-    }
-    //@}
-
-private:
-    //! \brief Holds the translated name of the status effect as an image
-    vt_video::TextImage _name;
-
-    //! \brief A pointer to the icon image that represents the status. Will be nullptr if the status is invalid
-    vt_video::StillImage* _icon_image;
-
-    //! The UpdatePassive() scripted function of this effect when used as passive one (from equipment)
-    luabind::object _update_passive_function;
-}; // class PassiveBattleStatusEffect : public vt_global::GlobalStatusEffect
-
-/** ****************************************************************************
-*** \brief Manages all data related to a single status effect in battle
-***
-*** This class extends the GlobalStatusEffect class, which contains nothing
-*** more than two enum members representing the status type and intensity. This
-*** class provides a complete implementation of a status effect, including an
-*** image icon, a timer, and script functions to implement the effect.
-***
-*** This class represents an active effect on a single actor. Objects of this
-*** class are not shared on multiple actors in any form. Status effects
-*** intensity values will naturally decrease in intensity over
-*** time until they reach the neutral intensity level.
-*** ***************************************************************************/
-class ActiveBattleStatusEffect : public vt_global::GlobalStatusEffect
-{
-public:
-    //! \brief Empty constructor
-    ActiveBattleStatusEffect();
-
-    /** \param type The status type that this class object should represent
-    *** \param intensity The intensity of the status
-    *** \param duration The effect duration, a default value is used when none is given.
-    **/
-    ActiveBattleStatusEffect(vt_global::GLOBAL_STATUS type,
-                             vt_global::GLOBAL_INTENSITY intensity,
-                             uint32_t duration = 0);
-
-    ~ActiveBattleStatusEffect()
-    {}
-
-    /** \brief Increments the status effect intensity by a positive amount
-    *** \param amount The number of intensity levels to increase the status effect by
-    *** \return True if the intensity level was modified
-    **/
-    bool IncrementIntensity(uint8_t amount);
-
-    /** \brief Decrements the status effect intensity by a negative amount
-    *** \param amount The number of intensity levels to decrement the status effect by
-    *** \return True if the intensity level was modified
-    *** \note Intensity will not be decremented below GLOBAL_INTENSITY_NEUTRAL
-    **/
-    bool DecrementIntensity(uint8_t amount);
-
-    //! \brief Class Member Access Functions
-    //@{
-    //! \note This will cause the timer to reset and also
-    void SetIntensity(vt_global::GLOBAL_INTENSITY intensity);
-
-    const vt_video::TextImage& GetName() const {
-        return _name;
-    }
-
-    const luabind::object& GetApplyFunction() const {
-        return _apply_function;
-    }
-
-    const luabind::object& GetUpdateFunction() const {
-        return _update_function;
-    }
-
-    const luabind::object& GetRemoveFunction() const {
-        return _remove_function;
-    }
-
-    //! \note Returns a pointer instead of a reference so that Lua functions can access the timer
-    vt_system::SystemTimer* GetTimer() {
-        return &_timer;
-    }
-
-    vt_video::StillImage* GetIconImage() const {
-        return _icon_image;
-    }
-
-    bool HasIntensityChanged() const {
-        return _intensity_changed;
-    }
-
-    void ResetIntensityChanged() {
-        _intensity_changed = false;
-    }
-    //@}
-
-private:
-    //! \brief Holds the translated name of the status effect
-    vt_video::TextImage _name;
-
-    //! \brief A pointer to the script function that applies the initial effect
-    luabind::object _apply_function;
-
-    //! \brief A pointer to the script function that updates any necessary changes caused by the effect
-    luabind::object _update_function;
-
-    //! \brief A pointer to the script function that removes the effect and restores the actor to their original state
-    luabind::object _remove_function;
-
-    //! \brief A timer used to determine how long the status effect lasts
-    vt_system::SystemTimer _timer;
-
-    //! \brief A pointer to the icon image that represents the status. Will be nullptr if the status is invalid
-    vt_video::StillImage* _icon_image;
-
-    //! \brief A flag set to true when the intensity value was changed and cleared when the Update method is called
-    bool _intensity_changed;
-
-    /** \brief Performs necessary operations in response to a change in intensity
-    *** \param reset_timer_only If true, this indicates that the intensity level remains unchanged and only the timer needs to be reset
-    ***
-    *** This method should be called after every change in intensity is made.
-    **/
-    void _ProcessIntensityChange(bool reset_timer_only);
-}; // class ActiveBattleStatusEffect : public vt_global::GlobalStatusEffect
 
 /** ****************************************************************************
 *** \brief Manages all elemental and status elements for an actor
@@ -313,10 +141,10 @@ private:
     //! \brief Updates the passive (equipment) status effects
     //! \note This method is called from within Update()
     void _UpdatePassive();
-}; // class BattleStatusEffectsSupervisor
+};
 
 } // namespace private_battle
 
 } // namespace vt_battle
 
-#endif // __BATTLE_EFFECTS_HEADER__
+#endif // __BATTLE_EFFECTS_SUPERVISOR_HEADER__

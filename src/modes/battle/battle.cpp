@@ -32,15 +32,13 @@
 
 #include "modes/battle/finish/battle_defeat.h"
 #include "modes/battle/finish/battle_victory.h"
-#include "modes/battle/battle_objects/battle_animation.h"
-#include "modes/battle/battle_objects/battle_character.h"
-#include "modes/battle/battle_objects/battle_enemy.h"
-#include "modes/battle/battle_objects/battle_particle_effect.h"
-#include "modes/battle/battle_actions/skill_action.h"
-#include "modes/battle/battle_command.h"
-#include "modes/battle/battle_effects.h"
+#include "modes/battle/objects/battle_animation.h"
+#include "modes/battle/objects/battle_character.h"
+#include "modes/battle/objects/battle_enemy.h"
+#include "modes/battle/objects/battle_particle_effect.h"
+#include "modes/battle/actions/skill_action.h"
+#include "modes/battle/command/command_supervisor.h"
 #include "modes/battle/battle_sequence.h"
-#include "modes/battle/battle_utils.h"
 
 #include "common/global/global.h"
 #include "common/global/actors/global_character.h"
@@ -85,6 +83,13 @@ const float BATTLE_ACTIVE_FACTOR        = 3.0f;
 
 //! \brief This is the idle state wait time for the fastest actor, used to set idle state timers for all other actors
 const uint32_t MIN_IDLE_WAIT_TIME = 1000;
+
+//! \brief Position constants representing the significant locations along the stamina meter
+//@{
+//! \brief The X and Y position of the stamina bar
+const float STAMINA_BAR_POSITION_X = 970.0f;
+const float STAMINA_BAR_POSITION_Y = 640.0f;
+//@}
 
 } // namespace private_battle
 
@@ -1193,7 +1198,7 @@ void BattleMode::_DrawStaminaBar()
 
     // Draw the stamina bar
     VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
-    VideoManager->Move(STAMINA_BAR_POSITION_X, STAMINA_BAR_POSITION_Y); // 1010
+    VideoManager->Move(STAMINA_BAR_POSITION_X, STAMINA_BAR_POSITION_Y);
     BattleMedia& battle_media = GlobalManager->GetBattleMedia();
     battle_media.stamina_meter.Draw();
 

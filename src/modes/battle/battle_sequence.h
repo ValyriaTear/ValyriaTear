@@ -24,7 +24,6 @@
 #define __BATTLE_SEQUENCE_HEADER__
 
 #include "modes/battle/battle.h"
-#include "modes/battle/battle_utils.h"
 
 #include "engine/audio/audio.h"
 #include "engine/mode_manager.h"

@@ -11,7 +11,9 @@
 #ifndef __BATTLE_TARGET_HEADER__
 #define __BATTLE_TARGET_HEADER__
 
-#include "modes/battle/battle_objects/battle_actor.h"
+#include "modes/battle/objects/battle_actor.h"
+
+#include <deque>
 
 namespace vt_battle
 {

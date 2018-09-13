@@ -24,7 +24,6 @@
 #ifndef __BATTLE_HEADER__
 #define __BATTLE_HEADER__
 
-#include "battle_utils.h"
 #include "battle_menu.h"
 
 #include "engine/mode_manager.h"
@@ -57,6 +56,18 @@ class BattleAnimation;
 class BattleFinish;
 class CommandSupervisor;
 class SequenceSupervisor;
+
+//! \brief Used to indicate what state the overall battle is currently operating in
+enum BATTLE_STATE {
+    BATTLE_STATE_INVALID   = -1,
+    BATTLE_STATE_INITIAL   =  0, //!< Character sprites are running in from off-screen to their battle positions
+    BATTLE_STATE_NORMAL    =  1, //!< Normal state where player is watching actions play out and waiting for a turn
+    BATTLE_STATE_COMMAND   =  2, //!< Player is choosing a command for a character
+    BATTLE_STATE_VICTORY   =  3, //!< Battle has ended with the characters victorious
+    BATTLE_STATE_DEFEAT    =  4, //!< Battle has ended with the characters defeated
+    BATTLE_STATE_EXITING   =  5, //!< Player has closed battle windows and battle mode is fading out
+    BATTLE_STATE_TOTAL     =  6
+};
 
 } // namespace private_battle
 

@@ -8,11 +8,11 @@
 // See https://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "modes/battle/battle_objects/battle_enemy.h"
+#include "battle_enemy.h"
 
 #include "modes/battle/battle.h"
-#include "modes/battle/battle_actions/item_action.h"
-#include "modes/battle/battle_effects.h"
+#include "modes/battle/actions/item_action.h"
+#include "modes/battle/status_effects/status_effects_supervisor.h"
 
 #include "common/global/global.h"
 
@@ -28,21 +28,8 @@ namespace vt_battle
 
 namespace private_battle
 {
-// Used to make the hardcoded action movement more or less wide.
+//! \brief Used to make the hardcoded action movement more or less wide.
 const uint32_t MOVEMENT_SIZE = 64;
-
-
-/*
-
-//! \brief The bottom most position of the stamina bar
-const float STAMINA_LOCATION_BOTTOM = 640.0f;
-
-//! \brief The location where each actor is allowed to select a command
-const float STAMINA_LOCATION_COMMAND = STAMINA_LOCATION_BOTTOM - 354.0f;
-
-//! \brief The top most position of the stamina bar where actors are ready to execute their actions
-const float STAMINA_LOCATION_TOP = STAMINA_LOCATION_BOTTOM - 508.0f;
-*/
 
 BattleEnemy::BattleEnemy(uint32_t enemy_id) :
     BattleActor(new vt_global::GlobalEnemy(enemy_id)),

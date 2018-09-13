@@ -8,10 +8,9 @@
 // See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "modes/battle/battle_utils.h"
+#include "modes/battle/battle_damage.h"
 
 #include "modes/battle/battle_target.h"
-#include "modes/battle/battle_objects/battle_actor.h"
 
 #include "common/global/actors/global_attack_point.h"
 
@@ -87,7 +86,8 @@ uint32_t RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, ui
     return RndPhysicalDamage(attacker, target_actor->GetActor(), add_atk, mul_atk, -1);
 }
 
-uint32_t RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor, uint32_t add_atk, float mul_atk, int32_t attack_point)
+uint32_t RndPhysicalDamage(BattleActor* attacker, BattleTarget* target_actor,
+                           uint32_t add_atk, float mul_atk, int32_t attack_point)
 {
     return RndPhysicalDamage(attacker, target_actor->GetActor(), add_atk, mul_atk, attack_point);
 }
@@ -110,7 +110,7 @@ uint32_t RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
 }
 
 uint32_t RndPhysicalDamage(BattleActor* attacker, BattleActor* target_actor,
-                         uint32_t add_atk, float mul_atk, int32_t attack_point)
+                           uint32_t add_atk, float mul_atk, int32_t attack_point)
 {
     if(attacker == nullptr) {
         PRINT_WARNING << "function received nullptr attacker argument" << std::endl;

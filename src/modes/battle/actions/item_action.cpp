@@ -8,7 +8,7 @@
 // See https://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "modes/battle/battle_actions/item_action.h"
+#include "item_action.h"
 
 #include "common/global/objects/global_item.h"
 #include "engine/system.h"
