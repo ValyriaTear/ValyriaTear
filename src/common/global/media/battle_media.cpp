@@ -8,12 +8,6 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-/** ****************************************************************************
-*** \file    battle_media.cpp
-*** \author  Tyler Olsen, rootslinux@allacrost.org
-*** \author  Yohann Ferreira, yohann ferreira orange fr
-*** ***************************************************************************/ 
-
 #include "battle_media.h"
 
 #include "engine/system.h"
@@ -23,10 +17,6 @@
 
 namespace vt_global
 {
-
-////////////////////////////////////////////////////////////////////////////////
-// BattleMedia class
-////////////////////////////////////////////////////////////////////////////////
 
 // Filenames of the default music that is played when no specific music is requested
 //@{

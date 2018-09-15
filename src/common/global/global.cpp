@@ -38,14 +38,8 @@ using namespace vt_system;
 namespace vt_global
 {
 
-using namespace private_global;
-
-GameGlobal *GlobalManager = nullptr;
+GameGlobal* GlobalManager = nullptr;
 bool GLOBAL_DEBUG = false;
-
-////////////////////////////////////////////////////////////////////////////////
-// GameGlobal class - Initialization and Destruction
-////////////////////////////////////////////////////////////////////////////////
 
 GameGlobal::GameGlobal() :
     _game_slot_id(std::numeric_limits<uint32_t>::max()),

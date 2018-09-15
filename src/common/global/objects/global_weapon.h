@@ -13,6 +13,8 @@
 
 #include "global_object.h"
 
+#include <map>
+
 namespace vt_global
 {
 

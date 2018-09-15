@@ -12,6 +12,7 @@
 #define __BATTLE_DAMAGE_HEADER__
 
 #include "common/global/objects/global_item.h"
+#include "common/global/status_effects/status_effect_enums.h"
 
 namespace vt_battle
 {

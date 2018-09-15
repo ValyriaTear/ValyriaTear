@@ -29,11 +29,10 @@
 
 #include "common/global/actors/global_attack_point.h"
 #include "common/global/global.h"
-#include "common/global/global_effects.h"
+#include "common/global/status_effects/global_effects.h"
 #include "common/global/objects/global_weapon.h"
 #include "common/global/objects/global_armor.h"
 #include "common/global/global_skills.h"
-#include "common/global/global_utils.h"
 #include "common/global/actors/global_character.h"
 #include "common/global/actors/global_enemy.h"
 #include "modes/battle/battle_target.h"
@@ -149,9 +148,6 @@ void BindCommonCode()
 
             // Namespace constants
             .enum_("constants") [
-                // Character types
-                luabind::value("GLOBAL_CHARACTER_INVALID", GLOBAL_CHARACTER_INVALID),
-                luabind::value("GLOBAL_CHARACTER_ALL", GLOBAL_CHARACTER_ALL),
                 // Object types
                 luabind::value("GLOBAL_OBJECT_INVALID", GLOBAL_OBJECT_INVALID),
                 luabind::value("GLOBAL_OBJECT_ITEM", GLOBAL_OBJECT_ITEM),
@@ -161,11 +157,6 @@ void BindCommonCode()
                 luabind::value("GLOBAL_OBJECT_ARM_ARMOR", GLOBAL_OBJECT_ARM_ARMOR),
                 luabind::value("GLOBAL_OBJECT_LEG_ARMOR", GLOBAL_OBJECT_LEG_ARMOR),
                 luabind::value("GLOBAL_OBJECT_SPIRIT", GLOBAL_OBJECT_SPIRIT),
-                // Item usage constants
-                luabind::value("GLOBAL_USE_INVALID", GLOBAL_USE_INVALID),
-                luabind::value("GLOBAL_USE_FIELD", GLOBAL_USE_FIELD),
-                luabind::value("GLOBAL_USE_BATTLE", GLOBAL_USE_BATTLE),
-                luabind::value("GLOBAL_USE_ALL", GLOBAL_USE_ALL),
                 // Item and skill alignment constants
                 luabind::value("GLOBAL_POSITION_HEAD", GLOBAL_POSITION_HEAD),
                 luabind::value("GLOBAL_POSITION_TORSO", GLOBAL_POSITION_TORSO),

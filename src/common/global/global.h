@@ -30,6 +30,9 @@
 #include "script/script_read.h"
 #include "script/script_write.h"
 
+#include "media/global_media.h"
+#include "media/battle_media.h"
+
 #include "skill_graph/skill_graph.h"
 #include "actors/global_actor.h"
 #include "actors/global_party.h"
@@ -37,16 +40,12 @@
 #include "objects/global_armor.h"
 #include "objects/global_weapon.h"
 
-#include "global_effects.h"
 #include "global_skills.h"
-#include "global_utils.h"
 
 #include "global_event_group.h"
 #include "quest_log.h"
 #include "shop_data.h"
 #include "worldmap_location.h"
-
-#include "battle_media.h"
 
 #include "modes/map/map_utils.h"
 #include "modes/map/map_location.h"
@@ -63,6 +62,9 @@ extern GameGlobal* GlobalManager;
 
 //! \brief Determines whether the code in the vt_global namespace should print debug statements or not.
 extern bool GLOBAL_DEBUG;
+
+//! \brief The maximum number of characters that can be in the active party
+const uint32_t GLOBAL_MAX_PARTY_SIZE = 4;
 
 /** ****************************************************************************
 *** \brief Retains all the state information about the active game

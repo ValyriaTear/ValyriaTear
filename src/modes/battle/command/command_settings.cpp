@@ -15,7 +15,7 @@
 #include "engine/video/video.h"
 
 #include "common/global/global.h"
-#include "common/global/battle_media.h"
+#include "common/global/media/battle_media.h"
 #include "common/global/actors/global_character.h"
 
 using namespace vt_global;

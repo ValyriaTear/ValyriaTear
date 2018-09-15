@@ -23,9 +23,7 @@
 *** as necessary to gain an understanding of this code style.
 *** **************************************************************************/
 
-// Common code headers
 #include "common/dialogue.h"
-#include "common/global/global_effects.h"
 #include "common/global/actors/global_character.h"
 
 #include "modes/boot/boot.h"

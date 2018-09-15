@@ -8,45 +8,15 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-/** ****************************************************************************
-*** \file    global_effects.h
-*** \author  Jacob Rudolph, rujasu@allacrost.org
-*** \author  Yohann Ferreira, yohann ferreira orange fr
-*** \brief   Header file for global game effects
-***
-*** This file contains the class implementation for status and elemental effects.
-*** Status effects are certain states that characters and enemies may fall in
-*** to while in battle, such as being poisoned or confused. Elemental effects
-*** are special properties that allow an aggressor to take advantage of to
-*** expose a weakness on a target.
-*** ***************************************************************************/
-
 #ifndef __GLOBAL_EFFECTS_HEADER__
 #define __GLOBAL_EFFECTS_HEADER__
 
-#include "global_utils.h"
+#include "global_active_effect.h"
 
 #include "engine/system.h"
 
 namespace vt_global
 {
-
-/** \brief Retrieves a string representation for any GLOBAL_ELEMENTAL enum value
-*** \param type The elemental enum value to find the string for
-*** \return Translated text that describes the elemental
-**/
-std::string GetElementName(GLOBAL_ELEMENTAL type);
-
-/** \brief Retrieves a string representation for any GLOBAL_STATUS enum value
-*** \param type The status enum value to find the string for
-*** \return Translated text that describes the status
-***
-*** \note Each call to this function requires the status name to be retrieved from
-*** a Lua script so its a slightly costly operation. If you need to make repeated
-*** queries to retrieve status names, consider caching results locally to reduce the
-*** number of script file accesses that need to take place.
-**/
-std::string GetStatusName(GLOBAL_STATUS type);
 
 /** ****************************************************************************
 *** \brief Represents a status effect in the game

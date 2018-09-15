@@ -14,7 +14,6 @@
 
 #include "utils/utils_strings.h"
 
-using namespace vt_global::private_global;
 using namespace vt_script;
 using namespace vt_utils;
 

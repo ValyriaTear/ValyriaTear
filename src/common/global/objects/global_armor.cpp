@@ -14,7 +14,6 @@
 
 using namespace vt_utils;
 using namespace vt_script;
-using namespace vt_global::private_global;
 
 namespace vt_global
 {

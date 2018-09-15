@@ -22,13 +22,37 @@
 #ifndef __GLOBAL_SKILLS_HEADER__
 #define __GLOBAL_SKILLS_HEADER__
 
-#include "global_utils.h"
-
 #include "script/script.h"
 #include "modes/battle/objects/battle_actor.h"
 
 namespace vt_global
 {
+
+//! \name Skill Types
+//! \brief Enum values used to identify the type of a skill.
+enum GLOBAL_SKILL {
+    GLOBAL_SKILL_INVALID     = -1,
+    GLOBAL_SKILL_WEAPON      =  0,
+    GLOBAL_SKILL_MAGIC       =  1,
+    GLOBAL_SKILL_SPECIAL     =  2,
+    GLOBAL_SKILL_BARE_HANDS  =  3,
+    GLOBAL_SKILL_TOTAL       =  4
+};
+
+/** \name Skill ID Range Constants
+*** These constants set the maximum valid ID ranges for each skill category.
+*** The full valid range for each skill category ID is:
+*** - Weapon:         1-10000
+*** - Magic:      10001-20000
+*** - Special:    20001-30000
+*** - Bare-hands: 30001-40000
+**/
+//@{
+const uint32_t MAX_WEAPON_SKILL_ID     = 10000;
+const uint32_t MAX_MAGIC_SKILL_ID      = 20000;
+const uint32_t MAX_SPECIAL_SKILL_ID    = 30000;
+const uint32_t MAX_BARE_HANDS_SKILL_ID = 40000;
+//@}
 
 /** ****************************************************************************
 *** \brief Represents skills that are used in the game by both characters and enemies

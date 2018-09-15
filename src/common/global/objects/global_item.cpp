@@ -11,9 +11,7 @@
 #include "global_item.h"
 
 #include "common/global/global.h"
-#include "common/global/global_utils.h"
 
-using namespace vt_global::private_global;
 using namespace vt_script;
 
 namespace vt_global

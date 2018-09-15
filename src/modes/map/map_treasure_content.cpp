@@ -10,7 +10,7 @@
 
 #include "modes/map/map_treasure_content.h"
 
-#include "common/global/global_utils.h"
+#include "common/global/objects/global_object.h"
 
 #include "utils/utils_common.h"
 

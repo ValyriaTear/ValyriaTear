@@ -8,20 +8,10 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-/** ****************************************************************************
-*** \file    global_utils.h
-*** \author  Tyler Olsen, rootslinux@allacrost.org
-*** \author  Yohann Ferreira, yohann ferreira orange fr
-*** \brief   Header file for global game utility code
-***
-*** This file contains several common constants, enums, and functions that are
-*** used by various global classes.
-*** ***************************************************************************/
-
 #ifndef __BATTLE_MEDIA_HEADER__
 #define __BATTLE_MEDIA_HEADER__
 
-#include "global_utils.h"
+#include "common/global/global_target.h"
 
 #include "engine/video/image.h"
 #include "engine/video/text.h"
@@ -31,17 +21,12 @@
 namespace vt_global {
 
 /** ****************************************************************************
-*** \brief A specialized class to BattleMode that holds various related  multimedia data
+*** \brief A specialized class to BattleMode that holds various related multimedia data
 ***
 *** Many of the battle mode interfaces require access to a common set of media data.
 *** This class retains all of this common media data and makes it available for these
 *** classes to utilize. It also serves to reduce the number of methods and members of
 *** the BattleMode class.
-***
-*** \note Although most of the images and audio data here are public, you should take
-*** extreme care when modifying any of the properties of this data, such as loading out
-*** a different image or changing its size, as this could have implications for other
-*** battle classes that also use this data.
 *** ***************************************************************************/
 class BattleMedia
 {

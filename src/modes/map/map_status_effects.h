@@ -19,9 +19,11 @@
 #ifndef __MAP_STATUS_EFFECTS_HEADER__
 #define __MAP_STATUS_EFFECTS_HEADER__
 
+#include "common/global/status_effects/global_effects.h"
+
 #include "script/script.h"
 
-#include "common/global/global_effects.h"
+#include "engine/video/image.h"
 
 namespace vt_global {
 class GlobalCharacter;

@@ -12,11 +12,25 @@
 #define __GLOBAL_ITEM_HEADER__
 
 #include "global_object.h"
+#include "common/global/global_target.h"
 
 #include "script/script_read.h"
 
 namespace vt_global
 {
+
+//! \brief The different item categories
+enum ITEM_CATEGORY {
+    ITEM_ALL = 0,
+    ITEM_ITEM = 1,
+    ITEM_WEAPON = 2,
+    ITEM_HEAD_ARMOR = 3,
+    ITEM_TORSO_ARMOR = 4,
+    ITEM_ARMS_ARMOR = 5,
+    ITEM_LEGS_ARMOR = 6,
+    ITEM_KEY = 7,
+    ITEM_CATEGORY_SIZE = 8
+};
 
 /** ****************************************************************************
 *** \brief Represents items used throughout the game
@@ -109,7 +123,7 @@ private:
 
     //! \brief map containing the animation scripts names linked to each characters id for the given skill.
     std::map <uint32_t, std::string> _animation_scripts;
-}; // class GlobalItem : public GlobalObject
+};
 
 } // namespace vt_global
 

@@ -12,6 +12,9 @@
 #define __GLOBAL_ENEMY_HEADER__
 
 #include "global_actor.h"
+#include "common/global/objects/global_object.h"
+
+#include <memory>
 
 namespace vt_script
 {
@@ -20,6 +23,15 @@ class ReadScriptDescriptor;
 
 namespace vt_global
 {
+
+//! \brief The Battle enemies harm levels
+enum GLOBAL_ENEMY_HURT {
+    GLOBAL_ENEMY_HURT_NONE     = 0,
+    GLOBAL_ENEMY_HURT_SLIGHTLY = 1,
+    GLOBAL_ENEMY_HURT_MEDIUM   = 2,
+    GLOBAL_ENEMY_HURT_HEAVILY  = 3,
+    GLOBAL_ENEMY_HURT_TOTAL    = 4,
+};
 
 /** ****************************************************************************
 *** \brief Representation of enemies that fight in battles

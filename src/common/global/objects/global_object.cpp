@@ -10,10 +10,40 @@
 
 #include "global_object.h"
 
+#include "global_item.h"
+#include "global_weapon.h"
+#include "global_armor.h"
+#include "global_spirit.h"
+
 #include "script/script_read.h"
 
 namespace vt_global
 {
+
+std::shared_ptr<GlobalObject> GlobalCreateNewObject(uint32_t id, uint32_t count)
+{
+    std::shared_ptr<GlobalObject> new_object = nullptr;
+
+    if ((id > 0 && id <= MAX_ITEM_ID) ||
+        (id > MAX_SPIRIT_ID && id <= MAX_KEY_ITEM_ID))
+        new_object = std::make_shared<GlobalItem>(id, count);
+    else if ((id > MAX_ITEM_ID) && (id <= MAX_WEAPON_ID))
+        new_object = std::make_shared<GlobalWeapon>(id, count);
+    else if ((id > MAX_WEAPON_ID) && (id <= MAX_LEG_ARMOR_ID))
+        new_object = std::make_shared<GlobalArmor>(id, count);
+    else if ((id > MAX_LEG_ARMOR_ID) && (id <= MAX_SPIRIT_ID))
+        new_object = std::make_shared<GlobalSpirit>(id, count);
+    else
+        PRINT_WARNING << "function received an invalid id argument: " << id << std::endl;
+
+    // If an object was created but its ID was set to nullptr, this indicates that the object is invalid
+    if ((new_object != nullptr) &&
+        (new_object->GetID() == 0)) {
+        new_object = nullptr;
+    }
+
+    return new_object;
+}
 
 void GlobalObject::_LoadObjectData(vt_script::ReadScriptDescriptor &script)
 {

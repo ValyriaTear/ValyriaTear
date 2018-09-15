@@ -11,11 +11,13 @@
 #ifndef __GLOBAL_ATTACK_POINT_HEADER__
 #define __GLOBAL_ATTACK_POINT_HEADER__
 
-#include "common/global/global_utils.h"
+#include "common/global/status_effects/status_effect_enums.h"
 
 #include "engine/video/image.h"
 
 #include "utils/ustring.h"
+
+#include <memory>
 
 namespace vt_script
 {
@@ -27,6 +29,17 @@ namespace vt_global
 
 class GlobalArmor;
 class GlobalActor;
+
+/** \name Character Attack Point Positions
+*** \brief They represent the index location of the attack points and armor types for characters
+**/
+enum GLOBAL_POSITION {
+    GLOBAL_POSITION_HEAD     = 0,
+    GLOBAL_POSITION_TORSO    = 1,
+    GLOBAL_POSITION_ARMS     = 2,
+    GLOBAL_POSITION_LEGS     = 3,
+    GLOBAL_POSITION_INVALID  = 4
+};
 
 /** ****************************************************************************
 *** \brief Represents the points of attack present on an actor

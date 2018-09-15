@@ -11,9 +11,13 @@
 #ifndef __GLOBAL_OBJECT_HEADER__
 #define __GLOBAL_OBJECT_HEADER__
 
-#include "common/global/global_utils.h"
+#include "common/global/status_effects/status_effect_enums.h"
+
+#include "engine/video/image.h"
 
 #include "utils/ustring.h"
+
+#include <memory>
 
 namespace vt_script {
 class ReadScriptDescriptor;
@@ -21,6 +25,58 @@ class ReadScriptDescriptor;
 
 namespace vt_global
 {
+
+class GlobalObject;
+
+/** \name GlobalObject Types
+*** \brief Used for identification of different game object types
+**/
+enum GLOBAL_OBJECT {
+    GLOBAL_OBJECT_INVALID     = -1,
+    GLOBAL_OBJECT_ITEM        =  0,
+    GLOBAL_OBJECT_WEAPON      =  1,
+    GLOBAL_OBJECT_HEAD_ARMOR  =  2,
+    GLOBAL_OBJECT_TORSO_ARMOR =  3,
+    GLOBAL_OBJECT_ARM_ARMOR   =  4,
+    GLOBAL_OBJECT_LEG_ARMOR   =  5,
+    GLOBAL_OBJECT_SPIRIT      =  6,
+    GLOBAL_OBJECT_TOTAL       =  7
+};
+
+/** \name Object ID Range Constants
+*** These constants set the maximum valid ID ranges for each object category.
+*** The full valid range for each object category ID is:
+*** - Items:            1-10000
+*** - Weapons:      10001-20000
+*** - Head Armor:   20001-30000
+*** - Torso Armor:  30001-40000
+*** - Arm Armor:    40001-50000
+*** - Leg Armor:    50001-60000
+*** - Spirits:      60001-70000
+*** - Key Items:    70001-80000 // Old, now any kind of item can be a key item.
+**/
+//@{
+const uint32_t OBJECT_ID_INVALID   = 0;
+const uint32_t MAX_ITEM_ID         = 10000;
+const uint32_t MAX_WEAPON_ID       = 20000;
+const uint32_t MAX_HEAD_ARMOR_ID   = 30000;
+const uint32_t MAX_TORSO_ARMOR_ID  = 40000;
+const uint32_t MAX_ARM_ARMOR_ID    = 50000;
+const uint32_t MAX_LEG_ARMOR_ID    = 60000;
+const uint32_t MAX_SPIRIT_ID       = 70000;
+const uint32_t MAX_KEY_ITEM_ID     = 80000;
+const uint32_t OBJECT_ID_EXCEEDS   = 80001;
+//@}
+
+/** \brief Creates a new GlobalObject and returns a pointer to it
+*** \param id The id value of the object to create
+*** \param count The count of the new object to create (default value == 1)
+*** \return A pointer to the newly created GlobalObject, or nullptr if the object could not be created
+***
+*** This function does not actually create a GlobalObject (it can't since its an abstract class).
+*** It creates one of the derived object class types depending on the value of the id argument.
+**/
+std::shared_ptr<GlobalObject> GlobalCreateNewObject(uint32_t id, uint32_t count = 1);
 
 /** ****************************************************************************
 *** \brief An abstract base class for representing a game object

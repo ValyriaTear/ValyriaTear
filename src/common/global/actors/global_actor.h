@@ -13,7 +13,8 @@
 
 #include "global_stat.h"
 
-#include "common/global/global_utils.h"
+#include "common/global/status_effects/status_effect_enums.h"
+#include "engine/video/image.h"
 
 #include "utils/ustring.h"
 

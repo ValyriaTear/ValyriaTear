@@ -11,7 +11,7 @@
 #ifndef __BATTLE_PASSIVE_EFFECTS_HEADER__
 #define __BATTLE_PASSIVE_EFFECTS_HEADER__
 
-#include "common/global/global_effects.h"
+#include "common/global/status_effects/global_effects.h"
 
 #include "engine/video/text.h"
 

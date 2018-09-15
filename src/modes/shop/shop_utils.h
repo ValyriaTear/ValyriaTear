@@ -21,7 +21,7 @@
 #ifndef __SHOP_UTILS_HEADER__
 #define __SHOP_UTILS_HEADER__
 
-#include "common/global/global_utils.h"
+#include "common/global/objects/global_object.h"
 
 #include "common/gui/textbox.h"
 #include "common/gui/option.h"

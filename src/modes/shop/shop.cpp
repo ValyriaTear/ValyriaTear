@@ -1910,8 +1910,8 @@ bool ShopMode::AddItem(uint32_t object_id, uint32_t stock)
         return false;
     }
 
-    if(object_id == private_global::OBJECT_ID_INVALID ||
-           object_id >= private_global::OBJECT_ID_EXCEEDS) {
+    if(object_id == OBJECT_ID_INVALID ||
+           object_id >= OBJECT_ID_EXCEEDS) {
         PRINT_WARNING << "attempted to add object with invalid id: "
                       << object_id << std::endl;
         return false;
@@ -1949,8 +1949,8 @@ bool ShopMode::AddTrade(uint32_t object_id, uint32_t stock)
         return false;
     }
 
-    if(object_id == private_global::OBJECT_ID_INVALID ||
-           object_id >= private_global::OBJECT_ID_EXCEEDS) {
+    if(object_id == OBJECT_ID_INVALID ||
+           object_id >= OBJECT_ID_EXCEEDS) {
         PRINT_WARNING << "attempted to add object with invalid id: "
                       << object_id << std::endl;
         return false;

@@ -26,7 +26,7 @@
 #include "modes/battle/objects/battle_character.h"
 #include "modes/battle/objects/battle_enemy.h"
 
-#include "common/global/battle_media.h"
+#include "common/global/media/battle_media.h"
 #include "common/global/global.h"
 
 using namespace vt_utils;

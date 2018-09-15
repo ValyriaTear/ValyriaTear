@@ -17,67 +17,17 @@
 
 #include "global_effects.h"
 
-#include "global.h"
+#include "common/global/global.h"
 
 #include "engine/system.h"
+#include "script/script_read.h"
 
 using namespace vt_utils;
-
 using namespace vt_script;
 using namespace vt_system;
 
 namespace vt_global
 {
-
-std::string GetElementName(GLOBAL_ELEMENTAL type)
-{
-    switch(type) {
-    case GLOBAL_ELEMENTAL_FIRE:
-        return Translate("Fire");
-    case GLOBAL_ELEMENTAL_WATER:
-        return Translate("Water");
-    case GLOBAL_ELEMENTAL_VOLT:
-        return Translate("Volt");
-    case GLOBAL_ELEMENTAL_EARTH:
-        return Translate("Earth");
-    case GLOBAL_ELEMENTAL_LIFE:
-        return Translate("Life");
-    case GLOBAL_ELEMENTAL_DEATH:
-        return Translate("Death");
-    case GLOBAL_ELEMENTAL_NEUTRAL:
-        return Translate("Neutral");
-    default:
-        return Translate("Invalid Element");
-    }
-}
-
-std::string GetStatusName(GLOBAL_STATUS type)
-{
-    std::string result;
-    int32_t table_id = static_cast<int32_t>(type);
-
-    ReadScriptDescriptor &script_file = GlobalManager->GetStatusEffectsScript();
-    if(script_file.DoesTableExist(table_id)) {
-        script_file.OpenTable(table_id);
-        if(script_file.DoesStringExist("name")) {
-            result = script_file.ReadString("name");
-        } else {
-            IF_PRINT_WARNING(GLOBAL_DEBUG) << "Lua definition file contained an entry but no name for status effect: " << type << std::endl;
-        }
-        script_file.CloseTable();
-    } else {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "Lua definition file contained no entry for status effect: " << type << std::endl;
-    }
-
-    if(result.empty()) {
-        result = Translate("Invalid Status");
-    }
-    return result;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// GlobalStatusEffect class
-////////////////////////////////////////////////////////////////////////////////
 
 GlobalStatusEffect::GlobalStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY intensity) :
         _type(type),
@@ -120,12 +70,46 @@ GlobalStatusEffect::GlobalStatusEffect(GLOBAL_STATUS type, GLOBAL_INTENSITY inte
 
 bool GlobalStatusEffect::IncrementIntensity(uint8_t amount)
 {
-    return vt_global::IncrementIntensity(_intensity, amount);
+    if(amount == 0)
+        return false;
+    if((_intensity <= GLOBAL_INTENSITY_INVALID) || (_intensity >= GLOBAL_INTENSITY_POS_EXTREME))
+        return false;
+
+    // This check protects against overflow conditions
+    if(amount > (GLOBAL_INTENSITY_TOTAL * 2)) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to increment intensity by an excessive amount: " << amount << std::endl;
+        if(_intensity == GLOBAL_INTENSITY_POS_EXTREME) {
+            return false;
+        } else {
+            _intensity = GLOBAL_INTENSITY_POS_EXTREME;
+            return true;
+        }
+    }
+
+    _intensity = GLOBAL_INTENSITY(_intensity + amount);
+    if(_intensity >= GLOBAL_INTENSITY_TOTAL)
+        _intensity = GLOBAL_INTENSITY_POS_EXTREME;
+    return true;
 }
 
 bool GlobalStatusEffect::DecrementIntensity(uint8_t amount)
 {
-    return vt_global::DecrementIntensity(_intensity, amount);
+    if(amount == 0)
+        return false;
+    if((_intensity <= GLOBAL_INTENSITY_NEG_EXTREME) || (_intensity >= GLOBAL_INTENSITY_TOTAL))
+        return false;
+
+    // This check protects against overflow conditions
+    if(amount > (GLOBAL_INTENSITY_TOTAL * 2)) {
+        IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to decrement intensity by an excessive amount: " << amount << std::endl;
+        _intensity = GLOBAL_INTENSITY_NEG_EXTREME;
+        return true;
+    }
+
+    _intensity = GLOBAL_INTENSITY(_intensity - amount);
+    if(_intensity <= GLOBAL_INTENSITY_INVALID)
+        _intensity = GLOBAL_INTENSITY_NEG_EXTREME;
+    return true;
 }
 
 } // namespace vt_global

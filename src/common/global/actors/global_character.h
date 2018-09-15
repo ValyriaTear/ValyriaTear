@@ -13,7 +13,11 @@
 
 #include "global_actor.h"
 
-#include "common/global/global_utils.h"
+#include "common/global/status_effects/global_active_effect.h"
+#include "global_attack_point.h"
+
+#include <memory>
+#include <map>
 
 namespace vt_script {
 class ReadScriptDescriptor;
@@ -25,6 +29,18 @@ namespace vt_global
 
 class GlobalArmor;
 class GlobalWeapon;
+
+/** \name Game Character IDs
+*** \brief Integers that are used for identification of characters
+*** These series of constants are used as bit-masks for determining things such as if the character
+*** may use a certain item. Only one bit should be set for each character ID.
+***
+*** \note The IDs for each character are defined in the data/global.lua file.
+**/
+//@{
+const uint32_t GLOBAL_CHARACTER_INVALID     = 0x00000000;
+const uint32_t GLOBAL_CHARACTER_ALL         = 0xFFFFFFFF;
+//@}
 
 /** ****************************************************************************
 *** \brief Represents a playable game character

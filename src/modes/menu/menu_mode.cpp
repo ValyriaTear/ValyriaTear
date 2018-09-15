@@ -25,12 +25,31 @@
 
 #include "utils/exception.h"
 
+using namespace vt_global;
+
 namespace vt_menu
 {
 
 bool MENU_DEBUG = false;
 
 MenuMode *MenuMode::_current_instance = nullptr;
+
+uint32_t GetEquipmentPositionFromObjectType(GLOBAL_OBJECT object_type)
+{
+    switch (object_type) {
+    default:
+       break;
+    case GLOBAL_OBJECT_HEAD_ARMOR:
+        return GLOBAL_POSITION_HEAD;
+    case GLOBAL_OBJECT_TORSO_ARMOR:
+        return GLOBAL_POSITION_TORSO;
+    case GLOBAL_OBJECT_ARM_ARMOR:
+        return GLOBAL_POSITION_ARMS;
+    case GLOBAL_OBJECT_LEG_ARMOR:
+        return GLOBAL_POSITION_LEGS;
+    }
+     return GLOBAL_POSITION_INVALID;
+}
 
 // Window size helpers
 const uint32_t win_start_x = (1024 - 800) / 2 - 40;
