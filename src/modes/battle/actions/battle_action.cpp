@@ -10,8 +10,6 @@
 
 #include "battle_action.h"
 
-#include "common/global/global_utils.h"
-
 using namespace vt_global;
 
 namespace vt_battle

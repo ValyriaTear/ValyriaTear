@@ -12,7 +12,6 @@
 
 #include "modes/battle/battle.h"
 
-#include "common/global/global_utils.h"
 #include "common/global/actors/global_attack_point.h"
 
 using namespace vt_global;
