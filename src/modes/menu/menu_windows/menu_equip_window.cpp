@@ -95,7 +95,7 @@ void EquipWindow::_InitCharSelect()
 {
     //character selection set up
     std::vector<ustring> options;
-    uint32_t size = GlobalManager->GetActiveParty()->GetPartySize();
+    uint32_t size = GlobalManager->GetCharacterHandler().GetActiveParty().GetPartySize();
 
     _char_select.SetPosition(72.0f, 109.0f);
     _char_select.SetDimensions(360.0f, 432.0f, 1, 4, 1, 4);
@@ -115,8 +115,7 @@ void EquipWindow::_InitCharSelect()
     _char_select.SetSelection(0);
     _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 
-    _character = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
-
+    _character = GlobalManager->GetCharacterHandler().GetActiveParty().GetCharacterAtIndex(_char_select.GetSelection());
 }
 
 void EquipWindow::_InitEquipmentSelect()
@@ -180,7 +179,7 @@ void EquipWindow::Update()
 
     // update the concerned character on each change
     if (InputManager->AnyRegisteredKeyPress())
-        _character = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
+        _character = GlobalManager->GetCharacterHandler().GetActiveParty().GetCharacterAtIndex(_char_select.GetSelection());
 
     uint32_t event = active_option->GetEvent();
     active_option->Update();

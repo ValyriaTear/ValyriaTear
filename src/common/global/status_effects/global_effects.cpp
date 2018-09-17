@@ -8,13 +8,6 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-/** ****************************************************************************
-*** \file    global_effects.cpp
-*** \author  Jacob Rudolph, rujasu@allacrost.org
-*** \author  Yohann Ferreira, yohann ferreira orange fr
-*** \brief   Source file for global game effects
-*** ***************************************************************************/
-
 #include "global_effects.h"
 
 #include "common/global/global.h"

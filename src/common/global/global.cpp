@@ -208,12 +208,7 @@ void GameGlobal::ClearAllData()
     _inventory_key_items.clear();
 
     // Delete all characters
-    for(std::map<uint32_t, GlobalCharacter *>::iterator it = _characters.begin(); it != _characters.end(); ++it) {
-        delete it->second;
-    }
-    _characters.clear();
-    _ordered_characters.clear();
-    _active_party.RemoveAllCharacters();
+    _character_handler.ClearAllData();
 
     // Delete all event groups
     for(std::map<std::string, GlobalEventGroup *>::iterator it = _event_groups.begin(); it != _event_groups.end(); ++it) {
@@ -255,133 +250,6 @@ void GameGlobal::ClearAllData()
 ////////////////////////////////////////////////////////////////////////////////
 // GameGlobal class - Character Functions
 ////////////////////////////////////////////////////////////////////////////////
-
-void GameGlobal::AddCharacter(uint32_t id)
-{
-    std::map<uint32_t, GlobalCharacter *>::iterator it = _characters.find(id);
-    if(it != _characters.end()) {
-        if(it->second->IsEnabled()) {
-            IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add a character that already existed: " << id << std::endl;
-            return;
-        } else {
-            // Re-enable the character in that case
-            it->second->Enable(true);
-        }
-    }
-
-    GlobalCharacter* character = nullptr;
-
-    // Add the character if not existing in the main character data
-    if(it == _characters.end()) {
-        character = new GlobalCharacter(id);
-
-        _characters.insert(std::make_pair(id, character));
-    } else {
-        character = it->second;
-    }
-
-    // Add the new character to the active party if the active party contains less than four characters
-    if(_ordered_characters.size() < GLOBAL_MAX_PARTY_SIZE)
-        _active_party.AddCharacter(character);
-
-    _ordered_characters.push_back(character);
-}
-
-
-
-void GameGlobal::AddCharacter(GlobalCharacter *ch)
-{
-    if(ch == nullptr) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received nullptr pointer argument" << std::endl;
-        return;
-    }
-
-    if(_characters.find(ch->GetID()) != _characters.end()) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to add a character that already existed: " << ch->GetID() << std::endl;
-        return;
-    }
-
-    _characters.insert(std::make_pair(ch->GetID(), ch));
-
-    // If the charactger is currently disabled, don't add it to the available characters.
-    if(!ch->IsEnabled())
-        return;
-
-    // Add the new character to the active party if the active party contains less than four characters
-    if(_ordered_characters.size() < GLOBAL_MAX_PARTY_SIZE)
-        _active_party.AddCharacter(ch);
-
-    _ordered_characters.push_back(ch);
-}
-
-
-
-void GameGlobal::RemoveCharacter(uint32_t id, bool erase)
-{
-    std::map<uint32_t, GlobalCharacter *>::iterator it = _characters.find(id);
-    if(it == _characters.end()) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "attempted to remove a character that did not exist: " << id << std::endl;
-        return;
-    }
-
-    // Disable the character
-    it->second->Enable(false);
-
-    for(std::vector<GlobalCharacter *>::iterator it = _ordered_characters.begin(); it != _ordered_characters.end(); ++it) {
-        if((*it)->GetID() == id) {
-            _ordered_characters.erase(it);
-            break;
-        }
-    }
-
-    // Reform the active party in case the removed character was a member of it
-    _active_party.RemoveAllCharacters();
-    for(uint32_t j = 0; j < _ordered_characters.size() && j < GLOBAL_MAX_PARTY_SIZE; j++) {
-        _active_party.AddCharacter(_ordered_characters[j]);
-    }
-
-    // If we were asked to remove the character completely from the game data.
-    if(erase) {
-        delete(it->second);
-        _characters.erase(it);
-    }
-}
-
-
-GlobalCharacter *GameGlobal::GetCharacter(uint32_t id)
-{
-    std::map<uint32_t, GlobalCharacter *>::iterator ch = _characters.find(id);
-    if(ch == _characters.end())
-        return nullptr;
-    else
-        return (ch->second);
-}
-
-
-void GameGlobal::SwapCharactersByIndex(uint32_t first_index, uint32_t second_index)
-{
-    // Deal with the ordered characters
-    if(first_index == second_index) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_index and second_index arguments had the same value: " << first_index << std::endl;
-        return;
-    }
-    if(first_index >= _ordered_characters.size()) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "first_index argument exceeded current party size: " << first_index << std::endl;
-        return;
-    }
-    if(second_index >= _ordered_characters.size()) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "second_index argument exceeded current party size: " << second_index << std::endl;
-        return;
-    }
-
-    // Swap the characters
-    GlobalCharacter *tmp = _ordered_characters[first_index];
-    _ordered_characters[first_index] = _ordered_characters[second_index];
-    _ordered_characters[second_index] = tmp;
-
-    // Do the same for the party member.
-    _active_party.SwapCharactersByIndex(first_index, second_index);
-}
 
 bool GameGlobal::DoesEnemyExist(uint32_t enemy_id)
 {
@@ -857,24 +725,7 @@ bool GameGlobal::SaveGame(const std::string& filename, uint32_t slot_id, uint32_
     _SaveInventory(file, "leg_armor", _inventory_leg_armor);
     _SaveInventory(file, "spirits", _inventory_spirits);
 
-    // ----- (5) Save character data
-    file.InsertNewLine();
-    file.WriteLine("characters = {");
-    // First save the order of the characters in the party
-    file.WriteLine("\t[\"order\"] = {");
-    for(uint32_t i = 0; i < _ordered_characters.size(); ++i) {
-        if(i == 0)
-            file.WriteLine("\t\t" + NumberToString(_ordered_characters[i]->GetID()), false);
-        else
-            file.WriteLine(", " + NumberToString(_ordered_characters[i]->GetID()), false);
-    }
-    file.WriteLine("\n\t},"); // order
-
-    // Now save each individual character's data
-    for(uint32_t i = 0; i < _ordered_characters.size(); ++i) {
-        _ordered_characters[i]->SaveCharacter(file);
-    }
-    file.WriteLine("},"); // characters
+    _character_handler.SaveCharacters(file);
 
     // ----- (6) Save event data
     file.InsertNewLine();
@@ -990,50 +841,7 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32_t slot_id)
     _LoadInventory(file, "spirits");
     _LoadInventory(file, "key_items"); // DEPRECATED: Remove in one release
 
-    // Load characters into the party in the correct order
-    if (!file.OpenTable("characters")) {
-        PRINT_ERROR << "Couldn't open the savegame characters data in " << filename << std::endl;
-        file.CloseAllTables();
-        file.CloseFile();
-        return false;
-    }
-
-    if (!file.DoesTableExist("order")) {
-        PRINT_ERROR << "Couldn't open the savegame characters order data in " << filename << std::endl;
-        file.CloseAllTables();
-        file.CloseFile();
-        return false;
-    }
-
-    std::vector<uint32_t> char_ids;
-    file.ReadUIntVector("order", char_ids);
-
-    if (char_ids.empty()) {
-        PRINT_ERROR << "No valid characters id in " << filename << std::endl;
-        file.CloseAllTables();
-        file.CloseFile();
-        return false;
-    }
-
-    for(uint32_t i = 0; i < char_ids.size(); i++) {
-        uint32_t id= char_ids[i];
-        GlobalCharacter* character = new GlobalCharacter(id, false);
-        if (character->LoadCharacter(file)) {
-            AddCharacter(character);
-        }
-        else {
-            delete character;
-        }
-
-    }
-    file.CloseTable(); // characters
-
-    if (_characters.empty()) {
-        PRINT_ERROR << "No characters were added by save game file: " << filename << std::endl;
-        file.CloseAllTables();
-        file.CloseFile();
-        return false;
-    }
+    _character_handler.LoadCharacters(file);
 
     // Load event data
     std::vector<std::string> group_names;

@@ -862,7 +862,7 @@ void ObjectSupervisor::ReloadVisiblePartyMember()
         return;
 
     // Get the front party member
-    vt_global::GlobalActor *actor = vt_global::GlobalManager->GetActiveParty()->GetCharacterAtIndex(0);
+    vt_global::GlobalActor* actor = vt_global::GlobalManager->GetCharacterHandler().GetActiveParty().GetCharacterAtIndex(0);
 
     // Update only if the actor has changed
     if(actor && actor->GetMapSpriteName() != _visible_party_member->GetSpriteName())

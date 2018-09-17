@@ -107,11 +107,7 @@ void BindCommonCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<GameGlobal>("GameGlobal")
-            .def("AddCharacter", (void(GameGlobal:: *)(uint32_t)) &GameGlobal::AddCharacter)
-            .def("RemoveCharacter", (void(GameGlobal:: *)(uint32_t, bool)) &GameGlobal::RemoveCharacter)
-            .def("GetCharacter", &GameGlobal::GetCharacter)
-            .def("GetActiveParty", &GameGlobal::GetActiveParty)
-            .def("GetPartyPosition", &GameGlobal::GetPartyPosition)
+            .def("GetCharacterHandler", &GameGlobal::GetCharacterHandler)
             .def("GetDrunes", &GameGlobal::GetDrunes)
             .def("SetDrunes", &GameGlobal::SetDrunes)
             .def("AddDrunes", &GameGlobal::AddDrunes)
@@ -226,6 +222,23 @@ void BindCommonCode()
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
+            luabind::class_<GlobalCharacterHandler>("GlobalCharacterHandler")
+            .def("AddCharacter", (void(GlobalCharacterHandler:: *)(uint32_t)) &GlobalCharacterHandler::AddCharacter)
+            .def("RemoveCharacter", (void(GlobalCharacterHandler:: *)(uint32_t, bool)) &GlobalCharacterHandler::RemoveCharacter)
+            .def("GetCharacter", &GlobalCharacterHandler::GetCharacter)
+            .def("GetActiveParty", &GlobalCharacterHandler::GetActiveParty)
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
+        [
+            luabind::class_<GlobalParty>("GlobalParty")
+            .def("AddHitPoints", &GlobalParty::AddHitPoints)
+            .def("AddSkillPoints", &GlobalParty::AddSkillPoints)
+            .def("GetPartyPosition", &GlobalParty::GetPartyPosition)
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
+        [
             luabind::class_<GlobalAttackPoint>("GlobalAttackPoint")
             .def("GetName", &GlobalAttackPoint::GetName)
             .def("GetXPosition", &GlobalAttackPoint::GetXPosition)
@@ -315,13 +328,6 @@ void BindCommonCode()
             .def("ApplyActiveStatusEffect", &GlobalCharacter::ApplyActiveStatusEffect)
             .def("RemoveActiveStatusEffect", &GlobalCharacter::RemoveActiveStatusEffect)
             .def("GetActiveStatusEffectIntensity", &GlobalCharacter::GetActiveStatusEffectIntensity)
-        ];
-
-        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
-        [
-            luabind::class_<GlobalParty>("GlobalParty")
-            .def("AddHitPoints", &GlobalParty::AddHitPoints)
-            .def("AddSkillPoints", &GlobalParty::AddSkillPoints)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")

@@ -660,21 +660,21 @@ void MenuMode::DrawEquipmentInfo()
 
 void MenuMode::ReloadCharacterWindows()
 {
-    vt_global::GlobalParty &characters = *vt_global::GlobalManager->GetActiveParty();
+    vt_global::GlobalParty& party = vt_global::GlobalManager->GetCharacterHandler().GetActiveParty();
 
     // Setup character windows based on active party size
-    switch(characters.GetPartySize()) {
+    switch(party.GetPartySize()) {
     case 4:
-        _character_window3.SetCharacter(characters.GetCharacterAtIndex(3));
+        _character_window3.SetCharacter(party.GetCharacterAtIndex(3));
         /* Falls through. */
     case 3:
-        _character_window2.SetCharacter(characters.GetCharacterAtIndex(2));
+        _character_window2.SetCharacter(party.GetCharacterAtIndex(2));
         /* Falls through. */
     case 2:
-        _character_window1.SetCharacter(characters.GetCharacterAtIndex(1));
+        _character_window1.SetCharacter(party.GetCharacterAtIndex(1));
         /* Falls through. */
     case 1:
-        _character_window0.SetCharacter(characters.GetCharacterAtIndex(0));
+        _character_window0.SetCharacter(party.GetCharacterAtIndex(0));
         break;
     default:
         PRINT_ERROR << "No characters in party!" << std::endl;

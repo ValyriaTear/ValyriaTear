@@ -283,6 +283,7 @@ SET(SRCS
 common/global/actors/global_attack_point.cpp
 common/global/actors/global_character.cpp
 common/global/actors/global_enemy.cpp
+common/global/actors/global_character_handler.cpp
 common/global/actors/global_party.cpp
 common/global/media/battle_media.cpp
 common/global/media/global_media.cpp

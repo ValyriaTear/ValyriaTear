@@ -88,7 +88,8 @@ skills[10001] = {
 
         AudioManager:PlaySound("data/sounds/defense1_spell.ogg");
         -- Trigger a particle effect on the menu character
-        local y_pos = 218.0 + GlobalManager:GetPartyPosition(target) * 118.0;
+        local active_party = GlobalManager:GetCharacterHandler():GetActiveParty()
+        local y_pos = 218.0 + active_party:GetPartyPosition(target) * 118.0;
         local menu_mode = ModeManager:GetTop();
         menu_mode:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/shield.lua", 145.0, y_pos);
         return true;

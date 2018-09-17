@@ -754,18 +754,14 @@ bool BattleMode::isOneCharacterDead() const
     return false;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// BattleMode class -- private methods
-////////////////////////////////////////////////////////////////////////////////
-
 void BattleMode::_Initialize()
 {
     // Unset a possible last enemy dying sequence.
     _last_enemy_dying = false;
 
     // Construct all character battle actors from the active party, as well as the menus that populate the command supervisor
-    GlobalParty *active_party = GlobalManager->GetActiveParty();
-    uint32_t party_size = active_party->GetPartySize();
+    GlobalParty& active_party = GlobalManager->GetCharacterHandler().GetActiveParty();
+    uint32_t party_size = active_party.GetPartySize();
     if(party_size == 0) {
         IF_PRINT_WARNING(BATTLE_DEBUG) << "No characters in the active party, exiting battle" << std::endl;
         ModeManager->Pop();
@@ -773,7 +769,7 @@ void BattleMode::_Initialize()
     }
 
     for(uint32_t i = 0; i < party_size; ++i) {
-        BattleCharacter *new_actor = new BattleCharacter(active_party->GetCharacterAtIndex(i));
+        BattleCharacter* new_actor = new BattleCharacter(active_party.GetCharacterAtIndex(i));
         _character_actors.push_back(new_actor);
         _character_party.push_back(new_actor);
 

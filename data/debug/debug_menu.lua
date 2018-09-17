@@ -1,13 +1,14 @@
 function TestFunction()
     print("Party Menu Test");
 
-    GlobalManager:AddCharacter(BRONANN);
-    GlobalManager:AddCharacter(KALYA);
-    GlobalManager:AddCharacter(SYLVE);
-    GlobalManager:AddCharacter(THANIS);
+    local character_handler = GlobalManager:GetCharacterHandler()
+    character_handler:AddCharacter(BRONANN)
+    character_handler:AddCharacter(KALYA)
+    character_handler:AddCharacter(SYLVE)
+    character_handler:AddCharacter(THANIS)
 
     -- Bronann
-    local bronann = GlobalManager:GetCharacter(BRONANN);
+    local bronann = character_handler:GetCharacter(BRONANN);
 
     -- specials
     --bronann:AddSkill(20001);
@@ -26,7 +27,7 @@ function TestFunction()
     bronann:AddSkill(10114);
 
     -- Kalya
-    local kalya = GlobalManager:GetCharacter(KALYA);
+    local kalya = character_handler:GetCharacter(KALYA);
     -- specials
     kalya:AddSkill(20011);
     --kalya:AddSkill(20012);
@@ -51,7 +52,7 @@ function TestFunction()
     kalya:AddSkill(10120);
 
     -- Sylve
-    local sylve = GlobalManager:GetCharacter(SYLVE);
+    local sylve = character_handler:GetCharacter(SYLVE);
     -- Elementals
     sylve:AddSkill(10103);
     sylve:AddSkill(10121);
@@ -68,7 +69,7 @@ function TestFunction()
 
 
     -- Thanis
-    local thanis = GlobalManager:GetCharacter(THANIS);
+    local thanis = character_handler:GetCharacter(THANIS);
 
     -- elementals
     thanis:AddSkill(10100);

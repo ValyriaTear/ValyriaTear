@@ -44,7 +44,7 @@ function Load(m)
     Map:GetScriptSupervisor():AddScript("data/story/common/at_night.lua");
 
     -- Kalya was previously removed from party, let's add her back now
-    GlobalManager:AddCharacter(KALYA);
+    GlobalManager:GetCharacterHandler():AddCharacter(KALYA);
 
     -- Set scene mode and start the scene right away
     Map:PushState(vt_map.MapMode.STATE_SCENE);

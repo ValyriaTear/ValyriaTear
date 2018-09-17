@@ -34,6 +34,7 @@
 #include "media/battle_media.h"
 
 #include "skill_graph/skill_graph.h"
+#include "actors/global_character_handler.h"
 #include "actors/global_actor.h"
 #include "actors/global_party.h"
 
@@ -63,17 +64,11 @@ extern GameGlobal* GlobalManager;
 //! \brief Determines whether the code in the vt_global namespace should print debug statements or not.
 extern bool GLOBAL_DEBUG;
 
-//! \brief The maximum number of characters that can be in the active party
-const uint32_t GLOBAL_MAX_PARTY_SIZE = 4;
-
 /** ****************************************************************************
 *** \brief Retains all the state information about the active game
 ***
 *** This class is a resource manager for the current state of the game that is
-*** being played. It retains all of the characters in the player's party, the
-*** party's inventory, game events, etc. Nearly every game mode will need to
-*** interact with this class in some form or another, whether it is to retrieve a
-*** specific set of data or t
+*** being played.
 ***
 *** \note This class is a singleton, even though it is technically not an engine
 *** manager class. There can only be one game instance that the player is playing
@@ -98,62 +93,6 @@ public:
     *** data relevant to the current game.
     **/
     void ClearAllData();
-
-    //! \name Character Functions
-    //@{
-    /** \brief Adds a new character to the party with its initial settings
-    *** \param id The ID number of the character to add to the party.
-    ***
-    *** Only use this function for when you wish the character to be constructed using
-    *** its initial stats, equipment, and skills. Otherwise, you should construct the
-    *** GlobalCharacter externally and invoke the other AddCharacter function with a
-    *** pointer to it.
-    ***
-    *** \note If the number of characters is less than four when this function is called,
-    *** the new character will automatically be added to the active party.
-    **/
-    void AddCharacter(uint32_t id);
-
-    /** \brief Adds a new pre-initialized character to the party
-    *** \param ch A pointer to the initialized GlobalCharacter object to add
-    ***
-    *** The GlobalCharacter argument must be created -and- properly initalized (stats
-    *** members all set, equipment added, skills added) prior to making this call.
-    *** Adding an uninitialized character will likely result in a segmentation fault
-    *** or other run-time error somewhere down the road.
-    ***
-    *** \note If the number of characters is less than four when this function is called,
-    *** the new character will automatically be added to the active party.
-    **/
-    void AddCharacter(GlobalCharacter *ch);
-
-    /** \brief Removes a character from the party.
-    *** \param id The ID number of the character to remove from the party.
-    *** \param erase Tells whether the character should be completely remove
-    	or just from the active party.
-    **/
-    void RemoveCharacter(uint32_t id, bool erase = false);
-
-    /** \brief Returns a pointer to a character currently in the party.
-    *** \param id The ID number of the character to retrieve.
-    *** \return A pointer to the character, or nullptr if the character was not found.
-    ***/
-    GlobalCharacter *GetCharacter(uint32_t id);
-
-    /** \brief Swaps the location of two character in the party by their indeces
-    *** \param first_index The index of the first character to swap
-    *** \param second_index The index of the second character to swap
-    **/
-    void SwapCharactersByIndex(uint32_t first_index, uint32_t second_index);
-
-    /** \brief Checks whether or not a character is in the party
-    *** \param id The id of the character to check for
-    *** \return True if the character was found to be in the party, or false if they were not found.
-    **/
-    bool IsCharacterInParty(uint32_t id) {
-        if(_characters.find(id) != _characters.end()) return true;
-        else return false;
-    }
 
     //! \brief Tells whether an enemy id is existing in the enemy data.
     bool DoesEnemyExist(uint32_t enemy_id);
@@ -373,14 +312,6 @@ public:
     //! \note The amount is only subtracted if the current funds is equal to or exceeds the amount to subtract
     void SubtractDrunes(uint32_t amount) {
         if(_drunes >= amount) _drunes -= amount;
-    }
-
-    /** \brief Calculates the average experience level of members in the active party
-    *** \return The average (integer) experience level of all members in the active party
-    *** This is used for determining the level of growth for enemies in battle.
-    **/
-    uint32_t AverageActivePartyExperienceLevel() const {
-        return static_cast<uint32_t>(_active_party.AverageExperienceLevel());
     }
 
     /** \brief Sets the name and graphic for the current location
@@ -664,24 +595,6 @@ public:
     //! \brief Sets the current shop data to global manager.
     void SetShopData(const std::string& shop_id, const ShopData& shop_data);
 
-    std::vector<GlobalCharacter *>* GetOrderedCharacters() {
-        return &_ordered_characters;
-    }
-
-    // Returns the character party position
-    uint32_t GetPartyPosition(GlobalCharacter* character) {
-        for (uint32_t i = 0; i < _ordered_characters.size(); ++i) {
-            if (_ordered_characters[i] == character)
-                return i;
-        }
-        // Default case
-        return 0;
-    }
-
-    GlobalParty *GetActiveParty() {
-        return &_active_party;
-    }
-
     std::map<uint32_t, std::shared_ptr<GlobalObject>>* GetInventory() {
         return &_inventory;
     }
@@ -797,6 +710,11 @@ public:
     }
 
     //! \brief Get a reference to the skill graph handler
+    GlobalCharacterHandler& GetCharacterHandler() {
+        return _character_handler;
+    }
+
+    //! \brief Get the reference to the skill graph handler
     SkillGraph& GetSkillGraph() {
         return _skill_graph;
     }
@@ -866,23 +784,6 @@ private:
     vt_utils::ustring _previous_map_hud_name;
     vt_utils::ustring _map_hud_name;
     bool _same_map_hud_name_as_previous;
-
-    /** \brief A map containing all characters that the player has discovered
-    *** This map contains all characters that the player has met with, regardless of whether or not they are in the active party.
-    *** The map key is the character's unique ID number.
-    **/
-    std::map<uint32_t, GlobalCharacter *> _characters;
-
-    /** \brief A vector whose purpose is to maintain the order of characters
-    *** The first four characters in this vector are in the active party; the rest are in reserve.
-    **/
-    std::vector<GlobalCharacter *> _ordered_characters;
-
-    /** \brief The active party of characters
-    *** The active party contains the group of characters that will fight when a battle begins.
-    *** This party can be up to four characters, and should always contain at least one character.
-    **/
-    GlobalParty _active_party;
 
     /** \brief Retains a list of all of the objects currently stored in the player's inventory
     *** This map is used to quickly check if an item is in the inventory or not. The key to the map is the object's
@@ -1002,6 +903,8 @@ private:
     //! \brief A map of the curent shop data.
     //! shop_id, corresponding shop data
     std::map<std::string, ShopData> _shop_data;
+
+    GlobalCharacterHandler _character_handler;
 
     SkillGraph _skill_graph;
 

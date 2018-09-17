@@ -17,7 +17,7 @@ namespace vt_global
 
 extern bool GLOBAL_DEBUG;
 
-void GlobalParty::AddCharacter(GlobalCharacter *character, int32_t index)
+void GlobalParty::AddCharacter(GlobalCharacter* character, int32_t index)
 {
     if(character == nullptr) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a nullptr character argument" << std::endl;
@@ -191,7 +191,7 @@ GlobalCharacter* GlobalParty::ReplaceCharacterByIndex(uint32_t index, GlobalChar
     return tmp;
 }
 
-GlobalCharacter* GlobalParty::ReplaceCharacterByID(uint32_t id, GlobalCharacter *new_character)
+GlobalCharacter* GlobalParty::ReplaceCharacterByID(uint32_t id, GlobalCharacter* new_character)
 {
     if(_allow_duplicates) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "tried to replace character when duplicates were allowed in the party: " << id << std::endl;
@@ -241,6 +241,16 @@ void GlobalParty::AddSkillPoints(uint32_t sp)
     for(std::vector<GlobalCharacter *>::iterator i = _characters.begin(); i != _characters.end(); ++i) {
         (*i)->AddSkillPoints(sp);
     }
+}
+
+// Returns the character party position
+uint32_t GlobalParty::GetPartyPosition(GlobalCharacter* character) {
+    for (uint32_t i = 0; i < _characters.size(); ++i) {
+        if (_characters[i] == character)
+            return i;
+    }
+    // Default case
+    return 0;
 }
 
 } // namespace vt_global

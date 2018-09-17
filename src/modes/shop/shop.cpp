@@ -84,7 +84,7 @@ ShopMedia::ShopMedia()
 void ShopMedia::_InitializeCharacters()
 {
     // Grab the sprite frames for all characters in the active party
-    std::vector<GlobalCharacter *>* characters = GlobalManager->GetOrderedCharacters();
+    std::vector<GlobalCharacter *>* characters = GlobalManager->GetCharacterHandler().GetOrderedCharacters();
     for(uint32_t i = 0; i < characters->size(); ++i) {
 
         GlobalCharacter *character = characters->at(i);
@@ -590,8 +590,7 @@ void ShopObjectViewer::_SetEquipmentData()
 
     // For each character, determine if they already have the selection equipped
     // or determine the change in pricing
-    std::vector<GlobalCharacter *>* party =
-        GlobalManager->GetOrderedCharacters();
+    std::vector<GlobalCharacter *>* characters = GlobalManager->GetCharacterHandler().GetOrderedCharacters();
     GlobalCharacter* character = nullptr;
     // Holds the difference in attack power from equipped weapon/armor to selected weapon/armor
     int32_t phys_diff = 0;
@@ -602,8 +601,8 @@ void ShopObjectViewer::_SetEquipmentData()
     // that these two container members may contain stale data from previous objects. This is acceptable, however, as the stale data should
     // never be drawn. The stale data is allowed to remain so that we do not waste time re-rendering text for which we will not display.
     if(selected_weapon != nullptr) {
-        for(uint32_t i = 0; i < party->size(); ++i) {
-            character = party->at(i);
+        for(uint32_t i = 0; i < characters->size(); ++i) {
+            character = characters->at(i);
             std::shared_ptr<GlobalWeapon> equipped_weapon =
                 character->GetWeaponEquipped();
 
@@ -642,8 +641,8 @@ void ShopObjectViewer::_SetEquipmentData()
             _SetChangeText(i, phys_diff, mag_diff);
         }
     } else { // (selected_armor != nullptr)
-        for(uint32_t i = 0; i < party->size(); ++i) {
-            character = party->at(i);
+        for(uint32_t i = 0; i < characters->size(); ++i) {
+            character = characters->at(i);
             std::shared_ptr<GlobalArmor> equipped_armor =
                 character->GetArmorEquipped(armor_index);
 

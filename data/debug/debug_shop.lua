@@ -2,10 +2,11 @@
 function TestFunction()
     print("Shop Test");
 
-    GlobalManager:AddCharacter(BRONANN);
-    GlobalManager:AddCharacter(KALYA);
-    GlobalManager:AddCharacter(SYLVE);
-    GlobalManager:AddCharacter(THANIS);
+    local character_handler = GlobalManager:GetCharacterHandler()
+    character_handler:AddCharacter(BRONANN)
+    character_handler:AddCharacter(KALYA)
+    character_handler:AddCharacter(SYLVE)
+    character_handler:AddCharacter(THANIS)
 
     -- Initial character money
     GlobalManager:AddDrunes(1842);

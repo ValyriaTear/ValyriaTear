@@ -289,7 +289,7 @@ void MapStatusEffectsSupervisor::LoadStatusEffects()
     _equipment_status_effects.clear();
     _characters_portraits.clear();
 
-    std::vector<GlobalCharacter*>* characters = GlobalManager->GetOrderedCharacters();
+    std::vector<GlobalCharacter*>* characters = GlobalManager->GetCharacterHandler().GetOrderedCharacters();
     if (!characters)
         return;
 
@@ -337,7 +337,7 @@ void MapStatusEffectsSupervisor::LoadStatusEffects()
 void MapStatusEffectsSupervisor::SaveActiveStatusEffects()
 {
     // first, we clear the old data from the characters
-    std::vector<GlobalCharacter*>* characters = GlobalManager->GetOrderedCharacters();
+    std::vector<GlobalCharacter*>* characters = GlobalManager->GetCharacterHandler().GetOrderedCharacters();
     if (!characters)
         return;
 

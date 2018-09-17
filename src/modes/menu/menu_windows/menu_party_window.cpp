@@ -44,13 +44,12 @@ PartyWindow::PartyWindow() :
     _focused_mdef_icon(nullptr)
 {
     // Get party size for iteration
-    uint32_t partysize = GlobalManager->GetActiveParty()->GetPartySize();
-    StillImage portrait;
+    GlobalParty& party = GlobalManager->GetCharacterHandler().GetActiveParty();
+    uint32_t party_size = party.GetPartySize();
 
     // Set up the full body portrait
-    for(uint32_t i = 0; i < partysize; i++) {
-        GlobalCharacter* ch =
-            GlobalManager->GetActiveParty()->GetCharacterAtIndex(i);
+    for(uint32_t i = 0; i < party_size; i++) {
+        GlobalCharacter* ch = party.GetCharacterAtIndex(i);
         _full_portraits.push_back(ch->GetFullPortrait());
     }
 
@@ -80,7 +79,7 @@ void PartyWindow::_InitCharSelect()
 {
     //character selection set up
     std::vector<ustring> options;
-    uint32_t size = GlobalManager->GetActiveParty()->GetPartySize();
+    uint32_t size = GlobalManager->GetCharacterHandler().GetActiveParty().GetPartySize();
 
     _char_select.SetPosition(72.0f, 109.0f);
     _char_select.SetDimensions(360.0f, 432.0f, 1, 4, 1, 4);
@@ -208,8 +207,8 @@ void PartyWindow::Update()
     case FORM_ACTIVE_SECOND:
         if(event == VIDEO_OPTION_CONFIRM) {
             // Switch Characters
-            GlobalManager->SwapCharactersByIndex(_char_select.GetSelection(),
-                                                 _second_char_select.GetSelection());
+            GlobalManager->GetCharacterHandler().SwapCharactersByIndex(_char_select.GetSelection(),
+                                                                       _second_char_select.GetSelection());
             std::swap(_full_portraits[_char_select.GetSelection()],
                       _full_portraits[_second_char_select.GetSelection()]);
 
@@ -242,8 +241,7 @@ void PartyWindow::UpdateStatus()
     _focused_def_numbers.Clear();
     _focused_mdef_numbers.Clear();
 
-    GlobalCharacter *ch =
-        GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
+    GlobalCharacter* ch = GlobalManager->GetCharacterHandler().GetActiveParty().GetCharacterAtIndex(_char_select.GetSelection());
     if (!ch)
         return;
 

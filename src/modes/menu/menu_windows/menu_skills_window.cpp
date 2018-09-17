@@ -104,7 +104,7 @@ void SkillsWindow::_InitCharSelect()
 {
     //character selection set up
     std::vector<ustring> options;
-    uint32_t size = GlobalManager->GetActiveParty()->GetPartySize();
+    uint32_t size = GlobalManager->GetCharacterHandler().GetActiveParty().GetPartySize();
 
     _char_select.SetPosition(72.0f, 109.0f);
     _char_select.SetDimensions(360.0f, 432.0f, 1, 4, 1, 4);
@@ -202,11 +202,10 @@ void SkillsWindow::Update()
     case SKILL_ACTIVE_CHAR_APPLY:
         // Handle skill application
         if(event == VIDEO_OPTION_CONFIRM) {
-            GlobalSkill *skill = _GetCurrentSkill();
-            GlobalCharacter* user =
-                GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_skillset);
-            GlobalCharacter* target =
-                GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
+            GlobalSkill* skill = _GetCurrentSkill();
+            GlobalParty& party = GlobalManager->GetCharacterHandler().GetActiveParty();
+            GlobalCharacter* user = party.GetCharacterAtIndex(_char_skillset);
+            GlobalCharacter* target = party.GetCharacterAtIndex(_char_select.GetSelection());
 
             const luabind::object &script_function =
                 skill->GetFieldExecuteFunction();
@@ -343,9 +342,9 @@ void SkillsWindow::Update()
         return;
     }
 
-    GlobalSkill *skill = _GetCurrentSkill();
-    GlobalCharacter *skill_owner =
-        GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_skillset);
+    GlobalSkill* skill = _GetCurrentSkill();
+    GlobalCharacter* skill_owner =
+        GlobalManager->GetCharacterHandler().GetActiveParty().GetCharacterAtIndex(_char_skillset);
 
     // Get the skill type
     vt_utils::ustring skill_type;
@@ -390,8 +389,8 @@ void SkillsWindow::Update()
 
 GlobalSkill *SkillsWindow::_GetCurrentSkill()
 {
-    GlobalCharacter *ch =
-        GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_skillset);
+    GlobalCharacter* ch =
+        GlobalManager->GetCharacterHandler().GetActiveParty().GetCharacterAtIndex(_char_skillset);
 
     std::vector<GlobalSkill *> menu_skills;
     std::vector<GlobalSkill *> battle_skills;
@@ -431,8 +430,8 @@ GlobalSkill *SkillsWindow::_GetCurrentSkill()
 
 void SkillsWindow::_UpdateSkillList()
 {
-    GlobalCharacter *ch =
-        GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
+    GlobalCharacter* ch =
+        GlobalManager->GetCharacterHandler().GetActiveParty().GetCharacterAtIndex(_char_select.GetSelection());
     assert(ch);
     std::vector<ustring> options;
     std::vector<ustring> cost_options;

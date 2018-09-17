@@ -36,8 +36,7 @@ namespace private_menu
 BattleFormationWindow::BattleFormationWindow() :
     _formation_select_active(false)
 {
-    std::vector<GlobalCharacter *>* characters =
-        GlobalManager->GetOrderedCharacters();
+    std::vector<GlobalCharacter *>* characters = GlobalManager->GetCharacterHandler().GetOrderedCharacters();
     uint32_t characters_number = characters->size() > 4 ? 4 : characters->size();
 
     // Init the option box.

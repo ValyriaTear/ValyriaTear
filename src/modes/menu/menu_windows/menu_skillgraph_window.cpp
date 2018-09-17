@@ -147,7 +147,7 @@ void SkillGraphWindow::DrawBottomWindow()
 bool SkillGraphWindow::SetCharacter()
 {
     _selected_character =
-        GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
+        GlobalManager->GetCharacterHandler().GetActiveParty().GetCharacterAtIndex(_char_select.GetSelection());
     if (!_selected_character) {
         _selected_node_id = 0;
         return false;
@@ -167,7 +167,7 @@ void SkillGraphWindow::_InitCharSelect()
 {
     // Character selection set up
     std::vector<ustring> options;
-    uint32_t size = GlobalManager->GetActiveParty()->GetPartySize();
+    uint32_t size = GlobalManager->GetCharacterHandler().GetActiveParty().GetPartySize();
 
     _char_select.SetPosition(72.0f, 109.0f);
     _char_select.SetDimensions(360.0f, 432.0f, 1, 4, 1, 4);

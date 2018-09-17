@@ -99,7 +99,7 @@ void InventoryWindow::_InitCharSelect()
 {
     //character selection set up
     std::vector<ustring> options;
-    uint32_t size = GlobalManager->GetActiveParty()->GetPartySize();
+    uint32_t size = GlobalManager->GetCharacterHandler().GetActiveParty().GetPartySize();
 
     _char_select.SetPosition(72.0f, 109.0f);
     _char_select.SetDimensions(360.0f, 432.0f, 1, 4, 1, 4);
@@ -119,7 +119,7 @@ void InventoryWindow::_InitCharSelect()
     _char_select.SetSelection(0);
     _char_select.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 
-    _character = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
+    _character = GlobalManager->GetCharacterHandler().GetActiveParty().GetCharacterAtIndex(_char_select.GetSelection());
 }
 
 void InventoryWindow::_InitCategory()
@@ -349,12 +349,11 @@ void InventoryWindow::Update()
                             IF_PRINT_WARNING(MENU_DEBUG) << "item did not have a menu use function" << std::endl;
                         } else {
                             if(IsTargetParty(item->GetTargetType())) {
-                                GlobalParty *ch_party =
-                                    GlobalManager->GetActiveParty();
+                                GlobalParty& party = GlobalManager->GetCharacterHandler().GetActiveParty();
 
                                 bool success = false;
                                 try {
-                                    success = luabind::call_function<bool>(script_function, ch_party);
+                                    success = luabind::call_function<bool>(script_function, party);
                                 } catch(const luabind::error& e) {
                                     PRINT_ERROR << "Error while loading FieldUse() function" << std::endl;
                                     vt_script::ScriptManager->HandleLuaError(e);
@@ -556,7 +555,7 @@ void InventoryWindow::_UpdateSelection()
     _object_name.SetText(_object->GetName(), TextStyle("title22"));
 
     if (_active_box == ITEM_ACTIVE_CHAR)
-        _character = GlobalManager->GetActiveParty()->GetCharacterAtIndex(_char_select.GetSelection());
+        _character = GlobalManager->GetCharacterHandler().GetActiveParty().GetCharacterAtIndex(_char_select.GetSelection());
 
     //check the obj_type again to see if its a weapon or armor
     switch(_object_type) {

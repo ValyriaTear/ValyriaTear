@@ -584,7 +584,7 @@ void MapMode::ApplyPotentialStaminaMalus()
     else if (_run_stamina < STAMINA_FULL / 8)
         intensity = GLOBAL_INTENSITY_NEG_EXTREME;
 
-    std::vector<GlobalCharacter*>* characters = GlobalManager->GetOrderedCharacters();
+    std::vector<GlobalCharacter*>* characters = GlobalManager->GetCharacterHandler().GetOrderedCharacters();
     // We only apply the effect on characters that will be present in battle
     for (uint32_t i = 0; i < characters->size() && i < GLOBAL_MAX_PARTY_SIZE; ++i) {
         auto character = characters->at(i);

@@ -1144,7 +1144,7 @@ map_functions = {
 
     Add_kalya_to_party = function()
         if (GlobalManager:DoesEventExist("story", "kalya_has_joined") == false) then
-            GlobalManager:AddCharacter(KALYA);
+            GlobalManager:GetCharacterHandler():AddCharacter(KALYA);
             GlobalManager:SetEventValue("story", "kalya_has_joined", 1);
             GlobalManager:AddQuestLog("bring_orlinn_back");
         end

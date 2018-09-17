@@ -24,7 +24,7 @@ GlobalManager:SetMaxExperienceLevel(20);
 
 function NewGame()
     -- Prepare the new game data
-    GlobalManager:AddCharacter(BRONANN);
+    GlobalManager:GetCharacterHandler():AddCharacter(BRONANN);
     GlobalManager:SetDrunes(0);
 
     -- Set the starting world map data

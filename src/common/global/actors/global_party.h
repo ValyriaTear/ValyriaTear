@@ -20,6 +20,9 @@ namespace vt_global
 
 class GlobalCharacter;
 
+//! \brief The maximum number of characters that can be in the active party
+const uint32_t GLOBAL_MAX_PARTY_SIZE = 4;
+
 /** ****************************************************************************
 *** \brief Represents a party of characters
 ***
@@ -138,8 +141,6 @@ public:
     **/
     void AddSkillPoints(uint32_t sp);
 
-    //! \name Class member accessor methods
-    //@{
     bool IsAllowDuplicates() const {
         return _allow_duplicates;
     }
@@ -155,7 +156,9 @@ public:
     const std::vector<GlobalCharacter *>& GetAllCharacters() const {
         return _characters;
     }
-    //@}
+
+    //! \brief Returns the character party position
+    uint32_t GetPartyPosition(GlobalCharacter* character);
 
 private:
     /** \brief Characters are allowed to be inserted into the party multiple times when this member is true
