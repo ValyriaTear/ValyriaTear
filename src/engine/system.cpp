@@ -125,6 +125,18 @@ template<typename T> std::string _VTranslate(const std::string& text, const T& a
     return translation;
 }
 
+template<typename T> std::string _VTranslate(const std::string& text, const T& arg1, const T& arg2, const T& arg3)
+{
+    // Don't translate an empty string as it will return the PO meta data.
+	if (text.empty()) {
+        return std::string();
+	}
+
+    std::string translation = gettext(text.c_str());
+    translation = strprintf(translation.c_str(), arg1, arg2, arg3);
+    return translation;
+}
+
 std::string VTranslate(const std::string& text, int32_t arg1)
 { return _VTranslate(text, arg1); }
 std::string VTranslate(const std::string& text, uint32_t arg1)
@@ -137,6 +149,8 @@ std::string VTranslate(const std::string& text, uint32_t arg1, uint32_t arg2)
 { return _VTranslate(text, arg1, arg2); }
 std::string VTranslate(const std::string& text, const std::string& arg1, const std::string& arg2)
 { return _VTranslate(text, arg1.c_str(), arg2.c_str()); }
+std::string VTranslate(const std::string& text, const std::string& arg1, const std::string& arg2, const std::string& arg3)
+{ return _VTranslate(text, arg1.c_str(), arg2.c_str(), arg3.c_str()); }
 
 std::string NVTranslate(const std::string& singular,
                         const std::string& plural,

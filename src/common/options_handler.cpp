@@ -185,6 +185,13 @@ void GameOptionsMenuHandler::ShowFirstRunLanguageSelection()
     _first_run = true;
     _options_window.Show();
     _active_menu = &_language_options_menu;
+
+	_explanation_window.SetText(
+				MakeUnicodeString(
+					VTranslate("Use the %s and %s keys to select your language and then press %s.",
+							   Translate(InputManager->GetUpKeyName()),
+							   Translate(InputManager->GetDownKeyName()),
+							   Translate(InputManager->GetConfirmKeyName()))));
 }
 
 void GameOptionsMenuHandler::Update()
