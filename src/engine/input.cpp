@@ -262,13 +262,15 @@ void InputEngine::EventHandler()
 
     // Loops until there are no remaining events to process
     while(SDL_PollEvent(&event)) {
-        _event = event;
         if(event.type == SDL_QUIT) {
+            _key_event = event;
             _quit_press = true;
             break;
         } else if(event.type == SDL_KEYUP || event.type == SDL_KEYDOWN) {
+            _key_event = event;
             _KeyEventHandler(event.key);
         } else {
+            _joystick_event = event;
             _JoystickEventHandler(event);
         }
     }

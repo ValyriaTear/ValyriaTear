@@ -279,7 +279,7 @@ void BootMode::Update()
     if(InputManager->QuitPress()) {
         // Don't quit the game when using the joystick,
         // as it is confusing for the user.
-        SDL_Event ev = InputManager->GetMostRecentEvent();
+        SDL_Event ev = InputManager->GetMostRecentKeyEvent();
         if (ev.type == SDL_KEYDOWN)
             SystemManager->ExitGame();
     }
