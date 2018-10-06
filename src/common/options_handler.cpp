@@ -232,7 +232,7 @@ void GameOptionsMenuHandler::Update()
     // Check for waiting keypresses or joystick button presses
     if(_joy_setting_function != nullptr) {
         if(InputManager->AnyJoystickKeyPress()) {
-            (this->*_joy_setting_function)(InputManager->GetMostRecentEvent().jbutton.button);
+            (this->*_joy_setting_function)(InputManager->GetMostRecentJoystickEvent().jbutton.button);
             _joy_setting_function = nullptr;
             _has_modified_settings = true;
             _RefreshJoySettings();
@@ -263,7 +263,7 @@ void GameOptionsMenuHandler::Update()
 
     if(_key_setting_function != nullptr) {
         if(InputManager->AnyKeyboardKeyPress()) {
-            (this->*_key_setting_function)(InputManager->GetMostRecentEvent().key.keysym.sym);
+            (this->*_key_setting_function)(InputManager->GetMostRecentKeyEvent().key.keysym.sym);
             _key_setting_function = nullptr;
             _has_modified_settings = true;
             _RefreshKeySettings();

@@ -251,9 +251,12 @@ private:
     bool _hat_right_state;
     //@}
 
-    /** \brief Most recent SDL event
+    /** \brief Most recent SDL joystick event
      **/
-    SDL_Event _event;
+    SDL_Event _joystick_event;
+	/** \brief Most recent SDL key event
+     **/
+	SDL_Event _key_event;
 
     /** \brief Processes all keyboard input events
     *** \param key_event The event to process
@@ -729,9 +732,13 @@ public:
     }
     //@}
 
-    //! \brief Returns the most recent event retrieved from SDL
-    const SDL_Event &GetMostRecentEvent() const {
-        return _event;
+    //! \brief Returns the most recent joystick event retrieved from SDL
+    const SDL_Event &GetMostRecentJoystickEvent() const {
+        return _joystick_event;
+    }
+	//! \brief Returns the most recent key event retrieved from SDL
+	const SDL_Event &GetMostRecentKeyEvent() const {
+        return _key_event;
     }
 }; // class InputEngine : public vt_utils::Singleton<InputEngine>
 
