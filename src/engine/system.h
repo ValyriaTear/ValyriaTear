@@ -121,6 +121,7 @@ std::string VTranslate(const std::string &text, float arg1);
 // Example with 2 args, used in the treasure supervisor
 std::string VTranslate(const std::string &text, uint32_t arg1, uint32_t arg2);
 std::string VTranslate(const std::string &text, const std::string &arg1, const std::string &arg2);
+std::string VTranslate(const std::string &text, const std::string &arg1, const std::string &arg2, const std::string &arg3);
 
 // TODO: Use Lua Array with luabind so pass a random amount of parameters.
 /** \brief Returns the translated string fprinted with the c-formatted number.
