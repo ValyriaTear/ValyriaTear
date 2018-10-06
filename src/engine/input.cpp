@@ -372,7 +372,7 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
             _right_state = true;
             _right_press = true;
             return;
-        } else if(key_event.keysym.sym == _key.confirm) {
+        } else if(key_event.keysym.sym == _key.confirm || key_event.keysym.sym == SDLK_RETURN || key_event.keysym.sym == SDLK_KP_ENTER) {
             _confirm_state = true;
             _confirm_press = true;
             return;
@@ -420,7 +420,7 @@ void InputEngine::_KeyEventHandler(SDL_KeyboardEvent &key_event)
             _right_state = false;
             _right_release = true;
             return;
-        } else if(key_event.keysym.sym == _key.confirm) {
+        } else if(key_event.keysym.sym == _key.confirm || key_event.keysym.sym == SDLK_RETURN || key_event.keysym.sym == SDLK_KP_ENTER) {
             _confirm_state = false;
             _confirm_release = true;
             return;
