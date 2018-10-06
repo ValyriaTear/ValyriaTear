@@ -630,7 +630,8 @@ void InputEngine::_JoystickEventHandler(SDL_Event &js_event)
 void InputEngine::_SetNewKey(SDL_Keycode &old_key, SDL_Keycode new_key)
 {
     // Don't permit system keys (Quit and help)
-    if(new_key == SDLK_ESCAPE || new_key == SDLK_F1)
+    if(new_key == SDLK_ESCAPE || new_key == SDLK_F1 ||
+       new_key == SDLK_RETURN || new_key == SDLK_KP_ENTER)
         return;
 
     if(_key.up == new_key) {  // up key used already

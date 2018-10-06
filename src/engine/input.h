@@ -52,7 +52,7 @@ class KeyState
 public:
     /** \name Generic key code names (layout-dependant, not scancodes)
     *** \brief Each member holds the actual keyboard key that corresponds to the named key event.
-    *** \note that SDLK_ESCAPE and SDLK_F1 are reserved for Quit, and Help.
+    *** \note that SDLK_ESCAPE is reserved for Quit, SDLK_F1 for Help, and SDLK_RETURN and SDLK_KP_ENTER for Confirm.
     **/
     //@{
     SDL_Keycode up;
