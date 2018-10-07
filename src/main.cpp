@@ -43,6 +43,11 @@
 
 #include <SDL2/SDL_image.h>
 
+#ifdef _WIN32
+#include <ctime>
+#include <windows.h>
+#endif
+
 using namespace vt_utils;
 using namespace vt_common;
 using namespace vt_audio;
