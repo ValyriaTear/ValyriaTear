@@ -34,6 +34,11 @@
 #include <libintl.h>
 #endif
 
+#ifdef _WIN32
+#include <direct.h>
+#include <windows.h>
+#endif
+
 using namespace vt_common;
 using namespace vt_utils;
 using namespace vt_script;
@@ -436,7 +441,7 @@ std::string _Reinitl10n()
 #if defined(_WIN32) || defined(__APPLE__)
     char buffer[PATH_MAX];
     // Get the current working directory.
-    bind_text_domain_path = getcwd(buffer, PATH_MAX);
+    bind_text_domain_path = _getcwd(buffer, PATH_MAX);
     bind_text_domain_path.append("/po/");
 
 #elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
