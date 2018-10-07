@@ -74,14 +74,14 @@ static void _CopyOldSaveFiles(const std::string &destination_path)
     for (uint32_t i = 0; i < 6; ++i) {
         std::stringstream save_filename;
         save_filename << "saved_game_" << i << ".lua";
-        std::string old_file = old_path + save_filename.str();
+        const std::string old_file = old_path + save_filename.str();
 
         if(!DoesFileExist(old_file))
             return; // Nothing to do.
 
-        std::string new_filename = destination_path + save_filename.str();
+        const std::string new_filename = destination_path + save_filename.str();
 
-        if (!MoveFile(old_file, new_filename))
+        if (!MoveFile(old_file.c_str(), new_filename.c_str()))
             PRINT_WARNING << "Couldn't move the save file "
                           << "('" << save_filename.str() << "') "
                           << "to new location!" << std::endl;
@@ -120,14 +120,14 @@ static void _CopyOldSettingsFile(const std::string &destination_path)
     if(!(SUCCEEDED(SHGetFolderPathA(nullptr, CSIDL_PERSONAL, nullptr, 0, path))))
         return; // No folder, nothing to do.
 
-    std::string old_file = std::string(path) + "/" APPUPCASEDIRNAME "/settings.lua";
+    const std::string old_file = std::string(path) + "/" APPUPCASEDIRNAME "/settings.lua";
     if(!DoesFileExist(old_file))
         return; // nothing to do
 #endif
 #ifndef __APPLE__
-    std::string new_filename = destination_path + "settings.lua";
+    const std::string new_filename = destination_path + "settings.lua";
 
-    if (!MoveFile(old_file, new_filename))
+    if (!MoveFile(old_file.c_str(), new_filename.c_str()))
         PRINT_WARNING << "Couldn't move the settings file to new location!" << std::endl;
 
     PRINT_WARNING << "Moved settings.lua file from: " << old_file << std::endl
