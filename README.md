@@ -59,9 +59,9 @@ In that case, you might need the dependencies and headers files that can be down
       * 64bit: `pacman -S mingw-w64-x86_64-toolchain`
       * 32bit: `pacman -S mingw-w64-i686-toolchain`
    1. Install **CMake** and all **dependencies**
-      If any of the dependencies should be missing from he lists below, you can search for them on http://repo.msys2.org/mingw/
       * 64 bit: `pacman -S mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-boost mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-glew mingw-w64-x86_64-libpng mingw-w64-x86_64-libzip mingw-w64-x86_64-lua mingw-w64-x86_64-libogg mingw-w64-x86_64-libvorbis mingw-w64-x86_64-openal mingw-w64-x86_64-libiconv`
       * 32 bit: `pacman -S mingw-w64-i686-cmake mingw-w64-i686-ninja mingw-w64-i686-boost mingw-w64-i686-SDL2_ttf mingw-w64-i686-SDL2_image mingw-w64-i686-glew mingw-w64-i686-libpng mingw-w64-i686-libzip mingw-w64-i686-lua mingw-w64-i686-libogg mingw-w64-i686-libvorbis mingw-w64-i686-openal mingw-w64-i686-libiconv`
+      * If any of the dependencies should be missing from the lists above, you can search for them on http://repo.msys2.org/mingw/
 1. **Configure** the build
    * 64bit: `cmake -G "Ninja" -DCMAKE_C_COMPILER=C:/msys64/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/msys64/mingw64/bin/g++.exe .`
    * 32 bit: `cmake -G "Ninja" -DCMAKE_C_COMPILER=C:/msys32/mingw32/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/msys32/mingw32/bin/g++.exe .`
