@@ -151,22 +151,6 @@ MESSAGE(STATUS "Configured luabind information file...")
 # Enable C++11 in luabind
 SET(FLAGS "${FLAGS} -DLUABIND_USE_CXX11")
 
-# enable rc-handling with mingw
-# most likely this part can be kicked out with some later cmake version
-IF (MINGW)
-    FIND_PATH(MINGW_INCLUDE_DIR windows.h $ENV{INCLUDE})
-    IF (MINGW_INCLUDE_DIR)
-        MESSAGE(STATUS "Found mingw headers: ${MINGW_INCLUDE_DIR}")
-        INCLUDE_DIRECTORIES(${MINGW_INCLUDE_DIR})
-    ELSE()
-        MESSAGE(FATAL_ERROR "Unable to find mingw headers. Required for windres")
-    ENDIF()
-    SET(CMAKE_RC_COMPILER_INIT windres)
-    ENABLE_LANGUAGE(RC)
-    SET(CMAKE_RC_COMPILE_OBJECT
-      "<CMAKE_RC_COMPILER> <FLAGS> <DEFINES> -O coff -o <OBJECT> <SOURCE>")
-ENDIF()
-
 # Fix some stuff that gets not hidden by mainline modules
 MARK_AS_ADVANCED(SDLMAIN_LIBRARY)
 MARK_AS_ADVANCED(SDL_INCLUDE_DIR)
@@ -433,7 +417,7 @@ main.cpp
 IF (WIN32)
     SET(SRCS
         ${SRCS}
-       icon.rc
+       ../icon.rc
     )
 ENDIF ()
 

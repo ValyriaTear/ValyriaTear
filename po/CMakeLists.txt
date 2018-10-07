@@ -35,10 +35,8 @@ MACRO(VALYRIATEAR_GETTEXT_CREATE_TRANSLATIONS _potFile _firstPoFileArg)
       # Create the LC_MESSAGES folders locally to easily test the mo files.
       ADD_CUSTOM_COMMAND(
           OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES/valyriatear.mo
-          COMMAND rm -rf ${CMAKE_CURRENT_BINARY_DIR}/${_lang}
-          COMMAND mkdir ${CMAKE_CURRENT_BINARY_DIR}/${_lang}
-          COMMAND mkdir ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES
-          COMMAND cp ${_gmoFile} ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES/valyriatear.mo
+          COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_BINARY_DIR}/${_lang}
+          COMMAND ${CMAKE_COMMAND} -E copy ${_gmoFile} ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES/valyriatear.mo
           DEPENDS ${_gmoFile}
       )
 
