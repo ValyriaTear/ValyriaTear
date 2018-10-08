@@ -102,16 +102,17 @@ MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
    ENDFOREACH()
 ENDMACRO()
 
+# Iterate locales
 SET(languages)
 SET(POFILES)
-FILE(STRINGS LINGUAS _languages)
-FOREACH(_lang ${_languages})
-   STRING(REGEX REPLACE "#.*" "" _lang "${_lang}")
+file(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.po")
+foreach(file ${files})
+   get_filename_component(_lang ${file} NAME_WE)
    IF(NOT ${_lang} STREQUAL "")
       SET(languages ${languages} ${_lang})
       SET(POFILES ${POFILES} "${CMAKE_CURRENT_SOURCE_DIR}/${_lang}.po")
    ENDIF()
-ENDFOREACH()
+endforeach()
 
 ADD_CUSTOM_TARGET(update-po)
 
