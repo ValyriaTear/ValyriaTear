@@ -8,7 +8,6 @@ MACRO(VALYRIATEAR_GETTEXT_CREATE_TRANSLATIONS _potFile _firstPoFileArg)
    # make it a real variable, so we can modify it here
    SET(_firstPoFile "${_firstPoFileArg}")
 
-   SET(_gmoFiles)
    SET(_moFiles)
    GET_FILENAME_COMPONENT(_potBasename ${_potFile} NAME_WE)
    GET_FILENAME_COMPONENT(_absPotFile ${_potFile} ABSOLUTE)
@@ -23,38 +22,38 @@ MACRO(VALYRIATEAR_GETTEXT_CREATE_TRANSLATIONS _potFile _firstPoFileArg)
       GET_FILENAME_COMPONENT(_absFile ${_currentPoFile} ABSOLUTE)
       GET_FILENAME_COMPONENT(_abs_PATH ${_absFile} PATH)
       GET_FILENAME_COMPONENT(_lang ${_absFile} NAME_WE)
-      SET(_gmoFile ${CMAKE_CURRENT_BINARY_DIR}/${_lang}.gmo)
-      SET(_moFile ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES/valyriatear.mo)
 
+      # Prepare output directories for the translation binaries (mo files)
+      SET(_moDir ${CMAKE_CURRENT_BINARY_DIR}/../data/locale/${_lang}/LC_MESSAGES/)
       ADD_CUSTOM_COMMAND(
-         OUTPUT ${_gmoFile}
-         COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -o ${_gmoFile} ${_absFile}
-         DEPENDS ${_absPotFile} ${_absFile}
+         OUTPUT ${_moDir}
+         COMMAND ${CMAKE_COMMAND} -E remove_directory ${_moDir}
+         COMMAND ${CMAKE_COMMAND} -E make_directory ${_moDir}
       )
 
-      # Create the LC_MESSAGES folders locally to easily test the mo files.
+      # Generate the translation binaries (mo files)
+      SET(_moFile ${_moDir}/valyriatear.mo)
+
       ADD_CUSTOM_COMMAND(
-          OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES/valyriatear.mo
-          COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_BINARY_DIR}/${_lang}
-          COMMAND ${CMAKE_COMMAND} -E copy ${_gmoFile} ${CMAKE_CURRENT_BINARY_DIR}/${_lang}/LC_MESSAGES/valyriatear.mo
-          DEPENDS ${_gmoFile}
+         OUTPUT ${_moFile}
+         COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -o ${_moFile} ${_absFile}
+         DEPENDS ${_absPotFile} ${_absFile} ${_moDir}
       )
 
       # Install the mo files depending on the OS.
       IF (UNIX)
           # In the linux localedir, e.g.: /usr/share/locale/<lang>/LC_MESSAGES/valyriatear.mo
-          INSTALL(FILES ${_gmoFile} DESTINATION ${LOCALEDIR}/${_lang}/LC_MESSAGES RENAME ${_potBasename}.mo)
+          INSTALL(FILES ${_moFile} DESTINATION ${LOCALEDIR}/${_lang}/LC_MESSAGES RENAME ${_potBasename}.mo)
       ELSE()
-          # In the po/ data folder
-          INSTALL(FILES ${_gmoFile} DESTINATION ${PKG_DATADIR}/po/${_lang}/LC_MESSAGES RENAME ${_potBasename}.mo)
+          # In the locale/ data folder
+          INSTALL(FILES ${_moFile} DESTINATION ${PKG_DATADIR}/locale/${_lang}/LC_MESSAGES RENAME ${_potBasename}.mo)
       ENDIF()
 
-      SET(_gmoFiles ${_gmoFiles} ${_gmoFile})
       SET(_moFiles ${_moFiles} ${_moFile})
 
    ENDFOREACH (_currentPoFile)
 
-   ADD_CUSTOM_TARGET(translations ${_addToAll} DEPENDS ${_gmoFiles} ${_moFiles})
+   ADD_CUSTOM_TARGET(translations ${_addToAll} DEPENDS ${_moFiles})
 ENDMACRO()
 
 MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
