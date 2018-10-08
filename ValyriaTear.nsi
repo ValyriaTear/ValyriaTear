@@ -58,35 +58,6 @@ Section "MainSection" SEC01
   SetOutPath "$INSTDIR\doc"
   File /r doc\*
 
-;  TODO: Add proper support for translatable languages
-;  SetOutPath "$INSTDIR\po"
-;  File /r po\*
-; For now, we copy files by hand
-  SetOutPath "$INSTDIR\po\fr\LC_MESSAGES"
-  File /oname=valyriatear.mo po\fr.mo
-  SetOutPath "$INSTDIR\po\it\LC_MESSAGES"
-  File /oname=valyriatear.mo po\it.mo
-  SetOutPath "$INSTDIR\po\de\LC_MESSAGES"
-  File /oname=valyriatear.mo po\de.mo
-  SetOutPath "$INSTDIR\po\es\LC_MESSAGES"
-  File /oname=valyriatear.mo po\es.mo
-  SetOutPath "$INSTDIR\po\gd\LC_MESSAGES"
-  File /oname=valyriatear.mo po\gd.mo
-  SetOutPath "$INSTDIR\po\gl\LC_MESSAGES"
-  File /oname=valyriatear.mo po\gl.mo
-  SetOutPath "$INSTDIR\po\nl_NL\LC_MESSAGES"
-  File /oname=valyriatear.mo po\nl_NL.mo
-  SetOutPath "$INSTDIR\po\pt_BR\LC_MESSAGES"
-  File /oname=valyriatear.mo po\pt_BR.mo
-  SetOutPath "$INSTDIR\po\pt_PT\LC_MESSAGES"
-  File /oname=valyriatear.mo po\pt_PT.mo
-  SetOutPath "$INSTDIR\po\ru\LC_MESSAGES"
-  File /oname=valyriatear.mo po\ru.mo
-  SetOutPath "$INSTDIR\po\en_GB\LC_MESSAGES"
-  File /oname=valyriatear.mo po\en_GB.mo
-  SetOutPath "$INSTDIR\po\sv\LC_MESSAGES"
-  File /oname=valyriatear.mo po\sv.mo
-
   SetOutPath "$INSTDIR"
   File valyriaTear.exe
   File *.dll
