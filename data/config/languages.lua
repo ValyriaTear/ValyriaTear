@@ -1,8 +1,7 @@
 -- The languages configuration file.
 
 -- To add a new language, create a new entry in the languages table,
--- add the po locale name in the po/LINGUAS file
--- and don't forget to invoke CMake again to regenerate the po targets list.
+-- then invoke CMake again to regenerate the po targets list.
 
 languages = {
     -- The default language (used when translations are disabled/broken, or at first start.s)
