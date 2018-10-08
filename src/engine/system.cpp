@@ -437,18 +437,18 @@ std::string _Reinitl10n()
     char buffer[PATH_MAX];
     // Get the current working directory.
     bind_text_domain_path = getcwd(buffer, PATH_MAX);
-    bind_text_domain_path.append("/po/");
+    bind_text_domain_path.append("/data/locale/");
 
 #elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
     // Look for translation files in LOCALEDIR only if they are not available in the
     // current directory.
-    if(!vt_utils::DoesFileExist("po/" + DEFAULT_LOCALE + "/LC_MESSAGES/" APPSHORTNAME ".mo")) {
+    if(!vt_utils::DoesFileExist("data/locale/" + DEFAULT_LOCALE + "/LC_MESSAGES/" APPSHORTNAME ".mo")) {
         bind_text_domain_path = LOCALEDIR;
     } else {
         char buffer[PATH_MAX];
         // Get the current working directory.
         bind_text_domain_path = getcwd(buffer, PATH_MAX);
-        bind_text_domain_path.append("/po/");
+        bind_text_domain_path.append("/data/locale/");
     }
 #else
     bind_text_domain_path = LOCALEDIR;
