@@ -293,7 +293,7 @@ bool ResetSettings()
     std::string file = GetUserConfigPath() + "settings.lua";
 
     // Copy the default file to the user location.
-    CopyFile(std::string("data/config/settings.lua"), file);
+    vt_utils::CopyAFile(std::string("data/config/settings.lua"), file);
     std::cout << "Copied default settings.lua file to: " << file << std::endl;
 
     return false;
