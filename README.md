@@ -50,9 +50,9 @@ In that case, you might need the dependencies and headers files that can be down
 #### MSys/MinGW
 
 1. Download and install MSys2
-   1. **Download MSYS2** from [MSYS2.io](https://msys2.github.io), eiher the 64 bit or the 32 bit version, depending on which type of build you want to create
+   1. **Download MSYS2** from [MSYS2.io](https://msys2.github.io), either the 64 bit or the 32 bit version, depending on which type of build you want to create
    1. Depending on your version, **install** to `C:\msys64` or `C:\msys32`
-   1. **Run** `C:\msys64\mingw64.exe` or  `C:\msys32\mingw32.exe`
+   1. **Run** `C:\msys64\mingw64.exe` or `C:\msys32\mingw32.exe`
    1. Follow the [update steps](https://github.com/msys2/msys2/wiki/MSYS2-installation#iii-updating-packages). Running `pacman -Syuu` repeatedly and following the instructions on screen should do it.
 1. Install the toolchain and the dependencies
    1. Install the mingw64 **toolchain** (or mingw32 toolchain)

@@ -57,6 +57,35 @@ A [Code::Blocks](http://www.codeblocks.org/) project file is also provided when 
 In that case, you might need the dependencies and headers files that can be downloaded here:
 https://sourceforge.net/projects/valyriatear/files/win32-depends/valyriatear-win32-depends-sdl1.2-2014-12-11.zip/download
 
+- ** MSys/MinGW **
+
+1. Download and install MSys2
+   a. Download MSYS2 from https://msys2.github.io, either the 64 bit or the
+      32 bit version, depending on which type of build you want to create
+   b. Depending on your version, install to C:\msys64 or C:\msys32
+   c. Run C:\msys64\mingw64.exe or C:\msys32\mingw32.exe
+   d. Follow the update steps:
+      https://github.com/msys2/msys2/wiki/MSYS2-installation#iii-updating-packages.
+      Running 'pacman -Syuu' repeatedly and following the instructions on screen
+      should do it.
+2. Install the toolchain and the dependencies
+   a. Install the mingw64 toolchain (or mingw32 toolchain)
+      * 64bit: pacman -S mingw-w64-x86_64-toolchain
+      * 32bit: pacman -S mingw-w64-i686-toolchain
+   b. Install CMake and all dependencies
+      * 64 bit:
+        pacman -S mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-boost mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-glew mingw-w64-x86_64-libpng mingw-w64-x86_64-libzip mingw-w64-x86_64-lua mingw-w64-x86_64-libogg mingw-w64-x86_64-libvorbis mingw-w64-x86_64-openal mingw-w64-x86_64-libiconv
+      * 32 bit
+        pacman -S mingw-w64-i686-cmake mingw-w64-i686-ninja mingw-w64-i686-boost mingw-w64-i686-SDL2_ttf mingw-w64-i686-SDL2_image mingw-w64-i686-glew mingw-w64-i686-libpng mingw-w64-i686-libzip mingw-w64-i686-lua mingw-w64-i686-libogg mingw-w64-i686-libvorbis mingw-w64-i686-openal mingw-w64-i686-libiconv
+      * If any of the dependencies should be missing from the lists above,
+        you can search for them on http://repo.msys2.org/mingw/
+3. Configure the build
+   * 64bit:
+     cmake -G "Ninja" -DCMAKE_C_COMPILER=C:/msys64/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/msys64/mingw64/bin/g++.exe .
+   * 32 bit:
+    cmake -G "Ninja" -DCMAKE_C_COMPILER=C:/msys32/mingw32/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/msys32/mingw32/bin/g++.exe .
+4. Run the build: ninja
+
 - **Microsoft Visual C++ 2013 and later:**
 
 _**(Warning: not officially supported!)**_
