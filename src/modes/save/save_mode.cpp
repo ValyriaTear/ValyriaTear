@@ -761,7 +761,7 @@ std::string SaveMode::_BuildSaveFilename(uint32_t id, bool autosave)
 void SaveMode::_DeleteAutoSave(uint32_t id)
 {
     std::string filename = _BuildSaveFilename(id, true);
-    vt_utils::DeleteFile(filename);
+    vt_utils::DeleteAFile(filename.c_str());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

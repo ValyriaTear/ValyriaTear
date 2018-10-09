@@ -1269,8 +1269,9 @@ bool GameOptionsMenuHandler::_SaveSettingsFile(const std::string& filename)
         file = GetUserConfigPath() + "/" + filename;
 
     //copy the default file so we have an already set up lua file and then we can modify its settings
-    if(!DoesFileExist(file))
-        CopyFile(std::string("data/config/settings.lua"), file);
+    if(!DoesFileExist(file)) {
+        vt_utils::CopyAFile(std::string("data/config/settings.lua"), file);
+    }
 
     WriteScriptDescriptor settings_lua;
     if(!settings_lua.OpenFile(file)) {
