@@ -14,11 +14,11 @@ It is also translated in several languages.
 
 ## Licensing
 
-**Copyright (C) 2012-2017 by Bertram
+**Copyright (C) 2012-2017 by Bertram  
 Copyright (C) 2004-2011 by The Allacrost Project**
 
 The source code is licensed under the *GNU GPL*.
-It is free software and you may modify it and/or redistribute it under the terms of this license.
+It is free software and you may modify it and/or redistribute it under the terms of this license.  
 See https://www.gnu.org/copyleft/gpl.html for details.
 
 The graphics, sounds, musics and script files are licensed according to the [LICENSES](https://raw.githubusercontent.com/ValyriaTear/ValyriaTear/master/LICENSES) file.
@@ -26,15 +26,15 @@ The graphics, sounds, musics and script files are licensed according to the [LIC
 While the scripts are under the GNU GPL, the story concept is copyrighted and cannot be reused as is or part of it in another project without the author's consent.
 This means you can package, and distribute Valyria Tear under the term of this license but you cannot take the story or parts of it in another project without agreement.
 
-The game directories included and used are:
+The game directories included and used are:  
 `data/ po/`
 
 ## Compilation procedure
 
 ### Linux compilation
 
-Once you've unpacked the tarball, if you have checked it out from the Git repository, run this first to get the latest luabind code:
-`git submodule update --init --remote --force`
+Once you've unpacked the tarball, if you have checked it out from the Git repository, run this first to get the latest luabind code:  
+`git submodule update --init --remote --force`  
 and then the usual `cmake . && make` from the top-level directory at the prompt.
 
 You'll then be able to play by typing: `src/valyriatear`
@@ -71,8 +71,8 @@ In that case, you might need the dependencies and headers files that can be down
 #### Microsoft Visual C++ 2013 and later
 
 _**(Warning: not officially supported!)**_
-Please contact [authenticate](https://github.com/authenticate) for support.
-To create a debug build on Windows with Visual Studio 2013, do this:
+Please contact [authenticate](https://github.com/authenticate) for support.  
+To create a debug build on Windows with Visual Studio 2013, do this:  
 - git clone https://github.com/authenticate/ValyriaTear-VS2013-Dependencies.git
 - git submodule update --recursive --init --remote --force
 - Copy the contents of ```ValyriaTear-VS2013-Dependencies/``` into a new folder ```ValyriaTearRepository/vs2013/libs``` in your Valyria Tear repository.
