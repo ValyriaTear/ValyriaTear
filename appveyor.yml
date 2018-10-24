@@ -1,0 +1,49 @@
+###################################
+#   ValyriaTear                   #
+#                                 #
+#   AppVeyor build configuration  #
+###################################
+
+environment:
+  appveyor_build_worker_cloud: gce
+init:
+  - cmd: "IF \"%PLATFORM%\" == \"x86\" (set MINGWPATH=C:\\msys64\\mingw32\\bin& set MINGWPREFIX=mingw-w64-i686) ELSE (set MINGWPATH=C:\\msys64\\mingw64\\bin& set MINGWPREFIX=mingw-w64-x86_64)"
+
+install:
+  # Installing various utilities
+  - choco install nsis
+  - cmd: "set PATH=C:\\Program Files (x86)\\NSIS;%MINGWPATH%;%PATH%"
+  - cmd: "set CC=%MINGWPATH%\\gcc.exe"
+  - cmd: "set CXX=%MINGWPATH%\\g++.exe"
+  # Update mirrors
+  - cmd: "bash --login -c \"pacman --noconfirm --sync pacman pacman-mirrors\""
+  # Update msys2 system (twice, first run does system packages)
+  - cmd: "bash --login -c \"pacman -Su --noconfirm\""
+  - cmd: "bash --login -c \"pacman -Su --noconfirm\""
+  # Installed required libs
+  - cmd: "bash --login -c \"pacman --noconfirm -S %MINGWPREFIX%-cmake %MINGWPREFIX%-ninja %MINGWPREFIX%-boost %MINGWPREFIX%-SDL2_ttf %MINGWPREFIX%-SDL2_image %MINGWPREFIX%-glew %MINGWPREFIX%-libpng %MINGWPREFIX%-libzip %MINGWPREFIX%-lua %MINGWPREFIX%-libogg %MINGWPREFIX%-libvorbis %MINGWPREFIX%-openal %MINGWPREFIX%-libiconv\""
+
+shallow_clone: true
+
+build_script:
+  - cmd: cd %APPVEYOR_BUILD_FOLDER%
+  - cmd: "IF \"%configuration%\" == \"Debug\" (cmake -G \"Ninja\" -DDEBUG_FEATURES=on .) ELSE (cmake -G \"Ninja\" .)"
+  - cmd: ninja
+
+# TODO NSIS support
+# on_success:
+# - cmd: strip -sv %APPVEYOR_BUILD_FOLDER%\src\valyriatear.exe
+# - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\ValyriaTear-%APPVEYOR_BUILD_VERSION%-%CONFIGURATION%-%PLATFORM%.exe
+
+# TODO NSIS support
+# artifacts:
+#    - path: ValyriaTear-$(APPVEYOR_BUILD_VERSION)-$(CONFIGURATION)-$(PLATFORM).exe
+#      name: ValyriaTear Setup
+
+platform:
+  - x64
+  - x86
+
+configuration:
+  - Release
+  - Debug
