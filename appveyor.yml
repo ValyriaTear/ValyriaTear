@@ -4,6 +4,8 @@
 #   AppVeyor build configuration  #
 ###################################
 
+image: MinGW, MSYS, Cygwin
+
 environment:
   appveyor_build_worker_cloud: gce
 init:
