@@ -459,8 +459,8 @@ ELSE()
         ${LUA_LIBRARIES}
         ${X11_LIBRARIES}
         ${LIBINTL_LIBRARIES}
-        ${Iconv_LIBRARIES}
-        ${EXTRA_LIBRARIES})
+        ${EXTRA_LIBRARIES}
+        ${Iconv_LIBRARIES})
 ENDIF()
 
 INSTALL(TARGETS valyriatear RUNTIME DESTINATION ${PKG_BINDIR})
