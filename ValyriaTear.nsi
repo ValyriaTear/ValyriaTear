@@ -79,6 +79,10 @@ Section "MainSection" SEC01
   File "C:\msys64\mingw64\bin\libogg-0.dll"
   File "C:\msys64\mingw64\bin\libvorbisfile-3.dll"
   File "C:\msys64\mingw64\bin\libopenal-1.dll"
+  File "C:\msys64\mingw64\bin\libwinpthread-1.dll"
+  File "C:\msys64\mingw64\bin\libbz2-1.dll"
+  File "C:\msys64\mingw64\bin\liblzma-5.dll"
+  File "C:\msys64\mingw64\bin\libharfbuzz-0.dll"
 
   CreateDirectory "$SMPROGRAMS\ValyriaTear"
   CreateShortCut "$SMPROGRAMS\ValyriaTear\$0.lnk" "$INSTDIR\$0.exe"
