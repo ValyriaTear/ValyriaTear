@@ -22,9 +22,13 @@ init:
   - cmd: "IF \"%PLATFORM%\" == \"x86\" (set MINGWPATH=C:\\msys64\\mingw32\\bin& set MINGWPREFIX=mingw-w64-i686) ELSE (set MINGWPATH=C:\\msys64\\mingw64\\bin& set MINGWPREFIX=mingw-w64-x86_64)"
 
 install:
-  # Installing various utilities
+  # Get the submodules
+  - git submodule update --init --recursive
+  # Install NSIS
   - choco install nsis
+  # Paths to MinGW/MSys2 environment + NSIS
   - cmd: "set PATH=C:\\Program Files (x86)\\NSIS;C:\\msys64\\usr\\bin;%MINGWPATH%;%PATH%"
+  # Set up compiler
   - cmd: "set CC=%MINGWPATH%\\gcc.exe"
   - cmd: "set CXX=%MINGWPATH%\\g++.exe"
   # Update mirrors
@@ -34,8 +38,6 @@ install:
   - cmd: "bash --login -c \"pacman -Su --noconfirm\""
   # Installed required libs
   - cmd: "bash --login -c \"pacman --noconfirm -S %MINGWPREFIX%-cmake %MINGWPREFIX%-ninja %MINGWPREFIX%-boost %MINGWPREFIX%-SDL2_ttf %MINGWPREFIX%-SDL2_image %MINGWPREFIX%-glew %MINGWPREFIX%-libpng %MINGWPREFIX%-libzip %MINGWPREFIX%-lua %MINGWPREFIX%-libogg %MINGWPREFIX%-libvorbis %MINGWPREFIX%-openal %MINGWPREFIX%-libiconv\""
-  # Get the submodules
-  - cmd: git submodule update --init --recursive
 
 build_script:
   - cmd: cd %APPVEYOR_BUILD_FOLDER%
