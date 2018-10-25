@@ -59,8 +59,26 @@ Section "MainSection" SEC01
   File /r doc\*
 
   SetOutPath "$INSTDIR"
-  File valyriaTear.exe
-  File *.dll
+  File "src\valyriatear.exe"
+  File "C:\msys64\mingw64\bin\libiconv-2.dll"
+  File "C:\msys64\mingw64\bin\libpng16-16.dll"
+  File "C:\msys64\mingw64\bin\glew32.dll"
+  File "C:\msys64\mingw64\bin\libintl-8.dll"
+  File "C:\msys64\mingw64\bin\SDL2.dll"
+  File "C:\msys64\mingw64\bin\SDL2_image.dll"
+  File "C:\msys64\mingw64\bin\SDL2_ttf.dll"
+  File "C:\msys64\mingw64\bin\libvorbisfile-3.dll"
+  File "C:\msys64\mingw64\bin\zlib1.dll"
+  File "C:\msys64\mingw64\bin\libgcc_s_seh-1.dll"
+  File "C:\msys64\mingw64\bin\lua53.dll"
+  File "C:\msys64\mingw64\bin\libfreetype-6.dll"
+  File "C:\msys64\mingw64\bin\libtiff-5.dll"
+  File "C:\msys64\mingw64\bin\libjpeg-8.dll"
+  File "C:\msys64\mingw64\bin\libwebp-7.dll"
+  File "C:\msys64\mingw64\bin\libvorbis-0.dll"
+  File "C:\msys64\mingw64\bin\libogg-0.dll"
+  File "C:\msys64\mingw64\bin\libvorbisfile-3.dll"
+  File "C:\msys64\mingw64\bin\libopenal-1.dll"
 
   CreateDirectory "$SMPROGRAMS\ValyriaTear"
   CreateShortCut "$SMPROGRAMS\ValyriaTear\$0.lnk" "$INSTDIR\$0.exe"
