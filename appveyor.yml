@@ -46,15 +46,15 @@ build_script:
   # Compile
   - cmd: ninja
 
-# TODO NSIS support
-# on_success:
-# - cmd: strip -sv %APPVEYOR_BUILD_FOLDER%\src\valyriatear.exe
-# - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\ValyriaTear-%APPVEYOR_BUILD_VERSION%-%CONFIGURATION%-%PLATFORM%.exe
+on_success:
+ # Create installer
+ - cmd: strip -sv %APPVEYOR_BUILD_FOLDER%\src\valyriatear.exe
+ - cmd: makensis.exe ValyriaTear.nsi
+ - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\valyriatear-win32-installer.exe
 
-# TODO NSIS support
-# artifacts:
-#    - path: ValyriaTear-$(APPVEYOR_BUILD_VERSION)-$(CONFIGURATION)-$(PLATFORM).exe
-#      name: ValyriaTear Setup
+artifacts:
+    - path: valyriatear-win32-installer.exe
+      name: ValyriaTear Setup
 
 platform:
   - x64
