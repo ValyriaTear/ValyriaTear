@@ -10,7 +10,7 @@ pull_requests:
   do_not_increment_build_number: true
 
 image: Visual Studio 2013
-#shallow_clone: true
+shallow_clone: true
 
 build:
   verbosity: minimal
@@ -41,8 +41,6 @@ install:
 
 build_script:
   - cmd: cd %APPVEYOR_BUILD_FOLDER%
-  # Get the submodules - this does not work
-  #- cmd: git submodule update --init --recursive
   # Configure
   - cmd: "IF \"%configuration%\" == \"Debug\" (cmake -G \"Ninja\" -DDEBUG_FEATURES=on .) ELSE (cmake -G \"Ninja\" .)"
   # Compile
