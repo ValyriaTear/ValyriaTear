@@ -24,6 +24,8 @@ install:
   - cmd: "bash --login -c \"pacman -Su --noconfirm\""
   # Installed required libs
   - cmd: "bash --login -c \"pacman --noconfirm -S %MINGWPREFIX%-cmake %MINGWPREFIX%-ninja %MINGWPREFIX%-boost %MINGWPREFIX%-SDL2_ttf %MINGWPREFIX%-SDL2_image %MINGWPREFIX%-glew %MINGWPREFIX%-libpng %MINGWPREFIX%-libzip %MINGWPREFIX%-lua %MINGWPREFIX%-libogg %MINGWPREFIX%-libvorbis %MINGWPREFIX%-openal %MINGWPREFIX%-libiconv\""
+  # Get the submodules
+  - cmd: git submodule update --init --recursive
 
 shallow_clone: true
 
