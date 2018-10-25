@@ -22,8 +22,6 @@ init:
   - cmd: "IF \"%PLATFORM%\" == \"x86\" (set MINGWPATH=C:\\msys64\\mingw32\\bin& set MINGWPREFIX=mingw-w64-i686) ELSE (set MINGWPATH=C:\\msys64\\mingw64\\bin& set MINGWPREFIX=mingw-w64-x86_64)"
 
 install:
-  # Get the submodules
-  - git submodule update --init --recursive
   # Install NSIS
   - choco install nsis
   # Paths to MinGW/MSys2 environment + NSIS
@@ -41,7 +39,11 @@ install:
 
 build_script:
   - cmd: cd %APPVEYOR_BUILD_FOLDER%
+  # Get the submodules
+  - cmd: git submodule update --init --recursive
+  # Configure
   - cmd: "IF \"%configuration%\" == \"Debug\" (cmake -G \"Ninja\" -DDEBUG_FEATURES=on .) ELSE (cmake -G \"Ninja\" .)"
+  # Compile
   - cmd: ninja
 
 # TODO NSIS support
