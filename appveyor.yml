@@ -14,7 +14,7 @@ init:
 install:
   # Installing various utilities
   - choco install nsis
-  - cmd: "set PATH=C:\\Program Files (x86)\\NSIS;%MINGWPATH%;%PATH%"
+  - cmd: "set PATH=C:\\Program Files (x86)\\NSIS;C:\msys64\usr\bin;%MINGWPATH%;%PATH%"
   - cmd: "set CC=%MINGWPATH%\\gcc.exe"
   - cmd: "set CXX=%MINGWPATH%\\g++.exe"
   # Update mirrors
