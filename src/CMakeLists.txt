@@ -489,6 +489,9 @@ IF (CMAKE_SYSTEM_NAME STREQUAL SunOS)
     # we expect the SMCgtxt package to be present on Solaris;
     # the Solaris gettext is not API-compatible to GNU gettext
     SET_TARGET_PROPERTIES(valyriatear PROPERTIES LINK_FLAGS "-L/usr/local/lib")
+ELSEIF (WIN32)
+    # The AppVeyor build has problems linking libiconv
+    SET_TARGET_PROPERTIES(valyriatear PROPERTIES LINK_FLAGS "-liconv")
 ENDIF()
 
 SET_TARGET_PROPERTIES(valyriatear PROPERTIES COMPILE_FLAGS "${FLAGS}")
