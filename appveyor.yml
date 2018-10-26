@@ -49,7 +49,7 @@ build_script:
 on_success:
  # Create installer
  - cmd: strip -sv %APPVEYOR_BUILD_FOLDER%\src\valyriatear.exe
- - cmd: makensis.exe ValyriaTear.nsi
+ - cmd: "/X\"SetCompressor /FINAL lzma\" makensis.exe /DDLL_DIR="%MINGWPATH%" ValyriaTear.nsi"
  - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\valyriatear-win32-installer.exe
 
 artifacts:
