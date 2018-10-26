@@ -140,6 +140,13 @@ INCLUDE_DIRECTORIES(
     ${Boost_INCLUDE_DIRS}
     )
 
+IF (NOT DISABLE_TRANSLATIONS)
+    IF (WIN32)
+       INCLUDE_DIRECTORIES(${Intl_INCLUDE_DIRS})
+       INCLUDE_DIRECTORIES(${Iconv_INCLUDE_DIRS})
+    ENDIF()
+ENDIF()
+
 INCLUDE_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}/luabind")
 MESSAGE(STATUS "Using included luabind files")
 
@@ -489,9 +496,9 @@ IF (CMAKE_SYSTEM_NAME STREQUAL SunOS)
     # we expect the SMCgtxt package to be present on Solaris;
     # the Solaris gettext is not API-compatible to GNU gettext
     SET_TARGET_PROPERTIES(valyriatear PROPERTIES LINK_FLAGS "-L/usr/local/lib")
-ELSEIF (WIN32)
+#ELSEIF (WIN32)
     # The AppVeyor build has problems linking libiconv
-    SET_TARGET_PROPERTIES(valyriatear PROPERTIES LINK_FLAGS "-L${MINGW_PREFIX}\\lib -liconv")
+    #SET_TARGET_PROPERTIES(valyriatear PROPERTIES LINK_FLAGS "-L${MINGW_PREFIX}\\lib -lintl.dll -liconv")
 ENDIF()
 
 SET_TARGET_PROPERTIES(valyriatear PROPERTIES COMPILE_FLAGS "${FLAGS}")
