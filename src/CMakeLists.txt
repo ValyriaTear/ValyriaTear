@@ -458,8 +458,8 @@ ELSE()
         ${LUA_LIBRARIES}
         ${X11_LIBRARIES}
         ${LIBINTL_LIBRARIES}
-        ${Iconv_LIBRARIES}
-        ${EXTRA_LIBRARIES})
+        ${EXTRA_LIBRARIES}
+        ${Iconv_LIBRARIES})
 ENDIF()
 
 INSTALL(TARGETS valyriatear RUNTIME DESTINATION ${PKG_BINDIR})
@@ -491,7 +491,7 @@ IF (CMAKE_SYSTEM_NAME STREQUAL SunOS)
     SET_TARGET_PROPERTIES(valyriatear PROPERTIES LINK_FLAGS "-L/usr/local/lib")
 ELSEIF (WIN32)
     # The AppVeyor build has problems linking libiconv
-    SET_TARGET_PROPERTIES(valyriatear PROPERTIES LINK_FLAGS "-liconv")
+    SET_TARGET_PROPERTIES(valyriatear PROPERTIES LINK_FLAGS "-L${MINGW_PREFIX}\\lib -liconv")
 ENDIF()
 
 SET_TARGET_PROPERTIES(valyriatear PROPERTIES COMPILE_FLAGS "${FLAGS}")
