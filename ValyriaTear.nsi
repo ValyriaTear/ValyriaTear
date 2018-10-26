@@ -70,11 +70,12 @@ Section "MainSection" SEC01
   File "${DLL_DIR}\libglib-2.0-?.dll"
   File "${DLL_DIR}\libgraphite2.dll"
   File "${DLL_DIR}\libharfbuzz-?.dll"
-  File "${DLL_DIR}\libiconv-?.dll"
-  File "${DLL_DIR}\libintl-?.dll"
+  File "${DLL_DIR}\*iconv-?.dll" ; match both libiconv and msys-iconv
+  File "${DLL_DIR}\*intl-?.dll" ; match both libintl and msys-intl
   File "${DLL_DIR}\libjpeg-?.dll"
   File "${DLL_DIR}\liblzma-?.dll"
   File "${DLL_DIR}\libogg-?.dll"
+  File "${DLL_DIR}\libopenal-?.dll"
   File "${DLL_DIR}\libpcre-?.dll"
   File "${DLL_DIR}\libpng16-??.dll"
   File "${DLL_DIR}\libstdc++-?.dll"
@@ -88,10 +89,6 @@ Section "MainSection" SEC01
   File "${DLL_DIR}\SDL2_image.dll"
   File "${DLL_DIR}\SDL2_ttf.dll"
   File "${DLL_DIR}\zlib1.dll"
-  ; For AppVeyor
-  ;File "${DLL_DIR}\libopenal-?.dll"
-  ;File "${DLL_DIR}\msys-iconv-?.dll"
-  ;File "${DLL_DIR}\msys-intl-?.dll"
 
   CreateDirectory "$SMPROGRAMS\ValyriaTear"
   CreateShortCut "$SMPROGRAMS\ValyriaTear\$0.lnk" "$INSTDIR\$0.exe"
