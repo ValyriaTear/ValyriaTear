@@ -63,15 +63,17 @@ Section "MainSection" SEC01
 
   SetOutPath "$INSTDIR"
   File "src\valyriatear.exe"
+  ; Load DLLs. We use wildcards because the names can change slightly depending
+  ; on the MSys installation.
   File "${DLL_DIR}\glew32.dll"
   File "${DLL_DIR}\libbz2-?.dll"
   File "${DLL_DIR}\libfreetype-?.dll"
-  File "${DLL_DIR}\libgcc_s_seh-?.dll"
+  File "${DLL_DIR}\libgcc_?_*.dll"
   File "${DLL_DIR}\libglib-2.0-?.dll"
   File "${DLL_DIR}\libgraphite2.dll"
   File "${DLL_DIR}\libharfbuzz-?.dll"
-  File "${DLL_DIR}\*iconv-?.dll" ; match both libiconv and msys-iconv
-  File "${DLL_DIR}\*intl-?.dll" ; match both libintl and msys-intl
+  File "${DLL_DIR}\libiconv-?.dll"
+  File "${DLL_DIR}\libintl-?.dll"
   File "${DLL_DIR}\libjpeg-?.dll"
   File "${DLL_DIR}\liblzma-?.dll"
   File "${DLL_DIR}\libogg-?.dll"
