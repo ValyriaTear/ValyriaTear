@@ -85,6 +85,10 @@ Section "MainSection" SEC01
   File "C:\msys64\mingw64\bin\SDL2_image.dll"
   File "C:\msys64\mingw64\bin\SDL2_ttf.dll"
   File "C:\msys64\mingw64\bin\zlib1.dll"
+  # For AppVeyor
+  File "C:\msys64\mingw64\bin\libopenal-?.dll"
+  File "C:\msys64\mingw64\bin\msys-iconv-?.dll"
+  File "C:\msys64\mingw64\bin\msys-intl-?.dll"
 
   CreateDirectory "$SMPROGRAMS\ValyriaTear"
   CreateShortCut "$SMPROGRAMS\ValyriaTear\$0.lnk" "$INSTDIR\$0.exe"
