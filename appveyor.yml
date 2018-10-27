@@ -20,6 +20,7 @@ environment:
 
 init:
   - cmd: "IF \"%PLATFORM%\" == \"x86\" (set MINGWPATH=C:\\msys64\\mingw32\\bin& set MINGW_PACKAGE_PREFIX=mingw-w64-i686) ELSE (set MINGWPATH=C:\\msys64\\mingw64\\bin& set MINGW_PACKAGE_PREFIX=mingw-w64-x86_64)"
+  - cmd: set INSTALLER_FILENAME=valyriatear-{branch}-{build}-%MINGW_PACKAGE_PREFIX%.exe
 
 install:
   # Install NSIS
@@ -49,11 +50,11 @@ build_script:
 on_success:
  # Create installer
  - cmd: strip -sv %APPVEYOR_BUILD_FOLDER%\src\valyriatear.exe
- - cmd: "makensis.exe /X\"SetCompressor /FINAL lzma\" /DDLL_DIR=\"%MINGWPATH%\" ValyriaTear.nsi"
- - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\valyriatear-win32-installer.exe
+ - cmd: "makensis.exe /X\"SetCompressor /FINAL lzma\" /DDLL_DIR=\"%MINGWPATH%\" /DINSTALLER_FILENAME=\"%INSTALLER_FILENAME%\"  ValyriaTear.nsi"
+ - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\%INSTALLER_FILENAME%
 
 artifacts:
-    - path: valyriatear-win32-installer.exe
+    - path: %INSTALLER_FILENAME%
       name: ValyriaTear Setup
 
 platform:
