@@ -93,8 +93,8 @@ Section "MainSection" SEC01
   File "${DLL_DIR}\zlib1.dll"
 
   CreateDirectory "$SMPROGRAMS\ValyriaTear"
-  CreateShortCut "$SMPROGRAMS\ValyriaTear\$0.lnk" "$INSTDIR\$0.exe"
-  CreateShortCut "$SMPROGRAMS\ValyriaTear\Manual.lnk" "$INSTDIR\doc\index.htm"
+  CreateShortCut "$SMPROGRAMS\ValyriaTear\$0.lnk" "$INSTDIR\valyriatear.exe"
+  CreateShortCut "$SMPROGRAMS\ValyriaTear\Manual.lnk" "$INSTDIR\doc\manual\index.htm"
 SectionEnd
 
 Section -AdditionalIcons
