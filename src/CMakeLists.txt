@@ -415,12 +415,12 @@ main_options.cpp
 main.cpp
     )
 
-#IF (WIN32)
-#    SET(SRCS
-#        ${SRCS}
-#       ../icon.rc
-#    )
-#ENDIF ()
+IF (WIN32)
+    SET(SRCS
+        ${SRCS}
+       ../icon.rc
+    )
+ENDIF ()
 
 SET (PROGRAMS valyriatear)
 
