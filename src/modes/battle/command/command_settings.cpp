@@ -117,7 +117,7 @@ CommandSettings::CommandSettings(BattleCharacter* character, MenuWindow& window)
 
     // Construct the weapon, magic, and special skill lists for the character
     std::vector<GlobalSkill *>* skill_list = nullptr;
-    std::shared_ptr<GlobalWeapon> char_wpn = _character->GetGlobalCharacter()->GetWeaponEquipped();
+    std::shared_ptr<GlobalWeapon> char_wpn = _character->GetGlobalCharacter()->GetEquippedWeapon();
 
     if (char_wpn)
         skill_list = _character->GetGlobalCharacter()->GetWeaponSkills();

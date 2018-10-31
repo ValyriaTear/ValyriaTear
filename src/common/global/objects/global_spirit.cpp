@@ -27,7 +27,7 @@ GlobalSpirit::GlobalSpirit(uint32_t id, uint32_t count) :
         return;
     }
 
-    ReadScriptDescriptor& script_file = GlobalManager->GetSpiritsScript();
+    ReadScriptDescriptor& script_file = GlobalManager->GetInventoryHandler().GetSpiritsScript();
     if (script_file.DoesTableExist(_id) == false) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "No valid data for spirit id: " << _id << std::endl;
         _InvalidateObject();

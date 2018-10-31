@@ -150,25 +150,7 @@ private:
                                      vt_gui::TextBox& description);
 
     void _DrawBottomInfo();
-
-    template <class T> std::vector<std::shared_ptr<vt_global::GlobalObject>> _GetObjectVector(std::vector<std::shared_ptr<T>>* inv);
-
 };
-
-/*!
-* \brief Converts a vector of std::shared_ptr<GlobalItem>, etc. to a vector of std::shared_ptr<GlobalObject>
-* \return the same vector, with elements of type std::shared_ptr<GlobalObject>
-*/
-template <class T> std::vector<std::shared_ptr<vt_global::GlobalObject>> InventoryWindow::_GetObjectVector(std::vector<std::shared_ptr<T>>* inv)
-{
-    std::vector<std::shared_ptr<vt_global::GlobalObject>> obj_vector;
-
-    for (auto i = inv->begin(); i != inv->end(); i++) {
-        obj_vector.push_back(*i);
-    }
-
-    return obj_vector;
-}
 
 } // namespace private_menu
 

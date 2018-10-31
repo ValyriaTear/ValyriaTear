@@ -60,14 +60,14 @@ BattleCharacter::BattleCharacter(GlobalCharacter *character) :
     _current_sprite_animation = _global_character->RetrieveBattleAnimation(_sprite_animation_alias);
     // Add custom weapon animation
     std::string weapon_animation;
-    if (_global_character->GetWeaponEquipped())
-            weapon_animation = _global_character->GetWeaponEquipped()->GetWeaponAnimationFile(_global_character->GetID(), _sprite_animation_alias);
+    if (_global_character->GetEquippedWeapon())
+            weapon_animation = _global_character->GetEquippedWeapon()->GetWeaponAnimationFile(_global_character->GetID(), _sprite_animation_alias);
     if (weapon_animation.empty() || !_current_weapon_animation.LoadFromAnimationScript(weapon_animation))
         _current_weapon_animation.Clear();
 
     // Load the potential the ammo image filename
-    _ammo_animation_file = _global_character->GetWeaponEquipped() ?
-                               _global_character->GetWeaponEquipped()->GetAmmoAnimationFile() : std::string();
+    _ammo_animation_file = _global_character->GetEquippedWeapon() ?
+                               _global_character->GetEquippedWeapon()->GetAmmoAnimationFile() : std::string();
 
     // Apply passive status effect from equipment
     const std::vector<GLOBAL_INTENSITY>& passive_effects = _global_character->GetEquipementStatusEffects();
@@ -137,9 +137,9 @@ void BattleCharacter::ChangeState(ACTOR_STATE new_state)
             // Determine the current weapon icon if existing...
             std::string icon_filename;
             if (_action->GetIconFilename() == "weapon") {
-                std::shared_ptr<GlobalWeapon> wpn = _global_character->GetWeaponEquipped();
+                std::shared_ptr<GlobalWeapon> wpn = _global_character->GetEquippedWeapon();
                 if (wpn) {
-                    icon_filename = _global_character->GetWeaponEquipped()->GetIconImage().GetFilename();
+                    icon_filename = _global_character->GetEquippedWeapon()->GetIconImage().GetFilename();
                     if (icon_filename.empty())
                         icon_filename = "data/gui/battle/default_weapon.png";
                 }
@@ -363,8 +363,8 @@ void BattleCharacter::ChangeSpriteAnimation(const std::string &alias)
     // Change the weapon animation as well
     // Add custom weapon animation
     std::string weapon_animation;
-    if (_global_character->GetWeaponEquipped())
-            weapon_animation = _global_character->GetWeaponEquipped()->GetWeaponAnimationFile(_global_character->GetID(), _sprite_animation_alias);
+    if (_global_character->GetEquippedWeapon())
+            weapon_animation = _global_character->GetEquippedWeapon()->GetWeaponAnimationFile(_global_character->GetID(), _sprite_animation_alias);
     if (weapon_animation.empty() || !_current_weapon_animation.LoadFromAnimationScript(weapon_animation))
         _current_weapon_animation.Clear();
 
@@ -389,7 +389,7 @@ void BattleCharacter::ChangeActionText()
             // Determine the weapon icon according to the current skill
             std::string icon_file = _action->GetIconFilename();
             if (icon_file == "weapon") { // Alias used to trigger the loading of the weapon icon.
-                std::shared_ptr<GlobalWeapon> char_wpn = GetGlobalCharacter()->GetWeaponEquipped();
+                std::shared_ptr<GlobalWeapon> char_wpn = GetGlobalCharacter()->GetEquippedWeapon();
                 icon_file = char_wpn ?
                             char_wpn->GetIconImage().GetFilename() :
                             "data/inventory/weapons/fist-human.png";

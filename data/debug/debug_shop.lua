@@ -12,13 +12,14 @@ function TestFunction()
     GlobalManager:AddDrunes(1842);
 
     -- Initial inventory
-    GlobalManager:AddToInventory(1, 5);
-    GlobalManager:AddToInventory(1001, 2);
-    GlobalManager:AddToInventory(10001, 1);
-    GlobalManager:AddToInventory(20002, 1);
-    GlobalManager:AddToInventory(30001, 1);
-    GlobalManager:AddToInventory(40001, 1);
-    GlobalManager:AddToInventory(50001, 1);
+    local inventory_handler = GlobalManager:GetInventoryHandler()
+    inventory_handler:AddToInventory(1, 5);
+    inventory_handler:AddToInventory(1001, 2);
+    inventory_handler:AddToInventory(10001, 1);
+    inventory_handler:AddToInventory(20002, 1);
+    inventory_handler:AddToInventory(30001, 1);
+    inventory_handler:AddToInventory(40001, 1);
+    inventory_handler:AddToInventory(50001, 1);
 
     local shop = vt_shop.ShopMode("Debug shop");
     shop:SetShopName(vt_system.UTranslate("Flora's Shop"));

@@ -156,17 +156,18 @@ void TreasureSupervisor::Initialize(MapTreasureContent* treasure)
 
     // Immediately add the drunes and objects to the player's inventory
     GlobalManager->AddDrunes(_treasure->_drunes);
+    InventoryHandler& inventory_handler = GlobalManager->GetInventoryHandler();
 
     for (uint32_t i = 0; i < _treasure->_items_list.size(); ++i) {
         std::shared_ptr<GlobalObject> obj = _treasure->_items_list[i];
         if (!obj)
             continue;
 
-        if (!GlobalManager->IsItemInInventory(obj->GetID())) {
+        if (!inventory_handler.IsItemInInventory(obj->GetID())) {
             std::shared_ptr<vt_global::GlobalObject> obj_copy = GlobalCreateNewObject(obj->GetID(), obj->GetCount());
-            GlobalManager->AddToInventory(obj_copy);
+            inventory_handler.AddToInventory(obj_copy);
         } else {
-            GlobalManager->IncrementItemCount(obj->GetID(), obj->GetCount());
+            inventory_handler.IncrementItemCount(obj->GetID(), obj->GetCount());
         }
     }
 }

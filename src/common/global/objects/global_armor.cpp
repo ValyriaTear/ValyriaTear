@@ -28,19 +28,20 @@ GlobalArmor::GlobalArmor(uint32_t id, uint32_t count) :
     }
 
     // Figure out the appropriate script reference to grab based on the id value
-    ReadScriptDescriptor *script_file;
+    ReadScriptDescriptor* script_file = nullptr;
+    InventoryHandler& inventory = GlobalManager->GetInventoryHandler();
     switch(GetObjectType()) {
     case GLOBAL_OBJECT_HEAD_ARMOR:
-        script_file = &(GlobalManager->GetHeadArmorScript());
+        script_file = &(inventory.GetHeadArmorScript());
         break;
     case GLOBAL_OBJECT_TORSO_ARMOR:
-        script_file = &(GlobalManager->GetTorsoArmorScript());
+        script_file = &(inventory.GetTorsoArmorScript());
         break;
     case GLOBAL_OBJECT_ARM_ARMOR:
-        script_file = &(GlobalManager->GetArmArmorScript());
+        script_file = &(inventory.GetArmArmorScript());
         break;
     case GLOBAL_OBJECT_LEG_ARMOR:
-        script_file = &(GlobalManager->GetLegArmorScript());
+        script_file = &(inventory.GetLegArmorScript());
         break;
     default:
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "could not determine armor type: " << _id << std::endl;
@@ -49,7 +50,7 @@ GlobalArmor::GlobalArmor(uint32_t id, uint32_t count) :
     }
 
     if(script_file->DoesTableExist(_id) == false) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "no valid data for armor in definition file: " << _id << std::endl;
+        PRINT_WARNING << "no valid data for armor in definition file: " << _id << std::endl;
         _InvalidateObject();
         return;
     }
@@ -76,10 +77,8 @@ GlobalArmor::GlobalArmor(uint32_t id, uint32_t count) :
 
     script_file->CloseTable();
     if(script_file->IsErrorDetected()) {
-        if(GLOBAL_DEBUG) {
-            PRINT_WARNING << "one or more errors occurred while reading armor data - they are listed below"
-                          << std::endl << script_file->GetErrorMessages() << std::endl;
-        }
+        PRINT_WARNING << "one or more errors occurred while reading armor data - they are listed below"
+                      << std::endl << script_file->GetErrorMessages() << std::endl;
         _InvalidateObject();
     }
 }

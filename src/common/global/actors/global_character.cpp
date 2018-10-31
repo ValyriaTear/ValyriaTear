@@ -27,9 +27,27 @@ namespace vt_global
 
 extern bool GLOBAL_DEBUG;
 
+//! \brief Returns the Equipment indeex position according to the Object type
+uint32_t GetEquipmentPositionFromObjectType(GLOBAL_OBJECT object_type)
+{
+    switch (object_type) {
+    default:
+       break;
+    case GLOBAL_OBJECT_HEAD_ARMOR:
+        return GLOBAL_POSITION_HEAD;
+    case GLOBAL_OBJECT_TORSO_ARMOR:
+        return GLOBAL_POSITION_TORSO;
+    case GLOBAL_OBJECT_ARM_ARMOR:
+        return GLOBAL_POSITION_ARMS;
+    case GLOBAL_OBJECT_LEG_ARMOR:
+        return GLOBAL_POSITION_LEGS;
+    }
+     return GLOBAL_POSITION_INVALID;
+}
+
 GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
     _enabled(true),
-    _weapon_equipped(nullptr),
+    _equipped_weapon(nullptr),
     _unspent_experience_points(0),
     _total_experience_points(0),
     _experience_level(0),
@@ -167,33 +185,33 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
         uint32_t equipment_id = 0;
         equipment_id = char_script.ReadUInt("weapon");
         if(equipment_id != 0)
-            _weapon_equipped = std::make_shared<GlobalWeapon>(equipment_id);
+            _equipped_weapon = std::make_shared<GlobalWeapon>(equipment_id);
         else
-            _weapon_equipped = nullptr;
+            _equipped_weapon = nullptr;
 
         equipment_id = char_script.ReadUInt("head_armor");
         if(equipment_id != 0)
-            _armor_equipped.push_back(std::make_shared<GlobalArmor>(equipment_id));
+            _equipped_armors.push_back(std::make_shared<GlobalArmor>(equipment_id));
         else
-            _armor_equipped.push_back(nullptr);
+            _equipped_armors.push_back(nullptr);
 
         equipment_id = char_script.ReadUInt("torso_armor");
         if(equipment_id != 0)
-            _armor_equipped.push_back(std::make_shared<GlobalArmor>(equipment_id));
+            _equipped_armors.push_back(std::make_shared<GlobalArmor>(equipment_id));
         else
-            _armor_equipped.push_back(nullptr);
+            _equipped_armors.push_back(nullptr);
 
         equipment_id = char_script.ReadUInt("arm_armor");
         if(equipment_id != 0)
-            _armor_equipped.push_back(std::make_shared<GlobalArmor>(equipment_id));
+            _equipped_armors.push_back(std::make_shared<GlobalArmor>(equipment_id));
         else
-            _armor_equipped.push_back(nullptr);
+            _equipped_armors.push_back(nullptr);
 
         equipment_id = char_script.ReadUInt("leg_armor");
         if(equipment_id != 0)
-            _armor_equipped.push_back(std::make_shared<GlobalArmor>(equipment_id));
+            _equipped_armors.push_back(std::make_shared<GlobalArmor>(equipment_id));
         else
-            _armor_equipped.push_back(nullptr);
+            _equipped_armors.push_back(nullptr);
 
         char_script.CloseTable(); // initial_stats
         if(char_script.IsErrorDetected()) {
@@ -207,7 +225,7 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
     else {
         // Make sure the _armor_equipped vector is sized appropriately. Armor should be equipped on the character
         // externally to this constructor.
-        _armor_equipped.resize(4, nullptr);
+        _equipped_armors.resize(4, nullptr);
     }
 
     // Setup the character's attack points
@@ -298,12 +316,12 @@ GlobalCharacter::GlobalCharacter(uint32_t id, bool initial) :
 GlobalCharacter::~GlobalCharacter()
 {
     // Delete all equipment.
-    _weapon_equipped = nullptr;
+    _equipped_weapon = nullptr;
 
-    for (uint32_t i = 0; i < _armor_equipped.size(); ++i) {
-        _armor_equipped[i] = nullptr;
+    for (uint32_t i = 0; i < _equipped_armors.size(); ++i) {
+        _equipped_armors[i] = nullptr;
     }
-    _armor_equipped.clear();
+    _equipped_armors.clear();
 }
 
 bool GlobalCharacter::LoadCharacter(ReadScriptDescriptor& file)
@@ -382,22 +400,22 @@ bool GlobalCharacter::LoadCharacter(ReadScriptDescriptor& file)
 
         equip_id = file.ReadUInt("head_armor");
         if(equip_id != 0) {
-            EquipHeadArmor(std::make_shared<GlobalArmor>(equip_id));
+            EquipArmor(std::make_shared<GlobalArmor>(equip_id));
         }
 
         equip_id = file.ReadUInt("torso_armor");
         if(equip_id != 0) {
-            EquipTorsoArmor(std::make_shared<GlobalArmor>(equip_id));
+            EquipArmor(std::make_shared<GlobalArmor>(equip_id));
         }
 
         equip_id = file.ReadUInt("arm_armor");
         if(equip_id != 0) {
-            EquipArmArmor(std::make_shared<GlobalArmor>(equip_id));
+            EquipArmor(std::make_shared<GlobalArmor>(equip_id));
         }
 
         equip_id = file.ReadUInt("leg_armor");
         if(equip_id != 0) {
-            EquipLegArmor(std::make_shared<GlobalArmor>(equip_id));
+            EquipArmor(std::make_shared<GlobalArmor>(equip_id));
         }
 
         file.CloseTable(); // equipment
@@ -563,11 +581,11 @@ bool GlobalCharacter::SaveCharacter(WriteScriptDescriptor& file)
     file.WriteLine("\t\tevade = " + NumberToString(GetEvadeBase()) + ",");
 
     // Write out the character's equipment
-    uint32_t weapon_id = GetWeaponEquipped() ? GetWeaponEquipped()->GetID() : 0;
-    uint32_t head_id = GetHeadArmorEquipped() ? GetHeadArmorEquipped()->GetID() : 0;
-    uint32_t torso_id = GetTorsoArmorEquipped() ? GetTorsoArmorEquipped()->GetID() : 0;
-    uint32_t arm_id = GetArmArmorEquipped() ? GetArmArmorEquipped()->GetID() : 0;
-    uint32_t leg_id = GetLegArmorEquipped() ? GetLegArmorEquipped()->GetID() : 0;
+    uint32_t weapon_id = GetEquippedWeapon() ? GetEquippedWeapon()->GetID() : 0;
+    uint32_t head_id = GetEquippedArmor(GLOBAL_OBJECT_HEAD_ARMOR) ? GetEquippedArmor(GLOBAL_OBJECT_HEAD_ARMOR)->GetID() : 0;
+    uint32_t torso_id = GetEquippedArmor(GLOBAL_OBJECT_TORSO_ARMOR) ? GetEquippedArmor(GLOBAL_OBJECT_TORSO_ARMOR)->GetID() : 0;
+    uint32_t arm_id = GetEquippedArmor(GLOBAL_OBJECT_ARM_ARMOR) ? GetEquippedArmor(GLOBAL_OBJECT_ARM_ARMOR)->GetID() : 0;
+    uint32_t leg_id = GetEquippedArmor(GLOBAL_OBJECT_LEG_ARMOR) ? GetEquippedArmor(GLOBAL_OBJECT_LEG_ARMOR)->GetID() : 0;
 
     file.InsertNewLine();
     file.WriteLine("\t\tequipment = {");
@@ -717,8 +735,8 @@ void GlobalCharacter::SubtractMagDef(uint32_t amount)
 
 std::shared_ptr<GlobalWeapon> GlobalCharacter::EquipWeapon(const std::shared_ptr<GlobalWeapon>& weapon)
 {
-    std::shared_ptr<GlobalWeapon> old_weapon = _weapon_equipped;
-    _weapon_equipped = weapon;
+    std::shared_ptr<GlobalWeapon> old_weapon = _equipped_weapon;
+    _equipped_weapon = weapon;
 
     // Updates the equipment status effects first
     _UpdateEquipmentStatusEffects();
@@ -729,50 +747,66 @@ std::shared_ptr<GlobalWeapon> GlobalCharacter::EquipWeapon(const std::shared_ptr
     return old_weapon;
 }
 
-std::shared_ptr<GlobalArmor> GlobalCharacter::_EquipArmor(const std::shared_ptr<GlobalArmor>& armor, uint32_t index)
+std::shared_ptr<GlobalArmor> GlobalCharacter::EquipArmor(const std::shared_ptr<GlobalArmor>& armor)
 {
-    if(index >= _armor_equipped.size()) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << std::endl;
+    const uint32_t position_index = GetEquipmentPositionFromObjectType(armor->GetObjectType());
+
+    if(position_index >= _equipped_armors.size()) {
+        PRINT_WARNING << "Armor type doesn't fit any equipment position. Can't equip armor." << std::endl;
         return armor;
     }
 
-    std::shared_ptr<GlobalArmor> old_armor = _armor_equipped[index];
-    _armor_equipped[index] = armor;
-
-    if(old_armor != nullptr && armor != nullptr) {
-        if(old_armor->GetObjectType() != armor->GetObjectType()) {
-            IF_PRINT_WARNING(GLOBAL_DEBUG) << "old armor was replaced with a different type of armor" << std::endl;
-        }
-    }
+    std::shared_ptr<GlobalArmor> old_armor = _equipped_armors[position_index];
+    _equipped_armors[position_index] = armor;
 
     // Updates the equipment status effect first
     _UpdateEquipmentStatusEffects();
-    // This is a subset of _CalculateDefenseRatings(), but just for the given armor.
-    _attack_points[index]->CalculateTotalDefense(_armor_equipped[index]);
 
-    // Reloads available skill according to equipment
+    _CalculateDefenseRatings();
     _UpdatesAvailableSkills();
 
     return old_armor;
 }
 
-std::shared_ptr<GlobalArmor> GlobalCharacter::GetArmorEquipped(uint32_t index) const
+std::shared_ptr<GlobalArmor> GlobalCharacter::UnequipArmor(GLOBAL_OBJECT object_type)
 {
-    if(index >= _armor_equipped.size()) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "index argument exceeded number of pieces of armor equipped: " << index << std::endl;
+    const uint32_t position_index = GetEquipmentPositionFromObjectType(object_type);
+
+    if(position_index >= _equipped_armors.size()) {
+        PRINT_WARNING << "Armor type doesn't fit any equipment position. Can't unequip armor." << std::endl;
         return nullptr;
     }
 
-    return _armor_equipped[index];
+    std::shared_ptr<GlobalArmor> old_armor = _equipped_armors[position_index];
+    _equipped_armors[position_index] = nullptr;
+
+    // Updates the equipment status effect first
+    _UpdateEquipmentStatusEffects();
+
+    _CalculateDefenseRatings();
+    _UpdatesAvailableSkills();
+
+    return old_armor;
+}
+
+std::shared_ptr<GlobalArmor> GlobalCharacter::GetEquippedArmor(GLOBAL_OBJECT object_type) const
+{
+    uint32_t position_index = GetEquipmentPositionFromObjectType(object_type);
+    if(position_index >= _equipped_armors.size()) {
+        PRINT_WARNING << "Object type is not valid for a piece of armor. Cannot return armor equipped." << std::endl;
+        return nullptr;
+    }
+
+    return _equipped_armors[position_index];
 }
 
 bool GlobalCharacter::HasEquipment() const
 {
-    if (_weapon_equipped)
+    if (_equipped_weapon)
         return true;
 
-    for (uint32_t i = 0; i < _armor_equipped.size(); ++i) {
-        if (_armor_equipped.at(i) != nullptr)
+    for (uint32_t i = 0; i < _equipped_armors.size(); ++i) {
+        if (_equipped_armors.at(i) != nullptr)
             return true;
     }
     return false;
@@ -786,8 +820,8 @@ void GlobalCharacter::_UpdateEquipmentStatusEffects()
 
     // For each piece of equipment, we add the intensity of the given status
     // effect on the status effect cache
-    if (_weapon_equipped) {
-        const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& _effects = _weapon_equipped->GetStatusEffects();
+    if (_equipped_weapon) {
+        const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& _effects = _equipped_weapon->GetStatusEffects();
 
         for (uint32_t i = 0; i < _effects.size(); ++i) {
 
@@ -805,11 +839,11 @@ void GlobalCharacter::_UpdateEquipmentStatusEffects()
     }
 
     // armors
-    for (uint32_t i = 0; i < _armor_equipped.size(); ++i) {
-        if (!_armor_equipped[i])
+    for (uint32_t i = 0; i < _equipped_armors.size(); ++i) {
+        if (!_equipped_armors[i])
             continue;
 
-        const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& _effects = _armor_equipped[i]->GetStatusEffects();
+        const std::vector<std::pair<GLOBAL_STATUS, GLOBAL_INTENSITY> >& _effects = _equipped_armors[i]->GetStatusEffects();
 
         for (uint32_t j = 0; j < _effects.size(); ++j) {
 
@@ -976,18 +1010,18 @@ void GlobalCharacter::_UpdatesAvailableSkills()
     }
 
     // Now, add skill obtained through current equipment.
-    if (_weapon_equipped) {
-        const std::vector<uint32_t>& wpn_skills = _weapon_equipped->GetEquipmentSkills();
+    if (_equipped_weapon) {
+        const std::vector<uint32_t>& wpn_skills = _equipped_weapon->GetEquipmentSkills();
 
         for (uint32_t i = 0; i < wpn_skills.size(); ++i)
             AddSkill(wpn_skills[i], false);
     }
 
-    for (uint32_t i = 0; i < _armor_equipped.size(); ++i) {
-        if (!_armor_equipped[i])
+    for (uint32_t i = 0; i < _equipped_armors.size(); ++i) {
+        if (!_equipped_armors[i])
             continue;
 
-        const std::vector<uint32_t>& armor_skills = _armor_equipped[i]->GetEquipmentSkills();
+        const std::vector<uint32_t>& armor_skills = _equipped_armors[i]->GetEquipmentSkills();
 
         for (uint32_t j = 0; j < armor_skills.size(); ++j)
             AddSkill(armor_skills[j], false);
@@ -1071,7 +1105,7 @@ void GlobalCharacter::AddObtainedSkillNode(uint32_t skill_node_id) {
 
     // Remove needed items
     for (auto item : node->GetItemsNeeded()) {
-        GlobalManager->DecrementItemCount(item.first, item.second);
+        GlobalManager->GetInventoryHandler().DecrementItemCount(item.first, item.second);
     }
 
     _obtained_skill_nodes.emplace_back(skill_node_id);
@@ -1114,10 +1148,10 @@ void GlobalCharacter::_CalculateAttackRatings()
 {
     _total_physical_attack = _char_phys_atk.GetValue();
 
-    if(_weapon_equipped) {
-        _total_physical_attack += _weapon_equipped->GetPhysicalAttack();
+    if(_equipped_weapon) {
+        _total_physical_attack += _equipped_weapon->GetPhysicalAttack();
         for (uint32_t i = 0; i < GLOBAL_ELEMENTAL_TOTAL; ++i) {
-            _total_magical_attack[i] = (_char_mag_atk.GetValue() + _weapon_equipped->GetMagicalAttack())
+            _total_magical_attack[i] = (_char_mag_atk.GetValue() + _equipped_weapon->GetMagicalAttack())
                                        * GetElementalModifier((GLOBAL_ELEMENTAL) i);
         }
     }
@@ -1132,8 +1166,8 @@ void GlobalCharacter::_CalculateDefenseRatings()
 {
     // Re-calculate the defense ratings for all attack points
     for(uint32_t i = 0; i < _attack_points.size(); ++i) {
-        if((i < _armor_equipped.size()) && (_armor_equipped[i] != nullptr))
-            _attack_points[i]->CalculateTotalDefense(_armor_equipped[i]);
+        if((i < _equipped_armors.size()) && (_equipped_armors[i] != nullptr))
+            _attack_points[i]->CalculateTotalDefense(_equipped_armors[i]);
         else
             _attack_points[i]->CalculateTotalDefense(nullptr);
     }

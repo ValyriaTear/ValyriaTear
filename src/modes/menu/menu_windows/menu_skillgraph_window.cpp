@@ -607,6 +607,7 @@ void SkillGraphWindow::_HandleNodeTransaction()
     SkillNode* current_skill_node = skill_graph.GetSkillNode(_selected_node_id);
 
     vt_global::GlobalMedia& media = vt_global::GlobalManager->Media();
+    InventoryHandler& inventory_handler = vt_global::GlobalManager->GetInventoryHandler();
 
     // Check whether there is enough XP to buy the node
     if (_selected_character->GetUnspentExperiencePoints() < current_skill_node->GetExperiencePointsNeeded()) {
@@ -616,7 +617,7 @@ void SkillGraphWindow::_HandleNodeTransaction()
 
     // Check whether the needed items are available
     for (auto item : current_skill_node->GetItemsNeeded()) {
-        auto gbl_obj = GlobalManager->GetGlobalObject(item.first);
+        auto gbl_obj = inventory_handler.GetGlobalObject(item.first);
         if (gbl_obj == nullptr) {
             // item not found
             media.PlaySound("bump");

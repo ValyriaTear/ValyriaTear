@@ -265,13 +265,15 @@ utils/src/utils/exception.cpp
 )
 
 SET(SRCS
+common/global/actors/global_character_handler.cpp
+common/global/actors/global_actor.cpp
 common/global/actors/global_attack_point.cpp
 common/global/actors/global_character.cpp
 common/global/actors/global_enemy.cpp
-common/global/actors/global_character_handler.cpp
 common/global/actors/global_party.cpp
 common/global/media/battle_media.cpp
 common/global/media/global_media.cpp
+common/global/objects/global_inventory_handler.cpp
 common/global/objects/global_object.cpp
 common/global/objects/global_item.cpp
 common/global/objects/global_weapon.cpp
@@ -283,7 +285,6 @@ common/global/status_effects/global_effects.cpp
 common/global/quest_log.cpp
 common/global/global.cpp
 common/global/global_event_group.cpp
-common/global/actors/global_actor.cpp
 common/global/global_skills.cpp
 common/global/global_target.cpp
 common/global/worldmap_location.cpp

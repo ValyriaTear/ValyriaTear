@@ -29,7 +29,7 @@ GlobalItem::GlobalItem(uint32_t id, uint32_t count) :
         return;
     }
 
-    ReadScriptDescriptor& script_file = GlobalManager->GetItemsScript();
+    ReadScriptDescriptor& script_file = GlobalManager->GetInventoryHandler().GetItemsScript();
     if(script_file.DoesTableExist(_id) == false) {
         PRINT_WARNING << "no valid data for item in definition file: " << _id << std::endl;
         _InvalidateObject();

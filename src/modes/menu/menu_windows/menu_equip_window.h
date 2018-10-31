@@ -138,6 +138,11 @@ private:
     //! \brief Updates the selected object
     void _UpdateSelectedObject();
 
+    //! \brief Equip the current selected equipment item
+    void _Equip();
+
+    //! \brief Equip the current selected equipment item
+    void _Unequip();
 };
 
 } // namespace private_menu

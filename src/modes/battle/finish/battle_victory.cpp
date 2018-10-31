@@ -160,7 +160,7 @@ BattleVictory::~BattleVictory()
 
         // Add the item to the inventory.
         assert(i->first != nullptr);
-        GlobalManager->AddToInventory(i->first->GetID(), i->second);
+        GlobalManager->GetInventoryHandler().AddToInventory(i->first->GetID(), i->second);
     }
     _objects_dropped.clear();
 

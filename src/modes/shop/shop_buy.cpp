@@ -424,7 +424,7 @@ void BuyInterface::ChangeViewMode(SHOP_VIEW_MODE new_mode)
             _selected_properties.SetOptionText(1, MakeUnicodeString("∞"));
         else
             _selected_properties.SetOptionText(1, MakeUnicodeString("×" + NumberToString(_selected_object->GetStockCount())));
-        uint32_t own_count = GlobalManager->HowManyObjectsInInventory(_selected_object->GetObject()->GetID());
+        uint32_t own_count = GlobalManager->GetInventoryHandler().HowManyObjectsInInventory(_selected_object->GetObject()->GetID());
         _selected_properties.SetOptionText(2, MakeUnicodeString("×" + NumberToString(own_count)));
 
         // Set the buy count to one, permitting quick one-buy sequences when affordable.
@@ -510,7 +510,7 @@ void BuyListDisplay::ReconstructList()
             _property_list.AddOption(MakeUnicodeString("∞"));
         else
             _property_list.AddOption(MakeUnicodeString("×" + NumberToString(obj->GetStockCount())));
-        uint32_t own_count = GlobalManager->HowManyObjectsInInventory(obj->GetObject()->GetID());
+        uint32_t own_count = GlobalManager->GetInventoryHandler().HowManyObjectsInInventory(obj->GetObject()->GetID());
         _property_list.AddOption(MakeUnicodeString("×" + NumberToString(own_count)));
     }
 

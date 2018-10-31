@@ -503,8 +503,7 @@ void TradeListDisplay::ReconstructList()
             _property_list.AddOption(MakeUnicodeString("∞"));
         else
             _property_list.AddOption(MakeUnicodeString("×" + NumberToString(obj->GetStockCount())));
-        uint32_t own_count =
-            GlobalManager->HowManyObjectsInInventory(obj->GetObject()->GetID());
+        uint32_t own_count = GlobalManager->GetInventoryHandler().HowManyObjectsInInventory(obj->GetObject()->GetID());
         _property_list.AddOption(MakeUnicodeString("×" + NumberToString(own_count)));
     }
 
@@ -571,12 +570,12 @@ bool TradeListDisplay::ChangeTradeQuantity(bool more, uint32_t amount)
     auto tradeConditions = obj->GetObject()->GetTradeConditions();
     for(uint32_t i = 0; i < tradeConditions.size(); ++i) {
         auto tradeCondition = tradeConditions[i];
+        InventoryHandler& inventory_handler = GlobalManager->GetInventoryHandler();
 
-        if(!GlobalManager->IsItemInInventory(tradeCondition.first))
+        if(!inventory_handler.IsItemInInventory(tradeCondition.first))
             return false;
 
-        uint32_t item_possessed =
-            GlobalManager->HowManyObjectsInInventory(tradeCondition.first);
+        uint32_t item_possessed = inventory_handler.HowManyObjectsInInventory(tradeCondition.first);
         uint32_t item_needed_number = new_trade_amount * tradeCondition.second;
 
         if(item_possessed < item_needed_number)

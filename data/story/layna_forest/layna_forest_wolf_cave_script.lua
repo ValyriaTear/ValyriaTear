@@ -398,7 +398,8 @@ map_functions = {
     heal_party_sp = function()
         hero:SetMoving(false);
         -- Should be sufficient to heal anybody's SP
-        GlobalManager:GetActiveParty():AddSkillPoints(10000);
+        local character_handler = GlobalManager:GetCharacterHandler()
+        character_handler:GetActiveParty():AddSkillPoints(10000)
         Map:SetStamina(10000);
         AudioManager:PlaySound("data/sounds/heal_spell.wav");
         heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());

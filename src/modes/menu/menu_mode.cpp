@@ -34,23 +34,6 @@ bool MENU_DEBUG = false;
 
 MenuMode *MenuMode::_current_instance = nullptr;
 
-uint32_t GetEquipmentPositionFromObjectType(GLOBAL_OBJECT object_type)
-{
-    switch (object_type) {
-    default:
-       break;
-    case GLOBAL_OBJECT_HEAD_ARMOR:
-        return GLOBAL_POSITION_HEAD;
-    case GLOBAL_OBJECT_TORSO_ARMOR:
-        return GLOBAL_POSITION_TORSO;
-    case GLOBAL_OBJECT_ARM_ARMOR:
-        return GLOBAL_POSITION_ARMS;
-    case GLOBAL_OBJECT_LEG_ARMOR:
-        return GLOBAL_POSITION_LEGS;
-    }
-     return GLOBAL_POSITION_INVALID;
-}
-
 // Window size helpers
 const uint32_t win_start_x = (1024 - 800) / 2 - 40;
 const uint32_t win_start_y = (768 - 600) / 2 + 15;
@@ -403,7 +386,7 @@ void MenuMode::UpdateEquipmentInfo(vt_global::GlobalCharacter* character,
             std::shared_ptr<vt_global::GlobalWeapon> wpn = nullptr;
             // If character view or unequipping, we take the character current weapon as a base
             if (view_type == private_menu::EQUIP_VIEW_CHAR || view_type == private_menu::EQUIP_VIEW_UNEQUIPPING)
-                wpn = _character ? _character->GetWeaponEquipped() : nullptr;
+                wpn = _character ? _character->GetEquippedWeapon() : nullptr;
             else // We can take the given object as a base
                 wpn = std::dynamic_pointer_cast<vt_global::GlobalWeapon>(_object);
 
@@ -440,8 +423,7 @@ void MenuMode::UpdateEquipmentInfo(vt_global::GlobalCharacter* character,
 
             // If character view or unequipping, we take the character current armor as a base
             if (view_type == private_menu::EQUIP_VIEW_CHAR || view_type == private_menu::EQUIP_VIEW_UNEQUIPPING) {
-                uint32_t equip_index = GetEquipmentPositionFromObjectType(_object->GetObjectType());
-                armor = _character ? _character->GetArmorEquipped(equip_index) : nullptr;
+                armor = _character ? _character->GetEquippedArmor(_object->GetObjectType()) : nullptr;
             }
             else { // We can take the given object as a base
                 armor = std::dynamic_pointer_cast<vt_global::GlobalArmor>(_object);
@@ -492,7 +474,7 @@ void MenuMode::UpdateEquipmentInfo(vt_global::GlobalCharacter* character,
 
     if (_is_weapon) {
         // Get the character's current attack
-        std::shared_ptr<vt_global::GlobalWeapon> wpn = _character->GetWeaponEquipped();
+        std::shared_ptr<vt_global::GlobalWeapon> wpn = _character->GetEquippedWeapon();
         uint32_t char_phys_stat = 0;
         uint32_t char_mag_stat = 0;
         if (_equip_view_type == private_menu::EQUIP_VIEW_EQUIPPING) {
@@ -508,8 +490,7 @@ void MenuMode::UpdateEquipmentInfo(vt_global::GlobalCharacter* character,
         }
     }
     else { // armors
-        uint32_t equip_index = GetEquipmentPositionFromObjectType(_object->GetObjectType());
-        std::shared_ptr<vt_global::GlobalArmor> armor = _character->GetArmorEquipped(equip_index);
+        std::shared_ptr<vt_global::GlobalArmor> armor = _character->GetEquippedArmor(_object->GetObjectType());
         uint32_t char_phys_stat = 0;
         uint32_t char_mag_stat = 0;
         if (_equip_view_type == private_menu::EQUIP_VIEW_EQUIPPING) {

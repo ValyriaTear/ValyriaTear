@@ -29,7 +29,7 @@ GlobalWeapon::GlobalWeapon(uint32_t id, uint32_t count) :
         return;
     }
 
-    ReadScriptDescriptor &script_file = GlobalManager->GetWeaponsScript();
+    ReadScriptDescriptor& script_file = GlobalManager->GetInventoryHandler().GetWeaponsScript();
     if(script_file.DoesTableExist(_id) == false) {
         IF_PRINT_WARNING(GLOBAL_DEBUG) << "no valid data for weapon in definition file: " << _id << std::endl;
         _InvalidateObject();

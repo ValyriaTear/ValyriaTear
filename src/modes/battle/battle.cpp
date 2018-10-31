@@ -953,33 +953,33 @@ void BattleMode::_AutoCharacterCommand(BattleCharacter* character)
     if (character->IsActionSet() || _command_supervisor->GetCommandCharacter() == character)
         return;
 
-    auto autoTarget = BattleTarget();
-    autoTarget.SetTarget(character, GLOBAL_TARGET_FOE);
+    auto auto_target = BattleTarget();
+    auto_target.SetTarget(character, GLOBAL_TARGET_FOE);
 
-    GlobalSkill* attackSkill = character->GetSkills()[0];
+    GlobalSkill* attack_skill = character->GetSkills()[0];
 
     auto global_character = character->GetGlobalCharacter();
-    if(global_character->GetWeaponEquipped()) {
-        auto wpnSkills = global_character->GetWeaponSkills();
-        for (auto skill : *wpnSkills) {
+    if(global_character->GetEquippedWeapon()) {
+        auto wpn_skills = global_character->GetWeaponSkills();
+        for (auto skill : *wpn_skills) {
             if (skill->GetSPRequired() == 0) {
-                attackSkill = skill;
+                attack_skill = skill;
                 break;
             }
         }
     } else {
-        auto handSkills = global_character->GetBareHandsSkills();
-        if (handSkills->size() > 0)
-            attackSkill = (*handSkills)[0];
+        auto hand_skills = global_character->GetBareHandsSkills();
+        if (hand_skills->size() > 0)
+            attack_skill = (*hand_skills)[0];
     }
 
-    if (attackSkill == nullptr) {
+    if (attack_skill == nullptr) {
         PRINT_WARNING << "No valid attack skill was found for character: "
             << vt_utils::MakeStandardString(character->GetGlobalCharacter()->GetName()) << std::endl;
         return;
     }
 
-    BattleAction* new_action = new SkillAction(character, autoTarget, attackSkill);
+    BattleAction* new_action = new SkillAction(character, auto_target, attack_skill);
     character->SetAction(new_action);
     BattleMode::CurrentInstance()->NotifyCharacterCommandComplete(character);
 

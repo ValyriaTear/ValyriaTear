@@ -87,32 +87,33 @@ function TestFunction()
 
     -- Equipment
     GlobalManager:AddDrunes(1842);
-    GlobalManager:AddToInventory(1, 5);
-    GlobalManager:AddToInventory(1001, 2);
-    GlobalManager:AddToInventory(3001, 1);
-    GlobalManager:AddToInventory(3002, 1);
-    GlobalManager:AddToInventory(3003, 1);
-    GlobalManager:AddToInventory(3004, 1);
-    GlobalManager:AddToInventory(3005, 1);
-    GlobalManager:AddToInventory(3006, 1);
-    GlobalManager:AddToInventory(3007, 1);
-    GlobalManager:AddToInventory(3008, 1);
-    GlobalManager:AddToInventory(10001, 10);
-    GlobalManager:AddToInventory(10002, 10);
-    GlobalManager:AddToInventory(10003, 10);
-    GlobalManager:AddToInventory(10999, 1);
-    GlobalManager:AddToInventory(30011, 10);
-    GlobalManager:AddToInventory(30012, 10);
-    GlobalManager:AddToInventory(30013, 10);
+    local inventory_handler = GlobalManager:GetInventoryHandler()
+    inventory_handler:AddToInventory(1, 5);
+    inventory_handler:AddToInventory(1001, 2);
+    inventory_handler:AddToInventory(3001, 1);
+    inventory_handler:AddToInventory(3002, 1);
+    inventory_handler:AddToInventory(3003, 1);
+    inventory_handler:AddToInventory(3004, 1);
+    inventory_handler:AddToInventory(3005, 1);
+    inventory_handler:AddToInventory(3006, 1);
+    inventory_handler:AddToInventory(3007, 1);
+    inventory_handler:AddToInventory(3008, 1);
+    inventory_handler:AddToInventory(10001, 10);
+    inventory_handler:AddToInventory(10002, 10);
+    inventory_handler:AddToInventory(10003, 10);
+    inventory_handler:AddToInventory(10999, 1);
+    inventory_handler:AddToInventory(30011, 10);
+    inventory_handler:AddToInventory(30012, 10);
+    inventory_handler:AddToInventory(30013, 10);
 
     -- Add the spirits
-    GlobalManager:AddToInventory(60001, 1);
-    GlobalManager:AddToInventory(60002, 1);
-    GlobalManager:AddToInventory(60003, 1);
-    GlobalManager:AddToInventory(60004, 1);
-    GlobalManager:AddToInventory(60005, 1);
-    GlobalManager:AddToInventory(60006, 1);
-    GlobalManager:AddToInventory(60007, 1);
+    inventory_handler:AddToInventory(60001, 1);
+    inventory_handler:AddToInventory(60002, 1);
+    inventory_handler:AddToInventory(60003, 1);
+    inventory_handler:AddToInventory(60004, 1);
+    inventory_handler:AddToInventory(60005, 1);
+    inventory_handler:AddToInventory(60006, 1);
+    inventory_handler:AddToInventory(60007, 1);
 
     -- Used to debug the quest log
     GlobalManager:AddQuestLog("get_barley");

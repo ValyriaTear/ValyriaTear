@@ -350,7 +350,7 @@ void SkillsWindow::Update()
     vt_utils::ustring skill_type;
     switch(skill->GetType()) {
         case GLOBAL_SKILL_WEAPON:
-            if (skill_owner->GetWeaponEquipped())
+            if (skill_owner->GetEquippedWeapon())
                 skill_type = UTranslate("Weapon skill");
             else
                 skill_type = UTranslate("Bare hands");
@@ -396,7 +396,7 @@ GlobalSkill *SkillsWindow::_GetCurrentSkill()
     std::vector<GlobalSkill *> battle_skills;
     std::vector<GlobalSkill *> all_skills;
 
-    if (ch->GetWeaponEquipped())
+    if (ch->GetEquippedWeapon())
         _BuildMenuBattleSkillLists(ch->GetWeaponSkills(),
                                    &menu_skills, &battle_skills, &all_skills);
     else
@@ -445,7 +445,7 @@ void SkillsWindow::_UpdateSkillList()
     std::vector<GlobalSkill*>::const_iterator it_begin;
     std::vector<GlobalSkill*>::const_iterator it_end;
 
-    if (ch->GetWeaponEquipped())
+    if (ch->GetEquippedWeapon())
         _BuildMenuBattleSkillLists(ch->GetWeaponSkills(),
                                    &menu_skills, &battle_skills, &all_skills);
     else
@@ -479,8 +479,8 @@ void SkillsWindow::_UpdateSkillList()
         if((*it)->GetIconFilename().empty()) {
             // If no icon, use the weapon icon for weapon skills
             if ((*it)->GetType() == GLOBAL_SKILL_WEAPON &&
-                 ch->GetWeaponEquipped() && !ch->GetWeaponEquipped()->GetIconImage().GetFilename().empty())
-                name = MakeUnicodeString("<" + ch->GetWeaponEquipped()->GetIconImage().GetFilename() + ">");
+                 ch->GetEquippedWeapon() && !ch->GetEquippedWeapon()->GetIconImage().GetFilename().empty())
+                name = MakeUnicodeString("<" + ch->GetEquippedWeapon()->GetIconImage().GetFilename() + ">");
             else if ((*it)->GetType() == GLOBAL_SKILL_BARE_HANDS)
                 name = MakeUnicodeString("<data/inventory/weapons/fist-human.png>");
 

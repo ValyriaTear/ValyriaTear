@@ -27,13 +27,13 @@ class GlobalCharacter;
 *** \brief Handles global character management, including adding them
 *** in the active battle party, hidding them depending on the story, ...
 *** ***************************************************************************/
-class GlobalCharacterHandler
+class CharacterHandler
 {
 public:
-    explicit GlobalCharacterHandler()
+    explicit CharacterHandler()
     {}
 
-    ~GlobalCharacterHandler()
+    ~CharacterHandler()
     {}
 
     /** \brief Adds a new character to the party with its initial settings

@@ -108,17 +108,13 @@ void BindCommonCode()
         [
             luabind::class_<GameGlobal>("GameGlobal")
             .def("GetCharacterHandler", &GameGlobal::GetCharacterHandler)
+            .def("GetInventoryHandler", &GameGlobal::GetInventoryHandler)
             .def("GetDrunes", &GameGlobal::GetDrunes)
             .def("SetDrunes", &GameGlobal::SetDrunes)
             .def("AddDrunes", &GameGlobal::AddDrunes)
             .def("SubtractDrunes", &GameGlobal::SubtractDrunes)
             .def("GetMaxExperienceLevel", &GameGlobal::GetMaxExperienceLevel)
             .def("SetMaxExperienceLevel", &GameGlobal::SetMaxExperienceLevel)
-            .def("AddToInventory", (void (GameGlobal:: *)(uint32_t, uint32_t)) &GameGlobal::AddToInventory)
-            .def("RemoveFromInventory", (void (GameGlobal:: *)(uint32_t)) &GameGlobal::RemoveFromInventory)
-            .def("IsItemInInventory", &GameGlobal::IsItemInInventory)
-            .def("IncrementItemCount", &GameGlobal::IncrementItemCount)
-            .def("DecrementItemCount", &GameGlobal::DecrementItemCount)
             .def("DoesEventGroupExist", &GameGlobal::DoesEventGroupExist)
             .def("DoesEventExist", &GameGlobal::DoesEventExist)
             .def("AddNewEventGroup", &GameGlobal::AddNewEventGroup)
@@ -222,11 +218,11 @@ void BindCommonCode()
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
-            luabind::class_<GlobalCharacterHandler>("GlobalCharacterHandler")
-            .def("AddCharacter", (void(GlobalCharacterHandler:: *)(uint32_t)) &GlobalCharacterHandler::AddCharacter)
-            .def("RemoveCharacter", (void(GlobalCharacterHandler:: *)(uint32_t, bool)) &GlobalCharacterHandler::RemoveCharacter)
-            .def("GetCharacter", &GlobalCharacterHandler::GetCharacter)
-            .def("GetActiveParty", &GlobalCharacterHandler::GetActiveParty)
+            luabind::class_<CharacterHandler>("CharacterHandler")
+            .def("AddCharacter", (void(CharacterHandler:: *)(uint32_t)) &CharacterHandler::AddCharacter)
+            .def("RemoveCharacter", (void(CharacterHandler:: *)(uint32_t, bool)) &CharacterHandler::RemoveCharacter)
+            .def("GetCharacter", &CharacterHandler::GetCharacter)
+            .def("GetActiveParty", &CharacterHandler::GetActiveParty)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
@@ -333,6 +329,16 @@ void BindCommonCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<GlobalEnemy, GlobalActor>("GlobalEnemy")
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
+        [
+            luabind::class_<InventoryHandler>("InventoryHandler")
+            .def("AddToInventory", (void (InventoryHandler:: *)(uint32_t, uint32_t)) &InventoryHandler::AddToInventory)
+            .def("RemoveFromInventory", (void (InventoryHandler:: *)(uint32_t)) &InventoryHandler::RemoveFromInventory)
+            .def("IsItemInInventory", &InventoryHandler::IsItemInInventory)
+            .def("IncrementItemCount", &InventoryHandler::IncrementItemCount)
+            .def("DecrementItemCount", &InventoryHandler::DecrementItemCount)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")

@@ -17,7 +17,7 @@ using namespace vt_utils;
 namespace vt_global
 {
 
-void GlobalCharacterHandler::AddCharacter(uint32_t id)
+void CharacterHandler::AddCharacter(uint32_t id)
 {
     std::map<uint32_t, GlobalCharacter *>::iterator it = _characters.find(id);
     if(it != _characters.end()) {
@@ -48,7 +48,7 @@ void GlobalCharacterHandler::AddCharacter(uint32_t id)
     _ordered_characters.push_back(character);
 }
 
-void GlobalCharacterHandler::AddCharacter(GlobalCharacter* ch)
+void CharacterHandler::AddCharacter(GlobalCharacter* ch)
 {
     if(ch == nullptr) {
         PRINT_WARNING << "function received nullptr pointer argument" << std::endl;
@@ -73,7 +73,7 @@ void GlobalCharacterHandler::AddCharacter(GlobalCharacter* ch)
     _ordered_characters.push_back(ch);
 }
 
-void GlobalCharacterHandler::RemoveCharacter(uint32_t id, bool erase)
+void CharacterHandler::RemoveCharacter(uint32_t id, bool erase)
 {
     std::map<uint32_t, GlobalCharacter *>::iterator it = _characters.find(id);
     if(it == _characters.end()) {
@@ -104,7 +104,7 @@ void GlobalCharacterHandler::RemoveCharacter(uint32_t id, bool erase)
     }
 }
 
-GlobalCharacter* GlobalCharacterHandler::GetCharacter(uint32_t id)
+GlobalCharacter* CharacterHandler::GetCharacter(uint32_t id)
 {
     std::map<uint32_t, GlobalCharacter *>::iterator ch = _characters.find(id);
     if(ch == _characters.end())
@@ -113,7 +113,7 @@ GlobalCharacter* GlobalCharacterHandler::GetCharacter(uint32_t id)
         return (ch->second);
 }
 
-void GlobalCharacterHandler::SwapCharactersByIndex(uint32_t first_index, uint32_t second_index)
+void CharacterHandler::SwapCharactersByIndex(uint32_t first_index, uint32_t second_index)
 {
     // Deal with the ordered characters
     if(first_index == second_index) {
@@ -138,7 +138,7 @@ void GlobalCharacterHandler::SwapCharactersByIndex(uint32_t first_index, uint32_
     _active_party.SwapCharactersByIndex(first_index, second_index);
 }
 
-void GlobalCharacterHandler::ClearAllData()
+void CharacterHandler::ClearAllData()
 {
     for(std::map<uint32_t, GlobalCharacter *>::iterator it = _characters.begin(); it != _characters.end(); ++it) {
         delete it->second;
@@ -148,7 +148,7 @@ void GlobalCharacterHandler::ClearAllData()
     _active_party.RemoveAllCharacters();
 }
 
-bool GlobalCharacterHandler::LoadCharacters(vt_script::ReadScriptDescriptor& file)
+bool CharacterHandler::LoadCharacters(vt_script::ReadScriptDescriptor& file)
 {
     // Load characters into the party in the correct order
     if (!file.OpenTable("characters")) {
@@ -200,7 +200,7 @@ bool GlobalCharacterHandler::LoadCharacters(vt_script::ReadScriptDescriptor& fil
     return true;
 }
 
-void GlobalCharacterHandler::SaveCharacters(vt_script::WriteScriptDescriptor& file)
+void CharacterHandler::SaveCharacters(vt_script::WriteScriptDescriptor& file)
 {
     file.InsertNewLine();
     file.WriteLine("characters = {");

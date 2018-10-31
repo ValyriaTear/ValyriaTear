@@ -81,9 +81,9 @@ void ItemCommand::ResetItemList()
 {
     _battle_items.clear();
 
-    auto inv_items = GlobalManager->GetInventoryItems();
-    for (uint32_t i = 0; i < inv_items->size(); ++i) {
-        std::shared_ptr<GlobalItem> global_item = inv_items->at(i);
+    auto inv_items = GlobalManager->GetInventoryHandler().GetInventoryItems();
+    for (uint32_t i = 0; i < inv_items.size(); ++i) {
+        std::shared_ptr<GlobalItem> global_item = inv_items.at(i);
 
         // Only add non key and valid items as items available at battle start.
         if (global_item->GetCount() == 0)
@@ -228,21 +228,23 @@ void ItemCommand::DrawList()
 
 void ItemCommand::CommitChangesToInventory()
 {
+    InventoryHandler& inventory_handler = GlobalManager->GetInventoryHandler();
+
     for(uint32_t i = 0; i < _battle_items.size(); ++i) {
         // Get the global item id
         uint32_t id = _battle_items[i]->GetGlobalItem().GetID();
 
         // Remove slots totally used
         if (_battle_items[i]->GetBattleCount() == 0) {
-            GlobalManager->RemoveFromInventory(id);
+            inventory_handler.RemoveFromInventory(id);
         } else {
             int32_t diff = _battle_items[i]->GetBattleCount() - _battle_items[i]->GetInventoryCount();
             if (diff > 0) {
                 // Somehow the character have more than before the battle.
-                GlobalManager->IncrementItemCount(id, diff);
+                inventory_handler.IncrementItemCount(id, diff);
             } else if (diff < 0) {
                 // Remove the used items.
-                GlobalManager->DecrementItemCount(id, -diff);
+                inventory_handler.DecrementItemCount(id, -diff);
             }
         }
     }

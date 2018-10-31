@@ -279,14 +279,14 @@ void PartyWindow::UpdateStatus()
     _average_atk_def_numbers.SetText(text);
 
     _weapon_icon.Clear();
-    std::shared_ptr<GlobalWeapon> weapon = ch->GetWeaponEquipped();
+    std::shared_ptr<GlobalWeapon> weapon = ch->GetEquippedWeapon();
     if (weapon)
         _weapon_icon.Load(weapon->GetIconImage().GetFilename());
     else
         _weapon_icon.Load("data/inventory/weapons/fist-human.png");
     _weapon_icon.SetHeightKeepRatio(40);
 
-    std::shared_ptr<GlobalArmor> head_armor = ch->GetHeadArmorEquipped();
+    std::shared_ptr<GlobalArmor> head_armor = ch->GetEquippedArmor(GLOBAL_OBJECT_HEAD_ARMOR);
     _focused_def_armor_icons[0].Clear();
     if (head_armor) {
         _focused_def_armor_icons[0].Load(head_armor->GetIconImage().GetFilename());
@@ -294,21 +294,21 @@ void PartyWindow::UpdateStatus()
     }
 
     _focused_def_armor_icons[1].Clear();
-    std::shared_ptr<GlobalArmor> torso_armor = ch->GetTorsoArmorEquipped();
+    std::shared_ptr<GlobalArmor> torso_armor = ch->GetEquippedArmor(GLOBAL_OBJECT_TORSO_ARMOR);
     if (torso_armor) {
         _focused_def_armor_icons[1].Load(torso_armor->GetIconImage().GetFilename());
         _focused_def_armor_icons[1].SetHeightKeepRatio(20);
     }
 
     _focused_def_armor_icons[2].Clear();
-    std::shared_ptr<GlobalArmor> arm_armor = ch->GetArmArmorEquipped();
+    std::shared_ptr<GlobalArmor> arm_armor = ch->GetEquippedArmor(GLOBAL_OBJECT_ARM_ARMOR);
     if (arm_armor) {
         _focused_def_armor_icons[2].Load(arm_armor->GetIconImage().GetFilename());
         _focused_def_armor_icons[2].SetHeightKeepRatio(20);
     }
 
     _focused_def_armor_icons[3].Clear();
-    std::shared_ptr<GlobalArmor> leg_armor = ch->GetLegArmorEquipped();
+    std::shared_ptr<GlobalArmor> leg_armor = ch->GetEquippedArmor(GLOBAL_OBJECT_LEG_ARMOR);
     if (leg_armor) {
         _focused_def_armor_icons[3].Load(leg_armor->GetIconImage().GetFilename());
         _focused_def_armor_icons[3].SetHeightKeepRatio(20);

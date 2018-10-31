@@ -501,8 +501,9 @@ map_functions = {
     heal_party = function()
         hero:SetMoving(false);
         -- Should be sufficient to heal anybody
-        GlobalManager:GetActiveParty():AddHitPoints(20000);
-        GlobalManager:GetActiveParty():AddSkillPoints(20000);
+        local character_handler = GlobalManager:GetCharacterHandler()
+        character_handler:GetActiveParty():AddHitPoints(10000)
+        character_handler:GetActiveParty():AddSkillPoints(10000)
         Map:SetStamina(10000);
         AudioManager:PlaySound("data/sounds/heal_spell.wav");
         heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());

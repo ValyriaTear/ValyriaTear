@@ -161,7 +161,7 @@ void CommandSupervisor::Initialize(BattleCharacter *character)
     // Determine the weapon icon name
     std::string icon_name = "<";
 
-    std::shared_ptr<GlobalWeapon> wpn = character->GetGlobalCharacter()->GetWeaponEquipped();
+    std::shared_ptr<GlobalWeapon> wpn = character->GetGlobalCharacter()->GetEquippedWeapon();
     if (wpn) {
         if (wpn->GetIconImage().GetFilename().empty())
             icon_name += "data/gui/battle/default_weapon.png";
@@ -436,7 +436,7 @@ void CommandSupervisor::_ChangeState(COMMAND_STATE new_state)
         if(_state == COMMAND_STATE_CATEGORY) {
             switch(_category_options.GetSelection()) {
             case CATEGORY_WEAPON:
-                if (GetCommandCharacter()->GetGlobalCharacter()->GetWeaponEquipped()) {
+                if (GetCommandCharacter()->GetGlobalCharacter()->GetEquippedWeapon()) {
                     _skill_command.Initialize(GetCommandCharacter()->GetGlobalCharacter()->GetWeaponSkills(),
                                               _active_settings->GetWeaponSkillList(), _active_settings->GetWeaponTargetList());
                 }

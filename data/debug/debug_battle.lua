@@ -7,8 +7,9 @@ function TestFunction()
     character_handler:AddCharacter(SYLVE)
     character_handler:AddCharacter(THANIS)
 
-    GlobalManager:AddToInventory(1, 10)
-    GlobalManager:AddToInventory(1003, 10)
+    local inventory_handler = GlobalManager:GetInventoryHandler()
+    inventory_handler:AddToInventory(1, 10)
+    inventory_handler:AddToInventory(1003, 10)
 
     local bronann = character_handler:GetCharacter(BRONANN)
     bronann:AddSkill(2) -- Forward Thrust

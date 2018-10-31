@@ -13,6 +13,7 @@
 
 #include "global_actor.h"
 
+#include "common/global/objects/global_object.h"
 #include "common/global/status_effects/global_active_effect.h"
 #include "global_attack_point.h"
 
@@ -172,30 +173,16 @@ public:
     **/
     bool AddExperiencePoints(uint32_t xp);
 
-    std::shared_ptr<GlobalArmor> EquipHeadArmor(const std::shared_ptr<GlobalArmor>& armor) {
-        return _EquipArmor(armor, GLOBAL_POSITION_HEAD);
-    }
+    //! \brief Equip the given piece of armor and return the previous armor shared_ptr if any.
+    std::shared_ptr<GlobalArmor> EquipArmor(const std::shared_ptr<GlobalArmor>& armor);
 
-    std::shared_ptr<GlobalArmor> EquipTorsoArmor(const std::shared_ptr<GlobalArmor>& armor) {
-        return _EquipArmor(armor, GLOBAL_POSITION_TORSO);
-    }
+    //! \brief Unequip the given piece of armor and return its shared_ptr if any was equipped.
+    std::shared_ptr<GlobalArmor> UnequipArmor(GLOBAL_OBJECT object_type);
 
-    std::shared_ptr<GlobalArmor> EquipArmArmor(const std::shared_ptr<GlobalArmor>& armor) {
-       return _EquipArmor(armor, GLOBAL_POSITION_ARMS);
-    }
+    std::shared_ptr<GlobalArmor> GetEquippedArmor(GLOBAL_OBJECT object_type) const;
 
-    std::shared_ptr<GlobalArmor> EquipLegArmor(const std::shared_ptr<GlobalArmor>& armor) {
-        return _EquipArmor(armor, GLOBAL_POSITION_LEGS);
-    }
-
-    const std::vector<std::shared_ptr<GlobalArmor>>& GetArmorsEquipped() {
-        return _armor_equipped;
-    }
-
-    std::shared_ptr<GlobalArmor> GetArmorEquipped(uint32_t index) const;
-
-    std::shared_ptr<GlobalWeapon> GetWeaponEquipped() const {
-        return _weapon_equipped;
+    std::shared_ptr<GlobalWeapon> GetEquippedWeapon() const {
+        return _equipped_weapon;
     }
 
     /** \brief Equips a new weapon on the actor
@@ -260,22 +247,6 @@ public:
         else {
             _unspent_experience_points -= xp;
         }
-    }
-
-    std::shared_ptr<GlobalArmor> GetHeadArmorEquipped() {
-        return _armor_equipped[GLOBAL_POSITION_HEAD];
-    }
-
-    std::shared_ptr<GlobalArmor> GetTorsoArmorEquipped() {
-        return _armor_equipped[GLOBAL_POSITION_TORSO];
-    }
-
-    std::shared_ptr<GlobalArmor> GetArmArmorEquipped() {
-        return _armor_equipped[GLOBAL_POSITION_ARMS];
-    }
-
-    std::shared_ptr<GlobalArmor> GetLegArmorEquipped() {
-        return _armor_equipped[GLOBAL_POSITION_LEGS];
     }
 
     std::vector<GlobalSkill *>* GetWeaponSkills() {
@@ -462,7 +433,7 @@ protected:
     *** attacks are automatically added to the appropriate members of this class when the weapon is equipped,
     *** and likewise those bonuses are removed when the weapon is unequipped.
     **/
-    std::shared_ptr<GlobalWeapon> _weapon_equipped;
+    std::shared_ptr<GlobalWeapon> _equipped_weapon;
 
     /** \brief The various armors that the character has equipped
     *** \note The size of this vector will always be equal to the number of attack points on the character.
@@ -473,7 +444,7 @@ protected:
     *** applied to the character as a whole. The armor must be equipped on one of the caracter's attack points to
     *** really afford any kind of defensive bonus.
     **/
-    std::vector<std::shared_ptr<GlobalArmor>> _armor_equipped;
+    std::vector<std::shared_ptr<GlobalArmor>> _equipped_armors;
 
     /** \brief The status effects given by equipment, aka passive status effects.
     *** \note elemental effects are handled as status effects also.
@@ -493,17 +464,6 @@ protected:
     *** The vector is initialized with the size of GLOBAL_STATUS_TOTAL with empty status effects.
     **/
     std::vector<ActiveStatusEffect> _active_status_effects;
-
-    /** \brief Equips a new armor on the character
-    *** \param armor The piece of armor to equip
-    *** \param index The index into the _armor_equipped vector where to equip the armor
-    *** \return A pointer to the armor that was previously equipped, or nullptr if no armor was equipped
-    ***
-    *** This function will also automatically re-calculate all defense ratings, elemental, and status bonuses
-    *** for the attack point that the armor was equipped on. If the index argument is invalid (out-of-bounds),
-    *** the function will return the armor argument.
-    **/
-    std::shared_ptr<GlobalArmor> _EquipArmor(const std::shared_ptr<GlobalArmor>& armor, uint32_t index);
 
     //! \brief Updates the equipment status effects.
     void _UpdateEquipmentStatusEffects();

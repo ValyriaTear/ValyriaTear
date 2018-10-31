@@ -645,8 +645,9 @@ map_functions = {
 
         -- Remove the barley meal key item from inventory
         local barley_meal_item_id = 70002;
-        if (GlobalManager:IsItemInInventory(barley_meal_item_id) == true) then
-            GlobalManager:RemoveFromInventory(barley_meal_item_id);
+        local inventory_handler = GlobalManager:GetInventoryHandler()
+        if (inventory_handler:IsItemInInventory(barley_meal_item_id) == true) then
+            inventory_handler:RemoveFromInventory(barley_meal_item_id);
         end
 
         -- Set the quest 2 as started
