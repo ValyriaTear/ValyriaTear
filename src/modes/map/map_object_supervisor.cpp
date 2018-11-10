@@ -708,7 +708,7 @@ Path ObjectSupervisor::FindPath(VirtualSprite *sprite, const Position2D& destina
 
     // Check that the source node is not the same as the destination node
     if(source_node == dest) {
-        PRINT_ERROR << "source node coordinates are the same as the destination" << std::endl;
+        IF_PRINT_WARNING(MAP_DEBUG) << "source node coordinates are the same as the destination" << std::endl;
         // return an empty path.
         return path;
     }

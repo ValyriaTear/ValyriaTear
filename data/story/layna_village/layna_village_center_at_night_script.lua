@@ -478,7 +478,7 @@ map_functions = {
         move_next_to_hero_event:SetDestination(bronann:GetXPosition() - 2.0, bronann:GetYPosition(), false);
 
         -- Disable Kalya from the party menu
-        GlobalManager:RemoveCharacter(KALYA, false);
+        GlobalManager:GetCharacterHandler():RemoveCharacter(KALYA, false);
     end,
 
     return_to_village_dialogue_end = function()

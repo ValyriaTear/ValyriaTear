@@ -95,7 +95,7 @@ void EventSupervisor::StartEvent(MapEvent *event)
 
     for(std::vector<MapEvent *>::iterator it = _active_events.begin(); it != _active_events.end(); ++it) {
         if((*it) == event) {
-            PRINT_WARNING << "The event: '" << event->GetEventID()
+            IF_PRINT_WARNING(MAP_DEBUG) << "The event: '" << event->GetEventID()
                           << "' is already active and can be active only once at a time. "
                           << "The StartEvent() call will be ignored."
                           << std::endl << " You should fix the map script: "
