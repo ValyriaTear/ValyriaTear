@@ -279,7 +279,6 @@ void InventoryHandler::RemoveFromInventory(uint32_t obj_id)
 std::shared_ptr<GlobalObject> InventoryHandler::GetGlobalObject(uint32_t obj_id)
 {
     if (_inventory.find(obj_id) == _inventory.end()) {
-        PRINT_WARNING << "attempted to retrieve an object from inventory that didn't exist with id: " << obj_id << std::endl;
         return nullptr;
     }
 
