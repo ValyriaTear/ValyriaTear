@@ -46,8 +46,7 @@ AudioEngine::AudioEngine() :
     _device(0),
     _context(0),
     _max_sources(MAX_DEFAULT_AUDIO_SOURCES),
-    _active_music(nullptr),
-    _max_cache_size(MAX_DEFAULT_AUDIO_SOURCES / 4)
+    _active_music(nullptr)
 {}
 
 bool AudioEngine::SingletonInitialize()
@@ -133,7 +132,6 @@ bool AudioEngine::SingletonInitialize()
         alGenSources(1, &source);
         if(CheckALError()) {
             _max_sources = i;
-            _max_cache_size = i / 4;
             break;
         }
         _audio_sources.push_back(new private_audio::AudioSource(source));
@@ -562,7 +560,6 @@ void AudioEngine::DEBUG_PrintInfo()
     PRINT_WARNING << "*** Audio Information ***" << std::endl;
 
     PRINT_WARNING << "Maximum number of sources:   " << _max_sources << std::endl;
-    PRINT_WARNING << "Maximum audio cache size:    " << _max_cache_size << std::endl;
     PRINT_WARNING << "Default audio device:        " << alcGetString(_device, ALC_DEFAULT_DEVICE_SPECIFIER) << std::endl;
     PRINT_WARNING << "OpenAL Version:              " << alGetString(AL_VERSION) << std::endl;
     PRINT_WARNING << "OpenAL Renderer:             " << alGetString(AL_RENDERER) << std::endl;
@@ -590,27 +587,21 @@ void AudioEngine::DEBUG_PrintInfo()
     }
 }
 
-private_audio::AudioSource *AudioEngine::_AcquireAudioSource()
+private_audio::AudioSource* AudioEngine::_AcquireAudioSource()
 {
-    // (1) Find and return the first source that does not have an owner
+    // Find and return the first source that does not have an owner
     for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); ++i) {
-        if((*i)->owner == nullptr) {
+        AudioDescriptor* descriptor = (*i)->owner;
+        if(descriptor == nullptr) {
+            return *i;
+        }
+        else if (descriptor->GetState() == AUDIO_STATE_UNLOADED) {
+            // Test whether the sound is unloaded, meaning the source is available
             return *i;
         }
     }
 
-    // (2) If all sources are owned, find one that is in the initial or stopped state and change its ownership
-    for(std::vector<AudioSource *>::iterator i = _audio_sources.begin(); i != _audio_sources.end(); ++i) {
-        ALint state;
-        alGetSourcei((*i)->source, AL_SOURCE_STATE, &state);
-        if(state == AL_INITIAL || state == AL_STOPPED) {
-            (*i)->owner->_source = nullptr;
-            (*i)->Reset(); // this call sets the source owner pointer to nullptr
-            return *i;
-        }
-    }
-
-    // (3) Return nullptr in the (extremely rare) case that all sources are owned and actively playing or paused
+    // Return nullptr in the (extremely rare) case that all sources are owned and actively playing or paused
     return nullptr;
 }
 
@@ -632,7 +623,7 @@ bool AudioEngine::_LoadAudio(const std::string &filename, bool is_music, vt_mode
     }
 
     // Creates the new audio object and adds its potential game mode owner.
-    AudioDescriptor *audio = nullptr;
+    AudioDescriptor* audio = nullptr;
     if (is_music)
         audio = new MusicDescriptor();
     else
@@ -641,50 +632,15 @@ bool AudioEngine::_LoadAudio(const std::string &filename, bool is_music, vt_mode
     if (gm)
         audio->AddGameModeOwner(gm);
 
-    // (1) If the cache is not full, try loading the audio and adding it in
-    if(_audio_cache.size() < _max_cache_size) {
-        if(audio->LoadAudio(filename) == false) {
-            IF_PRINT_WARNING(AUDIO_DEBUG) << "could not add new audio file into cache because load operation failed: " << filename << std::endl;
-            delete audio;
-            return false;
-        }
-
-        _audio_cache.insert(std::make_pair(filename, AudioCacheElement(SDL_GetTicks(), audio)));
-        return true;
-    }
-
-    // (2) The cache is full, so find an element to remove. First make sure that at least one piece of audio is stopped
-    std::map<std::string, AudioCacheElement>::iterator lru_element = _audio_cache.end();
-    for(std::map<std::string, AudioCacheElement>::iterator i = _audio_cache.begin(); i != _audio_cache.end(); ++i) {
-        if(i->second.audio->GetState() == AUDIO_STATE_STOPPED) {
-            lru_element = i;
-            break;
-        }
-    }
-
-    if(lru_element == _audio_cache.end()) {
-        IF_PRINT_WARNING(AUDIO_DEBUG) << "failed to remove element from cache because no piece of audio was in the stopped state" << std::endl;
-        delete audio;
-        return false;
-    }
-
-    for(std::map<std::string, AudioCacheElement>::iterator i = _audio_cache.begin(); i != _audio_cache.end(); ++i) {
-        if(i->second.audio->GetState() == AUDIO_STATE_STOPPED && i->second.last_update_time < lru_element->second.last_update_time) {
-            lru_element = i;
-        }
-    }
-
-    delete lru_element->second.audio;
-    _audio_cache.erase(lru_element);
-
-    if(audio->LoadAudio(filename) == false) {
-        IF_PRINT_WARNING(AUDIO_DEBUG) << "could not add new audio file into cache because load operation failed: " << filename << std::endl;
+    // Try loading the audio and adding it in.
+    if (!audio->LoadAudio(filename)) {
+        IF_PRINT_WARNING(AUDIO_DEBUG) << "Could not add new audio file into cache because load operation failed: " << filename << std::endl;
         delete audio;
         return false;
     }
 
     _audio_cache.insert(std::make_pair(filename, AudioCacheElement(SDL_GetTicks(), audio)));
     return true;
-} // bool AudioEngine::_LoadAudio(AudioDescriptor* audio, const std::string& filename)
+}
 
 } // namespace vt_audio

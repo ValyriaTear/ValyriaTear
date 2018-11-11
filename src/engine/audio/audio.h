@@ -391,11 +391,6 @@ private:
     **/
     std::map<std::string, private_audio::AudioCacheElement> _audio_cache;
 
-    /** \brief The maximum number of entries that are allowed within the audio cache
-    *** The default size is set to 1/4th of _max_sources
-    **/
-    uint16_t _max_cache_size;
-
     /** \brief Acquires an available audio source that may be used
     *** \return A pointer to the available source, or nullptr if no available source could be found
     *** \todo Add an algoihtm to give priority to some data/sounds/music over others.
