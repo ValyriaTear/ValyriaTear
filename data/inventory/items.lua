@@ -1032,7 +1032,7 @@ items[4001] = {
 
         -- Remove the item from inventory, as the battle mode won't handle it properly
         -- if at least one succeed during the battle.
-        GlobalManager:DecrementItemCount(4001, 1)
+        GlobalManager:GetInventoryHandler():DecrementItemCount(4001, 1)
         return true;
     end,
 
