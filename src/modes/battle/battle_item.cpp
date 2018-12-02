@@ -24,12 +24,6 @@ BattleItem::BattleItem(const vt_global::GlobalItem& item) :
         PRINT_WARNING << "constructor received invalid item argument" << std::endl;
 }
 
-BattleItem::~BattleItem()
-{
-    if(_battle_count != _item.GetCount())
-        PRINT_WARNING << "actual count was not equal to available count upon destruction" << std::endl;
-}
-
 void BattleItem::IncrementBattleCount()
 {
     ++_battle_count;

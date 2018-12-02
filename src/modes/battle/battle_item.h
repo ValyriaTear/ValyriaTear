@@ -38,7 +38,7 @@ class BattleItem
 public:
     //! \param item A pointer to the item to represent.
     BattleItem(const vt_global::GlobalItem& item);
-    ~BattleItem();
+    ~BattleItem() {}
 
     //! \brief Class member accessor methods
     //@{
