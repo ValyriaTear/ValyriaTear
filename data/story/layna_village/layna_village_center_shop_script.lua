@@ -144,9 +144,9 @@ function _UpdateFloraDialogue()
 
     flora:ClearDialogueReferences();
 
-    if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "Quest2_forest_event_done") == true) then
         -- nothing special
-    elseif (GlobalManager:DoesEventExist("layna_center_shop", "quest1_flora_dialogue_done") == true) then
+    elseif (GlobalManager:GetGameEvents():DoesEventExist("layna_center_shop", "quest1_flora_dialogue_done") == true) then
         -- Just repeat the last dialogue sentence, when the dialogue is already done.
         dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_flora_about_georges");
         text = vt_system.Translate("Just find Lilly and he should give you some barley meal, ok?");
@@ -155,7 +155,7 @@ function _UpdateFloraDialogue()
         dialogue:AddLine(text, flora);
         flora:AddDialogueReference(dialogue);
         return;
-    elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == true) then
+    elseif (GlobalManager:GetGameEvents():DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == true) then
         dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Hi Bronann! What can I do for you?");
         dialogue:AddLine(text, flora);
@@ -187,11 +187,11 @@ end
 map_functions = {
 
     Quest1FloraDialogueDone = function()
-        GlobalManager:SetEventValue("layna_center_shop", "quest1_flora_dialogue_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("layna_center_shop", "quest1_flora_dialogue_done", 1);
         _UpdateFloraDialogue();
     end,
 
     Quest2FloraDialogueDone = function()
-        GlobalManager:SetEventValue("story", "Quest2_flora_dialogue_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "Quest2_flora_dialogue_done", 1);
     end
 }

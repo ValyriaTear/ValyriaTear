@@ -51,7 +51,7 @@ function Load(m)
     -- Add the background and foreground animations
     Map:GetScriptSupervisor():AddScript("data/story/layna_forest/layna_forest_caves_background_anim.lua");
 
-    if (GlobalManager:DoesEventExist("story", "kalya_speech_at_cave_entrance_done") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "kalya_speech_at_cave_entrance_done") == false) then
         hero:SetMoving(false);
         hero:SetDirection(vt_map.MapMode.WEST);
         -- Add 200 ms here to permit the engine to setup the correct hero sprite first
@@ -132,8 +132,8 @@ function _CreateObjects()
     local light_color_green = 1.0;
     local light_color_blue = 1.0;
     local light_color_alpha = 0.8;
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
-        local tw_value = GlobalManager:GetEventValue("story", "layna_forest_twilight_value");
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+        local tw_value = GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_twilight_value");
         if (tw_value >= 4 and tw_value < 6) then
             light_color_red = 0.83;
             light_color_green = 0.72;
@@ -326,8 +326,8 @@ function _CheckSlimeMotherState()
     -- Tells the game that the slime mother was defeated
     -- TODO: This will have to be improved by adding battle event support in the slime mother
     if (slime_mother_defeated == false and slime_mother_roam_zone:GetSpawnsLeft() == 0) then
-        if (GlobalManager:DoesEventExist("story", "layna_forest_slime_mother_defeated") == false) then
-            GlobalManager:SetEventValue("story", "layna_forest_slime_mother_defeated", 1);
+        if (GlobalManager:GetGameEvents():DoesEventExist("story", "layna_forest_slime_mother_defeated") == false) then
+            GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_slime_mother_defeated", 1);
             slime_mother_defeated = true;
         end
     end
@@ -341,7 +341,7 @@ function _CreateEnemies()
     -- Hint: left, right, top, bottom
     slime_mother_roam_zone = vt_map.EnemyZone.Create(8, 10, 6, 6);
 
-    if (GlobalManager:DoesEventExist("story", "layna_forest_slime_mother_defeated")) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "layna_forest_slime_mother_defeated")) then
         slime_mother_defeated = true;
     else
         enemy = CreateEnemySprite(Map, "big slime");
@@ -537,7 +537,7 @@ map_functions = {
         map_functions.make_entrance_rock_invisible();
         EventManager:StartEvent("First trigger dialogue");
         -- Set the shortcut as open
-        GlobalManager:SetEventValue("story", "layna_forest_trees_shorcut_open", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_trees_shorcut_open", 1);
     end,
     make_2nd_rock_invisible = function()
         _MakeRockInvisible(second_trigger_rock);
@@ -615,6 +615,6 @@ map_functions = {
         bronann:SetPosition(0, 0)
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "kalya_speech_at_cave_entrance_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "kalya_speech_at_cave_entrance_done", 1);
     end
 }

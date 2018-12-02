@@ -91,22 +91,22 @@ function Initialize(map_instance)
 
     -- Get back where the credits were before changing map if it was the case.
     -- We also count the fact that the latest credit shown on the former map is seen, thus the +1 here.
-    if (GlobalManager:DoesEventExist("game", "credit_id") == true) then
-        credit_id = GlobalManager:GetEventValue("game", "credit_id") + 1;
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "credit_id") == true) then
+        credit_id = GlobalManager:GetGameEvents():GetEventValue("game", "credit_id") + 1;
     end
 
     -- Remove the intro time once done
-    if (GlobalManager:DoesEventExist("game", "credit_intro_wait_time_done")) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "credit_intro_wait_time_done")) then
         intro_time_done = true;
     end
 end
 
 function Update()
-    if (GlobalManager:DoesEventExist("game", "Start_Credits") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "Start_Credits") == false) then
         return;
     end
 
-    if (GlobalManager:DoesEventExist("game", "Credit_shown") == true) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "Credit_shown") == true) then
         return;
     end
 
@@ -127,18 +127,18 @@ function Update()
         -- Wait 5 seconds before starting the credits.
         if (intro_time_done == false) then
             intro_time_done = true;
-            GlobalManager:SetEventValue("game", "credit_intro_wait_time_done", 1);
+            GlobalManager:GetGameEvents():SetEventValue("game", "credit_intro_wait_time_done", 1);
             return;
         end
 
         credit_id = credit_id + 1;
         -- Make the game aware of the current credit to shown to avoid making them restart on each map change.
-        GlobalManager:SetEventValue("game", "credit_id", credit_id);
+        GlobalManager:GetGameEvents():SetEventValue("game", "credit_id", credit_id);
 
 
         -- Test whether the credits ended
         if (credit_map[credit_id] == nil) then
-            GlobalManager:SetEventValue("game", "Credit_shown", 1);
+            GlobalManager:GetGameEvents():SetEventValue("game", "Credit_shown", 1);
         end
     end
 
@@ -154,11 +154,11 @@ function DrawPostEffects()
         return;
     end
 
-    if (GlobalManager:DoesEventExist("game", "Start_Credits") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "Start_Credits") == false) then
         return;
     end
 
-    if (GlobalManager:DoesEventExist("game", "Credit_shown") == true) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "Credit_shown") == true) then
         return;
     end
 

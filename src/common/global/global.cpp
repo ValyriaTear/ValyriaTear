@@ -164,11 +164,7 @@ void GameGlobal::ClearAllData()
 
     _character_handler.ClearAllData();
 
-    // Delete all event groups
-    for(std::map<std::string, GlobalEventGroup *>::iterator it = _event_groups.begin(); it != _event_groups.end(); ++it) {
-        delete(it->second);
-    }
-    _event_groups.clear();
+    _game_events.Clear();
 
     // Clear the quest log
     for(std::map<std::string, QuestLogEntry *>::iterator itr = _quest_log_entries.begin(); itr != _quest_log_entries.end(); ++itr)
@@ -213,82 +209,6 @@ bool GameGlobal::DoesEnemyExist(uint32_t enemy_id)
 
     enemy_data.CloseTable(); // enemy_id
     return true;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// GameGlobal class - Event Group Functions
-////////////////////////////////////////////////////////////////////////////////
-
-bool GameGlobal::DoesEventExist(const std::string &group_name, const std::string &event_name) const
-{
-    std::map<std::string, GlobalEventGroup *>::const_iterator group_iter = _event_groups.find(group_name);
-    if(group_iter == _event_groups.end())
-        return false;
-
-    std::map<std::string, int32_t>::const_iterator event_iter = group_iter->second->GetEvents().find(event_name);
-    if(event_iter == group_iter->second->GetEvents().end())
-        return false;
-
-    return true;
-}
-
-void GameGlobal::AddNewEventGroup(const std::string &group_name)
-{
-    if(DoesEventGroupExist(group_name)) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed because there was already an event group that existed for "
-                                       << "the requested group name: " << group_name << std::endl;
-        return;
-    }
-
-    GlobalEventGroup *geg = new GlobalEventGroup(group_name);
-    _event_groups.insert(std::make_pair(group_name, geg));
-}
-
-GlobalEventGroup *GameGlobal::GetEventGroup(const std::string &group_name) const
-{
-    std::map<std::string, GlobalEventGroup *>::const_iterator group_iter = _event_groups.find(group_name);
-    if(group_iter == _event_groups.end()) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "could not find any event group by the requested name: " << group_name << std::endl;
-        return nullptr;
-    }
-    return (group_iter->second);
-}
-
-int32_t GameGlobal::GetEventValue(const std::string &group_name, const std::string &event_name) const
-{
-    std::map<std::string, GlobalEventGroup *>::const_iterator group_iter = _event_groups.find(group_name);
-    if(group_iter == _event_groups.end())
-        return 0;
-
-    std::map<std::string, int32_t>::const_iterator event_iter = group_iter->second->GetEvents().find(event_name);
-    if(event_iter == group_iter->second->GetEvents().end())
-        return 0;
-
-    return event_iter->second;
-}
-
-void GameGlobal::SetEventValue(const std::string &group_name, const std::string &event_name, int32_t event_value)
-{
-    GlobalEventGroup *geg = 0;
-    std::map<std::string, GlobalEventGroup *>::const_iterator group_iter = _event_groups.find(group_name);
-    if(group_iter == _event_groups.end()) {
-        geg = new GlobalEventGroup(group_name);
-        _event_groups.insert(std::make_pair(group_name, geg));
-    } else {
-        geg = group_iter->second;
-    }
-
-    geg->SetEvent(event_name, event_value);
-}
-
-uint32_t GameGlobal::GetNumberEvents(const std::string &group_name) const
-{
-    std::map<std::string, GlobalEventGroup *>::const_iterator group_iter = _event_groups.find(group_name);
-    if(group_iter == _event_groups.end()) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "could not find any event group by the requested name: " << group_name << std::endl;
-        return 0;
-    }
-    return group_iter->second->GetNumberEvents();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -409,14 +329,7 @@ bool GameGlobal::SaveGame(const std::string& filename, uint32_t slot_id, uint32_
 
     _character_handler.SaveCharacters(file);
 
-    // ----- (6) Save event data
-    file.InsertNewLine();
-    file.WriteLine("event_groups = {");
-    for(std::map<std::string, GlobalEventGroup *>::iterator it = _event_groups.begin(); it != _event_groups.end(); ++it) {
-        _SaveEvents(file, it->second);
-    }
-    file.WriteLine("},");
-    file.InsertNewLine();
+    _game_events.SaveEvents(file);
 
     // ------ (7) Save quest log
     file.WriteLine("quest_log = {");
@@ -517,14 +430,7 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32_t slot_id)
 
     _character_handler.LoadCharacters(file);
 
-    // Load event data
-    std::vector<std::string> group_names;
-    if (file.OpenTable("event_groups")) {
-        file.ReadTableKeys(group_names);
-        for(uint32_t i = 0; i < group_names.size(); i++)
-            _LoadEvents(file, group_names[i]);
-        file.CloseTable();
-    }
+    _game_events.LoadEvents(file);
 
     // Load the quest log data
     std::vector<std::string> quest_keys;
@@ -640,39 +546,6 @@ void GameGlobal::GetEmoteOffset(float &x, float &y, const std::string &emote_id,
 // GameGlobal class - Private Methods
 ////////////////////////////////////////////////////////////////////////////////
 
-void GameGlobal::_SaveEvents(WriteScriptDescriptor &file, GlobalEventGroup *event_group)
-{
-    if(file.IsFileOpen() == false) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
-        return;
-    }
-    if(event_group == nullptr) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "function received a nullptr event group pointer argument" << std::endl;
-        return;
-    }
-
-    file.WriteLine("\t" + event_group->GetGroupName() + " = {");
-
-    uint32_t i = 0;
-    for(std::map<std::string, int32_t>::const_iterator it = event_group->GetEvents().begin(); it != event_group->GetEvents().end(); ++it) {
-        if(it == event_group->GetEvents().begin())
-            file.WriteLine("\t\t", false);
-        else
-            file.WriteLine(", ", false);
-
-        // Add a new line every 4 entries for better readability and debugging
-        if ((i > 0) && !(i % 4)) {
-            file.InsertNewLine();
-            file.WriteLine("\t\t", false);
-        }
-
-        file.WriteLine("[\"" + it->first + "\"] = " + NumberToString(it->second), false);
-
-        ++i;
-    }
-    file.WriteLine("\n\t},");
-}
-
 void GameGlobal::_SaveQuests(WriteScriptDescriptor &file, const QuestLogEntry *quest_log_entry)
 {
     if(file.IsFileOpen() == false)
@@ -767,31 +640,6 @@ void GameGlobal::_SaveShopData(vt_script::WriteScriptDescriptor& file)
     }
     file.WriteLine("},"); // Close the shop_data table
     file.InsertNewLine();
-}
-
-void GameGlobal::_LoadEvents(ReadScriptDescriptor &file, const std::string &group_name)
-{
-    if(file.IsFileOpen() == false) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
-        return;
-    }
-
-    AddNewEventGroup(group_name);
-    GlobalEventGroup *new_group = GetEventGroup(group_name); // new_group is guaranteed not to be nullptr
-
-    std::vector<std::string> event_names;
-
-    if (file.OpenTable(group_name)) {
-        file.ReadTableKeys(event_names);
-        for(uint32_t i = 0; i < event_names.size(); i++) {
-            new_group->AddNewEvent(event_names[i], file.ReadInt(event_names[i]));
-        }
-        file.CloseTable();
-    }
-    else {
-        PRINT_ERROR << "Invalid event group name '" << group_name << " in save file "
-                << file.GetFilename() << std::endl;
-    }
 }
 
 void GameGlobal::_LoadQuests(ReadScriptDescriptor &file, const std::string &quest_id)

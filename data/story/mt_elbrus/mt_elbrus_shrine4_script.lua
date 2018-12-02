@@ -94,7 +94,7 @@ function _CreateObjects()
 
     _add_flame(61.5, 29);
 
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
         _add_waterlight(45, 25)
         _add_waterlight(15, 27)
         _add_waterlight(57, 13)
@@ -263,7 +263,7 @@ function _CreateObjects()
 
     -- 2nd Mini-boss
     mini_boss = CreateObject(Map, "Dorver1_left", 45, 11, vt_map.MapMode.GROUND_OBJECT);
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_trap_boss_2_done") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_trap_boss_2_done") == 1) then
         mini_boss:SetPosition(0, 0);
         mini_boss:SetVisible(false);
         mini_boss:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -367,13 +367,13 @@ end
 function _CheckZones()
     if (to_shrine_main_room_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.EAST);
-        if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
             EventManager:StartEvent("to mountain shrine main room");
         else
             EventManager:StartEvent("to mountain shrine main room-waterfalls");
         end
     elseif (mini_boss_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_trap_boss_2_done") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_trap_boss_2_done") == 0) then
             EventManager:StartEvent("Mini-Boss fight");
         end
     end
@@ -544,7 +544,7 @@ map_functions = {
 
     mini_boss_end = function()
         Map:PopState();
-        GlobalManager:SetEventValue("story", "mt_elbrus_shrine_trap_boss_2_done", 1)
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_shrine_trap_boss_2_done", 1)
 
         mini_boss:SetPosition(0, 0);
         mini_boss:SetVisible(false);

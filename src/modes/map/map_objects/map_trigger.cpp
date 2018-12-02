@@ -105,7 +105,7 @@ void TriggerObject::_LoadState()
         return;
 
     // If the event value is equal to 1, the trigger has been triggered.
-    if(vt_global::GlobalManager->GetEventValue("triggers", _trigger_name) == 1) {
+    if(vt_global::GlobalManager->GetGameEvents().GetEventValue("triggers", _trigger_name) == 1) {
         SetCurrentAnimation(TRIGGER_ON_ANIM);
         _trigger_state = true;
     }
@@ -128,13 +128,13 @@ void TriggerObject::SetState(bool state)
         SetCurrentAnimation(TRIGGER_ON_ANIM);
         if (!_on_event.empty())
             event_supervisor->StartEvent(_on_event);
-        vt_global::GlobalManager->SetEventValue("triggers", _trigger_name, 1);
+        vt_global::GlobalManager->GetGameEvents().SetEventValue("triggers", _trigger_name, 1);
     }
     else {
         SetCurrentAnimation(TRIGGER_OFF_ANIM);
         if (!_off_event.empty())
             event_supervisor->StartEvent(_off_event);
-        vt_global::GlobalManager->SetEventValue("triggers", _trigger_name, 0);
+        vt_global::GlobalManager->GetGameEvents().SetEventValue("triggers", _trigger_name, 0);
     }
 }
 

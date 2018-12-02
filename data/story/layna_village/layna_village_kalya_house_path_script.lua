@@ -46,11 +46,11 @@ end
 -- Handle the display of the new game credits
 function _HandleCredits()
     -- Handle small credits triggering
-    if (GlobalManager:DoesEventExist("game", "Start_Credits") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "Start_Credits") == false) then
         -- Triggers the small credits display
-        GlobalManager:SetEventValue("game", "Start_Credits", 1);
+        GlobalManager:GetGameEvents():SetEventValue("game", "Start_Credits", 1);
     end
-    if (GlobalManager:DoesEventExist("game", "Credits_shown") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "Credits_shown") == false) then
         Map:GetScriptSupervisor():AddScript("data/credits/episode1_credits.lua");
     end
 end
@@ -94,12 +94,12 @@ function _ReloadGrandmaDialogue()
     grandma:ClearDialogueReferences();
 
     local chicken_left = 3;
-    if (GlobalManager:GetEventValue("game", "layna_village_chicken1_found") == 1) then chicken_left = chicken_left - 1; end
-    if (GlobalManager:GetEventValue("game", "layna_village_chicken2_found") == 1) then chicken_left = chicken_left - 1; end
-    if (GlobalManager:GetEventValue("game", "layna_village_chicken3_found") == 1) then chicken_left = chicken_left - 1; end
+    if (GlobalManager:GetGameEvents():GetEventValue("game", "layna_village_chicken1_found") == 1) then chicken_left = chicken_left - 1; end
+    if (GlobalManager:GetGameEvents():GetEventValue("game", "layna_village_chicken2_found") == 1) then chicken_left = chicken_left - 1; end
+    if (GlobalManager:GetGameEvents():GetEventValue("game", "layna_village_chicken3_found") == 1) then chicken_left = chicken_left - 1; end
 
     if (chicken_left > 0) then
-        if (GlobalManager:GetEventValue("game", "layna_village_chicken_dialogue_done") == 1) then
+        if (GlobalManager:GetGameEvents():GetEventValue("game", "layna_village_chicken_dialogue_done") == 1) then
             -- Tell Bronann to keep on searching
             if (chicken_left < 3) then
                 dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_granma_chicken_not_found1");
@@ -134,7 +134,7 @@ function _ReloadGrandmaDialogue()
             vt_map.ScriptedEvent.Create("Chicken dialogue done", "set_chicken_dialogue_done", "");
 
         end
-    elseif (GlobalManager:GetEventValue("game", "layna_village_chicken_reward_given") == 0) then
+    elseif (GlobalManager:GetGameEvents():GetEventValue("game", "layna_village_chicken_reward_given") == 0) then
         -- Gives Bronann his reward
         dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Oh, they're all back, my brave hero.");
@@ -177,21 +177,21 @@ function _CreateNPCs()
     _ReloadGrandmaDialogue();
 
     -- Adds the chicken when found.
-    if (GlobalManager:GetEventValue("game", "layna_village_chicken1_found") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("game", "layna_village_chicken1_found") == 1) then
         npc = CreateSprite(Map, "Chicken", 21, 36, vt_map.MapMode.GROUND_OBJECT);
         event = vt_map.RandomMoveSpriteEvent.Create("Chicken1 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Chicken1 random move", 4500); -- Loop on itself
         EventManager:StartEvent("Chicken1 random move");
     end
 
-    if (GlobalManager:GetEventValue("game", "layna_village_chicken2_found") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("game", "layna_village_chicken2_found") == 1) then
         npc = CreateSprite(Map, "Chicken", 19, 34, vt_map.MapMode.GROUND_OBJECT);
         event = vt_map.RandomMoveSpriteEvent.Create("Chicken2 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Chicken2 random move", 4500); -- Loop on itself
         EventManager:StartEvent("Chicken2 random move", 1200);
     end
 
-    if (GlobalManager:GetEventValue("game", "layna_village_chicken3_found") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("game", "layna_village_chicken3_found") == 1) then
         npc = CreateSprite(Map, "Chicken", 23, 33, vt_map.MapMode.GROUND_OBJECT);
         event = vt_map.RandomMoveSpriteEvent.Create("Chicken3 random move", npc, 1000, 1000);
         event:AddEventLinkAtEnd("Chicken3 random move", 4500); -- Loop on itself
@@ -344,14 +344,14 @@ end
 map_functions = {
 
     set_chicken_dialogue_done = function()
-        GlobalManager:SetEventValue("game", "layna_village_chicken_dialogue_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("game", "layna_village_chicken_dialogue_done", 1);
         _ReloadGrandmaDialogue();
         -- Adds the quest log about the chicken...
         GlobalManager:AddQuestLog("catch_chicken");
     end,
 
     set_chicken_reward_given = function()
-        GlobalManager:SetEventValue("game", "layna_village_chicken_reward_given", 1);
+        GlobalManager:GetGameEvents():SetEventValue("game", "layna_village_chicken_reward_given", 1);
         _ReloadGrandmaDialogue();
     end
 }

@@ -49,12 +49,12 @@ function Load(m)
     Map:GetScriptSupervisor():AddScript("data/story/common/at_night.lua");
 
     -- Make the rain starts if needed
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 0) then
         Map:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/rain.lua", 512.0, 768.0);
         -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
         vt_map.SoundObject.Create("data/music/Ove Melaa - Rainy.ogg", 32.0, 24.0, 100.0);
     end
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 1) then
         Map:GetScriptSupervisor():AddScript("data/story/common/soft_lightnings_script.lua");
     end
 
@@ -655,7 +655,7 @@ end
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
     if (see_first_guard_zone:IsCameraEntering() == true and Map:CurrentState() ~= vt_map.MapMode.STATE_SCENE) then
-        if (GlobalManager:GetEventValue("story", "mt_elbrus_kalya_sees_the_soldiers") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_kalya_sees_the_soldiers") == 0) then
             hero:SetMoving(false);
             EventManager:StartEvent("Set scene state for dialogue about soldiers");
         end
@@ -684,10 +684,10 @@ function _SetBattleEnvironment(enemy)
     enemy:SetBattleBackground("data/battles/battle_scenes/mountain_background.png");
     enemy:AddBattleScript("data/story/common/at_night.lua");
 
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 0) then
         enemy:AddBattleScript("data/story/common/rain_in_battles_script.lua");
     end
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 1) then
         enemy:AddBattleScript("data/story/common/soft_lightnings_script.lua");
     end
 end
@@ -775,7 +775,7 @@ map_functions = {
         bronann:SetPosition(0, 0)
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "mt_elbrus_kalya_sees_the_soldiers", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_kalya_sees_the_soldiers", 1);
     end,
 
     set_the_camera_on_the_soldier = function()

@@ -207,7 +207,7 @@ function _CreateObjects()
     local fence1_trigger1_x_position = 15.0;
     local fence2_trigger1_x_position = 17.0;
     -- Sets the passage open if the enemies were already beaten
-    if (GlobalManager:GetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated") == 1) then
         fence1_trigger1_x_position = 13.0;
         fence2_trigger1_x_position = 19.0;
     end
@@ -218,7 +218,7 @@ function _CreateObjects()
     local fence1_trigger2_x_position = 27.0;
     local fence2_trigger2_x_position = 29.0;
     -- Sets the passage open if the trigger is pushed
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 1) then
         fence1_trigger2_x_position = 25.0;
         fence2_trigger2_x_position = 31.0;
     end
@@ -231,7 +231,7 @@ function _CreateObjects()
     vt_map.ScriptedEvent.Create("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
 
 
-    if (GlobalManager:GetEventValue("story", "mt_shrine_1st_floor_stone2_through_2nd_door") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_shrine_1st_floor_stone2_through_2nd_door") == 0) then
         rolling_stone2:SetVisible(false);
         rolling_stone2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     else
@@ -239,13 +239,13 @@ function _CreateObjects()
     end
 
     -- Open the gates when the trigger is on and put the stone on it.
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 5 trigger 2") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus shrine 5 trigger 2") == 1) then
         map_functions.set_gate_opened();
         rolling_stone2:SetPosition(43, 22);
     end
 
     -- Waterfall
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
         _add_waterfall(44, 46);
     end
 end
@@ -453,7 +453,7 @@ function _CreateEvents()
     text = vt_system.Translate("Oops, sorry!");
     dialogue:AddLineEvent(text, orlinn, "Orlinn looks west", "");
 
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_fell_on_bronanns_head") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_fell_on_bronanns_head") == 0) then
         -- First time
         text = vt_system.Translate("Bronann, are you okay?");
         dialogue:AddLineEventEmote(text, kalya, "Kalya looks at Orlinn", "", "sweat drop");
@@ -486,7 +486,7 @@ function _CreateEvents()
 end
 
 function _UpdatePassageEvent()
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_high_passage_event_done") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_high_passage_event_done") == 1) then
         passage_event_object:SetEventWhenTalking("Thrown to high passage event start");
     else
         passage_event_object:SetEventWhenTalking("High passage discussion event start");
@@ -508,7 +508,7 @@ function _CreateEnemies()
     local enemy = nil
 
     -- Checks whether the enemies there have been already defeated...
-    if (GlobalManager:GetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated") == 1) then
         monsters_defeated = true;
         return;
     end
@@ -553,7 +553,7 @@ function _CheckMonstersStates()
     hero:SetMoving(false);
     EventManager:StartEvent("Open south west passage", 1000);
 
-    GlobalManager:SetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated", 1);
+    GlobalManager:GetGameEvents():SetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated", 1);
 end
 
 -- zones
@@ -582,7 +582,7 @@ local trap_triggered = false;
 function _CheckZones()
     if (to_shrine_main_room_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.NORTH);
-        if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
             EventManager:StartEvent("to mountain shrine main room");
         else
             EventManager:StartEvent("to mountain shrine main room-waterfalls");
@@ -600,7 +600,7 @@ function _CheckZones()
         hero:SetDirection(vt_map.MapMode.EAST);
         EventManager:StartEvent("to mountain shrine 1st floor NE room");
     elseif (trap_triggered == false and monster_trap_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_1st_NW_monsters_defeated") == 0) then
             trap_triggered = true;
             -- Show spikes
             trap_spikes:SetVisible(true);
@@ -945,7 +945,7 @@ map_functions = {
     thrown_to_passage_event_end = function()
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "mt_elbrus_shrine_high_passage_event_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_shrine_high_passage_event_done", 1);
 
         -- If the user chose 'No', Orlinn can now be removed the event end
         if (jump_canceled == true) then
@@ -1066,7 +1066,7 @@ map_functions = {
 
         Map:PopState();
 
-        GlobalManager:SetEventValue("story", "mt_elbrus_fell_on_bronanns_head", 1)
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_fell_on_bronanns_head", 1)
 
         -- Disable the come back object event
         passage_back_event_object:ClearEventWhenTalking();

@@ -49,7 +49,7 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
 
         -- Trigger the save point and spring speech event once
-    if (GlobalManager:DoesEventExist("story", "kalya_speech_about_snakes_done") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "kalya_speech_about_snakes_done") == false) then
         hero:SetMoving(false);
         hero:SetDirection(vt_map.MapMode.WEST);
         EventManager:StartEvent("Forest entrance dialogue about snakes", 200);
@@ -62,7 +62,7 @@ end
 function _HandleTwilight()
 
     -- If the characters have seen the crystal, then it's time to make the twilight happen
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         return;
     end
 
@@ -114,7 +114,7 @@ function _CreateObjects()
     event = vt_map.DialogueEvent.Create("Info about status effects", dialogue)
 
     -- Only add the squirrels and butterflies when the night isn't about to happen
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
 
         npc = CreateSprite(Map, "Butterfly", 42, 18, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -712,10 +712,10 @@ end
 function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/forest_background.png");
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
         -- Setup time of the day lighting on battles
         enemy:AddBattleScript("data/story/layna_forest/after_crystal_twilight_battles.lua");
-        if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") > 2) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_twilight_value") > 2) then
             enemy:SetBattleBackground("data/battles/battle_scenes/forest_background_evening.png");
         end
     end
@@ -777,6 +777,6 @@ map_functions = {
         bronann:SetPosition(0, 0)
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "kalya_speech_about_snakes_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "kalya_speech_about_snakes_done", 1);
     end
 }

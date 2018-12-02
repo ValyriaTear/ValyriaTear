@@ -67,14 +67,14 @@ function Load(m)
     if (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_wind_trap") then
         hero:SetMoving(false);
         EventManager:StartEvent("Falls from above event", 200);
-    elseif (GlobalManager:GetEventValue("story", "mt_elbrus_snowing_dialogue") ~= 1) then
+    elseif (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_snowing_dialogue") ~= 1) then
         -- Start the dialogue about snow and the bridge if not done
         hero:SetMoving(false);
         EventManager:StartEvent("Snowing Dialogue", 200);
     end
 
     -- If the bridge has fallen, hide it and block the way
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_bridge_cut_event") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_bridge_cut_event") == 1) then
         -- Hide the bridge's parts
         for i, my_object in ipairs(bridge_middle_parts) do
             my_object:SetPosition(0, 0);
@@ -473,11 +473,11 @@ function _CheckZones()
         hero:SetMoving(false);
         EventManager:StartEvent("to mountain shrine entrance");
     elseif (bridge_south_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
-        if (GlobalManager:GetEventValue("story", "mt_elbrus_bridge_dialogue") ~= 1) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_bridge_dialogue") ~= 1) then
             EventManager:StartEvent("Afraid of the bridge Dialogue");
         end
     elseif (bridge_middle_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
-        if (GlobalManager:GetEventValue("story", "mt_elbrus_bridge_cut_event") ~= 1) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_bridge_cut_event") ~= 1) then
             EventManager:StartEvent("Cut the bridge Event");
         end
     elseif (to_path3_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
@@ -557,7 +557,7 @@ map_functions = {
         bronann:SetPosition(0, 0)
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "mt_elbrus_snowing_dialogue", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_snowing_dialogue", 1);
     end,
 
     bridge_dialogue_start = function()
@@ -567,7 +567,7 @@ map_functions = {
 
     bridge_dialogue_end = function()
         Map:PopState();
-        GlobalManager:SetEventValue("story", "mt_elbrus_bridge_dialogue", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_bridge_dialogue", 1);
     end,
 
     bridge_cut_event_start = function()
@@ -714,7 +714,7 @@ map_functions = {
         AudioManager:PlayMusic("data/sounds/wind.ogg");
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "mt_elbrus_bridge_cut_event", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_bridge_cut_event", 1);
     end,
 
     fall_event_start = function()

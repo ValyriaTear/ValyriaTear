@@ -72,8 +72,8 @@ function _CreateObjects()
     local light_color_green = 1.0;
     local light_color_blue = 1.0;
     local light_color_alpha = 0.8;
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
-        local tw_value = GlobalManager:GetEventValue("story", "layna_forest_twilight_value");
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+        local tw_value = GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_twilight_value");
         if (tw_value >= 4 and tw_value < 6) then
             light_color_red = 0.83;
             light_color_green = 0.72;

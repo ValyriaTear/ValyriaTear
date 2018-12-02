@@ -133,7 +133,7 @@ function _CreateObjects()
     vt_map.ScriptedEvent.Create("Make rolling stone1 fall event end", "stone_falls_event_end", "");
 
     -- Set the stone event according to the events
-    if (GlobalManager:GetEventValue("story", "mountain_shrine_2ndfloor_pushed_stone") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_2ndfloor_pushed_stone") == 0) then
         -- The stones is on the upper level
         rolling_stone1:SetEventWhenTalking("Make rolling stone1 fall event start");
     else
@@ -316,7 +316,7 @@ function _CreateObjects()
 
     -- Mini-boss
     mini_boss = CreateObject(Map, "Dorver1", 33, 10, vt_map.MapMode.GROUND_OBJECT);
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_trap_boss_done") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_trap_boss_done") == 1) then
         mini_boss:SetPosition(0, 0);
         mini_boss:SetVisible(false);
         mini_boss:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -470,7 +470,7 @@ function _CheckZones()
         trap_started = true;
         EventManager:StartEvent("start trap");
     elseif (mini_boss_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_trap_boss_done") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_trap_boss_done") == 0) then
             EventManager:StartEvent("Mini-Boss fight");
         end
     end
@@ -687,7 +687,7 @@ map_functions = {
     end,
 
     stone_falls_event_end = function()
-        GlobalManager:SetEventValue("story", "mountain_shrine_2ndfloor_pushed_stone", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mountain_shrine_2ndfloor_pushed_stone", 1);
         Map:PopState();
     end,
 
@@ -774,7 +774,7 @@ map_functions = {
 
     mini_boss_end = function()
         Map:PopState();
-        GlobalManager:SetEventValue("story", "mt_elbrus_shrine_trap_boss_done", 1)
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_shrine_trap_boss_done", 1)
 
         mini_boss:SetPosition(0, 0);
         mini_boss:SetVisible(false);

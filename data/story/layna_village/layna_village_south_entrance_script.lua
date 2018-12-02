@@ -47,11 +47,11 @@ end
 -- Handle the display of the new game credits
 function _HandleCredits()
     -- Handle small credits triggering
-    if (GlobalManager:DoesEventExist("game", "Start_Credits") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "Start_Credits") == false) then
         -- Triggers the small credits display
-        GlobalManager:SetEventValue("game", "Start_Credits", 1);
+        GlobalManager:GetGameEvents():SetEventValue("game", "Start_Credits", 1);
     end
-    if (GlobalManager:DoesEventExist("game", "Credits_shown") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "Credits_shown") == false) then
         Map:GetScriptSupervisor():AddScript("data/credits/episode1_credits.lua");
     end
 end
@@ -91,7 +91,7 @@ function _CreateNPCs()
     local event = nil
 
     npc = CreateSprite(Map, "Herth", 45, 39, vt_map.MapMode.GROUND_OBJECT);
-    if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "Quest2_forest_event_done") == true) then
         -- At that moment, Herth isn't there anymore.
         npc:SetVisible(false);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -125,7 +125,7 @@ function _CreateNPCs()
     _UpdateOrlinnState();
 
     -- Adds a chicken that can be taken by Bronann and given back to Grandma.
-    if (GlobalManager:GetEventValue("game", "layna_village_chicken2_found") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("game", "layna_village_chicken2_found") == 0) then
         chicken2 = CreateSprite(Map, "Chicken", 58, 44, vt_map.MapMode.GROUND_OBJECT);
 
         event = vt_map.RandomMoveSpriteEvent.Create("Chicken2 random move", chicken2, 1000, 1000);
@@ -248,12 +248,12 @@ function _UpdateOrlinnState()
     event = vt_map.PathMoveSpriteEvent.Create("Hide n Seek1: Orlinn goes left", orlinn, 29, 22, false);
     event:AddEventLinkAtEnd("Hide n Seek1: Orlinn goes right", 8000); -- finish the event loop.
 
-    if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
         -- Orlinn shouldn't be here, so we make him invisible
         orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         orlinn:SetVisible(false);
         return;
-    elseif (GlobalManager:DoesEventExist("layna_center", "quest1_orlinn_dialogue1_done") == true) then
+    elseif (GlobalManager:GetGameEvents():DoesEventExist("layna_center", "quest1_orlinn_dialogue1_done") == true) then
         -- Start the hide and seek 1 position when it has to happen
         EventManager:StartEvent("Hide n Seek1: Orlinn goes right", 8000);
 
@@ -287,7 +287,7 @@ map_functions = {
         EventManager:EndAllEvents(orlinn);
 
         -- Updates Orlinn's state
-        GlobalManager:SetEventValue("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done", 1);
     end,
 
     MakeInvisible = function(sprite)
@@ -321,10 +321,10 @@ map_functions = {
             if (chicken2_taken == false) then
                 chicken2:SetVisible(false);
                 chicken2:SetPosition(0, 0);
-                GlobalManager:SetEventValue("game", "layna_village_chicken2_found", 1)
+                GlobalManager:GetGameEvents():SetEventValue("game", "layna_village_chicken2_found", 1)
                 -- Set the quest start dialogue as done if not already, so a possible later
                 -- dialogue with grandma sounds more logical
-                GlobalManager:SetEventValue("game", "layna_village_chicken_dialogue_done", 1);
+                GlobalManager:GetGameEvents():SetEventValue("game", "layna_village_chicken_dialogue_done", 1);
                 chicken2_taken = true;
             end
             fade_color:SetAlpha((2000.0 - fade_effect_time) / 700.0);

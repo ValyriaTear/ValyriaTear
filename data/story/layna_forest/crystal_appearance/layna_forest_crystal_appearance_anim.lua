@@ -108,11 +108,11 @@ end
 
 function Update()
     -- Only show the image if requested by the events
-    if (GlobalManager:DoesEventExist("story", "layna_forest_crystal_appearance") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "layna_forest_crystal_appearance") == false) then
         return;
     end
 
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_appearance") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_appearance") == 0) then
         return;
     end
 
@@ -126,7 +126,7 @@ function Update()
     if (display_time > 17000) then
         display_time = 0;
         -- Disable the event at the end of it
-        GlobalManager:SetEventValue("story", "layna_forest_crystal_appearance", 0);
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_crystal_appearance", 0);
         return;
     end
 
@@ -298,11 +298,11 @@ local flash_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 
 function DrawPostEffects()
     -- Only show the image if requested by the events
-    if (GlobalManager:DoesEventExist("story", "layna_forest_crystal_appearance") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "layna_forest_crystal_appearance") == false) then
         return;
     end
 
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_appearance") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_appearance") == 0) then
         return;
     end
 

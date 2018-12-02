@@ -54,7 +54,7 @@ function Load(m)
     GlobalManager:SetCurrentLocationId("layna village");
 
     -- Start the return to village dialogue if it hasn't been done already.
-    if (GlobalManager:GetEventValue("story", "return_to_layna_village_dialogue_done") ~= 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "return_to_layna_village_dialogue_done") ~= 1) then
         EventManager:StartEvent("Return to village dialogue");
     end
 
@@ -392,49 +392,49 @@ function _CheckZones()
     end
 
     if (to_layna_forest_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "layna_village_kalya_captured_done") == 1) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_village_kalya_captured_done") == 1) then
             EventManager:StartEvent("Bronann should follow Kalya");
         else
             EventManager:StartEvent("Bronann should go home");
         end
     elseif (to_riverbank_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "layna_village_kalya_captured_done") == 1) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_village_kalya_captured_done") == 1) then
             EventManager:StartEvent("to Riverbank");
         else
             EventManager:StartEvent("Bronann should go home");
         end
     elseif (secret_path_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "layna_village_kalya_captured_done") == 1) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_village_kalya_captured_done") == 1) then
             EventManager:StartEvent("Bronann should follow Kalya");
         else
             EventManager:StartEvent("Bronann should go home");
         end
     elseif (to_village_entrance_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "layna_village_kalya_captured_done") == 1) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_village_kalya_captured_done") == 1) then
             EventManager:StartEvent("Bronann should follow Kalya");
         else
             EventManager:StartEvent("Bronann should go home");
         end
     elseif (to_kalya_house_path_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "layna_village_kalya_captured_done") == 1) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_village_kalya_captured_done") == 1) then
             EventManager:StartEvent("Bronann should follow Kalya");
         else
             EventManager:StartEvent("Bronann should go home");
         end
     elseif (shop_entrance_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "layna_village_kalya_captured_done") == 1) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_village_kalya_captured_done") == 1) then
             EventManager:StartEvent("Bronann should follow Kalya");
         else
             EventManager:StartEvent("Bronann should go home when checking other houses");
         end
     elseif (sophia_house_entrance_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "layna_village_kalya_captured_done") == 1) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_village_kalya_captured_done") == 1) then
             EventManager:StartEvent("Bronann should follow Kalya");
         else
             EventManager:StartEvent("Bronann should go home when checking other houses");
         end
     elseif (bronanns_home_entrance_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "layna_village_kalya_captured_done") == 1) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_village_kalya_captured_done") == 1) then
             EventManager:StartEvent("Bronann should follow Kalya");
         else
             EventManager:StartEvent("Kalya is brought by four soldiers to riverbank start");
@@ -484,7 +484,7 @@ map_functions = {
     return_to_village_dialogue_end = function()
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "return_to_layna_village_dialogue_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "return_to_layna_village_dialogue_done", 1);
         Map:PopState();
     end,
 
@@ -559,7 +559,7 @@ map_functions = {
     kalya_captured_scene_end = function()
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "layna_village_kalya_captured_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_village_kalya_captured_done", 1);
         Map:PopState();
     end,
 }

@@ -80,7 +80,7 @@ function _CreateCharacters()
     andromalius:SetDirection(vt_map.MapMode.SOUTH);
     andromalius:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
 
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_boss_beaten") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_boss_beaten") == 1) then
         andromalius:SetVisible(false);
         andromalius:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     end
@@ -127,7 +127,7 @@ function _CreateObjects()
     rumble_sound:Stop();
 
     -- Deactivate the sound when the trigger is not already pushed
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
         waterfall_sound:Stop();
     end
 
@@ -145,7 +145,7 @@ function _CreateObjects()
     upper_fence1 = CreateObject(Map, "Stone Fence1", 31, 16, vt_map.MapMode.GROUND_OBJECT);
     upper_fence2 = CreateObject(Map, "Stone Fence1", 33, 16, vt_map.MapMode.GROUND_OBJECT);
 
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_boss_beaten") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_boss_beaten") == 1) then
         upper_fence1:SetXPosition(29);
         upper_fence2:SetXPosition(35);
     end
@@ -574,7 +574,7 @@ function _CheckZones()
     end
 
     -- Disable the boss battle when it is won.
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_boss_beaten") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_boss_beaten") == 1) then
         battle_won = true;
         return;
     end
@@ -1317,7 +1317,7 @@ map_functions = {
         orlinn:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
         -- Free the player
         Map:PopState();
-        GlobalManager:SetEventValue("story", "mt_elbrus_shrine_boss_beaten", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_shrine_boss_beaten", 1);
         return true;
     end,
 

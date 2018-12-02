@@ -46,10 +46,10 @@ function Load(m)
     _CreateZones();
 
     -- Amplify light gradually when entering the first time.
-    if (GlobalManager:GetEventValue("story", "mountain_shrine_entrance_light_done") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_entrance_light_done") == 0) then
         Map:GetEffectSupervisor():EnableLightingOverlay(vt_video.Color(0.0, 0.0, 0.0, 0.45));
         EventManager:StartEvent("Amplify lights", 1500);
-        GlobalManager:SetEventValue("story", "mountain_shrine_entrance_light_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mountain_shrine_entrance_light_done", 1);
     end
 end
 
@@ -147,7 +147,7 @@ function _CreateObjects()
     CreateObject(Map, "Jar1", 46, 51.6, vt_map.MapMode.GROUND_OBJECT);
 
     -- Waterfalls
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
         _add_very_small_waterfall(32, 7);
         _add_very_small_waterfall(40, 7);
         _add_waterlight(27, 12)
@@ -170,7 +170,7 @@ function _CreateObjects()
     -- Add the first parchment
     parchment1 = CreateObject(Map, "Parchment", 33.0, 40.6, vt_map.MapMode.GROUND_OBJECT);
     -- Adds a dialogue about the parchment content.
-    if (GlobalManager:GetEventValue("story", "mountain_shrine_parchment1_done") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_parchment1_done") == 0) then
         parchment1:SetEventWhenTalking("Parchment 1 event");
     else
         -- A smaller event summarizing the dialogue
@@ -189,7 +189,7 @@ function _CreateObjects()
     skeleton3:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
     -- Adds a dialogue about the parchment content.
-    if (GlobalManager:GetEventValue("story", "mountain_shrine_skeleton_event_done") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_skeleton_event_done") == 1) then
         skeleton1:SetPosition(0, 0);
         skeleton1:SetVisible(false);
         skeleton2:SetPosition(0, 0);
@@ -202,7 +202,7 @@ function _CreateObjects()
 
     -- Create the fake walls out of the objects catalog as they are used once,
     -- Left secret passage
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 2nd s2 trigger") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus shrine 2nd s2 trigger") == 0) then
         object = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
         object:SetPosition(2.0, 62.0);
         object:SetCollPixelHalfWidth(32);
@@ -215,7 +215,7 @@ function _CreateObjects()
     end
 
     -- Right one
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 4 trigger 1") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus shrine 4 trigger 1") == 0) then
         object = vt_map.PhysicalObject.Create(vt_map.MapMode.GROUND_OBJECT);
         object:SetPosition(62.0, 62.0);
         object:SetCollPixelHalfWidth(2.0 * 16);
@@ -487,7 +487,7 @@ function _CheckZones()
         hero:SetDirection(vt_map.MapMode.NORTH);
         EventManager:StartEvent("to mountain shrine stairs");
     elseif (shrine_skeleton_trap_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
-        if (GlobalManager:GetEventValue("story", "mountain_shrine_skeleton_event_done") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_skeleton_event_done") == 0) then
             EventManager:StartEvent("Skeleton event start");
         end
     end
@@ -555,7 +555,7 @@ map_functions = {
         kalya:SetPosition(0, 0)
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "mountain_shrine_parchment1_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mountain_shrine_parchment1_done", 1);
 
         -- Set a smaller event now the full dialogue has been run
         parchment1:SetEventWhenTalking("Parchment 1 event small");
@@ -576,7 +576,7 @@ map_functions = {
     end,
 
     skeleton_event_end = function()
-        GlobalManager:SetEventValue("story", "mountain_shrine_skeleton_event_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mountain_shrine_skeleton_event_done", 1);
         Map:PopState();
         -- Now adds the enemies
         _CreateEnemies();

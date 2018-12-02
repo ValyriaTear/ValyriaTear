@@ -51,13 +51,13 @@ end
 function _HandleTwilight()
 
     -- If the characters have seen the crystal, then it's time to make the twilight happen
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         return;
     end
 
     -- test if the day time is sufficiently advanced
-    if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") < 1) then
-        GlobalManager:SetEventValue("story", "layna_forest_twilight_value", 1);
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_twilight_value") < 1) then
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_twilight_value", 1);
     end
 
     Map:GetScriptSupervisor():AddScript("data/story/layna_forest/after_crystal_twilight.lua");
@@ -136,7 +136,7 @@ function _CreateObjects()
     event = vt_map.DialogueEvent.Create("Info about ambush/first strike", dialogue)
 
     -- Only add the squirrels and butterflies when the night isn't about to happen
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         npc = CreateSprite(Map, "Butterfly", 42, 18, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         event = vt_map.RandomMoveSpriteEvent.Create("Butterfly1 random move", npc, 1000, 1000);
@@ -782,10 +782,10 @@ function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/forest_background.png");
 
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
         -- Setup time of the day lighting on battles
         enemy:AddBattleScript("data/story/layna_forest/after_crystal_twilight_battles.lua");
-        if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") > 2 ) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_twilight_value") > 2 ) then
             enemy:SetBattleBackground("data/battles/battle_scenes/forest_background_evening.png");
         end
     end

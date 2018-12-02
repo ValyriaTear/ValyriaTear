@@ -151,7 +151,7 @@ function _CreateObjects()
     local pos_y = 0.0;
 
     local passage_open = false;
-    if (GlobalManager:GetEventValue("story", "mt_shrine_2nd_floor_NE_open") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_shrine_2nd_floor_NE_open") == 1) then
         passage_open = true;
     end
 
@@ -477,7 +477,7 @@ map_functions = {
         fence2_trigger1:SetXPosition(fence2_trigger1_x_position);
 
         if (fence1_trigger1_x_position <= 25.0) then
-            GlobalManager:SetEventValue("story", "mt_shrine_2nd_floor_NE_open", 1);
+            GlobalManager:GetGameEvents():SetEventValue("story", "mt_shrine_2nd_floor_NE_open", 1);
             return true;
         end
         return false;

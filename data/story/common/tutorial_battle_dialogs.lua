@@ -42,8 +42,8 @@ function Initialize(battle_instance)
 
     stop_script = false;
 
-    if (GlobalManager:GetEventValue("story", "first_battle") ~= 1) then
-        GlobalManager:SetEventValue("story", "first_battle", 1);
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "first_battle") ~= 1) then
+        GlobalManager:GetGameEvents():SetEventValue("story", "first_battle", 1);
         stop_script = false;
     else
         stop_script = true;

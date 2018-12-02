@@ -54,7 +54,7 @@ end
 -- Handle the twilight advancement after the crystal scene
 function _HandleTwilight()
     -- If the characters have seen the crystal, then it's time to make the twilight happen
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         return;
     end
 
@@ -118,7 +118,7 @@ function _CreateObjects()
     wolf:SetDirection(vt_map.MapMode.SOUTH);
 
     -- Only add the squirrels and butterflies when the night isn't about to happen
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
 
         npc = CreateSprite(Map, "Butterfly", 42, 18, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -743,7 +743,7 @@ function _CheckZones()
         EventManager:StartEvent("to forest SE");
     elseif (music_fade_out_zone:IsCameraEntering() == true) then
         -- fade out the music when the first boss fight hasn't been done yet.
-        if (GlobalManager:DoesEventExist("story", "layna_forest_boss_fight1") == false) then
+        if (GlobalManager:GetGameEvents():DoesEventExist("story", "layna_forest_boss_fight1") == false) then
             AudioManager:FadeOutActiveMusic(2000);
         end
     elseif (warning_zone:IsCameraEntering() == true) then
@@ -753,8 +753,8 @@ function _CheckZones()
         end
     elseif (boss_fight1_zone:IsCameraEntering() == true) then
         -- fade out the music when the first boss fight hasn't been done yet.
-        if (GlobalManager:DoesEventExist("story", "layna_forest_boss_fight1") == false) then
-            GlobalManager:SetEventValue("story", "layna_forest_boss_fight1", 1);
+        if (GlobalManager:GetGameEvents():DoesEventExist("story", "layna_forest_boss_fight1") == false) then
+            GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_boss_fight1", 1);
             EventManager:StartEvent("boss fight scene");
         end
     end
@@ -765,10 +765,10 @@ function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/forest_background.png");
 
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
         -- Setup time of the day lighting on battles
         enemy:AddBattleScript("data/story/layna_forest/after_crystal_twilight_battles.lua");
-        if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") > 2) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_twilight_value") > 2) then
             enemy:SetBattleBackground("data/battles/battle_scenes/forest_background_evening.png");
         end
     end

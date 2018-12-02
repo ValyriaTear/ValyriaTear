@@ -63,7 +63,7 @@ function _CreateObjects()
     local text = nil
 
     -- Adds a chicken that can be taken by Bronann and given back to Grandma.
-    if (GlobalManager:GetEventValue("game", "layna_village_chicken1_found") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("game", "layna_village_chicken1_found") == 0) then
         chicken1 = CreateSprite(Map, "Chicken", 25, 25, vt_map.MapMode.GROUND_OBJECT);
 
         event = vt_map.RandomMoveSpriteEvent.Create("Chicken1 random move", chicken1, 1000, 1000);
@@ -171,10 +171,10 @@ map_functions = {
             if (chicken1_taken == false) then
                 chicken1:SetVisible(false);
                 chicken1:SetPosition(0, 0);
-                GlobalManager:SetEventValue("game", "layna_village_chicken1_found", 1)
+                GlobalManager:GetGameEvents():SetEventValue("game", "layna_village_chicken1_found", 1)
                 -- Set the quest start dialogue as done if not already, so a possible later
                 -- dialogue with grandma sounds more logical
-                GlobalManager:SetEventValue("game", "layna_village_chicken_dialogue_done", 1);
+                GlobalManager:GetGameEvents():SetEventValue("game", "layna_village_chicken_dialogue_done", 1);
                 chicken1_taken = true;
             end
             fade_color:SetAlpha((2000.0 - fade_effect_time) / 700.0);

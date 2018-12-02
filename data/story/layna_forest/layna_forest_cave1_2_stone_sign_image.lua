@@ -27,11 +27,11 @@ end
 
 function Update()
     -- Only show the image if requested by the events
-    if (GlobalManager:DoesEventExist("story", "layna_forest_cave1_2_show_sign_image") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "layna_forest_cave1_2_show_sign_image") == false) then
         return;
     end
 
-    if (GlobalManager:GetEventValue("story", "layna_forest_cave1_2_show_sign_image") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_cave1_2_show_sign_image") == 0) then
         return;
     end
 
@@ -44,7 +44,7 @@ function Update()
     if (display_time > 8000) then
         display_time = 0
         -- Disable the event at the end of it
-        GlobalManager:SetEventValue("story", "layna_forest_cave1_2_show_sign_image", 0);
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_cave1_2_show_sign_image", 0);
     end
 
 
@@ -55,11 +55,11 @@ local stone_sign_color = vt_video.Color(1.0, 1.0, 1.0, 0.9);
 
 function DrawPostEffects()
     -- Only show the image if requested by the events
-    if (GlobalManager:DoesEventExist("story", "layna_forest_cave1_2_show_sign_image") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "layna_forest_cave1_2_show_sign_image") == false) then
         return;
     end
 
-    if (GlobalManager:GetEventValue("story", "layna_forest_cave1_2_show_sign_image") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_cave1_2_show_sign_image") == 0) then
         return;
     end
 

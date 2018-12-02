@@ -12,7 +12,7 @@ local twilight_blue = 0.0;
 local twilight_alpha = 0.0;
 
 function _SetTwilightValues()
-    local twilight_step = GlobalManager:GetEventValue("story", "layna_forest_twilight_value");
+    local twilight_step = GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_twilight_value");
 
     if (twilight_step == 0) then
         twilight_red = 0.0;

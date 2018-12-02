@@ -114,8 +114,8 @@ function _CreateObjects()
     local light_color_green = 1.0;
     local light_color_blue = 1.0;
     local light_color_alpha = 0.8;
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
-        local tw_value = GlobalManager:GetEventValue("story", "layna_forest_twilight_value");
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+        local tw_value = GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_twilight_value");
         if (tw_value >= 4 and tw_value < 6) then
             light_color_red = 0.83;
             light_color_green = 0.72;
@@ -167,7 +167,7 @@ function _CreateObjects()
     blocking_rock = CreateObject(Map, "Rock3", 112, 96, vt_map.MapMode.GROUND_OBJECT);
 
     -- Remove the block if all enemies have already been defeated
-    if (GlobalManager:DoesEventExist("story", "layna_forest_cave2_monsters_defeated")) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "layna_forest_cave2_monsters_defeated")) then
         blocking_rock:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         blocking_rock:SetVisible(false);
     end
@@ -179,7 +179,7 @@ function _UpdateStoneSignDialogue()
 
     stone_sign:ClearDialogueReferences();
 
-    if (GlobalManager:DoesEventExist("story", "kalya_stone_sign_dialogue_done")) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "kalya_stone_sign_dialogue_done")) then
         dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Only the last one standing shall pass.");
         dialogue:AddLine(text, stone_sign);
@@ -323,7 +323,7 @@ local roam_zone4 = nil
 function _CreateEnemies()
     local enemy = nil
 
-    if (GlobalManager:DoesEventExist("story", "layna_forest_cave2_monsters_defeated")) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "layna_forest_cave2_monsters_defeated")) then
         monsters_defeated = true;
     end
 
@@ -420,7 +420,7 @@ function _CheckMonstersStates()
         -- Trigger the dialogue event about the shaking...
         EventManager:StartEvent("Hero dialogue during tremor");
 
-        GlobalManager:SetEventValue("story", "layna_forest_cave2_monsters_defeated", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_cave2_monsters_defeated", 1);
     end
 end
 
@@ -454,7 +454,7 @@ function _CheckZones()
         hero:SetMoving(false);
         EventManager:StartEvent("to wolf cave");
     elseif (monsters_defeated == false
-            and GlobalManager:GetEventValue("story", "kalya_layna_forest_cave1_2_exit_dialogue_done") == 0) then
+            and GlobalManager:GetGameEvents():GetEventValue("story", "kalya_layna_forest_cave1_2_exit_dialogue_done") == 0) then
         if (seeing_the_exit_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
             EventManager:StartEvent("Kalya sees the cave exit");
         end
@@ -511,12 +511,12 @@ map_functions = {
 
     stone_sign_image_start = function()
         -- Trigger the display of the image.
-        GlobalManager:SetEventValue("story", "layna_forest_cave1_2_show_sign_image", 1)
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_cave1_2_show_sign_image", 1)
     end,
 
     -- Returns true when the image has finished to display.
     stone_sign_image_update = function()
-        if (GlobalManager:GetEventValue("story", "layna_forest_cave1_2_show_sign_image") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_cave1_2_show_sign_image") == 0) then
             return true;
         end
         return false;
@@ -536,7 +536,7 @@ map_functions = {
         bronann:SetPosition(0, 0)
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "kalya_stone_sign_dialogue_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "kalya_stone_sign_dialogue_done", 1);
         _UpdateStoneSignDialogue();
     end,
 
@@ -574,7 +574,7 @@ map_functions = {
         bronann:SetPosition(0, 0)
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "kalya_layna_forest_cave1_2_exit_dialogue_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "kalya_layna_forest_cave1_2_exit_dialogue_done", 1);
         Map:PopState();
     end
 }

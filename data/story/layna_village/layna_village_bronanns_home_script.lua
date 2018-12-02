@@ -80,7 +80,7 @@ function _CreateNPCs()
     event = vt_map.RandomMoveSpriteEvent.Create("Dad random move", carson, 2000, 2000);
     event:AddEventLinkAtEnd("Dad random move", 3000); -- Loop on itself
 
-    if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "Quest2_forest_event_done") == true) then
         -- Carson isn't here anymore
         carson:SetVisible(false);
         carson:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -341,7 +341,7 @@ function _CheckZones()
     -- Don't check that zone when dealing with the quest 2 start scene.
     if (quest2_start_scene == false and home_exit_zone:IsCameraEntering() == true) then
         -- Prevent Bronann from exiting until his mother talked to him
-        if (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == false) then
+        if (GlobalManager:GetGameEvents():DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == false) then
             Map:PushState(vt_map.MapMode.STATE_SCENE);
             EventManager:StartEvent("Start Quest1");
         else
@@ -356,7 +356,7 @@ end
 
 -- Internal Custom functions
 function _UpdateDishesAndFood()
-        if (GlobalManager:DoesEventExist("story", "Quest2_started") == true) then
+        if (GlobalManager:GetGameEvents():DoesEventExist("story", "Quest2_started") == true) then
         -- Show the plate pile, hide the rest
         plate_pile:SetVisible(true);
         plate_pile:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
@@ -396,13 +396,13 @@ function _UpdateCarsonDialogue()
 
     carson:ClearDialogueReferences()
 
-    if (GlobalManager:DoesEventExist("story", "well_rats_beaten") == true) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "well_rats_beaten") == true) then
         dialogue = vt_map.SpriteDialogue.Create()
         text = vt_system.Translate("Nice job, son.")
         dialogue:AddLine(text, carson)
         carson:AddDialogueReference(dialogue)
         return;
-    elseif (GlobalManager:DoesEventExist("story", "Carson_wooden_sword_given") == true) then
+    elseif (GlobalManager:GetGameEvents():DoesEventExist("story", "Carson_wooden_sword_given") == true) then
         dialogue = vt_map.SpriteDialogue.Create()
         text = vt_system.Translate("Please have go and see Olivia. She will explain everything to you.")
         dialogue:AddLine(text, carson)
@@ -479,14 +479,14 @@ function _UpdateMotherDialogue()
 
     malta:ClearDialogueReferences();
 
-    if (GlobalManager:DoesEventExist("story", "Malta_Items_given") == true) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "Malta_Items_given") == true) then
         dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Bronann, promise me that you'll be careful, ok?");
         dialogue:AddLine(text, malta);
         malta:AddDialogueReference(dialogue);
         return;
     end
-    if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "Quest2_forest_event_done") == true) then
         -- Bronann'mother gives some items to Bronann.
         dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("So, finally you're going away.");
@@ -515,8 +515,8 @@ function _UpdateMotherDialogue()
         event = vt_map.ScriptedEvent.Create("Update Malta's dialogue after giving items", "EndItemGivingScene", "");
         return;
     end
-    if (GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == true
-            and GlobalManager:DoesEventExist("story", "well_rats_beaten") == true) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "quest1_barley_meal_done") == true
+            and GlobalManager:GetGameEvents():DoesEventExist("story", "well_rats_beaten") == true) then
         -- Got some barley meal, Mom!
         dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("(sigh)... Got it, mom!");
@@ -524,8 +524,8 @@ function _UpdateMotherDialogue()
         text = vt_system.Translate("Perfect timing, let's have dinner.");
         dialogue:AddLineEvent(text, malta, "", "Quest1: end and transition to after-dinner");
         malta:AddDialogueReference(dialogue);
-    elseif (GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == true
-            and GlobalManager:DoesEventExist("story", "well_rats_beaten") == false) then
+    elseif (GlobalManager:GetGameEvents():DoesEventExist("story", "quest1_barley_meal_done") == true
+            and GlobalManager:GetGameEvents():DoesEventExist("story", "well_rats_beaten") == false) then
         -- Still dad's quest to do
         dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("(sigh)... Got it, mom!");
@@ -533,13 +533,13 @@ function _UpdateMotherDialogue()
         text = vt_system.Translate("Perfect timing, I'll cook dinner. Have you helped your father yet?");
         dialogue:AddLine(text, malta);
         malta:AddDialogueReference(dialogue);
-    elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == true) then
+    elseif (GlobalManager:GetGameEvents():DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == true) then
         -- 1st quest dialogue
         dialogue = vt_map.SpriteDialogue.Create("ep1_bronann_home_talk_about_barley_meal");
         text = vt_system.Translate("Could you go and buy some barley meal for the three of us?");
         dialogue:AddLine(text, malta);
         malta:AddDialogueReference(dialogue);
-    elseif (GlobalManager:DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == false) then
+    elseif (GlobalManager:GetGameEvents():DoesEventExist("bronanns_home", "quest1_mother_start_dialogue_done") == false) then
         -- Begining dialogue
         dialogue = vt_map.SpriteDialogue.Create("ep1_bronann_home_talk_with_mother1");
         text = vt_system.Translate("Hi son, did you have a nightmare again last night?");
@@ -599,13 +599,13 @@ map_functions = {
     end,
 
     Quest1MotherStartDialogueDone = function()
-        GlobalManager:SetEventValue("bronanns_home", "quest1_mother_start_dialogue_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("bronanns_home", "quest1_mother_start_dialogue_done", 1);
         _UpdateMotherDialogue();
         GlobalManager:AddQuestLog("get_barley");
     end,
 
     Quest1Done = function()
-        GlobalManager:SetEventValue("story", "Quest1_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "Quest1_done", 1);
     end,
 
     TerminateMotherAndFatherEvents = function()
@@ -651,7 +651,7 @@ map_functions = {
         end
 
         -- Set the quest 2 as started
-        GlobalManager:SetEventValue("story", "Quest2_started", 1)
+        GlobalManager:GetGameEvents():SetEventValue("story", "Quest2_started", 1)
         -- Make the food and dishes not appear anymore, once the dinner is done.
         _UpdateDishesAndFood();
 
@@ -668,7 +668,7 @@ map_functions = {
     end,
 
     EndItemGivingScene = function()
-        GlobalManager:SetEventValue("story", "Malta_Items_given", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "Malta_Items_given", 1);
         _UpdateMotherDialogue()
         Map:PopState()
     end,
@@ -706,7 +706,7 @@ map_functions = {
     end,
 
     EndSwordShowEvent = function()
-        GlobalManager:SetEventValue("story", "Carson_wooden_sword_given", 1)
+        GlobalManager:GetGameEvents():SetEventValue("story", "Carson_wooden_sword_given", 1)
         _UpdateCarsonDialogue()
         Map:PopState()
         EventManager:StartEvent("Dad random move")
@@ -746,6 +746,6 @@ map_functions = {
     end,
 
     SetMealEventDone = function()
-        GlobalManager:SetEventValue("story", "meal_event_done", 1)
+        GlobalManager:GetGameEvents():SetEventValue("story", "meal_event_done", 1)
     end
 }

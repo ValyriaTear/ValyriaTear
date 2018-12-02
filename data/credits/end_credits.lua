@@ -974,7 +974,7 @@ function Initialize(map_instance)
 end
 
 function Update()
-    if (GlobalManager:GetEventValue("game", "Start_End_Credits") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("game", "Start_End_Credits") == 0) then
         return;
     end
 
@@ -1051,7 +1051,7 @@ function DrawPostEffects()
         return;
     end
 
-    if (GlobalManager:GetEventValue("game", "Start_End_Credits") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("game", "Start_End_Credits") == 0) then
         return;
     end
 

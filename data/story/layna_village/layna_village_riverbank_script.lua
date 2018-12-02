@@ -54,11 +54,11 @@ end
 -- Handle the display of the new game credits
 function _HandleCredits()
     -- Handle small credits triggering
-    if (GlobalManager:DoesEventExist("game", "Start_Credits") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "Start_Credits") == false) then
         -- Triggers the small credits display
-        GlobalManager:SetEventValue("game", "Start_Credits", 1);
+        GlobalManager:GetGameEvents():SetEventValue("game", "Start_Credits", 1);
     end
-    if (GlobalManager:DoesEventExist("game", "Credits_shown") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "Credits_shown") == false) then
         Map:GetScriptSupervisor():AddScript("data/credits/episode1_credits.lua");
     end
 end
@@ -458,12 +458,12 @@ function _CheckZones()
     end
 
     -- zone based story events
-    if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true
-        and GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true
+        and GlobalManager:GetGameEvents():DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == false) then
         if (orlinn_hide_n_seek2_zone:IsCameraEntering() == true) then
             -- Updates the story state
-            if (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == false) then
-                GlobalManager:SetEventValue("layna_riverbank", "quest1_orlinn_hide_n_seek2_done", 1);
+            if (GlobalManager:GetGameEvents():DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == false) then
+                GlobalManager:GetGameEvents():SetEventValue("layna_riverbank", "quest1_orlinn_hide_n_seek2_done", 1);
 
                 -- Orlinn speaks and flee
                 Map:PushState(vt_map.MapMode.STATE_SCENE);
@@ -481,18 +481,18 @@ function _SetLillyState()
 
     lilly:SetDirection(vt_map.MapMode.WEST);
     lilly:ClearDialogueReferences();
-    if (GlobalManager:DoesEventExist("story", "kalya_has_joined") == true) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "kalya_has_joined") == true) then
         -- Once they can go into the forest
         dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("We're counting on you.");
         dialogue:AddLine(text, lilly);
         lilly :AddDialogueReference(dialogue);
-    elseif (GlobalManager:DoesEventExist("story", "quest1_barley_meal_done") == true) then
+    elseif (GlobalManager:GetGameEvents():DoesEventExist("story", "quest1_barley_meal_done") == true) then
         dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_lilly_go_home");
         text = vt_system.Translate("You should go back home. Your mom must be waiting for you.");
         dialogue:AddLine(text, lilly);
         lilly :AddDialogueReference(dialogue);
-    elseif (GlobalManager:DoesEventExist("layna_center_shop", "quest1_flora_dialogue_done") == true) then
+    elseif (GlobalManager:GetGameEvents():DoesEventExist("layna_center_shop", "quest1_flora_dialogue_done") == true) then
         dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("What a nice day, isn't it?");
         dialogue:AddLine(text, lilly);
@@ -525,11 +525,11 @@ function _SetOrlinnState()
     orlinn_dialogue_npc:ClearDialogueReferences();
     orlinn:ClearDialogueReferences();
 
-    if (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == true) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == true) then
         orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         orlinn:SetVisible(false);
         return;
-    elseif (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == true) then
+    elseif (GlobalManager:GetGameEvents():DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == true) then
         orlinn:SetPosition(74, 44);
         orlinn:SetDirection(vt_map.MapMode.WEST);
 
@@ -541,7 +541,7 @@ function _SetOrlinnState()
 
         EventManager:StartEvent("Quest1: Hide and Seek3: Orlinn goes top-right", 8000);
         return;
-    elseif (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
+    elseif (GlobalManager:GetGameEvents():DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true) then
         -- Orlinn is on the cliff and is mocking Bronann.
         dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Hee hee hee!");
@@ -592,7 +592,7 @@ map_functions = {
     end,
 
     Set_Hide_And_Seek3_Done = function()
-        GlobalManager:SetEventValue("layna_riverbank", "quest1_orlinn_hide_n_seek3_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("layna_riverbank", "quest1_orlinn_hide_n_seek3_done", 1);
 
         -- Also reset Lilly direction
         lilly:SetDirection(vt_map.MapMode.WEST);
@@ -607,7 +607,7 @@ map_functions = {
     end,
 
     GiveBarleyMeal = function()
-        GlobalManager:SetEventValue("story", "quest1_barley_meal_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "quest1_barley_meal_done", 1);
     end,
 
     Reset_lilly_dialogue = function()

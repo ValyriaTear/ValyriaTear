@@ -49,7 +49,7 @@ function Load(m)
     Map:GetScriptSupervisor():AddScript("data/story/common/at_night.lua");
 
     -- Make the rain starts or the corresponding dialogue according the need
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 0) then
         Map:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/rain.lua", 512.0, 768.0);
         -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
         vt_map.SoundObject.Create("data/music/Ove Melaa - Rainy.ogg", 20.0, 16.0, 100.0);
@@ -58,7 +58,7 @@ function Load(m)
     end
 
     -- Enables thunder if it started.
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 1) then
         Map:GetScriptSupervisor():AddScript("data/story/common/soft_lightnings_script.lua");
     end
 end
@@ -442,7 +442,7 @@ function _SetBattleEnvironment(enemy)
     enemy:AddBattleScript("data/story/common/at_night.lua");
     -- Adds the rain right away as its starting on the first entrance in this map.
     enemy:AddBattleScript("data/story/common/rain_in_battles_script.lua");
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 1) then
         enemy:AddBattleScript("data/story/common/soft_lightnings_script.lua");
     end
 end
@@ -527,7 +527,7 @@ map_functions = {
         bronann:SetPosition(0, 0)
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "mt_elbrus_weather_level", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_weather_level", 1);
 
         -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
         vt_map.SoundObject.Create("data/music/Ove Melaa - Rainy.ogg", 20.0, 16.0, 100.0);

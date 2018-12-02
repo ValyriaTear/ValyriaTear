@@ -98,7 +98,7 @@ function _CreateObjects()
     _SetLampPosition(lamp_x_pos, lamp_y_pos)
 
     -- hide it when the intro event is not done yet.
-    if (GlobalManager:DoesEventExist("story", "well_intro_event_done") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "well_intro_event_done") == false) then
         oil_lamp:SetVisible(false)
         lamp_halo:SetVisible(false)
         lamp_flare:SetVisible(false)
@@ -212,7 +212,7 @@ end
 
 function _CheckMonstersState()
     if (rats_beaten == false and roam_zone1:GetSpawnsLeft() == 0 and roam_zone2:GetSpawnsLeft() == 0 and roam_zone3:GetSpawnsLeft() == 0) then
-        if (GlobalManager:DoesEventExist("story", "well_rats_beaten") == false) then
+        if (GlobalManager:GetGameEvents():DoesEventExist("story", "well_rats_beaten") == false) then
             rats_beaten = true
 
             -- Update Olivia dialogue to let Bronann go out
@@ -233,7 +233,7 @@ function _CheckMonstersState()
             event = vt_map.ScriptedEvent.Create("Set Olivia invisible", "make_olivia_invisible", "")
 
             -- Set intro event as done
-            GlobalManager:SetEventValue("story", "well_rats_beaten", 1);
+            GlobalManager:GetGameEvents():SetEventValue("story", "well_rats_beaten", 1);
         end
     end
 end
@@ -266,7 +266,7 @@ function _CreateEvents()
     vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks south", bronann, vt_map.MapMode.SOUTH)
     vt_map.ChangeDirectionSpriteEvent.Create("Bronann looks east", bronann, vt_map.MapMode.EAST)
 
-    if (GlobalManager:DoesEventExist("story", "well_intro_event_done") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "well_intro_event_done") == false) then
         event = vt_map.ScriptedEvent.Create("Well undergrounds scene start", "well_intro_scene_start", "")
         event:AddEventLinkAtEnd("Olivia takes a few steps")
 
@@ -341,7 +341,7 @@ function _CreateEvents()
 
         -- Make the whole scene start at map fade in
         EventManager:StartEvent("Well undergrounds scene start");
-    elseif (GlobalManager:DoesEventExist("story", "well_rats_beaten") == false) then
+    elseif (GlobalManager:GetGameEvents():DoesEventExist("story", "well_rats_beaten") == false) then
         -- Should not happen
     else
         -- Stick the lamp to Bronann and make it visible
@@ -453,7 +453,7 @@ map_functions = {
         dialogue:AddLine(text, olivia)
         olivia:AddDialogueReference(dialogue)
         -- Set intro event as done
-        GlobalManager:SetEventValue("story", "well_intro_event_done", 1)
+        GlobalManager:GetGameEvents():SetEventValue("story", "well_intro_event_done", 1)
         Map:PopState()
     end,
 

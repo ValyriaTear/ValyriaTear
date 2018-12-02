@@ -46,11 +46,11 @@ end
 -- Handle the display of the new game credits
 function _HandleCredits()
     -- Handle small credits triggering
-    if (GlobalManager:DoesEventExist("game", "Start_Credits") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "Start_Credits") == false) then
         -- Triggers the small credits display
-        GlobalManager:SetEventValue("game", "Start_Credits", 1);
+        GlobalManager:GetGameEvents():SetEventValue("game", "Start_Credits", 1);
     end
-    if (GlobalManager:DoesEventExist("game", "Credits_shown") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "Credits_shown") == false) then
         Map:GetScriptSupervisor():AddScript("data/credits/episode1_credits.lua");
     end
 end
@@ -88,7 +88,7 @@ function _CreateNPCs()
     local event = nil
 
     -- Adds a chicken that can be taken by Bronann and given back to Grandma.
-    if (GlobalManager:GetEventValue("game", "layna_village_chicken3_found") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("game", "layna_village_chicken3_found") == 0) then
         chicken3 = CreateSprite(Map, "Chicken", 55, 23, vt_map.MapMode.GROUND_OBJECT);
 
         event = vt_map.RandomMoveSpriteEvent.Create("Chicken3 random move", chicken3, 1000, 1000);
@@ -228,10 +228,10 @@ map_functions = {
             if (chicken3_taken == false) then
                 chicken3:SetVisible(false);
                 chicken3:SetPosition(0, 0);
-                GlobalManager:SetEventValue("game", "layna_village_chicken3_found", 1)
+                GlobalManager:GetGameEvents():SetEventValue("game", "layna_village_chicken3_found", 1)
                 -- Set the quest start dialogue as done if not already, so a possible later
                 -- dialogue with grandma sounds more logical
-                GlobalManager:SetEventValue("game", "layna_village_chicken_dialogue_done", 1);
+                GlobalManager:GetGameEvents():SetEventValue("game", "layna_village_chicken_dialogue_done", 1);
                 chicken3_taken = true;
             end
             fade_color:SetAlpha((2000.0 - fade_effect_time) / 700.0);

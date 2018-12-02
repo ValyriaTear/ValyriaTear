@@ -117,7 +117,7 @@ function _CreateObjects()
     local fence2_trigger1_x_position = 29.0;
     local fence3_trigger1_y_position = 13.0;
     -- Sets the passage open if the enemies were already beaten
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 1) then
         fence1_trigger1_x_position = 25.0;
         fence2_trigger1_x_position = 31.0;
         fence3_trigger1_y_position = 14.0;
@@ -131,7 +131,7 @@ function _CreateObjects()
     local fence1_trigger2_y_position = 34.0;
     local fence2_trigger2_y_position = 36.0;
     -- Sets the passage open if the enemies were already beaten
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 8 gate 7 trigger") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus shrine 8 gate 7 trigger") == 1) then
         fence1_trigger2_y_position = 32.0;
         fence2_trigger2_y_position = 38.0;
     end
@@ -157,8 +157,8 @@ function _CreateObjects()
     vt_map.IfEvent.Create("Check hero position for rolling stone 1", "check_diagonal_stone1", "Push the rolling stone 1", "");
     vt_map.ScriptedEvent.Create("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
 
-    if (GlobalManager:GetEventValue("story", "mt_shrine_1st_floor_stone1_through_1st_door") == 1) then
-        if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_shrine_1st_floor_stone1_through_1st_door") == 1) then
+        if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 1) then
             rolling_stone1:SetPosition(26, 17);
         end
         rolling_stone1:SetEventWhenTalking("Check hero position for rolling stone 1");
@@ -173,8 +173,8 @@ function _CreateObjects()
     vt_map.ScriptedEvent.Create("Push the rolling stone 2", "start_to_move_the_stone2", "move_the_stone_update2")
 
 
-    if (GlobalManager:GetEventValue("story", "mt_shrine_1st_floor_stone2_through_1st_door") == 1
-            and GlobalManager:GetEventValue("story", "mt_shrine_1st_floor_stone2_through_2nd_door") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_shrine_1st_floor_stone2_through_1st_door") == 1
+            and GlobalManager:GetGameEvents():GetEventValue("story", "mt_shrine_1st_floor_stone2_through_2nd_door") == 0) then
         rolling_stone2:SetEventWhenTalking("Check hero position for rolling stone 2");
     else
         rolling_stone2:SetVisible(false);
@@ -280,7 +280,7 @@ function _CheckZones()
 
     if (rolling_stone2_out == false) then
         if (to_shrine_NW_right_door_room_zone:IsInsideZone(rolling_stone2:GetXPosition(), rolling_stone2:GetYPosition()) == true) then
-            GlobalManager:SetEventValue("story", "mt_shrine_1st_floor_stone2_through_2nd_door", 1);
+            GlobalManager:GetGameEvents():SetEventValue("story", "mt_shrine_1st_floor_stone2_through_2nd_door", 1);
             rolling_stone2_out = true;
             rolling_stone2:SetVisible(false);
             rolling_stone2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);

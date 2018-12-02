@@ -20,7 +20,7 @@ local next_twilight_alpha = 0.0;
 local total_time = 0.0;
 
 function _ResetTwilightValues()
-    twilight_step = GlobalManager:GetEventValue("story", "layna_forest_twilight_value");
+    twilight_step = GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_twilight_value");
 
     if (twilight_step == 0) then
         twilight_red = 0.0;
@@ -191,7 +191,7 @@ function Update()
     -- When enough time has been made to reach the next step, simply move to it
     if (twilight_red == next_twilight_red and twilight_green == next_twilight_green
             and twilight_blue == next_twilight_blue and twilight_alpha == next_twilight_alpha) then
-        GlobalManager:SetEventValue("story", "layna_forest_twilight_value", twilight_step + 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_twilight_value", twilight_step + 1);
         _ResetTwilightValues();
     end
 end

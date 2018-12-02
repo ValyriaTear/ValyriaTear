@@ -44,7 +44,7 @@
 
 #include "global_skills.h"
 
-#include "global_event_group.h"
+#include "events/global_events.h"
 #include "quest_log.h"
 #include "shop_data.h"
 #include "worldmap_location.h"
@@ -99,71 +99,6 @@ public:
     bool DoesEnemyExist(uint32_t enemy_id);
     //@}
 
-    //! \name Event Group Methods
-    //@{
-    /** \brief Queries whether or not an event group of a given name exists
-    *** \param group_name The name of the event group to check for
-    *** \return True if the event group name was found, false if it was not
-    **/
-    bool DoesEventGroupExist(const std::string &group_name) const {
-        return (_event_groups.find(group_name) != _event_groups.end());
-    }
-
-    /** \brief Determines if an event of a given name exists within a given group
-    *** \param group_name The name of the event group where the event to check is contained
-    *** \param event_name The name of the event to check for
-    *** \return True if the event was found, or false if the event name or group name was not found
-    **/
-    bool DoesEventExist(const std::string &group_name, const std::string &event_name) const;
-
-    /** \brief Adds a new event group for the class to manage
-    *** \param group_name The name of the new event group to add
-    *** \note If an event group  by the given name already exists, the function will abort
-    *** and not add the new event group. Otherwise, this class will automatically construct
-    *** a new event group of the given name and place it in its map of event groups.
-    **/
-    void AddNewEventGroup(const std::string &group_name);
-
-    /** \brief Returns a pointer to an event group of the specified name
-    *** \param group_name The name of the event group to retreive
-    *** \return A pointer to the GlobalEventGroup that represents the event group, or nullptr if no event group
-    *** of the specified name was found
-    ***
-    *** You can use this method to invoke the public methods of the GlobalEventGroup class. For example, if
-    *** we wanted to add a new event "cave_collapse" with a value of 1 to the group event "cave_map", we
-    *** would do the following: GlobalManager->GetEventGroup("cave_map")->AddNewEvent("cave_collapse", 1);
-    *** Be careful, however, because since this function returns nullptr if the event group was not found, the
-    *** example code above would produce a segmentation fault if no event group by the name "cave_map" existed.
-    **/
-    GlobalEventGroup *GetEventGroup(const std::string &group_name) const;
-
-    /** \brief Returns the value of an event inside of a specified group
-    *** \param group_name The name of the event group where the event is contained
-    *** \param event_name The name of the event whose value should be retrieved
-    *** \return The value of the requested event, or 0 if the event was not found
-    **/
-    int32_t GetEventValue(const std::string &group_name, const std::string &event_name) const;
-
-    /** \brief Set the value of an event inside of a specified group
-    *** \param group_name The name of the event group where the event is contained
-    *** \param event_name The name of the event whose value should be retrieved
-    *** \return The event value.
-    *** \note Events and event groups will be created when necessary.
-    **/
-    void SetEventValue(const std::string &group_name, const std::string &event_name, int32_t event_value);
-
-    //! \brief Returns the number of event groups stored in the class
-    uint32_t GetNumberEventGroups() const {
-        return _event_groups.size();
-    }
-
-    /** \brief Returns the number of events for a specified group name
-    *** \param group_name The name of the event group to retrieve the number of events for
-    *** \return The number of events in the group, or zero if no such group name existed
-    **/
-    uint32_t GetNumberEvents(const std::string &group_name) const;
-    //@}
-
     //! \name Quest Log Entry methods
     //@{
     //! \brief Tells whether a quest id is completed, based on the internal quest info
@@ -178,7 +113,7 @@ public:
         if (info._completion_event_group.empty() || info._completion_event_name.empty())
             return true;
 
-        return (GetEventValue(info._completion_event_group, info._completion_event_name) == 1);
+        return (GetGameEvents().GetEventValue(info._completion_event_group, info._completion_event_name) == 1);
     }
 
     //! \brief Tells whether a quest id is completed, based on the internal quest info
@@ -193,7 +128,7 @@ public:
         if (info._not_completable_event_group.empty() || info._not_completable_event_name.empty())
             return true;
 
-        return (GetEventValue(info._not_completable_event_group, info._not_completable_event_name) == 0);
+        return (GetGameEvents().GetEventValue(info._not_completable_event_group, info._not_completable_event_name) == 0);
     }
 
     /** \brief adds a new quest log entry into the quest log entries table
@@ -589,6 +524,10 @@ public:
         return _skill_graph;
     }
 
+    GameEvents& GetGameEvents() {
+        return _game_events;
+    }
+
     //! \brief Gives access to global media files.
     //! Note: The reference is passed non const to be able to give modifiable references
     //! and pointers.
@@ -691,10 +630,8 @@ private:
     vt_script::ReadScriptDescriptor _map_treasures_script;
     //@}
 
-    /** \brief The container which stores all of the groups of events that have occured in the game
-    *** The name of each GlobalEventGroup object serves as its key in this map data structure.
-    **/
-    std::map<std::string, GlobalEventGroup *> _event_groups;
+    //! \brief The container which stores all of the groups of events that have occured in the game
+    GameEvents _game_events;
 
     /** \brief The container which stores the quest log entries in the game. the quest log key
     *** acts as the key for this quest
@@ -744,13 +681,6 @@ private:
     //! \brief member storing all the common battle media files.
     BattleMedia _battle_media;
 
-    /** \brief A helper function to GameGlobal::SaveGame() that writes a group of event data to the saved game file
-    *** \param file A reference to the open and valid file where to write the event data
-    *** \param event_group A pointer to the group of events to store
-    *** This method will need to be called once for each GlobalEventGroup contained by this class.
-    **/
-    void _SaveEvents(vt_script::WriteScriptDescriptor &file, GlobalEventGroup *event_group);
-
     /** \brief adds a new quest log entry into the quest log entries table. also updates the quest log number
     *** \param quest_id for the quest
     *** \param the quest entry's log number
@@ -784,12 +714,6 @@ private:
     *** \param file Reference to open and valid file for writting the data
     **/
     void _SaveShopData(vt_script::WriteScriptDescriptor& file);
-
-    /** \brief A helper function to GameGlobal::LoadGame() that loads a group of game events from a saved game file
-    *** \param file A reference to the open and valid file from where to read the event data from
-    *** \param group_name The name of the event group to load
-    **/
-    void _LoadEvents(vt_script::ReadScriptDescriptor &file, const std::string &group_name);
 
     /** \brief Helper function called by LoadGame() that loads each quest into the quest entry table based on the quest_entry_keys
     *** in the save game file

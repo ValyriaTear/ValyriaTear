@@ -107,9 +107,9 @@ end
 function _CheckZones()
     -- Update the battle background event value.
     if (desert_zone:IsCameraEntering() == true) then
-        GlobalManager:SetEventValue("overworld", "battle_background", 3); -- desert
+        GlobalManager:GetGameEvents():SetEventValue("overworld", "battle_background", 3); -- desert
     elseif (desert_zone:IsCameraExiting() == true) then
-        GlobalManager:SetEventValue("overworld", "battle_background", 1); -- plains
+        GlobalManager:GetGameEvents():SetEventValue("overworld", "battle_background", 1); -- plains
     end
 end
 

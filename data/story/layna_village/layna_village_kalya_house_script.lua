@@ -49,7 +49,7 @@ function Load(m)
     AudioManager:LoadMusic("data/music/sad_moment.ogg", Map);
 
     -- If the scene hasn't happened, start it
-    if (GlobalManager:GetEventValue("story", "kalya_basement_scene") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "kalya_basement_scene") == 0) then
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         EventManager:StartEvent("Orlinn goes out of the stairs");
     else
@@ -94,7 +94,7 @@ function _CreateCharacters()
     exit_light:SetVisible(false);
 
     -- Place the characters according to the scene needs
-    if (GlobalManager:GetEventValue("story", "kalya_basement_scene") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "kalya_basement_scene") == 1) then
         bronann:SetVisible(true);
 
         kalya:SetVisible(true);
@@ -453,7 +453,7 @@ map_functions = {
 
     end_of_basement_dialogue = function()
         Map:PopState();
-        GlobalManager:SetEventValue("story", "kalya_basement_scene", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "kalya_basement_scene", 1);
         GlobalManager:AddQuestLog("flee_from_the_dark_soldiers");
     end,
 }

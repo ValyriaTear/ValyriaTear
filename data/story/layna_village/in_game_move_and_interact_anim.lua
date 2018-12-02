@@ -80,11 +80,11 @@ end
 
 function Update()
     -- Only show the image if requested by the events
-    if (GlobalManager:DoesEventExist("game", "show_move_interact_info") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "show_move_interact_info") == false) then
         return;
     end
 
-    if (GlobalManager:GetEventValue("game", "show_move_interact_info") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("game", "show_move_interact_info") == 0) then
         return;
     end
 
@@ -105,11 +105,11 @@ end
 
 function DrawPostEffects()
     -- Only show the image if requested by the events
-    if (GlobalManager:DoesEventExist("game", "show_move_interact_info") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "show_move_interact_info") == false) then
         return;
     end
 
-    if (GlobalManager:GetEventValue("game", "show_move_interact_info") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("game", "show_move_interact_info") == 0) then
         return;
     end
 

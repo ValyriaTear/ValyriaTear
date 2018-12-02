@@ -271,6 +271,8 @@ common/global/actors/global_attack_point.cpp
 common/global/actors/global_character.cpp
 common/global/actors/global_enemy.cpp
 common/global/actors/global_party.cpp
+common/global/events/global_events.cpp
+common/global/events/global_event_group.cpp
 common/global/media/battle_media.cpp
 common/global/media/global_media.cpp
 common/global/objects/global_inventory_handler.cpp
@@ -284,7 +286,6 @@ common/global/skill_graph/skill_graph.cpp
 common/global/status_effects/global_effects.cpp
 common/global/quest_log.cpp
 common/global/global.cpp
-common/global/global_event_group.cpp
 common/global/global_skills.cpp
 common/global/global_target.cpp
 common/global/worldmap_location.cpp

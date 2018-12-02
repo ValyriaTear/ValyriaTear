@@ -56,13 +56,13 @@ end
 function _HandleTwilight()
 
     -- If the characters have seen the crystal, then it's time to make the twilight happen
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         return;
     end
 
     -- test if the day time is sufficiently advanced
-    if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") < 2) then
-        GlobalManager:SetEventValue("story", "layna_forest_twilight_value", 2);
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_twilight_value") < 2) then
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_twilight_value", 2);
     end
 
     Map:GetScriptSupervisor():AddScript("data/story/layna_forest/after_crystal_twilight.lua");
@@ -95,7 +95,7 @@ function _CreateCharacters()
     orlinn = CreateSprite(Map, "Orlinn", 76, 40, vt_map.MapMode.GROUND_OBJECT);
     orlinn:SetDirection(vt_map.MapMode.NORTH);
     orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-    if (GlobalManager:DoesEventExist("story", "layna_forest_kalya sees_orlinn") == true) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "layna_forest_kalya sees_orlinn") == true) then
         orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
         orlinn:SetVisible(false);
     end
@@ -128,7 +128,7 @@ function _CreateObjects()
     vt_map.EscapePoint.Create(22, 35);
 
     -- Only add the squirrels and butterflies when the night isn't about to happen
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
 
         npc = CreateSprite(Map, "Butterfly", 42, 38, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -193,10 +193,10 @@ function _CreateObjects()
     event:SetMusic("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     event:SetBackground("data/battles/battle_scenes/forest_background.png");
 
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
         -- Setup time of the day lighting on battles
         event:AddScript("data/story/layna_forest/after_crystal_twilight_battles.lua");
-        if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") > 2) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_twilight_value") > 2) then
             event:SetBackground("data/battles/battle_scenes/forest_background_evening.png");
         end
     end
@@ -558,7 +558,7 @@ function _CreateObjects()
     end
 
     -- Shortcut trees
-    if (GlobalManager:DoesEventExist("story", "layna_forest_trees_shorcut_open") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "layna_forest_trees_shorcut_open") == false) then
         CreateObject(Map, "Tree Small5", 66, 15, vt_map.MapMode.GROUND_OBJECT);
         CreateObject(Map, "Tree Small3", 71, 17, vt_map.MapMode.GROUND_OBJECT);
     else -- If the event happened
@@ -870,8 +870,8 @@ function _CheckZones()
         hero:SetMoving(false);
         EventManager:StartEvent("to forest entrance");
     elseif (dialogue_near_forest_entrance_zone:IsCameraEntering() == true
-            and GlobalManager:GetEventValue("story", "layna_forest_return_to_village_dialogue_done") == 0) then
-        if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+            and GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_return_to_village_dialogue_done") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
             -- Start the return to village dialogue
             hero:SetMoving(false);
             EventManager:StartEvent("Start of dialogue when returning to the village");
@@ -887,14 +887,14 @@ function _CheckZones()
         EventManager:StartEvent("to cave entrance");
     elseif (orlinn_scene_zone:IsCameraEntering() == true) then
         if (Map:CurrentState() ~= vt_map.MapMode.STATE_SCENE) then
-            if (GlobalManager:DoesEventExist("story", "layna_forest_kalya sees_orlinn") == false) then
+            if (GlobalManager:GetGameEvents():DoesEventExist("story", "layna_forest_kalya sees_orlinn") == false) then
                 hero:SetMoving(false);
                 EventManager:StartEvent("Start - Kalya sees Orlinn");
-            elseif (GlobalManager:DoesEventExist("story", "layna_forest_trees_shorcut_open") == true
-                    and GlobalManager:DoesEventExist("story", "layna_forest_trees_shortcut_seen") == false) then
+            elseif (GlobalManager:GetGameEvents():DoesEventExist("story", "layna_forest_trees_shorcut_open") == true
+                    and GlobalManager:GetGameEvents():DoesEventExist("story", "layna_forest_trees_shortcut_seen") == false) then
                 hero:SetMoving(false);
                 EventManager:StartEvent("Show tree shortcut");
-                GlobalManager:SetEventValue("story", "layna_forest_trees_shortcut_seen", 1);
+                GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_trees_shortcut_seen", 1);
             end
         end
     end
@@ -906,10 +906,10 @@ function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/forest_background.png");
 
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
         -- Setup time of the day lighting on battles
         enemy:AddBattleScript("data/story/layna_forest/after_crystal_twilight_battles.lua");
-        if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") > 2) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_twilight_value") > 2) then
             enemy:SetBattleBackground("data/battles/battle_scenes/forest_background_evening.png");
         end
     end
@@ -958,7 +958,7 @@ map_functions = {
         AudioManager:FadeInActiveMusic(1000);
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "layna_forest_kalya sees_orlinn", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_kalya sees_orlinn", 1);
     end,
 
     SetCamera = function(sprite)
@@ -1034,7 +1034,7 @@ map_functions = {
         move_next_to_bronann_event3:SetDestination(bronann:GetXPosition() + 2.0, bronann:GetYPosition() - 2.0, false);
 
         -- Set the event as done now to avoid retriggering it
-        GlobalManager:SetEventValue("story", "layna_forest_return_to_village_dialogue_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_return_to_village_dialogue_done", 1);
     end,
 
     make_orlinn_invisible = function()

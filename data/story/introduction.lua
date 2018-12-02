@@ -303,11 +303,11 @@ local crystal_visible = false;
 map_functions = {
 
     make_crystal_appear = function()
-        GlobalManager:SetEventValue("story", "layna_forest_crystal_appearance", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_crystal_appearance", 1);
     end,
 
     make_crystal_appear_update = function()
-        if (GlobalManager:GetEventValue("story", "layna_forest_crystal_appearance") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_appearance") == 0) then
             return true;
         end
 

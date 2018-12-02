@@ -42,7 +42,7 @@ function Load(m)
 
     -- Add a mediumly dark overlay
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 0) then
         -- Place an omni ambient sound at the center of the map to add a nice indoor rainy effect.
         vt_map.SoundObject.Create("data/music/rain_indoors.ogg", 25.0, 20.0, 100.0);
     end

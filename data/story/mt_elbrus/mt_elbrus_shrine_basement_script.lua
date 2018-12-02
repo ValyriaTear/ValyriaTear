@@ -51,7 +51,7 @@ function Load(m)
     AudioManager:LoadSound("data/sounds/heavy_bump.wav", Map);
 
     -- Place Orlinn for the final boss scene
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_ep1_final_boss_beaten") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_ep1_final_boss_beaten") == 0) then
         orlinn:SetPosition(19, 13);
         orlinn:SetVisible(true);
         orlinn:SetDirection(vt_map.MapMode.WEST);
@@ -330,18 +330,18 @@ function _CheckZones()
         hero:SetMoving(false);
 
     elseif (final_boss_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
-        if (GlobalManager:GetEventValue("story", "mt_elbrus_ep1_final_boss_beaten") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_ep1_final_boss_beaten") == 0) then
             hero:SetMoving(false);
             EventManager:StartEvent("Final boss battle event start");
         end
     elseif (heard_orlinn_screaming == false and orlinn_screams_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
-        if (GlobalManager:GetEventValue("story", "mt_elbrus_ep1_final_boss_beaten") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_ep1_final_boss_beaten") == 0) then
             hero:SetMoving(false);
             EventManager:StartEvent("Orlinn screams dialogue");
             heard_orlinn_screaming = true;
         end
     elseif (saw_exit == false and see_exit_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
-        if (GlobalManager:GetEventValue("story", "mt_elbrus_ep1_final_boss_beaten") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_ep1_final_boss_beaten") == 0) then
             hero:SetMoving(false);
             EventManager:StartEvent("See exit dialogue");
             saw_exit = true;
@@ -480,6 +480,6 @@ map_functions = {
         bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "mt_elbrus_ep1_final_boss_beaten", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_ep1_final_boss_beaten", 1);
     end,
 }

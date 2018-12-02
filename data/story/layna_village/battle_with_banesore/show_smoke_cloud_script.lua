@@ -33,11 +33,11 @@ local flash_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 
 function Update()
     -- Only show the image if requested by the events
-    if (GlobalManager:DoesEventExist("scripts_events", "layna_village_riverbank_smoke") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("scripts_events", "layna_village_riverbank_smoke") == false) then
         return;
     end
 
-    if (GlobalManager:GetEventValue("scripts_events", "layna_village_riverbank_smoke") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("scripts_events", "layna_village_riverbank_smoke") == 0) then
         return;
     end
 
@@ -55,7 +55,7 @@ function Update()
     if (display_time > 4300) then
         display_time = 0
         -- Disable the event at the end of it
-        GlobalManager:SetEventValue("scripts_events", "layna_village_riverbank_smoke", 0);
+        GlobalManager:GetGameEvents():SetEventValue("scripts_events", "layna_village_riverbank_smoke", 0);
     end
 
     -- The flash alpha
@@ -84,11 +84,11 @@ local cloud_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 
 function DrawForeground()
     -- Only show the image if requested by the events
-    if (GlobalManager:DoesEventExist("scripts_events", "layna_village_riverbank_smoke") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("scripts_events", "layna_village_riverbank_smoke") == false) then
         return;
     end
 
-    if (GlobalManager:GetEventValue("scripts_events", "layna_village_riverbank_smoke") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("scripts_events", "layna_village_riverbank_smoke") == 0) then
         return;
     end
 

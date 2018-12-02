@@ -50,7 +50,7 @@ function Load(m)
     Script:AddScript("data/story/common/at_night.lua");
 
     -- Start the return to village dialogue if it hasn't been done already.
-    if (GlobalManager:GetEventValue("story", "layna_village_arrival_at_riverbank_done") ~= 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_village_arrival_at_riverbank_done") ~= 1) then
         EventManager:StartEvent("Bronann arrives at the riverbank dialogue");
     end
 end
@@ -697,7 +697,7 @@ end
 function _CheckZones()
     if (village_center_zone:IsCameraEntering() == true) then
         bronann:SetMoving(false);
-        if (GlobalManager:GetEventValue("story", "layna_village_arrival_at_riverbank_done") ~= 1) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_village_arrival_at_riverbank_done") ~= 1) then
             EventManager:StartEvent("to Village center");
         else
             EventManager:StartEvent("Bronann can't go back");
@@ -705,7 +705,7 @@ function _CheckZones()
     elseif (soldier21_watching_right_zone:IsCameraEntering() == true) then
         EventManager:StartEvent("Bronann is catched start");
     elseif (soldier21_watching_zone:IsCameraInside() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
-        if (GlobalManager:GetEventValue("story", "layna_village_arrival_at_riverbank_done") == 1
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_village_arrival_at_riverbank_done") == 1
                 and soldier21:GetDirection() == vt_map.MapMode.NORTH) then
             EventManager:StartEvent("Bronann is catched start");
         end
@@ -754,7 +754,7 @@ map_functions = {
 
     arrival_at_riverbank_dialogue_end = function()
         -- Set event as done
-        GlobalManager:SetEventValue("story", "layna_village_arrival_at_riverbank_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_village_arrival_at_riverbank_done", 1);
         Map:PopState();
     end,
 
@@ -766,7 +766,7 @@ map_functions = {
         soldier21:Emote("exclamation", soldier21:GetDirection());
         soldier22:Emote("exclamation", soldier22:GetDirection());
         -- Undo the last event, as the map is restarting
-        GlobalManager:SetEventValue("story", "layna_village_arrival_at_riverbank_done", 0);
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_village_arrival_at_riverbank_done", 0);
     end,
 
     lord_battle_scene_start = function()
@@ -843,11 +843,11 @@ map_functions = {
 
     show_both_crystals = function()
         -- Triggers the crystal appearance
-        GlobalManager:SetEventValue("scripts_events", "layna_village_riverbank_show_crystals", 1)
+        GlobalManager:GetGameEvents():SetEventValue("scripts_events", "layna_village_riverbank_show_crystals", 1)
     end,
 
     show_both_crystals_update = function()
-        if (GlobalManager:GetEventValue("scripts_events", "layna_village_riverbank_show_crystals") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("scripts_events", "layna_village_riverbank_show_crystals") == 0) then
             return true;
         end
         return false;
@@ -855,11 +855,11 @@ map_functions = {
 
     smoke_event_start = function()
         -- Triggers the smoke
-        GlobalManager:SetEventValue("scripts_events", "layna_village_riverbank_smoke", 1)
+        GlobalManager:GetGameEvents():SetEventValue("scripts_events", "layna_village_riverbank_smoke", 1)
     end,
 
     smoke_event_update = function()
-        if (GlobalManager:GetEventValue("scripts_events", "layna_village_riverbank_smoke") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("scripts_events", "layna_village_riverbank_smoke") == 0) then
             return true;
         end
         return false;

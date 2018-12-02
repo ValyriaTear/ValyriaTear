@@ -81,11 +81,6 @@ public:
     **/
     void SetEvent(const std::string &event_name, int32_t event_value);
 
-    //! \brief Returns the number of events currently stored within the group
-    uint32_t GetNumberEvents() const {
-        return _events.size();
-    }
-
     //! \brief Returns a copy of the name of this group
     std::string GetGroupName() const {
         return _group_name;

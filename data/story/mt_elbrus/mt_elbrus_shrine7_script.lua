@@ -138,7 +138,7 @@ function _CreateObjects()
     CreateObject(Map, "Stone Fence1", 5, 16, vt_map.MapMode.GROUND_OBJECT);
     CreateObject(Map, "Stone Fence1", 43, 19, vt_map.MapMode.GROUND_OBJECT);
 
-    if (GlobalManager:GetEventValue("story", "mountain_shrine_1stfloor_orlinn_pushed_stone") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_1stfloor_orlinn_pushed_stone") == 0) then
         -- Add an invisible object permitting to trigger the event when the stone is still in its first place.
         object = CreateObject(Map, "Stone Fence1", 28, 15, vt_map.MapMode.GROUND_OBJECT);
         object:SetVisible(false);
@@ -150,7 +150,7 @@ function _CreateObjects()
     local fence1_trigger1_y_position = 34.0;
     local fence2_trigger1_y_position = 36.0;
     -- Sets the passage open if the enemies were already beaten
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 8 gate 7 trigger") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus shrine 8 gate 7 trigger") == 1) then
         fence1_trigger1_y_position = 31.8;
         fence2_trigger1_y_position = 38.0;
     end
@@ -159,7 +159,7 @@ function _CreateObjects()
     fence2_trigger1 = CreateObject(Map, "Stone Fence1", 5.0, fence2_trigger1_y_position, vt_map.MapMode.GROUND_OBJECT);
 
     -- Adds the spikes preventing from getting the rolling stone if the SW trigger wasn't pushed
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 0) then
         CreateObject(Map, "Spikes1", 25, 7, vt_map.MapMode.GROUND_OBJECT);
         CreateObject(Map, "Spikes1", 27, 7, vt_map.MapMode.GROUND_OBJECT);
         CreateObject(Map, "Spikes1", 29, 7, vt_map.MapMode.GROUND_OBJECT);
@@ -172,7 +172,7 @@ function _CreateObjects()
     vt_map.ScriptedEvent.Create("Push the rolling stone 1", "start_to_move_the_stone1", "move_the_stone_update1")
 
     -- Check whether we put the stone 1 through the door
-    if (GlobalManager:GetEventValue("story", "mt_shrine_1st_floor_stone1_through_1st_door") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_shrine_1st_floor_stone1_through_1st_door") == 1) then
         rolling_stone1_out = true;
         rolling_stone1:SetVisible(false);
         rolling_stone1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -181,16 +181,16 @@ function _CreateObjects()
     end
 
     rolling_stone2 = CreateObject(Map, "Rolling Stone", 28, 9, vt_map.MapMode.GROUND_OBJECT);
-    if (GlobalManager:GetEventValue("story", "mt_shrine_1st_floor_stone2_through_1st_door") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_shrine_1st_floor_stone2_through_1st_door") == 1) then
         -- Check whether we put the stone 2 through the door
         rolling_stone2_out = true;
         rolling_stone2:SetVisible(false);
         rolling_stone2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    elseif (GlobalManager:GetEventValue("story", "mountain_shrine_1stfloor_orlinn_pushed_stone") == 0
-            and GlobalManager:GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 1) then
+    elseif (GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_1stfloor_orlinn_pushed_stone") == 0
+            and GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus shrine 6 trigger 1") == 1) then
         -- If the spikes are removed, and the stone untouched, Orlinn can pushed downstairs...
         rolling_stone2:SetEventWhenTalking("Make rolling stone2 fall event start");
-    elseif (GlobalManager:GetEventValue("story", "mountain_shrine_1stfloor_orlinn_pushed_stone") == 1) then
+    elseif (GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_1stfloor_orlinn_pushed_stone") == 1) then
         -- The stone is downstairs
         rolling_stone2:SetPosition(28, 18);
         rolling_stone2:SetEventWhenTalking("Check hero position for rolling stone 2");
@@ -294,7 +294,7 @@ function _CheckZones()
     -- Check whether we pushed one stone through the door
     if (rolling_stone1_out == false) then
         if (to_shrine_SW_bottom_door_room_zone:IsInsideZone(rolling_stone1:GetXPosition(), rolling_stone1:GetYPosition()) == true) then
-            GlobalManager:SetEventValue("story", "mt_shrine_1st_floor_stone1_through_1st_door", 1);
+            GlobalManager:GetGameEvents():SetEventValue("story", "mt_shrine_1st_floor_stone1_through_1st_door", 1);
             rolling_stone1_out = true;
             rolling_stone1:SetVisible(false);
             rolling_stone1:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -302,7 +302,7 @@ function _CheckZones()
     end
     if (rolling_stone2_out == false) then
         if (to_shrine_SW_bottom_door_room_zone:IsInsideZone(rolling_stone2:GetXPosition(), rolling_stone2:GetYPosition()) == true) then
-            GlobalManager:SetEventValue("story", "mt_shrine_1st_floor_stone2_through_1st_door", 1);
+            GlobalManager:GetGameEvents():SetEventValue("story", "mt_shrine_1st_floor_stone2_through_1st_door", 1);
             rolling_stone2_out = true;
             rolling_stone2:SetVisible(false);
             rolling_stone2:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -436,7 +436,7 @@ map_functions = {
 
     missing_stone_event_end = function()
         Map:PopState();
-        GlobalManager:SetEventValue("story", "mt_elbrus_saw_missing_stone", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_saw_missing_stone", 1);
     end,
 
     stone_falls_event_start = function()
@@ -463,7 +463,7 @@ map_functions = {
         stone_fall_y_pos = stone_fall_y_pos + movement_diff;
         rolling_stone2:SetYPosition(stone_fall_y_pos);
         if (stone_fall_y_pos >= 18.0) then
-            GlobalManager:SetEventValue("story", "mountain_shrine_1stfloor_orlinn_pushed_stone", 1);
+            GlobalManager:GetGameEvents():SetEventValue("story", "mountain_shrine_1stfloor_orlinn_pushed_stone", 1);
             Map:PopState();
             return true;
         end

@@ -45,11 +45,11 @@ end
 
 function Update()
     -- Only show the image if requested by the events
-    if (GlobalManager:DoesEventExist("scripts_events", "shrine_entrance_show_crystal") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("scripts_events", "shrine_entrance_show_crystal") == false) then
         return;
     end
 
-    if (GlobalManager:GetEventValue("scripts_events", "shrine_entrance_show_crystal") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("scripts_events", "shrine_entrance_show_crystal") == 0) then
         return;
     end
 
@@ -96,7 +96,7 @@ function Update()
     if (display_time > 15000) then
         display_time = 0
         -- Disable the event at the end of it
-        GlobalManager:SetEventValue("scripts_events", "shrine_entrance_show_crystal", 0);
+        GlobalManager:GetGameEvents():SetEventValue("scripts_events", "shrine_entrance_show_crystal", 0);
     end
 end
 
@@ -106,11 +106,11 @@ local ancient_sign_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 
 function DrawPostEffects()
     -- Only show the image if requested by the events
-    if (GlobalManager:DoesEventExist("scripts_events", "shrine_entrance_show_crystal") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("scripts_events", "shrine_entrance_show_crystal") == false) then
         return;
     end
 
-    if (GlobalManager:GetEventValue("scripts_events", "shrine_entrance_show_crystal") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("scripts_events", "shrine_entrance_show_crystal") == 0) then
         return;
     end
 

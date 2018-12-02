@@ -92,10 +92,10 @@ function _CreateObjects()
                                          "", "Trigger on event");
     object:SetPosition(19, 20);
 
-    trigger_state = GlobalManager:GetEventValue("triggers", "mt elbrus shrine 8 gate 7 trigger");
+    trigger_state = GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus shrine 8 gate 7 trigger");
 
     -- Waterfalls
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
         _add_small_waterfall(40, 14);
         _add_waterfall(2, 46);
         _add_waterlight(42, 21)
@@ -248,7 +248,7 @@ map_functions = {
         hero:SetCustomAnimation("frightened_fixed", 0); -- 0 means forever
 
         -- Restore potential trigger previous state
-        GlobalManager:SetEventValue("triggers", "mt elbrus shrine 8 gate 7 trigger", trigger_state);
+        GlobalManager:GetGameEvents():SetEventValue("triggers", "mt elbrus shrine 8 gate 7 trigger", trigger_state);
     end,
 
     trigger_on_sound = function()

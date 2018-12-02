@@ -97,7 +97,7 @@ function _CreateObjects()
     spikes[1] = CreateObject(Map, "Spikes1", 17, 12, vt_map.MapMode.GROUND_OBJECT);
     spikes[2] = CreateObject(Map, "Spikes1", 19, 12, vt_map.MapMode.GROUND_OBJECT);
     spikes[3] = CreateObject(Map, "Spikes1", 21, 12, vt_map.MapMode.GROUND_OBJECT);
-    if (GlobalManager:GetEventValue("story", "mt_shrine_treasure_trap_done") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_shrine_treasure_trap_done") == 1) then
         for _, spike in pairs(spikes) do
             spike:SetVisible(false);
             spike:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -198,7 +198,7 @@ function _CreateObjects()
     end
 
     -- If the trap has been deactivated, the treasures aren't there anymore...
-    if (GlobalManager:GetEventValue("story", "mt_shrine_treasure_trap_done") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_shrine_treasure_trap_done") == 1) then
         for _, my_object in pairs(treasure_jars) do
             my_object:SetVisible(false);
             my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -207,7 +207,7 @@ function _CreateObjects()
     else
         -- Test whether a treasure has been already taken
         for _, my_object in pairs(treasure_jars) do
-            if (GlobalManager:DoesEventExist("treasures", my_object:GetTreasureName()) == true) then
+            if (GlobalManager:GetGameEvents():DoesEventExist("treasures", my_object:GetTreasureName()) == true) then
                 my_object:SetVisible(false);
                 my_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
                 my_object:SetPosition(0, 0);
@@ -463,18 +463,18 @@ function _CheckZones()
         end
     elseif (to_shrine_main_room_zone:IsCameraEntering() == true) then
         hero:SetDirection(vt_map.MapMode.WEST);
-        if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
             EventManager:StartEvent("to mountain shrine main room");
         else
             EventManager:StartEvent("to mountain shrine main room-waterfalls")
         end
     elseif (to_shrine_treasure_room_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "mt_shrine_treasure_trap_done") == 1) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_shrine_treasure_trap_done") == 1) then
             hero:SetDirection(vt_map.MapMode.NORTH);
             EventManager:StartEvent("to mountain shrine treasure room");
         end
     elseif (trap_started == false and trap_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "mt_shrine_treasure_trap_done") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_shrine_treasure_trap_done") == 0) then
             EventManager:StartEvent("Start trap");
             AudioManager:FadeOutActiveMusic(1500);
             EventManager:StartEvent("Make spike wall go up", 2000);
@@ -490,7 +490,7 @@ function _CheckZones()
         local hp_change = math.random(40, 60);
         _TriggerPartyDamage(hp_change);
 
-        if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
             EventManager:StartEvent("to mountain shrine main room");
         else
             EventManager:StartEvent("to mountain shrine main room-waterfalls")
@@ -717,7 +717,7 @@ map_functions = {
         wall_rumble_sound:Stop();
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "mt_shrine_treasure_trap_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_shrine_treasure_trap_done", 1);
     end,
 
     spike_wall_down_update = function()

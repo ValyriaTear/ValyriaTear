@@ -63,11 +63,11 @@ end
 -- Handle the display of the new game credits
 function _HandleCredits()
     -- Handle small credits triggering
-    if (GlobalManager:DoesEventExist("game", "Start_Credits") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "Start_Credits") == false) then
         -- Triggers the small credits display
-        GlobalManager:SetEventValue("game", "Start_Credits", 1);
+        GlobalManager:GetGameEvents():SetEventValue("game", "Start_Credits", 1);
     end
-    if (GlobalManager:DoesEventExist("game", "Credits_shown") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "Credits_shown") == false) then
         Map:GetScriptSupervisor():AddScript("data/credits/episode1_credits.lua");
     end
 end
@@ -164,8 +164,8 @@ function _CreateNPCs()
 
     npc = CreateNPCSprite(Map, "Woman2", vt_system.Translate("Sophia"), 22, 38, vt_map.MapMode.GROUND_OBJECT);
     npc:SetDirection(vt_map.MapMode.SOUTH);
-    if (GlobalManager:DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true and
-            GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("layna_south_entrance", "quest1_orlinn_hide_n_seek1_done") == true and
+            GlobalManager:GetGameEvents():DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek2_done") == false) then
         dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_sophia_hint_about_orlinn");
         text = vt_system.Translate("If you're running after Orlinn, I just saw him near your house.")
         dialogue:AddLine(text, npc)
@@ -287,7 +287,7 @@ function _CreateObjects()
 
     -- Rock hiding the well underground entrance
     well_entrance_rock = CreateObject(Map, "Rock1", 63, 32, vt_map.MapMode.GROUND_OBJECT)
-    if (GlobalManager:DoesEventExist("story", "well_rats_beaten") == true) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "well_rats_beaten") == true) then
         -- The rock has moved
         well_entrance_rock:SetPosition(63, 34)
     end
@@ -729,9 +729,9 @@ function _CheckZones()
         EventManager:StartEvent("to secret cliff");
     elseif (to_layna_forest_zone:IsCameraEntering() == true) then
         bronann:SetMoving(false);
-        if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
+        if (GlobalManager:GetGameEvents():DoesEventExist("story", "Quest2_forest_event_done") == false) then
             EventManager:StartEvent("Bronann can't enter the forest so easily");
-        elseif (GlobalManager:DoesEventExist("story", "Quest2_kalya_equip_n_dungeons_speech_done") == false) then
+        elseif (GlobalManager:GetGameEvents():DoesEventExist("story", "Quest2_kalya_equip_n_dungeons_speech_done") == false) then
             EventManager:StartEvent("Quest2: Kalya's equipment and dungeons speech start");
         else
             EventManager:StartEvent("to layna forest entrance");
@@ -746,7 +746,7 @@ function _CheckZones()
         AudioManager:PlaySound("data/sounds/door_open2.wav");
     elseif (to_well_undergrounds_zone:IsCameraEntering() == true
             -- cannot enter until the well event is done.
-            and GlobalManager:DoesEventExist("story", "well_rats_beaten") == true) then
+            and GlobalManager:GetGameEvents():DoesEventExist("story", "well_rats_beaten") == true) then
         bronann:SetMoving(false)
         EventManager:StartEvent("To well underground")
     end
@@ -755,16 +755,16 @@ end
 -- Inner custom functions
 function _TriggerPotentialDialogueAfterFadeIn()
     -- Trigger the forest and Orlinn runaway event
-    if (GlobalManager:DoesEventExist("story", "meal_event_done") == true
-            and GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "meal_event_done") == true
+            and GlobalManager:GetGameEvents():DoesEventExist("story", "Quest2_forest_event_done") == false) then
         EventManager:StartEvent("Quest2: Forest event");
-        GlobalManager:SetEventValue("story", "Quest2_forest_event_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "Quest2_forest_event_done", 1);
         return;
     end
 
-    if (GlobalManager:DoesEventExist("layna_center", "first_time_in_village_center") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("layna_center", "first_time_in_village_center") == false) then
         EventManager:StartEvent("Quest1: Bronann wonders where he can find some barley meal");
-        GlobalManager:SetEventValue("layna_center", "first_time_in_village_center", 1);
+        GlobalManager:GetGameEvents():SetEventValue("layna_center", "first_time_in_village_center", 1);
         return;
     end
 end
@@ -784,9 +784,9 @@ function _UpdateOliviaDialogue()
     default_dialogue:AddLineEventEmote(text, bronann, "Bronann looks at Olivia", "", "sweat drop");
 
     -- Don't grant access to the forest so easily
-    if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == false) then
-        if (GlobalManager:DoesEventExist("story", "Carson_wooden_sword_given") == true
-                and GlobalManager:DoesEventExist("story", "well_rats_beaten") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "Quest2_forest_event_done") == false) then
+        if (GlobalManager:GetGameEvents():DoesEventExist("story", "Carson_wooden_sword_given") == true
+                and GlobalManager:GetGameEvents():DoesEventExist("story", "well_rats_beaten") == false) then
             -- The well quest dialogue
             dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_olivia_well_quest")
             text = vt_system.Translate("Hey Bronann. I can see you have your father practice sword. Ready for your first real challenge?")
@@ -859,12 +859,12 @@ function _UpdateGeorgesDialogue()
 
     georges:ClearDialogueReferences();
 
-    if (GlobalManager:DoesEventExist("layna_center", "quest1_pen_given_done") == true) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("layna_center", "quest1_pen_given_done") == true) then
         dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_georges_default");
         text = vt_system.Translate("Ah, the river is so beautiful at this time of the year. I feel like writing some poetry...");
         dialogue:AddLine(text, georges);
         georges:AddDialogueReference(dialogue);
-    elseif (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == true) then
+    elseif (GlobalManager:GetGameEvents():DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == true) then
         -- Give the pen to Georges
         dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Here it is, Georges.");
@@ -877,7 +877,7 @@ function _UpdateGeorgesDialogue()
         dialogue:AddLineEvent(text, georges, "", "Quest1: Georges thanks Bronann");
         georges:AddDialogueReference(dialogue);
         return;
-    elseif (GlobalManager:DoesEventExist("layna_center", "quest1_georges_dialogue_done") == true) then
+    elseif (GlobalManager:GetGameEvents():DoesEventExist("layna_center", "quest1_georges_dialogue_done") == true) then
         dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_georges_pen_lost_short");
         text = vt_system.Translate("You see, I lost my beloved pen. Was it near a tree or next to the waving child of the mountain snow?");
         dialogue:AddLine(text, georges);
@@ -915,7 +915,7 @@ function _UpdateOrlinnAndKalyaState()
     local event = nil
 
     orlinn:ClearDialogueReferences();
-    if (GlobalManager:DoesEventExist("story", "Quest2_forest_event_done") == true) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "Quest2_forest_event_done") == true) then
         -- At that moment, Orlinn has disappeared and Kalya is now in Bronann's party.
         orlinn:SetVisible(false);
         orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -926,7 +926,7 @@ function _UpdateOrlinnAndKalyaState()
         kalya:SetMoving(false);
         return;
     end
-    if (GlobalManager:DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == true) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("layna_riverbank", "quest1_orlinn_hide_n_seek3_done") == true) then
         -- Bronann got Georges' pen, update orlinn dialogue
         dialogue = vt_map.SpriteDialogue.Create("ep1_layna_village_orlinn_wont_bother_again");
         text = vt_system.Translate("I promise I won't bother you again.");
@@ -942,7 +942,7 @@ function _UpdateOrlinnAndKalyaState()
         dialogue:AddLine(text, kalya);
         kalya:AddDialogueReference(dialogue);
 
-    elseif (GlobalManager:DoesEventExist("layna_center", "quest1_orlinn_dialogue1_done") == true) then
+    elseif (GlobalManager:GetGameEvents():DoesEventExist("layna_center", "quest1_orlinn_dialogue1_done") == true) then
         -- At that time, Orlinn isn't in the village center anymore.
         orlinn:SetVisible(false);
         orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -967,7 +967,7 @@ function _UpdateOrlinnAndKalyaState()
         kalya:AddDialogueReference(dialogue);
 
         return;
-    elseif (GlobalManager:DoesEventExist("layna_center", "quest1_georges_dialogue_done") == true) then
+    elseif (GlobalManager:GetGameEvents():DoesEventExist("layna_center", "quest1_georges_dialogue_done") == true) then
         dialogue = vt_map.SpriteDialogue.Create();
         text = vt_system.Translate("Hee hee hee!");
         dialogue:AddLineEvent(text, orlinn, "Orlinn laughs", "");
@@ -1023,7 +1023,7 @@ local well_rock_y_pos = 32
 map_functions = {
 
     Quest1GeorgesDialogueDone = function()
-        GlobalManager:SetEventValue("layna_center", "quest1_georges_dialogue_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("layna_center", "quest1_georges_dialogue_done", 1);
         -- Makes Orlinn aware that Bronann has talked to Georges.
         _UpdateOrlinnAndKalyaState();
         _UpdateGeorgesDialogue();
@@ -1040,7 +1040,7 @@ map_functions = {
 
     orlinn_run_event_end = function()
         -- Updates Orlinn's state
-        GlobalManager:SetEventValue("layna_center", "quest1_orlinn_dialogue1_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("layna_center", "quest1_orlinn_dialogue1_done", 1);
         GlobalManager:AddQuestLog("hide_n_seek_with_orlinn");
 
         -- Updates Kalya dialogue
@@ -1062,7 +1062,7 @@ map_functions = {
     end,
 
     orlinn_comes_back_event_end = function()
-        GlobalManager:SetEventValue("layna_riverbank", "quest1_orlinn_hide_n_seek3_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("layna_riverbank", "quest1_orlinn_hide_n_seek3_done", 1);
         Map:PopState();
         -- Remove it twice since we added it twice.
         Map:PopState();
@@ -1073,7 +1073,7 @@ map_functions = {
     end,
 
     Quest1GeorgesTellsBronannAboutLilly = function()
-        GlobalManager:SetEventValue("layna_center", "quest1_pen_given_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("layna_center", "quest1_pen_given_done", 1);
 
         -- Remove the pen key item from inventory
         local pen_item_id = 70001;
@@ -1144,9 +1144,9 @@ map_functions = {
     end,
 
     Add_kalya_to_party = function()
-        if (GlobalManager:DoesEventExist("story", "kalya_has_joined") == false) then
+        if (GlobalManager:GetGameEvents():DoesEventExist("story", "kalya_has_joined") == false) then
             GlobalManager:GetCharacterHandler():AddCharacter(KALYA);
-            GlobalManager:SetEventValue("story", "kalya_has_joined", 1);
+            GlobalManager:GetGameEvents():SetEventValue("story", "kalya_has_joined", 1);
             GlobalManager:AddQuestLog("bring_orlinn_back");
         end
         AudioManager:FadeInActiveMusic(2000);
@@ -1166,7 +1166,7 @@ map_functions = {
         kalya:ClearDialogueReferences();
 
         -- Set the event as done to prevent it to trigger again
-        GlobalManager:SetEventValue("story", "Quest2_kalya_equip_n_dungeons_speech_done", 1)
+        GlobalManager:GetGameEvents():SetEventValue("story", "Quest2_kalya_equip_n_dungeons_speech_done", 1)
     end,
 
     Sprite_Collision_on = function(sprite)

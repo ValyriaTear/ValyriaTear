@@ -82,7 +82,7 @@ void TreasureObject::_LoadState()
         return;
 
     // If the event exists, the treasure has already been opened
-    if(vt_global::GlobalManager->DoesEventExist("treasures", _treasure_name)) {
+    if(vt_global::GlobalManager->GetGameEvents().DoesEventExist("treasures", _treasure_name)) {
         SetCurrentAnimation(TREASURE_OPEN_ANIM);
         _treasure->SetTaken(true);
     }
@@ -146,7 +146,7 @@ void TreasureObject::Update()
         // Once all events are finished, we can open the treasure supervisor
         mm->GetTreasureSupervisor()->Initialize(this);
         // Add an event to the treasures group indicating that the treasure has now been opened
-        vt_global::GlobalManager->SetEventValue("treasures", _treasure_name, 1);
+        vt_global::GlobalManager->GetGameEvents().SetEventValue("treasures", _treasure_name, 1);
         // End the opening sequence
         _is_opening = false;
     }

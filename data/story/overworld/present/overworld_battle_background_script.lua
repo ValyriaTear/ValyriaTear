@@ -6,7 +6,7 @@ setfenv(1, ns);
 -- Set the correct battle background according to the zone type
 function Initialize(battle_instance)
 
-    local background_type = GlobalManager:GetEventValue("overworld", "battle_background");
+    local background_type = GlobalManager:GetGameEvents():GetEventValue("overworld", "battle_background");
     if (background_type == 0) then return end
 
     local background_file = "";

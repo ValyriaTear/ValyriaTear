@@ -45,7 +45,7 @@ SpriteDialogue::SpriteDialogue(const std::string& dialogue_event_name) :
     if (_event_name.empty())
         return;
 
-    int32_t seen = vt_global::GlobalManager->GetEventValue("dialogues", _event_name);
+    int32_t seen = vt_global::GlobalManager->GetGameEvents().GetEventValue("dialogues", _event_name);
     if (seen > 0)
         _dialogue_seen = true;
 
@@ -79,7 +79,7 @@ void SpriteDialogue::SetAsSeen(bool seen)
     if (_dialogue_seen)
         event_value = 1;
 
-    vt_global::GlobalManager->SetEventValue("dialogues", _event_name, event_value);
+    vt_global::GlobalManager->GetGameEvents().SetEventValue("dialogues", _event_name, event_value);
 }
 
 void SpriteDialogue::AddLine(const std::string &text, MapSprite *speaker)

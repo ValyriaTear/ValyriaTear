@@ -60,13 +60,13 @@ end
 function _HandleTwilight()
 
     -- If the characters have seen the crystal, then it's time to make the twilight happen
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         return;
     end
 
     -- test if the day time is sufficiently advanced
-    if (GlobalManager:DoesEventExist("story", "layna_forest_twilight_value") == false) then
-        GlobalManager:SetEventValue("story", "layna_forest_twilight_value", 0);
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "layna_forest_twilight_value") == false) then
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_twilight_value", 0);
     end
 
     Map:GetScriptSupervisor():AddScript("data/story/layna_forest/after_crystal_twilight.lua");
@@ -151,7 +151,7 @@ function _CreateObjects()
     wolf:SetMovementSpeed(vt_map.MapMode.VERY_FAST_SPEED);
     wolf:SetDirection(vt_map.MapMode.SOUTH);
 
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
         wolf:SetPosition(0, 0);
         wolf:SetVisible(false);
         wolf:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -162,7 +162,7 @@ function _CreateObjects()
     orlinn:SetDirection(vt_map.MapMode.NORTH);
     orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
         orlinn:SetPosition(0, 0);
         orlinn:SetVisible(false);
         orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -173,7 +173,7 @@ function _CreateObjects()
     crystal:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     crystal:SetVisible(false);
 
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
         crystal:SetPosition(0, 0);
         crystal:SetVisible(false);
         crystal:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -741,7 +741,7 @@ function _CheckZones()
         hero:SetMoving(false);
         EventManager:StartEvent("to forest cave 2");
     elseif (wolf_battle_zone:IsCameraEntering() == true) then
-        if (GlobalManager:DoesEventExist("story", "Fenrir beaten") == false) then
+        if (GlobalManager:GetGameEvents():DoesEventExist("story", "Fenrir beaten") == false) then
             hero:SetMoving(false);
             EventManager:StartEvent("Fenrir Battle");
         end
@@ -819,7 +819,7 @@ map_functions = {
         wolf:SetVisible(false);
         wolf:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
-        GlobalManager:SetEventValue("story", "Fenrir beaten", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "Fenrir beaten", 1);
     end,
 
     post_boss_dialogue_start = function()
@@ -854,11 +854,11 @@ map_functions = {
     end,
 
     make_crystal_appear = function()
-        GlobalManager:SetEventValue("story", "layna_forest_crystal_appearance", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_crystal_appearance", 1);
     end,
 
     make_crystal_appear_update = function()
-        if (GlobalManager:GetEventValue("story", "layna_forest_crystal_appearance") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_appearance") == 0) then
             return true;
         end
 
@@ -955,7 +955,7 @@ map_functions = {
         Map:SetCamera(hero, 800);
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "layna_forest_crystal_event_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_crystal_event_done", 1);
         -- Start the twilight
         _HandleTwilight();
     end

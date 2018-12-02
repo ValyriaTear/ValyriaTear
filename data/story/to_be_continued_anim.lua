@@ -34,11 +34,11 @@ end
 
 function Update()
     -- Only show the image if requested by the events
-    if (GlobalManager:DoesEventExist("game", "to_be_continued") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "to_be_continued") == false) then
         return;
     end
 
-    if (GlobalManager:GetEventValue("game", "to_be_continued") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("game", "to_be_continued") == 0) then
         return;
     end
 
@@ -52,11 +52,11 @@ local text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0);
 
 function DrawPostEffects()
     -- Only show the image if requested by the events
-    if (GlobalManager:DoesEventExist("game", "to_be_continued") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("game", "to_be_continued") == false) then
         return;
     end
 
-    if (GlobalManager:GetEventValue("game", "to_be_continued") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("game", "to_be_continued") == 0) then
         return;
     end
 

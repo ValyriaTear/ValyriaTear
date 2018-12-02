@@ -41,8 +41,8 @@ function Load(m)
     Map:SetPartyMemberVisibleSprite(hero);
 
     -- If the event in progress involves being Orlinn, then let's incarnate him.
-    if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 1
-            and GlobalManager:GetEventValue("story", "mt elbrus shrine heroes saved") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "elbrus_shrine_laughing_event_done") == 1
+            and GlobalManager:GetGameEvents():GetEventValue("story", "mt elbrus shrine heroes saved") == 0) then
         orlinn:SetPosition(hero:GetXPosition(), hero:GetYPosition());
         orlinn:SetVisible(true);
         orlinn:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
@@ -68,7 +68,7 @@ function Load(m)
         kalya:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
 
         -- If Orlinn hasn't triggered the button, yet, the other heroes are laughing.
-        if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
             bronann:SetCustomAnimation("laughing", 0); -- 0 means forever
             kalya:SetCustomAnimation("laughing", 0); -- 0 means forever
         end
@@ -76,7 +76,7 @@ function Load(m)
         _UpdateKalyaBronannDialogue();
 
         -- Loads the funny music if needed.
-        if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
+        if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
             AudioManager:LoadMusic("data/music/Zander Noriega - School of Quirks.ogg", Map);
         end
     end
@@ -97,13 +97,13 @@ function _UpdateKalyaBronannDialogue()
     bronann:ClearDialogueReferences();
 
     -- If Orlinn has triggered the waterfall button, the heroes are stainding not laughing
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
         kalya:LookAt(bronann);
         bronann:LookAt(kalya);
         return;
     end
 
-    if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0) then
         return
     end
 
@@ -184,14 +184,14 @@ function _CreateObjects()
     local text = nil
 
     vt_map.SavePoint.Create(51, 22);
-    if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 1
-            and GlobalManager:GetEventValue("story", "mt elbrus shrine heroes saved") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "elbrus_shrine_laughing_event_done") == 1
+            and GlobalManager:GetGameEvents():GetEventValue("story", "mt elbrus shrine heroes saved") == 0) then
         -- Disable the save point
         Map:SetMapPointsEnabled(false);
     end
 
     -- We can hear waterfalls in that case
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
         vt_map.SoundObject.Create("data/sounds/fountain_large.ogg", 0, 0, 50.0);
     end
 
@@ -200,8 +200,8 @@ function _CreateObjects()
     heal_effect:Stop(); -- Don't run it until the character heals itself
 
     layna_statue = CreateObject(Map, "Layna Statue", 57, 22, vt_map.MapMode.GROUND_OBJECT);
-    if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0
-            or GlobalManager:GetEventValue("story", "mt elbrus shrine heroes saved") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0
+            or GlobalManager:GetGameEvents():GetEventValue("story", "mt elbrus shrine heroes saved") == 1) then
         layna_statue:SetEventWhenTalking("Heal dialogue");
         layna_statue:SetInteractionIcon("data/gui/map/heal_anim.lua")
     end
@@ -230,7 +230,7 @@ function _CreateObjects()
     _add_flame(53.5, 11);
 
     -- Waterfall
-    if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
         _add_small_waterfall(18, 30);
         _add_waterlight(13, 31)
         _add_waterlight(23, 31)
@@ -504,8 +504,8 @@ function _CheckZones()
         hero:SetDirection(vt_map.MapMode.NE_EAST);
         EventManager:StartEvent("to mountain shrine 2nd floor");
     elseif (to_shrine_2nd_floor_grotto_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0
-                or GlobalManager:GetEventValue("story", "mt elbrus shrine heroes saved") == 1) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0
+                or GlobalManager:GetGameEvents():GetEventValue("story", "mt elbrus shrine heroes saved") == 1) then
             hero:SetDirection(vt_map.MapMode.WEST);
             EventManager:StartEvent("to mountain shrine 2nd floor grotto");
         else
@@ -514,17 +514,17 @@ function _CheckZones()
             EventManager:StartEvent("Orlinn can't go away dialogue");
         end
     elseif (to_shrine_3rd_floor_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "mt elbrus shrine heroes saved") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "mt elbrus shrine heroes saved") == 0) then
             hero:SetDirection(vt_map.MapMode.NORTH);
             EventManager:StartEvent("to mountain shrine 3rd floor");
         else
             EventManager:StartEvent("Heroes can't go there...");
         end
     elseif (before_3rd_floor_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
-        if (GlobalManager:GetEventValue("story", "mt elbrus shrine heroes saved") == 1) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "mt elbrus shrine heroes saved") == 1) then
             -- Do nothing in that case
 
-        elseif (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
+        elseif (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus waterfall trigger") == 1) then
             -- Start the scene where orlinn has just saved our heroes
             Map:PushState(vt_map.MapMode.STATE_SCENE);
             orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
@@ -532,7 +532,7 @@ function _CheckZones()
             kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
             EventManager:StartEvent("Orlinn saved the heroes");
 
-        elseif (GlobalManager:GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0) then
+        elseif (GlobalManager:GetGameEvents():GetEventValue("story", "elbrus_shrine_laughing_event_done") == 0) then
             -- Start the laughing scene
             Map:PushState(vt_map.MapMode.STATE_SCENE);
             EventManager:StartEvent("The hero goes in front of the door");
@@ -656,7 +656,7 @@ map_functions = {
 
     laughing_event_end = function()
         -- Set the event as done
-        GlobalManager:SetEventValue("story", "elbrus_shrine_laughing_event_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "elbrus_shrine_laughing_event_done", 1);
         orlinn:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
         bronann:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
         kalya:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
@@ -730,7 +730,7 @@ map_functions = {
         Map:SetStatusEffectsEnabled(true);
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "mt elbrus shrine heroes saved", 1)
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt elbrus shrine heroes saved", 1)
 
         -- Fade in the default music
         AudioManager:PlayMusic("data/music/icy_wind.ogg");

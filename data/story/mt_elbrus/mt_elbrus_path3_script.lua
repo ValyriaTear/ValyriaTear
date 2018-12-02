@@ -57,15 +57,15 @@ function Load(m)
     Map:GetScriptSupervisor():AddScript("data/story/common/at_night.lua");
 
     -- Enables thunder
-    GlobalManager:SetEventValue("story", "mt_elbrus_weather_level", 2)
+    GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_weather_level", 2)
 
     -- Make the rain starts or the corresponding dialogue according the need
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 0) then
         Map:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/rain.lua", 512.0, 768.0);
         -- Place an omni ambient sound at the center of the map to add a nice rainy effect.
         vt_map.SoundObject.Create("data/music/Ove Melaa - Rainy.ogg", 20.0, 16.0, 100.0);
     end
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 1) then
         Map:GetScriptSupervisor():AddScript("data/story/common/soft_lightnings_script.lua");
     end
 
@@ -76,7 +76,7 @@ function Load(m)
 
     -- Check the map state according to the story state
     harlequin_battle_done = false;
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_cemetery_fight_done") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_cemetery_fight_done") == 1) then
         -- Open the north gate, close the south ones. (but no sound)
         _CloseSouthGate();
         _OpenNorthGate();
@@ -762,17 +762,17 @@ function _CheckZones()
         hero:SetMoving(false);
         EventManager:StartEvent("to mountain path 2bis");
     elseif (cemetery_entrance_dialogue_zone:IsCameraEntering() == true and Map:CurrentState() ~= vt_map.MapMode.STATE_SCENE) then
-        if (GlobalManager:GetEventValue("story", "mt_elbrus_kalya_cemetery_entrance_dialogue") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_kalya_cemetery_entrance_dialogue") == 0) then
             hero:SetMoving(false);
             EventManager:StartEvent("Set scene state for dialogue about cemetery entrance");
         end
     elseif (cemetery_west_gate_dialogue_zone:IsCameraEntering() == true and Map:CurrentState() ~= vt_map.MapMode.STATE_SCENE) then
-        if (GlobalManager:GetEventValue("story", "mt_elbrus_kalya_west_gate_dialogue") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_kalya_west_gate_dialogue") == 0) then
             hero:SetMoving(false);
             EventManager:StartEvent("Set scene state for dialogue about west gate");
         end
     elseif (cemetery_gates_closed_zone:IsCameraEntering() == true and Map:CurrentState() ~= vt_map.MapMode.STATE_SCENE) then
-        if (harlequin_battle_done == false and GlobalManager:GetEventValue("story", "mt_elbrus_cemetery_south_gate_closed") == 0) then
+        if (harlequin_battle_done == false and GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_cemetery_south_gate_closed") == 0) then
             hero:SetMoving(false);
             _CloseSouthGate();
             AudioManager:PlaySound("data/sounds/opening_sword_unsheathe.wav");
@@ -788,10 +788,10 @@ function _SetBattleEnvironment(enemy)
     enemy:SetBattleBackground("data/battles/battle_scenes/mountain_background.png");
     enemy:AddBattleScript("data/story/common/at_night.lua");
 
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 0) then
         enemy:AddBattleScript("data/story/common/rain_in_battles_script.lua");
     end
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 1) then
         enemy:AddBattleScript("data/story/common/soft_lightnings_script.lua");
     end
 end
@@ -801,10 +801,10 @@ function _SetEventBattleEnvironment(event)
     event:SetBackground("data/battles/battle_scenes/mountain_background.png");
     event:AddScript("data/story/common/at_night.lua");
 
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 0) then
         event:AddScript("data/story/common/rain_in_battles_script.lua");
     end
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_weather_level") > 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 1) then
         event:AddScript("data/story/common/soft_lightnings_script.lua");
     end
 end
@@ -939,7 +939,7 @@ map_functions = {
         bronann:SetPosition(0, 0)
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "mt_elbrus_kalya_cemetery_entrance_dialogue", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_kalya_cemetery_entrance_dialogue", 1);
     end,
 
     kalya_west_gate_dialogue_start = function()
@@ -1001,7 +1001,7 @@ map_functions = {
         bronann:SetPosition(0, 0)
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "mt_elbrus_kalya_west_gate_dialogue", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_kalya_west_gate_dialogue", 1);
     end,
 
     -- Trapped scripted events functions
@@ -1041,7 +1041,7 @@ map_functions = {
         harlequin3:SetPosition(66, 21);
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "mt_elbrus_cemetery_south_gate_closed", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_cemetery_south_gate_closed", 1);
     end,
 
     make_harlequin1_disappear = function()
@@ -1166,7 +1166,7 @@ map_functions = {
         _OpenNorthGate();
         AudioManager:PlaySound("data/sounds/opening_sword_unsheathe.wav");
         Map:PopState();
-        GlobalManager:SetEventValue("story", "mt_elbrus_cemetery_fight_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_cemetery_fight_done", 1);
         harlequin_battle_done = true;
     end,
 }

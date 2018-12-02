@@ -50,7 +50,7 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
 
     -- Trigger the save point and spring speech event once
-    if (GlobalManager:DoesEventExist("story", "kalya_save_points_n_spring_speech_done") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "kalya_save_points_n_spring_speech_done") == false) then
         hero:SetMoving(false);
         hero:SetDirection(vt_map.MapMode.EAST);
         EventManager:StartEvent("Forest entrance dialogue", 800);
@@ -72,13 +72,13 @@ end
 function _HandleTwilight()
 
     -- If the characters have seen the crystal, then it's time to make the twilight happen
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         return;
     end
 
     -- test if the day time is sufficiently advanced
-    if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") < 3) then
-        GlobalManager:SetEventValue("story", "layna_forest_twilight_value", 3);
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_twilight_value") < 3) then
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_twilight_value", 3);
     end
 
     Map:GetScriptSupervisor():AddScript("data/story/layna_forest/after_crystal_twilight.lua");
@@ -148,7 +148,7 @@ function _CreateObjects()
     npc:AddDialogueReference(dialogue);
 
     -- Only add the squirrels and butterflies when the night isn't about to happen
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
         npc = CreateSprite(Map, "Butterfly", 42, 18, vt_map.MapMode.GROUND_OBJECT);
         npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
 
@@ -290,7 +290,7 @@ function _CreateEnemies()
     -- Hint: left, right, top, bottom
     roam_zone = vt_map.EnemyZone.Create(49, 62, 26, 39);
 
-    if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") >= 6) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_twilight_value") >= 6) then
         -- Encounters at night (snakes, spiders and bats)
         enemy = CreateEnemySprite(Map, "bat");
         _SetBattleEnvironment(enemy);
@@ -413,7 +413,7 @@ end
 -- Check whether the active camera has entered a zone. To be called within Update()
 function _CheckZones()
     if (forest_entrance_exit_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") == 0) then
             hero:SetMoving(false);
             EventManager:StartEvent("exit forest");
         else
@@ -432,10 +432,10 @@ function _SetBattleEnvironment(enemy)
     enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/forest_background.png");
 
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
         -- Setup time of the day lighting on battles
         enemy:AddBattleScript("data/story/layna_forest/after_crystal_twilight_battles.lua");
-        if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") > 2) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_twilight_value") > 2) then
             enemy:SetBattleBackground("data/battles/battle_scenes/forest_background_evening.png");
         end
     end
@@ -538,12 +538,12 @@ map_functions = {
         bronann:SetPosition(0, 0);
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "kalya_save_points_n_spring_speech_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "kalya_save_points_n_spring_speech_done", 1);
     end,
 
     music_start = function()
         -- If the night has fallen, let the music change
-        if (GlobalManager:GetEventValue("story", "layna_forest_twilight_value") >= 6) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_twilight_value") >= 6) then
             AudioManager:PlayMusic("data/music/forest_at_night.ogg");
         end
     end

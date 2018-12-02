@@ -408,6 +408,6 @@ map_functions = {
 
     -- TEMP: Credits place here in the wait of adding the last episode map.
     start_credits = function()
-        GlobalManager:SetEventValue("game", "Start_End_Credits", 1);
+        GlobalManager:GetGameEvents():SetEventValue("game", "Start_End_Credits", 1);
     end
 }

@@ -55,7 +55,7 @@ function Load(m)
     _CreateZones();
 
     -- Add a mediumly dark overlay when necessary
-    if (GlobalManager:GetEventValue("story", "mountain_shrine_entrance_light_done") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_entrance_light_done") == 0) then
         Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
     end
 
@@ -63,11 +63,11 @@ function Load(m)
     Script:AddScript("data/story/mt_elbrus/shrine_entrance_show_crystal_script.lua");
 
     -- Start the dialogue about the shrine entrance if not done
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_entrance_event") ~= 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_entrance_event") ~= 1) then
         hero:SetMoving(false);
         EventManager:StartEvent("Shrine entrance event start", 200);
-    elseif (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 0 and
-            GlobalManager:GetEventValue("story", "mountain_shrine_entrance_light_done") == 1) then
+    elseif (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 0 and
+            GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_entrance_light_done") == 1) then
         if (GlobalManager:GetPreviousLocation() == "from_shrine_main_room") then
             -- (Re)Introduce Sophia when the characters leave the shrine the first time from the north entrance.
             hero:SetMoving(false);
@@ -75,7 +75,7 @@ function Load(m)
         end
     end
 
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_door_opening_event") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_door_opening_event") == 1) then
         _set_shrine_door_open();
         shrine_entrance_sign:SetVisible(true);
         _show_flames();
@@ -87,7 +87,7 @@ function Load(m)
     AudioManager:LoadSound("data/sounds/cave-in.ogg", Map);
 
     -- Loads the funny music if needed.
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 0) then
         AudioManager:LoadMusic("data/music/Zander Noriega - School of Quirks.ogg", Map);
     end
 end
@@ -105,7 +105,7 @@ function _UpdateSophiaDialogue()
     local event = nil
 
     sophia:ClearDialogueReferences();
-    if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 0) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 0) then
         return
     end
 
@@ -186,8 +186,8 @@ function _CreateCharacters()
     nekko:SetEventWhenTalking("Nekko says Meoww!");
 
     -- When returning from a first trip in the dungeon, the characters fall on Sophia.
-    if (GlobalManager:GetEventValue("story", "mountain_shrine_entrance_light_done") == 1
-            or GlobalManager:GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_entrance_light_done") == 1
+            or GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 1) then
         sophia:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
         sophia:SetVisible(true);
         sophia:SetPosition(42.0, 21.0);
@@ -246,7 +246,7 @@ function _CreateObjects()
     shrine_flame2:RandomizeCurrentAnimationFrame();
 
     -- When the lighting has improved, show the source of it.
-    if (GlobalManager:GetEventValue("story", "mountain_shrine_entrance_light_done") == 1) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_entrance_light_done") == 1) then
         vt_map.Halo.Create("data/visuals/lights/torch_light_mask.lua", 42, 8, vt_video.Color(1.0, 1.0, 1.0, 0.6));
         -- Adds a door horizon...
         object = vt_map.PhysicalObject.Create(vt_map.MapMode.FLATGROUND_OBJECT);
@@ -629,7 +629,7 @@ end
 function _CheckZones()
     if (to_shrine_zone:IsCameraEntering() == true) then
         hero:SetMoving(false);
-        if (GlobalManager:GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("triggers", "mt elbrus waterfall trigger") == 0) then
             EventManager:StartEvent("to mountain shrine");
         else
             EventManager:StartEvent("to mountain shrine-waterfalls");
@@ -638,7 +638,7 @@ function _CheckZones()
         hero:SetMoving(false);
         EventManager:StartEvent("to mountain bridge");
     elseif (shrine_door_opening_zone:IsCameraEntering() == true and Map:CurrentState() == vt_map.MapMode.STATE_EXPLORE) then
-        if (GlobalManager:GetEventValue("story", "mt_elbrus_shrine_door_opening_event") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_door_opening_event") == 0) then
             hero:SetMoving(false);
             EventManager:StartEvent("Shrine door opening event start");
         end
@@ -777,7 +777,7 @@ map_functions = {
         bronann:SetPosition(0, 0)
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "mt_elbrus_shrine_entrance_event", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_shrine_entrance_event", 1);
     end,
 
     shrine_door_opening_event_start = function()
@@ -828,7 +828,7 @@ map_functions = {
 
     show_crystal = function()
         -- Triggers the crystal appearance
-        GlobalManager:SetEventValue("scripts_events", "shrine_entrance_show_crystal", 1)
+        GlobalManager:GetGameEvents():SetEventValue("scripts_events", "shrine_entrance_show_crystal", 1)
         crystal_appearance_time = 0;
         ancient_sign_visible = false;
     end,
@@ -843,7 +843,7 @@ map_functions = {
                 AudioManager:PlaySound("data/sounds/ancient_invocation.wav");
             end
         end
-        if (GlobalManager:GetEventValue("scripts_events", "shrine_entrance_show_crystal") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("scripts_events", "shrine_entrance_show_crystal") == 0) then
             Map:GetEffectSupervisor():ShakeScreen(0.4, 2200, vt_mode_manager.EffectSupervisor.SHAKE_FALLOFF_GRADUAL);
             AudioManager:PlaySound("data/sounds/cave-in.ogg");
             _open_shrine_door();
@@ -872,7 +872,7 @@ map_functions = {
         bronann:SetPosition(0, 0)
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "mt_elbrus_shrine_door_opening_event", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_shrine_door_opening_event", 1);
     end,
 
     sophia_event_start = function()
@@ -931,7 +931,7 @@ map_functions = {
         bronann:SetPosition(0, 0)
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event", 1);
 
         -- Adds Sophia's shop dialogue
         _UpdateSophiaDialogue();

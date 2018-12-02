@@ -42,7 +42,7 @@ function Load(m)
     _CreateZones();
 
     -- If not done, start the opening dialogue
-    if (GlobalManager:DoesEventExist("story", "opening_dialogue_done") == false) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "opening_dialogue_done") == false) then
         Map:PushState(vt_map.MapMode.STATE_SCENE);
         EventManager:StartEvent("opening", 10000);
         bronann_in_bed:SetVisible(true);
@@ -51,7 +51,7 @@ function Load(m)
 
         -- Also, reset the crystal appearance value to prevent triggering the event when reaching
         -- the crystal map:
-        GlobalManager:SetEventValue("story", "layna_forest_crystal_appearance", 0);
+        GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_crystal_appearance", 0);
     else
         -- The event is done, spawn bronann and the bed normally
         bronann_in_bed:SetVisible(false);
@@ -212,9 +212,9 @@ function _CheckZones()
         EventManager:StartEvent("exit floor");
 
         -- Disable the game commands display
-        GlobalManager:SetEventValue("game", "show_move_interact_info", 0);
+        GlobalManager:GetGameEvents():SetEventValue("game", "show_move_interact_info", 0);
     elseif (save_point_zone:IsCameraEntering() == true) then
-        if (GlobalManager:GetEventValue("story", "save_point_dialogue_done") == 0) then
+        if (GlobalManager:GetGameEvents():GetEventValue("story", "save_point_dialogue_done") == 0) then
             bronann:SetMoving(false);
             EventManager:StartEvent("Save point dialogue");
         end
@@ -271,13 +271,13 @@ map_functions = {
     end,
 
     OpeningDialogueDone = function()
-        GlobalManager:SetEventValue("story", "opening_dialogue_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "opening_dialogue_done", 1);
 
         -- Trigger the basic commands so that player knows what to do.
-        GlobalManager:SetEventValue("game", "show_move_interact_info", 1);
+        GlobalManager:GetGameEvents():SetEventValue("game", "show_move_interact_info", 1);
     end,
 
     save_point_dialogue_done = function()
-        GlobalManager:SetEventValue("story", "save_point_dialogue_done", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "save_point_dialogue_done", 1);
     end
 }

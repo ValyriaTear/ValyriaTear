@@ -48,8 +48,8 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/dark.png", 0.0, 0.0, false);
 
     -- Trigger the dialogue at entrance if not done yet.
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 0 and
-            GlobalManager:DoesEventExist("story", "kalya_speech_in_wolf_cave") == false) then
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") == 0 and
+            GlobalManager:GetGameEvents():DoesEventExist("story", "kalya_speech_in_wolf_cave") == false) then
         hero:SetMoving(false);
         hero:SetDirection(vt_map.MapMode.NORTH);
         EventManager:StartEvent("Wolf cave entrance dialogue", 200);
@@ -108,8 +108,8 @@ function _CreateObjects()
     local light_color_green = 1.0;
     local light_color_blue = 1.0;
     local light_color_alpha = 0.8;
-    if (GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
-        local tw_value = GlobalManager:GetEventValue("story", "layna_forest_twilight_value");
+    if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+        local tw_value = GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_twilight_value");
         if (tw_value >= 4 and tw_value < 6) then
             light_color_red = 0.83;
             light_color_green = 0.72;
@@ -169,8 +169,8 @@ function _CreateObjects()
 
     -- Place all the jewel related object out of reach when the event is already done
     -- or the wolf beaten in the crystal map.
-    if (GlobalManager:DoesEventExist("story", "wolfpain_necklace_obtained") == true
-            or GlobalManager:GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
+    if (GlobalManager:GetGameEvents():DoesEventExist("story", "wolfpain_necklace_obtained") == true
+            or GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") == 1) then
         necklace_npc:SetPosition(0, 0);
 
         light_tilt:SetVisible(false);
@@ -461,7 +461,7 @@ map_functions = {
         hero:SetDirection(vt_map.MapMode.NORTH);
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "kalya_speech_in_wolf_cave", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "kalya_speech_in_wolf_cave", 1);
     end,
 
     -- Kalya takes the wolfpain necklace - start event.
@@ -500,7 +500,7 @@ map_functions = {
         wolf:SetDirection(vt_map.MapMode.NORTH);
 
         -- Set event as done
-        GlobalManager:SetEventValue("story", "wolfpain_necklace_obtained", 1);
+        GlobalManager:GetGameEvents():SetEventValue("story", "wolfpain_necklace_obtained", 1);
     end,
 
     make_wolf_invisible = function()
