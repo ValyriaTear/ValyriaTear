@@ -116,10 +116,10 @@ function TestFunction()
     inventory_handler:AddToInventory(60007, 1);
 
     -- Used to debug the quest log
-    GlobalManager:AddQuestLog("get_barley");
-    GlobalManager:AddQuestLog("find_pen");
-    GlobalManager:AddQuestLog("bring_orlinn_back");
-    GlobalManager:AddQuestLog("flee_from_the_dark_soldiers");
+    GlobalManager:GetGameQuests():AddQuestLog("get_barley");
+    GlobalManager:GetGameQuests():AddQuestLog("find_pen");
+    GlobalManager:GetGameQuests():AddQuestLog("bring_orlinn_back");
+    GlobalManager:GetGameQuests():AddQuestLog("flee_from_the_dark_soldiers");
 
     -- Used to debug World Map
     GlobalManager:SetWorldMap("data/story/common/worldmaps/layna_region.png")

@@ -8,7 +8,7 @@
 -- If those two are set, once the respective event is set to 1, the quest is considered not completable anymore
 -- and a red X will be shown next to it in the menu.
 
--- Use the 'GlobalManager:AddQuestLog("string_id");' luabind script command to add a quest entry in the player's quest log.
+-- Use the 'GlobalManager:GetGameQuests():AddQuestLog("string_id");' luabind script command to add a quest entry in the player's quest log.
 
 quests = {
     -- Quest id

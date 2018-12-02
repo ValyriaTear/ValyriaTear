@@ -43,7 +43,7 @@ MainMenuState::MainMenuState(MenuMode *menu_mode):
     _options.SetSkipDisabled(true);
 
     // Deactivate menus with empty content
-    if (vt_global::GlobalManager->GetActiveQuestIds().empty())
+    if (vt_global::GlobalManager->GetGameQuests().GetActiveQuestIds().empty())
         _options.EnableOption(3, false);
 
     if (vt_global::GlobalManager->GetWorldMapFilename().empty())

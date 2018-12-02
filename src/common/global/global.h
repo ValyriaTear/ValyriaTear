@@ -45,7 +45,7 @@
 #include "global_skills.h"
 
 #include "events/global_events.h"
-#include "quest_log.h"
+#include "quests/quests.h"
 #include "shop_data.h"
 #include "worldmap_location.h"
 
@@ -97,76 +97,6 @@ public:
 
     //! \brief Tells whether an enemy id is existing in the enemy data.
     bool DoesEnemyExist(uint32_t enemy_id);
-    //@}
-
-    //! \name Quest Log Entry methods
-    //@{
-    //! \brief Tells whether a quest id is completed, based on the internal quest info
-    //! and the current game event values.
-    //! \param quest_id the string id into quests table for this quest
-    bool IsQuestCompleted(const std::string& quest_id)
-    {
-        std::map<std::string, vt_global::QuestLogInfo>::iterator it = _quest_log_info.find(quest_id);
-        if (it == _quest_log_info.end())
-            return false;
-        const QuestLogInfo& info = it->second;
-        if (info._completion_event_group.empty() || info._completion_event_name.empty())
-            return true;
-
-        return (GetGameEvents().GetEventValue(info._completion_event_group, info._completion_event_name) == 1);
-    }
-
-    //! \brief Tells whether a quest id is completed, based on the internal quest info
-    //! and the current game event values.
-    //! \param quest_id the string id into quests table for this quest
-    bool IsQuestCompletable(const std::string& quest_id)
-    {
-        std::map<std::string, vt_global::QuestLogInfo>::iterator it = _quest_log_info.find(quest_id);
-        if (it == _quest_log_info.end())
-            return true;
-        const QuestLogInfo& info = it->second;
-        if (info._not_completable_event_group.empty() || info._not_completable_event_name.empty())
-            return true;
-
-        return (GetGameEvents().GetEventValue(info._not_completable_event_group, info._not_completable_event_name) == 0);
-    }
-
-    /** \brief adds a new quest log entry into the quest log entries table
-    *** \param quest_id the string id into quests table for this quest
-    *** \return true if the entry was added. false if the entry already exists
-    **/
-    bool AddQuestLog(const std::string &quest_id)
-    {
-        return _AddQuestLog(quest_id, _quest_log_count++);
-    }
-
-    /** \brief gets the number of quest log entries
-    *** \return number of log entries
-    **/
-    uint32_t GetNumberQuestLogEntries() const
-    {
-        return _quest_log_entries.size();
-    }
-
-    /** \brief get a list of all the currently active quest log entries
-    *** \return a vector of valid quest log entries
-    **/
-    std::vector<QuestLogEntry *> GetActiveQuestIds() const
-    {
-        std::vector<QuestLogEntry *> keys;
-        for(std::map<std::string, QuestLogEntry *>::const_iterator itr = _quest_log_entries.begin();
-                itr != _quest_log_entries.end(); ++itr) {
-            if (itr->second)
-                keys.push_back(itr->second);
-        }
-        return keys;
-    }
-
-    /** \brief gets a pointer to the description for the quest string id,
-    *** \param quest_id the quest id
-    *** \return a reference to the given quest log info or an empty quest log info.
-    **/
-    const QuestLogInfo& GetQuestInfo(const std::string &quest_id) const;
     //@}
 
     //! \note The overflow condition is not checked here: we just assume it will never occur
@@ -506,7 +436,7 @@ public:
     //! \brief Get a pointer reference to the given emote animation. Don't delete it!
     vt_video::AnimatedImage* GetEmoteAnimation(const std::string& emote_id) {
         if(_emotes.find(emote_id) != _emotes.end()) return &_emotes.at(emote_id);
-        else return 0;
+        else return nullptr;
     }
 
     //! \brief Get a reference to the skill graph handler
@@ -526,6 +456,10 @@ public:
 
     GameEvents& GetGameEvents() {
         return _game_events;
+    }
+
+    GameQuests& GetGameQuests() {
+        return _game_quests;
     }
 
     //! \brief Gives access to global media files.
@@ -633,13 +567,6 @@ private:
     //! \brief The container which stores all of the groups of events that have occured in the game
     GameEvents _game_events;
 
-    /** \brief The container which stores the quest log entries in the game. the quest log key
-    *** acts as the key for this quest
-    *** \note due to a limitation with OptionBoxes, we can only currently only support 255
-    *** entries. Please be careful about this limitation
-    **/
-    std::map<std::string, QuestLogEntry *> _quest_log_entries;
-
     /** \brief the container which stores all the available world locations in the game.
     *** the world_location_id acts as the key
     **/
@@ -648,18 +575,10 @@ private:
     //! \brief the current world map location id that indicates where the player is
     std::string _current_world_location_id;
 
-    /** \brief counter that is updated as quest log entries are added. we use this to
-    *** order the quest logs from recent (high number) to older (low number)
-    **/
-    uint32_t _quest_log_count;
-
     //! \brief A map containing all the emote animations
     std::map<std::string, vt_video::AnimatedImage> _emotes;
     //! \brief The map continaing the four sprite direction offsets (x and y value).
     std::map<std::string, std::vector<std::pair<float, float> > > _emotes_offsets;
-
-    //! \brief a map of the quest string ids to their info
-    std::map<std::string, QuestLogInfo> _quest_log_info;
 
     //! \brief A map of the curent shop data.
     //! shop_id, corresponding shop data
@@ -671,39 +590,16 @@ private:
 
     SkillGraph _skill_graph;
 
+    GameQuests _game_quests;
+
     //! \brief Stores whether the map mode minimap should be shown.
     bool _show_minimap;
 
-    // ----- Global media files
     //! \brief member storing all the common media files.
     GlobalMedia _global_media;
 
     //! \brief member storing all the common battle media files.
     BattleMedia _battle_media;
-
-    /** \brief adds a new quest log entry into the quest log entries table. also updates the quest log number
-    *** \param quest_id for the quest
-    *** \param the quest entry's log number
-    *** \param flag to indicate if this entry is read or not. default is false
-    *** \return true if the entry was added. false if the entry already exists
-    **/
-    bool _AddQuestLog(const std::string &quest_id,
-                      uint32_t quest_log_number,
-                      bool is_read = false)
-    {
-        if(_quest_log_entries.find(quest_id) != _quest_log_entries.end())
-            return false;
-        _quest_log_entries[quest_id] = new QuestLogEntry(quest_id,
-                                                         quest_log_number,
-                                                         is_read);
-        return true;
-    }
-
-    /** \brief Helper function that saves the Quest Log entries. this is called from SaveGame()
-    *** \param file Reference to open and valid file set for writting the data
-    *** \param the quest log entry we wish to write
-    **/
-    void _SaveQuests(vt_script::WriteScriptDescriptor& file, const QuestLogEntry* quest_log_entry);
 
     /** \brief saves the world map information. this is called from SaveGame()
     *** \param file Reference to open and valid file for writting the data
@@ -715,13 +611,6 @@ private:
     **/
     void _SaveShopData(vt_script::WriteScriptDescriptor& file);
 
-    /** \brief Helper function called by LoadGame() that loads each quest into the quest entry table based on the quest_entry_keys
-    *** in the save game file
-    *** \param file Reference to open and valid file set for reading the data
-    *** \param reference to the quest entry key
-    **/
-    void _LoadQuests(vt_script::ReadScriptDescriptor &file, const std::string &quest_key);
-
     /** \brief Load world map and viewable information from the save game
     *** \param file Reference to an open file for reading save game data
     **/
@@ -731,21 +620,17 @@ private:
     *** \param file Path to the file to world locations script
     *** \return true if successfully loaded
     **/
-    bool _LoadWorldLocationsScript(const std::string &world_locations_filename);
+    bool _LoadWorldLocationsScript(const std::string& world_locations_filename);
 
     /** \brief Load shop data from the save game
     *** \param file Reference to an open file for reading save game data
     **/
     void _LoadShopData(vt_script::ReadScriptDescriptor& file);
 
-    //! (Re)Loads the quest entries into the GlobalManager
-    //! \Note this is done in _LoadGlobalScripts().
-    bool _LoadQuestsScript(const std::string& quests_script_filename);
-
-    //! Loads every persistent scripts, used at the global initialization time.
+    //! \brief Loads every persistent scripts, used at the global initialization time.
     bool _LoadGlobalScripts();
 
-    //! Unloads every persistent scripts by closing their files.
+    //! \brief Unloads every persistent scripts by closing their files.
     void _CloseGlobalScripts();
 };
 

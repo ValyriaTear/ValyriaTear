@@ -110,6 +110,7 @@ void BindCommonCode()
             .def("GetCharacterHandler", &GameGlobal::GetCharacterHandler)
             .def("GetInventoryHandler", &GameGlobal::GetInventoryHandler)
             .def("GetGameEvents", &GameGlobal::GetGameEvents)
+            .def("GetGameQuests", &GameGlobal::GetGameQuests)
             .def("GetDrunes", &GameGlobal::GetDrunes)
             .def("SetDrunes", &GameGlobal::SetDrunes)
             .def("AddDrunes", &GameGlobal::AddDrunes)
@@ -123,7 +124,6 @@ void BindCommonCode()
             .def("GetSaveLocationX", &GameGlobal::GetSaveLocationX)
             .def("GetSaveLocationY", &GameGlobal::GetSaveLocationY)
             .def("GetPreviousLocation", &GameGlobal::GetPreviousLocation)
-            .def("AddQuestLog", &GameGlobal::AddQuestLog)
             .def("SetWorldMap", &GameGlobal::SetWorldMap)
             .def("ClearHomeMap", &GameGlobal::ClearHomeMap)
             .def("ShowWorldLocation", &GameGlobal::ShowWorldLocation)
@@ -383,6 +383,12 @@ void BindCommonCode()
             .def("DoesEventExist", &GameEvents::DoesEventExist)
             .def("GetEventValue", &GameEvents::GetEventValue)
             .def("SetEventValue", &GameEvents::SetEventValue)
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
+        [
+            luabind::class_<GameQuests>("GameQuests")
+            .def("AddQuestLog", &GameQuests::AddQuestLog)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")

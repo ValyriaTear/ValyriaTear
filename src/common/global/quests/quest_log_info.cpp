@@ -8,7 +8,7 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "quest_log.h"
+#include "quest_log_info.h"
 
 #include "utils/utils_common.h"
 
@@ -37,6 +37,7 @@ QuestLogInfo::QuestLogInfo(const vt_utils::ustring &title,
         PRINT_ERROR << "image: " << location_banner_filename << " not able to load" << std::endl;
         return;
     }
+
     //rescale such that the height is no bigger than 90 pixels. we give ourselves a bit of wiggle room
     //by actually setting it to 90px, 5 pixel buffer top and bottom, so that we can utilize a potential 100px
     if(_location_image.GetHeight() > 90.0f)
@@ -47,6 +48,7 @@ QuestLogInfo::QuestLogInfo(const vt_utils::ustring &title,
         PRINT_ERROR << "image: " << location_subimage_filename << " not able to load" << std::endl;
         return;
     }
+
     //rescale such that the height is no bigger than 90 pixels. we give ourselves a bit of wiggle room
     //by actually setting it to 90px, 5 pixel buffer top and bottom, so that we can utilize a potential 100px
     if(_location_subimage.GetHeight() > 90.0f)

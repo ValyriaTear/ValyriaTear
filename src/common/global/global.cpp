@@ -50,7 +50,6 @@ GameGlobal::GameGlobal() :
     _save_stamina(0),
     _world_map_image(nullptr),
     _same_map_hud_name_as_previous(false),
-    _quest_log_count(0),
     _show_minimap(true)
 {
     IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal constructor invoked" << std::endl;
@@ -145,8 +144,7 @@ bool GameGlobal::_LoadGlobalScripts()
     if(!_map_treasures_script.OpenFile("data/entities/map_treasures.lua"))
         return false;
 
-    // Reload the Quests script
-    if(!_LoadQuestsScript("data/config/quests.lua"))
+    if(!_game_quests.LoadQuestsScript("data/config/quests.lua"))
         return false;
 
     if(!_LoadWorldLocationsScript("data/config/world_locations.lua"))
@@ -166,10 +164,7 @@ void GameGlobal::ClearAllData()
 
     _game_events.Clear();
 
-    // Clear the quest log
-    for(std::map<std::string, QuestLogEntry *>::iterator itr = _quest_log_entries.begin(); itr != _quest_log_entries.end(); ++itr)
-        delete itr->second;
-    _quest_log_entries.clear();
+    _game_quests.Clear();
 
     // Clear the save temporary data
     UnsetSaveData();
@@ -183,7 +178,7 @@ void GameGlobal::ClearAllData()
     // Clear global world map file
     if (_world_map_image) {
         delete _world_map_image;
-        _world_map_image = 0;
+        _world_map_image = nullptr;
     }
 
     // Clear out the time played, in case of a new game
@@ -212,27 +207,13 @@ bool GameGlobal::DoesEnemyExist(uint32_t enemy_id)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// GameGlobal class - Quests Functions
+// GameGlobal class - Other Functions
 ////////////////////////////////////////////////////////////////////////////////
-
-static const QuestLogInfo _empty_quest_log_info;
-
-const QuestLogInfo& GameGlobal::GetQuestInfo(const std::string &quest_id) const
-{
-    std::map<std::string, QuestLogInfo>::const_iterator itr = _quest_log_info.find(quest_id);
-    if(itr == _quest_log_info.end())
-        return _empty_quest_log_info;
-    return itr->second;
-}
 
 void GameGlobal::SetShopData(const std::string& shop_id, const ShopData& shop_data)
 {
     _shop_data[shop_id] = shop_data;
 }
-
-////////////////////////////////////////////////////////////////////////////////
-// GameGlobal class - Other Functions
-////////////////////////////////////////////////////////////////////////////////
 
 void GameGlobal::SetMap(const std::string &map_data_filename,
                         const std::string &map_script_filename,
@@ -331,12 +312,7 @@ bool GameGlobal::SaveGame(const std::string& filename, uint32_t slot_id, uint32_
 
     _game_events.SaveEvents(file);
 
-    // ------ (7) Save quest log
-    file.WriteLine("quest_log = {");
-    for(std::map<std::string, QuestLogEntry *>::const_iterator itr = _quest_log_entries.begin(); itr != _quest_log_entries.end(); ++itr)
-        _SaveQuests(file, itr->second);
-    file.WriteLine("},");
-    file.InsertNewLine();
+    _game_quests.SaveQuests(file);
 
     _SaveWorldMap(file);
 
@@ -432,14 +408,7 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32_t slot_id)
 
     _game_events.LoadEvents(file);
 
-    // Load the quest log data
-    std::vector<std::string> quest_keys;
-    if (file.OpenTable("quest_log")) {
-        file.ReadTableKeys(quest_keys);
-        for(uint32_t i = 0; i < quest_keys.size(); ++i)
-            _LoadQuests(file, quest_keys[i]);
-        file.CloseTable();
-    }
+    _game_quests.LoadQuests(file);
 
     // Load the world map data
     _LoadWorldMap(file);
@@ -542,35 +511,6 @@ void GameGlobal::GetEmoteOffset(float &x, float &y, const std::string &emote_id,
     y = it->second[dir].second;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// GameGlobal class - Private Methods
-////////////////////////////////////////////////////////////////////////////////
-
-void GameGlobal::_SaveQuests(WriteScriptDescriptor &file, const QuestLogEntry *quest_log_entry)
-{
-    if(file.IsFileOpen() == false)
-    {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
-        return;
-    }
-
-    if(quest_log_entry == nullptr)
-    {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "_SaveQuests function received a nullptr quest log entry pointer argument" << std::endl;
-        return;
-    }
-
-    // Start writting
-    file.WriteLine("\t" + quest_log_entry->GetQuestId() + " = {", false);
-    // Write the quest log number. this is written as a string because loading needs a uniform type of data in the array
-    file.WriteLine("\"" + NumberToString(quest_log_entry->GetQuestLogNumber()) + "\", ", false);
-    // Write the "false" or "true" string if this entry has been read or not
-    const std::string is_read(quest_log_entry->IsRead() ? "true" : "false");
-    file.WriteLine("\"" + is_read + "\"", false);
-    // End writing
-    file.WriteLine("},");
-}
-
 void GameGlobal::_SaveWorldMap(vt_script::WriteScriptDescriptor &file)
 {
     if(!file.IsFileOpen()) {
@@ -640,37 +580,6 @@ void GameGlobal::_SaveShopData(vt_script::WriteScriptDescriptor& file)
     }
     file.WriteLine("},"); // Close the shop_data table
     file.InsertNewLine();
-}
-
-void GameGlobal::_LoadQuests(ReadScriptDescriptor &file, const std::string &quest_id)
-{
-    if(file.IsFileOpen() == false) {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "the file provided in the function argument was not open" << std::endl;
-        return;
-    }
-    std::vector<std::string> quest_info;
-    //read the 4 entries into a new quest entry
-    file.ReadStringVector(quest_id, quest_info);
-    if(quest_info.size() != 2)
-    {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "save file has malformed quest log entries" << std::endl;
-        return;
-    }
-
-    //conversion of the log number from string int. We need to do thing because ReadStringVector assumes that
-    //all items are the same type.
-    uint32_t quest_log_number = std::stoi(quest_info[0]);
-    //conversion from string to bool for is_read flag
-    bool is_read = quest_info[1].compare("true") == 0;
-
-    if(!_AddQuestLog(quest_id, quest_log_number, is_read))
-    {
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "save file has duplicate quest log id entries" << std::endl;
-        return;
-    }
-    //update the quest log count value if the current number is greater
-    if(_quest_log_count < quest_log_number)
-        _quest_log_count = quest_log_number;
 }
 
 void GameGlobal::_LoadWorldMap(vt_script::ReadScriptDescriptor &file)
@@ -763,79 +672,6 @@ bool GameGlobal::_LoadWorldLocationsScript(const std::string &world_locations_fi
     }
     return true;
 
-}
-
-//! (Re)Loads the quest entries into the GlobalManager
-bool GameGlobal::_LoadQuestsScript(const std::string& quests_script_filename)
-{
-    // First clear the existing quests entries in case of a reloading.
-    _quest_log_info.clear();
-
-    vt_script::ReadScriptDescriptor quests_script;
-    if(!quests_script.OpenFile(quests_script_filename)) {
-        PRINT_ERROR << "Couldn't open quests file: " << quests_script_filename
-                    << std::endl;
-        return false;
-    }
-
-    if(!quests_script.DoesTableExist("quests")) {
-        PRINT_ERROR << "No 'quests' table in file: " << quests_script_filename
-                    << std::endl;
-        quests_script.CloseFile();
-        return false;
-    }
-
-    std::vector<std::string> quest_ids;
-    quests_script.ReadTableKeys("quests", quest_ids);
-    if(quest_ids.empty()) {
-        PRINT_ERROR << "No quests defined in the 'quests' table of file: "
-                    << quests_script_filename << std::endl;
-        quests_script.CloseFile();
-        return false;
-    }
-
-    quests_script.OpenTable("quests");
-    for(uint32_t i = 0; i < quest_ids.size(); ++i)
-    {
-        const std::string& quest_id = quest_ids[i];
-        std::vector<std::string> quest_info;
-
-        quests_script.ReadStringVector(quest_id, quest_info);
-
-        // Check for an existing quest entry
-        if(_quest_log_info.find(quest_id) != _quest_log_info.end()) {
-            PRINT_WARNING << "Duplicate quests defined in the 'quests' table of file: "
-                << quests_script_filename << std::endl;
-            continue;
-        }
-
-        //check whether all fields are there.
-        if(quest_info.size() >= 9)
-        {
-            QuestLogInfo info = QuestLogInfo(MakeUnicodeString(quest_info[0]),
-                                     MakeUnicodeString(quest_info[1]),
-                                     MakeUnicodeString(quest_info[2]),
-                                     quest_info[3], quest_info[4],
-                                     MakeUnicodeString(quest_info[5]), quest_info[6],
-                                     MakeUnicodeString(quest_info[7]), quest_info[8]);
-            // If possible, loads the non-competable event group and name
-            if (quest_info.size() == 11) {
-                info.SetNotCompletableIf(quest_info[9], quest_info[10]);
-            }
-            _quest_log_info[quest_id] = info;
-        }
-        //malformed quest log
-        else
-        {
-            PRINT_ERROR << "malformed quest log for id: " << quest_id << std::endl;
-        }
-    }
-
-    quests_script.CloseTable();
-
-    quests_script.CloseFile();
-
-    return true;
 }
 
 void GameGlobal::_LoadShopData(vt_script::ReadScriptDescriptor& file)

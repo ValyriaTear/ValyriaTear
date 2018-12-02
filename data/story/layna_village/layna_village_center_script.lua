@@ -1027,7 +1027,7 @@ map_functions = {
         -- Makes Orlinn aware that Bronann has talked to Georges.
         _UpdateOrlinnAndKalyaState();
         _UpdateGeorgesDialogue();
-        GlobalManager:AddQuestLog("find_pen");
+        GlobalManager:GetGameQuests():AddQuestLog("find_pen");
     end,
 
     Quest1OrlinnRunAndHide = function()
@@ -1041,7 +1041,7 @@ map_functions = {
     orlinn_run_event_end = function()
         -- Updates Orlinn's state
         GlobalManager:GetGameEvents():SetEventValue("layna_center", "quest1_orlinn_dialogue1_done", 1);
-        GlobalManager:AddQuestLog("hide_n_seek_with_orlinn");
+        GlobalManager:GetGameQuests():AddQuestLog("hide_n_seek_with_orlinn");
 
         -- Updates Kalya dialogue
         _UpdateOrlinnAndKalyaState();
@@ -1147,7 +1147,7 @@ map_functions = {
         if (GlobalManager:GetGameEvents():DoesEventExist("story", "kalya_has_joined") == false) then
             GlobalManager:GetCharacterHandler():AddCharacter(KALYA);
             GlobalManager:GetGameEvents():SetEventValue("story", "kalya_has_joined", 1);
-            GlobalManager:AddQuestLog("bring_orlinn_back");
+            GlobalManager:GetGameQuests():AddQuestLog("bring_orlinn_back");
         end
         AudioManager:FadeInActiveMusic(2000);
 

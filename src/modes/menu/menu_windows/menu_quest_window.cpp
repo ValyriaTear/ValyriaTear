@@ -114,7 +114,7 @@ void QuestWindow::Update()
 
     // otherwise, put the text description for the quest in
     // Not calling ClearText each time will permit to set up the textbox text only when necessary
-    const QuestLogInfo& info = GlobalManager->GetQuestInfo(_viewing_quest_id);
+    const QuestLogInfo& info = GlobalManager->GetGameQuests().GetQuestInfo(_viewing_quest_id);
     if(!info._description.empty())
     {
         _quest_description.SetDisplayText(info._description);
@@ -124,7 +124,7 @@ void QuestWindow::Update()
         _location_subimage = &info._location_subimage;
 
         //set the completion description only if the quest is completed
-        if(GlobalManager->IsQuestCompleted(_viewing_quest_id))
+        if(GlobalManager->GetGameQuests().IsQuestCompleted(_viewing_quest_id))
             _quest_completion_description.SetDisplayText(info._completion_description);
         else
             _quest_completion_description.ClearText();

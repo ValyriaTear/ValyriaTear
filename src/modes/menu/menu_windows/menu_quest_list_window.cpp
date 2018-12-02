@@ -77,7 +77,7 @@ void QuestListWindow::Update()
     GlobalMedia& media = GlobalManager->Media();
 
     // If empty, exit out immediatly.
-    if (GlobalManager->GetNumberQuestLogEntries() == 0)
+    if (GlobalManager->GetGameQuests().GetNumberQuestLogEntries() == 0)
     {
         media.PlaySound("cancel");
         _active_box = false;
@@ -123,7 +123,7 @@ static inline bool sort_by_number_reverse(QuestLogEntry* quest_log1,
 
 void QuestListWindow::_UpdateQuestList()
 {
-    if(GlobalManager->GetNumberQuestLogEntries() == 0)
+    if(GlobalManager->GetGameQuests().GetNumberQuestLogEntries() == 0)
     {
         // Set the QuestWindow key to "nullptr", which is actually "".
         MenuMode::CurrentInstance()->_quest_window.SetViewingQuestId(std::string());
@@ -135,14 +135,14 @@ void QuestListWindow::_UpdateQuestList()
 
     QuestLogEntry *entry = _quest_entries[selection];
     const std::string& quest_id = entry->GetQuestId();
-    ustring title = GlobalManager->GetQuestInfo(quest_id)._title;
-    if (GlobalManager->IsQuestCompleted(quest_id))
+    ustring title = GlobalManager->GetGameQuests().GetQuestInfo(quest_id)._title;
+    if (GlobalManager->GetGameQuests().IsQuestCompleted(quest_id))
     {
         _quests_list.SetOptionText(selection, check_file + title);
         _quests_list.SetCursorOffset(-55.0f, -15.0f);
         _quests_list.EnableOption(selection, false);
     }
-    else if (!GlobalManager->IsQuestCompletable(quest_id)) {
+    else if (!GlobalManager->GetGameQuests().IsQuestCompletable(quest_id)) {
         _quests_list.SetOptionText(selection, cross_file + title);
         _quests_list.SetCursorOffset(-55.0f, -15.0f);
         _quests_list.EnableOption(selection, false);
@@ -165,7 +165,7 @@ void QuestListWindow::_UpdateQuestList()
 void QuestListWindow::_SetupQuestsList() {
     // Recreate the quest log entries list.
     _quest_entries.clear();
-    _quest_entries = GlobalManager->GetActiveQuestIds();
+    _quest_entries = GlobalManager->GetGameQuests().GetActiveQuestIds();
 
     // Recreate the quest option box list as well.
     _quests_list.ClearOptions();
@@ -178,14 +178,14 @@ void QuestListWindow::_SetupQuestsList() {
     {
         QuestLogEntry *entry = _quest_entries[i];
         const std::string& quest_id = entry->GetQuestId();
-        ustring title = GlobalManager->GetQuestInfo(quest_id)._title;
+        ustring title = GlobalManager->GetGameQuests().GetQuestInfo(quest_id)._title;
 
         // Completed quest check.
-        if(GlobalManager->IsQuestCompleted(quest_id)) {
+        if(GlobalManager->GetGameQuests().IsQuestCompleted(quest_id)) {
             _quests_list.AddOption(check_file + title);
             _quests_list.EnableOption(i, false);
         }
-        else if (!GlobalManager->IsQuestCompletable(quest_id)) {
+        else if (!GlobalManager->GetGameQuests().IsQuestCompletable(quest_id)) {
             _quests_list.AddOption(cross_file + title);
             _quests_list.EnableOption(i, false);
         }

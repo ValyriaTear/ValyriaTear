@@ -8,11 +8,10 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __QUEST_LOG_HEADER__
-#define __QUEST_LOG_HEADER__
+#ifndef __QUEST_LOG_ENTRY_HEADER__
+#define __QUEST_LOG_ENTRY_HEADER__
 
-#include "utils/ustring.h"
-#include "engine/video/image.h"
+#include <string>
 
 namespace vt_global
 {
@@ -32,7 +31,7 @@ namespace vt_global
 *** manager, as the setting and toggling of quests will be done from the game
 *** manager and through scrip entries
 *** ***************************************************************************/
-struct QuestLogEntry
+class QuestLogEntry
 {
 public:
     //! ctor to create the QuestLogEntry. the key, event states and description
@@ -70,49 +69,6 @@ private:
 
     //! flag to indicate whether or not this entry has been read
     bool _is_read;
-};
-
-//! \brief A simple structure used to store quest log system info.
-class QuestLogInfo {
-
-public:
-    QuestLogInfo(const vt_utils::ustring& title,
-                 const vt_utils::ustring& description,
-                 const vt_utils::ustring& completion_description,
-                 const std::string& completion_event_group,
-                 const std::string& completion_event_name,
-                 const vt_utils::ustring& location_name,
-                 const std::string& location_banner_filename,
-                 const vt_utils::ustring& location_subname,
-                 const std::string& location_subimage_filename);
-
-    QuestLogInfo()
-    {}
-
-    void SetNotCompletableIf(const std::string& not_completable_event_group,
-                             const std::string& not_completable_event_name) {
-        _not_completable_event_group = not_completable_event_group;
-        _not_completable_event_name = not_completable_event_name;
-    }
-
-    // User info about the quest log
-    vt_utils::ustring _title;
-    vt_utils::ustring _description;
-    // Completion description gets added to the quest description when the quest is considered completed
-    vt_utils::ustring _completion_description;
-
-    // Internal quest info used to know whether the quest is complete.
-    std::string _completion_event_group;
-    std::string _completion_event_name;
-    // Internal quest info used to know whether the quest is not comppletable anymore.
-    std::string _not_completable_event_group;
-    std::string _not_completable_event_name;
-
-    // location information
-    vt_video::StillImage _location_image;
-    vt_video::StillImage _location_subimage;
-    vt_utils::ustring _location_name;
-    vt_utils::ustring _location_subname;
 };
 
 } // namespace vt_global

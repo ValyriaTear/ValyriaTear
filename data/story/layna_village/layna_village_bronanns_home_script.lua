@@ -601,7 +601,7 @@ map_functions = {
     Quest1MotherStartDialogueDone = function()
         GlobalManager:GetGameEvents():SetEventValue("bronanns_home", "quest1_mother_start_dialogue_done", 1);
         _UpdateMotherDialogue();
-        GlobalManager:AddQuestLog("get_barley");
+        GlobalManager:GetGameQuests():AddQuestLog("get_barley");
     end,
 
     Quest1Done = function()
