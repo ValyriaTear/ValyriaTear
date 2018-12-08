@@ -81,13 +81,13 @@ function _CreateCharacters()
     hero:SetDirection(vt_map.MapMode.EAST);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
-    if (GlobalManager:GetPreviousLocation() == "from_layna_forest_NE") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_layna_forest_NE") then
         hero:SetPosition(124, 42);
         hero:SetDirection(vt_map.MapMode.WEST);
-    elseif (GlobalManager:GetPreviousLocation() == "from forest SW") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from forest SW") then
         hero:SetPosition(116, 94);
         hero:SetDirection(vt_map.MapMode.NORTH);
-    elseif (GlobalManager:GetPreviousLocation() == "from_layna_cave_entrance") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_layna_cave_entrance") then
         hero:SetPosition(76, 40);
         hero:SetDirection(vt_map.MapMode.SOUTH);
     end

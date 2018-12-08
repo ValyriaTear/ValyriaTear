@@ -70,10 +70,10 @@ function _CreateCharacters()
     hero:SetDirection(vt_map.MapMode.SOUTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
-    if (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_grotto_left") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_2nd_floor_grotto_left") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(8.0, 7.0);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_grotto_right") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_2nd_floor_grotto_right") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(34.0, 26.0);
     end

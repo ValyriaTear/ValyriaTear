@@ -63,7 +63,7 @@ function _CreateCharacters()
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- Load previous save point data
-    if (GlobalManager:GetPreviousLocation() == "from_shrine_treasure_room") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_treasure_room") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(19.0, 13.0);
     end

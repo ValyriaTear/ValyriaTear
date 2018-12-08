@@ -66,10 +66,10 @@ function _CreateCharacters()
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
-    if (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_south_east") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_2nd_floor_south_east") then
         hero:SetDirection(vt_map.MapMode.NORTH);
         hero:SetPosition(48.5, 48.0);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_stairs") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_stairs") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(12.0, 8.0);
     end
@@ -351,7 +351,7 @@ function _CreateEvents()
 
     -- When dying because of the trap
     vt_map.MapTransitionEvent.Create("Restart map", "data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_map.lua",
-                                     "data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", GlobalManager:GetPreviousLocation());
+                                     "data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua", GlobalManager:GetMapData():GetPreviousLocation());
 
     -- Mini boss event
     event = vt_map.ScriptedEvent.Create("Mini-Boss fight", "mini_boss_start", "");

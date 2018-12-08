@@ -77,25 +77,25 @@ function _CreateCharacters()
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- Load previous save point data
-    local x_position = GlobalManager:GetSaveLocationX();
-    local y_position = GlobalManager:GetSaveLocationY();
+    local x_position = GlobalManager:GetMapData():GetSaveLocationX();
+    local y_position = GlobalManager:GetMapData():GetSaveLocationY();
     if (x_position ~= 0 and y_position ~= 0) then
         -- Make the character look at us in that case
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(x_position, y_position);
-    elseif (GlobalManager:GetPreviousLocation() == "from_grotto_exit1") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_grotto_exit1") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(64.0, 47.0);
-    elseif (GlobalManager:GetPreviousLocation() == "from_grotto_exit2") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_grotto_exit2") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(32.0, 53.0);
-    elseif (GlobalManager:GetPreviousLocation() == "from_grotto_exit3") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_grotto_exit3") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(118.0, 32.0);
-    elseif (GlobalManager:GetPreviousLocation() == "from_grotto_exit4") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_grotto_exit4") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(102.5, 22.0);
-    elseif (GlobalManager:GetPreviousLocation() == "from_path2") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_path2") then
         hero:SetDirection(vt_map.MapMode.EAST);
         hero:SetPosition(4.0, 20.0);
     end

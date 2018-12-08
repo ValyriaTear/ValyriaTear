@@ -273,6 +273,7 @@ common/global/actors/global_enemy.cpp
 common/global/actors/global_party.cpp
 common/global/events/global_events.cpp
 common/global/events/global_event_group.cpp
+common/global/maps/map_data_handler.cpp
 common/global/media/battle_media.cpp
 common/global/media/global_media.cpp
 common/global/objects/global_inventory_handler.cpp

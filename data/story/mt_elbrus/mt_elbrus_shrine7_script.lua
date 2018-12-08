@@ -64,13 +64,13 @@ function _CreateCharacters()
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
 
-    if (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_SW_top_door") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_first_floor_SW_top_door") then
         hero:SetPosition(5.5, 24);
         hero:SetDirection(vt_map.MapMode.EAST);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_SW_bottom_door") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_first_floor_SW_bottom_door") then
         hero:SetPosition(5.5, 34);
         hero:SetDirection(vt_map.MapMode.EAST);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_NE_room") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_first_floor_NE_room") then
         -- In that case, Orlinn is back from the top-right passage,
         -- and the player is incarnating him.
         orlinn:SetPosition(28, 4);

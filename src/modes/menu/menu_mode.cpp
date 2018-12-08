@@ -59,6 +59,8 @@ MenuMode::MenuMode() :
 {
     _current_instance = this;
 
+    MapDataHandler& map_data = GlobalManager->GetMapData();
+
     // Init the controls parameters.
     _time_text.SetTextStyle(vt_video::TextStyle("text22"));
     _time_text.SetAlignment(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_CENTER);
@@ -77,10 +79,10 @@ MenuMode::MenuMode() :
     _locale_name.SetDimensions(500.0f, 50.0f);
     _locale_name.SetTextStyle(vt_video::TextStyle("title22"));
     _locale_name.SetAlignment(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_CENTER);
-    _locale_name.SetDisplayText(vt_global::GlobalManager->GetMapHudName());
+    _locale_name.SetDisplayText(map_data.GetMapHudName());
 
     // Initialize the location graphic
-    _locale_graphic = vt_global::GlobalManager->GetMapImage();
+    _locale_graphic = map_data.GetMapImage();
     if(!_locale_graphic.GetFilename().empty())
         _locale_graphic.SetDimensions(480, 95);
     else

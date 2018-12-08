@@ -78,13 +78,13 @@ function _CreateCharacters()
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- Load previous save point data
-    local x_position = GlobalManager:GetSaveLocationX();
-    local y_position = GlobalManager:GetSaveLocationY();
+    local x_position = GlobalManager:GetMapData():GetSaveLocationX();
+    local y_position = GlobalManager:GetMapData():GetSaveLocationY();
     if (x_position ~= 0 and y_position ~= 0) then
         -- Make the character look at us in that case
         bronann:SetDirection(vt_map.MapMode.SOUTH);
         bronann:SetPosition(x_position, y_position);
-    elseif (GlobalManager:GetPreviousLocation() == "from_bronanns_home") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_bronanns_home") then
         -- Set up the position according to the previous map
         bronann:SetPosition(37.5, 17.5);
         bronann:SetDirection(vt_map.MapMode.WEST);

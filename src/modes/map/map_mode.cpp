@@ -168,7 +168,7 @@ MapMode::MapMode(const std::string& data_filename, const std::string& script_fil
     }
 
     // Unset save temporary data now the map is loaded.
-    GlobalManager->UnsetSaveData();
+    GlobalManager->GetMapData().UnsetSaveData();
 }
 
 MapMode::~MapMode()
@@ -228,8 +228,8 @@ void MapMode::Reset()
     VideoManager->SetDrawFlags(VIDEO_BLEND, VIDEO_X_CENTER, VIDEO_Y_BOTTOM, 0);
 
     // Make the map location known globally to other code that may need to know this information
-    GlobalManager->SetMap(_map_data_filename, _map_script_filename,
-                          _map_image.GetFilename(), _map_hud_name.GetString());
+    GlobalManager->GetMapData().SetMap(_map_data_filename, _map_script_filename,
+                                       _map_image.GetFilename(), _map_hud_name.GetString());
 
     _ResetMusicState();
 
@@ -330,6 +330,8 @@ void MapMode::_ResetMusicState()
 
 void MapMode::Update()
 {
+    MapDataHandler& map_data = GlobalManager->GetMapData();
+
     // Update the map frame coords
     // NOTE: It's done before handling pause so that the frame is updated at
     // least once before setting the pause mode, avoiding a crash.
@@ -345,8 +347,8 @@ void MapMode::Update()
         return;
     }
     if(InputManager->MinimapPress()) {
-        //! Toggles the minimap view as requested by the user.
-        GlobalManager->ShowMinimap(!GlobalManager->ShouldShowMinimap());
+        // Toggles the minimap view as requested by the user.
+        map_data.ShowMinimap(!map_data.ShouldShowMinimap());
         return;
     }
 
@@ -409,7 +411,7 @@ void MapMode::Update()
 
     //update collision camera
     if (_show_minimap && _minimap && (CurrentState() == STATE_EXPLORE)
-            && GlobalManager->ShouldShowMinimap())
+            && map_data.ShouldShowMinimap())
         _minimap->Update(_camera, _gui_alpha);
 
     GameMode::Update();
@@ -748,9 +750,9 @@ bool MapMode::_Load()
 
     // If the "home map" flag is set, let's save the map as new home in case of escape.
     if (_map_script.ReadBool("is_home_map")) {
-        GlobalManager->SetHomeMap(_map_data_filename, _map_script_filename,
-                                  _camera != nullptr ? _camera->GetXPosition() : 0,
-                                  _camera != nullptr ? _camera->GetYPosition() : 0);
+        GlobalManager->GetMapData().SetHomeMap(_map_data_filename, _map_script_filename,
+                                               _camera != nullptr ? _camera->GetXPosition() : 0,
+                                               _camera != nullptr ? _camera->GetYPosition() : 0);
     }
 
     return true;
@@ -859,7 +861,7 @@ void MapMode::_UpdateExplore()
                 case ESCAPE_TYPE: {
                     if (_map_points_enabled) {
                         // Open the escape sub-menu
-                        _escape_supervisor->Initialize(GlobalManager->GetHomeMap());
+                        _escape_supervisor->Initialize(GlobalManager->GetMapData().GetHomeMap());
                         return;
                     }
                     break;
@@ -1243,6 +1245,8 @@ void MapMode::_DrawStaminaBar(const vt_video::Color &blending)
 
 void MapMode::_DrawGUI()
 {
+    MapDataHandler& map_data = GlobalManager->GetMapData();
+
     // Draw the introductory location name and graphic if necessary
     if(!_intro_timer.IsFinished()) {
         uint32_t time = _intro_timer.GetTimeExpired();
@@ -1255,7 +1259,7 @@ void MapMode::_DrawGUI()
         }
 
         // Don't draw the map location again, when it is the same as the last map.
-        if(GlobalManager->ShouldDisplayHudNameOnMapIntro()) {
+        if(map_data.ShouldDisplayHudNameOnMapIntro()) {
             VideoManager->PushState();
             VideoManager->SetStandardCoordSys();
             VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
@@ -1271,8 +1275,9 @@ void MapMode::_DrawGUI()
         VideoManager->PushState();
         VideoManager->SetStandardCoordSys();
         VideoManager->SetDrawFlags(VIDEO_X_CENTER, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
-        (GlobalManager->ShouldDisplayHudNameOnMapIntro() && !_map_hud_name.GetString().empty()) ?
-        VideoManager->Move(512.0f, 170.0f) : VideoManager->Move(512.0f, 20.0f);
+        (map_data.ShouldDisplayHudNameOnMapIntro() && !_map_hud_name.GetString().empty()) ?
+            VideoManager->Move(512.0f, 170.0f) :
+            VideoManager->Move(512.0f, 20.0f);
         _map_hud_subname.Draw(blend);
         VideoManager->PopState();
 
@@ -1298,7 +1303,7 @@ void MapMode::_DrawGUI()
 
     // Draw the minimap
     if(_show_minimap && _minimap && (CurrentState() == STATE_EXPLORE)
-            && GlobalManager->ShouldShowMinimap())
+            && map_data.ShouldShowMinimap())
         _minimap->Draw();
 
     // Draw the stamina bar in the lower right corner
@@ -1315,6 +1320,6 @@ void MapMode::_DrawGUI()
     VideoManager->Move(10.0f, 10.0f);
     _debug_camera_position.Draw();
     VideoManager->PopState();
-} // void MapMode::_DrawGUI()
+}
 
 } // namespace vt_map

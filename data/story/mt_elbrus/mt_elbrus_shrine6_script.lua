@@ -66,16 +66,16 @@ function _CreateCharacters()
     hero:SetDirection(vt_map.MapMode.SOUTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
-    if (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_NW_left_door") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_first_floor_NW_left_door") then
         hero:SetPosition(16, 11);
         hero:SetDirection(vt_map.MapMode.SOUTH);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_NW_right_door") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_first_floor_NW_right_door") then
         hero:SetPosition(28, 11);
         hero:SetDirection(vt_map.MapMode.SOUTH);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_SE_top_door") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_first_floor_SE_top_door") then
         hero:SetPosition(42.5, 24);
         hero:SetDirection(vt_map.MapMode.WEST);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_SE_bottom_door") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_first_floor_SE_bottom_door") then
         hero:SetPosition(42.5, 34);
         hero:SetDirection(vt_map.MapMode.WEST);
     end

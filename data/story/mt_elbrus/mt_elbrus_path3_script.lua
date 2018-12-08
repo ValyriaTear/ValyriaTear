@@ -102,16 +102,16 @@ function _CreateCharacters()
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- Load previous save point data
-    local x_position = GlobalManager:GetSaveLocationX();
-    local y_position = GlobalManager:GetSaveLocationY();
+    local x_position = GlobalManager:GetMapData():GetSaveLocationX();
+    local y_position = GlobalManager:GetMapData():GetSaveLocationY();
     if (x_position ~= 0 and y_position ~= 0) then
         -- Make the character look at us in that case
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(x_position, y_position);
-    elseif (GlobalManager:GetPreviousLocation() == "from_path2_chest") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_path2_chest") then
         hero:SetDirection(vt_map.MapMode.NORTH);
         hero:SetPosition(10.0, 90.0);
-    elseif (GlobalManager:GetPreviousLocation() == "from_high_mountain") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_high_mountain") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(50.0, 10.0);
     end

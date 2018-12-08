@@ -84,32 +84,32 @@ function _CreateCharacters()
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- set up the position according to the previous map
-    if (GlobalManager:GetPreviousLocation() == "from_riverbank") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_riverbank") then
         bronann:SetPosition(30, 77);
         bronann:SetDirection(vt_map.MapMode.NORTH);
-    elseif (GlobalManager:GetPreviousLocation() == "from_village_south") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_village_south") then
         bronann:SetPosition(79, 77);
         bronann:SetDirection(vt_map.MapMode.NORTH);
-    elseif (GlobalManager:GetPreviousLocation() == "from_kalya_house_path") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_kalya_house_path") then
         bronann:SetPosition(3, 11);
         bronann:SetDirection(vt_map.MapMode.EAST);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shop") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shop") then
         bronann:SetPosition(94, 72);
         bronann:SetDirection(vt_map.MapMode.SOUTH);
         AudioManager:PlaySound("data/sounds/door_close.wav");
-    elseif (GlobalManager:GetPreviousLocation() == "from_secret_path") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_secret_path") then
         bronann:SetPosition(3, 60);
         bronann:SetDirection(vt_map.MapMode.EAST);
-    elseif (GlobalManager:GetPreviousLocation() == "from sophia's house") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from sophia's house") then
         AudioManager:PlaySound("data/sounds/door_close.wav");
         bronann:SetPosition(22, 20);
         bronann:SetDirection(vt_map.MapMode.NORTH);
-    elseif (GlobalManager:GetPreviousLocation() == "from_layna_forest_entrance") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_layna_forest_entrance") then
         bronann:SetPosition(115, 37);
         bronann:SetDirection(vt_map.MapMode.WEST);
-    elseif (GlobalManager:GetPreviousLocation() == "from_bronanns_home") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_bronanns_home") then
         AudioManager:PlaySound("data/sounds/door_close.wav");
-    elseif (GlobalManager:GetPreviousLocation() == "from_well_undergrounds") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_well_undergrounds") then
         bronann:SetPosition(63, 27.5);
         bronann:SetDirection(vt_map.MapMode.NORTH);
     end

@@ -91,16 +91,16 @@ function _CreateCharacters()
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
     Map:SetPartyMemberVisibleSprite(hero);
 
-    if (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_SW_left_door") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_first_floor_SW_left_door") then
         hero:SetPosition(16, 36);
         hero:SetDirection(vt_map.MapMode.NORTH);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_SW_right_door") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_first_floor_SW_right_door") then
         hero:SetPosition(28, 36);
         hero:SetDirection(vt_map.MapMode.NORTH);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_2nd_floor") then
         hero:SetPosition(20, 12);
         hero:SetDirection(vt_map.MapMode.SOUTH);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_NE_room") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_first_floor_NE_room") then
         -- In that case, Orlinn is back from the top-right passage,
         -- and the player is incarnating him.
         orlinn:SetPosition(44, 10);
@@ -183,7 +183,7 @@ function _CreateObjects()
     passage_back_event_object:SetVisible(false);
     passage_back_event_object:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     -- Permits to come back when incarnating Orlinn
-    if (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_NE_room") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_first_floor_NE_room") then
         passage_back_event_object:SetEventWhenTalking("Orlinn comes back event start");
     end
 

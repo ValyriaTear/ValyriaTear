@@ -74,7 +74,7 @@ function _CreateCharacters()
     hero:SetDirection(vt_map.MapMode.EAST);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
-    if (GlobalManager:GetPreviousLocation() == "from forest SE") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from forest SE") then
         hero:SetPosition(71, 94);
         hero:SetDirection(vt_map.MapMode.NORTH);
     end

@@ -56,7 +56,7 @@ function _CreateCharacters()
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
-    if (GlobalManager:GetPreviousLocation() == "from layna forest crystal") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from layna forest crystal") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(69, 4);
     end

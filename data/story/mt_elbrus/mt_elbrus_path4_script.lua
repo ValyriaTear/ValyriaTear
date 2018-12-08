@@ -64,7 +64,7 @@ function Load(m)
     -- The mountain cliff background
     Map:GetScriptSupervisor():AddScript("data/story/mt_elbrus/mt_elbrus_background_anim.lua");
 
-    if (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_wind_trap") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_2nd_floor_wind_trap") then
         hero:SetMoving(false);
         EventManager:StartEvent("Falls from above event", 200);
     elseif (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_snowing_dialogue") ~= 1) then
@@ -104,19 +104,19 @@ function _CreateCharacters()
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- Load previous save point data
-    local x_position = GlobalManager:GetSaveLocationX();
-    local y_position = GlobalManager:GetSaveLocationY();
+    local x_position = GlobalManager:GetMapData():GetSaveLocationX();
+    local y_position = GlobalManager:GetMapData():GetSaveLocationY();
     if (x_position ~= 0 and y_position ~= 0) then
         -- Make the character look at us in that case
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(x_position, y_position);
-    elseif (GlobalManager:GetPreviousLocation() == "from_path3") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_path3") then
         hero:SetDirection(vt_map.MapMode.NORTH);
         hero:SetPosition(55.0, 77.0);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_entrance") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_entrance") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(40.0, 7.0);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_wind_trap") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_2nd_floor_wind_trap") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(45.0, 2.0);
     end

@@ -98,13 +98,13 @@ function _CreateCharacters()
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- Load previous save point data
-    local x_position = GlobalManager:GetSaveLocationX();
-    local y_position = GlobalManager:GetSaveLocationY();
+    local x_position = GlobalManager:GetMapData():GetSaveLocationX();
+    local y_position = GlobalManager:GetMapData():GetSaveLocationY();
     if (x_position ~= 0 and y_position ~= 0) then
         -- Make the character look at us in that case
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(x_position, y_position);
-    elseif (GlobalManager:GetPreviousLocation() == "from_layna_forest_NW") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_layna_forest_NW") then
         hero:SetDirection(vt_map.MapMode.WEST);
         hero:SetPosition(61.0, 32.0);
     end

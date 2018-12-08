@@ -66,7 +66,7 @@ function _CreateCharacters()
     hero:SetDirection(vt_map.MapMode.NORTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
-    if (GlobalManager:GetPreviousLocation() == "from_elbrus_entrance3-2") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_elbrus_entrance3-2") then
         hero:SetDirection(vt_map.MapMode.NORTH);
         hero:SetPosition(4, 20);
     end

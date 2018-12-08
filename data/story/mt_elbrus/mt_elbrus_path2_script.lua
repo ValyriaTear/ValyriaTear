@@ -77,28 +77,28 @@ function _CreateCharacters()
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- Load previous save point data
-    local x_position = GlobalManager:GetSaveLocationX();
-    local y_position = GlobalManager:GetSaveLocationY();
+    local x_position = GlobalManager:GetMapData():GetSaveLocationX();
+    local y_position = GlobalManager:GetMapData():GetSaveLocationY();
     if (x_position ~= 0 and y_position ~= 0) then
         -- Make the character look at us in that case
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(x_position, y_position);
-    elseif (GlobalManager:GetPreviousLocation() == "from_grotto2_1_exit") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_grotto2_1_exit") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(28.0, 56.5);
-    elseif (GlobalManager:GetPreviousLocation() == "from_grotto2_2_exit") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_grotto2_2_exit") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(20.0, 40.0);
-    elseif (GlobalManager:GetPreviousLocation() == "from_grotto3_1_exit") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_grotto3_1_exit") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(48.0, 16.5);
-    elseif (GlobalManager:GetPreviousLocation() == "from_grotto3_2_exit") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_grotto3_2_exit") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(24.0, 10.5);
-    elseif (GlobalManager:GetPreviousLocation() == "from_path3") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_path3") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(36.0, 4.0);
-    elseif (GlobalManager:GetPreviousLocation() == "from_path3_chest") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_path3_chest") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(5.0, 4.0);
     end

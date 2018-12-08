@@ -68,12 +68,12 @@ function _CreateCharacters()
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- set up the position according to the previous map
-    if (GlobalManager:GetPreviousLocation() == "from_kalya_house_interior") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_kalya_house_interior") then
         bronann:SetPosition(44, 18);
         bronann:SetDirection(vt_map.MapMode.SOUTH);
     end
 
-    if (GlobalManager:GetPreviousLocation() == "from_kalya_house_path_small_passage") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_kalya_house_path_small_passage") then
         bronann:SetPosition(2, 20);
         bronann:SetDirection(vt_map.MapMode.EAST);
     end

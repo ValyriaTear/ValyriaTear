@@ -70,7 +70,7 @@ function _CreateCharacters()
     hero:SetDirection(vt_map.MapMode.SOUTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
-    if (GlobalManager:GetPreviousLocation() == "from_shrine_basement") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_basement") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(30.0, 16.0);
     end

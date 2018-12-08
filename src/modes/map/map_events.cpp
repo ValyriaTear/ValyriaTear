@@ -206,7 +206,7 @@ bool MapTransitionEvent::_Update()
     // Only load the map once the fade out is done, since the load time can
     // break the fade smoothness and visible duration.
     if(!_done) {
-        vt_global::GlobalManager->SetPreviousLocation(_transition_origin);
+        vt_global::GlobalManager->GetMapData().SetPreviousLocation(_transition_origin);
         MapMode* MM = new MapMode(_transition_map_data_filename,
                                   _transition_map_script_filename,
                                   MapMode::CurrentInstance()->GetStamina());

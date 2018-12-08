@@ -62,10 +62,10 @@ function _CreateCharacters()
     hero:SetDirection(vt_map.MapMode.SOUTH);
     hero:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
 
-    if (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_NW_room") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_first_floor_NW_room") then
         hero:SetPosition(3, 10);
         hero:SetDirection(vt_map.MapMode.EAST);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor_SE_room") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_first_floor_SE_room") then
         hero:SetPosition(28, 37.5);
         hero:SetDirection(vt_map.MapMode.NORTH);
     end
@@ -211,7 +211,7 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("to previous entrance");
 
     vt_map.MapTransitionEvent.Create("to previous entrance", "data/story/mt_elbrus/mt_elbrus_shrine8_map.lua",
-                                     "data/story/mt_elbrus/mt_elbrus_shrine8_script.lua", GlobalManager:GetPreviousLocation());
+                                     "data/story/mt_elbrus/mt_elbrus_shrine8_script.lua", GlobalManager:GetMapData():GetPreviousLocation());
 
     vt_map.ScriptedEvent.Create("Trigger on event", "trigger_on_sound", "");
 end

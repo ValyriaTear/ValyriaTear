@@ -62,7 +62,7 @@ function Load(m)
     end
 
     -- When falling from above, the heroes start by falling
-    if (GlobalManager:GetPreviousLocation() == "from_shrine_stairs1") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_stairs1") then
         hero:SetMoving(false);
         EventManager:StartEvent("Falls from above event", 200);
     end
@@ -84,7 +84,7 @@ function _CreateCharacters()
     hero:SetDirection(vt_map.MapMode.SOUTH);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
-    if (GlobalManager:GetPreviousLocation() == "from_shrine_north_exit") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_north_exit") then
         hero:SetPosition(3.5, 22.0)
         hero:SetDirection(vt_map.MapMode.EAST);
     end

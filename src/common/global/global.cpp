@@ -45,12 +45,7 @@ GameGlobal::GameGlobal() :
     _game_slot_id(std::numeric_limits<uint32_t>::max()),
     _drunes(0),
     _max_experience_level(100),
-    _x_save_map_position(0),
-    _y_save_map_position(0),
-    _save_stamina(0),
-    _world_map_image(nullptr),
-    _same_map_hud_name_as_previous(false),
-    _show_minimap(true)
+    _world_map_image(nullptr)
 {
     IF_PRINT_DEBUG(GLOBAL_DEBUG) << "GameGlobal constructor invoked" << std::endl;
 }
@@ -166,14 +161,7 @@ void GameGlobal::ClearAllData()
 
     _game_quests.Clear();
 
-    // Clear the save temporary data
-    UnsetSaveData();
-
-    // Clear out the map previous location
-    _previous_location.clear();
-    _map_data_filename.clear();
-    _map_script_filename.clear();
-    _map_hud_name.clear();
+    _map_data_handler.Clear();
 
     // Clear global world map file
     if (_world_map_image) {
@@ -185,11 +173,6 @@ void GameGlobal::ClearAllData()
     SystemManager->SetPlayTime(0, 0, 0);
 
     _shop_data.clear();
-
-    // Show the minimap by default when available
-    _show_minimap = true;
-
-    _home_map.Clear();
 }
 
 bool GameGlobal::DoesEnemyExist(uint32_t enemy_id)
@@ -206,30 +189,9 @@ bool GameGlobal::DoesEnemyExist(uint32_t enemy_id)
     return true;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// GameGlobal class - Other Functions
-////////////////////////////////////////////////////////////////////////////////
-
 void GameGlobal::SetShopData(const std::string& shop_id, const ShopData& shop_data)
 {
     _shop_data[shop_id] = shop_data;
-}
-
-void GameGlobal::SetMap(const std::string &map_data_filename,
-                        const std::string &map_script_filename,
-                        const std::string &map_image_filename,
-                        const vt_utils::ustring &map_hud_name)
-{
-    _map_data_filename = map_data_filename;
-    _map_script_filename = map_script_filename;
-
-    if(!_map_image.Load(map_image_filename))
-        IF_PRINT_WARNING(GLOBAL_DEBUG) << "failed to load map image: " << map_image_filename << std::endl;
-
-    // Updates the map hud names info.
-    _previous_map_hud_name = _map_hud_name;
-    _map_hud_name = map_hud_name;
-    _same_map_hud_name_as_previous = (MakeStandardString(_previous_map_hud_name) == MakeStandardString(_map_hud_name));
 }
 
 bool GameGlobal::NewGame()
@@ -239,7 +201,8 @@ bool GameGlobal::NewGame()
     return _global_script.RunScriptFunction("NewGame");
 }
 
-bool GameGlobal::AutoSave(const std::string& map_data_file, const std::string& map_script_file,
+bool GameGlobal::AutoSave(const std::string& map_data_file,
+                          const std::string& map_script_file,
                           uint32_t stamina,
                           uint32_t x_position, uint32_t y_position)
 {
@@ -251,24 +214,27 @@ bool GameGlobal::AutoSave(const std::string& map_data_file, const std::string& m
     filename << GetUserDataPath() + "saved_game_" << GetGameSlotId() << "_autosave.lua";
 
     // Make the map location known globally to other code that may need to know this information
-    std::string previous_map_data = _map_data_filename;
-    std::string previous_map_script = _map_script_filename;
+    std::string previous_map_data = _map_data_handler.GetMapDataFilename();
+    std::string previous_map_script = _map_data_handler.GetMapScriptFilename();
 
     // Set map data for the save file.
-    _map_data_filename = map_data_file;
-    _map_script_filename = map_script_file;
-    _save_stamina = stamina;
+    _map_data_handler.SetMapDataFilename(map_data_file);
+    _map_data_handler.SetMapScriptFilename(map_script_file);
+    _map_data_handler.SetSaveStamina(stamina);
 
     bool save_completed = SaveGame(filename.str(), GetGameSlotId(), x_position, y_position);
 
     // Restore previous map data
-    _map_data_filename = previous_map_data;
-    _map_script_filename = previous_map_script;
+    _map_data_handler.SetMapDataFilename(previous_map_data);
+    _map_data_handler.SetMapScriptFilename(previous_map_script);
 
     return save_completed;
 }
 
-bool GameGlobal::SaveGame(const std::string& filename, uint32_t slot_id, uint32_t x_position, uint32_t y_position)
+bool GameGlobal::SaveGame(const std::string& filename,
+                          uint32_t slot_id,
+                          uint32_t x_position,
+                          uint32_t y_position)
 {
     if (slot_id >= SystemManager->GetGameSaveSlots())
         return false;
@@ -283,28 +249,12 @@ bool GameGlobal::SaveGame(const std::string& filename, uint32_t slot_id, uint32_
 
     // Save simple play data
     file.InsertNewLine();
-    file.WriteLine("map_data_filename = \"" + _map_data_filename + "\",");
-    file.WriteLine("map_script_filename = \"" + _map_script_filename + "\",");
-    //! \note Coords are in map tiles
-    file.WriteLine("location_x = " + NumberToString(x_position) + ",");
-    file.WriteLine("location_y = " + NumberToString(y_position) + ",");
     file.WriteLine("play_hours = " + NumberToString(SystemManager->GetPlayHours()) + ",");
     file.WriteLine("play_minutes = " + NumberToString(SystemManager->GetPlayMinutes()) + ",");
     file.WriteLine("play_seconds = " + NumberToString(SystemManager->GetPlaySeconds()) + ",");
     file.WriteLine("drunes = " + NumberToString(_drunes) + ",");
-    file.WriteLine("stamina = " + NumberToString(_save_stamina) + ",");
 
-    // Save latest home map data, if any.
-    if (_home_map.IsValid()) {
-        file.InsertNewLine();
-        file.WriteLine("home_map = {");
-        file.WriteLine("\tmap_data_filename = \"" + _home_map.GetMapDataFilename() + "\",");
-        file.WriteLine("\tmap_script_filename = \"" + _home_map.GetMapDataFilename() + "\",");
-        //! \note Coords are in map tiles
-        file.WriteLine("\tlocation_x = " + NumberToString(_home_map.GetMapPosition().x) + ",");
-        file.WriteLine("\tlocation_y = " + NumberToString(_home_map.GetMapPosition().y) + ",");
-        file.WriteLine("},");
-    }
+    _map_data_handler.Save(file, x_position, y_position);
 
     _inventory_handler.SaveInventory(file);
 
@@ -349,58 +299,14 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32_t slot_id)
         return false;
     }
 
-    // Load play data
-    // DEPRECATED: Old way to load, will be removed in a release
-    if (file.DoesStringExist("map_filename")) {
-        _map_data_filename = file.ReadString("map_filename");
-        _map_script_filename = file.ReadString("map_filename");
-    }
-    else {
-        // New way: data and script are separated.
-        _map_data_filename = file.ReadString("map_data_filename");
-        _map_script_filename = file.ReadString("map_script_filename");
-    }
+    _map_data_handler.Load(file);
 
-    // DEPRECATED: Remove in one release
-    // Hack to permit the split of last map data and scripts.
-    if (!_map_data_filename.empty() && _map_data_filename == _map_script_filename) {
-        std::string map_common_name = _map_data_filename.substr(0, _map_data_filename.length() - 4);
-        _map_data_filename = map_common_name + "_map.lua";
-        _map_script_filename = map_common_name + "_script.lua";
-    }
-
-    // DEPRECATED: Remove in one release
-    // test whether the beginning of the filepath is 'dat/maps/' and replace with 'data/story/'
-    if (_map_data_filename.substr(0, 9) == "dat/maps/")
-        _map_data_filename = std::string("data/story/") + _map_data_filename.substr(9, _map_data_filename.length() - 9);
-    if (_map_script_filename.substr(0, 9) == "dat/maps/")
-        _map_script_filename = std::string("data/story/") + _map_script_filename.substr(9, _map_script_filename.length() - 9);
-
-    // Load a potential saved position
-    _x_save_map_position = file.ReadUInt("location_x");
-    _y_save_map_position = file.ReadUInt("location_y");
     uint8_t hours, minutes, seconds;
     hours = file.ReadUInt("play_hours");
     minutes = file.ReadUInt("play_minutes");
     seconds = file.ReadUInt("play_seconds");
     SystemManager->SetPlayTime(hours, minutes, seconds);
     _drunes = file.ReadUInt("drunes");
-    if (file.DoesUIntExist("stamina"))
-        _save_stamina = file.ReadUInt("stamina");
-
-    // Load home map data, if any
-    if (file.OpenTable("home_map")) {
-        std::string home_map_data = file.ReadString("map_data_filename");
-        std::string home_map_script = file.ReadString("map_script_filename");
-        uint32_t x_pos = file.ReadUInt("location_x");
-        uint32_t y_pos = file.ReadUInt("location_y");
-
-        _home_map = vt_map::MapLocation(home_map_data,
-                                        home_map_script,
-                                        x_pos, y_pos);
-
-        file.CloseTable(); // home_map
-    }
 
     _inventory_handler.LoadInventory(file);
 

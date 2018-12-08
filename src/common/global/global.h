@@ -49,8 +49,7 @@
 #include "shop_data.h"
 #include "worldmap_location.h"
 
-#include "modes/map/map_utils.h"
-#include "modes/map/map_location.h"
+#include "maps/map_data_handler.h"
 
 //! \brief All calls to global code are wrapped inside this namespace.
 namespace vt_global
@@ -95,9 +94,35 @@ public:
     **/
     void ClearAllData();
 
-    //! \brief Tells whether an enemy id is existing in the enemy data.
-    bool DoesEnemyExist(uint32_t enemy_id);
-    //@}
+    //! \brief Executes function NewGame() from global script
+    //! \returns whether it succeeded.
+    bool NewGame();
+
+    /** \brief Loads all global data from a saved game file
+    *** \param filename The filename of the saved game file where to read the data from
+    *** \param slot_id The save slot the file correspond to. Used to set the correct cursor position
+    *** when further saving.
+    *** \return True if the game was successfully loaded, false if it was not
+    **/
+    bool LoadGame(const std::string &filename, uint32_t slot_id);
+
+    /** \brief Saves all global data to a saved game file
+    *** \param filename The filename of the saved game file where to write the data to
+    *** \param slot_id The game slot id used for the save menu.
+    *** \param positions When used in a save point, the save map tile positions are given there.
+    *** \return True if the game was successfully saved, false if it was not
+    **/
+    bool SaveGame(const std::string &filename, uint32_t slot_id, uint32_t x_position = 0, uint32_t y_position = 0);
+
+    //! \brief Attempts an autosave on the current slot, using given map and location.
+    bool AutoSave(const std::string& map_data_file, const std::string& map_script_file,
+                  uint32_t stamina,
+                  uint32_t x_position = 0, uint32_t y_position = 0);
+
+    //! \brief Gets the last load/save position.
+    uint32_t GetGameSlotId() const {
+        return _game_slot_id;
+    }
 
     //! \note The overflow condition is not checked here: we just assume it will never occur
     void AddDrunes(uint32_t amount) {
@@ -109,29 +134,39 @@ public:
         if(_drunes >= amount) _drunes -= amount;
     }
 
-    /** \brief Sets the name and graphic for the current location
-    *** \param map_data_filename The string that contains the name of the current map data file.
-    *** \param map_script_filename The string that contains the name of the current map script file.
-    *** \param map_image_filename The filename of the image that presents this map
-    *** \param map_hud_name The UTF16 map name shown at map intro time.
-    **/
-    void SetMap(const std::string &map_data_filename,
-                const std::string &map_script_filename,
-                const std::string &map_image_filename,
-                const vt_utils::ustring &map_hud_name);
-
-    /** \brief Sets the active Map data filename (for game saves)
-    *** \param location_name The string that contains the name of the current map data
-    **/
-    void SetMapDataFilename(const std::string& map_data_filename) {
-        _map_data_filename = map_data_filename;
+    void SetDrunes(uint32_t amount) {
+        _drunes = amount;
     }
 
-    /** \brief Sets the active Map script filename (for game saves)
-    *** \param location_name The string that contains the name of the current map script file
-    **/
-    void SetMapScriptFilename(const std::string& map_script_filename) {
-        _map_script_filename = map_script_filename;
+    uint32_t GetDrunes() const {
+        return _drunes;
+    }
+
+    void SetMaxExperienceLevel(uint32_t level) {
+        _max_experience_level = level;
+    }
+
+    uint32_t GetMaxExperienceLevel() const {
+        return _max_experience_level;
+    }
+
+    //! \brief Tells whether an enemy id is existing in the enemy data.
+    bool DoesEnemyExist(uint32_t enemy_id);
+
+    //! \brief gets the current world map image
+    //! \return a pointer to the currently viewable World Map Image.
+    //! \note returns nullptr if the filename has been set to ""
+    vt_video::StillImage *GetWorldMapImage() const
+    {
+        return _world_map_image;
+    }
+
+    const std::string &GetWorldMapFilename() const
+    {
+        if (_world_map_image)
+            return _world_map_image->GetFilename();
+        else
+            return vt_utils::_empty_string;
     }
 
     /** \brief sets the current viewable world map
@@ -221,159 +256,6 @@ public:
         return _current_world_location_id;
     }
 
-    /** Set up the previous map point the character is coming from.
-    *** It is used to make the new map aware about where the character should appear.
-    ***
-    *** \param previous_location The string telling the location the character is coming from.
-    **/
-    void SetPreviousLocation(const std::string &previous_location) {
-        _previous_location = previous_location;
-    }
-
-    const std::string &GetPreviousLocation() const {
-        return _previous_location;
-    }
-
-    /** Get the previous map hud name shown at intro time.
-    *** Used to know whether the new hud name is the same in the map mode.
-    **/
-    bool ShouldDisplayHudNameOnMapIntro() const {
-        return !_same_map_hud_name_as_previous;
-    }
-
-    //! Tells whether the map mode minimap should be shown, if any.
-    bool ShouldShowMinimap() const {
-        return _show_minimap;
-    }
-
-    void ShowMinimap(bool show) {
-        _show_minimap = show;
-    }
-
-    //! \brief Set the new "home" map data
-    void SetHomeMap(const std::string& map_data_filename,
-                    const std::string& map_script_filename,
-                    uint32_t x_pos, uint32_t y_pos) {
-        _home_map = vt_map::MapLocation(map_data_filename,
-                                        map_script_filename,
-                                        x_pos, y_pos);
-    }
-
-    //! \brief Get the current "home" map data
-    const vt_map::MapLocation& GetHomeMap() const {
-        return _home_map;
-    }
-
-    //! \brief Clear Home map data, sometimes used by the game.
-    void ClearHomeMap() {
-        _home_map.Clear();
-    }
-
-    //! \brief Executes function NewGame() from global script
-    //! \returns whether it succeeded.
-    bool NewGame();
-
-    /** \brief Saves all global data to a saved game file
-    *** \param filename The filename of the saved game file where to write the data to
-    *** \param slot_id The game slot id used for the save menu.
-    *** \param positions When used in a save point, the save map tile positions are given there.
-    *** \return True if the game was successfully saved, false if it was not
-    **/
-    bool SaveGame(const std::string &filename, uint32_t slot_id, uint32_t x_position = 0, uint32_t y_position = 0);
-
-    //! \brief Attempts an autosave on the current slot, using given map and location.
-    bool AutoSave(const std::string& map_data_file, const std::string& map_script_file,
-                  uint32_t stamina,
-                  uint32_t x_position = 0, uint32_t y_position = 0);
-
-    /** \brief Loads all global data from a saved game file
-    *** \param filename The filename of the saved game file where to read the data from
-    *** \param slot_id The save slot the file correspond to. Used to set the correct cursor position
-    *** when further saving.
-    *** \return True if the game was successfully loaded, false if it was not
-    **/
-    bool LoadGame(const std::string &filename, uint32_t slot_id);
-
-    //! \brief Gets the last load/save position.
-    uint32_t GetGameSlotId() const {
-        return _game_slot_id;
-    }
-
-    //! \name Class Member Access Functions
-    //@{
-    void SetDrunes(uint32_t amount) {
-        _drunes = amount;
-    }
-
-    void SetMaxExperienceLevel(uint32_t level) {
-        _max_experience_level = level;
-    }
-
-    uint32_t GetMaxExperienceLevel() const {
-        return _max_experience_level;
-    }
-
-    uint32_t GetDrunes() const {
-        return _drunes;
-    }
-
-    const std::string& GetMapDataFilename() const {
-        return _map_data_filename;
-    }
-
-    const std::string& GetMapScriptFilename() const {
-        return _map_script_filename;
-    }
-
-    uint32_t GetSaveLocationX() const {
-        return _x_save_map_position;
-    }
-
-    uint32_t GetSaveLocationY() const {
-        return _y_save_map_position;
-    }
-
-    uint32_t GetSaveStamina() const {
-        return _save_stamina;
-    }
-
-    void SetSaveStamina(uint32_t stamina) {
-        _save_stamina = stamina;
-    }
-
-    /** \brief Unset the save data once retreived at load time.
-    *** It should be done in the map code once this data has been restored.
-    **/
-    void UnsetSaveData() {
-        _x_save_map_position = 0;
-        _y_save_map_position = 0;
-        _save_stamina = 0;
-    }
-
-    vt_video::StillImage& GetMapImage() {
-        return _map_image;
-    }
-
-    const vt_utils::ustring& GetMapHudName() const {
-        return _map_hud_name;
-    }
-
-    //! \brief gets the current world map image
-    //! \return a pointer to the currently viewable World Map Image.
-    //! \note returns nullptr if the filename has been set to ""
-    vt_video::StillImage *GetWorldMapImage() const
-    {
-        return _world_map_image;
-    }
-
-    const std::string &GetWorldMapFilename() const
-    {
-        if (_world_map_image)
-            return _world_map_image->GetFilename();
-        else
-            return vt_utils::_empty_string;
-    }
-
     //! \brief Gives the shop data corresponding to the current shop id.
     // Used to sync a given shop or save games
     const ShopData& GetShopData(const std::string& shop_id) {
@@ -420,7 +302,6 @@ public:
     vt_script::ReadScriptDescriptor &GetMapSpriteScript() {
         return _map_sprites_script;
     }
-    //@}
 
     //! \brief loads the emotes used for character feelings expression in the given lua file.
     void LoadEmotes(const std::string &emotes_filename);
@@ -462,6 +343,10 @@ public:
         return _game_quests;
     }
 
+    MapDataHandler& GetMapData() {
+        return _map_data_handler;
+    }
+
     //! \brief Gives access to global media files.
     //! Note: The reference is passed non const to be able to give modifiable references
     //! and pointers.
@@ -490,43 +375,28 @@ private:
     **/
     uint32_t _max_experience_level;
 
-    //! \brief The map data and script filename the current party is on.
-    std::string _map_data_filename;
-    std::string _map_script_filename;
+    //! \brief A map of the curent shop data.
+    //! shop_id, corresponding shop data
+    std::map<std::string, ShopData> _shop_data;
 
-    //! \brief last save point map tile location.
-    uint32_t _x_save_map_position;
-    uint32_t _y_save_map_position;
+    //! \brief The container which stores all of the groups of events that have occured in the game
+    GameEvents _game_events;
 
-    //! \brief last save party stamina value.
-    uint32_t _save_stamina;
+    CharacterHandler _character_handler;
 
-    //! \brief The graphical image which represents the current location
-    vt_video::StillImage _map_image;
+    InventoryHandler _inventory_handler;
 
-    //! \brief The current graphical world map. If the filename is empty,
-    //! then we are "hiding" the map
-    vt_video::StillImage* _world_map_image;
+    SkillGraph _skill_graph;
 
-    //! \brief Contains the previous "home" map location data.
-    vt_map::MapLocation _home_map;
+    GameQuests _game_quests;
 
-    //! \brief The current viewable location ids on the current world map image
-    //! \note this list is cleared when we call SetWorldMap. It is up to the
-    //! script writter to maintain the properties of the map by either
-    //!  1) call CopyViewableLocationList()
-    //!  2) maintain in some other fashion the list
-    std::vector<std::string> _viewable_world_locations;
+    MapDataHandler _map_data_handler;
 
-    //! \brief The map location the character is com from. Used to make the new map know where to make the character appear.
-    std::string _previous_location;
+    //! \brief member storing all the common media files.
+    GlobalMedia _global_media;
 
-    /** \brief Stores the previous and current map names appearing on screen at intro time.
-    *** This is used to know whether we have to display it, as we won't when it's the same location name than the previous map.
-    **/
-    vt_utils::ustring _previous_map_hud_name;
-    vt_utils::ustring _map_hud_name;
-    bool _same_map_hud_name_as_previous;
+    //! \brief member storing all the common battle media files.
+    BattleMedia _battle_media;
 
     //! \name Global data and function script files
     //@{
@@ -564,8 +434,16 @@ private:
     vt_script::ReadScriptDescriptor _map_treasures_script;
     //@}
 
-    //! \brief The container which stores all of the groups of events that have occured in the game
-    GameEvents _game_events;
+    //! \brief The current graphical world map. If the filename is empty,
+    //! then we are "hiding" the map
+    vt_video::StillImage* _world_map_image;
+
+    //! \brief The current viewable location ids on the current world map image
+    //! \note this list is cleared when we call SetWorldMap. It is up to the
+    //! script writter to maintain the properties of the map by either
+    //!  1) call CopyViewableLocationList()
+    //!  2) maintain in some other fashion the list
+    std::vector<std::string> _viewable_world_locations;
 
     /** \brief the container which stores all the available world locations in the game.
     *** the world_location_id acts as the key
@@ -579,27 +457,6 @@ private:
     std::map<std::string, vt_video::AnimatedImage> _emotes;
     //! \brief The map continaing the four sprite direction offsets (x and y value).
     std::map<std::string, std::vector<std::pair<float, float> > > _emotes_offsets;
-
-    //! \brief A map of the curent shop data.
-    //! shop_id, corresponding shop data
-    std::map<std::string, ShopData> _shop_data;
-
-    CharacterHandler _character_handler;
-
-    InventoryHandler _inventory_handler;
-
-    SkillGraph _skill_graph;
-
-    GameQuests _game_quests;
-
-    //! \brief Stores whether the map mode minimap should be shown.
-    bool _show_minimap;
-
-    //! \brief member storing all the common media files.
-    GlobalMedia _global_media;
-
-    //! \brief member storing all the common battle media files.
-    BattleMedia _battle_media;
 
     /** \brief saves the world map information. this is called from SaveGame()
     *** \param file Reference to open and valid file for writting the data

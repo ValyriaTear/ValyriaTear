@@ -160,7 +160,7 @@ void EscapeSupervisor::Finish()
 {
     // Escape to given map coordinates.
     vt_audio::AudioManager->PlaySound("data/sounds/warp.ogg");
-    vt_global::GlobalManager->SetPreviousLocation(std::string());
+    vt_global::GlobalManager->GetMapData().SetPreviousLocation(std::string());
     MapMode* MM = new MapMode(_map_location.GetMapDataFilename(),
                               _map_location.GetMapScriptFilename(),
                               MapMode::CurrentInstance()->GetStamina());

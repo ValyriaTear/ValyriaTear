@@ -67,16 +67,16 @@ function _CreateCharacters()
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- Load previous save point data
-    if (GlobalManager:GetPreviousLocation() == "from_shrine_stairs1") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_stairs1") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(50.0, 4.0);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_trap_room") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_trap_room") then
         hero:SetDirection(vt_map.MapMode.WEST);
         hero:SetPosition(58.0, 60.0);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_enigma_room") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_enigma_room") then
         hero:SetDirection(vt_map.MapMode.EAST);
         hero:SetPosition(4.0, 60.0);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_first_floor") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_first_floor") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(14.0, 6.0);
     end

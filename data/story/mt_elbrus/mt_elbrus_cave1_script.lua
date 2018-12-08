@@ -65,13 +65,13 @@ function _CreateCharacters()
     bronann = CreateSprite(Map, "Bronann", 0, 0, vt_map.MapMode.GROUND_OBJECT)
     bronann:SetVisible(false)
 
-    if (GlobalManager:GetPreviousLocation() == "from_entrance2") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_entrance2") then
         hero:SetDirection(vt_map.MapMode.NORTH);
         hero:SetPosition(9, 77);
-    elseif (GlobalManager:GetPreviousLocation() == "from_entrance3") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_entrance3") then
         hero:SetDirection(vt_map.MapMode.WEST);
         hero:SetPosition(93, 24);
-    elseif (GlobalManager:GetPreviousLocation() == "from_entrance4") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_entrance4") then
         hero:SetDirection(vt_map.MapMode.WEST);
         hero:SetPosition(88, 9);
     end

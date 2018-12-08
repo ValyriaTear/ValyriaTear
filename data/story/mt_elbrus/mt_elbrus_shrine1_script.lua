@@ -68,7 +68,7 @@ function Load(m)
         EventManager:StartEvent("Shrine entrance event start", 200);
     elseif (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 0 and
             GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_entrance_light_done") == 1) then
-        if (GlobalManager:GetPreviousLocation() == "from_shrine_main_room") then
+        if (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_main_room") then
             -- (Re)Introduce Sophia when the characters leave the shrine the first time from the north entrance.
             hero:SetMoving(false);
             EventManager:StartEvent("Sophia introduction event", 200);
@@ -142,13 +142,13 @@ function _CreateCharacters()
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- Load previous save point data
-    local x_position = GlobalManager:GetSaveLocationX();
-    local y_position = GlobalManager:GetSaveLocationY();
+    local x_position = GlobalManager:GetMapData():GetSaveLocationX();
+    local y_position = GlobalManager:GetMapData():GetSaveLocationY();
     if (x_position ~= 0 and y_position ~= 0) then
         -- Make the character look at us in that case
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(x_position, y_position);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_main_room") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_main_room") then
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(42.0, 9.0);
     end

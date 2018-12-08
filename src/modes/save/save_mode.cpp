@@ -280,7 +280,7 @@ void SaveMode::Update()
                 uint32_t id = static_cast<uint32_t>(_file_list.GetSelection());
                 uint32_t stamina = MapMode::CurrentInstance() ?
                                    MapMode::CurrentInstance()->GetStamina() : 0;
-                GlobalManager->SetSaveStamina(stamina);
+                GlobalManager->GetMapData().SetSaveStamina(stamina);
 
                 // Attempt to save the game
                 if(GlobalManager->SaveGame(_BuildSaveFilename(id), id, _x_position, _y_position)) {
@@ -480,17 +480,19 @@ bool SaveMode::_LoadGame(const std::string& filename)
 
         // Create a new map mode, and fade out and in
         ModeManager->PopAll();
+
+        MapDataHandler& map_data = GlobalManager->GetMapData();
         try {
             // Save and restore stamina at load time
-            MapMode* MM = new MapMode(GlobalManager->GetMapDataFilename(),
-                                      GlobalManager->GetMapScriptFilename(),
-                                      GlobalManager->GetSaveStamina(),
+            MapMode* MM = new MapMode(map_data.GetMapDataFilename(),
+                                      map_data.GetMapScriptFilename(),
+                                      map_data.GetSaveStamina(),
                                       false);
             ModeManager->Push(MM, true, true);
-        } catch(const luabind::error &e) {
+        } catch(const luabind::error& e) {
             PRINT_ERROR << "Map::_Load -- Error loading map data "
-                        << GlobalManager->GetMapDataFilename()
-                        << ", script: " << GlobalManager->GetMapScriptFilename()
+                        << map_data.GetMapDataFilename()
+                        << ", script: " << map_data.GetMapScriptFilename()
                         << ", returning to BootMode." << std::endl
                         << "Exception message:" << std::endl;
             ScriptManager->HandleLuaError(e);
@@ -550,32 +552,10 @@ bool SaveMode::_PreviewGame(const std::string& filename)
     file.OpenTable("save_game1");
 
     // The map file, tested after the save game is closed.
-    // DEPRECATED: Old way, will be removed in one release.
     std::string map_script_filename;
     std::string map_data_filename;
-    if (file.DoesStringExist("map_filename")) {
-        map_script_filename = file.ReadString("map_filename");
-        map_data_filename = file.ReadString("map_filename");
-    }
-    else {
-        map_script_filename = file.ReadString("map_script_filename");
-        map_data_filename = file.ReadString("map_data_filename");
-    }
-
-    // DEPRECATED: Remove in one release
-    // Hack to permit the split of last map data and scripts.
-    if (!map_script_filename.empty() && map_data_filename == map_script_filename) {
-        std::string map_common_name = map_data_filename.substr(0, map_data_filename.length() - 4);
-        map_data_filename = map_common_name + "_map.lua";
-        map_script_filename = map_common_name + "_script.lua";
-    }
-
-    // DEPRECATED: Remove in one release
-    // test whether the beginning of the filepath is 'dat/maps/' and replace with 'data/story/'
-    if (map_data_filename.substr(0, 9) == "dat/maps/")
-        map_data_filename = std::string("data/story/") + map_data_filename.substr(9, map_data_filename.length() - 9);
-    if (map_script_filename.substr(0, 9) == "dat/maps/")
-        map_script_filename = std::string("data/story/") + map_script_filename.substr(9, map_script_filename.length() - 9);
+    map_script_filename = file.ReadString("map_script_filename");
+    map_data_filename = file.ReadString("map_data_filename");
 
     // Check whether the map data file is available
     if (map_data_filename.empty() || !vt_utils::DoesFileExist(map_data_filename)) {

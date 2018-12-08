@@ -65,10 +65,10 @@ function _CreateCharacters()
     -- This is a dungeon map, we'll use the front battle member sprite as default sprite.
     Map:SetPartyMemberVisibleSprite(hero);
 
-    if (GlobalManager:GetPreviousLocation() == "from_shrine_2nd_floor_south") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_2nd_floor_south") then
         hero:SetPosition(28, 36);
         hero:SetDirection(vt_map.MapMode.NORTH);
-    elseif (GlobalManager:GetPreviousLocation() == "from_shrine_1st_floor") then
+    elseif (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_1st_floor") then
         hero:SetPosition(24, 12);
         hero:SetDirection(vt_map.MapMode.SOUTH);
     end

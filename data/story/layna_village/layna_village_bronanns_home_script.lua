@@ -63,7 +63,7 @@ function _CreateCharacters()
     bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
 
     -- set up the position according to the previous map
-    if (GlobalManager:GetPreviousLocation() == "from_village_center") then
+    if (GlobalManager:GetMapData():GetPreviousLocation() == "from_village_center") then
         bronann:SetPosition(39.5, 22.5);
         bronann:SetDirection(vt_map.MapMode.NORTH);
         AudioManager:PlaySound("data/sounds/door_close.wav");
