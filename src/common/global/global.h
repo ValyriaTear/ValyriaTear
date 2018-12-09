@@ -46,10 +46,9 @@
 
 #include "events/global_events.h"
 #include "quests/quests.h"
-#include "shop_data.h"
-#include "worldmap_location.h"
-
+#include "worldmap/worldmap_handler.h"
 #include "maps/map_data_handler.h"
+#include "shop_data.h"
 
 //! \brief All calls to global code are wrapped inside this namespace.
 namespace vt_global
@@ -153,109 +152,6 @@ public:
     //! \brief Tells whether an enemy id is existing in the enemy data.
     bool DoesEnemyExist(uint32_t enemy_id);
 
-    //! \brief gets the current world map image
-    //! \return a pointer to the currently viewable World Map Image.
-    //! \note returns nullptr if the filename has been set to ""
-    vt_video::StillImage *GetWorldMapImage() const
-    {
-        return _world_map_image;
-    }
-
-    const std::string &GetWorldMapFilename() const
-    {
-        if (_world_map_image)
-            return _world_map_image->GetFilename();
-        else
-            return vt_utils::_empty_string;
-    }
-
-    /** \brief sets the current viewable world map
-    *** empty strings are valid, and will cause the return
-    *** of a null pointer on GetWorldMap call.
-    *** \note this will also clear the currently viewable locations and the current location id
-    **/
-    void SetWorldMap(const std::string& world_map_filename)
-    {
-        if (_world_map_image)
-            delete _world_map_image;
-
-        _viewable_world_locations.clear();
-        _current_world_location_id.clear();
-        _world_map_image = new vt_video::StillImage();
-        _world_map_image->Load(world_map_filename);
-    }
-
-    /** \brief Sets the current location id
-    *** \param the location id of the world location that is defaulted to as "here"
-    *** when the world map menu is opened
-    **/
-    void SetCurrentLocationId(const std::string& location_id)
-    {
-        _current_world_location_id = location_id;
-    }
-
-    /** \brief adds a viewable location string id to the currently viewable
-    *** set. This string IDs are maintained in the data/config/world_location.lua file.
-    *** \param the string id to the currently viewable location
-    **/
-    void ShowWorldLocation(const std::string& location_id)
-    {
-        //defensive check. do not allow blank ids.
-        //if you want to remove an id, call HideWorldLocation
-        if(location_id.empty())
-            return;
-        // check to make sure this location isn't already visible
-        if(std::find(_viewable_world_locations.begin(),
-                     _viewable_world_locations.end(),
-                     location_id) == _viewable_world_locations.end())
-        {
-            _viewable_world_locations.push_back(location_id);
-        }
-    }
-
-    /** \brief removes a location from the currently viewable list
-    *** if the id doesn't exist, we don't do anything
-    *** \param the string id to the viewable location we want to hide
-    **/
-    void HideWorldLocation(const std::string &location_id)
-    {
-        std::vector<std::string>::iterator rem_iterator = std::find(_viewable_world_locations.begin(),
-                                                          _viewable_world_locations.end(),
-                                                          location_id);
-        if(rem_iterator != _viewable_world_locations.end())
-            _viewable_world_locations.erase((rem_iterator));
-    }
-
-    /** \brief gets a reference to the current viewable location ids
-    *** \return reference to the current viewable location ids
-    **/
-    const std::vector<std::string>& GetViewableLocationIds() const
-    {
-        return _viewable_world_locations;
-    }
-
-    /** \brief get a pointer to the associated world location for the id
-    *** \param string Reference if for the world map location
-    *** \return nullptr if the location does not exist. otherwise, return a const pointer
-    *** to the location
-    **/
-    WorldMapLocation* GetWorldLocation(const std::string &id)
-    {
-        std::map<std::string, WorldMapLocation>::iterator itr = _world_map_locations.find(id);
-        return itr == _world_map_locations.end() ? nullptr : &(itr->second);
-    }
-
-    /** \brief Gets a reference to the current world location id
-    *** \return Reference to the current id. this value always exists, but could be "" if
-    *** the location is not set, or if the world map is cleared
-    *** the value could also not currently exist, if HideWorldLocation was called on an
-    *** id that was also set as the current location. the calling code should check for this
-    **/
-    const std::string &GetCurrentLocationId() const
-    {
-        return _current_world_location_id;
-    }
-
     //! \brief Gives the shop data corresponding to the current shop id.
     // Used to sync a given shop or save games
     const ShopData& GetShopData(const std::string& shop_id) {
@@ -271,35 +167,35 @@ public:
     //! \brief Sets the current shop data to global manager.
     void SetShopData(const std::string& shop_id, const ShopData& shop_data);
 
-    vt_script::ReadScriptDescriptor &GetWeaponSkillsScript() {
+    vt_script::ReadScriptDescriptor& GetWeaponSkillsScript() {
         return _weapon_skills_script;
     }
 
-    vt_script::ReadScriptDescriptor &GetMagicSkillsScript() {
+    vt_script::ReadScriptDescriptor& GetMagicSkillsScript() {
         return _magic_skills_script;
     }
 
-    vt_script::ReadScriptDescriptor &GetSpecialSkillsScript() {
+    vt_script::ReadScriptDescriptor& GetSpecialSkillsScript() {
         return _special_skills_script;
     }
 
-    vt_script::ReadScriptDescriptor &GetBareHandsSkillsScript() {
+    vt_script::ReadScriptDescriptor& GetBareHandsSkillsScript() {
         return _bare_hands_skills_script;
     }
 
-    vt_script::ReadScriptDescriptor &GetStatusEffectsScript() {
+    vt_script::ReadScriptDescriptor& GetStatusEffectsScript() {
         return _status_effects_script;
     }
 
-    vt_script::ReadScriptDescriptor &GetCharactersScript() {
+    vt_script::ReadScriptDescriptor& GetCharactersScript() {
         return _characters_script;
     }
 
-    vt_script::ReadScriptDescriptor &GetEnemiesScript() {
+    vt_script::ReadScriptDescriptor& GetEnemiesScript() {
         return _enemies_script;
     }
 
-    vt_script::ReadScriptDescriptor &GetMapSpriteScript() {
+    vt_script::ReadScriptDescriptor& GetMapSpriteScript() {
         return _map_sprites_script;
     }
 
@@ -347,6 +243,10 @@ public:
         return _map_data_handler;
     }
 
+    WorldMapHandler& GetWorldMapData() {
+        return _worldmap_handler;
+    }
+
     //! \brief Gives access to global media files.
     //! Note: The reference is passed non const to be able to give modifiable references
     //! and pointers.
@@ -392,6 +292,8 @@ private:
 
     MapDataHandler _map_data_handler;
 
+    WorldMapHandler _worldmap_handler;
+
     //! \brief member storing all the common media files.
     GlobalMedia _global_media;
 
@@ -434,50 +336,15 @@ private:
     vt_script::ReadScriptDescriptor _map_treasures_script;
     //@}
 
-    //! \brief The current graphical world map. If the filename is empty,
-    //! then we are "hiding" the map
-    vt_video::StillImage* _world_map_image;
-
-    //! \brief The current viewable location ids on the current world map image
-    //! \note this list is cleared when we call SetWorldMap. It is up to the
-    //! script writter to maintain the properties of the map by either
-    //!  1) call CopyViewableLocationList()
-    //!  2) maintain in some other fashion the list
-    std::vector<std::string> _viewable_world_locations;
-
-    /** \brief the container which stores all the available world locations in the game.
-    *** the world_location_id acts as the key
-    **/
-    std::map<std::string, WorldMapLocation> _world_map_locations;
-
-    //! \brief the current world map location id that indicates where the player is
-    std::string _current_world_location_id;
-
     //! \brief A map containing all the emote animations
     std::map<std::string, vt_video::AnimatedImage> _emotes;
     //! \brief The map continaing the four sprite direction offsets (x and y value).
     std::map<std::string, std::vector<std::pair<float, float> > > _emotes_offsets;
 
-    /** \brief saves the world map information. this is called from SaveGame()
-    *** \param file Reference to open and valid file for writting the data
-    **/
-    void _SaveWorldMap(vt_script::WriteScriptDescriptor& file);
-
     /** \brief saves the shop data information. this is called from SaveGame()
     *** \param file Reference to open and valid file for writting the data
     **/
     void _SaveShopData(vt_script::WriteScriptDescriptor& file);
-
-    /** \brief Load world map and viewable information from the save game
-    *** \param file Reference to an open file for reading save game data
-    **/
-    void _LoadWorldMap(vt_script::ReadScriptDescriptor &file);
-
-    /** \brief Helper function called by LoadGlobalScripts() that (re)loads each world location from the script into the world location entry map
-    *** \param file Path to the file to world locations script
-    *** \return true if successfully loaded
-    **/
-    bool _LoadWorldLocationsScript(const std::string& world_locations_filename);
 
     /** \brief Load shop data from the save game
     *** \param file Reference to an open file for reading save game data

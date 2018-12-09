@@ -55,7 +55,7 @@ function Load(m)
     Effects:EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
 
     -- Set the world map current position
-    GlobalManager:SetCurrentLocationId("layna village")
+    GlobalManager:GetWorldMapData():SetCurrentLocationId("layna village")
 
     _HandleCredits();
 end

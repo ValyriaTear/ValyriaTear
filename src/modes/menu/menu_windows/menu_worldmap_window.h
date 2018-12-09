@@ -84,14 +84,7 @@ public:
     * location, or nullptr if it deson't exist
     * \return Pointer to the currently indexes WorldMapLocation
     */
-    vt_global::WorldMapLocation *GetCurrentViewingLocation()
-    {
-        const std::vector<std::string> &current_location_ids = vt_global::GlobalManager->GetViewableLocationIds();
-        const uint32_t N = current_location_ids.size();
-        if( N == 0 || _location_pointer_index > N)
-            return nullptr;
-        return vt_global::GlobalManager->GetWorldLocation(current_location_ids[_location_pointer_index]);
-    }
+    vt_global::WorldMapLocation* GetCurrentViewingLocation();
 
 private:
 
@@ -107,7 +100,7 @@ private:
                                 float window_position_y);
 
     //! \brief pointer to the currently loaded world map image
-    vt_video::StillImage *_current_world_map;
+    vt_video::StillImage* _current_world_map;
 
     //! \brief the location marker. this is loaded in the ctor
     vt_video::AnimatedImage _location_marker;

@@ -51,7 +51,7 @@ function Load(m)
     Map:GetScriptSupervisor():AddScript("data/story/common/at_night.lua");
 
     -- Set the world map current position
-    GlobalManager:SetCurrentLocationId("layna village");
+    GlobalManager:GetWorldMapData():SetCurrentLocationId("layna village");
 
     -- Start the return to village dialogue if it hasn't been done already.
     if (GlobalManager:GetGameEvents():GetEventValue("story", "return_to_layna_village_dialogue_done") ~= 1) then

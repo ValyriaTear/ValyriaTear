@@ -59,8 +59,8 @@ function Load(m)
     end
 
     -- Show the new location on map,
-    GlobalManager:ShowWorldLocation("mt elbrus");
-    GlobalManager:SetCurrentLocationId("mt elbrus");
+    GlobalManager:GetWorldMapData():ShowWorldLocation("mt elbrus");
+    GlobalManager:GetWorldMapData():SetCurrentLocationId("mt elbrus");
 end
 
 -- the map update function handles checks done on each game tick.

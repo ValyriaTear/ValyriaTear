@@ -122,15 +122,16 @@ function TestFunction()
     GlobalManager:GetGameQuests():AddQuestLog("flee_from_the_dark_soldiers");
 
     -- Used to debug World Map
-    GlobalManager:SetWorldMap("data/story/common/worldmaps/layna_region.png")
-    GlobalManager:ShowWorldLocation("layna village")
-    GlobalManager:ShowWorldLocation("layna forest")
-    GlobalManager:ShowWorldLocation("mt elbrus")
-    GlobalManager:SetCurrentLocationId("layna forest")
+    local worldmap = GlobalManager:GetWorldMapData()
+    worldmap:SetWorldMapImage("data/story/common/worldmaps/layna_region.png")
+    worldmap:ShowWorldLocation("layna village")
+    worldmap:ShowWorldLocation("layna forest")
+    worldmap:ShowWorldLocation("mt elbrus")
+    worldmap:SetCurrentLocationId("layna forest")
 
-    GlobalManager:SetMap("dummy_map", "dummy_script",
-                         "data/story/common/locations/desert_cave.png",
-                         vt_utils.MakeUnicodeString("The Boot Menu"));
+    GlobalManager:GetMapData():SetMap("dummy_map", "dummy_script",
+                                      "data/story/common/locations/desert_cave.png",
+                                      vt_utils.MakeUnicodeString("The Boot Menu"));
 
     local menu = vt_menu.MenuMode();
     ModeManager:Push(menu, false, false);

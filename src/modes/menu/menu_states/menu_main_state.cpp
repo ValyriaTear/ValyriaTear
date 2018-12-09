@@ -46,7 +46,7 @@ MainMenuState::MainMenuState(MenuMode *menu_mode):
     if (vt_global::GlobalManager->GetGameQuests().GetActiveQuestIds().empty())
         _options.EnableOption(3, false);
 
-    if (vt_global::GlobalManager->GetWorldMapFilename().empty())
+    if (vt_global::GlobalManager->GetWorldMapData().GetWorldMapImageFilename().empty())
         _options.EnableOption(4, false);
 
     // We set them here in case the language has changed since the game start.

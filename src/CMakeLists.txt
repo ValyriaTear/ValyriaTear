@@ -287,10 +287,11 @@ common/global/quests/quests.cpp
 common/global/skill_graph/skill_node.cpp
 common/global/skill_graph/skill_graph.cpp
 common/global/status_effects/global_effects.cpp
+common/global/worldmap/worldmap_handler.cpp
+common/global/worldmap/worldmap_location.cpp
 common/global/global.cpp
 common/global/global_skills.cpp
 common/global/global_target.cpp
-common/global/worldmap_location.cpp
 common/gui/option.cpp
 common/gui/menu_window.cpp
 common/gui/textbox.cpp

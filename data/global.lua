@@ -28,9 +28,10 @@ function NewGame()
     GlobalManager:SetDrunes(0);
 
     -- Set the starting world map data
-    GlobalManager:SetWorldMap("data/story/common/worldmaps/layna_region.png")
-    GlobalManager:ShowWorldLocation("layna village")
-    GlobalManager:SetCurrentLocationId("layna village")
+    local worldmap = GlobalManager:GetWorldMapData()
+    worldmap:SetWorldMapImage("data/story/common/worldmaps/layna_region.png")
+    worldmap:ShowWorldLocation("layna village")
+    worldmap:SetCurrentLocationId("layna village")
 
     -- Don't permit autosave at that moment.
     local MM = vt_map.MapMode("data/story/layna_forest/layna_forest_crystal_map.lua", "data/story/introduction.lua",

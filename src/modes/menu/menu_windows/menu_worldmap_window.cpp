@@ -69,28 +69,27 @@ void WorldMapWindow::Draw()
 void WorldMapWindow::_DrawViewableLocations(float window_position_x,
                                             float window_position_y)
 {
-    const std::vector<std::string> &current_location_ids =
-        GlobalManager->GetViewableLocationIds();
-    const uint32_t N = current_location_ids.size();
-    for(uint32_t i = 0; i < N; ++i)
+    WorldMapHandler& worldmap = GlobalManager->GetWorldMapData();
+    const std::vector<std::string> &current_location_ids = worldmap.GetViewableLocationIds();
+    const size_t location_number = current_location_ids.size();
+    for(uint32_t i = 0; i < location_number; ++i)
     {
-        const WorldMapLocation *location =
-            GlobalManager->GetWorldLocation(current_location_ids[i]);
-        if(location == nullptr)
-        {
+        const WorldMapLocation* location = worldmap.GetWorldLocation(current_location_ids[i]);
+
+        if(location == nullptr) {
             PRINT_WARNING << "location for id: "
                 << current_location_ids[i]
                 << " is not loaded into global manager" << std::endl;
             continue;
         }
-        //draw the location marker
+
+        // Draw the location marker
         VideoManager->Move(window_position_x + _current_image_offset.x + location->_pos.x,
                            window_position_y + _current_image_offset.y + location->_pos.y);
         _location_marker.Draw();
 
-        //draw the pointer
-        if(i == _location_pointer_index)
-        {
+        // Draw the pointer
+        if(i == _location_pointer_index) {
             // this is a slight offset for the pointer
             // so that it points where we want it to, roughly in the center
             // of the location marker
@@ -107,7 +106,7 @@ void WorldMapWindow::_DrawViewableLocations(float window_position_x,
 
 void WorldMapWindow::Update()
 {
-    _current_world_map = GlobalManager->GetWorldMapImage();
+    _current_world_map = GlobalManager->GetWorldMapData().GetWorldMapImage();
     if(!_current_world_map) {
         _active = false;
         return;
@@ -160,22 +159,22 @@ void WorldMapWindow::Update()
 
 void WorldMapWindow::_SetSelectedLocation(WORLDMAP_NAVIGATION worldmap_goto)
 {
-    const std::vector<std::string> &current_location_ids =
-        GlobalManager->GetViewableLocationIds();
-    const uint32_t N = current_location_ids.size();
-    if(N == 0)
+    const std::vector<std::string>& current_location_ids =
+        GlobalManager->GetWorldMapData().GetViewableLocationIds();
+    const size_t location_number = current_location_ids.size();
+    if(location_number == 0)
         return;
     if(worldmap_goto == WORLDMAP_LEFT)
     {
         //cannot use mod properly since it is an unsigned value
         if(_location_pointer_index == 0)
-            _location_pointer_index = N-1;
+            _location_pointer_index = location_number - 1;
         else
             _location_pointer_index -= 1;
     }
     else if (worldmap_goto == WORLDMAP_RIGHT)
     {
-        if(_location_pointer_index == N-1)
+        if(_location_pointer_index == location_number - 1)
             _location_pointer_index = 0;
         else
             _location_pointer_index += 1;
@@ -184,14 +183,15 @@ void WorldMapWindow::_SetSelectedLocation(WORLDMAP_NAVIGATION worldmap_goto)
 
 void WorldMapWindow::Activate(bool new_state)
 {
+    WorldMapHandler& worldmap = GlobalManager->GetWorldMapData();
+
     _active = new_state;
 
     // set the pointer to the appropriate location
     // we only do this on activation of the window.
     // after that it is handled by the left / right press
-    const std::string &location_id = GlobalManager->GetCurrentLocationId();
-    const std::vector<std::string> &current_location_ids =
-        GlobalManager->GetViewableLocationIds();
+    const std::string &location_id = worldmap.GetCurrentLocationId();
+    const std::vector<std::string> &current_location_ids = worldmap.GetViewableLocationIds();
     std::vector<std::string>::const_iterator loc =
         std::find(current_location_ids.begin(), current_location_ids.end(),
                   location_id);
@@ -199,6 +199,16 @@ void WorldMapWindow::Activate(bool new_state)
         _location_pointer_index = 0;
     else
         _location_pointer_index = loc - current_location_ids.begin();
+}
+
+vt_global::WorldMapLocation* WorldMapWindow::GetCurrentViewingLocation()
+{
+    WorldMapHandler& worldmap = GlobalManager->GetWorldMapData();
+    const std::vector<std::string>& current_location_ids = worldmap.GetViewableLocationIds();
+    const uint32_t location_number = current_location_ids.size();
+    if(location_number == 0 || _location_pointer_index > location_number)
+        return nullptr;
+    return worldmap.GetWorldLocation(current_location_ids[_location_pointer_index]);
 }
 
 } // namespace private_menu

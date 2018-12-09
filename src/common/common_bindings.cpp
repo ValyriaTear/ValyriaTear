@@ -112,16 +112,13 @@ void BindCommonCode()
             .def("GetGameEvents", &GameGlobal::GetGameEvents)
             .def("GetGameQuests", &GameGlobal::GetGameQuests)
             .def("GetMapData", &GameGlobal::GetMapData)
+            .def("GetWorldMapData", &GameGlobal::GetWorldMapData)
             .def("GetDrunes", &GameGlobal::GetDrunes)
             .def("SetDrunes", &GameGlobal::SetDrunes)
             .def("AddDrunes", &GameGlobal::AddDrunes)
             .def("SubtractDrunes", &GameGlobal::SubtractDrunes)
             .def("GetMaxExperienceLevel", &GameGlobal::GetMaxExperienceLevel)
             .def("SetMaxExperienceLevel", &GameGlobal::SetMaxExperienceLevel)
-            .def("SetWorldMap", &GameGlobal::SetWorldMap)
-            .def("ShowWorldLocation", &GameGlobal::ShowWorldLocation)
-            .def("HideWorldLocation", &GameGlobal::HideWorldLocation)
-            .def("SetCurrentLocationId", &GameGlobal::SetCurrentLocationId)
             .def("GetBattleMedia", &GameGlobal::GetBattleMedia)
 
             // Namespace constants
@@ -391,6 +388,15 @@ void BindCommonCode()
             .def("GetSaveLocationX", &MapDataHandler::GetSaveLocationX)
             .def("GetSaveLocationY", &MapDataHandler::GetSaveLocationY)
             .def("GetPreviousLocation", &MapDataHandler::GetPreviousLocation)
+        ];
+
+        luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
+        [
+            luabind::class_<WorldMapHandler>("WorldMapHandler")
+            .def("SetWorldMapImage", &WorldMapHandler::SetWorldMapImage)
+            .def("ShowWorldLocation", &WorldMapHandler::ShowWorldLocation)
+            .def("HideWorldLocation", &WorldMapHandler::HideWorldLocation)
+            .def("SetCurrentLocationId", &WorldMapHandler::SetCurrentLocationId)
         ];
 
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")

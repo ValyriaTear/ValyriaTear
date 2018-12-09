@@ -56,11 +56,11 @@ function Load(m)
         EventManager:StartEvent("Forest entrance dialogue", 800);
 
         -- Add the layna forest location on first time in this map.
-        GlobalManager:ShowWorldLocation("layna forest");
+        GlobalManager:GetWorldMapData():ShowWorldLocation("layna forest");
     end
 
     -- Update the world map location
-    GlobalManager:SetCurrentLocationId("layna forest");
+    GlobalManager:GetWorldMapData():SetCurrentLocationId("layna forest");
 
     _HandleTwilight();
 
