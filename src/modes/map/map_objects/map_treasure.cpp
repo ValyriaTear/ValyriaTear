@@ -51,9 +51,9 @@ TreasureObject::TreasureObject(const std::string& treasure_name,
     SetCollPixelHeight(closed_anim.GetHeight());
 
     // Apply the zoom ratio on the animations.
-    MapMode::ScaleToMapZoomRatio(closed_anim);
-    MapMode::ScaleToMapZoomRatio(opening_anim);
-    MapMode::ScaleToMapZoomRatio(open_anim);
+    ScaleToMapZoomRatio(closed_anim);
+    ScaleToMapZoomRatio(opening_anim);
+    ScaleToMapZoomRatio(open_anim);
 
     AddAnimation(closed_anim);
     AddAnimation(opening_anim);

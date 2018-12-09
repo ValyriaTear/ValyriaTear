@@ -25,6 +25,12 @@ bool MAP_DEBUG = false;
 namespace private_map
 {
 
+void ScaleToMapZoomRatio(vt_video::ImageDescriptor& img)
+{
+    img.SetDimensions(img.GetWidth() * vt_map::private_map::MAP_ZOOM_RATIO,
+                      img.GetHeight() * vt_map::private_map::MAP_ZOOM_RATIO);
+}
+
 uint16_t GetOppositeDirection(const uint16_t direction)
 {
     switch(direction) {

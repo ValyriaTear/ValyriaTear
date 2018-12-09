@@ -21,6 +21,7 @@
 #include "common/position_2d.h"
 #include "common/rectangle_2d.h"
 
+#include "engine/video/image.h"
 #include "engine/video/video_utils.h"
 
 #include <vector>
@@ -209,6 +210,9 @@ enum EVENT_TYPE {
 
 //! \brief The number of milliseconds to take to fade out the map
 const uint32_t MAP_FADE_OUT_TIME = 800;
+
+//! \brief This function adapts the images to the map scale.
+void ScaleToMapZoomRatio(vt_video::ImageDescriptor& img);
 
 /** \brief Returns the opposite facing direction of the direction given in parameter.
 *** \return A direction that faces opposite to the argument direction

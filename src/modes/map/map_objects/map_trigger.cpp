@@ -54,8 +54,8 @@ TriggerObject::TriggerObject(const std::string &trigger_name,
     SetImgPixelHalfWidth(off_anim.GetWidth() / 2.0f);
     SetImgPixelHeight(off_anim.GetHeight());
 
-    MapMode::ScaleToMapZoomRatio(off_anim);
-    MapMode::ScaleToMapZoomRatio(on_anim);
+    ScaleToMapZoomRatio(off_anim);
+    ScaleToMapZoomRatio(on_anim);
 
     AddAnimation(off_anim);
     AddAnimation(on_anim);

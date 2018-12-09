@@ -197,7 +197,7 @@ bool _LoadAnimations(std::vector<vt_video::AnimatedImage>& animations, const std
         }
 
         // Rescale to fit the map mode coordinates system.
-        MapMode::ScaleToMapZoomRatio(animations[i]);
+        ScaleToMapZoomRatio(animations[i]);
     }
 
     animations_script.CloseTable(); // sprite_animation table
@@ -248,7 +248,7 @@ bool MapSprite::LoadCustomAnimation(const std::string &animation_name, const std
 
     vt_video::AnimatedImage animation;
     if(animation.LoadFromAnimationScript(filename)) {
-        MapMode::ScaleToMapZoomRatio(animation);
+        ScaleToMapZoomRatio(animation);
         _custom_animations.insert(std::make_pair(animation_name, animation));
         return true;
     }

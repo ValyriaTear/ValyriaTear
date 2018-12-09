@@ -411,7 +411,7 @@ static void InitializeEngine()
         exit(EXIT_FAILURE);
 
     // Loads potential emotes
-    GlobalManager->LoadEmotes("data/entities/emotes.lua");
+    GlobalManager->GetEmoteHandler().LoadEmotes("data/entities/emotes.lua");
 
     // Hide the mouse cursor since we don't use or acknowledge mouse input from the user
     SDL_ShowCursor(SDL_DISABLE);

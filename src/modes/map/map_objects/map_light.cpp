@@ -54,10 +54,10 @@ Light::Light(const std::string& main_flare_filename,
         SetImgPixelHalfWidth(_main_animation.GetWidth() / 3.0f);
         SetImgPixelHeight(_main_animation.GetHeight());
 
-        MapMode::ScaleToMapZoomRatio(_main_animation);
+        ScaleToMapZoomRatio(_main_animation);
     }
     if(_secondary_animation.LoadFromAnimationScript(secondary_flare_filename)) {
-        MapMode::ScaleToMapZoomRatio(_secondary_animation);
+        ScaleToMapZoomRatio(_secondary_animation);
     }
 
     // Register the object to the light vector

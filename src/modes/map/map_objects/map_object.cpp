@@ -158,7 +158,8 @@ Rectangle2D MapObject::GetGridImageRectangle() const
 
 void MapObject::Emote(const std::string &emote_name, vt_map::private_map::ANIM_DIRECTIONS dir)
 {
-    _emote_animation = vt_global::GlobalManager->GetEmoteAnimation(emote_name);
+    vt_global::EmoteHandler& emote_handler = vt_global::GlobalManager->GetEmoteHandler();
+    _emote_animation = emote_handler.GetEmoteAnimation(emote_name);
 
     if(!_emote_animation) {
         PRINT_WARNING << "Invalid emote requested: " << emote_name << " for map object: "
@@ -167,10 +168,10 @@ void MapObject::Emote(const std::string &emote_name, vt_map::private_map::ANIM_D
     }
 
     // Make the offset depend on the sprite direction and emote animation.
-    vt_global::GlobalManager->GetEmoteOffset(_emote_screen_offset.x,
-                                             _emote_screen_offset.y,
-                                             emote_name,
-                                             dir);
+    emote_handler.GetEmoteOffset(_emote_screen_offset.x,
+                                 _emote_screen_offset.y,
+                                 emote_name,
+                                 dir);
     // Scale the offsets for the map mode
     _emote_screen_offset.x = _emote_screen_offset.x * MAP_ZOOM_RATIO;
     _emote_screen_offset.y = _emote_screen_offset.y * MAP_ZOOM_RATIO;

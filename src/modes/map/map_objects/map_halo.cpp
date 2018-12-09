@@ -39,7 +39,7 @@ Halo::Halo(const std::string& filename,
     SetImgPixelHalfWidth(_animation.GetWidth() / 2.0f);
     SetImgPixelHeight(_animation.GetHeight());
 
-    MapMode::ScaleToMapZoomRatio(_animation);
+    ScaleToMapZoomRatio(_animation);
 
     // Auto-registers to the object supervisor for later deletion handling
     MapMode::CurrentInstance()->GetObjectSupervisor()->AddHalo(this);

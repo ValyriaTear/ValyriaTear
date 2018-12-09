@@ -1,26 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2016 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2018 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
 // and you may modify it and/or redistribute it under the terms of this license.
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
-
-/** ****************************************************************************
-*** \file    global.h
-*** \author  Tyler Olsen, roots@allacrost.org
-*** \author  Yohann Ferreira, yohann ferreira orange fr
-*** \brief   Header file for the global game manager
-***
-*** This file contains the GameGlobal class, which is used to manage all data
-*** that is shared "globally" by the various game modes. For example, it
-*** contains the current characters in the party, the party's inventory, etc.
-*** The definition of characters, items, and other related global data are
-*** implemented in the other global header files (e.g. global_actors.h). All
-*** of these global files share the same vt_global namespace.
-*** ***************************************************************************/
 
 #ifndef __GLOBAL_HEADER__
 #define __GLOBAL_HEADER__
@@ -49,6 +35,7 @@
 #include "worldmap/worldmap_handler.h"
 #include "maps/map_data_handler.h"
 #include "shop/shop_data_handler.h"
+#include "emotes/emote_handler.h"
 
 //! \brief All calls to global code are wrapped inside this namespace.
 namespace vt_global
@@ -184,23 +171,6 @@ public:
         return _map_sprites_script;
     }
 
-    //! \brief loads the emotes used for character feelings expression in the given lua file.
-    void LoadEmotes(const std::string &emotes_filename);
-
-    //! \brief Set up the offsets for the given emote animation and sprite direction.
-    void GetEmoteOffset(float &x, float &y, const std::string &emote_id, vt_map::private_map::ANIM_DIRECTIONS dir);
-
-    //! \brief Tells whether an emote id exists and is valid
-    bool DoesEmoteExist(const std::string& emote_id) {
-        return (_emotes.count(emote_id));
-    }
-
-    //! \brief Get a pointer reference to the given emote animation. Don't delete it!
-    vt_video::AnimatedImage* GetEmoteAnimation(const std::string& emote_id) {
-        if(_emotes.find(emote_id) != _emotes.end()) return &_emotes.at(emote_id);
-        else return nullptr;
-    }
-
     //! \brief Get a reference to the skill graph handler
     CharacterHandler& GetCharacterHandler() {
         return _character_handler;
@@ -234,6 +204,10 @@ public:
 
     ShopDataHandler& GetShopDataHandler() {
         return _shop_data_handler;
+    }
+
+    EmoteHandler& GetEmoteHandler() {
+        return _emote_handler;
     }
 
     //! \brief Gives access to global media files.
@@ -281,6 +255,8 @@ private:
 
     ShopDataHandler _shop_data_handler;
 
+    EmoteHandler _emote_handler;
+
     //! \brief member storing all the common media files.
     GlobalMedia _global_media;
 
@@ -322,11 +298,6 @@ private:
     //! \brief Contains data and functional definitions for map treasures seen in game maps
     vt_script::ReadScriptDescriptor _map_treasures_script;
     //@}
-
-    //! \brief A map containing all the emote animations
-    std::map<std::string, vt_video::AnimatedImage> _emotes;
-    //! \brief The map continaing the four sprite direction offsets (x and y value).
-    std::map<std::string, std::vector<std::pair<float, float> > > _emotes_offsets;
 
     //! \brief Loads every persistent scripts, used at the global initialization time.
     bool _LoadGlobalScripts();
