@@ -1171,7 +1171,7 @@ void ShopMode::_SaveShopData()
 
     if (!shop_data._available_buy.empty() ||
             !shop_data._available_trade.empty()) {
-        GlobalManager->SetShopData(_shop_id, shop_data);
+        GlobalManager->GetShopDataHandler().SetShopData(_shop_id, shop_data);
     }
 }
 
@@ -1199,7 +1199,7 @@ void ShopMode::Initialize()
     }
 
     // Override the available buy and trade when the save game shop data are found.
-    if (!_shop_id.empty() && GlobalManager->HasShopData(_shop_id)) {
+    if (!_shop_id.empty() && GlobalManager->GetShopDataHandler().HasShopData(_shop_id)) {
 
         for (auto item : _available_buy) {
             assert(item.second != nullptr);
@@ -1219,7 +1219,7 @@ void ShopMode::Initialize()
         }
         _available_trade.clear();
 
-        const ShopData& shop_data = GlobalManager->GetShopData(_shop_id);
+        const ShopData& shop_data = GlobalManager->GetShopDataHandler().GetShopData(_shop_id);
         for (auto shop_buy_data : shop_data._available_buy) {
             AddItem(shop_buy_data.first, shop_buy_data.second);
         }

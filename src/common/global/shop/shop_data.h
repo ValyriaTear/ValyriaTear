@@ -11,6 +11,8 @@
 #ifndef __SHOP_DATA_HEADER__
 #define __SHOP_DATA_HEADER__
 
+#include <map>
+
 namespace vt_global {
 
 //! \brief Shop save data.

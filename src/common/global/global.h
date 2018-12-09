@@ -48,7 +48,7 @@
 #include "quests/quests.h"
 #include "worldmap/worldmap_handler.h"
 #include "maps/map_data_handler.h"
-#include "shop_data.h"
+#include "shop/shop_data_handler.h"
 
 //! \brief All calls to global code are wrapped inside this namespace.
 namespace vt_global
@@ -152,21 +152,6 @@ public:
     //! \brief Tells whether an enemy id is existing in the enemy data.
     bool DoesEnemyExist(uint32_t enemy_id);
 
-    //! \brief Gives the shop data corresponding to the current shop id.
-    // Used to sync a given shop or save games
-    const ShopData& GetShopData(const std::string& shop_id) {
-        if (_shop_data.find(shop_id) == _shop_data.end())
-            return _shop_data[std::string()]; // Return default empty shop data
-        return _shop_data.at(shop_id);
-    }
-
-    bool HasShopData(const std::string& shop_id) const {
-        return (_shop_data.find(shop_id) != _shop_data.end());
-    }
-
-    //! \brief Sets the current shop data to global manager.
-    void SetShopData(const std::string& shop_id, const ShopData& shop_data);
-
     vt_script::ReadScriptDescriptor& GetWeaponSkillsScript() {
         return _weapon_skills_script;
     }
@@ -247,6 +232,10 @@ public:
         return _worldmap_handler;
     }
 
+    ShopDataHandler& GetShopDataHandler() {
+        return _shop_data_handler;
+    }
+
     //! \brief Gives access to global media files.
     //! Note: The reference is passed non const to be able to give modifiable references
     //! and pointers.
@@ -275,10 +264,6 @@ private:
     **/
     uint32_t _max_experience_level;
 
-    //! \brief A map of the curent shop data.
-    //! shop_id, corresponding shop data
-    std::map<std::string, ShopData> _shop_data;
-
     //! \brief The container which stores all of the groups of events that have occured in the game
     GameEvents _game_events;
 
@@ -293,6 +278,8 @@ private:
     MapDataHandler _map_data_handler;
 
     WorldMapHandler _worldmap_handler;
+
+    ShopDataHandler _shop_data_handler;
 
     //! \brief member storing all the common media files.
     GlobalMedia _global_media;
@@ -340,16 +327,6 @@ private:
     std::map<std::string, vt_video::AnimatedImage> _emotes;
     //! \brief The map continaing the four sprite direction offsets (x and y value).
     std::map<std::string, std::vector<std::pair<float, float> > > _emotes_offsets;
-
-    /** \brief saves the shop data information. this is called from SaveGame()
-    *** \param file Reference to open and valid file for writting the data
-    **/
-    void _SaveShopData(vt_script::WriteScriptDescriptor& file);
-
-    /** \brief Load shop data from the save game
-    *** \param file Reference to an open file for reading save game data
-    **/
-    void _LoadShopData(vt_script::ReadScriptDescriptor& file);
 
     //! \brief Loads every persistent scripts, used at the global initialization time.
     bool _LoadGlobalScripts();

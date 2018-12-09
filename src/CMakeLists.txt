@@ -284,6 +284,7 @@ common/global/objects/global_armor.cpp
 common/global/objects/global_spirit.cpp
 common/global/quests/quest_log_info.cpp
 common/global/quests/quests.cpp
+common/global/shop/shop_data_handler.cpp
 common/global/skill_graph/skill_node.cpp
 common/global/skill_graph/skill_graph.cpp
 common/global/status_effects/global_effects.cpp
