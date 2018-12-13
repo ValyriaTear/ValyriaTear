@@ -506,11 +506,22 @@ void BattleActor::_UpdateState()
         }
     }
 
-    // Don't update the state timer when the battle tells is to pause when in idle state.
-    // Also don't elapse the status effect time when paused.
+    // Don't elapse the status effect time when paused.
     BattleMode* BM = BattleMode::CurrentInstance();
-    if (BM->AreActorStatesPaused() || BM->IsInSceneMode())
+    if (BM->IsInSceneMode())
         return;
+
+    // Paused any states except the show notice related ones
+    switch(_state) {
+    case ACTOR_STATE_SHOWNOTICE:
+    case ACTOR_STATE_NOTICEDONE:
+    case ACTOR_STATE_ACTING:
+        break;
+    default:
+        if (BM->AreActorStatesPaused())
+            return;
+        break;
+    }
 
     if (IsAlive())
         _effects_supervisor->Update();
