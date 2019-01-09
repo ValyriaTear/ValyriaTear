@@ -76,15 +76,13 @@ local lamp_flare = nil
 local heal_effect = nil
 
 function _CreateObjects()
-    local object = nil
-
     -- Info sign
-    object = CreateObject(Map, "Wood sign info", 5, 12, vt_map.MapMode.GROUND_OBJECT)
+    local object = CreateObject(Map, "Wood sign info", 5, 12, vt_map.MapMode.GROUND_OBJECT)
     object:SetEventWhenTalking("Info about equipment")
-    dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Did you know?\nYou can equip weapons and armors from the menu.\nSimply open it and go to 'Inventory', and 'Equip'.");
+    local dialogue = vt_map.SpriteDialogue.Create();
+    local text = vt_system.Translate("Did you know?\nYou can equip weapons and armors from the menu.\nSimply open it and go to 'Inventory', and 'Equip'.");
     dialogue:AddLine(text, nil);
-    event = vt_map.DialogueEvent.Create("Info about equipment", dialogue)
+    local event = vt_map.DialogueEvent.Create("Info about equipment", dialogue)
 
     oil_lamp = CreateObject(Map, "Oil Lamp", 15, 14, vt_map.MapMode.GROUND_OBJECT)
     oil_lamp:SetCollisionMask(vt_map.MapMode.NO_COLLISION)
@@ -122,6 +120,14 @@ function _CreateObjects()
     -- Load the spring heal effect.
     heal_effect = vt_map.ParticleObject.Create("data/visuals/particle_effects/heal_particle.lua", 0, 0, vt_map.MapMode.GROUND_OBJECT);
     heal_effect:Stop(); -- Don't run it until the character heals itself
+
+    CreateObject(Map, "Rock1", 59, 11.2, vt_map.MapMode.GROUND_OBJECT)
+    CreateObject(Map, "Rock1", 3, 43, vt_map.MapMode.GROUND_OBJECT)
+    CreateObject(Map, "Rock1", 5.5, 43.2, vt_map.MapMode.GROUND_OBJECT)
+    CreateObject(Map, "Rock1", 60, 25, vt_map.MapMode.GROUND_OBJECT)
+
+    local chest = CreateTreasure(Map, "well_underground_chest", "Wood_Chest2", 57, 11.5, vt_map.MapMode.GROUND_OBJECT)
+    chest:AddItem(1, 3)
 end
 
 local lamp_character = nil
@@ -224,7 +230,7 @@ function _CheckMonstersState()
             olivia:AddDialogueReference(dialogue)
 
             local event = vt_map.TreasureEvent.Create("Bronann receives reward");
-            event:AddItem(3112, 1); -- Silk
+            event:AddItem(20011, 1) -- Old helmet
             event:AddEventLinkAtEnd("Olivia leaves");
 
             event = vt_map.PathMoveSpriteEvent.Create("Olivia leaves", olivia, 18, 1, false)
@@ -257,7 +263,7 @@ function _CreateEvents()
 
     -- Triggered events
     vt_map.MapTransitionEvent.Create("exit floor", "data/story/layna_village/layna_village_center_map.lua",
-                                     "data/story/layna_village/layna_village_center_script.lua", 
+                                     "data/story/layna_village/layna_village_center_script.lua",
                                      "from_well_undergrounds")
 
     -- Generic events
