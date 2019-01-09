@@ -266,6 +266,22 @@ sprites["Man1"] = {
     }
 }
 
+sprites["Shop Mushroom"] = {
+    name = vt_system.Translate("Dandy Shroom"),
+    coll_half_width = 0.9 * 16,
+    coll_height = 1.9 * 16,
+    img_half_width = 1.25 * 16,
+    img_height = 2.6 * 16,
+    movement_speed = ENEMY_SPEED,
+    --face_portrait = "",
+
+    -- using special animation files.
+    standard_animations = {
+        idle = "data/entities/map/npcs/friendly_mushroom_idle.lua",
+        walk = "data/entities/map/npcs/friendly_mushroom_idle.lua"
+    },
+}
+
 -- Used as a NPC to get portrait support
 sprites["Crystal"] = {
     name = vt_system.Translate("Crystal"), -- default name

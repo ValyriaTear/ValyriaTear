@@ -120,6 +120,25 @@ function _CreateCharacters()
     orlinn:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
+
+    -- Mushroom shop!
+    local dialogue = vt_map.SpriteDialogue.Create()
+    local text = vt_system.Translate("Please, don't hurt me, my life is already so short!")
+    dialogue:AddLineEmote(text, nil, "exclamation")
+    text = vt_system.Translate("What about buying some items instead?")
+    dialogue:AddLineEvent(text, nil, "", "Shroom Shop")
+
+    local event = vt_map.ShopEvent.Create("Shroom Shop", "Shroom Shop")
+    event:AddItem(1, 0) -- infinite minor potions
+    event:AddItem(2, 0) -- infinite medium potions
+    event:AddItem(11, 0) -- infinite minor moon juice
+    event:AddItem(1001, 0) -- infinite minor elixirs
+    event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_POOR,
+                         vt_shop.ShopMode.SHOP_PRICE_POOR)
+
+    local shroom = CreateSprite(Map, "Shop Mushroom", 8, 10, vt_map.MapMode.GROUND_OBJECT)
+    shroom:AddDialogueReference(dialogue)
+
 end
 
 -- The heal particle effect map object
@@ -147,26 +166,6 @@ function _CreateObjects()
     text = vt_system.Translate("Your party feels better.");
     dialogue:AddLineEvent(text, nil, "Heal event", ""); -- nil means no portrait and no name
     vt_map.DialogueEvent.Create("Heal dialogue", dialogue);
-
-    -- Mushroom shop!
-    dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Please, don't hurt me, my life is already so short!");
-    dialogue:AddLineEmote(text, nil, "exclamation");
-    text = vt_system.Translate("What about buying some items instead?");
-    dialogue:AddLine(text, nil);
-    event = vt_map.DialogueEvent.Create("Shroom dialogue", dialogue);
-    event:AddEventLinkAtEnd("Shroom Shop");
-
-    event = vt_map.ShopEvent.Create("Shroom Shop", "Shroom Shop");
-    event:AddItem(1, 0); -- infinite minor potions
-    event:AddItem(2, 0); -- infinite medium potions
-    event:AddItem(11, 0); -- infinite minor moon juice
-    event:AddItem(1001, 0); -- infinite minor elixirs
-    event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_POOR,
-                         vt_shop.ShopMode.SHOP_PRICE_POOR);
-
-    local shroom = CreateObject(Map, "Shroom", 8, 10, vt_map.MapMode.GROUND_OBJECT);
-    shroom:SetEventWhenTalking("Shroom dialogue");
 
     -- Objects array
     local map_objects = {

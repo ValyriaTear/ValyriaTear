@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2018.07.05
+Last update: 2019.01.09
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -350,6 +350,7 @@ data/entities/map/npcs/npc_woman01_walk.png                                   GP
 data/entities/map/npcs/npc_woman02_walk.png                                   GPLv2+                   Allacrost
 data/entities/map/npcs/npc_woman03_walk.png                                   CC-BY-SA-3.0             Jetrel (OGA) + Bertram's work.
 data/entities/map/npcs/soldier_on_horse.png                                   CC-BY-SA-3.0             Lilou (OGA) - https://opengameart.org/content/dark-soldier-on-a-horse-valyria-tear
+data/entities/map/npcs/friendly_mushroom_spritesheet.png                      GPLv2+                   Yuuki (With Bertram modifications) - The Mana World - https://www.themanaworld.org
 
 data/entities/map/npcs/story/carson_walk.png                                  GPLv2+                   Allacrost
 data/entities/map/npcs/story/malta_walk.png                                   GPLv2+                   Allacrost

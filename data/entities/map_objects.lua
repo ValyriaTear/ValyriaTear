@@ -497,14 +497,6 @@ objects["Sauce Pot1"] = {
     img_height = 2.0 * 16
 }
 
-objects["Shroom"] = {
-    animation_filename = "data/entities/map/enemies/spiky_mushroom_idle_object.lua",
-    coll_half_width = 0.9 * 16,
-    coll_height = 1.9 * 16,
-    img_half_width = 1.25 * 16,
-    img_height = 2.6 * 16
-}
-
 objects["Stone Sign1"] = {
    animation_filename = "data/entities/map/objects/stone_sign1.lua",
    coll_half_width = 1.03 * 16,
