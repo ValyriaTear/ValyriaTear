@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2019.01.09
+Last update: 2019.01.10
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -546,6 +546,7 @@ data/inventory/armor/willow_dress.png                                         GP
 data/inventory/armor/tempered_greaves.png                                     GPLv2+                   Allacrost
 data/inventory/armor/metal_shield.png                                         GPLv2+                   Allacrost
 data/inventory/armor/butterfly_pins.png                                       GPLv2+                   Allacrost
+data/inventory/armor/leather_long_gloves.png                                  CC0                      Clint Bellanger, Blarumurryan, crowline, Justin Nichol - https://opengameart.org/content/armor-icons-by-equipment-slot
 
 data/inventory/items/candy.png                                                CC0                      (lumimae) - https://opengameart.org/content/candy-pack-1
 data/inventory/items/copper_ore.png                                           CC-BY-3.0                Bertram, adapted from Hyptosis's work (OGA) - https://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis

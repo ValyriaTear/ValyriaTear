@@ -41,9 +41,9 @@ armor[50001] = {
 	name = vt_system.Translate("Leather boots"),
 	description = vt_system.Translate("Simple but fairly good leather boots."),
 	icon = "data/inventory/armor/leather_boots.png",
-	physical_defense = 1,
+	physical_defense = 5,
 	magical_defense = 0,
-	standard_price = 30,
+	standard_price = 60,
 	usable_by = BRONANN + KALYA + THANIS + SYLVE
 }
 

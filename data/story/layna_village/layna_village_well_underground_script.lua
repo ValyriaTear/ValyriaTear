@@ -230,7 +230,7 @@ function _CheckMonstersState()
             olivia:AddDialogueReference(dialogue)
 
             local event = vt_map.TreasureEvent.Create("Bronann receives reward");
-            event:AddItem(20011, 1) -- Old helmet
+            event:AddItem(40002, 1) -- Long leather gloves
             event:AddEventLinkAtEnd("Olivia leaves");
 
             event = vt_map.PathMoveSpriteEvent.Create("Olivia leaves", olivia, 18, 1, false)

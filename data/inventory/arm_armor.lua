@@ -56,6 +56,17 @@ armor[40001] = {
     },
 }
 
+armor[40002] = {
+    name = vt_system.Translate("Long Leather Gloves"),
+    description = vt_system.Translate("Robust leather gloves."),
+    icon = "data/inventory/armor/leather_long_gloves.png",
+    physical_defense = 8,
+    magical_defense = 0,
+    standard_price = 90,
+    usable_by = BRONANN + KALYA + THANIS + SYLVE,
+    slots = 0
+}
+
 armor[40011] = {
     name = vt_system.Translate("Wooden Shield"),
     description = vt_system.Translate("Robust wooden oak protects from all but the heaviest of assaults."),
@@ -99,4 +110,3 @@ armor[40014] = {
     usable_by = BRONANN + THANIS,
     slots = 1
 }
-
