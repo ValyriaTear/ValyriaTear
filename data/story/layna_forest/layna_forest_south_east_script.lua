@@ -96,6 +96,26 @@ function _CreateCharacters()
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(66, 72);
     end
+
+    -- Mushroom shop!
+    local dialogue = vt_map.SpriteDialogue.Create()
+    local text = vt_system.Translate("Please, don't hurt me, my life is already so short!")
+    dialogue:AddLineEmote(text, nil, "exclamation")
+    text = vt_system.Translate("What about buying some items instead?")
+    dialogue:AddLineEvent(text, nil, "", "Shroom Shop")
+
+    local event = vt_map.ShopEvent.Create("Shroom Shop", "Shroom Shop")
+    event:AddItem(1, 0) -- infinite minor potions
+    event:AddItem(2, 0) -- infinite medium potions
+    event:AddItem(11, 0) -- infinite minor moon juice
+    event:AddItem(1001, 0) -- infinite minor elixirs
+    event:AddItem(30003, 1);  -- Tunic for Bronann
+    event:AddItem(30004, 1);  -- Leather Cloak for Kalya
+    event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_POOR,
+                         vt_shop.ShopMode.SHOP_PRICE_POOR)
+
+    local shroom = CreateSprite(Map, "Shop Mushroom", 66, 2, vt_map.MapMode.GROUND_OBJECT)
+    shroom:AddDialogueReference(dialogue)
 end
 
 -- The heal particle effect map object

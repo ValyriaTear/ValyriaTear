@@ -133,10 +133,13 @@ function _CreateCharacters()
     event:AddItem(2, 0) -- infinite medium potions
     event:AddItem(11, 0) -- infinite minor moon juice
     event:AddItem(1001, 0) -- infinite minor elixirs
+    event:AddItem(30003, 1);  -- Tunic for Bronann
+    event:AddItem(30004, 1);  -- Leather Cloak for Kalya
+    event:AddItem(50002, 1);  -- Sturdy boots
     event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_POOR,
                          vt_shop.ShopMode.SHOP_PRICE_POOR)
 
-    local shroom = CreateSprite(Map, "Shop Mushroom", 8, 10, vt_map.MapMode.GROUND_OBJECT)
+    local shroom = CreateSprite(Map, "Shop Mushroom", 30, 32, vt_map.MapMode.GROUND_OBJECT)
     shroom:AddDialogueReference(dialogue)
 
 end
