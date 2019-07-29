@@ -39,7 +39,7 @@ end
 function _ApplyPoison()
     local index = 0;
     for index = 0, 3 do
-        local char = GlobalManager:GetCharacter(index);
+        local char = GlobalManager:GetCharacterHandler():GetCharacter(index);
         if (char ~= nil and char:IsAlive() == true) then
 
             -- Only apply up to a moderate poison
