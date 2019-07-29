@@ -141,7 +141,7 @@ function _CreateCharacters()
     event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_POOR,
                          vt_shop.ShopMode.SHOP_PRICE_POOR)
 
-    local shroom = CreateSprite(Map, "Shop Mushroom", 42, 21, vt_map.MapMode.GROUND_OBJECT)
+    local shroom = CreateSprite(Map, "Shop Mushroom", 55, 38, vt_map.MapMode.GROUND_OBJECT)
     shroom:AddDialogueReference(dialogue)
 end
 
