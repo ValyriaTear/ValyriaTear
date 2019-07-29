@@ -189,7 +189,7 @@ function _CreateObjects()
         -- Treasure name, x, y, item
         {"Elbrus_Shrine_trap1", 33, 25, 1004}, -- Periwinkle potion (Physical Attack)
         {"Elbrus_Shrine_trap2", 33, 29, 3001}, -- Copper ore
-        {"Elbrus_Shrine_trap3", 8, 23, 1001}, -- Minor Elixir
+        {"Elbrus_Shrine_trap3", 8, 23, 11003}, -- Noble arbalest
     };
 
     for my_index, my_array in pairs(jars_array) do

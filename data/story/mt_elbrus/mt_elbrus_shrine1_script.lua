@@ -25,7 +25,6 @@ local hero = nil
 local bronann = nil
 local kalya = nil
 local orlinn = nil
-local sophia = nil
 local nekko = nil
 
 -- Objects used during the door opening scene
@@ -66,13 +65,6 @@ function Load(m)
     if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_entrance_event") ~= 1) then
         hero:SetMoving(false);
         EventManager:StartEvent("Shrine entrance event start", 200);
-    elseif (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 0 and
-            GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_entrance_light_done") == 1) then
-        if (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_main_room") then
-            -- (Re)Introduce Sophia when the characters leave the shrine the first time from the north entrance.
-            hero:SetMoving(false);
-            EventManager:StartEvent("Sophia introduction event", 200);
-        end
     end
 
     if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_door_opening_event") == 1) then
@@ -85,53 +77,12 @@ function Load(m)
     AudioManager:LoadSound("data/sounds/heartbeat_slow.wav", Map);
     AudioManager:LoadSound("data/sounds/ancient_invocation.wav", Map);
     AudioManager:LoadSound("data/sounds/cave-in.ogg", Map);
-
-    -- Loads the funny music if needed.
-    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 0) then
-        AudioManager:LoadMusic("data/music/Zander Noriega - School of Quirks.ogg", Map);
-    end
 end
 
 -- the map update function handles checks done on each game tick.
 function Update()
     -- Check whether the character is in one of the zones
     _CheckZones();
-end
-
--- set up/updates sophia's events
-function _UpdateSophiaDialogue()
-    local text = nil
-    local dialogue = nil
-    local event = nil
-
-    sophia:ClearDialogueReferences();
-    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 0) then
-        return
-    end
-
-    -- Shopping dialogue.
-    dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("I'll stay here as long as you need me. Do you want to buy something?");
-    dialogue:AddLineEvent(text, sophia, "", "Trade with Sophia");
-    sophia:AddDialogueReference(dialogue);
-
-    -- Shopping event
-    event = vt_map.ShopEvent.Create("Trade with Sophia", "Sophia Shrine Shop");
-    event:SetShopName(vt_system.UTranslate("Sophia's Items"));
-    event:SetGreetingText(vt_system.UTranslate("Don't forget my trade offers!"));
-    event:SetSellModeEnabled(false); -- prevents selling items there.
-    event:AddItem(1, 0); -- infinite minor potions
-    event:AddItem(11, 0); -- infinite minor moon juices
-    event:AddItem(1001, 0); -- infinite minor elixirs
-    event:AddItem(15, 0); -- infinite Lotus petals (cure poison)
-    event:AddItem(16, 0); -- infinite Candies (regen)
-    -- The interesting part!
-    event:AddTrade(10003, 1); -- Reinforced Wooden Sword (with magical attack)
-    event:AddTrade(10012, 1); -- Soldier sword. (a strong sword)
-    event:AddTrade(11003, 1); -- Noble Arbalest (Strong attack arbalest)
-    event:AddTrade(11004, 1); -- Arbalest of force
-    event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_STANDARD,
-                         vt_shop.ShopMode.SHOP_PRICE_STANDARD);
 end
 
 -- Character creation
@@ -171,33 +122,27 @@ function _CreateCharacters()
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
 
-    sophia = CreateNPCSprite(Map, "Woman2", vt_system.Translate("Sophia"), 42, 21, vt_map.MapMode.GROUND_OBJECT);
-    sophia:SetDirection(vt_map.MapMode.NORTH);
-    sophia:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
-    sophia:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    sophia:SetVisible(false);
+    -- Mushroom shop!
+    local dialogue = vt_map.SpriteDialogue.Create()
+    local text = vt_system.Translate("Please, don't hurt me, my life is already so short!")
+    dialogue:AddLineEmote(text, nil, "exclamation")
+    text = vt_system.Translate("What about buying some items instead?")
+    dialogue:AddLineEvent(text, nil, "", "Shroom Shop")
 
-    -- Add her cat, Nekko
-    nekko = CreateObject(Map, "Cat1", 0, 0, vt_map.MapMode.GROUND_OBJECT);
-    nekko:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-    nekko:SetVisible(false);
+    local event = vt_map.ShopEvent.Create("Shroom Shop", "Shroom Shop")
+    event:AddItem(1, 0) -- infinite minor potions
+    event:AddItem(11, 0) -- infinite minor moon juices
+    event:AddItem(1001, 0) -- infinite minor elixirs
+    event:AddItem(15, 0) -- infinite Lotus petals (cure poison)
+    event:AddItem(16, 0) -- infinite Candies (regen)
+    event:AddItem(40003, 1) -- Sturdy leather gloves
+    event:AddItem(10002, 1) -- Hardened practice sword
+    event:AddItem(11002, 1) -- Improved arbalest
+    event:SetPriceLevels(vt_shop.ShopMode.SHOP_PRICE_POOR,
+                         vt_shop.ShopMode.SHOP_PRICE_POOR)
 
-    vt_map.SoundEvent.Create("Nekko says Meoww!", "data/sounds/meow.wav");
-    nekko:SetEventWhenTalking("Nekko says Meoww!");
-
-    -- When returning from a first trip in the dungeon, the characters fall on Sophia.
-    if (GlobalManager:GetGameEvents():GetEventValue("story", "mountain_shrine_entrance_light_done") == 1
-            or GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event") == 1) then
-        sophia:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
-        sophia:SetVisible(true);
-        sophia:SetPosition(42.0, 21.0);
-        sophia:SetDirection(vt_map.MapMode.NORTH);
-
-        nekko:SetCollisionMask(vt_map.MapMode.ALL_COLLISION);
-        nekko:SetVisible(true);
-        nekko:SetPosition(44.0, 24.0);
-    end
-    _UpdateSophiaDialogue();
+    local shroom = CreateSprite(Map, "Shop Mushroom", 42, 21, vt_map.MapMode.GROUND_OBJECT)
+    shroom:AddDialogueReference(dialogue)
 end
 
 -- The heal particle effect map object
@@ -266,10 +211,6 @@ local orlinn_move_next_to_bronann_event1 = nil
 -- Shrine door opening event
 local kalya_move_next_to_bronann_event2 = nil
 local orlinn_move_next_to_bronann_event2 = nil
--- Sophia event
-local kalya_move_next_to_bronann_event3 = nil
-local orlinn_move_next_to_bronann_event3 = nil
-local sophia_move_next_to_bronann_event = nil
 
 -- Creates all events and sets up the entire event sequence chain
 function _CreateEvents()
@@ -298,8 +239,6 @@ function _CreateEvents()
     vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya, vt_map.MapMode.NORTH);
     vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks west", kalya, vt_map.MapMode.WEST);
     vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks south", kalya, vt_map.MapMode.SOUTH);
-    vt_map.ChangeDirectionSpriteEvent.Create("Sophia looks north", sophia, vt_map.MapMode.NORTH);
-    vt_map.ChangeDirectionSpriteEvent.Create("Sophia looks west", sophia, vt_map.MapMode.WEST);
     vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, bronann);
     vt_map.LookAtSpriteEvent.Create("Kalya looks at Orlinn", kalya, orlinn);
     vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", bronann, kalya);
@@ -495,121 +434,6 @@ function _CreateEvents()
     vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party2", kalya, bronann, false);
 
     vt_map.ScriptedEvent.Create("Shrine door opening event end", "shrine_door_opening_event_end", "");
-
-    -- Sophia introduction event
-    event = vt_map.ScriptedEvent.Create("Sophia introduction event", "sophia_event_start", "");
-    event:AddEventLinkAtEnd("Kalya moves next to Bronann3", 100);
-    event:AddEventLinkAtEnd("Orlinn moves next to Bronann3", 100);
-
-    -- NOTE: The actual destination is set just before the actual start call
-    kalya_move_next_to_bronann_event3 = vt_map.PathMoveSpriteEvent.Create("Kalya moves next to Bronann3", kalya, 0, 0, false);
-    kalya_move_next_to_bronann_event3:AddEventLinkAtEnd("Kalya looks south");
-
-    orlinn_move_next_to_bronann_event3 = vt_map.PathMoveSpriteEvent.Create("Orlinn moves next to Bronann3", orlinn, 0, 0, false);
-    orlinn_move_next_to_bronann_event3:AddEventLinkAtEnd("Orlinn looks south");
-    orlinn_move_next_to_bronann_event3:AddEventLinkAtEnd("Everyone is suprised", 500);
-
-    event = vt_map.ScriptedEvent.Create("Everyone is suprised", "everyone_exclamation", "");
-    event:AddEventLinkAtEnd("Sophia Dialogue 1");
-    event:AddEventLinkAtEnd("Fade out music");
-
-    vt_map.ScriptedEvent.Create("Fade out music", "fade_out_music", "");
-
-    dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Bronann!");
-    dialogue:AddLine(text, sophia);
-    event = vt_map.DialogueEvent.Create("Sophia Dialogue 1", dialogue);
-    event:AddEventLinkAtEnd("Sophia moves near the heroes");
-    event:AddEventLinkAtEnd("Play funny music");
-
-    vt_map.ScriptedEvent.Create("Play funny music", "play_funny_music", "");
-
-    -- NOTE: The actual destination is set just before the actual start call
-    sophia_move_next_to_bronann_event = vt_map.PathMoveSpriteEvent.Create("Sophia moves near the heroes", sophia, 0.0, 0.0, false);
-    sophia_move_next_to_bronann_event:AddEventLinkAtEnd("Sophia Dialogue 2");
-
-    dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Thank the goddess you're all safe and sound. I was worried sick!");
-    dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("Sophia, you're here?");
-    dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("Yes. It's a miracle that you were kept away from harm.");
-    dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("How in Layna did you reach Mt Elbrus all alone?");
-    dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("And how did you reach up here? Weren't you caught by the soldiers with the others?");
-    dialogue:AddLineEmote(text, kalya, "thinking dots");
-    text = vt_system.Translate("Well, it's a long story. But in short, I was out of the village when they caught everyone.");
-    dialogue:AddLineEventEmote(text, sophia, "Sophia looks west", "Sophia looks north", "sweat drop");
-    text = vt_system.Translate("Do you know how the others are doing? Are my parents okay?");
-    dialogue:AddLineEmote(text, bronann, "exclamation");
-    text = vt_system.Translate("Unfortunately no. I left them behind.");
-    dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("When I saw you leaving the village to the sanctuary, I decided to follow you.");
-    dialogue:AddLineEvent(text, sophia, "Sophia looks west", "Sophia looks north");
-    text = vt_system.Translate("But by the time I reached the area, the three of you were gone. And I had to find out where you were heading.");
-    dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("But the bridge, how did you cross?");
-    dialogue:AddLineEmote(text, kalya, "thinking dots");
-    text = vt_system.Translate("Using my rope and ranger skills, of course.");
-    dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("Sophia could be of great help, Kalya. The passage has collapsed, and we're stuck finding a way through this dreadful place.");
-    dialogue:AddLineEvent(text, bronann, "Bronann looks at Kalya", "Bronann looks south");
-    text = vt_system.Translate("Maybe, maybe not. Sophia was out the time they attacked? Somehow I don't buy it.");
-    dialogue:AddLineEmote(text, kalya, "thinking dots");
-    text = vt_system.Translate("I wasn't out for no reason. Herth sent me to watch for soldiers in the west parts of the forest.");
-    dialogue:AddLineEmote(text, sophia, "exclamation");
-    text = vt_system.Translate("He was afraid they'd corner us to prevent an escape, and he was right.");
-    dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("Herth sent you? But he told me it was nothing, that he would handle it!");
-    dialogue:AddLineEmote(text, kalya, "exclamation");
-    text = vt_system.Translate("I fear he just wanted to protect you and make you all meet your destiny at the same time.");
-    dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("What?! You mean you all knew about the crystal?");
-    dialogue:AddLineEmote(text, bronann, "exclamation");
-    text = vt_system.Translate("We didn't know exactly what would happen, Bronann. But we knew one day the three of you would have to carry a special burden. That is what Herth told us.");
-    dialogue:AddLineEventEmote(text, sophia, "Sophia looks west", "Sophia looks north", "sweat drop");
-    text = vt_system.Translate("Listen kids, I feel bad about what happened. But I can't help you as a magical force is preventing me from entering the shrine.");
-    dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("But then you're stuck here, too, right?");
-    dialogue:AddLineEmote(text, bronann, "exclamation");
-    text = vt_system.Translate("Me? Not at all. I don't need bridges to cross a moutain.");
-    dialogue:AddLineEmote(text, sophia, "interrogation");
-    text = vt_system.Translate("But maybe?");
-    dialogue:AddLineEmote(text, sophia, "thinking dots");
-    text = vt_system.Translate("Maybe?");
-    dialogue:AddLine(text, kalya);
-    text = vt_system.Translate("Maybe I could sell you a few things to help you find a way to open a path in there?");
-    dialogue:AddLineEmote(text, sophia, "exclamation");
-    text = vt_system.Translate("So that's how you help, by selling things to us...");
-    dialogue:AddLineEmote(text, kalya, "sweat drop");
-    text = vt_system.Translate("Yes, it's a great privilege as I usually don't do such things for children. I'll stay here as long as you are stuck, isn't this quite nice?");
-    dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("But you'll let us deal with this place, alone?");
-    dialogue:AddLineEmote(text, bronann, "exclamation");
-    text = vt_system.Translate("This place is part of your burden. Herth was right. You managed to come here all by yourselves, after all.");
-    dialogue:AddLine(text, sophia);
-    text = vt_system.Translate("I guess it's better than nothing. But Orlinn, you stay with us.");
-    dialogue:AddLineEventEmote(text, kalya, "Orlinn looks at Kalya", "Orlinn looks south", "thinking dots");
-    text = vt_system.Translate("Thanks anyway, Sophia.");
-    dialogue:AddLine(text, bronann);
-    text = vt_system.Translate("You're welcome, my dear!");
-    dialogue:AddLine(text, sophia);
-
-    event = vt_map.DialogueEvent.Create("Sophia Dialogue 2", dialogue);
-    event:AddEventLinkAtEnd("Sophia moves to her former place");
-
-    event = vt_map.PathMoveSpriteEvent.Create("Sophia moves to her former place", sophia, 42.0, 21.0, false);
-    event:AddEventLinkAtEnd("Sophia looks north");
-    event:AddEventLinkAtEnd("Orlinn goes back to party3");
-    event:AddEventLinkAtEnd("Kalya goes back to party3");
-
-    event = vt_map.PathMoveSpriteEvent.Create("Orlinn goes back to party3", orlinn, bronann, false);
-    event:AddEventLinkAtEnd("Sophia introduction event end");
-
-    vt_map.PathMoveSpriteEvent.Create("Kalya goes back to party3", kalya, bronann, false);
-
-    vt_map.ScriptedEvent.Create("Sophia introduction event end", "sophia_event_end", "");
 end
 
 -- zones
@@ -873,70 +697,5 @@ map_functions = {
 
         -- Set event as done
         GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_shrine_door_opening_event", 1);
-    end,
-
-    sophia_event_start = function()
-        Map:PushState(vt_map.MapMode.STATE_SCENE);
-        hero:SetMoving(false);
-
-        bronann:SetPosition(hero:GetXPosition(), hero:GetYPosition())
-        bronann:SetDirection(hero:GetDirection())
-        bronann:SetVisible(true)
-        hero:SetVisible(false)
-        Map:SetCamera(bronann)
-        hero:SetPosition(0, 0)
-
-        kalya:SetPosition(bronann:GetXPosition(), bronann:GetYPosition());
-        kalya:SetVisible(true);
-        orlinn:SetPosition(bronann:GetXPosition(), bronann:GetYPosition());
-        orlinn:SetVisible(true);
-        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-
-        kalya_move_next_to_bronann_event3:SetDestination(bronann:GetXPosition() - 2.0, bronann:GetYPosition(), false);
-        orlinn_move_next_to_bronann_event3:SetDestination(bronann:GetXPosition() + 2.0, bronann:GetYPosition(), false);
-
-        sophia_move_next_to_bronann_event:SetDestination(bronann:GetXPosition(), bronann:GetYPosition() + 3.0, false);
-    end,
-
-    everyone_exclamation = function()
-        hero:Emote("exclamation", vt_map.MapMode.ANIM_SOUTH);
-        kalya:Emote("exclamation", vt_map.MapMode.ANIM_SOUTH);
-        orlinn:Emote("exclamation", vt_map.MapMode.ANIM_SOUTH);
-        sophia:Emote("exclamation", vt_map.MapMode.ANIM_NORTH);
-    end,
-
-    fade_out_music = function()
-        AudioManager:FadeOutActiveMusic(300);
-    end,
-
-    play_funny_music = function()
-        AudioManager:PlayMusic("data/music/Zander Noriega - School of Quirks.ogg");
-    end,
-
-    sophia_event_end = function()
-        Map:PopState();
-        kalya:SetPosition(0, 0);
-        kalya:SetVisible(false);
-        kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-        orlinn:SetPosition(0, 0);
-        orlinn:SetVisible(false);
-        orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
-
-        hero:SetPosition(bronann:GetXPosition(), bronann:GetYPosition())
-        hero:SetDirection(bronann:GetDirection())
-        hero:SetVisible(true)
-        bronann:SetVisible(false)
-        Map:SetCamera(hero)
-        bronann:SetPosition(0, 0)
-
-        -- Set event as done
-        GlobalManager:GetGameEvents():SetEventValue("story", "mt_elbrus_shrine_sophia_dialogue_event", 1);
-
-        -- Adds Sophia's shop dialogue
-        _UpdateSophiaDialogue();
-
-        -- Fade in the default music
-        AudioManager:PlayMusic("data/music/icy_wind.ogg");
     end,
 }

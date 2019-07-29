@@ -66,8 +66,8 @@ armor[20011] = {
     name = vt_system.Translate("Old Helmet"),
     description = vt_system.Translate("A battle-worn helmet, still reliable for head protection."),
     icon = "data/inventory/armor/karlate_helmet.png",
-    physical_defense = 12,
-    magical_defense = 4,
+    physical_defense = 24,
+    magical_defense = 12,
     standard_price = 80,
     usable_by = BRONANN + KALYA + THANIS + SYLVE,
     slots = 0
@@ -94,4 +94,3 @@ armor[20013] = {
 	usable_by = BRONANN + KALYA + THANIS + SYLVE,
 	slots = 0
 }
-
