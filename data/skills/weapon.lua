@@ -884,6 +884,11 @@ skills[1015] = {
     cooldown_time = 500,
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
+    animation_scripts = {
+        -- N.B.: [1] is the slime enemy ID.
+        [1] = "data/battles/enemies_animations/slime_water_spray_attack.lua",
+    },
+
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
         local atk_point = target:GetAttackPoint();
