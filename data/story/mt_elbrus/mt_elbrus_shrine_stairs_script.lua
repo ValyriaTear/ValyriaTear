@@ -183,7 +183,7 @@ function _CreateObjects()
     local dialogue = nil
     local text = nil
 
-    vt_map.SavePoint.Create(51, 22);
+    vt_map.SavePoint.Create(51, 22)
     if (GlobalManager:GetGameEvents():GetEventValue("story", "elbrus_shrine_laughing_event_done") == 1
             and GlobalManager:GetGameEvents():GetEventValue("story", "mt elbrus shrine heroes saved") == 0) then
         -- Disable the save point
@@ -214,6 +214,8 @@ function _CreateObjects()
     text = vt_system.Translate("Your party feels better.");
     dialogue:AddLineEvent(text, nil, "Heal event", ""); -- 'nil' means no portrait and no name
     vt_map.DialogueEvent.Create("Heal dialogue", dialogue);
+
+    vt_map.SavePoint.Create(37, 38.5)
 
     -- Snow effect
     vt_map.ParticleObject.Create("data/story/mt_elbrus/particles_snow_south_entrance.lua", 29, 48, vt_map.MapMode.GROUND_OBJECT);
