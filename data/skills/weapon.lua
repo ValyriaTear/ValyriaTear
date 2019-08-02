@@ -691,16 +691,21 @@ skills[1008] = {
     cooldown_time = 300,
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
+    animation_scripts = {
+        -- N.B.: [3] is the enemy ID.
+        [3] = "data/battles/enemies_animations/wolf_claw_attack.lua",
+    },
+
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
         local atk_point = target:GetAttackPoint();
 
         if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
             target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 20, 1.0, atk_point), target);
-            AudioManager:PlaySound("data/sounds/growl1_IFartInUrGeneralDirection_freesound.wav");
+            AudioManager:PlaySound("data/sounds/bite_01.ogg")
         else
             target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("data/sounds/missed_target.wav");
+            AudioManager:PlaySound("data/sounds/missed_target.wav")
         end
     end
 }
@@ -725,7 +730,7 @@ skills[1009] = {
 
             if (target_actor:IsAlive() == true and vt_battle.RndEvade(target_actor) == false) then
                 target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 40));
-                AudioManager:PlaySound("data/sounds/growl1_IFartInUrGeneralDirection_freesound.wav");
+                AudioManager:PlaySound("data/sounds/bite_02.ogg")
             else
                 target_actor:RegisterMiss(true);
             end
