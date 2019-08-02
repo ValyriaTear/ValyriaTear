@@ -43,9 +43,9 @@ function Initialize(_character, _target, _skill)
     local index = 0;
     while (target:GetPartyActor(index) ~= nil) do
         local actor = target:GetPartyActor(index)
-            if (actor:CanFight() == true) then
-            target_arrows[index] = {};
-            target_arrows[index].actor = actor
+        if (actor:CanFight() == true) then
+          target_arrows[index] = {};
+          target_arrows[index].actor = actor
         end
 
         index = index + 1

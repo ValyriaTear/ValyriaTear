@@ -694,6 +694,8 @@ skills[1008] = {
     animation_scripts = {
         -- N.B.: [3] is the enemy ID.
         [3] = "data/battles/enemies_animations/wolf_claw_attack.lua",
+        [7] = "data/battles/enemies_animations/wolf_claw_attack.lua",
+        [8] = "data/battles/enemies_animations/wolf_claw_attack.lua",
     },
 
     BattleExecute = function(user, target)
@@ -719,6 +721,13 @@ skills[1009] = {
     warmup_time = 1600,
     cooldown_time = 500,
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_FOES,
+
+    animation_scripts = {
+        -- N.B.: [3] is the enemy ID.
+        [3] = "data/battles/enemies_animations/wolf_fangs_party_attack.lua",
+        [7] = "data/battles/enemies_animations/wolf_fangs_party_attack.lua",
+        [8] = "data/battles/enemies_animations/wolf_fangs_party_attack.lua",
+    },
 
     BattleExecute = function(user, target)
         local index = 0;

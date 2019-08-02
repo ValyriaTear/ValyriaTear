@@ -256,6 +256,7 @@ data/entities/battle/effects/claw_slash.png                                   GP
 data/entities/battle/effects/sword_slash.png                                  GPLv3 / CC-BY-SA-3.0     Bertram
 data/entities/battle/effects/hit_splash.png                                   CC-BY-SA-3.0             Bertram
 data/entities/battle/effects/wolf_claws.png                                   CC-BY-SA-3.0             Adapted from J.W. Bjerk - https://opengameart.org/content/painterly-spell-icons-part-3
+data/entities/battle/effects/fangs_crush.png                                  CC-BY-SA-3.0             Adapted from J.W. Bjerk - https://opengameart.org/content/painterly-spell-icons-part-3
 
 data/entities/battle/enemies/big_slime.png                                    GPLv2+                   Bertram (based on the slime sprite)
 data/entities/battle/enemies/dark_soldier.png                                 GPLv3                    Kirill777 (OGA) - https://opengameart.org/content/soldier-0
