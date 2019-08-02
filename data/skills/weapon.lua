@@ -607,7 +607,7 @@ skills[1005] = {
 
     animation_scripts = {
         -- N.B.: [4] is the enemy ID.
-        [4] = "data/battles/enemies_animations/standard_enemy_attack.lua",
+        [4] = "data/battles/enemies_animations/snake_dampen_attack.lua",
     },
 
     BattleExecute = function(user, target)
@@ -622,7 +622,7 @@ skills[1005] = {
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
             target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 6, 1.0, atk_point), target);
-            AudioManager:PlaySound("data/sounds/snake_attack.wav");
+            AudioManager:PlaySound("data/sounds/bite_01.ogg");
         else
             target_actor:RegisterMiss(true);
             AudioManager:PlaySound("data/sounds/missed_target.wav");
