@@ -282,7 +282,8 @@ void BindEngineCode()
             .def("GetHeight", &ImageDescriptor::GetHeight)
             .def("SetGrayscale", &ImageDescriptor::SetGrayscale)
             .def("IsGrayscale", &ImageDescriptor::IsGrayscale)
-            .def("Update", &ImageDescriptor::Update),
+            .def("Update", &ImageDescriptor::Update)
+            .def("SetColor", (void(ImageDescriptor::*)(const vt_video::Color&))&ImageDescriptor::SetColor),
 
             luabind::class_<StillImage, ImageDescriptor>("StillImage")
             .def("Clear", &StillImage::Clear)

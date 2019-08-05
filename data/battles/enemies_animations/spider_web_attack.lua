@@ -94,14 +94,14 @@ function Initialize(_spider, _target, _skill)
     --print("distance y: ", character_pos_y - enemy_pos_y)
     --print (distance_moved_x, a_coeff, distance_moved_y);
 
-    Battle = ModeManager:GetTop();
+    Battle = ModeManager:GetTop()
     -- The web and shadow battle animations.
     local web_filename = "data/battles/enemies_animations/spider_web.lua"
-    web = Battle:CreateBattleAnimation(web_filename);
-    web_shadow = Battle:CreateBattleAnimation(web_filename);
-    web_shadow:GetAnimatedImage():SetGrayscale(true);
-    web:SetVisible(false);
-    web_shadow:SetVisible(false);
+    web = Battle:CreateBattleAnimation(web_filename)
+    web_shadow = Battle:CreateBattleAnimation(web_filename)
+    web_shadow:GetAnimatedImage():SetColor(vt_video.Color(0.0, 0.0, 0.0, 0.3))
+    web:SetVisible(false)
+    web_shadow:SetVisible(false)
 end
 
 

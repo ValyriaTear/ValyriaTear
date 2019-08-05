@@ -100,7 +100,7 @@ function Initialize(_slime, _target, _skill)
     local spray_filename = "data/entities/battle/effects/hit_splash.lua"
     spray = Battle:CreateBattleAnimation(spray_filename);
     spray_shadow = Battle:CreateBattleAnimation(spray_filename);
-    spray_shadow:GetAnimatedImage():SetGrayscale(true);
+    spray_shadow:GetAnimatedImage():SetColor(vt_video.Color(0.0, 0.0, 0.0, 0.3))
     spray:SetVisible(false);
     spray_shadow:SetVisible(false);
 
