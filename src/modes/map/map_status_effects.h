@@ -324,6 +324,10 @@ public:
     vt_global::GLOBAL_INTENSITY GetActiveStatusEffectIntensity(vt_global::GlobalCharacter* character,
                                                                vt_global::GLOBAL_STATUS status_type) const;
 
+    //! \brief Remove negative status effects applied temporarily.
+    //! This is used by rejunevating areas.
+    void RemoveNegativeActiveStatusEffects();
+
 private:
     //! \brief Contains all possible status effects.
     //! The vector is initialized with the size of all possible status effects slots.

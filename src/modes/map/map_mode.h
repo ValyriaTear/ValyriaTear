@@ -442,6 +442,11 @@ public:
         return _status_effect_supervisor.GetActiveStatusEffectIntensity(character, status_type);
     }
 
+    //! \brief Remove any negative active status effect
+    void RemoveNegativeActiveStatusEffects() {
+        _status_effect_supervisor.RemoveNegativeActiveStatusEffects();
+    }
+
     /** \brief Starts a enemy encounter battle or event with a given enemy
     *** \param enemy The enemy sprite the character has collided or spoken with.
     *** \param hero_init_boost Hero stamina boost applied when the team took the initiative to "talk" to enemy first.

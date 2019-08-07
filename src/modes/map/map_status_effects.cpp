@@ -636,6 +636,16 @@ GLOBAL_INTENSITY MapStatusEffectsSupervisor::GetActiveStatusEffectIntensity(Glob
     return GLOBAL_INTENSITY_NEUTRAL;
 }
 
+void MapStatusEffectsSupervisor::RemoveNegativeActiveStatusEffects()
+{
+    for (uint32_t i = 0; i < _active_status_effects.size(); ++i) {
+        ActiveMapStatusEffect& effect = _active_status_effects[i];
+
+        if (effect.GetIntensity() <= GLOBAL_INTENSITY_NEUTRAL)
+            effect.Disable();
+    }
+}
+
 void MapStatusEffectsSupervisor::_AddActiveStatusEffect(GlobalCharacter* character,
                                                         GLOBAL_STATUS status, GLOBAL_INTENSITY intensity,
                                                         uint32_t duration, uint32_t elapsed_time)

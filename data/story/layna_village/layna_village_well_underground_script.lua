@@ -469,7 +469,8 @@ map_functions = {
         local character_handler = GlobalManager:GetCharacterHandler()
         character_handler:GetActiveParty():AddHitPoints(10000)
         character_handler:GetActiveParty():AddSkillPoints(10000)
-        Map:SetStamina(10000);
+        Map:SetStamina(10000)
+        Map:RemoveNegativeActiveStatusEffects()
         AudioManager:PlaySound("data/sounds/heal_spell.wav");
         heal_effect:SetPosition(hero:GetXPosition(), hero:GetYPosition());
         heal_effect:Start();
