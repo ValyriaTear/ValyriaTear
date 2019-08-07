@@ -108,6 +108,9 @@ public:
     **/
     void RemoveActiveStatusEffect(vt_global::GLOBAL_STATUS status_effect_type, bool remove_anyway = false);
 
+    //! \brief Provides the number of applied effects in battle
+    uint32_t GetDisplayedStatusEffectNumber();
+
 private:
     //! \brief A pointer to the actor that this class supervises effects for
     BattleActor* _actor;

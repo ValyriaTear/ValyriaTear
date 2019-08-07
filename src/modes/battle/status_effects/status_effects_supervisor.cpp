@@ -62,6 +62,25 @@ void BattleStatusEffectsSupervisor::SetActiveStatusEffects(GlobalCharacter* char
     }
 }
 
+uint32_t BattleStatusEffectsSupervisor::GetDisplayedStatusEffectNumber()
+{
+    uint32_t applied_effects = 0;
+    for(uint32_t i = 0; i < _equipment_status_effects.size(); ++i) {
+        PassiveBattleStatusEffect& effect = _equipment_status_effects.at(i);
+        if(!effect.IsActive())
+            continue;
+        ++applied_effects;
+    }
+
+    for(uint32_t i = 0; i < _active_status_effects.size(); ++i) {
+        ActiveBattleStatusEffect& effect = _active_status_effects[i];
+        if(!effect.IsActive())
+            continue;
+        ++applied_effects;
+    }
+    return applied_effects;
+}
+
 void BattleStatusEffectsSupervisor::_UpdatePassive()
 {
     for(uint32_t i = 0; i < _equipment_status_effects.size(); ++i) {
@@ -235,8 +254,7 @@ void BattleStatusEffectsSupervisor::DrawVertical()
         _infinite_text.Draw();
         VideoManager->MoveRelative(20.0f, -5.0f);
         effect.GetName().Draw();
-        VideoManager->MoveRelative(-20.0f, 0.0f);
-        VideoManager->MoveRelative(0.0f, 16.0f);
+        VideoManager->MoveRelative(-20.0f, 25.0f);
     }
 
     for(std::vector<ActiveBattleStatusEffect>::reverse_iterator it = _active_status_effects.rbegin();
@@ -259,9 +277,7 @@ void BattleStatusEffectsSupervisor::DrawVertical()
 
         VideoManager->MoveRelative(20.0f, 0.0f);
         effect.GetName().Draw();
-        VideoManager->MoveRelative(-55.0f, 0.0f);
-
-        VideoManager->MoveRelative(0.0f, 16.0f);
+        VideoManager->MoveRelative(-55.0f, 25.0f);
     }
 }
 

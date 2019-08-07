@@ -412,7 +412,7 @@ void BattleCharacter::ChangeActionText()
 void BattleCharacter::DrawPortrait()
 {
     VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-    VideoManager->Move(48.0f, 759.0f);
+    VideoManager->Move(5.0f, 762.0f);
 
     std::vector<StillImage>& portrait_frames = *(_global_character->GetBattlePortraits());
     float hp_percent =  static_cast<float>(GetHitPoints()) / static_cast<float>(GetMaxHitPoints());
@@ -480,7 +480,8 @@ void BattleCharacter::DrawStatus(uint32_t order, BattleCharacter* character_comm
         // Draw the active character status effect at bottom.
         // Draw each characters active status effect.
         VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_BOTTOM, VIDEO_BLEND, 0);
-        VideoManager->Move(7.0f, 688.0f);
+        VideoManager->Move(7.0f, 678.0f);
+        VideoManager->MoveRelative(0.0f, -25.0f * _effects_supervisor->GetDisplayedStatusEffectNumber());
         _effects_supervisor->DrawVertical();
     }
 
