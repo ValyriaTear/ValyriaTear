@@ -662,7 +662,7 @@ skills[1007] = {
 
     animation_scripts = {
         -- N.B.: [6] is the enemy ID.
-        [6] = "data/battles/enemies_animations/standard_enemy_attack.lua",
+        [6] = "data/battles/enemies_animations/bat_drain_attack.lua",
     },
 
     BattleExecute = function(user, target)
@@ -676,10 +676,10 @@ skills[1007] = {
             if (hp_drain > 0) then
                 user:RegisterHealing(hp_drain, true);
             end
-            AudioManager:PlaySound("data/sounds/spider_attack.wav");
+            AudioManager:PlaySound("data/sounds/bite_01.ogg")
         else
             target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("data/sounds/missed_target.wav");
+            AudioManager:PlaySound("data/sounds/missed_target.wav")
         end
     end
 }
