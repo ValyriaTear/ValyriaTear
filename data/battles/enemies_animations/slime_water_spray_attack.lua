@@ -36,6 +36,7 @@ local enemy_pos_x = 0.0;
 local enemy_pos_y = 0.0;
 
 local attack_step = 0;
+local preparation_time = 0.0
 local attack_time = 0.0;
 
 local damage_triggered = false;
@@ -63,17 +64,18 @@ function Initialize(_slime, _target, _skill)
     height_min = math.min(spray_height, (target_actor:GetSpriteHeight() / 2.0));
 
     -- Set the spray starting position
-    spray_pos_x = slime:GetXLocation() + slime:GetSpriteWidth() / 2.0;
-    spray_pos_y = slime:GetYLocation() - spray_height;
+    spray_pos_x = slime:GetXLocation()
+    spray_pos_y = slime:GetYLocation()
 
     -- Make the spray reach the enemy center
     enemy_pos_x = target_actor:GetXLocation();
-    enemy_pos_y = target_actor:GetYLocation() - target_actor:GetSpriteHeight() / 2.0;
+    enemy_pos_y = target_actor:GetYLocation() - target_actor:GetSpriteHeight() / 2.0
 
-    attack_step = 0;
-    attack_time = 0;
+    attack_step = 0
+    attack_time = 0.0
+    preparation_time = 0.0
 
-    damage_triggered = false;
+    damage_triggered = false
 
     distance_moved_x = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 210.0;
     local x_diff = enemy_pos_x - spray_pos_x;
@@ -104,9 +106,6 @@ function Initialize(_slime, _target, _skill)
     spray_shadow = Battle:CreateBattleAnimation(spray_filename)
     spray_shadow:GetAnimatedImage():SetColor(vt_video.Color(0.0, 0.0, 0.0, 0.3))
     spray_shadow:SetVisible(false)
-
-    Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/waterspray_skill.lua",
-                                       spray_pos_x, spray_pos_y)
 end
 
 
@@ -142,13 +141,28 @@ function Update()
     -- Attack the enemy
     if (attack_step == 0) then
         slime:ChangeSpriteAnimation("attack")
-        attack_step = 1
+        preparation_time = preparation_time + SystemManager:GetUpdateTime()
+
+        if (preparation_time < 200.0) then
+            slime:SetSpriteAlpha(1.0 - (preparation_time / 200.0) * 0.5)
+        else
+            slime:SetSpriteAlpha(0.5 + ((preparation_time - 200.0) / (400.0 - 200.0) * 0.5))
+        end
+
+        if (preparation_time > 400.0) then
+          attack_step = 1
+          slime:SetSpriteAlpha(1.0)
+        end
     end
     -- Make the slime go back to idle once attacked
     if (attack_step == 1) then
-        attack_time = attack_time + SystemManager:GetUpdateTime();
-        if (attack_time > 750.0) then
+        attack_time = attack_time + SystemManager:GetUpdateTime()
+        if (attack_time > 200.0) then
             slime:ChangeSpriteAnimation("idle")
+
+            Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/waterspray_skill.lua",
+                                               spray_pos_x, spray_pos_y)
+
             attack_step = 2;
             spray:SetXLocation(spray_pos_x);
             spray:SetYLocation(spray_pos_y);
@@ -164,7 +178,7 @@ function Update()
 
     -- Triggers the spray animation
     if (attack_step == 2) then
-        if (mid_effect_triggered == false and attack_time > 1200.0) then
+        if (mid_effect_triggered == false and (distance_left / total_distance) <= 0.5) then
           Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/waterspray_skill.lua",
                                              spray_pos_x, spray_pos_y)
           mid_effect_triggered = true
