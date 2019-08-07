@@ -39,7 +39,6 @@ local spawn_max_y = 0.0
 
 local target_pos_x = 0.0
 local target_pos_y = 0.0
-local x_distance = 0.0
 
 local attack_step = 0
 local attack_time = 0.0
@@ -89,14 +88,14 @@ end
 -- The skill id used on target
 function Initialize(_attacker, _target, _skill)
     -- Keep the reference in memory
-    attacker = _attacker;
-    target = _target;
-    target_actor = _target:GetActor();
-    skill = _skill;
+    attacker = _attacker
+    target = _target
+    target_actor = _target:GetActor()
+    skill = _skill
 
     -- Don't attack if the attacker isn't alive
     if (attacker:IsAlive() == false) then
-        return;
+        return
     end
 
     -- Set the spawn_ball flying height members
@@ -125,8 +124,6 @@ function Initialize(_attacker, _target, _skill)
     spawn_max_x = (spawn_pos_x + target_pos_x) / 2.0
     spawn_max_y = ((spawn_pos_y + target_pos_y) / 2.0) - 100.0
 
-    x_distance = math.abs(target_pos_x - spawn_pos_x)
-
     spawn_parabola_coeff = GetParabolaCoefficient(spawn_max_x, spawn_max_y, target_pos_x, target_pos_y)
     shadow_m_coeff, shadow_b_value = GetLinearCoefficients(shadow_pos_x, shadow_pos_y, target_pos_x, target_pos_y)
     --print("parabola coeff: "..spawn_parabola_coeff)
@@ -153,19 +150,17 @@ end
 
 function Update()
     -- The update time can vary, so update the distance on each update as well.
-    -- FIXME: Make the throw animation time constant whatever the x distance
-    local move_diff = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * (x_distance / 10.0)
-    local diff_to = math.abs(move_diff / shadow_m_coeff)
+    local move_diff = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 35.0
     if (spawn_start_pos_x > target_pos_x) then
-        diff_to = -diff_to
+        move_diff = -move_diff
     end
 
     -- a(x - h)^2 + k
-    spawn_pos_x = spawn_pos_x + diff_to
+    spawn_pos_x = spawn_pos_x + move_diff
     spawn_pos_y = spawn_parabola_coeff * math.pow(spawn_pos_x - spawn_max_x, 2) + spawn_max_y
 
     -- ax + b
-    shadow_pos_x = shadow_pos_x + diff_to
+    shadow_pos_x = shadow_pos_x + move_diff
     shadow_pos_y = shadow_m_coeff * shadow_pos_x + shadow_b_value
 
     -- Attack the enemy
@@ -199,7 +194,7 @@ function Update()
 
         if ((spawn_start_pos_x < target_pos_x and spawn_pos_x >= target_pos_x)
             or (spawn_start_pos_x >= target_pos_x and spawn_pos_x <= target_pos_x)) then
-            attack_step = 3;
+            attack_step = 3
         end
     end
 
@@ -207,44 +202,41 @@ function Update()
         -- Triggers the damage once the spawn_ball has reached the enemy
         if (skill_triggered == false) then
             -- Add the slime when reaching the ground
-            Battle:AddEnemy(1, target_pos_x, target_pos_y);
+            Battle:AddEnemy(1, target_pos_x, target_pos_y)
             -- Remove the skill points at the end of spawn
-            attacker:SubtractSkillPoints(skill:GetSPRequired());
-            skill_triggered = true;
+            attacker:SubtractSkillPoints(skill:GetSPRequired())
+            AudioManager:PlaySound("data/sounds/footstep_grass2.wav")
+            Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", target_pos_x, target_pos_y)
+            Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/small_burst_particles.lua", target_pos_x, target_pos_y)
+            skill_triggered = true
             -- The Remove() call will make the engine delete the objects, so we set them to nil to avoid using them again.
             if (spawn_ball ~= nil) then
                 spawn_ball:SetVisible(false)
-                spawn_ball:Remove();
-                spawn_ball = nil;
-
-                -- TODO: Show the spawn splash
+                spawn_ball:Remove()
+                spawn_ball = nil
 
                 attack_time = 0.0
             end
             if (spawn_shadow ~= nil) then
-                spawn_shadow:SetVisible(false);
-                spawn_shadow:Remove();
-                spawn_shadow = nil;
+                spawn_shadow:SetVisible(false)
+                spawn_shadow:Remove()
+                spawn_shadow = nil
             end
         end
         attack_step = 4
     end
 
     if (attack_step == 4) then
-      -- FIXME: Add splash image
-        --if (splash_image ~= nil) then
-            attack_time = attack_time + SystemManager:GetUpdateTime();
+        attack_time = attack_time + SystemManager:GetUpdateTime()
 
-            if (attack_time > 100.0) then
-                attack_step = 5
-            end
-        --end
+        if (attack_time > 100.0) then
+            attack_step = 5
+        end
     end
 
     if (attack_step == 5) then
-        -- TODO: cleanup
-        return true;
+        return true
     end
 
-    return false;
+    return false
 end
