@@ -348,7 +348,7 @@ function _CreateEnemies()
         _SetBattleEnvironment(enemy);
         enemy:SetBattleMusicTheme("data/music/accion-OGA-djsaryon.ogg"); -- set the boss music for that one
         enemy:NewEnemyParty();
-        enemy:AddEnemy(5, 812.0, 350.0);
+        enemy:AddEnemy(5, 512.0, 600.0);
         enemy:SetBoss(true);
         slime_mother_roam_zone:AddEnemy(enemy, 1);
         slime_mother_roam_zone:SetSpawnsLeft(1); -- The Slime Mother boss shall spawn only one time.
