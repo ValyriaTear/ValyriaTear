@@ -181,7 +181,7 @@ function _UpdateStoneSignDialogue()
 
     if (GlobalManager:GetGameEvents():DoesEventExist("story", "kalya_stone_sign_dialogue_done")) then
         dialogue = vt_map.SpriteDialogue.Create();
-        text = vt_system.Translate("Only the last one standing shall pass.");
+        text = vt_system.Translate("'Here, only your enemies prevent you from going further.''");
         dialogue:AddLine(text, stone_sign);
         stone_sign:AddDialogueReference(dialogue);
     else
