@@ -909,7 +909,7 @@ skills[1015] = {
 
         if (vt_battle.RndEvade(target_actor, 0.0, 1.0, atk_point) == false) then
             local effect_duration = clampDuration(user:GetMagAtk())
-            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_ATK,
+            target_actor:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_EVADE,
                                                  vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER,
                                                  effect_duration);
             target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 10, 1.0, atk_point), target);
