@@ -187,12 +187,18 @@ skills[20017] = {
 --------------------------------------------------------------------------------
 
 skills[21001] = {
-    name = "Slime Spawn",
-    description = "Creates a slime.",
+    name = vt_system.Translate("Spawn Slime"),
+    description = "Creates a slime",
+    show_notice = true,
     sp_required = 0,
     warmup_time = 1400,
     cooldown_time = 750,
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
+
+    animation_scripts = {
+        -- N.B.: [5] is the enemy ID.
+        [5] = "data/battles/enemies_animations/slime_spawn.lua",
+    },
 
     BattleExecute = function(user, target)
         local x_position = 250.0 + (vt_utils.RandomFloat() * 400.0)

@@ -98,11 +98,12 @@ function Initialize(_slime, _target, _skill)
     Battle = ModeManager:GetTop();
     -- The spray and shadow battle animations.
     local spray_filename = "data/entities/battle/effects/hit_splash.lua"
-    spray = Battle:CreateBattleAnimation(spray_filename);
-    spray_shadow = Battle:CreateBattleAnimation(spray_filename);
+    spray = Battle:CreateBattleAnimation(spray_filename)
+    spray:GetAnimatedImage():SetColor(vt_video.Color(0.0, 0.0, 0.8, 0.7))
+    spray:SetVisible(false)
+    spray_shadow = Battle:CreateBattleAnimation(spray_filename)
     spray_shadow:GetAnimatedImage():SetColor(vt_video.Color(0.0, 0.0, 0.0, 0.3))
-    spray:SetVisible(false);
-    spray_shadow:SetVisible(false);
+    spray_shadow:SetVisible(false)
 
     Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/waterspray_skill.lua",
                                        spray_pos_x, spray_pos_y)
