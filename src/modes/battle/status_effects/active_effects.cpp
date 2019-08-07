@@ -89,6 +89,8 @@ ActiveBattleStatusEffect::ActiveBattleStatusEffect(GLOBAL_STATUS type, GLOBAL_IN
     _timer.Run();
 
     _icon_image = GlobalManager->Media().GetStatusIcon(_type, _intensity);
+
+    _time_left_text.SetStyle(TextStyle("text14"));
 }
 
 void ActiveBattleStatusEffect::SetIntensity(vt_global::GLOBAL_INTENSITY intensity)
@@ -127,6 +129,13 @@ void ActiveBattleStatusEffect::_ProcessIntensityChange(bool reset_timer_only)
 
     _intensity_changed = true;
     _icon_image = GlobalManager->Media().GetStatusIcon(_type, _intensity);
+}
+
+void ActiveBattleStatusEffect::UpdateTimeLeftText()
+{
+    uint32_t time_left = _timer.TimeLeft() / 1000;
+    /// tr: status effect time left string in seconds
+    _time_left_text.SetText(vt_system::VTranslate("%d s", time_left));
 }
 
 } // namespace private_battle

@@ -148,6 +148,9 @@ void BattleStatusEffectsSupervisor::Update()
         if (effect_removed)
             continue;
 
+        // Update the time left text
+        effect.UpdateTimeLeftText();
+
         // Update the effect according to the script function
         if (!use_update_timer || update_timer->IsFinished()) {
             if (effect.GetUpdateFunction().is_valid()) {
@@ -211,10 +214,9 @@ void BattleStatusEffectsSupervisor::Draw()
         vt_system::SystemTimer* effect_timer = effect.GetTimer();
         uint32_t duration = effect_timer->GetDuration();
         uint32_t time_left = effect_timer->TimeLeft();
-        VideoManager->DrawRectangle(20.0f, 5.0f, Color::blue);
+        VideoManager->DrawRectangle(20.0f, 2.0f, Color::white);
         uint32_t length_left = 20.0f / duration * time_left;
-        VideoManager->DrawRectangle(length_left, 5.0f, Color::blue_sp);
-
+        VideoManager->DrawRectangle(length_left, 5.0f, Color::blue);
         VideoManager->MoveRelative(-16.0f, 0.0f);
 
     }
@@ -243,19 +245,21 @@ void BattleStatusEffectsSupervisor::DrawVertical()
         if (!effect.IsActive())
             continue;
 
+        effect.GetTimeLeftText().Draw();
+        VideoManager->MoveRelative(35.0f, 0.0f);
         effect.GetIconImage()->Draw();
 
         // Draw remaining effect time
         vt_system::SystemTimer* effect_timer = effect.GetTimer();
         uint32_t duration = effect_timer->GetDuration();
         uint32_t time_left = effect_timer->TimeLeft();
-        VideoManager->DrawRectangle(20.0f, 5.0f, Color::blue);
+        VideoManager->DrawRectangle(20.0f, 2.0f, Color::white);
         uint32_t length_left = 20.0f / duration * time_left;
-        VideoManager->DrawRectangle(length_left, 5.0f, Color::blue_sp);
+        VideoManager->DrawRectangle(length_left, 5.0f, Color::blue);
 
         VideoManager->MoveRelative(20.0f, 0.0f);
         effect.GetName().Draw();
-        VideoManager->MoveRelative(-20.0f, 0.0f);
+        VideoManager->MoveRelative(-55.0f, 0.0f);
 
         VideoManager->MoveRelative(0.0f, 16.0f);
     }

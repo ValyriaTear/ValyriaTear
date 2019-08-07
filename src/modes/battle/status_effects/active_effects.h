@@ -70,8 +70,15 @@ public:
     //! \note This will cause the timer to reset and also
     void SetIntensity(vt_global::GLOBAL_INTENSITY intensity);
 
+    //! \brief Update the time left text
+    void UpdateTimeLeftText();
+
     const vt_video::TextImage& GetName() const {
         return _name;
+    }
+
+    const vt_video::TextImage& GetTimeLeftText() const {
+        return _time_left_text;
     }
 
     const luabind::object& GetApplyFunction() const {
@@ -122,6 +129,9 @@ private:
 
     //! \brief A pointer to the icon image that represents the status. Will be nullptr if the status is invalid
     vt_video::StillImage* _icon_image;
+
+    //! \brief Holds the time left text of the effect
+    vt_video::TextImage _time_left_text;
 
     //! \brief A flag set to true when the intensity value was changed and cleared when the Update method is called
     bool _intensity_changed;
