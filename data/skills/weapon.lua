@@ -656,8 +656,8 @@ skills[1007] = {
     icon = "data/skills/monster_attacks/animal-fangs.png",
     show_notice = true,
     sp_required = 2,
-    warmup_time = 7000,
-    cooldown_time = 4000,
+    warmup_time = 5000,
+    cooldown_time = 2000,
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
     animation_scripts = {
