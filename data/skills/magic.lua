@@ -130,8 +130,13 @@ skills[10002] = {
             return false;
         end
 
-        target:AddHitPoints((user:GetMagAtk() * 5) + vt_utils.RandomBoundedInteger(0, 30));
-        AudioManager:PlaySound("data/sounds/heal_spell.wav");
+        target:AddHitPoints((user:GetMagAtk() * 5) + vt_utils.RandomBoundedInteger(0, 30))
+        -- Trigger a particle effect on the menu character
+        local active_party = GlobalManager:GetCharacterHandler():GetActiveParty()
+        local y_pos = 218.0 + active_party:GetPartyPosition(target) * 118.0
+        local menu_mode = ModeManager:GetTop()
+        menu_mode:GetParticleManager():AddParticleEffect("data/visuals/particle_effects/heal_particle.lua", 145.0, y_pos)
+        AudioManager:PlaySound("data/sounds/heal_spell.wav")
         return true;
     end
 }
