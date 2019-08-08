@@ -335,7 +335,7 @@ void SellInterface::Update()
             ChangeViewMode(SHOP_VIEW_MODE_LIST);
             shop->ChangeState(SHOP_STATE_ROOT);
             shop->CompleteTransaction();
-            GlobalManager->Media().PlaySound("confirm");
+            GlobalManager->Media().PlaySound("coins");
             shop->ClearOrder();
             shop->ChangeState(SHOP_STATE_SELL);
         } else if(InputManager->CancelPress()) {
