@@ -110,7 +110,8 @@ function Update()
     -- Start to run towards the enemy
     if (attack_step == 0) then
         character:ChangeSpriteAnimation("jump_forward")
-        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y)
+        AudioManager:PlaySound("data/sounds/footstep_grass1.wav")
 
         attack_step = 1
     end
@@ -145,8 +146,9 @@ function Update()
 
     -- triggers the attack animation
     if (attack_step == 2) then
+        AudioManager:PlaySound("data/sounds/footstep_grass2.wav")
         character:ChangeSpriteAnimation("attack")
-        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y)
 
         -- Init the slash effect life time
         slash_effect_time = 0;
@@ -189,7 +191,8 @@ function Update()
 
         if (attack_time > 730.0) then
             character:ChangeSpriteAnimation("jump_backward")
-            Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
+            Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y)
+            AudioManager:PlaySound("data/sounds/footstep_grass1.wav")
             attack_step = 4;
         end
     end
@@ -224,8 +227,9 @@ function Update()
     end
 
     if (attack_step == 5) then
+        AudioManager:PlaySound("data/sounds/footstep_grass2.wav")
         character:ChangeSpriteAnimation("idle")
-        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y)
         return true;
     end
     return false;

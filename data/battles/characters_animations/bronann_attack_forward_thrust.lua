@@ -116,6 +116,7 @@ function Update()
     -- Start to run towards the enemy
     if (attack_step == 0) then
         character:ChangeSpriteAnimation("jump_forward")
+        AudioManager:PlaySound("data/sounds/footstep_grass1.wav")
         Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
 
         attack_step = 1
@@ -150,8 +151,12 @@ function Update()
 
     -- triggers the attack animation
     if (attack_step == 2) then
+        AudioManager:PlaySound("data/sounds/footstep_grass2.wav")
         Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
         character:ChangeSpriteAnimation("attack_forward_thrust")
+
+        -- Trigger damage a first time
+        skill:ExecuteBattleFunction(character, target)
 
         -- Init the slash effect life time
         slash_effect_time = 0;
@@ -186,11 +191,11 @@ function Update()
             sword_slash = nil;
         end
 
-        -- Triggers the damage in the middle of the attack animation
+        -- Triggers the damage a second time in the middle of the attack animation
         if (damage_triggered == false and attack_time > 505.0) then
-            skill:ExecuteBattleFunction(character, target);
-            -- Remove the skill points at the end of the third attack
-            character:SubtractSkillPoints(skill:GetSPRequired());
+            skill:ExecuteBattleFunction(character, target)
+            -- Remove the skill points at the end of attack
+            character:SubtractSkillPoints(skill:GetSPRequired())
             damage_triggered = true;
         end
 
@@ -211,6 +216,7 @@ function Update()
         if (attack_time > 730.0) then
             character:ChangeSpriteAnimation("jump_backward")
             Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
+            AudioManager:PlaySound("data/sounds/footstep_grass1.wav")
 
             -- Recompute the a coefficient using the character origin position as the angle has changed.
             distance_moved_x = SystemManager:GetUpdateTime() / vt_map.MapMode.NORMAL_SPEED * 170.0;
@@ -264,7 +270,8 @@ function Update()
 
     if (attack_step == 5) then
         character:ChangeSpriteAnimation("idle")
-        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y);
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/dust.lua", character_pos_x, character_pos_y)
+        AudioManager:PlaySound("data/sounds/footstep_grass2.wav")
         return true;
     end
     return false;
