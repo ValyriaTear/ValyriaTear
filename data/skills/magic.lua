@@ -836,6 +836,11 @@ skills[10126] = {
     action_name = "magic_cast",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
 
+    animation_scripts = {
+        -- N.B.: [11] is the enemy ID.
+        [11] = "data/battles/enemies_animations/bat_drain_attack.lua",
+    },
+
     BattleExecute = function(user, target)
         local target_actor = target:GetActor()
         local effect_duration = clampDuration(user:GetMagAtk())

@@ -663,6 +663,7 @@ skills[1007] = {
     animation_scripts = {
         -- N.B.: [6] is the enemy ID.
         [6] = "data/battles/enemies_animations/bat_drain_attack.lua",
+        [11] = "data/battles/enemies_animations/bat_drain_attack.lua",
     },
 
     BattleExecute = function(user, target)
