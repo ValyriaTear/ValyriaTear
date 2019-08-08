@@ -438,38 +438,38 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
         local hp_change = battle_actor:GetMaxHitPoints();
 
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            hp_change = hp_change / 80;
+            hp_change = math.floor(hp_change / 80.0)
             if (hp_change < 1) then hp_change = 1 end;
             battle_actor:RegisterHealing(hp_change, true);
             return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            hp_change = hp_change / 40;
+            hp_change = math.floor(hp_change / 40.0)
             if (hp_change < 2) then hp_change = 2 end;
             battle_actor:RegisterHealing(hp_change, true);
             return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            hp_change = hp_change / 20;
+            hp_change = math.floor(hp_change / 20.0)
             if (hp_change < 4) then hp_change = 4 end;
             battle_actor:RegisterHealing(hp_change, true);
             return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            hp_change = hp_change / 12.5;
+            hp_change = math.floor(hp_change / 12.5)
             if (hp_change < 6) then hp_change = 6 end;
             battle_actor:RegisterHealing(hp_change, true);
             return
         end
 
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            hp_change = hp_change / 70;
+            hp_change = math.floor(hp_change / 70.0)
             if (hp_change < 2) then hp_change = 2 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            hp_change = hp_change / 35;
+            hp_change = math.floor(hp_change / 35.0)
             if (hp_change < 4) then hp_change = 4 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            hp_change = hp_change / 18;
+            hp_change = math.floor(hp_change / 18.0)
             if (hp_change < 6) then hp_change = 6 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            hp_change = hp_change / 11;
+            hp_change = math.floor(hp_change / 11.0)
             if (hp_change < 8) then hp_change = 8 end;
         end
 
@@ -512,31 +512,31 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_HP] = {
 
         local hp_change = global_character:GetMaxHitPoints();
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            hp_change = hp_change / 80;
+            hp_change = math.floor(hp_change / 80.0)
             if (hp_change < 1) then hp_change = 1 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            hp_change = hp_change / 40;
+            hp_change = math.floor(hp_change / 40.0)
             if (hp_change < 2) then hp_change = 2 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            hp_change = hp_change / 20;
+            hp_change = math.floor(hp_change / 20.0)
             if (hp_change < 4) then hp_change = 4 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            hp_change = hp_change / 12.5;
+            hp_change = math.floor(hp_change / 12.5)
             if (hp_change < 6) then hp_change = 6 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            hp_change = hp_change / 70;
+            hp_change = math.floor(hp_change / 70.0)
             if (hp_change < 2) then hp_change = 2 end;
             hp_change = -hp_change;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            hp_change = hp_change / 35;
+            hp_change = math.floor(hp_change / 35.0)
             if (hp_change < 4) then hp_change = 4 end;
             hp_change = -hp_change;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            hp_change = hp_change / 18;
+            hp_change = math.floor(hp_change / 18.0)
             if (hp_change < 6) then hp_change = 6 end;
             hp_change = -hp_change;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            hp_change = hp_change / 11;
+            hp_change = math.floor(hp_change / 11.0)
             if (hp_change < 8) then hp_change = 8 end;
             hp_change = -hp_change;
         end
@@ -606,22 +606,22 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
         local sp_change = battle_actor:GetMaxSkillPoints();
 
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            sp_change = sp_change / 80;
+            sp_change = math.floor(sp_change / 80.0)
             if (sp_change < 1) then sp_change = 1 end;
             battle_actor:RegisterHealing(sp_change, false);
             return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            sp_change = sp_change / 40;
+            sp_change = math.floor(sp_change / 40.0)
             if (sp_change < 2) then sp_change = 2 end;
             battle_actor:RegisterHealing(sp_change, false);
             return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            sp_change = sp_change / 20;
+            sp_change = math.floor(sp_change / 20.0)
             if (sp_change < 4) then sp_change = 4 end;
             battle_actor:RegisterHealing(sp_change, false);
             return
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            sp_change = sp_change / 12.5;
+            sp_change = math.floor(sp_change / 12.5)
             if (sp_change < 6) then sp_change = 6 end;
             battle_actor:RegisterHealing(sp_change, false);
             return
@@ -633,16 +633,16 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
         end
 
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            sp_change = sp_change / 70;
+            sp_change = math.floor(sp_change / 70.0)
             if (sp_change < 2) then sp_change = 2 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            sp_change = sp_change / 35;
+            sp_change = math.floor(sp_change / 35.0)
             if (sp_change < 4) then sp_change = 4 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            sp_change = sp_change / 18;
+            sp_change = math.floor(sp_change / 18.0)
             if (sp_change < 6) then sp_change = 6 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            sp_change = sp_change / 11;
+            sp_change = math.floor(sp_change / 11.0)
             if (sp_change < 8) then sp_change = 8 end;
         end
 
@@ -684,31 +684,31 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
 
         local sp_change = global_character:GetMaxSkillPoints();
         if (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_LESSER) then
-            sp_change = sp_change / 80;
+            sp_change = math.floor(sp_change / 80.0)
             if (sp_change < 1) then sp_change = 1 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_MODERATE) then
-            sp_change = sp_change / 40;
+            sp_change = math.floor(sp_change / 40.0)
             if (sp_change < 2) then sp_change = 2 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_GREATER) then
-            sp_change = sp_change / 20;
+            sp_change = math.floor(sp_change / 20.0)
             if (sp_change < 4) then sp_change = 4 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME) then
-            sp_change = sp_change / 12.5;
+            sp_change = math.floor(sp_change / 12.5)
             if (sp_change < 6) then sp_change = 6 end;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_LESSER) then
-            sp_change = sp_change / 70;
+            sp_change = math.floor(sp_change / 70.0)
             if (sp_change < 2) then sp_change = 2 end;
             sp_change = -sp_change;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_MODERATE) then
-            sp_change = sp_change / 35;
+            sp_change = math.floor(sp_change / 35.0)
             if (sp_change < 4) then sp_change = 4 end;
             sp_change = -sp_change;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_GREATER) then
-            sp_change = sp_change / 18;
+            sp_change = math.floor(sp_change / 18.0)
             if (sp_change < 6) then sp_change = 6 end;
             sp_change = -sp_change;
         elseif (intensity == vt_global.GameGlobal.GLOBAL_INTENSITY_NEG_EXTREME) then
-            sp_change = sp_change / 11;
+            sp_change = math.floor(sp_change / 11.0)
             if (sp_change < 8) then sp_change = 8 end;
             sp_change = -sp_change;
         end
@@ -761,7 +761,7 @@ status_effects[vt_global.GameGlobal.GLOBAL_STATUS_SP] = {
 
 status_effects[vt_global.GameGlobal.GLOBAL_STATUS_PARALYSIS] = {
     name = vt_system.Translate("Paralysis"),
-    default_duration = default_status_duration / 2,
+    default_duration = math.floor(default_status_duration / 2.0),
 
     -- Battle status effects related functions
     BattleApply = function(battle_actor, battle_effect)
