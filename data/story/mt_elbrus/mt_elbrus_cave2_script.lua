@@ -122,9 +122,13 @@ function _CreateObjects()
     blocking_rock2 = CreateObject(Map, "Rock2", 5, 10, vt_map.MapMode.GROUND_OBJECT);
 
     -- shroom 1
-    shroom1 = CreateObject(Map, "Shroom", 15, 14, vt_map.MapMode.GROUND_OBJECT);
-    shroom1:AddAnimation("data/entities/map/enemies/spiky_mushroom_dead.lua");
-    shroom1:SetEventWhenTalking("Check hero position for Shroom 1");
+    shroom1 = CreateSprite(Map, "Shroom", 15, 14, vt_map.MapMode.GROUND_OBJECT)
+    shroom1:SetName("")
+    shroom1:SetDirection(vt_map.MapMode.SOUTH)
+    dialogue = vt_map.SpriteDialogue.Create()
+    text = vt_system.Translate("...")
+    dialogue:AddLineEvent(text, shroom1, "", "Check hero position for Shroom 1")
+    shroom1:AddDialogueReference(dialogue)
 
     vt_map.IfEvent.Create("Check hero position for Shroom 1", "check_diagonal_shroom1", "Fight with Shroom 1", "");
 
@@ -318,10 +322,10 @@ function _PlaceShroomObjectAfterFight(shroom)
         shroom:SetPosition(shroom_new_x, shroom_new_y);
     end
 
-    -- Place the shroom
-    shroom:SetCurrentAnimation(1); -- The second animation id aka dead in this case
+    -- Change animation
+    shroom:SetCustomAnimation("mushroom_ko", 0) -- 0 means forever
     -- Remove its dialogue (preventing a new fight)
-    shroom:ClearEventWhenTalking();
+    shroom:ClearDialogueReferences()
 end
 
 -- Map Custom functions

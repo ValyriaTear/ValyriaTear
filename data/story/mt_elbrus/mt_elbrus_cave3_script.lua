@@ -135,9 +135,13 @@ function _CreateObjects()
     blocking_rock4 = CreateObject(Map, "Rock2", 44, 42, vt_map.MapMode.GROUND_OBJECT);
 
     -- shroom 1
-    shroom1 = CreateObject(Map, "Shroom", 35, 24, vt_map.MapMode.GROUND_OBJECT);
-    shroom1:AddAnimation("data/entities/map/enemies/spiky_mushroom_dead.lua");
-    shroom1:SetEventWhenTalking("Check hero position for Shroom 1");
+    shroom1 = CreateSprite(Map, "Shroom", 35, 24, vt_map.MapMode.GROUND_OBJECT)
+    shroom1:SetName("")
+    shroom1:SetDirection(vt_map.MapMode.SOUTH)
+    dialogue = vt_map.SpriteDialogue.Create()
+    text = vt_system.Translate("...")
+    dialogue:AddLineEvent(text, shroom1, "", "Check hero position for Shroom 1")
+    shroom1:AddDialogueReference(dialogue)
     vt_map.IfEvent.Create("Check hero position for Shroom 1", "check_diagonal_shroom1", "Fight with Shroom 1", "");
 
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 1");
@@ -148,9 +152,13 @@ function _CreateObjects()
     vt_map.ScriptedEvent.Create("Place Shroom 1 after fight", "place_shroom1_after_fight", "")
 
     -- shroom 2
-    shroom2 = CreateObject(Map, "Shroom", 37, 24, vt_map.MapMode.GROUND_OBJECT);
-    shroom2:AddAnimation("data/entities/map/enemies/spiky_mushroom_dead.lua");
-    shroom2:SetEventWhenTalking("Check hero position for Shroom 2");
+    shroom2 = CreateSprite(Map, "Shroom", 37, 24, vt_map.MapMode.GROUND_OBJECT)
+    shroom2:SetName("")
+    shroom2:SetDirection(vt_map.MapMode.SOUTH)
+    dialogue = vt_map.SpriteDialogue.Create()
+    text = vt_system.Translate("...")
+    dialogue:AddLineEvent(text, shroom2, "", "Check hero position for Shroom 2")
+    shroom2:AddDialogueReference(dialogue)
     vt_map.IfEvent.Create("Check hero position for Shroom 2", "check_diagonal_shroom2", "Fight with Shroom 2", "");
 
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 2");
@@ -161,9 +169,13 @@ function _CreateObjects()
     vt_map.ScriptedEvent.Create("Place Shroom 2 after fight", "place_shroom2_after_fight", "")
 
     -- shroom 3
-    shroom3 = CreateObject(Map, "Shroom", 39, 24, vt_map.MapMode.GROUND_OBJECT);
-    shroom3:AddAnimation("data/entities/map/enemies/spiky_mushroom_dead.lua");
-    shroom3:SetEventWhenTalking("Check hero position for Shroom 3");
+    shroom3 = CreateSprite(Map, "Shroom", 39, 24, vt_map.MapMode.GROUND_OBJECT)
+    shroom3:SetName("")
+    shroom3:SetDirection(vt_map.MapMode.SOUTH)
+    dialogue = vt_map.SpriteDialogue.Create()
+    text = vt_system.Translate("...")
+    dialogue:AddLineEvent(text, shroom3, "", "Check hero position for Shroom 3")
+    shroom3:AddDialogueReference(dialogue)
     event = vt_map.IfEvent.Create("Check hero position for Shroom 3", "check_diagonal_shroom3", "Fight with Shroom 3", "");
 
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 3");
@@ -174,9 +186,13 @@ function _CreateObjects()
     vt_map.ScriptedEvent.Create("Place Shroom 3 after fight", "place_shroom3_after_fight", "")
 
     -- shroom 4
-    shroom4 = CreateObject(Map, "Shroom", 35, 32, vt_map.MapMode.GROUND_OBJECT);
-    shroom4:AddAnimation("data/entities/map/enemies/spiky_mushroom_dead.lua");
-    shroom4:SetEventWhenTalking("Check hero position for Shroom 4");
+    shroom4 = CreateSprite(Map, "Shroom", 35, 32, vt_map.MapMode.GROUND_OBJECT)
+    shroom4:SetName("")
+    shroom4:SetDirection(vt_map.MapMode.SOUTH)
+    dialogue = vt_map.SpriteDialogue.Create()
+    text = vt_system.Translate("...")
+    dialogue:AddLineEvent(text, shroom4, "", "Check hero position for Shroom 4")
+    shroom4:AddDialogueReference(dialogue)
     vt_map.IfEvent.Create("Check hero position for Shroom 4", "check_diagonal_shroom4", "Fight with Shroom 4", "");
 
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 4");
@@ -187,9 +203,13 @@ function _CreateObjects()
     vt_map.ScriptedEvent.Create("Place Shroom 4 after fight", "place_shroom4_after_fight", "")
 
     -- shroom 5
-    shroom5 = CreateObject(Map, "Shroom", 39, 30, vt_map.MapMode.GROUND_OBJECT);
-    shroom5:AddAnimation("data/entities/map/enemies/spiky_mushroom_dead.lua");
-    shroom5:SetEventWhenTalking("Check hero position for Shroom 5");
+    shroom5 = CreateSprite(Map, "Shroom", 39, 30, vt_map.MapMode.GROUND_OBJECT)
+    shroom5:SetName("")
+    shroom5:SetDirection(vt_map.MapMode.SOUTH)
+    dialogue = vt_map.SpriteDialogue.Create()
+    text = vt_system.Translate("...")
+    dialogue:AddLineEvent(text, shroom5, "", "Check hero position for Shroom 5")
+    shroom5:AddDialogueReference(dialogue)
     vt_map.IfEvent.Create("Check hero position for Shroom 5", "check_diagonal_shroom5", "Fight with Shroom 5", "");
 
     event = vt_map.BattleEncounterEvent.Create("Fight with Shroom 5");
@@ -388,10 +408,10 @@ function _PlaceShroomObjectAfterFight(shroom)
         shroom:SetPosition(shroom_new_x, shroom_new_y);
     end
 
-    -- Place the shroom
-    shroom:SetCurrentAnimation(1); -- The second animation id aka dead in this case
+    -- Change animation
+    shroom:SetCustomAnimation("mushroom_ko", 0) -- 0 means forever
     -- Remove its dialogue (preventing a new fight)
-    shroom:ClearEventWhenTalking();
+    shroom:ClearDialogueReferences()
 end
 
 -- Map Custom functions
