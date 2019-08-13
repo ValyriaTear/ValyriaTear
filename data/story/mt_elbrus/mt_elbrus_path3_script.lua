@@ -41,8 +41,7 @@ function Load(m)
 
     _CreateCharacters();
     _CreateObjects();
-    -- Called after the gates are closed
-    --_CreateEnemies();
+    _CreateStdEnemies();
 
     -- Set the camera focus on hero
     Map:SetCamera(hero);
@@ -420,20 +419,39 @@ function _OpenNorthGate()
     north_gate_closed:SetPosition(0, 0);
 end
 
+function _CreateStdEnemies()
+    local enemy = nil
+    local roam_zone = nil
+
+    roam_zone = vt_map.EnemyZone.Create(9, 16, 58, 65)
+
+    enemy = CreateEnemySprite(Map, "bat")
+    _SetBattleEnvironment(enemy)
+    enemy:NewEnemyParty()
+    enemy:AddEnemy(6)
+    enemy:AddEnemy(6)
+    enemy:AddEnemy(6)
+    enemy:NewEnemyParty()
+    enemy:AddEnemy(6)
+    enemy:AddEnemy(4)
+    enemy:AddEnemy(6)
+    enemy:AddEnemy(4)
+    roam_zone:AddEnemy(enemy, 1)
+end
+
 -- Enemy zones later disabled
 local enemy_zone1 = nil
 local enemy_zone2 = nil
 local enemy_zone3 = nil
 
-function _CreateEnemies()
+function _CreateBossEnemies()
     local enemy = nil
-    local roam_zone = nil
 
     -- Hint: left, right, top, bottom
     enemy_zone1 = vt_map.EnemyZone.Create(65, 68, 32, 36);
-    -- Some bats
+
     enemy = CreateEnemySprite(Map, "Eyeball");
-    _SetBattleEnvironment(enemy);
+    _SetBossBattleEnvironment(enemy);
     -- Adds a quicker respawn time
     enemy:SetTimeToRespawn(3000)
     enemy:NewEnemyParty();
@@ -447,9 +465,9 @@ function _CreateEnemies()
 
     -- Hint: left, right, top, bottom
     enemy_zone2 = vt_map.EnemyZone.Create(45, 48, 32, 36);
-    -- Some bats
+
     enemy = CreateEnemySprite(Map, "Eyeball");
-    _SetBattleEnvironment(enemy);
+    _SetBossBattleEnvironment(enemy);
     -- Adds a quicker respawn time
     enemy:SetTimeToRespawn(3000)
     enemy:NewEnemyParty();
@@ -463,9 +481,9 @@ function _CreateEnemies()
 
     -- Hint: left, right, top, bottom
     enemy_zone3 = vt_map.EnemyZone.Create(87, 90, 32, 36);
-    -- Some bats
+
     enemy = CreateEnemySprite(Map, "Eyeball");
-    _SetBattleEnvironment(enemy);
+    _SetBossBattleEnvironment(enemy);
     -- Adds a quicker respawn time
     enemy:SetTimeToRespawn(3000)
     enemy:NewEnemyParty();
@@ -781,16 +799,26 @@ function _CheckZones()
     end
 end
 
--- Sets common battle environment settings for enemy sprites
 function _SetBattleEnvironment(enemy)
+  -- default values
+  enemy:SetBattleMusicTheme("data/music/heroism-OGA-Edward-J-Blakeley.ogg")
+  enemy:SetBattleBackground("data/battles/battle_scenes/mountain_background.png")
+  enemy:AddBattleScript("data/story/common/at_night.lua")
+  -- Adds the rain right away as its starting on the first entrance in this map.
+  enemy:AddBattleScript("data/story/common/rain_in_battles_script.lua")
+  if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 1) then
+      enemy:AddBattleScript("data/story/common/soft_lightnings_script.lua")
+  end
+end
+
+-- Sets common battle environment settings for boss enemy sprites
+function _SetBossBattleEnvironment(enemy)
     -- default values
     enemy:SetBattleMusicTheme("data/music/Welcome to Com-Mecha-Mattew_Pablo_OGA.ogg");
     enemy:SetBattleBackground("data/battles/battle_scenes/mountain_background.png");
     enemy:AddBattleScript("data/story/common/at_night.lua");
 
-    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 0) then
-        enemy:AddBattleScript("data/story/common/rain_in_battles_script.lua");
-    end
+    enemy:AddBattleScript("data/story/common/rain_in_battles_script.lua");
     if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 1) then
         enemy:AddBattleScript("data/story/common/soft_lightnings_script.lua");
     end
@@ -801,9 +829,7 @@ function _SetEventBattleEnvironment(event)
     event:SetBackground("data/battles/battle_scenes/mountain_background.png");
     event:AddScript("data/story/common/at_night.lua");
 
-    if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 0) then
-        event:AddScript("data/story/common/rain_in_battles_script.lua");
-    end
+    event:AddScript("data/story/common/rain_in_battles_script.lua");
     if (GlobalManager:GetGameEvents():GetEventValue("story", "mt_elbrus_weather_level") > 1) then
         event:AddScript("data/story/common/soft_lightnings_script.lua");
     end
@@ -1035,7 +1061,7 @@ map_functions = {
 
     end_of_trap_dialogue = function()
         Map:PopState();
-        _CreateEnemies();
+        _CreateBossEnemies()
 
         harlequin1:SetPosition(52, 21);
         harlequin2:SetPosition(85, 18);
