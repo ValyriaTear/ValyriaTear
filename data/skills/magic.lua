@@ -359,26 +359,35 @@ skills[10011] = {
 
 skills[10100] = {
     name = vt_system.Translate("Fire burst"),
-    description = vt_system.Translate("Creates a small fire that burns an enemy."),
+    description = vt_system.Translate("Creates a small fire that burns enemies."),
     icon = "data/skills/magic/fire_burst.png",
-    sp_required = 7,
+    sp_required = 8,
     warmup_time = 4000,
     cooldown_time = 750,
     warmup_action_name = "magic_prepare",
     action_name = "magic_cast",
-    target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_FOES,
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
-        if (vt_battle.RndEvade(target_actor) == false) then
-            target_actor:RegisterDamage(vt_battle.RndMagicalDamage(user, target_actor, vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, 30), target);
-            -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
-            local Battle = ModeManager:GetTop();
-            Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/fire_spell.lua",
-                    target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
-            AudioManager:PlaySound("data/sounds/fire1_spell.ogg");
-        else
-            target_actor:RegisterMiss(true);
+        local index = 0;
+        local effect_duration = clampDuration(user:GetMagAtk() * 3000)
+        while true do
+            local target_actor = target:GetPartyActor(index);
+            if (target_actor == nil) then
+                break;
+            end
+            if (target_actor:IsAlive() == true and vt_battle.RndEvade(target_actor) == false) then
+                target_actor:RegisterDamage(vt_battle.RndMagicalDamage(user, target_actor, vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, 30), target);
+                -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
+                local Battle = ModeManager:GetTop();
+                Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/fire_spell.lua",
+                      target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
+                AudioManager:PlaySound("data/sounds/fire1_spell.ogg");
+            else
+              target_actor:RegisterMiss(true);
+            end
+            index = index + 1;
         end
     end,
 }
