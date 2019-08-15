@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2019.08.02
+Last update: 2019.08.16
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -787,6 +787,7 @@ data/sounds/swordslice3.wav                                                   GP
 data/sounds/escape_activate.ogg                                               CC-BY-SA-3.0             p0ss (OGA) - https://opengameart.org/content/spell-sounds-starter-pack
 data/sounds/warp.ogg                                                          CC-BY-SA-3.0             p0ss (OGA) - https://opengameart.org/content/spell-sounds-starter-pack
 data/sounds/completion_sound.wav                                              CC0                      Brandon Morris (OGA) - https://opengameart.org/content/completion-sound
+data/sounds/magic_warmup.wav                                                  CC0                      Ogrebane (OGA) - https://opengameart.org/content/teleport-spell
 
 data/story/common/locations/layna_forest.png                                  CC-BY-SA-3.0             Tamara Ramsay vectorgurl.com - Ramtam (OGA) + Bertram's modifications.
 data/story/common/locations/mt_elbrus.png                                     GPLv2                    JAP (OGA)
@@ -911,3 +912,4 @@ data/visuals/particle_effects/wave.png                                        CC
 data/visuals/particle_effects/earth_circle.png                                CC0                      (MrBeast) (OGA) - https://opengameart.org/content/73-patterns
 data/visuals/particle_effects/water_circle.png                                CC0                      (MrBeast) (OGA) - https://opengameart.org/content/73-patterns
 data/visuals/particle_effects/wind_circle.png                                 CC0                      (MrBeast) (OGA) - https://opengameart.org/content/73-patterns
+data/visuals/particle_effects/fire_circle.png                                 CC0                      (MrBeast) (OGA) - https://opengameart.org/content/73-patterns

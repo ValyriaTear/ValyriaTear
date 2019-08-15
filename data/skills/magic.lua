@@ -368,26 +368,33 @@ skills[10100] = {
     action_name = "magic_cast",
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_FOES,
 
+    BattleWarmup = function(user, target)
+        local Battle = ModeManager:GetTop()
+        AudioManager:PlaySound("data/sounds/magic_warmup.wav");
+        Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/fire_circle.lua",
+                                           user:GetXLocation(), user:GetYLocation() - 5)
+    end,
+
     BattleExecute = function(user, target)
-        local target_actor = target:GetActor();
+        local target_actor = target:GetActor()
         local index = 0;
         local effect_duration = clampDuration(user:GetMagAtk() * 3000)
+        local Battle = ModeManager:GetTop()
         while true do
-            local target_actor = target:GetPartyActor(index);
+            local target_actor = target:GetPartyActor(index)
             if (target_actor == nil) then
                 break;
             end
             if (target_actor:IsAlive() == true and vt_battle.RndEvade(target_actor) == false) then
                 target_actor:RegisterDamage(vt_battle.RndMagicalDamage(user, target_actor, vt_global.GameGlobal.GLOBAL_ELEMENTAL_FIRE, 30), target);
                 -- trigger the fire effect slightly under the sprite to make it appear before it from the player's point of view.
-                local Battle = ModeManager:GetTop();
                 Battle:TriggerBattleParticleEffect("data/visuals/particle_effects/fire_spell.lua",
-                      target_actor:GetXLocation(), target_actor:GetYLocation() + 5);
-                AudioManager:PlaySound("data/sounds/fire1_spell.ogg");
+                      target_actor:GetXLocation(), target_actor:GetYLocation() + 5)
+                AudioManager:PlaySound("data/sounds/fire1_spell.ogg")
             else
               target_actor:RegisterMiss(true);
             end
-            index = index + 1;
+            index = index + 1
         end
     end,
 }
