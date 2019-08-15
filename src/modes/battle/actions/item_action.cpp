@@ -120,6 +120,24 @@ bool ItemAction::Update()
     return true;
 }
 
+void ItemAction::Warmup()
+{
+    const GlobalItem& global_item = _battle_item->GetGlobalItem();
+
+    const luabind::object& script_function = global_item.GetBattleWarmupFunction();
+    if(!script_function.is_valid()) {
+        return;
+    }
+
+    try {
+        luabind::call_function<void>(script_function, _actor, _target);
+    } catch(const luabind::error &err) {
+        ScriptManager->HandleLuaError(err);
+    } catch(const luabind::cast_failed &e) {
+        ScriptManager->HandleCastError(e);
+    }
+}
+
 bool ItemAction::Execute()
 {
     if(_battle_item == nullptr) {

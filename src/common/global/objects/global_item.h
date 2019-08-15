@@ -75,6 +75,11 @@ public:
         return _target_type;
     }
 
+    //! \brief Returns the Battle warmup script function reference
+    const luabind::object& GetBattleWarmupFunction() const {
+        return _battle_warmup_function;
+    }
+
     /** \brief Returns a pointer to the luabind::object of the battle use function
     *** \note This function will return nullptr if the skill is not usable in battle
     **/
@@ -108,6 +113,9 @@ public:
 private:
     //! \brief The type of target for the item
     GLOBAL_TARGET _target_type;
+
+    //! \brief A reference to the script performing the warmup action during battle
+    luabind::object _battle_warmup_function;
 
     //! \brief A reference to the script function that performs the item's effect while in battle
     luabind::object _battle_use_function;

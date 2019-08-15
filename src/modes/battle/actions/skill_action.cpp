@@ -122,6 +122,14 @@ bool SkillAction::Initialize()
     return true;
 }
 
+void SkillAction::Warmup()
+{
+    if(IsScripted())
+        return;
+
+    _skill->ExecuteBattleWarmupFunction(_actor, _target);
+}
+
 bool SkillAction::Execute()
 {
     if(IsScripted())

@@ -52,6 +52,11 @@ public:
         return true;
     }
 
+    /** \brief Executes the warmup action.
+    *** \return True if the action executed fine, or false otherwise.
+    **/
+    virtual void Warmup() = 0;
+
     /** \brief Executes the action.
     *** \return True if the action executed fine, or false otherwise.
     **/

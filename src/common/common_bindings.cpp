@@ -364,6 +364,7 @@ void BindCommonCode()
             luabind::class_<GlobalSkill>("GlobalSkill")
             .def("GetID", &GlobalSkill::GetID)
             .def("GetSPRequired", &GlobalSkill::GetSPRequired)
+            .def("ExecuteBattleWarmupFunction", &GlobalSkill::ExecuteBattleWarmupFunction)
             .def("ExecuteBattleFunction", &GlobalSkill::ExecuteBattleFunction)
         ];
 

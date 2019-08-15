@@ -44,6 +44,7 @@ GlobalItem::GlobalItem(uint32_t id, uint32_t count) :
     _warmup_time = script_file.ReadUInt("warmup_time");
     _cooldown_time = script_file.ReadUInt("cooldown_time");
 
+    _battle_warmup_function = script_file.ReadFunctionPointer("BattleWarmup");
     _battle_use_function = script_file.ReadFunctionPointer("BattleUse");
     _field_use_function = script_file.ReadFunctionPointer("FieldUse");
 
@@ -77,6 +78,7 @@ GlobalItem::GlobalItem(const GlobalItem &copy) :
     _cooldown_time = copy._cooldown_time;
 
     // Make copies of valid luabind::object function pointers
+    _battle_warmup_function = copy._battle_warmup_function;
     _battle_use_function = copy._battle_use_function;
     _field_use_function = copy._field_use_function;
     _animation_scripts = copy._animation_scripts;
@@ -103,6 +105,7 @@ GlobalItem& GlobalItem::operator=(const GlobalItem& copy)
     _cooldown_time = copy._cooldown_time;
 
     // Make copies of valid luabind::object function pointers
+    _battle_warmup_function = copy._battle_warmup_function;
     _battle_use_function = copy._battle_use_function;
     _field_use_function = copy._field_use_function;
     _animation_scripts = copy._animation_scripts;

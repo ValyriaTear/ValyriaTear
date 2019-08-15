@@ -162,7 +162,11 @@ public:
         return _battle_execute_function;
     }
 
-    //! Execute the corresponding skill Battle function
+    //! \brief Execute the corresponding skill Warmup Battle function
+    void ExecuteBattleWarmupFunction(vt_battle::private_battle::BattleActor* battle_actor,
+                                     vt_battle::private_battle::BattleTarget target);
+
+    //! \brief Execute the corresponding skill Battle function
     bool ExecuteBattleFunction(vt_battle::private_battle::BattleActor* battle_actor,
                                vt_battle::private_battle::BattleTarget target);
 
@@ -235,6 +239,10 @@ private:
     *** Target types include attack points, actors, and parties. This enum type is defined in global_actors.h
     **/
     GLOBAL_TARGET _target_type;
+
+    //! \brief A reference to the skill's prepare script function for battles
+    //! It is executed when the character is in the skill warmup time
+    luabind::object _battle_warmup_function;
 
     //! \brief A reference to the skill's execution function for battles
     luabind::object _battle_execute_function;

@@ -40,6 +40,8 @@ public:
     // Init the battle action member and possible scripts
     bool Initialize();
 
+    void Warmup();
+
     bool Execute();
 
     //! \brief calls the corresponding skill animation file #Update method, returning it result.

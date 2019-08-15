@@ -189,6 +189,7 @@ void BattleActor::ChangeState(ACTOR_STATE new_state)
         } else {
             _state_timer.Initialize(_action->GetWarmUpTime() * GetStaminaModifier());
             _state_timer.Run();
+            _action->Warmup();
         }
         break;
     case ACTOR_STATE_READY:

@@ -45,6 +45,8 @@ public:
 
     bool Update();
 
+    void Warmup();
+
     bool Execute();
 
     ///! \brief Cancel a waiting action, putting back the item in available battle items.

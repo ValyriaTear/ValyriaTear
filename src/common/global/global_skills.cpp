@@ -90,6 +90,7 @@ GlobalSkill::GlobalSkill(uint32_t id) :
     _action_name = skill_script->ReadString("action_name");
     _target_type = static_cast<GLOBAL_TARGET>(skill_script->ReadInt("target_type"));
 
+    _battle_warmup_function = skill_script->ReadFunctionPointer("BattleWarmup");
     _battle_execute_function = skill_script->ReadFunctionPointer("BattleExecute");
     _field_execute_function = skill_script->ReadFunctionPointer("FieldExecute");
 
@@ -131,6 +132,7 @@ GlobalSkill::GlobalSkill(const GlobalSkill& copy):
     _target_type = copy._target_type;
 
     // Make copies of valid luabind::object function pointers
+    _battle_warmup_function = copy._battle_warmup_function;
     _battle_execute_function = copy._battle_execute_function;
     _field_execute_function = copy._field_execute_function;
 }
@@ -154,11 +156,28 @@ GlobalSkill &GlobalSkill::operator=(const GlobalSkill& copy)
     _target_type = copy._target_type;
 
     // Make copies of valid luabind::object function pointers
+    _battle_warmup_function = copy._battle_warmup_function;
     _battle_execute_function = copy._battle_execute_function;
     _field_execute_function = copy._field_execute_function;
     _animation_scripts = copy._animation_scripts;
 
     return *this;
+}
+
+void GlobalSkill::ExecuteBattleWarmupFunction(private_battle::BattleActor* battle_actor,
+                                              private_battle::BattleTarget target)
+{
+    if(!_battle_warmup_function.is_valid()) {
+        return;
+    }
+
+    try {
+        luabind::call_function<void>(_battle_warmup_function, battle_actor, target);
+    } catch(const luabind::error& err) {
+        ScriptManager->HandleLuaError(err);
+    } catch(const luabind::cast_failed& e) {
+        ScriptManager->HandleCastError(e);
+    }
 }
 
 bool GlobalSkill::ExecuteBattleFunction(private_battle::BattleActor* battle_actor,
