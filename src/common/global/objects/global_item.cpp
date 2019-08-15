@@ -79,6 +79,7 @@ GlobalItem::GlobalItem(const GlobalItem &copy) :
     // Make copies of valid luabind::object function pointers
     _battle_use_function = copy._battle_use_function;
     _field_use_function = copy._field_use_function;
+    _animation_scripts = copy._animation_scripts;
 }
 
 std::string GlobalItem::GetAnimationScript(uint32_t character_id) const
