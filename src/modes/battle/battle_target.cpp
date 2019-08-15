@@ -39,7 +39,7 @@ BattleTarget::BattleTarget(const BattleTarget& copy)
     _attack_point = copy._attack_point;
     _actor_target = copy._actor_target;
 
-    std::deque<BattleActor *> _party_target;
+    _party_target.clear();
     for (uint32_t i = 0; i < copy._party_target.size(); ++i) {
         _party_target.push_back(copy._party_target[i]);
     }
@@ -54,7 +54,7 @@ BattleTarget& BattleTarget::operator=(const BattleTarget& copy)
     _attack_point = copy._attack_point;
     _actor_target = copy._actor_target;
 
-    std::deque<BattleActor *> _party_target;
+    _party_target.clear();
     for (uint32_t i = 0; i < copy._party_target.size(); ++i) {
         _party_target.push_back(copy._party_target[i]);
     }
