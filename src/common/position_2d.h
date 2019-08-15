@@ -27,6 +27,15 @@ struct Position2D {
         y(y_pos)
     {}
 
+    Position2D(const Position2D& other_pos) {
+        // Prevents upon-self copy.
+        if (&other_pos == this)
+            return;
+
+        x = other_pos.x;
+        y = other_pos.y;
+    }
+
     //! \brief Get length^2 from origin
     //! We avoid the costy square root call
     //! So we return power of 2 value.

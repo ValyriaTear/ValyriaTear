@@ -30,6 +30,38 @@ BattleTarget::BattleTarget() :
     _actor_target(nullptr)
 {}
 
+BattleTarget::BattleTarget(const BattleTarget& copy)
+{
+    if(this == &copy)  // Handle self-assignment case
+        return;
+
+    _type = copy._type;
+    _attack_point = copy._attack_point;
+    _actor_target = copy._actor_target;
+
+    std::deque<BattleActor *> _party_target;
+    for (uint32_t i = 0; i < copy._party_target.size(); ++i) {
+        _party_target.push_back(copy._party_target[i]);
+    }
+}
+
+BattleTarget& BattleTarget::operator=(const BattleTarget& copy)
+{
+    if(this == &copy)  // Handle self-assignment case
+        return *this;
+
+    _type = copy._type;
+    _attack_point = copy._attack_point;
+    _actor_target = copy._actor_target;
+
+    std::deque<BattleActor *> _party_target;
+    for (uint32_t i = 0; i < copy._party_target.size(); ++i) {
+        _party_target.push_back(copy._party_target[i]);
+    }
+
+    return *this;
+}
+
 void BattleTarget::InvalidateTarget()
 {
     _type = GLOBAL_TARGET_INVALID;
@@ -275,23 +307,6 @@ ustring BattleTarget::GetName()
     case GLOBAL_TARGET_ALL_FOES:
         return UTranslate("All Enemies");
     }
-}
-
-BattleTarget& BattleTarget::operator=(const BattleTarget& copy)
-{
-    if(this == &copy)  // Handle self-assignment case
-        return *this;
-
-    _type = copy._type;
-    _attack_point = copy._attack_point;
-    _actor_target = copy._actor_target;
-
-    std::deque<BattleActor *> _party_target;
-    for (uint32_t i = 0; i < copy._party_target.size(); ++i) {
-        _party_target.push_back(copy._party_target[i]);
-    }
-
-    return *this;
 }
 
 } // namespace private_battle

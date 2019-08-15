@@ -44,6 +44,8 @@ public:
     ~BattleTarget()
     {}
 
+    BattleTarget(const BattleTarget& copy);
+
     BattleTarget& operator=(const BattleTarget& copy);
 
     //! \brief Resets all class members, invalidating the target
