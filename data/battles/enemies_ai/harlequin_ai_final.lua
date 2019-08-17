@@ -102,7 +102,7 @@ function DecideAction(battle_instance, battle_actor)
         return
     end
     if (dead_enemies == 0 and shield_is_up == false) then
-        -- All other enemies are dead, the shield is down
+        -- Everybody is alive, the shield is up
         battle_actor:SetAction(21004, enemy)
         shield_is_up = true
         return
