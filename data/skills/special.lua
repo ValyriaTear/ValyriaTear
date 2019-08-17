@@ -288,7 +288,7 @@ skills[21005] = {
 
     animation_scripts = {
         -- N.B.: [14] is the enemy ID.
-      --  [14] = "data/battles/enemies_animations/magic_shield_down.lua", -- Harlequin
+        [14] = "data/battles/enemies_animations/magic_shield_down.lua", -- Harlequin
     },
 
     BattleExecute = function(user, target)

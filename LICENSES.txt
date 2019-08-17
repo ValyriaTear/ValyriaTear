@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2019.08.16
+Last update: 2019.08.18
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -259,6 +259,7 @@ data/entities/battle/effects/wolf_claws.png                                   CC
 data/entities/battle/effects/fangs_crush.png                                  CC-BY-SA-3.0             Adapted from J.W. Bjerk - https://opengameart.org/content/painterly-spell-icons-part-3
 data/entities/battle/effects/physical_shield.png                              CC-BY-SA-3.0             Adapted from Daneekly - https://opengameart.org/content/extended-lpc-magic-pack
 data/entities/battle/effects/magic_shield.png                                 CC-BY-SA-3.0             Adapted from Daneekly - https://opengameart.org/content/extended-lpc-magic-pack
+data/entities/battle/effects/magic_shield_breaking.png                        CC-BY-SA-3.0             Adapted from Daneekly - https://opengameart.org/content/extended-lpc-magic-pack
 data/entities/battle/effects/green_tentacles_attack.png                       CC-BY-SA-3.0             Adapted from Daneekly - https://opengameart.org/content/extended-lpc-magic-pack
 
 data/entities/battle/enemies/big_slime.png                                    GPLv2+                   Bertram (based on the slime sprite)
@@ -778,6 +779,7 @@ data/sounds/bump.wav                                                          GP
 data/sounds/skeleton_attack.wav                                               GPLv2+                   Allacrost
 data/sounds/volume_test.wav                                                   GPLv2+                   Allacrost
 data/sounds/gentle_stream.ogg                                                 GPLv2+                   Allacrost
+data/sounds/glass_shatter.wav                                                 CC-BY-SA 3.0             spookymodem (OGA) - https://opengameart.org/content/breaking-bottle
 data/sounds/footstep_concrete2.wav                                            GPLv2+                   Allacrost
 data/sounds/gong.wav                                                          GPLv2+                   Allacrost
 data/sounds/door_close.wav                                                    GPLv2+                   Allacrost
