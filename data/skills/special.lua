@@ -257,3 +257,41 @@ skills[21003] = {
         end
     end
 }
+
+-- Special one for Harlequin
+skills[21004] = {
+    name = "Magic shield up",
+    sp_required = 0,
+    warmup_time = 900,
+    cooldown_time = 300,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
+
+    animation_scripts = {
+        -- N.B.: [14] is the enemy ID.
+        --[14] = "data/battles/enemies_animations/magic_shield_up.lua", -- Harlequin
+    },
+
+    BattleExecute = function(user, target)
+        user:ApplyActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF,
+                                     vt_global.GameGlobal.GLOBAL_INTENSITY_POS_EXTREME,
+                                     999000);
+    end
+}
+
+-- Special one for Harlequin
+skills[21005] = {
+    name = "Magic shield down",
+    sp_required = 0,
+    warmup_time = 900,
+    cooldown_time = 300,
+    target_type = vt_global.GameGlobal.GLOBAL_TARGET_SELF,
+
+    animation_scripts = {
+        -- N.B.: [14] is the enemy ID.
+      --  [14] = "data/battles/enemies_animations/magic_shield_down.lua", -- Harlequin
+    },
+
+    BattleExecute = function(user, target)
+        user:RemoveActiveStatusEffect(vt_global.GameGlobal.GLOBAL_STATUS_PHYS_DEF);
+    end
+}

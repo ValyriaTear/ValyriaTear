@@ -893,6 +893,13 @@ local h3_x_direction = 0.0;
 local h3_y_direction = 0.0;
 local total_time = 0;
 
+-- Harlequin will go less and less low according to the time he's been beaten
+local max_y_position = 55.0
+
+function _UpdateMaxYPosition()
+    max_y_position = 55.0 - (harlequin_beaten_time * 8.0)
+end
+
 map_functions = {
 
     heal_party = function()
@@ -1095,6 +1102,7 @@ map_functions = {
 
     increase_harlequin_beaten_time = function()
         harlequin_beaten_time = harlequin_beaten_time + 1;
+        _UpdateMaxYPosition()
     end,
 
     make_harlequins_move = function()
@@ -1125,7 +1133,7 @@ map_functions = {
             -- Change the direction on borders
             if (harlequin1:GetXPosition() > 89.0) then h1_x_direction = -math.abs(h1_x_direction) end;
             if (harlequin1:GetXPosition() < 46.0) then h1_x_direction = math.abs(h1_x_direction) end;
-            if (harlequin1:GetYPosition() > 55.0) then h1_y_direction = -math.abs(h1_y_direction) end;
+            if (harlequin1:GetYPosition() > max_y_position) then h1_y_direction = -math.abs(h1_y_direction) end;
             if (harlequin1:GetYPosition() < 22.0) then h1_y_direction = math.abs(h1_y_direction) end;
         end
 
@@ -1143,7 +1151,7 @@ map_functions = {
             -- Change the direction on borders
             if (harlequin2:GetXPosition() > 89.0) then h2_x_direction = -math.abs(h2_x_direction) end;
             if (harlequin2:GetXPosition() < 46.0) then h2_x_direction = math.abs(h2_x_direction) end;
-            if (harlequin2:GetYPosition() > 55.0) then h2_y_direction = -math.abs(h2_y_direction) end;
+            if (harlequin2:GetYPosition() > max_y_position) then h2_y_direction = -math.abs(h2_y_direction) end;
             if (harlequin2:GetYPosition() < 22.0) then h2_y_direction = math.abs(h2_y_direction) end;
         end
 
@@ -1161,7 +1169,7 @@ map_functions = {
             -- Change the direction on borders
             if (harlequin3:GetXPosition() > 89.0) then h3_x_direction = -math.abs(h3_x_direction) end;
             if (harlequin3:GetXPosition() < 46.0) then h3_x_direction = math.abs(h3_x_direction) end;
-            if (harlequin3:GetYPosition() > 55.0) then h3_y_direction = -math.abs(h3_y_direction) end;
+            if (harlequin3:GetYPosition() > max_y_position) then h3_y_direction = -math.abs(h3_y_direction) end;
             if (harlequin3:GetYPosition() < 22.0) then h3_y_direction = math.abs(h3_y_direction) end;
         end
 

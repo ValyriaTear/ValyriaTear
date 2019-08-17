@@ -608,6 +608,7 @@ skills[1005] = {
     animation_scripts = {
         -- N.B.: [4] is the enemy ID.
         [4] = "data/battles/enemies_animations/snake_dampen_attack.lua",
+        [12] = "data/battles/enemies_animations/snake_dampen_attack.lua",
     },
 
     BattleExecute = function(user, target)
@@ -664,6 +665,7 @@ skills[1007] = {
         -- N.B.: [6] is the enemy ID.
         [6] = "data/battles/enemies_animations/bat_drain_attack.lua",
         [11] = "data/battles/enemies_animations/bat_drain_attack.lua",
+        [12] = "data/battles/enemies_animations/bat_drain_attack.lua",
     },
 
     BattleExecute = function(user, target)

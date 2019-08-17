@@ -630,7 +630,8 @@ enemies[11] = {
             y_position = 95,
             phys_def_modifier = 0.2,
             mag_def_modifier = 0.0,
-            evade_modifier = 0.1
+            evade_modifier = 0.1,
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = 10.0 }
         },
     },
 
@@ -676,13 +677,14 @@ enemies[12] = {
             y_position = 45,
             phys_def_modifier = 0.2,
             mag_def_modifier = 0.0,
-            evade_modifier = 0.1
+            evade_modifier = 0.1,
+            status_effects = { [vt_global.GameGlobal.GLOBAL_STATUS_STAMINA] = 10.0 }
         },
     },
 
     skills = {
         1006, -- std attack
-        1007  -- HP drain
+        1005  -- dampen attack
     },
 
     drop_objects = {
@@ -725,13 +727,22 @@ enemies[13] = {
         },
     },
 
+    scripts = {
+        battle_ai = "data/battles/enemies_ai/harlequin_ai.lua",
+    },
+
     skills = {
-        21003,  -- HP/MP Drain
-        10007, -- Magical poison
+      1006,  -- std attack
+      21003, -- HP/MP Drain
+      10004, -- Holy Veil - ATK+M.ATK on all
+      10011, -- War God - DEF + DEF-M on all
+      10007, -- Magical poison
+      21002, -- Dark Wish (Revives an ally)
     },
 
     drop_objects = {
-        { 1, 0.25 }, -- Tiny Healing Potion
+        { 1, 1.0 },  -- Tiny Healing Potion
+        { 11, 1.0 }, -- Tiny moon juice potion
         { 15, 0.05 } -- Lotus Petal (Cures poison)
     }
 }
@@ -773,15 +784,18 @@ enemies[14] = {
     },
 
     scripts = {
-        battle_ai = "data/battles/enemies_ai/harlequin_ai.lua",
+        battle_ai = "data/battles/enemies_ai/harlequin_ai_final.lua",
     },
 
     skills = {
+        1006,  -- std attack
         21003, -- HP/MP Drain
         10004, -- Holy Veil - ATK+M.ATK on all
         10011, -- War God - DEF + DEF-M on all
         10007, -- Magical poison
         21002, -- Dark Wish (Revives an ally)
+        21004, -- Magic Shield up (scripted)
+        21005, -- Magic shield down (scripted)
      },
 
     drop_objects = {

@@ -1,7 +1,7 @@
 local ns = {}
 setmetatable(ns, {__index = _G})
-harlequin_ai = ns;
-setfenv(1, ns);
+harlequin_ai_final = ns
+setfenv(1, ns)
 
 -- Useful common functions
 -- -----------------------
@@ -53,23 +53,25 @@ function _GetHeroWithLessHP(battle_instance)
     return battle_instance:GetCharacterActor(id_less_hp);
 end
 
-
 -- The true harlequin has got the following skills:
 -- 21003, -- HP/MP Drain - 0 SP
 -- 10004, -- Holy Veil - ATK+M.ATK on all - 64 SP
 -- 10011, -- War God - DEF + DEF-M on all - 96 SP
 -- 10007, -- Magical poison - 40 SP
 -- 21002, -- Dark Wish (Revives an ally) - 10 SP
+-- 21004, -- Shield up (Max out physical defence) - 0 SP
+-- 21005, -- Shield down (physical defence is back to normal) - 0 SP
 
 -- Instance local vars
-local war_god_done = false;
+local war_god_done = false
+local shield_is_up = false
 
 -- The battle_actor parameter is the enemy thinking, useful to exclude itself from other opponents.
 function DecideAction(battle_instance, battle_actor)
     local Battle = battle_instance;
 
-    local nb_enemies = Battle:GetNumberOfEnemies();
-    local nb_heroes = Battle:GetNumberOfCharacters();
+    local nb_enemies = Battle:GetNumberOfEnemies()
+    local nb_heroes = Battle:GetNumberOfCharacters()
 
     local index = 0
     local dead_enemies = 0;
@@ -88,18 +90,30 @@ function DecideAction(battle_instance, battle_actor)
 
         if (enemy:IsAlive() == false) then
             dead_enemies = dead_enemies + 1;
-
-            -- If at least 3 enemies are dead and Harlequin has got enough points, let's revive it
-            if (dead_enemies >= 3 and battle_actor:GetSkillPoints() >= 10) then
-                battle_actor:SetAction(21002, enemy); -- Dark Wish to revive the enemy ally.
-                return;
-            end
         end
 
         index = index + 1;
     end
 
-    -- At least 3 enemies are alive
+    if (dead_enemies >= 5 and shield_is_up == true) then
+        -- All other enemies are dead, the shield is down
+        battle_actor:SetAction(21005, enemy)
+        shield_is_up = false
+        return
+    end
+    if (dead_enemies == 0 and shield_is_up == false) then
+        -- All other enemies are dead, the shield is down
+        battle_actor:SetAction(21004, enemy)
+        shield_is_up = true
+        return
+    end
+
+    -- If at least 3 enemies are dead and Harlequin has got enough points, let's revive it
+    if (dead_enemies >= 3 and battle_actor:GetSkillPoints() >= 10) then
+        battle_actor:SetAction(21002, enemy); -- Dark Wish to revive the enemy ally.
+        return;
+    end
+
     if (war_god_done == false and battle_actor:GetSkillPoints() >= 96) then
         battle_actor:SetAction(10011); -- War God (def - on all heroes)
         war_god_done = true;
