@@ -298,6 +298,7 @@ common/gui/option.cpp
 common/gui/menu_window.cpp
 common/gui/textbox.cpp
 common/gui/gui.cpp
+common/character_window.cpp
 common/message_window.cpp
 common/dialogue.cpp
 common/common.cpp
@@ -405,7 +406,6 @@ modes/menu/menu_states/menu_party_state.cpp
 modes/menu/menu_states/menu_quest_state.cpp
 modes/menu/menu_states/menu_worldmap_state.cpp
 modes/menu/menu_windows/menu_battle_formation_window.cpp
-modes/menu/menu_windows/menu_character_window.cpp
 modes/menu/menu_windows/menu_equip_window.cpp
 modes/menu/menu_windows/menu_inventory_window.cpp
 modes/menu/menu_windows/menu_party_window.cpp

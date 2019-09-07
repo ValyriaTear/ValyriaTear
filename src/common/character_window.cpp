@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2016 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2019 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -8,7 +8,7 @@
 // See https://www.gnu.org/copyleft/gpl.html for details.
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "menu_character_window.h"
+#include "character_window.h"
 
 #include "common/global/global.h"
 #include "common/global/actors/global_character.h"
@@ -20,12 +20,8 @@ using namespace vt_global;
 using namespace vt_video;
 using namespace vt_utils;
 using namespace vt_system;
-using namespace vt_common;
 
-namespace vt_menu
-{
-
-namespace private_menu
+namespace vt_common
 {
 
 CharacterWindow::CharacterWindow():
@@ -165,6 +161,4 @@ void CharacterWindow::_UpdateActiveStatusEffects(vt_global::GlobalCharacter* cha
     }
 }
 
-} // namespace private_menu
-
-} // namespace vt_menu
+} // namespace vt_common

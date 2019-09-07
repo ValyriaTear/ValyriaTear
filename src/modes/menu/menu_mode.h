@@ -20,7 +20,6 @@
 #include "modes/menu/menu_states/menu_worldmap_state.h"
 
 #include "modes/menu/menu_windows/menu_battle_formation_window.h"
-#include "modes/menu/menu_windows/menu_character_window.h"
 #include "modes/menu/menu_windows/menu_equip_window.h"
 #include "modes/menu/menu_windows/menu_inventory_window.h"
 #include "modes/menu/menu_windows/menu_party_window.h"
@@ -30,6 +29,7 @@
 #include "modes/menu/menu_windows/menu_skillgraph_window.h"
 #include "modes/menu/menu_windows/menu_worldmap_window.h"
 
+#include "common/character_window.h"
 #include "engine/mode_manager.h"
 
 namespace vt_common {
@@ -57,7 +57,6 @@ extern bool MENU_DEBUG;
 *** ***************************************************************************/
 class MenuMode : public vt_mode_manager::GameMode
 {
-    friend class private_menu::CharacterWindow;
     friend class private_menu::InventoryWindow;
     friend class private_menu::PartyWindow;
     friend class private_menu::SkillsWindow;
@@ -192,10 +191,10 @@ private:
     //! \brief currently viewing state
     private_menu::AbstractMenuState* _current_menu_state;
 
-    private_menu::CharacterWindow _character_window0;
-    private_menu::CharacterWindow _character_window1;
-    private_menu::CharacterWindow _character_window2;
-    private_menu::CharacterWindow _character_window3;
+    vt_common::CharacterWindow _character_window0;
+    vt_common::CharacterWindow _character_window1;
+    vt_common::CharacterWindow _character_window2;
+    vt_common::CharacterWindow _character_window3;
     private_menu::InventoryWindow _inventory_window;
     private_menu::QuestListWindow _quest_list_window;
     private_menu::PartyWindow _party_window;

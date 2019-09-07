@@ -25,10 +25,7 @@
 #include "common/gui/menu_window.h"
 #include "common/gui/textbox.h"
 #include "common/gui/option.h"
-
-namespace vt_global {
-class GlobalCharacter;
-}
+#include "common/character_window.h"
 
 //! \brief All calls to save mode are wrapped in this namespace.
 namespace vt_save
@@ -37,49 +34,7 @@ namespace vt_save
 //! \brief Determines whether the code in the vt_save namespace should print debug statements or not.
 extern bool SAVE_DEBUG;
 
-/** ****************************************************************************
-*** \brief Represents an individual character window
-***
-*** There should be one of these windows for each character in the game.
-*** It will contain all the information of the character and handle its draw
-*** placement.
-*** ***************************************************************************/
-class SmallCharacterWindow : public vt_gui::MenuWindow
-{
-public:
-    SmallCharacterWindow():
-        _character(nullptr)
-    {}
-
-    ~SmallCharacterWindow();
-
-    /** \brief Set the character for this window
-    *** \param character the character to associate with this window
-    **/
-    void SetCharacter(vt_global::GlobalCharacter* characters);
-
-    /** \brief render this window to the screen
-    *** \return success/failure
-    **/
-    void Draw();
-
-private:
-    //! The name of the character that this window corresponds to.
-    vt_global::GlobalCharacter* _character;
-
-    //! The image of the character
-    vt_video::StillImage _portrait;
-
-    //! The text along with the character portrait
-    vt_video::TextImage _character_name;
-    vt_video::TextImage _character_data;
-}; // class SmallCharacterWindow : public vt_video::MenuWindow
-
-
-/** ****************************************************************************
-*** \brief Handles saving and loading
-***
-*** ***************************************************************************/
+//! \brief Handles saving and loading
 class SaveMode : public vt_mode_manager::GameMode
 {
 public:
@@ -140,7 +95,7 @@ private:
     vt_gui::TextBox _title_textbox;
 
     //! \brief Windows to display character previews
-    vt_save::SmallCharacterWindow _character_window[4];
+    vt_common::CharacterWindow _character_window[4];
 
     //! \brief Current state of SaveMode
     uint8_t _current_state;

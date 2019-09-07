@@ -236,6 +236,10 @@ public:
         _total_experience_points = xp;
     }
 
+    void SetUnspentExperiencePoints(uint32_t xp) {
+        _unspent_experience_points = xp;
+    }
+
     uint32_t GetUnspentExperiencePoints() const {
         return _unspent_experience_points;
     }

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //            Copyright (C) 2004-2011 by The Allacrost Project
-//            Copyright (C) 2012-2016 by Bertram (Valyria Tear)
+//            Copyright (C) 2012-2019 by Bertram (Valyria Tear)
 //                         All Rights Reserved
 //
 // This code is licensed under the GNU GPL version 2. It is free software
@@ -14,12 +14,7 @@
 #include "common/global/global.h"
 #include "common/gui/menu_window.h"
 
-namespace vt_menu
-{
-
-class MenuMode;
-
-namespace private_menu
+namespace vt_common
 {
 
 /** ****************************************************************************
@@ -73,8 +68,6 @@ private:
     void _UpdateActiveStatusEffects(vt_global::GlobalCharacter* character);
 };
 
-} // namespace private_menu
+} // namespace vt_common
 
-} // namespace vt_menu
-
-#endif // __MENU_CHARACTER_WINDOW__
+#endif // __CHARACTER_WINDOW__

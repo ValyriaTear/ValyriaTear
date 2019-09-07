@@ -70,23 +70,23 @@ SaveMode::SaveMode(bool save_mode, uint32_t x_position, uint32_t y_position) :
     _y_position(y_position),
     _save_mode(save_mode)
 {
-    _window.Create(600.0f, 500.0f);
-    _window.SetPosition(212.0f, 138.0f);
+    _window.Create(600.0f, 580.0f);
+    _window.SetPosition(212.0f, 100.0f);
     _window.Hide();
 
-    _left_window.Create(150.0f, 500.0f);
-    _left_window.SetPosition(212.0f, 138.0f);
+    _left_window.Create(150.0f, 580.0f);
+    _left_window.SetPosition(212.0f, 100.0f);
     _left_window.Show();
 
     _title_window.Create(600.0f, 50.0f);
-    _title_window.SetPosition(212.0f, 88.0f);
+    _title_window.SetPosition(212.0f, 60.0f);
     _title_window.Show();
 
     const float centered_text_xpos = _window.GetXPosition() + 50.0f;
     const float centered_text_width = _window.GetWidth() - 100.f;
 
     // Initialize the save successful message box
-    _title_textbox.SetPosition(centered_text_xpos, 103.0f);
+    _title_textbox.SetPosition(centered_text_xpos, 73.0f);
     _title_textbox.SetDimensions(centered_text_width, 50.0f);
     _title_textbox.SetTextStyle(TextStyle("title22"));
     _title_textbox.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -96,19 +96,17 @@ SaveMode::SaveMode(bool save_mode, uint32_t x_position, uint32_t y_position) :
     else
         _title_textbox.SetDisplayText(UTranslate("Load Game"));
 
+    float base_position = 100.0f;
     for(uint32_t i = 0; i < CHARACTERS_SHOWN_SLOTS; ++i) {
-        _character_window[i].Create(450.0f, 100.0f);
+        _character_window[i].Create(450.0f, 115.0f);
+        _character_window[i].SetPosition(355.0f, base_position);
+        base_position += 112.0f;
         _character_window[i].Show();
     }
 
-    _character_window[0].SetPosition(355.0f, 138.0f);
-    _character_window[1].SetPosition(355.0f, 238.0f);
-    _character_window[2].SetPosition(355.0f, 338.0f);
-    _character_window[3].SetPosition(355.0f, 438.0f);
-
     // Initialize the save options box
     _file_list.SetPosition(315.0f, 384.0f);
-    _file_list.SetDimensions(150.0f, 500.0f,
+    _file_list.SetDimensions(150.0f, 580.0f,
                              1,
                              SystemManager->GetGameSaveSlots(),
                              1,
@@ -173,21 +171,21 @@ SaveMode::SaveMode(bool save_mode, uint32_t x_position, uint32_t y_position) :
     _no_valid_saves_message.SetDisplayText(UTranslate("No valid saves found!"));
 
     // Initialize the save preview text boxes
-    _map_name_textbox.SetPosition(600.0f, 558.0f);
+    _map_name_textbox.SetPosition(600.0f, 580.0f);
     _map_name_textbox.SetDimensions(320.0f, 26.0f);
     _map_name_textbox.SetTextStyle(TextStyle("title22"));
     _map_name_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _map_name_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _map_name_textbox.SetDisplayText(" ");
 
-    _time_textbox.SetPosition(600.0f, 583.0f);
+    _time_textbox.SetPosition(600.0f, 607.0f);
     _time_textbox.SetDimensions(250.0f, 26.0f);
     _time_textbox.SetTextStyle(TextStyle("title22"));
     _time_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _time_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _time_textbox.ClearText();
 
-    _drunes_textbox.SetPosition(600.0f, 613.0f);
+    _drunes_textbox.SetPosition(600.0f, 637.0f);
     _drunes_textbox.SetDimensions(250.0f, 26.0f);
     _drunes_textbox.SetTextStyle(TextStyle("title22"));
     _drunes_textbox.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
@@ -433,7 +431,7 @@ void SaveMode::DrawPostEffects()
         }
         _file_list.Draw();
 
-        VideoManager->Move(420.0f, 638.0f);
+        VideoManager->Move(380.0f, 568.0f);
         if (!_location_image.GetFilename().empty())
             _location_image.Draw(Color(1.0f, 1.0f, 1.0f, 0.4f));
 
@@ -442,7 +440,7 @@ void SaveMode::DrawPostEffects()
         if (_time_textbox.IsEmpty() || _drunes_textbox.IsEmpty())
             break;
 
-        VideoManager->MoveRelative(15.0f, -35.0f);
+        VideoManager->Move(440.0f, 592.0f);
         _clock_icon->Draw();
         _time_textbox.Draw();
         VideoManager->MoveRelative(0.0f, 30.0f);
@@ -522,7 +520,6 @@ void SaveMode::_ClearSaveData(bool selected_file_exists)
         _character_window[i].SetCharacter(nullptr);
 }
 
-
 bool SaveMode::_PreviewGame(const std::string& filename)
 {
     // Check for the file existence, prevents a useless warning
@@ -582,35 +579,39 @@ bool SaveMode::_PreviewGame(const std::string& filename)
     file.OpenTable("characters");
     std::vector<uint32_t> char_ids;
     file.ReadUIntVector("order", char_ids);
-    // Prereserve characters slots
-    std::vector<GlobalCharacter*> characters;
-    characters.assign(CHARACTERS_SHOWN_SLOTS, nullptr);
 
     // Loads only up to the first four slots (Visible battle characters)
-    for(uint32_t i = 0; i < char_ids.size() && i < CHARACTERS_SHOWN_SLOTS; ++i) {
+    // i < char_ids.size() &&
+    for(uint32_t i = 0; i < CHARACTERS_SHOWN_SLOTS; ++i) {
         // Create a new GlobalCharacter object using the provided id
         // This loads all of the character's "static" data, such as their name, etc.
-        characters[i] = nullptr;
 
-        if(!file.DoesTableExist(char_ids[i]))
+        // Don't show characters when there are none
+        if (i >= char_ids.size() || !file.DoesTableExist(char_ids[i])) {
+            _character_window[i].SetCharacter(nullptr);
             continue;
+        }
 
         file.OpenTable(char_ids[i]);
 
         // Read in all of the character's stats data
-        characters[i] = new GlobalCharacter(char_ids[i], false);
-        characters[i]->SetExperienceLevel(file.ReadUInt("experience_level"));
+        GlobalCharacter character = GlobalCharacter(char_ids[i], false);
+        character.SetExperienceLevel(file.ReadUInt("experience_level"));
         // DEPRECATED: Do not read experience_points anymore in one release
         uint32_t total_xp = file.ReadUInt("experience_points");
         if (total_xp == 0) {
             total_xp = file.ReadUInt("total_experience_points");
         }
-        characters[i]->SetTotalExperiencePoints(total_xp);
+        character.SetTotalExperiencePoints(total_xp);
+        character.SetUnspentExperiencePoints(file.ReadUInt("unspent_experience_points"));
+        character.AddExperienceForNextLevel(file.ReadUInt("experience_points_next"));
 
-        characters[i]->SetMaxHitPoints(file.ReadUInt("max_hit_points"));
-        characters[i]->SetHitPoints(file.ReadUInt("hit_points"));
-        characters[i]->SetMaxSkillPoints(file.ReadUInt("max_skill_points"));
-        characters[i]->SetSkillPoints(file.ReadUInt("skill_points"));
+        character.SetMaxHitPoints(file.ReadUInt("max_hit_points"));
+        character.SetHitPoints(file.ReadUInt("hit_points"));
+        character.SetMaxSkillPoints(file.ReadUInt("max_skill_points"));
+        character.SetSkillPoints(file.ReadUInt("skill_points"));
+
+        _character_window[i].SetCharacter(&character);
 
         file.CloseTable(); // character id
     }
@@ -625,10 +626,6 @@ bool SaveMode::_PreviewGame(const std::string& filename)
 
     file.CloseTable(); // save_game1
     file.CloseFile();
-
-    for(uint32_t i = 0; i < CHARACTERS_SHOWN_SLOTS; ++i) {
-        _character_window[i].SetCharacter(characters[i]);
-    }
 
     std::ostringstream time_text;
     time_text << (hours < 10 ? "0" : "") << static_cast<uint32_t>(hours) << ":";
@@ -666,7 +663,7 @@ bool SaveMode::_PreviewGame(const std::string& filename)
     }
     else {
         if (_location_image.Load(map_image_filename))
-            _location_image.SetWidthKeepRatio(340.0f);
+            _location_image.SetHeightKeepRatio(105.0f);
     }
 
     map_file.CloseTable(); // Tablespace
@@ -742,71 +739,6 @@ void SaveMode::_DeleteAutoSave(uint32_t id)
 {
     std::string filename = _BuildSaveFilename(id, true);
     vt_utils::DeleteAFile(filename.c_str());
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// SmallCharacterWindow Class
-////////////////////////////////////////////////////////////////////////////////
-
-SmallCharacterWindow::~SmallCharacterWindow()
-{
-    delete _character;
-}
-
-void SmallCharacterWindow::SetCharacter(GlobalCharacter* character)
-{
-    delete _character;
-    _character = character;
-
-    if(!_character || _character->GetID() == vt_global::GLOBAL_CHARACTER_INVALID) {
-        _character_name.Clear();
-        _character_data.Clear();
-        _portrait = StillImage();
-        return;
-    }
-
-    _portrait = character->GetPortrait();
-    // Only size up valid portraits
-    if(!_portrait.GetFilename().empty())
-        _portrait.SetDimensions(100.0f, 100.0f);
-
-    // the characters' name is already translated.
-    _character_name.SetText(_character->GetName(), TextStyle("title22"));
-
-    // And the rest of the data
-    /// tr: level
-    ustring char_data = UTranslate("Lv: ") + MakeUnicodeString(NumberToString(_character->GetExperienceLevel()) + "\n");
-    /// tr: hit points
-    char_data += UTranslate("HP: ") + MakeUnicodeString(NumberToString(_character->GetHitPoints()) +
-                               " / " + NumberToString(_character->GetMaxHitPoints()) + "\n");
-    /// tr: skill points
-    char_data += UTranslate("SP: ") + MakeUnicodeString(NumberToString(_character->GetSkillPoints()) +
-                               " / " + NumberToString(_character->GetMaxSkillPoints()));
-
-    _character_data.SetText(char_data, TextStyle("text20"));
-}
-
-void SmallCharacterWindow::Draw()
-{
-    // Call parent Draw method, if failed pass on fail result
-    MenuWindow::Draw();
-
-    // Get the window metrics
-    Position2D position = GetPosition();
-    // Adjust the current position to make it look better
-    position.y -= 5;
-
-    //Draw character portrait
-    VideoManager->Move(position.x + 50, position.y + 110);
-    _portrait.Draw();
-
-    // Write character name
-    VideoManager->MoveRelative(125, -70);
-    _character_name.Draw();
-
-    // Level, HP, SP
-    VideoManager->MoveRelative(0, 20);
-    _character_data.Draw();
 }
 
 } // namespace vt_save
