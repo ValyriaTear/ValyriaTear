@@ -28,6 +28,7 @@ function Load(m)
     Script = Map:GetScriptSupervisor();
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
+    Map:SetAutoSaveEnabled(false)
 
     _CreateCharacters();
     _CreateObjects();
