@@ -22,6 +22,9 @@ local Script = nil
 local hero = nil
 local orlinn = nil
 
+-- Used for dialogues
+local kalya = nil
+
 -- the main map loading code
 function Load(m)
 
@@ -63,6 +66,12 @@ function _CreateCharacters()
     orlinn:SetMovementSpeed(vt_map.MapMode.FAST_SPEED);
     orlinn:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
     orlinn:SetVisible(false);
+
+    kalya = CreateSprite(Map, "Kalya", 0, 0, vt_map.MapMode.GROUND_OBJECT)
+    kalya:SetDirection(vt_map.MapMode.EAST)
+    kalya:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED)
+    kalya:SetCollisionMask(vt_map.MapMode.NO_COLLISION)
+    kalya:SetVisible(false)
 
     if (GlobalManager:GetMapData():GetPreviousLocation() == "from_shrine_first_floor_SW_top_door") then
         hero:SetPosition(5.5, 24);
@@ -210,9 +219,9 @@ function _CreateObjects()
     -- The second parchment note
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("There is a note left here.");
-    dialogue:AddLineEmote(text, hero, "thinking dots");
+    dialogue:AddLineEmote(text, kalya, "thinking dots");
     text = vt_system.Translate("It says: 'I fathomed it! After all, not every ladder is made of wood. Now, I'll have to get back there alive.'");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, kalya);
     vt_map.DialogueEvent.Create("Parchment event", dialogue);
 end
 
@@ -253,7 +262,7 @@ function _CreateEvents()
     -- Tells about Orlinn's passage
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("There seems to be one of those rolling stones up here.");
-    dialogue:AddLineEmote(text, hero, "thinking dots");
+    dialogue:AddLineEmote(text, kalya, "thinking dots");
     event = vt_map.DialogueEvent.Create("The hero talks about finding a way to get there", dialogue);
     event:SetStopCameraMovement(true);
     event:AddEventLinkAtEnd("Set camera on hero");

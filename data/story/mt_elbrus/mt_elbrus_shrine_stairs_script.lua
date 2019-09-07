@@ -434,7 +434,7 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Something is preventing me from entering.");
-    dialogue:AddLineEmote(text, hero, "thinking dots");
+    dialogue:AddLineEmote(text, bronann, "thinking dots");
     event = vt_map.DialogueEvent.Create("The heroes can't go in dialogue", dialogue);
     event:AddEventLinkAtEnd("Heroes can't go there - end");
 

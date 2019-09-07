@@ -21,6 +21,9 @@ local Effects = nil
 -- the main character handler
 local hero = nil
 
+-- Used for dialogues
+local bronann = nil
+
 -- the main map loading code
 function Load(m)
 
@@ -73,6 +76,12 @@ function _CreateCharacters()
         hero:SetDirection(vt_map.MapMode.SOUTH);
         hero:SetPosition(12.0, 8.0);
     end
+
+    bronann = CreateSprite(Map, "Bronann", 0, 0, vt_map.MapMode.GROUND_OBJECT)
+    bronann:SetDirection(vt_map.MapMode.EAST)
+    bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED)
+    bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION)
+    bronann:SetVisible(false)
 end
 
 function _add_flame(x, y)
@@ -126,7 +135,7 @@ function _CreateObjects()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Phew, this one sure is heavier and more sturdy.");
-    dialogue:AddLineEmote(text, hero, "sweat drop");
+    dialogue:AddLineEmote(text, bronann, "sweat drop");
     event = vt_map.DialogueEvent.Create("Hero speaks about the red stone", dialogue);
     event:AddEventLinkAtEnd("Make rolling stone1 fall event end");
 
@@ -373,7 +382,7 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("I can feel something moving far below.");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, bronann);
     event = vt_map.DialogueEvent.Create("Enigma map dialogue", dialogue);
     event:AddEventLinkAtEnd("Enigma map open event end");
 

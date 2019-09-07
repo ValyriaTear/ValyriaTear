@@ -21,6 +21,9 @@ local Script = nil
 -- the main character handler
 local hero = nil
 
+-- Used for dialogues
+local bronann = nil
+
 -- the main map loading code
 function Load(m)
 
@@ -59,6 +62,12 @@ function _CreateCharacters()
     hero = CreateSprite(Map, "Bronann", 60.0, 34.0, vt_map.MapMode.GROUND_OBJECT);
     hero:SetDirection(vt_map.MapMode.WEST);
     hero:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED);
+
+    bronann = CreateSprite(Map, "Bronann", 0, 0, vt_map.MapMode.GROUND_OBJECT)
+    bronann:SetDirection(vt_map.MapMode.EAST)
+    bronann:SetMovementSpeed(vt_map.MapMode.NORMAL_SPEED)
+    bronann:SetCollisionMask(vt_map.MapMode.NO_COLLISION)
+    bronann:SetVisible(false)
 end
 
 -- Arrays of spikes used to block the way
@@ -330,7 +339,7 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Again, I can feel something moving not far from here.");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, bronann);
     event = vt_map.DialogueEvent.Create("Trap map dialogue", dialogue);
     event:AddEventLinkAtEnd("Trap map open event end");
 

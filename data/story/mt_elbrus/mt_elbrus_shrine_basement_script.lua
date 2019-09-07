@@ -203,9 +203,9 @@ function _CreateEvents()
     -- Hero sees the exit
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("This is the blocked passage to the shrine entrance.");
-    dialogue:AddLineEventEmote(text, hero, "Hero looks east", "", "thinking dots");
+    dialogue:AddLineEventEmote(text, bronann, "Hero looks east", "", "thinking dots");
     text = vt_system.Translate("This can only mean we're near the exit!");
-    dialogue:AddLineEventEmote(text, hero, "Hero looks west", "", "exclamation");
+    dialogue:AddLineEventEmote(text, bronann, "Hero looks west", "", "exclamation");
     vt_map.DialogueEvent.Create("See exit dialogue", dialogue);
 
     -- Orlinn screams
@@ -213,7 +213,7 @@ function _CreateEvents()
     text = vt_system.Translate("Help!");
     dialogue:AddLine(text, orlinn);
     text = vt_system.Translate("Orlinn!");
-    dialogue:AddLineEmote(text, hero, "exclamation");
+    dialogue:AddLineEmote(text, kalya, "exclamation");
     vt_map.DialogueEvent.Create("Orlinn screams dialogue", dialogue);
 
     -- Final boss event

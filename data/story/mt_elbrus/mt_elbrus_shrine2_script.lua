@@ -409,9 +409,9 @@ function _CreateEvents()
     -- A small event, summarizing the whole one
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Somebody left a note on purpose here. According to it, we need to find out a way to trigger the waterfall from the highest floor.");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, kalya);
     text = vt_system.Translate("But let's be careful, as it also said this place is dangerous and the dark waters are some kind of trap.");
-    dialogue:AddLine(text, hero);
+    dialogue:AddLine(text, bronann);
     vt_map.DialogueEvent.Create("Parchment 1 event small", dialogue);
 
     -- The event when skeletons wake up
@@ -420,7 +420,7 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("What is this? Skeletons?!");
-    dialogue:AddLineEmote(text, hero, "exclamation");
+    dialogue:AddLineEmote(text, bronann, "exclamation");
     event = vt_map.DialogueEvent.Create("Skeleton dialogue", dialogue);
     event:AddEventLinkAtEnd("Skeleton1 goes to hero");
     event:AddEventLinkAtEnd("Skeleton2 goes to hero");
@@ -444,7 +444,7 @@ function _CreateEvents()
 
     dialogue = vt_map.SpriteDialogue.Create();
     text = vt_system.Translate("Phew.");
-    dialogue:AddLineEmote(text, hero, "exclamation");
+    dialogue:AddLineEmote(text, bronann, "exclamation");
     event = vt_map.DialogueEvent.Create("Skeleton dialogue 2", dialogue);
     event:AddEventLinkAtEnd("Skeleton event end");
 
