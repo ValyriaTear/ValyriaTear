@@ -24,8 +24,14 @@ using namespace vt_system;
 namespace vt_common
 {
 
+// HP / SP bars
+const float BAR_BASE_SIZE_X = 100.0f;
+const float BAR_BASE_SIZE_Y = 5.0f;
+
 CharacterWindow::CharacterWindow():
-    _char_id(vt_global::GLOBAL_CHARACTER_INVALID)
+    _char_id(vt_global::GLOBAL_CHARACTER_INVALID),
+    _hp_ratio(0.0f),
+    _sp_ratio(0.0f)
 {
     // Loads HP/SP icons
     vt_global::GlobalMedia& media = vt_global::GlobalManager->Media();
@@ -42,6 +48,8 @@ void CharacterWindow::SetCharacter(vt_global::GlobalCharacter* character)
         _character_data.Clear();
         _portrait = StillImage();
         _char_id = vt_global::GLOBAL_CHARACTER_INVALID;
+        _hp_ratio = 0.0f;
+        _sp_ratio = 0.0f;
         _UpdateActiveStatusEffects(nullptr);
         return;
     }
@@ -64,15 +72,17 @@ void CharacterWindow::SetCharacter(vt_global::GlobalCharacter* character)
                  " / " + NumberToString(character->GetMaxHitPoints()) + "\n");
     char_data += MakeUnicodeString("      " + NumberToString(character->GetSkillPoints()) +
                  " / " + NumberToString(character->GetMaxSkillPoints()) + "\n");
-    /// tr: experience points
+    /// tr: experience points to be spent for skills
     char_data += UTranslate("XP for skills: ") + MakeUnicodeString(NumberToString(character->GetUnspentExperiencePoints()));
 
     _character_data.SetText(char_data, TextStyle("text20"));
 
-    _UpdateActiveStatusEffects(character);
-} // void CharacterWindow::SetCharacter(GlobalCharacter *character)
+    _hp_ratio = static_cast<float>(character->GetHitPoints()) / static_cast<float>(character->GetMaxHitPoints());
+    _sp_ratio = static_cast<float>(character->GetSkillPoints()) / static_cast<float>(character->GetMaxSkillPoints());
 
-// Draw the window to the screen
+    _UpdateActiveStatusEffects(character);
+}
+
 void CharacterWindow::Draw()
 {
     // Call parent Draw method, if failed pass on fail result
@@ -85,13 +95,35 @@ void CharacterWindow::Draw()
     // Adjust the current position to make it look better
     pos.y += 5;
 
-    //Draw character portrait
+    // Draw character portrait
     VideoManager->Move(pos.x + 12.0f, pos.y + 8.0f);
     _portrait.Draw();
 
     // Write character name
     VideoManager->MoveRelative(150.0f, -5.0f);
     _character_name.Draw();
+
+    if (_hp_ratio > 0.0f) {
+        VideoManager->MoveRelative(30.0f, 55.0f);
+        // HP
+        VideoManager->MoveRelative(0.0f, BAR_BASE_SIZE_Y - 2.0f);
+        VideoManager->DrawRectangle(BAR_BASE_SIZE_X, 2.0f, Color::white);
+        VideoManager->MoveRelative(0.0f, -BAR_BASE_SIZE_Y + 2.0f);
+        if (_hp_ratio < 0.25f) {
+            VideoManager->DrawRectangle(BAR_BASE_SIZE_X * _hp_ratio, BAR_BASE_SIZE_Y, Color::orange);
+        }
+        else {
+            VideoManager->DrawRectangle(BAR_BASE_SIZE_X * _hp_ratio, BAR_BASE_SIZE_Y, Color::green_hp);
+        }
+        // SP
+        VideoManager->MoveRelative(0.0f, 22.0f);
+        VideoManager->MoveRelative(0.0f, BAR_BASE_SIZE_Y - 2.0f);
+        VideoManager->DrawRectangle(BAR_BASE_SIZE_X, 2.0f, Color::white);
+        VideoManager->MoveRelative(0.0f, -BAR_BASE_SIZE_Y + 2.0f);
+        VideoManager->DrawRectangle(BAR_BASE_SIZE_X * _sp_ratio, BAR_BASE_SIZE_Y, Color::blue_sp);
+
+        VideoManager->MoveRelative(-30.0f, -77.0f);
+    }
 
     // Level, HP, SP, XP to Next Lvl
     VideoManager->MoveRelative(0.0f, 19.0f);

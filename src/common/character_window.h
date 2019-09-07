@@ -53,6 +53,10 @@ private:
     vt_video::TextImage _character_name;
     vt_video::TextImage _character_data;
 
+    //! \brief HP / SP ratios = current over total
+    float _hp_ratio;
+    float _sp_ratio;
+
     //! \brief The hp/sp icon displayed in this window.
     //! \note Do not delete them, as they are handled by the GlobalMedia class.
     vt_video::StillImage* _hp_icon;
