@@ -167,6 +167,7 @@ skills[3] = {
 
     animation_scripts = {
         [BRONANN] = "data/battles/characters_animations/bronann_attack.lua",
+        [KALYA] = "data/battles/characters_animations/kalya_attack.lua",
         [THANIS] = "data/battles/characters_animations/thanis_attack.lua"
     }
 }
