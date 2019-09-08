@@ -355,10 +355,9 @@ skill_graph = {
 		-- Experience points cost needed to reach this node
 		experience_points_needed = 2280,
 		-- Skill id learned when reaching this node
-		skill_id_learned = 4,
+		skill_id_learned = 10120,
 		-- items needed to reach this node
 		items_needed = {
-			[3004] = 100,
 		},
 		-- stats upgrade when reaching this node
 		stats = {
