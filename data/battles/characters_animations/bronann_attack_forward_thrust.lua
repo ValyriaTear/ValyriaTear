@@ -157,6 +157,7 @@ function Update()
 
         -- Trigger damage a first time
         skill:ExecuteBattleFunction(character, target)
+        AudioManager:PlaySound("data/sounds/swordslice1.wav")
 
         -- Init the slash effect life time
         slash_effect_time = 0;
@@ -194,6 +195,7 @@ function Update()
         -- Triggers the damage a second time in the middle of the attack animation
         if (damage_triggered == false and attack_time > 505.0) then
             skill:ExecuteBattleFunction(character, target)
+            AudioManager:PlaySound("data/sounds/swordslice1.wav")
             -- Remove the skill points at the end of attack
             character:SubtractSkillPoints(skill:GetSPRequired())
             damage_triggered = true;

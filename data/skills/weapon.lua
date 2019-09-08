@@ -111,7 +111,7 @@ skills[1] = {
 skills[2] = {
     name = vt_system.Translate("Forward Thrust"),
     show_notice = true,
-    description = vt_system.Translate("A quicker and more powerful blow than the standard sword slash."),
+    description = vt_system.Translate("A concentrated attack on an enemy."),
     sp_required = 2,
     warmup_time = 800,
     cooldown_time = 200,
@@ -124,7 +124,6 @@ skills[2] = {
 
         if (vt_battle.RndEvade(target_actor, 0, 1.0, attack_point) == false) then
             target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 0, 1.30, attack_point), target);
-            AudioManager:PlaySound("data/sounds/swordslice1.wav");
         else
             target_actor:RegisterMiss(true);
             AudioManager:PlaySound("data/sounds/sword_swipe.wav");
@@ -134,6 +133,7 @@ skills[2] = {
 
     animation_scripts = {
         [BRONANN] = "data/battles/characters_animations/bronann_attack_forward_thrust.lua",
+        [KALYA] = "data/battles/characters_animations/kalya_double_attack.lua",
         [THANIS] = "data/battles/characters_animations/thanis_attack.lua"
     }
 }
