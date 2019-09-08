@@ -1143,7 +1143,7 @@ enemies[21] = {
         mag_atk = 40,
         phys_def = 30,
         mag_def = 40,
-        stamina = 40,
+        stamina = 60,
         evade = 6.0,
         experience_points = 200,
         drunes = 150
@@ -1166,9 +1166,10 @@ enemies[21] = {
 
     skills = {
         1014,  -- Shake atk + AGI-
-        10100, -- Fire
+        10100, -- Fire burst
         10007, -- Magical poison
         21002, -- Dark Wish
+        10120, -- Wave
     },
 
     drop_objects = {
