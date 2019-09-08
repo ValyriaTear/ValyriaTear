@@ -496,7 +496,7 @@ function _TriggerPartyDamage(damage)
 
     local index = 0;
     for index = 0, 3 do
-        local char = GlobalManager:GetCharacter(index);
+        local char = GlobalManager:GetCharacterHandler():GetCharacter(index);
         if (char ~= nil) then
             -- Do not kill characters. though
             local hp_damage = damage;
