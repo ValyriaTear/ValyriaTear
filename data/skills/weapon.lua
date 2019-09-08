@@ -793,6 +793,11 @@ skills[1011] = {
     cooldown_time = 500,
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_ALL_FOES,
 
+    animation_scripts = {
+        -- N.B.: [19] is the enemy ID.
+        [19] = "data/battles/enemies_animations/skeleton_frenzy_attack.lua",
+    },
+
     BattleExecute = function(user, target)
         local index = 0;
         while true do
