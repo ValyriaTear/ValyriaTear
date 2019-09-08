@@ -824,11 +824,17 @@ skills[1011] = {
 }
 
 skills[1012] = {
-    name = "Beetle Stamina stealing Attack",
+    name = vt_system.Translate("Stamina Steal"),
+    show_notice = true,
     sp_required = 12,
     warmup_time = 2400,
     cooldown_time = 500,
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE,
+
+    animation_scripts = {
+        -- N.B.: [X] is the enemy ID.
+        [15] = "data/battles/enemies_animations/slime_water_spray_attack.lua", -- Beetle
+    },
 
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
