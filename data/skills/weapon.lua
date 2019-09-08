@@ -759,6 +759,11 @@ skills[1010] = {
     cooldown_time = 100,
     target_type = vt_global.GameGlobal.GLOBAL_TARGET_FOE_POINT,
 
+    animation_scripts = {
+        -- N.B.: [X] is the enemy ID.
+        [16] = "data/battles/enemies_animations/rat_poison_bite_attack.lua",
+    },
+
     BattleExecute = function(user, target)
         local target_actor = target:GetActor();
         local atk_point = target:GetAttackPoint();
@@ -776,10 +781,9 @@ skills[1010] = {
 
             -- The damages are applied after the potential effects, so that a potential target death handles the effect removal properly
             target_actor:RegisterDamage(vt_battle.RndPhysicalDamage(user, target_actor, 6, 1.0, atk_point), target);
-            AudioManager:PlaySound("data/sounds/skeleton_attack.wav");
         else
             target_actor:RegisterMiss(true);
-            AudioManager:PlaySound("data/sounds/missed_target.wav");
+            AudioManager:PlaySound("data/sounds/missed_target.wav")
         end
     end
 }

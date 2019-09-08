@@ -1,7 +1,7 @@
 Licenses
 ========
 
-Last update: 2019.08.18
+Last update: 2019.08.09
 
 This file is listing all the files licenses from the point of the fork
 from the Allacrost project.
@@ -258,6 +258,7 @@ data/entities/battle/effects/hit_splash.png                                   CC
 data/entities/battle/effects/wolf_claws.png                                   CC-BY-SA-3.0             Adapted from J.W. Bjerk - https://opengameart.org/content/painterly-spell-icons-part-3
 data/entities/battle/effects/fangs_crush.png                                  CC-BY-SA-3.0             Adapted from J.W. Bjerk - https://opengameart.org/content/painterly-spell-icons-part-3
 data/entities/battle/effects/physical_shield.png                              CC-BY-SA-3.0             Adapted from Daneekly - https://opengameart.org/content/extended-lpc-magic-pack
+data/entities/battle/effects/magic_flame.png                                  CC0                      Rubberduck (OGA) - https://opengameart.org/content/magic-flame
 data/entities/battle/effects/magic_shield.png                                 CC-BY-SA-3.0             Adapted from Daneekly - https://opengameart.org/content/extended-lpc-magic-pack
 data/entities/battle/effects/magic_shield_breaking.png                        CC-BY-SA-3.0             Adapted from Daneekly - https://opengameart.org/content/extended-lpc-magic-pack
 data/entities/battle/effects/green_tentacles_attack.png                       CC-BY-SA-3.0             Adapted from Daneekly - https://opengameart.org/content/extended-lpc-magic-pack
