@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-03 07:27+0100\n"
+"POT-Creation-Date: 2019-09-09 18:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#. tr: level
+#: ../src/common/character_window.cpp:69
+msgid "Lv: "
+msgstr ""
+
+#: ../src/common/character_window.cpp:70
+msgid "Next: "
+msgstr ""
+
+#. tr: experience points to be spent for skills
+#: ../src/common/character_window.cpp:76
+#: ../src/modes/battle/finish/battle_victory.cpp:358
+#: ../src/modes/battle/finish/battle_victory.cpp:503
+msgid "XP for skills: "
+msgstr ""
 
 #: ../src/common/global/global_target.cpp:28
 msgid "Self — Point"
@@ -51,7 +67,7 @@ msgid "Foe"
 msgstr ""
 
 #: ../src/common/global/global_target.cpp:44
-#: ../src/modes/battle/battle_target.cpp:273
+#: ../src/modes/battle/battle_target.cpp:305
 #: ../src/modes/battle/command/command_supervisor.cpp:827
 #: ../src/modes/battle/command/command_supervisor.cpp:857
 msgid "All Allies"
@@ -255,7 +271,7 @@ msgstr ""
 #: ../src/modes/battle/finish/battle_defeat.cpp:102
 #: ../src/modes/mode_help_window.cpp:145 ../src/modes/mode_help_window.cpp:191
 #: ../src/modes/mode_help_window.cpp:244 ../src/modes/pause.cpp:92
-#: ../src/modes/save/save_mode.cpp:134 ../src/modes/save/save_mode.cpp:149
+#: ../src/modes/save/save_mode.cpp:132 ../src/modes/save/save_mode.cpp:147
 msgid "Cancel"
 msgstr ""
 
@@ -407,7 +423,7 @@ msgstr ""
 msgid "Miss"
 msgstr ""
 
-#: ../src/modes/battle/actions/item_action.cpp:176
+#: ../src/modes/battle/actions/item_action.cpp:194
 msgid "[error]"
 msgstr ""
 
@@ -430,15 +446,15 @@ msgid ""
 "mode will be deactivated again."
 msgstr ""
 
-#: ../src/modes/battle/battle_target.cpp:258
+#: ../src/modes/battle/battle_target.cpp:290
 msgid "[Invalid Target]"
 msgstr ""
 
-#: ../src/modes/battle/battle_target.cpp:263
+#: ../src/modes/battle/battle_target.cpp:295
 msgid " — "
 msgstr ""
 
-#: ../src/modes/battle/battle_target.cpp:276
+#: ../src/modes/battle/battle_target.cpp:308
 #: ../src/modes/battle/command/command_supervisor.cpp:829
 #: ../src/modes/battle/command/command_supervisor.cpp:859
 msgid "All Enemies"
@@ -603,13 +619,6 @@ msgstr ""
 msgid "XP for level up: "
 msgstr ""
 
-#. tr: experience points
-#: ../src/modes/battle/finish/battle_victory.cpp:358
-#: ../src/modes/battle/finish/battle_victory.cpp:503
-#: ../src/modes/menu/menu_windows/menu_character_window.cpp:72
-msgid "XP for skills: "
-msgstr ""
-
 #. tr: Header in battle result screen: 0 items found
 #: ../src/modes/battle/finish/battle_victory.cpp:390
 msgid "No Items Found"
@@ -626,6 +635,12 @@ msgstr ""
 
 #: ../src/modes/battle/objects/battle_character.cpp:405
 msgid "[Select Action]"
+msgstr ""
+
+#. tr: status effect time left string in seconds
+#: ../src/modes/battle/status_effects/active_effects.cpp:138
+#, c-format
+msgid "%d s"
 msgstr ""
 
 #: ../src/modes/boot/boot.cpp:414
@@ -802,28 +817,18 @@ msgstr ""
 msgid "%d %%"
 msgstr ""
 
-#. tr: level
-#: ../src/modes/menu/menu_windows/menu_character_window.cpp:65
-#: ../src/modes/save/save_mode.cpp:778
-msgid "Lv: "
-msgstr ""
-
-#: ../src/modes/menu/menu_windows/menu_character_window.cpp:66
-msgid "Next: "
-msgstr ""
-
 #: ../src/modes/menu/menu_windows/menu_equip_window.cpp:70
 #: ../data/entities/characters.lua:64 ../data/entities/characters.lua:171
 #: ../data/entities/characters.lua:274 ../data/entities/characters.lua:369
 #: ../data/entities/enemies.lua:93 ../data/entities/enemies.lua:154
 #: ../data/entities/enemies.lua:209 ../data/entities/enemies.lua:381
 #: ../data/entities/enemies.lua:442 ../data/entities/enemies.lua:496
-#: ../data/entities/enemies.lua:564 ../data/entities/enemies.lua:865
-#: ../data/entities/enemies.lua:1010 ../data/entities/enemies.lua:1072
-#: ../data/entities/enemies.lua:1140 ../data/entities/enemies.lua:1238
-#: ../data/entities/enemies.lua:1294 ../data/entities/enemies.lua:1572
-#: ../data/entities/enemies.lua:1791 ../data/entities/enemies.lua:1848
-#: ../data/entities/enemies.lua:1905 ../data/entities/enemies.lua:1971
+#: ../data/entities/enemies.lua:564 ../data/entities/enemies.lua:879
+#: ../data/entities/enemies.lua:1024 ../data/entities/enemies.lua:1086
+#: ../data/entities/enemies.lua:1154 ../data/entities/enemies.lua:1253
+#: ../data/entities/enemies.lua:1309 ../data/entities/enemies.lua:1587
+#: ../data/entities/enemies.lua:1806 ../data/entities/enemies.lua:1863
+#: ../data/entities/enemies.lua:1920 ../data/entities/enemies.lua:1986
 msgid "Head"
 msgstr ""
 
@@ -831,9 +836,9 @@ msgstr ""
 #: ../data/entities/characters.lua:73 ../data/entities/characters.lua:180
 #: ../data/entities/characters.lua:283 ../data/entities/characters.lua:378
 #: ../data/entities/enemies.lua:320 ../data/entities/enemies.lua:505
-#: ../data/entities/enemies.lua:573 ../data/entities/enemies.lua:719
-#: ../data/entities/enemies.lua:766 ../data/entities/enemies.lua:966
-#: ../data/entities/enemies.lua:1357
+#: ../data/entities/enemies.lua:573 ../data/entities/enemies.lua:721
+#: ../data/entities/enemies.lua:777 ../data/entities/enemies.lua:980
+#: ../data/entities/enemies.lua:1372
 msgid "Torso"
 msgstr ""
 
@@ -847,7 +852,7 @@ msgstr ""
 #: ../data/entities/characters.lua:90 ../data/entities/characters.lua:197
 #: ../data/entities/characters.lua:300 ../data/entities/characters.lua:395
 #: ../data/entities/enemies.lua:513 ../data/entities/enemies.lua:581
-#: ../data/entities/enemies.lua:1652 ../data/entities/enemies.lua:1929
+#: ../data/entities/enemies.lua:1667 ../data/entities/enemies.lua:1944
 msgid "Legs"
 msgstr ""
 
@@ -1263,54 +1268,44 @@ msgstr ""
 msgid "Save Game"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:133
+#: ../src/modes/save/save_mode.cpp:131
 msgid "Confirm Save"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:147
+#: ../src/modes/save/save_mode.cpp:145
 msgid "Load Auto-Save"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:148
+#: ../src/modes/save/save_mode.cpp:146
 msgid "Load Save"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:158
+#: ../src/modes/save/save_mode.cpp:156
 msgid "Save successful!"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:166
+#: ../src/modes/save/save_mode.cpp:164
 msgid ""
 "Unable to save game!\n"
 "Save FAILED!"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:173
+#: ../src/modes/save/save_mode.cpp:171
 msgid "No valid saves found!"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:204 ../src/modes/save/save_mode.cpp:705
+#: ../src/modes/save/save_mode.cpp:202 ../src/modes/save/save_mode.cpp:702
 #, c-format
 msgid "Slot %d"
 msgstr ""
 
-#: ../src/modes/save/save_mode.cpp:513
+#: ../src/modes/save/save_mode.cpp:511
 msgid "Invalid data!"
 msgstr ""
 
 #. tr: A slot for saving the same
-#: ../src/modes/save/save_mode.cpp:516
+#: ../src/modes/save/save_mode.cpp:514
 msgid "This slot is unused"
-msgstr ""
-
-#. tr: hit points
-#: ../src/modes/save/save_mode.cpp:780
-msgid "HP: "
-msgstr ""
-
-#. tr: skill points
-#: ../src/modes/save/save_mode.cpp:783
-msgid "SP: "
 msgstr ""
 
 #: ../src/modes/shop/shop_buy.cpp:59 ../src/modes/shop/shop_sell.cpp:59
@@ -2013,7 +2008,6 @@ msgid "Flora's Shop"
 msgstr ""
 
 #: ../data/debug/debug_shop.lua:26
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:121
 msgid "Don't forget my trade offers!"
 msgstr ""
 
@@ -2023,9 +2017,9 @@ msgstr ""
 #: ../data/story/layna_forest/layna_forest_entrance_script.lua:148
 #: ../data/story/layna_village/layna_village_well_underground_script.lua:114
 #: ../data/story/mt_elbrus/mt_elbrus_path1_script.lua:144
-#: ../data/story/mt_elbrus/mt_elbrus_path2_script.lua:166
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:190
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:224
+#: ../data/story/mt_elbrus/mt_elbrus_path2_script.lua:169
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:189
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:169
 #: ../data/story/mt_elbrus/mt_elbrus_shrine9_script.lua:135
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:214
 msgid "Your party feels better."
@@ -2074,7 +2068,7 @@ msgstr ""
 msgid "Bronann"
 msgstr ""
 
-#: ../data/entities/characters.lua:19 ../data/skills/magic.lua:1048
+#: ../data/entities/characters.lua:19 ../data/skills/magic.lua:1092
 msgid "Holy"
 msgstr ""
 
@@ -2110,10 +2104,10 @@ msgstr ""
 #: ../data/entities/enemies.lua:47 ../data/entities/enemies.lua:163
 #: ../data/entities/enemies.lua:218 ../data/entities/enemies.lua:274
 #: ../data/entities/enemies.lua:390 ../data/entities/enemies.lua:451
-#: ../data/entities/enemies.lua:628 ../data/entities/enemies.lua:919
-#: ../data/entities/enemies.lua:1192 ../data/entities/enemies.lua:1421
-#: ../data/entities/enemies.lua:1477 ../data/entities/enemies.lua:1524
-#: ../data/entities/enemies.lua:1799
+#: ../data/entities/enemies.lua:628 ../data/entities/enemies.lua:933
+#: ../data/entities/enemies.lua:1207 ../data/entities/enemies.lua:1436
+#: ../data/entities/enemies.lua:1492 ../data/entities/enemies.lua:1539
+#: ../data/entities/enemies.lua:1814
 msgid "Body"
 msgstr ""
 
@@ -2121,8 +2115,8 @@ msgstr ""
 msgid "Spider"
 msgstr ""
 
-#: ../data/entities/enemies.lua:102 ../data/entities/enemies.lua:1246
-#: ../data/entities/enemies.lua:1856
+#: ../data/entities/enemies.lua:102 ../data/entities/enemies.lua:1261
+#: ../data/entities/enemies.lua:1871
 msgid "Abdomen"
 msgstr ""
 
@@ -2135,8 +2129,8 @@ msgstr ""
 msgid "Snake"
 msgstr ""
 
-#: ../data/entities/enemies.lua:226 ../data/entities/enemies.lua:1302
-#: ../data/entities/enemies.lua:1807 ../data/entities/enemies.lua:1864
+#: ../data/entities/enemies.lua:226 ../data/entities/enemies.lua:1317
+#: ../data/entities/enemies.lua:1822 ../data/entities/enemies.lua:1879
 msgid "Tail"
 msgstr ""
 
@@ -2166,160 +2160,160 @@ msgstr ""
 msgid "Shroom"
 msgstr ""
 
-#: ../data/entities/enemies.lua:649 ../data/entities/map_sprites.lua:541
+#: ../data/entities/enemies.lua:650 ../data/entities/map_sprites.lua:541
 msgid "Eyeball"
 msgstr ""
 
-#: ../data/entities/enemies.lua:674 ../data/entities/enemies.lua:1349
+#: ../data/entities/enemies.lua:675 ../data/entities/enemies.lua:1364
 msgid "Eye"
 msgstr ""
 
-#: ../data/entities/enemies.lua:694
+#: ../data/entities/enemies.lua:696
 msgid "Harlequin?"
 msgstr ""
 
-#: ../data/entities/enemies.lua:741
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:1032
+#: ../data/entities/enemies.lua:752
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:1066
 msgid "Harlequin"
 msgstr ""
 
-#: ../data/entities/enemies.lua:794 ../data/entities/map_sprites.lua:573
+#: ../data/entities/enemies.lua:808 ../data/entities/map_sprites.lua:573
 msgid "Beetle"
 msgstr ""
 
-#: ../data/entities/enemies.lua:819 ../data/entities/enemies.lua:873
-#: ../data/entities/enemies.lua:1018 ../data/entities/enemies.lua:1080
-#: ../data/entities/enemies.lua:1913 ../data/entities/enemies.lua:1979
+#: ../data/entities/enemies.lua:833 ../data/entities/enemies.lua:887
+#: ../data/entities/enemies.lua:1032 ../data/entities/enemies.lua:1094
+#: ../data/entities/enemies.lua:1928 ../data/entities/enemies.lua:1994
 msgid "Chest"
 msgstr ""
 
-#: ../data/entities/enemies.lua:840
+#: ../data/entities/enemies.lua:854
 msgid "Rat"
 msgstr ""
 
-#: ../data/entities/enemies.lua:894
+#: ../data/entities/enemies.lua:908
 msgid "Thing"
 msgstr ""
 
-#: ../data/entities/enemies.lua:941
+#: ../data/entities/enemies.lua:955
 msgid "Yeti"
 msgstr ""
 
-#: ../data/entities/enemies.lua:985 ../data/entities/map_sprites.lua:589
+#: ../data/entities/enemies.lua:999 ../data/entities/map_sprites.lua:589
 msgid "Skeleton"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1026 ../data/entities/enemies.lua:1088
-#: ../data/entities/enemies.lua:1254 ../data/entities/enemies.lua:1588
+#: ../data/entities/enemies.lua:1040 ../data/entities/enemies.lua:1102
+#: ../data/entities/enemies.lua:1269 ../data/entities/enemies.lua:1603
 msgid "Leg"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1047 ../data/entities/map_sprites.lua:605
+#: ../data/entities/enemies.lua:1061 ../data/entities/map_sprites.lua:605
 msgid "Dorver"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1115 ../data/entities/map_sprites.lua:621
+#: ../data/entities/enemies.lua:1129 ../data/entities/map_sprites.lua:621
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_basement_script.lua:112
 msgid "Andromalius"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1167 ../data/entities/map_sprites.lua:369
+#: ../data/entities/enemies.lua:1182 ../data/entities/map_sprites.lua:369
 msgid "Ratto"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1220
+#: ../data/entities/enemies.lua:1235
 msgid "Scorpion"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1273
+#: ../data/entities/enemies.lua:1288
 msgid "Dune Crawler"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1328
+#: ../data/entities/enemies.lua:1343
 msgid "Stygian Lizard"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1365 ../data/entities/enemies.lua:1429
+#: ../data/entities/enemies.lua:1380 ../data/entities/enemies.lua:1444
 msgid "Claw"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1392
+#: ../data/entities/enemies.lua:1407
 msgid "Demonic Essence"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1413
+#: ../data/entities/enemies.lua:1428
 msgid "Face"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1456
+#: ../data/entities/enemies.lua:1471
 msgid "Red Slime"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1503
+#: ../data/entities/enemies.lua:1518
 msgid "Mushroom Zombie"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1551
+#: ../data/entities/enemies.lua:1566
 msgid "Scorpion Goliath"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1580
+#: ../data/entities/enemies.lua:1595
 msgid "Pincer"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1615
+#: ../data/entities/enemies.lua:1630
 msgid "Armored Beast"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1636
+#: ../data/entities/enemies.lua:1651
 msgid "Mesosoma"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1644
+#: ../data/entities/enemies.lua:1659
 msgid "Pincers"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1672
+#: ../data/entities/enemies.lua:1687
 msgid "Daemarbora"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1693
+#: ../data/entities/enemies.lua:1708
 msgid "Trunk"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1701
+#: ../data/entities/enemies.lua:1716
 msgid "Branches"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1721
+#: ../data/entities/enemies.lua:1736
 msgid "Aerocephal"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1742
+#: ../data/entities/enemies.lua:1757
 msgid "Forehead"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1750
+#: ../data/entities/enemies.lua:1765
 msgid "Orifice"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1770
+#: ../data/entities/enemies.lua:1785
 msgid "Arcana Drake"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1827
+#: ../data/entities/enemies.lua:1842
 msgid "Nagaruda"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1884
+#: ../data/entities/enemies.lua:1899
 msgid "Deceleon"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1921 ../data/entities/enemies.lua:1987
+#: ../data/entities/enemies.lua:1936 ../data/entities/enemies.lua:2002
 msgid "Arm"
 msgstr ""
 
-#: ../data/entities/enemies.lua:1949
+#: ../data/entities/enemies.lua:1964
 msgid "Aurum Drakueli"
 msgstr ""
 
@@ -2363,7 +2357,6 @@ msgstr ""
 #: ../data/entities/map_sprites.lua:224
 #: ../data/story/layna_village/layna_village_center_script.lua:165
 #: ../data/story/layna_village/layna_village_center_script.lua:179
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:174
 msgid "Sophia"
 msgstr ""
 
@@ -2416,9 +2409,9 @@ msgstr ""
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:210
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:223
 #: ../data/story/mt_elbrus/battle_with_dark_soldiers_script.lua:33
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:137
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:140
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:143
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:136
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:139
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:142
 #: ../data/story/mt_elbrus/mt_elbrus_path4_script.lua:142
 #: ../data/story/mt_elbrus/mt_elbrus_path4_script.lua:145
 #: ../data/story/mt_elbrus/mt_elbrus_path4_script.lua:148
@@ -2517,40 +2510,44 @@ msgstr ""
 msgid "Long Leather Gloves"
 msgstr ""
 
-#: ../data/inventory/arm_armor.lua:61
+#: ../data/inventory/arm_armor.lua:61 ../data/inventory/arm_armor.lua:72
 msgid "Robust leather gloves."
 msgstr ""
 
 #: ../data/inventory/arm_armor.lua:71
-msgid "Wooden Shield"
-msgstr ""
-
-#: ../data/inventory/arm_armor.lua:72
-msgid "Robust wooden oak protects from all but the heaviest of assaults."
+msgid "Sturdy Leather Gloves"
 msgstr ""
 
 #: ../data/inventory/arm_armor.lua:82
-msgid "Metal Shield"
+msgid "Wooden Shield"
 msgstr ""
 
 #: ../data/inventory/arm_armor.lua:83
+msgid "Robust wooden oak protects from all but the heaviest of assaults."
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:93
+msgid "Metal Shield"
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:94
 msgid ""
 "A shield formed completely out of a light-weight but cheap metallic alloy."
 msgstr ""
 
-#: ../data/inventory/arm_armor.lua:93
+#: ../data/inventory/arm_armor.lua:104
 msgid "Phoenix Shield"
 msgstr ""
 
-#: ../data/inventory/arm_armor.lua:94
+#: ../data/inventory/arm_armor.lua:105
 msgid "A tall steel shield with a mighty phoenix emblazoned on the front."
 msgstr ""
 
-#: ../data/inventory/arm_armor.lua:104
+#: ../data/inventory/arm_armor.lua:115
 msgid "Trident Shield"
 msgstr ""
 
-#: ../data/inventory/arm_armor.lua:105
+#: ../data/inventory/arm_armor.lua:116
 msgid ""
 "A large shield with enough fortitude to withstand waves of powerful attacks."
 msgstr ""
@@ -3260,496 +3257,498 @@ msgid ""
 "Performs basic medical assistance, healing the target by a minor degree."
 msgstr ""
 
-#: ../data/skills/magic.lua:140
+#: ../data/skills/magic.lua:145
 msgid "Leader Call"
 msgstr ""
 
-#: ../data/skills/magic.lua:141
+#: ../data/skills/magic.lua:146
 msgid "Temporarily increases the Physical Attack of all allies."
 msgstr ""
 
-#: ../data/skills/magic.lua:167
+#: ../data/skills/magic.lua:172
 msgid "Holy Veil"
 msgstr ""
 
-#: ../data/skills/magic.lua:168
+#: ../data/skills/magic.lua:173
 msgid "Increases the attack and magical attack of all allies."
 msgstr ""
 
-#: ../data/skills/magic.lua:199
+#: ../data/skills/magic.lua:204
 msgid "Ancient Strength"
 msgstr ""
 
-#: ../data/skills/magic.lua:200
+#: ../data/skills/magic.lua:205
 msgid "Increases every form of elemental resistance for all allies."
 msgstr ""
 
-#: ../data/skills/magic.lua:224
+#: ../data/skills/magic.lua:229
 msgid "Divine Wish"
 msgstr ""
 
-#: ../data/skills/magic.lua:225 ../data/skills/special.lua:207
+#: ../data/skills/magic.lua:230 ../data/skills/special.lua:213
 msgid "Revives an ally, restoring all of their HP and SP."
 msgstr ""
 
-#: ../data/skills/magic.lua:244
+#: ../data/skills/magic.lua:249
 msgid "Magical Poison"
 msgstr ""
 
-#: ../data/skills/magic.lua:245
+#: ../data/skills/magic.lua:250
 msgid "Makes an enemy lose its SP little by little."
 msgstr ""
 
-#: ../data/skills/magic.lua:268
+#: ../data/skills/magic.lua:273
 msgid "Steal Song"
 msgstr ""
 
-#: ../data/skills/magic.lua:269
+#: ../data/skills/magic.lua:274
 msgid "Steals positive effects from an enemy."
 msgstr ""
 
-#: ../data/skills/magic.lua:285
+#: ../data/skills/magic.lua:290
 msgid "Terrify"
 msgstr ""
 
-#: ../data/skills/magic.lua:286
+#: ../data/skills/magic.lua:291
 msgid "Potentially causes a normal enemy to retreat."
 msgstr ""
 
-#: ../data/skills/magic.lua:302
+#: ../data/skills/magic.lua:307
 msgid "Decay Dirge"
 msgstr ""
 
-#: ../data/skills/magic.lua:303
+#: ../data/skills/magic.lua:308
 msgid "Steals both physical and magical defense of an ally."
 msgstr ""
 
-#: ../data/skills/magic.lua:319
+#: ../data/skills/magic.lua:324
 msgid "War God"
 msgstr ""
 
-#: ../data/skills/magic.lua:320
+#: ../data/skills/magic.lua:325
 msgid ""
 "Steals both the physical and magical defense of all enemies and gives it to "
 "the party."
 msgstr ""
 
-#: ../data/skills/magic.lua:356
+#: ../data/skills/magic.lua:361
 msgid "Fire burst"
 msgstr ""
 
-#: ../data/skills/magic.lua:357
-msgid "Creates a small fire that burns an enemy."
+#: ../data/skills/magic.lua:362
+msgid "Creates a small fire that burns enemies."
 msgstr ""
 
-#: ../data/skills/magic.lua:382
+#: ../data/skills/magic.lua:403
 msgid "Fire Circle"
 msgstr ""
 
-#: ../data/skills/magic.lua:383
+#: ../data/skills/magic.lua:404
 msgid "Increases the fire elemental defense on a character."
 msgstr ""
 
-#: ../data/skills/magic.lua:398
+#: ../data/skills/magic.lua:419
 msgid "Lava"
 msgstr ""
 
-#: ../data/skills/magic.lua:399
+#: ../data/skills/magic.lua:420
 msgid "Magical attack combining earth and fire type damage."
 msgstr ""
 
-#: ../data/skills/magic.lua:414
+#: ../data/skills/magic.lua:435
 msgid "Fog"
 msgstr ""
 
-#: ../data/skills/magic.lua:415
+#: ../data/skills/magic.lua:436
 msgid "Increases the evade rate of an ally."
 msgstr ""
 
-#: ../data/skills/magic.lua:430
+#: ../data/skills/magic.lua:451
 msgid "Fire Breath"
 msgstr ""
 
-#: ../data/skills/magic.lua:431
+#: ../data/skills/magic.lua:452
 msgid "Magical attack combining air and fire type damage."
 msgstr ""
 
-#: ../data/skills/magic.lua:446
+#: ../data/skills/magic.lua:467
 msgid "Focus"
 msgstr ""
 
-#: ../data/skills/magic.lua:447 ../data/skills/magic.lua:598
+#: ../data/skills/magic.lua:468 ../data/skills/magic.lua:619
 msgid "Increases the magical defense of an ally."
 msgstr ""
 
-#: ../data/skills/magic.lua:462
+#: ../data/skills/magic.lua:483
 msgid "Holy Fire"
 msgstr ""
 
-#: ../data/skills/magic.lua:463
+#: ../data/skills/magic.lua:484
 msgid "Magical attack combining life and fire damages."
 msgstr ""
 
-#: ../data/skills/magic.lua:478
+#: ../data/skills/magic.lua:499
 msgid "Life"
 msgstr ""
 
-#: ../data/skills/magic.lua:479
+#: ../data/skills/magic.lua:500
 msgid "Revives a fallen ally."
 msgstr ""
 
-#: ../data/skills/magic.lua:494
+#: ../data/skills/magic.lua:515
 msgid "Petrify"
 msgstr ""
 
-#: ../data/skills/magic.lua:495
+#: ../data/skills/magic.lua:516
 msgid "Turns an enemy into stone."
 msgstr ""
 
-#: ../data/skills/magic.lua:510
+#: ../data/skills/magic.lua:531
 msgid "Rage"
 msgstr ""
 
-#: ../data/skills/magic.lua:511
+#: ../data/skills/magic.lua:532
 msgid ""
 "Enrages an ally, increasing their attack and speed but reducing their "
 "defense."
 msgstr ""
 
-#: ../data/skills/magic.lua:526
+#: ../data/skills/magic.lua:547
 msgid "Rock Fall"
 msgstr ""
 
-#: ../data/skills/magic.lua:527
+#: ../data/skills/magic.lua:548
 msgid "Rocks fall on an enemy."
 msgstr ""
 
-#: ../data/skills/magic.lua:552
+#: ../data/skills/magic.lua:573
 msgid "Earth Circle"
 msgstr ""
 
-#: ../data/skills/magic.lua:553
+#: ../data/skills/magic.lua:574
 msgid "Increases the earth elemental defense of a character."
 msgstr ""
 
-#: ../data/skills/magic.lua:581
+#: ../data/skills/magic.lua:602
 msgid "Entangle"
 msgstr ""
 
-#: ../data/skills/magic.lua:582
+#: ../data/skills/magic.lua:603
 msgid "Decreases the evasion rate of an enemy."
 msgstr ""
 
-#: ../data/skills/magic.lua:597
+#: ../data/skills/magic.lua:618
 msgid "Magical Armor"
 msgstr ""
 
-#: ../data/skills/magic.lua:613
+#: ../data/skills/magic.lua:634
 msgid "Haste"
 msgstr ""
 
-#: ../data/skills/magic.lua:614
+#: ../data/skills/magic.lua:635
 msgid "Increases the battle speed of an ally."
 msgstr ""
 
-#: ../data/skills/magic.lua:629
+#: ../data/skills/magic.lua:650
 msgid "Moon"
 msgstr ""
 
-#: ../data/skills/magic.lua:630
+#: ../data/skills/magic.lua:651
 msgid "Makes an enemy attack its own allies."
 msgstr ""
 
-#: ../data/skills/magic.lua:645
+#: ../data/skills/magic.lua:666
 msgid "Cure"
 msgstr ""
 
-#: ../data/skills/magic.lua:646
+#: ../data/skills/magic.lua:667
 msgid "Cures the poison from an ally."
 msgstr ""
 
-#: ../data/skills/magic.lua:661
+#: ../data/skills/magic.lua:682
 msgid "Drain"
 msgstr ""
 
-#: ../data/skills/magic.lua:662
+#: ../data/skills/magic.lua:683
 msgid "Steals HP from an enemy."
 msgstr ""
 
-#: ../data/skills/magic.lua:677
+#: ../data/skills/magic.lua:698
 msgid "Curse"
 msgstr ""
 
-#: ../data/skills/magic.lua:678
+#: ../data/skills/magic.lua:699
 msgid "Severely decreases several random stats of an enemy."
 msgstr ""
 
-#: ../data/skills/magic.lua:693
+#: ../data/skills/magic.lua:714
 msgid "Meteor"
 msgstr ""
 
-#: ../data/skills/magic.lua:694
+#: ../data/skills/magic.lua:715
 msgid "High earth damage on all foes."
 msgstr ""
 
-#: ../data/skills/magic.lua:709
+#: ../data/skills/magic.lua:730
 msgid "Wave"
 msgstr ""
 
-#: ../data/skills/magic.lua:710
-msgid "Makes waves fall on an enemy."
+#: ../data/skills/magic.lua:731
+msgid ""
+"Makes waves fall on an enemy, damaging them and decreasing their physical "
+"attack."
 msgstr ""
 
-#: ../data/skills/magic.lua:735
+#: ../data/skills/magic.lua:774
 msgid "Water Circle"
 msgstr ""
 
-#: ../data/skills/magic.lua:736
+#: ../data/skills/magic.lua:775
 msgid "Increases the water elemental defense on a character."
 msgstr ""
 
-#: ../data/skills/magic.lua:760
+#: ../data/skills/magic.lua:799
 msgid "Whirlwind"
 msgstr ""
 
-#: ../data/skills/magic.lua:761
+#: ../data/skills/magic.lua:800
 msgid "Magical attack combining water and air type damage."
 msgstr ""
 
-#: ../data/skills/magic.lua:776
+#: ../data/skills/magic.lua:815
 msgid "Slow"
 msgstr ""
 
-#: ../data/skills/magic.lua:777
+#: ../data/skills/magic.lua:816
 msgid "Decreases the battle speed of an enemy."
 msgstr ""
 
-#: ../data/skills/magic.lua:792
+#: ../data/skills/magic.lua:831
 msgid "Blindness"
 msgstr ""
 
-#: ../data/skills/magic.lua:793
+#: ../data/skills/magic.lua:832
 msgid "Prevents an enemy from succeeding to strike with any physical attacks."
 msgstr ""
 
-#: ../data/skills/magic.lua:808
+#: ../data/skills/magic.lua:847
 msgid "Heal"
 msgstr ""
 
-#: ../data/skills/magic.lua:809
+#: ../data/skills/magic.lua:848
 msgid "Restores the health of an ally."
 msgstr ""
 
-#: ../data/skills/magic.lua:824
+#: ../data/skills/magic.lua:863
 msgid "Poison"
 msgstr ""
 
-#: ../data/skills/magic.lua:825
+#: ../data/skills/magic.lua:864
 msgid "Inflicts poison on an enemy."
 msgstr ""
 
-#: ../data/skills/magic.lua:844
+#: ../data/skills/magic.lua:888
 msgid "Stun"
 msgstr ""
 
-#: ../data/skills/magic.lua:845
+#: ../data/skills/magic.lua:889
 msgid "Stuns an enemy."
 msgstr ""
 
-#: ../data/skills/magic.lua:863
+#: ../data/skills/magic.lua:907
 msgid "Tsunami"
 msgstr ""
 
-#: ../data/skills/magic.lua:864
+#: ../data/skills/magic.lua:908
 msgid "High water damage inflicted on all foes."
 msgstr ""
 
-#: ../data/skills/magic.lua:879
+#: ../data/skills/magic.lua:923
 msgid "Healing Rain"
 msgstr ""
 
-#: ../data/skills/magic.lua:880
+#: ../data/skills/magic.lua:924
 msgid "Improves the health of all allies."
 msgstr ""
 
-#: ../data/skills/magic.lua:895
+#: ../data/skills/magic.lua:939
 msgid "Wind"
 msgstr ""
 
-#: ../data/skills/magic.lua:896
+#: ../data/skills/magic.lua:940
 msgid "The wind slashes an enemy."
 msgstr ""
 
-#: ../data/skills/magic.lua:921
+#: ../data/skills/magic.lua:965
 msgid "Wind Circle"
 msgstr ""
 
-#: ../data/skills/magic.lua:922
+#: ../data/skills/magic.lua:966
 msgid "Increases the air elemental defense of a character."
 msgstr ""
 
-#: ../data/skills/magic.lua:946
+#: ../data/skills/magic.lua:990
 msgid "Lightning"
 msgstr ""
 
-#: ../data/skills/magic.lua:947
+#: ../data/skills/magic.lua:991
 msgid "Magical attack combining life and air type damage."
 msgstr ""
 
-#: ../data/skills/magic.lua:962
+#: ../data/skills/magic.lua:1006
 msgid "Regen"
 msgstr ""
 
-#: ../data/skills/magic.lua:963
+#: ../data/skills/magic.lua:1007
 msgid "Causes an ally to slowly recover their health."
 msgstr ""
 
-#: ../data/skills/magic.lua:984
+#: ../data/skills/magic.lua:1028
 msgid "Magic Drain"
 msgstr ""
 
-#: ../data/skills/magic.lua:985
+#: ../data/skills/magic.lua:1029
 msgid "Steals skill points from an enemy."
 msgstr ""
 
-#: ../data/skills/magic.lua:1000
+#: ../data/skills/magic.lua:1044
 msgid "Silence"
 msgstr ""
 
-#: ../data/skills/magic.lua:1001
+#: ../data/skills/magic.lua:1045
 msgid "Prevents an enemy from using any magic skills."
 msgstr ""
 
-#: ../data/skills/magic.lua:1016
+#: ../data/skills/magic.lua:1060
 msgid "Storm"
 msgstr ""
 
-#: ../data/skills/magic.lua:1017
+#: ../data/skills/magic.lua:1061
 msgid "High air type damage on all foes."
 msgstr ""
 
-#: ../data/skills/magic.lua:1032
+#: ../data/skills/magic.lua:1076
 msgid "Stop"
 msgstr ""
 
-#: ../data/skills/magic.lua:1033
+#: ../data/skills/magic.lua:1077
 msgid "Stops an enemy from taking any actions for quite a long time."
 msgstr ""
 
-#: ../data/skills/magic.lua:1049
+#: ../data/skills/magic.lua:1093
 msgid "A holy light strikes an enemy."
 msgstr ""
 
-#: ../data/skills/magic.lua:1074
+#: ../data/skills/magic.lua:1118
 msgid "Life Circle"
 msgstr ""
 
-#: ../data/skills/magic.lua:1075
+#: ../data/skills/magic.lua:1119
 msgid "Increases the life elemental defense of a character."
 msgstr ""
 
-#: ../data/skills/magic.lua:1090
+#: ../data/skills/magic.lua:1134
 msgid "Purify"
 msgstr ""
 
-#: ../data/skills/magic.lua:1091
+#: ../data/skills/magic.lua:1135
 msgid "Cures all bad effects on a character, except for poison."
 msgstr ""
 
-#: ../data/skills/magic.lua:1106
+#: ../data/skills/magic.lua:1150
 msgid "Sun Haze"
 msgstr ""
 
-#: ../data/skills/magic.lua:1107
+#: ../data/skills/magic.lua:1151
 msgid "High life type damage on all foes."
 msgstr ""
 
-#: ../data/skills/magic.lua:1122
+#: ../data/skills/magic.lua:1166
 msgid "Aura"
 msgstr ""
 
-#: ../data/skills/magic.lua:1123
+#: ../data/skills/magic.lua:1167
 msgid "Boost an ally's speed and slowly recovers their health."
 msgstr ""
 
-#: ../data/skills/magic.lua:1138
+#: ../data/skills/magic.lua:1182
 msgid "Death"
 msgstr ""
 
-#: ../data/skills/magic.lua:1139
+#: ../data/skills/magic.lua:1183
 msgid "Death tries to take hold of an enemy."
 msgstr ""
 
-#: ../data/skills/magic.lua:1164
+#: ../data/skills/magic.lua:1208
 msgid "Death Circle"
 msgstr ""
 
-#: ../data/skills/magic.lua:1165
+#: ../data/skills/magic.lua:1209
 msgid "Increases the death elemental defense of an ally."
 msgstr ""
 
-#: ../data/skills/magic.lua:1180
+#: ../data/skills/magic.lua:1224
 msgid "Doom"
 msgstr ""
 
-#: ../data/skills/magic.lua:1181
+#: ../data/skills/magic.lua:1225
 msgid "Places a death counter upon the enemy's head."
 msgstr ""
 
-#: ../data/skills/magic.lua:1196
+#: ../data/skills/magic.lua:1240
 msgid "Magical Reflection"
 msgstr ""
 
-#: ../data/skills/magic.lua:1197
+#: ../data/skills/magic.lua:1241
 msgid "Makes the next enemy spell cast reflect back upon the attacker."
 msgstr ""
 
-#: ../data/skills/magic.lua:1212
+#: ../data/skills/magic.lua:1256
 msgid "Dispell"
 msgstr ""
 
-#: ../data/skills/magic.lua:1213
+#: ../data/skills/magic.lua:1257
 msgid ""
 "Removes any status effect, elemental effect, and active spell on an enemy."
 msgstr ""
 
-#: ../data/skills/magic.lua:1238
+#: ../data/skills/magic.lua:1282
 msgid "Shell"
 msgstr ""
 
-#: ../data/skills/magic.lua:1239
+#: ../data/skills/magic.lua:1283
 msgid "Increases all elemental effects of one character."
 msgstr ""
 
-#: ../data/skills/magic.lua:1254
+#: ../data/skills/magic.lua:1298
 msgid "?"
 msgstr ""
 
-#: ../data/skills/magic.lua:1255
+#: ../data/skills/magic.lua:1299
 msgid "An offensive mystic spell formed by combining opposite elementals."
 msgstr ""
 
-#: ../data/skills/magic.lua:1270
+#: ../data/skills/magic.lua:1314
 msgid "Counter"
 msgstr ""
 
-#: ../data/skills/magic.lua:1271
+#: ../data/skills/magic.lua:1315
 msgid "Makes an ally counter-attack if injured."
 msgstr ""
 
-#: ../data/skills/magic.lua:1286
+#: ../data/skills/magic.lua:1330
 msgid "Phoenix Call"
 msgstr ""
 
-#: ../data/skills/magic.lua:1287
+#: ../data/skills/magic.lua:1331
 msgid "Revives all allies."
 msgstr ""
 
-#: ../data/skills/magic.lua:1302
+#: ../data/skills/magic.lua:1346
 msgid "Bio"
 msgstr ""
 
-#: ../data/skills/magic.lua:1303
+#: ../data/skills/magic.lua:1347
 msgid "Cures poison on all characters."
 msgstr ""
 
@@ -3761,7 +3760,11 @@ msgstr ""
 msgid "Calls the defender of the arctic."
 msgstr ""
 
-#: ../data/skills/special.lua:206
+#: ../data/skills/special.lua:190
+msgid "Spawn Slime"
+msgstr ""
+
+#: ../data/skills/special.lua:212
 msgid "Dark Wish"
 msgstr ""
 
@@ -3778,7 +3781,7 @@ msgid "Forward Thrust"
 msgstr ""
 
 #: ../data/skills/weapon.lua:114
-msgid "A quicker and more powerful blow than the standard sword slash."
+msgid "A concentrated attack on an enemy."
 msgstr ""
 
 #: ../data/skills/weapon.lua:142
@@ -3789,117 +3792,121 @@ msgstr ""
 msgid "A blow which temporarily stun its target."
 msgstr ""
 
-#: ../data/skills/weapon.lua:177
+#: ../data/skills/weapon.lua:178
 msgid "X-Strike"
 msgstr ""
 
-#: ../data/skills/weapon.lua:179 ../data/skills/weapon.lua:239
+#: ../data/skills/weapon.lua:180 ../data/skills/weapon.lua:240
 msgid ""
 "A strong and aggressive attack with a blade that deals significant damage."
 msgstr ""
 
-#: ../data/skills/weapon.lua:211
+#: ../data/skills/weapon.lua:212
 msgid "Single Shot"
 msgstr ""
 
-#: ../data/skills/weapon.lua:212
+#: ../data/skills/weapon.lua:213
 msgid "A simple shot using an arbalest."
 msgstr ""
 
-#: ../data/skills/weapon.lua:237
+#: ../data/skills/weapon.lua:238
 msgid "Blade Rush"
 msgstr ""
 
-#: ../data/skills/weapon.lua:271
+#: ../data/skills/weapon.lua:272
 msgid "Incapacitating Shot"
 msgstr ""
 
-#: ../data/skills/weapon.lua:273
+#: ../data/skills/weapon.lua:274
 msgid "A powerful shot aimed at lowering the enemy's ability to attack."
 msgstr ""
 
-#: ../data/skills/weapon.lua:301
+#: ../data/skills/weapon.lua:302
 msgid "Rain of Arrows"
 msgstr ""
 
-#: ../data/skills/weapon.lua:303
+#: ../data/skills/weapon.lua:304
 msgid "An attack striking all enemies."
 msgstr ""
 
-#: ../data/skills/weapon.lua:334
+#: ../data/skills/weapon.lua:335
 msgid "Dagger Slash"
 msgstr ""
 
-#: ../data/skills/weapon.lua:335
+#: ../data/skills/weapon.lua:336
 msgid "A simple but efficient dagger attack."
 msgstr ""
 
-#: ../data/skills/weapon.lua:357
+#: ../data/skills/weapon.lua:358
 msgid "Poison Slash"
 msgstr ""
 
-#: ../data/skills/weapon.lua:359
+#: ../data/skills/weapon.lua:360
 msgid "A dagger attack, poisoning the enemy."
 msgstr ""
 
-#: ../data/skills/weapon.lua:382
+#: ../data/skills/weapon.lua:383
 msgid "High Strike"
 msgstr ""
 
-#: ../data/skills/weapon.lua:384
+#: ../data/skills/weapon.lua:385
 msgid ""
 "A strike from above, stunning the enemy and breaking its magical defense."
 msgstr ""
 
-#: ../data/skills/weapon.lua:407
+#: ../data/skills/weapon.lua:408
 msgid "Sonic Wind"
 msgstr ""
 
-#: ../data/skills/weapon.lua:409
+#: ../data/skills/weapon.lua:410
 msgid "Deals high wind damage to all enemies, stunning them along the way."
 msgstr ""
 
-#: ../data/skills/weapon.lua:432
+#: ../data/skills/weapon.lua:433
 msgid "Sword Breaker"
 msgstr ""
 
-#: ../data/skills/weapon.lua:434
+#: ../data/skills/weapon.lua:435
 msgid "An attack that breaks the enemy's own attack power."
 msgstr ""
 
-#: ../data/skills/weapon.lua:460
+#: ../data/skills/weapon.lua:461
 msgid "Execution"
 msgstr ""
 
-#: ../data/skills/weapon.lua:462
+#: ../data/skills/weapon.lua:463
 msgid "Attacks an enemy with a chance of causing death to catch its soul."
 msgstr ""
 
-#: ../data/skills/weapon.lua:567
+#: ../data/skills/weapon.lua:568
 msgid "Stun Bite"
 msgstr ""
 
-#: ../data/skills/weapon.lua:600
+#: ../data/skills/weapon.lua:601
 msgid "Dampening Bite"
 msgstr ""
 
-#: ../data/skills/weapon.lua:655
+#: ../data/skills/weapon.lua:657
 msgid "HP Drain"
 msgstr ""
 
-#: ../data/skills/weapon.lua:710
+#: ../data/skills/weapon.lua:721
 msgid "Multiple Attack"
 msgstr ""
 
-#: ../data/skills/weapon.lua:772
+#: ../data/skills/weapon.lua:794
 msgid "Frenzy Attack"
 msgstr ""
 
-#: ../data/skills/weapon.lua:879
+#: ../data/skills/weapon.lua:828
+msgid "Stamina Steal"
+msgstr ""
+
+#: ../data/skills/weapon.lua:912
 msgid "Water Spray"
 msgstr ""
 
-#: ../data/skills/weapon.lua:910
+#: ../data/skills/weapon.lua:948
 msgid "Spider Web"
 msgstr ""
 
@@ -3924,8 +3931,14 @@ msgstr ""
 #: ../data/story/mt_elbrus/mt_elbrus_cave1_script.lua:131
 #: ../data/story/mt_elbrus/mt_elbrus_cave1_script.lua:149
 #: ../data/story/mt_elbrus/mt_elbrus_cave1_script.lua:176
+#: ../data/story/mt_elbrus/mt_elbrus_cave2_script.lua:129
+#: ../data/story/mt_elbrus/mt_elbrus_cave3_script.lua:142
+#: ../data/story/mt_elbrus/mt_elbrus_cave3_script.lua:159
+#: ../data/story/mt_elbrus/mt_elbrus_cave3_script.lua:176
+#: ../data/story/mt_elbrus/mt_elbrus_cave3_script.lua:193
+#: ../data/story/mt_elbrus/mt_elbrus_cave3_script.lua:210
 #: ../data/story/mt_elbrus/mt_elbrus_north_east_exit_script.lua:255
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:463
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:465
 msgid "..."
 msgstr ""
 
@@ -4059,7 +4072,7 @@ msgid "Stone sign"
 msgstr ""
 
 #: ../data/story/layna_forest/layna_forest_cave1_2_script.lua:184
-msgid "Only the last one standing shall pass."
+msgid "'Here, only your enemies prevent you from going further.''"
 msgstr ""
 
 #: ../data/story/layna_forest/layna_forest_cave1_2_script.lua:239
@@ -4109,7 +4122,7 @@ msgstr ""
 
 #: ../data/story/layna_forest/layna_forest_crystal_script.lua:455
 #: ../data/story/layna_forest/layna_forest_north_west_script.lua:729
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:393
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:332
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_basement_script.lua:215
 msgid "Orlinn!"
 msgstr ""
@@ -4186,7 +4199,6 @@ msgstr ""
 #: ../data/story/layna_village/layna_village_kalya_house_path_at_night_script.lua:183
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:531
 #: ../data/story/mt_elbrus/mt_elbrus_path4_script.lua:346
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:519
 msgid "Bronann!"
 msgstr ""
 
@@ -4244,7 +4256,7 @@ msgstr ""
 
 #: ../data/story/layna_forest/layna_forest_crystal_script.lua:662
 #: ../data/story/layna_forest/layna_forest_crystal_script.lua:666
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:547
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:565
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:389
 #: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:358
 msgid "Yiek!"
@@ -4446,11 +4458,23 @@ msgstr ""
 msgid "You're welcome."
 msgstr ""
 
-#: ../data/story/layna_forest/layna_forest_south_east_script.lua:122
+#: ../data/story/layna_forest/layna_forest_south_east_script.lua:102
+#: ../data/story/mt_elbrus/mt_elbrus_path2_script.lua:126
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:127
+msgid "Please, don't hurt me, my life is already so short!"
+msgstr ""
+
+#: ../data/story/layna_forest/layna_forest_south_east_script.lua:104
+#: ../data/story/mt_elbrus/mt_elbrus_path2_script.lua:128
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:129
+msgid "What about buying some items instead?"
+msgstr ""
+
+#: ../data/story/layna_forest/layna_forest_south_east_script.lua:142
 msgid "Your party feels better..."
 msgstr ""
 
-#: ../data/story/layna_forest/layna_forest_south_east_script.lua:134
+#: ../data/story/layna_forest/layna_forest_south_east_script.lua:154
 #, c-format
 msgid ""
 "Did you know?\n"
@@ -5661,7 +5685,7 @@ msgid "I..."
 msgstr ""
 
 #: ../data/story/layna_village/layna_village_kalya_house_script.lua:285
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:340
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:279
 msgid "Sis!"
 msgstr ""
 
@@ -5875,7 +5899,7 @@ msgid "It's fine, I'll come."
 msgstr ""
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:482
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:348
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:287
 msgid "No!"
 msgstr ""
 
@@ -6474,123 +6498,115 @@ msgstr ""
 msgid "They are too strong. If they catch us, we're doomed."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path2_script.lua:126
-msgid "Please, don't hurt me, my life is already so short!"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_path2_script.lua:128
-msgid "What about buying some items instead?"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_path2_script.lua:368
+#: ../data/story/mt_elbrus/mt_elbrus_path2_script.lua:371
 msgid "Dang! And now the rain too."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path2_script.lua:370
+#: ../data/story/mt_elbrus/mt_elbrus_path2_script.lua:373
 msgid ""
 "The path seems to lead straight into the storm up there. It's definitely our "
 "lucky day."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path2_script.lua:372
+#: ../data/story/mt_elbrus/mt_elbrus_path2_script.lua:375
 msgid ""
 "Don't lose faith, Kalya. If we manage to escape from them here, we'll be "
 "safe past the mountains."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path2_script.lua:374
+#: ../data/story/mt_elbrus/mt_elbrus_path2_script.lua:377
 msgid "If we can reach the great plains, we should indeed be out of trouble."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:257
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:256
 msgid "???"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:539
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:557
 msgid ""
 "This place is the village's old cemetery. It was used by the former "
 "villagers who lived in Layna."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:541
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:559
 msgid "The former villagers? What do you mean?"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:543
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:561
 msgid ""
 "Layna Village was abandoned a long time ago, before your parents and all the "
 "others settled here. Your mother never told you that?"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:545
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:563
 msgid ""
 "I've never been this far from the village without Herth. This place gives me "
 "the chills."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:549
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:567
 msgid "Anyway, once the cemetery is behind us we should be out of trouble!"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:568
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:586
 msgid "Are those the soldiers up there?"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:593
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:611
 msgid "The west gate is condemned, as the Lord commanded."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:595
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:613
 msgid "Good. Let's go back and wait for them."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:620
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:638
 msgid "The gate to the great plains..."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:622
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:640
 msgid "Have we got any other way to leave this place?"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:624
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:642
 msgid "Only one. The mountain top."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:643
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:661
 msgid "Oh no! The gate!"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:652
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:670
 msgid "We're trapped!"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:658
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:676
 msgid "You're mine now!"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:673
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:691
 msgid ""
 "I shall bring your souls to the master. You don't stand a chance against the "
 "Great Harlequin."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:675
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:693
 msgid "But let's play together first, shall we?"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:677
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:695
 msgid "Now catch me, if you can."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:698
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:716
 msgid "Enough of this shallow game. Give me your souls, now!"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:716
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:734
 msgid "How could I be hurt by... children..."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:718
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:736
 msgid "We'll see each other again, chosen one..."
 msgstr ""
 
@@ -6678,303 +6694,137 @@ msgid ""
 "gap."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:114
-msgid "I'll stay here as long as you need me. Do you want to buy something?"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:120
-msgid "Sophia's Items"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:334
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:273
 msgid ""
 "You'll see. There's plenty of things I need to show you there. Plus, it's a "
 "safe place."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:336
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:275
 msgid "Err, sis?"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:338
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:277
 msgid ""
 "Our elder will also be able to help us. And you'll get a better explanation "
 "than I could ever..."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:342
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:281
 msgid "One second, Orlinn. I'm trying to..."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:344
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:283
 msgid "But Kalya, look at the passageway!"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:346
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:285
 msgid "What about the..."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:362
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:301
 msgid "No, it can't be."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:364
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:303
 msgid "After all we've been through, this..."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:379
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:318
 msgid "Calm down Kalya, there must be a way to go through this somehow."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:381
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:320
 msgid "Unfortunately, yes. There is one."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:383
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:322
 msgid "We'll have to enter the ancient shrine."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:385
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:324
 msgid ""
 "If we wouldn't have gotten here all by ourselves, I would swear Banesore's "
 "army pushed us here on purpose."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:387
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:326
 msgid "What's with this 'ancient shrine'?"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:389
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:328
 msgid ""
 "Some say it is haunted. It was sealed a long time ago, long before I was "
 "even born."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:391
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:330
 msgid "Indeed, it must be a long time ago."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:395
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:334
 msgid ""
 "Anyway, we might not be able to enter there at all. But you're right, let's "
 "have a look around first. Who knows?"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:431
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:370
 msgid ""
 "Here we are, looking at this huge and wonderful, yet creepy door. I don't "
 "like this."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:433
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:372
 msgid ""
 "It's not like I actually want to open this, but how are we going to do so?"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:442
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:381
 msgid "Ow, my chest. It hurts!"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:444
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:383
 msgid "The crystal! Orlinn! Let's stand back!"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:464
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:403
 msgid "That sign, it is the sign of the ancients! Bronann! Are you alright?"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:474
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:413
 msgid "I'm fine, I guess. The pain faded away."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:476
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:415
 msgid "Thank the goddess."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:478
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:417
 msgid "Well, the door is open now."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:480
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:419
 msgid "Yiek! Do you really want to go there??"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:482
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:421
 msgid ""
 "I believe we don't really have a choice. Somehow this place... called me."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:484
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:423
 msgid "Anyway, let's stick together and we'll be fine as always, right?"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:486
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:425
 msgid "I have a bad feeling about all this now."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:532
-msgid "Thank the goddess you're all safe and sound. I was worried sick!"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:534
-msgid "Sophia, you're here?"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:536
-msgid "Yes. It's a miracle that you were kept away from harm."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:538
-msgid "How in Layna did you reach Mt Elbrus all alone?"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:540
-msgid ""
-"And how did you reach up here? Weren't you caught by the soldiers with the "
-"others?"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:542
-msgid ""
-"Well, it's a long story. But in short, I was out of the village when they "
-"caught everyone."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:544
-msgid "Do you know how the others are doing? Are my parents okay?"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:546
-msgid "Unfortunately no. I left them behind."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:548
-msgid ""
-"When I saw you leaving the village to the sanctuary, I decided to follow you."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:550
-msgid ""
-"But by the time I reached the area, the three of you were gone. And I had to "
-"find out where you were heading."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:552
-msgid "But the bridge, how did you cross?"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:554
-msgid "Using my rope and ranger skills, of course."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:556
-msgid ""
-"Sophia could be of great help, Kalya. The passage has collapsed, and we're "
-"stuck finding a way through this dreadful place."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:558
-msgid ""
-"Maybe, maybe not. Sophia was out the time they attacked? Somehow I don't buy "
-"it."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:560
-msgid ""
-"I wasn't out for no reason. Herth sent me to watch for soldiers in the west "
-"parts of the forest."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:562
-msgid "He was afraid they'd corner us to prevent an escape, and he was right."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:564
-msgid "Herth sent you? But he told me it was nothing, that he would handle it!"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:566
-msgid ""
-"I fear he just wanted to protect you and make you all meet your destiny at "
-"the same time."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:568
-msgid "What?! You mean you all knew about the crystal?"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:570
-msgid ""
-"We didn't know exactly what would happen, Bronann. But we knew one day the "
-"three of you would have to carry a special burden. That is what Herth told "
-"us."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:572
-msgid ""
-"Listen kids, I feel bad about what happened. But I can't help you as a "
-"magical force is preventing me from entering the shrine."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:574
-msgid "But then you're stuck here, too, right?"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:576
-msgid "Me? Not at all. I don't need bridges to cross a moutain."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:578
-msgid "But maybe?"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:580
-msgid "Maybe?"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:582
-msgid ""
-"Maybe I could sell you a few things to help you find a way to open a path in "
-"there?"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:584
-msgid "So that's how you help, by selling things to us..."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:586
-msgid ""
-"Yes, it's a great privilege as I usually don't do such things for children. "
-"I'll stay here as long as you are stuck, isn't this quite nice?"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:588
-msgid "But you'll let us deal with this place, alone?"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:590
-msgid ""
-"This place is part of your burden. Herth was right. You managed to come here "
-"all by yourselves, after all."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:592
-msgid "I guess it's better than nothing. But Orlinn, you stay with us."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:594
-msgid "Thanks anyway, Sophia."
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:596
-msgid "You're welcome, my dear!"
-msgstr ""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua:128
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua:137
 msgid "Phew, this one sure is heavier and more sturdy."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua:375
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua:384
 msgid "I can feel something moving far below."
 msgstr ""
 
@@ -7128,7 +6978,7 @@ msgstr ""
 msgid "Kalya, Bronann!"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine4_script.lua:332
+#: ../data/story/mt_elbrus/mt_elbrus_shrine4_script.lua:341
 msgid "Again, I can feel something moving not far from here."
 msgstr ""
 
@@ -7208,17 +7058,17 @@ msgstr ""
 msgid "Not again..."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:212
+#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:221
 msgid "There is a note left here."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:214
+#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:223
 msgid ""
 "It says: 'I fathomed it! After all, not every ladder is made of wood. Now, "
 "I'll have to get back there alive.'"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:255
+#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:264
 msgid "There seems to be one of those rolling stones up here."
 msgstr ""
 
@@ -7319,127 +7169,127 @@ msgid "We can't move, Orlinn."
 msgstr ""
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:114
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:411
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:413
 msgid "We're gonna...suffocate."
 msgstr ""
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:116
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:413
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:415
 msgid "Orlinn, help us... Please, oh oh oh..."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:352
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:354
 msgid "What a large gate. What is behind it must be fearsome."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:354
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:356
 msgid "Shall we go in?"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:356
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:358
 msgid "Yes, let's end this."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:358
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:360
 msgid "No, let's prepare first."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:387
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:389
 msgid ""
 "Don't worry, we've managed to come this far. There is nothing that could..."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:389
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:391
 msgid "What is it, Kalya?"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:391
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:393
 msgid "...Kalya?!"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:393
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:395
 msgid "Sis'!"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:395
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:397
 msgid "I feel... I..."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:397
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:399
 msgid "Hi hi... Hi hi hi... I can't stop!!"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:399
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:401
 msgid "What's so funny, Kalya? Hi hi."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:401
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:403
 msgid "I don't know... Ah, I can barely breathe!"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:403
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:405
 msgid "Hi hi hi... What's happening to me..."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:405
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:407
 msgid "It's the scent, ah ah ah."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:407
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:409
 msgid ""
 "Erm, are you crazy or what? I usually am the one with bad jokes you know."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:409
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:411
 msgid "We can't move Orlinn."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:425
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:427
 msgid "I can't let them die. I have to find out something."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:434
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:436
 msgid "Something is preventing me from entering."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:447
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:449
 msgid "I feel much better now."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:449
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:451
 msgid "Indeed. It seems the scent has no effect on us anymore."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:451
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:453
 msgid "Orlinn, did you do something?"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:453
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:455
 msgid "Me? You know, a bit of this, a bit of that."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:455
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:457
 msgid "I didn't think I would say this, but thank you Orlinn."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:457
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:459
 msgid "Thank you, indeed."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:459
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:461
 msgid "You're welcome!"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:461
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:463
 msgid ""
 "Well, please stop laughing now. I'm not at ease with what just happened."
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:465
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:467
 msgid "Stop laughing now or I'll smash your little head against that wall!"
 msgstr ""
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:467
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:469
 msgid "Aww, ok."
 msgstr ""
 
