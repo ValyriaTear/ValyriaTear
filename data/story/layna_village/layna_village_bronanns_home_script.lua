@@ -404,7 +404,7 @@ function _UpdateCarsonDialogue()
         return;
     elseif (GlobalManager:GetGameEvents():DoesEventExist("story", "Carson_wooden_sword_given") == true) then
         dialogue = vt_map.SpriteDialogue.Create()
-        text = vt_system.Translate("Please have go and see Olivia. She will explain everything to you.")
+        text = vt_system.Translate("Please go and see Olivia. She will explain everything to you.")
         dialogue:AddLine(text, carson)
         carson:AddDialogueReference(dialogue)
         return;

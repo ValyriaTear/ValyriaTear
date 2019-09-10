@@ -123,7 +123,7 @@ function _CreateObjects()
     object = CreateObject(Map, "Wood sign info", 122, 60, vt_map.MapMode.GROUND_OBJECT)
     object:SetEventWhenTalking("Info about moon juice")
     dialogue = vt_map.SpriteDialogue.Create();
-    text = vt_system.Translate("Running out of magic points?\nYou can restore you PMs using Moon juice.");
+    text = vt_system.Translate("Running out of magic points?\nYou can restore your PMs using Moon juice.");
     dialogue:AddLine(text, nil);
     event = vt_map.DialogueEvent.Create("Info about moon juice", dialogue)
 

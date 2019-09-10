@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Willem Sonke <willem@wimiso.nl>, 2019
 # Willem Sonke <willem@wimiso.nl>, 2014-2017
@@ -4037,7 +4037,7 @@ msgstr "Goed. Dan laat ik jou deze kleine bedreiging uit de weg ruimen."
 #: ../data/story/layna_forest/layna_forest_cave1_1_script.lua:126
 msgid ""
 "Running out of magic points?\n"
-"You can restore you PMs using Moon juice."
+"You can restore your PMs using Moon juice."
 msgstr "Geen magiepunten meer?\nJe kunt ze terugkrijgen met Maansap."
 
 #: ../data/story/layna_forest/layna_forest_cave1_1_script.lua:429
@@ -4774,7 +4774,7 @@ msgid "Nice job, son."
 msgstr "Goed gedaan, zoon."
 
 #: ../data/story/layna_village/layna_village_bronanns_home_script.lua:407
-msgid "Please have go and see Olivia. She will explain everything to you."
+msgid "Please go and see Olivia. She will explain everything to you."
 msgstr "Ga maar naar Olivia. Zij legt je alles wel uit."
 
 #: ../data/story/layna_village/layna_village_bronanns_home_script.lua:415

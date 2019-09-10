@@ -4038,7 +4038,7 @@ msgstr ""
 #: ../data/story/layna_forest/layna_forest_cave1_1_script.lua:126
 msgid ""
 "Running out of magic points?\n"
-"You can restore you PMs using Moon juice."
+"You can restore your PMs using Moon juice."
 msgstr ""
 
 #: ../data/story/layna_forest/layna_forest_cave1_1_script.lua:429
@@ -4779,7 +4779,7 @@ msgid "Nice job, son."
 msgstr ""
 
 #: ../data/story/layna_village/layna_village_bronanns_home_script.lua:407
-msgid "Please have go and see Olivia. She will explain everything to you."
+msgid "Please go and see Olivia. She will explain everything to you."
 msgstr ""
 
 #: ../data/story/layna_village/layna_village_bronanns_home_script.lua:415
