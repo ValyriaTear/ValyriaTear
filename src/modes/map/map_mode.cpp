@@ -311,7 +311,9 @@ void MapMode::_ResetMusicState()
     case AUDIO_STATE_PLAYING:
     default:
         // Seek the music point to not restart it from the beginning.
-        music->SeekSample(_music_audio_sample);
+        if (music != active_music) {
+            music->SeekSample(_music_audio_sample);
+        }
         // In case the music volume was modified, we fade it back in smoothly
         if(music->GetVolume() < 1.0f)
             music->FadeIn(1000.0f);
