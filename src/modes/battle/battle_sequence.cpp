@@ -246,7 +246,12 @@ void SequenceSupervisor::_UpdateExitingSequence()
 
             if(!_one_is_dead) {
                 for(uint32_t i = 0; i < _battle->_character_actors.size(); i++) {
-                    _battle->_character_actors[i]->ChangeSpriteAnimation("run_after_victory");
+                    BattleCharacter* character = _battle->_character_actors[i];
+                    character->ChangeSpriteAnimation("run_after_victory");
+                    // Set the current position as their origin one, so that it doesn't look odd
+                    // if they end the battle in the middle of a skill.
+                    character->SetXOrigin(character->GetXLocation());
+                    character->SetYOrigin(character->GetYLocation());
                 }
             }
 
