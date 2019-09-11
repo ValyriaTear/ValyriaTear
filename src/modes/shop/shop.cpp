@@ -1651,10 +1651,12 @@ void ShopMode::ClearOrder()
 
 
 
-void ShopMode::CompleteTransaction()
+bool ShopMode::CompleteTransaction()
 {
     uint32_t count = 0;
     uint32_t id = 0;
+
+    bool one_item_processed = false;
 
     InventoryHandler& inventory_handler = GlobalManager->GetInventoryHandler();
 
@@ -1667,6 +1669,8 @@ void ShopMode::CompleteTransaction()
         // We simply ignore any objects on the buy list with this condition
         if (count == 0)
             continue;
+
+        one_item_processed = true;
 
         it->second->ResetBuyCount();
         it->second->IncrementOwnCount(count);
@@ -1689,6 +1693,8 @@ void ShopMode::CompleteTransaction()
 
         if(count == 0)
             continue;
+
+        one_item_processed = true;
 
         // Add it back to the buy list.
         if (_available_buy.find(id) != _available_buy.end()) {
@@ -1725,6 +1731,8 @@ void ShopMode::CompleteTransaction()
 
         if(count == 0)
             continue;
+
+        one_item_processed = true;
 
         it->second->ResetTradeCount();
         it->second->IncrementOwnCount(count);
@@ -1766,6 +1774,8 @@ void ShopMode::CompleteTransaction()
     // Update the available shop options and place the cursor accordingly.
     _UpdateAvailableObjectsToSell();
     _UpdateAvailableShopOptions();
+
+    return one_item_processed;
 }
 
 void ShopMode::UpdateFinances(int32_t change_amount)

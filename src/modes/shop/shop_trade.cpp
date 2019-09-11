@@ -316,8 +316,12 @@ void TradeInterface::Update()
         if(InputManager->ConfirmPress()) {
             ChangeViewMode(SHOP_VIEW_MODE_LIST);
             shop->ChangeState(SHOP_STATE_ROOT);
-            shop->CompleteTransaction();
-            GlobalManager->Media().PlaySound("coins");
+            if (shop->CompleteTransaction()) {
+                GlobalManager->Media().PlaySound("coins");
+            }
+            else {
+                GlobalManager->Media().PlaySound("cancel");
+            }
             shop->ClearOrder();
             shop->ChangeState(SHOP_STATE_TRADE);
         }

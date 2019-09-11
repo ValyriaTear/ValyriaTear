@@ -429,8 +429,9 @@ public:
     /** \brief Called whenever the player confirms a transaction
     *** This method processes the transaction, including modifying the party's drune count, adding/removing
     *** objects from the inventory, and auto equipping/un-equipping traded equipment.
+    *** \returns true when at least one item was processed. False otherwise.
     **/
-    void CompleteTransaction();
+    bool CompleteTransaction();
 
     /** \brief Updates the costs and sales totals
     *** \param costs_amount The amount to change the purchases cost member by
