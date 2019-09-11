@@ -365,6 +365,7 @@ function _CreateEvents()
     vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, bronann);
     vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", bronann, kalya);
     vt_map.LookAtSpriteEvent.Create("Kalya looks at the statue", kalya, 27, 23);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya, vt_map.MapMode.NORTH);
 
     -- First time forest entrance dialogue about save points and the heal spring.
     event = vt_map.ScriptedEvent.Create("Forest entrance dialogue", "forest_statue_event_start", "");
@@ -383,7 +384,8 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya moves near the statue");
     event:AddEventLinkAtEnd("Bronann gets nearer as well", 1000);
 
-    event = vt_map.PathMoveSpriteEvent.Create("Kalya moves near the statue", kalya, 21, 20, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Kalya moves near the statue", kalya, 27, 26, true);
+    event:AddEventLinkAtEnd("Kalya looks north");
     event:AddEventLinkAtEnd("Kalya talks about the statue 2", 1000);
 
     vt_map.PathMoveSpriteEvent.Create("Bronann gets nearer as well", bronann, 14, 25, false);
