@@ -1,17 +1,17 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # Willem Sonke <willem@wimiso.nl>, 2019
 # Willem Sonke <willem@wimiso.nl>, 2014-2017
-# Bertram <yohann.ferreira@orange.fr>, 2014
+# Bertram <yohann.ferreira@orange.fr>, 2014,2019
 msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-09 18:59+0200\n"
-"PO-Revision-Date: 2019-09-10 20:58+0000\n"
+"POT-Creation-Date: 2019-09-13 17:55+0200\n"
+"PO-Revision-Date: 2019-09-14 12:08+0000\n"
 "Last-Translator: Willem Sonke <willem@wimiso.nl>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/valyria-tear/valyria-tear/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -1311,30 +1311,6 @@ msgstr "Ongeldige gegevens!"
 msgid "This slot is unused"
 msgstr "Dit bestand is ongebruikt"
 
-#: ../src/modes/shop/shop_buy.cpp:59 ../src/modes/shop/shop_sell.cpp:59
-#: ../src/modes/shop/shop_trade.cpp:56
-msgid "Category"
-msgstr "Categorie"
-
-#: ../src/modes/shop/shop_buy.cpp:62 ../src/modes/shop/shop_sell.cpp:62
-#: ../src/modes/shop/shop_trade.cpp:59
-msgid "Name"
-msgstr "Naam"
-
-#: ../src/modes/shop/shop_buy.cpp:68 ../src/modes/shop/shop_sell.cpp:68
-#: ../src/modes/shop/shop_trade.cpp:65
-msgid "Price"
-msgstr "Prijs"
-
-#: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_trade.cpp:66
-msgid "Stock"
-msgstr "Voorraad"
-
-#: ../src/modes/shop/shop_buy.cpp:70 ../src/modes/shop/shop_sell.cpp:69
-#: ../src/modes/shop/shop_trade.cpp:67
-msgid "Own"
-msgstr "Eigen"
-
 #: ../src/modes/shop/shop.cpp:71
 msgid "Weapons"
 msgstr "Wapens"
@@ -1427,21 +1403,45 @@ msgstr "Handelen"
 msgid "Leave"
 msgstr "Verlaten"
 
-#: ../src/modes/shop/shop.cpp:1783
+#: ../src/modes/shop/shop.cpp:1793
 msgid "Funds: "
 msgstr "Geld:"
 
-#: ../src/modes/shop/shop.cpp:1785
+#: ../src/modes/shop/shop.cpp:1795
 msgid "Purchases: "
 msgstr "Aankopen:"
 
-#: ../src/modes/shop/shop.cpp:1786 ../src/modes/shop/shop.cpp:1789
+#: ../src/modes/shop/shop.cpp:1796 ../src/modes/shop/shop.cpp:1799
 msgid "Remaining: "
 msgstr "Resterend:"
 
-#: ../src/modes/shop/shop.cpp:1788
+#: ../src/modes/shop/shop.cpp:1798
 msgid "Sales: +"
 msgstr "Aankopen: +"
+
+#: ../src/modes/shop/shop_buy.cpp:59 ../src/modes/shop/shop_sell.cpp:59
+#: ../src/modes/shop/shop_trade.cpp:56
+msgid "Category"
+msgstr "Categorie"
+
+#: ../src/modes/shop/shop_buy.cpp:62 ../src/modes/shop/shop_sell.cpp:62
+#: ../src/modes/shop/shop_trade.cpp:59
+msgid "Name"
+msgstr "Naam"
+
+#: ../src/modes/shop/shop_buy.cpp:68 ../src/modes/shop/shop_sell.cpp:68
+#: ../src/modes/shop/shop_trade.cpp:65
+msgid "Price"
+msgstr "Prijs"
+
+#: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_trade.cpp:66
+msgid "Stock"
+msgstr "Voorraad"
+
+#: ../src/modes/shop/shop_buy.cpp:70 ../src/modes/shop/shop_sell.cpp:69
+#: ../src/modes/shop/shop_trade.cpp:67
+msgid "Own"
+msgstr "Eigen"
 
 #: ../src/modes/shop/shop_root.cpp:53
 msgid "The Shop"
@@ -1489,8 +1489,8 @@ msgstr "Eindelijk, ik heb het gevonden. Lilly had het gewoon bij haar thuis ligg
 msgid "Village of Layna"
 msgstr "Het dorp Layna"
 
-#. tr: Map name
-#: ../data/config/quests.lua:27 map_names_tr.lua:24 map_names_tr.lua:126
+#. tr: Map sub-name
+#: ../data/config/quests.lua:27 map_names_tr.lua:28 map_names_tr.lua:178
 msgid "Bronann's home"
 msgstr "Het huis van Bronann"
 
@@ -1511,8 +1511,10 @@ msgid ""
 " won't have any problems with Kalya..."
 msgstr "Orlinn had de pen en om hem terug te krijgen heb ik de hele ochtend achter hem aan lopen rennen. Ik hoop dat hij geen problemen krijgt met Kalya..."
 
+#. tr: Map sub-name
 #: ../data/config/quests.lua:43 ../data/config/quests.lua:59
-#: ../data/config/quests.lua:93
+#: ../data/config/quests.lua:93 map_names_tr.lua:32 map_names_tr.lua:36
+#: map_names_tr.lua:182 map_names_tr.lua:186
 msgid "Village center"
 msgstr "Dorpscentrum"
 
@@ -1603,23 +1605,23 @@ msgstr "Elfenveer"
 
 #. tr: Map name
 #: ../data/config/world_locations.lua:29 map_names_tr.lua:8
-#: map_names_tr.lua:10 map_names_tr.lua:12 map_names_tr.lua:14
-#: map_names_tr.lua:16 map_names_tr.lua:18 map_names_tr.lua:110
-#: map_names_tr.lua:112 map_names_tr.lua:114 map_names_tr.lua:116
-#: map_names_tr.lua:118 map_names_tr.lua:120
+#: map_names_tr.lua:12 map_names_tr.lua:16 map_names_tr.lua:18
+#: map_names_tr.lua:20 map_names_tr.lua:22 map_names_tr.lua:158
+#: map_names_tr.lua:162 map_names_tr.lua:166 map_names_tr.lua:168
+#: map_names_tr.lua:170 map_names_tr.lua:172
 msgid "Layna Forest"
 msgstr "Het Laynabos"
 
 #. tr: Map name
-#: ../data/config/world_locations.lua:40 map_names_tr.lua:58
-#: map_names_tr.lua:60 map_names_tr.lua:62 map_names_tr.lua:64
-#: map_names_tr.lua:66 map_names_tr.lua:68 map_names_tr.lua:70
-#: map_names_tr.lua:72 map_names_tr.lua:74 map_names_tr.lua:78
-#: map_names_tr.lua:80 map_names_tr.lua:100 map_names_tr.lua:160
-#: map_names_tr.lua:162 map_names_tr.lua:164 map_names_tr.lua:166
-#: map_names_tr.lua:168 map_names_tr.lua:170 map_names_tr.lua:172
-#: map_names_tr.lua:174 map_names_tr.lua:176 map_names_tr.lua:180
-#: map_names_tr.lua:182 map_names_tr.lua:202
+#: ../data/config/world_locations.lua:40 map_names_tr.lua:80
+#: map_names_tr.lua:84 map_names_tr.lua:88 map_names_tr.lua:92
+#: map_names_tr.lua:94 map_names_tr.lua:98 map_names_tr.lua:102
+#: map_names_tr.lua:106 map_names_tr.lua:114 map_names_tr.lua:116
+#: map_names_tr.lua:120 map_names_tr.lua:126 map_names_tr.lua:230
+#: map_names_tr.lua:234 map_names_tr.lua:238 map_names_tr.lua:242
+#: map_names_tr.lua:244 map_names_tr.lua:248 map_names_tr.lua:252
+#: map_names_tr.lua:256 map_names_tr.lua:264 map_names_tr.lua:266
+#: map_names_tr.lua:270 map_names_tr.lua:276
 msgid "Mt. Elbrus"
 msgstr "Mount Elbrus"
 
@@ -2018,39 +2020,39 @@ msgstr "Vergeet mijn aanbiedingen niet!"
 #: ../data/story/mt_elbrus/mt_elbrus_path1_script.lua:144
 #: ../data/story/mt_elbrus/mt_elbrus_path2_script.lua:169
 #: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:189
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:214
 #: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:169
 #: ../data/story/mt_elbrus/mt_elbrus_shrine9_script.lua:135
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:214
 msgid "Your party feels better."
 msgstr "Je groep voelt zich beter."
 
 #: ../data/debug/subscripts/layna_forest_minimap_procedural_script.lua:368
 #: ../data/story/layna_forest/layna_forest_cave1_2_script.lua:276
-#: ../data/story/layna_forest/layna_forest_entrance_script.lua:380
+#: ../data/story/layna_forest/layna_forest_entrance_script.lua:381
 #: ../data/story/mt_elbrus/mt_elbrus_path1_script.lua:600
 msgid "Look!"
 msgstr "Kijk!"
 
 #: ../data/debug/subscripts/layna_forest_minimap_procedural_script.lua:380
-#: ../data/story/layna_forest/layna_forest_entrance_script.lua:392
+#: ../data/story/layna_forest/layna_forest_entrance_script.lua:394
 msgid ""
 "Have you seen one of these before? This is a Layna statue. Praying near it "
 "heals both your mind and body."
 msgstr "Heb je deze wel eens gezien? Dit is een standbeeld van Layna. Bid je hier, dan geneest ze zowel je geest als je lichaam."
 
 #: ../data/debug/subscripts/layna_forest_minimap_procedural_script.lua:382
-#: ../data/story/layna_forest/layna_forest_entrance_script.lua:394
+#: ../data/story/layna_forest/layna_forest_entrance_script.lua:396
 #, c-format
 msgid "Just stand in front of the goddess below the spring and push '%s'."
 msgstr "Ga voor de godin staan, onder de bron, en druk op '%s'."
 
 #: ../data/debug/subscripts/layna_forest_minimap_procedural_script.lua:384
-#: ../data/story/layna_forest/layna_forest_entrance_script.lua:396
+#: ../data/story/layna_forest/layna_forest_entrance_script.lua:398
 msgid "Ok, thanks."
 msgstr "Oké, bedankt."
 
 #: ../data/debug/subscripts/layna_forest_minimap_procedural_script.lua:386
-#: ../data/story/layna_forest/layna_forest_entrance_script.lua:398
+#: ../data/story/layna_forest/layna_forest_entrance_script.lua:400
 msgid "See? Now, let's find my brother before he gets hurt."
 msgstr "Zie je wel? Laten we nu mijn broertje vinden voordat hij gewond raakt."
 
@@ -3719,7 +3721,8 @@ msgstr "Schelp"
 msgid "Increases all elemental effects of one character."
 msgstr "Verhoogt alle element-effecten van een personage."
 
-#: ../data/skills/magic.lua:1298
+#. tr: Map sub-name
+#: ../data/skills/magic.lua:1298 map_names_tr.lua:122 map_names_tr.lua:272
 msgid "?"
 msgstr "?"
 
@@ -4121,8 +4124,8 @@ msgstr "Eh, laat maar. We moeten een manier vinden om hierlangs te komen. Laten 
 
 #: ../data/story/layna_forest/layna_forest_crystal_script.lua:455
 #: ../data/story/layna_forest/layna_forest_north_west_script.lua:729
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:332
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_basement_script.lua:215
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:332
 msgid "Orlinn!"
 msgstr "Orlinn!"
 
@@ -6514,7 +6517,9 @@ msgstr "Verlies de moed niet, Kalya. Als we hier van hen kunnen ontsnappen, dan 
 msgid "If we can reach the great plains, we should indeed be out of trouble."
 msgstr "Als we de grote vlakte kunnen bereiken, zijn we als het goed is inderdaad uit de problemen."
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:256
+#. tr: Map sub-name
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:256 map_names_tr.lua:10
+#: map_names_tr.lua:160
 msgid "???"
 msgstr "???"
 
@@ -6690,132 +6695,6 @@ msgid ""
 " gap."
 msgstr "Ze zijn weg. We moeten snel doorgaan, voordat ze een manier vinden om er alsnog overheen te komen."
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:273
-msgid ""
-"You'll see. There's plenty of things I need to show you there. Plus, it's a "
-"safe place."
-msgstr "Je zult zien dat er daar veel dingen zijn die ik je moet laten zien. Bovendien, het is een veilige plaats."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:275
-msgid "Err, sis?"
-msgstr "Eh, Kal?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:277
-msgid ""
-"Our elder will also be able to help us. And you'll get a better explanation "
-"than I could ever..."
-msgstr "Onze oudere zal ons ook kunnen helpen. En je krijgt een betere uitleg dan ik ooit zou kunnen..."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:281
-msgid "One second, Orlinn. I'm trying to..."
-msgstr "Eén moment, Orlinn. Ik probeer om..."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:283
-msgid "But Kalya, look at the passageway!"
-msgstr "Maar Kalya, kijk naar de doorgang!"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:285
-msgid "What about the..."
-msgstr "Wat is er met..."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:301
-msgid "No, it can't be."
-msgstr "Nee, dat kan toch niet."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:303
-msgid "After all we've been through, this..."
-msgstr "Dan denk je dat je alles hebt gehad, krijgen we dit..."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:318
-msgid "Calm down Kalya, there must be a way to go through this somehow."
-msgstr "Rustig aan, Kalya; er moet een manier zijn om hierdoorheen te komen."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:320
-msgid "Unfortunately, yes. There is one."
-msgstr "Helaas, ja. Er is er één..."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:322
-msgid "We'll have to enter the ancient shrine."
-msgstr "We zullen de oude schrijn in moeten."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:324
-msgid ""
-"If we wouldn't have gotten here all by ourselves, I would swear Banesore's "
-"army pushed us here on purpose."
-msgstr "Waren we niet uit onszelf weggevlucht, dan zou ik gezworen hebben dat Banesore's leger ons met opzet hierheen heeft gelokt."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:326
-msgid "What's with this 'ancient shrine'?"
-msgstr "Wat is dat eigenlijk, de 'oude schrijn'?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:328
-msgid ""
-"Some say it is haunted. It was sealed a long time ago, long before I was "
-"even born."
-msgstr "Men zegt dat het er spookt. Hij is lange tijd geleden dichtgemaakt, zelfs lang voordat ik geboren was."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:330
-msgid "Indeed, it must be a long time ago."
-msgstr "Dat moet inderdaad een lange tijd geleden zijn."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:334
-msgid ""
-"Anyway, we might not be able to enter there at all. But you're right, let's "
-"have a look around first. Who knows?"
-msgstr "Goed, misschien kunnen we wel helemaal niet naar binnen. Maar je hebt gelijk, laten we eerst even rondkijken. Wie weet?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:370
-msgid ""
-"Here we are, looking at this huge and wonderful, yet creepy door. I don't "
-"like this."
-msgstr "Daar zijn we dan, bij deze grote, mooie maar toch enge deur. Dit bevalt me absoluut niet."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:372
-msgid ""
-"It's not like I actually want to open this, but how are we going to do so?"
-msgstr "Niet dat ik hem überhaupt open zou wíllen maken, maar hoe zou dat moeten?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:381
-msgid "Ow, my chest. It hurts!"
-msgstr "Oh, mijn borst doet pijn!"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:383
-msgid "The crystal! Orlinn! Let's stand back!"
-msgstr "Het kristal! Orlinn! Terug, terug!"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:403
-msgid "That sign, it is the sign of the ancients! Bronann! Are you alright?"
-msgstr "Dat teken, het is het teken van de ouderlingen! Bronann! Alles in orde?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:413
-msgid "I'm fine, I guess. The pain faded away."
-msgstr "Het gaat wel, denk ik. De pijn is weg."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:415
-msgid "Thank the goddess."
-msgstr "Godin zij dank."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:417
-msgid "Well, the door is open now."
-msgstr "Nou, de deur is nu open."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:419
-msgid "Yiek! Do you really want to go there??"
-msgstr "Ieeee! Wil je daar echt naar binnen gaan??"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:421
-msgid ""
-"I believe we don't really have a choice. Somehow this place... called me."
-msgstr "Ik denk niet wat we een keus hebben. Op de een of andere manier heeft deze plaats me... geroepen."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:423
-msgid "Anyway, let's stick together and we'll be fine as always, right?"
-msgstr "Hoe dan ook, laten we bij elkaar blijven, en alles komt goed, oké?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:425
-msgid "I have a bad feeling about all this now."
-msgstr "Ik heb hier een slecht voorgevoel over."
-
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua:137
 msgid "Phew, this one sure is heavier and more sturdy."
 msgstr "Pfoe, deze is een stuk zwaarder en steviger."
@@ -6823,108 +6702,6 @@ msgstr "Pfoe, deze is een stuk zwaarder en steviger."
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua:384
 msgid "I can feel something moving far below."
 msgstr "Ik voel iets bewegen hier beneden."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:364
-msgid "It seems somebody left a note here on purpose."
-msgstr "Iemand heeft hier met opzet een briefje achtergelaten."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:366
-msgid "You mean in the middle of those scary bones?"
-msgstr "Wat, midden tussen die enge botten?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:368
-msgid "Let me see."
-msgstr "Eens even kijken."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:370
-msgid "'To whoever will read this:'"
-msgstr "\"Aan wie dit ook leest:\""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:372
-msgid ""
-"'Battles have been waging all over the place and the Ancient have now "
-"forsaken me into oblivion when they sealed the Goddess Shrine.'"
-msgstr "\"De oorlog is overal, en de Ouderlingen hebben me in de steek gelaten, toen ze de Schrijn van de Godin afgesloten hebben.\""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:374
-msgid ""
-"'All my comrades have perished in battle and I am the last unfortunate one "
-"left.'"
-msgstr "\"Mijn kameraden zijn allemaal gesneuveld, en ik ben de laatste ongelukkige die over is.\""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:376
-msgid ""
-"'My name is Shawn, and I do believe my time is running out in this life as "
-"there is neither food nor water in here.'"
-msgstr "\"Ik heet Shawn, en ik geloof dat mijn leven ten einde loopt, want er is hier voedsel noch water...\""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:378
-msgid "Poor guy. He must have died from starvation."
-msgstr "Arme man. Hij is vast gestorven door voedselgebrek."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:380
-msgid ""
-"'But I will attempt one last time to escape from here and I'm leaving this "
-"note in case you'd need to do the same.'"
-msgstr "\"Maar ik zal nog één laatste ontsnappingspoging wagen, en ik laat deze brief achter voor als jij hetzelfde moet doen.\""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:382
-msgid ""
-"'The only way to escape this hellish place is to reach the highest floor and"
-" activate the waterfall. At least that's what they said.'"
-msgstr "\"De enige manier om uit deze helse plaats te ontsnappen is om op de hoogste verdieping de waterval te activeren. Dat zeiden ze ten minste.\""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:384
-msgid "What are we waiting for, let's go!"
-msgstr "Waar wachten we op; laten we gaan!"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:386
-msgid "Wait Orlinn! That's not all he wrote."
-msgstr "Wacht, Orlinn! Er staat nog iets onder."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:388
-msgid ""
-"'But be warned, for even the very scent exuding from the dark waters is a "
-"trap!'"
-msgstr "\"Maar wees gewaarschuwd, want alleen al de geur die opstijgt uit de duistere wateren is een valstrik!\""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:390
-msgid ""
-"'The entire shrine has been turned into a murderous area and you'll have to "
-"fight your way through, just as I will now.'"
-msgstr "\"De hele schrijn is veranderd in een dodelijke val, en je zult je erdoorheen moeten vechten, net zoals ik nu zal doen.\""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:392
-msgid "That's it."
-msgstr "Dat was het."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:394
-msgid "Let's find out how to activate that waterfall, then."
-msgstr "Laten we dan uitzoeken hoe we die waterval moeten activeren..."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:396
-msgid "Yes, and let's do it quickly."
-msgstr "Ja, en laten we opschieten."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:411
-msgid ""
-"Somebody left a note on purpose here. According to it, we need to find out a"
-" way to trigger the waterfall from the highest floor."
-msgstr "Iemand heeft hier met opzet een briefje achtergelaten. Volgens hem moeten we een manier vinden om de waterval te activeren vanaf de hoogste verdieping."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:413
-msgid ""
-"But let's be careful, as it also said this place is dangerous and the dark "
-"waters are some kind of trap."
-msgstr "Maar laten we goed oppassen, want er stond ook dat deze plaats gevaarlijk is, en dat de duistere wateren een valstrik zijn."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:422
-msgid "What is this? Skeletons?!"
-msgstr "Wat zijn dit? Skeletten?!"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:446
-msgid "Phew."
-msgstr "Pfoe."
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:381
 msgid "Yiek! A big monster!"
@@ -6973,100 +6750,6 @@ msgstr "Ik hoor overal water."
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:447
 msgid "Kalya, Bronann!"
 msgstr "Kalya, Bronann!"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine4_script.lua:341
-msgid "Again, I can feel something moving not far from here."
-msgstr "Ik heb weer het gevoel dat er iets beweegt, niet ver hiervandaan."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:342
-msgid ""
-"There is a passage here, but I'm too heavy to climb on those stones jutting "
-"out."
-msgstr "Er is een doorgang hier, maar ik ben te zwaar voor die uitstekende stenen."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:344
-msgid ""
-"The fact is, you and I cannot afford to stand on those stones. Maybe with a "
-"rope?"
-msgstr "Hoe dan ook, jij en ik kunnen niet op die stenen staan. Met een touw dan, misschien?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:346
-msgid "I'll do it."
-msgstr "Ik doe het wel."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:348
-msgid "What? Are you crazy? There could be monsters up there."
-msgstr "Wat? Ben je gek geworden? Daarboven zijn misschien wel monsters."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:350
-msgid "Then I'll deal with them, sis. We can't just stay here, anyway."
-msgstr "Dan reken ik wel met ze af, Kal. We kunnen hier niet blijven."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:352
-msgid "Orlinn, you sure have grown up through all of this. Are you sure?"
-msgstr "Orlinn, ik moet zeggen dat je volwassener bent geworden door dit avontuur. Weet je het zeker?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:354
-msgid "I need to, I guess."
-msgstr "Ik moet wel, denk ik."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:356
-msgid "Just tell me when you're ready and I'll throw you up there."
-msgstr "Zeg me maar als je klaar bent, en dan gooi ik je erheen."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:377
-msgid "Ready to go up?"
-msgstr "Klaar om te gaan?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:381
-msgid "Err, not yet."
-msgstr "Eh, nog niet."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:404
-msgid "Be careful, ok?"
-msgstr "Pas goed op, oké?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:422
-msgid "Want to come back?"
-msgstr "Wil je terug?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:424
-msgid "Yes!"
-msgstr "Ja!"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:426
-msgid "No, not yet."
-msgstr "Nee, nog niet."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:453
-msgid "Oops, sorry!"
-msgstr "Oeps, sorry!"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:458
-msgid "Bronann, are you okay?"
-msgstr "Bronann, gaat het wel?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:460
-msgid "I don't know, I felt something crack."
-msgstr "Ik weet niet. Ik hoorde iets breken."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:464
-msgid "Not again..."
-msgstr "Niet nog een keer..."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:221
-msgid "There is a note left here."
-msgstr "Er ligt hier een briefje."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:223
-msgid ""
-"It says: 'I fathomed it! After all, not every ladder is made of wood. Now, "
-"I'll have to get back there alive.'"
-msgstr "Er staat: \"Ik begrijp het! Niet elke ladder is van hout gemaakt. Nu moet ik daar nog levend terug zien te komen.\""
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:264
-msgid "There seems to be one of those rolling stones up here."
-msgstr "Er is daarboven weer zo'n rollende steen, zo te zien."
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_basement_script.lua:181
 msgid "Wow, what a fall. I didn't see that one coming."
@@ -7289,41 +6972,437 @@ msgstr "Stop met lachen of ik ram je hoofd tegen die muur daar!"
 msgid "Aww, ok."
 msgstr "Mwah, oké."
 
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:273
+msgid ""
+"You'll see. There's plenty of things I need to show you there. Plus, it's a "
+"safe place."
+msgstr "Je zult zien dat er daar veel dingen zijn die ik je moet laten zien. Bovendien, het is een veilige plaats."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:275
+msgid "Err, sis?"
+msgstr "Eh, Kal?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:277
+msgid ""
+"Our elder will also be able to help us. And you'll get a better explanation "
+"than I could ever..."
+msgstr "Onze oudere zal ons ook kunnen helpen. En je krijgt een betere uitleg dan ik ooit zou kunnen..."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:281
+msgid "One second, Orlinn. I'm trying to..."
+msgstr "Eén moment, Orlinn. Ik probeer om..."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:283
+msgid "But Kalya, look at the passageway!"
+msgstr "Maar Kalya, kijk naar de doorgang!"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:285
+msgid "What about the..."
+msgstr "Wat is er met..."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:301
+msgid "No, it can't be."
+msgstr "Nee, dat kan toch niet."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:303
+msgid "After all we've been through, this..."
+msgstr "Dan denk je dat je alles hebt gehad, krijgen we dit..."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:318
+msgid "Calm down Kalya, there must be a way to go through this somehow."
+msgstr "Rustig aan, Kalya; er moet een manier zijn om hierdoorheen te komen."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:320
+msgid "Unfortunately, yes. There is one."
+msgstr "Helaas, ja. Er is er één..."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:322
+msgid "We'll have to enter the ancient shrine."
+msgstr "We zullen de oude schrijn in moeten."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:324
+msgid ""
+"If we wouldn't have gotten here all by ourselves, I would swear Banesore's "
+"army pushed us here on purpose."
+msgstr "Waren we niet uit onszelf weggevlucht, dan zou ik gezworen hebben dat Banesore's leger ons met opzet hierheen heeft gelokt."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:326
+msgid "What's with this 'ancient shrine'?"
+msgstr "Wat is dat eigenlijk, de 'oude schrijn'?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:328
+msgid ""
+"Some say it is haunted. It was sealed a long time ago, long before I was "
+"even born."
+msgstr "Men zegt dat het er spookt. Hij is lange tijd geleden dichtgemaakt, zelfs lang voordat ik geboren was."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:330
+msgid "Indeed, it must be a long time ago."
+msgstr "Dat moet inderdaad een lange tijd geleden zijn."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:334
+msgid ""
+"Anyway, we might not be able to enter there at all. But you're right, let's "
+"have a look around first. Who knows?"
+msgstr "Goed, misschien kunnen we wel helemaal niet naar binnen. Maar je hebt gelijk, laten we eerst even rondkijken. Wie weet?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:370
+msgid ""
+"Here we are, looking at this huge and wonderful, yet creepy door. I don't "
+"like this."
+msgstr "Daar zijn we dan, bij deze grote, mooie maar toch enge deur. Dit bevalt me absoluut niet."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:372
+msgid ""
+"It's not like I actually want to open this, but how are we going to do so?"
+msgstr "Niet dat ik hem überhaupt open zou wíllen maken, maar hoe zou dat moeten?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:381
+msgid "Ow, my chest. It hurts!"
+msgstr "Oh, mijn borst doet pijn!"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:383
+msgid "The crystal! Orlinn! Let's stand back!"
+msgstr "Het kristal! Orlinn! Terug, terug!"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:403
+msgid "That sign, it is the sign of the ancients! Bronann! Are you alright?"
+msgstr "Dat teken, het is het teken van de ouderlingen! Bronann! Alles in orde?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:413
+msgid "I'm fine, I guess. The pain faded away."
+msgstr "Het gaat wel, denk ik. De pijn is weg."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:415
+msgid "Thank the goddess."
+msgstr "Godin zij dank."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:417
+msgid "Well, the door is open now."
+msgstr "Nou, de deur is nu open."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:419
+msgid "Yiek! Do you really want to go there??"
+msgstr "Ieeee! Wil je daar echt naar binnen gaan??"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:421
+msgid ""
+"I believe we don't really have a choice. Somehow this place... called me."
+msgstr "Ik denk niet wat we een keus hebben. Op de een of andere manier heeft deze plaats me... geroepen."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:423
+msgid "Anyway, let's stick together and we'll be fine as always, right?"
+msgstr "Hoe dan ook, laten we bij elkaar blijven, en alles komt goed, oké?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:425
+msgid "I have a bad feeling about all this now."
+msgstr "Ik heb hier een slecht voorgevoel over."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:364
+msgid "It seems somebody left a note here on purpose."
+msgstr "Iemand heeft hier met opzet een briefje achtergelaten."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:366
+msgid "You mean in the middle of those scary bones?"
+msgstr "Wat, midden tussen die enge botten?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:368
+msgid "Let me see."
+msgstr "Eens even kijken."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:370
+msgid "'To whoever will read this:'"
+msgstr "\"Aan wie dit ook leest:\""
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:372
+msgid ""
+"'Battles have been waging all over the place and the Ancient have now "
+"forsaken me into oblivion when they sealed the Goddess Shrine.'"
+msgstr "\"De oorlog is overal, en de Ouderlingen hebben me in de steek gelaten, toen ze de Schrijn van de Godin afgesloten hebben.\""
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:374
+msgid ""
+"'All my comrades have perished in battle and I am the last unfortunate one "
+"left.'"
+msgstr "\"Mijn kameraden zijn allemaal gesneuveld, en ik ben de laatste ongelukkige die over is.\""
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:376
+msgid ""
+"'My name is Shawn, and I do believe my time is running out in this life as "
+"there is neither food nor water in here.'"
+msgstr "\"Ik heet Shawn, en ik geloof dat mijn leven ten einde loopt, want er is hier voedsel noch water...\""
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:378
+msgid "Poor guy. He must have died from starvation."
+msgstr "Arme man. Hij is vast gestorven door voedselgebrek."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:380
+msgid ""
+"'But I will attempt one last time to escape from here and I'm leaving this "
+"note in case you'd need to do the same.'"
+msgstr "\"Maar ik zal nog één laatste ontsnappingspoging wagen, en ik laat deze brief achter voor als jij hetzelfde moet doen.\""
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:382
+msgid ""
+"'The only way to escape this hellish place is to reach the highest floor and"
+" activate the waterfall. At least that's what they said.'"
+msgstr "\"De enige manier om uit deze helse plaats te ontsnappen is om op de hoogste verdieping de waterval te activeren. Dat zeiden ze ten minste.\""
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:384
+msgid "What are we waiting for, let's go!"
+msgstr "Waar wachten we op; laten we gaan!"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:386
+msgid "Wait Orlinn! That's not all he wrote."
+msgstr "Wacht, Orlinn! Er staat nog iets onder."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:388
+msgid ""
+"'But be warned, for even the very scent exuding from the dark waters is a "
+"trap!'"
+msgstr "\"Maar wees gewaarschuwd, want alleen al de geur die opstijgt uit de duistere wateren is een valstrik!\""
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:390
+msgid ""
+"'The entire shrine has been turned into a murderous area and you'll have to "
+"fight your way through, just as I will now.'"
+msgstr "\"De hele schrijn is veranderd in een dodelijke val, en je zult je erdoorheen moeten vechten, net zoals ik nu zal doen.\""
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:392
+msgid "That's it."
+msgstr "Dat was het."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:394
+msgid "Let's find out how to activate that waterfall, then."
+msgstr "Laten we dan uitzoeken hoe we die waterval moeten activeren..."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:396
+msgid "Yes, and let's do it quickly."
+msgstr "Ja, en laten we opschieten."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:411
+msgid ""
+"Somebody left a note on purpose here. According to it, we need to find out a"
+" way to trigger the waterfall from the highest floor."
+msgstr "Iemand heeft hier met opzet een briefje achtergelaten. Volgens hem moeten we een manier vinden om de waterval te activeren vanaf de hoogste verdieping."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:413
+msgid ""
+"But let's be careful, as it also said this place is dangerous and the dark "
+"waters are some kind of trap."
+msgstr "Maar laten we goed oppassen, want er stond ook dat deze plaats gevaarlijk is, en dat de duistere wateren een valstrik zijn."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:422
+msgid "What is this? Skeletons?!"
+msgstr "Wat zijn dit? Skeletten?!"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:446
+msgid "Phew."
+msgstr "Pfoe."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine4_script.lua:341
+msgid "Again, I can feel something moving not far from here."
+msgstr "Ik heb weer het gevoel dat er iets beweegt, niet ver hiervandaan."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:342
+msgid ""
+"There is a passage here, but I'm too heavy to climb on those stones jutting "
+"out."
+msgstr "Er is een doorgang hier, maar ik ben te zwaar voor die uitstekende stenen."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:344
+msgid ""
+"The fact is, you and I cannot afford to stand on those stones. Maybe with a "
+"rope?"
+msgstr "Hoe dan ook, jij en ik kunnen niet op die stenen staan. Met een touw dan, misschien?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:346
+msgid "I'll do it."
+msgstr "Ik doe het wel."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:348
+msgid "What? Are you crazy? There could be monsters up there."
+msgstr "Wat? Ben je gek geworden? Daarboven zijn misschien wel monsters."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:350
+msgid "Then I'll deal with them, sis. We can't just stay here, anyway."
+msgstr "Dan reken ik wel met ze af, Kal. We kunnen hier niet blijven."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:352
+msgid "Orlinn, you sure have grown up through all of this. Are you sure?"
+msgstr "Orlinn, ik moet zeggen dat je volwassener bent geworden door dit avontuur. Weet je het zeker?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:354
+msgid "I need to, I guess."
+msgstr "Ik moet wel, denk ik."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:356
+msgid "Just tell me when you're ready and I'll throw you up there."
+msgstr "Zeg me maar als je klaar bent, en dan gooi ik je erheen."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:377
+msgid "Ready to go up?"
+msgstr "Klaar om te gaan?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:381
+msgid "Err, not yet."
+msgstr "Eh, nog niet."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:404
+msgid "Be careful, ok?"
+msgstr "Pas goed op, oké?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:422
+msgid "Want to come back?"
+msgstr "Wil je terug?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:424
+msgid "Yes!"
+msgstr "Ja!"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:426
+msgid "No, not yet."
+msgstr "Nee, nog niet."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:453
+msgid "Oops, sorry!"
+msgstr "Oeps, sorry!"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:458
+msgid "Bronann, are you okay?"
+msgstr "Bronann, gaat het wel?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:460
+msgid "I don't know, I felt something crack."
+msgstr "Ik weet niet. Ik hoorde iets breken."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:464
+msgid "Not again..."
+msgstr "Niet nog een keer..."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:221
+msgid "There is a note left here."
+msgstr "Er ligt hier een briefje."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:223
+msgid ""
+"It says: 'I fathomed it! After all, not every ladder is made of wood. Now, "
+"I'll have to get back there alive.'"
+msgstr "Er staat: \"Ik begrijp het! Niet elke ladder is van hout gemaakt. Nu moet ik daar nog levend terug zien te komen.\""
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:264
+msgid "There seems to be one of those rolling stones up here."
+msgstr "Er is daarboven weer zo'n rollende steen, zo te zien."
+
 #. tr: Map name
 #: map_names_tr.lua:2 map_names_tr.lua:4 map_names_tr.lua:6
-#: map_names_tr.lua:20 map_names_tr.lua:104 map_names_tr.lua:106
-#: map_names_tr.lua:108 map_names_tr.lua:122
+#: map_names_tr.lua:24 map_names_tr.lua:152 map_names_tr.lua:154
+#: map_names_tr.lua:156 map_names_tr.lua:174
 msgid "Layna Forest Cave"
 msgstr "Grot in het Laynabos"
 
+#. tr: Map sub-name
+#: map_names_tr.lua:14 map_names_tr.lua:164
+msgid "Forest entrance"
+msgstr "Bosingang"
+
 #. tr: Map name
-#: map_names_tr.lua:22 map_names_tr.lua:124
+#: map_names_tr.lua:26 map_names_tr.lua:176
 msgid "Where it all began..."
 msgstr "Waar het allemaal begon..."
 
 #. tr: Map name
-#: map_names_tr.lua:26 map_names_tr.lua:28 map_names_tr.lua:30
-#: map_names_tr.lua:32 map_names_tr.lua:34 map_names_tr.lua:36
-#: map_names_tr.lua:38 map_names_tr.lua:40 map_names_tr.lua:42
-#: map_names_tr.lua:44 map_names_tr.lua:46 map_names_tr.lua:48
-#: map_names_tr.lua:50 map_names_tr.lua:52 map_names_tr.lua:54
-#: map_names_tr.lua:56 map_names_tr.lua:128 map_names_tr.lua:130
-#: map_names_tr.lua:132 map_names_tr.lua:134 map_names_tr.lua:136
-#: map_names_tr.lua:138 map_names_tr.lua:140 map_names_tr.lua:142
-#: map_names_tr.lua:144 map_names_tr.lua:146 map_names_tr.lua:148
-#: map_names_tr.lua:150 map_names_tr.lua:152 map_names_tr.lua:154
-#: map_names_tr.lua:156 map_names_tr.lua:158
+#: map_names_tr.lua:30 map_names_tr.lua:34 map_names_tr.lua:38
+#: map_names_tr.lua:42 map_names_tr.lua:44 map_names_tr.lua:46
+#: map_names_tr.lua:48 map_names_tr.lua:50 map_names_tr.lua:52
+#: map_names_tr.lua:56 map_names_tr.lua:60 map_names_tr.lua:64
+#: map_names_tr.lua:68 map_names_tr.lua:70 map_names_tr.lua:72
+#: map_names_tr.lua:76 map_names_tr.lua:180 map_names_tr.lua:184
+#: map_names_tr.lua:188 map_names_tr.lua:192 map_names_tr.lua:194
+#: map_names_tr.lua:196 map_names_tr.lua:198 map_names_tr.lua:200
+#: map_names_tr.lua:202 map_names_tr.lua:206 map_names_tr.lua:210
+#: map_names_tr.lua:214 map_names_tr.lua:218 map_names_tr.lua:220
+#: map_names_tr.lua:222 map_names_tr.lua:226
 msgid "Mountain Village of Layna"
 msgstr "Het bergdorp Layna"
 
+#. tr: Map sub-name
+#: map_names_tr.lua:40 map_names_tr.lua:190
+msgid "Flora's Boutique"
+msgstr "Flora's Boetiek"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:54 map_names_tr.lua:204
+msgid "Basement"
+msgstr "Kelder"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:58 map_names_tr.lua:66 map_names_tr.lua:208
+#: map_names_tr.lua:216
+msgid "Riverbank"
+msgstr "Rivieroever"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:62 map_names_tr.lua:212
+msgid "Lilly's house"
+msgstr "Lilly's huis"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:74 map_names_tr.lua:224
+msgid "Village entrance"
+msgstr "Dorpsingang"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:78 map_names_tr.lua:228
+msgid "Well Undergrounds"
+msgstr "Ondergrondse put"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:82 map_names_tr.lua:86 map_names_tr.lua:90
+#: map_names_tr.lua:232 map_names_tr.lua:236 map_names_tr.lua:240
+msgid "Elbrus Grotto"
+msgstr "Elbrusgrot"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:96 map_names_tr.lua:100 map_names_tr.lua:246
+#: map_names_tr.lua:250
+msgid "Low Mountain"
+msgstr "Lage berg"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:104 map_names_tr.lua:254
+msgid "Old Cemetery"
+msgstr "Oud kerkhof"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:108 map_names_tr.lua:258
+msgid "Mountain bridge"
+msgstr "Bergbrug"
+
 #. tr: Map name
-#: map_names_tr.lua:76 map_names_tr.lua:82 map_names_tr.lua:84
-#: map_names_tr.lua:86 map_names_tr.lua:88 map_names_tr.lua:90
-#: map_names_tr.lua:92 map_names_tr.lua:94 map_names_tr.lua:96
-#: map_names_tr.lua:98 map_names_tr.lua:102 map_names_tr.lua:178
-#: map_names_tr.lua:184 map_names_tr.lua:186 map_names_tr.lua:188
-#: map_names_tr.lua:190 map_names_tr.lua:192 map_names_tr.lua:194
-#: map_names_tr.lua:196 map_names_tr.lua:198 map_names_tr.lua:200
-#: map_names_tr.lua:204
+#: map_names_tr.lua:110 map_names_tr.lua:118 map_names_tr.lua:124
+#: map_names_tr.lua:130 map_names_tr.lua:132 map_names_tr.lua:134
+#: map_names_tr.lua:136 map_names_tr.lua:140 map_names_tr.lua:144
+#: map_names_tr.lua:148 map_names_tr.lua:150 map_names_tr.lua:260
+#: map_names_tr.lua:268 map_names_tr.lua:274 map_names_tr.lua:280
+#: map_names_tr.lua:282 map_names_tr.lua:284 map_names_tr.lua:286
+#: map_names_tr.lua:290 map_names_tr.lua:294 map_names_tr.lua:298
+#: map_names_tr.lua:300
 msgid "Mt. Elbrus Shrine"
 msgstr "Schrijn van Mount Elbrus"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:112 map_names_tr.lua:262
+msgid "2nd Floor"
+msgstr "2e verdieping"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:128 map_names_tr.lua:278
+msgid "Underpass"
+msgstr "Onderdoorgang"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:138 map_names_tr.lua:142 map_names_tr.lua:146
+#: map_names_tr.lua:288 map_names_tr.lua:292 map_names_tr.lua:296
+msgid "1st Floor"
+msgstr "1e verdieping"

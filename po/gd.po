@@ -1,18 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
+# Bertram <yohann.ferreira@orange.fr>, 2019
 # GunChleoc, 2017
+# GunChleoc, 2019
 # GunChleoc, 2017-2018
+# GunChleoc, 2017,2019
 # GunChleoc, 2017
-# GunChleoc, 2017
+# Bertram <yohann.ferreira@orange.fr>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-09 18:59+0200\n"
-"PO-Revision-Date: 2019-09-10 20:44+0000\n"
+"POT-Creation-Date: 2019-09-13 17:55+0200\n"
+"PO-Revision-Date: 2019-09-15 09:45+0000\n"
 "Last-Translator: GunChleoc\n"
 "Language-Team: Gaelic, Scottish (http://www.transifex.com/valyria-tear/valyria-tear/language/gd/)\n"
 "MIME-Version: 1.0\n"
@@ -28,14 +31,14 @@ msgstr "Rang: "
 
 #: ../src/common/character_window.cpp:70
 msgid "Next: "
-msgstr "Àrdachadh: "
+msgstr "A dhìth: "
 
 #. tr: experience points to be spent for skills
 #: ../src/common/character_window.cpp:76
 #: ../src/modes/battle/finish/battle_victory.cpp:358
 #: ../src/modes/battle/finish/battle_victory.cpp:503
 msgid "XP for skills: "
-msgstr "PE chomasan "
+msgstr "PE chomasan: "
 
 #: ../src/common/global/global_target.cpp:28
 msgid "Self — Point"
@@ -87,7 +90,7 @@ msgstr "Amas mì-dhligheach"
 #: ../src/common/global/media/battle_media.cpp:91
 #: ../src/modes/battle/battle_menu.cpp:143
 msgid "Auto-Battle"
-msgstr "Còmhrag fèin-obrachail"
+msgstr "Còmhrag fhèin-obrachail"
 
 #: ../src/common/options_handler.cpp:190
 #, c-format
@@ -125,7 +128,7 @@ msgstr "Roghainnean joystick"
 
 #: ../src/common/options_handler.cpp:422 ../src/common/options_handler.cpp:680
 msgid "Resolution: "
-msgstr "Dùmhlachd-breacaidh: "
+msgstr "Dùmhlachd-bhreacaidh: "
 
 #: ../src/common/options_handler.cpp:424 ../src/common/options_handler.cpp:685
 #: ../src/common/options_handler.cpp:689
@@ -146,7 +149,7 @@ msgstr "Ùrlar: "
 
 #: ../src/common/options_handler.cpp:450 ../src/common/options_handler.cpp:772
 msgid "Sound Volume: "
-msgstr "Àirde nam fogharan: "
+msgstr "Àirde nan èifeachdan: "
 
 #: ../src/common/options_handler.cpp:453 ../src/common/options_handler.cpp:773
 msgid "Music Volume: "
@@ -177,16 +180,16 @@ msgstr "Luaths teacsa còmhraidh: %i"
 #: ../src/common/options_handler.cpp:498 ../src/common/options_handler.cpp:800
 #: ../src/common/options_handler.cpp:821
 msgid "Enabled"
-msgstr "An comas"
+msgstr "Air"
 
 #: ../src/common/options_handler.cpp:498 ../src/common/options_handler.cpp:800
 msgid "Disabled"
-msgstr "À comas"
+msgstr "Dheth"
 
 #: ../src/common/options_handler.cpp:498 ../src/common/options_handler.cpp:800
 #, c-format
 msgid "Remember battle target: %s"
-msgstr "Cuimhnich an t-amas: %s"
+msgstr "Cuimhneachadh amais: %s"
 
 #: ../src/common/options_handler.cpp:529
 msgid "Up: "
@@ -486,7 +489,7 @@ msgstr "Nithean"
 #: ../src/modes/battle/command/command_supervisor.cpp:182
 #: ../src/modes/battle/command/command_supervisor.cpp:183
 msgid "Bare-hand"
-msgstr "Làmh lom"
+msgstr "Làmh"
 
 #. tr: this is about displaying a time: eg 4.2s
 #: ../src/modes/battle/command/command_supervisor.cpp:644
@@ -586,7 +589,7 @@ msgstr "Na nithean a lorg sibh"
 
 #: ../src/modes/battle/finish/battle_victory.cpp:144
 msgid "End Battle"
-msgstr "Cuir crìoch air a’ chòmhrag"
+msgstr "Fàg a’ chòmhrag"
 
 #: ../src/modes/battle/finish/battle_victory.cpp:145
 msgid "Improve Skills"
@@ -595,7 +598,7 @@ msgstr "Pisich comasan"
 #: ../src/modes/battle/finish/battle_victory.cpp:252
 #: ../src/modes/battle/finish/battle_victory.cpp:513
 msgid "XP Earned: "
-msgstr "Bhuannaich sibh puingean-eòlais: "
+msgstr "Bhuannaich sibh PE: "
 
 #: ../src/modes/battle/finish/battle_victory.cpp:253
 #: ../src/modes/battle/finish/battle_victory.cpp:569
@@ -620,7 +623,7 @@ msgstr "Rang: "
 #: ../src/modes/battle/finish/battle_victory.cpp:356
 #: ../src/modes/battle/finish/battle_victory.cpp:500
 msgid "XP for level up: "
-msgstr "Puingean-eòlais chun na h-ath-ìre: "
+msgstr "PE rangachaidh: "
 
 #. tr: Header in battle result screen: 0 items found
 #: ../src/modes/battle/finish/battle_victory.cpp:390
@@ -918,7 +921,7 @@ msgstr "Ionnsaigh iomlan: "
 
 #: ../src/modes/menu/menu_windows/menu_party_window.cpp:126
 msgid "Total Magical Attack: "
-msgstr "Ionnsaigh dhraoidheach iomlan: "
+msgstr "Ionnsaigh dhraoidheach ioml.: "
 
 #: ../src/modes/menu/menu_windows/menu_party_window.cpp:127
 msgid "Average Defense: "
@@ -926,7 +929,7 @@ msgstr "Dìon cuibheasach: "
 
 #: ../src/modes/menu/menu_windows/menu_party_window.cpp:128
 msgid "Average Magical Defense: "
-msgstr "Dìon draoidheach cuibheasach: "
+msgstr "Dìon draoidheach cuibh.: "
 
 #: ../src/modes/menu/menu_windows/menu_party_window.cpp:135
 msgid "Head: "
@@ -950,11 +953,11 @@ msgstr "Leibheil eòlais: "
 
 #: ../src/modes/menu/menu_windows/menu_party_window.cpp:251
 msgid "Physical Attack: "
-msgstr "Ionnsaigh bodhaige: "
+msgstr "Ionns. bodhaige: "
 
 #: ../src/modes/menu/menu_windows/menu_party_window.cpp:252
 msgid "Magical Attack: "
-msgstr "Ionnsaigh dhraoidheach: "
+msgstr "Ionns. dhraoidheach: "
 
 #: ../src/modes/menu/menu_windows/menu_party_window.cpp:253
 msgid "Physical Defense: "
@@ -999,7 +1002,7 @@ msgstr "Comas airm"
 
 #: ../src/modes/menu/menu_windows/menu_skills_window.cpp:356
 msgid "Bare hands"
-msgstr "Làmh lom"
+msgstr "Làmh"
 
 #: ../src/modes/menu/menu_windows/menu_skills_window.cpp:359
 msgid "Magic skill"
@@ -1015,18 +1018,18 @@ msgstr " PC"
 
 #: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:119
 msgid "Unlocked"
-msgstr "Neo-ghlaiste"
+msgstr "Air a neo-ghlasadh"
 
 #: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:125
 msgid "To Unlock:"
-msgstr "Airson a’ ghlas a thoirt dheth:"
+msgstr "Gus a neo-ghlasadh:"
 
 #: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:128
 #, c-format
 msgid ""
 "XP Needed: %d /\n"
 "Available: %d"
-msgstr "PE a dh’fheumar: %d /\nRi fhaighinn: %d"
+msgstr "Puing-eòlais: %d /\nRi fhaighinn: %d"
 
 #: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:132
 msgid "No XP Needed"
@@ -1053,22 +1056,22 @@ msgstr "Stadastaireachd:"
 #: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:228
 #, c-format
 msgid "Phys. Atk +%d"
-msgstr "Ionnsaigh bodhaige +%d"
+msgstr "Ionns. bodh. +%d"
 
 #: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:232
 #, c-format
 msgid "Mag. Atk +%d"
-msgstr "Ionnsaigh dhraoidheach +%d"
+msgstr "Ionns. dhraoidh. +%d"
 
 #: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:236
 #, c-format
 msgid "Phys. Def +%d"
-msgstr "Dìon bodhaige +%d"
+msgstr "Dìon bodh. +%d"
 
 #: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:240
 #, c-format
 msgid "Mag. Def +%d"
-msgstr "Dìon draoidheach +%d"
+msgstr "Dìon draoidh. +%d"
 
 #: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:244
 #, c-format
@@ -1083,12 +1086,12 @@ msgstr "Teàrnadh +%.1f%%"
 #: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:252
 #, c-format
 msgid "HP +%d"
-msgstr "Puingean-beatha +%d"
+msgstr "P-beatha +%d"
 
 #: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:256
 #, c-format
 msgid "SP +%d"
-msgstr "Puingean-comais +%d"
+msgstr "P-comais +%d"
 
 #: ../src/modes/mode_help_window.cpp:113
 #, c-format
@@ -1196,7 +1199,7 @@ msgstr "Fàg modh an reic/na ceannachd/an dearbhaidh,\nno fàg am bùth."
 
 #: ../src/modes/mode_help_window.cpp:199 ../src/modes/mode_help_window.cpp:260
 msgid "Pauses the game"
-msgstr "Cuiridh i an geama ’na stad"
+msgstr "Cuir an geama ’na stad"
 
 #: ../src/modes/mode_help_window.cpp:202
 msgid "Close this window / Show the system menu"
@@ -1244,11 +1247,11 @@ msgstr "Sguir de ghnìomh no àithne clàir-thaice"
 
 #: ../src/modes/mode_help_window.cpp:251
 msgid "Opens the party menu"
-msgstr "Fosglaidh i clàr-taice na cuideachd"
+msgstr "Fosgail clàr-taice na cuideachd"
 
 #: ../src/modes/mode_help_window.cpp:256
 msgid "Show/Hide items and skills descriptions."
-msgstr "Seall/Falaich tuairisgeulan nan nithean ’s nan comasan."
+msgstr "Seall/Falaich tuairisgeulan nithean ’s chomasan."
 
 #: ../src/modes/mode_help_window.cpp:263
 msgid "Quit the application"
@@ -1314,31 +1317,7 @@ msgstr "Dàta mì-dhligheach!"
 #. tr: A slot for saving the same
 #: ../src/modes/save/save_mode.cpp:514
 msgid "This slot is unused"
-msgstr "Cha deach an t-ionad seo a chleachdadh"
-
-#: ../src/modes/shop/shop_buy.cpp:59 ../src/modes/shop/shop_sell.cpp:59
-#: ../src/modes/shop/shop_trade.cpp:56
-msgid "Category"
-msgstr "Roinn-seòrsa"
-
-#: ../src/modes/shop/shop_buy.cpp:62 ../src/modes/shop/shop_sell.cpp:62
-#: ../src/modes/shop/shop_trade.cpp:59
-msgid "Name"
-msgstr "Ainm"
-
-#: ../src/modes/shop/shop_buy.cpp:68 ../src/modes/shop/shop_sell.cpp:68
-#: ../src/modes/shop/shop_trade.cpp:65
-msgid "Price"
-msgstr "Prìs"
-
-#: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_trade.cpp:66
-msgid "Stock"
-msgstr "Stòras"
-
-#: ../src/modes/shop/shop_buy.cpp:70 ../src/modes/shop/shop_sell.cpp:69
-#: ../src/modes/shop/shop_trade.cpp:67
-msgid "Own"
-msgstr "Leatsa"
+msgstr "Cha deach an t-ionad seo a chleachdadh fhathast"
 
 #: ../src/modes/shop/shop.cpp:71
 msgid "Weapons"
@@ -1392,12 +1371,12 @@ msgstr "Cumhaidhean:"
 #, c-format
 msgid ""
 "Press %s to add items to buy and %s to remove items from your purchase."
-msgstr "Brùth air %s gus nì ri cheannach a chur ris ’s air %s gus a thoirt air falbh on cheannachd agad."
+msgstr "Brùth air %s gus nì ri cheannach a chur ris ’s air %s gus a thoirt air falbh uaipe."
 
 #: ../src/modes/shop/shop.cpp:713
 #, c-format
 msgid "Press %s to add items to sell and %s to remove items from your sale."
-msgstr "Brùth air %s gus nì ri reic a chur ris ’s air %s gus a thoirt air falbh on reic agad."
+msgstr "Brùth air %s gus nì ri reic a chur ris ’s air %s gus a thoirt air falbh uaidhe."
 
 #: ../src/modes/shop/shop.cpp:717
 #, c-format
@@ -1406,15 +1385,15 @@ msgstr "Brùth air %s gus nì ri iomlaideachadh a chur ris ’s air %s gus a tho
 
 #: ../src/modes/shop/shop.cpp:735
 msgid "Buy count: x "
-msgstr "Cunntas ceannachd: x "
+msgstr "Co mheud: x "
 
 #: ../src/modes/shop/shop.cpp:739
 msgid "Sell count: x "
-msgstr "Cunntas reic: x "
+msgstr "Co mheud: x "
 
 #: ../src/modes/shop/shop.cpp:743
 msgid "Trade count: x "
-msgstr "Cunntas iomlaideachaidh: x "
+msgstr "Co mheud: x "
 
 #: ../src/modes/shop/shop.cpp:1046 ../src/modes/shop/shop.cpp:1306
 msgid "Buy"
@@ -1432,21 +1411,45 @@ msgstr "Iomlaidich"
 msgid "Leave"
 msgstr "Falbh"
 
-#: ../src/modes/shop/shop.cpp:1783
+#: ../src/modes/shop/shop.cpp:1793
 msgid "Funds: "
 msgstr "Maoin: "
 
-#: ../src/modes/shop/shop.cpp:1785
+#: ../src/modes/shop/shop.cpp:1795
 msgid "Purchases: "
 msgstr "Ceannachdan: "
 
-#: ../src/modes/shop/shop.cpp:1786 ../src/modes/shop/shop.cpp:1789
+#: ../src/modes/shop/shop.cpp:1796 ../src/modes/shop/shop.cpp:1799
 msgid "Remaining: "
 msgstr "Air fhàgail: "
 
-#: ../src/modes/shop/shop.cpp:1788
+#: ../src/modes/shop/shop.cpp:1798
 msgid "Sales: +"
 msgstr "Reicean: +"
+
+#: ../src/modes/shop/shop_buy.cpp:59 ../src/modes/shop/shop_sell.cpp:59
+#: ../src/modes/shop/shop_trade.cpp:56
+msgid "Category"
+msgstr "Roinn-seòrsa"
+
+#: ../src/modes/shop/shop_buy.cpp:62 ../src/modes/shop/shop_sell.cpp:62
+#: ../src/modes/shop/shop_trade.cpp:59
+msgid "Name"
+msgstr "Ainm"
+
+#: ../src/modes/shop/shop_buy.cpp:68 ../src/modes/shop/shop_sell.cpp:68
+#: ../src/modes/shop/shop_trade.cpp:65
+msgid "Price"
+msgstr "Prìs"
+
+#: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_trade.cpp:66
+msgid "Stock"
+msgstr "Stòras"
+
+#: ../src/modes/shop/shop_buy.cpp:70 ../src/modes/shop/shop_sell.cpp:69
+#: ../src/modes/shop/shop_trade.cpp:67
+msgid "Own"
+msgstr "Leatsa"
 
 #: ../src/modes/shop/shop_root.cpp:53
 msgid "The Shop"
@@ -1494,8 +1497,8 @@ msgstr "Lorg mi min-eòrna mu dheireadh thall. Bha cuid ann an taigh Ròis."
 msgid "Village of Layna"
 msgstr "Baile Duaine"
 
-#. tr: Map name
-#: ../data/config/quests.lua:27 map_names_tr.lua:24 map_names_tr.lua:126
+#. tr: Map sub-name
+#: ../data/config/quests.lua:27 map_names_tr.lua:28 map_names_tr.lua:178
 msgid "Bronann's home"
 msgstr "Taigh Bhreannain"
 
@@ -1516,8 +1519,10 @@ msgid ""
 " won't have any problems with Kalya..."
 msgstr "Bha am peann aig Odhran is mi a’ ruith às a dhèidh fad na maidne gus fhaighinn air ais. Tha mi ’n dòchas nach fhaigh e trod o Chaoimhe…"
 
+#. tr: Map sub-name
 #: ../data/config/quests.lua:43 ../data/config/quests.lua:59
-#: ../data/config/quests.lua:93
+#: ../data/config/quests.lua:93 map_names_tr.lua:32 map_names_tr.lua:36
+#: map_names_tr.lua:182 map_names_tr.lua:186
 msgid "Village center"
 msgstr "Meadhan a’ bhaile"
 
@@ -1535,7 +1540,7 @@ msgstr "Tha am peann a dh’fheumas mi tilleadh dha Shomhairle aig Odhran! ’S 
 msgid ""
 "After chasing him around the village all morning, I finally have the pen. "
 "Time to bring it back to Georges."
-msgstr "Às dèid mo ruith ’na thoir air feadh a’ baile fad na maidne, tha am peann agam mu dheireadh thall. Bu chòir dhomh a thilleadh dha Shomhairle."
+msgstr "Às dèidh mo ruith ’na thoir air feadh a’ baile fad na maidne, tha am peann agam mu dheireadh thall. Bu chòir dhomh a thilleadh dha Shomhairle."
 
 #: ../data/config/quests.lua:65
 msgid "Catch the chickens"
@@ -1577,7 +1582,7 @@ msgstr "Fhuair sinn grèim air Odhran ann am meadhan na coille mu dheireadh thal
 
 #: ../data/config/quests.lua:99
 msgid "We must escape from the soldiers."
-msgstr "Feumaidh sinn teicheadh o na saighdearan."
+msgstr "Teich o na saighdearan"
 
 #: ../data/config/quests.lua:101
 msgid ""
@@ -1608,23 +1613,23 @@ msgstr "Ite-shìthe"
 
 #. tr: Map name
 #: ../data/config/world_locations.lua:29 map_names_tr.lua:8
-#: map_names_tr.lua:10 map_names_tr.lua:12 map_names_tr.lua:14
-#: map_names_tr.lua:16 map_names_tr.lua:18 map_names_tr.lua:110
-#: map_names_tr.lua:112 map_names_tr.lua:114 map_names_tr.lua:116
-#: map_names_tr.lua:118 map_names_tr.lua:120
+#: map_names_tr.lua:12 map_names_tr.lua:16 map_names_tr.lua:18
+#: map_names_tr.lua:20 map_names_tr.lua:22 map_names_tr.lua:158
+#: map_names_tr.lua:162 map_names_tr.lua:166 map_names_tr.lua:168
+#: map_names_tr.lua:170 map_names_tr.lua:172
 msgid "Layna Forest"
 msgstr "Coille Duaine"
 
 #. tr: Map name
-#: ../data/config/world_locations.lua:40 map_names_tr.lua:58
-#: map_names_tr.lua:60 map_names_tr.lua:62 map_names_tr.lua:64
-#: map_names_tr.lua:66 map_names_tr.lua:68 map_names_tr.lua:70
-#: map_names_tr.lua:72 map_names_tr.lua:74 map_names_tr.lua:78
-#: map_names_tr.lua:80 map_names_tr.lua:100 map_names_tr.lua:160
-#: map_names_tr.lua:162 map_names_tr.lua:164 map_names_tr.lua:166
-#: map_names_tr.lua:168 map_names_tr.lua:170 map_names_tr.lua:172
-#: map_names_tr.lua:174 map_names_tr.lua:176 map_names_tr.lua:180
-#: map_names_tr.lua:182 map_names_tr.lua:202
+#: ../data/config/world_locations.lua:40 map_names_tr.lua:80
+#: map_names_tr.lua:84 map_names_tr.lua:88 map_names_tr.lua:92
+#: map_names_tr.lua:94 map_names_tr.lua:98 map_names_tr.lua:102
+#: map_names_tr.lua:106 map_names_tr.lua:114 map_names_tr.lua:116
+#: map_names_tr.lua:120 map_names_tr.lua:126 map_names_tr.lua:230
+#: map_names_tr.lua:234 map_names_tr.lua:238 map_names_tr.lua:242
+#: map_names_tr.lua:244 map_names_tr.lua:248 map_names_tr.lua:252
+#: map_names_tr.lua:256 map_names_tr.lua:264 map_names_tr.lua:266
+#: map_names_tr.lua:270 map_names_tr.lua:276
 msgid "Mt. Elbrus"
 msgstr "Beinn Ealbhrais"
 
@@ -1776,7 +1781,7 @@ msgstr "Agus thu fhèin…"
 
 #: ../data/credits/end_credits.lua:531
 msgid "Valyria Tear was forked from Hero of Allacrost in 2011"
-msgstr "Chaidh Valyria Tear a stèidheachadh mar ghobhal dhe Hero of Allacrost ann an 2011"
+msgstr "Chaidh Valyria Tear a stèidheachadh mar ghobhal\ndhe Hero of Allacrost ann an 2011"
 
 #: ../data/credits/end_credits.lua:550
 msgid ""
@@ -1984,7 +1989,7 @@ msgstr "agus mòran eile"
 
 #: ../data/credits/episode1_credits.lua:59
 msgid "Programming, Scripting, Maps"
-msgstr "Prògramachadh, sgriobtadh, mapaichean"
+msgstr "Prògramachadh, sgriobtadh,\nmapaichean"
 
 #: ../data/credits/episode1_credits.lua:63
 msgid ""
@@ -2023,39 +2028,39 @@ msgstr "Thoir an aire air na tairgsean agam!"
 #: ../data/story/mt_elbrus/mt_elbrus_path1_script.lua:144
 #: ../data/story/mt_elbrus/mt_elbrus_path2_script.lua:169
 #: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:189
+#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:214
 #: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:169
 #: ../data/story/mt_elbrus/mt_elbrus_shrine9_script.lua:135
-#: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:214
 msgid "Your party feels better."
 msgstr "Tha do chuideachd a’ faireachdainn nas fheàrr."
 
 #: ../data/debug/subscripts/layna_forest_minimap_procedural_script.lua:368
 #: ../data/story/layna_forest/layna_forest_cave1_2_script.lua:276
-#: ../data/story/layna_forest/layna_forest_entrance_script.lua:380
+#: ../data/story/layna_forest/layna_forest_entrance_script.lua:381
 #: ../data/story/mt_elbrus/mt_elbrus_path1_script.lua:600
 msgid "Look!"
 msgstr "Seall!"
 
 #: ../data/debug/subscripts/layna_forest_minimap_procedural_script.lua:380
-#: ../data/story/layna_forest/layna_forest_entrance_script.lua:392
+#: ../data/story/layna_forest/layna_forest_entrance_script.lua:394
 msgid ""
 "Have you seen one of these before? This is a Layna statue. Praying near it "
 "heals both your mind and body."
 msgstr "Na chunna tu ìomhaigh mar sin a-riamh? Seo ìomhaigh Duaine. Ma nì thu ùrnaigh faisg oirre gheibh d’ inntinn is bodhaig slànachadh."
 
 #: ../data/debug/subscripts/layna_forest_minimap_procedural_script.lua:382
-#: ../data/story/layna_forest/layna_forest_entrance_script.lua:394
+#: ../data/story/layna_forest/layna_forest_entrance_script.lua:396
 #, c-format
 msgid "Just stand in front of the goddess below the spring and push '%s'."
 msgstr "Seas air beulaibh na ban-dia aig bonn an tobair agus brùth air “%s.”"
 
 #: ../data/debug/subscripts/layna_forest_minimap_procedural_script.lua:384
-#: ../data/story/layna_forest/layna_forest_entrance_script.lua:396
+#: ../data/story/layna_forest/layna_forest_entrance_script.lua:398
 msgid "Ok, thanks."
 msgstr "Ceart ma-thà, mòran taing."
 
 #: ../data/debug/subscripts/layna_forest_minimap_procedural_script.lua:386
-#: ../data/story/layna_forest/layna_forest_entrance_script.lua:398
+#: ../data/story/layna_forest/layna_forest_entrance_script.lua:400
 msgid "See? Now, let's find my brother before he gets hurt."
 msgstr "’Eil thu agam? Nise, lorgamaid mo bhràthair mus dèid a leòn."
 
@@ -2158,7 +2163,7 @@ msgstr "Saighdear dubh"
 #: ../data/entities/enemies.lua:534
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:196
 msgid "Lord Banesore"
-msgstr "Am Morair Goirturbhaidh"
+msgstr "Goirturbhaidh"
 
 #: ../data/entities/enemies.lua:603 ../data/entities/map_sprites.lua:520
 msgid "Shroom"
@@ -2174,7 +2179,7 @@ msgstr "Sùil"
 
 #: ../data/entities/enemies.lua:696
 msgid "Harlequin?"
-msgstr "Cleasaiche-fanaid?"
+msgstr "Cleasaiche-fanaid, saoil?"
 
 #: ../data/entities/enemies.lua:752
 #: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:1066
@@ -2197,7 +2202,7 @@ msgstr "Radan"
 
 #: ../data/entities/enemies.lua:908
 msgid "Thing"
-msgstr "Nì"
+msgstr "Bèist"
 
 #: ../data/entities/enemies.lua:955
 msgid "Yeti"
@@ -2219,11 +2224,11 @@ msgstr "Dorbhair"
 #: ../data/entities/enemies.lua:1129 ../data/entities/map_sprites.lua:621
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_basement_script.lua:112
 msgid "Andromalius"
-msgstr "Andromalius"
+msgstr "Glaisrig"
 
 #: ../data/entities/enemies.lua:1182 ../data/entities/map_sprites.lua:369
 msgid "Ratto"
-msgstr "Radan-donn"
+msgstr "Radan sgreataidh"
 
 #: ../data/entities/enemies.lua:1235
 msgid "Scorpion"
@@ -2566,7 +2571,7 @@ msgstr "Seann-sheud a chaidh a dhèanamh le sàr-cheàird."
 
 #: ../data/inventory/head_armor.lua:52 ../data/inventory/items.lua:1067
 msgid "Wolfpain Necklace"
-msgstr "Seud-muineil pian madaidh-allaidh"
+msgstr "Seud pian madaidh"
 
 #: ../data/inventory/head_armor.lua:53 ../data/inventory/items.lua:1068
 msgid "A strange necklace with unknown powers."
@@ -2603,7 +2608,7 @@ msgstr "Deoch-slàinte bhìodach"
 
 #: ../data/inventory/items.lua:82
 msgid "Restores a small amount of hit points to an ally."
-msgstr "Tillidh i beagan phuingean-beatha dha chaidreabhach."
+msgstr "Tillidh i cuid bheag a phuingean-beatha dha chaidreabhach."
 
 #: ../data/inventory/items.lua:112
 msgid "Small Healing Potion"
@@ -2635,7 +2640,7 @@ msgstr "Deoch-gealaich bhìodach"
 
 #: ../data/inventory/items.lua:236
 msgid "Restores a small amount of skill points to an ally."
-msgstr "Tillidh i cuid a phuingean-comais dha chaidreabhach."
+msgstr "Tillidh i cuid bheag a phuingean-comais dha chaidreabhach."
 
 #: ../data/inventory/items.lua:266
 msgid "Small Moon Juice Potion"
@@ -2796,15 +2801,15 @@ msgstr "Stuth glodhach"
 
 #: ../data/inventory/items.lua:808
 msgid "Material provided by slimy creatures."
-msgstr "Stuth a sholaireas creutairean glodhach."
+msgstr "Stuth a bheir thu o chreutairean glodhach."
 
 #: ../data/inventory/items.lua:814
 msgid "Refined Slimy Material"
-msgstr "Stuth glodhach feabhasach"
+msgstr "Sàr-stuth glodhach"
 
 #: ../data/inventory/items.lua:815
 msgid "Quality material provided by slimy creatures."
-msgstr "Stuth le càileachd àrd a sholaireas creutairean glodhach."
+msgstr "Stuth le càileachd àrd a bheir thu o chreutairean glodhach."
 
 #: ../data/inventory/items.lua:821
 msgid "Insect Material"
@@ -2812,15 +2817,15 @@ msgstr "Stuth biastaige"
 
 #: ../data/inventory/items.lua:822
 msgid "Material provided by various insects."
-msgstr "Stuth a sholaireas biastagan."
+msgstr "Stuth a bheir thu o bhiastagan."
 
 #: ../data/inventory/items.lua:828
 msgid "Refined Insect Material"
-msgstr "Stuth biastaige feabhasach"
+msgstr "Sàr-stuth biastaige"
 
 #: ../data/inventory/items.lua:829
 msgid "Quality material provided by various insects."
-msgstr "Stuth le càileachd àrd a sholaireas biastagan."
+msgstr "Stuth le càileachd àrd a bheir thu o bhiastagan."
 
 #: ../data/inventory/items.lua:835
 msgid "Fur"
@@ -2829,7 +2834,7 @@ msgstr "Bian"
 #: ../data/inventory/items.lua:836 ../data/inventory/items.lua:885
 #: ../data/inventory/items.lua:913
 msgid "Material provided by various creatures."
-msgstr "Stuth a sholaireas caochladh de chreutairean."
+msgstr "Stuth a bheir thu o chaochladh de chreutairean."
 
 #: ../data/inventory/items.lua:842
 msgid "Soft Fur"
@@ -2837,7 +2842,7 @@ msgstr "Bian bog"
 
 #: ../data/inventory/items.lua:843
 msgid "Material provided by rare animals."
-msgstr "Stuth a sholaireas creutairean ainneamh."
+msgstr "Stuth a bheir thu o chreutairean ainneamh."
 
 #: ../data/inventory/items.lua:849
 msgid "Silver Fur"
@@ -2845,7 +2850,7 @@ msgstr "Bian airgid"
 
 #: ../data/inventory/items.lua:850
 msgid "Highly sought-after material provided by very special creatures."
-msgstr "Stuth glè phrìseil a sholaireas creutairean glè shònraichte."
+msgstr "Stuth glè phrìseil a bheir thu o chreutairean glè shònraichte."
 
 #: ../data/inventory/items.lua:856
 msgid "Saurian Material"
@@ -2853,15 +2858,15 @@ msgstr "Stuth laghairt"
 
 #: ../data/inventory/items.lua:857
 msgid "Material provided by various reptilians."
-msgstr "Stuth a sholaireas caochladh de laghairtean."
+msgstr "Stuth a bheir thu o chaochladh de laghairtean."
 
 #: ../data/inventory/items.lua:863
 msgid "Refined Saurian Material"
-msgstr "Stuth laghairt feabhasach"
+msgstr "Sàr-stuth laghairt"
 
 #: ../data/inventory/items.lua:864
 msgid "Quality material provided by various reptilians."
-msgstr "Stuth le càileachd àrd a sholaireas caochladh de laghairtean."
+msgstr "Stuth le càileachd àrd a bheir thu o chaochladh de laghairtean."
 
 #: ../data/inventory/items.lua:870
 msgid "Rodent Material"
@@ -2869,15 +2874,15 @@ msgstr "Stuth creimich"
 
 #: ../data/inventory/items.lua:871
 msgid "Material provided by small rodents."
-msgstr "Stuth a sholaireas creimich bheaga."
+msgstr "Stuth a bheir thu o chreimich bheaga."
 
 #: ../data/inventory/items.lua:877
 msgid "Refined Rodent Material"
-msgstr "Stuth creimich feabhasach"
+msgstr "Sàr-stuth creimich"
 
 #: ../data/inventory/items.lua:878
 msgid "Quality material provided by not-that-small rodents."
-msgstr "Stuth le càileachd àrd a sholaireas creimich nach eil cho beag sin."
+msgstr "Stuth le càileachd àrd a bheir thu o chreimich nach eil cho beag sin."
 
 #: ../data/inventory/items.lua:884
 msgid "Soft Powder"
@@ -2890,7 +2895,7 @@ msgstr "Sìoda"
 #: ../data/inventory/items.lua:892 ../data/inventory/items.lua:920
 #: ../data/inventory/items.lua:927
 msgid "Material provided by a few creatures."
-msgstr "Stuth a sholaireas cuid a chreutairean."
+msgstr "Stuth a bheir thu o chuid a chreutairean."
 
 #: ../data/inventory/items.lua:898
 msgid "Red Meat"
@@ -2898,7 +2903,7 @@ msgstr "Feòil dhearg"
 
 #: ../data/inventory/items.lua:899
 msgid "Material provided by warm-blooded creatures."
-msgstr "Stuth a sholaireas creutairean blàth-fhuileach."
+msgstr "Stuth a bheir thu o chreutairean blàth-fhuileach."
 
 #: ../data/inventory/items.lua:905
 msgid "Fish Meat"
@@ -2906,7 +2911,7 @@ msgstr "Feòil èisg"
 
 #: ../data/inventory/items.lua:906
 msgid "Material provided by various underwater creatures."
-msgstr "Stuth a sholaireas creutairean a dh’fhuiricheas san uisge."
+msgstr "Stuth a bheir thu o chreutairean a dh’fhuiricheas san uisge."
 
 #: ../data/inventory/items.lua:912
 msgid "White Meat"
@@ -3545,7 +3550,7 @@ msgstr "Bheir seo slàinte caidreabhaich air ais."
 
 #: ../data/skills/magic.lua:863
 msgid "Poison"
-msgstr "Puinsean"
+msgstr "Puinnsean"
 
 #: ../data/skills/magic.lua:864
 msgid "Inflicts poison on an enemy."
@@ -3724,7 +3729,8 @@ msgstr "Slige"
 msgid "Increases all elemental effects of one character."
 msgstr "Meudaichidh e gach buaidh dùileach air pearsa."
 
-#: ../data/skills/magic.lua:1298
+#. tr: Map sub-name
+#: ../data/skills/magic.lua:1298 map_names_tr.lua:122 map_names_tr.lua:272
 msgid "?"
 msgstr "?"
 
@@ -3758,7 +3764,7 @@ msgstr "Thèid am puinnsean air gach pearsa a leigheas."
 
 #: ../data/skills/special.lua:74
 msgid "Wolf Pain"
-msgstr "Pian madaidh-allaidh"
+msgstr "Pian madaidh"
 
 #: ../data/skills/special.lua:75
 msgid "Calls the defender of the arctic."
@@ -3975,7 +3981,7 @@ msgid ""
 "Once you or one of your allies has reached the action level, you can select "
 "an action for that ally. The battle is then paused and you've got all the "
 "time you need to select one, so don't panic."
-msgstr "Nuair a bhios tu fhèin no caidreabhach air ìre a’ gnìomha a ruigsinn, ’s urrainn dhut gnìomh a thaghadh dhan chaidreabhach sin. Thèid a’ chòmhrag a chur ’na stad agus bidh pailteas ùine agad gus gnìomh a thaghadh, mar sin gabh air do shocair."
+msgstr "Nuair a bhios tu fhèin no caidreabhach air ìre a’ gnìomha a ruigsinn, ’s urrainn dhut gnìomh a thaghadh dhan chaidreabhach sin. Thèid a’ chòmhrag a chur ’na stad an uairsin agus bidh pailteas ùine agad gus gnìomh a thaghadh, mar sin gabh air do shocair."
 
 #: ../data/story/common/tutorial_battle_dialogs.lua:86
 msgid ""
@@ -4025,7 +4031,7 @@ msgstr "Bhiodh sin coibhneil."
 
 #: ../data/story/common/tutorial_battle_dialogs.lua:102
 msgid "No, it's alright."
-msgstr "Chan innis, tha mi agad."
+msgstr "Chan innis, tha mi agaibh."
 
 #: ../data/story/common/tutorial_battle_dialogs.lua:106
 msgid "Don't worry Olivia, I have not forgotten my training."
@@ -4037,7 +4043,7 @@ msgstr "Mòran taing, Oighrig. Tha mi ullamh a-nis."
 
 #: ../data/story/common/tutorial_battle_dialogs.lua:112
 msgid "Good. I'll let you quickly dispatch this minor threat."
-msgstr "Glè mhath. Nach chuir thu às dhan chunnart bheag seo gu luath ma-thà?"
+msgstr "Glè mhath. Nach cuir thu às dhan chunnart bheag seo gu luath ma-thà?"
 
 #: ../data/story/layna_forest/layna_forest_cave1_1_script.lua:126
 msgid ""
@@ -4101,7 +4107,7 @@ msgstr "Thoireamaid sùil air an àite. ’S dòcha gum faigh sinn a-mach."
 
 #: ../data/story/layna_forest/layna_forest_cave1_2_script.lua:261
 msgid "Something heavy seems to have fallen nearby."
-msgstr "Tha coltas gun do thuit rudeigin am fagas."
+msgstr "Cha chreid mi nach cuala mi rudeigin trom a’ tuiteam."
 
 #: ../data/story/layna_forest/layna_forest_cave1_2_script.lua:290
 msgid ""
@@ -4126,8 +4132,8 @@ msgstr "Bhiodh… coma leat a-nis. Feumaidh sinn dòigh a lorg gus seo a ghluasa
 
 #: ../data/story/layna_forest/layna_forest_crystal_script.lua:455
 #: ../data/story/layna_forest/layna_forest_north_west_script.lua:729
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:332
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_basement_script.lua:215
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:332
 msgid "Orlinn!"
 msgstr "Odhrain!"
 
@@ -4285,7 +4291,7 @@ msgstr "’Eil thu ceart gu leòr? Bu chòir dhuinn tilleadh dhan a’ bhaile ac
 
 #: ../data/story/layna_forest/layna_forest_crystal_script.lua:674
 msgid "I still feel really dizzy, but I'll be ok."
-msgstr "Tha an tuainealach orm gu dona fhathast, ach bi mi ceart gu leòr."
+msgstr "Tha an tuainealach orm gu dona fhathast, ach bidh mi ceart gu leòr."
 
 #: ../data/story/layna_forest/layna_forest_crystal_script.lua:676
 msgid ""
@@ -4383,7 +4389,7 @@ msgid ""
 "Stamina (the bar on the bottom-right) is limited in dangerous areas.\n"
 "The more you run, the more you're exhausted and it can show in combat.\n"
 "Manage it well."
-msgstr "An robh fios agad?\nTha do smiodam (am bàr taobh clì aig a’ bhonn) cuingichte ann an cuid a sgìrean cunnartach.\nMar as fhaide a ruitheas tu ’s ann as truime a thig an sgithear ort agus mothaichidh tu sin sa chòmhrag.\nStiùirich gu seòlta e."
+msgstr "An robh fios agad?\nTha do smiodam (am bàr taobh clì aig a’ bhonn) cuingichte ann an cuid a sgìrean cunnartach.\nMar as fhaide a ruitheas tu ’s ann as truime a thig an sgithear ort agus mothaichidh tu sin sa chòmhrag.\nCleachd gu cùramach e."
 
 #: ../data/story/layna_forest/layna_forest_north_west_script.lua:741
 msgid "Orlinn, stop it RIGHT NOW!!"
@@ -4572,7 +4578,7 @@ msgstr "Na tarraing asam, chluinneamaid e a’ tighinn."
 
 #: ../data/story/layna_forest/layna_forest_wolf_cave_script.lua:314
 msgid "Ah, well. You were serious, weren't you?"
-msgstr "Uill uill, ’s ann nach robh thu a’ tarraing asam, an robh?"
+msgstr "Uill uill, ’s ann nach robh thu a’ tarraing asam aig deireadh na sgeòil!"
 
 #: ../data/story/layna_forest/layna_forest_wolf_cave_script.lua:338
 msgid ""
@@ -4697,12 +4703,12 @@ msgstr "Cuir ’na stad: %s"
 #: ../data/story/layna_village/in_game_move_and_interact_anim.lua:74
 #, c-format
 msgid "Quit Menu: %s"
-msgstr "Fàg an clàr-taice: %s"
+msgstr "Fàg clàr-taice: %s"
 
 #: ../data/story/layna_village/in_game_move_and_interact_anim.lua:77
 #, c-format
 msgid "Help Menu: %s"
-msgstr "Clàr-taice na cobharach: %s"
+msgstr "Cobhair: %s"
 
 #: ../data/story/layna_village/layna_village_bronanns_home_first_floor_script.lua:165
 msgid ""
@@ -4749,7 +4755,7 @@ msgstr "A mhàthair? Carson a chaidh inntrigeadh a’ bhaile a bhacadh?"
 msgid ""
 "All of the village elders' nerves are on edge. There is something going on "
 "here! Why won't you tell me?"
-msgstr "Tha seanairean a’ bhaile uile fo iomagain. Tha rudeigin a’ tachairt! Carson nach innis sibh dhomh?"
+msgstr "Tha seanairean a’ bhaile fo iomagain uile. Tha rudeigin a’ tachairt! Carson nach innis sibh dhomh?"
 
 #: ../data/story/layna_village/layna_village_bronanns_home_script.lua:280
 msgid "Bronann, there is something we, your mother and I, have to tell you."
@@ -4788,7 +4794,7 @@ msgstr "A laochain! An d’fhuair thu cadal sèimh? Nise, cà na chuir mi an t-o
 
 #: ../data/story/layna_village/layna_village_bronanns_home_script.lua:417
 msgid "Hi Dad! Um, I don't know. Sorry."
-msgstr "Athair! Chuir… chan eil fhios a’am. Duilich."
+msgstr "Athair! Chuir sibh… chan eil fhios a’am. Duilich."
 
 #: ../data/story/layna_village/layna_village_bronanns_home_script.lua:419
 msgid "Nah, no problem, I'll find it somewhere, eventually."
@@ -4804,7 +4810,7 @@ msgstr "Seo rudeigin a bha fiughair agad ris. Trobhad is seallaidh mi dhut."
 
 #: ../data/story/layna_village/layna_village_bronanns_home_script.lua:443
 msgid "Today, you're going to help Olivia with this."
-msgstr "Cuidichidh tu Oighrig le seo an-diugh."
+msgstr "Gabh seo ’s cuidichidh tu Oighrig an-diugh."
 
 #: ../data/story/layna_village/layna_village_bronanns_home_script.lua:452
 msgid "Wow, your practice sword. Many thanks Dad."
@@ -4814,7 +4820,7 @@ msgstr "A shaoghail, an claidheamh trèanaidh agaibh. Mòran taing, athair."
 msgid ""
 "Your mother and I believe you've now grown enough to start dealing with the "
 "critters around the village."
-msgstr "Tha do mhàthair ’s mi fhìn dhen bheachd gun d’ ràinig thu an ìre as urrainn dèiligeadh ris na creutairean mu thimcheall a’ bhaile."
+msgstr "Tha do mhàthair ’s mi fhìn dhen bheachd gun d’ ràinig thu an ìre as urrainn dhut cuidhteas fhaighinn dhe na creutairean a chuireas dragh air a’ bhaile."
 
 #: ../data/story/layna_village/layna_village_bronanns_home_script.lua:467
 msgid "Go see Olivia. She will explain everything to you."
@@ -4863,7 +4869,7 @@ msgstr "Shin thu m’ eudail, an robh trom-laighe ort a-rithist a-raoir?"
 
 #: ../data/story/layna_village/layna_village_bronanns_home_script.lua:547
 msgid "Hi mom. Huh, how did you know?"
-msgstr "A mhàthair. Saoil ciamar a tha fhios agaibh?"
+msgstr "A mhàthair. Ciamar fon ghrèin a tha fhios agaibh?"
 
 #: ../data/story/layna_village/layna_village_bronanns_home_script.lua:549
 msgid "Eh eh? Have you already forgotten that I'm your mother?"
@@ -4916,7 +4922,7 @@ msgstr "A Chaoimhe?!"
 
 #: ../data/story/layna_village/layna_village_center_at_night_script.lua:297
 msgid "Let go of me! You cheap low-grade filthy jerks."
-msgstr "Leig mi! Amadain shaor shalach."
+msgstr "Leigibh mi! Amadain shaor shalach."
 
 #: ../data/story/layna_village/layna_village_center_at_night_script.lua:299
 msgid "Keep quiet, little brat!"
@@ -4967,7 +4973,7 @@ msgstr "A bheil thu seachd searbh dhen choiseachd?\nCùm sìos an iuchair sguir 
 
 #: ../data/story/layna_village/layna_village_center_script.lua:368
 msgid "Hmm, I'll go to Flora's shop. I hope she'll help me."
-msgstr "An-dà, thèid mi gu bùth Flòraidh. Tha mi ’n dòchas gun cuidich i mi."
+msgstr "Saoil an dèid mi gu bùth Flòraidh? Tha mi ’n dòchas gun cuidich i mi."
 
 #: ../data/story/layna_village/layna_village_center_script.lua:410
 msgid "ORLINN! Come here, NOW!"
@@ -4989,7 +4995,7 @@ msgstr "Lorg mi am peann ud fo chraobh faisg air an abhainn. Cha robh mi ach air
 #: ../data/story/layna_village/layna_village_kalya_house_path_script.lua:142
 #: ../data/story/layna_village/layna_village_riverbank_script.lua:321
 msgid "Don't worry about it."
-msgstr "Tha sin ceart gu leòr."
+msgstr "Chan e cus trioblaid a bh’ ann."
 
 #: ../data/story/layna_village/layna_village_center_script.lua:463
 msgid "What was this?"
@@ -5071,7 +5077,7 @@ msgstr "A Bhreannain, bu chòir dhut dol còmhla rithe."
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:642
 #: ../data/story/layna_village/layna_village_riverbank_script.lua:507
 msgid "What?!"
-msgstr "B’ àill leibh?!"
+msgstr "Gu dè?!"
 
 #: ../data/story/layna_village/layna_village_center_script.lua:544
 msgid "Carson is right, Kalya. Bronann shall go with you."
@@ -5105,7 +5111,7 @@ msgstr "Thèid ma-thà ge b’ oil leam."
 msgid ""
 "Now go, my son. I'll explain it to you once it is all finished. I trust you "
 "will succeed."
-msgstr "Siuthad ’s fhalbh, a sheòid. Mìnichidh mi dhut e nuair a bhios sinn seachad air. Tha mi cinnteach gun dèid leat."
+msgstr "Siuthad ’s fhalbh, a sheòid. Mìnichidh mi a h-uile càil dhut nuair a bhios sinn seachad air seo. Tha mi cinnteach gun soirbhich leat."
 
 #: ../data/story/layna_village/layna_village_center_script.lua:582
 msgid "Thanks dad, we'll find him in no time."
@@ -5125,7 +5131,7 @@ msgstr "Ceart ma-thà, thèid sinn ann còmhla. Ach ma chuireas tu maille orm, b
 
 #: ../data/story/layna_village/layna_village_center_script.lua:616
 msgid "Don't worry, we'll find him. Ok?"
-msgstr "Na gabh dragh, lorgaidh sinn e. Ceart ma-thà?"
+msgstr "Na gabh dragh, lorgaidh sinn e gu cinnteach."
 
 #: ../data/story/layna_village/layna_village_center_script.lua:633
 msgid "Kalya joins your party!"
@@ -5273,7 +5279,7 @@ msgstr "Faighnich dha ’r càirdean sa bhaile, ’s dòcha gum faca cuideigin e
 #: ../data/story/layna_village/layna_village_center_script.lua:888
 #: ../data/story/layna_village/layna_village_center_script.lua:904
 msgid "(sigh...) Hmm, fine. I'll have a look."
-msgstr "(osna)… Ceart ma-thà, bheir mi sùil air."
+msgstr "(osna)… Ceart ma-thà, bheir mi sùil a-mach air a shon."
 
 #: ../data/story/layna_village/layna_village_center_script.lua:894
 msgid "Oh Bronann, sad is the poet today."
@@ -5368,7 +5374,7 @@ msgstr "Flòraidh"
 
 #: ../data/story/layna_village/layna_village_center_shop_script.lua:148
 msgid "Just find Lilly and he should give you some barley meal, ok?"
-msgstr "Cha leig thu leas ach Ròs a lorg agus bheir e beagan min-eòrna dhut."
+msgstr "Cha leig thu leas ach Ròs a lorg agus bheir i beagan min-eòrna dhut."
 
 #: ../data/story/layna_village/layna_village_center_shop_script.lua:150
 #: ../data/story/layna_village/layna_village_center_shop_script.lua:168
@@ -5386,7 +5392,7 @@ msgstr "A Fhlòraidh! ’Eil min-eòrna agaibh fhathast?"
 
 #: ../data/story/layna_village/layna_village_center_shop_script.lua:160
 msgid "Oh sorry, our mayor came earlier and took all the rest of it."
-msgstr "Och, tha mi duilich ach thàinig an t-àrd-bhàillidh againn roimhe agus thug e na bha air fhàgail dhith."
+msgstr "Och, tha mi duilich ach thog an t-àrd-bhàillidh againn na bha air fhàgail dhith mu thràth."
 
 #: ../data/story/layna_village/layna_village_center_shop_script.lua:162
 msgid "Times are becoming harder now. We've got less food than before."
@@ -5425,7 +5431,7 @@ msgstr "Chan… chan urrainn dhomh. Mo bhodhaig… Ochan!"
 
 #: ../data/story/layna_village/layna_village_kalya_house_path_at_night_script.lua:205
 msgid "You can do it. Bronann..."
-msgstr "Nì thu a’ chùis air. A Bhreannain…"
+msgstr "Tha thu suas ris. A Bhreannain…"
 
 #: ../data/story/layna_village/layna_village_kalya_house_path_at_night_script.lua:207
 msgid "Bronann! Move!"
@@ -5441,7 +5447,7 @@ msgstr "Taghta! Tiugainn a-nist!"
 
 #: ../data/story/layna_village/layna_village_kalya_house_path_at_night_script.lua:231
 msgid "There must be soldiers everywere, we're never gonna make it."
-msgstr "Feumaidh gu bheil saighdearan air feadh an àite, cha dèid leinn idir."
+msgstr "Feumaidh gu bheil saighdearan air feadh an àite, cha teich sinn idir."
 
 #: ../data/story/layna_village/layna_village_kalya_house_path_at_night_script.lua:233
 msgid "This town has many secrets."
@@ -5578,7 +5584,7 @@ msgstr "Tha mi tro chèile. Thachair tòrr an ùine glè bheag."
 msgid ""
 "The soldiers will be here any minute. We'll leave to the north and cross the"
 " north-west plain up to..."
-msgstr "Thig na saighdearan oirnn an ceartuair. Thèid sinn gu tuath ’s thar a’ bhlàir shiar-thuath gu ruige…"
+msgstr "Thig na saighdearan oirnn an ceartuair. Thèid sinn gu tuath ’s thar a’ bhlàir shiar-thuaith gu ruige…"
 
 #: ../data/story/layna_village/layna_village_kalya_house_script.lua:235
 msgid "No."
@@ -5618,7 +5624,7 @@ msgstr "A Bhreannain, ’s ann…"
 msgid ""
 "Enough! You hid everything from me just like everyone else. You're a liar! I"
 " won't be manipulated anymore!"
-msgstr "Fòghnaidh dhe seo! Dh’fhalaich thu a h-uile rud uam mar na dh’fhalaich a h-uile duine eile. ’S e breugaire a th’ annad! Cha stiùir sibh mi tuilleadh!"
+msgstr "Tha mi seachd searbh! Dh’fhalaich thu a h-uile rud uam mar a dh’fhalaich a h-uile duine eile. ’S e breugaire a th’ annad! Cha stiùir sibh mi tuilleadh!"
 
 #: ../data/story/layna_village/layna_village_kalya_house_script.lua:253
 msgid "Bronann, you'll get everything explained in time, I..."
@@ -5626,7 +5632,7 @@ msgstr "A Bhreannain, mìnichidh sinn a h-uile rud dhut nuair a thig an t-àm, t
 
 #: ../data/story/layna_village/layna_village_kalya_house_script.lua:255
 msgid "No! I won't go unless you tell me the truth now!"
-msgstr "Cha dèid mi còmhla riut ach ma dh’innseas tu an fhìrinn rium an-dràsta!"
+msgstr "Cha dèid mi còmhla riut ach ma dh’innseas tu an fhìrinn rium an-dràsta fhèin!"
 
 #: ../data/story/layna_village/layna_village_kalya_house_script.lua:257
 msgid "... Fine."
@@ -5652,7 +5658,7 @@ msgstr "Dh’ullaich Taog mi airson an dearbh latha seo fad mo bheatha."
 msgid ""
 "He trained me, taught me magic, and told me the crystal would appear one "
 "day."
-msgstr "Thug e oideachadh dhomh is dh’ionnsaich e draoidheachd dhomh agus dh’innis e dhomh gun digeadh an latha a nochdas an criostal."
+msgstr "Thug e oideachadh dhomh is dh’ionnsaich e draoidheachd dhomh agus dh’innis e dhomh gun digeadh an latha a nochdadh an criostal."
 
 #: ../data/story/layna_village/layna_village_kalya_house_script.lua:271
 msgid ""
@@ -5689,7 +5695,7 @@ msgstr "Feumaidh…"
 #: ../data/story/layna_village/layna_village_kalya_house_script.lua:285
 #: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:279
 msgid "Sis!"
-msgstr "A peathar!"
+msgstr "A pheathar!"
 
 #: ../data/story/layna_village/layna_village_kalya_house_script.lua:301
 msgid "Sis! They're in front of the house!"
@@ -5709,7 +5715,7 @@ msgstr "Cha till sinn an-seo nuair a bhios sinn air fhàgail. Tog na dh’fheuma
 msgid ""
 "Wait! There is one more thing. Why are you calling your own father by his "
 "actual name?"
-msgstr "Fuirich ort! Aon rud eile. Carson a chuireas tu ainm fhèin air d’ athair?"
+msgstr "Fuirich ort! Aon rud eile. Carson a chuireas sibh ainm fhèin air ur n-athair?"
 
 #: ../data/story/layna_village/layna_village_kalya_house_script.lua:309
 msgid "That's because he's not our father."
@@ -5767,7 +5773,7 @@ msgstr "Chan urrainn dhomh tilleadh a-nis."
 msgid ""
 "Guards are carefully watching their surroundings. I need to get closer to "
 "see what's happening."
-msgstr "Tha geàird a’ dèanamh faire air na tha timcheall orra. Feumaidh mi teannadh air ach am faic mi na tha a’ tachairt."
+msgstr "Tha geàird a’ dèanamh faire air na tha timcheall orra. Feumaidh mi teannadh a-null ach am faic mi dè tha a’ tachairt."
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:357
 msgid "I should be able to sneak through when they're not watching."
@@ -5815,18 +5821,18 @@ msgstr "Mar a dh’innis mi dhut a-rithist ’s a-rithist roimhe, a Ghoirturbhai
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:421
 msgid "It is 'Lord Banesore', you scum!"
-msgstr "’S e “A’ Mhorair Ghoirturbhaidh” a th’ ann, a shalchair!"
+msgstr "’S e “A Mhorair Ghoirturbhaidh” a th’ ann, a shalchair!"
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:423
 msgid ""
 "Even when confronted by someone who can wipe out everything you hold dear, "
 "you dare to stare me in the eyes? I admire such a courageous heart, my dear "
 "one."
-msgstr "A dh’aindeoin ’s gu bheil cuideigin ’nad aghaidh a tha comasach air a h-uile càil a tha prìseil dhut a mhilleadh, tha a chridhe agad a’ dùr-bheachdachadh orm! Mo mholadh air do chridhe a tha cho dàna sin."
+msgstr "A dh’aindeoin ’s gu bheil cuideigin ’nad aghaidh a tha comasach air a h-uile càil a tha prìseil dhut a mhilleadh, tha a’ chridhe agad a’ dùr-bheachdachadh orm! Mo mholadh air do chridhe a tha cho dàna sin."
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:425
 msgid "Therefore, I'm inclined to ask these questions one last time:"
-msgstr "Leis a sin, cuiridh mi na ceistean seo ort aon turas eile is seo an turas mu dheireadh:"
+msgstr "Air an adhbhar sin, cuiridh mi na ceistean seo ort aon turas eile agus seo an turas mu dheireadh:"
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:427
 msgid "Where is the crystal? Where is the boy?"
@@ -5882,7 +5888,7 @@ msgstr "Fàgaibh i! Marbhaibh mise ’na h-àite."
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:472
 msgid "So, here we have a gentleman! I'll start with you, then."
-msgstr "Sin sin, seo duine-uasail dhuinn! Tòisichidh mi leat-sa ma-thà."
+msgstr "Sin sin, abair thusa gu bheil duine-uasail againn! Tòisichidh mi leat-sa ma-thà."
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:474
 msgid "Fine."
@@ -5898,7 +5904,7 @@ msgstr "A dheamhain shalaich!"
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:480
 msgid "It's fine, I'll come."
-msgstr "Tha sin ceart gu leòr, thig mise ann."
+msgstr "Tha sin ceart gu leòr, thèid mi ann."
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:482
 #: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:287
@@ -5951,7 +5957,7 @@ msgstr "Ach tha gu dearbh. Tha mi ’ga fhaireachdainn ’nad fheòil."
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:558
 msgid "So, the crystal is inside me?"
-msgstr "A bheil agus an criostal ’nam bhroinn?"
+msgstr "An e ’s gu bheil an criostal ’nam bhroinn?"
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:560
 msgid "Now, show it to me."
@@ -5965,7 +5971,7 @@ msgstr "Ach…"
 msgid ""
 "Do you need some kind of motivation? If so, let me handle this with my "
 "greatest pleasure!"
-msgstr "A bheil barrachd brosnachaidh a dhìth ort? Ma tha, bhithinn-sa glè thoilichte seo a chur air dòigh dhut!"
+msgstr "A bheil barrachd brosnachaidh a dhìth ort? Ma thà, bhithinn-sa glè thoilichte seo a chur air dòigh dhut!"
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:566
 msgid "Prepare yourself!"
@@ -6000,7 +6006,7 @@ msgstr "Chan urrainn ach dhàsan fhaighinn na tha mi a’ sireadh."
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:648
 msgid "Soldiers! Give them a few minutes before starting the chase."
-msgstr "A shaighdearaibh! Thoiribh greis dhaibh mus dèid sibh an toir orra."
+msgstr "A shaighdearaibh! Thoiribh greis dhaibh mus dèid sibh nan toir."
 
 #: ../data/story/layna_village/layna_village_riverbank_at_night_script.lua:650
 msgid "Yes, my Lord!"
@@ -6201,7 +6207,7 @@ msgstr "Fire faire! An saoil sibh gun dig iad an-seo?"
 #: ../data/story/layna_village/layna_village_south_entrance_script.lua:111
 #: ../data/story/layna_village/layna_village_south_entrance_script.lua:116
 msgid "It's a possibility. But don't worry too much, ok?"
-msgstr "Dh’fhaoidte gun dig. Ach na gabh cus dragh mu dhèidhinn, ceart gu leòr?"
+msgstr "Dh’fhaoidte gun dig. Ach na gabh cus dragh mu dhèidhinn, a bhalaich!"
 
 #: ../data/story/layna_village/layna_village_south_entrance_script.lua:262
 msgid "Yiek! Hey, you scared me."
@@ -6216,7 +6222,7 @@ msgid ""
 "Did you know?\n"
 "You can equip weapons and armors from the menu.\n"
 "Simply open it and go to 'Inventory', and 'Equip'."
-msgstr "An robh fios agad?\n’S urrainn dhut You can airm ’s armachd uidheamachadh on chlàr-taice.\nFosgail e is rach gu “Tasgadh” agus “Uidheamaich.”"
+msgstr "An robh fios agad?\n’S urrainn dhut airm ’s armachd uidheamachadh on chlàr-taice.\nFosgail e is rach gu “Tasgadh” agus “Uidheamaich.”"
 
 #: ../data/story/layna_village/layna_village_well_underground_script.lua:227
 msgid "Congratulations, Bronann. Here is your reward."
@@ -6224,7 +6230,7 @@ msgstr "Meal do naidheachd, a Bhreannain. Seo do dhuais."
 
 #: ../data/story/layna_village/layna_village_well_underground_script.lua:294
 msgid "You can come, Bronann."
-msgstr "Faodaidh tu tighinn, a Bhreannain."
+msgstr "Trobhad, a Bhreannain."
 
 #: ../data/story/layna_village/layna_village_well_underground_script.lua:304
 msgid "This is one of the many secrets of this village."
@@ -6234,7 +6240,7 @@ msgstr "Seo fear de na rùintean-dìomhair a tha pailt sa bhaile seo."
 msgid ""
 "This village was once a sanctuary and many people lived around here. "
 "Surprising, eh?"
-msgstr "Bhiodh am baile seo ’na comraich uair agus bhiodh mòran dhaoine a’ fuireach an-seo. Nach iongantach sin?"
+msgstr "Bhiodh am baile seo ’na chomraich uair agus bhiodh mòran dhaoine a’ fuireach an-seo. Nach iongantach sin?"
 
 #: ../data/story/layna_village/layna_village_well_underground_script.lua:308
 msgid "Your father told me you were now ready."
@@ -6252,13 +6258,13 @@ msgstr "A’ chiad fhìor-dhùbhlan agad."
 msgid ""
 "I know I will sound harsh Bronann, but we've been having issues with rats in"
 " the well recently."
-msgstr "Tha mi duilich gu bheil coltas cruaidh orm ach tha duilgheadasan air a bhith againn le radanan san tobair."
+msgstr "Tha mi duilich gu bheil coltas cruaidh orm ach tha duilgheadasan air a bhith againn le radanan san tobar."
 
 #: ../data/story/layna_village/layna_village_well_underground_script.lua:316
 msgid ""
 "You're now going to go deep down this cave and chase them all before they "
 "start polluting our water."
-msgstr "Thèid thu sìos dhan uamh dhomhainn a-nis achd sealgaidh tu iad mus tòisich iad air an t-uisge againn a thruailleadh."
+msgstr "Thèid thu sìos dhan uamh dhomhainn a-nis agus sealgaidh tu iad mus tòisich iad air an t-uisge againn a thruailleadh."
 
 #: ../data/story/layna_village/layna_village_well_underground_script.lua:318
 msgid "All by yourself."
@@ -6268,7 +6274,7 @@ msgstr "Leat fhèin."
 msgid ""
 "I'll stay around but I won't participate. This... will prepare you for the "
 "days to come."
-msgstr "Fuirichidh mi am fagas ach cha chuidich mi. Ullaichidh seo thu … airson na h-ama ri teachd."
+msgstr "Fuirichidh mi am fagas ach cha chuidich mi thu. Ullaichidh seo thu… airson na bhios romhad fhathast."
 
 #: ../data/story/layna_village/layna_village_well_underground_script.lua:322
 msgid "Take this lamp, your father gave it to me earlier. You can keep it."
@@ -6286,7 +6292,7 @@ msgstr "Tha an dubh-eagal orm, Oighrig. Carson an-dràsta?"
 
 #: ../data/story/layna_village/layna_village_well_underground_script.lua:331
 msgid "It will be fine."
-msgstr "Bi thu ceart gu leòr."
+msgstr "Bidh thu ceart gu leòr."
 
 #: ../data/story/layna_village/layna_village_well_underground_script.lua:341
 msgid "You can make it."
@@ -6294,7 +6300,7 @@ msgstr "Nì thu a’ chùis air."
 
 #: ../data/story/layna_village/layna_village_well_underground_script.lua:456
 msgid "Bronann. Sorry, you have to complete this first."
-msgstr "A Bhreannain. Tha mi duilich ach feumaidh tu seo a choileanadh an toiseach."
+msgstr "A Bhreannain. Tha mi duilich ach feumaidh tu d’ obair a choileanadh an toiseach."
 
 #: ../data/story/layna_village/layna_village_well_underground_script.lua:458
 msgid "You can use the fountain here to restore your health."
@@ -6318,7 +6324,7 @@ msgid ""
 "Welcome to my shop, then! \n"
 "First of all you can choose to either 'Buy' or 'Sell' items from the top menu right here... \n"
 "'Trade' is for special offers that don't only cost money."
-msgstr "Fàilte dhan bhùth agam ma-thà! \nAn toiseach, tagh a bheil thu airson nithean a “cheannach” no a “reic” aig a’ bhàrr… \nTha “iomlaidich” airson tairgsean sònraichte a chosgas barrachd air airgead."
+msgstr "Fàilte dhan bhùth agam ma-thà! \nAn toiseach, tagh aig a’ bhàrr co-dhiù an “ceannaich” no an “reic” thu nithean… \nTha “iomlaidich” airson tairgsean sònraichte a chosgas barrachd air airgead."
 
 #: ../data/story/layna_village/tutorial_shop_dialogs.lua:78
 msgid ""
@@ -6394,7 +6400,7 @@ msgstr "An leum sinn?"
 #: ../data/story/mt_elbrus/mt_elbrus_cave1_script.lua:178
 #: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:379
 msgid "Yes, let's go."
-msgstr "Leumaidh."
+msgstr "Seadh."
 
 #: ../data/story/mt_elbrus/mt_elbrus_cave1_script.lua:153
 #: ../data/story/mt_elbrus/mt_elbrus_cave1_script.lua:180
@@ -6423,7 +6429,7 @@ msgstr "Am fairich thu an toth ud?"
 
 #: ../data/story/mt_elbrus/mt_elbrus_north_east_exit_script.lua:210
 msgid "Yes. Is it... smoke?"
-msgstr "Fairichidh. Dè th’ ann… toit?"
+msgstr "Fairichidh. An e… toit a th’ ann?"
 
 #: ../data/story/mt_elbrus/mt_elbrus_north_east_exit_script.lua:212
 msgid "Something's burning."
@@ -6459,11 +6465,11 @@ msgstr "A h-uile càil seo airson criostal, an robh?"
 
 #: ../data/story/mt_elbrus/mt_elbrus_north_east_exit_script.lua:257
 msgid "I'll fix this."
-msgstr "Càirichidh mi seo."
+msgstr "Feumaidh mi seo a chur ceart."
 
 #: ../data/story/mt_elbrus/mt_elbrus_north_east_exit_script.lua:259
 msgid "If this crystal is so powerful, then I'll use it. And I'll fix this."
-msgstr "Ma tha an criostal seo cho cumhachdach, cleachdaidh mi e. Agus càirichidh mi seo."
+msgstr "Ma tha an criostal seo cho cumhachdach, cleachdaidh mi e. Agus cuiridh mi ceart e."
 
 #: ../data/story/mt_elbrus/mt_elbrus_north_east_exit_script.lua:269
 msgid "Then, I'll help you."
@@ -6519,7 +6525,9 @@ msgstr "Na caill d’ earbsa, a Chaoimhe. Ma thèid leinn teicheadh on a sheo, b
 msgid "If we can reach the great plains, we should indeed be out of trouble."
 msgstr "Ma ruigeas sinn an raonach mòr, bu chòir dhuinn a bhith sàbhailte."
 
-#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:256
+#. tr: Map sub-name
+#: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:256 map_names_tr.lua:10
+#: map_names_tr.lua:160
 msgid "???"
 msgstr "???"
 
@@ -6527,17 +6535,17 @@ msgstr "???"
 msgid ""
 "This place is the village's old cemetery. It was used by the former "
 "villagers who lived in Layna."
-msgstr "Seo seann-chladh a’ bhaile. Bhiodh na daoine a dh’fhuiricheadh ann an Duaine ’ga chleachdadh."
+msgstr "Seo seann-chladh a’ bhaile. Bhiodh na daoine a b’ àbhaist a bhith a’ fuireach ann an Duaine ’ga chleachdadh."
 
 #: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:559
 msgid "The former villagers? What do you mean?"
-msgstr "Na daoine a dh’fhuiricheadh ann… dè tha sin a’ ciallachadh?"
+msgstr "Na daoine a b’ àbhaist a bhith a’ fuireach ann… dè tha sin a’ ciallachadh?"
 
 #: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:561
 msgid ""
 "Layna Village was abandoned a long time ago, before your parents and all the"
 " others settled here. Your mother never told you that?"
-msgstr "Chaidh Baile Duaine a thrèigsinn o chionn fhada mus do ghabh do phàrantan is càch còmhnaidh an-seo. Nach do dh’innis do mhàthair dhut mu dhèidhinn a-riamh?"
+msgstr "Chaidh Baile Duaine a thrèigsinn o chionn fhada mus do ghabh do phàrantan is càch còmhnaidh ann. Nach do dh’innis do mhàthair dhut mu dhèidhinn a-riamh?"
 
 #: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:563
 msgid ""
@@ -6547,7 +6555,7 @@ msgstr "Cha robh mi cho fad air falbh on bhaile às aonais Thaoig a-riamh. Tha a
 
 #: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:567
 msgid "Anyway, once the cemetery is behind us we should be out of trouble!"
-msgstr "Co-dhiù no co-dheth, nuair a thig sinn seachad air a’ chladh, bu chòir dhuinn a bhith sàbhailte!"
+msgstr "Co-dhiù no co-dheth, nuair a gheibh sinn seachad air a’ chladh, bu chòir dhuinn a bhith sàbhailte!"
 
 #: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:586
 msgid "Are those the soldiers up there?"
@@ -6593,7 +6601,7 @@ msgstr "Bheir mi ur n-anman dhan mhaighstir. Chan eil cothrom na Fèinne agaibh 
 
 #: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:693
 msgid "But let's play together first, shall we?"
-msgstr "Ach cluichidh sinn beagan an toiseach, nach cluich?"
+msgstr "Ach cluichidh sinn greis an toiseach, nach cluich?"
 
 #: ../data/story/mt_elbrus/mt_elbrus_path3_script.lua:695
 msgid "Now catch me, if you can."
@@ -6631,11 +6639,11 @@ msgstr "Tiugainn gun dàil. Chan eil mi a’ faireachdainn m’ òrdagan tuillea
 
 #: ../data/story/mt_elbrus/mt_elbrus_path4_script.lua:276
 msgid "(Woah, this bridge doesn't look very sturdy.)"
-msgstr "(Thoir an aire, chan eil coltas glè threun air an drochaid seo.)"
+msgstr "(Thoiribh an aire, chan eil coltas glè threun air an drochaid seo.)"
 
 #: ../data/story/mt_elbrus/mt_elbrus_path4_script.lua:278
 msgid "Well, here we go."
-msgstr "Uill, tiugainn."
+msgstr "Uill, tiugainn ma-thà."
 
 #: ../data/story/mt_elbrus/mt_elbrus_path4_script.lua:290
 msgid "There!"
@@ -6695,241 +6703,13 @@ msgid ""
 " gap."
 msgstr "Dh’fhalbh iad. Bu chòir dhuinn dol air adhart mus lorg iad dòigh air an dig iad thairis air a’ bheàrn."
 
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:273
-msgid ""
-"You'll see. There's plenty of things I need to show you there. Plus, it's a "
-"safe place."
-msgstr "Tuigidh tu a dh’aithghearr. Tha iomad rud an-seo a dh’fheumas mi sealltainn dhut. A bharrachd air sin, ’s e àite sàbhailte a th’ ann."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:275
-msgid "Err, sis?"
-msgstr "An-dà, a phiuthar?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:277
-msgid ""
-"Our elder will also be able to help us. And you'll get a better explanation "
-"than I could ever..."
-msgstr "Cuidichidh an seanair sinn. Agus gheibh thu mìneachadh nas fheàrr na b’ urrainn dhomh fhìn…"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:281
-msgid "One second, Orlinn. I'm trying to..."
-msgstr "Fuirich greis, Odhrain. Tha mi a’ feuchainn ri…"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:283
-msgid "But Kalya, look at the passageway!"
-msgstr "Ach a Chaoimhe, seall air an trannsa!"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:285
-msgid "What about the..."
-msgstr "Dè mu dhèidhinn…"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:301
-msgid "No, it can't be."
-msgstr "Och, cha chreid mi e."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:303
-msgid "After all we've been through, this..."
-msgstr "Às dèidh na dh’fhulaing sinn, tha…"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:318
-msgid "Calm down Kalya, there must be a way to go through this somehow."
-msgstr "Air do shocair, a Chaoimhe, feumaidh gu bheil slighe troimhe air choireigin ann."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:320
-msgid "Unfortunately, yes. There is one."
-msgstr "Gu mì-fhortanach, thà."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:322
-msgid "We'll have to enter the ancient shrine."
-msgstr "Feumaidh sinn dol a-steach dhan naomh-chiste àrsaidh."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:324
-msgid ""
-"If we wouldn't have gotten here all by ourselves, I would swear Banesore's "
-"army pushed us here on purpose."
-msgstr "Mura robh sinn air an t-àite seo a ruigsinn leinn fhìn, bhithinn-sa cinnteach gun do stiùirich feachd Ghoirturbhaidh sinn ann a dh’aona-ghnothaich."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:326
-msgid "What's with this 'ancient shrine'?"
-msgstr "Dè mu dhèidhinn na “naomh-chiste àrsaidh”?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:328
-msgid ""
-"Some say it is haunted. It was sealed a long time ago, long before I was "
-"even born."
-msgstr "Tha cuid ag ràdh gu bheil tàbharnadh air. Chaidh a seuladh o chionn fhada fhada mus rugadh mi."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:330
-msgid "Indeed, it must be a long time ago."
-msgstr "Feumaidh gur e o chionn fhada a bh’ ann."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:334
-msgid ""
-"Anyway, we might not be able to enter there at all. But you're right, let's "
-"have a look around first. Who knows?"
-msgstr "Gidheadh, ’s dòcha nach dèid leinn dol a-steach idir. Ach tha thu ceart, bu chòir dhuinn sùil a thoirt air an àite seo an toiseach. Cò aig’ a tha fhios?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:370
-msgid ""
-"Here we are, looking at this huge and wonderful, yet creepy door. I don't "
-"like this."
-msgstr "Seo sinne a’ coimhead air an doras mhìorbhaileach mhòr ach uamhalta. Cha toigh leam e."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:372
-msgid ""
-"It's not like I actually want to open this, but how are we going to do so?"
-msgstr "Chan ann gu bheil mi deònach air fhosgladh, ach ciamar a nì sinn seo?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:381
-msgid "Ow, my chest. It hurts!"
-msgstr "Oich, m’ uchd. Tha e goirt!"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:383
-msgid "The crystal! Orlinn! Let's stand back!"
-msgstr "An criostal! Odhrain! Cumaidh sinn air falbh!"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:403
-msgid "That sign, it is the sign of the ancients! Bronann! Are you alright?"
-msgstr "An sanas ud, ’s e sanas nan sinnsearan a th’ ann. A Bhreannain! ’Eil thu ceart gu leòr?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:413
-msgid "I'm fine, I guess. The pain faded away."
-msgstr "Saoilidh mi gu bheil. Dh’fhalbh am pian."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:415
-msgid "Thank the goddess."
-msgstr "Taing dhan bhan-dia."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:417
-msgid "Well, the door is open now."
-msgstr "Uill, tha an doras fosgailte a-nis."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:419
-msgid "Yiek! Do you really want to go there??"
-msgstr "Iochd! A bheil sibh airson dol ann dha-rìribh??"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:421
-msgid ""
-"I believe we don't really have a choice. Somehow this place... called me."
-msgstr "Cha chreid mi gu bheil roghainn againn. Ann an dòigh … dh’iarr an t-àite seo fhèin mi."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:423
-msgid "Anyway, let's stick together and we'll be fine as always, right?"
-msgstr "Co-dhiù no co-dheth, cumaidh sinn an làimh a chèile is bidh sinn ceart gu leòr mar as àbhaist, nach bi?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:425
-msgid "I have a bad feeling about all this now."
-msgstr "Tha mi a’ faireachdainn dona mu dhèidhinn a-nis."
-
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua:137
 msgid "Phew, this one sure is heavier and more sturdy."
-msgstr "Ò ghiall, tha an tè seo nas truime treasa."
+msgstr "Ò ghiall, tha an tè seo nas truime buileach."
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_2nd_s2_script.lua:384
 msgid "I can feel something moving far below."
 msgstr "Tha mi a’ mothachadh do rudeigin a’ gluasad fada fodhainn."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:364
-msgid "It seems somebody left a note here on purpose."
-msgstr "Tha coltas gun do dh’fhàg cuideigin nòta an-seo a dh’aona-ghnothaich."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:366
-msgid "You mean in the middle of those scary bones?"
-msgstr "An teas-mheadhan nan cnàmhan eagalach seo, an e?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:368
-msgid "Let me see."
-msgstr "Faiceam."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:370
-msgid "'To whoever will read this:'"
-msgstr "“Ge b’ e cò a leughas seo:”"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:372
-msgid ""
-"'Battles have been waging all over the place and the Ancient have now "
-"forsaken me into oblivion when they sealed the Goddess Shrine.'"
-msgstr "“Bhiodhte a’ sabaid air feadh an àite ⁊ dhìobair an Sinnsear chun an dearmaid mi nuair a sheulaich iad Naomh-chiste na Ban-dia.”"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:374
-msgid ""
-"'All my comrades have perished in battle and I am the last unfortunate one "
-"left.'"
-msgstr "“Thuit mo cuideachd gu lèir air a’ bhlàr ⁊ is mise am fear mì-àghmhor mu dheireadh.”"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:376
-msgid ""
-"'My name is Shawn, and I do believe my time is running out in this life as "
-"there is neither food nor water in here.'"
-msgstr "“’S e Iain a th’ orm ⁊ cha chreid mi nach e am bàs a tha an dàn dhomh o nach eil biadh no uisge an-seo.”"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:378
-msgid "Poor guy. He must have died from starvation."
-msgstr "A thruaghain. Feumaidh gun d’ fhuair e bàs leis an acras."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:380
-msgid ""
-"'But I will attempt one last time to escape from here and I'm leaving this "
-"note in case you'd need to do the same.'"
-msgstr "“Ach feuchaidh mi aon turas eile gun teich mi ⁊ fàgaidh mi an nòta seo air eagal ’s gum bi sibh fon dearbh staing.”"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:382
-msgid ""
-"'The only way to escape this hellish place is to reach the highest floor and"
-" activate the waterfall. At least that's what they said.'"
-msgstr "“Chan eil ach aon dòigh air a ghabhas teicheadh o àite an donais seo ⁊ sibh a’ ruigsinn an làr as àirde ⁊ a’ gnìomhachadh an easa. Seo mar a chaidh innse dhomh-sa.”"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:384
-msgid "What are we waiting for, let's go!"
-msgstr "Tiugainn ma-thà!"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:386
-msgid "Wait Orlinn! That's not all he wrote."
-msgstr "Fuirich ort, Odhrain! Chan e seo a h-uile càil a sgrìobh e."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:388
-msgid ""
-"'But be warned, for even the very scent exuding from the dark waters is a "
-"trap!'"
-msgstr "“Ach bithibh faiceallach on a tha am fàileadh fhèin a thig às an uisge dorcha ’na ribe!”"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:390
-msgid ""
-"'The entire shrine has been turned into a murderous area and you'll have to "
-"fight your way through, just as I will now.'"
-msgstr "“Chaidh àite marbhtach a dhèanamh den naomh-chiste gu lèir ⁊ feumaidh sibh sabaid le gach ceum mar a shabaideas mi fhìn a-nis.”"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:392
-msgid "That's it."
-msgstr "Sin agaibh e."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:394
-msgid "Let's find out how to activate that waterfall, then."
-msgstr "Feumaidh sinn faighinn a-mach ciamar a ghnìomhaicheas sinn an t-eas ud ma-thà."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:396
-msgid "Yes, and let's do it quickly."
-msgstr "Feumaidh agus gu luath."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:411
-msgid ""
-"Somebody left a note on purpose here. According to it, we need to find out a"
-" way to trigger the waterfall from the highest floor."
-msgstr "Dh’fhàg cuideigin nòta an-seo a dh’aona-ghnothaich. Tha e ag innse gum feum sinn faighinn a-mach mar a ghnìomhaicheas sinn an t-eas on làr as àirde."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:413
-msgid ""
-"But let's be careful, as it also said this place is dangerous and the dark "
-"waters are some kind of trap."
-msgstr "Ach thoireamaid an aire, tha e ag innse cuideachd gu bheil an t-àite seo cunnartach agus gu bheil an t-uisge dorcha ’na ribe air choireigin."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:422
-msgid "What is this? Skeletons?!"
-msgstr "Dè am mì-shealbh a tha sin? Cnàimhnich, an e?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:446
-msgid "Phew."
-msgstr "Murt!"
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:381
 msgid "Yiek! A big monster!"
@@ -6939,7 +6719,7 @@ msgstr "Iochd! Seo uilebheist mòr!"
 msgid ""
 "My name is Andromalius, guardian of the sacred seal and keeper of the "
 "Goddess Shrine."
-msgstr "’S mise Andromalius, fear-glèidhidh an t-seula naoimh agus fear-cumail Naomh-chiste na Ban-dia."
+msgstr "’S mise a’ ghlaisrig, ban-ghlèidhidh an t-seula naoimh agus ban-chumail Naomh-chiste na Ban-dia."
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:385
 msgid ""
@@ -6978,100 +6758,6 @@ msgstr "Cluinnidh mi uisge feadh an àite."
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_3rd_script.lua:447
 msgid "Kalya, Bronann!"
 msgstr "A Chaoimhe, a Bhreannain!"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine4_script.lua:341
-msgid "Again, I can feel something moving not far from here."
-msgstr "A-rithist, tha mi a’ mothachadh do rudeigin a’ gluasad nach eil fada uainn."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:342
-msgid ""
-"There is a passage here, but I'm too heavy to climb on those stones jutting "
-"out."
-msgstr "Tha trannsa an-seo ach tha mi ro throm airson na clachan tana sin a shreap."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:344
-msgid ""
-"The fact is, you and I cannot afford to stand on those stones. Maybe with a "
-"rope?"
-msgstr "A dh’innse na fìrinn, cha bu chòir dhutsa no dhom fhìn seasamh air na clachan ud. ’S dòcha gur urrainn le ròpa?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:346
-msgid "I'll do it."
-msgstr "Nì mise e."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:348
-msgid "What? Are you crazy? There could be monsters up there."
-msgstr "B’ àill leat? ’Eil thu às do rian? Faodaidh gu bheil uilebheistean ann thall shuas."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:350
-msgid "Then I'll deal with them, sis. We can't just stay here, anyway."
-msgstr "Dèiligidh mi riutha, a pheathar. Chan urrainn dhuinn fuireach an-seo co-dhiù."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:352
-msgid "Orlinn, you sure have grown up through all of this. Are you sure?"
-msgstr "Odhrain, tha thu a’ tighinn gu inbhe leis na tha air èirigh dhuinn. A bheil thu cinnteach?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:354
-msgid "I need to, I guess."
-msgstr "Saoilidh mi gum feum mi ’ga dhèanamh."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:356
-msgid "Just tell me when you're ready and I'll throw you up there."
-msgstr "Innis dhomh nuair a bhios tu deiseil is tilgidh mi suas thu."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:377
-msgid "Ready to go up?"
-msgstr "A bheil thu deiseil airson dìreadh?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:381
-msgid "Err, not yet."
-msgstr "Uill, chan eil fhathast."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:404
-msgid "Be careful, ok?"
-msgstr "Thoir an aire, m’ eudail!"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:422
-msgid "Want to come back?"
-msgstr "A bheil thu airson tilleadh?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:424
-msgid "Yes!"
-msgstr "Tha!"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:426
-msgid "No, not yet."
-msgstr "Chan eil fhathast."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:453
-msgid "Oops, sorry!"
-msgstr "Oich, duilich!"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:458
-msgid "Bronann, are you okay?"
-msgstr "A Bhreannain, ’eil thu ceart gu leòr?"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:460
-msgid "I don't know, I felt something crack."
-msgstr "Chan eil fhios a’m, cha chreid mi nach cuala mi brag."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:464
-msgid "Not again..."
-msgstr "Murt…"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:221
-msgid "There is a note left here."
-msgstr "Dh’fhàg cuideigin nòta an-seo."
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:223
-msgid ""
-"It says: 'I fathomed it! After all, not every ladder is made of wood. Now, "
-"I'll have to get back there alive.'"
-msgstr "Tha e ag ràdh: “Ràinig mi air! ’S ann nach dèid gach faradh a dhèanamh de dh’fhiodh. Nise, feumaidh mi tilleadh dha beò.”"
-
-#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:264
-msgid "There seems to be one of those rolling stones up here."
-msgstr "Tha coltas gu bheil tè nan clach a ghabhas caradh ann shuas."
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_basement_script.lua:181
 msgid "Wow, what a fall. I didn't see that one coming."
@@ -7159,7 +6845,7 @@ msgstr "Geallaidh mi nach bu mhis’ a bh’ ann an turas seo. ’S ann gun do t
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_basement_script.lua:291
 msgid "Well, let's leave this place before another one wants our lives again."
-msgstr "Uill, a-mach à seo leinn mus fheuch fear eile air ur beathannan."
+msgstr "Uill, a-mach à seo leinn mus fheuch cuideigin eile air ur beathannan."
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_basement_script.lua:293
 msgid "I couldn't agree more."
@@ -7172,7 +6858,7 @@ msgstr "Chan urrainn dhuinn gluasad, Odhrain."
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:114
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:413
 msgid "We're gonna...suffocate."
-msgstr "Thèid ar … mùchadh."
+msgstr "Tha rudeigin ’gar… mùchadh."
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:116
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:415
@@ -7239,11 +6925,11 @@ msgstr "Is am fàileadh as coireach, hà hà hà."
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:409
 msgid ""
 "Erm, are you crazy or what? I usually am the one with bad jokes you know."
-msgstr "An-dà, ’eil sibh às ur rian? ’S mise am fear a nì droch fhealla-dhà, fhios agaibh?"
+msgstr "Iochd, ’eil sibh às ur rian? ’S mise am fear a nì droch fhealla-dhà, fhios agaibh?"
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:411
 msgid "We can't move Orlinn."
-msgstr "Chan urrainn dhuinn Odhran a ghluasad."
+msgstr "Chan urrainn dhuinn gluasad, Odhrain."
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:427
 msgid "I can't let them die. I have to find out something."
@@ -7251,7 +6937,7 @@ msgstr "Chan fhulaing mi gun caochail iad. Feumaidh mi rudeigin fhaighinn a-mach
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:436
 msgid "Something is preventing me from entering."
-msgstr "Tha rudeigin ’gam bhacadh o dhol a-steach."
+msgstr "Tha rudeigin ’gar bacadh o dhol a-steach."
 
 #: ../data/story/mt_elbrus/mt_elbrus_shrine_stairs_script.lua:449
 msgid "I feel much better now."
@@ -7294,41 +6980,437 @@ msgstr "Sguir dhen ghàireachdainn no bualaidh mi do cheann ris a’ bhalla, a d
 msgid "Aww, ok."
 msgstr "Ò ghiall, ceart ma-thà."
 
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:273
+msgid ""
+"You'll see. There's plenty of things I need to show you there. Plus, it's a "
+"safe place."
+msgstr "Tuigidh tu a dh’aithghearr. Tha iomad rud an-seo a dh’fheumas mi sealltainn dhut. A bharrachd air sin, ’s e àite sàbhailte a th’ ann."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:275
+msgid "Err, sis?"
+msgstr "An-dà, a phiuthar?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:277
+msgid ""
+"Our elder will also be able to help us. And you'll get a better explanation "
+"than I could ever..."
+msgstr "Cuidichidh an seanair sinn. Agus gheibh thu mìneachadh nas fheàrr na b’ urrainn dhomh fhìn…"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:281
+msgid "One second, Orlinn. I'm trying to..."
+msgstr "Fuirich greis, Odhrain. Tha mi a’ feuchainn ri…"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:283
+msgid "But Kalya, look at the passageway!"
+msgstr "Ach a Chaoimhe, seall air an trannsa!"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:285
+msgid "What about the..."
+msgstr "Dè mu dhèidhinn…"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:301
+msgid "No, it can't be."
+msgstr "Och, cha chreid mi e."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:303
+msgid "After all we've been through, this..."
+msgstr "Às dèidh na dh’fhulaing sinn, tha…"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:318
+msgid "Calm down Kalya, there must be a way to go through this somehow."
+msgstr "Air do shocair, a Chaoimhe, feumaidh gu bheil slighe troimhe air choireigin ann."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:320
+msgid "Unfortunately, yes. There is one."
+msgstr "Gu mì-fhortanach, thà."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:322
+msgid "We'll have to enter the ancient shrine."
+msgstr "Feumaidh sinn dol a-steach dhan naomh-chiste àrsaidh."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:324
+msgid ""
+"If we wouldn't have gotten here all by ourselves, I would swear Banesore's "
+"army pushed us here on purpose."
+msgstr "Mura robh sinn air an t-àite seo a ruigsinn leinn fhìn, bhithinn-sa cinnteach gun do stiùirich feachd Ghoirturbhaidh sinn ann a dh’aona-ghnothaich."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:326
+msgid "What's with this 'ancient shrine'?"
+msgstr "Dè an sgeul mun naomh-chiste àrsaidh?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:328
+msgid ""
+"Some say it is haunted. It was sealed a long time ago, long before I was "
+"even born."
+msgstr "Tha cuid ag ràdh gu bheil tàbharnadh air. Chaidh a seuladh o chionn fhada fhada mus rugadh mi."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:330
+msgid "Indeed, it must be a long time ago."
+msgstr "Feumaidh gur e o chionn fhada a bh’ ann."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:334
+msgid ""
+"Anyway, we might not be able to enter there at all. But you're right, let's "
+"have a look around first. Who knows?"
+msgstr "Gidheadh, ’s dòcha nach dèid leinn dol a-steach idir. Ach tha thu ceart, bu chòir dhuinn sùil a thoirt air an àite seo an toiseach. Cò aig’ a tha fhios dè lorgas sinn?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:370
+msgid ""
+"Here we are, looking at this huge and wonderful, yet creepy door. I don't "
+"like this."
+msgstr "Seo sinne a’ coimhead air an doras mhìorbhaileach mhòr ach uamhalta a tha seo. Cha toigh leam e."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:372
+msgid ""
+"It's not like I actually want to open this, but how are we going to do so?"
+msgstr "Chan ann ’s gu bheil mi deònach air fhosgladh, ach ciamar a nì sinn seo?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:381
+msgid "Ow, my chest. It hurts!"
+msgstr "Oich, m’ uchd. Tha e goirt!"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:383
+msgid "The crystal! Orlinn! Let's stand back!"
+msgstr "An criostal! Odhrain! Cumaidh sinn fad an sgadain uaidhe!"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:403
+msgid "That sign, it is the sign of the ancients! Bronann! Are you alright?"
+msgstr "An samhla sin, ’s e samhla nan sinnsearan a th’ ann. A Bhreannain! ’Eil thu ceart gu leòr?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:413
+msgid "I'm fine, I guess. The pain faded away."
+msgstr "Saoilidh mi gu bheil. Dh’fhalbh am pian."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:415
+msgid "Thank the goddess."
+msgstr "Taing dhan bhan-dia."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:417
+msgid "Well, the door is open now."
+msgstr "Uill, tha an doras fosgailte a-nis."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:419
+msgid "Yiek! Do you really want to go there??"
+msgstr "Iochd! A bheil sibh airson dol troimhe dha-rìribh??"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:421
+msgid ""
+"I believe we don't really have a choice. Somehow this place... called me."
+msgstr "Cha chreid mi gu bheil roghainn againn. Ann an dòigh … dh’iarr an t-àite seo fhèin mi."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:423
+msgid "Anyway, let's stick together and we'll be fine as always, right?"
+msgstr "Co-dhiù no co-dheth, cumaidh sinn an làimh a chèile is bidh sinn ceart gu leòr mar as àbhaist, nach bi?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine1_script.lua:425
+msgid "I have a bad feeling about all this now."
+msgstr "Tha mi amharasach mu dhèidhinn a-nis."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:364
+msgid "It seems somebody left a note here on purpose."
+msgstr "Tha coltas gun do dh’fhàg cuideigin nòta an-seo a dh’aona-ghnothaich."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:366
+msgid "You mean in the middle of those scary bones?"
+msgstr "An teas-mheadhan nan cnàmhan eagalach seo!"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:368
+msgid "Let me see."
+msgstr "Faiceam."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:370
+msgid "'To whoever will read this:'"
+msgstr "“Ge b’ e cò a leughas seo:”"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:372
+msgid ""
+"'Battles have been waging all over the place and the Ancient have now "
+"forsaken me into oblivion when they sealed the Goddess Shrine.'"
+msgstr "“Bhiodhte a’ sabaid air feadh an àite ⁊ dhìobair an Sinnsear chun an dearmaid mi nuair a sheulaich iad Naomh-chiste na Ban-dia.”"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:374
+msgid ""
+"'All my comrades have perished in battle and I am the last unfortunate one "
+"left.'"
+msgstr "“Thuit mo cuideachd gu lèir air a’ bhlàr ⁊ is mise am fear mì-àghmhor a mhair.”"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:376
+msgid ""
+"'My name is Shawn, and I do believe my time is running out in this life as "
+"there is neither food nor water in here.'"
+msgstr "“’S e Iain a th’ orm ⁊ cha chreid mi nach e am bàs an dàn dhomh o nach eil biadh no uisge an-seo.”"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:378
+msgid "Poor guy. He must have died from starvation."
+msgstr "An truaghan. Feumaidh gun d’ fhuair e bàs leis an acras."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:380
+msgid ""
+"'But I will attempt one last time to escape from here and I'm leaving this "
+"note in case you'd need to do the same.'"
+msgstr "“Ach feuchaidh mi aon turas eile gun teich mi ⁊ fàgaidh mi an nòta seo air eagal ’s gum bi sibh fon dearbh staing.”"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:382
+msgid ""
+"'The only way to escape this hellish place is to reach the highest floor and"
+" activate the waterfall. At least that's what they said.'"
+msgstr "“Chan eil ach aon dòigh teichidh o àite an donais seo ⁊ ruigibh an làr as àirde ⁊ gnìomhaichibh an t-eas. Seo mar a chaidh innse dhomh-sa.”"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:384
+msgid "What are we waiting for, let's go!"
+msgstr "Tiugainn ma-thà!"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:386
+msgid "Wait Orlinn! That's not all he wrote."
+msgstr "Fuirich ort, Odhrain! Chan e seo a h-uile càil a sgrìobh e."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:388
+msgid ""
+"'But be warned, for even the very scent exuding from the dark waters is a "
+"trap!'"
+msgstr "“Ach bithibh faiceallach on a tha am fàileadh fhèin a thig às an uisge dorcha ’na ribe!”"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:390
+msgid ""
+"'The entire shrine has been turned into a murderous area and you'll have to "
+"fight your way through, just as I will now.'"
+msgstr "“Chaidh àite marbhtach a dhèanamh den naomh-chiste gu lèir ⁊ feumaidh sibh sabaid le gach ceum mar a shabaideas mi fhìn a-nis.”"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:392
+msgid "That's it."
+msgstr "Sin agaibh e."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:394
+msgid "Let's find out how to activate that waterfall, then."
+msgstr "Feumaidh sinn faighinn a-mach ciamar a ghnìomhaicheas sinn an t-eas ud ma-thà."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:396
+msgid "Yes, and let's do it quickly."
+msgstr "Feumaidh gun dàil."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:411
+msgid ""
+"Somebody left a note on purpose here. According to it, we need to find out a"
+" way to trigger the waterfall from the highest floor."
+msgstr "Dh’fhàg cuideigin nòta an-seo a dh’aona-ghnothaich. Tha e ag innse gum feum sinn faighinn a-mach mar a ghnìomhaicheas sinn an t-eas on làr as àirde."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:413
+msgid ""
+"But let's be careful, as it also said this place is dangerous and the dark "
+"waters are some kind of trap."
+msgstr "Ach thoireamaid an aire, tha e ag innse cuideachd gu bheil an t-àite seo cunnartach agus gu bheil an t-uisge dorcha ’na ribe air choireigin."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:422
+msgid "What is this? Skeletons?!"
+msgstr "Dè am mì-shealbh a tha sin? Cnàimhnich, an e?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine2_script.lua:446
+msgid "Phew."
+msgstr "Murt!"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine4_script.lua:341
+msgid "Again, I can feel something moving not far from here."
+msgstr "A-rithist, tha mi a’ mothachadh do rudeigin a’ gluasad nach eil fada uainn."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:342
+msgid ""
+"There is a passage here, but I'm too heavy to climb on those stones jutting "
+"out."
+msgstr "Tha trannsa an-seo ach tha mi ro throm airson na clachan tana sin a shreap."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:344
+msgid ""
+"The fact is, you and I cannot afford to stand on those stones. Maybe with a "
+"rope?"
+msgstr "A dh’innse na fìrinn, cha bu chòir dhutsa no dhom fhìn seasamh air na clachan ud. ’S dòcha gur urrainn le ròpa?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:346
+msgid "I'll do it."
+msgstr "Nì mise e."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:348
+msgid "What? Are you crazy? There could be monsters up there."
+msgstr "B’ àill leat? ’Eil thu às do rian? Faodaidh gu bheil uilebheistean ann thall shuas."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:350
+msgid "Then I'll deal with them, sis. We can't just stay here, anyway."
+msgstr "Dèiligidh mi riutha, a pheathar. Chan urrainn dhuinn fuireach an-seo co-dhiù."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:352
+msgid "Orlinn, you sure have grown up through all of this. Are you sure?"
+msgstr "Odhrain, tha thu a’ tighinn gu inbhe leis na tha air èirigh dhuinn. A bheil thu cinnteach?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:354
+msgid "I need to, I guess."
+msgstr "Saoilidh mi gum feum mi ’ga dhèanamh."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:356
+msgid "Just tell me when you're ready and I'll throw you up there."
+msgstr "Innis dhomh nuair a bhios tu deis is tilgidh mi suas thu."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:377
+msgid "Ready to go up?"
+msgstr "A bheil thu deiseil airson dìreadh?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:381
+msgid "Err, not yet."
+msgstr "An-dà, chan eil fhathast."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:404
+msgid "Be careful, ok?"
+msgstr "Thoir an aire, m’ eudail!"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:422
+msgid "Want to come back?"
+msgstr "A bheil thu airson tilleadh?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:424
+msgid "Yes!"
+msgstr "Tha!"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:426
+msgid "No, not yet."
+msgstr "Chan eil fhathast."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:453
+msgid "Oops, sorry!"
+msgstr "Oich, duilich!"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:458
+msgid "Bronann, are you okay?"
+msgstr "A Bhreannain, ’eil thu ceart gu leòr?"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:460
+msgid "I don't know, I felt something crack."
+msgstr "Chan eil fhios a’m, cha chreid mi nach cuala mi brag."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine5_script.lua:464
+msgid "Not again..."
+msgstr "Murt…"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:221
+msgid "There is a note left here."
+msgstr "Dh’fhàg cuideigin nòta an-seo."
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:223
+msgid ""
+"It says: 'I fathomed it! After all, not every ladder is made of wood. Now, "
+"I'll have to get back there alive.'"
+msgstr "Tha e ag ràdh: “Ràinig mi air! ’S ann nach dèid gach faradh a dhèanamh de dh’fhiodh. Nise, feumaidh mi tilleadh dha beò.”"
+
+#: ../data/story/mt_elbrus/mt_elbrus_shrine7_script.lua:264
+msgid "There seems to be one of those rolling stones up here."
+msgstr "Tha coltas gu bheil tè nan clach a ghabhas caradh thall shuas."
+
 #. tr: Map name
 #: map_names_tr.lua:2 map_names_tr.lua:4 map_names_tr.lua:6
-#: map_names_tr.lua:20 map_names_tr.lua:104 map_names_tr.lua:106
-#: map_names_tr.lua:108 map_names_tr.lua:122
+#: map_names_tr.lua:24 map_names_tr.lua:152 map_names_tr.lua:154
+#: map_names_tr.lua:156 map_names_tr.lua:174
 msgid "Layna Forest Cave"
 msgstr "Uamh coille Duaine"
 
+#. tr: Map sub-name
+#: map_names_tr.lua:14 map_names_tr.lua:164
+msgid "Forest entrance"
+msgstr "A-steach dhan choille"
+
 #. tr: Map name
-#: map_names_tr.lua:22 map_names_tr.lua:124
+#: map_names_tr.lua:26 map_names_tr.lua:176
 msgid "Where it all began..."
 msgstr "Far na thòisich e…"
 
 #. tr: Map name
-#: map_names_tr.lua:26 map_names_tr.lua:28 map_names_tr.lua:30
-#: map_names_tr.lua:32 map_names_tr.lua:34 map_names_tr.lua:36
-#: map_names_tr.lua:38 map_names_tr.lua:40 map_names_tr.lua:42
-#: map_names_tr.lua:44 map_names_tr.lua:46 map_names_tr.lua:48
-#: map_names_tr.lua:50 map_names_tr.lua:52 map_names_tr.lua:54
-#: map_names_tr.lua:56 map_names_tr.lua:128 map_names_tr.lua:130
-#: map_names_tr.lua:132 map_names_tr.lua:134 map_names_tr.lua:136
-#: map_names_tr.lua:138 map_names_tr.lua:140 map_names_tr.lua:142
-#: map_names_tr.lua:144 map_names_tr.lua:146 map_names_tr.lua:148
-#: map_names_tr.lua:150 map_names_tr.lua:152 map_names_tr.lua:154
-#: map_names_tr.lua:156 map_names_tr.lua:158
+#: map_names_tr.lua:30 map_names_tr.lua:34 map_names_tr.lua:38
+#: map_names_tr.lua:42 map_names_tr.lua:44 map_names_tr.lua:46
+#: map_names_tr.lua:48 map_names_tr.lua:50 map_names_tr.lua:52
+#: map_names_tr.lua:56 map_names_tr.lua:60 map_names_tr.lua:64
+#: map_names_tr.lua:68 map_names_tr.lua:70 map_names_tr.lua:72
+#: map_names_tr.lua:76 map_names_tr.lua:180 map_names_tr.lua:184
+#: map_names_tr.lua:188 map_names_tr.lua:192 map_names_tr.lua:194
+#: map_names_tr.lua:196 map_names_tr.lua:198 map_names_tr.lua:200
+#: map_names_tr.lua:202 map_names_tr.lua:206 map_names_tr.lua:210
+#: map_names_tr.lua:214 map_names_tr.lua:218 map_names_tr.lua:220
+#: map_names_tr.lua:222 map_names_tr.lua:226
 msgid "Mountain Village of Layna"
 msgstr "Baile monadh Duaine"
 
+#. tr: Map sub-name
+#: map_names_tr.lua:40 map_names_tr.lua:190
+msgid "Flora's Boutique"
+msgstr "Bùth Flòraidh"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:54 map_names_tr.lua:204
+msgid "Basement"
+msgstr "Ìoslach"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:58 map_names_tr.lua:66 map_names_tr.lua:208
+#: map_names_tr.lua:216
+msgid "Riverbank"
+msgstr "Tràigh na h-aibhne"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:62 map_names_tr.lua:212
+msgid "Lilly's house"
+msgstr "Taigh Ròis"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:74 map_names_tr.lua:224
+msgid "Village entrance"
+msgstr "Doras a’ bhaile"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:78 map_names_tr.lua:228
+msgid "Well Undergrounds"
+msgstr "Fon tobar"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:82 map_names_tr.lua:86 map_names_tr.lua:90
+#: map_names_tr.lua:232 map_names_tr.lua:236 map_names_tr.lua:240
+msgid "Elbrus Grotto"
+msgstr "Uamh Ealbhrais"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:96 map_names_tr.lua:100 map_names_tr.lua:246
+#: map_names_tr.lua:250
+msgid "Low Mountain"
+msgstr "Beinn ìosal"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:104 map_names_tr.lua:254
+msgid "Old Cemetery"
+msgstr "Seann-chladh"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:108 map_names_tr.lua:258
+msgid "Mountain bridge"
+msgstr "Drochaid monaidh"
+
 #. tr: Map name
-#: map_names_tr.lua:76 map_names_tr.lua:82 map_names_tr.lua:84
-#: map_names_tr.lua:86 map_names_tr.lua:88 map_names_tr.lua:90
-#: map_names_tr.lua:92 map_names_tr.lua:94 map_names_tr.lua:96
-#: map_names_tr.lua:98 map_names_tr.lua:102 map_names_tr.lua:178
-#: map_names_tr.lua:184 map_names_tr.lua:186 map_names_tr.lua:188
-#: map_names_tr.lua:190 map_names_tr.lua:192 map_names_tr.lua:194
-#: map_names_tr.lua:196 map_names_tr.lua:198 map_names_tr.lua:200
-#: map_names_tr.lua:204
+#: map_names_tr.lua:110 map_names_tr.lua:118 map_names_tr.lua:124
+#: map_names_tr.lua:130 map_names_tr.lua:132 map_names_tr.lua:134
+#: map_names_tr.lua:136 map_names_tr.lua:140 map_names_tr.lua:144
+#: map_names_tr.lua:148 map_names_tr.lua:150 map_names_tr.lua:260
+#: map_names_tr.lua:268 map_names_tr.lua:274 map_names_tr.lua:280
+#: map_names_tr.lua:282 map_names_tr.lua:284 map_names_tr.lua:286
+#: map_names_tr.lua:290 map_names_tr.lua:294 map_names_tr.lua:298
+#: map_names_tr.lua:300
 msgid "Mt. Elbrus Shrine"
 msgstr "Naomh-chiste Beinn Ealbhrais"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:112 map_names_tr.lua:262
+msgid "2nd Floor"
+msgstr "An dàrna làr"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:128 map_names_tr.lua:278
+msgid "Underpass"
+msgstr "Fo-shlighe"
+
+#. tr: Map sub-name
+#: map_names_tr.lua:138 map_names_tr.lua:142 map_names_tr.lua:146
+#: map_names_tr.lua:288 map_names_tr.lua:292 map_names_tr.lua:296
+msgid "1st Floor"
+msgstr "A’ chiad làr"
