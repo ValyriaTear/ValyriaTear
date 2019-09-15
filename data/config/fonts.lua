@@ -44,6 +44,17 @@ fonts = {
         ["map_title"] = {font = "data/fonts/LinBiolinum_RBah.ttf", size = 30}
     },
 
+    -- Fonts loaded for the 'uk_UA' locale (Ukrainian)
+    ["uk_UA"] = {
+        -- Text style internal name = { "font file path", font size }
+        -- The fonts listed here are appended to the default catalog when selecting the given locale,
+        -- overwritting possible same named TextStyle fonts.
+
+        -- Map title font
+        -- We're using this font to prevent a bug in map title display here.
+        ["map_title"] = {font = "data/fonts/LinBiolinum_RBah.ttf", size = 30}
+    },
+
     -- Fonts loaded for the 'ja' locale (Japanese)
     ["ja"] = {
         -- Text style internal name = { "font file path", font size }
