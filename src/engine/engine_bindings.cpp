@@ -176,6 +176,17 @@ void BindEngineCode()
             .def("Get", &ModeEngine::Get)
             .def("GetGameType", (uint8_t(ModeEngine:: *)(uint32_t))&ModeEngine::GetGameType)
             .def("GetGameType", (uint8_t(ModeEngine:: *)())&ModeEngine::GetGameType)
+            .enum_("constants") [
+                // Game mode type enum
+                luabind::value("MODE_MANAGER_DUMMY_MODE", MODE_MANAGER_DUMMY_MODE),
+                luabind::value("MODE_MANAGER_BOOT_MODE", MODE_MANAGER_BOOT_MODE),
+                luabind::value("MODE_MANAGER_MAP_MODE", MODE_MANAGER_MAP_MODE),
+                luabind::value("MODE_MANAGER_BATTLE_MODE", MODE_MANAGER_BATTLE_MODE),
+                luabind::value("MODE_MANAGER_MENU_MODE", MODE_MANAGER_MENU_MODE),
+                luabind::value("MODE_MANAGER_SHOP_MODE", MODE_MANAGER_SHOP_MODE),
+                luabind::value("MODE_MANAGER_PAUSE_MODE", MODE_MANAGER_PAUSE_MODE),
+                luabind::value("MODE_MANAGER_SAVE_MODE", MODE_MANAGER_SAVE_MODE)
+            ]
         ];
 
     } // End using mode manager namespaces
