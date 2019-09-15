@@ -501,7 +501,7 @@ void GameOptionsMenuHandler::_SetupGameOptions()
 
 void GameOptionsMenuHandler::_SetupLanguageOptionsMenu()
 {
-    _language_options_menu.SetPosition(402.0f, 338.0f);
+    _language_options_menu.SetPosition(330.0f, 450.0f);
     _language_options_menu.SetTextStyle(TextStyle("title22"));
     _language_options_menu.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _language_options_menu.SetOptionAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
@@ -724,8 +724,8 @@ void GameOptionsMenuHandler::_RefreshLanguageOptions()
     uint32_t locale_size = locale_properties.size();
 
     // Set up the dimensions of the window according to how many languages are available.
-    _language_options_menu.SetDimensions(300.0f, 500.0f, 1, locale_size, 1,
-                                         (locale_size > 12 ? 12 : locale_size));
+    _language_options_menu.SetDimensions(350.0f, 550.0f, 2, locale_size, 2,
+                                         (locale_size > 24 ? 24 : locale_size));
 
     uint32_t i = 0;
     uint32_t default_locale_id = 0;
