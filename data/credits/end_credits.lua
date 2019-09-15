@@ -467,13 +467,13 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
                 },
                 [3] = {
-                    text = Script:CreateText("BioHazardX\n\nKnitter\n\ndimproject\n\njahalic\n\nalexanderkjall", vt_video.TextStyle("text20")),
+                    text = Script:CreateText("BioHazardX\n\nKnitter\n\ndimproject\n\njahalic\n\nalexanderkjall\n\nGunchleoc\n\nDzmitry", vt_video.TextStyle("text20")),
                     text_position_x = 612.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [4] = {
-                    text = Script:CreateText(vt_system.Translate("Italian (it)\n\nPortuguese (pt_PT)\n\nRussian (ru)\n\nSpanish (es)\n\nSwedish (sv)"), vt_video.TextStyle("text20")),
+                    text = Script:CreateText(vt_system.Translate("Italian (it)\n\nPortuguese (pt_PT)\n\nRussian (ru)\n\nSpanish (es)\n\nSwedish (sv)\n\nGaelic, Scottish (gd)\n\nUkrainian (uk_UA)"), vt_video.TextStyle("text20")),
                     text_position_x = 742.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
