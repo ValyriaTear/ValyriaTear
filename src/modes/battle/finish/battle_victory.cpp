@@ -94,8 +94,9 @@ BattleVictory::BattleVictory() :
     _spoils_window.Show();
 
     _header_xp.SetOwner(&_header_window);
-    _header_xp.SetPosition(75.0f, 10.0f);
+    _header_xp.SetPosition(30.0f, 30.0f);
     _header_xp.SetDimensions(TOP_WINDOW_WIDTH / 5.0f * 4.0f, 40.0f);
+    _header_xp.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _header_xp.SetTextStyle(TextStyle("text20", Color::white));
     _header_xp.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
@@ -106,8 +107,9 @@ BattleVictory::BattleVictory() :
     }
 
     _drunes_dropped_text.SetOwner(&_header_window);
-    _drunes_dropped_text.SetPosition(TOP_WINDOW_WIDTH / 5.0f * 3.1f, 10.0f);
+    _drunes_dropped_text.SetPosition(300.0f, 30.0f);
     _drunes_dropped_text.SetDimensions(TOP_WINDOW_WIDTH / 5.0f * 2.0f, 40.0f);
+    _drunes_dropped_text.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_CENTER);
     _drunes_dropped_text.SetTextStyle(TextStyle("text20", Color::white));
     _drunes_dropped_text.SetDisplayMode(VIDEO_TEXT_INSTANT);
 
@@ -133,9 +135,9 @@ BattleVictory::BattleVictory() :
     _object_list.SetCursorState(VIDEO_CURSOR_STATE_HIDDEN);
 
     _victory_options.SetOwner(&_header_window);
-    _victory_options.SetPosition(TOP_WINDOW_WIDTH / 2, 28.0f);
-    _victory_options.SetDimensions(480.0f, 50.0f, 2, 1, 2, 1);
-    _victory_options.SetTextStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
+    _victory_options.SetPosition(TOP_WINDOW_WIDTH / 2, 30.0f);
+    _victory_options.SetDimensions(TOP_WINDOW_WIDTH, 50.0f, 2, 1, 2, 1);
+    _victory_options.SetTextStyle(TextStyle("text22", Color::white, VIDEO_TEXT_SHADOW_DARK));
     _victory_options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _victory_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _victory_options.SetSelectMode(VIDEO_SELECT_SINGLE);

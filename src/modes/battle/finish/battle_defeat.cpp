@@ -78,8 +78,8 @@ BattleDefeat::BattleDefeat() :
 
     _defeat_options.SetOwner(&_options_window);
     _defeat_options.SetPosition(TOP_WINDOW_WIDTH / 2, 28.0f);
-    _defeat_options.SetDimensions(480.0f, 50.0f, 2, 1, 2, 1);
-    _defeat_options.SetTextStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
+    _defeat_options.SetDimensions(TOP_WINDOW_WIDTH, 50.0f, 2, 1, 2, 1);
+    _defeat_options.SetTextStyle(TextStyle("text22", Color::white, VIDEO_TEXT_SHADOW_DARK));
     _defeat_options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _defeat_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _defeat_options.SetSelectMode(VIDEO_SELECT_SINGLE);
@@ -91,8 +91,8 @@ BattleDefeat::BattleDefeat() :
 
     _confirm_options.SetOwner(&_options_window);
     _confirm_options.SetPosition(TOP_WINDOW_WIDTH / 2, 28.0f);
-    _confirm_options.SetDimensions(240.0f, 50.0f, 2, 1, 2, 1);
-    _confirm_options.SetTextStyle(TextStyle("title22", Color::white, VIDEO_TEXT_SHADOW_DARK));
+    _confirm_options.SetDimensions(TOP_WINDOW_WIDTH, 50.0f, 2, 1, 2, 1);
+    _confirm_options.SetTextStyle(TextStyle("text22", Color::white, VIDEO_TEXT_SHADOW_DARK));
     _confirm_options.SetAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _confirm_options.SetOptionAlignment(VIDEO_X_CENTER, VIDEO_Y_CENTER);
     _confirm_options.SetSelectMode(VIDEO_SELECT_SINGLE);
