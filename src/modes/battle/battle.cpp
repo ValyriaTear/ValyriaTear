@@ -621,6 +621,7 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         AudioManager->LoadMusic(battle_media.victory_music_filename);
         if (MusicDescriptor* victory_music = AudioManager->RetrieveMusic(battle_media.victory_music_filename)) {
             victory_music->Rewind();
+            victory_music->SetLooping(false);
             victory_music->Play();
         }
         _battle_finish = new BattleVictory();
@@ -632,6 +633,7 @@ void BattleMode::ChangeState(BATTLE_STATE new_state)
         AudioManager->LoadMusic(battle_media.defeat_music_filename);
         if (MusicDescriptor* defeat_music = AudioManager->RetrieveMusic(battle_media.defeat_music_filename)) {
             defeat_music->Rewind();
+            defeat_music->SetLooping(false);
             defeat_music->FadeIn(1000.0f);
         }
         _battle_finish = new BattleDefeat();
