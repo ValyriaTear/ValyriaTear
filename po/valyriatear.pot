@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-13 17:55+0200\n"
+"POT-Creation-Date: 2019-09-19 00:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,8 +29,8 @@ msgstr ""
 
 #. tr: experience points to be spent for skills
 #: ../src/common/character_window.cpp:76
-#: ../src/modes/battle/finish/battle_victory.cpp:358
-#: ../src/modes/battle/finish/battle_victory.cpp:503
+#: ../src/modes/battle/finish/battle_victory.cpp:360
+#: ../src/modes/battle/finish/battle_victory.cpp:505
 msgid "XP for skills: "
 msgstr ""
 
@@ -79,11 +79,6 @@ msgstr ""
 
 #: ../src/common/global/global_target.cpp:48
 msgid "Invalid Target"
-msgstr ""
-
-#: ../src/common/global/media/battle_media.cpp:91
-#: ../src/modes/battle/battle_menu.cpp:143
-msgid "Auto-Battle"
 msgstr ""
 
 #: ../src/common/options_handler.cpp:190
@@ -427,15 +422,19 @@ msgstr ""
 msgid "[error]"
 msgstr ""
 
-#: ../src/modes/battle/battle.cpp:579
-msgid "Double Rush!"
+#: ../src/modes/battle/battle.cpp:132 ../src/modes/battle/battle_menu.cpp:143
+msgid "Auto-Battle"
 msgstr ""
 
 #: ../src/modes/battle/battle.cpp:584
-msgid "First Strike!"
+msgid "Double Rush!"
 msgstr ""
 
 #: ../src/modes/battle/battle.cpp:589
+msgid "First Strike!"
+msgstr ""
+
+#: ../src/modes/battle/battle.cpp:594
 msgid "Ambush!"
 msgstr ""
 
@@ -576,60 +575,60 @@ msgid "The heroes were victorious!"
 msgstr ""
 
 #. tr: Header in battle result screen: more than 1 item found
-#: ../src/modes/battle/finish/battle_victory.cpp:125
-#: ../src/modes/battle/finish/battle_victory.cpp:395
+#: ../src/modes/battle/finish/battle_victory.cpp:127
+#: ../src/modes/battle/finish/battle_victory.cpp:397
 msgid "Items Found"
 msgstr ""
 
-#: ../src/modes/battle/finish/battle_victory.cpp:144
+#: ../src/modes/battle/finish/battle_victory.cpp:146
 msgid "End Battle"
 msgstr ""
 
-#: ../src/modes/battle/finish/battle_victory.cpp:145
+#: ../src/modes/battle/finish/battle_victory.cpp:147
 msgid "Improve Skills"
 msgstr ""
 
-#: ../src/modes/battle/finish/battle_victory.cpp:252
-#: ../src/modes/battle/finish/battle_victory.cpp:513
+#: ../src/modes/battle/finish/battle_victory.cpp:254
+#: ../src/modes/battle/finish/battle_victory.cpp:515
 msgid "XP Earned: "
 msgstr ""
 
-#: ../src/modes/battle/finish/battle_victory.cpp:253
-#: ../src/modes/battle/finish/battle_victory.cpp:569
+#: ../src/modes/battle/finish/battle_victory.cpp:255
+#: ../src/modes/battle/finish/battle_victory.cpp:571
 msgid "Drunes Found: "
 msgstr ""
 
-#: ../src/modes/battle/finish/battle_victory.cpp:254
-#: ../src/modes/battle/finish/battle_victory.cpp:570
+#: ../src/modes/battle/finish/battle_victory.cpp:256
+#: ../src/modes/battle/finish/battle_victory.cpp:572
 msgid "Total Drunes: "
 msgstr ""
 
-#: ../src/modes/battle/finish/battle_victory.cpp:350
-#: ../src/modes/battle/finish/battle_victory.cpp:497
+#: ../src/modes/battle/finish/battle_victory.cpp:352
+#: ../src/modes/battle/finish/battle_victory.cpp:499
 msgid "Level (Max): "
 msgstr ""
 
-#: ../src/modes/battle/finish/battle_victory.cpp:354
-#: ../src/modes/battle/finish/battle_victory.cpp:499
+#: ../src/modes/battle/finish/battle_victory.cpp:356
+#: ../src/modes/battle/finish/battle_victory.cpp:501
 msgid "Level: "
 msgstr ""
 
-#: ../src/modes/battle/finish/battle_victory.cpp:356
-#: ../src/modes/battle/finish/battle_victory.cpp:500
+#: ../src/modes/battle/finish/battle_victory.cpp:358
+#: ../src/modes/battle/finish/battle_victory.cpp:502
 msgid "XP for level up: "
 msgstr ""
 
 #. tr: Header in battle result screen: 0 items found
-#: ../src/modes/battle/finish/battle_victory.cpp:390
+#: ../src/modes/battle/finish/battle_victory.cpp:392
 msgid "No Items Found"
 msgstr ""
 
 #. tr: Header in battle result screen: 1 item found
-#: ../src/modes/battle/finish/battle_victory.cpp:393
+#: ../src/modes/battle/finish/battle_victory.cpp:395
 msgid "Item Found"
 msgstr ""
 
-#: ../src/modes/battle/finish/battle_victory.cpp:502
+#: ../src/modes/battle/finish/battle_victory.cpp:504
 msgid " (+20%)"
 msgstr ""
 
@@ -1761,7 +1760,11 @@ msgid ""
 "\n"
 "Spanish (es)\n"
 "\n"
-"Swedish (sv)"
+"Swedish (sv)\n"
+"\n"
+"Gaelic, Scottish (gd)\n"
+"\n"
+"Ukrainian (uk_UA)"
 msgstr ""
 
 #: ../data/credits/end_credits.lua:495
