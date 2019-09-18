@@ -34,7 +34,7 @@ SkillNodeBottomInfo::SkillNodeBottomInfo() :
     _skill_name.SetStyle(TextStyle("text20"));
     _skill_sp_cost.SetStyle(TextStyle("text18"));
     _skill_description.SetStyle(TextStyle("text14"));
-    _skill_description.SetWordWrapWidth(300);
+    _skill_description.SetWordWrapWidth(240.0f);
 
     // Stats
     _stats_upgrade.SetTextStyle(TextStyle("text18"));
@@ -94,7 +94,7 @@ void SkillNodeBottomInfo::Draw()
         _skill_description.Draw();
 
         // Prepare statistics location
-        VideoManager->MoveRelative(320.0f, -80.0f);
+        VideoManager->MoveRelative(260.0f, -80.0f);
     }
     else {
         VideoManager->MoveRelative(220.0f, -60.0f);
@@ -198,7 +198,7 @@ void SkillNodeBottomInfo::_SetSkillInfo(int32_t skill_id)
     _skill_learned_text.SetText(vt_system::UTranslate("Skill learned:"));
 
     // Update stats list position
-    _stats_upgrade.SetPosition(_pos.x + 540.0f, _pos.y + 30.0f);
+    _stats_upgrade.SetPosition(_pos.x + 480.0f, _pos.y + 30.0f);
 }
 
 void SkillNodeBottomInfo::_SetStatsInfo(const std::vector<std::pair<uint32_t, uint32_t> >& stats_upgrades)
@@ -209,7 +209,7 @@ void SkillNodeBottomInfo::_SetStatsInfo(const std::vector<std::pair<uint32_t, ui
     // Update list dimension according to the numberof items
     _stats_upgrade.ClearOptions();
     uint32_t stat_nb = stats_upgrades.size();
-    _stats_upgrade.SetDimensions(280.0f, 30.0f * stat_nb,
+    _stats_upgrade.SetDimensions(310.0f, 30.0f * stat_nb,
                                  2, stat_nb, 2, stat_nb);
 
     size_t list_index = 0;
