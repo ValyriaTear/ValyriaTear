@@ -31,12 +31,11 @@ namespace vt_global {
 class BattleMedia
 {
 public:
-    BattleMedia() :
-        _auto_battle_activated(nullptr)
-    {
-    }
+    BattleMedia()
+    {}
 
-    ~BattleMedia();
+    ~BattleMedia()
+    {}
 
     //! \brief Loads all the battle media files.
     //! Should be called after the final intialization of the VideoManager as
@@ -74,10 +73,6 @@ public:
 
     inline const vt_video::StillImage& GetAutoBattleIcon() const {
         return _auto_battle_icon;
-    }
-
-    inline const vt_video::TextImage* GetAutoBattleActiveText() const {
-        return _auto_battle_activated;
     }
 
     inline const vt_video::StillImage& GetEscapeIcon() const {
@@ -156,9 +151,6 @@ private:
 
     //! \brief The auto battle icon.
     vt_video::StillImage _auto_battle_icon;
-
-    //! \brief The auto-battle activated text.
-    vt_video::TextImage* _auto_battle_activated;
 
     //! \brief The escape icon.
     vt_video::StillImage _escape_icon;

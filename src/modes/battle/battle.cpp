@@ -129,6 +129,11 @@ BattleMode::BattleMode() :
 {
     _current_instance = this;
 
+    _auto_battle_text.SetText(vt_system::UTranslate("Auto-Battle"),
+                              vt_video::TextStyle("text20",
+                              vt_video::Color::white,
+                              vt_video::VIDEO_TEXT_SHADOW_NONE));
+
     _sequence_supervisor = new SequenceSupervisor(this);
     _command_supervisor = new CommandSupervisor();
     _dialogue_supervisor = new vt_common::DialogueSupervisor();
@@ -1100,11 +1105,13 @@ void BattleMode::_DrawGUI()
     _DrawStaminaBar();
 
     if (_battle_menu.IsAutoBattleActive()) {
+        VideoManager->SetDrawFlags(VIDEO_X_LEFT, VIDEO_Y_CENTER, VIDEO_BLEND, 0);
         BattleMedia& battle_media = GlobalManager->GetBattleMedia();
         VideoManager->Move(800.0f, 50.0f);
-        battle_media.GetAutoBattleIcon().Draw();
-        VideoManager->MoveRelative(80.0f, 0.0f);
-        battle_media.GetAutoBattleActiveText()->Draw();
+        _auto_battle_text.Draw();
+        const vt_video::StillImage& auto_battle_icon = battle_media.GetAutoBattleIcon();
+        VideoManager->MoveRelative(-auto_battle_icon.GetWidth() - 5.0f, 0.0f);
+        auto_battle_icon.Draw();
     }
 
     // Don't draw battle actor indicators at battle ends

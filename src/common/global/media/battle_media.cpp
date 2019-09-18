@@ -25,11 +25,6 @@ const std::string DEFAULT_VICTORY_MUSIC  = "data/music/Fanfare.ogg";
 const std::string DEFAULT_DEFEAT_MUSIC   = "data/music/Battle_lost-OGA-Mumu.ogg";
 //@}
 
-BattleMedia::~BattleMedia()
-{
-    delete _auto_battle_activated;
-}
-
 void BattleMedia::Initialize()
 {
     if(!background_image.Load("data/battles/battle_scenes/desert_cave/desert_cave.png"))
@@ -86,11 +81,6 @@ void BattleMedia::Initialize()
 
     if(!_auto_battle_icon.Load("data/gui/battle/auto_battle.png"))
         PRINT_WARNING << "Failed to load auto-battle icon image" << std::endl;
-
-    _auto_battle_activated = new vt_video::TextImage();
-    _auto_battle_activated->SetText(vt_system::UTranslate("Auto-Battle"), vt_video::TextStyle("text20",
-                                                                                              vt_video::Color::white,
-                                                                                              vt_video::VIDEO_TEXT_SHADOW_NONE));
 }
 
 void BattleMedia::Update()

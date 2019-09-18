@@ -414,6 +414,9 @@ private:
     //! \brief The battle menu
     vt_battle::private_battle::BattleMenu _battle_menu;
 
+    //! \brief The Auto Battle text displayed when auto battle is active
+    vt_video::TextImage _auto_battle_text;
+
     //! \brief Whether the hero party should get an initiative boost at battle start.
     bool _hero_init_boost;
 
