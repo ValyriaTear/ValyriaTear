@@ -611,14 +611,14 @@ function Initialize(map_instance)
                                              "Lindsay Roberts (Linds)\n\n" ..
                                              "Moises Ferrer Serra (byaku)\n\n" ..
                                              "Philip Vorsilak (gorzuate)\n\n" ..
-                                             "Tyler Olsen (Roots)", vt_video.TextStyle("text24")),
+                                             "Tyler Olsen (Roots)", vt_video.TextStyle("text20")),
                     text_position_x = 512.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
                     text = Script:CreateText(vt_system.Translate("Battle code, Menu code\n\nGame editor\n\nGame engine\n\nMap code\n\nVarious game modes, content scripting\n\nVideo engine\n\nVideo engine, Audio engine\n\nGame editor\n\nProgramming lead, Game engine, Map code"),
-                                             vt_video.TextStyle("text24")),
+                                             vt_video.TextStyle("text20")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -651,14 +651,14 @@ function Initialize(map_instance)
                                              "Corey Hoffstein (visage)\n\n" ..
                                              "Dale Ma (eguitarz)\n\n" ..
                                              "DongHa Lee (MoOshiCow)\n\n" ..
-                                             "Farooq Mela (CamelJockey)", vt_video.TextStyle("text24")),
+                                             "Farooq Mela (CamelJockey)", vt_video.TextStyle("text20")),
                     text_position_x = 512.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
                     text = Script:CreateText(vt_system.Translate("Boot code, Battle code\n\nGame editor\n\nAudio engine\n\nVarious code, Mac OS X maintenance\n\nGame engine, Game modes, Windows build scripts\n\nBattle code\n\nMap editor\n\nInternationalization\n\nVideo engine"),
-                                             vt_video.TextStyle("text24")),
+                                             vt_video.TextStyle("text20")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -688,14 +688,14 @@ function Initialize(map_instance)
                                              "Raj Sharma (roos)\n\n" ..
                                              "Vladimir Mitrovic (snipe714)\n\n" ..
                                              "(densuke)\n\n" ..
-                                             "Andreas Pawlak (nemesis)", vt_video.TextStyle("text24")),
+                                             "Andreas Pawlak (nemesis)", vt_video.TextStyle("text20")),
                     text_position_x = 512.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
                     text = Script:CreateText(vt_system.Translate("Video engine, Game engine\n\nVideo engine\n\nVideo engine\n\nScripting engine\n\nVarious code\n\nVarious code"),
-                                             vt_video.TextStyle("text24")),
+                                             vt_video.TextStyle("text20")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -724,14 +724,14 @@ function Initialize(map_instance)
                                              "Joe Raucci (Sylon)\n\n" ..
                                              "Josiah Tobin (Josiah Tobin)\n\n" ..
                                              "Matthew James (nunvuru)\n\n" ..
-                                             "Richard Kettering (Jetryl)", vt_video.TextStyle("text24")),
+                                             "Richard Kettering (Jetryl)", vt_video.TextStyle("text20")),
                     text_position_x = 512.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
                     text = Script:CreateText(vt_system.Translate("Map sprites, Battle sprites, Character portraits, Location graphics\n\nBattle sprites, old Allacrost GUI artwork\n\nMap tiles\n\nAllacrost website graphics, GUI artwork, Game logos\n\nMap tiles, map sprites, Inventory icons, Allacrost artwork coordination"),
-                                             vt_video.TextStyle("text24")),
+                                             vt_video.TextStyle("text20")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -764,14 +764,14 @@ function Initialize(map_instance)
                                              "Jason Frailey (Valdroni)\n\n" ..
                                              "Jerimiah Short (BigPapaN0z)\n\n" ..
                                              "John W. Bjerk (eleazar)\n\n" ..
-                                             "Jon Williams (Jonatron)", vt_video.TextStyle("text24")),
+                                             "Jon Williams (Jonatron)", vt_video.TextStyle("text20")),
                     text_position_x = 512.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
                     text = Script:CreateText(vt_system.Translate("Concept art\n\nInventory icons\n\nMap sprite animations\n\nConcept art\n\nInventory icons\n\nConcept art, Map sprites\n\nMap tiles\n\nMap tiles\n\nMap sprites"),
-                                             vt_video.TextStyle("text24")),
+                                             vt_video.TextStyle("text20")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -801,14 +801,14 @@ function Initialize(map_instance)
                                              "Max Humber (zomby138)\n\n" ..
                                              "Nathan Christie (Adarias)\n\n" ..
                                              "Peter Geinitz (wayfarer)\n\n" ..
-                                             "Richard Marks (DeveloperX)\n\n", vt_video.TextStyle("text24")),
+                                             "Richard Marks (DeveloperX)\n\n", vt_video.TextStyle("text20")),
                     text_position_x = 512.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
                     text = Script:CreateText(vt_system.Translate("Map sprite animations\n\nMap sprite animations, Map tiles\n\nConcept art, Allacrost title screen image\n\nConcept art, Map sprites, Map tiles\n\nConcept art, Map sprites\n\nMap tiles"),
-                                             vt_video.TextStyle("text24")),
+                                             vt_video.TextStyle("text20")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -838,14 +838,14 @@ function Initialize(map_instance)
                                              "Vicki Beinhart (Namakoro)\n\n" ..
                                              "Victoria Smith (alenacat)\n\n" ..
                                              "(Jarks)\n\n" ..
-                                             "(Psiweapon)", vt_video.TextStyle("text24")),
+                                             "(Psiweapon)", vt_video.TextStyle("text20")),
                     text_position_x = 512.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
                     text = Script:CreateText(vt_system.Translate("Various art\n\nMap tiles\n\nEnemy sprites\n\nMap sprites, Map tiles\n\nMap tiles, Inventory icons\n\nMap tiles, Battle sprites"),
-                                             vt_video.TextStyle("text24")),
+                                             vt_video.TextStyle("text20")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
@@ -864,7 +864,7 @@ function Initialize(map_instance)
             },
             texts = {
                 [0] = {
-                    text = Script:CreateText(vt_system.Translate("Allacrost Music and Sound Team (2004-2011)"), vt_video.TextStyle("text28")),
+                    text = Script:CreateText(vt_system.Translate("Allacrost Music and Sound Team (2004-2011)"), vt_video.TextStyle("text26")),
                     text_position_x = 512.0,
                     text_position_y = 200.0,
                     text_color = vt_video.Color(1.0, 0.8, 0.7, 1.0),
@@ -876,14 +876,14 @@ function Initialize(map_instance)
                                          "Samuel Justice (sam_justice)\n\n" ..
                                          "Zhe Zhou (shizeet)\n\n" ..
                                          "Jean Malary (hamiko)\n\n" ..
-                                         "Matt Dexter (Star Pilot)", vt_video.TextStyle("text24")),
+                                         "Matt Dexter (Star Pilot)", vt_video.TextStyle("text20")),
                         text_position_x = 512.0,
                         text_position_y = 300.0,
                         text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
                 },
                 [2] = {
                     text = Script:CreateText(vt_system.Translate("Sound composer\n\nSoundtrack composer\n\nMusic and sound lead, Soundtrack composer\n\nSound composer\n\nSound composer\n\nSound mixer\n\nSoundtrack composer"),
-                                             vt_video.TextStyle("text24")),
+                                             vt_video.TextStyle("text20")),
                     text_position_x = 642.0,
                     text_position_y = 324.0,
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
