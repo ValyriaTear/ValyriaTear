@@ -434,9 +434,9 @@ public:
         SetText(vt_utils::MakeUnicodeString(text), text_style);
     }
 
-    void SetWordWrapWidth(uint32_t width) {
-        _max_width = width;
-    }
+    //! \brief Set the maximum permitted width to the text image
+    //! It will auto wrap and use more height intead when modified.
+    void SetWordWrapWidth(uint32_t width);
 
     //! \name Class Member Access Functions
     //@{

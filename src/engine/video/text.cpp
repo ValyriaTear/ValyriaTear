@@ -392,7 +392,7 @@ void TextElement::SetTexture(TextTexture *texture)
 TextImage::TextImage() :
     ImageDescriptor(),
     _style(TextManager->GetDefaultStyle()),
-    _max_width(1024)
+    _max_width(vt_video::VIDEO_STANDARD_RES_WIDTH)
 {
 }
 
@@ -400,7 +400,7 @@ TextImage::TextImage(const ustring& text, const TextStyle& style) :
     ImageDescriptor(),
     _text(text),
     _style(style),
-    _max_width(1024)
+    _max_width(vt_video::VIDEO_STANDARD_RES_WIDTH)
 {
     _Regenerate();
 }
@@ -409,7 +409,7 @@ TextImage::TextImage(const std::string& text, const TextStyle& style) :
     ImageDescriptor(),
     _text(MakeUnicodeString(text)),
     _style(style),
-    _max_width(1024)
+    _max_width(vt_video::VIDEO_STANDARD_RES_WIDTH)
 {
     _Regenerate();
 }
@@ -488,6 +488,14 @@ void TextImage::Draw(const Color& draw_color) const
 
     // Restore the position of the draw cursor.
     VideoManager->PopMatrix();
+}
+
+void TextImage::SetWordWrapWidth(uint32_t width)
+{
+    if (_max_width == width)
+        return;
+    _max_width = width;
+    _Regenerate();
 }
 
 void TextImage::_Regenerate()
