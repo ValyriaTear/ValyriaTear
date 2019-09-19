@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Valyria Tear\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-19 00:13+0200\n"
-"PO-Revision-Date: 2019-09-18 22:17+0000\n"
+"PO-Revision-Date: 2019-09-19 20:46+0000\n"
 "Last-Translator: Bertram <yohann.ferreira@orange.fr>\n"
 "Language-Team: French (http://www.transifex.com/valyria-tear/valyria-tear/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -28,14 +28,14 @@ msgstr "Nv : "
 
 #: ../src/common/character_window.cpp:70
 msgid "Next: "
-msgstr "Suivant :"
+msgstr "Suivant : "
 
 #. tr: experience points to be spent for skills
 #: ../src/common/character_window.cpp:76
 #: ../src/modes/battle/finish/battle_victory.cpp:360
 #: ../src/modes/battle/finish/battle_victory.cpp:505
 msgid "XP for skills: "
-msgstr "XP Compétences :"
+msgstr "XP Compétences : "
 
 #: ../src/common/global/global_target.cpp:28
 msgid "Self — Point"
@@ -133,7 +133,7 @@ msgstr "Luminosité : "
 
 #: ../src/common/options_handler.cpp:428 ../src/common/options_handler.cpp:713
 msgid "VSync: "
-msgstr "VSync :"
+msgstr "VSync : "
 
 #: ../src/common/options_handler.cpp:431 ../src/common/options_handler.cpp:716
 msgid "UI Theme: "
@@ -213,7 +213,7 @@ msgstr "Menu : "
 
 #: ../src/common/options_handler.cpp:536
 msgid "Toggle Map: "
-msgstr "Aff./Cacher la carte :"
+msgstr "Aff./Cacher la carte : "
 
 #: ../src/common/options_handler.cpp:537
 msgid "Pause: "
@@ -543,7 +543,7 @@ msgstr "Capacité<R>Type PM"
 
 #: ../src/modes/battle/finish/battle_defeat.cpp:67
 msgid "The heroes fell in battle..."
-msgstr "Les héros sont tombés au combat..."
+msgstr "Les héros sont tombés au combat ..."
 
 #: ../src/modes/battle/finish/battle_defeat.cpp:88
 msgid "Retry"
@@ -619,7 +619,7 @@ msgstr "Niveau : "
 #: ../src/modes/battle/finish/battle_victory.cpp:358
 #: ../src/modes/battle/finish/battle_victory.cpp:502
 msgid "XP for level up: "
-msgstr "XP prochain Nv :"
+msgstr "XP prochain Nv : "
 
 #. tr: Header in battle result screen: 0 items found
 #: ../src/modes/battle/finish/battle_victory.cpp:392
@@ -718,7 +718,7 @@ msgstr "Cet objet est un esprit élémentaire et peut être associé à votre é
 
 #: ../src/modes/menu/menu_mode.cpp:241 ../src/modes/shop/shop.cpp:220
 msgid "Skills obtained:"
-msgstr "Capacités obtenues :"
+msgstr "Capacités obtenues : "
 
 #: ../src/modes/menu/menu_mode.cpp:458 ../src/modes/shop/shop.cpp:209
 #: ../src/modes/shop/shop.cpp:535
@@ -728,7 +728,7 @@ msgstr "ATQ : "
 #: ../src/modes/menu/menu_mode.cpp:459 ../src/modes/shop/shop.cpp:211
 #: ../src/modes/shop/shop.cpp:536
 msgid "M.ATK:"
-msgstr "M.ATQ: "
+msgstr "M.ATQ : "
 
 #: ../src/modes/menu/menu_mode.cpp:462 ../src/modes/shop/shop.cpp:542
 msgid "DEF:"
@@ -901,15 +901,15 @@ msgstr "Sélectionnez un personnage pour changer la formation."
 
 #: ../src/modes/menu/menu_windows/menu_party_window.cpp:120
 msgid "Global Attack / Defense:"
-msgstr "Attaque / Défense Globale :"
+msgstr "Attaque / Défense Globale : "
 
 #: ../src/modes/menu/menu_windows/menu_party_window.cpp:122
 msgid "Detailed Defense:"
-msgstr "Défense Détaillée :"
+msgstr "Défense Détaillée : "
 
 #: ../src/modes/menu/menu_windows/menu_party_window.cpp:125
 msgid "Total Attack: "
-msgstr "Attaque Totale :"
+msgstr "Attaque Totale : "
 
 #: ../src/modes/menu/menu_windows/menu_party_window.cpp:126
 msgid "Total Magical Attack: "
@@ -933,7 +933,7 @@ msgstr "Torse : "
 
 #: ../src/modes/menu/menu_windows/menu_party_window.cpp:137
 msgid "Arm: "
-msgstr "Bras :"
+msgstr "Bras : "
 
 #: ../src/modes/menu/menu_windows/menu_party_window.cpp:138
 msgid "Leg: "
@@ -949,7 +949,7 @@ msgstr "Attaque Physique : "
 
 #: ../src/modes/menu/menu_windows/menu_party_window.cpp:252
 msgid "Magical Attack: "
-msgstr "Attaque Magique: "
+msgstr "Attaque Magique : "
 
 #: ../src/modes/menu/menu_windows/menu_party_window.cpp:253
 msgid "Physical Defense: "
@@ -1014,7 +1014,7 @@ msgstr "Débloqué"
 
 #: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:125
 msgid "To Unlock:"
-msgstr "Pour débloquer :"
+msgstr "Pour débloquer : "
 
 #: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:128
 #, c-format
@@ -1039,11 +1039,11 @@ msgstr "%d MP"
 
 #: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:198
 msgid "Skill learned:"
-msgstr "Compétence apprise :"
+msgstr "Compétence apprise : "
 
 #: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:207
 msgid "Statistics:"
-msgstr "Statistiques :"
+msgstr "Statistiques : "
 
 #: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:228
 #, c-format
@@ -1357,7 +1357,7 @@ msgstr "Cible : "
 
 #: ../src/modes/shop/shop.cpp:217
 msgid "Conditions:"
-msgstr "Conditions :"
+msgstr "Conditions : "
 
 #: ../src/modes/shop/shop.cpp:709
 #, c-format
@@ -1413,7 +1413,7 @@ msgstr "Achats : "
 
 #: ../src/modes/shop/shop.cpp:1796 ../src/modes/shop/shop.cpp:1799
 msgid "Remaining: "
-msgstr "Restant :"
+msgstr "Restant : "
 
 #: ../src/modes/shop/shop.cpp:1798
 msgid "Sales: +"
@@ -4666,11 +4666,11 @@ msgstr "Maj"
 
 #: ../data/story/layna_village/in_game_move_and_interact_anim.lua:55
 msgid "Move your character:"
-msgstr "Bouger votre personnage :"
+msgstr "Bouger votre personnage : "
 
 #: ../data/story/layna_village/in_game_move_and_interact_anim.lua:61
 msgid "Possible actions:"
-msgstr "Actions possibles :"
+msgstr "Actions possibles : "
 
 #: ../data/story/layna_village/in_game_move_and_interact_anim.lua:62
 #, c-format
@@ -4689,7 +4689,7 @@ msgstr "Gestion de l'équipe : %s"
 
 #: ../data/story/layna_village/in_game_move_and_interact_anim.lua:71
 msgid "Game commands:"
-msgstr "Autres commandes :"
+msgstr "Autres commandes : "
 
 #: ../data/story/layna_village/in_game_move_and_interact_anim.lua:72
 #, c-format
@@ -5275,7 +5275,7 @@ msgstr "Investigue en cette place auprès de nos camarades, se pourrait-il que l
 #: ../data/story/layna_village/layna_village_center_script.lua:888
 #: ../data/story/layna_village/layna_village_center_script.lua:904
 msgid "(sigh...) Hmm, fine. I'll have a look."
-msgstr "(Soupir ...) Hum, très bien. Je jetterai un oeil."
+msgstr "(Soupir...) Hum, très bien. Je jetterai un oeil."
 
 #: ../data/story/layna_village/layna_village_center_script.lua:894
 msgid "Oh Bronann, sad is the poet today."

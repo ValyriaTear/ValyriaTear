@@ -467,7 +467,7 @@ function Initialize(map_instance)
                     text_color = vt_video.Color(0.7, 0.7, 0.7, 1.0),
                 },
                 [3] = {
-                    text = Script:CreateText("BioHazardX\n\nKnitter\n\ndimproject\n\njahalic\n\nalexanderkjall\n\nGunchleoc\n\nDzmitry", vt_video.TextStyle("text20")),
+                    text = Script:CreateText("BioHazardX\n\nKnitter\n\ndimproject\n\njahalic\n\nalexanderkjall\n\nGunChleoc\n\nDzmitry", vt_video.TextStyle("text20")),
                     text_position_x = 612.0,
                     text_position_y = 300.0,
                     text_color = vt_video.Color(1.0, 1.0, 1.0, 1.0),
