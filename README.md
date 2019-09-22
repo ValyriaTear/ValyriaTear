@@ -14,7 +14,7 @@ It is also translated in several languages.
 
 ## Licensing
 
-**Copyright (C) 2012-2017 by Bertram  
+**Copyright (C) 2012-2019 by Bertram
 Copyright (C) 2004-2011 by The Allacrost Project**
 
 The source code is licensed under the *GNU GPL*.
@@ -49,24 +49,25 @@ In that case, you might need the dependencies and headers files that can be down
 
 #### MSys/MinGW
 
-1. Download and install MSys2
-   1. **Download MSYS2** from [MSYS2.io](https://msys2.github.io), either the 64 bit or the 32 bit version, depending on which type of build you want to create
-   1. Depending on your version, **install** to `C:\msys64` or `C:\msys32`
-   1. **Run** `C:\msys64\mingw64.exe` or `C:\msys32\mingw32.exe`
-   1. Follow the [update steps](https://github.com/msys2/msys2/wiki/MSYS2-installation#iii-updating-packages). Running `pacman -Syuu` repeatedly and following the instructions on screen should do it.
-1. Install the toolchain and the dependencies
-   1. Install the mingw64 **toolchain** (or mingw32 toolchain)
+- Download and install MSys2
+   - **Download MSYS2** from [MSYS2.io](https://msys2.github.io), either the 64 bit or the 32 bit version, depending on which type of build you want to create
+   - Depending on your version, **install** to `C:\msys64` or `C:\msys32`
+   - **Run** `C:\msys64\mingw64.exe` or `C:\msys32\mingw32.exe`
+   - Follow the [update steps](https://github.com/msys2/msys2/wiki/MSYS2-installation#iii-updating-packages). Running `pacman -Syuu` repeatedly and following the instructions on screen should do it.
+- Install the toolchain and the dependencies
+   - Install the mingw64 **toolchain** (or mingw32 toolchain)
       * 64bit: `pacman -S mingw-w64-x86_64-toolchain`
       * 32bit: `pacman -S mingw-w64-i686-toolchain`
-   1. Install **CMake** and all **dependencies**
+   - Install **CMake** and all **dependencies**
       * 64 bit: `pacman -S mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-boost mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-glew mingw-w64-x86_64-libpng mingw-w64-x86_64-libzip mingw-w64-x86_64-lua mingw-w64-x86_64-libogg mingw-w64-x86_64-libvorbis mingw-w64-x86_64-openal mingw-w64-x86_64-libiconv`
       * 32 bit: `pacman -S mingw-w64-i686-cmake mingw-w64-i686-ninja mingw-w64-i686-boost mingw-w64-i686-SDL2_ttf mingw-w64-i686-SDL2_image mingw-w64-i686-glew mingw-w64-i686-libpng mingw-w64-i686-libzip mingw-w64-i686-lua mingw-w64-i686-libogg mingw-w64-i686-libvorbis mingw-w64-i686-openal mingw-w64-i686-libiconv`
       * If any of the dependencies should be missing from the lists above, you can search for them on http://repo.msys2.org/mingw/
-1. **Configure** the build
+- **Configure** the build
    * 64bit: `cmake -G "Ninja" -DCMAKE_C_COMPILER=C:/msys64/mingw64/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/msys64/mingw64/bin/g++.exe .`
    * 32 bit: `cmake -G "Ninja" -DCMAKE_C_COMPILER=C:/msys32/mingw32/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/msys32/mingw32/bin/g++.exe .`
-1. **Run** the build: `ninja`
+- **Run** the build: `ninja`
 
+Note: To update the translation files, run: `ninja update-pot`
 
 #### Microsoft Visual C++ 2013 and later
 
@@ -113,4 +114,4 @@ You will need the following in order to compile and run the game:
 
 - On **Code::Blocks:**
   Go to Project->Build options, and add the flags in the `#defines` tab, i.e.:
-  `DEBUG_MENU`
+  `DEBUG_FEATURES`, `DISABLE_TRANSLATIONS`

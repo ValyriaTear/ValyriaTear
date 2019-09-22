@@ -23,7 +23,7 @@ active side-view battles, character management, puzzles... It is also translated
 
 ## Licensing ##
 
-Copyright (C) 2012-2017 by Bertram
+Copyright (C) 2012-2019 by Bertram
 Copyright (C) 2004-2011 by The Allacrost Project
 
 The source code is licensed under the *GNU GPL*. It is free software and you may
@@ -86,6 +86,8 @@ https://sourceforge.net/projects/valyriatear/files/win32-depends/valyriatear-win
     cmake -G "Ninja" -DCMAKE_C_COMPILER=C:/msys32/mingw32/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/msys32/mingw32/bin/g++.exe .
 4. Run the build: ninja
 
+Note: To update translation files, run: ninja update-pot
+
 - **Microsoft Visual C++ 2013 and later:**
 
 _**(Warning: not officially supported!)**_
@@ -129,4 +131,4 @@ Use the `-D` parameter when invoking cmake to add **compilation flags**.
 
 - On **Code::Blocks:**
 Go to Project->Build options, and add the flags in the `#defines` tab, i.e.:
-`DEBUG_MENU`
+`DEBUG_FEATURES`, `DISABLE_TRANSLATIONS`

@@ -7,7 +7,7 @@ OPTION(DEBUG_FEATURES "Compile the game with the debug features" OFF)
 OPTION(DISABLE_TRANSLATIONS "Disable gettext / l10n support" OFF)
 
 IF (NOT VERSION)
-    SET(VERSION 0.1.0)
+    SET(VERSION 1.1.0)
 ENDIF()
 
 STRING(REPLACE "." " " _VERSION ${VERSION})
