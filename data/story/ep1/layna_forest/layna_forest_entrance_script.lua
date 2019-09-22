@@ -1,13 +1,14 @@
 -- Set the namespace according to the map name.
 local ns = {};
 setmetatable(ns, {__index = _G});
-layna_forest_minimap_procedural_script = ns;
+layna_forest_entrance_script = ns;
 setfenv(1, ns);
 
 -- The map name, subname and location image
 map_name = "Layna Forest"
 map_image_filename = "data/story/common/locations/layna_forest.png"
 map_subname = "Forest entrance"
+is_home_map = true
 
 -- The music file used as default background music on this map.
 -- Other musics will have to handled through scripting.
@@ -31,8 +32,7 @@ function Load(m)
     EventManager = Map:GetEventSupervisor();
     Map:SetUnlimitedStamina(false);
 
-    --Map:SetMinimapImage("data/story/ep1/layna_forest/minimaps/layna_forest_entrance_minimap.png");
-    Map:ShowMinimap(true)
+    Map:SetMinimapImage("data/story/ep1/layna_forest/minimaps/layna_forest_entrance_minimap.png");
 
     _CreateCharacters();
     _CreateObjects();
@@ -130,6 +130,8 @@ function _CreateObjects()
     local object = nil
     local npc = nil
     local event = nil
+    local dialogue = nil
+    local text = nil
 
     vt_map.SavePoint.Create(19, 27);
 
@@ -146,6 +148,18 @@ function _CreateObjects()
     text = vt_system.Translate("Your party feels better.");
     dialogue:AddLineEvent(text, npc, "Forest entrance heal", "");
     npc:AddDialogueReference(dialogue);
+
+    npc = CreateObject(Map, "Layna Statue", 27, 20, vt_map.MapMode.GROUND_OBJECT);
+    npc:SetCollisionMask(vt_map.MapMode.NO_COLLISION);
+    npc:SetInteractionIcon("data/gui/map/heal_anim.lua")
+
+    -- Info sign
+    object = CreateObject(Map, "Wood sign info", 37, 24, vt_map.MapMode.GROUND_OBJECT)
+    object:SetEventWhenTalking("Info about skill improvement")
+    dialogue = vt_map.SpriteDialogue.Create();
+    text = vt_system.Translate("Did you know?\nYou can improve spend your earned XP points to improve your skills and stats.\nSimply open the menu, select 'Skills' and 'Improve'.");
+    dialogue:AddLine(text, nil);
+    event = vt_map.DialogueEvent.Create("Info about skill improvement", dialogue)
 
     -- Only add the squirrels and butterflies when the night isn't about to happen
     if (GlobalManager:GetGameEvents():GetEventValue("story", "layna_forest_crystal_event_done") < 1) then
@@ -308,11 +322,9 @@ function _CreateEnemies()
         _SetBattleEnvironment(enemy);
         enemy:NewEnemyParty();
         enemy:AddEnemy(1);
-        enemy:AddEnemy(1);
-        enemy:AddEnemy(1);
         enemy:NewEnemyParty();
         enemy:AddEnemy(1);
-        enemy:AddEnemy(2);
+        enemy:AddEnemy(1);
         roam_zone:AddEnemy(enemy, 1);
     end
 end
@@ -353,6 +365,7 @@ function _CreateEvents()
     vt_map.LookAtSpriteEvent.Create("Kalya looks at Bronann", kalya, bronann);
     vt_map.LookAtSpriteEvent.Create("Bronann looks at Kalya", bronann, kalya);
     vt_map.LookAtSpriteEvent.Create("Kalya looks at the statue", kalya, 27, 23);
+    vt_map.ChangeDirectionSpriteEvent.Create("Kalya looks north", kalya, vt_map.MapMode.NORTH);
 
     -- First time forest entrance dialogue about save points and the heal spring.
     event = vt_map.ScriptedEvent.Create("Forest entrance dialogue", "forest_statue_event_start", "");
@@ -371,7 +384,8 @@ function _CreateEvents()
     event:AddEventLinkAtEnd("Kalya moves near the statue");
     event:AddEventLinkAtEnd("Bronann gets nearer as well", 1000);
 
-    event = vt_map.PathMoveSpriteEvent.Create("Kalya moves near the statue", kalya, 21, 20, true);
+    event = vt_map.PathMoveSpriteEvent.Create("Kalya moves near the statue", kalya, 27, 26, true);
+    event:AddEventLinkAtEnd("Kalya looks north");
     event:AddEventLinkAtEnd("Kalya talks about the statue 2", 1000);
 
     vt_map.PathMoveSpriteEvent.Create("Bronann gets nearer as well", bronann, 14, 25, false);

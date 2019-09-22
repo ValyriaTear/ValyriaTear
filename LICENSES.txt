@@ -801,41 +801,41 @@ data/story/common/locations/desert.png                                        GP
 
 data/story/common/worldmaps/layna_region.png                                  CC-BY-SA-3.0             Combination of: https://opengameart.org/content/old-time-3-islands-map (CC0) - Gaming4JC and MrBeast - https://opengameart.org/content/worldmapoverworld-tileset + map by Bertram
 
-data/story/layna_forest/minimaps/layna_forest_cave1_1_minimap.png             CC-BY-SA-3.0          Bertram
-data/story/layna_forest/minimaps/layna_forest_cave1_2_minimap.png             CC-BY-SA-3.0          Bertram
-data/story/layna_forest/minimaps/layna_forest_entrance_minimap.png            CC-BY-SA-3.0          Bertram
-data/story/layna_forest/minimaps/layna_forest_north_east_minimap.png          CC-BY-SA-3.0          Bertram
-data/story/layna_forest/minimaps/layna_forest_north_west_minimap.png          CC-BY-SA-3.0          Bertram
-data/story/layna_forest/minimaps/layna_forest_south_east_minimap.png          CC-BY-SA-3.0          Bertram
-data/story/layna_forest/minimaps/layna_forest_south_west_minimap.png          CC-BY-SA-3.0          Bertram
-data/story/layna_forest/minimaps/layna_forest_wolf_cave_minimap.png           CC-BY-SA-3.0          Bertram
+data/story/ep1/layna_forest/minimaps/layna_forest_cave1_1_minimap.png             CC-BY-SA-3.0          Bertram
+data/story/ep1/layna_forest/minimaps/layna_forest_cave1_2_minimap.png             CC-BY-SA-3.0          Bertram
+data/story/ep1/layna_forest/minimaps/layna_forest_entrance_minimap.png            CC-BY-SA-3.0          Bertram
+data/story/ep1/layna_forest/minimaps/layna_forest_north_east_minimap.png          CC-BY-SA-3.0          Bertram
+data/story/ep1/layna_forest/minimaps/layna_forest_north_west_minimap.png          CC-BY-SA-3.0          Bertram
+data/story/ep1/layna_forest/minimaps/layna_forest_south_east_minimap.png          CC-BY-SA-3.0          Bertram
+data/story/ep1/layna_forest/minimaps/layna_forest_south_west_minimap.png          CC-BY-SA-3.0          Bertram
+data/story/ep1/layna_forest/minimaps/layna_forest_wolf_cave_minimap.png           CC-BY-SA-3.0          Bertram
 
-data/story/layna_forest/wolfpain_necklace.png                                 CC-BY-SA-3.0             Bertram - adapted from Scrittl's work (OGA) - https://opengameart.org/content/armor-icons-32x32-px-painterly
-data/story/layna_forest/stone_sign.png                                        CC-BY-SA-3.0             Lilou (Valyria Tear)
+data/story/ep1/layna_forest/wolfpain_necklace.png                                 CC-BY-SA-3.0             Bertram - adapted from Scrittl's work (OGA) - https://opengameart.org/content/armor-icons-32x32-px-painterly
+data/story/ep1/layna_forest/stone_sign.png                                        CC-BY-SA-3.0             Lilou (Valyria Tear)
 
-data/story/layna_forest/crystal_appearance/blue_lightning1.png                CC-BY-SA-3.0             Bertram
-data/story/layna_forest/crystal_appearance/blue_lightning2.png                CC-BY-SA-3.0             Bertram
-data/story/layna_forest/crystal_appearance/blue_lightning3.png                CC-BY-SA-3.0             Bertram
-data/story/layna_forest/crystal_appearance/crystal_shadow.png                 CC-BY-SA-3.0             Len + Bertram modifications
-data/story/layna_forest/crystal_appearance/vortex.png                         CC-BY-SA-3.0             Bertram
-data/story/layna_forest/crystal_appearance/crystal-sentence1.ogg              CC-BY-SA-3.0             Record and effects by Bertram, Lilou's voice
-data/story/layna_forest/crystal_appearance/crystal-sentence2.ogg              CC-BY-SA-3.0             Record and effects by Bertram, Lilou's voice
-data/story/layna_forest/crystal_appearance/crystal-sentence3.ogg              CC-BY-SA-3.0             Record and effects by Bertram, Lilou's voice
-data/story/layna_forest/crystal_appearance/crystal-sentence4.ogg              CC-BY-SA-3.0             Record and effects by Bertram, Lilou's voice
-data/story/layna_forest/crystal_appearance/crystal-sentence5.ogg              CC-BY-SA-3.0             Record and effects by Bertram, Lilou's voice
-data/story/layna_forest/crystal_appearance/crystal-sentence6.ogg              CC-BY-SA-3.0             Record and effects by Bertram, Lilou's voice
+data/story/ep1/layna_forest/crystal_appearance/blue_lightning1.png                CC-BY-SA-3.0             Bertram
+data/story/ep1/layna_forest/crystal_appearance/blue_lightning2.png                CC-BY-SA-3.0             Bertram
+data/story/ep1/layna_forest/crystal_appearance/blue_lightning3.png                CC-BY-SA-3.0             Bertram
+data/story/ep1/layna_forest/crystal_appearance/crystal_shadow.png                 CC-BY-SA-3.0             Len + Bertram modifications
+data/story/ep1/layna_forest/crystal_appearance/vortex.png                         CC-BY-SA-3.0             Bertram
+data/story/ep1/layna_forest/crystal_appearance/crystal-sentence1.ogg              CC-BY-SA-3.0             Record and effects by Bertram, Lilou's voice
+data/story/ep1/layna_forest/crystal_appearance/crystal-sentence2.ogg              CC-BY-SA-3.0             Record and effects by Bertram, Lilou's voice
+data/story/ep1/layna_forest/crystal_appearance/crystal-sentence3.ogg              CC-BY-SA-3.0             Record and effects by Bertram, Lilou's voice
+data/story/ep1/layna_forest/crystal_appearance/crystal-sentence4.ogg              CC-BY-SA-3.0             Record and effects by Bertram, Lilou's voice
+data/story/ep1/layna_forest/crystal_appearance/crystal-sentence5.ogg              CC-BY-SA-3.0             Record and effects by Bertram, Lilou's voice
+data/story/ep1/layna_forest/crystal_appearance/crystal-sentence6.ogg              CC-BY-SA-3.0             Record and effects by Bertram, Lilou's voice
 
-data/story/layna_forest/minimaps/layna_forest_cave1_1_minimap.png             CC-BY-SA-3.0             Bertram
+data/story/ep1/layna_forest/minimaps/layna_forest_cave1_1_minimap.png             CC-BY-SA-3.0             Bertram
 
-data/story/layna_village/kalya_house_fake_wall.png                            GPLv2+                   Bertram, based on Jetrel harrvah tileset.
+data/story/ep1/layna_village/kalya_house_fake_wall.png                            GPLv2+                   Bertram, based on Jetrel harrvah tileset.
 
-data/story/mt_elbrus/ancient_sign_big_bright.png                              CC-BY-SA-3.0             Bertram
-data/story/mt_elbrus/shrine_entrance_light.png                                CC-BY-SA-3.0             Bertram
-data/story/mt_elbrus/fake_wall.png                                            CC-BY-SA-3.0, GPLv3      Guido Bos + adaptation from Bertram - https://opengameart.org/content/3rd-entry-some-old-castle-stuff
-data/story/mt_elbrus/spike_wall.png                                           CC-BY-SA-3.0, GPLv3      Guido Bos + adaptation from Bertram - https://opengameart.org/content/3rd-entry-some-old-castle-stuff
-data/story/mt_elbrus/falling_hole.png                                         CC-BY-SA-3.0, GPLv3      Guido Bos + adaptation from Bertram - https://opengameart.org/content/3rd-entry-some-old-castle-stuff
-data/story/mt_elbrus/falling_hole_above.png                                   CC-BY-SA-3.0, GPLv3      Guido Bos + adaptation from Bertram - https://opengameart.org/content/3rd-entry-some-old-castle-stuff
-data/story/mt_elbrus/elbrus_landscape.png                                     CC-BY-SA-3.0             Julien (OGA) - https://opengameart.org/content/large-nature-background
+data/story/ep1/mt_elbrus/ancient_sign_big_bright.png                              CC-BY-SA-3.0             Bertram
+data/story/ep1/mt_elbrus/shrine_entrance_light.png                                CC-BY-SA-3.0             Bertram
+data/story/ep1/mt_elbrus/fake_wall.png                                            CC-BY-SA-3.0, GPLv3      Guido Bos + adaptation from Bertram - https://opengameart.org/content/3rd-entry-some-old-castle-stuff
+data/story/ep1/mt_elbrus/spike_wall.png                                           CC-BY-SA-3.0, GPLv3      Guido Bos + adaptation from Bertram - https://opengameart.org/content/3rd-entry-some-old-castle-stuff
+data/story/ep1/mt_elbrus/falling_hole.png                                         CC-BY-SA-3.0, GPLv3      Guido Bos + adaptation from Bertram - https://opengameart.org/content/3rd-entry-some-old-castle-stuff
+data/story/ep1/mt_elbrus/falling_hole_above.png                                   CC-BY-SA-3.0, GPLv3      Guido Bos + adaptation from Bertram - https://opengameart.org/content/3rd-entry-some-old-castle-stuff
+data/story/ep1/mt_elbrus/elbrus_landscape.png                                     CC-BY-SA-3.0             Julien (OGA) - https://opengameart.org/content/large-nature-background
 
 data/tilesets/autotiling.lua                                                  GPLv2+                   Allacrost
 

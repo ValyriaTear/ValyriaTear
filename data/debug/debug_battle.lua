@@ -35,7 +35,7 @@ function TestFunction()
     --battle:AddEnemy(9, 0, 0)
     battle:GetScriptSupervisor():AddScript("data/battles/battle_scenes/desert_cave_battle_anim.lua")
     GlobalManager:GetBattleMedia():SetBackgroundImage("data/battles/battle_scenes/desert_cave/desert_cave.png")
-    --battle:GetScriptSupervisor():AddScript("data/story/layna_village/battle_with_banesore/battle_with_banesore_script.lua")
+    --battle:GetScriptSupervisor():AddScript("data/story/ep1/layna_village/battle_with_banesore/battle_with_banesore_script.lua")
     battle:BoostHeroPartyInitiative()
 
     ModeManager:Push(battle, false, false)

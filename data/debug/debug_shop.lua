@@ -56,7 +56,7 @@ function TestFunction()
     shop:AddTrade(10999, 1);
     shop:AddTrade(1, 0);
 
-    shop:GetScriptSupervisor():AddScript("data/story/layna_village/tutorial_shop_dialogs.lua");
+    shop:GetScriptSupervisor():AddScript("data/story/ep1/layna_village/tutorial_shop_dialogs.lua");
 
     ModeManager:Push(shop, false, false);
 end

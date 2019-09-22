@@ -41,7 +41,7 @@ function Load(m)
     Map:GetEffectSupervisor():EnableAmbientOverlay("data/visuals/ambient/clouds.png", 5.0, -5.0, true);
 
     -- Permits the display of the crystal ect...
-    Map:GetScriptSupervisor():AddScript("data/story/layna_forest/crystal_appearance/layna_forest_crystal_appearance_anim.lua");
+    Map:GetScriptSupervisor():AddScript("data/story/ep1/layna_forest/crystal_appearance/layna_forest_crystal_appearance_anim.lua");
 
     -- A scene map only
     Map:PushState(vt_map.MapMode.STATE_SCENE);
@@ -290,8 +290,8 @@ function _CreateEvents()
     event = vt_map.ScriptedEvent.Create("Make crystal appear", "make_crystal_appear", "make_crystal_appear_update");
     event:AddEventLinkAtStart("fade to Bronann's room", 10000);
 
-    vt_map.MapTransitionEvent.Create("fade to Bronann's room", "data/story/layna_village/layna_village_bronanns_home_first_floor_map.lua",
-                                     "data/story/layna_village/layna_village_bronanns_home_first_floor_script.lua", "from_introduction1");
+    vt_map.MapTransitionEvent.Create("fade to Bronann's room", "data/story/ep1/layna_village/layna_village_bronanns_home_first_floor_map.lua",
+                                     "data/story/ep1/layna_village/layna_village_bronanns_home_first_floor_script.lua", "from_introduction1");
 end
 
 -- Map Custom functions
