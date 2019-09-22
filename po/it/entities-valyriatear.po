@@ -1,0 +1,6306 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Stefano C. <coccatostefano@hotmail.it>, 2014
+# Stefano C. <coccatostefano@hotmail.it>, 2014
+# Bertram <yohann.ferreira@orange.fr>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: Valyria Tear\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-22 23:22+0200\n"
+"PO-Revision-Date: 2015-03-07 16:51+0100\n"
+"Last-Translator: BioHazardX <coccatostefano@hotmail.it>\n"
+"Language-Team: Italian (http://www.transifex.com/projects/p/valyria-tear/"
+"language/it/)\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../data/entities/characters.lua:13 ../data/entities/map_sprites.lua:11
+#: ../data/entities/map_sprites.lua:44
+msgid "Bronann"
+msgstr "Bronann"
+
+#: ../data/entities/characters.lua:19
+msgid "Holy"
+msgstr "Sacro"
+
+#: ../data/entities/characters.lua:64 ../data/entities/characters.lua:171
+#: ../data/entities/characters.lua:274 ../data/entities/characters.lua:369
+#: ../data/entities/enemies.lua:93 ../data/entities/enemies.lua:154
+#: ../data/entities/enemies.lua:209 ../data/entities/enemies.lua:381
+#: ../data/entities/enemies.lua:442 ../data/entities/enemies.lua:496
+#: ../data/entities/enemies.lua:564 ../data/entities/enemies.lua:879
+#: ../data/entities/enemies.lua:1024 ../data/entities/enemies.lua:1086
+#: ../data/entities/enemies.lua:1154 ../data/entities/enemies.lua:1253
+#: ../data/entities/enemies.lua:1309 ../data/entities/enemies.lua:1587
+#: ../data/entities/enemies.lua:1806 ../data/entities/enemies.lua:1863
+#: ../data/entities/enemies.lua:1920 ../data/entities/enemies.lua:1986
+msgid "Head"
+msgstr "Testa"
+
+#: ../data/entities/characters.lua:73 ../data/entities/characters.lua:180
+#: ../data/entities/characters.lua:283 ../data/entities/characters.lua:378
+#: ../data/entities/enemies.lua:320 ../data/entities/enemies.lua:505
+#: ../data/entities/enemies.lua:573 ../data/entities/enemies.lua:721
+#: ../data/entities/enemies.lua:777 ../data/entities/enemies.lua:980
+#: ../data/entities/enemies.lua:1372
+msgid "Torso"
+msgstr "Torso"
+
+#: ../data/entities/characters.lua:81 ../data/entities/characters.lua:188
+#: ../data/entities/characters.lua:291 ../data/entities/characters.lua:386
+msgid "Arms"
+msgstr "Braccia"
+
+#: ../data/entities/characters.lua:90 ../data/entities/characters.lua:197
+#: ../data/entities/characters.lua:300 ../data/entities/characters.lua:395
+#: ../data/entities/enemies.lua:513 ../data/entities/enemies.lua:581
+#: ../data/entities/enemies.lua:1667 ../data/entities/enemies.lua:1944
+msgid "Legs"
+msgstr "Gambe"
+
+#: ../data/entities/characters.lua:122 ../data/entities/map_sprites.lua:60
+msgid "Kalya"
+msgstr "Kalya"
+
+#: ../data/entities/characters.lua:128
+msgid "Invocation"
+msgstr "Invocazione"
+
+#: ../data/entities/characters.lua:228
+msgid "Sylve"
+msgstr "Sylve"
+
+#: ../data/entities/characters.lua:234
+msgid "Mist"
+msgstr "Nebbia"
+
+#: ../data/entities/characters.lua:322 ../data/entities/map_sprites.lua:87
+msgid "Thanis"
+msgstr "Thanis"
+
+#: ../data/entities/characters.lua:328
+msgid "Acheron"
+msgstr "Acheron"
+
+#: ../data/entities/enemies.lua:22
+msgid "Green Slime"
+msgstr "Slime verde"
+
+#: ../data/entities/enemies.lua:47 ../data/entities/enemies.lua:163
+#: ../data/entities/enemies.lua:218 ../data/entities/enemies.lua:274
+#: ../data/entities/enemies.lua:390 ../data/entities/enemies.lua:451
+#: ../data/entities/enemies.lua:628 ../data/entities/enemies.lua:933
+#: ../data/entities/enemies.lua:1207 ../data/entities/enemies.lua:1436
+#: ../data/entities/enemies.lua:1492 ../data/entities/enemies.lua:1539
+#: ../data/entities/enemies.lua:1814
+msgid "Body"
+msgstr "Corpo"
+
+#: ../data/entities/enemies.lua:68
+msgid "Spider"
+msgstr "Ragno"
+
+#: ../data/entities/enemies.lua:102 ../data/entities/enemies.lua:1261
+#: ../data/entities/enemies.lua:1871
+msgid "Abdomen"
+msgstr "Addome"
+
+#: ../data/entities/enemies.lua:125 ../data/entities/enemies.lua:352
+#: ../data/entities/enemies.lua:413 ../data/entities/map_sprites.lua:467
+msgid "Fenrir"
+msgstr "Fenrir"
+
+#: ../data/entities/enemies.lua:184
+msgid "Snake"
+msgstr "Serpente"
+
+#: ../data/entities/enemies.lua:226 ../data/entities/enemies.lua:1317
+#: ../data/entities/enemies.lua:1822 ../data/entities/enemies.lua:1879
+msgid "Tail"
+msgstr "Coda"
+
+#: ../data/entities/enemies.lua:249 ../data/entities/map_sprites.lua:425
+msgid "Slime Mother"
+msgstr "Slime madre"
+
+#: ../data/entities/enemies.lua:295 ../data/entities/map_sprites.lua:384
+msgid "Bat"
+msgstr "Pipistrello"
+
+#: ../data/entities/enemies.lua:329
+msgid "Wing"
+msgstr "Ala"
+
+#: ../data/entities/enemies.lua:471 ../data/entities/map_sprites.lua:482
+#: ../data/entities/map_sprites.lua:557
+msgid "Dark Soldier"
+msgstr "Soldato oscuro"
+
+#: ../data/entities/enemies.lua:534
+msgid "Lord Banesore"
+msgstr "Lord Banesore"
+
+#: ../data/entities/enemies.lua:603 ../data/entities/map_sprites.lua:520
+msgid "Shroom"
+msgstr "Fungo"
+
+#: ../data/entities/enemies.lua:650 ../data/entities/map_sprites.lua:541
+msgid "Eyeball"
+msgstr "Bulbo oculare"
+
+#: ../data/entities/enemies.lua:675 ../data/entities/enemies.lua:1364
+msgid "Eye"
+msgstr "Occhio"
+
+#: ../data/entities/enemies.lua:696
+msgid "Harlequin?"
+msgstr "Harlequin?"
+
+#: ../data/entities/enemies.lua:752
+msgid "Harlequin"
+msgstr "Harlequin"
+
+#: ../data/entities/enemies.lua:808 ../data/entities/map_sprites.lua:573
+msgid "Beetle"
+msgstr "Scarafaggio"
+
+#: ../data/entities/enemies.lua:833 ../data/entities/enemies.lua:887
+#: ../data/entities/enemies.lua:1032 ../data/entities/enemies.lua:1094
+#: ../data/entities/enemies.lua:1928 ../data/entities/enemies.lua:1994
+msgid "Chest"
+msgstr "Torace"
+
+#: ../data/entities/enemies.lua:854
+msgid "Rat"
+msgstr "Ratto"
+
+#: ../data/entities/enemies.lua:908
+msgid "Thing"
+msgstr "Cosa"
+
+#: ../data/entities/enemies.lua:955
+msgid "Yeti"
+msgstr "Yeti"
+
+#: ../data/entities/enemies.lua:999 ../data/entities/map_sprites.lua:589
+msgid "Skeleton"
+msgstr "Scheletro"
+
+#: ../data/entities/enemies.lua:1040 ../data/entities/enemies.lua:1102
+#: ../data/entities/enemies.lua:1269 ../data/entities/enemies.lua:1603
+msgid "Leg"
+msgstr "Gam"
+
+#: ../data/entities/enemies.lua:1061 ../data/entities/map_sprites.lua:605
+msgid "Dorver"
+msgstr "Dorver"
+
+#: ../data/entities/enemies.lua:1129 ../data/entities/map_sprites.lua:621
+msgid "Andromalius"
+msgstr "Andromalius"
+
+#: ../data/entities/enemies.lua:1182 ../data/entities/map_sprites.lua:369
+msgid "Ratto"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1235
+msgid "Scorpion"
+msgstr "Scorpione"
+
+#: ../data/entities/enemies.lua:1288
+msgid "Dune Crawler"
+msgstr "Flagello delle dune"
+
+#: ../data/entities/enemies.lua:1343
+msgid "Stygian Lizard"
+msgstr "Lucertola stigiana"
+
+#: ../data/entities/enemies.lua:1380 ../data/entities/enemies.lua:1444
+msgid "Claw"
+msgstr "Artiglio"
+
+#: ../data/entities/enemies.lua:1407
+msgid "Demonic Essence"
+msgstr "Essenza demoniaca"
+
+#: ../data/entities/enemies.lua:1428
+msgid "Face"
+msgstr "Faccia"
+
+#: ../data/entities/enemies.lua:1471
+msgid "Red Slime"
+msgstr "Slime rosso"
+
+#: ../data/entities/enemies.lua:1518
+msgid "Mushroom Zombie"
+msgstr "Fungo-zombie"
+
+#: ../data/entities/enemies.lua:1566
+msgid "Scorpion Goliath"
+msgstr "Scorpione gigante"
+
+#: ../data/entities/enemies.lua:1595
+msgid "Pincer"
+msgstr "Chela"
+
+#: ../data/entities/enemies.lua:1630
+msgid "Armored Beast"
+msgstr "Bestia corazzata"
+
+#: ../data/entities/enemies.lua:1651
+msgid "Mesosoma"
+msgstr "Mesosoma"
+
+#: ../data/entities/enemies.lua:1659
+msgid "Pincers"
+msgstr "Chele"
+
+#: ../data/entities/enemies.lua:1687
+msgid "Daemarbora"
+msgstr "Daemarbora"
+
+#: ../data/entities/enemies.lua:1708
+msgid "Trunk"
+msgstr "Tronco"
+
+#: ../data/entities/enemies.lua:1716
+msgid "Branches"
+msgstr "Rami"
+
+#: ../data/entities/enemies.lua:1736
+msgid "Aerocephal"
+msgstr "Aerocephal"
+
+#: ../data/entities/enemies.lua:1757
+msgid "Forehead"
+msgstr "Fronte"
+
+#: ../data/entities/enemies.lua:1765
+msgid "Orifice"
+msgstr "Orifizio"
+
+#: ../data/entities/enemies.lua:1785
+msgid "Arcana Drake"
+msgstr "Drago di Arcana"
+
+#: ../data/entities/enemies.lua:1842
+msgid "Nagaruda"
+msgstr "Nagaruda"
+
+#: ../data/entities/enemies.lua:1899
+msgid "Deceleon"
+msgstr "Deceleon"
+
+#: ../data/entities/enemies.lua:1936 ../data/entities/enemies.lua:2002
+msgid "Arm"
+msgstr "Braccia"
+
+#: ../data/entities/enemies.lua:1964
+msgid "Aurum Drakueli"
+msgstr "Aurum drakueli"
+
+#: ../data/entities/map_sprites.lua:105
+msgid "Carson"
+msgstr "Carson"
+
+#: ../data/entities/map_sprites.lua:121
+msgid "Malta"
+msgstr "Malta"
+
+#: ../data/entities/map_sprites.lua:137
+msgid "Orlinn"
+msgstr "Orlinn"
+
+#: ../data/entities/map_sprites.lua:159
+msgid "Herth"
+msgstr "Herth"
+
+#: ../data/entities/map_sprites.lua:179
+msgid "Olivia"
+msgstr "Olivia"
+
+#: ../data/entities/map_sprites.lua:194
+msgid "Brymir"
+msgstr "Brymir"
+
+#: ../data/entities/map_sprites.lua:209
+msgid "Martha"
+msgstr "Martha"
+
+#: ../data/entities/map_sprites.lua:224
+msgid "Sophia"
+msgstr "Sophia"
+
+#: ../data/entities/map_sprites.lua:240
+msgid "Lilly"
+msgstr "Lilly"
+
+#: ../data/entities/map_sprites.lua:255
+msgid "Georges"
+msgstr "Georges"
+
+#: ../data/entities/map_sprites.lua:270
+#, fuzzy
+msgid "Dandy Shroom"
+msgstr "Fungo"
+
+#: ../data/entities/map_sprites.lua:287
+msgid "Crystal"
+msgstr "Cristallo"
+
+#: ../data/entities/map_sprites.lua:303
+msgid "Soldier"
+msgstr "Soldato"
+
+#: ../data/entities/map_sprites.lua:321
+msgid "Chicken"
+msgstr "Gallina"
+
+#: ../data/entities/map_sprites.lua:336
+msgid "Butterfly"
+msgstr "Farfalla"
+
+#: ../data/entities/map_sprites.lua:351
+msgid "Squirrel"
+msgstr "Scoiattolo"
+
+#: ../data/entities/map_sprites.lua:503
+msgid "Lord"
+msgstr "Lord"
+
+#: ../data/entities/status_effects/status_effects.lua:78
+msgid "Physical Attack"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:135
+#, fuzzy
+msgid "Magical Attack"
+msgstr "Attacco magico (M.ATT): "
+
+#: ../data/entities/status_effects/status_effects.lua:192
+msgid "Physical Defense"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:249
+#, fuzzy
+msgid "Magical Defense"
+msgstr "Difesa magica: (M.DIF): "
+
+#: ../data/entities/status_effects/status_effects.lua:306
+msgid "Stamina"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:365
+msgid "Evasion"
+msgstr "Elusione"
+
+#: ../data/entities/status_effects/status_effects.lua:422
+msgid "HP"
+msgstr "PV"
+
+#: ../data/entities/status_effects/status_effects.lua:590
+msgid "SP"
+msgstr "PA"
+
+#: ../data/entities/status_effects/status_effects.lua:763
+msgid "Paralysis"
+msgstr "Paralisi"
+
+#: ../data/entities/status_effects/status_effects.lua:818
+msgid "Fire Elemental Strength"
+msgstr "Forza del fuoco "
+
+#: ../data/entities/status_effects/status_effects.lua:875
+msgid "Water Elemental Strength"
+msgstr "Forza dell'acqua "
+
+#: ../data/entities/status_effects/status_effects.lua:932
+msgid "Wind Elemental Strength"
+msgstr "Forza del vento"
+
+#: ../data/entities/status_effects/status_effects.lua:988
+msgid "Earth Elemental Strength"
+msgstr "Forza della terra"
+
+#: ../data/entities/status_effects/status_effects.lua:1044
+msgid "Life Elemental Strength"
+msgstr "Forza della vita"
+
+#: ../data/entities/status_effects/status_effects.lua:1100
+msgid "Death Elemental Strength"
+msgstr "Forza della morte"
+
+#: ../data/entities/status_effects/status_effects.lua:1157
+msgid "Neutral Elemental Strength"
+msgstr "Forza neutrale"
+
+#~ msgid "Fire"
+#~ msgstr "Fuoco"
+
+#~ msgid "Water"
+#~ msgstr "Acqua"
+
+#~ msgid "Volt"
+#~ msgstr "Elettrico"
+
+#~ msgid "Earth"
+#~ msgstr "Terra"
+
+#~ msgid "Life"
+#~ msgstr "Vita"
+
+#~ msgid "Death"
+#~ msgstr "Morte"
+
+#~ msgid "Neutral"
+#~ msgstr "Neutrale"
+
+#~ msgid "Invalid Element"
+#~ msgstr "Elemento non valido"
+
+#~ msgid "Invalid Status"
+#~ msgstr "Stato non valido"
+
+#~ msgid "Self — Point"
+#~ msgstr "Sé stesso - Punto"
+
+#~ msgid "Ally — Point"
+#~ msgstr "Alleato - Punto"
+
+#~ msgid "Foe — Point"
+#~ msgstr "Nemico - Punto"
+
+#~ msgid "Self"
+#~ msgstr "Sé stesso"
+
+#~ msgid "Ally"
+#~ msgstr "Alleato"
+
+#~ msgid "Foe"
+#~ msgstr "Nemico"
+
+#~ msgid "All Allies"
+#~ msgstr "Tutti gli alleati"
+
+#~ msgid "All Foes"
+#~ msgstr "Tutti i nemici"
+
+#~ msgid "Invalid Target"
+#~ msgstr "Bersaglio non valido"
+
+#~ msgid "Video"
+#~ msgstr "Video"
+
+#~ msgid "Audio"
+#~ msgstr "Audio"
+
+#~ msgid "Game"
+#~ msgstr "Gioco"
+
+#~ msgid "Language"
+#~ msgstr "Lingua"
+
+#~ msgid "Key Settings"
+#~ msgstr "Impostazione dei tasti"
+
+#~ msgid "Joystick Settings"
+#~ msgstr "Impostazione dei joystick"
+
+#~ msgid "Resolution: "
+#~ msgstr "Risoluzione: "
+
+#~ msgid "Window mode: "
+#~ msgstr "Schermo: "
+
+#~ msgid "Brightness: "
+#~ msgstr "Luminosità: "
+
+#~ msgid "VSync: "
+#~ msgstr "VSync: "
+
+#~ msgid "Update method: "
+#~ msgstr "Metodo aggiornamento:"
+
+#~ msgid "UI Theme: "
+#~ msgstr "Tema UI: "
+
+#~ msgid "Sound Volume: "
+#~ msgstr "Volume del suono: "
+
+#~ msgid "Music Volume: "
+#~ msgstr "Volume della musica: "
+
+#~ msgid "Easy"
+#~ msgstr "Facile"
+
+#~ msgid "Normal"
+#~ msgstr "Normale"
+
+#~ msgid "Hard"
+#~ msgstr "Difficile"
+
+#~ msgid "Yes"
+#~ msgstr "Sì"
+
+#~ msgid "No"
+#~ msgstr "No"
+
+#~ msgid "Up: "
+#~ msgstr "Su: "
+
+#~ msgid "Down: "
+#~ msgstr "Giù: "
+
+#~ msgid "Left: "
+#~ msgstr "Sinistra: "
+
+#~ msgid "Right: "
+#~ msgstr "Destra: "
+
+#~ msgid "Confirm: "
+#~ msgstr "Conferma: "
+
+#~ msgid "Cancel: "
+#~ msgstr "Annulla: "
+
+#~ msgid "Menu: "
+#~ msgstr "Menu: "
+
+#~ msgid "Toggle Map: "
+#~ msgstr "Abilita mappa: "
+
+#~ msgid "Pause: "
+#~ msgstr "Pausa: "
+
+#~ msgid "Restore defaults"
+#~ msgstr "Ripristina predefiniti"
+
+#~ msgid "Fullscreen"
+#~ msgstr "Intero"
+
+#~ msgid "Windowed"
+#~ msgstr "Finestra"
+
+#~ msgid "Performance"
+#~ msgstr "Prestazioni"
+
+#~ msgid "Move Up"
+#~ msgstr "Muovi in su"
+
+#~ msgid "Move Down"
+#~ msgstr "Muovi in giù"
+
+#~ msgid "Move Left"
+#~ msgstr "Muovi a sinistra"
+
+#~ msgid "Move Right"
+#~ msgstr "Muovi a destra"
+
+#~ msgid "Confirm"
+#~ msgstr "Conferma"
+
+#~ msgid "Cancel"
+#~ msgstr "Annulla"
+
+#~ msgid "Menu"
+#~ msgstr "Menu"
+
+#~ msgid "Toggle Map"
+#~ msgstr "Abilita mappa"
+
+#~ msgid "Pause"
+#~ msgstr "Pausa"
+
+#~ msgid "Input enabled: "
+#~ msgstr "Input abilitato: "
+
+#~ msgid "X Axis"
+#~ msgstr "Asse X"
+
+#~ msgid "Y Axis"
+#~ msgstr "Asse Y"
+
+#~ msgid "Threshold"
+#~ msgstr "Soglia"
+
+#~ msgid "Confirm: Button"
+#~ msgstr "Conferma: tasto"
+
+#~ msgid "Cancel: Button"
+#~ msgstr "Annulla: tasto"
+
+#~ msgid "Menu: Button"
+#~ msgstr "Menu: tasto"
+
+#~ msgid "Map: Button"
+#~ msgstr "Mappa: tasto"
+
+#~ msgid "Pause: Button"
+#~ msgstr "Pausa: tasto"
+
+#~ msgid "Help: Button"
+#~ msgstr "Mappa: tasto"
+
+#~ msgid "Quit: Button"
+#~ msgstr "Esci: tasto"
+
+#~ msgid "Please press a new joystick button."
+#~ msgstr "Premi un nuovo tasto dal joystick."
+
+#~ msgid "Please press a new key."
+#~ msgstr "Premi un nuovo tasto."
+
+#~ msgid "Please move an axis."
+#~ msgstr "Muovi un asse."
+
+#~ msgid ""
+#~ "Here you can set up the video options such as the resolution, whether to "
+#~ "play in full screen, the GUI theme, ..."
+#~ msgstr ""
+#~ "Qui puoi impostare le opzioni video come la risoluzione, se giocare a "
+#~ "schermo intero, il tema della GUI..."
+
+#~ msgid "Here you can setup the music and SFX volumes."
+#~ msgstr "Qui puoi impostare il volume della musica e dei suoni."
+
+#~ msgid ""
+#~ "This menu permits to setup game specific options, such as the text "
+#~ "scrolling speed, the game difficulty, ..."
+#~ msgstr ""
+#~ "Questo menu permette di impostare specifiche opzioni di gioco, come la "
+#~ "velocità di scorrimento del testo, il livello di difficoltà, ..."
+
+#~ msgid ""
+#~ "This menu will show the available languages. Only available from the boot "
+#~ "menu..."
+#~ msgstr ""
+#~ "Questo menu mostra le lingue disponibili. Accessibile solo dal menu "
+#~ "iniziale..."
+
+#~ msgid "Here you change the keys used when playing with the keyboard..."
+#~ msgstr "Qui puoi cambiare i tasti della tastiera usati durante il gioco..."
+
+#~ msgid "Here you change the keys used when playing with a joystick..."
+#~ msgstr "Qui puoi cambiare i tasti del joystick usati durante il gioco..."
+
+#~ msgid "This permits to select the game's resolution..."
+#~ msgstr "Permette di selezionare la risoluzione del gioco..."
+
+#~ msgid ""
+#~ "Here you can set whether you want to play in windowed mode or fullscreen."
+#~ msgstr ""
+#~ "Qui puoi scegliere se giocare in modalità finestra o a schermo intero."
+
+#~ msgid "Sets the game brightness percentage. Default: 50%"
+#~ msgstr "Imposta la percentuale della luminosità di gioco. Predefinito: 50%"
+
+#~ msgid ""
+#~ "Permits to change the Screen Vertical Synchronization mode. (Use the left "
+#~ "and right arrow keys.)"
+#~ msgstr ""
+#~ "Permette di cambiare la modalità di sincronizzazione verticale dello "
+#~ "schermo. (Usa le freccette sinistra/destra.)"
+
+#~ msgid ""
+#~ "Permits to change the Game Update mode. Use 'Performance' for more FPS, "
+#~ "and 'Gentle' to be kind with your CPU. Disabled when VSync is on."
+#~ msgstr ""
+#~ "Permette di cambiare la modalità di aggiornamento del gioco. Usa "
+#~ "\"Prestazioni\" per avere più fps, e \"Leggero\" per ridurre il carico "
+#~ "del tuo CPU. Disattivato quando il Vsync è attivo."
+
+#~ msgid "Permits to change the in-game GUI theme."
+#~ msgstr "Permette di cambiare il tema della GUI in gioco."
+
+#~ msgid "Permits to set the general music volume."
+#~ msgstr "Permette di impostare il volume generale della musica."
+
+#~ msgid "Permits to set the general SFX volume."
+#~ msgstr "Permette di impostare il volume generale dei suoni."
+
+#~ msgid ""
+#~ "Sets the game difficulty, can change how hard battles and certain events "
+#~ "are in game..."
+#~ msgstr ""
+#~ "Imposta la difficoltà del gioco, cioè quanto possano essere difficili le "
+#~ "battaglie e certi eventi di gioco..."
+
+#~ msgid ""
+#~ "Permits to set up the dialogue text scrolling speed (in character per "
+#~ "seconds)..."
+#~ msgstr ""
+#~ "Permette di impostare la velocità di scorrimento del testo nei dialoghi "
+#~ "(in caratteri per secondo)..."
+
+#~ msgid ""
+#~ "Sets whether the battle target should be kept in memory between two "
+#~ "actions for a given character."
+#~ msgstr ""
+#~ "Imposta se l'obiettivo in battaglia deve essere conservato in memoria tra "
+#~ "due azioni per un determinato personaggio."
+
+#~ msgid "Miss"
+#~ msgstr "Mancato"
+
+#~ msgid "[error]"
+#~ msgstr "[errore]"
+
+#~ msgid "[Select Action]"
+#~ msgstr "[Seleziona un'azione]"
+
+#~ msgid "Item<R>Type   ×"
+#~ msgstr "Oggetto<R>Tipo   ×"
+
+#~ msgid "Skill<R>Type SP"
+#~ msgstr "Abilità<R>Tipo PA"
+
+#~ msgid "Weapon"
+#~ msgstr "Arma"
+
+#~ msgid "Magic"
+#~ msgstr "Magia"
+
+#~ msgid "Items"
+#~ msgstr "Oggetti"
+
+#~ msgid "Bare-hand"
+#~ msgstr "A mani nude"
+
+#~ msgid "Select Target"
+#~ msgstr "Seleziona il bersaglio"
+
+#~ msgid "All Enemies"
+#~ msgstr "Tutti i nemici"
+
+#~ msgid "Select Attack Point"
+#~ msgstr "Seleziona il punto d'attacco"
+
+#~ msgid "Retry"
+#~ msgstr "Riprova"
+
+#~ msgid "End"
+#~ msgstr "Fine"
+
+#~ msgid "Start over from the beginning of this battle."
+#~ msgstr "Ricomincia la battaglia dall'inizio."
+
+#~ msgid "Exit to main menu."
+#~ msgstr "Torna al menu principale."
+
+#~ msgid "Confirm: retry battle."
+#~ msgstr "Conferma: riavvia la battaglia."
+
+#~ msgid "Confirm: return to main menu."
+#~ msgstr "Conferma: torna al menu principale."
+
+#~ msgid "Items Found"
+#~ msgstr "Oggetti trovati"
+
+#~ msgid "XP Earned: "
+#~ msgstr "PE guadagnati: "
+
+#~ msgid "Drunes Found: "
+#~ msgstr "Drune trovate: "
+
+#~ msgid "Total Drunes: "
+#~ msgstr "Totale drune: "
+
+#~ msgid "Level (Max): "
+#~ msgstr "Livello (mass.): "
+
+#~ msgid "Level: "
+#~ msgstr "Livello: "
+
+#~ msgid "XP left: "
+#~ msgstr "PE mancanti: "
+
+#~ msgid "HP: +"
+#~ msgstr "PV: +"
+
+#~ msgid "SP: +"
+#~ msgstr "PA: +"
+
+#~ msgid "STR: +"
+#~ msgstr "FOR: +"
+
+#~ msgid "VIG: +"
+#~ msgstr "VIG: +"
+
+#~ msgid "FOR: +"
+#~ msgstr "FER: +"
+
+#~ msgid "PRO: +"
+#~ msgstr "PRO: +"
+
+#~ msgid "AGI: +"
+#~ msgstr "AGI: +"
+
+#~ msgid "EVA: +"
+#~ msgstr "ELU: +"
+
+#~ msgid "New Skill Learned:\n"
+#~ msgstr "Nuova abilità appresa:\n"
+
+#~ msgid " (+20%)"
+#~ msgstr " (+20%)"
+
+#~ msgid "The heroes were victorious!"
+#~ msgstr "Gli eroi hanno trionfato!"
+
+#~ msgid "The heroes fell in battle..."
+#~ msgstr "Gli eroi sono caduti in battaglia..."
+
+#~ msgid "[Invalid Target]"
+#~ msgstr "[Obiettivo non valido]"
+
+#~ msgid " — "
+#~ msgstr " — "
+
+#~ msgid "New Game"
+#~ msgstr "Nuovo gioco"
+
+#~ msgid "Load Game"
+#~ msgstr "Carica il gioco"
+
+#~ msgid "Options"
+#~ msgstr "Opzioni"
+
+#~ msgid "Battle"
+#~ msgstr "Battaglia"
+
+#~ msgid "Shop"
+#~ msgstr "Negozio"
+
+#~ msgid "Quit"
+#~ msgstr "Esci"
+
+#~ msgid "You obtain"
+#~ msgstr "Hai ottenuto"
+
+#~ msgid "Ok"
+#~ msgstr "Ok"
+
+#~ msgid "Drunes"
+#~ msgstr "Drune"
+
+#~ msgid "Inventory"
+#~ msgstr "Inventario"
+
+#~ msgid "Skills"
+#~ msgstr "Abilità"
+
+#~ msgid "Party"
+#~ msgstr "Gruppo"
+
+#~ msgid "Quests"
+#~ msgstr "Missioni"
+
+#~ msgid "Map"
+#~ msgstr "Mappa"
+
+#~ msgid ""
+#~ "Select to view current world map.\n"
+#~ "Use left / right to cycle through locations.\n"
+#~ "Press 'cancel' to return"
+#~ msgstr ""
+#~ "Seleziona per visualizzare l'attuale mappa del mondo.\n"
+#~ "Usa sinistra/destra per scorrere le località.\n"
+#~ "Premi ''annulla'' per tornare"
+
+#~ msgid "Select to view Quest Log."
+#~ msgstr "Seleziona per visualizzare il riquadro delle missioni."
+
+#~ msgid "Equip"
+#~ msgstr "Equipaggia"
+
+#~ msgid "Remove"
+#~ msgstr "Rimuovi"
+
+#~ msgid "Back"
+#~ msgstr "Indietro"
+
+#~ msgid "View/Reorder"
+#~ msgstr "Visualizza/riordina"
+
+#~ msgid ""
+#~ "View character Information.\n"
+#~ "Select a character to change formation."
+#~ msgstr ""
+#~ "Visualizza le informazioni del personaggio.\n"
+#~ "Seleziona un personaggio per cambiare formazione."
+
+#~ msgid "Use"
+#~ msgstr "Usa"
+
+#~ msgid "This item is a key item and can be neither consumed nor sold."
+#~ msgstr "L'oggetto è una chiave e non può essere né speso né venduto."
+
+#~ msgid ""
+#~ "This item is an elemental spirit and can be associated with equipment."
+#~ msgstr ""
+#~ "L'oggetto è uno spirito elementale e può essere abbinato con "
+#~ "l'equipaggiamento."
+
+#~ msgid "Skills obtained:"
+#~ msgstr "Abilità acquisite:"
+
+#~ msgid "ATK:"
+#~ msgstr "ATC:"
+
+#~ msgid "M.ATK:"
+#~ msgstr "M.ATC:"
+
+#~ msgid "DEF:"
+#~ msgstr "DIF:"
+
+#~ msgid "M.DEF:"
+#~ msgstr "M.DIF:"
+
+#~ msgid "Lv: "
+#~ msgstr "Lv: "
+
+#~ msgid "HP: "
+#~ msgstr "PV: "
+
+#~ msgid "SP: "
+#~ msgstr "PA: "
+
+#~ msgid "XP to Next: "
+#~ msgstr "PE lv. succ.: "
+
+#~ msgid "Select an item to Equip or Use."
+#~ msgstr "Seleziona un oggetto per equipaggiare o usare."
+
+#~ msgid "This character cannot equip this item."
+#~ msgstr "Il personaggio non può equipaggiarsi con questo oggetto."
+
+#~ msgid "Select a character to use the item on."
+#~ msgstr "Seleziona un personaggio per usare l'oggetto."
+
+#~ msgid "Select a character to change position with."
+#~ msgstr "Seleziona un personaggio per cambiare posizione."
+
+#~ msgid "Select a character to change formation."
+#~ msgstr "Seleziona un personaggio per cambiare formazione."
+
+#~ msgid "Attack / Defense:"
+#~ msgstr "Attacco/difesa:"
+
+#~ msgid "Detailed defense:"
+#~ msgstr "Difesa speciale:"
+
+#~ msgid "Attack (ATK): "
+#~ msgstr "Attacco (ATC): "
+
+#~ msgid "Defense (DEF): "
+#~ msgstr "Difesa (DIF): "
+
+#~ msgid "Head: "
+#~ msgstr "Testa: "
+
+#~ msgid "Torso: "
+#~ msgstr "Torso: "
+
+#~ msgid "Arm: "
+#~ msgstr "Braccio: "
+
+#~ msgid "Leg: "
+#~ msgstr "Gamba: "
+
+#~ msgid "Experience Level: "
+#~ msgstr "Livello esperienza: "
+
+#~ msgid "Strength (STR): "
+#~ msgstr "Forza (FOR): "
+
+#~ msgid "Vigor (VIG): "
+#~ msgstr "Vigore (VIG): "
+
+#~ msgid "Fortitude (FRT): "
+#~ msgstr "Fermezza (FRT): "
+
+#~ msgid "Protection (PRO): "
+#~ msgstr "Protezione (PRO): "
+
+#~ msgid "Agility (AGI): "
+#~ msgstr "Agilità (AGI): "
+
+#~ msgid "Evade (EVD): "
+#~ msgstr "Elusione (ELU): "
+
+#~ msgid "Choose a character."
+#~ msgstr "Scegli un personaggio."
+
+#~ msgid "Choose a skill category to use."
+#~ msgstr "Scegli un'abilità da usare."
+
+#~ msgid "All"
+#~ msgstr "Tutto"
+
+#~ msgid "Field"
+#~ msgstr "Campo"
+
+#~ msgid "Weapon skill"
+#~ msgstr "Abilità con arma"
+
+#~ msgid "Bare hands"
+#~ msgstr "A mani nude"
+
+#~ msgid "Magic skill"
+#~ msgstr "Abilità magica"
+
+#~ msgid "Special skill"
+#~ msgstr "Abilità speciale"
+
+#~ msgid " SP"
+#~ msgstr " PA"
+
+#~ msgid "No weapon"
+#~ msgstr "Nessuna arma"
+
+#~ msgid "No head armor"
+#~ msgstr "Nessuna protezione "
+
+#~ msgid "No torso armor"
+#~ msgstr "Nessuna protezione "
+
+#~ msgid "No arms armor"
+#~ msgstr "Nessuna protezione alle braccia"
+
+#~ msgid "No legs armor"
+#~ msgstr "Nessuna protezione alle gambe"
+
+#~ msgid "Welcome to Valyria Tear"
+#~ msgstr "Benvenuti a Valyria tear"
+
+#~ msgid "Command"
+#~ msgstr "Comando"
+
+#~ msgid "Current Key"
+#~ msgstr "Tasto attuale"
+
+#~ msgid "Purpose"
+#~ msgstr "Descrizione"
+
+#~ msgid "Left"
+#~ msgstr "Sinistra"
+
+#~ msgid "Move menu cursor to the left"
+#~ msgstr "Muovi a sinistra"
+
+#~ msgid "Right"
+#~ msgstr "Destra"
+
+#~ msgid "Move menu cursor to the right"
+#~ msgstr "Muovi a destra"
+
+#~ msgid "Confirm a menu command"
+#~ msgstr "Conferma il comando selezionato"
+
+#~ msgid "Cancel a menu command"
+#~ msgstr "Annulla il comando selezionato"
+
+#~ msgid ""
+#~ "Quit the application\n"
+#~ "(when using the keyboard)"
+#~ msgstr ""
+#~ "Abbandona l'applicazione\n"
+#~ "(quando la tastiera è in uso)"
+
+#~ msgid ""
+#~ "Shop mode\n"
+#~ "\n"
+#~ "Use the Left/Right keys to add/remove items into the Buy and Sell modes.\n"
+#~ "Then go into the Confirm mode to complete the transaction."
+#~ msgstr ""
+#~ "Modalità negozio\n"
+#~ "\n"
+#~ "Usa i tasti sinistra o destra per aggiungere o rimuovere gli oggetti "
+#~ "comprati e venduti.\n"
+#~ "Infine conferma per completare la trattativa."
+
+#~ msgid "Remove an item from the buy/sell list"
+#~ msgstr "Rimuovi un oggetto venduto/comprato dalla lista"
+
+#~ msgid "Add an item to the buy/sell list."
+#~ msgstr "Aggiungi un oggetto venduto/comprato dalla lista."
+
+#~ msgid "Up"
+#~ msgstr "Su"
+
+#~ msgid "Move up in the item list."
+#~ msgstr "Scorri la lista degli oggetti verso l'alto."
+
+#~ msgid "Down"
+#~ msgstr "Giù"
+
+#~ msgid "Move down in the item list."
+#~ msgstr "Scorri la lista degli oggetti verso il basso."
+
+#~ msgid "Show details or confirm a transaction"
+#~ msgstr "Mostra i dettagli o conferma la trattativa"
+
+#~ msgid "Change the displayed item category."
+#~ msgstr "Cambia la categoria dell'oggetto in evidenza."
+
+#~ msgid ""
+#~ "Get out the Buy/Sell/Confirm mode,\n"
+#~ "or quit the shop."
+#~ msgstr ""
+#~ "Esci dalla modalità conferma/compra/vendi,\n"
+#~ "oppure abbandona il negozio."
+
+#~ msgid "Pauses the game"
+#~ msgstr "Metti in pausa il gioco"
+
+#~ msgid "Close this window / Show the system menu"
+#~ msgstr "Chiudi la finestra/mostra il menu di sistema"
+
+#~ msgid "The table below lists the default game controls.\n"
+#~ msgstr "Il quadro in basso mostra i controlli predefiniti di gioco.\n"
+
+#~ msgid "The control mappings can be changed in the options menu."
+#~ msgstr "I controlli possono essere modificati dal menu delle opzioni."
+
+#~ msgid "Default Key"
+#~ msgstr "Tasto predef."
+
+#~ msgid "General Purpose"
+#~ msgstr "Descrizione"
+
+#~ msgid "Move position or cursor upwards"
+#~ msgstr "Muovi verso l'alto"
+
+#~ msgid "Move position or cursor downwards"
+#~ msgstr "Muovi verso il basso"
+
+#~ msgid "Move position or cursor to the left"
+#~ msgstr "Muovi a sinistra"
+
+#~ msgid "Move position or cursor to the right"
+#~ msgstr "Muovi a destra"
+
+#~ msgid "Confirm an action or menu command"
+#~ msgstr "Conferma un'azione o un comando"
+
+#~ msgid "Cancel an action or menu command"
+#~ msgstr "Annulla l'azione o il comando"
+
+#~ msgid "Opens the party menu"
+#~ msgstr "Apri il menu del gruppo"
+
+#~ msgid "Show/Hide items and skills descriptions."
+#~ msgstr "Mostra/nascondi gli oggetti e le descrizioni di abilità."
+
+#~ msgid "Quit the application"
+#~ msgstr "Abbandona l'applicazione"
+
+#~ msgid ""
+#~ "There are additional commands available which can be found in the MANUAL "
+#~ "file."
+#~ msgstr ""
+#~ "Sono presenti alcuni comandi addizionali disponibili all'interno del file "
+#~ "''MANUAL''."
+
+#~ msgid "Paused"
+#~ msgstr "In pausa"
+
+#~ msgid "Quit to Main Menu"
+#~ msgstr "Torna al menu principale"
+
+#~ msgid "Quit Game"
+#~ msgstr "Esci dal gioco"
+
+#~ msgid "Save Game"
+#~ msgstr "Salva il gioco"
+
+#~ msgid "Slot 1"
+#~ msgstr "Slot 1"
+
+#~ msgid "Slot 2"
+#~ msgstr "Slot 2"
+
+#~ msgid "Slot 3"
+#~ msgstr "Slot 3"
+
+#~ msgid "Slot 4"
+#~ msgstr "Slot 4"
+
+#~ msgid "Slot 5"
+#~ msgstr "Slot 5"
+
+#~ msgid "Slot 6"
+#~ msgstr "Slot 6"
+
+#~ msgid "Confirm Save"
+#~ msgstr "Conferma il salvataggio"
+
+#~ msgid "Save successful!"
+#~ msgstr "Salvato con successo!"
+
+#~ msgid ""
+#~ "Unable to save game!\n"
+#~ "Save FAILED!"
+#~ msgstr ""
+#~ "Impossibile salvare il gioco!\n"
+#~ "Salvataggio FALLITO!"
+
+#~ msgid "No valid saves found!"
+#~ msgstr "Nessun salvataggio trovato!"
+
+#~ msgid "Invalid data!"
+#~ msgstr "Dati non validi!"
+
+#~ msgid "No data"
+#~ msgstr "Nessun dato"
+
+#~ msgid "Category"
+#~ msgstr "Categoria"
+
+#~ msgid "Name"
+#~ msgstr "Nome"
+
+#~ msgid "Price"
+#~ msgstr "Prezzo"
+
+#~ msgid "Stock"
+#~ msgstr "Scorta"
+
+#~ msgid "Own"
+#~ msgstr "Hai"
+
+#~ msgid "Weapons"
+#~ msgstr "Armi"
+
+#~ msgid "Head Armor"
+#~ msgstr "Protezione alla testa"
+
+#~ msgid "Torso Armor"
+#~ msgstr "Protezione al torso"
+
+#~ msgid "Arm Armor"
+#~ msgstr "Protezione alle braccia"
+
+#~ msgid "Leg Armor"
+#~ msgstr "Protezione alle gambe"
+
+#~ msgid "Spirits"
+#~ msgstr "Spiriti"
+
+#~ msgid "Key Items"
+#~ msgstr "Oggetti chiave"
+
+#~ msgid "All Wares"
+#~ msgstr "Tutta la merce"
+
+#~ msgid "Field Use:"
+#~ msgstr "Uso in campo:"
+
+#~ msgid "Battle Use:"
+#~ msgstr "Uso in battaglia:"
+
+#~ msgid "Target:"
+#~ msgstr "Obiettivo:"
+
+#~ msgid "Conditions:"
+#~ msgstr "Condizioni:"
+
+#~ msgid "Buy count: x "
+#~ msgstr "Compra quantità: x "
+
+#~ msgid "Sell count: x "
+#~ msgstr "Vendi quantità: x "
+
+#~ msgid "Trade count: x "
+#~ msgstr "Quantità merci: x "
+
+#~ msgid "Buy"
+#~ msgstr "Compra"
+
+#~ msgid "Sell"
+#~ msgstr "Vendi"
+
+#~ msgid "Trade"
+#~ msgstr "Trattativa"
+
+#~ msgid "Leave"
+#~ msgstr "Lascia"
+
+#~ msgid "Funds: "
+#~ msgstr "Cassa: "
+
+#~ msgid "Purchases: "
+#~ msgstr "Acquisti: "
+
+#~ msgid "Total: "
+#~ msgstr "Totale: "
+
+#~ msgid "Sales: +"
+#~ msgstr "Vendite: +"
+
+#~ msgid "The Shop"
+#~ msgstr "Il negozio"
+
+#~ msgid "Buy prices"
+#~ msgstr "Prezzi di acquisto"
+
+#~ msgid "Sell prices"
+#~ msgstr "Prezzi di vendita"
+
+#~ msgid "\"Welcome! Take a look around.\""
+#~ msgstr "''Benvenuto! Dai un'occhiata in giro.''"
+
+#~ msgid ""
+#~ "Woah, I wouldn't have expected monsters so close to the village. Bronann, "
+#~ "do you need a quick reminder about the basics of battle?"
+#~ msgstr ""
+#~ "Oh, non mi sarei mai aspettata di incontrare mostri così vicini al "
+#~ "villaggio. Bronann, per caso hai bisogno di una rinfrescata veloce alla "
+#~ "memoria riguardo le basi della battaglia?"
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid "Ask about battle basics."
+#~ msgstr "Chiedi riguardo le basi della battaglia."
+
+#~ msgid "Ask nothing. I know how to fight."
+#~ msgstr "Non chiedere niente. So già come combattere."
+
+#~ msgid "Er, I could use a refresher on the fundamentals of combat."
+#~ msgstr ""
+#~ "Ehm, meglio che mi aggiorni riguardo le basi fondamentali del "
+#~ "combattimento."
+
+#~ msgid ""
+#~ "Here you can find the hit points (HP) and skill points (SP) of the ally "
+#~ "party. Don't let our HP reach 0 or we're doomed!"
+#~ msgstr ""
+#~ "Qui trovi i punti vita (PV) e i punti abilità (PA) di tutti gli alleati. "
+#~ "Non lasciare che i nostri PV arrivino a zero o saremmo condannati alla "
+#~ "morte!"
+
+#~ msgid ""
+#~ "In battle, our icons and those of our enemies will rise up on the stamina "
+#~ "bar. The more agility you have, the faster your icon will climb."
+#~ msgstr ""
+#~ "Durante la battaglia, le nostre icone e quelle dei nemici risalgono la "
+#~ "barra della stamina. Più agilità possiedi, più veloce la tua icona "
+#~ "scalerà la barra."
+
+#~ msgid ""
+#~ "Once an ally has reached the action level, you can select an action for "
+#~ "that ally. The battle is then paused and you've got all the time you need "
+#~ "to select one, so don't panic."
+#~ msgstr ""
+#~ "Una volta che un'alleato raggiunge il livello d'azione, sarà possibile "
+#~ "selezionare una determinata azione. Non agitarti, la battaglia si fermerà "
+#~ "e avrai tutto il tempo necessario per selezionarne una."
+
+#~ msgid ""
+#~ "There are two action types: The basic 'Weapon' to attack, and later you "
+#~ "can also use 'Magic' skills. Last but not least, you'll also be able to "
+#~ "use our 'Items'. Simply choose an action followed by a target to trigger "
+#~ "it."
+#~ msgstr ""
+#~ "Ci sono due tipi di azione: ''arma'' (essenziale per attaccare), e "
+#~ "''magia'' (abilità che vedremmo più tardi). Ultimo ma non meno "
+#~ "importante, avrai la possibilità di utilizzare i nostri ''oggetti''. Per "
+#~ "attivare uno di questi basta scegliere un'azione seguita da un bersaglio."
+
+#~ msgid ""
+#~ "The icon will still need to climb to the top of the stamina bar before "
+#~ "the selected action is executed. This is called the 'preparation time'. "
+#~ "Generally the more powerful the skill being executed, the longer it will "
+#~ "take to prepare."
+#~ msgstr ""
+#~ "L'icona dovrà raggiungere la cima della barra della stamina prima di "
+#~ "essere eseguita. Questo intervallo è chiamato ''tempo di preparazione''. "
+#~ "Di solito più potente è l'abilità da eseguire, più tempo ci vorrà per "
+#~ "essere caricata."
+
+#~ msgid ""
+#~ "By the way, you're not forced to wait for your icon to reach the action "
+#~ "level before you can select an action. When these two little arrows here "
+#~ "are highlighted, you can use your up and down keys to preselect an action "
+#~ "for the corresponding ally."
+#~ msgstr ""
+#~ "A proposito, non sei obbligato ad aspettare che l'icona raggiunga il "
+#~ "livello d'azione prima di agire. Quando queste due freccette qui sono "
+#~ "evidenziate, potrai usare i tasti su e giù per preselezionare un'azione "
+#~ "per l'alleato corrispondente."
+
+#~ msgid ""
+#~ "So long as the little arrows there are still visible, you can change the "
+#~ "selected action at any time."
+#~ msgstr ""
+#~ "Finché le freccette saranno visibili, potrai modificare l'azione "
+#~ "selezionata in qualsiasi momento."
+
+#~ msgid "Don't forget that you can press '"
+#~ msgstr "Non dimenticare di premere ''"
+
+#~ msgid "' if you need more details."
+#~ msgstr "'' se avrai bisogno di ulteriori dettagli."
+
+#~ msgid "Shall I repeat all that?"
+#~ msgstr "Vuoi che ripeta?"
+
+#~ msgid "Yes, please."
+#~ msgstr "Sì, grazie."
+
+#~ msgid "No, it's alright."
+#~ msgstr "No, è chiaro."
+
+#~ msgid "Don't worry Kalya, I have not forgotten my training."
+#~ msgstr "Non preoccuparti Kalya, non ho dimenticato il mio addestramento."
+
+#~ msgid "Thanks Kalya, I'm prepared now."
+#~ msgstr "Grazie Kalya, ora mi sento preparato."
+
+#~ msgid "Good. Let us quickly dispatch this minor threat."
+#~ msgstr ""
+#~ "Bene. Ora sbarazziamoci in fretta di questa minaccia insignificante."
+
+#~ msgid "Get some barley meal"
+#~ msgstr "Ottieni della farina d'orzo"
+
+#~ msgid ""
+#~ "Mom needs some for dinner!\n"
+#~ " \n"
+#~ "Flora might have some in her shop. I should go and have a look there "
+#~ "first."
+#~ msgstr ""
+#~ "Mamma ne ha bisogno per cena!\n"
+#~ "\n"
+#~ "Flora potrebbe avere qualcosa. Dovrei andare subito a dare un'occhiata "
+#~ "nel suo negozio."
+
+#~ msgid ""
+#~ "Finally, I found some. Lilly had what I sought in her house the whole "
+#~ "time."
+#~ msgstr ""
+#~ "Finalmente, ho trovato qualcosa. Per tutto questo tempo Lilly aveva in "
+#~ "casa quello che cercavo."
+
+#~ msgid "Village of Layna"
+#~ msgstr "Villaggio di Layna"
+
+#~ msgid "Bronann's home"
+#~ msgstr "Casa di Bronann"
+
+#~ msgid "Find Georges's pen"
+#~ msgstr "Trova la penna di Georges"
+
+#~ msgid ""
+#~ "In order to know who Georges gave the rest of his barley meal to, I need "
+#~ "to get back his lost pen.\n"
+#~ " \n"
+#~ "He said he lost it near a tree. He also told me that people in the "
+#~ "village might know more."
+#~ msgstr ""
+#~ "Per scoprire a chi Georges ha dato il resto della farina d'orzo, devo "
+#~ "recuperare la sua penna che ha perso.\n"
+#~ "\n"
+#~ "Racconta di averla persa vicino a un albero. Mi ha anche raccontato che "
+#~ "le persone del villaggio potrebbero sapere qualcosa in più."
+
+#~ msgid ""
+#~ "Orlinn had the pen and I ran after him all morning to get it back. I hope "
+#~ "he won't have any problems with Kalya..."
+#~ msgstr ""
+#~ "Orlinn aveva la penna e lo rincorsi tutta la mattinata per riprenderla. "
+#~ "Spero che dopo non avrà problemi con Kalya..."
+
+#~ msgid "Village center"
+#~ msgstr "Centro del villaggio"
+
+#~ msgid "Catch Orlinn!"
+#~ msgstr "Acchiappa Orlinn!"
+
+#~ msgid ""
+#~ "Orlinn has the pen that I need to return to Georges! The only problem now "
+#~ "is I have to find out where he's hiding. Hmm, it shouldn't take long."
+#~ msgstr ""
+#~ "Orlinn ha la penna di Georges! L'unico problema per ora è sapere in quale "
+#~ "posto si nasconda. Mm, non ci metterò tanto."
+
+#~ msgid ""
+#~ "After chasing him around the village all morning, I finally have the pen. "
+#~ "Time to bring it back to Georges."
+#~ msgstr ""
+#~ "Dopo avergli corso dietro per tutta la mattina attorno al villaggio, "
+#~ "finalmente ho la penna. È tempo di riportarla indietro a Georges."
+
+#~ msgid "Catch the chickens"
+#~ msgstr "Acchiappa le galline"
+
+#~ msgid ""
+#~ "Grandma asked me to catch the chickens that flew away. There are three of "
+#~ "them."
+#~ msgstr ""
+#~ "Nonnina mi ha chiesto di catturare le galline scomparse. In tutto sono "
+#~ "tre."
+
+#~ msgid "I was able to find them!"
+#~ msgstr "Sono riuscito a trovarle!"
+
+#~ msgid "Path to Kalya's house"
+#~ msgstr "Sentiero per la casa di Kalya"
+
+#~ msgid "Let's go to the woods."
+#~ msgstr "Andiamo nel bosco."
+
+#~ msgid ""
+#~ "It's been weeks since I could go outside the village.\n"
+#~ " \n"
+#~ "The entrance has been shut with stones, and now they won't even let me go "
+#~ "and breathe in the only place I could be alone?!?\n"
+#~ " \n"
+#~ "Whatever. I need a sword just in case, and I'll get there alone!"
+#~ msgstr ""
+#~ "Sono passate settimane da quando potevo uscire dal villaggio.\n"
+#~ "\n"
+#~ "L'entrata è stata chiusa con delle pietre, e ora non mi permettono più di "
+#~ "andare a rilassarmi nell'unico posto in cui potevo rimanere un po' da "
+#~ "solo!??\n"
+#~ "In ogni caso, ho bisogno di procurarmi una spada, e vado a prenderla da "
+#~ "solo!"
+
+#~ msgid "I'm now equipped, and access to the forest has been granted!"
+#~ msgstr ""
+#~ "Ora sono equipaggiato, e il permesso di entrare nella foresta è stato "
+#~ "ottenuto!"
+
+#~ msgid "Orlinn might be in danger!"
+#~ msgstr "Orlinn potrebbe essere in pericolo!"
+
+#~ msgid ""
+#~ "After seeing that strange light, Orlinn ran into the woods. He's just a "
+#~ "kid, even if a quick one!\n"
+#~ " \n"
+#~ "My father asked me to go there with Kalya and bring him back safe and "
+#~ "sound.\n"
+#~ " \n"
+#~ "I can't let them down!"
+#~ msgstr ""
+#~ "Dopo aver visto quella strana luce, Orlinn è scappato nel bosco. È "
+#~ "soltanto un bambino, anche se corre troppo veloce!\n"
+#~ " \n"
+#~ "Mio padre mi ha chiesto di andare lì con Kalya e di portarlo a casa sano "
+#~ "e salvo.\n"
+#~ " \n"
+#~ "Non posso deluderli!"
+
+#~ msgid ""
+#~ "We finally retrieved Orlinn in the center of the forest. A mysterious "
+#~ "wolf was protecting him, and we came just in time to prevent him from "
+#~ "approaching a strange crystal."
+#~ msgstr ""
+#~ "Abbiamo finalmente ritrovato Orlinn nel cuore della foresta. Era protetto "
+#~ "da un lupo misterioso, e per fortuna siamo arrivati appena in tempo per "
+#~ "impedirgli di avvicinarsi ad uno strano cristallo."
+
+#~ msgid "We must escape from the soldiers."
+#~ msgstr "Dobbiamo fuggire dai soldati."
+
+#~ msgid ""
+#~ "After we returned to the village, Kalya was caught by strange soldiers. "
+#~ "The country lord himself provoked me in battle and thanks to her, we "
+#~ "escaped for now.\n"
+#~ " \n"
+#~ "But this isn't over. The soldiers are after us and we have to make our "
+#~ "way through."
+#~ msgstr ""
+#~ "Dopo essere tornati al nostro villaggio, Kalya è stata catturata da "
+#~ "alcuni soldati sconosciuti. Sono stato provocato in battaglia dal lord di "
+#~ "persona, ma grazie a lei, abbiamo avuto la possibilità di salvarci per "
+#~ "ora.\n"
+#~ " \n"
+#~ "Ma non è ancora finita, i soldati sono alle nostre calcagna e dobbiamo "
+#~ "farci strada."
+
+#~ msgid "We managed to find a way up to the mountain top."
+#~ msgstr ""
+#~ "Siamo riusciti a trovare una strada che porta in cima della montagna."
+
+#~ msgid "Kalya's home basement"
+#~ msgstr "Seminterrato della casa di Kalya"
+
+#~ msgid "Royal Silk"
+#~ msgstr "Royal Silk"
+
+#~ msgid "Black Sleet"
+#~ msgstr "Black Sleet"
+
+#~ msgid "Elvish Feather"
+#~ msgstr "Piuma elfica"
+
+#~ msgid "Layna Forest"
+#~ msgstr "Foresta di Layna"
+
+#~ msgid "Mt. Elbrus"
+#~ msgstr "M. Elbrus"
+
+#~ msgid "Thanks for playing!!"
+#~ msgstr "Grazie per aver giocato!!"
+
+#~ msgid "Episode I"
+#~ msgstr "Episodio I"
+
+#~ msgid "Story"
+#~ msgstr "Storia"
+
+#~ msgid "Lead Programming, Scripting, Maps"
+#~ msgstr "Programmazione direttiva, scripting, mappe"
+
+#~ msgid "Additional programming and scripting"
+#~ msgstr "Programmazione aggiuntiva e scripting"
+
+#~ msgid ""
+#~ "Balancing, ...\n"
+#~ "\n"
+#~ "Quest log, Minimap support, ...\n"
+#~ "\n"
+#~ "Shop Trade mode support, ...\n"
+#~ "\n"
+#~ "UI theme change menu support, ...\n"
+#~ "\n"
+#~ "GL code improvement, ...\n"
+#~ "\n"
+#~ "Multiple screen fix, ...\n"
+#~ "\n"
+#~ "Misc fixes\n"
+#~ "\n"
+#~ "Joystick handling fixes"
+#~ msgstr ""
+#~ "Bilanciamento, ...\n"
+#~ "\n"
+#~ "Riquadro delle missioni, supporto della minimap, ...\n"
+#~ "\n"
+#~ "Supporto alla modalità trattative del negozio, ...\n"
+#~ "\n"
+#~ "Supporto cambio tema UI da menu, ...\n"
+#~ "\n"
+#~ "Miglioramento codice GL, ...\n"
+#~ "\n"
+#~ "Correzione schermo multiplo, ...\n"
+#~ "Correzioni varie\n"
+#~ "\n"
+#~ "Correzione joystick"
+
+#~ msgid "Graphics"
+#~ msgstr "Grafica"
+
+#~ msgid ""
+#~ "Village tileset, ...\n"
+#~ "\n"
+#~ "Cemetery tileset, ...\n"
+#~ "\n"
+#~ "Heroes portraits, ...\n"
+#~ "\n"
+#~ "Heroes sprites, Cave tilesets, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "Forest battle backgrounds, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "The Fenrir\n"
+#~ "\n"
+#~ "A lot of various things"
+#~ msgstr ""
+#~ "Tileset del villaggio, ...\n"
+#~ "\n"
+#~ "Tileset del cimitero, ...\n"
+#~ "\n"
+#~ "Ritratti degli eroi, ...\n"
+#~ "\n"
+#~ "Sprite degli eroi, tileset della caverna, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "Sfondi di battaglia della foresta, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "Il fenrir\n"
+#~ "\n"
+#~ "Un sacco di cose diverse"
+
+#~ msgid "Music"
+#~ msgstr "Musica"
+
+#~ msgid ""
+#~ "\n"
+#~ "Main theme, Village music, ...\n"
+#~ "\n"
+#~ "Banesore's battle, ...\n"
+#~ "\n"
+#~ "Layna Forest music, ...\n"
+#~ "\n"
+#~ "Boss Music\n"
+#~ "\n"
+#~ "Battle music\n"
+#~ "\n"
+#~ "Birds' song\n"
+#~ "\n"
+#~ "Battle lost music\n"
+#~ "\n"
+#~ "Layna cave music"
+#~ msgstr ""
+#~ "\n"
+#~ "Tema principale, musica del villaggio, ...\n"
+#~ "\n"
+#~ "Battaglia di Banesore, ...\n"
+#~ "\n"
+#~ "Musica della foresta di Layna, ...\n"
+#~ "\n"
+#~ "Musica dei boss\n"
+#~ "\n"
+#~ "Musica da battaglia\n"
+#~ "\n"
+#~ "Canzone degli uccelli\n"
+#~ "\n"
+#~ "Musica delle battaglie perse\n"
+#~ "\n"
+#~ "Musica della caverna di Layna"
+
+#~ msgid ""
+#~ "Sad theme\n"
+#~ "\n"
+#~ "Mountain music\n"
+#~ "\n"
+#~ "Mountain Shrine music\n"
+#~ "\n"
+#~ "Special Boss"
+#~ msgstr ""
+#~ "Tema triste\n"
+#~ "\n"
+#~ "Musica della montagna\n"
+#~ "\n"
+#~ "Musica del santuario\n"
+#~ "\n"
+#~ "Boss speciale"
+
+#~ msgid "Sounds"
+#~ msgstr "Suoni"
+
+#~ msgid "Ports"
+#~ msgstr "Portabilità"
+
+#~ msgid "Translations"
+#~ msgstr "Traduzioni"
+
+#~ msgid ""
+#~ "English text review\n"
+#~ "\n"
+#~ "Dutch (nl_NL)\n"
+#~ "\n"
+#~ "French (fr)\n"
+#~ "\n"
+#~ "Galician (gl)\n"
+#~ "\n"
+#~ "German (de)"
+#~ msgstr ""
+#~ "Revisione testo in inglese\n"
+#~ "\n"
+#~ "Olandese (nl_NL)\n"
+#~ "\n"
+#~ "Francese (fr)\n"
+#~ "\n"
+#~ "Gaelico (gl)\n"
+#~ "\n"
+#~ "Tedesco (de)"
+
+#~ msgid ""
+#~ "Italian (it)\n"
+#~ "\n"
+#~ "Portuguese (pt_PT)\n"
+#~ "\n"
+#~ "Russian (ru)\n"
+#~ "\n"
+#~ "Spanish (es)\n"
+#~ "\n"
+#~ "Swedish (sv)"
+#~ msgstr ""
+#~ "Italiano (it)\n"
+#~ "\n"
+#~ "Portoghese (pt_PT)\n"
+#~ "\n"
+#~ "Russo (ru)\n"
+#~ "\n"
+#~ "Spagnolo (es)\n"
+#~ "\n"
+#~ "Svedese (sv)"
+
+#~ msgid "Testers"
+#~ msgstr "Tester"
+
+#~ msgid "And you..."
+#~ msgstr "E tu..."
+
+#~ msgid "Valyria Tear was forked from Hero of Allacrost in 2011"
+#~ msgstr "Valyria Tear fu diramato da Hero of Allacrost nel 2011"
+
+#~ msgid ""
+#~ "Allacrost Development Team (2004-2011)\n"
+#~ "\n"
+#~ "Founder and Lead Designer"
+#~ msgstr ""
+#~ "Squadra di sviluppo di Allacrost (2004-2011)\n"
+#~ "\n"
+#~ "Fondatore e capo disegnatore"
+
+#~ msgid "Allacrost Project Leads/Administrators"
+#~ msgstr "Direttori del progetto Allacrost/Amministratori"
+
+#~ msgid "Allacrost Programming Team (2004-2011)"
+#~ msgstr "Squadra programmazione di Allacrost (2004-2011)"
+
+#~ msgid ""
+#~ "Battle code, Menu code\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Game engine\n"
+#~ "\n"
+#~ "Map code\n"
+#~ "\n"
+#~ "Various game modes, content scripting\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Video engine, Audio engine\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Programming lead, Game engine, Map code"
+#~ msgstr ""
+#~ "Codice battaglia, codice menu\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Game engine\n"
+#~ "\n"
+#~ "Codice mappa\n"
+#~ "\n"
+#~ "Varie modalità di gioco, scripting di contenuti\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Video engine, audio engine\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Programmazione direttiva, game engine, codice mappa"
+
+#~ msgid "Allacrost Programming Team"
+#~ msgstr "Squadra programmazione di Allacrost"
+
+#~ msgid ""
+#~ "Boot code, Battle code\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Audio engine\n"
+#~ "\n"
+#~ "Various code, Mac OS X maintenance\n"
+#~ "\n"
+#~ "Game engine, Game modes, Windows build scripts\n"
+#~ "\n"
+#~ "Battle code\n"
+#~ "\n"
+#~ "Map editor\n"
+#~ "\n"
+#~ "Internationalization\n"
+#~ "\n"
+#~ "Video engine"
+#~ msgstr ""
+#~ "Codice boot, codice battaglia\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Audio engine\n"
+#~ "\n"
+#~ "Codice vario, manutenzione Mac OS X \n"
+#~ "\n"
+#~ "Game engine, modalità di gioco, script di building Windows\n"
+#~ "\n"
+#~ "Codice battaglia\n"
+#~ "\n"
+#~ "Map editor\n"
+#~ "\n"
+#~ "Internalizzazione\n"
+#~ "\n"
+#~ "Video engine"
+
+#~ msgid ""
+#~ "Video engine, Game engine\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Scripting engine\n"
+#~ "\n"
+#~ "Various code\n"
+#~ "\n"
+#~ "Various code"
+#~ msgstr ""
+#~ "Video engine, game engine\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Scripting engine\n"
+#~ "\n"
+#~ "Codice vario\n"
+#~ "\n"
+#~ "Codice vario"
+
+#~ msgid "Allacrost Artwork Team (2004-2011)"
+#~ msgstr "Squadra artisti di Allacrost (2004-2011)"
+
+#~ msgid ""
+#~ "Map sprites, Battle sprites, Character portraits, Location graphics\n"
+#~ "\n"
+#~ "Battle sprites, old Allacrost GUI artwork\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Allacrost website graphics, GUI artwork, Game logos\n"
+#~ "\n"
+#~ "Map tiles, map sprites, Inventory icons, Allacrost artwork coordination"
+#~ msgstr ""
+#~ "Sprite di mappe, sprite di battaglie, ritratti dei personaggi, grafica "
+#~ "delle locazioni\n"
+#~ "\n"
+#~ "Sprite di battaglie, vecchio artwork GUI di Allacrost\n"
+#~ "\n"
+#~ "Tile di mappe\n"
+#~ "\n"
+#~ "Grafica del sito web di Allacrost, artwork GUI, loghi di gioco\n"
+#~ "\n"
+#~ "Tile di mappe, sprite di mappe, icone dell'inventario, coordinazione "
+#~ "artwork di Allacrost"
+
+#~ msgid "Allacrost Artwork Team"
+#~ msgstr "Squadra artisti di Allacrost"
+
+#~ msgid ""
+#~ "Concept art\n"
+#~ "\n"
+#~ "Inventory icons\n"
+#~ "\n"
+#~ "Map sprite animations\n"
+#~ "\n"
+#~ "Concept art\n"
+#~ "\n"
+#~ "Inventory icons\n"
+#~ "\n"
+#~ "Concept art, Map sprites\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Map sprites"
+#~ msgstr ""
+#~ "Concetti artistici\n"
+#~ "\n"
+#~ "Icone dell'inventario\n"
+#~ "\n"
+#~ "Animazioni sprite di mappa\n"
+#~ "\n"
+#~ "Concetti artistici\n"
+#~ "\n"
+#~ "Icone dell'inventario\n"
+#~ "\n"
+#~ "Concetti artistici, sprite di mappe\n"
+#~ "\n"
+#~ "Tile delle mappe\n"
+#~ "\n"
+#~ "Tile di mappe\n"
+#~ "\n"
+#~ "Sprite di mappe"
+
+#~ msgid ""
+#~ "Map sprite animations\n"
+#~ "\n"
+#~ "Map sprite animations, Map tiles\n"
+#~ "\n"
+#~ "Concept art, Allacrost title screen image\n"
+#~ "\n"
+#~ "Concept art, Map sprites, Map tiles\n"
+#~ "\n"
+#~ "Concept art, Map sprites\n"
+#~ "\n"
+#~ "Map tiles"
+#~ msgstr ""
+#~ "Animazioni sprite su mappa\n"
+#~ "\n"
+#~ "Animazioni sprite su mappa, tile di mappe\n"
+#~ "\n"
+#~ "Concezione artistica, immagine di schermo del titolo Allacrost\n"
+#~ "\n"
+#~ "Concezione artistica, sprite di mappe, tile di mappe\n"
+#~ "\n"
+#~ "Concezione artistica, sprite di mappe\n"
+#~ "\n"
+#~ "Tile di mappe"
+
+#~ msgid ""
+#~ "Various art\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Enemy sprites\n"
+#~ "\n"
+#~ "Map sprites, Map tiles\n"
+#~ "\n"
+#~ "Map tiles, Inventory icons\n"
+#~ "\n"
+#~ "Map tiles, Battle sprites"
+#~ msgstr ""
+#~ "Arte varia\n"
+#~ "\n"
+#~ "Tile delle mappe\n"
+#~ "\n"
+#~ "Sprite dei nemici\n"
+#~ "\n"
+#~ "Sprite delle mappe, tile delle mappe\n"
+#~ "\n"
+#~ "Sprite delle mappe, icone dell'inventario\n"
+#~ "\n"
+#~ "Tile delle mappe, sprite delle battaglie"
+
+#~ msgid "Allacrost Music and Sound Team (2004-2011)"
+#~ msgstr "Squadra suoni e musica di Allacrost (2004-2011)"
+
+#~ msgid ""
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Soundtrack composer\n"
+#~ "\n"
+#~ "Music and sound lead, Soundtrack composer\n"
+#~ "\n"
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Sound mixer\n"
+#~ "\n"
+#~ "Soundtrack composer"
+#~ msgstr ""
+#~ "Compositore di suoni\n"
+#~ "\n"
+#~ "Compositore di colonna sonora\n"
+#~ "\n"
+#~ "Direzione suoni e musica, Compositore di colonna sonora\n"
+#~ "\n"
+#~ "Compositore di suoni\n"
+#~ "\n"
+#~ "Compositore di suoni\n"
+#~ "\n"
+#~ "Mixer di suoni\n"
+#~ "\n"
+#~ "Compositore di colonna sonora"
+
+#~ msgid "Allacrost Special Thanks"
+#~ msgstr "Ringraziamenti speciali di Allacrost"
+
+#~ msgid ""
+#~ "Map Tiles\n"
+#~ "\n"
+#~ "Inventory Icons\n"
+#~ "\n"
+#~ "Map monster sprites"
+#~ msgstr ""
+#~ "Tile delle mappe\n"
+#~ "\n"
+#~ "Icone dell'inventario\n"
+#~ "\n"
+#~ "Sprite dei mostri su mappa"
+
+#~ msgid "To be continued..."
+#~ msgstr "Continua..."
+
+#~ msgid "Based on the engine"
+#~ msgstr "Basato sull'engine"
+
+#~ msgid "Episode I - Main Graphics"
+#~ msgstr "Episodio I - Grafica principale"
+
+#~ msgid "Episode I - Additional Graphics"
+#~ msgstr "Episodio I - Grafica aggiuntiva"
+
+#~ msgid "and many others"
+#~ msgstr "e altri ancora"
+
+#~ msgid "Programming, Scripting, Maps"
+#~ msgstr "Programmazione, scripting, mappe"
+
+#~ msgid ""
+#~ "Additional programming\n"
+#~ "and scripting"
+#~ msgstr ""
+#~ "Programmazione aggiuntiva\n"
+#~ "e scripting"
+
+#~ msgid "Tester Team"
+#~ msgstr "Squadra tester"
+
+#~ msgid "To Lilou and Léo..."
+#~ msgstr "A Lilou e Léo..."
+
+#~ msgid ""
+#~ "Thanks to everyone\n"
+#~ "who made this possible!!"
+#~ msgstr ""
+#~ "Grazie a tutti\n"
+#~ "che hanno reso possibile tutto questo!"
+
+#~ msgid "Strength"
+#~ msgstr "Forza"
+
+#~ msgid "Vigor"
+#~ msgstr "Vigore"
+
+#~ msgid "Fortitude"
+#~ msgstr "Fermezza"
+
+#~ msgid "Protection"
+#~ msgstr "Protezione"
+
+#~ msgid "Agility"
+#~ msgstr "Agilità"
+
+#~ msgid "Escape"
+#~ msgstr "Escape"
+
+#~ msgid "Space"
+#~ msgstr "Spazio"
+
+#~ msgid "Ctrl"
+#~ msgstr "Ctrl"
+
+#~ msgid "Alt"
+#~ msgstr "Alt"
+
+#~ msgid "Shift"
+#~ msgstr "Shift"
+
+#~ msgid "Move your character:"
+#~ msgstr "Muovi il tuo personaggio:"
+
+#~ msgid "Possible actions:"
+#~ msgstr "Azioni possibili:"
+
+#~ msgid "Game commands:"
+#~ msgstr "Comandi di gioco:"
+
+#~ msgid "Flora"
+#~ msgstr "Flora"
+
+#~ msgid "It seems it is your first time around, right? Need help?"
+#~ msgstr ""
+#~ "Sembra che questa sia la tua prima volta, giusto? Hai bisogno di aiuto?"
+
+#~ msgid "I wouldn't mind some help..."
+#~ msgstr "Non mi dispiacerebbe un po' di aiuto..."
+
+#~ msgid "I should be fine, thanks."
+#~ msgstr "Dovrei stare bene, grazie."
+
+#~ msgid ""
+#~ "Welcome to my shop, then! \n"
+#~ "First of all you can choose to either 'Buy' or 'Sell' items from the top "
+#~ "menu right here... \n"
+#~ "'Trade' is for special offers that don't only cost money."
+#~ msgstr ""
+#~ "Allora, benvenuti al mio negozio| \n"
+#~ "Per prima cosa devi scegliere se \"comprare\" o \"vendere\" oggetti dal "
+#~ "menu in alto da qui... \n"
+#~ "Le \"trattative\" sono delle offerte speciali che oltre ai soldi "
+#~ "richiedono altro."
+
+#~ msgid ""
+#~ "Don't worry, I'll make good prices for you as you can testify in the buy "
+#~ "ranking right there!"
+#~ msgstr ""
+#~ "Non preoccuparti, ti farò dei buoni prezzi in cui potrai verificarli "
+#~ "dalla lista degli acquisti!"
+
+#~ msgid ""
+#~ "For now, let's see what I have in store and select the 'Buy' option..."
+#~ msgstr ""
+#~ "Per ora, vediamo cosa tengo in negozio e seleziona l'opzione \"Compra\"..."
+
+#~ msgid ""
+#~ "Here you can see the list of available wares, how many items I've got and "
+#~ "how many you already have for each."
+#~ msgstr ""
+#~ "Qui puoi vedere la lista delle merci disponibili, il numero di articoli "
+#~ "che possiedo e quanti ne hai già per ciascuno."
+
+#~ msgid "Let's have a look at the potions..."
+#~ msgstr "Diamo un'occchiata alle pozioni..."
+
+#~ msgid ""
+#~ "Once you're here, you'll be able to add or remove how many items you want "
+#~ "by pressing left or right. Of course, only if you have money, Sweeties..."
+#~ msgstr ""
+#~ "Una volta che sei giunto qui, sarà possibile aggiungere o rimuovere "
+#~ "quanti oggetti che vuoi premendo sinistra o destra. Ovviamente, solo se "
+#~ "possiedi dei soldi. Baci..."
+
+#~ msgid "Shall I repeat?"
+#~ msgstr "Vuoi che ripeta?"
+
+#~ msgid "Yes, please!"
+#~ msgstr "Sì, grazie!"
+
+#~ msgid "No, it's alright!"
+#~ msgstr "No, ho capito!"
+
+#~ msgid "Alright then, take a look around..."
+#~ msgstr "Bene allora, dai un'occhiata in giro..."
+
+#~ msgid "Your party feels better."
+#~ msgstr "Il tuo gruppo si sente molto meglio."
+
+#~ msgid ""
+#~ "I didn't know that there was a cave here. It's kind of creepy. Let's "
+#~ "hurry and find Orlinn."
+#~ msgstr ""
+#~ "Non sapevo che ci fosse una caverna qui. È piuttosto inquietante. "
+#~ "Sbrighiamoci a trovare Orlinn."
+
+#~ msgid "It seems Orlinn was able to go through those platforms. Somehow."
+#~ msgstr ""
+#~ "Sembra che Orlinn sia stato in grado di oltrepassare quelle piattaforme. "
+#~ "In qualche modo."
+
+#~ msgid "Let's make our way through this before something bad happens to him."
+#~ msgstr "Andiamo prima che succeda a lui qualcosa di brutto."
+
+#~ msgid "Look, there is a stone slab on the ground. Let's check this out."
+#~ msgstr "Guarda, c'è una piastra di pietra sul terreno. Diamoci un'occhiata."
+
+#~ msgid "It seems the way is clear now."
+#~ msgstr "Sembra che la strada sia libera adesso."
+
+#~ msgid ""
+#~ "(I also heard something falling outside. Let's hope it's nothing bad.)"
+#~ msgstr "(ho sentito qualcosa cadere all'esterno. Speriamo bene.)"
+
+#~ msgid "Stone sign"
+#~ msgstr "Segnale di pietra"
+
+#~ msgid "Only the last one standing shall pass."
+#~ msgstr "Solo colui che rimane in piedi fino all'ultimo potrà passare."
+
+#~ msgid "'Only the last one standing shall pass.'"
+#~ msgstr "''Solo colui che rimane in piedi fino all'ultimo potrà passare.''"
+
+#~ msgid "You are able to decipher this writing, Kalya?"
+#~ msgstr "Kalya, sei in grado di decifrare questa scrittura?"
+
+#~ msgid "Somehow. I'm not sure how I am able to, but I can read it."
+#~ msgstr "In un modo o nell'altro. Non so il perché, ma riesco a leggerlo."
+
+#~ msgid "However, I don't know what it means."
+#~ msgstr "Eppure, non so cosa voglia dire."
+
+#~ msgid "Let's look around. We might find out."
+#~ msgstr "Diamo un'occhiata in giro. Potremmo scoprire qualcosa."
+
+#~ msgid "Something heavy seems to have fallen nearby."
+#~ msgstr "Qualcosa di pesante sembra essere caduto nelle vicinanze."
+
+#~ msgid "Look!"
+#~ msgstr "Guarda!"
+
+#~ msgid ""
+#~ "I can feel a breeze and see light entering the cave from around this "
+#~ "rock. Orlinn must have gone through here."
+#~ msgstr ""
+#~ "Posso sentire la brezza e vedere la luce che fuoriesce dalla grotta "
+#~ "intorno a questa roccia. Orlinn deve per forza essere passato di qui."
+
+#~ msgid ""
+#~ "There are signs engraved on this rock, too. This looks like some kind of "
+#~ "mechanism my family used long ago."
+#~ msgstr ""
+#~ "Ci sono pure dei segni incisi su questa roccia. Sembra una sorte di "
+#~ "meccanismo che la mia famiglia utilizzava tanto tempo fa."
+
+#~ msgid "Your family? Long ago?"
+#~ msgstr "La tua famiglia? Tanto tempo fa?"
+
+#~ msgid ""
+#~ "Err, nevermind. We must find a way to make this move. Let's look around."
+#~ msgstr ""
+#~ "Err, non importa. Dobbiamo trovare un modo per rimuoverla. Diamo "
+#~ "un'occhiata in giro."
+
+#~ msgid "Orlinn!"
+#~ msgstr "Orlinn!"
+
+#~ msgid "I can feel it, sis'. It's coming!"
+#~ msgstr "Lo percepisco, sorellona. Sta arrivando!"
+
+#~ msgid "Orlinn, stop!"
+#~ msgstr "Orlinn, basta!"
+
+#~ msgid "What's happening!?"
+#~ msgstr "Cosa sta succedendo!?"
+
+#~ msgid "Gosh! By all heavens, is this...?"
+#~ msgstr "Perbacco! Per tutti i cieli, e questo cosa sarebbe...?"
+
+#~ msgid "A crystal stone?!"
+#~ msgstr "Una pietra di cristallo!?"
+
+#~ msgid "This is her. I heard her voice calling."
+#~ msgstr "Questa è lei. Ho sentito la sua voce che chiamava."
+
+#~ msgid "Dear chosen one, the time has finally come."
+#~ msgstr "Caro Prescelto, il momento è finalmente giunto."
+
+#~ msgid "For us, it will be but an instant."
+#~ msgstr "Per noi, ci vorrà un istante."
+
+#~ msgid "For you, it might be decades."
+#~ msgstr "Per voi, passeranno decenni."
+
+#~ msgid "May you bring a happy end to this foolish destiny of ours."
+#~ msgstr "Che voi possiate portare un lieto fine al nostro folle destino."
+
+#~ msgid "We're all anxiously awaiting your return."
+#~ msgstr "Stiamo tutti aspettando con ansia il vostro ritorno."
+
+#~ msgid "Now, come. Become one with our holy hope."
+#~ msgstr "Venite, ora. Diventate un tutt'uno con la nostra sacra speranza."
+
+#~ msgid "What does all of this mean?"
+#~ msgstr "Cosa significa tutto ciò?"
+
+#~ msgid "I shall become one with our only hope."
+#~ msgstr "Diverrò un tutt'uno con la nostra sola speranza."
+
+#~ msgid "What! Orlinn, no!"
+#~ msgstr "Cosa! Orlinn, no!"
+
+#~ msgid "Bronann, the crystal! No!"
+#~ msgstr "Bronann, il cristallo! No!"
+
+#~ msgid "Bronann!"
+#~ msgstr "Bronann!"
+
+#~ msgid "Bronann! Are you all right? Answer me!!"
+#~ msgstr "Bronann! Stai bene? Rispondi!!"
+
+#~ msgid "Woah, where am I?"
+#~ msgstr "Wow, dove sono?"
+
+#~ msgid "Sis! What's the matter? What happened?"
+#~ msgstr "Sorellona! Qual è il problema? Cos'è successo?"
+
+#~ msgid "What happened? Orlinn, what have you done?"
+#~ msgstr "Cos'è successo? Orlinn, cosa hai fatto?"
+
+#~ msgid "... My head."
+#~ msgstr "...La mia testa."
+
+#~ msgid "Bronann! Are you alright?"
+#~ msgstr "Bronann! Stai bene?"
+
+#~ msgid "I, I guess so."
+#~ msgstr "Cre...credo di sì."
+
+#~ msgid "The wolf! The crystal! Orlinn! Are you ok?"
+#~ msgstr "Il lupo! Il cristallo! Orlinn! Stai bene?"
+
+#~ msgid "Don't worry, I'm fine. Err, what crystal? What... wolf??"
+#~ msgstr "Non preoccuparti, sto bene. Err, quale cristallo? Quale...lupo?"
+
+#~ msgid "You won't be fine for long after I'm done with you!!"
+#~ msgstr ""
+#~ "Non starai meglio per molto dopo che avrò finito di fare i conti con te!! "
+
+#~ msgid "Huh? Wait, I didn't do anything this time!"
+#~ msgstr "Eh? Aspetta, non ho fatto niente questa volta!"
+
+#~ msgid "Oh? You didn't?"
+#~ msgstr "Oh? Davvero??"
+
+#~ msgid "When I catch you, I'll make you wish you were never born! Rahh!"
+#~ msgstr "Se ti prendo, ti farò pentire di essere nato! Arrgh!"
+
+#~ msgid "Yiek!"
+#~ msgstr "Yiek!"
+
+#~ msgid "Come here, now!"
+#~ msgstr "Vieni qui, presto!"
+
+#~ msgid "(Sigh)... I should have stayed home today."
+#~ msgstr "(Sospiro)...avrei dovuto rimanere a casa oggi."
+
+#~ msgid "Ouch, why is my head hurting so much?"
+#~ msgstr "Ahia, perché la testa mi fa così male?"
+
+#~ msgid ""
+#~ "Are you ok? We should head back to the village so Lilly can examine you."
+#~ msgstr ""
+#~ "Stai bene? Dovremmo tornare al villaggio così che Lilly possa visitarti."
+
+#~ msgid "I still feel really dizzy, but I'll be ok."
+#~ msgstr "Mi gira ancora la testa ma starò bene."
+
+#~ msgid ""
+#~ "I'm relieved that Orlinn is fine as well. Speaking of that, Orlinn! Stop "
+#~ "running and come here right now!"
+#~ msgstr ""
+#~ "Sono sollevata per la salute di Orlinn. A proposito: Orlinn! Smettila di "
+#~ "correre e vieni qui, subito!"
+
+#~ msgid "Owww. Alright."
+#~ msgstr "Ufff. Va bene."
+
+#~ msgid ""
+#~ "Now, Orlinn, tell us. Why on earth did you go into the forest alone, and "
+#~ "how did you get there so quickly?"
+#~ msgstr ""
+#~ "Ora, Orlinn, rispondi. Perché mai sei andato nella foresta da solo, e "
+#~ "come hai fatto ad arrivare lì così in fretta?"
+
+#~ msgid "I don't know."
+#~ msgstr "Non lo so."
+
+#~ msgid "Why was that giant wolf protecting you?"
+#~ msgstr "Perché quel lupo gigante ti proteggeva?"
+
+#~ msgid "What was that crystal? Why did you want to 'become one' with it?"
+#~ msgstr ""
+#~ "E che cos'era quel cristallo? Perché volevi \"rendere un tutt'uno\" con "
+#~ "esso?"
+
+#~ msgid ""
+#~ "I, I, I sincerely don't know. I swear! It was like I was... dreaming."
+#~ msgstr ""
+#~ "Io, io, iosinceramente non lo so. Lo giuro! Era come se stessi...sognando."
+
+#~ msgid "I merely remember a voice in my head, telling me to come."
+#~ msgstr "Ricordo soltanto una voce nella mia testa, che mi diceva di venire."
+
+#~ msgid "You know you won't get away with this. When you see Herth..."
+#~ msgstr ""
+#~ "Sai bene che non puoi raccontare questa scusa. Quando vedrai Herth..."
+
+#~ msgid "I swear it's the truth!"
+#~ msgstr "Giuro che è la verità!"
+
+#~ msgid "Making one with the crystal, huh?"
+#~ msgstr "Rendere un tutt'uno con il cristallo, eh?"
+
+#~ msgid ""
+#~ "Let's not panic. Bronann, you look fine. Anyway, we'd better get back to "
+#~ "the village and see the elders as soon as possible."
+#~ msgstr ""
+#~ "Bronann, non avere paura. Sembri stare già meglio. In ogni caso, è meglio "
+#~ "tornare al villaggio e vedere gli anziani il più presto possibile."
+
+#~ msgid ""
+#~ "Have you seen one of these before? This is a Layna statue. Praying near "
+#~ "it heals both your mind and body."
+#~ msgstr ""
+#~ "Hai mai visto una di queste prima d'ora? Si tratta di una statua di "
+#~ "Layna. Pregando vicino ad essa fa guarire la mente e il corpo."
+
+#~ msgid "Ok, thanks."
+#~ msgstr "Ok, grazie."
+
+#~ msgid "See? Now, let's find my brother before he gets hurt."
+#~ msgstr "Visto? Ora, troviamo mio fratello prima che si faccia male."
+
+#~ msgid "What's that?!"
+#~ msgstr "Cos'è quello!?"
+
+#~ msgid ""
+#~ "Woah, that was quite a nasty fight. Why on earth was a north arctic "
+#~ "fenrir lurking in the forest? I thought it was merely a part of myths."
+#~ msgstr ""
+#~ "Wow, è stata una lotta abbastanza difficile. Perché mai un fenrir artico "
+#~ "dovrebbe starsene in agguato in una foresta del genere? Credevo che tali "
+#~ "animali fossero parte di miti."
+
+#~ msgid ""
+#~ "It ran away. I'm almost certain that we'll meet it again. We'd better be "
+#~ "more prepared next time."
+#~ msgstr ""
+#~ "È soltanto fuggito. Ma sono certa che lo incontreremo nuovamente. E "
+#~ "faremmo meglio a essere più preparati la prossima volta."
+
+#~ msgid ""
+#~ "I'll try not to think about what it could have done to Orlinn. Let's find "
+#~ "him... quickly."
+#~ msgstr ""
+#~ "Meglio non pensare a cosa avrebbe potuto fare a Orlinn. Troviamolo..."
+#~ "presto."
+
+#~ msgid "Orlinn, stop it RIGHT NOW!!"
+#~ msgstr "Orlinn, fermati ADESSO!!"
+
+#~ msgid "I can't sis. I can feel it... calling me."
+#~ msgstr "Non posso, sorella. Lo sento...mi sta chiamando."
+
+#~ msgid "Quick! Let's follow him."
+#~ msgstr "Presto! Seguiamolo."
+
+#~ msgid "Right!"
+#~ msgstr "Subito!"
+
+#~ msgid "Great! The tremor has opened a path back to the village!"
+#~ msgstr ""
+#~ "Mitico! Il tremore ha appena aperto una strada di ritorno al villaggio!"
+
+#~ msgid "Now we can get back to the village more quickly."
+#~ msgstr "Possiamo facilmente tornare al villaggio più velocemente."
+
+#~ msgid "We're almost there!"
+#~ msgstr "Ci siamo quasi!"
+
+#~ msgid "Say sis, do you think Herth will be angry at me for what happened?"
+#~ msgstr ""
+#~ "Dimmi sorellona, pensi che Herth sarà arrabbiato con me per quello che è "
+#~ "successo?"
+
+#~ msgid ""
+#~ "I don't think so, Orlinn. We both know you didn't do it on purpose, right?"
+#~ msgstr ""
+#~ "Non la penso così, Orlinn. Sappiamo entrambi che non l'hai fatto apposta, "
+#~ "non è vero?"
+
+#~ msgid "Ok."
+#~ msgstr "Ok."
+
+#~ msgid "Kalya, err..."
+#~ msgstr "Kalya, err..."
+
+#~ msgid "What is it, Bronann?"
+#~ msgstr "Cosa c'è, Bronann?"
+
+#~ msgid "Hmm. Nevermind."
+#~ msgstr "Mmm. Niente."
+
+#~ msgid "Don't worry too much, Bronann. Herth will be able to help you."
+#~ msgstr "Non preoccuparti troppo, Bronann. Herth sarà in grado di aiutarti."
+
+#~ msgid "Me? But..."
+#~ msgstr "Io? Ma..."
+
+#~ msgid "Thanks..."
+#~ msgstr "Grazie..."
+
+#~ msgid "Thanks for your help."
+#~ msgstr "Grazie per l'aiuto che ci hai dato."
+
+#~ msgid "You're welcome."
+#~ msgstr "Prego."
+
+#~ msgid "Your party feels better..."
+#~ msgstr "Il tuo gruppo si sente molto meglio..."
+
+#~ msgid "Woah, wait!"
+#~ msgstr "Ehi, aspetta!"
+
+#~ msgid ""
+#~ "Look at the grass. Snakes like to hide in the tall grass. We need to be "
+#~ "careful because their venom causes drowsiness."
+#~ msgstr ""
+#~ "Osserva l'erba. Ai serpenti piace nascondersi nell'erba alta. Facciamo "
+#~ "attenzione, dato che il loro veleno provoca indolenza."
+
+#~ msgid "(Bronann looks at the ground)"
+#~ msgstr "(Bronann guarda per terra)"
+
+#~ msgid "This water looks weird. Shall we drink it anyway?"
+#~ msgstr "L'acqua sembra strana. Vogliamo berla comunque?"
+
+#~ msgid "Yes, I'm so thirsty."
+#~ msgstr "Sì, ho una gran sete."
+
+#~ msgid "No way, we'd get sick."
+#~ msgstr "Niente da fare, ci ammaleremo."
+
+#~ msgid "The party drinks the water and feels... alright?"
+#~ msgstr "Il gruppo beve l'acqua e si sente....tutto bene?"
+
+#~ msgid "The party won't drink it."
+#~ msgstr "Il gruppo non beve."
+
+#~ msgid "Yiek, it stinks in here."
+#~ msgstr "Yiek, qui dentro c'è un odore nauseabondo."
+
+#~ msgid "Look at all those bones. We should be careful."
+#~ msgstr "Guarda tutte quelle ossa. Dobbiamo stare attenti."
+
+#~ msgid "I hope Orlinn is alright."
+#~ msgstr "Spero che Orlinn stia bene."
+
+#~ msgid "What a lovely necklace! I'll take it."
+#~ msgstr "Che bella collana! La prendo."
+
+#~ msgid ""
+#~ "Kalya. We're in the middle of a cave and you're only thinking about "
+#~ "wearing jewels?"
+#~ msgstr ""
+#~ "Kalya. Siamo nel bel mezzo di una caverna e l'unica cosa che pensi sono i "
+#~ "gioielli da indossare?"
+
+#~ msgid ""
+#~ "Jewelry is a gift from the heavens to remind us that beauty can be as "
+#~ "pure on the outside as it is on the inside. Besides, it suits me better "
+#~ "than it would you."
+#~ msgstr ""
+#~ "Un gioiello è un dono dato dal cielo per farci ricordare che la bellezza "
+#~ "può essere pura sia da fuori che da dentro. Inoltre, mi si adatta meglio "
+#~ "di quanto non penseresti."
+
+#~ msgid "Kalya! You'd better be careful!"
+#~ msgstr "Kalya! Faresti meglio a stare attenta!"
+
+#~ msgid "Don't even start, this one is all mine."
+#~ msgstr "Non cominciare, ormai appartiene a me."
+
+#~ msgid "Not the necklace, the fenrir!"
+#~ msgstr "Non la collana, il fenrir!"
+
+#~ msgid "You can't be serious, we would have heard it come."
+#~ msgstr "Non essere così preoccupato, lo avremmo potuto sentire se arrivava."
+
+#~ msgid "Ah, well. You were serious, weren't you?"
+#~ msgstr "Ah be'. Eri serio prima, non è vero?"
+
+#~ msgid ""
+#~ "It ran away again. I'm glad we survived. Let's get out of here before it "
+#~ "comes back."
+#~ msgstr ""
+#~ "È scappato di nuovo. Sono contenta che siamo sopravvissuti. Però andiamo "
+#~ "subito via di qui prima che ritorni."
+
+#~ msgid "Banesore"
+#~ msgstr "Banesore"
+
+#~ msgid "So, you think you can wound me?"
+#~ msgstr "Così, credi di ferirmi?"
+
+#~ msgid "You? A child with an old wooden stick?"
+#~ msgstr "Tu? Un bambino con un vecchio bastone di legno?"
+
+#~ msgid ""
+#~ "You're stronger than I thought. But you are still too weak to challenge "
+#~ "me!"
+#~ msgstr ""
+#~ "Sei più forte di quanto pensassi. Ma sei troppo debole per sfidarmi!"
+
+#~ msgid "Argh! It hurts!"
+#~ msgstr "Argh! Fa male!"
+
+#~ msgid "Yes! I can feel it coming closer to the surface!"
+#~ msgstr "Sì! La avverto risalire sempre in superficie!"
+
+#~ msgid "Let your fear grow, young boy!"
+#~ msgstr "Lascia che la tua paura cresca, ragazzo!"
+
+#~ msgid "Bronann, don't listen to him!"
+#~ msgstr "Bronann, non ascoltarlo!"
+
+#~ msgid "I will... try."
+#~ msgstr "...Proverò."
+
+#~ msgid "Hmph. Soldiers, leave that man to me!"
+#~ msgstr "Hmph. Lasciate quell'uomo a me, soldati!"
+
+#~ msgid "So, it appears that you remember me, Banesore. Is that correct?"
+#~ msgstr "Quindi, sembra che vi ricordate di me, Banesore. Non è forse vero?"
+
+#~ msgid "I do remember you, old man..."
+#~ msgstr "Ti ricordo, vecchio..."
+
+#~ msgid ""
+#~ "Then, you already know that your zombified soldiers are no match for me."
+#~ msgstr ""
+#~ "Allora, sapete già che i vostri soldati zombificati non rappresentano un "
+#~ "ostacolo per me."
+
+#~ msgid "Argh! My chest is burning!"
+#~ msgstr "Argh! Il mio torace sta bruciando!"
+
+#~ msgid "Hold on Bronann!"
+#~ msgstr "Resisti, Bronann!"
+
+#~ msgid ""
+#~ "I had that same nightmare again. This time, however, I still feel dizzy "
+#~ "even after getting up."
+#~ msgstr ""
+#~ "Ho avuto di nuovo lo stesso incubo. Questa volta, però, mi gira la testa "
+#~ "dopo essermi alzato dal letto."
+
+#~ msgid "I might as well move on and forget about it."
+#~ msgstr "Meglio che mi muova e che non ci pensi più."
+
+#~ msgid "You can come back here and save as many times as you want."
+#~ msgstr "È possibile tornare qui di nuovo e salvare tutte le volte che vuoi."
+
+#~ msgid ""
+#~ "Hey son! Did you sleep well? Hmm, now where did I leave that oil lamp?"
+#~ msgstr ""
+#~ "Ehi figliolo! Dormito bene? Mmm, ma dove avevo lasciato quella lampada ad "
+#~ "olio?"
+
+#~ msgid "Hi Dad! Um, I don't know. Sorry."
+#~ msgstr "Ciao papà! Ehm, non saprei. Scusami."
+
+#~ msgid "Nah, no problem, I'll find it somewhere, eventually."
+#~ msgstr "No, non c'è problema, penserò io a trovarla, più avanti."
+
+#~ msgid ""
+#~ "Now that you're *finally* up, could you go buy some barley meal for us?"
+#~ msgstr ""
+#~ "Ora che *FINALMENTE* ti sei alzato, potresti andare a comprare un po' di "
+#~ "farina d'orzo per noi tre?"
+
+#~ msgid "Barley meal? Again?"
+#~ msgstr "Farina d'orzo? Ancora?"
+
+#~ msgid "Hmph, just go boy. You'll be free after that, ok?"
+#~ msgstr ""
+#~ "Beh, basta che vai figliolo. Una volta finito avrai tutto il tempo libero "
+#~ "a disposizione, d'accordo?"
+
+#~ msgid "Thanks for helping me out with the dishes."
+#~ msgstr "Grazie per avermi aiutato con i piatti."
+
+#~ msgid "Say, mom? Why is the village entrance blocked?"
+#~ msgstr "Mamma, rispondimi. Perché l'entrata al villaggio è sigillata?"
+
+#~ msgid "Bronann, I'd like for you to not leave the village today."
+#~ msgstr "Bronann, vorrei che tu non andassi fuori dal villaggio oggi."
+
+#~ msgid "Huh?! What? Why? You told me that I could go into the forest and..."
+#~ msgstr ""
+#~ "Eh!? Cosa? Perché? Avevi detto che potevo andare nella foresta e che..."
+
+#~ msgid "Sorry, son. It's maybe a bit early, but I'd like you to be careful."
+#~ msgstr ""
+#~ "Scusa, figlio mio. Forse è un po' presto, ma vorrei che facessi più "
+#~ "attenzione."
+
+#~ msgid ""
+#~ "Hey, wait! All of the village elders' nerves are on edge. There is "
+#~ "something going on here! Why won't you tell me?"
+#~ msgstr ""
+#~ "Ehi, aspettate! Tutti gli anziani del villaggio sono agitati. C'è sotto "
+#~ "qualcosa! Perché non me lo volete dire?"
+
+#~ msgid "Neither of you?"
+#~ msgstr "Nessuno di voi?"
+
+#~ msgid "You really won't tell me?"
+#~ msgstr "Davvero non me lo volete dire?"
+
+#~ msgid "... It's not that simple, Bronann. Believe me."
+#~ msgstr "...non è affatto facile, Bronann. Credimi."
+
+#~ msgid ""
+#~ "Bronann, this time I want you to listen to your father very carefully. "
+#~ "Please, my dear."
+#~ msgstr ""
+#~ "Bronann, questa volta voglio che ascolti tuo padre con molta attenzione. "
+#~ "Prego, caro."
+
+#~ msgid "But mom!"
+#~ msgstr "Ma mamma!"
+
+#~ msgid "Bronann, please."
+#~ msgstr "Bronann, per favore."
+
+#~ msgid "(grumble)... Crap!"
+#~ msgstr "(brontolio)...Uffa!"
+
+#~ msgid "Maybe we should tell him."
+#~ msgstr "Forse lo dovremmo informarlo."
+
+#~ msgid "It's too early, darling. We might be wrong."
+#~ msgstr "È ancora troppo presto, tesoro. Potremmo fare la cosa sbagliata."
+
+#~ msgid "I really hope we are."
+#~ msgstr "Lo spero davvero."
+
+#~ msgid "Bronann, promise me that you'll be careful, ok?"
+#~ msgstr "Bronann, prometti di stare più attento d'ora in poi, ok?"
+
+#~ msgid "(sigh)... Got it, mom!"
+#~ msgstr "(sospiro)...va bene, mamma!"
+
+#~ msgid "Perfect timing, let's have dinner."
+#~ msgstr "Tempismo perfetto, ora ceniamo."
+
+#~ msgid "Could you go and buy some barley meal for the three of us?"
+#~ msgstr "Puoi andare a comprare un po' di farina d'orzo per noi tre?"
+
+#~ msgid "Hi son, did you have a nightmare again last night?"
+#~ msgstr "Ciao figlio mio, hai fatto un altro incubo la scorsa notte?"
+
+#~ msgid "Hi mom. Huh, how did you know?"
+#~ msgstr "Ciao mamma. Uh, come lo sai?"
+
+#~ msgid "Eh eh? Have you already forgotten that I'm your mother?"
+#~ msgstr "Eh eh? Hai già dimenticato che sono tua madre?"
+
+#~ msgid "Don't venture too far, I'll need your help soon!"
+#~ msgstr ""
+#~ "Non avventurarti troppo lontano, avrò bisogno del tuo aiuto molto presto!"
+
+#~ msgid "Finally, we made it back home."
+#~ msgstr "Finalmente, ce l'abbiamo fatta a tornare a casa."
+
+#~ msgid ""
+#~ "I'll go and get Herth. Your parents must be worried. Go home. We'll meet "
+#~ "there."
+#~ msgstr ""
+#~ "Vado a prendere Herth. I tuoi genitori saranno preoccupati. Meglio se "
+#~ "torni a casa, ci incontreremo dopo."
+
+#~ msgid "I should really get back home."
+#~ msgstr "Dovrei davvero tornare a casa."
+
+#~ msgid ""
+#~ "Weird, I don't see any lights on in there. I have a bad feeling about "
+#~ "this, let's get back home."
+#~ msgstr ""
+#~ "Strano, le luci sono spente. Ho un brutto presentimento, torniamo a casa."
+
+#~ msgid "Huh?"
+#~ msgstr "Eh?"
+
+#~ msgid "What's happening here?! Where is everyone?"
+#~ msgstr "Cosa sta succedendo qui!? Dove sono finiti tutti?"
+
+#~ msgid "Help!"
+#~ msgstr "Aiuto!"
+
+#~ msgid "Kalya?!"
+#~ msgstr "Kalya!?"
+
+#~ msgid "Let go of me! You cheap low-grade filthy jerks."
+#~ msgstr ""
+#~ "Vedete di lasciarmi andare, sporchi venduti per quattro soldi che non "
+#~ "siete altro."
+
+#~ msgid "Keep quiet, little brat!"
+#~ msgstr "Fai silenzio, piccola peste!"
+
+#~ msgid "Soldiers wearing black armor... the Lord's personal guard!"
+#~ msgstr ""
+#~ "Soldati che indossano armature nere... le guardie personali del Lord!"
+
+#~ msgid "Fortunately, they didn't see me or I would have been caught as well."
+#~ msgstr "Per fortuna che non mi hanno visto o sarei stato catturato pure io."
+
+#~ msgid "I should follow them silently."
+#~ msgstr "Dovrei seguirli in silenzio."
+
+#~ msgid "What am I doing? I should go and try to free Kalya!"
+#~ msgstr "Cosa sto faccendo? Dovrei andare lì e tentare di liberare Kalya!"
+
+#~ msgid "Do you need something, Bronann?"
+#~ msgstr "Hai bisogno di qualcosa, Bronann?"
+
+#~ msgid "Ahh sure! (gossip, gossip)"
+#~ msgstr "Ahh certo! (bla bla bla)"
+
+#~ msgid "Did you hear that? (gossip, gossip)"
+#~ msgstr "Hai sentito l'ultima? (bla bla bla)"
+
+#~ msgid "If you're running after Orlinn, I just saw him near your house."
+#~ msgstr "Se stai cercando Orlinn, l'ho appena visto sparire vicino casa tua."
+
+#~ msgid "You're too young to trade with me!"
+#~ msgstr "Sei troppo giovane per scambiare roba con me!"
+
+#~ msgid "Hmm, I'll go to Flora's shop. I hope she'll help me."
+#~ msgstr "Mm, andrò nel negozio di Flora. Spero che mi possa aiutare."
+
+#~ msgid "As you wish. Follow me."
+#~ msgstr "Come desideri. Seguimi."
+
+#~ msgid "ORLINN! Come here, NOW!"
+#~ msgstr "ORLINN! Vieni qui, SUBITO!"
+
+#~ msgid "Orlinn, give back the pen to Bronann or I shall sma..."
+#~ msgstr "Orlinn, restituisci la penna a Bronann, o ti ammaz..."
+
+#~ msgid "Yea, yes, here it is."
+#~ msgstr "Sì, sì, eccola."
+
+#~ msgid "I found that pen under a tree near the river. I just wanted to play."
+#~ msgstr ""
+#~ "Ho trovato quella penna vicino a quel albero dietro di te. Volevo solo "
+#~ "giocare."
+
+#~ msgid "Don't worry about it."
+#~ msgstr "Non preoccuparti."
+
+#~ msgid "Why doesn't anyone tell me what's going on!"
+#~ msgstr "Perché nessuno vuole dirmi che cosa sta accadendo!"
+
+#~ msgid ""
+#~ "Still, I have to go there and figure out what they're trying to hide from "
+#~ "me."
+#~ msgstr ""
+#~ "Tuttavia, devo andare lì e capire cosa stanno tentando di nascondermi."
+
+#~ msgid "No, I won't go there. I just can't talk to them at the moment."
+#~ msgstr ""
+#~ "No, non ci vado lì. Non riesco proprio a parlare con loro in questo "
+#~ "momento."
+
+#~ msgid "Huh? What was that light?"
+#~ msgstr "Eh? Cos'era quella luce?"
+
+#~ msgid "Bronann! Wait!"
+#~ msgstr "Bronann! Aspetta!"
+
+#~ msgid "I suppose you just saw that light, right?"
+#~ msgstr "Suppongo che hai appena visto quella luce, giusto?"
+
+#~ msgid "Ummm..."
+#~ msgstr "Mmm..."
+
+#~ msgid ""
+#~ "Bronann, there is something that I have to tell you. We've been fearing "
+#~ "for this moment, your mother and I."
+#~ msgstr ""
+#~ "Bronann, c'è qualcosa che dovrei dirti. Temevamo che arrivasse questo "
+#~ "giorno, sia tua madre che io."
+
+#~ msgid "They're coming!"
+#~ msgstr "Stanno per arrivare!"
+
+#~ msgid "Carson, they've crossed the river. They shall be here in no time."
+#~ msgstr "Carson, hanno oltrepassato il fiume. Tra poco saranno qui."
+
+#~ msgid "Huh? Hey, what's happening here?!"
+#~ msgstr "Uh? Ehi, cos'è successo qui!?"
+
+#~ msgid "Bronann, I..."
+#~ msgstr "Bronann, Io..."
+
+#~ msgid "Father!"
+#~ msgstr "Padre!"
+
+#~ msgid "Father! Orlinn has disappeared. I saw him taking the forest pathway!"
+#~ msgstr ""
+#~ "Padre! Orlinn è scomparso. L'ho visto prendere il sentiero della foresta!"
+
+#~ msgid "Kalya, you were supposed to keep an eye on him!"
+#~ msgstr "Kalya, svresti dovuto tenerlo d'occhio!"
+
+#~ msgid ""
+#~ "I did, but he just slipped through my fingers at the very second that "
+#~ "strange light appeared."
+#~ msgstr ""
+#~ "Era con me, ma poi mi è sfuggito tra le mani nello stesso istante in cui "
+#~ "è apparsa quella strana luce."
+
+#~ msgid ""
+#~ "Kalya, the army is coming. I'll deal with them. You go and find Orlinn as "
+#~ "fast as possible."
+#~ msgstr ""
+#~ "Kalya, l'esercito sta arrivando. Troverò un compromesso con loro ma corri "
+#~ "a cercare Orlinn il più presto possibile."
+
+#~ msgid "But you might get hurt!"
+#~ msgstr "Ma vi faranno del male!"
+
+#~ msgid ""
+#~ "Don't worry. We'll simply talk to them and they'll move on. You know what "
+#~ "you have to do, right?"
+#~ msgstr ""
+#~ "Non preoccuparti. Parleremo semplicemente con loro e poi se ne andranno "
+#~ "via. Sai già cosa devi fare, giusto?"
+
+#~ msgid "Herth, we both know it'll likely..."
+#~ msgstr "Herth, sappiamo entrambi che probabilmente..."
+
+#~ msgid "Do as I say and it'll be alright."
+#~ msgstr "Fai come ti dico e tutto andrà bene."
+
+#~ msgid "But..."
+#~ msgstr "Ma..."
+
+#~ msgid "Bronann, you should go with her."
+#~ msgstr "Bronann, dovresti andare con lei."
+
+#~ msgid "What?!"
+#~ msgstr "Cosa!?"
+
+#~ msgid "Carson is right, Kalya. Bronann shall go with you."
+#~ msgstr "Carson ha ragione, Kalya. Bronann ti deve seguire."
+
+#~ msgid "But he would just be a burden!"
+#~ msgstr "Ma sarebbe solo un peso!"
+
+#~ msgid "Huh? Hey! But..."
+#~ msgstr "Cosa? Ehi! Ma..."
+
+#~ msgid "He won't slow you down, believe me. Right, Bronann?"
+#~ msgstr "Non ti farà rallentare, fidati. Giusto, Bronann?"
+
+#~ msgid "But father!"
+#~ msgstr "Ma padre!"
+
+#~ msgid "Carson is right, Kalya. Bronann shall go with you. It's an order."
+#~ msgstr ""
+#~ "Carson ha ragione, Kalya. Bronann deve stare con te. Questo è un ordine."
+
+#~ msgid "Gahh, ok."
+#~ msgstr "Uff, va bene."
+
+#~ msgid ""
+#~ "Bronann, take this sword. You'll probably need it to make your way "
+#~ "through there."
+#~ msgstr ""
+#~ "Bronann, prendi questa spada. Ne avrete probabilmente bisogno per farvi "
+#~ "strada."
+
+#~ msgid "What? But one minute ago you said..."
+#~ msgstr "Cosa? Ma se un minuto fa avevi detto..."
+
+#~ msgid ""
+#~ "I know, but everything has changed. I'll explain it to you once it is all "
+#~ "finished. Now go, my son."
+#~ msgstr ""
+#~ "Lo so, ma tutto è cambiato. Te lo spiego una volta che sarà tutto finito. "
+#~ "Ora vai, figliolo."
+
+#~ msgid "Thanks dad, we'll find him in no time."
+#~ msgstr "Grazie padre, ci impiegheremo poco tempo per trovarlo."
+
+#~ msgid "We shall go now. Good luck, both of you."
+#~ msgstr "Dobbiamo andare ora. Buona fortuna a tutti e due."
+
+#~ msgid "Good luck, son."
+#~ msgstr "Buona fortuna, figlio mio."
+
+#~ msgid "Ok, we'll go together. But slow me down and I'll make you regret it."
+#~ msgstr ""
+#~ "Ok, andiamo insieme. Ma se provi a rallentarmi te ne farò pentire "
+#~ "amaramente."
+
+#~ msgid "Don't worry, we'll find him. Ok?"
+#~ msgstr "Non preoccuparti, lo troveremo. Ok?"
+
+#~ msgid "Kalya joins your party!"
+#~ msgstr "Kalya si è unita al gruppo!"
+
+#~ msgid ""
+#~ "By the way, have you ever prepared yourself for something like this "
+#~ "before?"
+#~ msgstr ""
+#~ "A proposito, non ti sei mai preparato per qualcosa di simile prima d'ora?"
+
+#~ msgid "Huh? Well, Orlinn doesn't disappear every day, you know?"
+#~ msgstr "Eh? Beh, Orlinn non può scomparire ogni giorno, non credi?"
+
+#~ msgid ""
+#~ "I see. Then there are two very important things that you need to know."
+#~ msgstr ""
+#~ "Vero. Ma prima di iniziare c'è da conoscere due importanti cose a "
+#~ "riguardo."
+
+#~ msgid ""
+#~ "First of all, before going there, you might need better equipment. You "
+#~ "should visit Flora first, ok?"
+#~ msgstr ""
+#~ "Prima di proseguire, hai bisogno di un equipaggiamento migliore. Corri "
+#~ "subito da Flora, ok?"
+
+#~ msgid "You mean I need to push a key to open my bag?"
+#~ msgstr ""
+#~ "Mi vorresti dire che avrei bisogno di premere un tasto per aprire la mia "
+#~ "borsa?"
+
+#~ msgid "Nevermind that, just do it."
+#~ msgstr "Non pensarci sopra, fallo e basta."
+
+#~ msgid ""
+#~ "Also, the person in front of the battle line will lead the group in the "
+#~ "forest. What I mean by that is the person on the top of the battle "
+#~ "formation will actually appear while the others will stay hidden."
+#~ msgstr ""
+#~ "In più, la persona in prima linea sul campo di battaglia guiderà il "
+#~ "gruppo nella foresta. Con questo voglio dire che la persona in cima alla "
+#~ "formazione verrà realmente mostrata, mentre gli altri personaggi "
+#~ "rimarranno nascosti."
+
+#~ msgid "Hmm, right. I'm not sure that I fully get what you mean, but..."
+#~ msgstr ""
+#~ "Mm, giusto. Non sono sicuro di avere pienamente capito ciò che vorresti "
+#~ "dire, soltanto che..."
+
+#~ msgid "Rrrr, Bronann. Just listen."
+#~ msgstr "Rrrr.. Bronann. Ascolta e basta."
+
+#~ msgid ""
+#~ "That will be the case only in certain areas. Here in the village, you'll "
+#~ "be the one leading, or at least you may believe that."
+#~ msgstr ""
+#~ "L'unica eccezione sarà solo in certe zone. Qui nel villaggio sarai colui "
+#~ "che ci guiderà, o perlomeno crederai di guidarci."
+
+#~ msgid ""
+#~ "Bronann! Sorry, you can't access the forest without permission. You don't "
+#~ "even have a sword."
+#~ msgstr ""
+#~ "Bronann! Scusa, ma non puoi accedere alla foresta senza avere il "
+#~ "permesso. E poi non hai nemmeno una spada."
+
+#~ msgid "Aww..."
+#~ msgstr "Uffa..."
+
+#~ msgid "(Hmm, maybe I should get a sword then.)"
+#~ msgstr "(Mm, forse dovrò procurarmi una spada.)"
+
+#~ msgid ""
+#~ "Bronann! Sorry, you know that you can't access the forest without "
+#~ "permission."
+#~ msgstr ""
+#~ "Bronann! Mi dispiace, ma sai già che non puoi accedere alla foresta senza "
+#~ "il permesso."
+
+#~ msgid "Good luck Bronann."
+#~ msgstr "Buona fortuna, Bronann."
+
+#~ msgid "Actually, I bought the barley meal for Lilly."
+#~ msgstr "Veramente, ho comprato la farina d'orzo per Lilly."
+
+#~ msgid "What?"
+#~ msgstr "Cosa?"
+
+#~ msgid "There's no need to thank me for that. It's my pleasure."
+#~ msgstr "Non ringraziarmi per questo. Il piacere è tutto mio."
+
+#~ msgid "Here it is, Georges."
+#~ msgstr "Eccola qui, Georges."
+
+#~ msgid ""
+#~ "You're the nicest person I know, Bronann. I will tell everyone how brave "
+#~ "you..."
+#~ msgstr ""
+#~ "Siete la persona più gentile che conosca, Bronann. Il vostro coraggio "
+#~ "verrà reso noto a tutti..."
+
+#~ msgid "(sigh)... Georges!"
+#~ msgstr "(sospiro)... Georges!"
+
+#~ msgid "Ok ok. Just having a bit of spirit, young man."
+#~ msgstr "Va bene, va bene. Basta avere un po' di spirito, ragazzo."
+
+#~ msgid ""
+#~ "You see, I lost my beloved pen. Was it near a tree or next to the waving "
+#~ "child of the mountain snow?"
+#~ msgstr ""
+#~ "Come potete vedere, ho perduto la mia amata penna. Non mi ricordo se era "
+#~ "vicino a un albero o accanto al fanciullo vanaglorioso della montagna "
+#~ "innevata..."
+
+#~ msgid "Shall you find it, I would be extremely obliged to you!"
+#~ msgstr "Se la troverete, ve ne sarò estremamente riconoscente!"
+
+#~ msgid ""
+#~ "Inquire our comrades in the settlement, perhaps somebody has laid their "
+#~ "eyes on it."
+#~ msgstr ""
+#~ "Chiedete ai nostri compaesani, forse qualcuno ha posato gli occhi su di "
+#~ "lui."
+
+#~ msgid "(sigh...) Hmm, fine."
+#~ msgstr "(sospiro...) Mm, bene."
+
+#~ msgid "Hi Georges. Erm, I'm coming from the shop and I ..."
+#~ msgstr "Salve Georges. Ehm, vengo dal negozio e..."
+
+#~ msgid "Can you hear this?"
+#~ msgstr "Riuscite a sentirlo?"
+
+#~ msgid "Erm, ... Well, I don't hear anything special..."
+#~ msgstr "Ehm...beh, non sento nulla di speciale..."
+
+#~ msgid ""
+#~ "That's the point! Can't you hear the magnificent sound of nature, so "
+#~ "invisible to our adapted ears?"
+#~ msgstr ""
+#~ "Questo è il punto! Non sentite il magnifico suono della natura, così "
+#~ "invisibile per le nostre normali orecchie?"
+
+#~ msgid "Huh, please Georges. I do not want to run away like the last time..."
+#~ msgstr ""
+#~ "Per favore, Georges. Non voglio andarmene via come l'ultima volta..."
+
+#~ msgid ""
+#~ "... The incredible and amazing. I could even say, the stunning feel of it "
+#~ "in the wind..."
+#~ msgstr ""
+#~ "...l'incredibile e lo stupefacente. Definendolo meglio, la sua sensazione "
+#~ "mozzafiato nel vento..."
+
+#~ msgid ""
+#~ "Georges, I simply wanted to ask you whether or not you had any barley "
+#~ "meal left!"
+#~ msgstr ""
+#~ "Georges, volevo solo chiederti se ti è rimasta un po' di farina d'orzo!"
+
+#~ msgid ""
+#~ "Ah, I see. Well unfortunately, I'm so sad about a recent loss that I "
+#~ "can't find the right words with which to tell you."
+#~ msgstr ""
+#~ "Ah, capisco. Sfortunatamente, sono afflitto dalla recente perdita che ho "
+#~ "subito, non riesco a trovare le parole giuste per spiegarvelo."
+
+#~ msgid "Shall you find it, I would be extremely obliged!"
+#~ msgstr "Se la troverete, ve ne sarò estremamente riconoscente!"
+
+#~ msgid "(Sigh)... Hmm, fine."
+#~ msgstr "(Sospiro)...Mm, bene."
+
+#~ msgid ""
+#~ "Ah, the river is so beautiful at this time of the year. I feel like "
+#~ "writing some poetry..."
+#~ msgstr ""
+#~ "Ah, il fiume è così bellissimo in questo periodo dell'anno. Mi viene "
+#~ "voglia di scrivere qualche poesia..."
+
+#~ msgid "I promise I won't bother you again."
+#~ msgstr "Prometto di non disturbarti ancora."
+
+#~ msgid "Don't worry about that, Orlinn. Ok?"
+#~ msgstr "Non preoccuparti, Orlinn. Capito?"
+
+#~ msgid "Kalya, have you seen Orlinn?"
+#~ msgstr "Kalya, hai visto Orlinn?"
+
+#~ msgid "Why? Oh, don't tell me. He's hiding somewhere."
+#~ msgstr "Perché? Oh, non dirmelo. E' andato a nascondersi da qualche parte."
+
+#~ msgid "Yes, he took Georges pen and I need to give it back to him..."
+#~ msgstr ""
+#~ "Esatto, ha preso la penna di Georges e ora la devo riportare al suo "
+#~ "proprietario..."
+
+#~ msgid "Hmpf, no surprise. Do you want me to bring him back?"
+#~ msgstr "Hmpf, non è una sorpresa. Vuoi che la riporti indietro?"
+
+#~ msgid "No, it's not that bad."
+#~ msgstr "No, non è così male."
+
+#~ msgid "As you wish."
+#~ msgstr "Come desideri."
+
+#~ msgid "Hee hee hee!"
+#~ msgstr "Ha ha ha!"
+
+#~ msgid "What are you laughing about, Orlinn?"
+#~ msgstr "Orlinn, che hai da ridere?"
+
+#~ msgid "You'll never find it!"
+#~ msgstr "Non la troverai mai!"
+
+#~ msgid "Huh? Wait! Are you talking about Georges's lost pen?"
+#~ msgstr "Eh? Cosa! Stai parlando per caso della penna che ha perso Georges?"
+
+#~ msgid "Hee hee hee! Yes!"
+#~ msgstr "Ha ha ha! Sì!"
+
+#~ msgid "Please tell me! Have you found it?"
+#~ msgstr "Per favore dimmelo! L'hai trovata?"
+
+#~ msgid "Maybe yes, maybe no!"
+#~ msgstr "Forse sì, forse no!"
+
+#~ msgid "Oh no, please Orlinn! I need it!"
+#~ msgstr "Oh no, per favore Orlinn! Mi serve!"
+
+#~ msgid "Sure, I'll help you. But only if you can catch me!"
+#~ msgstr "Sicuramente ti aiuterò. Ma solo se riesci ad acciuffarmi!"
+
+#~ msgid "Hee hee! (He'll never find me hiding behind the buildings!)"
+#~ msgstr "Ah ah ah! (non mi troverà mai nascosto dietro agli edifici!)"
+
+#~ msgid "Heya bro! Wanna play with me?"
+#~ msgstr "Ehi amico! Vuoi giocare con me?"
+
+#~ msgid "Hi Bronann! What can I do for you?"
+#~ msgstr "Ciao Bronann! Cosa posso fare per te?"
+
+#~ msgid ""
+#~ "Hi Flora! Err, could you lend me one of your training swords? I'd like to "
+#~ "practice a bit."
+#~ msgstr ""
+#~ "Ciao Flora! Ehm, mi presti una delle tue spade da addestramento? Mi "
+#~ "piacerebbe fare un po' di pratica."
+
+#~ msgid ""
+#~ "Ah! Sure, as soon as your father will stop lending his sword to you to "
+#~ "practice with him. Are you sure everything is alright?"
+#~ msgstr ""
+#~ "Ah! Certamente, non appena tuo padre ti regalerà la sua spada per "
+#~ "cominciare ad allenarsi con te. Sicuro di stare bene?"
+
+#~ msgid "Err, nevermind."
+#~ msgstr "Err, non importa."
+
+#~ msgid "Just find our *poet* and he should give you some barley meal, ok?"
+#~ msgstr ""
+#~ "Trova il nostro ''poeta'' e ti darà un po' di farina d'orzo, capito?"
+
+#~ msgid ""
+#~ "He's probably 'musing' around the cliffs in the village center right now."
+#~ msgstr ""
+#~ "Probabilmente in questo momento starà ''meditando'' in giro per le "
+#~ "scogliere nel centro del villaggio."
+
+#~ msgid "Hi Flora! Do you have some barley meal left?"
+#~ msgstr "Ciao Flora! Hai per caso un po' di farina d'orzo rimasta?"
+
+#~ msgid "Oh sorry, our 'great' poet came earlier and took all the rest of it."
+#~ msgstr ""
+#~ "Oh scusami, ma il nostro ''nobile'' poeta è venuto qui molto presto ed ha "
+#~ "preso tutta quella che ne era rimasta."
+
+#~ msgid "Times are becoming harder now. We've got less food than before."
+#~ msgstr ""
+#~ "Per di più i tempi di oggi si fanno sempre più duri. Abbiamo meno cibo "
+#~ "rispetto a prima."
+
+#~ msgid ""
+#~ "? This is the first time that I've seen you wear such a worrisome "
+#~ "expression."
+#~ msgstr "? è la prima volta che ti vedo così preoccupata."
+
+#~ msgid ""
+#~ "Nevermind. Don't worry about me. Just find him and he should give you "
+#~ "some, ok?"
+#~ msgstr ""
+#~ "Non preoccuparti per me. Basta trovarlo e te ne darà una porzione, "
+#~ "d'accordo?"
+
+#~ msgid "One of Grandma's chickens. I should bring it back."
+#~ msgstr "Una delle galline della nonna. Devo riuscire a portarla indietro."
+
+#~ msgid "Hmm, the door is locked."
+#~ msgstr "Mmm, la porta è bloccata."
+
+#~ msgid "Hurry up! They're coming!"
+#~ msgstr "Presto! Stanno per arrivare!"
+
+#~ msgid "Bronann! Hold on! We're almost there."
+#~ msgstr "Bronann! Non mollare! Ci siamo quasi."
+
+#~ msgid "I... can't. My body... Argh!"
+#~ msgstr "Non...posso. Il mio corpo... argh!"
+
+#~ msgid "You can do it. Bronann..."
+#~ msgstr "Puoi farcela. Bronann..."
+
+#~ msgid "Bronann! Move!"
+#~ msgstr "Bronann! Muoviti!"
+
+#~ msgid "... Al... right..."
+#~ msgstr "...Va...bene..."
+
+#~ msgid "Great! Now come on!"
+#~ msgstr "Ottimo! Ora andiamo!"
+
+#~ msgid "There must be soldiers everywere, we're never gonna make it."
+#~ msgstr "Ci saranno soldati da ogni parte, non ce la faremo mai."
+
+#~ msgid "This town has many secrets."
+#~ msgstr "Questa città nasconde molti segreti."
+
+#~ msgid "You can go in there, Orlinn."
+#~ msgstr "Prosegui, Orlinn."
+
+#~ msgid "Ok!"
+#~ msgstr "Ok!"
+
+#~ msgid "See?"
+#~ msgstr "Visto?"
+
+#~ msgid ""
+#~ "I understand why Grandma actually never saw you using the 'normal' path."
+#~ msgstr ""
+#~ "Ora capisco perché la nonnina non ti ha mai visto usare la strada "
+#~ "''normale''."
+
+#~ msgid "Now come."
+#~ msgstr "Ora vieni."
+
+#~ msgid ""
+#~ "My three chickens have flown away again this morning. Could you find the "
+#~ "last one for me?"
+#~ msgstr ""
+#~ "Le mie tre galline sono volate via di nuovo questa mattina. Potresti "
+#~ "trovare l'ultima che manca?"
+
+#~ msgid ""
+#~ "My three chickens have flown away again this morning. Could you find the "
+#~ "remaining ones for me?"
+#~ msgstr ""
+#~ "Le mie tre galline sono volate via questa mattina di nuovo. Potresti "
+#~ "trovare le rimanenti?"
+
+#~ msgid ""
+#~ "My three chickens have flown away again this morning. Could you find them "
+#~ "for me?"
+#~ msgstr ""
+#~ "Le mie tre galline sono volate via questa mattina di nuovo. Potresti "
+#~ "trovarle per me?"
+
+#~ msgid "Ah! Bronann. Could you help your old grandma?"
+#~ msgstr "Ah! Sei tu, Bronann. Potresti aiutare la tua vecchia nonnina?"
+
+#~ msgid "Sure grandma."
+#~ msgstr "Certo, nonna."
+
+#~ msgid "My three chickens have flown away again. Could you find them for me?"
+#~ msgstr ""
+#~ "Le mie tre galline sono volate via di nuovo. Potresti trovarle per me?"
+
+#~ msgid "I'll see what I can do about it."
+#~ msgstr "Vedrò cosa posso fare."
+
+#~ msgid "Thank you, young one."
+#~ msgstr "Grazie, giovanotto."
+
+#~ msgid "Oh, they're all back, my brave hero."
+#~ msgstr "Oh mio impavido eroe, le hai fatte tornate tutte a casa."
+
+#~ msgid "Let me give you something as a reward."
+#~ msgstr "Lascia che ti dia qualcosa come ricompensa."
+
+#~ msgid "Oh, thanks grandma!"
+#~ msgstr "Ok, grazie nonna!"
+
+#~ msgid "You're very welcome, my dear one."
+#~ msgstr "Sei sempre il benvenuto, mio caro."
+
+#~ msgid ""
+#~ "Ah! It's nice to see your dear young face around, Bronann. Come and chat "
+#~ "with an old grandma."
+#~ msgstr ""
+#~ "Ah! È bello vedere il tuo bel volto giovane in giro, Bronann. Vieni a "
+#~ "farti una chiacchierata con una vecchia nonnina."
+
+#~ msgid "Er, sorry grandma. I have to go! Maybe later?"
+#~ msgstr "Ehm, scusami nonna, devo andare! Forse più tardi?"
+
+#~ msgid ""
+#~ "Ah! You'll surely want to see the young lady living up there. Ah, "
+#~ "youngins nowadays."
+#~ msgstr ""
+#~ "Ah! Avrai sicuramente voglia di vedere la signorina che vive lassù. Ah, i "
+#~ "giovani al giorno d'oggi."
+
+#~ msgid "Bronann, how do you feel?"
+#~ msgstr "Bronann, come ti senti?"
+
+#~ msgid "Better. Somehow, the pain faded away the second I entered here."
+#~ msgstr ""
+#~ "Già meglio. In qualche modo, il dolore è svanito nello stesso istante in "
+#~ "cui sono entrato qui."
+
+#~ msgid "By the way, where are we?"
+#~ msgstr "A proposito, dove siamo?"
+
+#~ msgid ""
+#~ "In our basement. The other stairs there are leading to my room. This "
+#~ "house is an ancient sanctuary, so it might explain why you're feeling "
+#~ "better."
+#~ msgstr ""
+#~ "Nel nostro seminterrato. Le altre scale che vedi portano in camera mia. "
+#~ "Vedi, questa casa è un santuario antico, e ciò potrebbe spiegare il fatto "
+#~ "di sentirti già meglio."
+
+#~ msgid "Orlinn. Go get our packings. We're leaving."
+#~ msgstr "Orlinn, vai a prendere i viveri. Ce ne andiamo."
+
+#~ msgid "We're leaving the village now."
+#~ msgstr "Stiamo lasciando il villaggio."
+
+#~ msgid "I feel dizzy. So many things have happened in such little time."
+#~ msgstr "Mi gira la testa. Troppe cose sono accadute in così poco tempo..."
+
+#~ msgid ""
+#~ "The soldiers will be here any minute. We'll leave to the north and cross "
+#~ "the north-west plain up to..."
+#~ msgstr ""
+#~ "I soldati potrebbero essere qui in pochi minuti. Andremo a nord e "
+#~ "attraverseremo la pianura che si trova a nord-ovest..."
+
+#~ msgid "No."
+#~ msgstr "No."
+
+#~ msgid "No?!"
+#~ msgstr "No!?"
+
+#~ msgid "No, I won't follow you anymore."
+#~ msgstr "No, non ti seguirò più."
+
+#~ msgid "Look, I..."
+#~ msgstr "Guarda, io..."
+
+#~ msgid "Enough!"
+#~ msgstr "Ne ho abbastanza!"
+
+#~ msgid ""
+#~ "Nobody told me what was happening. Herth and the Lord seemed to know each "
+#~ "other. And now you..."
+#~ msgstr ""
+#~ "Nessuno mi ha detto cosa stava succedendo. Herth e il Lord sembravano che "
+#~ "si conoscessero E ora tu..."
+
+#~ msgid "You seem so calm, ready, and prepared."
+#~ msgstr "E tu sembri così tranquilla, pronta e già preparata."
+
+#~ msgid "Bronann, I ..."
+#~ msgstr "Bronann, Io..."
+
+#~ msgid ""
+#~ "Enough! You hid everything from me just like everyone else. You're a "
+#~ "liar! I won't be manipulated anymore!"
+#~ msgstr ""
+#~ "Ne ho abbastanza! Mi hai nascosto la verità  I won't be manipulated "
+#~ "anymore!come tutti gli altri. Sei una bugiarda! Non voglio essere "
+#~ "manipolato mai più!"
+
+#~ msgid "Bronann, you'll get everything explained in time, I..."
+#~ msgstr "Bronann, col tempo ti verrà spiegato tutto, io..."
+
+#~ msgid "No! I won't go unless you tell me the truth now!"
+#~ msgstr "No! Non verrò a meno che tu mi dica la verità, ora!"
+
+#~ msgid "... Fine."
+#~ msgstr "...Bene."
+
+#~ msgid "I knew the crystal would appear."
+#~ msgstr "Sapevo che sarebbe apparso il cristallo."
+
+#~ msgid "But I didn't know who it would choose."
+#~ msgstr "Ma non sapevo chi avrebbe scelto."
+
+#~ msgid "Herth prepared me all my life for this very day."
+#~ msgstr "Herth mi ha preparata, tutta la mia vita, per questo giorno."
+
+#~ msgid ""
+#~ "He trained me, taught me magic, and told me the crystal would appear one "
+#~ "day."
+#~ msgstr ""
+#~ "Mi ha addestrato e insegnato la magia. In più mi ha avvisato che il "
+#~ "cristallo sarebbe apparso un giorno."
+
+#~ msgid ""
+#~ "He thought that I would be the one to be chosen by the crystal. However, "
+#~ "it seems he was wrong. Now, I am to look after you."
+#~ msgstr ""
+#~ "Pensava che sarei stata io la prescelta dal cristallo. Ma a quanto pare "
+#~ "si era sbagliato, e il mio compito ora è quello di prendermi cura di te."
+
+#~ msgid "You must believe me Bronann."
+#~ msgstr "Devi credermi, Bronann."
+
+#~ msgid "The crystal chose me? But I'm just..."
+#~ msgstr "Il cristallo mi ha scelto? Ma sono solo..."
+
+#~ msgid "Someone brave enough to jump between it and my brother."
+#~ msgstr "Una persona abbastanza coraggiosa da salvare mio fratello."
+
+#~ msgid ""
+#~ "It should have been me. But I couldn't move. And now, I have to fix my "
+#~ "mistake."
+#~ msgstr ""
+#~ "Doveva avere me. Ma non potevo muovermi. E ora, dovrò correggere il mio "
+#~ "errore."
+
+#~ msgid "How?"
+#~ msgstr "E come?"
+
+#~ msgid "I..."
+#~ msgstr "Io..."
+
+#~ msgid "Sis!"
+#~ msgstr "Sorellona!"
+
+#~ msgid "Sis! They're in front of the house!"
+#~ msgstr "Sorellona! Sono davanti alla casa!"
+
+#~ msgid "Quick, we must go now!"
+#~ msgstr "Presto, dobbiamo andare!"
+
+#~ msgid ""
+#~ "We won't be able to come back here once we leave. So feel free to pick up "
+#~ "everything you need and prepare yourself."
+#~ msgstr ""
+#~ "Non potremo tornare di nuovo qui una volta fuori. Quindi, non esitare a "
+#~ "prendere tutto il necessario e preparati a combattere."
+
+#~ msgid ""
+#~ "Wait! There is one more thing. Why are you calling your own father by his "
+#~ "actual name?"
+#~ msgstr ""
+#~ "Aspettate! C'è un'altra cosa. Perché chiamate il vostro padre con il suo "
+#~ "nome effettivo?"
+
+#~ msgid "That's because he's not our father."
+#~ msgstr "Questo perché non è nostro padre."
+
+#~ msgid "Our parents were killed a long time ago."
+#~ msgstr "I nostri veri genitori sono stati uccisi tanto tempo fa."
+
+#~ msgid "Orlinn..."
+#~ msgstr "Orlinn..."
+
+#~ msgid "Don't worry, sis. It's fine, we can tell him."
+#~ msgstr "Non preoccuparti, sorellona. Non c'è problema, lo possiamo dire."
+
+#~ msgid "I also left my parents behind."
+#~ msgstr "Ho persino lasciato i miei genitori indietro."
+
+#~ msgid ""
+#~ "They'll be fine, Bronann. We must prevent Banesore from obtaining the "
+#~ "crystal."
+#~ msgstr ""
+#~ "Staranno bene, Bronann. Dobbiamo impedire che Banesore ottenga il "
+#~ "cristallo."
+
+#~ msgid "Anyway, let's go now."
+#~ msgstr "Comunque, andiamocene ora."
+
+#~ msgid "Wow!"
+#~ msgstr "Wow!"
+
+#~ msgid "It's time."
+#~ msgstr "È il momento."
+
+#~ msgid "We can't go back now."
+#~ msgstr "Non possiamo tornare indietro.."
+
+#~ msgid "It's my room upstairs. Don't even think about it!"
+#~ msgstr "C'è la mia stanza al piano di sopra. Non pensarci nemmeno!"
+
+#~ msgid "I can't go back now."
+#~ msgstr "Non posso tornare indietro."
+
+#~ msgid ""
+#~ "Guards are carefully watching their surroundings. I need to get closer to "
+#~ "see what's happening."
+#~ msgstr ""
+#~ "Le guardie sorvegliano i dintorni. Devo avvicinarmi per vedere cosa sta "
+#~ "succedendo."
+
+#~ msgid "I should be able to sneak through when they're not watching."
+#~ msgstr ""
+#~ "Dovrei sgattaiolare nello stesso momento in cui sono girati a guardare "
+#~ "dall'altra parte."
+
+#~ msgid "Who's there?"
+#~ msgstr "Chi va là?"
+
+#~ msgid "(Whispering) Kalya!"
+#~ msgstr "(Sussurando) Kalya!"
+
+#~ msgid "(What's happening here?)"
+#~ msgstr "(Cosa sta succedendo?)"
+
+#~ msgid "(Also whispering) I don't know."
+#~ msgstr "(sempre sussurando) Non lo so."
+
+#~ msgid ""
+#~ "(Woah, you scared me. Are you mad? You could have got us both caught!)"
+#~ msgstr ""
+#~ "(Ooh, mi hai spaventato. Ti ha dato di volta il cervello? Avresti potuto "
+#~ "farci catturare entrambi!)"
+
+#~ msgid "(I thought you saw me.)"
+#~ msgstr "(Pensavo che mi avresti visto.)"
+
+#~ msgid ""
+#~ "(Kalya was brought here by those weirdos. They are holding everyone "
+#~ "captive. Lilly is talking with that big guy. He gives me the chills.)"
+#~ msgstr ""
+#~ "(Kalya è stato portata qui da quei tipi strani, che detengono gli "
+#~ "abitanti come prigionieri. Lilly sta discutendo con quel tizio laggiù: "
+#~ "egli mi rabbrividisce solo alla vista.)"
+
+#~ msgid "(Let's have a look.)"
+#~ msgstr "(Diamo un'occchiata.)"
+
+#~ msgid ""
+#~ "I already told you, again and again, Banesore. I don't know anything "
+#~ "about such a crystal."
+#~ msgstr ""
+#~ "Ti ho già risposto più volte e più volte ancora, Banesore. Non so nulla "
+#~ "riguardo a questo cristallo che cerchi."
+
+#~ msgid "It is 'Lord Banesore', you scum!"
+#~ msgstr "Chiamalo ''Lord Banesore'', feccia umana!"
+
+#~ msgid ""
+#~ "Even when confronted by someone who can wipe out everything you hold "
+#~ "dear, you dare to stare me in the eyes? I admire such a courageous heart, "
+#~ "my dear one."
+#~ msgstr ""
+#~ "Hai il coraggio di guardarmi negli occhi, a colui che di fronte a te può "
+#~ "cancellare tutto ciò che ti è caro? Ammiro un cuore così coraggioso, mia "
+#~ "adorata."
+
+#~ msgid "Therefore, I'm inclined to ask these questions one last time:"
+#~ msgstr ""
+#~ "Pertanto, sono propenso a farti le stesse domande per l'ultima volta:"
+
+#~ msgid "Where is the crystal? Where is the boy?"
+#~ msgstr "Dov'è il cristallo? Dove si trova il ragazzo?"
+
+#~ msgid "It's time to think Lilly."
+#~ msgstr "È giunto il momento di riflettere, Lilly."
+
+#~ msgid "Huh? How do you know my name?"
+#~ msgstr "Uh? Come fai a sapere il mio nome?"
+
+#~ msgid ""
+#~ "Your very soul is slowly but surely opening. I can feel your sorrow and "
+#~ "doubts grow."
+#~ msgstr ""
+#~ "La tua anima si sta lentamente ma inesorabilmente aprendo. Ora posso "
+#~ "sentire il tuo dolore e i tuoi dubbi crescere dentro di te."
+
+#~ msgid "Fight it, Lilly! Focus!"
+#~ msgstr "Non allentare, Lilly! Concentrati!"
+
+#~ msgid "Keep quiet, you old daft rat!"
+#~ msgstr "Fai silenzio, vecchio ratto di fogna!"
+
+#~ msgid "Oh! My apologies, it seems you weren't lying."
+#~ msgstr "Oh! Ti porgo le mie scuse, a quanto pare non stavi mentendo."
+
+#~ msgid ""
+#~ "The fact you didn't mention anything about the boy leads me to believe "
+#~ "that you know him."
+#~ msgstr ""
+#~ "Il fatto di non avere menzionato nulla del ragazzo mi sta portando a "
+#~ "pensare che lo conosci."
+
+#~ msgid "Ah? So he must be close."
+#~ msgstr "Ah? Così deve trovarsi molto vicino."
+
+#~ msgid "What? No!"
+#~ msgstr "Cosa? No!"
+
+#~ msgid "Oh, I see now. So this is her mother. Bring her here, and kill her!"
+#~ msgstr ""
+#~ "Oh, sto comprendendo. Questa è sua madre. Portatela qui, e uccidetela!"
+
+#~ msgid "Let her out of this! You can have me instead."
+#~ msgstr "Lasciatela stare, non c'entra nulla! Potete avere me al suo posto."
+
+#~ msgid "So, here we have a gentleman! I'll start with you, then."
+#~ msgstr "Così, qui abbiamo un gentiluomo! Comincerò da te, allora."
+
+#~ msgid "Fine."
+#~ msgstr "Bene."
+
+#~ msgid "But she will be the next one."
+#~ msgstr "Purtroppo lei sarà la prossima."
+
+#~ msgid "You filthy demon!"
+#~ msgstr "Non sei altro che un demonio immondo!"
+
+#~ msgid "It's fine, I'll come."
+#~ msgstr "Va bene, verrò da te."
+
+#~ msgid "No!"
+#~ msgstr "No!"
+
+#~ msgid "At last, the boy."
+#~ msgstr "E alla fine, il ragazzo."
+
+#~ msgid "No! Let him come closer."
+#~ msgstr "No! Lasciate che si avvicini."
+
+#~ msgid "Bronann! No!"
+#~ msgstr "Bronann! No!"
+
+#~ msgid "Bronann, why?"
+#~ msgstr "Bronann, perché?"
+
+#~ msgid "Clear the way, Lilly. I need to speak to him."
+#~ msgstr "Conducimi da lui, Lilly. Ho bisogno di parlargli."
+
+#~ msgid "Let's have a talk, Bronann!"
+#~ msgstr "Parliamone, Bronann!"
+
+#~ msgid "I don't have any other choice, Lilly."
+#~ msgstr "Non ho altra scelta, Lilly."
+
+#~ msgid "Bronann..."
+#~ msgstr "Bronann..."
+
+#~ msgid "You, after all these years..."
+#~ msgstr "Tu, dopo tutti questi anni..."
+
+#~ msgid "Let everyone go. We don't have your 'crystal'."
+#~ msgstr "Lascia andare le persone. Non abbiamo questo tuo ''cristallo''."
+
+#~ msgid "Of course you have it. I can sense it within your flesh."
+#~ msgstr "Ce l'hai senz'altro. Lo posso sentire attraverso la tua carne."
+
+#~ msgid "So, the crystal is inside me?"
+#~ msgstr "Dunque, il cristallo è dentro di me?"
+
+#~ msgid "Now, show it to me."
+#~ msgstr "Ora, mostrami."
+
+#~ msgid "But I..."
+#~ msgstr "Ma io..."
+
+#~ msgid ""
+#~ "Do you need some kind of motivation? If so, let me handle this with my "
+#~ "greatest pleasure!"
+#~ msgstr ""
+#~ "Necessiti di una qualche motivazione? Se è così, lascia che me ne occupi "
+#~ "con il mio più grande piacere!"
+
+#~ msgid "Prepare yourself!"
+#~ msgstr "Preparatevi!"
+
+#~ msgid "Ah, there it is. Finally!"
+#~ msgstr "Ah, eccolo.Finalmente!"
+
+#~ msgid "Kalya! Now!"
+#~ msgstr "Kalya! Ora!"
+
+#~ msgid ""
+#~ "You won't get him, Banesore! It seems we were smarter than you this time."
+#~ msgstr ""
+#~ "Non lo avrai, Banesore! Sembra che siamo stati più furbi di te, questa "
+#~ "volta."
+
+#~ msgid "Ah ah ah, but this is exactly what I wanted."
+#~ msgstr "Ah ah ah, ma esattamente era questo quello che volevo."
+
+#~ msgid ""
+#~ "After all, I simply wanted to make sure that boy would reach Mt. Elbrus "
+#~ "safe and sound."
+#~ msgstr ""
+#~ "Dopo tutto, ho semplicemente fatto in modo che il ragazzino avrebbe "
+#~ "raggiunto il monte Elbrus, sano e salvo."
+
+#~ msgid "He is the only one that can get what I'm looking for."
+#~ msgstr "Egli è l'unico che può avere quello che sto cercando."
+
+#~ msgid "Soldiers! Give them a few minutes before starting the chase."
+#~ msgstr ""
+#~ "Soldati! Concedete a loro un paio di minuti prima di iniziare la caccia."
+
+#~ msgid "Yes, my Lord!"
+#~ msgstr "Sì, mio Lord!"
+
+#~ msgid "Why the hell..."
+#~ msgstr "Perché diavolo..."
+
+#~ msgid "...am I telling you all that? It's simple."
+#~ msgstr "...e ti sto raccontando tutto questo? È elementare."
+
+#~ msgid "But it doesn't matter, as you're all going to die now."
+#~ msgstr "Ma non importa, dato che morirete ora."
+
+#~ msgid "One of grandma's chickens. I should bring it back."
+#~ msgstr "Una delle galline della nonnina. Devo riuscire a portarla indietro."
+
+#~ msgid "Wow! You found me!"
+#~ msgstr "Wow! Mi hai trovato!"
+
+#~ msgid "But I'm not done yet!"
+#~ msgstr "Ma non sono ancora finito!"
+
+#~ msgid "You'll never find me hiding behind the..."
+#~ msgstr "Non mi troverai mai nascosto dietro quel..."
+
+#~ msgid "Hey, why would I tell you my hiding spots?!"
+#~ msgstr "Ehi, perché mai dovrei dirti dei miei nascondigli!?"
+
+#~ msgid "That kid is pretty quick. This is going to take all day."
+#~ msgstr ""
+#~ "Quel ragazzo è piuttosto veloce. Ci metterò tutto il giorno a cercarlo."
+
+#~ msgid "Please no! Wait!"
+#~ msgstr "Per favore, no! Aspetta!"
+
+#~ msgid "Orlinn! Stop this!"
+#~ msgstr "Orlinn! Basta!"
+
+#~ msgid "Orlinn! How many times have I told you not to bother other people?"
+#~ msgstr ""
+#~ "Orlinn! Quante volte ti ho detto di lasciare in pace le altre persone?"
+
+#~ msgid "But sis! I..."
+#~ msgstr "Ma sorellona! Io..."
+
+#~ msgid "I don't want to hear it! Now, come!"
+#~ msgstr "Non voglio sentire! Vieni via, ora!"
+
+#~ msgid "Don't blame him, Kalya. Actually, it was..."
+#~ msgstr "Non incolparlo, Kalya. Veramente, lui non ha..."
+
+#~ msgid "I don't think I was talking to you, now was I?"
+#~ msgstr "Non credo che stessi parlando con te, o mi sbaglio?"
+
+#~ msgid "Come Orlinn!"
+#~ msgstr "Vieni Orlinn!"
+
+#~ msgid "I found that pen near the tree behind you. I just wanted to play."
+#~ msgstr ""
+#~ "Ho trovato quella penna vicino a quel albero dietro di te. Volevo solo "
+#~ "giocare."
+
+#~ msgid "Take it. Thanks."
+#~ msgstr "Prendila. Grazie."
+
+#~ msgid "Bronann?"
+#~ msgstr "Bronann?"
+
+#~ msgid "Er, yes?"
+#~ msgstr "...Sì?"
+
+#~ msgid ""
+#~ "Don't blame Kalya. She was having a hard time along with her brother "
+#~ "before living here, you know?"
+#~ msgstr ""
+#~ "Non incolpare Kalya. Lo sapevi che ha passato un periodo difficile con "
+#~ "suo fratello prima di venire a vivere qui?"
+
+#~ msgid "Well anyway, she's been ignoring me since the first day I saw her."
+#~ msgstr "Beh in ogni caso, mi sta ignorando dal primo giorno che l'ho vista."
+
+#~ msgid "Eh? You really know nothing about women, do you?"
+#~ msgstr "Eh? Davvero non conosci nulla riguardo le donne, giusto?"
+
+#~ msgid "Heh heh, don't worry about it. It will come in time."
+#~ msgstr "Eh eh, non preoccupartene. Arriverà il tempo."
+
+#~ msgid "Here it is, Bronann."
+#~ msgstr "Ecco qui, Bronann."
+
+#~ msgid "Thanks, Lilly."
+#~ msgstr "Grazie, Lilly."
+
+#~ msgid ""
+#~ "We've been having a shortage of food lately. I've been taking... special "
+#~ "measures to ensure that everyone has enough food."
+#~ msgstr ""
+#~ "Stiamo subendo una carenza di cibo ultimamente. E ho preso delle..."
+#~ "speciali misure. per assicurare che tutti abbiano abbastanza cibo."
+
+#~ msgid "Try to enjoy this day, Bronann."
+#~ msgstr "Cercati di godere questo giorno, Bronann."
+
+#~ msgid "We're counting on you."
+#~ msgstr "Contiamo su di te."
+
+#~ msgid "You should go back home. Your mom must be waiting for you."
+#~ msgstr "Dovresti tornare a casa. Tua madre ti starà aspettando."
+
+#~ msgid "What a nice day, isn't it?"
+#~ msgstr "Bella giornata, non trovi?"
+
+#~ msgid "Yes, Lilly. But I have something I have to ask you."
+#~ msgstr "Sì, Lilly. Ma ho qualcosa che devo chiederti."
+
+#~ msgid "Sure, just ask."
+#~ msgstr "Certo, chiedi."
+
+#~ msgid ""
+#~ "Have you still got any barley meal left for my parents and I? My mother "
+#~ "asked me to get some and I..."
+#~ msgstr ""
+#~ "Hai ancora della farina d'orzo rimasta per me e per i miei genitori? Mia "
+#~ "madre me l'ha chiesta e io..."
+
+#~ msgid "Unfortunately, I gave it all to Kalya."
+#~ msgstr "Sfortunatamente, l'ho data tutta a Kalya."
+
+#~ msgid ""
+#~ "Ah hah! I just wanted to see your reaction. I still have some. Let me go "
+#~ "grab it and bring it back to you."
+#~ msgstr ""
+#~ "Ha ha! Volevo solo vedere la tua reazione. Ho ancora qualcosa, aspetta "
+#~ "solo un attimo che vada a prenderla."
+
+#~ msgid "You'll never get me!"
+#~ msgstr "Non mi avrai mai!"
+
+#~ msgid "Orlinn, how did you get there?"
+#~ msgstr "Orlinn, come ci sei arrivato lassù?"
+
+#~ msgid "(giggle) I won't tell you!"
+#~ msgstr "(risatina) Non te lo dirò!"
+
+#~ msgid "Hi Bronann."
+#~ msgstr "Salve Bronann."
+
+#~ msgid "Hi Herth. I see you've blocked the gate, why so?"
+#~ msgstr "Salve Herth. Ho visto che hai bloccato il cancello, ma perchè?"
+
+#~ msgid ""
+#~ "Don't worry too much. I'm just preventing strangers from being able to "
+#~ "sneak in at night."
+#~ msgstr ""
+#~ "Non preoccuparti troppo. Sto solo prendendo delle cautele per gli "
+#~ "stranieri che entrano di nascosto di notte."
+
+#~ msgid ""
+#~ "There have been some reports of theft in the villages nearby recently."
+#~ msgstr ""
+#~ "Recentemente, ci sono state alcune segnalazioni di furto nei villaggi "
+#~ "vicini."
+
+#~ msgid "Wow, do you think that they would come here?"
+#~ msgstr "Wow, pensi che verranno anche qui?"
+
+#~ msgid "It's a possibility. But don't worry too much, ok?"
+#~ msgstr "È possibile. Ma non preoccuparti troppo, ok?"
+
+#~ msgid "Yiek! Hey, you scared me."
+#~ msgstr "Yiek! Ehi, mi hai fatto prendere un colpo."
+
+#~ msgid "But you'll never find me hiding on top of the cliffs!"
+#~ msgstr "Ma non mi troverai mai nascosto in cima alla scogliera!"
+
+#~ msgid ""
+#~ "I found you! My comrades will be here in no time. Surrender now, or "
+#~ "you'll be punished!"
+#~ msgstr ""
+#~ "Siete stati scoperti! I miei compagni saranno qui in brevissimo tempo. "
+#~ "Arrendetevi ora o verrete puniti!"
+
+#~ msgid ""
+#~ "Don't listen to him! We must get rid of him before reinforcements arrive "
+#~ "or we're doomed!"
+#~ msgstr ""
+#~ "Non ascoltatelo! Dobbiamo sbarazzarci di lui prima che arrivino i "
+#~ "rinforzi o saremmo condannati!"
+
+#~ msgid "Time left:"
+#~ msgstr "Tempo rimasto:"
+
+#~ msgid "Shall we jump?"
+#~ msgstr "Saltiamo?"
+
+#~ msgid "Yes, let's go."
+#~ msgstr "Sì, andiamo!"
+
+#~ msgid "Not now."
+#~ msgstr "Non ora."
+
+#~ msgid "We made it, at last!"
+#~ msgstr "Ce l'abbiamo fatta, finalmente!"
+
+#~ msgid "Indeed! Yeepee!"
+#~ msgstr "Infatti! Yuppie!"
+
+#~ msgid "I'm so relieved we made it safely, hee hee."
+#~ msgstr "Sono sollevato che ce l'abbiamo fatta sani e salvi, hee hee."
+
+#~ msgid "Wait."
+#~ msgstr "Aspetta."
+
+#~ msgid "Can you smell that stench?"
+#~ msgstr "Riuscite a sentire il fetore?"
+
+#~ msgid "Yes. Is it... smoke?"
+#~ msgstr "Sì. E'...fumo quello?"
+
+#~ msgid "Something's burning."
+#~ msgstr "Qualcosa sta bruciando."
+
+#~ msgid "Our village. It's burning."
+#~ msgstr "Il nostro villaggio. Sta bruciando."
+
+#~ msgid "My parents."
+#~ msgstr "I miei genitori."
+
+#~ msgid "Herth."
+#~ msgstr "Herth."
+
+#~ msgid "Everyone."
+#~ msgstr "Tutti."
+
+#~ msgid "May they rest in peace."
+#~ msgstr "Che riposino in pace."
+
+#~ msgid "All this..."
+#~ msgstr "Tutto questo..."
+
+#~ msgid "All this was for a crystal?"
+#~ msgstr "E tutto questo per un cristallo?"
+
+#~ msgid "I'll fix this."
+#~ msgstr "Ora lo sistemo."
+
+#~ msgid "If this crystal is so powerful, then I'll use it. And I'll fix this."
+#~ msgstr "Se il cristallo è così potente, allora lo userò. E sistemerò tutto."
+
+#~ msgid "Then, I'll help you."
+#~ msgstr "Allora, ti aiuterò."
+
+#~ msgid "Banesore's minions are already all over the place."
+#~ msgstr "I tirapiedi di Banesore sono dappertutto."
+
+#~ msgid ""
+#~ "The dark soldiers, as we call them, are fanatics. They'll follow "
+#~ "Banesore's orders even if it means their death."
+#~ msgstr ""
+#~ "I soldati oscuri, come noi li chiamiamo, sono dei veri fanatici. Essi "
+#~ "eseguiranno qualsiasi ordine di Banesore anche se questo per loro "
+#~ "significa la morte."
+
+#~ msgid ""
+#~ "We don't know how he does it, but he can turn anybody into a servile "
+#~ "subject."
+#~ msgstr ""
+#~ "Al momento non sappiamo come ci riesca, ma è in grado di sottomettere a "
+#~ "lui qualsiasi persona."
+
+#~ msgid ""
+#~ "Their strength is increased by the transformation. That's why we call "
+#~ "them the zombified army."
+#~ msgstr ""
+#~ "La loro forza è aumentata durante la trasformazione. Ecco perché li "
+#~ "chiamiamo l'esercito zombificato."
+
+#~ msgid "We must absolutely avoid them or they'll call reinforcements."
+#~ msgstr "Dobbiamo assolutamente evitarli o chiameranno altri rinforzi."
+
+#~ msgid "They are too strong. If they catch us, we're doomed."
+#~ msgstr "Sono troppo forti. Se ci prendono, per noi sarà la fine."
+
+#~ msgid "Dang! And now the rain too."
+#~ msgstr "Dannazione! Ci mancava solo la pioggia."
+
+#~ msgid ""
+#~ "The path seems to lead straight into the storm up there. It's definitely "
+#~ "our lucky day."
+#~ msgstr ""
+#~ "Il percorso sembra portare dritto lassù, dalla parte della tempesta. "
+#~ "Senza dubbio questo è il nostro giorno fortunato."
+
+#~ msgid ""
+#~ "Don't lose faith, Kalya. If we manage to escape from them here, we'll be "
+#~ "safe past the mountains."
+#~ msgstr ""
+#~ "Non perdere la fiducia, Kalya. Se riusciamo ad andarcene da qui, saremo "
+#~ "al sicuro oltre le montagne."
+
+#~ msgid ""
+#~ "If we can reach the great plains, we should indeed be out of trouble."
+#~ msgstr ""
+#~ "Se riusciamo a raggiungere le grandi pianure, saremo davvero fuori dai "
+#~ "guai."
+
+#~ msgid "???"
+#~ msgstr "???"
+
+#~ msgid ""
+#~ "This place is the village's old cemetery. It was used by the former "
+#~ "villagers who lived in Layna."
+#~ msgstr ""
+#~ "Questo posto è il vecchio cimitero del villaggio, il quale veniva usato "
+#~ "dagli antichi abitanti di Layna."
+
+#~ msgid "The former villagers? What do you mean?"
+#~ msgstr "Gli antichi abitanti? Cosa vorresti dire?"
+
+#~ msgid ""
+#~ "Layna Village was abandoned a long time ago, before your parents and all "
+#~ "the others settled here. Your mother never told you that?"
+#~ msgstr ""
+#~ "Beh, il villaggio di Layna fu abbandonato molto tempo fa, prima che i "
+#~ "tuoi genitori e tutti gli altri misero i loro piedi qui. Tua madre non te "
+#~ "l'ha mai raccontato?"
+
+#~ msgid ""
+#~ "I've never been this far from the village without Herth. This place gives "
+#~ "me the chills."
+#~ msgstr ""
+#~ "Non mi sono mai allontanata fin così tanto senza Herth. Questo luogo mi "
+#~ "dà i brividi."
+
+#~ msgid "Anyway, once the cemetery is behind us we should be out of trouble!"
+#~ msgstr ""
+#~ "Ad ogni modo, saremmo fuori dai guai una volta superato il cimitero!"
+
+#~ msgid "Are those the soldiers up there?"
+#~ msgstr "Quei tipi lassù non sono dei soldati?"
+
+#~ msgid "The west gate is condemned, as the Lord commanded."
+#~ msgstr ""
+#~ "I cancelli che portano ad ovest sono inagibili, come il Lord ha ordinato."
+
+#~ msgid "Good. Let's go back and wait for them."
+#~ msgstr "Bene. Torniamo indietro e aspettiamoli."
+
+#~ msgid "The gate to the great plains..."
+#~ msgstr "Il cancello che porta alle grandi pianure..."
+
+#~ msgid "Have we got any other way to leave this place?"
+#~ msgstr "Non c'è un altro modo per uscire da questo posto?"
+
+#~ msgid "Only one. The mountain top."
+#~ msgstr "Soltanto uno. Per la cima della montagna."
+
+#~ msgid "Oh no! The gate!"
+#~ msgstr "Oh no! Il cancello!"
+
+#~ msgid "We're trapped!"
+#~ msgstr "Siamo in trappola!"
+
+#~ msgid "You're mine now!"
+#~ msgstr "Adesso siete nelle mie mani!"
+
+#~ msgid ""
+#~ "I shall bring your souls to the master. You don't stand a chance against "
+#~ "the Great Harlequin."
+#~ msgstr ""
+#~ "Consegnerò le vostre anime al maestro. Non avete alcuna possibilità di "
+#~ "battere il Grande Harlequin."
+
+#~ msgid "But let's play together first, shall we?"
+#~ msgstr "Ma prima, che ne dite di giocare insieme?"
+
+#~ msgid "Now catch me, if you can."
+#~ msgstr "Ora acciuffatemi, se ci riuscite."
+
+#~ msgid "Enough of this shallow game. Give me your souls, now!"
+#~ msgstr "Basta con questo gioco futile. Datemi le vostre anime, ora!"
+
+#~ msgid "How could I be hurt by... children..."
+#~ msgstr "Come ho potuto farmi ferire da dei...bambini..."
+
+#~ msgid "We'll see each other again, chosen one..."
+#~ msgstr "Ci vedremo nuovamente, Prescelto."
+
+#~ msgid "We made it."
+#~ msgstr "Ce l'abbiamo fatta."
+
+#~ msgid "Brr. It's quite cold up here."
+#~ msgstr "Brr. Fa abbastanza freddo quaggiù."
+
+#~ msgid ""
+#~ "The bridge is a few feet away. Let's reach the mountain pass before the "
+#~ "frost kills us."
+#~ msgstr ""
+#~ "Il ponte è a pochi metri di distanza. Raggiungiamo il valico prima che il "
+#~ "gelo ci uccida."
+
+#~ msgid "Let's hurry. I can't feel my toes anymore."
+#~ msgstr "Sbrighiamoci, non sento più le dita dei piedi."
+
+#~ msgid "(Woah, this bridge doesn't look very sturdy.)"
+#~ msgstr "(Woah, questo ponte non sembra molto robusto.)"
+
+#~ msgid "Well, here we go."
+#~ msgstr "Bene, ci siamo quasi."
+
+#~ msgid "There!"
+#~ msgstr "Di qua!"
+
+#~ msgid "Catch them before they reach the shrine!"
+#~ msgstr "Catturateli prima che raggiungano il santuario!"
+
+#~ msgid "Let's run!"
+#~ msgstr "Corriamo!"
+
+#~ msgid "I'll cut those ropes!"
+#~ msgstr "Proverò a tagliare le corde!"
+
+#~ msgid "That was close."
+#~ msgstr "Per un pelo."
+
+#~ msgid "Damn!"
+#~ msgstr "Dannazione!"
+
+#~ msgid "The master won't be happy with this."
+#~ msgstr "Al maestro non farà piacere."
+
+#~ msgid "You won't get away so easily. We will catch you sooner or later."
+#~ msgstr ""
+#~ "Non sarà possibile per voi andare via così facilmente.  Vi prenderemo "
+#~ "prima o poi."
+
+#~ msgid "Hurray! Those idiots will have a hard time catching us now!"
+#~ msgstr "Evviva! Ora quegli idioti difficilmente ci cattureranno!"
+
+#~ msgid "Indeed! They've been had!"
+#~ msgstr "Infatti! Hanno avuto quello che si meritavano!"
+
+#~ msgid "Who are the little brats now, eh?"
+#~ msgstr "Chi sono le piccole pesti ora, eh?"
+
+#~ msgid "Let's go back and inform the others."
+#~ msgstr "Torniamo indietro e informiamo gli altri."
+
+#~ msgid "Yes, sir."
+#~ msgstr "Sìssignore."
+
+#~ msgid ""
+#~ "They're gone. We should move on before they actually find a way to cross "
+#~ "the gap."
+#~ msgstr ""
+#~ "Se ne sono andati. Dobbiamo proseguire prima che trovino il modo di "
+#~ "attraversare il varco."
+
+#~ msgid "I'll stay here as long as you need me. Do you want to buy something?"
+#~ msgstr ""
+#~ "Starò qui il più lungo possibile se avrete bisogno di me. Volete comprare "
+#~ "qualcosa?"
+
+#~ msgid "Sophia's Items"
+#~ msgstr "Oggetti di Sophia"
+
+#~ msgid "Don't forget my trade offers!"
+#~ msgstr "Non dimenticare le mie offerte commerciali!"
+
+#~ msgid ""
+#~ "You'll see. There's plenty of things I need to show you there. Plus, it's "
+#~ "a safe place."
+#~ msgstr ""
+#~ "Vedrai: c'è un sacco di cose che devo mostrarti laggiù. Inoltre, è un "
+#~ "posto sicuro."
+
+#~ msgid "Err, sis?"
+#~ msgstr "Err, sorellona?"
+
+#~ msgid ""
+#~ "Our elder will also be able to help us. And you'll get a better "
+#~ "explanation than I could ever..."
+#~ msgstr ""
+#~ "Il nostro anziano sarà in grado di aiutarci. E avrai così tante "
+#~ "spiegazioni che non osi immaginare..."
+
+#~ msgid "One second, Orlinn. I'm trying to..."
+#~ msgstr "Un secondo, Orlinn. Sto provando a..."
+
+#~ msgid "But Kalya, look at the passageway!"
+#~ msgstr "Ma Kalya, guarda il passaggio!"
+
+#~ msgid "What about the..."
+#~ msgstr "Che mi dici riguardo..."
+
+#~ msgid "No, it can't be."
+#~ msgstr "No, non può essere."
+
+#~ msgid "After all we've been through, this..."
+#~ msgstr "Dopo tutto quello che abbiamo passato, adesso questo..."
+
+#~ msgid "Calm down Kalya, there must be a way to go through this somehow."
+#~ msgstr "Calmati Kalya, ci deve essere un modo per passare da qualche parte."
+
+#~ msgid "Unfortunately, yes. There is one."
+#~ msgstr "Sfortunatamente, sì. C'è ne uno..."
+
+#~ msgid "We'll have to enter the ancient shrine."
+#~ msgstr "Dovremo entrare nell'antico santuario."
+
+#~ msgid ""
+#~ "If we wouldn't have gotten here all by ourselves, I would swear "
+#~ "Banesore's army pushed us here on purpose."
+#~ msgstr ""
+#~ "Non saremmo mai potuti scappare via con le nostre sole forze, io ci "
+#~ "giurerei che l'esercito di Banesore ci ha abbia spinto qui di proposito.."
+
+#~ msgid "What's with this 'ancient shrine'?"
+#~ msgstr "Cosa sarebbe questo \"antico santuario\"?"
+
+#~ msgid ""
+#~ "Some say it is haunted. It was sealed a long time ago, long before I was "
+#~ "even born."
+#~ msgstr ""
+#~ "Dicono che sia stregato. Fu sigillato tanto tempo fa, molto prima che io "
+#~ "nascessi."
+
+#~ msgid "Indeed, it must be a long time ago."
+#~ msgstr ""
+#~ "Infatti, una cosa che siamo certi è che è stato molto ma molto tempo fa."
+
+#~ msgid ""
+#~ "Anyway, we might not be able to enter there at all. But you're right, "
+#~ "let's have a look around first. Who knows?"
+#~ msgstr ""
+#~ "In ogni caso, potremmo anche non essere in grado di entrare lì dentro. E "
+#~ "anche se avessi ragione, prima diamo un'occhiata in giro. Chi lo sa?"
+
+#~ msgid ""
+#~ "Here we are, looking at this huge and wonderful, yet creepy door. I don't "
+#~ "like this."
+#~ msgstr ""
+#~ "Eccoci arrivati, ammirate questa enorme, meravigliosa e per di più "
+#~ "inquietante... porta. Non mi piace."
+
+#~ msgid ""
+#~ "It's not like I actually want to open this, but how are we going to do so?"
+#~ msgstr "Non è che in realtà vorrei aprirla, ma allora cosa potremmo fare?"
+
+#~ msgid "Ow, my chest. It hurts!"
+#~ msgstr "Ah, il mio torace, sta bruciando!"
+
+#~ msgid "The crystal! Orlinn! Let's stand back!"
+#~ msgstr "Il cristallo! Orlinn! Stai indietro!"
+
+#~ msgid "That sign, it is the sign of the ancients! Bronann! Are you alright?"
+#~ msgstr "Quel segno, è il segno degli Antichi! Bronann! Stai bene?"
+
+#~ msgid "I'm fine, I guess. The pain faded away."
+#~ msgstr "Sto bene, credo. Il dolore è sparito."
+
+#~ msgid "Thank the goddess."
+#~ msgstr "Grazie a Dio."
+
+#~ msgid "Well, the door is open now."
+#~ msgstr "Bene, la porta si è aperta."
+
+#~ msgid "Yiek! Do you really want to go there??"
+#~ msgstr "Yiek! Davvero volete andare laggiù?"
+
+#~ msgid ""
+#~ "I believe we don't really have a choice. Somehow this place... called me."
+#~ msgstr ""
+#~ "Sinceramente credo che non abbiamo altra scelta. Chissà perché ma questo "
+#~ "posto...mi chiama."
+
+#~ msgid "Anyway, let's stick together and we'll be fine as always, right?"
+#~ msgstr ""
+#~ "Ad ogni modo, cerchiamo di stare vicini e andrà tutto bene, d'accordo?"
+
+#~ msgid "I have a bad feeling about all this now."
+#~ msgstr "Ho una brutta sensazione ora..."
+
+#~ msgid "Thank the goddess you're all safe and sound. I was worried sick!"
+#~ msgstr ""
+#~ "Grazie a Dio che siete tutti sani e salvi. Ero preoccupata da morire!"
+
+#~ msgid "Sophia, you're here?"
+#~ msgstr "Sophia, sei qui?"
+
+#~ msgid "Yes. It's a miracle that you were kept away from harm."
+#~ msgstr "Sì sono io. Solo un miracolo vi ha tenuto lontani dal male."
+
+#~ msgid "How in Layna did you reach Mt Elbrus all alone?"
+#~ msgstr "Come sei riuscita da Layna a raggiungere il monte Elbrus da sola?"
+
+#~ msgid ""
+#~ "And how did you reach up here? Weren't you caught by the soldiers with "
+#~ "the others?"
+#~ msgstr ""
+#~ "E come sei arrivata fin qui? Non sei stata catturata dai soldati come gli "
+#~ "altri?"
+
+#~ msgid ""
+#~ "Well, it's a long story. But in short, I was out of the village when they "
+#~ "caught everyone."
+#~ msgstr ""
+#~ "Beh, è una storia lunga. In poche parole, mi trovavo fuori dal villaggio "
+#~ "quando hanno catturato tutti."
+
+#~ msgid "Do you know how the others are doing? Are my parents okay?"
+#~ msgstr "Sai cosa stanno facendo gli altri? E i miei genitori stanno bene?"
+
+#~ msgid "Unfortunately no. I left them behind."
+#~ msgstr "Sfortunatamente no. Li ho persi di vista."
+
+#~ msgid ""
+#~ "When I saw you leaving the village to the sanctuary, I decided to follow "
+#~ "you."
+#~ msgstr ""
+#~ "Quando vi ho visto lasciare il paese verso il santuario, ho deciso di "
+#~ "seguirvi."
+
+#~ msgid ""
+#~ "But by the time I reached the area, the three of you were gone. And I had "
+#~ "to find out where you were heading."
+#~ msgstr ""
+#~ "Quando sono ritornata in zona, voi tre eravate già andati. E mi sono "
+#~ "messa alla ricerca per capire dove vi stavate dirigendo."
+
+#~ msgid "But the bridge, how did you cross?"
+#~ msgstr "E il ponte, come lo hai attraversato?"
+
+#~ msgid "Using my rope and ranger skills, of course."
+#~ msgstr ""
+#~ "Usando la mia corda e mettendo in pratica le mie abilità da ranger, ovvio."
+
+#~ msgid ""
+#~ "Sophia could be of great help, Kalya. The passage has collapsed, and "
+#~ "we're stuck finding a way through this dreadful place."
+#~ msgstr ""
+#~ "Sophia potrebbe rivelarsi di grande aiuto, Kalya. Il passaggio è "
+#~ "crollato, siamo bloccati qui e dobbiamo trovare una via di uscita da "
+#~ "questo posto orribile.."
+
+#~ msgid ""
+#~ "Maybe, maybe not. Sophia was out the time they attacked? Somehow I don't "
+#~ "buy it."
+#~ msgstr ""
+#~ "Forse, o forse no. Sophia è rimasta fuori tutto questo tempo durante "
+#~ "l'attacco? Per questo motivo o altro non compro nulla."
+
+#~ msgid ""
+#~ "I wasn't out for no reason. Herth sent me to watch for soldiers in the "
+#~ "west parts of the forest."
+#~ msgstr ""
+#~ "Non avevo nessun motivo. In realtà, Herth mi ha mandato a sorvegliare i "
+#~ "soldati nella parte orientale della foresta."
+
+#~ msgid ""
+#~ "He was afraid they'd corner us to prevent an escape, and he was right."
+#~ msgstr ""
+#~ "Aveva paura che ci avrebbero messo all'angolo per impedire la fuga, e "
+#~ "aveva ragione."
+
+#~ msgid ""
+#~ "Herth sent you? But he told me it was nothing, that he would handle it!"
+#~ msgstr ""
+#~ "Ti ha mandato Herth? Ma mi ha detto che non c'era da preoccuparsi di "
+#~ "niente, che tutto era sotto controllo!"
+
+#~ msgid ""
+#~ "I fear he just wanted to protect you and make you all meet your destiny "
+#~ "at the same time."
+#~ msgstr ""
+#~ "Temo che volesse solo proteggervi e incrociare il vostro destino nel "
+#~ "momento giusto."
+
+#~ msgid "What?! You mean you all knew about the crystal?"
+#~ msgstr "Cosa? Mi stai dicendo che eri a conoscenza del cristallo?"
+
+#~ msgid ""
+#~ "We didn't know exactly what would happen, Bronann. But we knew one day "
+#~ "the three of you would have to carry a special burden. That is what Herth "
+#~ "told us."
+#~ msgstr ""
+#~ "Non sapevamo esattamente cosa sarebbe successo, Bronann. Ma sapevamo che "
+#~ "un giorno tre di voi avrebbero dovuto portare un peso speciale. Questo è "
+#~ "ciò che Herth ci disse."
+
+#~ msgid ""
+#~ "Listen kids, I feel bad about what happened. But I can't help you as a "
+#~ "magical force is preventing me from entering the shrine."
+#~ msgstr ""
+#~ "Ascoltate ragazzi, mi sento male per quello che è successo. E non posso "
+#~ "aiutarvi a causa di una forza magica che mi impedisce di entrare nel "
+#~ "santuario."
+
+#~ msgid "But then you're stuck here, too, right?"
+#~ msgstr "Ma allora sei bloccata qui dentro anche tu, o mi sbaglio? "
+
+#~ msgid "Me? Not at all. I don't need bridges to cross a moutain."
+#~ msgstr ""
+#~ "Io? Niente affatto. Non ho bisogno di ponti per attraversare una montagna."
+
+#~ msgid "But maybe?"
+#~ msgstr "Ma forse?"
+
+#~ msgid "Maybe?"
+#~ msgstr "Ma?"
+
+#~ msgid ""
+#~ "Maybe I could sell you a few things to help you find a way to open a path "
+#~ "in there?"
+#~ msgstr ""
+#~ "Ma potrei vendervi un po' di cose che vi aiuterano a trovare un modo per "
+#~ "aprire una strada in là?"
+
+#~ msgid "So that's how you help, by selling things to us..."
+#~ msgstr "Ecco come ci aiuti, vendendo roba a noi..."
+
+#~ msgid ""
+#~ "Yes, it's a great privilege as I usually don't do such things for "
+#~ "children. I'll stay here as long as you are stuck, isn't this quite nice?"
+#~ msgstr ""
+#~ "Sì, e per voi è un grande privilegio dato che di solito non faccio queste "
+#~ "cose per i bambini. Allora starò qui, bloccata il più possibile con voi, "
+#~ "non trovate che sia un'idea abbastanza buona?"
+
+#~ msgid "But you'll let us deal with this place, alone?"
+#~ msgstr "Ma, ci hai fatto venire in questo posto, da soli?"
+
+#~ msgid ""
+#~ "This place is part of your burden. Herth was right. You managed to come "
+#~ "here all by yourselves, after all."
+#~ msgstr ""
+#~ "Questo posto è parte del peso che portate. Herth aveva ragione, dopo "
+#~ "tutto siete riusciti a venire qui con le vostre forze."
+
+#~ msgid "I guess it's better than nothing. But Orlinn, you stay with us."
+#~ msgstr "Credo che sia meglio di niente. Ma Orlinn, tu rimarrai con noi."
+
+#~ msgid "Thanks anyway, Sophia."
+#~ msgstr "Comunque grazie mille, Sophia."
+
+#~ msgid "You're welcome, my dear!"
+#~ msgstr "Prego, mio caro!"
+
+#~ msgid "Phew, this one sure is heavier and more sturdy."
+#~ msgstr "Phew, questo qui è sicuramente più pesante e robusto."
+
+#~ msgid "I can feel something moving far below."
+#~ msgstr "Sento qualcosa che si muove lontano."
+
+#~ msgid "It seems somebody left a note here on purpose."
+#~ msgstr "Sembra che qualcuno abbia lasciato qui di proposito una nota."
+
+#~ msgid "You mean in the middle of those scary bones?"
+#~ msgstr "Mi vorresti dire nel bel mezzo di quelle ossa terrificanti?"
+
+#~ msgid "Let me see."
+#~ msgstr "Fatemi vedere."
+
+#~ msgid "'To whoever will read this:'"
+#~ msgstr "\"A chiunque legga questo:\""
+
+#~ msgid ""
+#~ "'Battles have been waging all over the place and the Ancient have now "
+#~ "forsaken me into oblivion when they sealed the Goddess Shrine.'"
+#~ msgstr ""
+#~ "\"Le battaglie imperversano in tutto il luogo e l'Antico mi ha ormai "
+#~ "abbandonato nell'oblio nell'istante in cui hanno sigillato il Santuario "
+#~ "della Dea.\""
+
+#~ msgid ""
+#~ "'All my comrades have perished in battle and I am the last unfortunate "
+#~ "one left.'"
+#~ msgstr ""
+#~ "\"Tutti i miei compagni sono caduti in battaglia e io sono l'ultimo "
+#~ "sventurato rimasto ancora in vita.\""
+
+#~ msgid ""
+#~ "'My name is Shawn, and I do believe my time is running out in this life "
+#~ "as there is neither food nor water in here.'"
+#~ msgstr ""
+#~ "\"Il mio nome è Shawn, e credo che il mio tempo in questo mondo stia per "
+#~ "scadere  in quanto non è rimasto né cibo né acqua.\""
+
+#~ msgid "Poor guy. He must have died from starvation."
+#~ msgstr "Poveretto. Deve essere morto per la fame."
+
+#~ msgid ""
+#~ "'But I will attempt one last time to escape from here and I'm leaving "
+#~ "this note in case you'd need to do the same.'"
+#~ msgstr ""
+#~ "\"Ma tenterò per l'ultima volta la mia fuga e lascio questa nota nel caso "
+#~ "in cui avreste bisogno anche voi.\""
+
+#~ msgid ""
+#~ "'The only way to escape this hellish place is to reach the highest floor "
+#~ "and activate the waterfall. At least that's what they said.'"
+#~ msgstr ""
+#~ "\"L'unico modo per sfuggire da questo luogo infernale è di raggiungere il "
+#~ "piano più alto e di attivare la cascata. Almeno questo è quello che hanno "
+#~ "detto.\""
+
+#~ msgid "What are we waiting for, let's go!"
+#~ msgstr "Cosa stiamo aspettando, andiamo!"
+
+#~ msgid "Wait Orlinn! That's not all he wrote."
+#~ msgstr "Aspetta Orlinn! Non è ancora finita."
+
+#~ msgid ""
+#~ "'But be warned, for even the very scent exuding from the dark waters is a "
+#~ "trap!'"
+#~ msgstr ""
+#~ "\"Ma fate attenzione, l'odore che trasuda dalle acque scure è di per sé "
+#~ "una trappola!\""
+
+#~ msgid ""
+#~ "'The entire shrine has been turned into a murderous area and you'll have "
+#~ "to fight your way through, just as I will now.'"
+#~ msgstr ""
+#~ "\"L'intero santuario si è tramutato in un posto pericoloso e dovrete "
+#~ "combattere per proseguire il vostro cammino, proprio come lo sto facendo "
+#~ "io ora\""
+
+#~ msgid "That's it."
+#~ msgstr "Questo è tutto."
+
+#~ msgid "Let's find out how to activate that waterfall, then."
+#~ msgstr "Allora, scopriamo il modo di attivare questa cascata."
+
+#~ msgid "Yes, and let's do it quickly."
+#~ msgstr "Sì, e facciamolo in fretta."
+
+#~ msgid ""
+#~ "Somebody left a note on purpose here. According to it, we need to find "
+#~ "out a way to trigger the waterfall from the highest floor."
+#~ msgstr ""
+#~ "Qualcuno ha lasciato apposta una nota qui. In base ad essa, dobbiamo "
+#~ "trovare un modo per innescare la cascata dal piano più alto."
+
+#~ msgid ""
+#~ "But let's be careful, as it also said this place is dangerous and the "
+#~ "dark waters are some kind of trap."
+#~ msgstr ""
+#~ "Ma cerchiamo di fare attenzione come già è stato detto questo posto è "
+#~ "pericoloso, e le acque scure rappresentano in qualche modo una trappola."
+
+#~ msgid "What is this? Skeletons?!"
+#~ msgstr "Cosa sono tutti questi? Scheletri!?"
+
+#~ msgid "Phew."
+#~ msgstr "Phew."
+
+#~ msgid "Yiek! A big monster!"
+#~ msgstr "Yiek! Un mostro gigantesco!"
+
+#~ msgid ""
+#~ "My name is Andromalius, guardian of the sacred seal and keeper of the "
+#~ "Goddess Shrine."
+#~ msgstr ""
+#~ "Il mio nome è Andromalius, guardiano del aacro aigillo e custode del "
+#~ "Santuario della Dea."
+
+#~ msgid ""
+#~ "You have trespassed the holy ground of the Ancient and remained unharmed "
+#~ "for too long in this temple."
+#~ msgstr ""
+#~ "Avete oltrepassato il territorio sacro degli Antichi e siete ancora "
+#~ "incolumi per troppo tempo in questo tempio."
+
+#~ msgid ""
+#~ "Thus, let death embrace you, little boy. For your comrades are already "
+#~ "dying under my charm and you need to join them in the other world."
+#~ msgstr ""
+#~ "Pertanto, lascia che la morte ti abbracci, ragazzino. I tuoi compagni "
+#~ "stanno già morendo sotto il mio incantesimo e dovrai unirti a loro "
+#~ "nell'altro mondo."
+
+#~ msgid "You've proven yourself, chosen one. You deserve to live after all."
+#~ msgstr "Ti sei fatto valere, Prescelto. Dopotutto, meriti di vivere."
+
+#~ msgid "Me? But I'm not the chosen one."
+#~ msgstr "Io? Ma non sono il prescelto."
+
+#~ msgid ""
+#~ "The ones being few or many, still each of them will have to prove "
+#~ "themselves as it is ought to be."
+#~ msgstr ""
+#~ "I prescelti, essendo in pochi o in molti, ancora una volta ognuno di loro "
+#~ "ha dimostrato il proprio coraggio."
+
+#~ msgid "Farewell, chosen one."
+#~ msgstr "Addio, Prescelto."
+
+#~ msgid "I can hear water everywhere."
+#~ msgstr "Sento il rumore dell'acqua provenire dappertutto."
+
+#~ msgid "Kalya, Bronann!"
+#~ msgstr "Kalya, Bronann!"
+
+#~ msgid "Again, I can feel something moving not far from here."
+#~ msgstr "Ancora una volta, sento qualcosa muoversi non molto lontano da qui."
+
+#~ msgid ""
+#~ "There is a passage here, but I'm too heavy to climb on those stones "
+#~ "jutting out"
+#~ msgstr "Vedo un passaggio, ma peso troppo per arrampicarmi su quelle rocce."
+
+#~ msgid ""
+#~ "The fact is, you and I cannot afford to stand on those stones. Maybe with "
+#~ "a rope?"
+#~ msgstr ""
+#~ "Il problema è che non possiamo scalare quelle rocce. Magari con l'aiuto "
+#~ "di una fune?"
+
+#~ msgid "I'll do it."
+#~ msgstr "Andrò io."
+
+#~ msgid "What? Are you crazy? There could be monsters up there."
+#~ msgstr ""
+#~ "Cosa? Ti ha dato di volta il cervello? Ci potrebbero essere dei mostri "
+#~ "lassù."
+
+#~ msgid "Then I'll deal with them, sis. We can't just stay here, anyway."
+#~ msgstr ""
+#~ "Allora, mi sbarazzerò di loro, sorellona. Non possiamo rimanere qui, ad "
+#~ "ogni modo."
+
+#~ msgid "Orlinn, you sure have grown up through all of this. Are you sure?"
+#~ msgstr ""
+#~ "Orlinn, sicuramente sei cresciuto a causa di tutto ciò che è accaduto. "
+#~ "Sei davvero sicuro?"
+
+#~ msgid "I need to, I guess."
+#~ msgstr "Credo di sì."
+
+#~ msgid "Just tell me when you're ready and I'll throw you up there."
+#~ msgstr "Dimmi solo quando sei pronto e ti faccio salire lassù."
+
+#~ msgid "Ready to go up?"
+#~ msgstr "Pronto a salire? "
+
+#~ msgid "Err, not yet."
+#~ msgstr "Ehm, non ancora."
+
+#~ msgid "Be careful, ok?"
+#~ msgstr "Fai attenzione, ok?"
+
+#~ msgid "Want to come back?"
+#~ msgstr "Vuoi tornare indietro?"
+
+#~ msgid "Yes!"
+#~ msgstr "Sì!"
+
+#~ msgid "No, not yet."
+#~ msgstr "No, non ancora."
+
+#~ msgid "Oops, sorry!"
+#~ msgstr "Oops, scusa!"
+
+#~ msgid "Bronann, are you okay?"
+#~ msgstr "Bronann, ti senti bene?"
+
+#~ msgid "I don't know, I felt something crack."
+#~ msgstr "Non lo so, credo di aver sentito qualche schiocco."
+
+#~ msgid "Not again..."
+#~ msgstr "Non di nuovo..."
+
+#~ msgid "There is a note left here."
+#~ msgstr "C'è una nota lasciata qui."
+
+#~ msgid ""
+#~ "It says: 'I fathomed it! After all, not every ladder is made of wood. "
+#~ "Now, I'll have to get back there alive.'"
+#~ msgstr ""
+#~ "Dice: \"Ho calcolato la profondità! Dopo tutto, non tutte le scale sono "
+#~ "in legno. Ora, dovrò tornare indietro da vivo.\""
+
+#~ msgid "There seems to be one of those rolling stones up here."
+#~ msgstr "Sembra che sia una di quelle pietre rotolanti lassù."
+
+#~ msgid "Wow, what a fall. I didn't see that one coming."
+#~ msgstr "Wow, che caduta. Non l'ho vista arrivare."
+
+#~ msgid "Are you alright, Kalya?"
+#~ msgstr "Stai bene, Kalya?"
+
+#~ msgid "I should be fine, but we should heal just in case."
+#~ msgstr ""
+#~ "Dovrei stare meglio, ma dovremmo curare le nostre ferite in caso di "
+#~ "necessità."
+
+#~ msgid "Wait..."
+#~ msgstr "Aspetta..."
+
+#~ msgid "Where is Orlinn?"
+#~ msgstr "Dov'è Orlinn?"
+
+#~ msgid "Orlinn? Orlinn!"
+#~ msgstr "Orlinn? Orlinn!"
+
+#~ msgid "Let's find him, once more, before something bad happens."
+#~ msgstr ""
+#~ "Troviamolo, ancora una volta, prima che gli succeda qualcosa di brutto."
+
+#~ msgid "This is the blocked passage to the shrine entrance."
+#~ msgstr ""
+#~ "Questo è il passaggio bloccato che conduce all'ingresso del santuario."
+
+#~ msgid "This can only mean we're near the exit!"
+#~ msgstr "Ciò significa che siamo vicini all'uscita!"
+
+#~ msgid "Orlinn! Back off!"
+#~ msgstr "Orlinn!! Torna indietro!"
+
+#~ msgid "I, I..."
+#~ msgstr "Io, io..."
+
+#~ msgid "Orlinn! NOW!"
+#~ msgstr "Orlinn! ORA!"
+
+#~ msgid "You shall not leave this place without my consent."
+#~ msgstr "Non potete lasciare questo posto senza il mio consenso."
+
+#~ msgid "And you shall not touch my brother without mine."
+#~ msgstr "E tu il consenso di toccare mio fratello non ce l'hai."
+
+#~ msgid ""
+#~ "You have made it through the holy ordeal alive. I shall not let you "
+#~ "survive."
+#~ msgstr ""
+#~ "Avete oltrepassato il sacro calvario senza morire. Non vi lascerò vivere."
+
+#~ msgid "Let's fight for our lives then!"
+#~ msgstr "Combattiamo per le nostre vite, allora!"
+
+#~ msgid "Orlinn, are you alright?"
+#~ msgstr "Bronann, stai bene?"
+
+#~ msgid "Yes. I'm sorry I wasn't able to protect myself, sis."
+#~ msgstr ""
+#~ "Sì. Mi dispiace ma non sono stato in grado di proteggere me stesso, "
+#~ "sorellona."
+
+#~ msgid ""
+#~ "Don't you worry about that, brother. Never leave me like that again, ok?"
+#~ msgstr "Non preoccuparti di questo, fratello. Non lasciarmi di nuovo, ok?"
+
+#~ msgid ""
+#~ "I promise I didn't do it this time. I just fell in front of this hideous "
+#~ "green head."
+#~ msgstr ""
+#~ "Prometto che non l'ho fatta apposta questa volta. Son caduto per sbaglio "
+#~ "davanti a questa mostruosa testa verde."
+
+#~ msgid ""
+#~ "Well, let's leave this place before another one wants our lives again."
+#~ msgstr ""
+#~ "Bene, lasciamo questo posto prima che qualcun'altro voglia le nostre vite "
+#~ "di nuovo."
+
+#~ msgid "I couldn't agree more."
+#~ msgstr "Non potrei essere più d'accordo."
+
+#~ msgid "We can't move, Orlinn."
+#~ msgstr "Non possiamo muoverci, Orlinn.."
+
+#~ msgid "We're gonna...suffocate."
+#~ msgstr "Stiamo... soffocando."
+
+#~ msgid "Orlinn, help us... Please, oh oh oh..."
+#~ msgstr "Orlinn, aiutaci... Per favore, oh oh oh..."
+
+#~ msgid "What a large gate. What is behind it must be fearsome."
+#~ msgstr ""
+#~ "Che cancello grande. Cosa si cela dietro deve essere qualcosa di "
+#~ "terribile."
+
+#~ msgid "Shall we go in?"
+#~ msgstr "Vogliamo andare?"
+
+#~ msgid "Yes, let's end this."
+#~ msgstr "Sì, poniamo fine a questo."
+
+#~ msgid "No, let's prepare first."
+#~ msgstr "No, prima cerchiamo di prepararci."
+
+#~ msgid ""
+#~ "Don't worry, we've managed to come this far. There is nothing that "
+#~ "could..."
+#~ msgstr ""
+#~ "Non ti preoccupare, siamo riusciti ad arrivare fin qui. Non c'è nulla che "
+#~ "potrebbe..."
+
+#~ msgid "What is it, Kalya?"
+#~ msgstr "Cos'è questo, Kalya?"
+
+#~ msgid "...Kalya?!"
+#~ msgstr "...Kalya!?"
+
+#~ msgid "Sis'!"
+#~ msgstr "Sorellona!"
+
+#~ msgid "I feel... I..."
+#~ msgstr "Mi sento... come..."
+
+#~ msgid "Hi hi... Hi hi hi... I can't stop!!"
+#~ msgstr "Hi hi...Hi hi hi... Non riesco a fermarmi!!"
+
+#~ msgid "What's so funny, Kalya? Hi hi."
+#~ msgstr "Cosa trovi di divertente, Kalya? Ih ih."
+
+#~ msgid "I don't know... Ah, I can barely breathe!"
+#~ msgstr "Non lo so... Ah, riesco a malapena respirare!"
+
+#~ msgid "Hi hi hi... What's happening to me..."
+#~ msgstr "Hi hi hi... che mi sta succedendo..."
+
+#~ msgid "It's the scent, ah ah ah."
+#~ msgstr "E' l'odore, ah ah ah."
+
+#~ msgid ""
+#~ "Erm, are you crazy or what? I usually am the one with bad jokes you know."
+#~ msgstr ""
+#~ "Ehm, ti ha dato di volta il cervello o cosa? Sai bene che di solito sono "
+#~ "io quello che fa brutti scherzi."
+
+#~ msgid "We can't move Orlinn."
+#~ msgstr "Non possiamo muoverci, Orlinn."
+
+#~ msgid "I can't let them die. I have to find out something."
+#~ msgstr "Non posso lasciarli morire. Devo inventarmi subito qualcosa."
+
+#~ msgid "Something is preventing me from entering."
+#~ msgstr "Qualcosa mi impedisce di entrare."
+
+#~ msgid "I feel much better now."
+#~ msgstr "Mi sento meglio ora."
+
+#~ msgid "Indeed. It seems the scent has no effect on us anymore."
+#~ msgstr "Infatti. Sembra che l'odore non abbia più effetto su di noi."
+
+#~ msgid "Orlinn, did you do something?"
+#~ msgstr "Orlinn, hai fatto qualcosa?"
+
+#~ msgid "Me? You know, a bit of this, a bit of that."
+#~ msgstr "Io? Sai:, un po' di questo, un po' di quello."
+
+#~ msgid "I didn't think I would say this, but thank you Orlinn."
+#~ msgstr "Non avrei mai pensato di dirlo, ma grazie Orlinn."
+
+#~ msgid "Thank you, indeed."
+#~ msgstr "Grazie, davvero."
+
+#~ msgid "You're welcome!"
+#~ msgstr "Prego!"
+
+#~ msgid ""
+#~ "Well, please stop laughing now. I'm not at ease with what just happened."
+#~ msgstr ""
+#~ "Beh, ora finiscila di ridere, per favore. Non mi sento a mio agio con ciò "
+#~ "che è appena accaduto."
+
+#~ msgid "Stop laughing now or I'll smash your little head against that wall!"
+#~ msgstr ""
+#~ "Adesso finiscila di ridere o ti fracasso la testolina contro il muro!"
+
+#~ msgid "Aww, ok."
+#~ msgstr "Aww, ok."
+
+#~ msgid "Prismatic Ring"
+#~ msgstr "Anello prismatico"
+
+#~ msgid "A strange ring that protects the wearer from darkness."
+#~ msgstr "Anello strano che protegge il possessore dalle tenebre."
+
+#~ msgid "Wooden Shield"
+#~ msgstr "Scudo di legno"
+
+#~ msgid "Robust wooden oak protects from all but the heaviest of assaults."
+#~ msgstr ""
+#~ "Legno robusto di quercia che non riesce a proteggere gli assalti più "
+#~ "violenti."
+
+#~ msgid "Metal Shield"
+#~ msgstr "Scudo di metallo"
+
+#~ msgid ""
+#~ "A shield formed completely out of a light-weight but cheap metallic alloy."
+#~ msgstr ""
+#~ "Scudo completamente rivestito da una lega metallica leggera ma economica."
+
+#~ msgid "Phoenix Shield"
+#~ msgstr "Scudo della fenice"
+
+#~ msgid "A tall steel shield with a mighty phoenix emblazoned on the front."
+#~ msgstr ""
+#~ "Grande scudo d'acciaio con incisa davanti una maestosa e nobile fenice."
+
+#~ msgid "Trident Shield"
+#~ msgstr "Scudo tridente"
+
+#~ msgid ""
+#~ "A large shield with enough fortitude to withstand waves of powerful "
+#~ "attacks."
+#~ msgstr ""
+#~ "Ampio scudo avente forza sufficiente per resistere a una moltitudine di "
+#~ "potenti attacchi."
+
+#~ msgid "Butterfly Hair Tong"
+#~ msgstr "Fermacapelli a farfalla"
+
+#~ msgid "An old and finely crafted piece of jewelery."
+#~ msgstr "Vecchio gioiello finemente lavorato."
+
+#~ msgid "Old Helmet"
+#~ msgstr "Elmo vecchio"
+
+#~ msgid "A battle-worn helmet, still reliable for head protection."
+#~ msgstr ""
+#~ "Elmo indossato per le battaglie, ancora affidabile per proteggere la "
+#~ "testa."
+
+#~ msgid "Cobalt Helm"
+#~ msgstr "Elmo di cobalto"
+
+#~ msgid "A small helmet composed of a secret cobalt-based alloy."
+#~ msgstr "Piccolo elmo composto da una lega segreta a base di cobalto."
+
+#~ msgid "Crested Helmet"
+#~ msgstr "Elmo crestato"
+
+#~ msgid ""
+#~ "A sturdy helmet with a hinged face guard offering additional protection."
+#~ msgstr ""
+#~ "Elmo robusto con fronte incerniata per garantire una protezione "
+#~ "aggiuntiva."
+
+#~ msgid "Minor Healing Potion"
+#~ msgstr "Pozione curativa minore"
+
+#~ msgid "Restores a small amount of hit points to an ally."
+#~ msgstr "Recupera una piccola quantità di punti vita all'alleato."
+
+#~ msgid "Medium Healing Potion"
+#~ msgstr "Pozione curativa media"
+
+#~ msgid "Restores a reasonable amount of hit points to an ally."
+#~ msgstr "Recupera una decente quantità di punti vita all'alleato."
+
+#~ msgid "Healing Potion"
+#~ msgstr "Pozione curativa"
+
+#~ msgid "Restores a large amount of hit points to an ally."
+#~ msgstr "Recupera un'abbondante quantità di punti vita all'alleato."
+
+#~ msgid "Mega Healing Potion"
+#~ msgstr "Mega-pozione curativa"
+
+#~ msgid "Restores a very high amount of hit points to an ally."
+#~ msgstr "Recupera un'altissima quantità di punti vita all'alleato."
+
+#~ msgid "Small Moon Juice Potion"
+#~ msgstr "Succo di luna minore"
+
+#~ msgid "Restores a small amount of skill points to an ally."
+#~ msgstr "Recupera una piccola quantità di punti abilità all'alleato."
+
+#~ msgid "Medium Moon Juice Potion"
+#~ msgstr "Succo di luna media"
+
+#~ msgid "Restores a reasonable amount of skill points to an ally."
+#~ msgstr "Recupera una decente quantità di punti abilità all'alleato."
+
+#~ msgid "Moon Juice Potion"
+#~ msgstr "Succo di luna"
+
+#~ msgid "Restores a large amount of skill points to an ally."
+#~ msgstr "Recupera un'abbondante quantità di punti abilità all'alleato."
+
+#~ msgid "Mega Moon Juice Potion"
+#~ msgstr "Mega-succo di luna "
+
+#~ msgid "Restores a very high amount of skill points to an ally."
+#~ msgstr "Recupera un'altissima quantità di punti abilità all'alleato."
+
+#~ msgid "Lotus Petal"
+#~ msgstr "Petalo di loto"
+
+#~ msgid "Cures moderate poisons from an ally."
+#~ msgstr "Cura moderatamente il veleno dell'alleato."
+
+#~ msgid "Candy"
+#~ msgstr "Caramella"
+
+#~ msgid "Makes an ally's health regenerate moderately."
+#~ msgstr "Rigenera moderatamente la salute dell'alleato."
+
+#~ msgid "Minor Elixir"
+#~ msgstr "Elisir minore"
+
+#~ msgid ""
+#~ "Revives a character, or improves the character's status when he/she is "
+#~ "alive by a limited degree."
+#~ msgstr ""
+#~ "Rianima il personaggio, e migliora di poco lo stato del personaggio se è "
+#~ "in vita."
+
+#~ msgid "Elixir"
+#~ msgstr "Elisir"
+
+#~ msgid ""
+#~ "Revives a character to half of their hit points, or reasonably improves "
+#~ "the character's status while he/she is alive."
+#~ msgstr ""
+#~ "Rianima il personaggio con metà dei suoi punti vita, e migliora "
+#~ "ragionevolmente lo stato del personaggio se è in vita."
+
+#~ msgid "Periwinkle Potion"
+#~ msgstr "Pozione pervinca"
+
+#~ msgid ""
+#~ "Gives a reasonable boost in strength to an ally for a large amount of "
+#~ "time."
+#~ msgstr ""
+#~ "Conferisce una quantità ragionevole di forza all'alleato per un periodo "
+#~ "abbastanza lungo."
+
+#~ msgid "Haste Potion"
+#~ msgstr "Pozione fulminea"
+
+#~ msgid ""
+#~ "Gives a reasonable boost in agility to an ally for a small amount of time."
+#~ msgstr ""
+#~ "Conferisce una quantità ragionevole di agilità all'alleato per un periodo "
+#~ "abbastanza breve."
+
+#~ msgid "Poison Potion"
+#~ msgstr "Pozione velenosa"
+
+#~ msgid "Poisons an enemy for a small amount of time."
+#~ msgstr "Avvelena il nemico per un periodo piuttosto breve."
+
+#~ msgid "Copper Ore"
+#~ msgstr "Rame"
+
+#~ msgid "A small amount of copper ore."
+#~ msgstr "Una piccola quantità di rame."
+
+#~ msgid "Iron Ore"
+#~ msgstr "Ferro"
+
+#~ msgid "A small amount of iron ore."
+#~ msgstr "Una piccola quantità di ferro."
+
+#~ msgid "Titanium Ore"
+#~ msgstr "Titanio"
+
+#~ msgid "A small amount of titanium ore."
+#~ msgstr "Una piccola quantità di titanio."
+
+#~ msgid "Anthozium Ore"
+#~ msgstr "Antozio"
+
+#~ msgid "A small amount of anthozium ore."
+#~ msgstr "Una piccola quantità di antozio."
+
+#~ msgid "Auridium Ore"
+#~ msgstr "Auridio"
+
+#~ msgid "A small amount of auridium ore."
+#~ msgstr "Una piccola quantità di auridio."
+
+#~ msgid "Borium Ore"
+#~ msgstr "Boro"
+
+#~ msgid "A small amount of borium ore."
+#~ msgstr "Una piccola quantità di boro."
+
+#~ msgid "Evanium Ore"
+#~ msgstr "Evanio"
+
+#~ msgid "A small amount of evanium ore."
+#~ msgstr "Una piccola quantità di evanio."
+
+#~ msgid "Phoenix Feather"
+#~ msgstr "Piuma della fenice"
+
+#~ msgid ""
+#~ "A genuine and perfect feather from the great fire bird. It is known to "
+#~ "bring life to inanimated items."
+#~ msgstr ""
+#~ "Piuma autentica e in buono stato del grande uccello di fuoco, noto nel "
+#~ "donare la vita agli oggetti inanimati."
+
+#~ msgid "Escape Smoke"
+#~ msgstr "Fumo evasivo"
+
+#~ msgid ""
+#~ "A ninja potion that bursts out a damp mist when it is crashed on the "
+#~ "ground. Used to hopefully escape from standard opponents."
+#~ msgstr ""
+#~ "Pozione ninja che si tramuta in fitta nebbia a contatto con il terreno. "
+#~ "Adoperata per sfuggire silenziosamente dai nemici minori."
+
+#~ msgid "Pen"
+#~ msgstr "Penna"
+
+#~ msgid "Georges's pen, presumably used to write poetry."
+#~ msgstr "La penna di Georges, presumibilmente usata per scrivere poesie."
+
+#~ msgid "Barley Meal"
+#~ msgstr "Farina d'orzo"
+
+#~ msgid "Basic yet good and cheap flour."
+#~ msgstr "Farina semplice ed economica, ma sempre buona."
+
+#~ msgid "Wolfpain Necklace"
+#~ msgstr "Collana lacrima di lupo"
+
+#~ msgid "A strange necklace with unknown powers."
+#~ msgstr "Strana collana dai poteri sconosciuti."
+
+#~ msgid "Leather boots"
+#~ msgstr "Stivali di cuoio"
+
+#~ msgid "Simple but fairly good leather boots."
+#~ msgstr "Stivali di cuoio semplici ma abbastanza buoni."
+
+#~ msgid "Standard Greaves"
+#~ msgstr "Gambali normali"
+
+#~ msgid ""
+#~ "Standard equipment. Light metal alloy protects the legs while minimizing "
+#~ "the negative impact on movement."
+#~ msgstr ""
+#~ "Equipaggiamento di base. La leggera lega di metallo protegge le gambe "
+#~ "minimizzando l'impatto svantaggioso dei movimenti."
+
+#~ msgid "Tempered Greaves"
+#~ msgstr "Gambali temprati"
+
+#~ msgid ""
+#~ "Standard greaves that have undergone an additional tempering process, "
+#~ "increasing their durability and strength."
+#~ msgstr ""
+#~ "Gambali di base che hanno subito un ulteriore processo di tempra, "
+#~ "aumentandone la forza e la durata."
+
+#~ msgid "Ardoris"
+#~ msgstr "Ardoris"
+
+#~ msgid "An enchanting child of fire."
+#~ msgstr "Figlio incantevole del fuoco."
+
+#~ msgid "Undine"
+#~ msgstr "Undine"
+
+#~ msgid "A mesmerizing spirit of living water."
+#~ msgstr "Spirito affascinante composto di acqua pura."
+
+#~ msgid "Sylphid"
+#~ msgstr "Silfide"
+
+#~ msgid "A very rare spirit of wind, usually neither tamable nor catchable."
+#~ msgstr ""
+#~ "Spirito del vento raro, difficilmente addomesticabile e catturabile."
+
+#~ msgid "Dryad"
+#~ msgstr "Driade"
+
+#~ msgid "A fragile spirit, child of mother nature."
+#~ msgstr "Spirito fragile, figlio di madre natura."
+
+#~ msgid "Fairy"
+#~ msgstr "Fata"
+
+#~ msgid "Blinding as the sun, she brings life even where death belongs."
+#~ msgstr "Accecante come il sole, porta luce dove la morte dimora."
+
+#~ msgid "Demona"
+#~ msgstr "Demona"
+
+#~ msgid ""
+#~ "Spirit of the dark. It can't be possessed: it only chose to be possessed, "
+#~ "waiting for its hour."
+#~ msgstr ""
+#~ "Spirito dell'oscurità. Non può essere posseduto: sceglie da solo di chi "
+#~ "impossessarsi, aspettando il momento giusto."
+
+#~ msgid "Oblivion"
+#~ msgstr "Oblio"
+
+#~ msgid ""
+#~ "Touched neither by time nor space, this spirit is dwelling in pure energy."
+#~ msgstr ""
+#~ "Inviolabile dallo spazio e dal tempo, questo spirito dimora nell'energia "
+#~ "più pura."
+
+#~ msgid "Rookie Tunic"
+#~ msgstr "Tunica da recluta"
+
+#~ msgid ""
+#~ "A light tunic worn by new soldier recruits. This one belonged to "
+#~ "Bronann's father."
+#~ msgstr ""
+#~ "Leggera tunica indossata dalle nuove reclute dell'esercito. Apparteneva "
+#~ "al padre di Bronann."
+
+#~ msgid "Old Willow Dress"
+#~ msgstr "Vestito dell'antico salice"
+
+#~ msgid "An old willow dress that Kalya likes to wear."
+#~ msgstr "Un vecchio vestito di salice indossato da Kalya."
+
+#~ msgid "Tunic"
+#~ msgstr "Tunica"
+
+#~ msgid "An old light soldier tunic."
+#~ msgstr "Tunica da soldato vecchia e leggera."
+
+#~ msgid "Leather Cloak"
+#~ msgstr "Mantello di cuoio"
+
+#~ msgid "A cloak worn by apprentices."
+#~ msgstr "Mantello usato dagli iniziati."
+
+#~ msgid "Leather Chain Mail"
+#~ msgstr "Maglia di ferro e cuoio"
+
+#~ msgid "A light chain mail woven into a tough leather cuirass."
+#~ msgstr "Leggera maglia di ferro tessuta in una corazza di cuoio duro."
+
+#~ msgid "Karlate Breastplate"
+#~ msgstr "Corazza dei karlate"
+
+#~ msgid ""
+#~ "Standard Karlate issued equipment. Effectively protects the torso from "
+#~ "most types of attack."
+#~ msgstr ""
+#~ "Equipaggiamento di base dei karlate. Protegge il busto efficacemente "
+#~ "dalla maggior parte dei tipi d'attacco. "
+
+#~ msgid "Shouldered Breastplate"
+#~ msgstr "Corazza con spalliere"
+
+#~ msgid ""
+#~ "A breastplate with slightly thicker armor than is commonly found and "
+#~ "additional shoulder guards."
+#~ msgstr ""
+#~ "Comune corazza leggermente più spessa con in aggiunta delle spalliere "
+#~ "protettive."
+
+#~ msgid "Wooden Sword"
+#~ msgstr "Spada di legno"
+
+#~ msgid "A sword made of wood with a steel hilt, very good for practising."
+#~ msgstr "Spada di legno con manico in acciaio, molto buona per fare pratica."
+
+#~ msgid "Reinforced Wooden Sword"
+#~ msgstr "Spada di legno rinforzata"
+
+#~ msgid "A sword made of wood with a steel hilt, reinforced magically."
+#~ msgstr "Spada di legno con elsa in acciaio, rinforzata con la magia."
+
+#~ msgid "Perfect Wooden Sword"
+#~ msgstr "Spada di legno perfezionata"
+
+#~ msgid ""
+#~ "A sword made of wood with a steel hilt, surrounded by a great magical "
+#~ "force."
+#~ msgstr ""
+#~ "Spada di legno con elsa in acciaio, avvolta da una grande forza magica."
+
+#~ msgid "Iron Sword"
+#~ msgstr "Spada di ferro"
+
+#~ msgid ""
+#~ "A sturdy but somewhat dull sword whose blade was forged from a single "
+#~ "block of solid iron."
+#~ msgstr ""
+#~ "Spada robusta ma piuttosto pesante, la cui lama è stata forgiata da un "
+#~ "singolo e solido blocco di ferro."
+
+#~ msgid "Soldier Sword"
+#~ msgstr "Spada da soldato"
+
+#~ msgid ""
+#~ "Standard soldier sword. A light weight iron sword suitable for most "
+#~ "skirmishes."
+#~ msgstr ""
+#~ "Spada di base del soldato. Una leggera spada di ferro adatta per "
+#~ "combattere in varie situazioni."
+
+#~ msgid "Knight's Blade"
+#~ msgstr "Spada del re"
+
+#~ msgid "A weapon bestowed to seasoned veterans of the knighthood."
+#~ msgstr "Arma conferita ai veterani del cavalierato."
+
+#~ msgid "Paladin's Sword"
+#~ msgstr "Spada del paladino"
+
+#~ msgid "A mythical weapon blessed with a magical fire."
+#~ msgstr "Arma mitica benedetta dal fuoco magico."
+
+#~ msgid "Omni Sword"
+#~ msgstr "Spada Omni"
+
+#~ msgid "Arbalest"
+#~ msgstr "Arbalest"
+
+#~ msgid "A standard wooden arbalest."
+#~ msgstr "Normale arbalest in legno."
+
+#~ msgid "Noble Arbalest"
+#~ msgstr "Arbalest nobiliare"
+
+#~ msgid "An arbalest made out of fine noble ash tree wood."
+#~ msgstr "Arbalest fatto di legno di frassino pregiato."
+
+#~ msgid "Arbalest of Force"
+#~ msgstr "Arbalest dell'impeto"
+
+#~ msgid "An arbalest strengthened with magical ore."
+#~ msgstr "Arbalest rinforzata con il minerale magico."
+
+#~ msgid "Punch"
+#~ msgstr "Pugno"
+
+#~ msgid "A simple punch. Better than nothing."
+#~ msgstr "Un semplice pugno. Meglio di niente."
+
+#~ msgid "Throw stone"
+#~ msgstr "Lancio di pietre"
+
+#~ msgid "Kalya's attack when she has no weapon."
+#~ msgstr "Attacco di Kalya quando è disarmata."
+
+#~ msgid "Tornado Punch"
+#~ msgstr "Pungo del tornado"
+
+#~ msgid "Spinning knuckle attack that deals wind damage."
+#~ msgstr "Attacco vorticoso che affligge danni di tipo aria."
+
+#~ msgid "Shield"
+#~ msgstr "Scudo"
+
+#~ msgid "Increases an ally's physical defense by a slight degree."
+#~ msgstr "Aumenta leggermente la difesa fisica dell'alleato."
+
+#~ msgid "First Aid"
+#~ msgstr "Pronto soccorso"
+
+#~ msgid ""
+#~ "Performs basic medical assistance, healing the target by a minor degree."
+#~ msgstr ""
+#~ "Esegue una semplice assistenza medica, curando lievemente le ferite."
+
+#~ msgid "Leader Call"
+#~ msgstr "Richiamo del comandante"
+
+#~ msgid "Temporarily increases the strength of all allies."
+#~ msgstr "Aumenta temporaneamente la forza di tutti gli alleati."
+
+#~ msgid "Holy Veil"
+#~ msgstr "Velo sacro"
+
+#~ msgid "Increases the attack and magical attack of all allies."
+#~ msgstr "Aumenta l'attacco fisico e magico di ogni alleato."
+
+#~ msgid "Ancient Strength"
+#~ msgstr "Forza antica"
+
+#~ msgid "Increases every form of elemental resistance for all allies."
+#~ msgstr "Aumenta ogni tipo di resistenza elementale ad ogni alleato."
+
+#~ msgid "Divine Wish"
+#~ msgstr "Volere divino"
+
+#~ msgid "Revives an ally, restoring all of their HP and SP."
+#~ msgstr "Ravviva un alleato, ripristando tutti i suoi PV e PA."
+
+#~ msgid "Magical Poison"
+#~ msgstr "Veleno magico"
+
+#~ msgid "Makes an enemy lose its SP little by little."
+#~ msgstr "Consente al nemico di perdere i suoi PA poco a poco."
+
+#~ msgid "Steal Song"
+#~ msgstr "Canzone del furto"
+
+#~ msgid "Steals positive effects from an enemy."
+#~ msgstr "Ruba le alterazioni positive dal nemico."
+
+#~ msgid "Terrify"
+#~ msgstr "Terrorizza"
+
+#~ msgid "Potentially causes a normal enemy to retreat."
+#~ msgstr "Provoca potenzialmente un nemico normale a ritirarsi."
+
+#~ msgid "Decay Dirge"
+#~ msgstr "Nenia della rovina"
+
+#~ msgid "Steals both physical and magical defense of an ally."
+#~ msgstr "Ruba la difesa magica e fisica dell'alleato."
+
+#~ msgid "War God"
+#~ msgstr "Dio della guerra"
+
+#~ msgid ""
+#~ "Steals both the physical and magical defense of all enemies and gives it "
+#~ "to the party."
+#~ msgstr "Ruba la difesa fisica e magica di ogni nemico, cedendoli al gruppo."
+
+#~ msgid "Fire burst"
+#~ msgstr "Fiammata"
+
+#~ msgid "Creates a small fire that burns an enemy."
+#~ msgstr "Crea una piccola fiamma che brucia il nemico."
+
+#~ msgid "Fire Circle"
+#~ msgstr "Cerchio del fuoco"
+
+#~ msgid "Increases the fire elemental defense on a character."
+#~ msgstr "Aumenta la difesa di tipo fuoco del personaggio."
+
+#~ msgid "Lava"
+#~ msgstr "Lava"
+
+#~ msgid "Magical attack combining earth and fire type damage."
+#~ msgstr "Attacco magico che combina i danni di tipo terra e fuoco."
+
+#~ msgid "Fog"
+#~ msgstr "Nebbia"
+
+#~ msgid "Increases the evade rate of an ally."
+#~ msgstr "Aumenta il tasso di elusione dell'alleato."
+
+#~ msgid "Fire Breath"
+#~ msgstr "Soffio di fuoco"
+
+#~ msgid "Magical attack combining air and fire type damage."
+#~ msgstr "Attacco magico che combina i danni di tipo aria e fuoco."
+
+#~ msgid "Focus"
+#~ msgstr "Concentrazione"
+
+#~ msgid "Increases the magical defence of an ally."
+#~ msgstr "Aumenta la difesa magica dell'alleato."
+
+#~ msgid "Holy Fire"
+#~ msgstr "Fuoco sacro"
+
+#~ msgid "Magical attack combining life and fire damages."
+#~ msgstr "Attacco magico che combina i danni di tipo vita e fuoco."
+
+#~ msgid "Revives a fallen ally."
+#~ msgstr "Ravviva un alleato caduto in battaglia."
+
+#~ msgid "Petrify"
+#~ msgstr "Pietrifica"
+
+#~ msgid "Turns an enemy into stone."
+#~ msgstr "Trasforma il nemico in una statua di pietra."
+
+#~ msgid "Rage"
+#~ msgstr "Furia"
+
+#~ msgid ""
+#~ "Enrages an ally, increasing their attack and speed but reducing their "
+#~ "defence."
+#~ msgstr ""
+#~ "Infuria l'alleato aumentandone l'attacco e la velocità, ma riducendone la "
+#~ "difesa."
+
+#~ msgid "Rock Fall"
+#~ msgstr "Caduta di massi"
+
+#~ msgid "Rocks fall on an enemy."
+#~ msgstr "Massi che cadono sul nemico."
+
+#~ msgid "Earth Circle"
+#~ msgstr "Cerchio della terra"
+
+#~ msgid "Increases the earth elemental defense of a character."
+#~ msgstr "Aumenta la difesa di tipo terra del personaggio."
+
+#~ msgid "Entangle"
+#~ msgstr "Intrappola"
+
+#~ msgid "Decreases the evasion rate of an enemy."
+#~ msgstr "Riduce il tasso di elusione del nemico."
+
+#~ msgid "Magical Armor"
+#~ msgstr "Armatura magica"
+
+#~ msgid "Haste"
+#~ msgstr "Fretta"
+
+#~ msgid "Increases the battle speed of an ally."
+#~ msgstr "Aumenta in battaglia la velocità dell'alleato."
+
+#~ msgid "Moon"
+#~ msgstr "Luna"
+
+#~ msgid "Makes an enemy attack its own allies."
+#~ msgstr "Consente al nemico di attaccare i propri alleati."
+
+#~ msgid "Cure"
+#~ msgstr "Cura"
+
+#~ msgid "Cures the poison from an ally."
+#~ msgstr "Cura il veleno dell'alleato."
+
+#~ msgid "Drain"
+#~ msgstr "Assorbimento"
+
+#~ msgid "Steals HP from an enemy."
+#~ msgstr "Ruba i PV dal nemico."
+
+#~ msgid "Curse"
+#~ msgstr "Maledizione"
+
+#~ msgid "Severely decreases several random stats of an enemy."
+#~ msgstr ""
+#~ "Diminuisce gravemente e casualmente le varie statistiche del nemico."
+
+#~ msgid "Meteor"
+#~ msgstr "Meteora"
+
+#~ msgid "High earth damage on all foes."
+#~ msgstr "Danni elevati di tipo terra su tutti i nemici."
+
+#~ msgid "Wave"
+#~ msgstr "Onda"
+
+#~ msgid "Makes waves fall on an enemy."
+#~ msgstr "Onde che cadono sul nemico."
+
+#~ msgid "Water Circle"
+#~ msgstr "Cerchio dell'acqua"
+
+#~ msgid "Increases the water elemental defense on a character."
+#~ msgstr "Aumenta la difesa di tipo acqua del personaggio."
+
+#~ msgid "Whirlwind"
+#~ msgstr "Mulinello"
+
+#~ msgid "Magical attack combining water and air type damage."
+#~ msgstr "Attacco magico che combina i danni di tipo acqua ed aria."
+
+#~ msgid "Slow"
+#~ msgstr "Rallenta"
+
+#~ msgid "Decreases the battle speed of an enemy."
+#~ msgstr "Riduce in battaglia la velocità del nemico."
+
+#~ msgid "Blindness"
+#~ msgstr "Accecamento"
+
+#~ msgid ""
+#~ "Prevents an enemy from succeeding to strike with any physical attacks."
+#~ msgstr "Impedisce al nemico di schivare eventuali attacchi fisici."
+
+#~ msgid "Heal"
+#~ msgstr "Guarisci"
+
+#~ msgid "Restores the health of an ally."
+#~ msgstr "Recupera la salute dell'alleato."
+
+#~ msgid "Poison"
+#~ msgstr "Veleno"
+
+#~ msgid "Inflicts poison on an enemy."
+#~ msgstr "Avvelena il nemico."
+
+#~ msgid "Stun"
+#~ msgstr "Stordisci"
+
+#~ msgid "Stuns an enemy."
+#~ msgstr "Stordisce il nemico."
+
+#~ msgid "Tsunami"
+#~ msgstr "Tsunami"
+
+#~ msgid "High water damage inflicted on all foes."
+#~ msgstr "Danni elevati di tipo acqua su tutti i nemici."
+
+#~ msgid "Healing Rain"
+#~ msgstr "Pioggia guaritrice"
+
+#~ msgid "Improves the health of all allies."
+#~ msgstr "Migliora la salute di tutti gli alleati."
+
+#~ msgid "Wind"
+#~ msgstr "Vento"
+
+#~ msgid "The wind slashes an enemy."
+#~ msgstr "Il vento falcia il nemico."
+
+#~ msgid "Wind Circle"
+#~ msgstr "Cerchio del vento"
+
+#~ msgid "Increases the air elemental defense of a character."
+#~ msgstr "Aumenta la difesa elementale di tipo \"aria\" del personaggio."
+
+#~ msgid "Lightning"
+#~ msgstr "Fulmine"
+
+#~ msgid "Magical attack combining life and air type damage."
+#~ msgstr "Attacco magico che combina danni di tipo vita e aria."
+
+#~ msgid "Regen"
+#~ msgstr "Rigenera"
+
+#~ msgid "Causes an ally to slowly recover their health."
+#~ msgstr "Consente all'alleato di recuperare lentamente la propria salute."
+
+#~ msgid "Magic Drain"
+#~ msgstr "Assorbimento magico"
+
+#~ msgid "Steals skill points from an enemy."
+#~ msgstr "Ruba i punti abilità dal nemico."
+
+#~ msgid "Silence"
+#~ msgstr "Silenzio"
+
+#~ msgid "Prevents an enemy from using any magic skills."
+#~ msgstr "Impedisce al nemico di usare eventuali magie."
+
+#~ msgid "Storm"
+#~ msgstr "Tempesta"
+
+#~ msgid "High air type damage on all foes."
+#~ msgstr "Danni elevati di tipo aria su tutti i nemici."
+
+#~ msgid "Stop"
+#~ msgstr "Arresta"
+
+#~ msgid "Stops an enemy from taking any actions for quite a long time."
+#~ msgstr "Arresta le azioni del nemico per un periodo piuttosto lungo."
+
+#~ msgid "A holy light strikes an enemy."
+#~ msgstr "Luce sacra che colpisce il nemico."
+
+#~ msgid "Life Circle"
+#~ msgstr "Cerchio della vita"
+
+#~ msgid "Increases the life elemental defense of a character."
+#~ msgstr "Aumenta la difesa di tipo vita del personaggio."
+
+#~ msgid "Purify"
+#~ msgstr "Purifica"
+
+#~ msgid "Cures all bad effects on a character, except for poison."
+#~ msgstr ""
+#~ "Cura tutte le alterazioni negative del personaggio, tranne il veleno."
+
+#~ msgid "Sun Haze"
+#~ msgstr "Nebbia solare"
+
+#~ msgid "High life type damage on all foes."
+#~ msgstr "Danni elevati di tipo vita su tutti i nemici."
+
+#~ msgid "Aura"
+#~ msgstr "Aura"
+
+#~ msgid "Boost an ally's speed and slowly recovers their health."
+#~ msgstr ""
+#~ "Potenzia la velocità dell'alleato e fa lentamente recuperare la propria "
+#~ "salute."
+
+#~ msgid "Death tries to take hold of an enemy."
+#~ msgstr "La morte cerca di portarsi via il nemico insieme a lei."
+
+#~ msgid "Death Circle"
+#~ msgstr "Cerchio della morte"
+
+#~ msgid "Increases the death elemental defense of an ally."
+#~ msgstr "Aumenta la difesa di tipo morte del personaggio."
+
+#~ msgid "Doom"
+#~ msgstr "Condanna"
+
+#~ msgid "Places a death counter upon the enemy's head."
+#~ msgstr "Aggiunge un contatore di morte sulla testa del nemico."
+
+#~ msgid "Magical Reflection"
+#~ msgstr "Riflesso magico"
+
+#~ msgid "Makes the next enemy spell cast reflect back upon the attacker."
+#~ msgstr ""
+#~ "Consente che il prossimo incantesimo lanciato dal nemico sia rivolto "
+#~ "contro sé stesso."
+
+#~ msgid "Dispell"
+#~ msgstr "Disperdi"
+
+#~ msgid ""
+#~ "Removes any status effect, elemental effect, and active spell on an enemy."
+#~ msgstr ""
+#~ "Rimuove tutte le alterazioni di stato ed elementali, e attiva "
+#~ "l'incantesimo sul nemico."
+
+#~ msgid "Shell"
+#~ msgstr "Involucro"
+
+#~ msgid "Increases all elemental effects of one character."
+#~ msgstr "Aumenta tutte le alterazioni elementali del personaggio."
+
+#~ msgid "?"
+#~ msgstr "?"
+
+#~ msgid "An offensive mystic spell formed by combining opposite elementals."
+#~ msgstr ""
+#~ "Incantesimo offensivo e mistico formato da elementi opposti combinati fra "
+#~ "loro."
+
+#~ msgid "Counter"
+#~ msgstr "Contrattacca"
+
+#~ msgid "Makes an ally counter-attack if injured."
+#~ msgstr "Consente all'alleato di contrattaccare se ferito."
+
+#~ msgid "Phoenix Call"
+#~ msgstr "Richiamo della fenice"
+
+#~ msgid "Revives all allies."
+#~ msgstr "Ravviva tutti gli alleati."
+
+#~ msgid "Bio"
+#~ msgstr "Bio"
+
+#~ msgid "Cures poison on all characters."
+#~ msgstr "Cura il veleno di tutti i personaggi."
+
+#~ msgid "Wolf Pain"
+#~ msgstr "Lacrima di lupo"
+
+#~ msgid "Calls the defender of the arctic."
+#~ msgstr "Chiama il protettore dell'artico."
+
+#~ msgid "Dark Wish"
+#~ msgstr "Volere oscuro"
+
+#~ msgid "Sword Slash"
+#~ msgstr "Colpo di spada"
+
+#~ msgid "A textbook maneuver that deals an effective blow."
+#~ msgstr "Manovra da manuale che assesta un colpo efficace."
+
+#~ msgid "Forward Thrust"
+#~ msgstr "Carica"
+
+#~ msgid "A quicker and more powerful blow than the standard sword slash."
+#~ msgstr "Attacco più veloce e potente rispetto al normale colpo di spada."
+
+#~ msgid "Stun Strike"
+#~ msgstr "Stordimento"
+
+#~ msgid "A blow which temporarily stun its target."
+#~ msgstr "Colpo che stordisce temporaneamente il nemico."
+
+#~ msgid "X-Strike"
+#~ msgstr "Attacco a X"
+
+#~ msgid ""
+#~ "A strong and aggressive attack with a blade that deals significant damage."
+#~ msgstr "Attacco aggressivo di lama che infligge danni significativi."
+
+#~ msgid "Single Shot"
+#~ msgstr "Tiro singolo"
+
+#~ msgid "A simple shot using an arbalest."
+#~ msgstr "Semplice tiro con l'arbalest."
+
+#~ msgid "Blade Rush"
+#~ msgstr "Lama violenta"
+
+#~ msgid "Incapacitating Shot"
+#~ msgstr "Tiro paralizzante"
+
+#~ msgid "A powerful shot aimed at lowering the enemy's ability to attack."
+#~ msgstr "Potente attacco mirato che riduce l'attacco del nemico."
+
+#~ msgid "Rain of Arrows"
+#~ msgstr "Pioggia di frecce"
+
+#~ msgid "An attack striking all enemies."
+#~ msgstr "Un attacco che colpisce tutti i nemici."
+
+#~ msgid "Dagger Slash"
+#~ msgstr "Pugnalata"
+
+#~ msgid "A simple but efficient dagger attack."
+#~ msgstr "Semplice ma efficace attacco con il pugnale."
+
+#~ msgid "Poison Slash"
+#~ msgstr "Colpo avvelenato"
+
+#~ msgid "A dagger attack, poisoning the enemy."
+#~ msgstr "Un attacco di pugnale che avvelena il nemico."
+
+#~ msgid "High Strike"
+#~ msgstr "Colpo intenso"
+
+#~ msgid ""
+#~ "A strike from above, stunning the enemy and breaking its magical defense."
+#~ msgstr ""
+#~ "Attacco dal'alto, il quale stordisce il nemico e spezza la sua difesa "
+#~ "magica."
+
+#~ msgid "Sonic Wind"
+#~ msgstr "Vento sonico"
+
+#~ msgid "Deals high wind damage to all enemies, stunning them along the way."
+#~ msgstr ""
+#~ "Il vento affligge danni elevati a tutti i nemici, stordendo chi lo "
+#~ "intralcia lungo il suo percorso."
+
+#~ msgid "Sword Breaker"
+#~ msgstr "Spezza-spade"
+
+#~ msgid "An attack that breaks the enemy's own attack power."
+#~ msgstr "Attacco che spezza il potere offensivo del nemico."
+
+#~ msgid "Execution"
+#~ msgstr "Esecuzione"
+
+#~ msgid "Attacks an enemy with a chance of causing death to catch its soul."
+#~ msgstr ""
+#~ "Attacca il nemico con una possibilità di offrire la sua anima alla morte."
+
+#~ msgid "VSync_mode|Off"
+#~ msgstr "VSync_mode|Non attiva"
+
+#~ msgid "VSync_mode|On"
+#~ msgstr "VSync_mode|Attiva"
+
+#~ msgid "VSync_mode|Swap Tearing"
+#~ msgstr "VSync_mode|Swap Tearing"
+
+#, fuzzy
+#~ msgid "UpdateMode|Performance"
+#~ msgstr "UpdateMode|Prestazioni"
+
+#, fuzzy
+#~ msgid "UpdateMode|Gentle"
+#~ msgstr "UpdateMode|Leggero"
+
+#~ msgid "Game Difficulty: %s"
+#~ msgstr "Difficoltà: %s"
+
+#~ msgid "Dialogue text speed: %i"
+#~ msgstr "Velocità testo dei dialoghi: %i"
+
+#~ msgid "Battle target cursor memory: %s"
+#~ msgstr "Memoria cursore in battaglia: %s"
+
+#~ msgid "%ss"
+#~ msgstr "%ss"
+
+#~ msgid "%s SP"
+#~ msgstr "%s PA"
+
+#~ msgid "Target Type: %s"
+#~ msgstr "Tipo di bersaglio: %s"
+
+#~ msgid "Prep Time: %s"
+#~ msgstr "Tempo di prep.: %s"
+
+#~ msgid "Cool Time: %s"
+#~ msgstr "Tempo migliore: %s"
+
+#~ msgid "Press '%s' to get to know about the game keys."
+#~ msgstr "Premi ''%s'' per mostrare i tasti di gioco."
+
+#~ msgid ""
+#~ "With the additional %u drunes found in this treasure added, the party now "
+#~ "holds a total of %u drunes."
+#~ msgstr ""
+#~ "Con l'aggiuntivo di %u drune trovate all'interno di questo tesoro, ora il "
+#~ "gruppo ne possiede per un totale di %u drune."
+
+#~ msgid "Press '%s' anytime to show/hide help."
+#~ msgstr ""
+#~ "Premi ''%s'' quando vuoi per mostrare/nascondere la finestra di aiuto."
+
+#~ msgid ""
+#~ "Press %s to add items to buy and %s to remove items from your purchase."
+#~ msgstr ""
+#~ "Premi %s per aggiungere oggetti di acquisto e %s per rimuoverli dagli "
+#~ "acquisti."
+
+#~ msgid "Press %s to add items to sell and %s to remove items from your sale."
+#~ msgstr ""
+#~ "Premi %s per aggiungere oggetti di vendita e %s per rimuoverli dalle "
+#~ "vendite."
+
+#~ msgid "Press %s to add items to trade and %s to remove them."
+#~ msgstr ""
+#~ "Premi %s per aggiungere oggetti per le trattattive e %s per rimuoverli."
+
+#~ msgid "Confirm / Open / Talk: %s"
+#~ msgstr "Conferma/apri/parla: %s"
+
+#~ msgid "Run / Cancel: %s"
+#~ msgstr "Corri/annulla: %s"
+
+#~ msgid "Party Menu: %s"
+#~ msgstr "Menu di gruppo: %s"
+
+#~ msgid "Pause: %s"
+#~ msgstr "Pausa: %s"
+
+#~ msgid "Quit Menu: %s"
+#~ msgstr "Menu di uscita: %s"
+
+#~ msgid "Help Menu: %s"
+#~ msgstr "Menu di aiuto: %s"
+
+#~ msgid ""
+#~ "Don't forget that certain items are limited or unique! \n"
+#~ "When reviewing items, you can also cycle through the proposed item "
+#~ "categories using the menu key (%s)."
+#~ msgstr ""
+#~ "E non dimenticare che certi oggetti sono limitati e unici! \n"
+#~ "Quando rivedi gli oggetti, è anche possibile scorrere le categorie "
+#~ "proposte con il tasto dal menu (%s)."
+
+#~ msgid "Just stand in front of the goddess below the spring and push '%s'."
+#~ msgstr ""
+#~ "Stai davanti alla statua della dea situata nella sorgente e premi ''%s''."
+
+#~ msgid ""
+#~ "This circle is a save point. Here, you can save your game by pushing %s."
+#~ msgstr ""
+#~ "Il cerchio è un punto di salvataggio. Stando qui, puoi salvare il tuo "
+#~ "gioco premendo %s."
+
+#~ msgid ""
+#~ "And I hope that you have already equipped your sword. If you haven't, "
+#~ "open your inventory by pressing the menu key (%s), and select 'Equip'. "
+#~ "Then you'll be able to select your sword and add it as your main weapon."
+#~ msgstr ""
+#~ "E spero che hai già equipaggiato la spada. Se non l'hai ancora fatto, "
+#~ "apri l'inventario premendo il tasto di menu (%s), e seleziona "
+#~ "''equipaggia''. Ora sarai in grado di selezionare la tua spada e di "
+#~ "aggiungerla come arma principale."
+
+#~ msgid "Layna Forest Cave"
+#~ msgstr "Grotta nella foresta di Layna"
+
+#~ msgid "Forest entrance"
+#~ msgstr "Entrata della foresta "
+
+#~ msgid "Where it all began..."
+#~ msgstr "Dove tutto ebbe inizio..."
+
+#~ msgid "Mountain Village of Layna"
+#~ msgstr "Villaggio montano di Layna"
+
+#~ msgid "Flora's Boutique"
+#~ msgstr "Boutique di Flora"
+
+#~ msgid "Basement"
+#~ msgstr "Seminterrato"
+
+#~ msgid "Riverbank"
+#~ msgstr "Argine del fiume"
+
+#~ msgid "Lilly's house"
+#~ msgstr "Casa di Lilly"
+
+#~ msgid "Village entrance"
+#~ msgstr "Entrata del villaggio"
+
+#~ msgid "Elbrus Grotto"
+#~ msgstr "Grotta di Elbrus"
+
+#~ msgid "Low Mountain"
+#~ msgstr "Bassa montagna"
+
+#~ msgid "Old Cemetery"
+#~ msgstr "Vecchio cimitero"
+
+#~ msgid "Mountain bridge"
+#~ msgstr "Ponte di montagna"
+
+#~ msgid "Underpass"
+#~ msgstr "Sottopasso"
+
+#~ msgid "Mt. Elbrus Shrine"
+#~ msgstr "Santuario di M. Elbrus"
+
+#~ msgid "2nd Floor"
+#~ msgstr "2^ piano"
+
+#~ msgid "1st Floor"
+#~ msgstr "1^ piano"
+
+#~ msgid "!! What?"
+#~ msgstr "Cosa!!?"
+
+#~ msgid "... Bronann!!"
+#~ msgstr "...Bronann!!"
+
+#~ msgid "... Huh?"
+#~ msgstr "...Uh?"
+
+#~ msgid "... Look!"
+#~ msgstr "...Guarda!"
+
+#~ msgid "... Ok..."
+#~ msgstr "...Ok..."
+
+#~ msgid "... You're welcome."
+#~ msgstr "...Prego."
+
+#~ msgid "Aww... Ok."
+#~ msgstr "Uffa... OK."
+
+#~ msgid "Back home, finally..."
+#~ msgstr "Siamo a casa, finalmente..."
+
+#~ msgid "Bronann!!"
+#~ msgstr "Bronann!!"
+
+#~ msgid "Bronann!!!"
+#~ msgstr "Bronann!!!"
+
+#~ msgid "Err... Sis?"
+#~ msgstr "Err...sorellona?"
+
+#~ msgid "Help!!!"
+#~ msgstr "Aiuto!!!"
+
+#~ msgid "Herth..."
+#~ msgstr "Herth..."
+
+#~ msgid "High Air damages on all foes."
+#~ msgstr "Danni elevati di tipo aria su tutti i nemici."
+
+#~ msgid "Magical attack combining Life and Air damages."
+#~ msgstr "Attacco magico che combina i danni di tipo vita ed aria."
+
+#~ msgid "Makes a normal enemy potentially leave."
+#~ msgstr "Fa fuggire un normale nemico."
+
+#~ msgid "NO!"
+#~ msgstr "NO!"
+
+#~ msgid "Nevermind that..."
+#~ msgstr "Non pensarci..."
+
+#~ msgid "Ok ..."
+#~ msgstr "Va bene..."
+
+#~ msgid "Ok..."
+#~ msgstr "Ok..."
+
+#~ msgid "Orlinn!!"
+#~ msgstr "Orlinn!!"
+
+#~ msgid "Sis!!"
+#~ msgstr "Sorellona!!"
+
+#~ msgid "There's no need to thank me for that, it's my pleasure."
+#~ msgstr "Non c'è bisogno di ringraziarmi per questo, il piacere è tutto mio."
+
+#~ msgid "What?!?"
+#~ msgstr "Cosa!!?"
+
+#~ msgid "Yes, let's go ..."
+#~ msgstr "Sì, andiamo..."
+
+#~ msgid "Yiek!!"
+#~ msgstr "Yiek!!"

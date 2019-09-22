@@ -29,8 +29,6 @@ cmake_uninstall.cmake
 *.so
 *.gmo
 *.mo
-po/translatable-files
-po/*/
 src/valyriatear
 src/vt-editor
 gmon.out

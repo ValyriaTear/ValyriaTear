@@ -1,0 +1,1028 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ValkyriaTear\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-22 23:22+0200\n"
+"PO-Revision-Date: 2013-05-01 19:02-0000\n"
+"Last-Translator: Sérgio Lopes <knitter.is@gmail.com>\n"
+"Language-Team: Sérgio Lopes <knitter.is@gmail.com>\n"
+"Language: pt_PT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#~ msgid " (+20%)"
+#~ msgstr "(+20%)"
+
+#~ msgid " — "
+#~ msgstr " — "
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#, fuzzy
+#~ msgid "... Al... right..."
+#~ msgstr "Owww… Ok."
+
+#, fuzzy
+#~ msgid "...Kalya?!"
+#~ msgstr "Kalya"
+
+#~ msgid "???"
+#~ msgstr "???"
+
+#~ msgid "Acheron"
+#~ msgstr "Acheron"
+
+#, fuzzy
+#~ msgid "Agility"
+#~ msgstr "Agilidade:"
+
+#, fuzzy
+#~ msgid "Agility (AGI): "
+#~ msgstr "Agilidade:"
+
+#~ msgid "All"
+#~ msgstr "Todos"
+
+#~ msgid "Ally"
+#~ msgstr "Aliado"
+
+#~ msgid "Alt"
+#~ msgstr "Alt"
+
+#, fuzzy
+#~ msgid "Ancient Strength"
+#~ msgstr "Força:"
+
+#, fuzzy
+#~ msgid "Anyway, let's go now."
+#~ msgstr "Sim, por favor!"
+
+#~ msgid "Arm"
+#~ msgstr "Braço"
+
+#~ msgid "Arm Armor"
+#~ msgstr "Armadura de Braço"
+
+#~ msgid "Audio"
+#~ msgstr "Audio"
+
+#~ msgid "Aww..."
+#~ msgstr "Aww…"
+
+#~ msgid "Back"
+#~ msgstr "Voltar"
+
+#~ msgid "Bat"
+#~ msgstr "Morcego"
+
+#, fuzzy
+#~ msgid "Blindness"
+#~ msgstr "Brilho:"
+
+#~ msgid "Body"
+#~ msgstr "Corpo"
+
+#~ msgid "Brightness: "
+#~ msgstr "Brilho:"
+
+#~ msgid "Bronann"
+#~ msgstr "Bronann"
+
+#~ msgid "Bronann!"
+#~ msgstr "Bronann!"
+
+#, fuzzy
+#~ msgid "Bronann! Move!"
+#~ msgstr "Bronann!"
+
+#, fuzzy
+#~ msgid "Bronann! No!"
+#~ msgstr "Bronann!"
+
+#, fuzzy
+#~ msgid "Bronann! Wait!"
+#~ msgstr "Bronann!"
+
+#~ msgid "Bronann, I ..."
+#~ msgstr "Bronann, eu …"
+
+#, fuzzy
+#~ msgid "Bronann, I..."
+#~ msgstr "Bronann, eu …"
+
+#~ msgid "Bronann, please."
+#~ msgstr "Bronann, por favor."
+
+#, fuzzy
+#~ msgid "Bronann, why?"
+#~ msgstr "Bronann, eu …"
+
+#, fuzzy
+#~ msgid "Bronann..."
+#~ msgstr "Bronann, eu …"
+
+#~ msgid "Bronann?"
+#~ msgstr "Bronann?"
+
+#~ msgid "Brymir"
+#~ msgstr "Brymir"
+
+#, fuzzy
+#~ msgid "But I..."
+#~ msgstr "Mas mana! Eu…"
+
+#~ msgid "But father!"
+#~ msgstr "Mas pai!"
+
+#~ msgid "But mom!"
+#~ msgstr "Mas mãe!"
+
+#~ msgid "But sis! I..."
+#~ msgstr "Mas mana! Eu…"
+
+#~ msgid "But..."
+#~ msgstr "Mas..."
+
+#~ msgid "Butterfly"
+#~ msgstr "Borboleta"
+
+#, fuzzy
+#~ msgid "Butterfly Hair Tong"
+#~ msgstr "Borboleta"
+
+#~ msgid "Buy"
+#~ msgstr "Comprar"
+
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
+
+#~ msgid "Cancel: "
+#~ msgstr "Cancelar:"
+
+#~ msgid "Carson"
+#~ msgstr "Carson"
+
+#~ msgid "Category"
+#~ msgstr "Categoria"
+
+#~ msgid "Chest"
+#~ msgstr "Peito"
+
+#~ msgid "Chicken"
+#~ msgstr "Galinha"
+
+#, fuzzy
+#~ msgid "Choose a character."
+#~ msgstr "Mover a personagem:"
+
+#~ msgid "Claw"
+#~ msgstr "Garra"
+
+#~ msgid "Cobalt Helm"
+#~ msgstr "Elmo de Cobalto"
+
+#~ msgid "Command"
+#~ msgstr "Comando"
+
+#~ msgid "Confirm"
+#~ msgstr "Confirmar"
+
+#, fuzzy
+#~ msgid "Confirm / Open / Talk: %s"
+#~ msgstr "Confirmar / Abrir / Falar:"
+
+#~ msgid "Confirm: "
+#~ msgstr "Confirmar:"
+
+#, fuzzy
+#~ msgid "Cool Time: %s"
+#~ msgstr "Tempo:"
+
+#~ msgid "Ctrl"
+#~ msgstr "Ctrl"
+
+#, fuzzy
+#~ msgid "Dark Soldier"
+#~ msgstr "Soldado"
+
+#~ msgid "Demonic Essence"
+#~ msgstr "Essência Demoníaca"
+
+#~ msgid "Down"
+#~ msgstr "Baixo"
+
+#~ msgid "Down: "
+#~ msgstr "Baixo:"
+
+#~ msgid "Earth"
+#~ msgstr "Terra"
+
+#~ msgid "Elixir"
+#~ msgstr "Elixir"
+
+#, fuzzy
+#~ msgid "Elvish Feather"
+#~ msgstr "Escudo da Fénix"
+
+#~ msgid "Er, yes?"
+#~ msgstr "Er, sim?"
+
+#, fuzzy
+#~ msgid "Err, nevermind."
+#~ msgstr "Err, esquece..."
+
+#, fuzzy
+#~ msgid "Execution"
+#~ msgstr "Resolução:"
+
+#~ msgid "Eye"
+#~ msgstr "Olho"
+
+#~ msgid "Face"
+#~ msgstr "Cara"
+
+#~ msgid "Father!"
+#~ msgstr "Pai!"
+
+#~ msgid "Fire"
+#~ msgstr "Fogo"
+
+#~ msgid "First Aid"
+#~ msgstr "Primeiros Socorros"
+
+#~ msgid "Foe"
+#~ msgstr "Inimigo"
+
+#, fuzzy
+#~ msgid "Fog"
+#~ msgstr "Inimigo"
+
+#~ msgid "Forehead"
+#~ msgstr "Testa"
+
+#~ msgid "Forest entrance"
+#~ msgstr "Entrada da floresta"
+
+#~ msgid "Funds: "
+#~ msgstr "Recursos:"
+
+#, fuzzy
+#~ msgid "Gahh, ok."
+#~ msgstr "Gahh… ok."
+
+#, fuzzy
+#~ msgid "Game"
+#~ msgstr "Sair do Jogo"
+
+#~ msgid "Georges"
+#~ msgstr "Georges"
+
+#~ msgid "Good luck Bronann."
+#~ msgstr "Boa sorte Bronann."
+
+#~ msgid "Good luck, son."
+#~ msgstr "Boa sorte, filho."
+
+#~ msgid "Green Slime"
+#~ msgstr "Lodo Verde"
+
+#, fuzzy
+#~ msgid "Haste Potion"
+#~ msgstr "Poção de Cura"
+
+#~ msgid "Head"
+#~ msgstr "Cabeça"
+
+#~ msgid "Head Armor"
+#~ msgstr "Armadura de Cabeça"
+
+#, fuzzy
+#~ msgid "Head: "
+#~ msgstr "Cabeça"
+
+#~ msgid "Healing Potion"
+#~ msgstr "Poção de Cura"
+
+#, fuzzy
+#~ msgid "Healing Rain"
+#~ msgstr "Poção de Cura"
+
+#~ msgid "Hee hee hee! Yes!"
+#~ msgstr "Hee hee hee! Sim!"
+
+#, fuzzy
+#~ msgid "Help Menu: %s"
+#~ msgstr "Menu:"
+
+#~ msgid "Herth"
+#~ msgstr "Herth"
+
+#, fuzzy
+#~ msgid "Herth."
+#~ msgstr "Herth"
+
+#~ msgid "Hi Bronann."
+#~ msgstr "Olá Bronann."
+
+#~ msgid "Hmm, the door is locked."
+#~ msgstr "Hmm, a porta está trancada."
+
+#, fuzzy
+#~ msgid "Hmm. Nevermind."
+#~ msgstr "Err, esquece..."
+
+#, fuzzy
+#~ msgid "Hold on Bronann!"
+#~ msgstr "Bronann!"
+
+#, fuzzy
+#~ msgid "Holy Fire"
+#~ msgstr "Fogo"
+
+#~ msgid "Huh?"
+#~ msgstr "Huh?"
+
+#, fuzzy
+#~ msgid "I feel... I..."
+#~ msgstr "Owww… Ok."
+
+#, fuzzy
+#~ msgid "I promise I won't bother you again."
+#~ msgstr "Prometo que não te incomodo mais ..."
+
+#, fuzzy
+#~ msgid "I, I..."
+#~ msgstr "Mas mana! Eu…"
+
+#, fuzzy
+#~ msgid "Invalid Element"
+#~ msgstr "Dados inválidos!"
+
+#~ msgid "Invalid data!"
+#~ msgstr "Dados inválidos!"
+
+#~ msgid "Inventory"
+#~ msgstr "Inventário"
+
+#~ msgid "Invocation"
+#~ msgstr "Invocação"
+
+#, fuzzy
+#~ msgid "Iron Ore"
+#~ msgstr "Espada de Ferro"
+
+#~ msgid "Iron Sword"
+#~ msgstr "Espada de Ferro"
+
+#~ msgid "Items"
+#~ msgstr "Itens"
+
+#~ msgid "Kalya"
+#~ msgstr "Kalya"
+
+#, fuzzy
+#~ msgid "Kalya! Now!"
+#~ msgstr "Kalya"
+
+#, fuzzy
+#~ msgid "Kalya, Bronann!"
+#~ msgstr "Bronann!"
+
+#, fuzzy
+#~ msgid "Kalya?!"
+#~ msgstr "Kalya"
+
+#~ msgid "Key Items"
+#~ msgstr "Items Chave"
+
+#~ msgid "Language"
+#~ msgstr "Língua"
+
+#, fuzzy
+#~ msgid "Leather Cloak"
+#~ msgstr "Botas de cabedal"
+
+#~ msgid "Leather boots"
+#~ msgstr "Botas de cabedal"
+
+#~ msgid "Leave"
+#~ msgstr "Sair"
+
+#~ msgid "Left"
+#~ msgstr "Esquerda"
+
+#~ msgid "Left: "
+#~ msgstr "Esquerda:"
+
+#~ msgid "Leg Armor"
+#~ msgstr "Armadura de Perna"
+
+#~ msgid "Legs"
+#~ msgstr "Pernas"
+
+#~ msgid "Level: "
+#~ msgstr "Nível:"
+
+#~ msgid "Lilly"
+#~ msgstr "Lilly"
+
+#, fuzzy
+#~ msgid "Look!"
+#~ msgstr "… Olha!"
+
+#~ msgid "Magic"
+#~ msgstr "Magia"
+
+#, fuzzy
+#~ msgid "Magic Drain"
+#~ msgstr "Magia"
+
+#, fuzzy
+#~ msgid "Magical Armor"
+#~ msgstr "Armadura de Perna"
+
+#~ msgid "Map"
+#~ msgstr "Mapa"
+
+#~ msgid "Martha"
+#~ msgstr "Martha"
+
+#, fuzzy
+#~ msgid "Me? But..."
+#~ msgstr "Mas..."
+
+#~ msgid "Menu"
+#~ msgstr "Menu"
+
+#~ msgid "Menu: "
+#~ msgstr "Menu:"
+
+#~ msgid "Metal Shield"
+#~ msgstr "Escudo de Metal"
+
+#~ msgid "Mist"
+#~ msgstr "Névoa"
+
+#~ msgid "Moon Juice Potion"
+#~ msgstr "Poção de Sumo de Lua"
+
+#~ msgid "Move your character:"
+#~ msgstr "Mover a personagem:"
+
+#~ msgid "Music"
+#~ msgstr "Música"
+
+#~ msgid "Music Volume: "
+#~ msgstr "Volume de Música"
+
+#~ msgid "Name"
+#~ msgstr "Nome"
+
+#, fuzzy
+#~ msgid "Neither of you?"
+#~ msgstr "Nenhum de vós?"
+
+#~ msgid "No"
+#~ msgstr "Não"
+
+#, fuzzy
+#~ msgid "No arms armor"
+#~ msgstr "Armadura de Tronco"
+
+#~ msgid "No data"
+#~ msgstr "Sem dados"
+
+#, fuzzy
+#~ msgid "No legs armor"
+#~ msgstr "Armadura de Perna"
+
+#~ msgid "No weapon"
+#~ msgstr "Sem arma"
+
+#, fuzzy
+#~ msgid "No!"
+#~ msgstr "Não"
+
+#~ msgid "No, it's alright!"
+#~ msgstr "Não, não há problema!"
+
+#, fuzzy
+#~ msgid "No, it's alright."
+#~ msgstr "Não, não há problema!"
+
+#, fuzzy
+#~ msgid "No."
+#~ msgstr "Não"
+
+#~ msgid "Normal"
+#~ msgstr "Normal"
+
+#, fuzzy
+#~ msgid "Oblivion"
+#~ msgstr "Olivia"
+
+#~ msgid "Ok"
+#~ msgstr "Ok"
+
+#, fuzzy
+#~ msgid "Ok!"
+#~ msgstr "Ok"
+
+#, fuzzy
+#~ msgid "Ok."
+#~ msgstr "Ok"
+
+#~ msgid "Olivia"
+#~ msgstr "Olivia"
+
+#, fuzzy
+#~ msgid "Omni Sword"
+#~ msgstr "Espada de Ferro"
+
+#~ msgid "Orlinn!"
+#~ msgstr "Orlinn!"
+
+#, fuzzy
+#~ msgid "Orlinn! Back off!"
+#~ msgstr "Orlinn!!"
+
+#, fuzzy
+#~ msgid "Orlinn! NOW!"
+#~ msgstr "Orlinn!!"
+
+#, fuzzy
+#~ msgid "Orlinn..."
+#~ msgstr "Orlinn!"
+
+#, fuzzy
+#~ msgid "Orlinn? Orlinn!"
+#~ msgstr "Orlinn!"
+
+#, fuzzy
+#~ msgid "Owww. Alright."
+#~ msgstr "Owww… Ok."
+
+#, fuzzy
+#~ msgid "Party Menu: %s"
+#~ msgstr "Menu:"
+
+#~ msgid "Pause"
+#~ msgstr "Pausa"
+
+#~ msgid "Pause: "
+#~ msgstr "Pausa:"
+
+#, fuzzy
+#~ msgid "Pause: %s"
+#~ msgstr "Pausa:"
+
+#~ msgid "Paused"
+#~ msgstr "Em Pausa"
+
+#, fuzzy
+#~ msgid "Perfect Wooden Sword"
+#~ msgstr "Espada de Madeira"
+
+#, fuzzy
+#~ msgid "Periwinkle Potion"
+#~ msgstr "Poção de Cura"
+
+#, fuzzy
+#~ msgid "Phew."
+#~ msgstr "Aww…"
+
+#, fuzzy
+#~ msgid "Phoenix Call"
+#~ msgstr "Escudo da Fénix"
+
+#, fuzzy
+#~ msgid "Phoenix Feather"
+#~ msgstr "Escudo da Fénix"
+
+#~ msgid "Phoenix Shield"
+#~ msgstr "Escudo da Fénix"
+
+#~ msgid "Pincer"
+#~ msgstr "Pinça"
+
+#~ msgid "Pincers"
+#~ msgstr "Pinças"
+
+#~ msgid "Please no! Wait!"
+#~ msgstr "Por favor não! Espera!"
+
+#, fuzzy
+#~ msgid "Poison Potion"
+#~ msgstr "Poção de Cura"
+
+#~ msgid "Possible actions:"
+#~ msgstr "Acções possíveis:"
+
+#, fuzzy
+#~ msgid "Prep Time: %s"
+#~ msgstr "Tempo:"
+
+#~ msgid "Price"
+#~ msgstr "Preço"
+
+#, fuzzy
+#~ msgid "Protection"
+#~ msgstr "Invocação"
+
+#~ msgid "Punch"
+#~ msgstr "Murro"
+
+#~ msgid "Purchases: "
+#~ msgstr "Compras:"
+
+#~ msgid "Purpose"
+#~ msgstr "Objectivo"
+
+#~ msgid "Quit"
+#~ msgstr "Sair"
+
+#~ msgid "Quit Game"
+#~ msgstr "Sair do Jogo"
+
+#, fuzzy
+#~ msgid "Quit Menu: %s"
+#~ msgstr "Menu:"
+
+#~ msgid "Quit to Main Menu"
+#~ msgstr "Sair para Menu Principal"
+
+#~ msgid "Rat"
+#~ msgstr "Rato"
+
+#~ msgid "Red Slime"
+#~ msgstr "Lodo Vermelho"
+
+#, fuzzy
+#~ msgid "Reinforced Wooden Sword"
+#~ msgstr "Espada de Madeira"
+
+#~ msgid "Resolution: "
+#~ msgstr "Resolução:"
+
+#~ msgid "Right"
+#~ msgstr "Direita"
+
+#~ msgid "Right!"
+#~ msgstr "Certo!"
+
+#~ msgid "Right: "
+#~ msgstr "Direita:"
+
+#, fuzzy
+#~ msgid "Run / Cancel: %s"
+#~ msgstr "Correr / Cancelar:"
+
+#~ msgid "Sales: +"
+#~ msgstr "Vendas: +"
+
+#~ msgid "Save Game"
+#~ msgstr "Gravar Jogo"
+
+#~ msgid "Scorpion"
+#~ msgstr "Escorpião"
+
+#~ msgid "Sell"
+#~ msgstr "Vender"
+
+#, fuzzy
+#~ msgid "Shield"
+#~ msgstr "Escudo de Metal"
+
+#~ msgid "Shift"
+#~ msgstr "Shift"
+
+#~ msgid "Skeleton"
+#~ msgstr "Esqueleto"
+
+#~ msgid "Slime Mother"
+#~ msgstr "Lodo Mãe"
+
+#~ msgid "Slot 1"
+#~ msgstr "Espaço 1"
+
+#~ msgid "Slot 2"
+#~ msgstr "Espaço 2"
+
+#~ msgid "Slot 3"
+#~ msgstr "Espaço 3"
+
+#~ msgid "Slot 4"
+#~ msgstr "Espaço 4"
+
+#~ msgid "Slot 5"
+#~ msgstr "Espaço 5"
+
+#~ msgid "Slot 6"
+#~ msgstr "Espaço 6"
+
+#~ msgid "Snake"
+#~ msgstr "Cobra"
+
+#~ msgid "Soldier"
+#~ msgstr "Soldado"
+
+#, fuzzy
+#~ msgid "Soldier Sword"
+#~ msgstr "Espada de Madeira"
+
+#~ msgid "Sophia"
+#~ msgstr "Sophia"
+
+#, fuzzy
+#~ msgid "Sophia's Items"
+#~ msgstr "Sophia"
+
+#~ msgid "Sound Volume: "
+#~ msgstr "Volume de Som:"
+
+#, fuzzy
+#~ msgid "Sounds"
+#~ msgstr "Recursos:"
+
+#~ msgid "Space"
+#~ msgstr "Espaço"
+
+#~ msgid "Spider"
+#~ msgstr "Aranha"
+
+#~ msgid "Squirrel"
+#~ msgstr "Esquilo"
+
+#~ msgid "Stock"
+#~ msgstr "Stock"
+
+#, fuzzy
+#~ msgid "Storm"
+#~ msgstr "História"
+
+#~ msgid "Story"
+#~ msgstr "História"
+
+#, fuzzy
+#~ msgid "Strength"
+#~ msgstr "Força:"
+
+#, fuzzy
+#~ msgid "Strength (STR): "
+#~ msgstr "Força:"
+
+#~ msgid "Sure, just ask."
+#~ msgstr "Claro, basta pedires."
+
+#~ msgid "Sylve"
+#~ msgstr "Sylve"
+
+#~ msgid "Tail"
+#~ msgstr "Cauda"
+
+#~ msgid "Tester Team"
+#~ msgstr "Equipa de Testes"
+
+#, fuzzy
+#~ msgid "Testers"
+#~ msgstr "Equipa de Testes"
+
+#~ msgid "Thanis"
+#~ msgstr "Thanis"
+
+#, fuzzy
+#~ msgid "Thank the goddess."
+#~ msgstr "Obrigado, Lilly."
+
+#~ msgid "Thanks, Lilly."
+#~ msgstr "Obrigado, Lilly."
+
+#, fuzzy
+#~ msgid "Thanks..."
+#~ msgstr "Obrigado, Lilly."
+
+#~ msgid "The Shop"
+#~ msgstr "A Loja"
+
+#~ msgid "Thing"
+#~ msgstr "Coisa"
+
+#~ msgid "Throw stone"
+#~ msgstr "Atirar pedra"
+
+#, fuzzy
+#~ msgid "Time left:"
+#~ msgstr "Tempo:"
+
+#~ msgid "To be continued..."
+#~ msgstr "Continua..."
+
+#~ msgid "Torso"
+#~ msgstr "Tronco"
+
+#~ msgid "Torso Armor"
+#~ msgstr "Armadura de Tronco"
+
+#, fuzzy
+#~ msgid "Torso: "
+#~ msgstr "Tronco"
+
+#~ msgid "Total: "
+#~ msgstr "Total:"
+
+#~ msgid "Trade"
+#~ msgstr "Trocar"
+
+#~ msgid "Translations"
+#~ msgstr "Traduções"
+
+#~ msgid "Trident Shield"
+#~ msgstr "Escudo de Tridente"
+
+#~ msgid "Tunic"
+#~ msgstr "Túnica"
+
+#, fuzzy
+#~ msgid "UI Theme: "
+#~ msgstr "Tempo:"
+
+#, fuzzy
+#~ msgid "Ummm..."
+#~ msgstr "... Hmmm…"
+
+#~ msgid "Up"
+#~ msgstr "Cima"
+
+#~ msgid "Up: "
+#~ msgstr "Cima:"
+
+#~ msgid "Use"
+#~ msgstr "Usar"
+
+#~ msgid "Video"
+#~ msgstr "Vídeo"
+
+#~ msgid "Village entrance"
+#~ msgstr "Entrada da aldeia"
+
+#, fuzzy
+#~ msgid "Wait..."
+#~ msgstr "Mas..."
+
+#~ msgid "Water"
+#~ msgstr "Água"
+
+#~ msgid "Weapon"
+#~ msgstr "Arma"
+
+#~ msgid "Weapons"
+#~ msgstr "Armas"
+
+#, fuzzy
+#~ msgid "Well, here we go."
+#~ msgstr "Hmm, a porta está trancada."
+
+#, fuzzy
+#~ msgid "Well, the door is open now."
+#~ msgstr "Hmm, a porta está trancada."
+
+#, fuzzy
+#~ msgid "What?"
+#~ msgstr "O quê?!"
+
+#, fuzzy
+#~ msgid "What? No!"
+#~ msgstr "O quê?!"
+
+#~ msgid "What?!"
+#~ msgstr "O quê?!"
+
+#~ msgid "Wing"
+#~ msgstr "Asa"
+
+#~ msgid "Wooden Shield"
+#~ msgstr "Escudo de Madeira"
+
+#~ msgid "Wooden Sword"
+#~ msgstr "Espada de Madeira"
+
+#~ msgid "Yes"
+#~ msgstr "Sim"
+
+#, fuzzy
+#~ msgid "Yes, and let's do it quickly."
+#~ msgstr "Sim, por favor!"
+
+#, fuzzy
+#~ msgid "Yes, let's end this."
+#~ msgstr "Sim, por favor!"
+
+#, fuzzy
+#~ msgid "Yes, let's go."
+#~ msgstr "Sim, por favor!"
+
+#~ msgid "Yes, please!"
+#~ msgstr "Sim, por favor!"
+
+#, fuzzy
+#~ msgid "Yes, please."
+#~ msgstr "Sim, por favor!"
+
+#, fuzzy
+#~ msgid "Yes, sir."
+#~ msgstr "Sim, por favor!"
+
+#~ msgid "Yeti"
+#~ msgstr "Yeti"
+
+#~ msgid "You'll never get me!"
+#~ msgstr "Nunca me apanharás!"
+
+#~ msgid " "
+#~ msgstr " "
+
+#~ msgid "!! What?"
+#~ msgstr "!! O quê?"
+
+#~ msgid "'."
+#~ msgstr "'."
+
+#, fuzzy
+#~ msgid "... Bronann!!"
+#~ msgstr "Bronann!"
+
+#~ msgid "... Huh?"
+#~ msgstr "... Huh?"
+
+#~ msgid "... Look!"
+#~ msgstr "… Olha!"
+
+#~ msgid "A"
+#~ msgstr "A"
+
+#, fuzzy
+#~ msgid "Bronann!!!"
+#~ msgstr "Bronann!"
+
+#~ msgid "D"
+#~ msgstr "D"
+
+#~ msgid "E"
+#~ msgstr "E"
+
+#~ msgid "Esc"
+#~ msgstr "Esc"
+
+#~ msgid "F"
+#~ msgstr "F"
+
+#~ msgid "Kyle"
+#~ msgstr "Kyle"
+
+#, fuzzy
+#~ msgid "Menu|Arm"
+#~ msgstr "Menu"
+
+#, fuzzy
+#~ msgid "Nevermind that..."
+#~ msgstr "Err, esquece..."
+
+#~ msgid "Ok ..."
+#~ msgstr "Ok …"
+
+#, fuzzy
+#~ msgid "Pause Menu: %s"
+#~ msgstr "Pausa:"
+
+#~ msgid "Press "
+#~ msgstr "Pressiona"
+
+#~ msgid "S"
+#~ msgstr "S"
+
+#~ msgid "Shards"
+#~ msgstr "Lascas"
+
+#~ msgid "Spacebar"
+#~ msgstr "Barra de Espaços"
+
+#~ msgid "Swap"
+#~ msgstr "Trocar"
+
+#~ msgid "Time - "
+#~ msgstr "Tempo - "
+
+#~ msgid "W"
+#~ msgstr "W"
+
+#~ msgid "What?!?"
+#~ msgstr "O quê?!?"

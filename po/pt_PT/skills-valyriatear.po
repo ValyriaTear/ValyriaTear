@@ -1,0 +1,1679 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ValkyriaTear\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-22 23:22+0200\n"
+"PO-Revision-Date: 2013-05-01 19:02-0000\n"
+"Last-Translator: Sérgio Lopes <knitter.is@gmail.com>\n"
+"Language-Team: Sérgio Lopes <knitter.is@gmail.com>\n"
+"Language: pt_PT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../data/skills/barehands.lua:28
+msgid "Punch"
+msgstr "Murro"
+
+#: ../data/skills/barehands.lua:29
+msgid "A simple punch. Better than nothing."
+msgstr ""
+
+#: ../data/skills/barehands.lua:56
+msgid "Throw stone"
+msgstr "Atirar pedra"
+
+#: ../data/skills/barehands.lua:57
+msgid "Kalya's attack when she has no weapon."
+msgstr ""
+
+#: ../data/skills/barehands.lua:83
+msgid "Tornado Punch"
+msgstr ""
+
+#: ../data/skills/barehands.lua:84
+msgid "Spinning knuckle attack that deals wind damage."
+msgstr ""
+
+#: ../data/skills/magic.lua:51
+#, fuzzy
+msgid "Shield"
+msgstr "Escudo de Metal"
+
+#: ../data/skills/magic.lua:52
+msgid "Increases an ally's physical defense by a slight degree."
+msgstr ""
+
+#: ../data/skills/magic.lua:100
+msgid "First Aid"
+msgstr "Primeiros Socorros"
+
+#: ../data/skills/magic.lua:101
+msgid ""
+"Performs basic medical assistance, healing the target by a minor degree."
+msgstr ""
+
+#: ../data/skills/magic.lua:145
+msgid "Leader Call"
+msgstr ""
+
+#: ../data/skills/magic.lua:146
+msgid "Temporarily increases the Physical Attack of all allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:172
+msgid "Holy Veil"
+msgstr ""
+
+#: ../data/skills/magic.lua:173
+msgid "Increases the attack and magical attack of all allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:204
+#, fuzzy
+msgid "Ancient Strength"
+msgstr "Força:"
+
+#: ../data/skills/magic.lua:205
+msgid "Increases every form of elemental resistance for all allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:229
+msgid "Divine Wish"
+msgstr ""
+
+#: ../data/skills/magic.lua:230 ../data/skills/special.lua:213
+msgid "Revives an ally, restoring all of their HP and SP."
+msgstr ""
+
+#: ../data/skills/magic.lua:249
+msgid "Magical Poison"
+msgstr ""
+
+#: ../data/skills/magic.lua:250
+msgid "Makes an enemy lose its SP little by little."
+msgstr ""
+
+#: ../data/skills/magic.lua:273
+msgid "Steal Song"
+msgstr ""
+
+#: ../data/skills/magic.lua:274
+msgid "Steals positive effects from an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:290
+msgid "Terrify"
+msgstr ""
+
+#: ../data/skills/magic.lua:291
+msgid "Potentially causes a normal enemy to retreat."
+msgstr ""
+
+#: ../data/skills/magic.lua:307
+msgid "Decay Dirge"
+msgstr ""
+
+#: ../data/skills/magic.lua:308
+msgid "Steals both physical and magical defense of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:324
+msgid "War God"
+msgstr ""
+
+#: ../data/skills/magic.lua:325
+msgid ""
+"Steals both the physical and magical defense of all enemies and gives it to "
+"the party."
+msgstr ""
+
+#: ../data/skills/magic.lua:361
+msgid "Fire burst"
+msgstr ""
+
+#: ../data/skills/magic.lua:362
+msgid "Creates a small fire that burns enemies."
+msgstr ""
+
+#: ../data/skills/magic.lua:403
+msgid "Fire Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:404
+msgid "Increases the fire elemental defense on a character."
+msgstr ""
+
+#: ../data/skills/magic.lua:419
+msgid "Lava"
+msgstr ""
+
+#: ../data/skills/magic.lua:420
+msgid "Magical attack combining earth and fire type damage."
+msgstr ""
+
+#: ../data/skills/magic.lua:435
+#, fuzzy
+msgid "Fog"
+msgstr "Inimigo"
+
+#: ../data/skills/magic.lua:436
+msgid "Increases the evade rate of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:451
+msgid "Fire Breath"
+msgstr ""
+
+#: ../data/skills/magic.lua:452
+msgid "Magical attack combining air and fire type damage."
+msgstr ""
+
+#: ../data/skills/magic.lua:467
+msgid "Focus"
+msgstr ""
+
+#: ../data/skills/magic.lua:468 ../data/skills/magic.lua:619
+msgid "Increases the magical defense of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:483
+#, fuzzy
+msgid "Holy Fire"
+msgstr "Fogo"
+
+#: ../data/skills/magic.lua:484
+msgid "Magical attack combining life and fire damages."
+msgstr ""
+
+#: ../data/skills/magic.lua:499
+msgid "Life"
+msgstr ""
+
+#: ../data/skills/magic.lua:500
+msgid "Revives a fallen ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:515
+msgid "Petrify"
+msgstr ""
+
+#: ../data/skills/magic.lua:516
+msgid "Turns an enemy into stone."
+msgstr ""
+
+#: ../data/skills/magic.lua:531
+msgid "Rage"
+msgstr ""
+
+#: ../data/skills/magic.lua:532
+msgid ""
+"Enrages an ally, increasing their attack and speed but reducing their "
+"defense."
+msgstr ""
+
+#: ../data/skills/magic.lua:547
+msgid "Rock Fall"
+msgstr ""
+
+#: ../data/skills/magic.lua:548
+msgid "Rocks fall on an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:573
+msgid "Earth Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:574
+msgid "Increases the earth elemental defense of a character."
+msgstr ""
+
+#: ../data/skills/magic.lua:602
+msgid "Entangle"
+msgstr ""
+
+#: ../data/skills/magic.lua:603
+msgid "Decreases the evasion rate of an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:618
+#, fuzzy
+msgid "Magical Armor"
+msgstr "Armadura de Perna"
+
+#: ../data/skills/magic.lua:634
+msgid "Haste"
+msgstr ""
+
+#: ../data/skills/magic.lua:635
+msgid "Increases the battle speed of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:650
+msgid "Moon"
+msgstr ""
+
+#: ../data/skills/magic.lua:651
+msgid "Makes an enemy attack its own allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:666
+msgid "Cure"
+msgstr ""
+
+#: ../data/skills/magic.lua:667
+msgid "Cures the poison from an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:682
+msgid "Drain"
+msgstr ""
+
+#: ../data/skills/magic.lua:683
+msgid "Steals HP from an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:698
+msgid "Curse"
+msgstr ""
+
+#: ../data/skills/magic.lua:699
+msgid "Severely decreases several random stats of an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:714
+msgid "Meteor"
+msgstr ""
+
+#: ../data/skills/magic.lua:715
+msgid "High earth damage on all foes."
+msgstr ""
+
+#: ../data/skills/magic.lua:730
+msgid "Wave"
+msgstr ""
+
+#: ../data/skills/magic.lua:731
+msgid ""
+"Makes waves fall on an enemy, damaging them and decreasing their physical "
+"attack."
+msgstr ""
+
+#: ../data/skills/magic.lua:774
+msgid "Water Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:775
+msgid "Increases the water elemental defense on a character."
+msgstr ""
+
+#: ../data/skills/magic.lua:799
+msgid "Whirlwind"
+msgstr ""
+
+#: ../data/skills/magic.lua:800
+msgid "Magical attack combining water and air type damage."
+msgstr ""
+
+#: ../data/skills/magic.lua:815
+msgid "Slow"
+msgstr ""
+
+#: ../data/skills/magic.lua:816
+msgid "Decreases the battle speed of an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:831
+#, fuzzy
+msgid "Blindness"
+msgstr "Brilho:"
+
+#: ../data/skills/magic.lua:832
+msgid "Prevents an enemy from succeeding to strike with any physical attacks."
+msgstr ""
+
+#: ../data/skills/magic.lua:847
+msgid "Heal"
+msgstr ""
+
+#: ../data/skills/magic.lua:848
+msgid "Restores the health of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:863
+msgid "Poison"
+msgstr ""
+
+#: ../data/skills/magic.lua:864
+msgid "Inflicts poison on an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:888
+msgid "Stun"
+msgstr ""
+
+#: ../data/skills/magic.lua:889
+msgid "Stuns an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:907
+msgid "Tsunami"
+msgstr ""
+
+#: ../data/skills/magic.lua:908
+msgid "High water damage inflicted on all foes."
+msgstr ""
+
+#: ../data/skills/magic.lua:923
+#, fuzzy
+msgid "Healing Rain"
+msgstr "Poção de Cura"
+
+#: ../data/skills/magic.lua:924
+msgid "Improves the health of all allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:939
+msgid "Wind"
+msgstr ""
+
+#: ../data/skills/magic.lua:940
+msgid "The wind slashes an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:965
+msgid "Wind Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:966
+msgid "Increases the air elemental defense of a character."
+msgstr ""
+
+#: ../data/skills/magic.lua:990
+msgid "Lightning"
+msgstr ""
+
+#: ../data/skills/magic.lua:991
+msgid "Magical attack combining life and air type damage."
+msgstr ""
+
+#: ../data/skills/magic.lua:1006
+msgid "Regen"
+msgstr ""
+
+#: ../data/skills/magic.lua:1007
+msgid "Causes an ally to slowly recover their health."
+msgstr ""
+
+#: ../data/skills/magic.lua:1028
+#, fuzzy
+msgid "Magic Drain"
+msgstr "Magia"
+
+#: ../data/skills/magic.lua:1029
+msgid "Steals skill points from an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:1044
+msgid "Silence"
+msgstr ""
+
+#: ../data/skills/magic.lua:1045
+msgid "Prevents an enemy from using any magic skills."
+msgstr ""
+
+#: ../data/skills/magic.lua:1060
+#, fuzzy
+msgid "Storm"
+msgstr "História"
+
+#: ../data/skills/magic.lua:1061
+msgid "High air type damage on all foes."
+msgstr ""
+
+#: ../data/skills/magic.lua:1076
+msgid "Stop"
+msgstr ""
+
+#: ../data/skills/magic.lua:1077
+msgid "Stops an enemy from taking any actions for quite a long time."
+msgstr ""
+
+#: ../data/skills/magic.lua:1092
+msgid "Holy"
+msgstr ""
+
+#: ../data/skills/magic.lua:1093
+msgid "A holy light strikes an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:1118
+msgid "Life Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:1119
+msgid "Increases the life elemental defense of a character."
+msgstr ""
+
+#: ../data/skills/magic.lua:1134
+msgid "Purify"
+msgstr ""
+
+#: ../data/skills/magic.lua:1135
+msgid "Cures all bad effects on a character, except for poison."
+msgstr ""
+
+#: ../data/skills/magic.lua:1150
+msgid "Sun Haze"
+msgstr ""
+
+#: ../data/skills/magic.lua:1151
+msgid "High life type damage on all foes."
+msgstr ""
+
+#: ../data/skills/magic.lua:1166
+msgid "Aura"
+msgstr ""
+
+#: ../data/skills/magic.lua:1167
+msgid "Boost an ally's speed and slowly recovers their health."
+msgstr ""
+
+#: ../data/skills/magic.lua:1182
+msgid "Death"
+msgstr ""
+
+#: ../data/skills/magic.lua:1183
+msgid "Death tries to take hold of an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:1208
+msgid "Death Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:1209
+msgid "Increases the death elemental defense of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:1224
+msgid "Doom"
+msgstr ""
+
+#: ../data/skills/magic.lua:1225
+msgid "Places a death counter upon the enemy's head."
+msgstr ""
+
+#: ../data/skills/magic.lua:1240
+msgid "Magical Reflection"
+msgstr ""
+
+#: ../data/skills/magic.lua:1241
+msgid "Makes the next enemy spell cast reflect back upon the attacker."
+msgstr ""
+
+#: ../data/skills/magic.lua:1256
+msgid "Dispell"
+msgstr ""
+
+#: ../data/skills/magic.lua:1257
+msgid ""
+"Removes any status effect, elemental effect, and active spell on an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:1282
+msgid "Shell"
+msgstr ""
+
+#: ../data/skills/magic.lua:1283
+msgid "Increases all elemental effects of one character."
+msgstr ""
+
+#: ../data/skills/magic.lua:1298
+msgid "?"
+msgstr ""
+
+#: ../data/skills/magic.lua:1299
+msgid "An offensive mystic spell formed by combining opposite elementals."
+msgstr ""
+
+#: ../data/skills/magic.lua:1314
+msgid "Counter"
+msgstr ""
+
+#: ../data/skills/magic.lua:1315
+msgid "Makes an ally counter-attack if injured."
+msgstr ""
+
+#: ../data/skills/magic.lua:1330
+#, fuzzy
+msgid "Phoenix Call"
+msgstr "Escudo da Fénix"
+
+#: ../data/skills/magic.lua:1331
+msgid "Revives all allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:1346
+msgid "Bio"
+msgstr ""
+
+#: ../data/skills/magic.lua:1347
+msgid "Cures poison on all characters."
+msgstr ""
+
+#: ../data/skills/special.lua:74
+msgid "Wolf Pain"
+msgstr ""
+
+#: ../data/skills/special.lua:75
+msgid "Calls the defender of the arctic."
+msgstr ""
+
+#: ../data/skills/special.lua:190
+#, fuzzy
+msgid "Spawn Slime"
+msgstr "Lodo Verde"
+
+#: ../data/skills/special.lua:212
+msgid "Dark Wish"
+msgstr ""
+
+#: ../data/skills/weapon.lua:84
+msgid "Sword Slash"
+msgstr ""
+
+#: ../data/skills/weapon.lua:85
+msgid "A textbook maneuver that deals an effective blow."
+msgstr ""
+
+#: ../data/skills/weapon.lua:112
+msgid "Forward Thrust"
+msgstr ""
+
+#: ../data/skills/weapon.lua:114
+msgid "A concentrated attack on an enemy."
+msgstr ""
+
+#: ../data/skills/weapon.lua:142
+msgid "Stun Strike"
+msgstr ""
+
+#: ../data/skills/weapon.lua:144
+msgid "A blow which temporarily stun its target."
+msgstr ""
+
+#: ../data/skills/weapon.lua:178
+msgid "X-Strike"
+msgstr ""
+
+#: ../data/skills/weapon.lua:180 ../data/skills/weapon.lua:240
+msgid ""
+"A strong and aggressive attack with a blade that deals significant damage."
+msgstr ""
+
+#: ../data/skills/weapon.lua:212
+msgid "Single Shot"
+msgstr ""
+
+#: ../data/skills/weapon.lua:213
+msgid "A simple shot using an arbalest."
+msgstr ""
+
+#: ../data/skills/weapon.lua:238
+msgid "Blade Rush"
+msgstr ""
+
+#: ../data/skills/weapon.lua:272
+msgid "Incapacitating Shot"
+msgstr ""
+
+#: ../data/skills/weapon.lua:274
+msgid "A powerful shot aimed at lowering the enemy's ability to attack."
+msgstr ""
+
+#: ../data/skills/weapon.lua:302
+msgid "Rain of Arrows"
+msgstr ""
+
+#: ../data/skills/weapon.lua:304
+msgid "An attack striking all enemies."
+msgstr ""
+
+#: ../data/skills/weapon.lua:335
+msgid "Dagger Slash"
+msgstr ""
+
+#: ../data/skills/weapon.lua:336
+msgid "A simple but efficient dagger attack."
+msgstr ""
+
+#: ../data/skills/weapon.lua:358
+msgid "Poison Slash"
+msgstr ""
+
+#: ../data/skills/weapon.lua:360
+msgid "A dagger attack, poisoning the enemy."
+msgstr ""
+
+#: ../data/skills/weapon.lua:383
+msgid "High Strike"
+msgstr ""
+
+#: ../data/skills/weapon.lua:385
+msgid ""
+"A strike from above, stunning the enemy and breaking its magical defense."
+msgstr ""
+
+#: ../data/skills/weapon.lua:408
+msgid "Sonic Wind"
+msgstr ""
+
+#: ../data/skills/weapon.lua:410
+msgid "Deals high wind damage to all enemies, stunning them along the way."
+msgstr ""
+
+#: ../data/skills/weapon.lua:433
+msgid "Sword Breaker"
+msgstr ""
+
+#: ../data/skills/weapon.lua:435
+msgid "An attack that breaks the enemy's own attack power."
+msgstr ""
+
+#: ../data/skills/weapon.lua:461
+#, fuzzy
+msgid "Execution"
+msgstr "Resolução:"
+
+#: ../data/skills/weapon.lua:463
+msgid "Attacks an enemy with a chance of causing death to catch its soul."
+msgstr ""
+
+#: ../data/skills/weapon.lua:568
+msgid "Stun Bite"
+msgstr ""
+
+#: ../data/skills/weapon.lua:601
+msgid "Dampening Bite"
+msgstr ""
+
+#: ../data/skills/weapon.lua:657
+#, fuzzy
+msgid "HP Drain"
+msgstr "Magia"
+
+#: ../data/skills/weapon.lua:721
+msgid "Multiple Attack"
+msgstr ""
+
+#: ../data/skills/weapon.lua:794
+msgid "Frenzy Attack"
+msgstr ""
+
+#: ../data/skills/weapon.lua:828
+msgid "Stamina Steal"
+msgstr ""
+
+#: ../data/skills/weapon.lua:912
+#, fuzzy
+msgid "Water Spray"
+msgstr "Água"
+
+#: ../data/skills/weapon.lua:948
+#, fuzzy
+msgid "Spider Web"
+msgstr "Aranha"
+
+#~ msgid " (+20%)"
+#~ msgstr "(+20%)"
+
+#~ msgid " — "
+#~ msgstr " — "
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#, fuzzy
+#~ msgid "... Al... right..."
+#~ msgstr "Owww… Ok."
+
+#, fuzzy
+#~ msgid "...Kalya?!"
+#~ msgstr "Kalya"
+
+#~ msgid "???"
+#~ msgstr "???"
+
+#~ msgid "Acheron"
+#~ msgstr "Acheron"
+
+#, fuzzy
+#~ msgid "Agility"
+#~ msgstr "Agilidade:"
+
+#, fuzzy
+#~ msgid "Agility (AGI): "
+#~ msgstr "Agilidade:"
+
+#~ msgid "All"
+#~ msgstr "Todos"
+
+#~ msgid "Ally"
+#~ msgstr "Aliado"
+
+#~ msgid "Alt"
+#~ msgstr "Alt"
+
+#, fuzzy
+#~ msgid "Anyway, let's go now."
+#~ msgstr "Sim, por favor!"
+
+#~ msgid "Arm"
+#~ msgstr "Braço"
+
+#~ msgid "Arm Armor"
+#~ msgstr "Armadura de Braço"
+
+#~ msgid "Audio"
+#~ msgstr "Audio"
+
+#~ msgid "Aww..."
+#~ msgstr "Aww…"
+
+#~ msgid "Back"
+#~ msgstr "Voltar"
+
+#~ msgid "Bat"
+#~ msgstr "Morcego"
+
+#~ msgid "Body"
+#~ msgstr "Corpo"
+
+#~ msgid "Brightness: "
+#~ msgstr "Brilho:"
+
+#~ msgid "Bronann"
+#~ msgstr "Bronann"
+
+#~ msgid "Bronann!"
+#~ msgstr "Bronann!"
+
+#, fuzzy
+#~ msgid "Bronann! Move!"
+#~ msgstr "Bronann!"
+
+#, fuzzy
+#~ msgid "Bronann! No!"
+#~ msgstr "Bronann!"
+
+#, fuzzy
+#~ msgid "Bronann! Wait!"
+#~ msgstr "Bronann!"
+
+#~ msgid "Bronann, I ..."
+#~ msgstr "Bronann, eu …"
+
+#, fuzzy
+#~ msgid "Bronann, I..."
+#~ msgstr "Bronann, eu …"
+
+#~ msgid "Bronann, please."
+#~ msgstr "Bronann, por favor."
+
+#, fuzzy
+#~ msgid "Bronann, why?"
+#~ msgstr "Bronann, eu …"
+
+#, fuzzy
+#~ msgid "Bronann..."
+#~ msgstr "Bronann, eu …"
+
+#~ msgid "Bronann?"
+#~ msgstr "Bronann?"
+
+#~ msgid "Brymir"
+#~ msgstr "Brymir"
+
+#, fuzzy
+#~ msgid "But I..."
+#~ msgstr "Mas mana! Eu…"
+
+#~ msgid "But father!"
+#~ msgstr "Mas pai!"
+
+#~ msgid "But mom!"
+#~ msgstr "Mas mãe!"
+
+#~ msgid "But sis! I..."
+#~ msgstr "Mas mana! Eu…"
+
+#~ msgid "But..."
+#~ msgstr "Mas..."
+
+#~ msgid "Butterfly"
+#~ msgstr "Borboleta"
+
+#, fuzzy
+#~ msgid "Butterfly Hair Tong"
+#~ msgstr "Borboleta"
+
+#~ msgid "Buy"
+#~ msgstr "Comprar"
+
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
+
+#~ msgid "Cancel: "
+#~ msgstr "Cancelar:"
+
+#~ msgid "Carson"
+#~ msgstr "Carson"
+
+#~ msgid "Category"
+#~ msgstr "Categoria"
+
+#~ msgid "Chest"
+#~ msgstr "Peito"
+
+#~ msgid "Chicken"
+#~ msgstr "Galinha"
+
+#, fuzzy
+#~ msgid "Choose a character."
+#~ msgstr "Mover a personagem:"
+
+#~ msgid "Claw"
+#~ msgstr "Garra"
+
+#~ msgid "Cobalt Helm"
+#~ msgstr "Elmo de Cobalto"
+
+#~ msgid "Command"
+#~ msgstr "Comando"
+
+#~ msgid "Confirm"
+#~ msgstr "Confirmar"
+
+#, fuzzy
+#~ msgid "Confirm / Open / Talk: %s"
+#~ msgstr "Confirmar / Abrir / Falar:"
+
+#~ msgid "Confirm: "
+#~ msgstr "Confirmar:"
+
+#, fuzzy
+#~ msgid "Cool Time: %s"
+#~ msgstr "Tempo:"
+
+#~ msgid "Ctrl"
+#~ msgstr "Ctrl"
+
+#, fuzzy
+#~ msgid "Dark Soldier"
+#~ msgstr "Soldado"
+
+#~ msgid "Demonic Essence"
+#~ msgstr "Essência Demoníaca"
+
+#~ msgid "Down"
+#~ msgstr "Baixo"
+
+#~ msgid "Down: "
+#~ msgstr "Baixo:"
+
+#~ msgid "Earth"
+#~ msgstr "Terra"
+
+#~ msgid "Elixir"
+#~ msgstr "Elixir"
+
+#, fuzzy
+#~ msgid "Elvish Feather"
+#~ msgstr "Escudo da Fénix"
+
+#~ msgid "Er, yes?"
+#~ msgstr "Er, sim?"
+
+#, fuzzy
+#~ msgid "Err, nevermind."
+#~ msgstr "Err, esquece..."
+
+#~ msgid "Eye"
+#~ msgstr "Olho"
+
+#~ msgid "Face"
+#~ msgstr "Cara"
+
+#~ msgid "Father!"
+#~ msgstr "Pai!"
+
+#~ msgid "Fire"
+#~ msgstr "Fogo"
+
+#~ msgid "Foe"
+#~ msgstr "Inimigo"
+
+#~ msgid "Forehead"
+#~ msgstr "Testa"
+
+#~ msgid "Forest entrance"
+#~ msgstr "Entrada da floresta"
+
+#~ msgid "Funds: "
+#~ msgstr "Recursos:"
+
+#, fuzzy
+#~ msgid "Gahh, ok."
+#~ msgstr "Gahh… ok."
+
+#, fuzzy
+#~ msgid "Game"
+#~ msgstr "Sair do Jogo"
+
+#~ msgid "Georges"
+#~ msgstr "Georges"
+
+#~ msgid "Good luck Bronann."
+#~ msgstr "Boa sorte Bronann."
+
+#~ msgid "Good luck, son."
+#~ msgstr "Boa sorte, filho."
+
+#, fuzzy
+#~ msgid "Haste Potion"
+#~ msgstr "Poção de Cura"
+
+#~ msgid "Head"
+#~ msgstr "Cabeça"
+
+#~ msgid "Head Armor"
+#~ msgstr "Armadura de Cabeça"
+
+#, fuzzy
+#~ msgid "Head: "
+#~ msgstr "Cabeça"
+
+#~ msgid "Healing Potion"
+#~ msgstr "Poção de Cura"
+
+#~ msgid "Hee hee hee! Yes!"
+#~ msgstr "Hee hee hee! Sim!"
+
+#, fuzzy
+#~ msgid "Help Menu: %s"
+#~ msgstr "Menu:"
+
+#~ msgid "Herth"
+#~ msgstr "Herth"
+
+#, fuzzy
+#~ msgid "Herth."
+#~ msgstr "Herth"
+
+#~ msgid "Hi Bronann."
+#~ msgstr "Olá Bronann."
+
+#~ msgid "Hmm, the door is locked."
+#~ msgstr "Hmm, a porta está trancada."
+
+#, fuzzy
+#~ msgid "Hmm. Nevermind."
+#~ msgstr "Err, esquece..."
+
+#, fuzzy
+#~ msgid "Hold on Bronann!"
+#~ msgstr "Bronann!"
+
+#~ msgid "Huh?"
+#~ msgstr "Huh?"
+
+#, fuzzy
+#~ msgid "I feel... I..."
+#~ msgstr "Owww… Ok."
+
+#, fuzzy
+#~ msgid "I promise I won't bother you again."
+#~ msgstr "Prometo que não te incomodo mais ..."
+
+#, fuzzy
+#~ msgid "I, I..."
+#~ msgstr "Mas mana! Eu…"
+
+#, fuzzy
+#~ msgid "Invalid Element"
+#~ msgstr "Dados inválidos!"
+
+#~ msgid "Invalid data!"
+#~ msgstr "Dados inválidos!"
+
+#~ msgid "Inventory"
+#~ msgstr "Inventário"
+
+#~ msgid "Invocation"
+#~ msgstr "Invocação"
+
+#, fuzzy
+#~ msgid "Iron Ore"
+#~ msgstr "Espada de Ferro"
+
+#~ msgid "Iron Sword"
+#~ msgstr "Espada de Ferro"
+
+#~ msgid "Items"
+#~ msgstr "Itens"
+
+#~ msgid "Kalya"
+#~ msgstr "Kalya"
+
+#, fuzzy
+#~ msgid "Kalya! Now!"
+#~ msgstr "Kalya"
+
+#, fuzzy
+#~ msgid "Kalya, Bronann!"
+#~ msgstr "Bronann!"
+
+#, fuzzy
+#~ msgid "Kalya?!"
+#~ msgstr "Kalya"
+
+#~ msgid "Key Items"
+#~ msgstr "Items Chave"
+
+#~ msgid "Language"
+#~ msgstr "Língua"
+
+#, fuzzy
+#~ msgid "Leather Cloak"
+#~ msgstr "Botas de cabedal"
+
+#~ msgid "Leather boots"
+#~ msgstr "Botas de cabedal"
+
+#~ msgid "Leave"
+#~ msgstr "Sair"
+
+#~ msgid "Left"
+#~ msgstr "Esquerda"
+
+#~ msgid "Left: "
+#~ msgstr "Esquerda:"
+
+#~ msgid "Leg Armor"
+#~ msgstr "Armadura de Perna"
+
+#~ msgid "Legs"
+#~ msgstr "Pernas"
+
+#~ msgid "Level: "
+#~ msgstr "Nível:"
+
+#~ msgid "Lilly"
+#~ msgstr "Lilly"
+
+#, fuzzy
+#~ msgid "Look!"
+#~ msgstr "… Olha!"
+
+#~ msgid "Magic"
+#~ msgstr "Magia"
+
+#~ msgid "Map"
+#~ msgstr "Mapa"
+
+#~ msgid "Martha"
+#~ msgstr "Martha"
+
+#, fuzzy
+#~ msgid "Me? But..."
+#~ msgstr "Mas..."
+
+#~ msgid "Menu"
+#~ msgstr "Menu"
+
+#~ msgid "Menu: "
+#~ msgstr "Menu:"
+
+#~ msgid "Metal Shield"
+#~ msgstr "Escudo de Metal"
+
+#~ msgid "Mist"
+#~ msgstr "Névoa"
+
+#~ msgid "Moon Juice Potion"
+#~ msgstr "Poção de Sumo de Lua"
+
+#~ msgid "Move your character:"
+#~ msgstr "Mover a personagem:"
+
+#~ msgid "Music"
+#~ msgstr "Música"
+
+#~ msgid "Music Volume: "
+#~ msgstr "Volume de Música"
+
+#~ msgid "Name"
+#~ msgstr "Nome"
+
+#, fuzzy
+#~ msgid "Neither of you?"
+#~ msgstr "Nenhum de vós?"
+
+#~ msgid "No"
+#~ msgstr "Não"
+
+#, fuzzy
+#~ msgid "No arms armor"
+#~ msgstr "Armadura de Tronco"
+
+#~ msgid "No data"
+#~ msgstr "Sem dados"
+
+#, fuzzy
+#~ msgid "No legs armor"
+#~ msgstr "Armadura de Perna"
+
+#~ msgid "No weapon"
+#~ msgstr "Sem arma"
+
+#, fuzzy
+#~ msgid "No!"
+#~ msgstr "Não"
+
+#~ msgid "No, it's alright!"
+#~ msgstr "Não, não há problema!"
+
+#, fuzzy
+#~ msgid "No, it's alright."
+#~ msgstr "Não, não há problema!"
+
+#, fuzzy
+#~ msgid "No."
+#~ msgstr "Não"
+
+#~ msgid "Normal"
+#~ msgstr "Normal"
+
+#, fuzzy
+#~ msgid "Oblivion"
+#~ msgstr "Olivia"
+
+#~ msgid "Ok"
+#~ msgstr "Ok"
+
+#, fuzzy
+#~ msgid "Ok!"
+#~ msgstr "Ok"
+
+#, fuzzy
+#~ msgid "Ok."
+#~ msgstr "Ok"
+
+#~ msgid "Olivia"
+#~ msgstr "Olivia"
+
+#, fuzzy
+#~ msgid "Omni Sword"
+#~ msgstr "Espada de Ferro"
+
+#~ msgid "Orlinn!"
+#~ msgstr "Orlinn!"
+
+#, fuzzy
+#~ msgid "Orlinn! Back off!"
+#~ msgstr "Orlinn!!"
+
+#, fuzzy
+#~ msgid "Orlinn! NOW!"
+#~ msgstr "Orlinn!!"
+
+#, fuzzy
+#~ msgid "Orlinn..."
+#~ msgstr "Orlinn!"
+
+#, fuzzy
+#~ msgid "Orlinn? Orlinn!"
+#~ msgstr "Orlinn!"
+
+#, fuzzy
+#~ msgid "Owww. Alright."
+#~ msgstr "Owww… Ok."
+
+#, fuzzy
+#~ msgid "Party Menu: %s"
+#~ msgstr "Menu:"
+
+#~ msgid "Pause"
+#~ msgstr "Pausa"
+
+#~ msgid "Pause: "
+#~ msgstr "Pausa:"
+
+#, fuzzy
+#~ msgid "Pause: %s"
+#~ msgstr "Pausa:"
+
+#~ msgid "Paused"
+#~ msgstr "Em Pausa"
+
+#, fuzzy
+#~ msgid "Perfect Wooden Sword"
+#~ msgstr "Espada de Madeira"
+
+#, fuzzy
+#~ msgid "Periwinkle Potion"
+#~ msgstr "Poção de Cura"
+
+#, fuzzy
+#~ msgid "Phew."
+#~ msgstr "Aww…"
+
+#, fuzzy
+#~ msgid "Phoenix Feather"
+#~ msgstr "Escudo da Fénix"
+
+#~ msgid "Phoenix Shield"
+#~ msgstr "Escudo da Fénix"
+
+#~ msgid "Pincer"
+#~ msgstr "Pinça"
+
+#~ msgid "Pincers"
+#~ msgstr "Pinças"
+
+#~ msgid "Please no! Wait!"
+#~ msgstr "Por favor não! Espera!"
+
+#, fuzzy
+#~ msgid "Poison Potion"
+#~ msgstr "Poção de Cura"
+
+#~ msgid "Possible actions:"
+#~ msgstr "Acções possíveis:"
+
+#, fuzzy
+#~ msgid "Prep Time: %s"
+#~ msgstr "Tempo:"
+
+#~ msgid "Price"
+#~ msgstr "Preço"
+
+#, fuzzy
+#~ msgid "Protection"
+#~ msgstr "Invocação"
+
+#~ msgid "Purchases: "
+#~ msgstr "Compras:"
+
+#~ msgid "Purpose"
+#~ msgstr "Objectivo"
+
+#~ msgid "Quit"
+#~ msgstr "Sair"
+
+#~ msgid "Quit Game"
+#~ msgstr "Sair do Jogo"
+
+#, fuzzy
+#~ msgid "Quit Menu: %s"
+#~ msgstr "Menu:"
+
+#~ msgid "Quit to Main Menu"
+#~ msgstr "Sair para Menu Principal"
+
+#~ msgid "Rat"
+#~ msgstr "Rato"
+
+#~ msgid "Red Slime"
+#~ msgstr "Lodo Vermelho"
+
+#, fuzzy
+#~ msgid "Reinforced Wooden Sword"
+#~ msgstr "Espada de Madeira"
+
+#~ msgid "Resolution: "
+#~ msgstr "Resolução:"
+
+#~ msgid "Right"
+#~ msgstr "Direita"
+
+#~ msgid "Right!"
+#~ msgstr "Certo!"
+
+#~ msgid "Right: "
+#~ msgstr "Direita:"
+
+#, fuzzy
+#~ msgid "Run / Cancel: %s"
+#~ msgstr "Correr / Cancelar:"
+
+#~ msgid "Sales: +"
+#~ msgstr "Vendas: +"
+
+#~ msgid "Save Game"
+#~ msgstr "Gravar Jogo"
+
+#~ msgid "Scorpion"
+#~ msgstr "Escorpião"
+
+#~ msgid "Sell"
+#~ msgstr "Vender"
+
+#~ msgid "Shift"
+#~ msgstr "Shift"
+
+#~ msgid "Skeleton"
+#~ msgstr "Esqueleto"
+
+#~ msgid "Slime Mother"
+#~ msgstr "Lodo Mãe"
+
+#~ msgid "Slot 1"
+#~ msgstr "Espaço 1"
+
+#~ msgid "Slot 2"
+#~ msgstr "Espaço 2"
+
+#~ msgid "Slot 3"
+#~ msgstr "Espaço 3"
+
+#~ msgid "Slot 4"
+#~ msgstr "Espaço 4"
+
+#~ msgid "Slot 5"
+#~ msgstr "Espaço 5"
+
+#~ msgid "Slot 6"
+#~ msgstr "Espaço 6"
+
+#~ msgid "Snake"
+#~ msgstr "Cobra"
+
+#~ msgid "Soldier"
+#~ msgstr "Soldado"
+
+#, fuzzy
+#~ msgid "Soldier Sword"
+#~ msgstr "Espada de Madeira"
+
+#~ msgid "Sophia"
+#~ msgstr "Sophia"
+
+#, fuzzy
+#~ msgid "Sophia's Items"
+#~ msgstr "Sophia"
+
+#~ msgid "Sound Volume: "
+#~ msgstr "Volume de Som:"
+
+#, fuzzy
+#~ msgid "Sounds"
+#~ msgstr "Recursos:"
+
+#~ msgid "Space"
+#~ msgstr "Espaço"
+
+#~ msgid "Squirrel"
+#~ msgstr "Esquilo"
+
+#~ msgid "Stock"
+#~ msgstr "Stock"
+
+#~ msgid "Story"
+#~ msgstr "História"
+
+#, fuzzy
+#~ msgid "Strength"
+#~ msgstr "Força:"
+
+#, fuzzy
+#~ msgid "Strength (STR): "
+#~ msgstr "Força:"
+
+#~ msgid "Sure, just ask."
+#~ msgstr "Claro, basta pedires."
+
+#~ msgid "Sylve"
+#~ msgstr "Sylve"
+
+#~ msgid "Tail"
+#~ msgstr "Cauda"
+
+#~ msgid "Tester Team"
+#~ msgstr "Equipa de Testes"
+
+#, fuzzy
+#~ msgid "Testers"
+#~ msgstr "Equipa de Testes"
+
+#~ msgid "Thanis"
+#~ msgstr "Thanis"
+
+#, fuzzy
+#~ msgid "Thank the goddess."
+#~ msgstr "Obrigado, Lilly."
+
+#~ msgid "Thanks, Lilly."
+#~ msgstr "Obrigado, Lilly."
+
+#, fuzzy
+#~ msgid "Thanks..."
+#~ msgstr "Obrigado, Lilly."
+
+#~ msgid "The Shop"
+#~ msgstr "A Loja"
+
+#~ msgid "Thing"
+#~ msgstr "Coisa"
+
+#, fuzzy
+#~ msgid "Time left:"
+#~ msgstr "Tempo:"
+
+#~ msgid "To be continued..."
+#~ msgstr "Continua..."
+
+#~ msgid "Torso"
+#~ msgstr "Tronco"
+
+#~ msgid "Torso Armor"
+#~ msgstr "Armadura de Tronco"
+
+#, fuzzy
+#~ msgid "Torso: "
+#~ msgstr "Tronco"
+
+#~ msgid "Total: "
+#~ msgstr "Total:"
+
+#~ msgid "Trade"
+#~ msgstr "Trocar"
+
+#~ msgid "Translations"
+#~ msgstr "Traduções"
+
+#~ msgid "Trident Shield"
+#~ msgstr "Escudo de Tridente"
+
+#~ msgid "Tunic"
+#~ msgstr "Túnica"
+
+#, fuzzy
+#~ msgid "UI Theme: "
+#~ msgstr "Tempo:"
+
+#, fuzzy
+#~ msgid "Ummm..."
+#~ msgstr "... Hmmm…"
+
+#~ msgid "Up"
+#~ msgstr "Cima"
+
+#~ msgid "Up: "
+#~ msgstr "Cima:"
+
+#~ msgid "Use"
+#~ msgstr "Usar"
+
+#~ msgid "Video"
+#~ msgstr "Vídeo"
+
+#~ msgid "Village entrance"
+#~ msgstr "Entrada da aldeia"
+
+#, fuzzy
+#~ msgid "Wait..."
+#~ msgstr "Mas..."
+
+#~ msgid "Weapon"
+#~ msgstr "Arma"
+
+#~ msgid "Weapons"
+#~ msgstr "Armas"
+
+#, fuzzy
+#~ msgid "Well, here we go."
+#~ msgstr "Hmm, a porta está trancada."
+
+#, fuzzy
+#~ msgid "Well, the door is open now."
+#~ msgstr "Hmm, a porta está trancada."
+
+#, fuzzy
+#~ msgid "What?"
+#~ msgstr "O quê?!"
+
+#, fuzzy
+#~ msgid "What? No!"
+#~ msgstr "O quê?!"
+
+#~ msgid "What?!"
+#~ msgstr "O quê?!"
+
+#~ msgid "Wing"
+#~ msgstr "Asa"
+
+#~ msgid "Wooden Shield"
+#~ msgstr "Escudo de Madeira"
+
+#~ msgid "Wooden Sword"
+#~ msgstr "Espada de Madeira"
+
+#~ msgid "Yes"
+#~ msgstr "Sim"
+
+#, fuzzy
+#~ msgid "Yes, and let's do it quickly."
+#~ msgstr "Sim, por favor!"
+
+#, fuzzy
+#~ msgid "Yes, let's end this."
+#~ msgstr "Sim, por favor!"
+
+#, fuzzy
+#~ msgid "Yes, let's go."
+#~ msgstr "Sim, por favor!"
+
+#~ msgid "Yes, please!"
+#~ msgstr "Sim, por favor!"
+
+#, fuzzy
+#~ msgid "Yes, please."
+#~ msgstr "Sim, por favor!"
+
+#, fuzzy
+#~ msgid "Yes, sir."
+#~ msgstr "Sim, por favor!"
+
+#~ msgid "Yeti"
+#~ msgstr "Yeti"
+
+#~ msgid "You'll never get me!"
+#~ msgstr "Nunca me apanharás!"
+
+#~ msgid " "
+#~ msgstr " "
+
+#~ msgid "!! What?"
+#~ msgstr "!! O quê?"
+
+#~ msgid "'."
+#~ msgstr "'."
+
+#, fuzzy
+#~ msgid "... Bronann!!"
+#~ msgstr "Bronann!"
+
+#~ msgid "... Huh?"
+#~ msgstr "... Huh?"
+
+#~ msgid "... Look!"
+#~ msgstr "… Olha!"
+
+#~ msgid "A"
+#~ msgstr "A"
+
+#, fuzzy
+#~ msgid "Bronann!!!"
+#~ msgstr "Bronann!"
+
+#~ msgid "D"
+#~ msgstr "D"
+
+#~ msgid "E"
+#~ msgstr "E"
+
+#~ msgid "Esc"
+#~ msgstr "Esc"
+
+#~ msgid "F"
+#~ msgstr "F"
+
+#~ msgid "Kyle"
+#~ msgstr "Kyle"
+
+#, fuzzy
+#~ msgid "Menu|Arm"
+#~ msgstr "Menu"
+
+#, fuzzy
+#~ msgid "Nevermind that..."
+#~ msgstr "Err, esquece..."
+
+#~ msgid "Ok ..."
+#~ msgstr "Ok …"
+
+#, fuzzy
+#~ msgid "Pause Menu: %s"
+#~ msgstr "Pausa:"
+
+#~ msgid "Press "
+#~ msgstr "Pressiona"
+
+#~ msgid "S"
+#~ msgstr "S"
+
+#~ msgid "Shards"
+#~ msgstr "Lascas"
+
+#~ msgid "Spacebar"
+#~ msgstr "Barra de Espaços"
+
+#~ msgid "Swap"
+#~ msgstr "Trocar"
+
+#~ msgid "Time - "
+#~ msgstr "Tempo - "
+
+#~ msgid "W"
+#~ msgstr "W"
+
+#~ msgid "What?!?"
+#~ msgstr "O quê?!?"

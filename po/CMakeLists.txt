@@ -36,7 +36,12 @@ MACRO(VALYRIATEAR_GETTEXT_CREATE_TRANSLATIONS _potFile _firstPoFileArg)
 
       ADD_CUSTOM_COMMAND(
          OUTPUT ${_moFile}
+         # Concatenate the client po files into a single one
+         COMMAND msgcat --output-file=${_absFile} ${_abs_PATH}/${_lang}/*.po
+         # Generate the mo file
          COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -o ${_moFile} ${_absFile}
+         # Delete the temp po file
+         COMMAND ${CMAKE_COMMAND} -E remove -f ${_absFile}
          DEPENDS ${_absPotFile} ${_absFile} ${_moDir}
       )
 
@@ -62,29 +67,61 @@ MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
    ADD_CUSTOM_TARGET(
       update-pot
       # Strings from C++ and Lua
-      COMMAND xgettext -C --files-from=translatable-files --directory=. --output=${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
-      # Map names from Lua
-      COMMAND bash create_map_names_translatable_strings.sh
-      COMMAND xgettext -C --directory=. -j --output=${_potFile} -d valyriatear --keyword=Translate --add-comments=tr: --from-code=UTF-8  map_names_tr.lua
+      COMMAND xgettext -C --files-from=src-translatable-files --directory=. --output=src-${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
+      COMMAND xgettext -C --files-from=inventory-translatable-files --directory=. --output=inventory-${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
+      COMMAND xgettext -C --files-from=skills-translatable-files --directory=. --output=skills-${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
+      COMMAND xgettext -C --files-from=config-translatable-files --directory=. --output=config-${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
+      COMMAND xgettext -C --files-from=entities-translatable-files --directory=. --output=entities-${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
+      # Story pot files
+      COMMAND xgettext -C --files-from=ep1-translatable-files --directory=. --output=ep1-${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
+      COMMAND xgettext -C --force-po --files-from=ep2-translatable-files --directory=. --output=ep2-${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
 
-      # The pot file is ready - We can remove the temp files
-      COMMAND rm -f translatable-files
-      COMMAND rm -f map_names_files
+      ## Map names
+      # Episode 1 -> output ep2-map-files-tr.lua
+      COMMAND bash create_map_names_translatable_strings.sh ep1-map-files
+      COMMAND xgettext -C --directory=. -j --output=ep1-${_potFile} -d valyriatear --keyword=Translate --add-comments=tr: --from-code=UTF-8  ep1-map-files-tr.lua
+      # Episode 2 -> output ep2-map-files-tr.lua
+      COMMAND bash create_map_names_translatable_strings.sh ep2-map-files
+      COMMAND xgettext -C --directory=. -j --output=ep2-${_potFile} -d valyriatear --keyword=Translate --add-comments=tr: --from-code=UTF-8  ep2-map-files-tr.lua
+
+      # The pot files are ready - We can remove the temp files
+      COMMAND rm -f src-translatable-files inventory-translatable-files skills-translatable-files
+      COMMAND rm -f config-translatable-files entities-translatable-files
+      COMMAND rm -f ep1-translatable-files ep2-translatable-files
+      COMMAND rm -f ep1-map-files ep2-map-files ep1-map-files-tr.lua ep2-map-files-tr.lua
       COMMAND rm -f map_names_tr.lua
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       )
 
    ADD_CUSTOM_TARGET(
       update-translatable-files
-      COMMAND grep '_\(' -Irl ../src --include=*.cpp | sort > translatable-files
-      COMMAND grep 'Translate\(' -Irl ../src --include=*.cpp | sort >> translatable-files
-      COMMAND grep 'UTranslate\(' -Irl ../src --include=*.cpp | sort >> translatable-files
-      COMMAND grep 'CTranslate\(' -Irl ../src --include=*.cpp | sort >> translatable-files
-      COMMAND grep 'CUTranslate\(' -Irl ../src --include=*.cpp | sort >> translatable-files
-      COMMAND grep 'Translate\(' -Irl ../data | sort >> translatable-files
-      # Add map names and subnames to the translatable strings
-      COMMAND grep 'map_name =' -Irl ../data/story --include=*.lua | sort > map_names_files
-      COMMAND grep 'map_subname =' -Irl  ../data/story --include=*.lua | sort >> map_names_files
+      # Source code
+      COMMAND grep '_\(' -Irl ../src --include=*.cpp | sort > src-translatable-files
+      COMMAND grep 'Translate\(' -Irl ../src --include=*.cpp | sort >> src-translatable-files
+      COMMAND grep 'UTranslate\(' -Irl ../src --include=*.cpp | sort >> src-translatable-files
+      COMMAND grep 'CTranslate\(' -Irl ../src --include=*.cpp | sort >> src-translatable-files
+      COMMAND grep 'CUTranslate\(' -Irl ../src --include=*.cpp | sort >> src-translatable-files
+      COMMAND grep 'NVTranslate\(' -Irl ../src --include=*.cpp | sort >> src-translatable-files
+      # Inventor
+      COMMAND grep 'Translate\(' -Irl ../data/inventory | sort > inventory-translatable-files
+      # Skills
+      COMMAND grep 'Translate\(' -Irl ../data/skills | sort > skills-translatable-files
+      # Config
+      COMMAND grep 'Translate\(' -Irl ../data/config | sort > config-translatable-files
+      # Entities
+      COMMAND grep 'Translate\(' -Irl ../data/entities | sort > entities-translatable-files
+      ## Story files
+      # Episode I
+      COMMAND grep 'Translate\(' -Irl ../data/story/ep1 | sort > ep1-translatable-files
+      COMMAND grep 'Translate\(' -Irl ../data/boot_menu/ep1 | sort >> ep1-translatable-files
+      COMMAND grep 'map_name =' -Irl ../data/story/ep1 --include=*.lua | sort >> ep1-map-files
+      COMMAND grep 'map_subname =' -Irl  ../data/story/ep1 --include=*.lua | sort >> ep1-map-files
+      # Episode II
+      COMMAND grep 'Translate\(' -Irl ../data/story/ep2 | sort > ep2-translatable-files
+      # COMMAND grep 'Translate\(' -Irl ../data/boot_menu/ep2 | sort >> ep2-data-translatable-files
+      COMMAND grep 'map_name =' -Irl ../data/story/ep2 --include=*.lua | sort >> ep2-map-files
+      COMMAND grep 'map_subname =' -Irl  ../data/story/ep2 --include=*.lua | sort >> ep2-map-files
+
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       )
 
@@ -105,7 +142,7 @@ ENDMACRO()
 # Iterate locales
 SET(languages)
 SET(POFILES)
-file(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.po")
+file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/LINGUAS" files)
 foreach(file ${files})
    get_filename_component(_lang ${file} NAME_WE)
    IF(NOT ${_lang} STREQUAL "")

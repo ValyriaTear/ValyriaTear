@@ -1,0 +1,6069 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# RatArmy <broadbarredfirefish@gmail.com>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: Valyria Tear\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-22 23:22+0200\n"
+"PO-Revision-Date: 2016-02-23 12:43+0000\n"
+"Last-Translator: RatArmy <broadbarredfirefish@gmail.com>\n"
+"Language-Team: Japanese (http://www.transifex.com/valyria-tear/valyria-tear/"
+"language/ja/)\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ../data/skills/barehands.lua:28
+msgid "Punch"
+msgstr "パンチ"
+
+#: ../data/skills/barehands.lua:29
+msgid "A simple punch. Better than nothing."
+msgstr "シンプルなパンチ。ただそれだけ。"
+
+#: ../data/skills/barehands.lua:56
+msgid "Throw stone"
+msgstr "石つぶて"
+
+#: ../data/skills/barehands.lua:57
+msgid "Kalya's attack when she has no weapon."
+msgstr "武器を持たないカルヤの攻撃だ！"
+
+#: ../data/skills/barehands.lua:83
+msgid "Tornado Punch"
+msgstr "トルネードパンチ"
+
+#: ../data/skills/barehands.lua:84
+msgid "Spinning knuckle attack that deals wind damage."
+msgstr "回転をかけた拳による攻撃だ。風のダメージが加わっている。"
+
+#: ../data/skills/magic.lua:51
+msgid "Shield"
+msgstr "盾"
+
+#: ../data/skills/magic.lua:52
+msgid "Increases an ally's physical defense by a slight degree."
+msgstr "短い間、味方一人の物理防御を向上させる。"
+
+#: ../data/skills/magic.lua:100
+msgid "First Aid"
+msgstr "応急手当"
+
+#: ../data/skills/magic.lua:101
+msgid ""
+"Performs basic medical assistance, healing the target by a minor degree."
+msgstr "標準的な治療補助によって、対象を少し回復する。"
+
+#: ../data/skills/magic.lua:145
+msgid "Leader Call"
+msgstr "リーダーコール"
+
+#: ../data/skills/magic.lua:146
+#, fuzzy
+msgid "Temporarily increases the Physical Attack of all allies."
+msgstr "一時的に味方全体の力を上昇させる。"
+
+#: ../data/skills/magic.lua:172
+msgid "Holy Veil"
+msgstr "ホーリーヴェール"
+
+#: ../data/skills/magic.lua:173
+msgid "Increases the attack and magical attack of all allies."
+msgstr "味方全体の攻撃と魔法攻撃を上昇させる。"
+
+#: ../data/skills/magic.lua:204
+msgid "Ancient Strength"
+msgstr "古代の力"
+
+#: ../data/skills/magic.lua:205
+msgid "Increases every form of elemental resistance for all allies."
+msgstr "味方全員の全ての属性耐性を上昇させる。"
+
+#: ../data/skills/magic.lua:229
+msgid "Divine Wish"
+msgstr "神の望み"
+
+#: ../data/skills/magic.lua:230 ../data/skills/special.lua:213
+msgid "Revives an ally, restoring all of their HP and SP."
+msgstr "味方一人を蘇生し、HPとSPを全回復させる。"
+
+#: ../data/skills/magic.lua:249
+msgid "Magical Poison"
+msgstr "毒の術"
+
+#: ../data/skills/magic.lua:250
+msgid "Makes an enemy lose its SP little by little."
+msgstr "敵一体のSPを徐々に減少させる。"
+
+#: ../data/skills/magic.lua:273
+msgid "Steal Song"
+msgstr "盗賊の歌"
+
+#: ../data/skills/magic.lua:274
+msgid "Steals positive effects from an enemy."
+msgstr "敵一体から上昇効果を奪う。"
+
+#: ../data/skills/magic.lua:290
+msgid "Terrify"
+msgstr "恐怖"
+
+#: ../data/skills/magic.lua:291
+msgid "Potentially causes a normal enemy to retreat."
+msgstr "普通の敵に使えば逃走するかも。"
+
+#: ../data/skills/magic.lua:307
+msgid "Decay Dirge"
+msgstr "腐敗の哀歌"
+
+#: ../data/skills/magic.lua:308
+msgid "Steals both physical and magical defense of an ally."
+msgstr "味方一人から物理・魔法防御を奪う。"
+
+#: ../data/skills/magic.lua:324
+msgid "War God"
+msgstr "戦神"
+
+#: ../data/skills/magic.lua:325
+msgid ""
+"Steals both the physical and magical defense of all enemies and gives it to "
+"the party."
+msgstr "物理・魔法防御を敵全体から奪い、その分パーティーの能力を上昇させる。"
+
+#: ../data/skills/magic.lua:361
+msgid "Fire burst"
+msgstr "爆炎"
+
+#: ../data/skills/magic.lua:362
+#, fuzzy
+msgid "Creates a small fire that burns enemies."
+msgstr "敵一体を焼く、小さな炎を生み出す。"
+
+#: ../data/skills/magic.lua:403
+msgid "Fire Circle"
+msgstr "火炎陣"
+
+#: ../data/skills/magic.lua:404
+msgid "Increases the fire elemental defense on a character."
+msgstr "キャラ一人の炎属性耐性を上昇させる。"
+
+#: ../data/skills/magic.lua:419
+msgid "Lava"
+msgstr "溶岩"
+
+#: ../data/skills/magic.lua:420
+msgid "Magical attack combining earth and fire type damage."
+msgstr "大地と炎属性を組み合わせた魔法攻撃。"
+
+#: ../data/skills/magic.lua:435
+msgid "Fog"
+msgstr "霧"
+
+#: ../data/skills/magic.lua:436
+msgid "Increases the evade rate of an ally."
+msgstr "味方一人の回避を上昇させる。"
+
+#: ../data/skills/magic.lua:451
+msgid "Fire Breath"
+msgstr "炎の息"
+
+#: ../data/skills/magic.lua:452
+msgid "Magical attack combining air and fire type damage."
+msgstr "風と炎属性を組み合わせた魔法攻撃。"
+
+#: ../data/skills/magic.lua:467
+msgid "Focus"
+msgstr "フォーカス"
+
+#: ../data/skills/magic.lua:468 ../data/skills/magic.lua:619
+#, fuzzy
+msgid "Increases the magical defense of an ally."
+msgstr "味方一人の魔法防御を上昇させる。"
+
+#: ../data/skills/magic.lua:483
+msgid "Holy Fire"
+msgstr "聖火"
+
+#: ../data/skills/magic.lua:484
+msgid "Magical attack combining life and fire damages."
+msgstr "生命と炎属性を組み合わせた魔法攻撃。"
+
+#: ../data/skills/magic.lua:499
+msgid "Life"
+msgstr "生命"
+
+#: ../data/skills/magic.lua:500
+msgid "Revives a fallen ally."
+msgstr "倒れた味方一人を蘇生する。"
+
+#: ../data/skills/magic.lua:515
+msgid "Petrify"
+msgstr "石化"
+
+#: ../data/skills/magic.lua:516
+msgid "Turns an enemy into stone."
+msgstr "敵一体を石に変える。"
+
+#: ../data/skills/magic.lua:531
+msgid "Rage"
+msgstr "憤怒"
+
+#: ../data/skills/magic.lua:532
+#, fuzzy
+msgid ""
+"Enrages an ally, increasing their attack and speed but reducing their "
+"defense."
+msgstr "味方一人を激怒させる。対象は攻撃と速度が上昇するが、防御が減少する。"
+
+#: ../data/skills/magic.lua:547
+msgid "Rock Fall"
+msgstr "岩落とし"
+
+#: ../data/skills/magic.lua:548
+msgid "Rocks fall on an enemy."
+msgstr "敵一体に岩を落とす。"
+
+#: ../data/skills/magic.lua:573
+msgid "Earth Circle"
+msgstr "大地陣"
+
+#: ../data/skills/magic.lua:574
+msgid "Increases the earth elemental defense of a character."
+msgstr "キャラ一人の大地属性の耐性を上昇させる。"
+
+#: ../data/skills/magic.lua:602
+msgid "Entangle"
+msgstr "エンタングル"
+
+#: ../data/skills/magic.lua:603
+msgid "Decreases the evasion rate of an enemy."
+msgstr "敵一体の回避率を減少させる。"
+
+#: ../data/skills/magic.lua:618
+msgid "Magical Armor"
+msgstr "魔法の鎧"
+
+#: ../data/skills/magic.lua:634
+msgid "Haste"
+msgstr "加速"
+
+#: ../data/skills/magic.lua:635
+msgid "Increases the battle speed of an ally."
+msgstr "味方一人のバトルスピードを上昇させる。"
+
+#: ../data/skills/magic.lua:650
+msgid "Moon"
+msgstr "月"
+
+#: ../data/skills/magic.lua:651
+msgid "Makes an enemy attack its own allies."
+msgstr "敵一体にかけることで、同士討ちをさせる。"
+
+#: ../data/skills/magic.lua:666
+msgid "Cure"
+msgstr "治療"
+
+#: ../data/skills/magic.lua:667
+msgid "Cures the poison from an ally."
+msgstr "味方一人を解毒する。"
+
+#: ../data/skills/magic.lua:682
+msgid "Drain"
+msgstr "吸収"
+
+#: ../data/skills/magic.lua:683
+msgid "Steals HP from an enemy."
+msgstr "敵一体からHPを奪う。"
+
+#: ../data/skills/magic.lua:698
+msgid "Curse"
+msgstr "呪い"
+
+#: ../data/skills/magic.lua:699
+msgid "Severely decreases several random stats of an enemy."
+msgstr "敵一体のいくつかの能力をランダムに選び、減少させる。"
+
+#: ../data/skills/magic.lua:714
+msgid "Meteor"
+msgstr "隕石"
+
+#: ../data/skills/magic.lua:715
+msgid "High earth damage on all foes."
+msgstr "敵全体に大地属性の大ダメージを与える。"
+
+#: ../data/skills/magic.lua:730
+msgid "Wave"
+msgstr "波"
+
+#: ../data/skills/magic.lua:731
+msgid ""
+"Makes waves fall on an enemy, damaging them and decreasing their physical "
+"attack."
+msgstr ""
+
+#: ../data/skills/magic.lua:774
+msgid "Water Circle"
+msgstr "水陣"
+
+#: ../data/skills/magic.lua:775
+msgid "Increases the water elemental defense on a character."
+msgstr "キャラ一人の水属性耐性を上昇させる。"
+
+#: ../data/skills/magic.lua:799
+msgid "Whirlwind"
+msgstr "竜巻"
+
+#: ../data/skills/magic.lua:800
+msgid "Magical attack combining water and air type damage."
+msgstr "水と風属性を組み合わせた魔法攻撃。"
+
+#: ../data/skills/magic.lua:815
+msgid "Slow"
+msgstr "減速"
+
+#: ../data/skills/magic.lua:816
+msgid "Decreases the battle speed of an enemy."
+msgstr "敵一体のバトルスピードを減少させる。"
+
+#: ../data/skills/magic.lua:831
+msgid "Blindness"
+msgstr "盲目"
+
+#: ../data/skills/magic.lua:832
+msgid "Prevents an enemy from succeeding to strike with any physical attacks."
+msgstr "敵一体の物理攻撃を封じる。"
+
+#: ../data/skills/magic.lua:847
+msgid "Heal"
+msgstr "治療"
+
+#: ../data/skills/magic.lua:848
+msgid "Restores the health of an ally."
+msgstr "味方一人を完全に回復する。"
+
+#: ../data/skills/magic.lua:863
+msgid "Poison"
+msgstr "毒"
+
+#: ../data/skills/magic.lua:864
+msgid "Inflicts poison on an enemy."
+msgstr "敵一体に毒を与える。"
+
+#: ../data/skills/magic.lua:888
+msgid "Stun"
+msgstr "スタン"
+
+#: ../data/skills/magic.lua:889
+msgid "Stuns an enemy."
+msgstr "敵一体をスタンさせる。"
+
+#: ../data/skills/magic.lua:907
+msgid "Tsunami"
+msgstr "津波"
+
+#: ../data/skills/magic.lua:908
+msgid "High water damage inflicted on all foes."
+msgstr "敵全体に水属性の大ダメージを与える。"
+
+#: ../data/skills/magic.lua:923
+msgid "Healing Rain"
+msgstr "癒やしの雨"
+
+#: ../data/skills/magic.lua:924
+msgid "Improves the health of all allies."
+msgstr "味方全体の健康を回復する。"
+
+#: ../data/skills/magic.lua:939
+msgid "Wind"
+msgstr "風"
+
+#: ../data/skills/magic.lua:940
+msgid "The wind slashes an enemy."
+msgstr "敵一体を風が引き裂く。"
+
+#: ../data/skills/magic.lua:965
+msgid "Wind Circle"
+msgstr "風陣"
+
+#: ../data/skills/magic.lua:966
+msgid "Increases the air elemental defense of a character."
+msgstr "キャラ一人の風属性耐性を上昇させる。"
+
+#: ../data/skills/magic.lua:990
+msgid "Lightning"
+msgstr "稲妻"
+
+#: ../data/skills/magic.lua:991
+msgid "Magical attack combining life and air type damage."
+msgstr "生命と風属性を組み合わせた魔法攻撃。"
+
+#: ../data/skills/magic.lua:1006
+msgid "Regen"
+msgstr "再生"
+
+#: ../data/skills/magic.lua:1007
+msgid "Causes an ally to slowly recover their health."
+msgstr "味方一人の体力を徐々に回復する。"
+
+#: ../data/skills/magic.lua:1028
+msgid "Magic Drain"
+msgstr "魔法吸収"
+
+#: ../data/skills/magic.lua:1029
+msgid "Steals skill points from an enemy."
+msgstr "敵一体からSPを奪う。"
+
+#: ../data/skills/magic.lua:1044
+msgid "Silence"
+msgstr "静寂"
+
+#: ../data/skills/magic.lua:1045
+msgid "Prevents an enemy from using any magic skills."
+msgstr "敵一体の魔法スキルを封じる。"
+
+#: ../data/skills/magic.lua:1060
+msgid "Storm"
+msgstr "嵐"
+
+#: ../data/skills/magic.lua:1061
+msgid "High air type damage on all foes."
+msgstr "敵全体に風属性の大ダメージを与える。"
+
+#: ../data/skills/magic.lua:1076
+msgid "Stop"
+msgstr "停止"
+
+#: ../data/skills/magic.lua:1077
+msgid "Stops an enemy from taking any actions for quite a long time."
+msgstr "かなり長い間、敵一体の一切の動きを止める。"
+
+#: ../data/skills/magic.lua:1092
+msgid "Holy"
+msgstr "ホリー"
+
+#: ../data/skills/magic.lua:1093
+msgid "A holy light strikes an enemy."
+msgstr "神聖な光が敵一体を攻撃する。"
+
+#: ../data/skills/magic.lua:1118
+msgid "Life Circle"
+msgstr "生命陣"
+
+#: ../data/skills/magic.lua:1119
+msgid "Increases the life elemental defense of a character."
+msgstr "キャラ一人の生命属性の耐性を上昇させる。"
+
+#: ../data/skills/magic.lua:1134
+msgid "Purify"
+msgstr "浄化"
+
+#: ../data/skills/magic.lua:1135
+msgid "Cures all bad effects on a character, except for poison."
+msgstr "キャラ一人から悪影響を全て取り除きます。ただし、毒は消えません。"
+
+#: ../data/skills/magic.lua:1150
+msgid "Sun Haze"
+msgstr "サンヘイズ"
+
+#: ../data/skills/magic.lua:1151
+msgid "High life type damage on all foes."
+msgstr "敵全体に生命属性の大ダメージを与える。"
+
+#: ../data/skills/magic.lua:1166
+msgid "Aura"
+msgstr "オーラ"
+
+#: ../data/skills/magic.lua:1167
+msgid "Boost an ally's speed and slowly recovers their health."
+msgstr "味方一人のスピードをブーストし、徐々に体力を回復する。"
+
+#: ../data/skills/magic.lua:1182
+msgid "Death"
+msgstr "死"
+
+#: ../data/skills/magic.lua:1183
+msgid "Death tries to take hold of an enemy."
+msgstr "死神が敵一体を捉えようとする。"
+
+#: ../data/skills/magic.lua:1208
+msgid "Death Circle"
+msgstr "死陣"
+
+#: ../data/skills/magic.lua:1209
+msgid "Increases the death elemental defense of an ally."
+msgstr "味方一人の死属性耐性を上昇させる。"
+
+#: ../data/skills/magic.lua:1224
+msgid "Doom"
+msgstr "破滅"
+
+#: ../data/skills/magic.lua:1225
+msgid "Places a death counter upon the enemy's head."
+msgstr "死のカウンターを敵の頭部に設置する。"
+
+#: ../data/skills/magic.lua:1240
+msgid "Magical Reflection"
+msgstr "魔法反射"
+
+#: ../data/skills/magic.lua:1241
+msgid "Makes the next enemy spell cast reflect back upon the attacker."
+msgstr "次に敵が唱える魔法を詠唱者本人に跳ね返す。"
+
+#: ../data/skills/magic.lua:1256
+msgid "Dispell"
+msgstr "消魔"
+
+#: ../data/skills/magic.lua:1257
+msgid ""
+"Removes any status effect, elemental effect, and active spell on an enemy."
+msgstr "様々な状態異常、属性効果、敵の有効になっている魔法を打ち消す。"
+
+#: ../data/skills/magic.lua:1282
+msgid "Shell"
+msgstr "甲殻"
+
+#: ../data/skills/magic.lua:1283
+msgid "Increases all elemental effects of one character."
+msgstr "キャラ一人の全ての属性効果を上昇させる。"
+
+#: ../data/skills/magic.lua:1298
+msgid "?"
+msgstr "？"
+
+#: ../data/skills/magic.lua:1299
+msgid "An offensive mystic spell formed by combining opposite elementals."
+msgstr "複数の属性が組み合わさった未知の攻撃魔法を打つ。"
+
+#: ../data/skills/magic.lua:1314
+msgid "Counter"
+msgstr "反撃"
+
+#: ../data/skills/magic.lua:1315
+msgid "Makes an ally counter-attack if injured."
+msgstr "味方一人を対象。負傷時に反撃を行う。"
+
+#: ../data/skills/magic.lua:1330
+msgid "Phoenix Call"
+msgstr "不死鳥の呼び声"
+
+#: ../data/skills/magic.lua:1331
+msgid "Revives all allies."
+msgstr "味方全員を蘇生する。"
+
+#: ../data/skills/magic.lua:1346
+msgid "Bio"
+msgstr "バイオ"
+
+#: ../data/skills/magic.lua:1347
+msgid "Cures poison on all characters."
+msgstr "全てのキャラクターを解毒する。"
+
+#: ../data/skills/special.lua:74
+msgid "Wolf Pain"
+msgstr "ウルフペイン"
+
+#: ../data/skills/special.lua:75
+msgid "Calls the defender of the arctic."
+msgstr "極北の守護者を呼び出す。"
+
+#: ../data/skills/special.lua:190
+#, fuzzy
+msgid "Spawn Slime"
+msgstr "グリーンスライム"
+
+#: ../data/skills/special.lua:212
+msgid "Dark Wish"
+msgstr "闇の願い"
+
+#: ../data/skills/weapon.lua:84
+msgid "Sword Slash"
+msgstr "ソードスラッシュ"
+
+#: ../data/skills/weapon.lua:85
+msgid "A textbook maneuver that deals an effective blow."
+msgstr "教科書に載っている、効果的な攻撃。"
+
+#: ../data/skills/weapon.lua:112
+msgid "Forward Thrust"
+msgstr "踏み込み突き"
+
+#: ../data/skills/weapon.lua:114
+#, fuzzy
+msgid "A concentrated attack on an enemy."
+msgstr "敵に毒を与える、ダガーによる攻撃。"
+
+#: ../data/skills/weapon.lua:142
+msgid "Stun Strike"
+msgstr "スタン攻撃"
+
+#: ../data/skills/weapon.lua:144
+msgid "A blow which temporarily stun its target."
+msgstr "対象を一時的にスタンさせる攻撃。"
+
+#: ../data/skills/weapon.lua:178
+msgid "X-Strike"
+msgstr "十字切り"
+
+#: ../data/skills/weapon.lua:180 ../data/skills/weapon.lua:240
+msgid ""
+"A strong and aggressive attack with a blade that deals significant damage."
+msgstr "重大なダメージを与える、強力で激しい攻撃。"
+
+#: ../data/skills/weapon.lua:212
+msgid "Single Shot"
+msgstr "シングルショット"
+
+#: ../data/skills/weapon.lua:213
+msgid "A simple shot using an arbalest."
+msgstr "弩を用いた単純な射撃。"
+
+#: ../data/skills/weapon.lua:238
+msgid "Blade Rush"
+msgstr "ブレードラッシュ"
+
+#: ../data/skills/weapon.lua:272
+msgid "Incapacitating Shot"
+msgstr "無力化射撃"
+
+#: ../data/skills/weapon.lua:274
+msgid "A powerful shot aimed at lowering the enemy's ability to attack."
+msgstr "敵の攻撃能力を低下させることを目的とした、強力な射撃。"
+
+#: ../data/skills/weapon.lua:302
+msgid "Rain of Arrows"
+msgstr "矢の雨"
+
+#: ../data/skills/weapon.lua:304
+msgid "An attack striking all enemies."
+msgstr "敵全体を攻撃する。"
+
+#: ../data/skills/weapon.lua:335
+msgid "Dagger Slash"
+msgstr "ダガースラッシュ"
+
+#: ../data/skills/weapon.lua:336
+msgid "A simple but efficient dagger attack."
+msgstr "単純だが効果的なダガー攻撃。"
+
+#: ../data/skills/weapon.lua:358
+msgid "Poison Slash"
+msgstr "毒切り"
+
+#: ../data/skills/weapon.lua:360
+msgid "A dagger attack, poisoning the enemy."
+msgstr "敵に毒を与える、ダガーによる攻撃。"
+
+#: ../data/skills/weapon.lua:383
+msgid "High Strike"
+msgstr "上段攻撃"
+
+#: ../data/skills/weapon.lua:385
+msgid ""
+"A strike from above, stunning the enemy and breaking its magical defense."
+msgstr "上らへんを攻撃し、敵をスタンさせたり魔法防御を破ったりする。"
+
+#: ../data/skills/weapon.lua:408
+msgid "Sonic Wind"
+msgstr "音速風"
+
+#: ../data/skills/weapon.lua:410
+msgid "Deals high wind damage to all enemies, stunning them along the way."
+msgstr "敵全体に風属性の大ダメージを与え、あわよくばスタンさせる。"
+
+#: ../data/skills/weapon.lua:433
+msgid "Sword Breaker"
+msgstr "剣砕き"
+
+#: ../data/skills/weapon.lua:435
+msgid "An attack that breaks the enemy's own attack power."
+msgstr "敵の攻撃力を下げる攻撃。"
+
+#: ../data/skills/weapon.lua:461
+msgid "Execution"
+msgstr "処刑"
+
+#: ../data/skills/weapon.lua:463
+msgid "Attacks an enemy with a chance of causing death to catch its soul."
+msgstr "敵を攻撃する。敵の魂を捉え、死をもたらすこともある。"
+
+#: ../data/skills/weapon.lua:568
+msgid "Stun Bite"
+msgstr "麻痺噛みつき"
+
+#: ../data/skills/weapon.lua:601
+msgid "Dampening Bite"
+msgstr ""
+
+#: ../data/skills/weapon.lua:657
+#, fuzzy
+msgid "HP Drain"
+msgstr "吸収"
+
+#: ../data/skills/weapon.lua:721
+msgid "Multiple Attack"
+msgstr ""
+
+#: ../data/skills/weapon.lua:794
+msgid "Frenzy Attack"
+msgstr ""
+
+#: ../data/skills/weapon.lua:828
+msgid "Stamina Steal"
+msgstr ""
+
+#: ../data/skills/weapon.lua:912
+#, fuzzy
+msgid "Water Spray"
+msgstr "水"
+
+#: ../data/skills/weapon.lua:948
+#, fuzzy
+msgid "Spider Web"
+msgstr "クモ"
+
+#~ msgid "HP"
+#~ msgstr "HP"
+
+#~ msgid "SP"
+#~ msgstr "SP"
+
+#~ msgid "Auto-Battle"
+#~ msgstr "オートバトル"
+
+#~ msgid "Fire"
+#~ msgstr "炎"
+
+#~ msgid "Volt"
+#~ msgstr "雷"
+
+#~ msgid "Earth"
+#~ msgstr "大地"
+
+#~ msgid "Neutral"
+#~ msgstr "中立"
+
+#~ msgid "Invalid Element"
+#~ msgstr "無効なエレメント"
+
+#~ msgid "Invalid Status"
+#~ msgstr "無効なステータス"
+
+#~ msgid "Self — Point"
+#~ msgstr "自身 — 選択"
+
+#~ msgid "Ally — Point"
+#~ msgstr "味方 — 選択"
+
+#~ msgid "Foe — Point"
+#~ msgstr "敵 — 選択"
+
+#~ msgid "Self"
+#~ msgstr "自身"
+
+#~ msgid "Ally"
+#~ msgstr "味方"
+
+#~ msgid "Ally (Even KO)"
+#~ msgstr "味方（戦闘不能も含む）"
+
+#~ msgid "Ally (Only KO)"
+#~ msgstr "味方（戦闘不能のみ）"
+
+#~ msgid "Foe"
+#~ msgstr "敵"
+
+#~ msgid "All Allies"
+#~ msgstr "味方全体"
+
+#~ msgid "All Foes"
+#~ msgstr "敵全体"
+
+#~ msgid "Invalid Target"
+#~ msgstr "無効なターゲット"
+
+#~ msgid "Valyria Tear"
+#~ msgstr "Valyria Tear"
+
+#~ msgid "Video"
+#~ msgstr "ビデオ"
+
+#~ msgid "Audio"
+#~ msgstr "オーディオ"
+
+#~ msgid "Game"
+#~ msgstr "ゲーム"
+
+#~ msgid "Language"
+#~ msgstr "言語"
+
+#~ msgid "Key Settings"
+#~ msgstr "キー設定"
+
+#~ msgid "Joystick Settings"
+#~ msgstr "ジョイスティック設定"
+
+#~ msgid "Resolution: "
+#~ msgstr "解像度："
+
+#~ msgid "Window mode: "
+#~ msgstr "ウィンドウモード："
+
+#~ msgid "Brightness: "
+#~ msgstr "明るさ："
+
+#~ msgid "VSync: "
+#~ msgstr "VSync："
+
+#~ msgid "Update method: "
+#~ msgstr "画面更新方式："
+
+#~ msgid "UI Theme: "
+#~ msgstr "UI テーマ："
+
+#~ msgid "Sound Volume: "
+#~ msgstr "サウンドボリューム："
+
+#~ msgid "Music Volume: "
+#~ msgstr "ミュージックボリューム："
+
+#~ msgid "Easy"
+#~ msgstr "簡単"
+
+#~ msgid "Normal"
+#~ msgstr "普通"
+
+#~ msgid "Hard"
+#~ msgstr "難しい"
+
+#~ msgid "Yes"
+#~ msgstr "はい"
+
+#~ msgid "No"
+#~ msgstr "いいえ"
+
+#~ msgid "Up: "
+#~ msgstr "上："
+
+#~ msgid "Down: "
+#~ msgstr "下："
+
+#~ msgid "Left: "
+#~ msgstr "左："
+
+#~ msgid "Right: "
+#~ msgstr "右："
+
+#~ msgid "Confirm: "
+#~ msgstr "決定："
+
+#~ msgid "Cancel: "
+#~ msgstr "キャンセル："
+
+#~ msgid "Menu: "
+#~ msgstr "メニュー："
+
+#~ msgid "Toggle Map: "
+#~ msgstr "マップ切り替え："
+
+#~ msgid "Pause: "
+#~ msgstr "ポーズ："
+
+#~ msgid "Restore defaults"
+#~ msgstr "デフォルトに戻す"
+
+#~ msgid "Fullscreen"
+#~ msgstr "フルスクリーン"
+
+#~ msgid "Windowed"
+#~ msgstr "ウィンドウ"
+
+#~ msgid "Performance"
+#~ msgstr "パフォーマンス"
+
+#~ msgid "Move Up"
+#~ msgstr "上に移動"
+
+#~ msgid "Move Down"
+#~ msgstr "下に移動"
+
+#~ msgid "Move Left"
+#~ msgstr "左に移動"
+
+#~ msgid "Move Right"
+#~ msgstr "右に移動"
+
+#~ msgid "Confirm"
+#~ msgstr "決定"
+
+#~ msgid "Cancel"
+#~ msgstr "キャンセル"
+
+#~ msgid "Menu"
+#~ msgstr "メニュー"
+
+#~ msgid "Toggle Map"
+#~ msgstr "マップ切り替え"
+
+#~ msgid "Pause"
+#~ msgstr "ポーズ"
+
+#~ msgid "Input enabled: "
+#~ msgstr "入力の有効化："
+
+#~ msgid "X Axis"
+#~ msgstr "X軸"
+
+#~ msgid "Y Axis"
+#~ msgstr "Y軸"
+
+#~ msgid "Threshold"
+#~ msgstr "閾値"
+
+#~ msgid "Confirm: Button"
+#~ msgstr "決定：ボタン"
+
+#~ msgid "Cancel: Button"
+#~ msgstr "キャンセル：ボタン"
+
+#~ msgid "Menu: Button"
+#~ msgstr "メニュー：ボタン"
+
+#~ msgid "Map: Button"
+#~ msgstr "マップ：ボタン"
+
+#~ msgid "Pause: Button"
+#~ msgstr "ポーズ：ボタン"
+
+#~ msgid "Help: Button"
+#~ msgstr "ヘルプ：ボタン"
+
+#~ msgid "Quit: Button"
+#~ msgstr "終了：ボタン"
+
+#~ msgid "Please press a new joystick button."
+#~ msgstr "ジョイスティックのボタンを押してください。"
+
+#~ msgid "Please press a new key."
+#~ msgstr "キーを押してください。"
+
+#~ msgid "Please move an axis."
+#~ msgstr "軸を動かしてください。"
+
+#~ msgid ""
+#~ "Here you can set up the video options such as the resolution, whether to "
+#~ "play in full screen, the GUI theme, ..."
+#~ msgstr ""
+#~ "解像度、フルスクリーン切り替え、GUIテーマ... といったビデオ関連のオプショ"
+#~ "ンを設定することができます。"
+
+#~ msgid "Here you can setup the music and SFX volumes."
+#~ msgstr "音楽や効果音の音量を設定できます。"
+
+#~ msgid ""
+#~ "This menu permits to setup game specific options, such as the text "
+#~ "scrolling speed, the game difficulty, ..."
+#~ msgstr ""
+#~ "テキストのスクロールスピード、ゲームの難易度... といったゲーム関連の設定を"
+#~ "行えます。"
+
+#~ msgid ""
+#~ "This menu will show the available languages. Only available from the boot "
+#~ "menu..."
+#~ msgstr ""
+#~ "利用可能な言語を表示します。ブートメニューからしかこのメニューは利用できま"
+#~ "せん。"
+
+#~ msgid "Here you change the keys used when playing with the keyboard..."
+#~ msgstr "プレイ中に使用するキーを変更することができます。"
+
+#~ msgid "Here you change the keys used when playing with a joystick..."
+#~ msgstr "ジョイスティックのキーを変更できます。"
+
+#~ msgid "This permits to select the game's resolution..."
+#~ msgstr "ゲームの解像度を選択できます。"
+
+#~ msgid ""
+#~ "Here you can set whether you want to play in windowed mode or fullscreen."
+#~ msgstr "フルスクリーンモードとウィンドウモードを切り替えることができます。"
+
+#~ msgid "Sets the game brightness percentage. Default: 50%"
+#~ msgstr ""
+#~ "ゲーム画面の明るさを設定できます。\n"
+#~ "デフォルト：50%"
+
+#~ msgid ""
+#~ "Permits to change the Screen Vertical Synchronization mode. (Use the left "
+#~ "and right arrow keys.)"
+#~ msgstr "画面の垂直同期を変更できます。（left、rightキーで変更して下さい。）"
+
+#~ msgid ""
+#~ "Permits to change the Game Update mode. Use 'Performance' for more FPS, "
+#~ "and 'Gentle' to be kind with your CPU. Disabled when VSync is on."
+#~ msgstr ""
+#~ "FPSを上昇させたいなら「パフォーマンス」を、CPUへの負担を軽くしたいなら"
+#~ "「ジェントル」を選んで下さい。VSyncが有効な場合はこの項目は無効となりま"
+#~ "す。"
+
+#~ msgid "Permits to change the in-game GUI theme."
+#~ msgstr "ゲーム内のGUIテーマを変更できます。"
+
+#~ msgid "Permits to set the general music volume."
+#~ msgstr "音楽の音量を変更できます。"
+
+#~ msgid "Permits to set the general SFX volume."
+#~ msgstr "効果音の音量を変更できます。"
+
+#~ msgid ""
+#~ "Sets the game difficulty, can change how hard battles and certain events "
+#~ "are in game..."
+#~ msgstr "ゲーム内のイベントやバトルなどの難易度を変更できます。"
+
+#~ msgid ""
+#~ "Permits to set up the dialogue text scrolling speed (in character per "
+#~ "seconds)..."
+#~ msgstr ""
+#~ "ダイアログテキストのスクロールスピード（一秒あたりの文字数）を変更できま"
+#~ "す。"
+
+#~ msgid ""
+#~ "Sets whether the battle target should be kept in memory between two "
+#~ "actions for a given character."
+#~ msgstr "バトル時の選択肢が記憶されるかどうかを選択できます。"
+
+#~ msgid "Miss"
+#~ msgstr "ミス"
+
+#~ msgid "[error]"
+#~ msgstr "[エラー]"
+
+#~ msgid "[Select Action]"
+#~ msgstr "[アクション選択]"
+
+#~ msgid "Item<R>Type   ×"
+#~ msgstr "アイテム<R>タイプ   ×"
+
+#~ msgid "Skill<R>Type SP"
+#~ msgstr "スキル<R>タイプ SP"
+
+#~ msgid "Weapon"
+#~ msgstr "武器"
+
+#~ msgid "Magic"
+#~ msgstr "魔法"
+
+#~ msgid "Items"
+#~ msgstr "アイテム"
+
+#~ msgid "Bare-hand"
+#~ msgstr "素手"
+
+#~ msgid "Enemy Defense Modifiers:\n"
+#~ msgstr "敵の守備力変更：\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "\n"
+#~ "Effects:\n"
+#~ msgstr ""
+#~ "\n"
+#~ "\n"
+#~ "効果：\n"
+
+#~ msgid "Select Target"
+#~ msgstr "ターゲット選択"
+
+#~ msgid "All Enemies"
+#~ msgstr "敵全体"
+
+#~ msgid "Select Attack Point"
+#~ msgstr "攻撃箇所選択"
+
+#~ msgid "Double Rush!"
+#~ msgstr "両軍突撃！"
+
+#~ msgid "First Strike!"
+#~ msgstr "先制攻撃！"
+
+#~ msgid "Ambush!"
+#~ msgstr "奇襲だ！"
+
+#~ msgid "Retry"
+#~ msgstr "リトライ"
+
+#~ msgid "End"
+#~ msgstr "エンド"
+
+#~ msgid "Start over from the beginning of this battle."
+#~ msgstr "このバトルを最初からやり直す。"
+
+#~ msgid "Exit to main menu."
+#~ msgstr "メインメニューに戻る。"
+
+#~ msgid "Confirm: retry battle."
+#~ msgstr "確認：バトルをやり直します。"
+
+#~ msgid "Confirm: return to main menu."
+#~ msgstr "確認：メインメニューに戻ります。"
+
+#~ msgid "Items Found"
+#~ msgstr "獲得アイテム"
+
+#~ msgid "XP Earned: "
+#~ msgstr "獲得経験値："
+
+#~ msgid "Drunes Found: "
+#~ msgstr "獲得ドルン："
+
+#~ msgid "Total Drunes: "
+#~ msgstr "合計ドルン："
+
+#~ msgid "Level (Max): "
+#~ msgstr "レベル（最大）："
+
+#~ msgid "Level: "
+#~ msgstr "レベル："
+
+#~ msgid "XP left: "
+#~ msgstr "必要経験値："
+
+#~ msgid "HP: +"
+#~ msgstr "HP：+"
+
+#~ msgid "SP: +"
+#~ msgstr "SP：+"
+
+#~ msgid "STR: +"
+#~ msgstr "力：+"
+
+#~ msgid "VIG: +"
+#~ msgstr "生命：+"
+
+#~ msgid "FRT: +"
+#~ msgstr "精神：+"
+
+#~ msgid "PRO: +"
+#~ msgstr "防御：+"
+
+#~ msgid "AGI: +"
+#~ msgstr "敏捷：+"
+
+#~ msgid "EVD: +"
+#~ msgstr "回避：+"
+
+#~ msgid "New Skill Learned:\n"
+#~ msgstr "習得した新しいスキル：\n"
+
+#~ msgid " (+20%)"
+#~ msgstr "（+20%）"
+
+#~ msgid "The heroes were victorious!"
+#~ msgstr "パーティーの勝利！"
+
+#~ msgid "The heroes fell in battle..."
+#~ msgstr "パーティーは壊滅した..."
+
+#~ msgid ""
+#~ "When the Auto-Battle mode is activated, your party will auto attack the "
+#~ "opponents using default attacks. If you open a command menu, the Auto-"
+#~ "Battle mode will be deactivated again."
+#~ msgstr ""
+#~ "オートバトルモードが有効な場合、パーティーは標準の攻撃で敵に自動で攻撃しま"
+#~ "す。コマンドメニューを開くことでオートバトルモードを無効にできます。"
+
+#~ msgid "[Invalid Target]"
+#~ msgstr "[無効なターゲット]"
+
+#~ msgid " — "
+#~ msgstr " — "
+
+#~ msgid "New Game"
+#~ msgstr "ニューゲーム"
+
+#~ msgid "Load Game"
+#~ msgstr "ロードゲーム"
+
+#~ msgid "Options"
+#~ msgstr "オプション"
+
+#~ msgid "Quit"
+#~ msgstr "終了"
+
+#~ msgid "You obtain"
+#~ msgstr "獲得"
+
+#~ msgid "Ok"
+#~ msgstr "OK"
+
+#~ msgid "Drunes"
+#~ msgstr "ドルン"
+
+#~ msgid "Inventory"
+#~ msgstr "インベントリ"
+
+#~ msgid "Skills"
+#~ msgstr "スキル"
+
+#~ msgid "Party"
+#~ msgstr "パーティー"
+
+#~ msgid "Quests"
+#~ msgstr "クエスト"
+
+#~ msgid "Map"
+#~ msgstr "マップ"
+
+#~ msgid ""
+#~ "Select to view current world map.\n"
+#~ "Use left / right to cycle through locations.\n"
+#~ "Press 'cancel' to return"
+#~ msgstr ""
+#~ "現在のワールドマップを見れます。\n"
+#~ "Left・Rightキーで場所を巡回します。\n"
+#~ "「キャンセル」を押すと終了します。"
+
+#~ msgid "Select to view Quest Log."
+#~ msgstr "クエストログが見れます。"
+
+#~ msgid "Equip"
+#~ msgstr "装備"
+
+#~ msgid "Remove"
+#~ msgstr "はずす"
+
+#~ msgid "Back"
+#~ msgstr "戻る"
+
+#~ msgid "View/Reorder"
+#~ msgstr "キャラ情報・隊列変更"
+
+#~ msgid ""
+#~ "View character Information.\n"
+#~ "Select a character to change formation."
+#~ msgstr ""
+#~ "キャラの情報を見ます。\n"
+#~ "また、パーティーの隊列を変更できます。"
+
+#~ msgid "Use"
+#~ msgstr "使う"
+
+#~ msgid "This item is a key item and can be neither consumed nor sold."
+#~ msgstr "これは重要なアイテムです。捨てたり、売却することはできません。"
+
+#~ msgid ""
+#~ "This item is an elemental spirit and can be associated with equipment."
+#~ msgstr "これはエレメンタルスピリットです。装備に結びつけることができます。"
+
+#~ msgid "Skills obtained:"
+#~ msgstr "獲得したスキル："
+
+#~ msgid "ATK:"
+#~ msgstr "攻："
+
+#~ msgid "M.ATK:"
+#~ msgstr "魔攻："
+
+#~ msgid "DEF:"
+#~ msgstr "防："
+
+#~ msgid "M.DEF:"
+#~ msgstr "魔防："
+
+#~ msgid "Lv: "
+#~ msgstr "Lv："
+
+#~ msgid "HP: "
+#~ msgstr "HP："
+
+#~ msgid "SP: "
+#~ msgstr "SP："
+
+#~ msgid "XP to Next: "
+#~ msgstr "残り必要経験値："
+
+#~ msgid "Select an item to Equip or Use."
+#~ msgstr "装備または使用するアイテムを選んで下さい。"
+
+#~ msgid "This character cannot equip this item."
+#~ msgstr "このキャラはこのアイテムを装備できません。"
+
+#~ msgid "Select a character to use the item on."
+#~ msgstr "アイテムを使うキャラを選んで下さい。"
+
+#~ msgid "Select a character to change position with."
+#~ msgstr "ポジションを変更するキャラを選んでください。"
+
+#~ msgid "Select a character to change formation."
+#~ msgstr "隊列を変更するキャラを選んでください。"
+
+#~ msgid "Attack / Defense:"
+#~ msgstr "攻撃 / 防御："
+
+#~ msgid "Detailed defense:"
+#~ msgstr "防御の詳細："
+
+#~ msgid "Attack (ATK): "
+#~ msgstr "攻撃（攻）："
+
+#~ msgid "Magical Attack (M.ATK): "
+#~ msgstr "魔法攻撃（魔攻）："
+
+#~ msgid "Defense (DEF): "
+#~ msgstr "防御（防）："
+
+#~ msgid "Magical Defense (M.DEF): "
+#~ msgstr "魔法防御（魔防）："
+
+#~ msgid "Head: "
+#~ msgstr "頭："
+
+#~ msgid "Torso: "
+#~ msgstr "胴："
+
+#~ msgid "Arm: "
+#~ msgstr "腕："
+
+#~ msgid "Leg: "
+#~ msgstr "脚："
+
+#~ msgid "Experience Level: "
+#~ msgstr "レベル："
+
+#~ msgid "Strength (STR): "
+#~ msgstr "力："
+
+#~ msgid "Vigor (VIG): "
+#~ msgstr "生命"
+
+#~ msgid "Fortitude (FRT): "
+#~ msgstr "精神："
+
+#~ msgid "Protection (PRO): "
+#~ msgstr "防御："
+
+#~ msgid "Agility (AGI): "
+#~ msgstr "敏捷："
+
+#~ msgid "Evade (EVD): "
+#~ msgstr "回避"
+
+#~ msgid "Choose a character."
+#~ msgstr "キャラクターを選択して下さい。"
+
+#~ msgid "Choose a skill category to use."
+#~ msgstr "使用するスキルのカテゴリを選んで下さい。"
+
+#~ msgid "All"
+#~ msgstr "全て"
+
+#~ msgid "Field"
+#~ msgstr "フィールド"
+
+#~ msgid "Battle"
+#~ msgstr "バトル"
+
+#~ msgid "Weapon skill"
+#~ msgstr "武器スキル"
+
+#~ msgid "Bare hands"
+#~ msgstr "素手"
+
+#~ msgid "Magic skill"
+#~ msgstr "魔法スキル"
+
+#~ msgid "Special skill"
+#~ msgstr "特殊スキル"
+
+#~ msgid " SP"
+#~ msgstr "SP"
+
+#~ msgid "Head"
+#~ msgstr "頭"
+
+#~ msgid "Torso"
+#~ msgstr "胴"
+
+#~ msgid "Arms"
+#~ msgstr "腕"
+
+#~ msgid "Legs"
+#~ msgstr "脚"
+
+#~ msgid "No weapon"
+#~ msgstr "武器 未装備"
+
+#~ msgid "No head armor"
+#~ msgstr "頭部 未装備"
+
+#~ msgid "No torso armor"
+#~ msgstr "胴 未装備"
+
+#~ msgid "No arms armor"
+#~ msgstr "腕 未装備"
+
+#~ msgid "No legs armor"
+#~ msgstr "脚 未装備"
+
+#~ msgid "Welcome to Valyria Tear"
+#~ msgstr "Valyria Tearへようこそ"
+
+#~ msgid "Command"
+#~ msgstr "コマンド"
+
+#~ msgid "Current Key"
+#~ msgstr "現在のキー"
+
+#~ msgid "Purpose"
+#~ msgstr "目的"
+
+#~ msgid "Left"
+#~ msgstr "Left"
+
+#~ msgid "Move menu cursor to the left"
+#~ msgstr "カーソルを左に移動"
+
+#~ msgid "Right"
+#~ msgstr "Right"
+
+#~ msgid "Move menu cursor to the right"
+#~ msgstr "カーソルを右に移動"
+
+#~ msgid "Confirm a menu command"
+#~ msgstr "選択したメニューの実行"
+
+#~ msgid "Cancel a menu command"
+#~ msgstr "メニューのキャンセル"
+
+#~ msgid ""
+#~ "Quit the application\n"
+#~ "(when using the keyboard)"
+#~ msgstr ""
+#~ "アプリケーションの終了\n"
+#~ "（キーボード使用時）"
+
+#~ msgid ""
+#~ "Shop mode\n"
+#~ "\n"
+#~ "Use the Left/Right keys to add/remove items into the Buy and Sell modes.\n"
+#~ "Then go into the Confirm mode to complete the transaction."
+#~ msgstr ""
+#~ "ショップモード\n"
+#~ "\n"
+#~ "Left・Rightキーで購入／売却を選択します。\n"
+#~ "その後、売買を実行するかを確認します。"
+
+#~ msgid "Remove an item from the buy/sell list"
+#~ msgstr "アイテムを購入／売却リストから除外"
+
+#~ msgid "Add an item to the buy/sell list."
+#~ msgstr "アイテムを購入／売却リストに追加"
+
+#~ msgid "Up"
+#~ msgstr "Up"
+
+#~ msgid "Move up in the item list."
+#~ msgstr "アイテムリストを上に移動"
+
+#~ msgid "Down"
+#~ msgstr "Down"
+
+#~ msgid "Move down in the item list."
+#~ msgstr "アイテムリストを下に移動"
+
+#~ msgid "Show details or confirm a transaction"
+#~ msgstr "情報の表示、売買の確認"
+
+#~ msgid "Change the displayed item category."
+#~ msgstr "表示するアイテムのカテゴリを変更"
+
+#~ msgid ""
+#~ "Get out the Buy/Sell/Confirm mode,\n"
+#~ "or quit the shop."
+#~ msgstr ""
+#~ "購入／売却／確認モードの終了、\n"
+#~ "ショップの終了。"
+
+#~ msgid "Pauses the game"
+#~ msgstr "ゲームをポーズ"
+
+#~ msgid "Close this window / Show the system menu"
+#~ msgstr "ウィンドウのクローズ／システムメニューの表示"
+
+#~ msgid "The table below lists the default game controls.\n"
+#~ msgstr "下の表はデフォルトのゲーム操作を表示しています。\n"
+
+#~ msgid "The control mappings can be changed in the options menu."
+#~ msgstr "操作割り当てはオプションメニューから変更できます。"
+
+#~ msgid "Default Key"
+#~ msgstr "デフォルトキー"
+
+#~ msgid "General Purpose"
+#~ msgstr "概要"
+
+#~ msgid "Move position or cursor upwards"
+#~ msgstr "位置・カーソルを上に移動"
+
+#~ msgid "Move position or cursor downwards"
+#~ msgstr "位置・カーソルを下に移動"
+
+#~ msgid "Move position or cursor to the left"
+#~ msgstr "位置・カーソルを左に移動"
+
+#~ msgid "Move position or cursor to the right"
+#~ msgstr "位置・カーソルを右に移動"
+
+#~ msgid "Confirm an action or menu command"
+#~ msgstr "アクション等を決定"
+
+#~ msgid "Cancel an action or menu command"
+#~ msgstr "アクション等をキャンセル"
+
+#~ msgid "Opens the party menu"
+#~ msgstr "パーティーメニューを開く"
+
+#~ msgid "Show/Hide items and skills descriptions."
+#~ msgstr "スキル等の説明表示の切り替え"
+
+#~ msgid "Quit the application"
+#~ msgstr "アプリケーションの終了"
+
+#~ msgid ""
+#~ "There are additional commands available which can be found in the MANUAL "
+#~ "file."
+#~ msgstr "MANUALファイルの中に追加のコマンドが記されています。"
+
+#~ msgid "Paused"
+#~ msgstr "ポーズ中"
+
+#~ msgid "Quit to Main Menu"
+#~ msgstr "メインメニューに戻る"
+
+#~ msgid "Quit Game"
+#~ msgstr "ゲームを終了"
+
+#~ msgid "Save Game"
+#~ msgstr "ゲームをセーブ"
+
+#~ msgid "Confirm Save"
+#~ msgstr "セーブする"
+
+#~ msgid "Load Auto-Save"
+#~ msgstr "オートセーブから開始"
+
+#~ msgid "Load Save"
+#~ msgstr "開始"
+
+#~ msgid "Save successful!"
+#~ msgstr "セーブ完了！"
+
+#~ msgid ""
+#~ "Unable to save game!\n"
+#~ "Save FAILED!"
+#~ msgstr ""
+#~ "セーブできません！\n"
+#~ "セーブに失敗しました！"
+
+#~ msgid "No valid saves found!"
+#~ msgstr "有効なセーブが見つかりません！"
+
+#~ msgid "Invalid data!"
+#~ msgstr "無効なデータです！"
+
+#~ msgid "No data"
+#~ msgstr "データ無し"
+
+#~ msgid "Category"
+#~ msgstr "カテゴリ"
+
+#~ msgid "Name"
+#~ msgstr "名前"
+
+#~ msgid "Price"
+#~ msgstr "値段"
+
+#~ msgid "Stock"
+#~ msgstr "在庫"
+
+#~ msgid "Own"
+#~ msgstr "所持数"
+
+#~ msgid "Weapons"
+#~ msgstr "武器"
+
+#~ msgid "Head Armor"
+#~ msgstr "頭部装備"
+
+#~ msgid "Torso Armor"
+#~ msgstr "胴装備"
+
+#~ msgid "Arm Armor"
+#~ msgstr "腕装備"
+
+#~ msgid "Leg Armor"
+#~ msgstr "脚装備"
+
+#~ msgid "Spirits"
+#~ msgstr "スピリット"
+
+#~ msgid "Key Items"
+#~ msgstr "キーアイテム"
+
+#~ msgid "All Wares"
+#~ msgstr "全てのアイテム"
+
+#~ msgid "Field Use:"
+#~ msgstr "フィールド用："
+
+#~ msgid "Battle Use:"
+#~ msgstr "バトル用："
+
+#~ msgid "Target:"
+#~ msgstr "ターゲット："
+
+#~ msgid "Conditions:"
+#~ msgstr "状態："
+
+#~ msgid "Buy count: x "
+#~ msgstr "購入数：x"
+
+#~ msgid "Sell count: x "
+#~ msgstr "売却数：x"
+
+#~ msgid "Trade count: x "
+#~ msgstr "トレード数：x"
+
+#~ msgid "Buy"
+#~ msgstr "購入"
+
+#~ msgid "Sell"
+#~ msgstr "売却"
+
+#~ msgid "Trade"
+#~ msgstr "トレード"
+
+#~ msgid "Leave"
+#~ msgstr "終了"
+
+#~ msgid "Funds: "
+#~ msgstr "資金："
+
+#~ msgid "Purchases: "
+#~ msgstr "購入："
+
+#~ msgid "Remaining: "
+#~ msgstr "残り："
+
+#~ msgid "Sales: +"
+#~ msgstr "売却："
+
+#~ msgid "The Shop"
+#~ msgstr "ショップ"
+
+#~ msgid "Buy prices"
+#~ msgstr "買値"
+
+#~ msgid "Sell prices"
+#~ msgstr "売値"
+
+#~ msgid "\"Welcome! Take a look around.\""
+#~ msgstr "「いらっしゃい！ゆっくり見て回って。」"
+
+#~ msgid "data/boot_menu/valyria_logo.png"
+#~ msgstr "data/boot_menu/valyria_logo.png"
+
+#~ msgid "Get some barley meal"
+#~ msgstr "大麦粉を集めろ"
+
+#~ msgid ""
+#~ "Mom needs some for dinner!\n"
+#~ " \n"
+#~ "Flora might have some in her shop. I should go and have a look there "
+#~ "first."
+#~ msgstr ""
+#~ "母さんがディナーを作るために必要だ！\n"
+#~ "\n"
+#~ "フローラの店にあるだろう。まずはそこに行ってみよう。"
+
+#~ msgid ""
+#~ "Finally, I found some. Lilly had what I sought in her house the whole "
+#~ "time."
+#~ msgstr "やっと見つけたよ。リリーの家にあったんだ。"
+
+#~ msgid "Village of Layna"
+#~ msgstr "ライナの村"
+
+#~ msgid "Bronann's home"
+#~ msgstr "ブロナンの家"
+
+#~ msgid "Find Georges's pen"
+#~ msgstr "ジョージスのペンを探せ"
+
+#~ msgid ""
+#~ "In order to know who Georges gave the rest of his barley meal to, I need "
+#~ "to get back his lost pen.\n"
+#~ " \n"
+#~ "He said he lost it near a tree. He also told me that people in the "
+#~ "village might know more."
+#~ msgstr ""
+#~ "ジョージスが残りの大麦粉を誰に渡したのかを知るためには、彼の失くしたペンを"
+#~ "見つけなければならない。\n"
+#~ "\n"
+#~ "ジョージスによると木の近くで失くしたらしい。村の他の人に聞けば詳細が分かる"
+#~ "かも。"
+
+#~ msgid ""
+#~ "Orlinn had the pen and I ran after him all morning to get it back. I hope "
+#~ "he won't have any problems with Kalya..."
+#~ msgstr ""
+#~ "オーリンがペンを持っていて、彼を追い回している内に朝が終わってしまった。こ"
+#~ "れ以上オーリンがカルヤに迷惑をかけないことを祈ろう..."
+
+#~ msgid "Village center"
+#~ msgstr "村の中心"
+
+#~ msgid "Catch Orlinn!"
+#~ msgstr "オーリンを捕まえろ！"
+
+#~ msgid ""
+#~ "Orlinn has the pen that I need to return to Georges! The only problem now "
+#~ "is I have to find out where he's hiding. Hmm, it shouldn't take long."
+#~ msgstr ""
+#~ "ジョージスに頼まれたペンをオーリンが持っていた！後は隠れたオーリンを探すだ"
+#~ "けだ。うん、そう長くはかからないだろう。"
+
+#~ msgid ""
+#~ "After chasing him around the village all morning, I finally have the pen. "
+#~ "Time to bring it back to Georges."
+#~ msgstr ""
+#~ "朝の間ずっとオーリンを追い回すことになったけど、ペンを手に入れることができ"
+#~ "た。ジョージスに返そう。"
+
+#~ msgid "Catch the chickens"
+#~ msgstr "ニワトリを捕まえろ"
+
+#~ msgid ""
+#~ "Grandma asked me to catch the chickens that flew away. There are three of "
+#~ "them."
+#~ msgstr ""
+#~ "逃げ出したニワトリたちを捕まえるようにばあちゃんに頼まれた。全部で3匹だ。"
+
+#~ msgid "I was able to find them!"
+#~ msgstr "全部見つけたぞ！"
+
+#~ msgid "Path to Kalya's house"
+#~ msgstr "カルヤの家への道"
+
+#~ msgid "Let's go to the woods."
+#~ msgstr "森に向かおう。"
+
+#~ msgid ""
+#~ "It's been weeks since I could go outside the village.\n"
+#~ " \n"
+#~ "The entrance has been shut with stones, and now they won't even let me go "
+#~ "and breathe in the only place I could be alone?!?\n"
+#~ " \n"
+#~ "Whatever. I need a sword just in case, and I'll get there alone!"
+#~ msgstr ""
+#~ "最後に村を出てから何週間か経っている。\n"
+#~ "\n"
+#~ "村の入り口は石で閉ざされているし、みんな僕を外出させようとはしない。村の外"
+#~ "で一人でのんびりすることすらできないのか！？\n"
+#~ "\n"
+#~ "何かあった時のために剣が必要になるだろう、森に一人で行くのだから！"
+
+#~ msgid "I'm now equipped, and access to the forest has been granted!"
+#~ msgstr "装備はできたし、森への通行許可も出たぞ！"
+
+#~ msgid "Orlinn might be in danger!"
+#~ msgstr "オーリン危うし！"
+
+#~ msgid ""
+#~ "After seeing that strange light, Orlinn ran into the woods. He's just a "
+#~ "kid, even if a quick one!\n"
+#~ " \n"
+#~ "My father asked me to go there with Kalya and bring him back safe and "
+#~ "sound.\n"
+#~ " \n"
+#~ "I can't let them down!"
+#~ msgstr ""
+#~ "奇妙な光を見たあと、オーリンが森の中に走っていった。すばしっこいとはいえ、"
+#~ "オーリンはただの子どもだ！\n"
+#~ "\n"
+#~ "父さんにカルヤと一緒にオーリンを安全なところに連れて帰るように言われた。\n"
+#~ "\n"
+#~ "みんなを失望させる訳にはいかない！"
+
+#~ msgid ""
+#~ "We finally retrieved Orlinn in the center of the forest. A mysterious "
+#~ "wolf was protecting him, and we came just in time to prevent him from "
+#~ "approaching a strange crystal."
+#~ msgstr ""
+#~ "ついに森の中央でオーリンを取り戻すことができた。ミステリアスなオオカミが"
+#~ "オーリンを守っていた。僕たちはちょうど彼が奇妙なクリスタルに近づいている時"
+#~ "にたどり着いた。"
+
+#~ msgid "We must escape from the soldiers."
+#~ msgstr "兵士から逃げなければ。"
+
+#~ msgid ""
+#~ "After we returned to the village, Kalya was caught by strange soldiers. "
+#~ "The country lord himself provoked me in battle and thanks to her, we "
+#~ "escaped for now.\n"
+#~ " \n"
+#~ "But this isn't over. The soldiers are after us and we have to make our "
+#~ "way through."
+#~ msgstr ""
+#~ "村に戻った後、カルヤが奇妙な兵士に捕まってしまった。この国の領主その人が僕"
+#~ "に向かって戦うように挑発してきたんだ！でもカルヤのおかげで、なんとか逃げる"
+#~ "ことができた。\n"
+#~ "\n"
+#~ "でもまだ終わりじゃない。兵士たちは追跡してきてるから、逃げ道を見つけなけれ"
+#~ "ば。"
+
+#~ msgid "We managed to find a way up to the mountain top."
+#~ msgstr "僕たちは山の頂上への道を見つけることができた。"
+
+#~ msgid "Kalya's home basement"
+#~ msgstr "カルヤの家の地下"
+
+#~ msgid "Royal Silk"
+#~ msgstr "ロイヤルシルク"
+
+#~ msgid "Black Sleet"
+#~ msgstr "黒みぞれ"
+
+#~ msgid "Elvish Feather"
+#~ msgstr "エルフ装束"
+
+#~ msgid "Layna Forest"
+#~ msgstr "ライナの森"
+
+#~ msgid "Mt. Elbrus"
+#~ msgstr "エルブラス山"
+
+#~ msgid "Thanks for playing!!"
+#~ msgstr "Thanks for playing!!"
+
+#~ msgid "Episode I"
+#~ msgstr "エピソード I"
+
+#~ msgid "Story"
+#~ msgstr "ストーリー"
+
+#~ msgid "Lead Programming, Scripting, Maps"
+#~ msgstr "リードプログラミング、スクリプト、マップ"
+
+#~ msgid "Additional programming and scripting"
+#~ msgstr "追加のプログラミングとスクリプト"
+
+#~ msgid ""
+#~ "Balancing, ...\n"
+#~ "\n"
+#~ "Quest log, Minimap support, ...\n"
+#~ "\n"
+#~ "Shop Trade mode support, ...\n"
+#~ "\n"
+#~ "UI theme change menu support, ...\n"
+#~ "\n"
+#~ "GL code improvement, ...\n"
+#~ "\n"
+#~ "Multiple screen fix, ...\n"
+#~ "\n"
+#~ "Misc fixes\n"
+#~ "\n"
+#~ "Joystick handling fixes"
+#~ msgstr ""
+#~ "バランス調整、...\n"
+#~ "\n"
+#~ "クエストログ、ミニマップサポート、...\n"
+#~ "\n"
+#~ "ショップトレードモードのサポート、...\n"
+#~ "\n"
+#~ "UIテーマ変更メニューのサポート、...\n"
+#~ "\n"
+#~ "GLコードの改善、...\n"
+#~ "\n"
+#~ "マルチスクリーンの修正、...\n"
+#~ "\n"
+#~ "様々な修正\n"
+#~ "\n"
+#~ "ジョイスティック処理の修正"
+
+#~ msgid "Graphics"
+#~ msgstr "グラフィック"
+
+#~ msgid ""
+#~ "Village tileset, ...\n"
+#~ "\n"
+#~ "Cemetery tileset, ...\n"
+#~ "\n"
+#~ "Heroes portraits, ...\n"
+#~ "\n"
+#~ "Heroes sprites, Cave tilesets, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "Forest battle backgrounds, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "The Fenrir\n"
+#~ "\n"
+#~ "A lot of various things"
+#~ msgstr ""
+#~ "村のタイルセット、...\n"
+#~ "\n"
+#~ "墓地のタイルセット、...\n"
+#~ "\n"
+#~ "ヒーローたちのスプライト、洞窟のタイルセット、...\n"
+#~ "\n"
+#~ "\n"
+#~ "森の戦闘風景、...\n"
+#~ "\n"
+#~ "\n"
+#~ "フェンリル\n"
+#~ "\n"
+#~ "たくさんのいろいろなもの"
+
+#~ msgid "Music"
+#~ msgstr "音楽"
+
+#~ msgid ""
+#~ "\n"
+#~ "Main theme, Village music, ...\n"
+#~ "\n"
+#~ "Banesore's battle, ...\n"
+#~ "\n"
+#~ "Layna Forest music, ...\n"
+#~ "\n"
+#~ "Boss Music\n"
+#~ "\n"
+#~ "Battle music\n"
+#~ "\n"
+#~ "Birds' song\n"
+#~ "\n"
+#~ "Battle lost music\n"
+#~ "\n"
+#~ "Layna cave music"
+#~ msgstr ""
+#~ "\n"
+#~ "メインテーマ、村の音楽、...\n"
+#~ "\n"
+#~ "バネソールとの戦い、...\n"
+#~ "\n"
+#~ "ライナの森の音楽、...\n"
+#~ "\n"
+#~ "ボスの音楽\n"
+#~ "\n"
+#~ "バトルの音楽\n"
+#~ "\n"
+#~ "鳥の歌\n"
+#~ "\n"
+#~ "敗北の音楽\n"
+#~ "\n"
+#~ "ライナの洞窟の音楽"
+
+#~ msgid ""
+#~ "Sad theme\n"
+#~ "\n"
+#~ "Mountain music\n"
+#~ "\n"
+#~ "Mountain Shrine music\n"
+#~ "\n"
+#~ "Special Boss"
+#~ msgstr ""
+#~ "悲しみのテーマ\n"
+#~ "\n"
+#~ "山の音楽\n"
+#~ "\n"
+#~ "山の寺院の音楽\n"
+#~ "\n"
+#~ "スペシャルボス"
+
+#~ msgid "Sounds"
+#~ msgstr "サウンド"
+
+#~ msgid "Ports"
+#~ msgstr "ポート"
+
+#~ msgid "Translations"
+#~ msgstr "翻訳"
+
+#~ msgid ""
+#~ "English text review\n"
+#~ "\n"
+#~ "Dutch (nl_NL)\n"
+#~ "\n"
+#~ "French (fr)\n"
+#~ "\n"
+#~ "Galician (gl)\n"
+#~ "\n"
+#~ "German (de)"
+#~ msgstr ""
+#~ "英語テキストのチェック\n"
+#~ "\n"
+#~ "オランダ語（nl_NL）\n"
+#~ "\n"
+#~ "フランス語（fr）\n"
+#~ "\n"
+#~ "ガリシア語（gl）\n"
+#~ "\n"
+#~ "ドイツ語（de）"
+
+#~ msgid ""
+#~ "Italian (it)\n"
+#~ "\n"
+#~ "Portuguese (pt_PT)\n"
+#~ "\n"
+#~ "Russian (ru)\n"
+#~ "\n"
+#~ "Spanish (es)\n"
+#~ "\n"
+#~ "Swedish (sv)"
+#~ msgstr ""
+#~ "イタリア語（it）\n"
+#~ "\n"
+#~ "ポルトガル語（pt_PT）\n"
+#~ "\n"
+#~ "ロシア語（ru）\n"
+#~ "\n"
+#~ "スペイン語（es）\n"
+#~ "\n"
+#~ "スウェーデン語（sv）"
+
+#~ msgid "Testers"
+#~ msgstr "テスター"
+
+#~ msgid "And you..."
+#~ msgstr "そして、あなた..."
+
+#~ msgid "Valyria Tear was forked from Hero of Allacrost in 2011"
+#~ msgstr "Valyria Tearは2011年にHero of Allacrostからフォークされました"
+
+#~ msgid ""
+#~ "Allacrost Development Team (2004-2011)\n"
+#~ "\n"
+#~ "Founder and Lead Designer"
+#~ msgstr ""
+#~ "Allacrost開発チーム（2004-2011）\n"
+#~ "\n"
+#~ "創始者とリードデザイナー"
+
+#~ msgid "Allacrost Project Leads/Administrators"
+#~ msgstr "Allacrostプロジェクトのリーダー／管理者"
+
+#~ msgid "Allacrost Programming Team (2004-2011)"
+#~ msgstr "Allacrostプログラミングチーム（2004-2011）"
+
+#~ msgid ""
+#~ "Battle code, Menu code\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Game engine\n"
+#~ "\n"
+#~ "Map code\n"
+#~ "\n"
+#~ "Various game modes, content scripting\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Video engine, Audio engine\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Programming lead, Game engine, Map code"
+#~ msgstr ""
+#~ "バトルコード、メニューコード\n"
+#~ "\n"
+#~ "ゲームエディター\n"
+#~ "\n"
+#~ "ゲームエンジン\n"
+#~ "\n"
+#~ "マップコード\n"
+#~ "\n"
+#~ "様々なゲームモード、コンテンツスクリプト\n"
+#~ "\n"
+#~ "ビデオエンジン\n"
+#~ "\n"
+#~ "ビデオエンジン、オーディオエンジン\n"
+#~ "\n"
+#~ "ゲームエディター\n"
+#~ "\n"
+#~ "プログラミングリード、ゲームエンジン、マップコード"
+
+#~ msgid "Allacrost Programming Team"
+#~ msgstr "Allacrostプログラミングチーム"
+
+#~ msgid ""
+#~ "Boot code, Battle code\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Audio engine\n"
+#~ "\n"
+#~ "Various code, Mac OS X maintenance\n"
+#~ "\n"
+#~ "Game engine, Game modes, Windows build scripts\n"
+#~ "\n"
+#~ "Battle code\n"
+#~ "\n"
+#~ "Map editor\n"
+#~ "\n"
+#~ "Internationalization\n"
+#~ "\n"
+#~ "Video engine"
+#~ msgstr ""
+#~ "ブートコード、バトルコード\n"
+#~ "\n"
+#~ "ゲームエディター\n"
+#~ "\n"
+#~ "オーディオエンジン\n"
+#~ "\n"
+#~ "様々なコード、Mac OS Xメンテナンス\n"
+#~ "\n"
+#~ "ゲームエンジン、ゲームモード、Windowsビルドスクリプト\n"
+#~ "\n"
+#~ "バトルコード\n"
+#~ "\n"
+#~ "マップエディター\n"
+#~ "\n"
+#~ "国際化\n"
+#~ "\n"
+#~ "ビデオエンジン"
+
+#~ msgid ""
+#~ "Video engine, Game engine\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Scripting engine\n"
+#~ "\n"
+#~ "Various code\n"
+#~ "\n"
+#~ "Various code"
+#~ msgstr ""
+#~ "ビデオエンジン、ゲームエンジン\n"
+#~ "\n"
+#~ "ビデオエンジン\n"
+#~ "\n"
+#~ "ビデオエンジン\n"
+#~ "\n"
+#~ "スクリプトエンジン\n"
+#~ "\n"
+#~ "様々なコード\n"
+#~ "\n"
+#~ "様々なコード"
+
+#~ msgid "Allacrost Artwork Team (2004-2011)"
+#~ msgstr "Allacrostアートワークチーム（2004-2011）"
+
+#~ msgid ""
+#~ "Map sprites, Battle sprites, Character portraits, Location graphics\n"
+#~ "\n"
+#~ "Battle sprites, old Allacrost GUI artwork\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Allacrost website graphics, GUI artwork, Game logos\n"
+#~ "\n"
+#~ "Map tiles, map sprites, Inventory icons, Allacrost artwork coordination"
+#~ msgstr ""
+#~ "マップスプライト、バトルスプライト、キャラクターのポートレート、場所のグラ"
+#~ "フィック\n"
+#~ "\n"
+#~ "\n"
+#~ "バトルスプライト、古いAllacrostのGUIアートワーク\n"
+#~ "\n"
+#~ "マップタイル\n"
+#~ "\n"
+#~ "Allacrostウェブサイトのグラフィック、GUIアートワーク、ゲームロゴ\n"
+#~ "\n"
+#~ "マップタイル、マップスプライト、インベントリアイコン、Allacrosotアートワー"
+#~ "クコーディネーション"
+
+#~ msgid "Allacrost Artwork Team"
+#~ msgstr "Allacrostアートワークチーム"
+
+#~ msgid ""
+#~ "Concept art\n"
+#~ "\n"
+#~ "Inventory icons\n"
+#~ "\n"
+#~ "Map sprite animations\n"
+#~ "\n"
+#~ "Concept art\n"
+#~ "\n"
+#~ "Inventory icons\n"
+#~ "\n"
+#~ "Concept art, Map sprites\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Map sprites"
+#~ msgstr ""
+#~ "コンセプトアート\n"
+#~ "\n"
+#~ "インベントリアイコン\n"
+#~ "\n"
+#~ "マップスプライトアニメーション\n"
+#~ "\n"
+#~ "コンセプトアート\n"
+#~ "\n"
+#~ "インベントリアイコン\n"
+#~ "\n"
+#~ "コンセプトアート、マップスプライト\n"
+#~ "\n"
+#~ "マップタイル\n"
+#~ "\n"
+#~ "マップタイル\n"
+#~ "\n"
+#~ "マップスプライト"
+
+#~ msgid ""
+#~ "Map sprite animations\n"
+#~ "\n"
+#~ "Map sprite animations, Map tiles\n"
+#~ "\n"
+#~ "Concept art, Allacrost title screen image\n"
+#~ "\n"
+#~ "Concept art, Map sprites, Map tiles\n"
+#~ "\n"
+#~ "Concept art, Map sprites\n"
+#~ "\n"
+#~ "Map tiles"
+#~ msgstr ""
+#~ "マップスプライトアニメーション\n"
+#~ "\n"
+#~ "マップスプライトアニメーション、マップタイル\n"
+#~ "\n"
+#~ "コンセプトアート、Allacrostタイトルスクリーン画像\n"
+#~ "\n"
+#~ "コンセプトアート、マップスプライト、マップタイル\n"
+#~ "\n"
+#~ "コンセプトアート、マップスプライト\n"
+#~ "\n"
+#~ "マップタイル"
+
+#~ msgid ""
+#~ "Various art\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Enemy sprites\n"
+#~ "\n"
+#~ "Map sprites, Map tiles\n"
+#~ "\n"
+#~ "Map tiles, Inventory icons\n"
+#~ "\n"
+#~ "Map tiles, Battle sprites"
+#~ msgstr ""
+#~ "様々なアート\n"
+#~ "\n"
+#~ "マップタイル\n"
+#~ "\n"
+#~ "敵のスプライト\n"
+#~ "\n"
+#~ "マップスプライト、マップタイル\n"
+#~ "\n"
+#~ "マップタイル、インベントリアイコン\n"
+#~ "\n"
+#~ "マップタイル、バトルスプライト"
+
+#~ msgid "Allacrost Music and Sound Team (2004-2011)"
+#~ msgstr "Allacrost音楽・サウンドチーム（2004-2011）"
+
+#~ msgid ""
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Soundtrack composer\n"
+#~ "\n"
+#~ "Music and sound lead, Soundtrack composer\n"
+#~ "\n"
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Sound mixer\n"
+#~ "\n"
+#~ "Soundtrack composer"
+#~ msgstr ""
+#~ "サウンド作成\n"
+#~ "\n"
+#~ "サウンドトラック作成\n"
+#~ "\n"
+#~ "音楽・サウンドリード、サウンドトラック作成\n"
+#~ "\n"
+#~ "サウンド作成\n"
+#~ "\n"
+#~ "サウンド作成\n"
+#~ "\n"
+#~ "サウンドミキサー\n"
+#~ "\n"
+#~ "サウンドトラック作成"
+
+#~ msgid "Allacrost Special Thanks"
+#~ msgstr "Allacrost Special Thanks"
+
+#~ msgid ""
+#~ "Map Tiles\n"
+#~ "\n"
+#~ "Inventory Icons\n"
+#~ "\n"
+#~ "Map monster sprites"
+#~ msgstr ""
+#~ "マップタイル\n"
+#~ "\n"
+#~ "インベントリアイコン\n"
+#~ "\n"
+#~ "マップモンスタースプライト"
+
+#~ msgid "To be continued..."
+#~ msgstr "To be continued..."
+
+#~ msgid "Based on the engine"
+#~ msgstr "エンジンベース"
+
+#~ msgid "Episode I - Main Graphics"
+#~ msgstr "エピソード I - メイングラフィック"
+
+#~ msgid "Episode I - Additional Graphics"
+#~ msgstr "エピソード I - 追加のグラフィック"
+
+#~ msgid "and many others"
+#~ msgstr "その他"
+
+#~ msgid "Programming, Scripting, Maps"
+#~ msgstr "プログラミング、スクリプト、マップ"
+
+#~ msgid ""
+#~ "Additional programming\n"
+#~ "and scripting"
+#~ msgstr ""
+#~ "追加のプログラミング\n"
+#~ "とスクリプト"
+
+#~ msgid "Tester Team"
+#~ msgstr "テスターチーム"
+
+#~ msgid "To Lilou and Léo..."
+#~ msgstr "LilouとLéoへ..."
+
+#~ msgid ""
+#~ "Thanks to everyone\n"
+#~ "who made this possible!!"
+#~ msgstr ""
+#~ "この作品を手伝ってくれた\n"
+#~ "みんなに感謝！！"
+
+#~ msgid "Your party feels better."
+#~ msgstr "パーティーは回復した。"
+
+#~ msgid "Look!"
+#~ msgstr "見ろ！"
+
+#~ msgid ""
+#~ "Have you seen one of these before? This is a Layna statue. Praying near "
+#~ "it heals both your mind and body."
+#~ msgstr ""
+#~ "これを見たことはあるか？ライナの像だ。近くで祈ることで、心と体を癒やしても"
+#~ "らえる。"
+
+#~ msgid "Ok, thanks."
+#~ msgstr "なるほど、ありがとう。"
+
+#~ msgid "See? Now, let's find my brother before he gets hurt."
+#~ msgstr "分かったか？弟が怪我する前に連れ戻す。"
+
+#~ msgid "As you wish. Follow me."
+#~ msgstr "分かった。ついて来い。"
+
+#~ msgid "Bronann"
+#~ msgstr "ブロナン"
+
+#~ msgid "Kalya"
+#~ msgstr "カルヤ"
+
+#~ msgid "Invocation"
+#~ msgstr "サモン"
+
+#~ msgid "Sylve"
+#~ msgstr "シルヴィ"
+
+#~ msgid "Mist"
+#~ msgstr "ミスト"
+
+#~ msgid "Thanis"
+#~ msgstr "タニス"
+
+#~ msgid "Acheron"
+#~ msgstr "アケロン"
+
+#~ msgid "Body"
+#~ msgstr "体"
+
+#~ msgid "Abdomen"
+#~ msgstr "腹"
+
+#~ msgid "Fenrir"
+#~ msgstr "フェンリル"
+
+#~ msgid "Snake"
+#~ msgstr "ヘビ"
+
+#~ msgid "Tail"
+#~ msgstr "尻尾"
+
+#~ msgid "Slime Mother"
+#~ msgstr "マザースライム"
+
+#~ msgid "Bat"
+#~ msgstr "コウモリ"
+
+#~ msgid "Wing"
+#~ msgstr "翼"
+
+#~ msgid "Dark Soldier"
+#~ msgstr "闇の兵士"
+
+#~ msgid "Lord Banesore"
+#~ msgstr "バネソール卿"
+
+#~ msgid "Shroom"
+#~ msgstr "シュルーム"
+
+#~ msgid "Eyeball"
+#~ msgstr "メンタマ"
+
+#~ msgid "Eye"
+#~ msgstr "目"
+
+#~ msgid "Harlequin?"
+#~ msgstr "ハーレクイン？"
+
+#~ msgid "Harlequin"
+#~ msgstr "ハーレクイン"
+
+#~ msgid "Beetle"
+#~ msgstr "ビートル"
+
+#~ msgid "Chest"
+#~ msgstr "胸"
+
+#~ msgid "Rat"
+#~ msgstr "ネズミ"
+
+#~ msgid "Thing"
+#~ msgstr "アレ"
+
+#~ msgid "Yeti"
+#~ msgstr "イエティ"
+
+#~ msgid "Skeleton"
+#~ msgstr "ガイコツ"
+
+#~ msgid "Leg"
+#~ msgstr "脚"
+
+#~ msgid "Dorver"
+#~ msgstr "ドーヴァー"
+
+#~ msgid "Andromalius"
+#~ msgstr "アンドロマリウス"
+
+#~ msgid "Scorpion"
+#~ msgstr "サソリ"
+
+#~ msgid "Dune Crawler"
+#~ msgstr "砂丘を這うヤツ"
+
+#~ msgid "Stygian Lizard"
+#~ msgstr "サンズのトカゲ"
+
+#~ msgid "Claw"
+#~ msgstr "爪"
+
+#~ msgid "Demonic Essence"
+#~ msgstr "悪魔の化身"
+
+#~ msgid "Face"
+#~ msgstr "顔"
+
+#~ msgid "Red Slime"
+#~ msgstr "レッドスライム"
+
+#~ msgid "Mushroom Zombie"
+#~ msgstr "シュルームゾンビ"
+
+#~ msgid "Scorpion Goliath"
+#~ msgstr "巨大サソリ"
+
+#~ msgid "Pincer"
+#~ msgstr "鋏"
+
+#~ msgid "Armored Beast"
+#~ msgstr "重装獣"
+
+#~ msgid "Mesosoma"
+#~ msgstr "中体部"
+
+#~ msgid "Pincers"
+#~ msgstr "鋏"
+
+#~ msgid "Daemarbora"
+#~ msgstr "アクマボラ"
+
+#~ msgid "Trunk"
+#~ msgstr "幹"
+
+#~ msgid "Branches"
+#~ msgstr "枝"
+
+#~ msgid "Aerocephal"
+#~ msgstr "エアロセファロ"
+
+#~ msgid "Forehead"
+#~ msgstr "前頭部"
+
+#~ msgid "Orifice"
+#~ msgstr "口"
+
+#~ msgid "Arcana Drake"
+#~ msgstr "神秘のドレーク"
+
+#~ msgid "Nagaruda"
+#~ msgstr "ナーガルーダ"
+
+#~ msgid "Deceleon"
+#~ msgstr "デセレロン"
+
+#~ msgid "Arm"
+#~ msgstr "腕"
+
+#~ msgid "Aurum Drakueli"
+#~ msgstr "オーラ・ドラクエリ"
+
+#~ msgid "Carson"
+#~ msgstr "カーソン"
+
+#~ msgid "Malta"
+#~ msgstr "マルタ"
+
+#~ msgid "Orlinn"
+#~ msgstr "オーリン"
+
+#~ msgid "Herth"
+#~ msgstr "ハース"
+
+#~ msgid "Olivia"
+#~ msgstr "オリヴィア"
+
+#~ msgid "Brymir"
+#~ msgstr "ブライミー"
+
+#~ msgid "Martha"
+#~ msgstr "マーサ"
+
+#~ msgid "Sophia"
+#~ msgstr "ソフィア"
+
+#~ msgid "Lilly"
+#~ msgstr "リリー"
+
+#~ msgid "Georges"
+#~ msgstr "ジョージス"
+
+#~ msgid "Crystal"
+#~ msgstr "クリスタル"
+
+#~ msgid "Soldier"
+#~ msgstr "兵士"
+
+#~ msgid "Chicken"
+#~ msgstr "ニワトリ"
+
+#~ msgid "Butterfly"
+#~ msgstr "チョウチョ"
+
+#~ msgid "Squirrel"
+#~ msgstr "リス"
+
+#~ msgid "Lord"
+#~ msgstr "貴族"
+
+#~ msgid "Strength"
+#~ msgstr "力"
+
+#~ msgid "Vigor"
+#~ msgstr "生命"
+
+#~ msgid "Fortitude"
+#~ msgstr "精神"
+
+#~ msgid "Protection"
+#~ msgstr "防御"
+
+#~ msgid "Agility"
+#~ msgstr "敏捷"
+
+#~ msgid "Evasion"
+#~ msgstr "回避"
+
+#~ msgid "Paralysis"
+#~ msgstr "麻痺"
+
+#~ msgid "Fire Elemental Strength"
+#~ msgstr "炎のエレメンタルの力"
+
+#~ msgid "Water Elemental Strength"
+#~ msgstr "水のエレメンタルの力"
+
+#~ msgid "Wind Elemental Strength"
+#~ msgstr "風のエレメンタルの力"
+
+#~ msgid "Earth Elemental Strength"
+#~ msgstr "大地のエレメンタルの力"
+
+#~ msgid "Life Elemental Strength"
+#~ msgstr "生命のエレメンタルの力"
+
+#~ msgid "Death Elemental Strength"
+#~ msgstr "死のエレメンタルの力"
+
+#~ msgid "Neutral Elemental Strength"
+#~ msgstr "中立のエレメンタルの力"
+
+#~ msgid "Prismatic Ring"
+#~ msgstr "プリズムの指輪"
+
+#~ msgid "A strange ring that protects the wearer from darkness."
+#~ msgstr "装備すると闇から身を守ってくれる、奇妙な指輪。"
+
+#~ msgid "Wooden Shield"
+#~ msgstr "木の盾"
+
+#~ msgid "Robust wooden oak protects from all but the heaviest of assaults."
+#~ msgstr "丈夫なオークの木が身を守ってくれるが、重い攻撃には耐え切れない。"
+
+#~ msgid "Metal Shield"
+#~ msgstr "金属の盾"
+
+#~ msgid ""
+#~ "A shield formed completely out of a light-weight but cheap metallic alloy."
+#~ msgstr "安くて軽量な合金で作られた盾。"
+
+#~ msgid "Phoenix Shield"
+#~ msgstr "不死鳥の盾"
+
+#~ msgid "A tall steel shield with a mighty phoenix emblazoned on the front."
+#~ msgstr "縦長な鉄製の盾。不死鳥の紋章が装飾されている。"
+
+#~ msgid "Trident Shield"
+#~ msgstr "トライデントシールド"
+
+#~ msgid ""
+#~ "A large shield with enough fortitude to withstand waves of powerful "
+#~ "attacks."
+#~ msgstr "強力な攻撃が押し寄せてきても耐え切ることができる、大きな盾。"
+
+#~ msgid "Butterfly Hair Tong"
+#~ msgstr "チョウチョの髪飾り"
+
+#~ msgid "An old and finely crafted piece of jewelery."
+#~ msgstr "宝石の欠片で作られた、古くて立派な髪飾り。"
+
+#~ msgid "Wolfpain Necklace"
+#~ msgstr "ウルフペイン・ネックレス"
+
+#~ msgid "A strange necklace with unknown powers."
+#~ msgstr "未知のパワーを秘めた奇妙なネックレス。"
+
+#~ msgid "Old Helmet"
+#~ msgstr "古びた兜"
+
+#~ msgid "A battle-worn helmet, still reliable for head protection."
+#~ msgstr "戦いで使われていた兜。未だに頭を守るのに十分な信頼性がある。"
+
+#~ msgid "Cobalt Helm"
+#~ msgstr "コバルトヘルム"
+
+#~ msgid "A small helmet composed of a secret cobalt-based alloy."
+#~ msgstr "秘密のコバルト合金で作られた、小さな兜"
+
+#~ msgid "Crested Helmet"
+#~ msgstr "トサカの兜"
+
+#~ msgid ""
+#~ "A sturdy helmet with a hinged face guard offering additional protection."
+#~ msgstr ""
+#~ "頑丈なヘルメット。フェイスガードがヒンジで取り付けてあり、防御力を高めてい"
+#~ "る。"
+
+#~ msgid "Minor Healing Potion"
+#~ msgstr "小回復の薬"
+
+#~ msgid "Restores a small amount of hit points to an ally."
+#~ msgstr "味方のHPを少し回復する。"
+
+#~ msgid "Medium Healing Potion"
+#~ msgstr "中回復の薬"
+
+#~ msgid "Restores a reasonable amount of hit points to an ally."
+#~ msgstr "味方のHPをそこそこ回復する。"
+
+#~ msgid "Healing Potion"
+#~ msgstr "回復の薬"
+
+#~ msgid "Restores a large amount of hit points to an ally."
+#~ msgstr "味方の体力を大きく回復する"
+
+#~ msgid "Mega Healing Potion"
+#~ msgstr "大回復の薬"
+
+#~ msgid "Restores a very high amount of hit points to an ally."
+#~ msgstr "味方の体力をかなりの量回復する。"
+
+#~ msgid "Small Moon Juice Potion"
+#~ msgstr "月の雫"
+
+#~ msgid "Restores a small amount of skill points to an ally."
+#~ msgstr "味方のSPを少し回復する。"
+
+#~ msgid "Medium Moon Juice Potion"
+#~ msgstr "月の小川"
+
+#~ msgid "Restores a reasonable amount of skill points to an ally."
+#~ msgstr "味方のSPをそこそこ回復する。"
+
+#~ msgid "Moon Juice Potion"
+#~ msgstr "月の川"
+
+#~ msgid "Restores a large amount of skill points to an ally."
+#~ msgstr "味方のSPを大きく回復する。"
+
+#~ msgid "Mega Moon Juice Potion"
+#~ msgstr "月の大河"
+
+#~ msgid "Restores a very high amount of skill points to an ally."
+#~ msgstr "味方のSPをかなりの量回復する。"
+
+#~ msgid "Lotus Petal"
+#~ msgstr "蓮の花"
+
+#~ msgid "Cures moderate poisons from an ally."
+#~ msgstr "味方を解毒する。"
+
+#~ msgid "Candy"
+#~ msgstr "飴"
+
+#~ msgid "Makes an ally's health regenerate moderately."
+#~ msgstr "味方の傷を徐々に回復していく。"
+
+#~ msgid "Minor Elixir"
+#~ msgstr "少しの万能薬"
+
+#~ msgid ""
+#~ "Revives a character, or improves the character's status when he/she is "
+#~ "alive by a limited degree."
+#~ msgstr ""
+#~ "キャラを蘇生するか、生きている場合はある程度ステータスを上昇させる。"
+
+#~ msgid "Elixir"
+#~ msgstr "万能薬"
+
+#~ msgid ""
+#~ "Revives a character to half of their hit points, or reasonably improves "
+#~ "the character's status while he/she is alive."
+#~ msgstr ""
+#~ "キャラの体力を半分まで回復させて蘇生する。生きているキャラに使うと、そこそ"
+#~ "こステータスが上昇する。"
+
+#~ msgid "Periwinkle Potion"
+#~ msgstr "ニチニチソウの薬"
+
+#~ msgid ""
+#~ "Gives a reasonable boost in strength to an ally for a large amount of "
+#~ "time."
+#~ msgstr "結構長い間、味方の力をそこそこブーストする。"
+
+#~ msgid "Haste Potion"
+#~ msgstr "迅速の薬"
+
+#~ msgid ""
+#~ "Gives a reasonable boost in agility to an ally for a small amount of time."
+#~ msgstr "少しの間、味方の敏捷をブーストする。"
+
+#~ msgid "Poison Potion"
+#~ msgstr "毒薬"
+
+#~ msgid "Poisons an enemy for a small amount of time."
+#~ msgstr "少しの間、敵に毒を与える。"
+
+#~ msgid "Copper Ore"
+#~ msgstr "銅鉱石"
+
+#~ msgid "A small amount of copper ore."
+#~ msgstr "少しの量の銅鉱石。"
+
+#~ msgid "Iron Ore"
+#~ msgstr "鉄鉱石"
+
+#~ msgid "A small amount of iron ore."
+#~ msgstr "少しの量の鉄鉱石。"
+
+#~ msgid "Titanium Ore"
+#~ msgstr "チタニウム鉱石"
+
+#~ msgid "A small amount of titanium ore."
+#~ msgstr "少しの量のチタニウム鉱石"
+
+#~ msgid "Anthozium Ore"
+#~ msgstr "アンソジウム鉱石"
+
+#~ msgid "A small amount of anthozium ore."
+#~ msgstr "少しの量のアンソジウム鉱石。"
+
+#~ msgid "Auridium Ore"
+#~ msgstr "オーリジウム鉱石"
+
+#~ msgid "A small amount of auridium ore."
+#~ msgstr "少しの量のオーリジウム鉱石。"
+
+#~ msgid "Borium Ore"
+#~ msgstr "ボリウム鉱石"
+
+#~ msgid "A small amount of borium ore."
+#~ msgstr "少しの量のボリウム鉱石"
+
+#~ msgid "Evanium Ore"
+#~ msgstr "エヴァニウム鉱石"
+
+#~ msgid "A small amount of evanium ore."
+#~ msgstr "少しの量のエヴァニウム鉱石。"
+
+#~ msgid "Phoenix Feather"
+#~ msgstr "不死鳥の羽"
+
+#~ msgid ""
+#~ "A genuine and perfect feather from the great fire bird. It is known to "
+#~ "bring life to inanimated items."
+#~ msgstr ""
+#~ "すごい火の鳥の本物でパーフェクトな羽。無生物に命を与えることで知られる。"
+
+#~ msgid "Escape Smoke"
+#~ msgstr "ケムリダマ"
+
+#~ msgid ""
+#~ "A ninja potion that bursts out a damp mist when it is crashed on the "
+#~ "ground. Used to hopefully escape from standard opponents."
+#~ msgstr ""
+#~ "忍者の用いる薬であり、地面で砕けると煙を撒き散らす。普通の敵からなら逃げれ"
+#~ "る。"
+
+#~ msgid "Pen"
+#~ msgstr "ペン"
+
+#~ msgid "Georges's pen, presumably used to write poetry."
+#~ msgstr "ジョージスのペンで、おそらく詩を書くのに使われているのだろう。"
+
+#~ msgid "Barley Meal"
+#~ msgstr "大麦粉"
+
+#~ msgid "Basic yet good and cheap flour."
+#~ msgstr "安い、良い、普通な粉。"
+
+#~ msgid "Leather boots"
+#~ msgstr "革のブーツ"
+
+#~ msgid "Simple but fairly good leather boots."
+#~ msgstr "シンプルでグッドな革の靴。"
+
+#~ msgid "Standard Greaves"
+#~ msgstr "普通のすね当て"
+
+#~ msgid ""
+#~ "Standard equipment. Light metal alloy protects the legs while minimizing "
+#~ "the negative impact on movement."
+#~ msgstr ""
+#~ "普通な装備。軽合金性のため、移動速度の低下を抑えつつも足を守ってくれる。"
+
+#~ msgid "Tempered Greaves"
+#~ msgstr "強化すね当て"
+
+#~ msgid ""
+#~ "Standard greaves that have undergone an additional tempering process, "
+#~ "increasing their durability and strength."
+#~ msgstr ""
+#~ "普通のすね当てだが、さらに鍛えられている。耐久力と強度が増している。"
+
+#~ msgid "Ardoris"
+#~ msgstr "アルドリス"
+
+#~ msgid "An enchanting child of fire."
+#~ msgstr "魅惑的な炎の子供。"
+
+#~ msgid "Undine"
+#~ msgstr "ウンディーネ"
+
+#~ msgid "A mesmerizing spirit of living water."
+#~ msgstr "命を持つ水の精霊。魅力的。"
+
+#~ msgid "Sylphid"
+#~ msgstr "シルフィード"
+
+#~ msgid "A very rare spirit of wind, usually neither tamable nor catchable."
+#~ msgstr "非常に珍しい風の精霊。普通は捕まえたり育てたりはできない。"
+
+#~ msgid "Dryad"
+#~ msgstr "ドライアド"
+
+#~ msgid "A fragile spirit, child of mother nature."
+#~ msgstr "脆い精霊。母なる自然の子供。"
+
+#~ msgid "Fairy"
+#~ msgstr "フェアリー"
+
+#~ msgid "Blinding as the sun, she brings life even where death belongs."
+#~ msgstr ""
+#~ "太陽のように眩しい。死が迫っている場所にさえも、フェアリーは命をもたらす。"
+
+#~ msgid "Demona"
+#~ msgstr "デモナ"
+
+#~ msgid ""
+#~ "Spirit of the dark. It can't be possessed: it only chose to be possessed, "
+#~ "waiting for its hour."
+#~ msgstr ""
+#~ "闇の精霊。憑依させることはできない。憑依先を選ぶため、時が来るまで待ち続け"
+#~ "る。"
+
+#~ msgid "Oblivion"
+#~ msgstr "忘れられたやつ"
+
+#~ msgid ""
+#~ "Touched neither by time nor space, this spirit is dwelling in pure energy."
+#~ msgstr ""
+#~ "時間と空間とも関係なく、この精霊は純粋なエネルギーの中に潜んでいる。"
+
+#~ msgid "Rookie Tunic"
+#~ msgstr "ルーキーチュニック"
+
+#~ msgid ""
+#~ "A light tunic worn by new soldier recruits. This one belonged to "
+#~ "Bronann's father."
+#~ msgstr "新兵が着る軽量なチュニック。昔はブロナンの父のものだった。"
+
+#~ msgid "Old Willow Dress"
+#~ msgstr "古い柳細工のドレス"
+
+#~ msgid "An old willow dress that Kalya likes to wear."
+#~ msgstr "古い柳細工のドレス。カルヤのお気に入り。"
+
+#~ msgid "Tunic"
+#~ msgstr "チュニック"
+
+#~ msgid "An old light soldier tunic."
+#~ msgstr "軽量な兵士用のチュニック。"
+
+#~ msgid "Leather Cloak"
+#~ msgstr "革のマント"
+
+#~ msgid "A cloak worn by apprentices."
+#~ msgstr "見習いが着るマント。"
+
+#~ msgid "Leather Chain Mail"
+#~ msgstr "革の鎖鎧"
+
+#~ msgid "A light chain mail woven into a tough leather cuirass."
+#~ msgstr "軽量な鎖鎧。丈夫な革の胸当てを元に織られている。"
+
+#~ msgid "Karlate Breastplate"
+#~ msgstr "カルレトの胸当て"
+
+#~ msgid ""
+#~ "Standard Karlate issued equipment. Effectively protects the torso from "
+#~ "most types of attack."
+#~ msgstr "普通のカルレトの装備。攻撃から胴を守るのに効果的。"
+
+#~ msgid "Shouldered Breastplate"
+#~ msgstr "肩装甲付きの胸当て"
+
+#~ msgid ""
+#~ "A breastplate with slightly thicker armor than is commonly found and "
+#~ "additional shoulder guards."
+#~ msgstr "一般的な少し厚い胸当て。肩の装甲が追加されている。"
+
+#~ msgid "Wooden Sword"
+#~ msgstr "木剣"
+
+#~ msgid "A sword made of wood with a steel hilt, very good for practising."
+#~ msgstr "鉄製の柄がついた木の剣。訓練にはもってこい。"
+
+#~ msgid "Reinforced Wooden Sword"
+#~ msgstr "強化木剣"
+
+#~ msgid "A sword made of wood with a steel hilt, reinforced magically."
+#~ msgstr "鉄製の柄が付いた木の剣。魔法で強化されている。"
+
+#~ msgid "Perfect Wooden Sword"
+#~ msgstr "至高の木剣"
+
+#~ msgid ""
+#~ "A sword made of wood with a steel hilt, surrounded by a great magical "
+#~ "force."
+#~ msgstr "鉄製の柄が付いた木の剣。魔法の力をまとっている。"
+
+#~ msgid "Iron Sword"
+#~ msgstr "鉄剣"
+
+#~ msgid ""
+#~ "A sturdy but somewhat dull sword whose blade was forged from a single "
+#~ "block of solid iron."
+#~ msgstr "頑丈だが切れない剣。刃は一つの鉄塊から鍛え上げられている。"
+
+#~ msgid "Soldier Sword"
+#~ msgstr "兵士の剣"
+
+#~ msgid ""
+#~ "Standard soldier sword. A light weight iron sword suitable for most "
+#~ "skirmishes."
+#~ msgstr "普通の兵士の剣。軽量な鉄でできており、小競り合いに向いている。"
+
+#~ msgid "Knight's Blade"
+#~ msgstr "騎士の剣"
+
+#~ msgid "A weapon bestowed to seasoned veterans of the knighthood."
+#~ msgstr "騎士団から熟練者に送られる武器。"
+
+#~ msgid "Paladin's Sword"
+#~ msgstr "英雄の剣"
+
+#~ msgid "A mythical weapon blessed with a magical fire."
+#~ msgstr "魔法の炎に祝福された、神秘的な武器。"
+
+#~ msgid "Omni Sword"
+#~ msgstr "オムニソード"
+
+#~ msgid "Arbalest"
+#~ msgstr "弩"
+
+#~ msgid "A standard wooden arbalest."
+#~ msgstr "普通の木製弩。"
+
+#~ msgid "Noble Arbalest"
+#~ msgstr "高貴な弩"
+
+#~ msgid "An arbalest made out of fine noble ash tree wood."
+#~ msgstr "アッシュの木でできた高貴な弩。"
+
+#~ msgid "Arbalest of Force"
+#~ msgstr "力弩"
+
+#~ msgid "An arbalest strengthened with magical ore."
+#~ msgstr "魔法の鉱石で強化された弩。"
+
+#~ msgid "Makes waves fall on an enemy."
+#~ msgstr "敵一体に波をぶつける。"
+
+#~ msgid "A quicker and more powerful blow than the standard sword slash."
+#~ msgstr "ソードスラッシュより素早く、より強力な一撃。"
+
+#~ msgid ""
+#~ "I didn't know that there was a cave here. It's kind of creepy. Let's "
+#~ "hurry and find Orlinn."
+#~ msgstr "こんな場所に洞窟があったとは。気味が悪い、急がねば。"
+
+#~ msgid "It seems Orlinn was able to go through those platforms. Somehow."
+#~ msgstr "オーリンはここを通り抜けたようだ。どうやったかは分からない。"
+
+#~ msgid "Let's make our way through this before something bad happens to him."
+#~ msgstr ""
+#~ "オーリンに良くないことが起こる前に、ここをどうにかして通り抜けるぞ。"
+
+#~ msgid "Look, there is a stone slab on the ground. Let's check this out."
+#~ msgstr "見て、あそこの地面に石版がある。調べてみよう。"
+
+#~ msgid "It seems the way is clear now."
+#~ msgstr "道が開けたようだ。"
+
+#~ msgid ""
+#~ "(I also heard something falling outside. Let's hope it's nothing bad.)"
+#~ msgstr "（外で何かが落ちる音も聞こえた。悪いことではないよう祈ろう。）"
+
+#~ msgid "Stone sign"
+#~ msgstr "石標識"
+
+#~ msgid "Only the last one standing shall pass."
+#~ msgstr "最後の者だけが通ることができる。"
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid "'Here, only your enemies prevent you from going further.'"
+#~ msgstr "「敵が汝の前進を妨げる」"
+
+#~ msgid "You are able to decipher this writing, Kalya?"
+#~ msgstr "これが読めるのかい、カルヤ？"
+
+#~ msgid "Somehow. I'm not sure how I am able to, but I can read it."
+#~ msgstr "どうにか。どこで習ったかもわからないが、読める。"
+
+#~ msgid "However, I don't know what it means."
+#~ msgstr "でも、どういう意味なんだろう。"
+
+#~ msgid "Let's look around. We might find out."
+#~ msgstr "周りを見ろ。何か見つかるはず。"
+
+#~ msgid "Something heavy seems to have fallen nearby."
+#~ msgstr "何か重いものが落ちたようだ。"
+
+#~ msgid ""
+#~ "I can feel a breeze and see light entering the cave from around this "
+#~ "rock. Orlinn must have gone through here."
+#~ msgstr ""
+#~ "そよ風と光がこの岩の周りから洞窟に入ってきている。オーリンは間違いなくここ"
+#~ "を通った。"
+
+#~ msgid ""
+#~ "There are signs engraved on this rock, too. This looks like some kind of "
+#~ "mechanism my family used long ago."
+#~ msgstr ""
+#~ "この岩にも印が刻まれている。私の家系がずっと昔に使っていたもののようだ。"
+
+#~ msgid "Your family? Long ago?"
+#~ msgstr "君の家系が？ずっと昔に？"
+
+#~ msgid ""
+#~ "Err, nevermind. We must find a way to make this move. Let's look around."
+#~ msgstr "ああ、気にするな。これを動かす方法を見つけなければ。周りを探すぞ。"
+
+#~ msgid "Orlinn!"
+#~ msgstr "オーリン！"
+
+#~ msgid "I can feel it, sis'. It's coming!"
+#~ msgstr "感じるよ、姉ちゃん。来る！"
+
+#~ msgid "Orlinn, stop!"
+#~ msgstr "とまれ、オーリン！"
+
+#~ msgid "What's happening!?"
+#~ msgstr "何が起きている？"
+
+#~ msgid "Gosh! By all heavens, is this...?"
+#~ msgstr "なに！あれは一体...？"
+
+#~ msgid "A crystal stone?!"
+#~ msgstr "クリスタルストーン！？"
+
+#~ msgid "This is her. I heard her voice calling."
+#~ msgstr "彼女だよ。彼女の声を聞いたんだ。"
+
+#~ msgid "Dear chosen one, the time has finally come."
+#~ msgstr "ようこそ、選ばれし者よ。ついに時が満ちました。"
+
+#~ msgid "For us, it will be but an instant."
+#~ msgstr "私たちにとって、その時は重要ですが一瞬です。"
+
+#~ msgid "For you, it might be decades."
+#~ msgstr "あなたにとっては、それは何十年にもおよぶかもしれません。"
+
+#~ msgid "May you bring a happy end to this foolish destiny of ours."
+#~ msgstr "このくだらない運命の終わりには、幸せが待ち受けているでしょう。"
+
+#~ msgid "We're all anxiously awaiting your return."
+#~ msgstr "私たちはあなたが戻ってくるのを待っていました。"
+
+#~ msgid "Now, come. Become one with our holy hope."
+#~ msgstr "さあ、来て下さい。私たちの希望となるのです。"
+
+#~ msgid "What does all of this mean?"
+#~ msgstr "一体どういう意味だ？"
+
+#~ msgid "I shall become one with our only hope."
+#~ msgstr "僕がみんなの希望になる。"
+
+#~ msgid "What! Orlinn, no!"
+#~ msgstr "何だって！オーリン、だめだ！"
+
+#~ msgid "Bronann, the crystal! No!"
+#~ msgstr "ブロナン、クリスタルだ！待て！"
+
+#~ msgid "Bronann!"
+#~ msgstr "ブロナン！"
+
+#~ msgid "Bronann! Are you all right? Answer me!!"
+#~ msgstr "ブロナン！大丈夫か？答えてくれ！！"
+
+#~ msgid "Woah, where am I?"
+#~ msgstr "うー、ここはどこ？"
+
+#~ msgid "Sis! What's the matter? What happened?"
+#~ msgstr "姉ちゃん！どういうこと？何があったの？"
+
+#~ msgid "What happened? Orlinn, what have you done?"
+#~ msgstr "「何が起きた」だと？オーリン、今まで何をしていた？"
+
+#~ msgid "... My head."
+#~ msgstr "...頭が。"
+
+#~ msgid "Bronann! Are you alright?"
+#~ msgstr "ブロナン！無事か？"
+
+#~ msgid "I, I guess so."
+#~ msgstr "た、たぶん。"
+
+#~ msgid "The wolf! The crystal! Orlinn! Are you ok?"
+#~ msgstr "オオカミ！クリスタル！オーリン！大丈夫か？"
+
+#~ msgid "Don't worry, I'm fine. Err, what crystal? What... wolf??"
+#~ msgstr "心配ないよ、大丈夫。あー、クリスタルって何？オオカミ？？"
+
+#~ msgid "You won't be fine for long after I'm done with you!!"
+#~ msgstr "私のもとを離れてから、お前はずっと普通じゃなかった！！"
+
+#~ msgid "Huh? Wait, I didn't do anything this time!"
+#~ msgstr "え？待って、僕は何もしてないよ！"
+
+#~ msgid "Oh? You didn't?"
+#~ msgstr "ふん。何もしてないと？"
+
+#~ msgid "When I catch you, I'll make you wish you were never born! Rahh!"
+#~ msgstr "お前を捕まえたら、生まれたことを後悔させてやる！ウオー！"
+
+#~ msgid "Yiek!"
+#~ msgstr "イィー！"
+
+#~ msgid "Come here, now!"
+#~ msgstr "来い、今すぐ！"
+
+#~ msgid "(Sigh)... I should have stayed home today."
+#~ msgstr "...今日は家に引きこもっていた方が良かったみたいだ。"
+
+#~ msgid "Ouch, why is my head hurting so much?"
+#~ msgstr "イテテ、何故こんなに頭が痛むんだ？"
+
+#~ msgid ""
+#~ "Are you ok? We should head back to the village so Lilly can examine you."
+#~ msgstr "大丈夫か？村に戻ってリリーに診てもらうべきだな。"
+
+#~ msgid "I still feel really dizzy, but I'll be ok."
+#~ msgstr "まだけっこうクラクラするけど、大丈夫さ。"
+
+#~ msgid ""
+#~ "I'm relieved that Orlinn is fine as well. Speaking of that, Orlinn! Stop "
+#~ "running and come here right now!"
+#~ msgstr ""
+#~ "オーリンも無事で良かった。ブロナンのついでに心配してやっただけだがな、オー"
+#~ "リン！逃げるのを止めて今すぐここに来い！"
+
+#~ msgid "Owww. Alright."
+#~ msgstr "おぅ。分かったよ。"
+
+#~ msgid ""
+#~ "Now, Orlinn, tell us. Why on earth did you go into the forest alone, and "
+#~ "how did you get there so quickly?"
+#~ msgstr ""
+#~ "さあ、オーリン、話せ。何故森に一人で向かったのだ。どうやってあれほど速くこ"
+#~ "こに着いた？"
+
+#~ msgid "I don't know."
+#~ msgstr "わかんない。"
+
+#~ msgid "Why was that giant wolf protecting you?"
+#~ msgstr "なぜ巨大なオオカミが君を守っていたんだ？"
+
+#~ msgid "What was that crystal? Why did you want to 'become one' with it?"
+#~ msgstr "あのクリスタルはなんだ？なぜ「選ばれし者」になろうとした？"
+
+#~ msgid ""
+#~ "I, I, I sincerely don't know. I swear! It was like I was... dreaming."
+#~ msgstr ""
+#~ "ぼ、ぼ、僕にはわかんない。分からないんだ！まるで...夢を見ていたみたいだ。"
+
+#~ msgid "I merely remember a voice in my head, telling me to come."
+#~ msgstr "頭の中に聞こえた声しか覚えてないんだ。来いって言ってた。"
+
+#~ msgid "You know you won't get away with this. When you see Herth..."
+#~ msgstr ""
+#~ "このことからは逃れられないとわかっていたはずだ。お前がハースに出会ってか"
+#~ "ら..."
+
+#~ msgid "I swear it's the truth!"
+#~ msgstr "誓って言うけど、嘘は付いてないよ！"
+
+#~ msgid "Making one with the crystal, huh?"
+#~ msgstr "クリスタルの言っていた選ばれし者ってなんだ？"
+
+#~ msgid ""
+#~ "Let's not panic. Bronann, you look fine. Anyway, we'd better get back to "
+#~ "the village and see the elders as soon as possible."
+#~ msgstr ""
+#~ "落ち着いてくれ、ブロナン。お前は無事なようだな。何にしろ、出来る限りはやく"
+#~ "村に戻って大人たちに話した方が良い。"
+
+#~ msgid "What's that?!"
+#~ msgstr "何だ！？"
+
+#~ msgid ""
+#~ "Woah, that was quite a nasty fight. Why on earth was a north arctic "
+#~ "fenrir lurking in the forest? I thought it was merely a part of myths."
+#~ msgstr ""
+#~ "わお、不吉な戦いだよ。極北にいるフェンリルがなぜこの森に潜んでいたんだ？謎"
+#~ "が深まるな。"
+
+#~ msgid ""
+#~ "It ran away. I'm almost certain that we'll meet it again. We'd better be "
+#~ "more prepared next time."
+#~ msgstr ""
+#~ "逃げていったな。だが、また遭遇することになるだろう。次はもっと準備を整えな"
+#~ "ければ。"
+
+#~ msgid ""
+#~ "I'll try not to think about what it could have done to Orlinn. Let's find "
+#~ "him... quickly."
+#~ msgstr ""
+#~ "フェンリルがオーリンに何をしているのかは考えないほうがいいだろう。急い"
+#~ "で...オーリンを探そう。"
+
+#~ msgid "Orlinn, stop it RIGHT NOW!!"
+#~ msgstr "オーリン、今すぐ止まれ！！"
+
+#~ msgid "I can't sis. I can feel it... calling me."
+#~ msgstr "できないよ、姉ちゃん。感じるんだ...呼んでる。"
+
+#~ msgid "Quick! Let's follow him."
+#~ msgstr "急げ！オーリンを追う。"
+
+#~ msgid "Right!"
+#~ msgstr "もちろん！"
+
+#~ msgid "Great! The tremor has opened a path back to the village!"
+#~ msgstr "よし！あの地震のおかげで村への近道ができているぞ。"
+
+#~ msgid "Now we can get back to the village more quickly."
+#~ msgstr "村に素早く戻れる。"
+
+#~ msgid "We're almost there!"
+#~ msgstr "もうすぐだよ！"
+
+#~ msgid "Say sis, do you think Herth will be angry at me for what happened?"
+#~ msgstr "姉ちゃん、ハースがこのことを聞いたら怒るかな？"
+
+#~ msgid ""
+#~ "I don't think so, Orlinn. We both know you didn't do it on purpose, right?"
+#~ msgstr ""
+#~ "わからない。私たちはあれをお前がやるべきでないことはわかっていただろう？"
+
+#~ msgid "Ok."
+#~ msgstr "オーケー。"
+
+#~ msgid "Kalya, err..."
+#~ msgstr "カルヤ、あー..."
+
+#~ msgid "What is it, Bronann?"
+#~ msgstr "何だ、ブロナン？"
+
+#~ msgid "Hmm. Nevermind."
+#~ msgstr "いや、何でもない。"
+
+#~ msgid "Don't worry too much, Bronann. Herth will be able to help you."
+#~ msgstr "そんなに心配するな、ブロナン。ハースがお前を助けてくれる。"
+
+#~ msgid "Me? But..."
+#~ msgstr "僕を？でも..."
+
+#~ msgid "Thanks..."
+#~ msgstr "ありがとう..."
+
+#~ msgid "Thanks for your help."
+#~ msgstr "助けに感謝している。"
+
+#~ msgid "You're welcome."
+#~ msgstr "どういたしまして。"
+
+#~ msgid "Your party feels better..."
+#~ msgstr "パーティーは回復した..."
+
+#~ msgid "Woah, wait!"
+#~ msgstr "オイ、待て！"
+
+#~ msgid ""
+#~ "Look at the grass. Snakes like to hide in the tall grass. We need to be "
+#~ "careful because their venom causes drowsiness."
+#~ msgstr ""
+#~ "あの草原を見ろ。背の高い草には蛇が潜んでいる。眠気を引き起こす毒を持ってい"
+#~ "る、気をつけろ。"
+
+#~ msgid "(Bronann looks at the ground)"
+#~ msgstr "（ブロナンは地面を見ている）"
+
+#~ msgid "This water looks weird. Shall we drink it anyway?"
+#~ msgstr "奇妙な水だ。飲むべきだろうか？"
+
+#~ msgid "Yes, I'm so thirsty."
+#~ msgstr "喉が乾いているし、しょうがない。"
+
+#~ msgid "No way, we'd get sick."
+#~ msgstr "いや、病気になってもこまる。"
+
+#~ msgid "The party drinks the water and feels... alright?"
+#~ msgstr "パーティーは水を飲んで調子が...大丈夫かな？"
+
+#~ msgid "The party won't drink it."
+#~ msgstr "パーティーは飲まなかった。"
+
+#~ msgid "Yiek, it stinks in here."
+#~ msgstr "う、ひどい悪臭だ。"
+
+#~ msgid "Look at all those bones. We should be careful."
+#~ msgstr "骨がたくさんある。気をつけよう。"
+
+#~ msgid "I hope Orlinn is alright."
+#~ msgstr "オーリンが無事だと良いのだが。"
+
+#~ msgid "What a lovely necklace! I'll take it."
+#~ msgstr "かわいいネックレスだな！私がもらう。"
+
+#~ msgid ""
+#~ "Kalya. We're in the middle of a cave and you're only thinking about "
+#~ "wearing jewels?"
+#~ msgstr ""
+#~ "カルヤ。ここは洞窟の真ん中だよ、宝石に気を取られない方がいいんじゃないか？"
+
+#~ msgid ""
+#~ "Jewelry is a gift from the heavens to remind us that beauty can be as "
+#~ "pure on the outside as it is on the inside. Besides, it suits me better "
+#~ "than it would you."
+#~ msgstr ""
+#~ "宝石は天からの贈り物だ。美しさは外面だけでなく内面の純粋さも大事だというこ"
+#~ "とを教えてくれる。それに、これはお前よりも私に似合うだろう。"
+
+#~ msgid "Kalya! You'd better be careful!"
+#~ msgstr "カルヤ！気をつけるんだ！"
+
+#~ msgid "Don't even start, this one is all mine."
+#~ msgstr "何だ、これは私のものだぞ。"
+
+#~ msgid "Not the necklace, the fenrir!"
+#~ msgstr "ネックレスじゃない、フェンリルのことだよ！"
+
+#~ msgid "You can't be serious, we would have heard it come."
+#~ msgstr "フェンリルがどうかしたのか、あれが来る時には音が聞こえるだろう。"
+
+#~ msgid "Ah, well. You were serious, weren't you?"
+#~ msgstr "あー。冗談ではなかったのか？"
+
+#~ msgid ""
+#~ "It ran away again. I'm glad we survived. Let's get out of here before it "
+#~ "comes back."
+#~ msgstr ""
+#~ "また逃げた。まあ、生き延びれて良かったな。戻ってくる前に、ここを離れるとし"
+#~ "よう。"
+
+#~ msgid ""
+#~ "Woah, I wouldn't have expected monsters so close to the village. Bronann, "
+#~ "do you need a quick reminder about the basics of battle?"
+#~ msgstr ""
+#~ "ウー、村のすぐ近くにモンスターが来てるとは。ブロナン、戦い方は分かるか？"
+
+#~ msgid "Ask about battle basics."
+#~ msgstr "バトルの基本を尋ねる。"
+
+#~ msgid "Ask nothing. I know how to fight."
+#~ msgstr "何も聞かない。戦いの基礎ぐらいわかっている。"
+
+#~ msgid "Er, I could use a refresher on the fundamentals of combat."
+#~ msgstr "あー、戦いの基礎を思い出さなきゃ。"
+
+#~ msgid ""
+#~ "Here you can find the hit points (HP) and skill points (SP) of the ally "
+#~ "party. Don't let our HP reach 0 or we're doomed!"
+#~ msgstr ""
+#~ "これは味方のヒットポイント（HP）とスキルポイント（SP）だ。味方のHPが0にな"
+#~ "れば、オシマイだぞ！"
+
+#~ msgid ""
+#~ "In battle, our icons and those of our enemies will rise up on the stamina "
+#~ "bar. The more agility you have, the faster your icon will climb."
+#~ msgstr ""
+#~ "バトル中には、私たちのアイコンと敵のアイコンがスタミナバー上で上に向かって"
+#~ "いく。ブロナンの敏捷が高ければ高いほど、ブロナンのアイコンも速く上に上がっ"
+#~ "ていく。"
+
+#~ msgid ""
+#~ "Once an ally has reached the action level, you can select an action for "
+#~ "that ally. The battle is then paused and you've got all the time you need "
+#~ "to select one, so don't panic."
+#~ msgstr ""
+#~ "一度味方がアクションレベルに届けば、その味方キャラのアクションを選択するこ"
+#~ "とができる。選択中はバトルは一時停止されるから、落ち着いて選択してくれ。"
+
+#~ msgid ""
+#~ "There are two action types: The basic 'Weapon' to attack, and later you "
+#~ "can also use 'Magic' skills. Last but not least, you'll also be able to "
+#~ "use our 'Items'. Simply choose an action followed by a target to trigger "
+#~ "it."
+#~ msgstr ""
+#~ "アクションの種類には二つある：「武器」攻撃と、まだ身についてはいないが「魔"
+#~ "法」スキルだ。あとは、「アイテム」を使うこともできる。単純に実行したいアク"
+#~ "ションを選択してくれ。"
+
+#~ msgid ""
+#~ "The icon will still need to climb to the top of the stamina bar before "
+#~ "the selected action is executed. This is called the 'preparation time'. "
+#~ "Generally the more powerful the skill being executed, the longer it will "
+#~ "take to prepare."
+#~ msgstr ""
+#~ "選択したら終わりではなく、アクションが実行されるにはアイコンがスタミナバー"
+#~ "の頂上まで上昇する必要がある。これを「準備時間」と呼ぶ。一般的に、強力なス"
+#~ "キルであればあるほど、準備時間も伸びる。"
+
+#~ msgid ""
+#~ "By the way, you're not forced to wait for your icon to reach the action "
+#~ "level before you can select an action. When these two little arrows here "
+#~ "are highlighted, you can use your up and down keys to preselect an action "
+#~ "for the corresponding ally."
+#~ msgstr ""
+#~ "ところで、アクションを選択するためにアイコンがアクションレベルに到達するま"
+#~ "で待つ必要はないぞ。この2つの小さな矢印がハイライトされている時、Upキーと"
+#~ "Downキーを使うことで事前に味方の行動を選択することができる。"
+
+#~ msgid ""
+#~ "So long as the little arrows there are still visible, you can change the "
+#~ "selected action at any time."
+#~ msgstr "小さな矢印が見えている限り、選択済みの行動も変更可能だ。"
+
+#~ msgid "Don't forget that you can press '"
+#~ msgstr "忘れるなよ、「"
+
+#~ msgid "' if you need more details."
+#~ msgstr "」キーを押せば詳細が見れるからな。"
+
+#~ msgid "Shall I repeat all that?"
+#~ msgstr "もう一度聞きたいか？"
+
+#~ msgid "Yes, please."
+#~ msgstr "ああ、頼むよ。"
+
+#~ msgid "No, it's alright."
+#~ msgstr "いや、もう大丈夫だ。"
+
+#~ msgid "Don't worry Kalya, I have not forgotten my training."
+#~ msgstr "心配はいらないよ、カルヤ。訓練を忘れたりなんかしないさ。"
+
+#~ msgid "Thanks Kalya, I'm prepared now."
+#~ msgstr "カルヤ、ありがとう。準備OKだ。"
+
+#~ msgid "Good. Let us quickly dispatch this minor threat."
+#~ msgstr "よし。このたわいもない連中を片付けるぞ。"
+
+#~ msgid "Banesore"
+#~ msgstr "バネソール"
+
+#~ msgid "So, you think you can wound me?"
+#~ msgstr "お前ごときに私を傷付けることができると思うか？"
+
+#~ msgid "You? A child with an old wooden stick?"
+#~ msgstr "おまえにできるのか？木の棒を持った子供一人に？"
+
+#~ msgid ""
+#~ "You're stronger than I thought. But you are still too weak to challenge "
+#~ "me!"
+#~ msgstr "予想外にお前は強かった。だが、私に挑むには弱すぎる！"
+
+#~ msgid "Argh! It hurts!"
+#~ msgstr "うぐ！痛い！"
+
+#~ msgid "Yes! I can feel it coming closer to the surface!"
+#~ msgstr "おお！あれが地上に近づいているな！"
+
+#~ msgid "Let your fear grow, young boy!"
+#~ msgstr "さあ、もっと恐怖するがいい、お坊ちゃん！"
+
+#~ msgid "Bronann, don't listen to him!"
+#~ msgstr "ブロナン、ヤツの言うことを聞くな！"
+
+#~ msgid "I will... try."
+#~ msgstr "分かってる。"
+
+#~ msgid "Hmph. Soldiers, leave that man to me!"
+#~ msgstr "ふん。兵士よ、あの男は私に任せろ！"
+
+#~ msgid "So, it appears that you remember me, Banesore. Is that correct?"
+#~ msgstr "私を覚えているようだな、バネソール。そうだろう？"
+
+#~ msgid "I do remember you, old man..."
+#~ msgstr "覚えているぞ、老人よ。"
+
+#~ msgid ""
+#~ "Then, you already know that your zombified soldiers are no match for me."
+#~ msgstr ""
+#~ "それでは、お前のゾンビ兵士たちは私には通じないことぐらいわかっているだろ"
+#~ "う。"
+
+#~ msgid "Argh! My chest is burning!"
+#~ msgstr "ああ！胸が焼ける！"
+
+#~ msgid "Hold on Bronann!"
+#~ msgstr "ブロナン、こらえて！"
+
+#~ msgid "Escape"
+#~ msgstr "Escape"
+
+#~ msgid "Space"
+#~ msgstr "Space"
+
+#~ msgid "Ctrl"
+#~ msgstr "Ctrl"
+
+#~ msgid "Alt"
+#~ msgstr "Alt"
+
+#~ msgid "Shift"
+#~ msgstr "Shift"
+
+#~ msgid "Move your character:"
+#~ msgstr "キャラクターの移動："
+
+#~ msgid "Possible actions:"
+#~ msgstr "可能なアクション："
+
+#~ msgid "Game commands:"
+#~ msgstr "ゲームコマンド："
+
+#~ msgid ""
+#~ "I had that same nightmare again. This time, however, I still feel dizzy "
+#~ "even after getting up."
+#~ msgstr "またあの悪夢だ。もう起きたっていうのにまだクラクラするよ。"
+
+#~ msgid "I might as well move on and forget about it."
+#~ msgstr "体を動かして忘れた方が良さそうだ。"
+
+#~ msgid "You can come back here and save as many times as you want."
+#~ msgstr "ここに戻ってくれば、いつでもセーブすることができます。"
+
+#~ msgid ""
+#~ "Hey son! Did you sleep well? Hmm, now where did I leave that oil lamp?"
+#~ msgstr ""
+#~ "おう、息子よ！よく眠れたか？ふむ、ランプの油がどこにあるか知らんか？"
+
+#~ msgid "Hi Dad! Um, I don't know. Sorry."
+#~ msgstr "おはよう、父さん。ごめんけどわかんないや。"
+
+#~ msgid "Nah, no problem, I'll find it somewhere, eventually."
+#~ msgstr "そうか。ま、その内見つかるだろう。"
+
+#~ msgid ""
+#~ "Now that you're *finally* up, could you go buy some barley meal for us?"
+#~ msgstr "ようやくお目覚めね。大麦粉をいくつか買って来て欲しいのだけど。"
+
+#~ msgid "Barley meal? Again?"
+#~ msgstr "大麦粉？またかい？"
+
+#~ msgid "Hmph, just go boy. You'll be free after that, ok?"
+#~ msgstr "そう、お願いするわ。それが終わったら好きにしていいわよ。"
+
+#~ msgid "Thanks for helping me out with the dishes."
+#~ msgstr "夕食の手伝いごくろうさん。"
+
+#~ msgid "Say, mom? Why is the village entrance blocked?"
+#~ msgstr "母さん。なんで村の入り口が封鎖されてるんだ？"
+
+#~ msgid "Bronann, I'd like for you to not leave the village today."
+#~ msgstr "ブロナン、今日は村を離れない方が良いぞ。"
+
+#~ msgid "Huh?! What? Why? You told me that I could go into the forest and..."
+#~ msgstr "え？何？なんで？森に行ってもいいって..."
+
+#~ msgid "Sorry, son. It's maybe a bit early, but I'd like you to be careful."
+#~ msgstr "すまないな、息子よ。それにはまだ早い。それに、おまえが心配なんだ。"
+
+#~ msgid ""
+#~ "Hey, wait! All of the village elders' nerves are on edge. There is "
+#~ "something going on here! Why won't you tell me?"
+#~ msgstr ""
+#~ "ちょっと、待って！村の大人たちはみんな神経を尖らせてる。何かが起きようとし"
+#~ "ているんだ！なんでみんな僕には教えてくれないんだ？"
+
+#~ msgid "Neither of you?"
+#~ msgstr "父さんも母さんも教えてくれないのか？"
+
+#~ msgid "You really won't tell me?"
+#~ msgstr "僕に言うつもりはないのか？"
+
+#~ msgid "... It's not that simple, Bronann. Believe me."
+#~ msgstr "...そんなに単純なことじゃないのだ、ブロナン。信じてくれ。"
+
+#~ msgid ""
+#~ "Bronann, this time I want you to listen to your father very carefully. "
+#~ "Please, my dear."
+#~ msgstr "ブロナン、父さんの言う事をちゃんと聞きなさい。お願いだから。"
+
+#~ msgid "But mom!"
+#~ msgstr "でも、母さん！"
+
+#~ msgid "Bronann, please."
+#~ msgstr "ブロナン、お願いだ。"
+
+#~ msgid "(grumble)... Crap!"
+#~ msgstr "クソッ...！"
+
+#~ msgid "Maybe we should tell him."
+#~ msgstr "ブロナンに伝えるべきかもしれないわ。"
+
+#~ msgid "It's too early, darling. We might be wrong."
+#~ msgstr "まだ早い。だが、私たちは間違ってるのかもしれん。"
+
+#~ msgid "I really hope we are."
+#~ msgstr "できれば間違いであって欲しいものだ。"
+
+#~ msgid "Bronann, promise me that you'll be careful, ok?"
+#~ msgstr "ブロナン、無茶はだめよ。"
+
+#~ msgid "So, finally you're going away."
+#~ msgstr "ああ、ついにいっちまうんだね。"
+
+#~ msgid "Please, take this. It's not much but I hope it will help."
+#~ msgstr "これを持って行きな。大したものじゃないけど、役に立つはずよ。"
+
+#~ msgid "Thanks, mom."
+#~ msgstr "ありがとう、母さん。"
+
+#~ msgid "Take care, my son."
+#~ msgstr "気をつけなよ、ブロナン。"
+
+#~ msgid "(sigh)... Got it, mom!"
+#~ msgstr "...手に入れたよ、母さん！"
+
+#~ msgid "Perfect timing, let's have dinner."
+#~ msgstr "良い時間ね、ごはんにしましょう。"
+
+#~ msgid "Could you go and buy some barley meal for the three of us?"
+#~ msgstr "三人分の大麦粉を買ってきてくれない？"
+
+#~ msgid "Hi son, did you have a nightmare again last night?"
+#~ msgstr "ブロナン、また悪夢を見ていたのかい？"
+
+#~ msgid "Hi mom. Huh, how did you know?"
+#~ msgstr "母さん、なぜそのことを？"
+
+#~ msgid "Eh eh? Have you already forgotten that I'm your mother?"
+#~ msgstr "あん？私はあんたの母親だよ？"
+
+#~ msgid "Don't venture too far, I'll need your help soon!"
+#~ msgstr "そんなに遠くにいかないでくれよ、あんたの助けがいるからね！"
+
+#~ msgid "Finally, we made it back home."
+#~ msgstr "ようやく、家に戻れた。"
+
+#~ msgid ""
+#~ "I'll go and get Herth. Your parents must be worried. Go home. We'll meet "
+#~ "there."
+#~ msgstr ""
+#~ "ハースに会ってくる。お前の両親も心配しているだろう。家に帰れ。また会おう。"
+
+#~ msgid "I should really get back home."
+#~ msgstr "家に帰らなきゃな。"
+
+#~ msgid ""
+#~ "Weird, I don't see any lights on in there. I have a bad feeling about "
+#~ "this, let's get back home."
+#~ msgstr "妙だな、どこにも明かりが付いてない。嫌な予感がする、家に向かおう。"
+
+#~ msgid "Huh?"
+#~ msgstr "ん？"
+
+#~ msgid "What's happening here?! Where is everyone?"
+#~ msgstr "何が起こっているんだ！？みんなはどこだ？"
+
+#~ msgid "Help!"
+#~ msgstr "離せ！"
+
+#~ msgid "Kalya?!"
+#~ msgstr "カルヤ！？"
+
+#~ msgid "Let go of me! You cheap low-grade filthy jerks."
+#~ msgstr "離せ！この汚物、バカ、安月給！"
+
+#~ msgid "Keep quiet, little brat!"
+#~ msgstr "黙れ、耳障りだ！"
+
+#~ msgid "Soldiers wearing black armor... the Lord's personal guard!"
+#~ msgstr "黒い鎧を着た兵士...領主の近衛兵だ！"
+
+#~ msgid "Fortunately, they didn't see me or I would have been caught as well."
+#~ msgstr "僕にはまだ気付いていないみたいだ。"
+
+#~ msgid "I should follow them silently."
+#~ msgstr "尾行しよう。"
+
+#~ msgid "What am I doing? I should go and try to free Kalya!"
+#~ msgstr "僕は何をしているんだ？カルヤを助けなきゃ！"
+
+#~ msgid "Do you need something, Bronann?"
+#~ msgstr "何か探しているのか、ブロナン？"
+
+#~ msgid "Ahh sure! (gossip, gossip)"
+#~ msgstr "ああ、もちろん！（ぺちゃくちゃ）"
+
+#~ msgid "Did you hear that? (gossip, gossip)"
+#~ msgstr "奥さん、あのこと聞きましたか？（ぺちゃくちゃ）"
+
+#~ msgid "If you're running after Orlinn, I just saw him near your house."
+#~ msgstr "オーリンを追っているなら、君の家の近くで見かけたよ。"
+
+#~ msgid "You're too young to trade with me!"
+#~ msgstr "私とトレードしようなんて、君にはまだ早いよ！"
+
+#~ msgid "Hmm, I'll go to Flora's shop. I hope she'll help me."
+#~ msgstr "うーん、フローラの店へ行こう。フローラなら手を貸してくれるはず。"
+
+#~ msgid "ORLINN! Come here, NOW!"
+#~ msgstr "オーリン！来い、今すぐに！"
+
+#~ msgid "Orlinn, give back the pen to Bronann or I shall sma..."
+#~ msgstr "オーリン、ブロナンにペンを渡さないと、お前を殴っ..."
+
+#~ msgid "Yea, yes, here it is."
+#~ msgstr "あー、分かったよ。はい。"
+
+#~ msgid "I found that pen under a tree near the river. I just wanted to play."
+#~ msgstr ""
+#~ "このペンを川の近くにある木陰でみつけたんだ。僕はただ遊んで欲しかっただけな"
+#~ "んだ。"
+
+#~ msgid "Don't worry about it."
+#~ msgstr "いいよ、気にしないで。"
+
+#~ msgid "Why doesn't anyone tell me what's going on!"
+#~ msgstr "なんで誰も教えてくれないんだ！"
+
+#~ msgid ""
+#~ "Still, I have to go to the forest and figure out what they're trying to "
+#~ "hide from me."
+#~ msgstr "森へ行ってみんなが何を隠しているのか突き止めてやる。"
+
+#~ msgid ""
+#~ "No, I won't go there. I just can't talk to them at the moment. I'll go to "
+#~ "the forest without my father."
+#~ msgstr ""
+#~ "だめだ、家には戻れない。父さんと母さんとはしばらく話せない。一人で森に向か"
+#~ "うんだ。"
+
+#~ msgid "Huh? What was that light?"
+#~ msgstr "ん？あの光はなんだ？"
+
+#~ msgid "Bronann! Wait!"
+#~ msgstr "ブロナン！待て！"
+
+#~ msgid "I suppose you just saw that light, right?"
+#~ msgstr "お前はあの光を見たんだな？"
+
+#~ msgid "Ummm..."
+#~ msgstr "うーん..."
+
+#~ msgid ""
+#~ "Bronann, there is something that I have to tell you. We've been fearing "
+#~ "for this moment, your mother and I."
+#~ msgstr ""
+#~ "ブロナン、お前に伝えることがある。私と母さんはこのことを恐れていたのだ。"
+
+#~ msgid "They're coming!"
+#~ msgstr "ヤツらが来たぞ！"
+
+#~ msgid "Carson, they've crossed the river. They shall be here in no time."
+#~ msgstr "カーソン、ヤツらは川を渡った。もうすぐ来るぞ。"
+
+#~ msgid "Huh? Hey, what's happening here?!"
+#~ msgstr "ん？ちょっと、何が起こってるんだ！？"
+
+#~ msgid "Bronann, I..."
+#~ msgstr "ブロナン、私は..."
+
+#~ msgid "Father!"
+#~ msgstr "父さん！"
+
+#~ msgid "Father! Orlinn has disappeared. I saw him taking the forest pathway!"
+#~ msgstr "父さん！オーリンが行方不明になった！森の小道に入っていった！"
+
+#~ msgid "Kalya, you were supposed to keep an eye on him!"
+#~ msgstr "カルヤ、オーリンを見張っているように言っただろう！"
+
+#~ msgid ""
+#~ "I did, but he just slipped through my fingers at the very second that "
+#~ "strange light appeared."
+#~ msgstr "捕まえようとした。だが、あの光で目がくらんだ間に逃げられた。"
+
+#~ msgid ""
+#~ "Kalya, the army is coming. I'll deal with them. You go and find Orlinn as "
+#~ "fast as possible."
+#~ msgstr ""
+#~ "カルヤ、軍隊が迫っている。私はヤツらと交渉する。出来る限り早くオーリンを見"
+#~ "つけ出すのだ。"
+
+#~ msgid "But you might get hurt!"
+#~ msgstr "しかし、父さんが危険だ！"
+
+#~ msgid ""
+#~ "Don't worry. We'll simply talk to them and they'll move on. You know what "
+#~ "you have to do, right?"
+#~ msgstr ""
+#~ "大丈夫だ。立ち退いてもらえるよう話に行くだけだ。何をすべきかは、わかってい"
+#~ "るな？"
+
+#~ msgid "Herth, we both know it'll likely..."
+#~ msgstr "ハース、これはまるで..."
+
+#~ msgid "Do as I say and it'll be alright."
+#~ msgstr "言った通りにするんだ。"
+
+#~ msgid "But..."
+#~ msgstr "だが..."
+
+#~ msgid "Bronann, you should go with her."
+#~ msgstr "ブロナン、カルヤを手伝うんだ。"
+
+#~ msgid "What?!"
+#~ msgstr "何だって！？"
+
+#~ msgid "Carson is right, Kalya. Bronann shall go with you."
+#~ msgstr "カーソンの言う通りだ。ブロナンを連れて行くんだ、カルヤ。"
+
+#~ msgid "But he would just be a burden!"
+#~ msgstr "ブロナンではお荷物にしかならない！"
+
+#~ msgid "Huh? Hey! But..."
+#~ msgstr "え？おい！待って..."
+
+#~ msgid "He won't slow you down, believe me. Right, Bronann?"
+#~ msgstr ""
+#~ "ブロナンは君の足を引っ張ることはないだろう、信じてくれ。そうだろ、ブロナ"
+#~ "ン？"
+
+#~ msgid "But father!"
+#~ msgstr "でも、父さん！"
+
+#~ msgid "Carson is right, Kalya. Bronann shall go with you. It's an order."
+#~ msgstr "カーソンは正しい。カルヤ、ブロナンを連れて行くんだ。これは命令だ。"
+
+#~ msgid "Gahh, ok."
+#~ msgstr "...分かった。"
+
+#~ msgid ""
+#~ "Bronann, take this sword. You'll probably need it to make your way "
+#~ "through there."
+#~ msgstr "ブロナン、この剣を持って行け。道を進むには必要だろう。"
+
+#~ msgid "What? But one minute ago you said..."
+#~ msgstr "ほんと？でも一分前には違うことを..."
+
+#~ msgid ""
+#~ "I know, but everything has changed. I'll explain it to you once it is all "
+#~ "finished. Now go, my son."
+#~ msgstr ""
+#~ "ああ、だが全てが変わってしまった。全てが終わってから話そう。行くのだ、息子"
+#~ "よ。"
+
+#~ msgid "Thanks dad, we'll find him in no time."
+#~ msgstr "ありがとう、父さん。オーリンをすぐに見つけるよ。"
+
+#~ msgid "We shall go now. Good luck, both of you."
+#~ msgstr "我々は行ってくる。二人とも、気をつけろよ。"
+
+#~ msgid "Good luck, son."
+#~ msgstr "幸運を祈るぞ、息子よ。"
+
+#~ msgid "Ok, we'll go together. But slow me down and I'll make you regret it."
+#~ msgstr ""
+#~ "さあ、行くぞ。だが、お前は足手まといだし、私に付いて来たことを後悔するだろ"
+#~ "う。"
+
+#~ msgid "Don't worry, we'll find him. Ok?"
+#~ msgstr "遠慮はいらないよ。オーリンを探せばいいんだろう？"
+
+#~ msgid "Kalya joins your party!"
+#~ msgstr "カルヤがパーティーに加わった！"
+
+#~ msgid ""
+#~ "By the way, have you ever prepared yourself for something like this "
+#~ "before?"
+#~ msgstr "ところで、以前にこういう経験はあるのか？"
+
+#~ msgid "Huh? Well, Orlinn doesn't disappear every day, you know?"
+#~ msgstr ""
+#~ "ん？えー、オーリンはまさか毎日行方不明になってるわけじゃないだろう？"
+
+#~ msgid ""
+#~ "I see. Then there are two very important things that you need to know."
+#~ msgstr "そうだな。お前が知っておくべきことは2つある。"
+
+#~ msgid ""
+#~ "First of all, before going there, you might need better equipment. You "
+#~ "should visit Flora first, ok?"
+#~ msgstr ""
+#~ "まず、森に向かう前に、もう少しマシな装備が必要だ。フローラの店は尋ねたか？"
+
+#~ msgid "You mean I need to push a key to open my bag?"
+#~ msgstr "キーを押してバッグを開けってことかい？"
+
+#~ msgid "Nevermind that, just do it."
+#~ msgstr "重要なことだ、やれ。"
+
+#~ msgid ""
+#~ "Also, the person in front of the battle line will lead the group in the "
+#~ "forest. What I mean by that is the person on the top of the battle "
+#~ "formation will actually appear while the others will stay hidden."
+#~ msgstr ""
+#~ "そして、隊列の先頭にいる者が森でパーティーを指揮することになる。隊列の一番"
+#~ "上の者がフィールドで表示され、他の者は待機する。"
+
+#~ msgid "Hmm, right. I'm not sure that I fully get what you mean, but..."
+#~ msgstr "ふーん、分かったよ。全部を理解するのは難しいけど..."
+
+#~ msgid "Rrrr, Bronann. Just listen."
+#~ msgstr "ああ、ブロナン。話を聞けばわかる。"
+
+#~ msgid ""
+#~ "That will be the case only in certain areas. Here in the village, you'll "
+#~ "be the one leading, or at least you may believe that."
+#~ msgstr ""
+#~ "先ほど言ったことが適用されるのはいくつかのエリアだけだ。村の中では、お前が"
+#~ "リーダーとなっているはずだ。"
+
+#~ msgid ""
+#~ "Bronann! Sorry, you can't access the forest without permission. You don't "
+#~ "even have a sword."
+#~ msgstr ""
+#~ "ブロナン！ごめんけど、許可無く森に通すわけにはいかないよ。君は剣も持ってい"
+#~ "ないじゃないか。"
+
+#~ msgid "Aww..."
+#~ msgstr "あー..."
+
+#~ msgid "(Hmm, maybe I should ask Flora then.)"
+#~ msgstr "（うーん、それならフローラを尋ねるべきか。）"
+
+#~ msgid ""
+#~ "Bronann! Sorry, you know that you can't access the forest without "
+#~ "permission."
+#~ msgstr "ブロナン！ごめんけど、許可無く森に通すわけにはいかないよ。"
+
+#~ msgid "Good luck Bronann."
+#~ msgstr "幸運を祈るよ、ブロナン。"
+
+#~ msgid "Actually, I bought the barley meal for Lilly."
+#~ msgstr "実は、私はリリーのために大麦粉を買ったのだ。"
+
+#~ msgid "What?"
+#~ msgstr "何だって？"
+
+#~ msgid "There's no need to thank me for that. It's my pleasure."
+#~ msgstr "私に感謝する必要はないよ。この情報がペンのお礼さ。"
+
+#~ msgid "Here it is, Georges."
+#~ msgstr "どうぞ、ジョージス。"
+
+#~ msgid ""
+#~ "You're the nicest person I know, Bronann. I will tell everyone how brave "
+#~ "you..."
+#~ msgstr ""
+#~ "君は最高にいいヤツだな、ブロナン。みんなに君の勇敢さを伝えておくよ..."
+
+#~ msgid "(sigh)... Georges!"
+#~ msgstr "...ジョージス！"
+
+#~ msgid "Ok ok. Just having a bit of spirit, young man."
+#~ msgstr "わかってるさ。君には感謝しているよ、若者よ。"
+
+#~ msgid ""
+#~ "You see, I lost my beloved pen. Was it near a tree or next to the waving "
+#~ "child of the mountain snow?"
+#~ msgstr ""
+#~ "ペンをなくしてしまったのさ。どこへいったのだ、木の近くか、雪山で舞う子供の"
+#~ "隣か？"
+
+#~ msgid "Shall you find it, I would be extremely obliged to you!"
+#~ msgstr "もし探してくれたなら、お礼を弾むぞ！"
+
+#~ msgid ""
+#~ "Inquire our comrades in the settlement, perhaps somebody has laid their "
+#~ "eyes on it."
+#~ msgstr ""
+#~ "我らの居住地にいる友に尋ねるといい、だれかの目がそれを捉えていたかもしれ"
+#~ "ぬ。"
+
+#~ msgid "(sigh...) Hmm, fine."
+#~ msgstr "ふむ、わかったよ。"
+
+#~ msgid "Hi Georges. Erm, I'm coming from the shop and I ..."
+#~ msgstr "やあジョージス。あー、僕は店から来たんだけど..."
+
+#~ msgid "Can you hear this?"
+#~ msgstr "聞こえないか？"
+
+#~ msgid "Erm, ... Well, I don't hear anything special..."
+#~ msgstr "えー...うん、僕には何も聞こえないよ..."
+
+#~ msgid ""
+#~ "That's the point! Can't you hear the magnificent sound of nature, so "
+#~ "invisible to our adapted ears?"
+#~ msgstr ""
+#~ "それだよ！君には高貴な自然の音が聞こえないのか、耳がもう慣れてしまっている"
+#~ "からか？"
+
+#~ msgid "Huh, please Georges. I do not want to run away like the last time..."
+#~ msgstr "ふー、お願いだよジョージス。この前みたいに逃げ周りたくはないんだ。"
+
+#~ msgid ""
+#~ "... The incredible and amazing. I could even say, the stunning feel of it "
+#~ "in the wind..."
+#~ msgstr ""
+#~ "...驚くべき、素晴らしいことだ。あえて言おう、美しい感覚は風の中に..."
+
+#~ msgid ""
+#~ "Georges, I simply wanted to ask you whether or not you had any barley "
+#~ "meal left!"
+#~ msgstr "ジョージス、僕は君に大麦粉を持っているのか聞きに来ただけなんだ！"
+
+#~ msgid ""
+#~ "Ah, I see. Well unfortunately, I'm so sad about a recent loss that I "
+#~ "can't find the right words with which to tell you."
+#~ msgstr ""
+#~ "おー、なるほど。悲しいことだ、君に伝えたい言葉があっても、ペンが無ければ書"
+#~ "くことができぬ。"
+
+#~ msgid "Shall you find it, I would be extremely obliged!"
+#~ msgstr "もしペンを見つけてくれたら、お礼を弾もう！"
+
+#~ msgid "(Sigh)... Hmm, fine."
+#~ msgstr "...うーむ、分かったよ。"
+
+#~ msgid ""
+#~ "Ah, the river is so beautiful at this time of the year. I feel like "
+#~ "writing some poetry..."
+#~ msgstr ""
+#~ "おー、一年の内この季節の川はなんと美しいことか。いくつか詩を書きたい気分"
+#~ "だ..."
+
+#~ msgid "I promise I won't bother you again."
+#~ msgstr "もうからかったりしないと約束するよ。"
+
+#~ msgid "Don't worry about that, Orlinn. Ok?"
+#~ msgstr "そのことは気にしていないさ、オーリン。"
+
+#~ msgid "Kalya, have you seen Orlinn?"
+#~ msgstr "カルヤ、オーリンを見なかったかい？"
+
+#~ msgid "Why? Oh, don't tell me. He's hiding somewhere."
+#~ msgstr "なぜ？ああ、言わなくていい。オーリンはどこにでも隠れようとする。"
+
+#~ msgid "Yes, he took Georges pen and I need to give it back to him..."
+#~ msgstr "ああ、彼がジョージスのペンを持っていて、それを返して欲しいんだ..."
+
+#~ msgid "Hmpf, no surprise. Do you want me to bring him back?"
+#~ msgstr "フン、そんなことか。オーリンを連れて来て欲しいのか？"
+
+#~ msgid "No, it's not that bad."
+#~ msgstr "そんな、悪いよ。"
+
+#~ msgid "As you wish."
+#~ msgstr "そうか。"
+
+#~ msgid "Hee hee hee!"
+#~ msgstr "アハハハ！"
+
+#~ msgid "What are you laughing about, Orlinn?"
+#~ msgstr "何がおかしいんだ、オーリン？"
+
+#~ msgid "You'll never find it!"
+#~ msgstr "ブロナンには見つけれないよ！"
+
+#~ msgid "Huh? Wait! Are you talking about Georges's lost pen?"
+#~ msgstr "ん？待て！ジョージスのペンのことだな。"
+
+#~ msgid "Hee hee hee! Yes!"
+#~ msgstr "ハハハ！そうだよ！"
+
+#~ msgid "Please tell me! Have you found it?"
+#~ msgstr "教えてくれ！見つけたんだろう？"
+
+#~ msgid "Maybe yes, maybe no!"
+#~ msgstr "そうかもしれないし、そうでないかもね！"
+
+#~ msgid "Oh no, please Orlinn! I need it!"
+#~ msgstr "ああ もう、オーリン！お願いだ！"
+
+#~ msgid "Sure, I'll help you. But only if you can catch me!"
+#~ msgstr "もちろん、手伝うさ。でも僕を捕まえれたらの話だ！"
+
+#~ msgid "Hee hee! (He'll never find me hiding behind the buildings!)"
+#~ msgstr "ハハハ！（建物の影に隠れた僕を見つけることなんて無理さ！）"
+
+#~ msgid "Heya bro! Wanna play with me?"
+#~ msgstr "ようよう、兄ちゃん！僕と遊ぼうよ。"
+
+#~ msgid "Flora"
+#~ msgstr "フローラ"
+
+#~ msgid "Hi Bronann! What can I do for you?"
+#~ msgstr "こんにちは、ブロナン！何か御用？"
+
+#~ msgid ""
+#~ "Hi Flora! Err, could you lend me one of your training swords? I'd like to "
+#~ "practice a bit."
+#~ msgstr ""
+#~ "やあ、フローラ！えー、訓練用の剣を貸してくれないかい？少し練習したいんだ。"
+
+#~ msgid ""
+#~ "Ah! Sure, as soon as your father will stop lending his sword to you to "
+#~ "practice with him. Are you sure everything is alright?"
+#~ msgstr ""
+#~ "ああ！もちろん、あなたの父親が借りてる剣を返してくれたらね。あなたを訓練す"
+#~ "るために借りているはずよ。他に用はないの？"
+
+#~ msgid "Err, nevermind."
+#~ msgstr "あー、うん。"
+
+#~ msgid "Just find our *poet* and he should give you some barley meal, ok?"
+#~ msgstr "「詩人」を見つければ、あなたに大麦粉を分けてくれるでしょうね。"
+
+#~ msgid ""
+#~ "He's probably 'musing' around the cliffs in the village center right now."
+#~ msgstr "彼はたぶん村の中心の崖の近くで「黙想」をしてるわ。"
+
+#~ msgid "Hi Flora! Do you have some barley meal left?"
+#~ msgstr "やあ、フローラ！大麦粉がいくつか残ってない？"
+
+#~ msgid "Oh sorry, our 'great' poet came earlier and took all the rest of it."
+#~ msgstr "ああ、ごめんなさい。偉大なる「詩人」が先に全部買ってしまったわ。"
+
+#~ msgid "Times are becoming harder now. We've got less food than before."
+#~ msgstr "状況は悪化してるわね。食料も少なくなってきたわ。"
+
+#~ msgid ""
+#~ "This is the first time that I've seen you wear such a worrisome "
+#~ "expression."
+#~ msgstr "フローラが心配事を口にするなんて珍しいね。"
+
+#~ msgid ""
+#~ "Nevermind. Don't worry about me. Just find him and he should give you "
+#~ "some, ok?"
+#~ msgstr ""
+#~ "気にしないで。心配はいらないわ。詩人を探して大麦粉を分けてもらいなさい。"
+
+#~ msgid "One of Grandma's chickens. I should bring it back."
+#~ msgstr "ばあちゃんのニワトリだ。連れ戻さないと。"
+
+#~ msgid "Hmm, the door is locked."
+#~ msgstr "ふむ、ドアはロックされている。"
+
+#~ msgid "Hurry up! They're coming!"
+#~ msgstr "急げ！ヤツらが来てるよ！"
+
+#~ msgid "Bronann! Hold on! We're almost there."
+#~ msgstr "ブロナン！持ちこたえろ！もうすぐだ。"
+
+#~ msgid "I... can't. My body... Argh!"
+#~ msgstr "む...無理。体が...うう！"
+
+#~ msgid "You can do it. Bronann..."
+#~ msgstr "お前ならできる。ブロナン..."
+
+#~ msgid "Bronann! Move!"
+#~ msgstr "ブロナン！動くんだ！"
+
+#~ msgid "... Al... right..."
+#~ msgstr "...わかっ...た..."
+
+#~ msgid "Great! Now come on!"
+#~ msgstr "よし！ついて来い！"
+
+#~ msgid "There must be soldiers everywere, we're never gonna make it."
+#~ msgstr "そこら中に兵士がいる。無理だ。"
+
+#~ msgid "This town has many secrets."
+#~ msgstr "この村には秘密が多い。"
+
+#~ msgid "You can go in there, Orlinn."
+#~ msgstr "ここから行けるはずだ、オーリン。"
+
+#~ msgid "Ok!"
+#~ msgstr "分かった！"
+
+#~ msgid "See?"
+#~ msgstr "分かったか？"
+
+#~ msgid ""
+#~ "I understand why Grandma actually never saw you using the 'normal' path."
+#~ msgstr ""
+#~ "どうりでばあちゃんが君が「普通」の道を通るのを見かけなかったわけだ。"
+
+#~ msgid "Now come."
+#~ msgstr "行くぞ。"
+
+#~ msgid ""
+#~ "My three chickens have flown away again this morning. Could you find the "
+#~ "last one for me?"
+#~ msgstr ""
+#~ "私の3匹のニワトリが今朝逃げ出してしまったわい。最後の一匹を見つけてくれん"
+#~ "かい？"
+
+#~ msgid ""
+#~ "My three chickens have flown away again this morning. Could you find the "
+#~ "remaining ones for me?"
+#~ msgstr ""
+#~ "私の3匹のニワトリが今朝逃げ出してしまったわい。他のニワトリも探してくれな"
+#~ "いかい？"
+
+#~ msgid ""
+#~ "My three chickens have flown away again this morning. Could you find them "
+#~ "for me?"
+#~ msgstr "私の3匹のニワトリが今朝逃げ出してしまったわい。探してくれるかい？"
+
+#~ msgid "Ah! Bronann. Could you help your old grandma?"
+#~ msgstr "おお！ブロナンや。私を手伝ってくれないかい？"
+
+#~ msgid "Sure grandma."
+#~ msgstr "もちろんだよ。"
+
+#~ msgid "My three chickens have flown away again. Could you find them for me?"
+#~ msgstr ""
+#~ "私の3匹のニワトリが今朝逃げ出してしまったわい。探してきてくれないかい？"
+
+#~ msgid "I'll see what I can do about it."
+#~ msgstr "わかったよ。"
+
+#~ msgid "Thank you, young one."
+#~ msgstr "ありがとう。"
+
+#~ msgid "Oh, they're all back, my brave hero."
+#~ msgstr "おお、全部戻ってきた。勇敢な孫じゃ。"
+
+#~ msgid "Let me give you something as a reward."
+#~ msgstr "お礼にこれを受け取っておくれ。"
+
+#~ msgid "Oh, thanks grandma!"
+#~ msgstr "ありがとう、ばあちゃん！"
+
+#~ msgid "You're very welcome, my dear one."
+#~ msgstr "本当にすまないねえ、愛しい孫よ。"
+
+#~ msgid ""
+#~ "Ah! It's nice to see your dear young face around, Bronann. Come and chat "
+#~ "with an old grandma."
+#~ msgstr ""
+#~ "おお！若い顔が見れて嬉しいねえ、ブロナンや。このばばあの話し相手になってく"
+#~ "れ。"
+
+#~ msgid "Er, sorry grandma. I have to go! Maybe later?"
+#~ msgstr "あー、ごめん、ばあちゃん。行かなきゃいけないんだ！後でもいい？"
+
+#~ msgid ""
+#~ "Ah! You'll surely want to see the young lady living up there. Ah, "
+#~ "youngins nowadays."
+#~ msgstr ""
+#~ "おぉ！あそこにいる若いお嬢さんに会いに行くのかえ。ああ、青春じゃな。"
+
+#~ msgid "Grandma"
+#~ msgstr "ばあちゃん"
+
+#~ msgid "Bronann, how do you feel?"
+#~ msgstr "ブロナン、調子はどうだ？"
+
+#~ msgid "Better. Somehow, the pain faded away the second I entered here."
+#~ msgstr "いい感じ。ここに来てから良くなったよ。"
+
+#~ msgid "By the way, where are we?"
+#~ msgstr "ところで、ここは？"
+
+#~ msgid ""
+#~ "In our basement. The other stairs there are leading to my room. This "
+#~ "house is an ancient sanctuary, so it might explain why you're feeling "
+#~ "better."
+#~ msgstr ""
+#~ "地下室だ。他の階段は私の部屋につながっている。この家は古代の神殿だから、容"
+#~ "体がよくなったかもしれん。"
+
+#~ msgid "Orlinn. Go get our packings. We're leaving."
+#~ msgstr "オーリン。準備しろ。ここを離れるぞ。"
+
+#~ msgid "We're leaving the village now."
+#~ msgstr "私たちは村を離れる。"
+
+#~ msgid "I feel dizzy. So many things have happened in such little time."
+#~ msgstr "うんざりするね。一度に色々起き過ぎだよ。"
+
+#~ msgid ""
+#~ "The soldiers will be here any minute. We'll leave to the north and cross "
+#~ "the north-west plain up to..."
+#~ msgstr "兵士がいつ来てもおかしくない。北に向かって、北西の大地を渡り..."
+
+#~ msgid "No."
+#~ msgstr "いやだ。"
+
+#~ msgid "No?!"
+#~ msgstr "何だと！？"
+
+#~ msgid "No, I won't follow you anymore."
+#~ msgstr "僕は君たちにはついていかない。"
+
+#~ msgid "Look, I..."
+#~ msgstr "私は..."
+
+#~ msgid "Enough!"
+#~ msgstr "十分だ！"
+
+#~ msgid ""
+#~ "Nobody told me what was happening. Herth and the Lord seemed to know each "
+#~ "other. And now you..."
+#~ msgstr ""
+#~ "誰も何が起きているのか教えてくれない。ハースと領主は顔見知りだった。そして"
+#~ "君も..."
+
+#~ msgid "You seem so calm, ready, and prepared."
+#~ msgstr "君は冷静に、準備をして来た。"
+
+#~ msgid "Bronann, I ..."
+#~ msgstr "ブロナン、私は..."
+
+#~ msgid ""
+#~ "Enough! You hid everything from me just like everyone else. You're a "
+#~ "liar! I won't be manipulated anymore!"
+#~ msgstr ""
+#~ "もういい！みんなと同じように、君も僕には教えてくれない。嘘つきめ！もう操ら"
+#~ "れたりしないぞ！"
+
+#~ msgid "Bronann, you'll get everything explained in time, I..."
+#~ msgstr "ブロナン、いつか説明する、私は..."
+
+#~ msgid "No! I won't go unless you tell me the truth now!"
+#~ msgstr "いいや！君が真実を教えてくれないのなら行かないぞ！"
+
+#~ msgid "... Fine."
+#~ msgstr "...分かった。"
+
+#~ msgid "I knew the crystal would appear."
+#~ msgstr "私はクリスタルが現れることを知っていた。"
+
+#~ msgid "But I didn't know who it would choose."
+#~ msgstr "しかし、だれが選ばれるのかは知らなかった。"
+
+#~ msgid "Herth prepared me all my life for this very day."
+#~ msgstr "ハースはずっと私にこの日のための準備をさせてきた。"
+
+#~ msgid ""
+#~ "He trained me, taught me magic, and told me the crystal would appear one "
+#~ "day."
+#~ msgstr ""
+#~ "ハースは私を訓練し、魔法を教え、クリスタルがいつか現れることを教えた。"
+
+#~ msgid ""
+#~ "He thought that I would be the one to be chosen by the crystal. However, "
+#~ "it seems he was wrong. Now, I am to look after you."
+#~ msgstr ""
+#~ "ハースは私がクリスタルに選ばれるだろうと思っていた。しかし、彼は間違ってい"
+#~ "た。それで、私はお前を助けることにした。"
+
+#~ msgid "You must believe me Bronann."
+#~ msgstr "私を信じてくれ、ブロナン。"
+
+#~ msgid "The crystal chose me? But I'm just..."
+#~ msgstr "クリスタルが僕を選んだ？でも、僕はただ..."
+
+#~ msgid "Someone brave enough to jump between it and my brother."
+#~ msgstr "弟とクリスタルの間に割って入れるほど勇敢な人間だ。"
+
+#~ msgid ""
+#~ "It should have been me. But I couldn't move. And now, I have to fix my "
+#~ "mistake."
+#~ msgstr ""
+#~ "それは私であるべきだった。だが、私は動けなかった。そして今、私はその埋め合"
+#~ "わせをしようとしている。"
+
+#~ msgid "How?"
+#~ msgstr "何を？"
+
+#~ msgid "I..."
+#~ msgstr "私は..."
+
+#~ msgid "Sis!"
+#~ msgstr "姉ちゃん！"
+
+#~ msgid "Sis! They're in front of the house!"
+#~ msgstr "姉ちゃん！ヤツらが家の前にいる！"
+
+#~ msgid "Quick, we must go now!"
+#~ msgstr "急げ、出発だ！"
+
+#~ msgid ""
+#~ "We won't be able to come back here once we leave. So feel free to pick up "
+#~ "everything you need and prepare yourself."
+#~ msgstr ""
+#~ "一度ここを離れたらもう戻っては来れないだろう。必要なものは全て持って行け。"
+
+#~ msgid ""
+#~ "Wait! There is one more thing. Why are you calling your own father by his "
+#~ "actual name?"
+#~ msgstr ""
+#~ "待ってくれ！もうひとつ聞かせてくれ。なぜ君は父親のことを名前で呼んでいたん"
+#~ "だ？"
+
+#~ msgid "That's because he's not our father."
+#~ msgstr "ハースは本当のお父さんじゃないからね。"
+
+#~ msgid "Our parents were killed a long time ago."
+#~ msgstr "僕たちの両親はとっくの昔に殺されたんだ。"
+
+#~ msgid "Orlinn..."
+#~ msgstr "オーリン..."
+
+#~ msgid "Don't worry, sis. It's fine, we can tell him."
+#~ msgstr "大丈夫だよ、姉ちゃん。ブロナンになら教えてもいいさ。"
+
+#~ msgid "I also left my parents behind."
+#~ msgstr "僕も両親を残してきてしまった。"
+
+#~ msgid ""
+#~ "They'll be fine, Bronann. We must prevent Banesore from obtaining the "
+#~ "crystal."
+#~ msgstr ""
+#~ "きっと無事だ、ブロナン。私たちはバネソールがクリスタルを手に入れるのを防が"
+#~ "ねばならない。"
+
+#~ msgid "Anyway, let's go now."
+#~ msgstr "何にしろ、出発だ。"
+
+#~ msgid "Wow!"
+#~ msgstr "ワオ！"
+
+#~ msgid "It's time."
+#~ msgstr "時間だ。"
+
+#~ msgid "We can't go back now."
+#~ msgstr "もう戻れない。"
+
+#~ msgid "It's my room upstairs. Don't even think about it!"
+#~ msgstr "それは私の部屋に繋がっている。妙なことは考えないほうがいいぞ！"
+
+#~ msgid "I can't go back now."
+#~ msgstr "もう戻れない。"
+
+#~ msgid ""
+#~ "Guards are carefully watching their surroundings. I need to get closer to "
+#~ "see what's happening."
+#~ msgstr ""
+#~ "衛兵たちが周囲を監視している。何が起きているかを確かめるには、近づく必要が"
+#~ "ある。"
+
+#~ msgid "I should be able to sneak through when they're not watching."
+#~ msgstr "衛兵が余所見をしている間なら通れるかもしれない。"
+
+#~ msgid "Who's there?"
+#~ msgstr "誰だ？"
+
+#~ msgid "(Whispering) Kalya!"
+#~ msgstr "（ささやき声）カルヤ！"
+
+#~ msgid "(What's happening here?)"
+#~ msgstr "（何が起きているんだ？）"
+
+#~ msgid "(Also whispering) I don't know."
+#~ msgstr "（ささやき声）わかんない。"
+
+#~ msgid ""
+#~ "(Woah, you scared me. Are you mad? You could have got us both caught!)"
+#~ msgstr ""
+#~ "（うわ、脅かさないでくれよ。頭大丈夫か？二人とも捕まるかもしれなかった"
+#~ "ぞ！）"
+
+#~ msgid "(I thought you saw me.)"
+#~ msgstr "（僕のこと見えてるのかと思ってた）"
+
+#~ msgid ""
+#~ "(Kalya was brought here by those weirdos. They are holding everyone "
+#~ "captive. Lilly is talking with that big guy. He gives me the chills.)"
+#~ msgstr ""
+#~ "（カルヤがあの悪いヤツらに連れてこられたみたい。みんなを捕虜にしてる。リ"
+#~ "リーもあのでかいヤツに連れてこられちゃった。あいつ、怖いな。）"
+
+#~ msgid "(Let's have a look.)"
+#~ msgstr "（様子を見よう。）"
+
+#~ msgid ""
+#~ "I already told you, again and again, Banesore. I don't know anything "
+#~ "about such a crystal."
+#~ msgstr ""
+#~ "もう何回も話したわよ、バネソール。私はクリスタルのことなんか知らない。"
+
+#~ msgid "It is 'Lord Banesore', you scum!"
+#~ msgstr "「バネソール卿」だ、屑め！"
+
+#~ msgid ""
+#~ "Even when confronted by someone who can wipe out everything you hold "
+#~ "dear, you dare to stare me in the eyes? I admire such a courageous heart, "
+#~ "my dear one."
+#~ msgstr ""
+#~ "たとえお前の持つ全てを奪える力に直面したとしても、私を睨み続けることができ"
+#~ "るか？私はそのような勇気ある者を尊敬しているのだ、親しい友よ。"
+
+#~ msgid "Therefore, I'm inclined to ask these questions one last time:"
+#~ msgstr "それ故、このような質問を最後にしたくなるのだ。"
+
+#~ msgid "Where is the crystal? Where is the boy?"
+#~ msgstr "クリスタルはどこにある？あの少年はどこだ？"
+
+#~ msgid "It's time to think Lilly."
+#~ msgstr "さあ、リリー。お前が考える時間だ。"
+
+#~ msgid "Huh? How do you know my name?"
+#~ msgstr "ん？なぜ私の名前を？"
+
+#~ msgid ""
+#~ "Your very soul is slowly but surely opening. I can feel your sorrow and "
+#~ "doubts grow."
+#~ msgstr ""
+#~ "お前の魂が徐々にだが確実に開きつつあるのだ。お前の悲しみや育ちつつある疑念"
+#~ "を感じるぞ。"
+
+#~ msgid "Fight it, Lilly! Focus!"
+#~ msgstr "戦うのだ、リリー！集中しろ！"
+
+#~ msgid "Keep quiet, you old daft rat!"
+#~ msgstr "黙れ、狂った古ネズミめ！"
+
+#~ msgid "Oh! My apologies, it seems you weren't lying."
+#~ msgstr "おお！すまないな、お前は嘘をついてはいないようだ。"
+
+#~ msgid ""
+#~ "The fact you didn't mention anything about the boy leads me to believe "
+#~ "that you know him."
+#~ msgstr ""
+#~ "私をここに導いた少年についてお前は触れなかった。だからお前が少年について"
+#~ "知っていると思ったのだ。"
+
+#~ msgid "Ah? So he must be close."
+#~ msgstr "おお？では少年はすぐ近くにいるということか。"
+
+#~ msgid "What? No!"
+#~ msgstr "何だって？やめとくれ！"
+
+#~ msgid "Oh, I see now. So this is his mother. Bring her here, and kill her!"
+#~ msgstr "おお、なるほど。少年の母親か。ここへ連れて来い、処刑する！"
+
+#~ msgid "Let her out of this! You can have me instead."
+#~ msgstr "やめろ！私が身代わりになる。"
+
+#~ msgid "So, here we have a gentleman! I'll start with you, then."
+#~ msgstr "おお、こんなところに紳士がいたとは！では、お前から始めるとしよう。"
+
+#~ msgid "Fine."
+#~ msgstr "いいだろう。"
+
+#~ msgid "But she will be the next one."
+#~ msgstr "だがその次は彼女だ。"
+
+#~ msgid "You filthy demon!"
+#~ msgstr "薄汚い悪魔め！"
+
+#~ msgid "It's fine, I'll come."
+#~ msgstr "覚悟はできてるわ。"
+
+#~ msgid "No!"
+#~ msgstr "やめろ！"
+
+#~ msgid "At last, the boy."
+#~ msgstr "おお、やっと来たか、少年。"
+
+#~ msgid "No! Let him come closer."
+#~ msgstr "待て！少年をもっと近くに連れて来い。"
+
+#~ msgid "Bronann! No!"
+#~ msgstr "ブロナン！だめだ！"
+
+#~ msgid "Bronann, why?"
+#~ msgstr "ブロナン、なんで？"
+
+#~ msgid "Clear the way, Lilly. I need to speak to him."
+#~ msgstr "どくのだ、リリー。少年と話したい。"
+
+#~ msgid "Let's have a talk, Bronann!"
+#~ msgstr "さあ、話を付けようじゃないか、ブロナン！"
+
+#~ msgid "I don't have any other choice, Lilly."
+#~ msgstr "他に選択肢は無いよ、リリー。"
+
+#~ msgid "Bronann..."
+#~ msgstr "ブロナン..."
+
+#~ msgid "You, after all these years..."
+#~ msgstr "数年待ったぞ..."
+
+#~ msgid "Let everyone go. We don't have your 'crystal'."
+#~ msgstr "みんなを開放しろ。僕たちは「クリスタル」なんか持っていない。"
+
+#~ msgid "Of course you have it. I can sense it within your flesh."
+#~ msgstr "お前が持っているではないか。お前の肉体の中に感じるぞ。"
+
+#~ msgid "So, the crystal is inside me?"
+#~ msgstr "クリスタルが僕の中にあるっていうのか？"
+
+#~ msgid "Now, show it to me."
+#~ msgstr "さあ、私に見せてみろ。"
+
+#~ msgid "But I..."
+#~ msgstr "でも、僕は..."
+
+#~ msgid ""
+#~ "Do you need some kind of motivation? If so, let me handle this with my "
+#~ "greatest pleasure!"
+#~ msgstr "何か理由が必要か？もしそうなら、気晴らしでもしてみるか！"
+
+#~ msgid "Prepare yourself!"
+#~ msgstr "身構えるがいい！"
+
+#~ msgid "Ah, there it is. Finally!"
+#~ msgstr "おお、クリスタルだ。遂に！"
+
+#~ msgid "Kalya! Now!"
+#~ msgstr "カルヤ！今だ！"
+
+#~ msgid ""
+#~ "You won't get him, Banesore! It seems we were smarter than you this time."
+#~ msgstr ""
+#~ "ブロナンはお前になど捕まりはしないぞ、バネソールよ！今回は我々の方がお前よ"
+#~ "り賢かったようだな。"
+
+#~ msgid "Ah ah ah, but this is exactly what I wanted."
+#~ msgstr ""
+#~ "ハッハッハ、これは一本取られた。だが、間違いなく私の求めるものを見つけだ"
+#~ "ぞ。"
+
+#~ msgid ""
+#~ "After all, I simply wanted to make sure that boy would reach Mt. Elbrus "
+#~ "safe and sound."
+#~ msgstr "要は、あの少年がエルブラス山に安全に到着すればいい話なのだ。"
+
+#~ msgid "He is the only one that can get what I'm looking for."
+#~ msgstr "私の求めるものを手に入れることができるのは彼だけだ。"
+
+#~ msgid "Soldiers! Give them a few minutes before starting the chase."
+#~ msgstr "兵士よ！追跡を始める前に数分のハンデをくれてやろうではないか。"
+
+#~ msgid "Yes, my Lord!"
+#~ msgstr "仰せのままに！"
+
+#~ msgid "Why the hell..."
+#~ msgstr "なぜだ..."
+
+#~ msgid "...am I telling you all that? It's simple."
+#~ msgstr "...お前に教えると思うか？単純なことだ。"
+
+#~ msgid "But it doesn't matter, as you're all going to die now."
+#~ msgstr "だが、問題ない。お前たちは今から死ぬのだから。"
+
+#~ msgid "One of grandma's chickens. I should bring it back."
+#~ msgstr "ばあちゃんのニワトリだ。連れ戻さないと。"
+
+#~ msgid "Wow! You found me!"
+#~ msgstr "わお！見つかっちゃった！"
+
+#~ msgid "But I'm not done yet!"
+#~ msgstr "でもまだ終わりじゃないよ！"
+
+#~ msgid "You'll never find me hiding behind the..."
+#~ msgstr "次はあそこの裏に隠れてやろう..."
+
+#~ msgid "Hey, why would I tell you my hiding spots?!"
+#~ msgstr "ブロナンにはわかんない所さ！"
+
+#~ msgid "That kid is pretty quick. This is going to take all day."
+#~ msgstr "すばしっこいやつだ。一日中かかりそうだぞ。"
+
+#~ msgid "Please no! Wait!"
+#~ msgstr "お願いだ！待ってくれ！"
+
+#~ msgid "Orlinn! Stop this!"
+#~ msgstr "オーリン！いい加減にしろ！"
+
+#~ msgid "Orlinn! How many times have I told you not to bother other people?"
+#~ msgstr "オーリン！他人をからかうなといっただろう！何度目だ？"
+
+#~ msgid "But sis! I..."
+#~ msgstr "でも、姉ちゃん！僕は..."
+
+#~ msgid "I don't want to hear it! Now, come!"
+#~ msgstr "言い訳は不要だ！さあ、来い！"
+
+#~ msgid "Don't blame him, Kalya. Actually, it was..."
+#~ msgstr "オーリンを攻めないでくれ、カルヤ。たぶん、あれは..."
+
+#~ msgid "I don't think I was talking to you, now was I?"
+#~ msgstr "お前と話すつもりはない！"
+
+#~ msgid "Come Orlinn!"
+#~ msgstr "来い、オーリン！"
+
+#~ msgid "I found that pen near the tree behind you. I just wanted to play."
+#~ msgstr ""
+#~ "ペンならブロナンの後ろの木の近くで見つけたよ。僕は遊んで欲しかっただけなん"
+#~ "だ。"
+
+#~ msgid "Take it. Thanks."
+#~ msgstr "これ。ありがとう。"
+
+#~ msgid "Bronann?"
+#~ msgstr "ブロナン？"
+
+#~ msgid "Er, yes?"
+#~ msgstr "あー、何？"
+
+#~ msgid ""
+#~ "Don't blame Kalya. She was having a hard time along with her brother "
+#~ "before living here, you know?"
+#~ msgstr ""
+#~ "カルヤのことは気にしないでね。あの姉弟はここに住む前に酷く苦労したの。知ら"
+#~ "なかったでしょ？"
+
+#~ msgid "Well anyway, she's been ignoring me since the first day I saw her."
+#~ msgstr "でも、カルヤは最初に出会った日から僕を無視し続けているよ。"
+
+#~ msgid "Eh? You really know nothing about women, do you?"
+#~ msgstr "うん？あなたは女性のことを何も知らないのね？"
+
+#~ msgid "Heh heh, don't worry about it. It will come in time."
+#~ msgstr "フフ、心配はいらないわよ。そのうちわかるから。"
+
+#~ msgid "Here it is, Bronann."
+#~ msgstr "どうぞ、ブロナン。"
+
+#~ msgid "Thanks, Lilly."
+#~ msgstr "ありがとう、リリー。"
+
+#~ msgid ""
+#~ "We've been having a shortage of food lately. I've been taking... special "
+#~ "measures to ensure that everyone has enough food."
+#~ msgstr ""
+#~ "最近、食料が不足しているわ。私は...みんなに十分に食料が届くよう、調整して"
+#~ "いるの。"
+
+#~ msgid "Try to enjoy this day, Bronann."
+#~ msgstr "余った時間を楽しんでいってね、ブロナン。"
+
+#~ msgid "We're counting on you."
+#~ msgstr "頼りにしてるわよ。"
+
+#~ msgid "You should go back home. Your mom must be waiting for you."
+#~ msgstr "家に戻ったほうがいいんじゃない？お母さんが待ってるわよ。"
+
+#~ msgid "What a nice day, isn't it?"
+#~ msgstr "いい日だわ。"
+
+#~ msgid "Yes, Lilly. But I have something I have to ask you."
+#~ msgstr "そうだね、リリー。ごめんけど、一つ聞いていいかい？"
+
+#~ msgid "Sure, just ask."
+#~ msgstr "もちろん、いいわよ。"
+
+#~ msgid ""
+#~ "Have you still got any barley meal left for my parents and I? My mother "
+#~ "asked me to get some and I..."
+#~ msgstr "僕と両親の分の大麦粉が余ってないかい？母さんに頼まれたんだ..."
+
+#~ msgid "Unfortunately, I gave it all to Kalya."
+#~ msgstr "ごめんなさい、全部カルヤにあげちゃった。"
+
+#~ msgid ""
+#~ "Ah hah! I just wanted to see your reaction. I still have some. Let me go "
+#~ "grab it and bring it back to you."
+#~ msgstr ""
+#~ "フフフ！あなたの反応が見たかっただけよ。まだ残ってる。取ってくるわ。"
+
+#~ msgid "You'll never get me!"
+#~ msgstr "僕は絶対に捕まらないよ！"
+
+#~ msgid "Orlinn, how did you get there?"
+#~ msgstr "オーリン、どうやってそこに？"
+
+#~ msgid "(giggle) I won't tell you!"
+#~ msgstr "（クスクス）教えないよ！"
+
+#~ msgid "Hi Bronann."
+#~ msgstr "やあ、ブロナン。"
+
+#~ msgid "Hi Herth. I see you've blocked the gate, why so?"
+#~ msgstr "こんにちは、ハースさん。門を封鎖してるみたいだけど、なんで？"
+
+#~ msgid ""
+#~ "Don't worry too much. I'm just preventing strangers from being able to "
+#~ "sneak in at night."
+#~ msgstr "気にするな。夜に近づいてくる不審者を通さないためさ。"
+
+#~ msgid ""
+#~ "There have been some reports of theft in the villages nearby recently."
+#~ msgstr "最近、村に泥棒が出たそうだ。"
+
+#~ msgid "Wow, do you think that they would come here?"
+#~ msgstr "わお、泥棒はここにも来るかな？"
+
+#~ msgid "It's a possibility. But don't worry too much, ok?"
+#~ msgstr "可能性はある。だが、気にするほどのことではない。"
+
+#~ msgid "Yiek! Hey, you scared me."
+#~ msgstr "イィー！おい、僕が怖いのかい。"
+
+#~ msgid "But you'll never find me hiding on top of the cliffs!"
+#~ msgstr "崖の頂上に隠れた僕を見つけれはしないよ！"
+
+#~ msgid "It seems it is your first time around, right? Need help?"
+#~ msgstr "初めてのお客さんじゃないかい？何か手伝おうか？"
+
+#~ msgid "I wouldn't mind some help..."
+#~ msgstr "ありがとう、お願いするよ。"
+
+#~ msgid "I should be fine, thanks."
+#~ msgstr "ありがとう、でも大丈夫だ...。"
+
+#~ msgid ""
+#~ "Welcome to my shop, then! \n"
+#~ "First of all you can choose to either 'Buy' or 'Sell' items from the top "
+#~ "menu right here... \n"
+#~ "'Trade' is for special offers that don't only cost money."
+#~ msgstr ""
+#~ "ようこそ、私の店へ！\n"
+#~ "まず、アイテムを「購入」するか「売却」するかをトップメニューから選んで"
+#~ "ね...\n"
+#~ "「トレード」はお金以外も払ってもらうけど、その代わり値段は下がるよ。"
+
+#~ msgid ""
+#~ "Don't worry, I'll make good prices for you as you can testify in the buy "
+#~ "ranking right there!"
+#~ msgstr "心配はいらないよ、君のためにいい値段つけとくからさ！"
+
+#~ msgid ""
+#~ "For now, let's see what I have in store and select the 'Buy' option..."
+#~ msgstr "さあ、「購入」オプションから私の品を見てってくれよ..."
+
+#~ msgid ""
+#~ "Here you can see the list of available wares, how many items I've got and "
+#~ "how many you already have for each."
+#~ msgstr ""
+#~ "商品のリストが見えるでしょ、ウチの在庫と君の所持数が表示されてるんだ。"
+
+#~ msgid "Let's have a look at the potions..."
+#~ msgstr "さあ、ポーションを見ていこうか..."
+
+#~ msgid ""
+#~ "Once you're here, you'll be able to add or remove how many items you want "
+#~ "by pressing left or right. Of course, only if you have money, Sweeties..."
+#~ msgstr ""
+#~ "Left／Rightキーで購入数を増加／減少できるよ。もちろん、君がお金を持ってる"
+#~ "なら、だけどね..."
+
+#~ msgid "Shall I repeat?"
+#~ msgstr "もう一度聞きたい？"
+
+#~ msgid "Yes, please!"
+#~ msgstr "お願いします！"
+
+#~ msgid "No, it's alright!"
+#~ msgstr "いや、もう大丈夫！"
+
+#~ msgid "Alright then, take a look around..."
+#~ msgstr "じゃあ、ゆっくりしていってね..."
+
+#~ msgid ""
+#~ "I found you! My comrades will be here in no time. Surrender now, or "
+#~ "you'll be punished!"
+#~ msgstr ""
+#~ "見つけたぞ！仲間がすぐに駆けつけるだろう。投降するか、罰を受けるか選べ！"
+
+#~ msgid ""
+#~ "Don't listen to him! We must get rid of him before reinforcements arrive "
+#~ "or we're doomed!"
+#~ msgstr "アイツの言うことを聞くな！増援が来る前にアイツを倒さねば！"
+
+#~ msgid "Time left:"
+#~ msgstr "残り時間："
+
+#~ msgid "Shall we jump?"
+#~ msgstr "ジャンプしようか？"
+
+#~ msgid "Yes, let's go."
+#~ msgstr "ああ、行こう。"
+
+#~ msgid "Not now."
+#~ msgstr "まだだ。"
+
+#~ msgid "We made it, at last!"
+#~ msgstr "ついにやったぞ！"
+
+#~ msgid "Indeed! Yeepee!"
+#~ msgstr "やった！イエーフー！"
+
+#~ msgid "I'm so relieved we made it safely, hee hee."
+#~ msgstr "無事に終わってホッとしたな、ハハ。"
+
+#~ msgid "Wait."
+#~ msgstr "待ってくれ。"
+
+#~ msgid "Can you smell that stench?"
+#~ msgstr "悪臭がしないか？"
+
+#~ msgid "Yes. Is it... smoke?"
+#~ msgstr "これは...煙か？"
+
+#~ msgid "Something's burning."
+#~ msgstr "何か燃えてるのかな。"
+
+#~ msgid "Our village. It's burning."
+#~ msgstr "村が燃えている。"
+
+#~ msgid "My parents."
+#~ msgstr "父さん、母さん。"
+
+#~ msgid "Herth."
+#~ msgstr "ハース。"
+
+#~ msgid "Everyone."
+#~ msgstr "みんな。"
+
+#~ msgid "May they rest in peace."
+#~ msgstr "どうか安らかに。"
+
+#~ msgid "All this..."
+#~ msgstr "全て..."
+
+#~ msgid "All this was for a crystal?"
+#~ msgstr "全てクリスタルのせいだって言うのか？"
+
+#~ msgid "I'll fix this."
+#~ msgstr "僕が元通りにしてやる。"
+
+#~ msgid "If this crystal is so powerful, then I'll use it. And I'll fix this."
+#~ msgstr ""
+#~ "クリスタルがそんなに強力なら、僕が使ってやる。村も、みんな元に戻すんだ。"
+
+#~ msgid "Then, I'll help you."
+#~ msgstr "それなら、手伝おう。"
+
+#~ msgid "Banesore's minions are already all over the place."
+#~ msgstr "バネソールの軍勢はすでに至る所にいる。"
+
+#~ msgid ""
+#~ "The dark soldiers, as we call them, are fanatics. They'll follow "
+#~ "Banesore's orders even if it means their death."
+#~ msgstr ""
+#~ "私たちはあの狂信者たちを闇の兵士と呼んでいる。ヤツらはバネソールの命令に従"
+#~ "う。例え死ねと言われても。"
+
+#~ msgid ""
+#~ "We don't know how he does it, but he can turn anybody into a servile "
+#~ "subject."
+#~ msgstr ""
+#~ "どうやっているのかは分からんが、バネソールは人間をヤツらのような奴隷に変え"
+#~ "ることができる。"
+
+#~ msgid ""
+#~ "Their strength is increased by the transformation. That's why we call "
+#~ "them the zombified army."
+#~ msgstr ""
+#~ "ヤツらは変形によって強さを増す。それで、ヤツらを私たちはゾンビ軍団と呼んで"
+#~ "いる。"
+
+#~ msgid "We must absolutely avoid them or they'll call reinforcements."
+#~ msgstr "ヤツらに増援を呼ばれるとまずい。それだけは絶対に防げ。"
+
+#~ msgid "They are too strong. If they catch us, we're doomed."
+#~ msgstr "ヤツらは強すぎる。捕まったら終わりだ。"
+
+#~ msgid "Please, don't hurt me, my life is already so short!"
+#~ msgstr "お願いだ、傷つけないでくれ。私の余命は少ないんだ！"
+
+#~ msgid "What about buying some items instead?"
+#~ msgstr "その代わりと言ってはなんだが、アイテムを売るよ。"
+
+#~ msgid "Dang! And now the rain too."
+#~ msgstr "ああ！雨まで降ってきた。"
+
+#~ msgid ""
+#~ "The path seems to lead straight into the storm up there. It's definitely "
+#~ "our lucky day."
+#~ msgstr "道の先には嵐が待っている。今日は本当に素晴らしい一日だな。"
+
+#~ msgid ""
+#~ "Don't lose faith, Kalya. If we manage to escape from them here, we'll be "
+#~ "safe past the mountains."
+#~ msgstr ""
+#~ "あきらめちゃだめだよ。ヤツらから逃げ切ることができたら、安全に山を通れる"
+#~ "よ。"
+
+#~ msgid ""
+#~ "If we can reach the great plains, we should indeed be out of trouble."
+#~ msgstr "平原までたどり着いたら、騒ぎを起こさないようにするべきだろう。"
+
+#~ msgid "???"
+#~ msgstr "？？？"
+
+#~ msgid ""
+#~ "This place is the village's old cemetery. It was used by the former "
+#~ "villagers who lived in Layna."
+#~ msgstr ""
+#~ "ここは村の昔の墓場だ。かつてライナの村に住んでいた者達が使っていた。"
+
+#~ msgid "The former villagers? What do you mean?"
+#~ msgstr "昔の村人？どういうこと？"
+
+#~ msgid ""
+#~ "Layna Village was abandoned a long time ago, before your parents and all "
+#~ "the others settled here. Your mother never told you that?"
+#~ msgstr ""
+#~ "ライナの村は遠い昔に廃れてしまった。その後、お前の両親や他のみんなが移住し"
+#~ "た。お前の母は教えてくれなかったのか？"
+
+#~ msgid ""
+#~ "I've never been this far from the village without Herth. This place gives "
+#~ "me the chills."
+#~ msgstr ""
+#~ "ハースがいない時に、私は村を離れてここまで来たことは無い。この場所は寒気が"
+#~ "する。"
+
+#~ msgid "Anyway, once the cemetery is behind us we should be out of trouble!"
+#~ msgstr "何にしろ、墓地を抜けてしまえば助かるはずだ！"
+
+#~ msgid "Are those the soldiers up there?"
+#~ msgstr "あの兵士たちはここまで来るかな？"
+
+#~ msgid "The west gate is condemned, as the Lord commanded."
+#~ msgstr "主の命に従い、西門は封鎖した。"
+
+#~ msgid "Good. Let's go back and wait for them."
+#~ msgstr "良し、引き返して奴らを待つぞ。"
+
+#~ msgid "The gate to the great plains..."
+#~ msgstr "平原への門が..."
+
+#~ msgid "Have we got any other way to leave this place?"
+#~ msgstr "他に抜け道は無いのかな？"
+
+#~ msgid "Only one. The mountain top."
+#~ msgstr "一つだけ。山の頂上だ。"
+
+#~ msgid "Oh no! The gate!"
+#~ msgstr "なんてこった！門が！"
+
+#~ msgid "We're trapped!"
+#~ msgstr "はめられた！"
+
+#~ msgid "You're mine now!"
+#~ msgstr "お前たちは私の所有物となった！"
+
+#~ msgid ""
+#~ "I shall bring your souls to the master. You don't stand a chance against "
+#~ "the Great Harlequin."
+#~ msgstr ""
+#~ "お前たちの魂を主に捧げてやろう。偉大なるハーレクインに逆らうのは不可能だ。"
+
+#~ msgid "But let's play together first, shall we?"
+#~ msgstr "さあ、私とゲームをしよう。"
+
+#~ msgid "Now catch me, if you can."
+#~ msgstr "鬼ごっこだ、私を捕まえてみろ。"
+
+#~ msgid "Enough of this shallow game. Give me your souls, now!"
+#~ msgstr "余興は終わりだ。魂を頂くとしよう！"
+
+#~ msgid "How could I be hurt by... children..."
+#~ msgstr "私が倒されるとは...子供などに..."
+
+#~ msgid "We'll see each other again, chosen one..."
+#~ msgstr "また会おう、選ばれし者よ..."
+
+#~ msgid "We made it."
+#~ msgstr "やってやった。"
+
+#~ msgid "Brr. It's quite cold up here."
+#~ msgstr "うう。凍えそうだよ。"
+
+#~ msgid ""
+#~ "The bridge is a few feet away. Let's reach the mountain pass before the "
+#~ "frost kills us."
+#~ msgstr "橋はすぐそこだ。凍死する前に山道に入るぞ。"
+
+#~ msgid "Let's hurry. I can't feel my toes anymore."
+#~ msgstr "急ごう。足の感覚がなくなってきたよ。"
+
+#~ msgid "(Woah, this bridge doesn't look very sturdy.)"
+#~ msgstr "（うわ、この橋壊れそうだぞ。）"
+
+#~ msgid "Well, here we go."
+#~ msgstr "よし、到着だ。"
+
+#~ msgid "There!"
+#~ msgstr "あそこだ！"
+
+#~ msgid "Catch them before they reach the shrine!"
+#~ msgstr "捕まえろ！寺院には向かわせるな！"
+
+#~ msgid "Let's run!"
+#~ msgstr "走れ！"
+
+#~ msgid "I'll cut those ropes!"
+#~ msgstr "ロープを切るよ！"
+
+#~ msgid "That was close."
+#~ msgstr "かなり近かった。"
+
+#~ msgid "Damn!"
+#~ msgstr "クソ！"
+
+#~ msgid "The master won't be happy with this."
+#~ msgstr "主に怒られる。"
+
+#~ msgid "You won't get away so easily. We will catch you sooner or later."
+#~ msgstr "そう簡単には逃れさせんぞ！すぐに捕まえてやる。"
+
+#~ msgid "Hurray! Those idiots will have a hard time catching us now!"
+#~ msgstr "ヒュー！あのバカ兵士には捕まらないぞ！"
+
+#~ msgid "Indeed! They've been had!"
+#~ msgstr "確かに！もう無理だな！"
+
+#~ msgid "Who are the little brats now, eh?"
+#~ msgstr "まったく、騒がしい奴らだ。"
+
+#~ msgid "Let's go back and inform the others."
+#~ msgstr "戻るぞ、他の者たちに報告だ。"
+
+#~ msgid "Yes, sir."
+#~ msgstr "ハ！"
+
+#~ msgid ""
+#~ "They're gone. We should move on before they actually find a way to cross "
+#~ "the gap."
+#~ msgstr "ヤツらは行ったようだ。この崖を越えてくる前に進むぞ。"
+
+#~ msgid "I'll stay here as long as you need me. Do you want to buy something?"
+#~ msgstr "必要なら、ずっとここにいるよ。何か買っていくかい？"
+
+#~ msgid "Sophia's Items"
+#~ msgstr "ソフィアの道具屋"
+
+#~ msgid "Don't forget my trade offers!"
+#~ msgstr "トレードもあるよ！"
+
+#~ msgid ""
+#~ "You'll see. There's plenty of things I need to show you there. Plus, it's "
+#~ "a safe place."
+#~ msgstr "ここにはお前が見るべきものがたくさんある。それに、ここは安全だ。"
+
+#~ msgid "Err, sis?"
+#~ msgstr "姉ちゃん？"
+
+#~ msgid ""
+#~ "Our elder will also be able to help us. And you'll get a better "
+#~ "explanation than I could ever..."
+#~ msgstr ""
+#~ "長老が手を貸してくれるはずだ。それに、私よりも詳しく説明してくれるだろ"
+#~ "う..."
+
+#~ msgid "One second, Orlinn. I'm trying to..."
+#~ msgstr "少し待て、オーリン。今..."
+
+#~ msgid "But Kalya, look at the passageway!"
+#~ msgstr "でも、姉ちゃん。通路を見てよ！"
+
+#~ msgid "What about the..."
+#~ msgstr "何だと..."
+
+#~ msgid "No, it can't be."
+#~ msgstr "そんな、馬鹿な。"
+
+#~ msgid "After all we've been through, this..."
+#~ msgstr "ここを通るはずだったのに、これでは..."
+
+#~ msgid "Calm down Kalya, there must be a way to go through this somehow."
+#~ msgstr "大丈夫だよ、カルヤ。ここを通り抜ける道があるはずさ。"
+
+#~ msgid "Unfortunately, yes. There is one."
+#~ msgstr "確かに、道はあるが。あそこに。"
+
+#~ msgid "We'll have to enter the ancient shrine."
+#~ msgstr "古代の寺院に入る必要がある。"
+
+#~ msgid ""
+#~ "If we wouldn't have gotten here all by ourselves, I would swear "
+#~ "Banesore's army pushed us here on purpose."
+#~ msgstr ""
+#~ "私たちがここに逃げて来ずとも、バネソールの軍隊は私たちをここに連行するつも"
+#~ "りだったろう。"
+
+#~ msgid "What's with this 'ancient shrine'?"
+#~ msgstr "「古代の神殿」って何のこと？"
+
+#~ msgid ""
+#~ "Some say it is haunted. It was sealed a long time ago, long before I was "
+#~ "even born."
+#~ msgstr "幽霊が出るそうだ。私が生まれるより、ずっと昔に封印された場所だ。"
+
+#~ msgid "Indeed, it must be a long time ago."
+#~ msgstr "なんだ、遠い昔のことでしょ。"
+
+#~ msgid ""
+#~ "Anyway, we might not be able to enter there at all. But you're right, "
+#~ "let's have a look around first. Who knows?"
+#~ msgstr ""
+#~ "何にしろ、古代の神殿には入れないかもしれない。ブロナンの言う通り、まずは周"
+#~ "囲を探索しよう。"
+
+#~ msgid ""
+#~ "Here we are, looking at this huge and wonderful, yet creepy door. I don't "
+#~ "like this."
+#~ msgstr "神秘的で巨大な扉だが、不気味な感じがする。気に食わない。"
+
+#~ msgid ""
+#~ "It's not like I actually want to open this, but how are we going to do so?"
+#~ msgstr "ここには進みたくないが、他に道はあるのか？"
+
+#~ msgid "Ow, my chest. It hurts!"
+#~ msgstr "オウ、胸が！痛い！"
+
+#~ msgid "The crystal! Orlinn! Let's stand back!"
+#~ msgstr "クリスタルだ！オーリン、下がれ！"
+
+#~ msgid "That sign, it is the sign of the ancients! Bronann! Are you alright?"
+#~ msgstr "古代の印だ！ブロナン！無事か？"
+
+#~ msgid "I'm fine, I guess. The pain faded away."
+#~ msgstr "ああ、大丈夫。痛みは引いたよ。"
+
+#~ msgid "Thank the goddess."
+#~ msgstr "良かった。"
+
+#~ msgid "Well, the door is open now."
+#~ msgstr "...ドアが開いた。"
+
+#~ msgid "Yiek! Do you really want to go there??"
+#~ msgstr "イィー！本当に行くの？"
+
+#~ msgid ""
+#~ "I believe we don't really have a choice. Somehow this place... called me."
+#~ msgstr "他に選択肢は無いと思う。この場所が...僕を呼んでいる気がする。"
+
+#~ msgid "Anyway, let's stick together and we'll be fine as always, right?"
+#~ msgstr "何にしろ、団体行動を心がけるべきだな。"
+
+#~ msgid "I have a bad feeling about all this now."
+#~ msgstr "何か嫌な予感がするけどね。"
+
+#~ msgid "Thank the goddess you're all safe and sound. I was worried sick!"
+#~ msgstr "無事で良かった。心配したぞ！"
+
+#~ msgid "Sophia, you're here?"
+#~ msgstr "ソフィアなのか？"
+
+#~ msgid "Yes. It's a miracle that you were kept away from harm."
+#~ msgstr "ああ。お前たちが無事とは、奇跡だな。"
+
+#~ msgid "How in Layna did you reach Mt Elbrus all alone?"
+#~ msgstr "どうやってエルブラス山にたどり着いたんだ？"
+
+#~ msgid ""
+#~ "And how did you reach up here? Weren't you caught by the soldiers with "
+#~ "the others?"
+#~ msgstr "あなたこそどうやってここに？他の村人と兵士に捕まっていたのでは？"
+
+#~ msgid ""
+#~ "Well, it's a long story. But in short, I was out of the village when they "
+#~ "caught everyone."
+#~ msgstr ""
+#~ "あー、全部話すと長くなるぞ。簡単に言うと、みんなが捕まった時に私は村の外に"
+#~ "いたんだ。"
+
+#~ msgid "Do you know how the others are doing? Are my parents okay?"
+#~ msgstr "他のみんなはどうなったんだ？父さんと母さんは？"
+
+#~ msgid "Unfortunately no. I left them behind."
+#~ msgstr "すまないけど、わからない。私は彼らを残してその場を離れたんだ。"
+
+#~ msgid ""
+#~ "When I saw you leaving the village to the sanctuary, I decided to follow "
+#~ "you."
+#~ msgstr "村を離れて神殿に向かう君たちを見て、ついていくことにしたんだ。"
+
+#~ msgid ""
+#~ "But by the time I reached the area, the three of you were gone. And I had "
+#~ "to find out where you were heading."
+#~ msgstr ""
+#~ "私が神殿に着いたころには、君たちはもういなかった。そして、君たちを探しに"
+#~ "いったんだ。"
+
+#~ msgid "But the bridge, how did you cross?"
+#~ msgstr "橋は落ちているが、どうやって渡ったんだ？"
+
+#~ msgid "Using my rope and ranger skills, of course."
+#~ msgstr "私のロープ技術とレンジャーのスキルを合わせれば、容易いことさ。"
+
+#~ msgid ""
+#~ "Sophia could be of great help, Kalya. The passage has collapsed, and "
+#~ "we're stuck finding a way through this dreadful place."
+#~ msgstr ""
+#~ "カルヤ、ソフィアが手伝ってくれるのならかなり楽になるぞ。道は崩落してる上"
+#~ "に、他の道を探すのも難しいし。"
+
+#~ msgid ""
+#~ "Maybe, maybe not. Sophia was out the time they attacked? Somehow I don't "
+#~ "buy it."
+#~ msgstr ""
+#~ "そうかもしれないが、そうでないかもしれない。村が攻撃されている時だけ外出し"
+#~ "ていた？どうにも怪しい。"
+
+#~ msgid ""
+#~ "I wasn't out for no reason. Herth sent me to watch for soldiers in the "
+#~ "west parts of the forest."
+#~ msgstr ""
+#~ "私は理由も無しに外出はしないよ。ハースさんに東の森にいる兵士を監視するよう"
+#~ "に言われたのさ。"
+
+#~ msgid ""
+#~ "He was afraid they'd corner us to prevent an escape, and he was right."
+#~ msgstr ""
+#~ "ハースさんは奴らが私たちの逃走を妨害するのを恐れていたんだ。実際それは正し"
+#~ "かった。"
+
+#~ msgid ""
+#~ "Herth sent you? But he told me it was nothing, that he would handle it!"
+#~ msgstr "ハースがあなたを？だが私は何も聞いていない！"
+
+#~ msgid ""
+#~ "I fear he just wanted to protect you and make you all meet your destiny "
+#~ "at the same time."
+#~ msgstr ""
+#~ "君たちを守り、運命に立ち向かわせるのがハースさんの望みだったのかもしれな"
+#~ "い。"
+
+#~ msgid "What?! You mean you all knew about the crystal?"
+#~ msgstr "何だって！？ソフィアはクリスタルのことを知っていたのか？"
+
+#~ msgid ""
+#~ "We didn't know exactly what would happen, Bronann. But we knew one day "
+#~ "the three of you would have to carry a special burden. That is what Herth "
+#~ "told us."
+#~ msgstr ""
+#~ "何が起こるのかまでは知らなかったさ、ブロナン。でも、いつの日か、君たち三人"
+#~ "の内だれかが重大な責任を負うことになるのは知っていた。そのことをハースさん"
+#~ "は私たちに話していた。"
+
+#~ msgid ""
+#~ "Listen kids, I feel bad about what happened. But I can't help you as a "
+#~ "magical force is preventing me from entering the shrine."
+#~ msgstr ""
+#~ "君たち、私だって村が襲われて胸糞が悪いのさ。すまないけど、私は寺院の中に入"
+#~ "ることはできない。魔法の力に弾かれてしまうんだ。"
+
+#~ msgid "But then you're stuck here, too, right?"
+#~ msgstr "じゃあ、ここにずっといるつもり？"
+
+#~ msgid "Me? Not at all. I don't need bridges to cross a moutain."
+#~ msgstr "いや、私は橋など無くても山を渡れるさ。"
+
+#~ msgid "But maybe?"
+#~ msgstr "でも..."
+
+#~ msgid "Maybe?"
+#~ msgstr "何だ？"
+
+#~ msgid ""
+#~ "Maybe I could sell you a few things to help you find a way to open a path "
+#~ "in there?"
+#~ msgstr "君たちに便利な物を売ることぐらいならできるかも？"
+
+#~ msgid "So that's how you help, by selling things to us..."
+#~ msgstr "私たちを助けるといっても、金は取るんだな..."
+
+#~ msgid ""
+#~ "Yes, it's a great privilege as I usually don't do such things for "
+#~ "children. I'll stay here as long as you are stuck, isn't this quite nice?"
+#~ msgstr ""
+#~ "そう、最大限のお情けだよ。私は普段子供には優しくないからね。君たちがここに"
+#~ "いる間は、私も留まっておくさ。いいアイディアだろ？"
+
+#~ msgid "But you'll let us deal with this place, alone?"
+#~ msgstr "僕たちだけでこの寺院を何とかしろってこと？"
+
+#~ msgid ""
+#~ "This place is part of your burden. Herth was right. You managed to come "
+#~ "here all by yourselves, after all."
+#~ msgstr ""
+#~ "この場所は君たちへの試練の一つさ。ハースさんは正しかった。君たちが君たち自"
+#~ "身の足でここに来たんだし。"
+
+#~ msgid "I guess it's better than nothing. But Orlinn, you stay with us."
+#~ msgstr "無いよりかはマシな助けだな。オーリン、お前は私たちについて来い。"
+
+#~ msgid "Thanks anyway, Sophia."
+#~ msgstr "ありがとう、ソフィア。"
+
+#~ msgid "You're welcome, my dear!"
+#~ msgstr "どういたしまして！"
+
+#~ msgid "Phew, this one sure is heavier and more sturdy."
+#~ msgstr "ヒュー、これは重くて頑丈そうだ。"
+
+#~ msgid "I can feel something moving far below."
+#~ msgstr "ずっと下で何かが動いた気がする。"
+
+#~ msgid "It seems somebody left a note here on purpose."
+#~ msgstr "誰かが手記を残していったようだ。"
+
+#~ msgid "You mean in the middle of those scary bones?"
+#~ msgstr "おっかない骨のど真ん中に？"
+
+#~ msgid "Let me see."
+#~ msgstr "そのようだな。"
+
+#~ msgid "'To whoever will read this:'"
+#~ msgstr "「これを読んでいる者へ」"
+
+#~ msgid ""
+#~ "'Battles have been waging all over the place and the Ancient have now "
+#~ "forsaken me into oblivion when they sealed the Goddess Shrine.'"
+#~ msgstr ""
+#~ "「戦が至るところで行われていた。奴らにこの寺院が封印された時に、古の者は忘"
+#~ "却の彼方に私を見捨てた。」"
+
+#~ msgid ""
+#~ "'All my comrades have perished in battle and I am the last unfortunate "
+#~ "one left.'"
+#~ msgstr ""
+#~ "「仲間たちは皆、戦の中で非業の死を遂げた。私は不幸にも最後の生き残りとなっ"
+#~ "た。」"
+
+#~ msgid ""
+#~ "'My name is Shawn, and I do believe my time is running out in this life "
+#~ "as there is neither food nor water in here.'"
+#~ msgstr ""
+#~ "「私の名はシャウン。私の命は水も食料も無いこの場所で尽きようとしている。」"
+
+#~ msgid "Poor guy. He must have died from starvation."
+#~ msgstr "可哀想な人だ。ここで餓死したに違いない。"
+
+#~ msgid ""
+#~ "'But I will attempt one last time to escape from here and I'm leaving "
+#~ "this note in case you'd need to do the same.'"
+#~ msgstr ""
+#~ "「だが、その前にもう一度脱出を試みるつもりだ。同じ状況に陥った者のために、"
+#~ "この手記を残しておく。」"
+
+#~ msgid ""
+#~ "'The only way to escape this hellish place is to reach the highest floor "
+#~ "and activate the waterfall. At least that's what they said.'"
+#~ msgstr ""
+#~ "「この恐ろしい場所から脱出するには、最上階に向かい、滝を呼び出すのだ。奴ら"
+#~ "はそう言っていた。」"
+
+#~ msgid "What are we waiting for, let's go!"
+#~ msgstr "何が待ち受けてるかは分かんないけど、行こうよ！"
+
+#~ msgid "Wait Orlinn! That's not all he wrote."
+#~ msgstr "待てオーリン！まだ手記は続いている。"
+
+#~ msgid ""
+#~ "'But be warned, for even the very scent exuding from the dark waters is a "
+#~ "trap!'"
+#~ msgstr "「だが、気をつけろ。暗い水からは香りが漂ってくるが、それは罠だ！」"
+
+#~ msgid ""
+#~ "'The entire shrine has been turned into a murderous area and you'll have "
+#~ "to fight your way through, just as I will now.'"
+#~ msgstr ""
+#~ "「寺院全体が殺意剥き出しだ。進むためには戦わねば。私も今戦ってる。」"
+
+#~ msgid "That's it."
+#~ msgstr "だそうだ。"
+
+#~ msgid "Let's find out how to activate that waterfall, then."
+#~ msgstr "じゃあ、滝を呼び出す方法を探そう。"
+
+#~ msgid "Yes, and let's do it quickly."
+#~ msgstr "さっさとやるとするか。"
+
+#~ msgid ""
+#~ "Somebody left a note on purpose here. According to it, we need to find "
+#~ "out a way to trigger the waterfall from the highest floor."
+#~ msgstr ""
+#~ "誰かがこの手記を残していったみたいだ。手記によると、最上階にある滝を呼びだ"
+#~ "さなければならないそうだ。"
+
+#~ msgid ""
+#~ "But let's be careful, as it also said this place is dangerous and the "
+#~ "dark waters are some kind of trap."
+#~ msgstr "でも、この場所は危険な上に、暗い水は何かしらの罠のようだ。"
+
+#~ msgid "What is this? Skeletons?!"
+#~ msgstr "ナニコレ？骨！？"
+
+#~ msgid "Phew."
+#~ msgstr "ヒュー。"
+
+#~ msgid "Yiek! A big monster!"
+#~ msgstr "イィー！でかい怪物だ！"
+
+#~ msgid ""
+#~ "My name is Andromalius, guardian of the sacred seal and keeper of the "
+#~ "Goddess Shrine."
+#~ msgstr "私はアンドロマリウス、神聖なる封印と女神の寺院を守る者だ。"
+
+#~ msgid ""
+#~ "You have trespassed the holy ground of the Ancient and remained unharmed "
+#~ "for too long in this temple."
+#~ msgstr "おまえたちは古代の神聖なる地と、遺産を汚した。"
+
+#~ msgid ""
+#~ "Thus, let death embrace you, little boy. For your comrades are already "
+#~ "dying under my charm and you need to join them in the other world."
+#~ msgstr ""
+#~ "そう、お前たちは死ぬのだ。おまえの仲間たちはすでに、私の虜になって死にかけ"
+#~ "ているぞ。あの世で再開するといい。"
+
+#~ msgid "You've proven yourself, chosen one. You deserve to live after all."
+#~ msgstr ""
+#~ "おまえは証明したのだ、選ばれし者よ。おまえは生きるべき存在だったようだ。"
+
+#~ msgid "Me? But I'm not the chosen one."
+#~ msgstr "僕が？でも僕は選ばれしものじゃないよ。"
+
+#~ msgid ""
+#~ "The ones being few or many, still each of them will have to prove "
+#~ "themselves as it is ought to be."
+#~ msgstr ""
+#~ "選ばれしものは数人、いや、さらに存在するかもしれぬ。必要が迫れば、選ばれし"
+#~ "ものは自分自身を証明できるのだ。"
+
+#~ msgid "Farewell, chosen one."
+#~ msgstr "さらばだ、選ばれしものよ。"
+
+#~ msgid "I can hear water everywhere."
+#~ msgstr "そこら中から水の音がする。"
+
+#~ msgid "Kalya, Bronann!"
+#~ msgstr "カルヤ、ブロナン！"
+
+#~ msgid "Again, I can feel something moving not far from here."
+#~ msgstr "まただ。それほど遠くない所で何かが動いたようだ。"
+
+#~ msgid ""
+#~ "There is a passage here, but I'm too heavy to climb on those stones "
+#~ "jutting out."
+#~ msgstr "ここには通路があるけど、尖った岩を登るには僕は重すぎるな。"
+
+#~ msgid ""
+#~ "The fact is, you and I cannot afford to stand on those stones. Maybe with "
+#~ "a rope?"
+#~ msgstr "私やおまえでは岩を登れないということだな。ロープがあれば行けるか？"
+
+#~ msgid "I'll do it."
+#~ msgstr "僕がやるよ。"
+
+#~ msgid "What? Are you crazy? There could be monsters up there."
+#~ msgstr "何？ふざけているのか？通路にはモンスターもいるだろう。"
+
+#~ msgid "Then I'll deal with them, sis. We can't just stay here, anyway."
+#~ msgstr ""
+#~ "そのときはどうにかするよ、姉ちゃん。いつまでもここに留まってはいれないで"
+#~ "しょ。"
+
+#~ msgid "Orlinn, you sure have grown up through all of this. Are you sure?"
+#~ msgstr ""
+#~ "オーリン、おまえはこれまでの困難を乗り越えて、確かに成長している。本当に行"
+#~ "くんだな？"
+
+#~ msgid "I need to, I guess."
+#~ msgstr "必要なんだから、行くしかないよ。"
+
+#~ msgid "Just tell me when you're ready and I'll throw you up there."
+#~ msgstr "準備ができたら僕に言ってくれ。君を持ち上げるよ。"
+
+#~ msgid "Ready to go up?"
+#~ msgstr "準備はいいかい？"
+
+#~ msgid "Err, not yet."
+#~ msgstr "あー、まだかな。"
+
+#~ msgid "Be careful, ok?"
+#~ msgstr "気をつけろよ。"
+
+#~ msgid "Want to come back?"
+#~ msgstr "戻るか？"
+
+#~ msgid "Yes!"
+#~ msgstr "戻る！"
+
+#~ msgid "No, not yet."
+#~ msgstr "まだだ。"
+
+#~ msgid "Oops, sorry!"
+#~ msgstr "ああ、ごめん！"
+
+#~ msgid "Bronann, are you okay?"
+#~ msgstr "ブロナン、大丈夫か？"
+
+#~ msgid "I don't know, I felt something crack."
+#~ msgstr "よくわからないけど、気分が悪いんだ。"
+
+#~ msgid "Not again..."
+#~ msgstr "またか..."
+
+#~ msgid "There is a note left here."
+#~ msgstr "手記が残されている。"
+
+#~ msgid ""
+#~ "It says: 'I fathomed it! After all, not every ladder is made of wood. "
+#~ "Now, I'll have to get back there alive.'"
+#~ msgstr ""
+#~ "「分かったぞ！全てのはしごが木で出来ているわけでは無かったのだ。あそこまで"
+#~ "生きて戻らねば。」"
+
+#~ msgid "There seems to be one of those rolling stones up here."
+#~ msgstr "あれは回転する石のようだ。"
+
+#~ msgid "Wow, what a fall. I didn't see that one coming."
+#~ msgstr "ワオ、落とし穴とは。気付かなかった。"
+
+#~ msgid "Are you alright, Kalya?"
+#~ msgstr "カルヤ、大丈夫？"
+
+#~ msgid "I should be fine, but we should heal just in case."
+#~ msgstr "たぶん大丈夫だ、だが念の為に回復するべきだろう。"
+
+#~ msgid "Wait..."
+#~ msgstr "待て..."
+
+#~ msgid "Where is Orlinn?"
+#~ msgstr "オーリンはどこだ？"
+
+#~ msgid "Orlinn? Orlinn!"
+#~ msgstr "オーリン？オーリン！"
+
+#~ msgid "Let's find him, once more, before something bad happens."
+#~ msgstr "何か災難が振りかかる前に、オーリンを見つけるぞ。"
+
+#~ msgid "This is the blocked passage to the shrine entrance."
+#~ msgstr "寺院の入り口への通路が塞がっている。"
+
+#~ msgid "This can only mean we're near the exit!"
+#~ msgstr "出口が近いんだ！"
+
+#~ msgid "Orlinn! Back off!"
+#~ msgstr "オーリン！戻ってこい！"
+
+#~ msgid "I, I..."
+#~ msgstr "僕は、僕は..."
+
+#~ msgid "Orlinn! NOW!"
+#~ msgstr "オーリン！来るんだ！"
+
+#~ msgid "You shall not leave this place without my consent."
+#~ msgstr "私が許さない限りは、ここを離れることはできない。"
+
+#~ msgid "And you shall not touch my brother without mine."
+#~ msgstr "私の許可無く、弟に触れさせやしない。"
+
+#~ msgid ""
+#~ "You have made it through the holy ordeal alive. I shall not let you "
+#~ "survive."
+#~ msgstr "神聖な試練を生きて潜り抜けたか。生きて逃しはせぬ。"
+
+#~ msgid "Let's fight for our lives then!"
+#~ msgstr "戦うぞ、生き残るために！"
+
+#~ msgid "Orlinn, are you alright?"
+#~ msgstr "オーリン、無事か？"
+
+#~ msgid "Yes. I'm sorry I wasn't able to protect myself, sis."
+#~ msgstr "うん。自分で身を守れなくてごめん、姉ちゃん。"
+
+#~ msgid ""
+#~ "Don't you worry about that, brother. Never leave me like that again, ok?"
+#~ msgstr "オーリン、そのことは気にするな。二度と私のもとから離れるな。"
+
+#~ msgid ""
+#~ "I promise I didn't do it this time. I just fell in front of this hideous "
+#~ "green head."
+#~ msgstr "もうしないよ。このきもい緑頭の前に落ちちゃったんだ。"
+
+#~ msgid ""
+#~ "Well, let's leave this place before another one wants our lives again."
+#~ msgstr "さあ、他の奴が僕たちの命を欲しがる前に、ここを離れよう。"
+
+#~ msgid "I couldn't agree more."
+#~ msgstr "それがいい。"
+
+#~ msgid "We can't move, Orlinn."
+#~ msgstr "体が動かない、オーリン。"
+
+#~ msgid "We're gonna...suffocate."
+#~ msgstr "窒息するぞ。"
+
+#~ msgid "Orlinn, help us... Please, oh oh oh..."
+#~ msgstr "オーリン、助け...お願いだ、アアー..."
+
+#~ msgid "What a large gate. What is behind it must be fearsome."
+#~ msgstr "あの大きな門は。何か恐ろしいものが待ち受けているに違いない。"
+
+#~ msgid "Shall we go in?"
+#~ msgstr "入るのか？"
+
+#~ msgid "Yes, let's end this."
+#~ msgstr "ああ、終わらせるとしよう。"
+
+#~ msgid "No, let's prepare first."
+#~ msgstr "いや、準備がまだだ。"
+
+#~ msgid ""
+#~ "Don't worry, we've managed to come this far. There is nothing that "
+#~ "could..."
+#~ msgstr "気にするな、私たちはこの遠方の地まで来れたんだ。もうできることは..."
+
+#~ msgid "What is it, Kalya?"
+#~ msgstr "カルヤ、あれは何？"
+
+#~ msgid "...Kalya?!"
+#~ msgstr "...カルヤ！？"
+
+#~ msgid "Sis'!"
+#~ msgstr "姉ちゃん！"
+
+#~ msgid "I feel... I..."
+#~ msgstr "感じる...私は..."
+
+#~ msgid "Hi hi... Hi hi hi... I can't stop!!"
+#~ msgstr "ハハ...ハハハハ...止まらない！！"
+
+#~ msgid "What's so funny, Kalya? Hi hi."
+#~ msgstr "何がそんなに可笑しいんだい、カルヤ？ハハ。"
+
+#~ msgid "I don't know... Ah, I can barely breathe!"
+#~ msgstr "分からない...あー、息が辛い！"
+
+#~ msgid "Hi hi hi... What's happening to me..."
+#~ msgstr "ハハハ...何が起きてるんだ..."
+
+#~ msgid "It's the scent, ah ah ah."
+#~ msgstr "あの香りだ、ハッハッハ。"
+
+#~ msgid ""
+#~ "Erm, are you crazy or what? I usually am the one with bad jokes you know."
+#~ msgstr "えー、どうしたの？ふざけてるわけじゃないよね？"
+
+#~ msgid "We can't move Orlinn."
+#~ msgstr "体が動かない、オーリン。"
+
+#~ msgid "I can't let them die. I have to find out something."
+#~ msgstr "みんなを見殺しにはできない。僕がどうにかしないと。"
+
+#~ msgid "Something is preventing me from entering."
+#~ msgstr "何かが入るのを邪魔している。"
+
+#~ msgid "I feel much better now."
+#~ msgstr "良くなってきた。"
+
+#~ msgid "Indeed. It seems the scent has no effect on us anymore."
+#~ msgstr "そうだな。もうあの香りの影響は無いようだ。"
+
+#~ msgid "Orlinn, did you do something?"
+#~ msgstr "オーリン、何かしたのか？"
+
+#~ msgid "Me? You know, a bit of this, a bit of that."
+#~ msgstr "僕？ちょっとだけね。"
+
+#~ msgid "I didn't think I would say this, but thank you Orlinn."
+#~ msgstr "私がおまえに感謝することになるとはな、オーリン。"
+
+#~ msgid "Thank you, indeed."
+#~ msgstr "ありがとう。"
+
+#~ msgid "You're welcome!"
+#~ msgstr "どういたしまして。"
+
+#~ msgid ""
+#~ "Well, please stop laughing now. I'm not at ease with what just happened."
+#~ msgstr "さあ、笑うのを止めろ。落ち着かなくてこまる。"
+
+#~ msgid "Stop laughing now or I'll smash your little head against that wall!"
+#~ msgstr "笑うのを止めなければ、おまえの小さな頭を壁に叩きつけるぞ！"
+
+#~ msgid "Aww, ok."
+#~ msgstr "アウゥ、わかったよ。"
+
+#~ msgid "VSync_mode|Off"
+#~ msgstr "オフ"
+
+#~ msgid "VSync_mode|On"
+#~ msgstr "オン"
+
+#~ msgid "VSync_mode|Swap Tearing"
+#~ msgstr "Swap Tearing"
+
+#~ msgid "UpdateMode|Performance"
+#~ msgstr "パフォーマンス"
+
+#~ msgid "UpdateMode|Gentle"
+#~ msgstr "ジェントル"
+
+#~ msgid "Game Difficulty: %s"
+#~ msgstr "ゲーム難易度：%s"
+
+#~ msgid "Dialogue text speed: %i"
+#~ msgstr "ダイアログテキストの速さ：%i"
+
+#~ msgid "Battle target cursor memory: %s"
+#~ msgstr "戦闘時のカーソル記憶：%s"
+
+#~ msgid "%ss"
+#~ msgstr "%ss"
+
+#~ msgid "%s SP"
+#~ msgstr "%s SP"
+
+#~ msgid "Target Type: %s"
+#~ msgstr "ターゲットタイプ：%s"
+
+#~ msgid "Prep Time: %s"
+#~ msgstr "準備時間：%s"
+
+#~ msgid "Cool Time: %s"
+#~ msgstr "クールタイム：%s"
+
+#~ msgid "Press '%s' to get to know about the game keys."
+#~ msgstr "もっとゲームキーについて知りたければ「%s」を押して下さい。"
+
+#~ msgid ""
+#~ "With the additional %u drunes found in this treasure added, the party now "
+#~ "holds a total of %u drunes."
+#~ msgstr ""
+#~ "%uドルンを見つけました。パーティーは合計で%uドルンを所持しています。"
+
+#~ msgid "Press '%s' anytime to show/hide help."
+#~ msgstr "ヘルプを表示／非表示したければいつでも「%s」を押して下さい。"
+
+#~ msgid "Slot %d"
+#~ msgstr "スロット %d"
+
+#~ msgid ""
+#~ "Press %s to add items to buy and %s to remove items from your purchase."
+#~ msgstr ""
+#~ "「%s」を押して購入するアイテムを追加して下さい。「%s」で逆に購入数を減少で"
+#~ "きます。"
+
+#~ msgid "Press %s to add items to sell and %s to remove items from your sale."
+#~ msgstr ""
+#~ "「%s」を押して売却するアイテムを追加して下さい。「%s」で逆に購入数を減らす"
+#~ "ことができます。"
+
+#~ msgid "Press %s to add items to trade and %s to remove them."
+#~ msgstr ""
+#~ "%sを押してトレードするアイテムを追加し、%sで減少させることができます。"
+
+#~ msgid "Just stand in front of the goddess below the spring and push '%s'."
+#~ msgstr "泉の下にある女神の前に立って「%s」を押せ。"
+
+#~ msgid "Confirm / Open / Talk: %s"
+#~ msgstr "決定／開く／会話：%s"
+
+#~ msgid "Run / Cancel: %s"
+#~ msgstr "走る／キャンセル：%s"
+
+#~ msgid "Party Menu: %s"
+#~ msgstr "パーティーメニュー：%s"
+
+#~ msgid "Pause: %s"
+#~ msgstr "ポーズ：%s"
+
+#~ msgid "Quit Menu: %s"
+#~ msgstr "終了メニュー：%s"
+
+#~ msgid "Help Menu: %s"
+#~ msgstr "ヘルプメニュー：%s"
+
+#~ msgid ""
+#~ "This circle is a save point. Here, you can save your game by pushing %s."
+#~ msgstr ""
+#~ "このサークルはセーブポイントです。%sを押すことでゲームをセーブすることがで"
+#~ "きます。"
+
+#~ msgid ""
+#~ "And I hope that you have already equipped your sword. If you haven't, "
+#~ "open your inventory by pressing the menu key (%s), and select 'Equip'. "
+#~ "Then you'll be able to select your sword and add it as your main weapon."
+#~ msgstr ""
+#~ "剣はもう装備したか？もしそうでないなら、「%s」キーを押してインベントリを開"
+#~ "いて、「装備」を選択しろ。そして、おまえの剣を選択してメインウェポンのとこ"
+#~ "ろに追加しておくのだ。"
+
+#~ msgid ""
+#~ "Don't forget that certain items are limited or unique! \n"
+#~ "When reviewing items, you can also cycle through the proposed item "
+#~ "categories using the menu key (%s)."
+#~ msgstr ""
+#~ "ある種のアイテムは固有のものだったり、数が限られていることを忘れないで"
+#~ "ね！\n"
+#~ "アイテムを見ている時は、アイテムをカテゴリ別に見ることもできるよ。%sキーを"
+#~ "使ってね。"
+
+#~ msgid "Layna Forest Cave"
+#~ msgstr "ライナの森の洞窟"
+
+#~ msgid "Forest entrance"
+#~ msgstr "森の入り口"
+
+#~ msgid "Where it all began..."
+#~ msgstr "ここから全てが始まる..."
+
+#~ msgid "Mountain Village of Layna"
+#~ msgstr "ライナの山村"
+
+#~ msgid "Flora's Boutique"
+#~ msgstr "フローラのブティック"
+
+#~ msgid "Basement"
+#~ msgstr "地下室"
+
+#~ msgid "Riverbank"
+#~ msgstr "川岸"
+
+#~ msgid "Lilly's house"
+#~ msgstr "リリーの家"
+
+#~ msgid "Village entrance"
+#~ msgstr "村の入り口"
+
+#~ msgid "Elbrus Grotto"
+#~ msgstr "エルブラスの洞窟"
+
+#~ msgid "Low Mountain"
+#~ msgstr "小山"
+
+#~ msgid "Old Cemetery"
+#~ msgstr "古びた墓地"
+
+#~ msgid "Mountain bridge"
+#~ msgstr "山橋"
+
+#~ msgid "Underpass"
+#~ msgstr "地下道"
+
+#~ msgid "Mt. Elbrus Shrine"
+#~ msgstr "エルブラス山の寺院"
+
+#~ msgid "2nd Floor"
+#~ msgstr "2階"
+
+#~ msgid "1st Floor"
+#~ msgstr "1階"

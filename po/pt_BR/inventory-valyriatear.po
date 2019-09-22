@@ -1,0 +1,2175 @@
+# Portuguese translations for Allacrost Demo package
+# Traduções em português para o pacote Allacrost Demo.
+# Copyright (C) 2010 The Allacrost Project
+# This file is distributed under the same license as the Allacrost package.
+# Marcos Avila Isidoro <marcavis@yahoo.com.br>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Allacrost Demo 0.3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-22 23:22+0200\n"
+"PO-Revision-Date: 2010-09-01 01:46-0300\n"
+"Last-Translator: Marcos Avila Isidoro <marcavis@yahoo.com.br>\n"
+"Language-Team: Team Allacrost\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: BRAZIL\n"
+"X-Poedit-Basepath: /home/marcos/allacrost/demo\n"
+
+#: ../data/inventory/arm_armor.lua:41
+msgid "Prismatic Ring"
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:42
+msgid "A strange ring that protects the wearer from darkness."
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:60
+msgid "Long Leather Gloves"
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:61 ../data/inventory/arm_armor.lua:72
+msgid "Robust leather gloves."
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:71
+msgid "Sturdy Leather Gloves"
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:82
+msgid "Wooden Shield"
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:83
+msgid "Robust wooden oak protects from all but the heaviest of assaults."
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:93
+msgid "Metal Shield"
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:94
+msgid ""
+"A shield formed completely out of a light-weight but cheap metallic alloy."
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:104
+msgid "Phoenix Shield"
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:105
+msgid "A tall steel shield with a mighty phoenix emblazoned on the front."
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:115
+msgid "Trident Shield"
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:116
+msgid ""
+"A large shield with enough fortitude to withstand waves of powerful attacks."
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:41
+msgid "Butterfly Hair Tong"
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:42
+msgid "An old and finely crafted piece of jewelery."
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:52 ../data/inventory/items.lua:1067
+msgid "Wolfpain Necklace"
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:53 ../data/inventory/items.lua:1068
+msgid "A strange necklace with unknown powers."
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:66
+#, fuzzy
+msgid "Old Helmet"
+msgstr "Karlate"
+
+#: ../data/inventory/head_armor.lua:67
+msgid "A battle-worn helmet, still reliable for head protection."
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:77
+msgid "Cobalt Helm"
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:78
+msgid "A small helmet composed of a secret cobalt-based alloy."
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:88
+msgid "Crested Helmet"
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:89
+msgid ""
+"A sturdy helmet with a hinged face guard offering additional protection."
+msgstr ""
+
+#: ../data/inventory/items.lua:81
+#, fuzzy
+msgid "Tiny Healing Potion"
+msgstr "Proteção: "
+
+#: ../data/inventory/items.lua:82
+msgid "Restores a small amount of hit points to an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:112
+#, fuzzy
+msgid "Small Healing Potion"
+msgstr "Proteção: "
+
+#: ../data/inventory/items.lua:113
+msgid "Restores a reasonable amount of hit points to an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:143
+#, fuzzy
+msgid "Healing Potion"
+msgstr "Proteção: "
+
+#: ../data/inventory/items.lua:144
+msgid "Restores a large amount of hit points to an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:174
+msgid "Mega Healing Potion"
+msgstr ""
+
+#: ../data/inventory/items.lua:175
+msgid "Restores a very high amount of hit points to an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:235
+msgid "Tiny Moon Juice Potion"
+msgstr ""
+
+#: ../data/inventory/items.lua:236
+msgid "Restores a small amount of skill points to an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:266
+msgid "Small Moon Juice Potion"
+msgstr ""
+
+#: ../data/inventory/items.lua:267
+msgid "Restores a reasonable amount of skill points to an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:297
+msgid "Moon Juice Potion"
+msgstr ""
+
+#: ../data/inventory/items.lua:298
+msgid "Restores a large amount of skill points to an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:328
+msgid "Mega Moon Juice Potion"
+msgstr ""
+
+#: ../data/inventory/items.lua:329
+msgid "Restores a very high amount of skill points to an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:359
+msgid "Lotus Petal"
+msgstr ""
+
+#: ../data/inventory/items.lua:360
+msgid "Cures moderate poisons from an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:418
+msgid "Candy"
+msgstr ""
+
+#: ../data/inventory/items.lua:419
+msgid "Makes an ally's health regenerate moderately."
+msgstr ""
+
+#: ../data/inventory/items.lua:504
+msgid "Minor Elixir"
+msgstr ""
+
+#: ../data/inventory/items.lua:505
+msgid ""
+"Revives a character, or improves the character's status when he/she is alive "
+"by a limited degree."
+msgstr ""
+
+#: ../data/inventory/items.lua:554
+msgid "Elixir"
+msgstr ""
+
+#: ../data/inventory/items.lua:555
+msgid ""
+"Revives a character to half of their hit points, or reasonably improves the "
+"character's status while he/she is alive."
+msgstr ""
+
+#: ../data/inventory/items.lua:602
+#, fuzzy
+msgid "Periwinkle Potion"
+msgstr "Proteção: "
+
+#: ../data/inventory/items.lua:603
+msgid ""
+"Gives a reasonable boost in Physical Attack to an ally for a large amount of "
+"time."
+msgstr ""
+
+#: ../data/inventory/items.lua:651
+#, fuzzy
+msgid "Haste Potion"
+msgstr "Proteção: "
+
+#: ../data/inventory/items.lua:652
+msgid ""
+"Gives a reasonable boost in stamina to an ally for a small amount of time."
+msgstr ""
+
+#: ../data/inventory/items.lua:701
+#, fuzzy
+msgid "Poison Potion"
+msgstr "Proteção: "
+
+#: ../data/inventory/items.lua:702
+msgid "Poisons an enemy for a small amount of time."
+msgstr ""
+
+#: ../data/inventory/items.lua:749
+#, fuzzy
+msgid "Copper Ore"
+msgstr "Limpar Pedido"
+
+#: ../data/inventory/items.lua:750
+msgid "A small amount of copper ore."
+msgstr ""
+
+#: ../data/inventory/items.lua:756
+msgid "Iron Ore"
+msgstr ""
+
+#: ../data/inventory/items.lua:757
+msgid "A small amount of iron ore."
+msgstr ""
+
+#: ../data/inventory/items.lua:763
+msgid "Titanium Ore"
+msgstr ""
+
+#: ../data/inventory/items.lua:764
+msgid "A small amount of titanium ore."
+msgstr ""
+
+#: ../data/inventory/items.lua:770
+msgid "Anthozium Ore"
+msgstr ""
+
+#: ../data/inventory/items.lua:771
+msgid "A small amount of anthozium ore."
+msgstr ""
+
+#: ../data/inventory/items.lua:777
+msgid "Auridium Ore"
+msgstr ""
+
+#: ../data/inventory/items.lua:778
+msgid "A small amount of auridium ore."
+msgstr ""
+
+#: ../data/inventory/items.lua:784
+#, fuzzy
+msgid "Borium Ore"
+msgstr "Confirmar Pedido"
+
+#: ../data/inventory/items.lua:785
+msgid "A small amount of borium ore."
+msgstr ""
+
+#: ../data/inventory/items.lua:791
+msgid "Evanium Ore"
+msgstr ""
+
+#: ../data/inventory/items.lua:792
+msgid "A small amount of evanium ore."
+msgstr ""
+
+#: ../data/inventory/items.lua:798
+msgid "Phoenix Feather"
+msgstr ""
+
+#: ../data/inventory/items.lua:799
+msgid ""
+"A genuine and perfect feather from the great fire bird. It is known to bring "
+"life to inanimated items."
+msgstr ""
+
+#: ../data/inventory/items.lua:807
+msgid "Slimy Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:808
+msgid "Material provided by slimy creatures."
+msgstr ""
+
+#: ../data/inventory/items.lua:814
+msgid "Refined Slimy Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:815
+msgid "Quality material provided by slimy creatures."
+msgstr ""
+
+#: ../data/inventory/items.lua:821
+msgid "Insect Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:822
+msgid "Material provided by various insects."
+msgstr ""
+
+#: ../data/inventory/items.lua:828
+msgid "Refined Insect Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:829
+msgid "Quality material provided by various insects."
+msgstr ""
+
+#: ../data/inventory/items.lua:835
+msgid "Fur"
+msgstr ""
+
+#: ../data/inventory/items.lua:836 ../data/inventory/items.lua:885
+#: ../data/inventory/items.lua:913
+msgid "Material provided by various creatures."
+msgstr ""
+
+#: ../data/inventory/items.lua:842
+msgid "Soft Fur"
+msgstr ""
+
+#: ../data/inventory/items.lua:843
+msgid "Material provided by rare animals."
+msgstr ""
+
+#: ../data/inventory/items.lua:849
+msgid "Silver Fur"
+msgstr ""
+
+#: ../data/inventory/items.lua:850
+msgid "Highly sought-after material provided by very special creatures."
+msgstr ""
+
+#: ../data/inventory/items.lua:856
+msgid "Saurian Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:857
+msgid "Material provided by various reptilians."
+msgstr ""
+
+#: ../data/inventory/items.lua:863
+msgid "Refined Saurian Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:864
+msgid "Quality material provided by various reptilians."
+msgstr ""
+
+#: ../data/inventory/items.lua:870
+msgid "Rodent Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:871
+msgid "Material provided by small rodents."
+msgstr ""
+
+#: ../data/inventory/items.lua:877
+msgid "Refined Rodent Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:878
+msgid "Quality material provided by not-that-small rodents."
+msgstr ""
+
+#: ../data/inventory/items.lua:884
+msgid "Soft Powder"
+msgstr ""
+
+#: ../data/inventory/items.lua:891
+msgid "Silk"
+msgstr ""
+
+#: ../data/inventory/items.lua:892 ../data/inventory/items.lua:920
+#: ../data/inventory/items.lua:927
+msgid "Material provided by a few creatures."
+msgstr ""
+
+#: ../data/inventory/items.lua:898
+msgid "Red Meat"
+msgstr ""
+
+#: ../data/inventory/items.lua:899
+msgid "Material provided by warm-blooded creatures."
+msgstr ""
+
+#: ../data/inventory/items.lua:905
+msgid "Fish Meat"
+msgstr ""
+
+#: ../data/inventory/items.lua:906
+msgid "Material provided by various underwater creatures."
+msgstr ""
+
+#: ../data/inventory/items.lua:912
+msgid "White Meat"
+msgstr ""
+
+#: ../data/inventory/items.lua:919
+msgid "Orb"
+msgstr ""
+
+#: ../data/inventory/items.lua:926
+msgid "Stinging Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:933
+msgid "Thick Fabric"
+msgstr ""
+
+#: ../data/inventory/items.lua:934
+msgid "Common fabric, but of good quality."
+msgstr ""
+
+#: ../data/inventory/items.lua:940
+msgid "Fine Wood"
+msgstr ""
+
+#: ../data/inventory/items.lua:941
+msgid "Common but durable wood. Always useful"
+msgstr ""
+
+#: ../data/inventory/items.lua:993
+msgid "Escape Smoke"
+msgstr ""
+
+#: ../data/inventory/items.lua:994
+msgid ""
+"A ninja potion that bursts out a damp mist when it is crashed on the ground. "
+"Used to hopefully escape from standard opponents."
+msgstr ""
+
+#: ../data/inventory/items.lua:1050
+#, fuzzy
+msgid "Pen"
+msgstr "OK"
+
+#: ../data/inventory/items.lua:1051
+msgid "Georges's pen, presumably used to write poetry."
+msgstr ""
+
+#: ../data/inventory/items.lua:1058
+msgid "Barley Meal"
+msgstr ""
+
+#: ../data/inventory/items.lua:1059
+msgid "Basic yet good and cheap flour."
+msgstr ""
+
+#: ../data/inventory/leg_armor.lua:41
+msgid "Leather boots"
+msgstr ""
+
+#: ../data/inventory/leg_armor.lua:42 ../data/inventory/leg_armor.lua:52
+msgid "Simple but fairly good leather boots."
+msgstr ""
+
+#: ../data/inventory/leg_armor.lua:51
+msgid "Sturdy boots"
+msgstr ""
+
+#: ../data/inventory/leg_armor.lua:61
+msgid "Standard Greaves"
+msgstr ""
+
+#: ../data/inventory/leg_armor.lua:62
+msgid ""
+"Standard equipment. Light metal alloy protects the legs while minimizing the "
+"negative impact on movement."
+msgstr ""
+
+#: ../data/inventory/leg_armor.lua:72
+msgid "Tempered Greaves"
+msgstr ""
+
+#: ../data/inventory/leg_armor.lua:73
+msgid ""
+"Standard greaves that have undergone an additional tempering process, "
+"increasing their durability and strength."
+msgstr ""
+
+#: ../data/inventory/spirits.lua:23
+msgid "Ardoris"
+msgstr ""
+
+#: ../data/inventory/spirits.lua:24
+msgid "An enchanting child of fire."
+msgstr ""
+
+#: ../data/inventory/spirits.lua:55
+msgid "Undine"
+msgstr ""
+
+#: ../data/inventory/spirits.lua:56
+msgid "A mesmerizing spirit of living water."
+msgstr ""
+
+#: ../data/inventory/spirits.lua:87
+msgid "Sylphid"
+msgstr ""
+
+#: ../data/inventory/spirits.lua:88
+msgid "A very rare spirit of wind, usually neither tamable nor catchable."
+msgstr ""
+
+#: ../data/inventory/spirits.lua:119
+msgid "Dryad"
+msgstr ""
+
+#: ../data/inventory/spirits.lua:120
+msgid "A fragile spirit, child of mother nature."
+msgstr ""
+
+#: ../data/inventory/spirits.lua:151
+msgid "Fairy"
+msgstr ""
+
+#: ../data/inventory/spirits.lua:152
+msgid "Blinding as the sun, she brings life even where death belongs."
+msgstr ""
+
+#: ../data/inventory/spirits.lua:183
+msgid "Demona"
+msgstr ""
+
+#: ../data/inventory/spirits.lua:184
+msgid ""
+"Spirit of the dark. It can't be possessed: it only chose to be possessed, "
+"waiting for its hour."
+msgstr ""
+
+#: ../data/inventory/spirits.lua:215
+msgid "Oblivion"
+msgstr ""
+
+#: ../data/inventory/spirits.lua:216
+msgid ""
+"Touched neither by time nor space, this spirit is dwelling in pure energy."
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:41
+msgid "Rookie Tunic"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:42 ../data/inventory/torso_armor.lua:84
+msgid ""
+"A light tunic worn by new soldier recruits. This one belonged to Bronann's "
+"father."
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:52
+msgid "Old Willow Dress"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:53 ../data/inventory/torso_armor.lua:102
+msgid "An old willow dress that Kalya likes to wear."
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:63
+msgid "Tunic"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:64
+msgid "An old light soldier tunic."
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:73
+msgid "Leather Cloak"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:74
+msgid "A cloak worn by apprentices."
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:83
+msgid "Adjusted Rookie Tunic"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:101
+msgid "Patched Willow Dress"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:119
+msgid "Leather Chain Mail"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:120
+msgid "A light chain mail woven into a tough leather cuirass."
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:130
+msgid "Karlate Breastplate"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:131
+msgid ""
+"Standard Karlate issued equipment. Effectively protects the torso from most "
+"types of attack."
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:141
+msgid "Shouldered Breastplate"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:142
+msgid ""
+"A breastplate with slightly thicker armor than is commonly found and "
+"additional shoulder guards."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:43
+msgid "Wooden Sword"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:44 ../data/inventory/weapons.lua:78
+msgid "A sword made of wood with a steel hilt, very good for practising."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:77
+#, fuzzy
+msgid "Hardened Practice Sword"
+msgstr "Karlate"
+
+#: ../data/inventory/weapons.lua:118
+#, fuzzy
+msgid "Initiate Sword"
+msgstr "Karlate"
+
+#: ../data/inventory/weapons.lua:119
+msgid "A sword made of wood with a steel hilt, reinforced magically."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:158
+msgid "Perfect Wooden Sword"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:159
+msgid ""
+"A sword made of wood with a steel hilt, surrounded by a great magical force."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:201
+msgid "Iron Sword"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:202
+msgid ""
+"A sturdy but somewhat dull sword whose blade was forged from a single block "
+"of solid iron."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:234
+#, fuzzy
+msgid "Soldier Sword"
+msgstr "Karlate"
+
+#: ../data/inventory/weapons.lua:235
+msgid ""
+"Standard soldier sword. A light weight iron sword suitable for most "
+"skirmishes."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:274
+msgid "Knight's Blade"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:275
+msgid "A weapon bestowed to seasoned veterans of the knighthood."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:314
+#, fuzzy
+msgid "Paladin's Sword"
+msgstr "Karlate"
+
+#: ../data/inventory/weapons.lua:315
+msgid "A mythical weapon blessed with a magical fire."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:362
+msgid "Omni Sword"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:432
+#, fuzzy
+msgid "Arbalest"
+msgstr "Vendas"
+
+#: ../data/inventory/weapons.lua:433 ../data/inventory/weapons.lua:466
+msgid "A standard wooden arbalest."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:465
+msgid "Improved Arbalest"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:506
+msgid "Noble Arbalest"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:507
+msgid "An arbalest made out of fine noble ash tree wood."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:546
+msgid "Arbalest of Force"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:547
+msgid "An arbalest strengthened with magical ore."
+msgstr ""
+
+# requires implementation of plural-forms
+#~ msgid " characters"
+#~ msgstr " personagens"
+
+# requires implementation of plural-forms
+#~ msgid " count"
+#~ msgstr " itens"
+
+# Change this message to a more natural one
+#~ msgid ""
+#~ " drunes found in this treasure added, the party now holds a total of "
+#~ msgstr ""
+#~ " drunes encontrados no tesouro, o total possuído pelo grupo agora é "
+
+# requires implementation of plural-forms
+#~ msgid " unique"
+#~ msgstr " tipos"
+
+# TODO: Have different messages for whether Claudius is alone or in a party.
+#~ msgid "\"Welcome! Take a look around.\""
+#~ msgstr "\"Seja bem-vindo! Fique à vontade.\""
+
+#~ msgid "(Kyle hands Claudius a cloth.  Inside is a piece of cake.)"
+#~ msgstr ""
+#~ "(Kyle entrega um pedaço de pano para Claudius. Dentro dele há uma fatia "
+#~ "de bolo.)"
+
+#~ msgid "A"
+#~ msgstr "A"
+
+#, fuzzy
+#~ msgid "AGI:"
+#~ msgstr "AGI: "
+
+#~ msgid "AGI: "
+#~ msgstr "AGI: "
+
+#~ msgid "Agility: "
+#~ msgstr "Agilidade: "
+
+#~ msgid "Alex"
+#~ msgstr "Alex"
+
+#~ msgid "Alexander"
+#~ msgstr "Alexander"
+
+# Must be split into two messages depending on context
+#~ msgid "All"
+#~ msgstr "Tudo"
+
+#, fuzzy
+#~ msgid "All Allies"
+#~ msgstr "Todos os Produtos"
+
+#, fuzzy
+#~ msgid "All Enemies"
+#~ msgstr "Todos os Produtos"
+
+#, fuzzy
+#~ msgid "All Foes"
+#~ msgstr "Todos os Produtos"
+
+#~ msgid "All Wares"
+#~ msgstr "Todos os Produtos"
+
+#~ msgid "All right buddy, let's go."
+#~ msgstr "Certo cara, vamos lá."
+
+#~ msgid "All right."
+#~ msgstr "Certo."
+
+#~ msgid "And you know I can’t just let you go."
+#~ msgstr "E você sabe que eu simplesmente não posso liberar você."
+
+# Must be split into two messages depending on context
+#~ msgid "Arm"
+#~ msgstr "Braço"
+
+#~ msgid "Arm Armor"
+#~ msgstr "Proteção de Braço"
+
+#, fuzzy
+#~ msgid "Ask nothing."
+#~ msgstr "…Nada."
+
+#~ msgid "Audio"
+#~ msgstr "Áudio"
+
+#~ msgid "Back"
+#~ msgstr "Voltar"
+
+#~ msgid ""
+#~ "Back home… hey Claudius, we should get some rest.  Let's head back to the "
+#~ "barracks."
+#~ msgstr ""
+#~ "De volta ao lar… ei, Claudius, melhor descansarmos um pouco. Vamos voltar "
+#~ "pro quartel."
+
+#, fuzzy
+#~ msgid "Bat"
+#~ msgstr "Batalha"
+
+#~ msgid "Battle"
+#~ msgstr "Batalha"
+
+#~ msgid "Battle Use:"
+#~ msgstr "Uso na Batalha:"
+
+#~ msgid "Body Armor"
+#~ msgstr "Proteção do Tronco"
+
+#~ msgid "Brightness:"
+#~ msgstr "Brilho:"
+
+#~ msgid "Brightness: "
+#~ msgstr "Brilho: "
+
+#~ msgid "Buy"
+#~ msgstr "Comprar"
+
+#~ msgid "Buy prices"
+#~ msgstr "Preços de Compra"
+
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
+
+#~ msgid "Cancel an action or menu command"
+#~ msgstr "Cancela uma ação ou um comando no menu"
+
+#~ msgid "Cancel: "
+#~ msgstr "Cancelar: "
+
+#~ msgid "Cancel: Button"
+#~ msgstr "Cancela: Botão"
+
+#~ msgid "Captain"
+#~ msgstr "Capitão"
+
+#, fuzzy
+#~ msgid "Captain Bravis"
+#~ msgstr "Capitão"
+
+#~ msgid "Category"
+#~ msgstr "Categoria"
+
+#~ msgid "Charles"
+#~ msgstr "Charles"
+
+#~ msgid "Claudius"
+#~ msgstr "Claudius"
+
+#~ msgid "Claudius! Are you all right?"
+#~ msgstr "Claudius! Tudo bem com você?"
+
+#, fuzzy
+#~ msgid "Claudius, what are you doing here?"
+#~ msgstr "O que você está fazendo?"
+
+#~ msgid "Claudius?"
+#~ msgstr "Claudius?"
+
+#~ msgid "Claudius?  Claudius!  WAKE UP!"
+#~ msgstr "Claudius? Claudius! ACORDE!"
+
+#~ msgid "Come on, Kyle, let’s go! Kyle?"
+#~ msgstr "Venha, Kyle, vamos! …Kyle?"
+
+#~ msgid "Come with me, Claudius, we need to talk."
+#~ msgstr "Venha cá, Claudius, temos que conversar."
+
+#~ msgid "Command"
+#~ msgstr "Comando"
+
+#~ msgid "Complete Transaction"
+#~ msgstr "Completar Transação"
+
+#~ msgid "Confirm"
+#~ msgstr "Confirmar"
+
+#, fuzzy
+#~ msgid "Confirm Save"
+#~ msgstr "Confirmar: "
+
+#~ msgid "Confirm an action or menu command"
+#~ msgstr "Confirma uma ação ou um comando no menu"
+
+#~ msgid "Confirm: "
+#~ msgstr "Confirmar: "
+
+#~ msgid "Confirm: Button"
+#~ msgstr "Confirma: Botão"
+
+#, fuzzy
+#~ msgid "Confirm: exit game."
+#~ msgstr "Confirmar: "
+
+#, fuzzy
+#~ msgid "Confirm: restart from last save."
+#~ msgstr "Confirmar Pedido"
+
+#, fuzzy
+#~ msgid "Confirm: retry battle."
+#~ msgstr "Confirmar Pedido"
+
+#, fuzzy
+#~ msgid "Confirm: return to main menu."
+#~ msgstr "Confirmar Pedido"
+
+#~ msgid "Current Equipment:"
+#~ msgstr "Equipamento Atual:"
+
+#~ msgid "D"
+#~ msgstr "D"
+
+#~ msgid "Damn you, Kyle."
+#~ msgstr "Você me paga, Kyle."
+
+#~ msgid "Default Key"
+#~ msgstr "Tecla Padrão"
+
+#~ msgid "Delete"
+#~ msgstr "Apagar"
+
+#~ msgid "Display the character menu"
+#~ msgstr "Mostra o menu "
+
+#~ msgid "Don’t do this."
+#~ msgstr "Não faça isso."
+
+#~ msgid ""
+#~ "Don’t mention it. I’m already on bad terms with the captain, there’s no "
+#~ "sense in you getting in trouble too."
+#~ msgstr ""
+#~ "Não foi nada. Eu já tenho problemas com o capitão, não tem motivo pra "
+#~ "você se meter em confusão também."
+
+#~ msgid "Down"
+#~ msgstr "Abaixo"
+
+#~ msgid "Down Arrow"
+#~ msgstr "Seta para Baixo"
+
+#~ msgid "Down: "
+#~ msgstr "Abaixo: "
+
+#~ msgid "Draw your weapon."
+#~ msgstr "Desembainhe a espada."
+
+#~ msgid "Drunes"
+#~ msgstr "Drunes"
+
+#, fuzzy
+#~ msgid "Drunes Found: "
+#~ msgstr "Drunes: "
+
+#~ msgid "Drunes: "
+#~ msgstr "Drunes: "
+
+#~ msgid "E"
+#~ msgstr "E"
+
+#~ msgid "EVD: "
+#~ msgstr "ESQ: "
+
+#~ msgid "Edit"
+#~ msgstr "Editar"
+
+#~ msgid "Entry into the kitchen is strictly forbidden!"
+#~ msgstr "É proibido entrar na cozinha!"
+
+# Needs to be split into two messages, depending on context
+#~ msgid "Equip"
+#~ msgstr "Equipar"
+
+#~ msgid "Esc"
+#~ msgstr "Esc"
+
+#~ msgid "Evade: "
+#~ msgstr "Esquiva: "
+
+#~ msgid "Everyone down to the cave floor! He might still be alive!"
+#~ msgstr "Todos pro fundo da caverna! Ele ainda pode estar vivo!"
+
+#, fuzzy
+#~ msgid "Exit the game."
+#~ msgstr "Pausa o jogo"
+
+#~ msgid "Experience Level: "
+#~ msgstr "Nível de Experiência: "
+
+#~ msgid "F"
+#~ msgstr "F"
+
+#~ msgid "FRT: "
+#~ msgstr "RES: "
+
+#~ msgid "Female Merchant"
+#~ msgstr "Vendedora"
+
+#~ msgid "Field"
+#~ msgstr "Mapa"
+
+#~ msgid "Field Use:"
+#~ msgstr "Uso no Mapa:"
+
+#~ msgid "Finished"
+#~ msgstr "OK"
+
+#, fuzzy
+#~ msgid "Foe"
+#~ msgstr "Joe"
+
+# Translated as is for now, "armory" could change later
+#~ msgid ""
+#~ "For those of you who don’t know, a thief has broken into the armory. It "
+#~ "is up to us to capture him. Split up and comb the area."
+#~ msgstr ""
+#~ "Para quem ainda não ficou sabendo, um ladrão arrombou o arsenal. É o "
+#~ "nosso dever capturá-lo. Dividam-se e vasculhem a área."
+
+#~ msgid "Formation"
+#~ msgstr "Formação"
+
+#~ msgid "Fortitude: "
+#~ msgstr "Resistência: "
+
+#~ msgid "Fred"
+#~ msgstr "Fred"
+
+#~ msgid "Funds: "
+#~ msgstr "Fundos: "
+
+#~ msgid "General Purpose"
+#~ msgstr "Efeito no Jogo"
+
+#~ msgid "Get your gear and let’s go!"
+#~ msgstr "Arrume-se e vamos!"
+
+#~ msgid "Good job."
+#~ msgstr "Bom trabalho."
+
+#~ msgid ""
+#~ "Good. Remember, never take your eye off your target. Now show me the "
+#~ "proper form for a parry."
+#~ msgstr ""
+#~ "Certo. Lembre-se, nunca tire os olhos do seu alvo. Agora me mostre a "
+#~ "forma correta de uma esquiva."
+
+#, fuzzy
+#~ msgid "HP:"
+#~ msgstr "HP: "
+
+#~ msgid "HP: "
+#~ msgstr "HP: "
+
+#~ msgid "He can wait."
+#~ msgstr "Ele pode esperar."
+
+#~ msgid "Head"
+#~ msgstr "Cabeça"
+
+#~ msgid "Head Armor"
+#~ msgstr "Proteção da Cabeça"
+
+#~ msgid "Headgear"
+#~ msgstr "Proteção da Cabeça"
+
+#~ msgid "Hector"
+#~ msgstr "Hector"
+
+#~ msgid "Hello, Claudius.  Is your equipment in order?"
+#~ msgstr "Olá, Claudius. Está com o equipamento em ordem?"
+
+#~ msgid "Hey, what's that… look out!"
+#~ msgstr "Ei, o que é aquilo… cuidado!"
+
+#~ msgid "Hey."
+#~ msgstr "Opa."
+
+#~ msgid ""
+#~ "Hi, Claudius.  If you're looking for the captain, he's at the training "
+#~ "hall."
+#~ msgstr ""
+#~ "Oi, Claudius. Se você está procurando o capitão, ele está no salão de "
+#~ "treinamento."
+
+#~ msgid "Hi-ya!"
+#~ msgstr "Hi-ya!"
+
+#~ msgid "Hlm"
+#~ msgstr "Cab"
+
+#~ msgid "Huh?  What?"
+#~ msgstr "Hã? O quê?"
+
+#~ msgid "I can’t let you get away."
+#~ msgstr "Não posso deixar você fugir."
+
+#~ msgid "I don’t know, sir."
+#~ msgstr "Eu não sei, capitão."
+
+#~ msgid "I don’t want to fight you."
+#~ msgstr "Eu não quero te enfrentar."
+
+#~ msgid ""
+#~ "I guess you’re right. And hey, thanks for covering for me back there. I "
+#~ "appreciate it."
+#~ msgstr ""
+#~ "É, acho que está certo. Ah, e obrigado por ter me tirado daquela encrenca "
+#~ "com o capitão."
+
+#~ msgid ""
+#~ "I hear some guy stole from the kitchen yesterday.  They've tightened up "
+#~ "security."
+#~ msgstr ""
+#~ "Ouvi dizer que alguém roubou da cozinha ontem. Já reforçaram a segurança "
+#~ "hoje."
+
+#~ msgid ""
+#~ "I just took some supplies, just enough to start a new life, away from "
+#~ "this servitude. Can’t you understand?"
+#~ msgstr ""
+#~ "Eu só peguei uns suprimentos, o que desse pra começar uma vida nova, "
+#~ "longe dessa escravidão. Você não entende?"
+
+#~ msgid ""
+#~ "I managed to swipe some goodies from the kitchen quarters. I saved you "
+#~ "some."
+#~ msgstr ""
+#~ "Eu consegui pegar umas coisinhas da despensa. Guardei um pouco pra você."
+
+#~ msgid ""
+#~ "I need you to look for Kyle.  I hope he didn't wander off.  Maybe the "
+#~ "other soldiers know where he is?"
+#~ msgstr ""
+#~ "Eu preciso que você procure o Kyle. Espero que não tenha sumido… Talvez "
+#~ "os outros soldados saibam aonde ele foi?"
+
+#~ msgid "I understand, sir."
+#~ msgstr "Eu entendo, senhor."
+
+#~ msgid "I'll stay behind and protect the barracks.  Good luck!"
+#~ msgstr "Ficarei na retaguarda, protegendo o quartel. Boa sorte!"
+
+#~ msgid "Image quality:"
+#~ msgstr "Qualidade de imagem:"
+
+#, fuzzy
+#~ msgid "Image quality: "
+#~ msgstr "Qualidade de imagem:"
+
+#, fuzzy
+#~ msgid "Invalid Status"
+#~ msgstr "Condição"
+
+#~ msgid "Inventory"
+#~ msgstr "Inventário"
+
+#~ msgid "Isn’t our friendship more important than your duty?"
+#~ msgstr "A nossa amizade não é mais importante que o seu dever?"
+
+#~ msgid "It's just a piece of cake.  It's not going to hurt anyone."
+#~ msgstr "É só uma fatia de bolo. Não vai fazer mal pra ninguém."
+
+#, fuzzy
+#~ msgid "Item"
+#~ msgstr "Itens"
+
+#~ msgid "Items"
+#~ msgstr "Itens"
+
+#, fuzzy
+#~ msgid "Items Found"
+#~ msgstr "Itens"
+
+#~ msgid "Itm"
+#~ msgstr "Item"
+
+#~ msgid "It’s my duty!"
+#~ msgstr "É o meu dever!"
+
+#~ msgid "It’s my fault, sir. I dragged Claudius off this morning."
+#~ msgstr ""
+#~ "A culpa foi minha, capitão. Eu arrastei o Claudius pra fora hoje cedo."
+
+#~ msgid "I’m fine… But the captain… He fell…"
+#~ msgstr "Estou bem… Mas o capitão… ele caiu…"
+
+#~ msgid "I’m sorry.  I didn't want to have to do that."
+#~ msgstr "Eu sei, eu… não queria ter que fazer isso."
+
+#~ msgid "I’m very disappointed in you, Kyle."
+#~ msgstr "Estou muito decepcionado com você, Kyle."
+
+#~ msgid "I’m your friend!"
+#~ msgstr "Mas sou seu amigo!"
+
+#~ msgid "Jeff"
+#~ msgstr "Jeff"
+
+#~ msgid "Joe"
+#~ msgstr "Joe"
+
+#~ msgid "Joystick Settings"
+#~ msgstr "Configuração do Joystick"
+
+#~ msgid ""
+#~ "Just think about it. Now, do me a favor and find Kyle. I need to speak "
+#~ "with him as well."
+#~ msgstr ""
+#~ "Pense nisso. Agora, me faça um favor e vá buscar o Kyle. Eu preciso falar "
+#~ "com ele também."
+
+#~ msgid "Karlate"
+#~ msgstr "Karlate"
+
+# Esp as in "especial" - "special"
+#~ msgid "Key"
+#~ msgstr "Esp"
+
+#~ msgid "Key Items"
+#~ msgstr "Itens Especiais"
+
+#~ msgid "Key Settings"
+#~ msgstr "Configuração do Teclado"
+
+#, fuzzy
+#~ msgid "Knight"
+#~ msgstr "Direita"
+
+#~ msgid "Kyle"
+#~ msgstr "Kyle"
+
+#~ msgid "Kyle is a good man, sir."
+#~ msgstr "Kyle é um bom homem, senhor."
+
+#~ msgid "Kyle!"
+#~ msgstr "Kyle!"
+
+#~ msgid "Kyle?  Oh, yeah, I think he went off to the south."
+#~ msgstr "O Kyle? Ah, sim, acho que ele foi na direção sul."
+
+#, fuzzy
+#~ msgid "Laila has joined the party."
+#~ msgstr "Kyle se juntou ao grupo."
+
+#~ msgid "Laine"
+#~ msgstr "Laine"
+
+#~ msgid "Language"
+#~ msgstr "Idioma"
+
+#~ msgid "Leave"
+#~ msgstr "Sair"
+
+#~ msgid "Leave Shop"
+#~ msgstr "Sair"
+
+#~ msgid "Left"
+#~ msgstr "Esquerda"
+
+#~ msgid "Left Arrow"
+#~ msgstr "Seta para Esquerda"
+
+#~ msgid "Left Select"
+#~ msgstr "Seleção Esquerda"
+
+#~ msgid "Left Select: "
+#~ msgstr "Seleção Esquerda: "
+
+#~ msgid "Left Select: Button"
+#~ msgstr "Seleção Esquerda: Botão"
+
+#~ msgid "Left: "
+#~ msgstr "Esquerda: "
+
+#~ msgid "Leg"
+#~ msgstr "Per"
+
+#~ msgid "Leg Armor"
+#~ msgstr "Proteção das Pernas"
+
+#~ msgid "Leggings"
+#~ msgstr "Grevas"
+
+#~ msgid "Legs"
+#~ msgstr "Pernas"
+
+#~ msgid ""
+#~ "Let’s see how you fare when the opponent strikes back. Kyle! Get over "
+#~ "here!"
+#~ msgstr ""
+#~ "Vamos ver como você se sai quando o oponente revidar. Kyle! Venha cá!"
+
+#~ msgid "Livia"
+#~ msgstr "Livia"
+
+#~ msgid "Load"
+#~ msgstr "Carregar"
+
+#~ msgid "Load Game"
+#~ msgstr "Carregar Jogo"
+
+#, fuzzy
+#~ msgid "Lower Agility"
+#~ msgstr "Agilidade: "
+
+#, fuzzy
+#~ msgid "Lower Fortitude"
+#~ msgstr "Resistência: "
+
+#, fuzzy
+#~ msgid "Lower Protection"
+#~ msgstr "Proteção: "
+
+#, fuzzy
+#~ msgid "Lower Strength"
+#~ msgstr "Força: "
+
+#~ msgid "Lv: "
+#~ msgstr "Nv: "
+
+#~ msgid "META ATK:"
+#~ msgstr "ATQ META:"
+
+#~ msgid "META ATK: "
+#~ msgstr "ATQ META: "
+
+#~ msgid "META DEF:"
+#~ msgstr "DEF META:"
+
+#~ msgid "META DEF: "
+#~ msgstr "DEF META: "
+
+#~ msgid "Marcus"
+#~ msgstr "Marcus"
+
+#~ msgid "Menu"
+#~ msgstr "Menu"
+
+#~ msgid "Menu: "
+#~ msgstr "Menu: "
+
+#~ msgid "Menu: Button"
+#~ msgstr "Menu: Botão"
+
+#~ msgid "Meta:"
+#~ msgstr "Meta:"
+
+#~ msgid "Modify Order"
+#~ msgstr "Alterar Pedido"
+
+#~ msgid "Move Down"
+#~ msgstr "Para Baixo"
+
+#~ msgid "Move Left"
+#~ msgstr "Para a Esquerda"
+
+#~ msgid "Move Right"
+#~ msgstr "Para a Direita"
+
+#~ msgid "Move Up"
+#~ msgstr "Para Cima"
+
+#~ msgid "Move position or cursor downwards"
+#~ msgstr "Anda ou move o cursor para baixo"
+
+#~ msgid "Move position or cursor to the left"
+#~ msgstr "Anda ou move o cursor para a esquerda"
+
+#~ msgid "Move position or cursor to the right"
+#~ msgstr "Anda ou move o cursor para a direita"
+
+#~ msgid "Move position or cursor upwards"
+#~ msgstr "Anda ou move o cursor para cima"
+
+#~ msgid "Music Volume: "
+#~ msgstr "Volume da música: "
+
+#~ msgid "Name"
+#~ msgstr "Nome"
+
+#~ msgid "New Game"
+#~ msgstr "Novo Jogo"
+
+#~ msgid "New Profile"
+#~ msgstr "Novo Perfil"
+
+#~ msgid "Nicely done."
+#~ msgstr "Muito bem."
+
+#~ msgid "No"
+#~ msgstr "Não"
+
+#, fuzzy
+#~ msgid "No arm armor"
+#~ msgstr "Proteção de Braço"
+
+#, fuzzy
+#~ msgid "No head armor"
+#~ msgstr "Proteção da Cabeça"
+
+#, fuzzy
+#~ msgid "No leg armor"
+#~ msgstr "Proteção das Pernas"
+
+#~ msgid "No marked transactions."
+#~ msgstr "Nenhuma transação marcada."
+
+#, fuzzy
+#~ msgid "No torso armor"
+#~ msgstr "Proteção do Tronco"
+
+#, fuzzy
+#~ msgid "No weapon"
+#~ msgstr "Arma"
+
+#~ msgid "No!"
+#~ msgstr "Não!"
+
+#, fuzzy
+#~ msgid "No, of course not..."
+#~ msgstr "Claro que não."
+
+#~ msgid "No. I’m doing this for me. I don’t expect you to understand."
+#~ msgstr "Não. Estou fazendo isso por mim. Não espero que você entenda."
+
+#~ msgid "Not him. Claudius trains with me today."
+#~ msgstr "Ele não. O Claudius vai treinar comigo hoje."
+
+#~ msgid "Octavia"
+#~ msgstr "Octavia"
+
+#, fuzzy
+#~ msgid "Of course, I promise."
+#~ msgstr "Claro que não."
+
+# To be decided
+#~ msgid "Offhand"
+#~ msgstr "Mão do Escudo"
+
+#~ msgid "Oh no."
+#~ msgstr "Ah não…"
+
+#~ msgid "Okay, let's call it a night."
+#~ msgstr "Certo, vamos encerrar por hoje."
+
+#~ msgid "Options"
+#~ msgstr "Opções"
+
+#~ msgid "Over here, Claudius!"
+#~ msgstr "Por aqui, Claudius!"
+
+#, fuzzy
+#~ msgid "Over there! Watch out!"
+#~ msgstr "Por aqui, Claudius!"
+
+#~ msgid "Overwrite? Confirm/Cancel"
+#~ msgstr "Sobrescrever? Confirma/Cancela"
+
+#~ msgid "Own"
+#~ msgstr "Inventário"
+
+#~ msgid "PHYS ATK:"
+#~ msgstr "ATQ FÍS:"
+
+#~ msgid "PHYS ATK: "
+#~ msgstr "ATQ FÍS:"
+
+#~ msgid "PHYS DEF:"
+#~ msgstr "DEF FÍS:"
+
+#~ msgid "PHYS DEF: "
+#~ msgstr "DEF FÍS: "
+
+#, fuzzy
+#~ msgid "PRO:"
+#~ msgstr "PRO: "
+
+#~ msgid "PRO: "
+#~ msgstr "PRO: "
+
+#~ msgid "Pause"
+#~ msgstr "Pausar"
+
+#~ msgid "Pause: "
+#~ msgstr "Pausar: "
+
+#~ msgid "Pause: Button"
+#~ msgstr "Pausa: Botão"
+
+#~ msgid "Paused"
+#~ msgstr "Pausa"
+
+#~ msgid "Pauses the game"
+#~ msgstr "Pausa o jogo"
+
+#~ msgid "Phys:"
+#~ msgstr "Fís:"
+
+#~ msgid "Please enter a name for your new profile"
+#~ msgstr "Defina um nome para o novo perfil"
+
+#~ msgid "Please move an axis."
+#~ msgstr "Movimente o eixo do direcional analógico na direção desejada."
+
+#~ msgid "Please press a new joystick button."
+#~ msgstr "Pressione o botão desejado no joystick."
+
+#~ msgid "Please press a new key."
+#~ msgstr "Pressione a tecla desejada."
+
+#~ msgid "Press any key to continue."
+#~ msgstr "Pressione qualquer tecla para continuar."
+
+#~ msgid "Price"
+#~ msgstr "Preço"
+
+#~ msgid "Profiles"
+#~ msgstr "Perfis"
+
+#~ msgid "Protection: "
+#~ msgstr "Proteção: "
+
+#~ msgid "Purchases"
+#~ msgstr "Compras"
+
+#~ msgid "Purchases: -"
+#~ msgstr "Compras: -"
+
+#~ msgid "Quit"
+#~ msgstr "Sair"
+
+#~ msgid "Quit Game"
+#~ msgstr "Sair do Jogo"
+
+#~ msgid "Quit the application"
+#~ msgstr "Encerra o jogo"
+
+#~ msgid "Quit to Main Menu"
+#~ msgstr "Sair para o Menu Principal"
+
+#, fuzzy
+#~ msgid "Raise Agility"
+#~ msgstr "Agilidade: "
+
+#, fuzzy
+#~ msgid "Raise Fortitude"
+#~ msgstr "Resistência: "
+
+#, fuzzy
+#~ msgid "Raise Strength"
+#~ msgstr "Força: "
+
+#, fuzzy
+#~ msgid "Rat"
+#~ msgstr "Batalha"
+
+#~ msgid ""
+#~ "Regardless, I want you to consider your priorities. Becoming a knight "
+#~ "takes sacrifice. Sometimes that sacrifice means spending less time with "
+#~ "the people we care about."
+#~ msgstr ""
+#~ "Eu sei, mas… eu quero que você decida quais são as suas prioridades. É "
+#~ "preciso sacrifício para se tornar um cavaleiro. Às vezes esse sacrifício "
+#~ "significa passarmos menos tempo com as pessoas que importam pra nós."
+
+#~ msgid "Remember what you’ve learned."
+#~ msgstr "Lembre-se do que você já aprendeu."
+
+#~ msgid "Remove"
+#~ msgstr "Retirar"
+
+#~ msgid "Resolution:"
+#~ msgstr "Resolução:"
+
+#, fuzzy
+#~ msgid "Resolution: "
+#~ msgstr "Resolução:"
+
+#~ msgid "Restore defaults"
+#~ msgstr "Carregar padrões"
+
+#~ msgid "Right"
+#~ msgstr "Direita"
+
+#~ msgid "Right Arrow"
+#~ msgstr "Seta para Direita"
+
+#~ msgid "Right Select"
+#~ msgstr "Seleção Direita"
+
+#~ msgid "Right Select: "
+#~ msgstr "Seleção Direita: "
+
+#~ msgid "Right Select: Button"
+#~ msgstr "Seleção Direita: Botão"
+
+#~ msgid "Right: "
+#~ msgstr "Direita: "
+
+#~ msgid "S"
+#~ msgstr "S"
+
+#, fuzzy
+#~ msgid "SP:"
+#~ msgstr "SP: "
+
+#~ msgid "SP: "
+#~ msgstr "SP: "
+
+#, fuzzy
+#~ msgid "STR:"
+#~ msgstr "FOR: "
+
+#~ msgid "STR: "
+#~ msgstr "FOR: "
+
+#~ msgid "Sales: +"
+#~ msgstr "Vendas: +"
+
+#~ msgid "Save"
+#~ msgstr "Salvar"
+
+#~ msgid "Save Game"
+#~ msgstr "Salvar Jogo"
+
+#~ msgid "Scott"
+#~ msgstr "Scott"
+
+#, fuzzy
+#~ msgid "Select Target"
+#~ msgstr "Alvo:"
+
+#~ msgid "Select multiple or backward page scroll"
+#~ msgstr "Seleção múltipla ou ir à página anterior"
+
+#~ msgid "Select multiple or forward page scroll"
+#~ msgstr "Seleção múltipla ou ir à próxima página"
+
+#~ msgid "Sell"
+#~ msgstr "Vender"
+
+#~ msgid "Sell prices"
+#~ msgstr "Preços de Venda"
+
+# To be decided
+#~ msgid "Shards"
+#~ msgstr "Shards"
+
+#~ msgid "Shop"
+#~ msgstr "Loja"
+
+#~ msgid "Shop Name"
+#~ msgstr "Nome da Loja"
+
+#~ msgid "Show me your slicing attack technique."
+#~ msgstr "Quero ver sua técnica de ataque."
+
+#~ msgid "Sir?"
+#~ msgstr "Senhor?"
+
+#, fuzzy
+#~ msgid "Skill Points: "
+#~ msgstr "Habilidades"
+
+#, fuzzy
+#~ msgid "Skill<R>Type SP"
+#~ msgstr "Habilidades"
+
+#~ msgid "Skills"
+#~ msgstr "Habilidades"
+
+#~ msgid "Sorry, sir, I –"
+#~ msgstr "Perdão, senhor, eu –"
+
+#~ msgid "Sound Volume: "
+#~ msgstr "Volume do som: "
+
+#~ msgid "Spacebar"
+#~ msgstr "Barra de espaço"
+
+#~ msgid "Status"
+#~ msgstr "Condição"
+
+#~ msgid "Stock"
+#~ msgstr "Estoque"
+
+#~ msgid ""
+#~ "Stop this, Kyle. You can’t escape. Lower your weapon and come peacefully "
+#~ "and I’ll make sure your punishment is lenient."
+#~ msgstr ""
+#~ "Pare com isso, Kyle. Você não tem como escapar. Baixe sua arma e venha em "
+#~ "paz que eu lhe garanto que sua punição será branda."
+
+#~ msgid "Strength: "
+#~ msgstr "Força: "
+
+#~ msgid "Swap"
+#~ msgstr "Trocar"
+
+#~ msgid "Swap: "
+#~ msgstr "Trocar: "
+
+#~ msgid "Swap: Button"
+#~ msgstr "Troca: Botão"
+
+#~ msgid "Swaps active menu or character"
+#~ msgstr "Troca o menu ou o personagem ativo"
+
+#~ msgid "Switch"
+#~ msgstr "Substituir"
+
+#, fuzzy
+#~ msgid "Target Type: "
+#~ msgstr "Alvo:"
+
+#~ msgid "Target:"
+#~ msgstr "Alvo:"
+
+#~ msgid "Thank you, sir."
+#~ msgstr "Obrigado, senhor."
+
+#~ msgid ""
+#~ "The captain and some others went off to the cave down that path to the "
+#~ "west."
+#~ msgstr ""
+#~ "O capitão e mais alguns soldados foram até a caverna por aquele caminho a "
+#~ "oeste."
+
+#~ msgid ""
+#~ "The control mappings can be changed in the options menu on the next "
+#~ "screen."
+#~ msgstr ""
+#~ "Os controles podem ser personalizados no menu \"Opções\" na próxima tela."
+
+#~ msgid "The table below lists the default game controls.\n"
+#~ msgstr "A tabela abaixo mostra os controles padrões do jogo.\n"
+
+# "treasury" might change later
+#~ msgid ""
+#~ "The treasury!  A thief has broken in and stolen everything.  The captain "
+#~ "has called a man hunt.  Now equip yourself and meet us out front."
+#~ msgstr ""
+#~ "O tesouro! Um ladrão o arrombou e levou tudo. O capitão convocou uma "
+#~ "busca. Agora arrume-se e nos encontre lá fora."
+
+#~ msgid "Then lower your weapon and turn yourself in."
+#~ msgstr "Então baixe sua arma e entregue-se."
+
+#~ msgid "Then you leave me no choice."
+#~ msgstr "Então você não me deixa escolha."
+
+# TODO: Translate the MANUAL file if/when needed.
+#~ msgid ""
+#~ "There are additional commands available which can be found in the MANUAL "
+#~ "file."
+#~ msgstr ""
+#~ "Há outros comandos disponíveis, que podem ser encontrados no arquivo "
+#~ "MANUAL."
+
+#~ msgid "There are no marked purchases, sales, or trades."
+#~ msgstr "Nenhuma compra, venda ou troca foi marcada."
+
+#~ msgid "There you are."
+#~ msgstr "Ah, você está aí."
+
+#~ msgid "This feature is not yet available."
+#~ msgstr "Esta função ainda não foi implementada."
+
+#~ msgid ""
+#~ "This is the Karlate training site.  The barracks are to the east.  "
+#~ "There's a cave off to the west."
+#~ msgstr ""
+#~ "Aqui é a base de treinamento dos Karlate. O quartel fica a leste, e há "
+#~ "uma caverna a oeste."
+
+#~ msgid "This way to the barracks."
+#~ msgstr "O quartel é por aqui."
+
+#~ msgid ""
+#~ "This will remove all marked purchases, sales, and trades. Are you sure?"
+#~ msgstr ""
+#~ "Isso vai cancelar todas as compras, vendas e trocas marcadas. Tem certeza?"
+
+#~ msgid "Tim"
+#~ msgstr "Tim"
+
+#~ msgid "To hell with the knighthood!"
+#~ msgstr "Que a ordem vá pro inferno!"
+
+#~ msgid "Tor"
+#~ msgstr "Cor"
+
+#~ msgid "Torl"
+#~ msgstr "Torl"
+
+#~ msgid "Torso"
+#~ msgstr "Tronco"
+
+#~ msgid "Torso Armor"
+#~ msgstr "Proteção do Tronco"
+
+#, fuzzy
+#~ msgid "Total Drunes: "
+#~ msgstr "Drunes: "
+
+#~ msgid "Total: "
+#~ msgstr "Total: "
+
+#~ msgid "Trade"
+#~ msgstr "Trocar"
+
+#~ msgid "Trades"
+#~ msgstr "Trocas"
+
+#~ msgid "Treasure Contents"
+#~ msgstr "Tesouro Encontrado"
+
+#~ msgid "Up"
+#~ msgstr "Acima"
+
+#~ msgid "Up Arrow"
+#~ msgstr "Seta para cima"
+
+#~ msgid "Up: "
+#~ msgstr "Acima: "
+
+#~ msgid "Use"
+#~ msgstr "Usar"
+
+#, fuzzy
+#~ msgid "Use: "
+#~ msgstr "Pausar: "
+
+#, fuzzy
+#~ msgid "VIG:"
+#~ msgstr "VIG: "
+
+#~ msgid "VIG: "
+#~ msgstr "VIG: "
+
+#~ msgid "Vanica"
+#~ msgstr "Vanica"
+
+#~ msgid ""
+#~ "Very well. Kyle. Find a partner to train with. I’ll deal with you later."
+#~ msgstr ""
+#~ "Muito bem. Kyle, procure um parceiro pra treinar. Depois eu cuido do seu "
+#~ "caso."
+
+#~ msgid "Video"
+#~ msgstr "Vídeo"
+
+#~ msgid "View"
+#~ msgstr "Visualizar"
+
+#~ msgid "View Order"
+#~ msgstr "Ver Pedido"
+
+#~ msgid "Vigor: "
+#~ msgstr "Vigor: "
+
+#~ msgid "W"
+#~ msgstr "W"
+
+#, fuzzy
+#~ msgid "Wait, what was that noise? Hey, look out!"
+#~ msgstr "Ei, o que é aquilo… cuidado!"
+
+#~ msgid "We are, sir."
+#~ msgstr "Nós somos, senhor."
+
+#~ msgid "Weapon"
+#~ msgstr "Arma"
+
+#~ msgid "Weapons"
+#~ msgstr "Armas"
+
+#~ msgid "Well done, Claudius."
+#~ msgstr "Muito bem, Claudius."
+
+#~ msgid "What are you doing?"
+#~ msgstr "O que você está fazendo?"
+
+#~ msgid "What are you doing? The captain wants to speak with you."
+#~ msgstr "O que está fazendo? O capitão quer falar com você."
+
+#~ msgid "What have you done…"
+#~ msgstr "O que foi que você fez…"
+
+#~ msgid "What’s going on?"
+#~ msgstr "O que aconteceu?"
+
+#~ msgid "Where’s that friend of yours run off to this time?"
+#~ msgstr "Pra onde fugiu agora o seu amigo?"
+
+#~ msgid "Will that be all?"
+#~ msgstr "Isso é tudo?"
+
+#~ msgid "Window mode:"
+#~ msgstr "Tela cheia:"
+
+#, fuzzy
+#~ msgid "Window mode: "
+#~ msgstr "Tela cheia:"
+
+#, fuzzy
+#~ msgid "Windowed"
+#~ msgstr "Tela cheia:"
+
+#, fuzzy
+#~ msgid "Wing"
+#~ msgstr "Grevas"
+
+# Change this message to a more natural one
+#~ msgid "With the additional "
+#~ msgstr "Com os "
+
+#, fuzzy
+#~ msgid "Woah, are you men alright?"
+#~ msgstr "Claudius! Tudo bem com você?"
+
+#~ msgid "Wpn"
+#~ msgstr "Arma"
+
+#~ msgid "X Axis"
+#~ msgstr "Eixo X"
+
+# To be decided
+#~ msgid "XP to Next: "
+#~ msgstr "EXP p/ avançar: "
+
+#~ msgid "Y Axis"
+#~ msgstr "Eixo Y"
+
+#~ msgid "Yes"
+#~ msgstr "Sim"
+
+#~ msgid "Yes sir."
+#~ msgstr "Sim, senhor."
+
+#~ msgid "Yes, Claudius?"
+#~ msgstr "Sim, Claudius?"
+
+#~ msgid "Yes, sir."
+#~ msgstr "Sim, senhor."
+
+#~ msgid "Yes?"
+#~ msgstr "Sim?"
+
+#~ msgid "You and Kyle are close."
+#~ msgstr "Você e Kyle são próximos."
+
+#~ msgid ""
+#~ "You have a lot of potential, Claudius. I know Kyle is your friend, but I "
+#~ "fear he’s becoming an impediment to your quest for knighthood."
+#~ msgstr ""
+#~ "Você tem muito potencial, Claudius. Eu sei que Kyle é seu amigo, mas "
+#~ "talvez ele esteja se tornando um obstáculo na sua carreira militar."
+
+#~ msgid "You have your orders.  Now go."
+#~ msgstr "Você tem suas ordens. Agora vá."
+
+#~ msgid "You killed the Captain!"
+#~ msgstr "Você matou o capitão!"
+
+#~ msgid "You know I can’t."
+#~ msgstr "Você sabe que não posso."
+
+#~ msgid "You shouldn’t –"
+#~ msgstr "Você não devia –"
+
+#~ msgid "You too. We should head back."
+#~ msgstr "Você também. Nós devíamos voltar."
+
+#~ msgid ""
+#~ "You'd be a fool to run out into the desert on your own for very long.  "
+#~ "There's a cave to the west, though, and if you go far enough, you'll find "
+#~ "water."
+#~ msgstr ""
+#~ "Você seria louco em ir longe no deserto sozinho. Mas há uma caverna a "
+#~ "oeste, onde tem água se você avançar o bastante."
+
+#~ msgid "You're late."
+#~ msgstr "Vocês estão atrasados."
+
+#~ msgid ""
+#~ "Your order is not yet final. Are you sure you want to leave the shop?"
+#~ msgstr "Você ainda não finalizou o pedido. Tem certeza de que deseja sair?"
+
+#~ msgid "You’ll face me then."
+#~ msgstr "Você irá me enfrentar, então."
+
+#~ msgid "You’ve already done it."
+#~ msgstr "Quem fez foi você."
+
+#~ msgid "You’ve tarnished your honor and disgraced the Harrvahan knighthood!"
+#~ msgstr "Você manchou a sua honra e maculou a ordem de Harrvah!"
+
+#~ msgid "back"
+#~ msgstr "back"
+
+#~ msgid "…Let’s go."
+#~ msgstr "…Vamos."
+
+#~ msgid "…Nothing."
+#~ msgstr "…Nada."
+
+#~ msgid "…What?"
+#~ msgstr "…Quê?"
+
+#~ msgid ""
+#~ "And go where? You should be happy. It’s an honor to serve your country."
+#~ msgstr ""
+#~ "E ir aonde? Você deveria estar feliz. É uma honra poder servir à pátria."
+
+#~ msgid "Aren’t we supposed to be sparring right now?"
+#~ msgstr "Não era pra estarmos treinando agora mesmo?"
+
+#~ msgid "Credits"
+#~ msgstr "Créditos"
+
+#~ msgid "Demo 1.0.0"
+#~ msgstr "Demo 1.0.0"
+
+#, fuzzy
+#~ msgid "Drunes Recovered: "
+#~ msgstr "Drunes: "
+
+#~ msgid "File #1"
+#~ msgstr "Arquivo #1"
+
+#~ msgid "File #2"
+#~ msgstr "Arquivo #2"
+
+#~ msgid "File #3"
+#~ msgstr "Arquivo #3"
+
+#~ msgid "File #4"
+#~ msgstr "Arquivo #4"
+
+#~ msgid "File #5"
+#~ msgstr "Arquivo #5"
+
+#~ msgid "File #6"
+#~ msgstr "Arquivo #6"
+
+#~ msgid "Hey, what time is it?"
+#~ msgstr "Ei, que horas são?"
+
+#~ msgid "I can do that on my own."
+#~ msgstr "Eu posso fazer isso sozinho."
+
+#~ msgid "I didn’t think so."
+#~ msgstr "Achei que teria pensado."
+
+#~ msgid "I don’t know."
+#~ msgstr "Eu não sei."
+
+#~ msgid "I just don’t understand you sometimes."
+#~ msgstr "Eu não te entendo às vezes."
+
+#~ msgid "I think we are. Come on."
+#~ msgstr "Acho que era. Vamos lá."
+
+#~ msgid ""
+#~ "It’s more effective to work together. Besides, the Captain has our best "
+#~ "interest at heart."
+#~ msgstr ""
+#~ "É mais fácil se trabalharmos juntos. Além disso, o Capitão tem em mente o "
+#~ "que é melhor para nós."
+
+#~ msgid "Kyle has joined the party."
+#~ msgstr "Kyle se juntou ao grupo."
+
+#~ msgid "Laila"
+#~ msgstr "Laila"
+
+#~ msgid "Of course not."
+#~ msgstr "Claro que não."
+
+#~ msgid ""
+#~ "That’s where you’re wrong, Claudius. As far as he’s concerned we’re "
+#~ "expendable."
+#~ msgstr ""
+#~ "É aí que você se engana, Claudius. No que depender dele, nós somos "
+#~ "descartáveis."
+
+#~ msgid "Who cares?"
+#~ msgstr "Que diferença faz?"
+
+# Changed meaning to "Fullscreen: yes" as it sounds better here
+#~ msgid "Window mode: fullscreen"
+#~ msgstr "Tela cheia: sim"
+
+# Changed meaning to "Fullscreen: no" as it sounds better here
+#~ msgid "Window mode: windowed"
+#~ msgstr "Tela cheia: não"
+
+#~ msgid ""
+#~ "You know the only reason I’m doing this is because of my family. There "
+#~ "was never any discussion. If it was my choice I’d be far away from here."
+#~ msgstr ""
+#~ "Você sabe que só estou fazendo isso pela minha família. Nunca pensei que "
+#~ "não fosse. Se eu pudesse escolher, estaria bem longe daqui."
+
+#~ msgid "You’ll be all right."
+#~ msgstr "Você vai ficar bem."
+
+#~ msgid "You’re crazy."
+#~ msgstr "Você é doido."
+
+#~ msgid "You’ve never thought about leaving the knighthood?"
+#~ msgstr "Você nunca pensou em deixar a ordem?"
+
+#, fuzzy
+#~ msgid "© 2004 — 2011 The Allacrost Project"
+#~ msgstr "© 2004 — 2010 Projeto Allacrost"

@@ -1,0 +1,435 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-22 23:22+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../data/entities/characters.lua:13 ../data/entities/map_sprites.lua:11
+#: ../data/entities/map_sprites.lua:44
+msgid "Bronann"
+msgstr ""
+
+#: ../data/entities/characters.lua:19
+msgid "Holy"
+msgstr ""
+
+#: ../data/entities/characters.lua:64 ../data/entities/characters.lua:171
+#: ../data/entities/characters.lua:274 ../data/entities/characters.lua:369
+#: ../data/entities/enemies.lua:93 ../data/entities/enemies.lua:154
+#: ../data/entities/enemies.lua:209 ../data/entities/enemies.lua:381
+#: ../data/entities/enemies.lua:442 ../data/entities/enemies.lua:496
+#: ../data/entities/enemies.lua:564 ../data/entities/enemies.lua:879
+#: ../data/entities/enemies.lua:1024 ../data/entities/enemies.lua:1086
+#: ../data/entities/enemies.lua:1154 ../data/entities/enemies.lua:1253
+#: ../data/entities/enemies.lua:1309 ../data/entities/enemies.lua:1587
+#: ../data/entities/enemies.lua:1806 ../data/entities/enemies.lua:1863
+#: ../data/entities/enemies.lua:1920 ../data/entities/enemies.lua:1986
+msgid "Head"
+msgstr ""
+
+#: ../data/entities/characters.lua:73 ../data/entities/characters.lua:180
+#: ../data/entities/characters.lua:283 ../data/entities/characters.lua:378
+#: ../data/entities/enemies.lua:320 ../data/entities/enemies.lua:505
+#: ../data/entities/enemies.lua:573 ../data/entities/enemies.lua:721
+#: ../data/entities/enemies.lua:777 ../data/entities/enemies.lua:980
+#: ../data/entities/enemies.lua:1372
+msgid "Torso"
+msgstr ""
+
+#: ../data/entities/characters.lua:81 ../data/entities/characters.lua:188
+#: ../data/entities/characters.lua:291 ../data/entities/characters.lua:386
+msgid "Arms"
+msgstr ""
+
+#: ../data/entities/characters.lua:90 ../data/entities/characters.lua:197
+#: ../data/entities/characters.lua:300 ../data/entities/characters.lua:395
+#: ../data/entities/enemies.lua:513 ../data/entities/enemies.lua:581
+#: ../data/entities/enemies.lua:1667 ../data/entities/enemies.lua:1944
+msgid "Legs"
+msgstr ""
+
+#: ../data/entities/characters.lua:122 ../data/entities/map_sprites.lua:60
+msgid "Kalya"
+msgstr ""
+
+#: ../data/entities/characters.lua:128
+msgid "Invocation"
+msgstr ""
+
+#: ../data/entities/characters.lua:228
+msgid "Sylve"
+msgstr ""
+
+#: ../data/entities/characters.lua:234
+msgid "Mist"
+msgstr ""
+
+#: ../data/entities/characters.lua:322 ../data/entities/map_sprites.lua:87
+msgid "Thanis"
+msgstr ""
+
+#: ../data/entities/characters.lua:328
+msgid "Acheron"
+msgstr ""
+
+#: ../data/entities/enemies.lua:22
+msgid "Green Slime"
+msgstr ""
+
+#: ../data/entities/enemies.lua:47 ../data/entities/enemies.lua:163
+#: ../data/entities/enemies.lua:218 ../data/entities/enemies.lua:274
+#: ../data/entities/enemies.lua:390 ../data/entities/enemies.lua:451
+#: ../data/entities/enemies.lua:628 ../data/entities/enemies.lua:933
+#: ../data/entities/enemies.lua:1207 ../data/entities/enemies.lua:1436
+#: ../data/entities/enemies.lua:1492 ../data/entities/enemies.lua:1539
+#: ../data/entities/enemies.lua:1814
+msgid "Body"
+msgstr ""
+
+#: ../data/entities/enemies.lua:68
+msgid "Spider"
+msgstr ""
+
+#: ../data/entities/enemies.lua:102 ../data/entities/enemies.lua:1261
+#: ../data/entities/enemies.lua:1871
+msgid "Abdomen"
+msgstr ""
+
+#: ../data/entities/enemies.lua:125 ../data/entities/enemies.lua:352
+#: ../data/entities/enemies.lua:413 ../data/entities/map_sprites.lua:467
+msgid "Fenrir"
+msgstr ""
+
+#: ../data/entities/enemies.lua:184
+msgid "Snake"
+msgstr ""
+
+#: ../data/entities/enemies.lua:226 ../data/entities/enemies.lua:1317
+#: ../data/entities/enemies.lua:1822 ../data/entities/enemies.lua:1879
+msgid "Tail"
+msgstr ""
+
+#: ../data/entities/enemies.lua:249 ../data/entities/map_sprites.lua:425
+msgid "Slime Mother"
+msgstr ""
+
+#: ../data/entities/enemies.lua:295 ../data/entities/map_sprites.lua:384
+msgid "Bat"
+msgstr ""
+
+#: ../data/entities/enemies.lua:329
+msgid "Wing"
+msgstr ""
+
+#: ../data/entities/enemies.lua:471 ../data/entities/map_sprites.lua:482
+#: ../data/entities/map_sprites.lua:557
+msgid "Dark Soldier"
+msgstr ""
+
+#: ../data/entities/enemies.lua:534
+msgid "Lord Banesore"
+msgstr ""
+
+#: ../data/entities/enemies.lua:603 ../data/entities/map_sprites.lua:520
+msgid "Shroom"
+msgstr ""
+
+#: ../data/entities/enemies.lua:650 ../data/entities/map_sprites.lua:541
+msgid "Eyeball"
+msgstr ""
+
+#: ../data/entities/enemies.lua:675 ../data/entities/enemies.lua:1364
+msgid "Eye"
+msgstr ""
+
+#: ../data/entities/enemies.lua:696
+msgid "Harlequin?"
+msgstr ""
+
+#: ../data/entities/enemies.lua:752
+msgid "Harlequin"
+msgstr ""
+
+#: ../data/entities/enemies.lua:808 ../data/entities/map_sprites.lua:573
+msgid "Beetle"
+msgstr ""
+
+#: ../data/entities/enemies.lua:833 ../data/entities/enemies.lua:887
+#: ../data/entities/enemies.lua:1032 ../data/entities/enemies.lua:1094
+#: ../data/entities/enemies.lua:1928 ../data/entities/enemies.lua:1994
+msgid "Chest"
+msgstr ""
+
+#: ../data/entities/enemies.lua:854
+msgid "Rat"
+msgstr ""
+
+#: ../data/entities/enemies.lua:908
+msgid "Thing"
+msgstr ""
+
+#: ../data/entities/enemies.lua:955
+msgid "Yeti"
+msgstr ""
+
+#: ../data/entities/enemies.lua:999 ../data/entities/map_sprites.lua:589
+msgid "Skeleton"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1040 ../data/entities/enemies.lua:1102
+#: ../data/entities/enemies.lua:1269 ../data/entities/enemies.lua:1603
+msgid "Leg"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1061 ../data/entities/map_sprites.lua:605
+msgid "Dorver"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1129 ../data/entities/map_sprites.lua:621
+msgid "Andromalius"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1182 ../data/entities/map_sprites.lua:369
+msgid "Ratto"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1235
+msgid "Scorpion"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1288
+msgid "Dune Crawler"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1343
+msgid "Stygian Lizard"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1380 ../data/entities/enemies.lua:1444
+msgid "Claw"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1407
+msgid "Demonic Essence"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1428
+msgid "Face"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1471
+msgid "Red Slime"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1518
+msgid "Mushroom Zombie"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1566
+msgid "Scorpion Goliath"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1595
+msgid "Pincer"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1630
+msgid "Armored Beast"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1651
+msgid "Mesosoma"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1659
+msgid "Pincers"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1687
+msgid "Daemarbora"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1708
+msgid "Trunk"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1716
+msgid "Branches"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1736
+msgid "Aerocephal"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1757
+msgid "Forehead"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1765
+msgid "Orifice"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1785
+msgid "Arcana Drake"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1842
+msgid "Nagaruda"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1899
+msgid "Deceleon"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1936 ../data/entities/enemies.lua:2002
+msgid "Arm"
+msgstr ""
+
+#: ../data/entities/enemies.lua:1964
+msgid "Aurum Drakueli"
+msgstr ""
+
+#: ../data/entities/map_sprites.lua:105
+msgid "Carson"
+msgstr ""
+
+#: ../data/entities/map_sprites.lua:121
+msgid "Malta"
+msgstr ""
+
+#: ../data/entities/map_sprites.lua:137
+msgid "Orlinn"
+msgstr ""
+
+#: ../data/entities/map_sprites.lua:159
+msgid "Herth"
+msgstr ""
+
+#: ../data/entities/map_sprites.lua:179
+msgid "Olivia"
+msgstr ""
+
+#: ../data/entities/map_sprites.lua:194
+msgid "Brymir"
+msgstr ""
+
+#: ../data/entities/map_sprites.lua:209
+msgid "Martha"
+msgstr ""
+
+#: ../data/entities/map_sprites.lua:224
+msgid "Sophia"
+msgstr ""
+
+#: ../data/entities/map_sprites.lua:240
+msgid "Lilly"
+msgstr ""
+
+#: ../data/entities/map_sprites.lua:255
+msgid "Georges"
+msgstr ""
+
+#: ../data/entities/map_sprites.lua:270
+msgid "Dandy Shroom"
+msgstr ""
+
+#: ../data/entities/map_sprites.lua:287
+msgid "Crystal"
+msgstr ""
+
+#: ../data/entities/map_sprites.lua:303
+msgid "Soldier"
+msgstr ""
+
+#: ../data/entities/map_sprites.lua:321
+msgid "Chicken"
+msgstr ""
+
+#: ../data/entities/map_sprites.lua:336
+msgid "Butterfly"
+msgstr ""
+
+#: ../data/entities/map_sprites.lua:351
+msgid "Squirrel"
+msgstr ""
+
+#: ../data/entities/map_sprites.lua:503
+msgid "Lord"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:78
+msgid "Physical Attack"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:135
+msgid "Magical Attack"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:192
+msgid "Physical Defense"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:249
+msgid "Magical Defense"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:306
+msgid "Stamina"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:365
+msgid "Evasion"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:422
+msgid "HP"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:590
+msgid "SP"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:763
+msgid "Paralysis"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:818
+msgid "Fire Elemental Strength"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:875
+msgid "Water Elemental Strength"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:932
+msgid "Wind Elemental Strength"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:988
+msgid "Earth Elemental Strength"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:1044
+msgid "Life Elemental Strength"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:1100
+msgid "Death Elemental Strength"
+msgstr ""
+
+#: ../data/entities/status_effects/status_effects.lua:1157
+msgid "Neutral Elemental Strength"
+msgstr ""

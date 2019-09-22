@@ -1,0 +1,166 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-22 23:22+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../data/config/quests.lua:17
+msgid "Get some barley meal"
+msgstr ""
+
+#: ../data/config/quests.lua:19
+msgid ""
+"Mom needs some for dinner!\n"
+" \n"
+"Flora might have some in her shop. I should go and have a look there first."
+msgstr ""
+
+#: ../data/config/quests.lua:21
+msgid ""
+"Finally, I found some. Lilly had what I sought in her house the whole time."
+msgstr ""
+
+#: ../data/config/quests.lua:25 ../data/config/quests.lua:41
+#: ../data/config/quests.lua:57 ../data/config/quests.lua:73
+#: ../data/config/quests.lua:91 ../data/config/quests.lua:107
+#: ../data/config/world_locations.lua:18
+msgid "Village of Layna"
+msgstr ""
+
+#: ../data/config/quests.lua:27
+msgid "Bronann's home"
+msgstr ""
+
+#: ../data/config/quests.lua:33
+msgid "Find Georges's pen"
+msgstr ""
+
+#: ../data/config/quests.lua:35
+msgid ""
+"I need to get back Georges lost pen.\n"
+" \n"
+"He said he lost it near a tree. He also told me that people in the village "
+"might know more."
+msgstr ""
+
+#: ../data/config/quests.lua:37
+msgid ""
+"Orlinn had the pen and I ran after him all morning to get it back. I hope he "
+"won't have any problems with Kalya..."
+msgstr ""
+
+#: ../data/config/quests.lua:43 ../data/config/quests.lua:59
+#: ../data/config/quests.lua:93
+msgid "Village center"
+msgstr ""
+
+#: ../data/config/quests.lua:49
+msgid "Catch Orlinn!"
+msgstr ""
+
+#: ../data/config/quests.lua:51
+msgid ""
+"Orlinn has the pen that I need to return to Georges! The only problem now is "
+"I have to find out where he's hiding. Hmm, it shouldn't take long."
+msgstr ""
+
+#: ../data/config/quests.lua:53
+msgid ""
+"After chasing him around the village all morning, I finally have the pen. "
+"Time to bring it back to Georges."
+msgstr ""
+
+#: ../data/config/quests.lua:65
+msgid "Catch the chickens"
+msgstr ""
+
+#: ../data/config/quests.lua:67
+msgid ""
+"Grandma asked me to catch the chickens that flew away. There are three of "
+"them."
+msgstr ""
+
+#: ../data/config/quests.lua:69
+msgid "I was able to find them!"
+msgstr ""
+
+#: ../data/config/quests.lua:75
+msgid "Path to Kalya's house"
+msgstr ""
+
+#: ../data/config/quests.lua:83
+msgid "Orlinn might be in danger!"
+msgstr ""
+
+#: ../data/config/quests.lua:85
+msgid ""
+"After seeing that strange light, Orlinn ran into the woods. He's just a kid, "
+"even if a quick one!\n"
+" \n"
+"My father asked me to go there with Kalya and bring him back safe and "
+"sound.\n"
+" \n"
+"I can't let them down!"
+msgstr ""
+
+#: ../data/config/quests.lua:87
+msgid ""
+"We finally retrieved Orlinn in the center of the forest. A mysterious wolf "
+"was protecting him, and we came just in time to prevent him from approaching "
+"a strange crystal."
+msgstr ""
+
+#: ../data/config/quests.lua:99
+msgid "We must escape from the soldiers."
+msgstr ""
+
+#: ../data/config/quests.lua:101
+msgid ""
+"After we returned to the village, Kalya was caught by strange soldiers. The "
+"country lord himself provoked me in battle and thanks to her, we escaped for "
+"now.\n"
+" \n"
+"But this isn't over. The soldiers are after us and we have to make our way "
+"through."
+msgstr ""
+
+#: ../data/config/quests.lua:103
+msgid "We managed to find a way up to the mountain top."
+msgstr ""
+
+#: ../data/config/quests.lua:109
+msgid "Kalya's home basement"
+msgstr ""
+
+#: ../data/config/themes.lua:14
+msgid "Royal Silk"
+msgstr ""
+
+#: ../data/config/themes.lua:22
+msgid "Black Sleet"
+msgstr ""
+
+#: ../data/config/themes.lua:30
+msgid "Elvish Feather"
+msgstr ""
+
+#: ../data/config/world_locations.lua:29
+msgid "Layna Forest"
+msgstr ""
+
+#: ../data/config/world_locations.lua:40
+msgid "Mt. Elbrus"
+msgstr ""

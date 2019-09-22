@@ -1,0 +1,7043 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Valyria Tear\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-22 23:22+0200\n"
+"PO-Revision-Date: 2014-11-17 23:45+0100\n"
+"Last-Translator: Alexander Kjäll <alexander.kjall@gmail.com>\n"
+"Language-Team: sv <LL@li.org>\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#. tr: level
+#: ../src/common/character_window.cpp:69
+msgid "Lv: "
+msgstr "Lv:"
+
+#: ../src/common/character_window.cpp:70
+#, fuzzy
+msgid "Next: "
+msgstr "Erf till nästa:"
+
+#. tr: experience points to be spent for skills
+#: ../src/common/character_window.cpp:76
+#: ../src/modes/battle/finish/battle_victory.cpp:360
+#: ../src/modes/battle/finish/battle_victory.cpp:505
+msgid "XP for skills: "
+msgstr ""
+
+#: ../src/common/global/global_target.cpp:28
+msgid "Self — Point"
+msgstr "Själv — Punkt"
+
+#: ../src/common/global/global_target.cpp:30
+msgid "Ally — Point"
+msgstr "Allierad — Punkt"
+
+#: ../src/common/global/global_target.cpp:32
+msgid "Foe — Point"
+msgstr "Fiende — Punkt"
+
+#: ../src/common/global/global_target.cpp:34
+msgid "Self"
+msgstr "Mig själv"
+
+#: ../src/common/global/global_target.cpp:36
+msgid "Ally"
+msgstr "Allierad"
+
+#: ../src/common/global/global_target.cpp:38
+msgid "Ally (Even KO)"
+msgstr ""
+
+#: ../src/common/global/global_target.cpp:40
+msgid "Ally (Only KO)"
+msgstr ""
+
+#: ../src/common/global/global_target.cpp:42
+msgid "Foe"
+msgstr "Fiende"
+
+#: ../src/common/global/global_target.cpp:44
+#: ../src/modes/battle/battle_target.cpp:305
+#: ../src/modes/battle/command/command_supervisor.cpp:826
+#: ../src/modes/battle/command/command_supervisor.cpp:856
+msgid "All Allies"
+msgstr "Alla allierade"
+
+#: ../src/common/global/global_target.cpp:46
+msgid "All Foes"
+msgstr "Alla fiender"
+
+#: ../src/common/global/global_target.cpp:48
+msgid "Invalid Target"
+msgstr "Ogiltigt mål"
+
+#: ../src/common/options_handler.cpp:190
+#, c-format
+msgid "Use the %s and %s keys to select your language and then press %s."
+msgstr ""
+
+#. tr: The window title only supports UTF-8 characters in SDL2.
+#: ../src/common/options_handler.cpp:376 ../src/main.cpp:529
+#, fuzzy
+msgid "Valyria Tear"
+msgstr "Välkommen till Valyria Tear"
+
+#: ../src/common/options_handler.cpp:394
+msgid "Video"
+msgstr "Video"
+
+#: ../src/common/options_handler.cpp:395
+msgid "Audio"
+msgstr "Ljud"
+
+#: ../src/common/options_handler.cpp:396
+#, fuzzy
+msgid "Game"
+msgstr "Nytt Spel"
+
+#: ../src/common/options_handler.cpp:397
+msgid "Language"
+msgstr "Språk"
+
+#: ../src/common/options_handler.cpp:398
+msgid "Key Settings"
+msgstr "Tangentinställningar"
+
+#: ../src/common/options_handler.cpp:399
+msgid "Joystick Settings"
+msgstr "Joystickinställningar"
+
+#: ../src/common/options_handler.cpp:422 ../src/common/options_handler.cpp:680
+msgid "Resolution: "
+msgstr "Upplösning:"
+
+#: ../src/common/options_handler.cpp:424 ../src/common/options_handler.cpp:685
+#: ../src/common/options_handler.cpp:689
+msgid "Window mode: "
+msgstr "Fönsterläge:"
+
+#: ../src/common/options_handler.cpp:426 ../src/common/options_handler.cpp:695
+msgid "Brightness: "
+msgstr "Ljusstyrka:"
+
+#: ../src/common/options_handler.cpp:428 ../src/common/options_handler.cpp:713
+msgid "VSync: "
+msgstr ""
+
+#: ../src/common/options_handler.cpp:431 ../src/common/options_handler.cpp:716
+msgid "UI Theme: "
+msgstr "Gränssnitt:"
+
+#: ../src/common/options_handler.cpp:450 ../src/common/options_handler.cpp:772
+msgid "Sound Volume: "
+msgstr "Ljudvolym:"
+
+#: ../src/common/options_handler.cpp:453 ../src/common/options_handler.cpp:773
+msgid "Music Volume: "
+msgstr "Musikvolym:"
+
+#: ../src/common/options_handler.cpp:475 ../src/common/options_handler.cpp:781
+msgid "Easy"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:481 ../src/common/options_handler.cpp:787
+msgid "Normal"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:484 ../src/common/options_handler.cpp:790
+msgid "Hard"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:488 ../src/common/options_handler.cpp:794
+#, c-format
+msgid "Game Difficulty: %s"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:494 ../src/common/options_handler.cpp:797
+#, c-format
+msgid "Dialogue text speed: %i"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:498 ../src/common/options_handler.cpp:800
+#: ../src/common/options_handler.cpp:821
+msgid "Enabled"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:498 ../src/common/options_handler.cpp:800
+msgid "Disabled"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:498 ../src/common/options_handler.cpp:800
+#, c-format
+msgid "Remember battle target: %s"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:529
+msgid "Up: "
+msgstr "Upp:"
+
+#: ../src/common/options_handler.cpp:530
+msgid "Down: "
+msgstr "Ner:"
+
+#: ../src/common/options_handler.cpp:531
+msgid "Left: "
+msgstr "Vänster:"
+
+#: ../src/common/options_handler.cpp:532
+msgid "Right: "
+msgstr "Right:"
+
+#: ../src/common/options_handler.cpp:533
+msgid "Confirm: "
+msgstr "Godkänn:"
+
+#: ../src/common/options_handler.cpp:534
+msgid "Cancel: "
+msgstr "Avbryt:"
+
+#: ../src/common/options_handler.cpp:535
+msgid "Menu: "
+msgstr "Meny:"
+
+#: ../src/common/options_handler.cpp:536
+msgid "Toggle Map: "
+msgstr "Visa karta:"
+
+#: ../src/common/options_handler.cpp:537
+msgid "Pause: "
+msgstr "Pausa:"
+
+#: ../src/common/options_handler.cpp:538 ../src/common/options_handler.cpp:572
+msgid "Restore defaults"
+msgstr "Återställ ursprungsvärdna"
+
+#: ../src/common/options_handler.cpp:685
+msgid "Fullscreen"
+msgstr "Helskärm"
+
+#: ../src/common/options_handler.cpp:689
+msgid "Windowed"
+msgstr "Fönsterläge"
+
+#: ../src/common/options_handler.cpp:704
+msgid "VSync_mode|Off"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:707
+msgid "VSync_mode|On"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:710
+msgid "VSync_mode|Swap Tearing"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:807
+msgid "Move Up"
+msgstr "Gå upp"
+
+#: ../src/common/options_handler.cpp:808
+msgid "Move Down"
+msgstr "Gå ner"
+
+#: ../src/common/options_handler.cpp:809
+msgid "Move Left"
+msgstr "Gå vänster"
+
+#: ../src/common/options_handler.cpp:810
+msgid "Move Right"
+msgstr "Gå höger"
+
+#: ../src/common/options_handler.cpp:811 ../src/common/options_handler.cpp:825
+#: ../src/modes/mode_help_window.cpp:142 ../src/modes/mode_help_window.cpp:185
+#: ../src/modes/mode_help_window.cpp:241
+msgid "Confirm"
+msgstr "Bekräfta"
+
+#: ../src/common/options_handler.cpp:812 ../src/common/options_handler.cpp:826
+#: ../src/modes/battle/finish/battle_defeat.cpp:102
+#: ../src/modes/mode_help_window.cpp:145 ../src/modes/mode_help_window.cpp:191
+#: ../src/modes/mode_help_window.cpp:244 ../src/modes/pause.cpp:92
+#: ../src/modes/save/save_mode.cpp:132 ../src/modes/save/save_mode.cpp:147
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: ../src/common/options_handler.cpp:813 ../src/common/options_handler.cpp:827
+#: ../src/modes/mode_help_window.cpp:188 ../src/modes/mode_help_window.cpp:249
+#: ../src/modes/mode_help_window.cpp:254
+msgid "Menu"
+msgstr "Meny"
+
+#: ../src/common/options_handler.cpp:814
+msgid "Toggle Map"
+msgstr "Karta"
+
+#: ../src/common/options_handler.cpp:815 ../src/common/options_handler.cpp:829
+#: ../src/modes/mode_help_window.cpp:197 ../src/modes/mode_help_window.cpp:258
+msgid "Pause"
+msgstr "Pausa"
+
+#: ../src/common/options_handler.cpp:821
+msgid "Input"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:822
+msgid "X Axis"
+msgstr "X-led"
+
+#: ../src/common/options_handler.cpp:823
+msgid "Y Axis"
+msgstr "Y-led"
+
+#: ../src/common/options_handler.cpp:824
+msgid "Threshold"
+msgstr "Gränsvärde"
+
+#: ../src/common/options_handler.cpp:825 ../src/common/options_handler.cpp:826
+#: ../src/common/options_handler.cpp:827 ../src/common/options_handler.cpp:828
+#: ../src/common/options_handler.cpp:829 ../src/common/options_handler.cpp:830
+#: ../src/common/options_handler.cpp:831
+#, fuzzy, c-format
+msgid "Button %d"
+msgstr "Karta: Knapp"
+
+#: ../src/common/options_handler.cpp:828
+#: ../src/modes/menu/menu_states/menu_main_state.cpp:38
+msgid "Map"
+msgstr "Karta"
+
+#: ../src/common/options_handler.cpp:830
+#, fuzzy
+msgid "Help"
+msgstr "Hjälp!!"
+
+#: ../src/common/options_handler.cpp:831 ../src/modes/boot/boot.cpp:425
+#: ../src/modes/mode_help_window.cpp:149 ../src/modes/mode_help_window.cpp:200
+#: ../src/modes/mode_help_window.cpp:261
+msgid "Quit"
+msgstr "Avsluta"
+
+#: ../src/common/options_handler.cpp:1108
+msgid "Please press a new joystick button."
+msgstr "Vänligen tryck på en ny joystickknapp."
+
+#: ../src/common/options_handler.cpp:1110
+msgid "Please press a new key."
+msgstr "Vänligen tryck på en ny knapp."
+
+#: ../src/common/options_handler.cpp:1112
+msgid "Please move an axis."
+msgstr "Rör joysticken längs en axel."
+
+#: ../src/common/options_handler.cpp:1130
+msgid ""
+"Here you can set up the video options such as the resolution, whether to "
+"play in full screen, the GUI theme, ..."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1133
+msgid "Here you can setup the music and SFX volumes."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1136
+msgid ""
+"This menu permits to setup game specific options, such as the text scrolling "
+"speed, the game difficulty, ..."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1139
+msgid ""
+"This menu will show the available languages. Only available from the boot "
+"menu..."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1142
+msgid "Here you change the keys used when playing with the keyboard..."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1145
+msgid "Here you change the keys used when playing with a joystick..."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1155
+msgid "This permits to select the game's resolution..."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1158
+msgid ""
+"Here you can set whether you want to play in windowed mode or fullscreen."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1161
+msgid "Sets the game brightness percentage. Default: 50%"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1164
+msgid ""
+"Permits to change the Screen Vertical Synchronization mode. (Use the left "
+"and right arrow keys.)"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1167
+msgid "Permits to change the in-game GUI theme."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1177
+msgid "Permits to set the general music volume."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1180
+msgid "Permits to set the general SFX volume."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1190
+msgid ""
+"Sets the game difficulty, can change how hard battles and certain events are "
+"in game..."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1193
+msgid ""
+"Permits to set up the dialogue text scrolling speed (in character per "
+"seconds)..."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1196
+msgid ""
+"Sets whether the characters will remember their previous action in battle."
+msgstr ""
+
+#: ../src/engine/indicator_supervisor.cpp:436
+msgid "Miss"
+msgstr "Miss"
+
+#: ../src/modes/battle/actions/item_action.cpp:194
+msgid "[error]"
+msgstr "[fel]"
+
+#: ../src/modes/battle/battle.cpp:132 ../src/modes/battle/battle_menu.cpp:143
+#, fuzzy
+msgid "Auto-Battle"
+msgstr "Strid"
+
+#: ../src/modes/battle/battle.cpp:584
+#, fuzzy
+msgid "Double Rush!"
+msgstr "Svärdsrusning"
+
+#: ../src/modes/battle/battle.cpp:589
+#, fuzzy
+msgid "First Strike!"
+msgstr "Högt slag"
+
+#: ../src/modes/battle/battle.cpp:594
+msgid "Ambush!"
+msgstr ""
+
+#: ../src/modes/battle/battle_menu.cpp:152
+msgid ""
+"When the Auto-Battle mode is activated, your party will auto attack the "
+"opponents using default attacks. If you open a command menu, the Auto-Battle "
+"mode will be deactivated again."
+msgstr ""
+
+#: ../src/modes/battle/battle_target.cpp:290
+msgid "[Invalid Target]"
+msgstr "[Ogiltigt mål]"
+
+#: ../src/modes/battle/battle_target.cpp:295
+msgid " — "
+msgstr " — "
+
+#: ../src/modes/battle/battle_target.cpp:308
+#: ../src/modes/battle/command/command_supervisor.cpp:828
+#: ../src/modes/battle/command/command_supervisor.cpp:858
+msgid "All Enemies"
+msgstr "Alla fiender"
+
+#: ../src/modes/battle/command/command_supervisor.cpp:80
+#: ../src/modes/battle/command/command_supervisor.cpp:86
+#: ../src/modes/battle/command/command_supervisor.cpp:178
+#: ../src/modes/battle/command/command_supervisor.cpp:179
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:68
+msgid "Weapon"
+msgstr "Vapen"
+
+#: ../src/modes/battle/command/command_supervisor.cpp:81
+#: ../src/modes/battle/command/command_supervisor.cpp:87
+msgid "Magic"
+msgstr "Magi"
+
+#: ../src/modes/battle/command/command_supervisor.cpp:83
+#: ../src/modes/battle/command/command_supervisor.cpp:89
+#: ../src/modes/menu/menu_states/menu_inventory_state.cpp:29
+#: ../src/modes/shop/shop.cpp:70
+msgid "Items"
+msgstr "Saker"
+
+#: ../src/modes/battle/command/command_supervisor.cpp:182
+#: ../src/modes/battle/command/command_supervisor.cpp:183
+msgid "Bare-hand"
+msgstr "Kampsport"
+
+#. tr: this is about displaying a time: eg 4.2s
+#: ../src/modes/battle/command/command_supervisor.cpp:644
+#, c-format
+msgid "%ss"
+msgstr "%ss"
+
+#: ../src/modes/battle/command/command_supervisor.cpp:661
+msgid "Enemy Defense Modifiers:\n"
+msgstr ""
+
+#: ../src/modes/battle/command/command_supervisor.cpp:705
+msgid ""
+"\n"
+"\n"
+"Effects:\n"
+msgstr ""
+
+#: ../src/modes/battle/command/command_supervisor.cpp:718
+#, c-format
+msgid "%s SP"
+msgstr "%s SP"
+
+#: ../src/modes/battle/command/command_supervisor.cpp:720
+#: ../src/modes/battle/command/command_supervisor.cpp:727
+#, c-format
+msgid "Target Type: %s"
+msgstr "Måltyp: %s"
+
+#: ../src/modes/battle/command/command_supervisor.cpp:721
+#, c-format
+msgid "Prep Time: %s"
+msgstr "Förberedelsetid: %s"
+
+#: ../src/modes/battle/command/command_supervisor.cpp:722
+#, c-format
+msgid "Cool Time: %s"
+msgstr "Avkylningstid: %s"
+
+#: ../src/modes/battle/command/command_supervisor.cpp:821
+msgid "Select Target"
+msgstr "Välj mål"
+
+#: ../src/modes/battle/command/command_supervisor.cpp:880
+msgid "Select Attack Point"
+msgstr "Välj attackpunkt"
+
+#: ../src/modes/battle/command/item_command.cpp:54
+msgid "Item<R>Type   ×"
+msgstr "Föremål<R>Typ    x"
+
+#: ../src/modes/battle/command/skill_command.cpp:48
+msgid "Skill<R>Type SP"
+msgstr "Färdighet<R>Typ SP"
+
+#: ../src/modes/battle/finish/battle_defeat.cpp:67
+msgid "The heroes fell in battle..."
+msgstr "Hjältarna stupade..."
+
+#: ../src/modes/battle/finish/battle_defeat.cpp:88
+msgid "Retry"
+msgstr "Pröva igen"
+
+#: ../src/modes/battle/finish/battle_defeat.cpp:89
+msgid "End"
+msgstr "Avsluta"
+
+#: ../src/modes/battle/finish/battle_defeat.cpp:101
+msgid "OK"
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_defeat.cpp:236
+msgid "Start over from the beginning of this battle."
+msgstr "Starta igen från starten av striden."
+
+#: ../src/modes/battle/finish/battle_defeat.cpp:239
+msgid "Exit to main menu."
+msgstr "Återgå till huvudmenyn."
+
+#: ../src/modes/battle/finish/battle_defeat.cpp:248
+msgid "Confirm: retry battle."
+msgstr "Bekräfta: Försök slåss igen."
+
+#: ../src/modes/battle/finish/battle_defeat.cpp:251
+msgid "Confirm: return to main menu."
+msgstr "Bekräfta: återgå till huvudmenyn."
+
+#: ../src/modes/battle/finish/battle_victory.cpp:84
+msgid "The heroes were victorious!"
+msgstr "Hjältarna vann!"
+
+#. tr: Header in battle result screen: more than 1 item found
+#: ../src/modes/battle/finish/battle_victory.cpp:127
+#: ../src/modes/battle/finish/battle_victory.cpp:397
+msgid "Items Found"
+msgstr "Saker funna"
+
+#: ../src/modes/battle/finish/battle_victory.cpp:146
+#, fuzzy
+msgid "End Battle"
+msgstr "Strid"
+
+#: ../src/modes/battle/finish/battle_victory.cpp:147
+#, fuzzy
+msgid "Improve Skills"
+msgstr "Färdigheter"
+
+#: ../src/modes/battle/finish/battle_victory.cpp:254
+#: ../src/modes/battle/finish/battle_victory.cpp:515
+msgid "XP Earned: "
+msgstr "Intjänade Erf:"
+
+#: ../src/modes/battle/finish/battle_victory.cpp:255
+#: ../src/modes/battle/finish/battle_victory.cpp:570
+msgid "Drunes Found: "
+msgstr "Drunes hittade:"
+
+#: ../src/modes/battle/finish/battle_victory.cpp:256
+#: ../src/modes/battle/finish/battle_victory.cpp:571
+msgid "Total Drunes: "
+msgstr "Summa drunes:"
+
+#: ../src/modes/battle/finish/battle_victory.cpp:352
+#: ../src/modes/battle/finish/battle_victory.cpp:499
+msgid "Level (Max): "
+msgstr "Level (Max): "
+
+#: ../src/modes/battle/finish/battle_victory.cpp:356
+#: ../src/modes/battle/finish/battle_victory.cpp:501
+msgid "Level: "
+msgstr "Level: "
+
+#: ../src/modes/battle/finish/battle_victory.cpp:358
+#: ../src/modes/battle/finish/battle_victory.cpp:502
+msgid "XP for level up: "
+msgstr ""
+
+#. tr: Header in battle result screen: 0 items found
+#: ../src/modes/battle/finish/battle_victory.cpp:392
+#, fuzzy
+msgid "No Items Found"
+msgstr "Saker funna"
+
+#. tr: Header in battle result screen: 1 item found
+#: ../src/modes/battle/finish/battle_victory.cpp:395
+#, fuzzy
+msgid "Item Found"
+msgstr "Saker funna"
+
+#: ../src/modes/battle/finish/battle_victory.cpp:504
+msgid " (+20%)"
+msgstr "(+20%)"
+
+#: ../src/modes/battle/objects/battle_character.cpp:405
+msgid "[Select Action]"
+msgstr "[Välj handling]"
+
+#. tr: status effect time left string in seconds
+#: ../src/modes/battle/status_effects/active_effects.cpp:138
+#, c-format
+msgid "%d s"
+msgstr ""
+
+#: ../src/modes/boot/boot.cpp:413
+msgid "New Game"
+msgstr "Nytt Spel"
+
+#: ../src/modes/boot/boot.cpp:414 ../src/modes/save/save_mode.cpp:97
+msgid "Load Game"
+msgstr "Ladda spel"
+
+#: ../src/modes/boot/boot.cpp:415 ../src/modes/pause.cpp:93
+msgid "Options"
+msgstr "Inställningar"
+
+#: ../src/modes/boot/boot.cpp:435
+#, c-format
+msgid "Press '%s' to get to know about the game keys."
+msgstr "Tryck '%s' för att få information om tangenterna i spelet."
+
+#: ../src/modes/map/map_escape.cpp:33
+msgid "Escape to destination?"
+msgstr ""
+
+#: ../src/modes/map/map_escape.cpp:57
+#, fuzzy
+msgid "EscapeMenu|No"
+msgstr "Escape"
+
+#: ../src/modes/map/map_escape.cpp:58
+#, fuzzy
+msgid "EscapeMenu|Yes"
+msgstr "Escape"
+
+#: ../src/modes/map/map_escape.cpp:87
+msgid "No available destination"
+msgstr ""
+
+#: ../src/modes/map/map_treasure_supervisor.cpp:50
+msgid "You obtain"
+msgstr "Du får"
+
+#: ../src/modes/map/map_treasure_supervisor.cpp:73
+msgid "Ok"
+msgstr "Ok"
+
+#: ../src/modes/map/map_treasure_supervisor.cpp:126
+#: ../src/modes/map/map_treasure_supervisor.cpp:295
+msgid "Drunes"
+msgstr "Drunes"
+
+#. tr: Part 2 of "With the additional %u drune(s) found in this treasure added, ... "
+#: ../src/modes/map/map_treasure_supervisor.cpp:300
+#, c-format
+msgid "the party now holds a total of %u drune."
+msgid_plural "the party now holds a total of %u drunes."
+msgstr[0] ""
+msgstr[1] ""
+
+#. tr: %s will be replaced with "the party now holds a total of %u drune(s)."
+#: ../src/modes/map/map_treasure_supervisor.cpp:306
+#, fuzzy, c-format
+msgid "With the additional %u drune found in this treasure added, %s."
+msgid_plural "With the additional %u drunes found in this treasure added, %s."
+msgstr[0] ""
+"Med de ytterligare %u drunerna som hittades, så har gruppen nu totalt %u "
+"druner."
+msgstr[1] ""
+"Med de ytterligare %u drunerna som hittades, så har gruppen nu totalt %u "
+"druner."
+
+#: ../src/modes/menu/menu_mode.cpp:106
+msgid "This item is a key item and can be neither consumed nor sold."
+msgstr "Det här är ett nyckelföremål som varken kan konsumeras eller säljas."
+
+#: ../src/modes/menu/menu_mode.cpp:114
+msgid "This item is an elemental spirit and can be associated with equipment."
+msgstr ""
+"Det här föremålet är en elementarande och kan associeras med utrustning."
+
+#: ../src/modes/menu/menu_mode.cpp:241 ../src/modes/shop/shop.cpp:220
+msgid "Skills obtained:"
+msgstr "Färdigheter skaffade:"
+
+#: ../src/modes/menu/menu_mode.cpp:458 ../src/modes/shop/shop.cpp:209
+#: ../src/modes/shop/shop.cpp:535
+msgid "ATK:"
+msgstr "ATK:"
+
+#: ../src/modes/menu/menu_mode.cpp:459 ../src/modes/shop/shop.cpp:211
+#: ../src/modes/shop/shop.cpp:536
+msgid "M.ATK:"
+msgstr "M.ATK:"
+
+#: ../src/modes/menu/menu_mode.cpp:462 ../src/modes/shop/shop.cpp:542
+msgid "DEF:"
+msgstr "DEF:"
+
+#: ../src/modes/menu/menu_mode.cpp:463 ../src/modes/shop/shop.cpp:543
+msgid "M.DEF:"
+msgstr "M.DEF:"
+
+#: ../src/modes/menu/menu_states/menu_inventory_state.cpp:30
+msgid "Equip"
+msgstr "Ta på"
+
+#: ../src/modes/menu/menu_states/menu_inventory_state.cpp:31
+msgid "Remove"
+msgstr "Ta av"
+
+#: ../src/modes/menu/menu_states/menu_inventory_state.cpp:32
+#: ../src/modes/menu/menu_states/menu_party_state.cpp:60
+#: ../src/modes/menu/menu_states/menu_skill_state.cpp:54
+msgid "Back"
+msgstr "Tillbaka"
+
+#: ../src/modes/menu/menu_states/menu_main_state.cpp:34
+msgid "Inventory"
+msgstr "Ägodelar"
+
+#: ../src/modes/menu/menu_states/menu_main_state.cpp:35
+msgid "Skills"
+msgstr "Färdigheter"
+
+#: ../src/modes/menu/menu_states/menu_main_state.cpp:36
+msgid "Party"
+msgstr "Grupp"
+
+#: ../src/modes/menu/menu_states/menu_main_state.cpp:37
+msgid "Quests"
+msgstr "Uppdrag"
+
+#: ../src/modes/menu/menu_states/menu_main_state.cpp:53
+msgid ""
+"Select to view current world map.\n"
+"Use left / right to cycle through locations.\n"
+"Press 'cancel' to return"
+msgstr ""
+"Välj för att se nuvarande världskarta.\n"
+"Använd vänster / höger för att rotera mellan platser.\n"
+"Tryck avbryt för att återvända"
+
+#: ../src/modes/menu/menu_states/menu_main_state.cpp:55
+msgid "Select to view Quest Log."
+msgstr "Välj för att visa uppdragslistan."
+
+#: ../src/modes/menu/menu_states/menu_party_state.cpp:58
+msgid "View/Reorder"
+msgstr "Visa/Ändra ordning"
+
+#: ../src/modes/menu/menu_states/menu_party_state.cpp:59
+#, fuzzy
+msgid "Battle Formation"
+msgstr "Hastighetsdryck"
+
+#: ../src/modes/menu/menu_states/menu_party_state.cpp:71
+msgid ""
+"View character Information.\n"
+"Select a character to change formation."
+msgstr ""
+"Visa karaktärsinformation.\n"
+"Välj en karaktär för att ändra informationen."
+
+#: ../src/modes/menu/menu_states/menu_skill_state.cpp:52
+msgid "Use"
+msgstr "Använd"
+
+#: ../src/modes/menu/menu_states/menu_skill_state.cpp:53
+msgid "Improve"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_battle_formation_window.cpp:62
+msgid "Switch"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_battle_formation_window.cpp:85
+#, fuzzy
+msgid "Select a battle formation to change character placement."
+msgstr "Välj en karaktär för att ändra formation."
+
+#: ../src/modes/menu/menu_windows/menu_battle_formation_window.cpp:88
+msgid "Rear - Front"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_battle_formation_window.cpp:174
+#: ../src/modes/menu/menu_windows/menu_battle_formation_window.cpp:190
+#: ../src/modes/menu/menu_windows/menu_battle_formation_window.cpp:193
+#, c-format
+msgid "%d %%"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:70
+msgid "Head"
+msgstr "Huvud"
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:72
+msgid "Torso"
+msgstr "Bål"
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:74
+msgid "Arms"
+msgstr "Armar"
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:76
+msgid "Legs"
+msgstr "Ben"
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:437
+msgid "No weapon"
+msgstr "Inget vapen"
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:439
+msgid "No head armor"
+msgstr "Inget skydd för huvudet"
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:441
+msgid "No torso armor"
+msgstr "Inget skydd för bålen"
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:443
+msgid "No arms armor"
+msgstr "Inget skydd för armarna"
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:445
+msgid "No legs armor"
+msgstr "Inget skydd för benen"
+
+#: ../src/modes/menu/menu_windows/menu_inventory_window.cpp:90
+msgid "Select an item to Equip or Use."
+msgstr "Välj ett föremål att ta på dig eller använda."
+
+#: ../src/modes/menu/menu_windows/menu_inventory_window.cpp:91
+msgid "This character cannot equip this item."
+msgstr "Den här karaktären kan inte använda den här saken."
+
+#: ../src/modes/menu/menu_windows/menu_inventory_window.cpp:92
+msgid "Select a character to use the item on."
+msgstr "Välj en karaktär att använda föremålet på."
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:58
+msgid "Select a character to change position with."
+msgstr "Välj en karaktär att byta position med."
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:60
+msgid "Select a character to change formation."
+msgstr "Välj en karaktär för att ändra formation."
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:120
+#, fuzzy
+msgid "Global Attack / Defense:"
+msgstr "Attack / Försvar:"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:122
+#, fuzzy
+msgid "Detailed Defense:"
+msgstr "Detaljerat försvar:"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:125
+#, fuzzy
+msgid "Total Attack: "
+msgstr "Totalt:"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:126
+#, fuzzy
+msgid "Total Magical Attack: "
+msgstr "Magisk Attack (M.ATK):"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:127
+#, fuzzy
+msgid "Average Defense: "
+msgstr "Attack / Försvar:"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:128
+#, fuzzy
+msgid "Average Magical Defense: "
+msgstr "Magiskt Försvar (M.DEF):"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:135
+msgid "Head: "
+msgstr "Huvud:"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:136
+msgid "Torso: "
+msgstr "Bål:"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:137
+msgid "Arm: "
+msgstr "Armar:"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:138
+msgid "Leg: "
+msgstr "Ben:"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:249
+msgid "Experience Level: "
+msgstr "Erfarenhetsnivå:"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:251
+#, fuzzy
+msgid "Physical Attack: "
+msgstr "Magisk Attack (M.ATK):"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:252
+#, fuzzy
+msgid "Magical Attack: "
+msgstr "Magisk Attack (M.ATK):"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:253
+#, fuzzy
+msgid "Physical Defense: "
+msgstr "Magiskt Försvar (M.DEF):"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:254
+#, fuzzy
+msgid "Magical Defense: "
+msgstr "Magiskt Försvar (M.DEF):"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:255
+msgid "Stamina: "
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:256
+#, fuzzy
+msgid "Evade: "
+msgstr "Undvika (EVD):"
+
+#: ../src/modes/menu/menu_windows/menu_skillgraph_window.cpp:70
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:59
+msgid "Choose a character."
+msgstr "Välj en karaktär."
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:60
+msgid "Choose a skill category to use."
+msgstr "Välj en färdighetskategori att använda."
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:143
+msgid "All"
+msgstr "Alla"
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:144
+msgid "Field"
+msgstr "Fält"
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:145
+msgid "Battle"
+msgstr "Strid"
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:354
+msgid "Weapon skill"
+msgstr "Vapenförmåga"
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:356
+msgid "Bare hands"
+msgstr "Kampsport"
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:359
+msgid "Magic skill"
+msgstr "Magiförmåga"
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:365
+msgid "Special skill"
+msgstr "Specialförmåga"
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:495
+msgid " SP"
+msgstr " SP"
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:119
+msgid "Unlocked"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:125
+msgid "To Unlock:"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:128
+#, c-format
+msgid ""
+"XP Needed: %d /\n"
+"Available: %d"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:132
+msgid "No XP Needed"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:153
+#, c-format
+msgid " x %d"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:194
+#, c-format
+msgid "%d SP"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:198
+#, fuzzy
+msgid "Skill learned:"
+msgstr "Ny färdighet inlärd:\n"
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:207
+msgid "Statistics:"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:228
+#, c-format
+msgid "Phys. Atk +%d"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:232
+#, c-format
+msgid "Mag. Atk +%d"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:236
+#, c-format
+msgid "Phys. Def +%d"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:240
+#, c-format
+msgid "Mag. Def +%d"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:244
+#, c-format
+msgid "Stamina +%d"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:248
+#, c-format
+msgid "Evade +%.1f%%"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:252
+#, c-format
+msgid "HP +%d"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:256
+#, c-format
+msgid "SP +%d"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:113
+#, c-format
+msgid "Press '%s' anytime to show/hide help."
+msgstr "Du kan närsomhelst trycka '%s' för att visa eller gömma hjälpen."
+
+#: ../src/modes/mode_help_window.cpp:120
+msgid "Welcome to Valyria Tear"
+msgstr "Välkommen till Valyria Tear"
+
+#: ../src/modes/mode_help_window.cpp:126 ../src/modes/mode_help_window.cpp:163
+#: ../src/modes/mode_help_window.cpp:218
+msgid "Command"
+msgstr "Kommando"
+
+#: ../src/modes/mode_help_window.cpp:127 ../src/modes/mode_help_window.cpp:164
+msgid "Current Key"
+msgstr "Nuvarande tangent"
+
+#: ../src/modes/mode_help_window.cpp:128 ../src/modes/mode_help_window.cpp:165
+msgid "Purpose"
+msgstr "Ändamål"
+
+#: ../src/modes/mode_help_window.cpp:136 ../src/modes/mode_help_window.cpp:173
+#: ../src/modes/mode_help_window.cpp:235
+msgid "Left"
+msgstr "Vänster"
+
+#: ../src/modes/mode_help_window.cpp:138
+msgid "Move menu cursor to the left"
+msgstr "Flytta menypekaren till vänster"
+
+#: ../src/modes/mode_help_window.cpp:139 ../src/modes/mode_help_window.cpp:176
+#: ../src/modes/mode_help_window.cpp:238
+msgid "Right"
+msgstr "Höger"
+
+#: ../src/modes/mode_help_window.cpp:141
+msgid "Move menu cursor to the right"
+msgstr "Flytta menypekaren till höger"
+
+#: ../src/modes/mode_help_window.cpp:144
+msgid "Confirm a menu command"
+msgstr "Bekräfta menykommandot"
+
+#: ../src/modes/mode_help_window.cpp:147
+msgid "Cancel a menu command"
+msgstr "Avbryt menykommandot"
+
+#: ../src/modes/mode_help_window.cpp:151
+msgid ""
+"Quit the application\n"
+"(when using the keyboard)"
+msgstr ""
+"Avsluta programmet\n"
+"(när man använder tangentbordet)"
+
+#: ../src/modes/mode_help_window.cpp:155
+msgid ""
+"Shop mode\n"
+"\n"
+"Use the Left/Right keys to add/remove items into the Buy and Sell modes.\n"
+"Then go into the Confirm mode to complete the transaction."
+msgstr ""
+"Butiksläge\n"
+"\n"
+"Använd vänster/höger för att lägga till/fjärna saker i köp och sälj lägena.\n"
+"Använd sedan bekräfta för att slutföra transaktionen."
+
+#: ../src/modes/mode_help_window.cpp:175
+msgid "Remove an item from the buy/sell list"
+msgstr "Avlägsna från köp/sälj-listan"
+
+#: ../src/modes/mode_help_window.cpp:178
+msgid "Add an item to the buy/sell list."
+msgstr "Lägg till köp/sälj-listan"
+
+#: ../src/modes/mode_help_window.cpp:179 ../src/modes/mode_help_window.cpp:229
+msgid "Up"
+msgstr "Upp"
+
+#: ../src/modes/mode_help_window.cpp:181
+msgid "Move up in the item list."
+msgstr "Flytta upp i varulistan."
+
+#: ../src/modes/mode_help_window.cpp:182 ../src/modes/mode_help_window.cpp:232
+msgid "Down"
+msgstr "Ner"
+
+#: ../src/modes/mode_help_window.cpp:184
+msgid "Move down in the item list."
+msgstr "Flytta ner i varulistan."
+
+#: ../src/modes/mode_help_window.cpp:187
+msgid "Show details or confirm a transaction"
+msgstr "Visa detaljer eller bekräfta en transaktion"
+
+#: ../src/modes/mode_help_window.cpp:190
+msgid "Change the displayed item category."
+msgstr "Ändra kategori."
+
+#: ../src/modes/mode_help_window.cpp:193
+msgid ""
+"Get out the Buy/Sell/Confirm mode,\n"
+"or quit the shop."
+msgstr ""
+"Avsluta Köp/Sälj/Bekräfta dialogen,\n"
+"eller sluta handla."
+
+#: ../src/modes/mode_help_window.cpp:199 ../src/modes/mode_help_window.cpp:260
+msgid "Pauses the game"
+msgstr "Pausar spelet"
+
+#: ../src/modes/mode_help_window.cpp:202
+msgid "Close this window / Show the system menu"
+msgstr "Stäng det här fönstret / Visa systemmenyn"
+
+#: ../src/modes/mode_help_window.cpp:208
+msgid "The table below lists the default game controls.\n"
+msgstr "Tabellen nedan visar standard kontrollerna.\n"
+
+#: ../src/modes/mode_help_window.cpp:209
+msgid "The control mappings can be changed in the options menu."
+msgstr "Tangentmappningen kan ändras i menyn."
+
+#: ../src/modes/mode_help_window.cpp:219
+msgid "Default Key"
+msgstr "Standardtangent"
+
+#: ../src/modes/mode_help_window.cpp:220
+msgid "General Purpose"
+msgstr "Generell användning"
+
+#: ../src/modes/mode_help_window.cpp:231
+msgid "Move position or cursor upwards"
+msgstr "Flytta markering eller pekare uppåt"
+
+#: ../src/modes/mode_help_window.cpp:234
+msgid "Move position or cursor downwards"
+msgstr "Flytta markering eller pekare neråt"
+
+#: ../src/modes/mode_help_window.cpp:237
+msgid "Move position or cursor to the left"
+msgstr "Flytta markering eller pekare till vänster"
+
+#: ../src/modes/mode_help_window.cpp:240
+msgid "Move position or cursor to the right"
+msgstr "Flytta markering eller pekare till höger"
+
+#: ../src/modes/mode_help_window.cpp:243
+msgid "Confirm an action or menu command"
+msgstr "Bekräfta en handling eller menyval"
+
+#: ../src/modes/mode_help_window.cpp:246
+msgid "Cancel an action or menu command"
+msgstr "Avbryt en handling eller menyval"
+
+#: ../src/modes/mode_help_window.cpp:251
+msgid "Opens the party menu"
+msgstr "Öppnar gruppmenyn"
+
+#: ../src/modes/mode_help_window.cpp:256
+msgid "Show/Hide items and skills descriptions."
+msgstr "Visa/Dölj saker och färdighetsbeskrivningar."
+
+#: ../src/modes/mode_help_window.cpp:263
+msgid "Quit the application"
+msgstr "Avsluta"
+
+#: ../src/modes/mode_help_window.cpp:266
+msgid ""
+"There are additional commands available which can be found in the MANUAL "
+"file."
+msgstr "Det finns även andra kommandon som kan hittas i manualfilen."
+
+#: ../src/modes/pause.cpp:73
+msgid "Paused"
+msgstr "Pausat"
+
+#: ../src/modes/pause.cpp:94
+msgid "Quit to Main Menu"
+msgstr "Åter till huvudmenyn"
+
+#: ../src/modes/pause.cpp:95
+msgid "Quit Game"
+msgstr "Avsluta"
+
+#: ../src/modes/save/save_mode.cpp:95
+msgid "Save Game"
+msgstr "Spara"
+
+#: ../src/modes/save/save_mode.cpp:131
+msgid "Confirm Save"
+msgstr "Bekräfta sparning"
+
+#: ../src/modes/save/save_mode.cpp:145
+#, fuzzy
+msgid "Load Auto-Save"
+msgstr "Ladda spel"
+
+#: ../src/modes/save/save_mode.cpp:146
+#, fuzzy
+msgid "Load Save"
+msgstr "Ladda spel"
+
+#: ../src/modes/save/save_mode.cpp:156
+msgid "Save successful!"
+msgstr "Sparning lyckad!"
+
+#: ../src/modes/save/save_mode.cpp:164
+msgid ""
+"Unable to save game!\n"
+"Save FAILED!"
+msgstr ""
+"Kunde inte spara spelet!\n"
+"Misslyckat lagringsförsök!"
+
+#: ../src/modes/save/save_mode.cpp:171
+msgid "No valid saves found!"
+msgstr "Inga giltiga sparningar hittades!"
+
+#: ../src/modes/save/save_mode.cpp:202 ../src/modes/save/save_mode.cpp:719
+#, fuzzy, c-format
+msgid "Slot %d"
+msgstr "Plats 1"
+
+#: ../src/modes/save/save_mode.cpp:511
+msgid "Invalid data!"
+msgstr "Ogiltig data!"
+
+#. tr: A slot for saving the same
+#: ../src/modes/save/save_mode.cpp:514
+msgid "This slot is unused"
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:71
+msgid "Weapons"
+msgstr "Vapen"
+
+#: ../src/modes/shop/shop.cpp:72
+msgid "Head Armor"
+msgstr "Huvudskydd"
+
+#: ../src/modes/shop/shop.cpp:73
+msgid "Torso Armor"
+msgstr "Bålskydd"
+
+#: ../src/modes/shop/shop.cpp:74
+msgid "Arm Armor"
+msgstr "Armskydd"
+
+#: ../src/modes/shop/shop.cpp:75
+msgid "Leg Armor"
+msgstr "Benskydd"
+
+#: ../src/modes/shop/shop.cpp:76
+msgid "Spirits"
+msgstr "Andar"
+
+#: ../src/modes/shop/shop.cpp:77
+msgid "Key Items"
+msgstr "Nyckelföremål"
+
+#: ../src/modes/shop/shop.cpp:78
+msgid "All Wares"
+msgstr "Alla varor"
+
+#: ../src/modes/shop/shop.cpp:181
+msgid "Field Use:"
+msgstr "Fältanvändning:"
+
+#: ../src/modes/shop/shop.cpp:183
+msgid "Battle Use:"
+msgstr "Stridsandvändning"
+
+#: ../src/modes/shop/shop.cpp:185
+msgid "Target:"
+msgstr "Mål:"
+
+#: ../src/modes/shop/shop.cpp:217
+msgid "Conditions:"
+msgstr "Förutsättningar:"
+
+#: ../src/modes/shop/shop.cpp:709
+#, c-format
+msgid "Press %s to add items to buy and %s to remove items from your purchase."
+msgstr ""
+"Tryck %s för att lägga till varor för inköp och %s för att ta bort dem."
+
+#: ../src/modes/shop/shop.cpp:713
+#, c-format
+msgid "Press %s to add items to sell and %s to remove items from your sale."
+msgstr ""
+"Tryck %s för att lägga till varor för försäljning och %s för att ta bort dem."
+
+#: ../src/modes/shop/shop.cpp:717
+#, c-format
+msgid "Press %s to add items to trade and %s to remove them."
+msgstr "Tryck %s för att lägga till varor för byte och %s för att ta bort dem."
+
+#: ../src/modes/shop/shop.cpp:735
+msgid "Buy count: x "
+msgstr "Inköpsantal: x"
+
+#: ../src/modes/shop/shop.cpp:739
+msgid "Sell count: x "
+msgstr "Försäljningsantal: x"
+
+#: ../src/modes/shop/shop.cpp:743
+msgid "Trade count: x "
+msgstr "Bytesantal: x"
+
+#: ../src/modes/shop/shop.cpp:1046 ../src/modes/shop/shop.cpp:1306
+msgid "Buy"
+msgstr "Köp"
+
+#: ../src/modes/shop/shop.cpp:1047 ../src/modes/shop/shop.cpp:1307
+msgid "Sell"
+msgstr "Sälj"
+
+#: ../src/modes/shop/shop.cpp:1048 ../src/modes/shop/shop.cpp:1308
+msgid "Trade"
+msgstr "Byt"
+
+#: ../src/modes/shop/shop.cpp:1309
+msgid "Leave"
+msgstr "Lämna"
+
+#: ../src/modes/shop/shop.cpp:1793
+msgid "Funds: "
+msgstr "Tillgångar:"
+
+#: ../src/modes/shop/shop.cpp:1795
+msgid "Purchases: "
+msgstr "Köp:"
+
+#: ../src/modes/shop/shop.cpp:1796 ../src/modes/shop/shop.cpp:1799
+msgid "Remaining: "
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:1798
+msgid "Sales: +"
+msgstr "Sälj: +"
+
+#: ../src/modes/shop/shop_buy.cpp:59 ../src/modes/shop/shop_sell.cpp:59
+#: ../src/modes/shop/shop_trade.cpp:56
+msgid "Category"
+msgstr "Kategori"
+
+#: ../src/modes/shop/shop_buy.cpp:62 ../src/modes/shop/shop_sell.cpp:62
+#: ../src/modes/shop/shop_trade.cpp:59
+msgid "Name"
+msgstr "Namn"
+
+#: ../src/modes/shop/shop_buy.cpp:68 ../src/modes/shop/shop_sell.cpp:68
+#: ../src/modes/shop/shop_trade.cpp:65
+msgid "Price"
+msgstr "Pris"
+
+#: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_trade.cpp:66
+msgid "Stock"
+msgstr "Lager"
+
+#: ../src/modes/shop/shop_buy.cpp:70 ../src/modes/shop/shop_sell.cpp:69
+#: ../src/modes/shop/shop_trade.cpp:67
+msgid "Own"
+msgstr "Ägda"
+
+#: ../src/modes/shop/shop_root.cpp:53
+msgid "The Shop"
+msgstr "Butiken"
+
+#: ../src/modes/shop/shop_root.cpp:56
+msgid "Buy prices"
+msgstr "Inköpspriser:"
+
+#: ../src/modes/shop/shop_root.cpp:58
+msgid "Sell prices"
+msgstr "Försäljningspriser:"
+
+#: ../src/modes/shop/shop_root.cpp:66
+msgid "\"Welcome! Take a look around.\""
+msgstr "\"Välkommen! Se dig för.\""
+
+#~ msgid ""
+#~ "\n"
+#~ "Main theme, Village music, ...\n"
+#~ "\n"
+#~ "Banesore's battle, ...\n"
+#~ "\n"
+#~ "Layna Forest music, ...\n"
+#~ "\n"
+#~ "Boss Music\n"
+#~ "\n"
+#~ "Battle music\n"
+#~ "\n"
+#~ "Birds' song\n"
+#~ "\n"
+#~ "Battle lost music\n"
+#~ "\n"
+#~ "Layna cave music"
+#~ msgstr ""
+#~ "\n"
+#~ "Huvudtema, bymusik, ...\n"
+#~ "\n"
+#~ "BAnesores musik, ...\n"
+#~ "\n"
+#~ "Layna skogsmusik, ...\n"
+#~ "\n"
+#~ "Bossmusik\n"
+#~ "\n"
+#~ "Stridsmusik\n"
+#~ "\n"
+#~ "Fågelsång\n"
+#~ "\n"
+#~ "Striden-förlorad-musik\n"
+#~ "\n"
+#~ "Layna grottmusik"
+
+#~ msgid "' if you need more details."
+#~ msgstr "' om du behöver mer detaljer."
+
+#, fuzzy
+#~ msgid ""
+#~ "'All my comrades have perished in battle and I am the last unfortunate "
+#~ "one left.'"
+#~ msgstr ""
+#~ "'Alla mina kamrater har stupat i striderna och jag är den enda som är "
+#~ "kvar.'"
+
+#~ msgid ""
+#~ "'Battles have been waging all over the place and the Ancient have now "
+#~ "forsaken me into oblivion when they sealed the Goddess Shrine.'"
+#~ msgstr ""
+#~ "'Strider har pågått överallt, och de gamla har ni övergett mig när de "
+#~ "förseglade gudinnans tempel.'"
+
+#, fuzzy
+#~ msgid ""
+#~ "'But I will attempt one last time to escape from here and I'm leaving "
+#~ "this note in case you'd need to do the same.'"
+#~ msgstr ""
+#~ "'... Men jag kommer att göra ett sista försök att fly och jag lämnar den "
+#~ "här lappen här om du skulle behöva göra samma sak.'"
+
+#, fuzzy
+#~ msgid ""
+#~ "'But be warned, for even the very scent exuding from the dark waters is a "
+#~ "trap!'"
+#~ msgstr ""
+#~ "'... Men var försiktiga, för lukten som kommer från det mörka vattnet är "
+#~ "en fälla!'"
+
+#, fuzzy
+#~ msgid ""
+#~ "'My name is Shawn, and I do believe my time is running out in this life "
+#~ "as there is neither food nor water in here.'"
+#~ msgstr ""
+#~ "'Mitt namn är Shawn, och jag tror att mina dagar är räknade, då det "
+#~ "varken finns mat eller vatten här inne...'"
+
+#, fuzzy
+#~ msgid "'Only the last one standing shall pass.'"
+#~ msgstr "'Endast den som överlever skall passera' ..."
+
+#, fuzzy
+#~ msgid ""
+#~ "'The entire shrine has been turned into a murderous area and you'll have "
+#~ "to fight your way through, just as I will now.'"
+#~ msgstr ""
+#~ "'Hela templet är numera ett slakthus och du måste slåss hela vägen "
+#~ "igenom, precis som jag kommer göra nu...'"
+
+#~ msgid ""
+#~ "'The only way to escape this hellish place is to reach the highest floor "
+#~ "and activate the waterfall. At least that's what they said.'"
+#~ msgstr ""
+#~ "'Enda sättet att ta sig ut härifrån är att ta sig upp på översta våningen "
+#~ "och aktivera vattenfallet. Det är i varje fall vad de sa till mig.'"
+
+#~ msgid "'To whoever will read this:'"
+#~ msgstr "'Till den som läser detta:'"
+
+#, fuzzy
+#~ msgid "(Also whispering) I don't know."
+#~ msgstr "(Viskandes) Jag vet inte..."
+
+#, fuzzy
+#~ msgid "(Bronann looks at the ground)"
+#~ msgstr "(Bronann tittar på marken ...)"
+
+#~ msgid "(Hmm, maybe I should get a sword then.)"
+#~ msgstr "(Hmm, då kanske jag borde skaffa ett svärd.)"
+
+#~ msgid ""
+#~ "(I also heard something falling outside. Let's hope it's nothing bad.)"
+#~ msgstr ""
+#~ "(Jag hörde också något som föll utanför. Låt oss hoppas att det inte var "
+#~ "något farligt.)"
+
+#~ msgid "(I thought you saw me.)"
+#~ msgstr "(Jag trodde att du såg mig)"
+
+#, fuzzy
+#~ msgid ""
+#~ "(Kalya was brought here by those weirdos. They are holding everyone "
+#~ "captive. Lilly is talking with that big guy. He gives me the chills.)"
+#~ msgstr ""
+#~ "(Kalya fördes hit av de där knäppgökarna. De håller alla fångna Lilly "
+#~ "talar med den där stora killen. Han ger mig rysningar.)"
+
+#, fuzzy
+#~ msgid "(Let's have a look.)"
+#~ msgstr "(Låt mig se..)"
+
+#~ msgid "(Sigh)... Hmm, fine."
+#~ msgstr "(Suck)... Hmm, visst."
+
+#, fuzzy
+#~ msgid "(Sigh)... I should have stayed home today."
+#~ msgstr "(Suck)... Jag borde ha stannat hemma idag..."
+
+#~ msgid "(What's happening here?)"
+#~ msgstr "(Vad händer här?)"
+
+#~ msgid "(Whispering) Kalya!"
+#~ msgstr "(viskandes) Kalya!"
+
+#, fuzzy
+#~ msgid "(Woah, this bridge doesn't look very sturdy.)"
+#~ msgstr "(Whoa, den här bron ser inte så stadig ut...)"
+
+#, fuzzy
+#~ msgid ""
+#~ "(Woah, you scared me. Are you mad? You could have got us both caught!)"
+#~ msgstr ""
+#~ "(Woah, du skrämdes. Är du galen? Du hade kunnat få oss båda fångade!)"
+
+#~ msgid "(giggle) I won't tell you!"
+#~ msgstr "(fniss) Du får aldrig veta!"
+
+#~ msgid "(grumble)... Crap!"
+#~ msgstr "(grr)... skit också!"
+
+#, fuzzy
+#~ msgid "(sigh)... Georges!"
+#~ msgstr "(Suck)... Georges!"
+
+#, fuzzy
+#~ msgid "(sigh)... Got it, mom!"
+#~ msgstr "(Suck)... Mamma, jag fick tag i det!"
+
+#, fuzzy
+#~ msgid "(sigh...) Hmm, fine."
+#~ msgstr "(Suck...) Hmm, visst."
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#, fuzzy
+#~ msgid "... Al... right..."
+#~ msgstr "...Ja ... visst..."
+
+#~ msgid "... Fine."
+#~ msgstr "... Visst."
+
+#~ msgid "... It's not that simple, Bronann. Believe me."
+#~ msgstr "... Det är inte riktigt så enkelt Bronann. Lita på mig."
+
+#, fuzzy
+#~ msgid "... My head."
+#~ msgstr "... Mitt huvud ..."
+
+#~ msgid ""
+#~ "... The incredible and amazing. I could even say, the stunning feel of it "
+#~ "in the wind..."
+#~ msgstr ""
+#~ "... Det otroliga och bländande. Skulle jag till och med kalla det, den "
+#~ "förstummande känslan i vinden..."
+
+#, fuzzy
+#~ msgid "...Kalya?!"
+#~ msgstr "... Kalya?!"
+
+#, fuzzy
+#~ msgid "...am I telling you all that? It's simple."
+#~ msgstr "... Berättar jag allt det för dig? Det är enkelt..."
+
+#~ msgid "1st Floor"
+#~ msgstr "Första våningen"
+
+#~ msgid "2nd Floor"
+#~ msgstr "Andra väningen"
+
+#~ msgid "?"
+#~ msgstr "?"
+
+#, fuzzy
+#~ msgid ""
+#~ "? This is the first time that I've seen you wear such a worrisome "
+#~ "expression."
+#~ msgstr "? ...  Det här är första gången som jag har sett dig så bekymrad."
+
+#~ msgid "???"
+#~ msgstr "???"
+
+#, fuzzy
+#~ msgid "A battle-worn helmet, still reliable for head protection."
+#~ msgstr ""
+#~ "En sliten hjälm, fortfarande tillräckligt hel för att skydda huvudet."
+
+#~ msgid "A blow which temporarily stun its target."
+#~ msgstr "Ett slag som temporärt förlamar målet."
+
+#~ msgid ""
+#~ "A breastplate with slightly thicker armor than is commonly found and "
+#~ "additional shoulder guards."
+#~ msgstr "Ett lite kraftigare bröstharnesk med extra axelplåtar."
+
+#~ msgid "A cloak worn by apprentices."
+#~ msgstr "En kappa som bärs av lärlingar."
+
+#, fuzzy
+#~ msgid "A crystal stone?!"
+#~ msgstr "En stenkristall?!?"
+
+#~ msgid "A dagger attack, poisoning the enemy."
+#~ msgstr "En knivattack som förgiftar fienden."
+
+#, fuzzy
+#~ msgid "A fragile spirit, child of mother nature."
+#~ msgstr "En ömtålig ande, moder jords barn."
+
+#, fuzzy
+#~ msgid ""
+#~ "A genuine and perfect feather from the great fire bird. It is known to "
+#~ "bring life to inanimated items."
+#~ msgstr ""
+#~ "En äkta och perfekt fjäder från den stora eldfågeln. Den ger liv åt "
+#~ "livlösa föremål."
+
+#~ msgid "A holy light strikes an enemy."
+#~ msgstr "Ett heligt ljus slår ner på en fiende."
+
+#~ msgid ""
+#~ "A large shield with enough fortitude to withstand waves of powerful "
+#~ "attacks."
+#~ msgstr "En stor sköld kraftig nog att hålla för många attackvågor."
+
+#~ msgid "A light chain mail woven into a tough leather cuirass."
+#~ msgstr "En lätt ringbrynja monterat på ett läderharnesk."
+
+#, fuzzy
+#~ msgid ""
+#~ "A light tunic worn by new soldier recruits. This one belonged to "
+#~ "Bronann's father."
+#~ msgstr ""
+#~ "En lätt tunika som bärs av nya soldater. Den här tillhörde Bronanns "
+#~ "pappa..."
+
+#~ msgid "A mesmerizing spirit of living water."
+#~ msgstr "En trollbindande ande av levande vatten."
+
+#~ msgid "A mythical weapon blessed with a magical fire."
+#~ msgstr "Ett mytiskt vapen som brinner med en helig eld."
+
+#, fuzzy
+#~ msgid ""
+#~ "A ninja potion that bursts out a damp mist when it is crashed on the "
+#~ "ground. Used to hopefully escape from standard opponents."
+#~ msgstr ""
+#~ "En omgång ninjarök som ger ifrån sig en fuktig dimma när en krossas mot "
+#~ "marken. Användbar för att fly från vanliga fiender."
+
+#, fuzzy
+#~ msgid "A powerful shot aimed at lowering the enemy's ability to attack."
+#~ msgstr "Ett kraftigt skott som sänker fiendens attack."
+
+#~ msgid "A quicker and more powerful blow than the standard sword slash."
+#~ msgstr "En snabbare och kraftfullare attack än standardattacken."
+
+#~ msgid ""
+#~ "A shield formed completely out of a light-weight but cheap metallic alloy."
+#~ msgstr "En sköld tillverkad helt av en lätt men billig metallblandning."
+
+#~ msgid "A simple but efficient dagger attack."
+#~ msgstr "En enkel men effektiv knivattack."
+
+#, fuzzy
+#~ msgid "A simple punch. Better than nothing."
+#~ msgstr "Ett enkelt slag. Bättre än ingenting..."
+
+#~ msgid "A simple shot using an arbalest."
+#~ msgstr "Ett enkelt skott med ett arbalest."
+
+#, fuzzy
+#~ msgid "A small amount of anthozium ore."
+#~ msgstr "Lite anthoziummalm."
+
+#, fuzzy
+#~ msgid "A small amount of auridium ore."
+#~ msgstr "Lite auridiummalm."
+
+#, fuzzy
+#~ msgid "A small amount of borium ore."
+#~ msgstr "Lite boriummalm"
+
+#~ msgid "A small amount of copper ore."
+#~ msgstr "Lite kopparmalm."
+
+#, fuzzy
+#~ msgid "A small amount of evanium ore."
+#~ msgstr "Lite evaniummalm."
+
+#~ msgid "A small amount of iron ore."
+#~ msgstr "Lite järnmalm."
+
+#, fuzzy
+#~ msgid "A small amount of titanium ore."
+#~ msgstr "Lite titanmalm."
+
+#, fuzzy
+#~ msgid "A small helmet composed of a secret cobalt-based alloy."
+#~ msgstr "En liten hjälm tillverkad av en hemlig koboltlegering."
+
+#~ msgid "A standard wooden arbalest."
+#~ msgstr "Ett standard träarmborst."
+
+#~ msgid "A strange necklace with unknown powers."
+#~ msgstr "Ett konstigt halsband med okända krafter."
+
+#~ msgid "A strange ring that protects the wearer from darkness."
+#~ msgstr "En märklig ring som skyddar bäraren från mörker."
+
+#~ msgid ""
+#~ "A strike from above, stunning the enemy and breaking its magical defense."
+#~ msgstr ""
+#~ "En attack från ovan, som lamslår fienden och har sönder deras magiska "
+#~ "skydd."
+
+#~ msgid ""
+#~ "A strong and aggressive attack with a blade that deals significant damage."
+#~ msgstr "En stark och aggressiv attack som gör ordentligt med skada."
+
+#~ msgid ""
+#~ "A sturdy but somewhat dull sword whose blade was forged from a single "
+#~ "block of solid iron."
+#~ msgstr ""
+#~ "Ett stadigt med oslipat svärd vars blad var smitt av ett enda block med "
+#~ "järn."
+
+#~ msgid ""
+#~ "A sturdy helmet with a hinged face guard offering additional protection."
+#~ msgstr "En stadig hjälm med en visir för extra skydd"
+
+#~ msgid "A sword made of wood with a steel hilt, reinforced magically."
+#~ msgstr "Ett träsvärd med stålhjalt, magiskt förstärkt."
+
+#~ msgid ""
+#~ "A sword made of wood with a steel hilt, surrounded by a great magical "
+#~ "force."
+#~ msgstr "Ett träsvärd med stålhjalt, omgärdat av en enorm magisk kraft."
+
+#~ msgid "A sword made of wood with a steel hilt, very good for practising."
+#~ msgstr "Ett träsvärd med ett hjalt av stål. Bra att öva med."
+
+#~ msgid "A tall steel shield with a mighty phoenix emblazoned on the front."
+#~ msgstr "En lång sköld av stål med en mäktig fenix ingraverat framtill."
+
+#~ msgid "A textbook maneuver that deals an effective blow."
+#~ msgstr "Ett skolboksexempel på en huggande manöver."
+
+#, fuzzy
+#~ msgid "A very rare spirit of wind, usually neither tamable nor catchable."
+#~ msgstr ""
+#~ "En väldigt ovanlig vindelementar, vanligtvis varken fång eller tämjbar."
+
+#~ msgid "A weapon bestowed to seasoned veterans of the knighthood."
+#~ msgstr "Ett vapen som ges till erfarna veteraner av riddarordern."
+
+#~ msgid "AGI: +"
+#~ msgstr "AGI: +"
+
+#~ msgid "Abdomen"
+#~ msgstr "Buk"
+
+#~ msgid "Acheron"
+#~ msgstr "Acheron"
+
+#~ msgid "Actually, I bought the barley meal for Lilly."
+#~ msgstr "Faktiskt, så köpte jag kornmjölet åt Lilly."
+
+#~ msgid ""
+#~ "Additional programming\n"
+#~ "and scripting"
+#~ msgstr ""
+#~ "ytterligare programmerande\n"
+#~ "och skriptande"
+
+#~ msgid "Additional programming and scripting"
+#~ msgstr "Ytterligare programmering och skriptande"
+
+#~ msgid "Aerocephal"
+#~ msgstr "Aerocephal"
+
+#~ msgid "After all we've been through, this..."
+#~ msgstr "Efter allt som vi har varit igenom, det här..."
+
+#~ msgid ""
+#~ "After all, I simply wanted to make sure that boy would reach Mt. Elbrus "
+#~ "safe and sound."
+#~ msgstr ""
+#~ "När allt kommer omkring, så ville jag bara att den där pojken skulle nå "
+#~ "Elbrustoppen säkert."
+
+#, fuzzy
+#~ msgid ""
+#~ "After chasing him around the village all morning, I finally have the pen. "
+#~ "Time to bring it back to Georges."
+#~ msgstr ""
+#~ "Efter att ha jagat honom runt byn hela morgonen, så har jag äntligen "
+#~ "pennan. Dags att återvända till Georges..."
+
+#, fuzzy
+#~ msgid ""
+#~ "After seeing that strange light, Orlinn ran into the woods. He's just a "
+#~ "kid, even if a quick one!\n"
+#~ " \n"
+#~ "My father asked me to go there with Kalya and bring him back safe and "
+#~ "sound.\n"
+#~ " \n"
+#~ "I can't let them down!"
+#~ msgstr ""
+#~ "Efter han såg det konstiga ljusskenet, så sprang Orlinn sin väg in i "
+#~ "skogen. Han är bara en unge, även om han är snabb!\n"
+#~ "\n"
+#~ "Min pappa har bett mig att gå och hämta hem honom tillsammans med Kayla.\n"
+#~ "\n"
+#~ "Jag kan inte låta dem bli besvikna!"
+
+#, fuzzy
+#~ msgid ""
+#~ "After we returned to the village, Kalya was caught by strange soldiers. "
+#~ "The country lord himself provoked me in battle and thanks to her, we "
+#~ "escaped for now.\n"
+#~ " \n"
+#~ "But this isn't over. The soldiers are after us and we have to make our "
+#~ "way through."
+#~ msgstr ""
+#~ "Efter att vi återvände till byn, så fångades Kayla av okända soldater. "
+#~ "Hertigen själv provocerade mig till strid, och tack vare henne så "
+#~ "lyckades vi fly.\n"
+#~ "\n"
+#~ "Men det här är inte slut ännu, soldaterna är efter oss och vi måste ta "
+#~ "oss igenom det..."
+
+#, fuzzy
+#~ msgid "Again, I can feel something moving not far from here."
+#~ msgstr "Igen, så känner jag att något rör på sig, inte långt härifrån..."
+
+#~ msgid "Agility"
+#~ msgstr "Smidighet"
+
+#~ msgid "Agility (AGI): "
+#~ msgstr "Smidighet (AGI):"
+
+#, fuzzy
+#~ msgid "Ah ah ah, but this is exactly what I wanted."
+#~ msgstr "Ah ah ah... men det här var exakt vad jag ville."
+
+#~ msgid ""
+#~ "Ah hah! I just wanted to see your reaction. I still have some. Let me go "
+#~ "grab it and bring it back to you."
+#~ msgstr ""
+#~ "Ah hah! Jag ville bara se din reaktion. Jag har fortfarande lite kvar. "
+#~ "Jag går och hämtar det."
+
+#, fuzzy
+#~ msgid "Ah! Bronann. Could you help your old grandma?"
+#~ msgstr "Ah! Bronann. Skulle du kunna hjälpa din gamla mormor?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Ah! It's nice to see your dear young face around, Bronann. Come and chat "
+#~ "with an old grandma."
+#~ msgstr ""
+#~ "Ah! Äntligen så ser man ditt ansikte här, Bronann. Kom och tala med din "
+#~ "gamla mormor."
+
+#~ msgid ""
+#~ "Ah! Sure, as soon as your father will stop lending his sword to you to "
+#~ "practice with him. Are you sure everything is alright?"
+#~ msgstr ""
+#~ "Ah! Visst, så snart som din far slutar att låna ut sitt svärd åt dig så "
+#~ "att du kan öva med honom. Är du säker på att allt står rätt till?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Ah! You'll surely want to see the young lady living up there. Ah, "
+#~ "youngins nowadays."
+#~ msgstr ""
+#~ "Ah! Du är säkert på väg för att träffa den unga damen som bor här uppe. "
+#~ "Ah, dagens ungdom..."
+
+#~ msgid ""
+#~ "Ah, I see. Well unfortunately, I'm so sad about a recent loss that I "
+#~ "can't find the right words with which to tell you."
+#~ msgstr ""
+#~ "Ah, jag förstår. Olyckligtvis så är jag bedrövad över en närliggande "
+#~ "förlust så att jag inte ens kan hitta orden att berätta det för dig."
+
+#~ msgid ""
+#~ "Ah, the river is so beautiful at this time of the year. I feel like "
+#~ "writing some poetry..."
+#~ msgstr ""
+#~ "Ah, floden är så vacker den här årstiden. Jag får lust att skriva lite "
+#~ "poesi..."
+
+#, fuzzy
+#~ msgid "Ah, there it is. Finally!"
+#~ msgstr "Där är den... Äntligen!"
+
+#, fuzzy
+#~ msgid "Ah, well. You were serious, weren't you?"
+#~ msgstr "Nåväl, du var seriös, eller hur?"
+
+#, fuzzy
+#~ msgid "Ah? So he must be close."
+#~ msgstr "Ah? Så han måste vara i närheten..."
+
+#~ msgid "Ahh sure! (gossip, gossip)"
+#~ msgstr "Ahh javisst! (skvaller, skvaller)"
+
+#, fuzzy
+#~ msgid "All this was for a crystal?"
+#~ msgstr "Allt det här för en kristall??"
+
+#~ msgid "All this..."
+#~ msgstr "Allt det här..."
+
+#~ msgid "Allacrost Artwork Team"
+#~ msgstr "Allacrosts konstnärsteam"
+
+#~ msgid "Allacrost Artwork Team (2004-2011)"
+#~ msgstr "Allacrosts konstnärsteam (2004-2011)"
+
+#~ msgid ""
+#~ "Allacrost Development Team (2004-2011)\n"
+#~ "\n"
+#~ "Founder and Lead Designer"
+#~ msgstr ""
+#~ "Allacrost utvecklingsteam (2004-2011)\n"
+#~ "\n"
+#~ "Grundare och huvuddesigner"
+
+#~ msgid "Allacrost Music and Sound Team (2004-2011)"
+#~ msgstr "Allacrost Musik- och Ljudteam (2004-2011)"
+
+#~ msgid "Allacrost Programming Team"
+#~ msgstr "Allacrosts programmerarteam"
+
+#~ msgid "Allacrost Programming Team (2004-2011)"
+#~ msgstr "Allacrosts programmerarteam (2004-2011)"
+
+#~ msgid "Allacrost Project Leads/Administrators"
+#~ msgstr "Allacrosts projektledare/administratörer"
+
+#~ msgid "Allacrost Special Thanks"
+#~ msgstr "Allacrost Extra Tack"
+
+#, fuzzy
+#~ msgid "Alright then, take a look around..."
+#~ msgstr "\"Välkommen! Se dig för.\""
+
+#~ msgid ""
+#~ "Also, the person in front of the battle line will lead the group in the "
+#~ "forest. What I mean by that is the person on the top of the battle "
+#~ "formation will actually appear while the others will stay hidden."
+#~ msgstr ""
+#~ "Dessutom, personen längst fram på stridslinjen kommer att leda gruppen i "
+#~ "skogen. Jag menar att personen som är längst upp i stridsformationen är "
+#~ "den som kommer att synas medan de ändra är gömda."
+
+#~ msgid "Alt"
+#~ msgstr "Alt"
+
+#~ msgid "An arbalest made out of fine noble ash tree wood."
+#~ msgstr "Ett armborst tillverkat från finaste ask."
+
+#~ msgid "An arbalest strengthened with magical ore."
+#~ msgstr "Ett armborst som är förstärkt med magi."
+
+#~ msgid "An attack striking all enemies."
+#~ msgstr "En attack som träffar alla fiender."
+
+#, fuzzy
+#~ msgid "An attack that breaks the enemy's own attack power."
+#~ msgstr "En attack som bryter ner fiendes attackförmåga."
+
+#, fuzzy
+#~ msgid "An enchanting child of fire."
+#~ msgstr "Ett förhäxander eldbarn."
+
+#, fuzzy
+#~ msgid "An offensive mystic spell formed by combining opposite elementals."
+#~ msgstr ""
+#~ "En mystisk besvärjelse som uppstår när man kombinerar motstående element."
+
+#, fuzzy
+#~ msgid "An old and finely crafted piece of jewelery."
+#~ msgstr "Ett gammalt och delikat smycke."
+
+#~ msgid "An old light soldier tunic."
+#~ msgstr "En gammal soldattunika."
+
+#~ msgid "An old willow dress that Kalya likes to wear."
+#~ msgstr "En gammal sälgdräkt som Kalya tyckte om att ha på sig."
+
+#~ msgid "Ancient Strength"
+#~ msgstr "Uråldrig styrka"
+
+#, fuzzy
+#~ msgid ""
+#~ "And I hope that you have already equipped your sword. If you haven't, "
+#~ "open your inventory by pressing the menu key (%s), and select 'Equip'. "
+#~ "Then you'll be able to select your sword and add it as your main weapon."
+#~ msgstr ""
+#~ "Och snälla säg att du har tagit på dig svärdet... om du inte har gjort "
+#~ "det, visa dina ägodelar genom att trycka menyknappen (%s), och välj "
+#~ "'Equip'. Då kommer du kunna välja ditt svärd och lägga till det som "
+#~ "primärvapen, ok?"
+
+#~ msgid ""
+#~ "And how did you reach up here? Weren't you caught by the soldiers with "
+#~ "the others?"
+#~ msgstr ""
+#~ "Och hur kom du upp hit? Fångades du inte av soldaterna tillsammans med de "
+#~ "andra?"
+
+#, fuzzy
+#~ msgid "And you shall not touch my brother without mine."
+#~ msgstr "Och du kommer inte att röra min bror utan min..."
+
+#~ msgid "And you..."
+#~ msgstr "Och du..."
+
+#~ msgid "Andromalius"
+#~ msgstr "Andromalius"
+
+#~ msgid "Anthozium Ore"
+#~ msgstr "Anthoziummalm"
+
+#, fuzzy
+#~ msgid "Anyway, let's go now."
+#~ msgstr "Hursomhelst, låt oss vara påväg nu..."
+
+#~ msgid "Anyway, let's stick together and we'll be fine as always, right?"
+#~ msgstr ""
+#~ "Hursomhelst, låt oss hålla ihop så kommer vi att klara oss som alltid, "
+#~ "eller hur?"
+
+#, fuzzy
+#~ msgid "Anyway, once the cemetery is behind us we should be out of trouble!"
+#~ msgstr ""
+#~ "Hursomhelst, när vi väl har lämnat begravningsplatsen bakom oss, så borde "
+#~ "vi vara utom fara!"
+
+#, fuzzy
+#~ msgid ""
+#~ "Anyway, we might not be able to enter there at all. But you're right, "
+#~ "let's have a look around first. Who knows?"
+#~ msgstr ""
+#~ "Hursomhelst, vi kanske inte ens kan ta oss in här överhuvudtaget. Men du "
+#~ "har rätt, låt oss leta runt lite först. Vem vet?"
+
+#~ msgid "Arbalest"
+#~ msgstr "Armborst"
+
+#~ msgid "Arbalest of Force"
+#~ msgstr "Kraftens armborst"
+
+#~ msgid "Arcana Drake"
+#~ msgstr "Arkanisk drake"
+
+#~ msgid "Ardoris"
+#~ msgstr "Ardoris"
+
+#, fuzzy
+#~ msgid "Are those the soldiers up there?"
+#~ msgstr "Är inte det där soldater där uppe?"
+
+#~ msgid "Are you alright, Kalya?"
+#~ msgstr "Mår du bra Kalya?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Are you ok? We should head back to the village so Lilly can examine you."
+#~ msgstr ""
+#~ "Mår du bra? Vi borde ta oss tillbaka till byn så att Lilly kan undersöka "
+#~ "dig..."
+
+#~ msgid "Argh! It hurts!"
+#~ msgstr "Argh! Det gör ont!"
+
+#, fuzzy
+#~ msgid "Argh! My chest is burning!"
+#~ msgstr "Argh! Mitt bröst brinner!!"
+
+#~ msgid "Arm"
+#~ msgstr "Arm"
+
+#~ msgid "Armored Beast"
+#~ msgstr "Bepansrad best"
+
+#, fuzzy
+#~ msgid "As you wish."
+#~ msgstr "Som du will..."
+
+#, fuzzy
+#~ msgid "As you wish. Follow me."
+#~ msgstr "Som du vill... Följ mig."
+
+#~ msgid "Ask about battle basics."
+#~ msgstr "Fråga om grundläggande strid."
+
+#~ msgid "Ask nothing. I know how to fight."
+#~ msgstr "Fråga ingenting. Jag vet hur man slåss."
+
+#, fuzzy
+#~ msgid "At last, the boy."
+#~ msgstr "Till slut... pojken."
+
+#~ msgid "Attack (ATK): "
+#~ msgstr "Attack (ATK):"
+
+#, fuzzy
+#~ msgid "Attacks an enemy with a chance of causing death to catch its soul."
+#~ msgstr ""
+#~ "Attackerar en fiende och ger en chans att smitta dess själ med döden."
+
+#~ msgid "Aura"
+#~ msgstr "Aura"
+
+#~ msgid "Auridium Ore"
+#~ msgstr "Auridiummalm"
+
+#~ msgid "Aurum Drakueli"
+#~ msgstr "Aurum Drakueli"
+
+#~ msgid "Aww..."
+#~ msgstr "Aww..."
+
+#~ msgid ""
+#~ "Balancing, ...\n"
+#~ "\n"
+#~ "Quest log, Minimap support, ...\n"
+#~ "\n"
+#~ "Shop Trade mode support, ...\n"
+#~ "\n"
+#~ "UI theme change menu support, ...\n"
+#~ "\n"
+#~ "GL code improvement, ...\n"
+#~ "\n"
+#~ "Multiple screen fix, ...\n"
+#~ "\n"
+#~ "Misc fixes\n"
+#~ "\n"
+#~ "Joystick handling fixes"
+#~ msgstr ""
+#~ "Spelbalans, ...\n"
+#~ "\n"
+#~ "Uppdragslista, tumnagelskarta, ...\n"
+#~ "\n"
+#~ "Bytesfunktionalitet, ...\n"
+#~ "\n"
+#~ "Tema-bytar-meny, ...\n"
+#~ "\n"
+#~ "GLkodsförbättringar, ...\n"
+#~ "\n"
+#~ "Många skärmfixar, ...\n"
+#~ "\n"
+#~ "Många andra fixar\n"
+#~ "\n"
+#~ "Joystick fixar"
+
+#~ msgid "Banesore"
+#~ msgstr "Banesore"
+
+#, fuzzy
+#~ msgid "Banesore's minions are already all over the place."
+#~ msgstr "Banesores hejardukar är redan överallt ..."
+
+#~ msgid "Barley Meal"
+#~ msgstr "Kornmjöl"
+
+#~ msgid "Barley meal? Again?"
+#~ msgstr "Kornmjöl? Igen?"
+
+#~ msgid "Based on the engine"
+#~ msgstr "Baserat på motorn"
+
+#~ msgid "Basement"
+#~ msgstr "Källare"
+
+#~ msgid "Basic yet good and cheap flour."
+#~ msgstr "Vanligt men gott och billigt mjöl."
+
+#~ msgid "Bat"
+#~ msgstr "Fladdermus"
+
+#~ msgid ""
+#~ "Battle code, Menu code\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Game engine\n"
+#~ "\n"
+#~ "Map code\n"
+#~ "\n"
+#~ "Various game modes, content scripting\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Video engine, Audio engine\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Programming lead, Game engine, Map code"
+#~ msgstr ""
+#~ "Stridskod, menykod\n"
+#~ "\n"
+#~ "Speleditor\n"
+#~ "\n"
+#~ "Spelmotor\n"
+#~ "\n"
+#~ "Kartkod\n"
+#~ "\n"
+#~ "Olika spellägen, skriptande\n"
+#~ "\n"
+#~ "Videomotor\n"
+#~ "\n"
+#~ "Videomotor, Ljudmotor\n"
+#~ "\n"
+#~ "Spelmotor\n"
+#~ "\n"
+#~ "Huvudprogrammerare, spelmotor, kartkod"
+
+#~ msgid "Be careful, ok?"
+#~ msgstr "Var försiktig, ok?"
+
+#~ msgid "Beetle"
+#~ msgstr "Skalbagge"
+
+#, fuzzy
+#~ msgid "Better. Somehow, the pain faded away the second I entered here."
+#~ msgstr ""
+#~ "Bättre... på något sätt, smärtan försvann samma sekund som jag klev in "
+#~ "här..."
+
+#~ msgid "Bio"
+#~ msgstr "Bio"
+
+#~ msgid "Black Sleet"
+#~ msgstr "Svart slask"
+
+#, fuzzy
+#~ msgid "Blinding as the sun, she brings life even where death belongs."
+#~ msgstr "Bländande som solen, skapar hon liv även där döden bor."
+
+#~ msgid "Blindness"
+#~ msgstr "Blindhet"
+
+#~ msgid "Body"
+#~ msgstr "Kropp"
+
+#, fuzzy
+#~ msgid "Boost an ally's speed and slowly recovers their health."
+#~ msgstr "Ökar en persons hastighet och får en att långsamt återfå sin hälsa."
+
+#~ msgid ""
+#~ "Boot code, Battle code\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Audio engine\n"
+#~ "\n"
+#~ "Various code, Mac OS X maintenance\n"
+#~ "\n"
+#~ "Game engine, Game modes, Windows build scripts\n"
+#~ "\n"
+#~ "Battle code\n"
+#~ "\n"
+#~ "Map editor\n"
+#~ "\n"
+#~ "Internationalization\n"
+#~ "\n"
+#~ "Video engine"
+#~ msgstr ""
+#~ "Bootkod, Stridskod\n"
+#~ "\n"
+#~ "Speleditor\n"
+#~ "\n"
+#~ "Ljudmotor\n"
+#~ "\n"
+#~ "Annan kod, Mac OS X underhåll\n"
+#~ "\n"
+#~ "Spelmotor, Spellägen, Windows byggskript\n"
+#~ "\n"
+#~ "Stridskod\n"
+#~ "\n"
+#~ "Karteditor\n"
+#~ "\n"
+#~ "Internationalization\n"
+#~ "\n"
+#~ "Videomotor"
+
+#~ msgid "Borium Ore"
+#~ msgstr "Boriummalm"
+
+#~ msgid "Branches"
+#~ msgstr "Grenar"
+
+#~ msgid "Bronann"
+#~ msgstr "Bronann"
+
+#~ msgid "Bronann!"
+#~ msgstr "Bronann!"
+
+#~ msgid "Bronann! Are you all right? Answer me!!"
+#~ msgstr "Bronann! Mår du bra? Svara!!"
+
+#~ msgid "Bronann! Are you alright?"
+#~ msgstr "Bronann! Är allt bra?"
+
+#, fuzzy
+#~ msgid "Bronann! Hold on! We're almost there."
+#~ msgstr "Bronann!!! Håll i dig! Vi är nästan framme..."
+
+#, fuzzy
+#~ msgid "Bronann! Move!"
+#~ msgstr "Bronann!! Skynda!!"
+
+#, fuzzy
+#~ msgid "Bronann! No!"
+#~ msgstr "Bronann!! Nej!"
+
+#, fuzzy
+#~ msgid ""
+#~ "Bronann! Sorry, you can't access the forest without permission. You don't "
+#~ "even have a sword."
+#~ msgstr ""
+#~ "Bronann! Jag är ledsen, men du kan inte gå ut i skogen utan tillstånd. Du "
+#~ "har inte ens ett svärd..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Bronann! Sorry, you know that you can't access the forest without "
+#~ "permission."
+#~ msgstr ""
+#~ "Bronann! Jag är ledsen, men du vet väl att du inte kan springa ut i "
+#~ "skogen utan tillstånd."
+
+#, fuzzy
+#~ msgid "Bronann! Wait!"
+#~ msgstr "... Bronann! Vänta!"
+
+#~ msgid "Bronann's home"
+#~ msgstr "Bronanns hem"
+
+#~ msgid "Bronann, I ..."
+#~ msgstr "Bronann, Jag ..."
+
+#~ msgid "Bronann, I'd like for you to not leave the village today."
+#~ msgstr "Bronann, jag vill inte att du ska lämna byn idag."
+
+#, fuzzy
+#~ msgid "Bronann, I..."
+#~ msgstr "Bronann, Jag ..."
+
+#, fuzzy
+#~ msgid "Bronann, are you okay?"
+#~ msgstr "Bronann, mår du bra?"
+
+#~ msgid "Bronann, don't listen to him!"
+#~ msgstr "Bronann, lyssna inte på honom!"
+
+#~ msgid "Bronann, how do you feel?"
+#~ msgstr "Bronann, hur mår du?"
+
+#~ msgid "Bronann, please."
+#~ msgstr "Bronann, snälla."
+
+#~ msgid "Bronann, promise me that you'll be careful, ok?"
+#~ msgstr "Bronann, lova att du kommer att vara försiktig, ok?"
+
+#~ msgid ""
+#~ "Bronann, take this sword. You'll probably need it to make your way "
+#~ "through there."
+#~ msgstr ""
+#~ "Bronann, ta det här svärdet. Du kommer nog att behöva det för att ta dig "
+#~ "igenom allt."
+
+#~ msgid "Bronann, the crystal! No!"
+#~ msgstr "Bronann, kristallen! Nej!"
+
+#, fuzzy
+#~ msgid ""
+#~ "Bronann, there is something that I have to tell you. We've been fearing "
+#~ "for this moment, your mother and I."
+#~ msgstr ""
+#~ "Bronann, jag måste berätta en sak för dig. Vi har varit rädda för det här "
+#~ "ett tag. Jag menar att din mor och jag..."
+
+#~ msgid ""
+#~ "Bronann, this time I want you to listen to your father very carefully. "
+#~ "Please, my dear."
+#~ msgstr ""
+#~ "Bronann, jag vill att du lyssnar noga på din far angående detta. Snälla "
+#~ "du."
+
+#, fuzzy
+#~ msgid "Bronann, why?"
+#~ msgstr "Bronann, varför? ..."
+
+#~ msgid "Bronann, you should go with her."
+#~ msgstr "Bronann, du borde följa med henne."
+
+#~ msgid "Bronann, you'll get everything explained in time, I..."
+#~ msgstr ""
+#~ "Bronann, du kommer att få allt förklarat för dig i sinsom tid, jag..."
+
+#~ msgid "Bronann..."
+#~ msgstr "Bronann..."
+
+#~ msgid "Bronann?"
+#~ msgstr "Bronann?"
+
+#, fuzzy
+#~ msgid "Brr. It's quite cold up here."
+#~ msgstr "Brr... Det är ganska kallt här uppe."
+
+#~ msgid "Brymir"
+#~ msgstr "Brymir"
+
+#~ msgid "But I didn't know who it would choose."
+#~ msgstr "Men jag visste inte vem den skulle välja."
+
+#~ msgid "But I'm not done yet!"
+#~ msgstr "Men jag är inte klar än!"
+
+#~ msgid "But I..."
+#~ msgstr "Men jag..."
+
+#~ msgid "But Kalya, look at the passageway!"
+#~ msgstr "Men Kalya, titta på passagen!"
+
+#, fuzzy
+#~ msgid ""
+#~ "But by the time I reached the area, the three of you were gone. And I had "
+#~ "to find out where you were heading."
+#~ msgstr ""
+#~ "Men när jag kom fram så var ni redan borta... så jag behövde ta reda på "
+#~ "vart ni var på väg."
+
+#~ msgid "But father!"
+#~ msgstr "Men pappa!"
+
+#~ msgid "But he would just be a burden!"
+#~ msgstr "Men han kommer bara att sinka mig!"
+
+#, fuzzy
+#~ msgid "But it doesn't matter, as you're all going to die now."
+#~ msgstr "Det spelar ingen roll, för ni kommer alla att dö nu..."
+
+#, fuzzy
+#~ msgid ""
+#~ "But let's be careful, as it also said this place is dangerous and the "
+#~ "dark waters are some kind of trap."
+#~ msgstr ""
+#~ "Men vi får se till att vara försiktiga, den sa också att det här stället "
+#~ "var farligt, samt att det mörka vattnet var på något sätt en fälla..."
+
+#~ msgid "But let's play together first, shall we?"
+#~ msgstr "Men låt oss leka tillsammans först, ska vi?"
+
+#, fuzzy
+#~ msgid "But maybe?"
+#~ msgstr "... Men kanske?"
+
+#~ msgid "But mom!"
+#~ msgstr "Men mamma!"
+
+#, fuzzy
+#~ msgid "But she will be the next one."
+#~ msgstr "... Men hon kommer att vara nästa."
+
+#~ msgid "But sis! I..."
+#~ msgstr "Men syrran! Jag..."
+
+#~ msgid "But the bridge, how did you cross?"
+#~ msgstr "Men bron, hur tog du dig över?"
+
+#, fuzzy
+#~ msgid "But then you're stuck here, too, right?"
+#~ msgstr "Men då är du fast här också, eller hur?"
+
+#~ msgid "But you might get hurt!"
+#~ msgstr "Du kanske skadar dig!"
+
+#, fuzzy
+#~ msgid "But you'll let us deal with this place, alone?"
+#~ msgstr "Men du låter oss hantera den här platsen ensamma??"
+
+#~ msgid "But you'll never find me hiding on top of the cliffs!"
+#~ msgstr "Men du kommer aldrig att hitta mig uppe på klipporna!"
+
+#~ msgid "But..."
+#~ msgstr "Men..."
+
+#~ msgid "Butterfly"
+#~ msgstr "Fjäril"
+
+#, fuzzy
+#~ msgid "Butterfly Hair Tong"
+#~ msgstr "Hårfjärilstång"
+
+#~ msgid ""
+#~ "By the way, have you ever prepared yourself for something like this "
+#~ "before?"
+#~ msgstr "Förresten, har du någonsin förberett dig på något sånt här innan?"
+
+#~ msgid "By the way, where are we?"
+#~ msgstr "Förresten, var är vi?"
+
+#, fuzzy
+#~ msgid ""
+#~ "By the way, you're not forced to wait for your icon to reach the action "
+#~ "level before you can select an action. When these two little arrows here "
+#~ "are highlighted, you can use your up and down keys to preselect an action "
+#~ "for the corresponding ally."
+#~ msgstr ""
+#~ "Du behöver inte heller vänta på att symbolen når ända upp innan du "
+#~ "agerar. De två små pilarna här kan användas, med upp- och nerknapparna, "
+#~ "för att förvälja handlingar till oss."
+
+#, fuzzy
+#~ msgid "Calls the defender of the arctic."
+#~ msgstr "Ropar på beskyddaren av norden."
+
+#, fuzzy
+#~ msgid "Calm down Kalya, there must be a way to go through this somehow."
+#~ msgstr ""
+#~ "... Ta det lungt Kalya, det måste finnas något sätt att ta sig igenom det "
+#~ "här på något sätt..."
+
+#~ msgid "Can you hear this?"
+#~ msgstr "Hör du det?"
+
+#~ msgid "Can you smell that stench?"
+#~ msgstr "Känner du den där stanken?"
+
+#~ msgid "Cancel: Button"
+#~ msgstr "Avbryt: Knapp"
+
+#~ msgid "Candy"
+#~ msgstr "Godis"
+
+#~ msgid "Carson"
+#~ msgstr "Carson"
+
+#~ msgid "Carson is right, Kalya. Bronann shall go with you."
+#~ msgstr "Carson har en poäng, Kalya. Bronnan följer med dig."
+
+#, fuzzy
+#~ msgid "Carson is right, Kalya. Bronann shall go with you. It's an order."
+#~ msgstr ""
+#~ "Carson har en poäng, Kalya. Bronnan följer med dig. Det... det är en "
+#~ "order."
+
+#, fuzzy
+#~ msgid "Carson, they've crossed the river. They shall be here in no time."
+#~ msgstr ""
+#~ "Carson, de har tagit sig över floden. De kommer att vara här när som "
+#~ "helst."
+
+#~ msgid "Catch Orlinn!"
+#~ msgstr "Fånga Orlinn!"
+
+#, fuzzy
+#~ msgid "Catch the chickens"
+#~ msgstr "Fånga kycklingarna..."
+
+#, fuzzy
+#~ msgid "Catch them before they reach the shrine!"
+#~ msgstr "Fånga dem innan de når templet!"
+
+#, fuzzy
+#~ msgid "Causes an ally to slowly recover their health."
+#~ msgstr "Får en person att långsamt återfå hälsa."
+
+#~ msgid "Chest"
+#~ msgstr "Kista"
+
+#~ msgid "Chicken"
+#~ msgstr "Kyckling"
+
+#~ msgid "Claw"
+#~ msgstr "Klo"
+
+#, fuzzy
+#~ msgid "Clear the way, Lilly. I need to speak to him."
+#~ msgstr "Ur vägen Lilly. Jag behöver tala med honom..."
+
+#~ msgid "Cobalt Helm"
+#~ msgstr "Kobolthjälm"
+
+#~ msgid "Come Orlinn!"
+#~ msgstr "Kom Orlinn!"
+
+#, fuzzy
+#~ msgid "Come here, now!"
+#~ msgstr "Kom hit nu!!!"
+
+#~ msgid ""
+#~ "Concept art\n"
+#~ "\n"
+#~ "Inventory icons\n"
+#~ "\n"
+#~ "Map sprite animations\n"
+#~ "\n"
+#~ "Concept art\n"
+#~ "\n"
+#~ "Inventory icons\n"
+#~ "\n"
+#~ "Concept art, Map sprites\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Map sprites"
+#~ msgstr ""
+#~ "Konceptkonst\n"
+#~ "\n"
+#~ "Inventarieikoner\n"
+#~ "\n"
+#~ "Kartanimationer\n"
+#~ "\n"
+#~ "Konceptkonst\n"
+#~ "\n"
+#~ "Inventarieikoner\n"
+#~ "\n"
+#~ "Konceptkonst, Kartbilder\n"
+#~ "\n"
+#~ "Kartbilder\n"
+#~ "\n"
+#~ "Kartbilder\n"
+#~ "\n"
+#~ "Kartbilder"
+
+#~ msgid "Confirm / Open / Talk: %s"
+#~ msgstr "Bekräfta / Öppna / Tala: %s"
+
+#~ msgid "Confirm: Button"
+#~ msgstr "Bekräfta: Knapp"
+
+#~ msgid "Copper Ore"
+#~ msgstr "Kopparmalm"
+
+#, fuzzy
+#~ msgid "Could you go and buy some barley meal for the three of us?"
+#~ msgstr "Skulle du kunna gå och köpa lite kornmjöl till oss tre?"
+
+#~ msgid "Counter"
+#~ msgstr "Motattack"
+
+#~ msgid "Creates a small fire that burns an enemy."
+#~ msgstr "Skapar en liten eld som bränner en fiende."
+
+#~ msgid "Crested Helmet"
+#~ msgstr "Korintisk hjälm"
+
+#~ msgid "Crystal"
+#~ msgstr "Crystal"
+
+#~ msgid "Ctrl"
+#~ msgstr "Ctrl"
+
+#~ msgid "Cure"
+#~ msgstr "Bota"
+
+#, fuzzy
+#~ msgid "Cures all bad effects on a character, except for poison."
+#~ msgstr "Botar en person från alla åkommor, utom förgiftning."
+
+#, fuzzy
+#~ msgid "Cures moderate poisons from an ally."
+#~ msgstr "Botas medelstarka gifter."
+
+#~ msgid "Cures poison on all characters."
+#~ msgstr "Botar förgiftning hos alla i gruppen."
+
+#~ msgid "Cures the poison from an ally."
+#~ msgstr "Botar förgiftning hos en allierad."
+
+#~ msgid "Curse"
+#~ msgstr "Förbannelse"
+
+#~ msgid "Daemarbora"
+#~ msgstr "Daemarbora"
+
+#~ msgid "Dagger Slash"
+#~ msgstr "Knivhugg"
+
+#, fuzzy
+#~ msgid "Damn!"
+#~ msgstr "Jävlar!!"
+
+#, fuzzy
+#~ msgid "Dang! And now the rain too."
+#~ msgstr "Jäklar! Och nu regn också..."
+
+#~ msgid "Dark Soldier"
+#~ msgstr "Mörk soldat"
+
+#~ msgid "Dark Wish"
+#~ msgstr "Mörk önskan"
+
+#, fuzzy
+#~ msgid "Deals high wind damage to all enemies, stunning them along the way."
+#~ msgstr ""
+#~ "Gör ordentligt med vindskada på alla fiender, samt förlamar dem samtidigt."
+
+#~ msgid "Dear chosen one, the time has finally come."
+#~ msgstr "Kära utvalde, tiden har äntligen kommit."
+
+#~ msgid "Death"
+#~ msgstr "Död"
+
+#~ msgid "Death Circle"
+#~ msgstr "Dödscirkel"
+
+#~ msgid "Death Elemental Strength"
+#~ msgstr "Dödselementarstyrka"
+
+#, fuzzy
+#~ msgid "Death tries to take hold of an enemy."
+#~ msgstr "Döden försöker ta en fiende med sig."
+
+#~ msgid "Decay Dirge"
+#~ msgstr "Förmultnande sorgesång"
+
+#~ msgid "Deceleon"
+#~ msgstr "Deceleon"
+
+#~ msgid "Decreases the battle speed of an enemy."
+#~ msgstr "Minskar en fiendes stridshastighet."
+
+#, fuzzy
+#~ msgid "Decreases the evasion rate of an enemy."
+#~ msgstr "Minskar risken att en fiender undviker en attack."
+
+#~ msgid "Defense (DEF): "
+#~ msgstr "Försvar (DEF):"
+
+#~ msgid "Demona"
+#~ msgstr "Demona"
+
+#~ msgid "Demonic Essence"
+#~ msgstr "Demonisk essens"
+
+#~ msgid "Did you hear that? (gossip, gossip)"
+#~ msgstr "Hörde du det? (skvaller, skvaller)"
+
+#~ msgid "Dispell"
+#~ msgstr "Skingra"
+
+#~ msgid "Divine Wish"
+#~ msgstr "Gudomlig önskan"
+
+#~ msgid "Do as I say and it'll be alright."
+#~ msgstr "Gör som jag säger så kommer allt lösa sig."
+
+#, fuzzy
+#~ msgid "Do you know how the others are doing? Are my parents okay?"
+#~ msgstr "Vet du hur det är med de andra? Mår mina föräldrar bra?"
+
+#~ msgid ""
+#~ "Do you need some kind of motivation? If so, let me handle this with my "
+#~ "greatest pleasure!"
+#~ msgstr ""
+#~ "Behöver du någon slags motivation? Det ska bli ett nöje att bistå dig med "
+#~ "det!"
+
+#~ msgid "Do you need something, Bronann?"
+#~ msgstr "Behöver du något, Bronann?"
+
+#~ msgid ""
+#~ "Don't blame Kalya. She was having a hard time along with her brother "
+#~ "before living here, you know?"
+#~ msgstr ""
+#~ "Döm inte Kalya. Hon och hennes bror hade det inte så lätt innan de kom "
+#~ "hit vet du väl?"
+
+#~ msgid "Don't blame him, Kalya. Actually, it was..."
+#~ msgstr "Det var inte hans fel Kalya. Det var faktiskt..."
+
+#~ msgid "Don't even start, this one is all mine."
+#~ msgstr "Börja inte ens, den här är min."
+
+#~ msgid "Don't forget my trade offers!"
+#~ msgstr "Glöm inte att kolla in mina handelserbjudanden!"
+
+#, fuzzy
+#~ msgid "Don't forget that you can press '"
+#~ msgstr "Glöm inte att du kan trycka '"
+
+#, fuzzy
+#~ msgid ""
+#~ "Don't listen to him! We must get rid of him before reinforcements arrive "
+#~ "or we're doomed!"
+#~ msgstr ""
+#~ "Lyssna inte på honom! Vi måste bli av med honom innan förstärkningarna "
+#~ "anländer, annars är allt förlorat!!"
+
+#, fuzzy
+#~ msgid ""
+#~ "Don't lose faith, Kalya. If we manage to escape from them here, we'll be "
+#~ "safe past the mountains."
+#~ msgstr ""
+#~ "Tappa inte hoppet Kayla. Om vi lyckas att unvika dem nu, så kommer vi "
+#~ "vara ännu säkrare på andra sidan bergen."
+
+#~ msgid "Don't venture too far, I'll need your help soon!"
+#~ msgstr "Gå inte för långt, jag kommer att behöva din hjälp snart!"
+
+#~ msgid "Don't worry Kalya, I have not forgotten my training."
+#~ msgstr "Oroa dig inte Kayla, jag har inte glömt min träning."
+
+#, fuzzy
+#~ msgid "Don't worry about it."
+#~ msgstr "Oroa dig inte för det..."
+
+#~ msgid "Don't worry about that, Orlinn. Ok?"
+#~ msgstr "Oroa dig inte om det Orlinn. Ok?"
+
+#, fuzzy
+#~ msgid "Don't worry too much, Bronann. Herth will be able to help you."
+#~ msgstr "Oroa dig inte för mycket Bronann, Herth kommer att hjälpa dig."
+
+#~ msgid ""
+#~ "Don't worry too much. I'm just preventing strangers from being able to "
+#~ "sneak in at night."
+#~ msgstr ""
+#~ "Oroa dig inte. Jag vill bara förhindra att okända smyger sig in om natten."
+
+#, fuzzy
+#~ msgid "Don't worry, I'm fine. Err, what crystal? What... wolf??"
+#~ msgstr "Ingen fara, jag mår bra. Err, vilken kristall? Vilken... ulv??"
+
+#~ msgid "Don't worry, sis. It's fine, we can tell him."
+#~ msgstr ""
+#~ "Oroa dig inte syrran, det kommer ordna sig, vi kan berätta för honom."
+
+#~ msgid "Don't worry, we'll find him. Ok?"
+#~ msgstr "Oroa dig inte, vi kommer att hitta honom. Ok?"
+
+#~ msgid ""
+#~ "Don't worry, we've managed to come this far. There is nothing that "
+#~ "could..."
+#~ msgstr ""
+#~ "Ingen fara, vi har lyckats komma såhär långt. Det finns inget som "
+#~ "skulle..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Don't worry. We'll simply talk to them and they'll move on. You know what "
+#~ "you have to do, right?"
+#~ msgstr ""
+#~ "Ingen fara. Vi ska bara tala med dem så kommer de att fortsätta vidare. "
+#~ "Du vet vad du behöver göra, eller hur?"
+
+#~ msgid ""
+#~ "Don't you worry about that, brother. Never leave me like that again, ok?"
+#~ msgstr "Bry dig inte om det brosan, Lämna mig inte igen bara, ok?"
+
+#~ msgid "Doom"
+#~ msgstr "Domedag"
+
+#~ msgid "Dorver"
+#~ msgstr "Dorver"
+
+#~ msgid "Drain"
+#~ msgstr "Tappning"
+
+#~ msgid "Dryad"
+#~ msgstr "Dryad"
+
+#~ msgid "Dune Crawler"
+#~ msgstr "Dynkrypare"
+
+#~ msgid "EVA: +"
+#~ msgstr "EVA: +"
+
+#~ msgid "Earth"
+#~ msgstr "Jord"
+
+#~ msgid "Earth Circle"
+#~ msgstr "Jordcirkel"
+
+#~ msgid "Earth Elemental Strength"
+#~ msgstr "Jordelementarstyrka"
+
+#~ msgid "Eh eh? Have you already forgotten that I'm your mother?"
+#~ msgstr "Eh eh? Har du redan glömt att jag är din mamma?"
+
+#~ msgid "Eh? You really know nothing about women, do you?"
+#~ msgstr "Eh? Du vet verkligen ingenting om kvinnor, gör du?"
+
+#~ msgid "Elbrus Grotto"
+#~ msgstr "Elbrusgrottan"
+
+#~ msgid "Elixir"
+#~ msgstr "Elixir"
+
+#~ msgid "Elvish Feather"
+#~ msgstr "Alvisk fjäder"
+
+#, fuzzy
+#~ msgid ""
+#~ "English text review\n"
+#~ "\n"
+#~ "Dutch (nl_NL)\n"
+#~ "\n"
+#~ "French (fr)\n"
+#~ "\n"
+#~ "Galician (gl)\n"
+#~ "\n"
+#~ "German (de)"
+#~ msgstr ""
+#~ "Engelsk korrekturläsning\n"
+#~ "\n"
+#~ "Nederlänsk (nl_NL)\n"
+#~ "\n"
+#~ "Fransk (fr)\n"
+#~ "\n"
+#~ "Galiciska (gl)\n"
+#~ "\n"
+#~ "Tyska (de)\n"
+#~ "\n"
+#~ "Italienska (it)\n"
+#~ "\n"
+#~ "Portugisiska (pt_PT)\n"
+#~ "\n"
+#~ "Ryska (ru)\n"
+#~ "\n"
+#~ "Spanska (es)"
+
+#, fuzzy
+#~ msgid "Enough of this shallow game. Give me your souls, now!"
+#~ msgstr "Nog med den här barnsliga leken. Ge mig genast era själar! "
+
+#~ msgid "Enough!"
+#~ msgstr "Nog!"
+
+#~ msgid ""
+#~ "Enough! You hid everything from me just like everyone else. You're a "
+#~ "liar! I won't be manipulated anymore!"
+#~ msgstr ""
+#~ "Nog! Du gömde allt från mig precis som alla andra. Du ljög för mig! Jag "
+#~ "kommer inte låta mig bli manipulerad mera!"
+
+#, fuzzy
+#~ msgid ""
+#~ "Enrages an ally, increasing their attack and speed but reducing their "
+#~ "defence."
+#~ msgstr ""
+#~ "Gör en fiende förbannad, vilket ökar dess attack men minskar dess försvar."
+
+#~ msgid "Entangle"
+#~ msgstr "Snärja"
+
+#~ msgid "Episode I"
+#~ msgstr "Episod I"
+
+#~ msgid "Episode I - Additional Graphics"
+#~ msgstr "Episod I - Ytterligare Grafik"
+
+#~ msgid "Episode I - Main Graphics"
+#~ msgstr "Episode I - Huvudgrafik"
+
+#~ msgid "Er, I could use a refresher on the fundamentals of combat."
+#~ msgstr "Er, Jag skulle kunna behöva påminnas om hur strid fungerar."
+
+#, fuzzy
+#~ msgid "Er, sorry grandma. I have to go! Maybe later?"
+#~ msgstr "Er... Ledsen mormor, jag måste sticka! Kanske senare?"
+
+#~ msgid "Er, yes?"
+#~ msgstr "Er, ja?"
+
+#~ msgid "Erm, ... Well, I don't hear anything special..."
+#~ msgstr "Erm, ...nja, jag hör inte något speciellt..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Erm, are you crazy or what? I usually am the one with bad jokes you know."
+#~ msgstr "Erm, är du galen? Det är oftast jag som kommer med dåliga skämt..."
+
+#, fuzzy
+#~ msgid "Err, nevermind."
+#~ msgstr "Err, det var inget..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Err, nevermind. We must find a way to make this move. Let's look around."
+#~ msgstr ""
+#~ "Err... hursomhelst, vi måste hitta ett sätt att flytta på den här, låt "
+#~ "oss leta mera."
+
+#, fuzzy
+#~ msgid "Err, not yet."
+#~ msgstr "Err, inte ännu!"
+
+#~ msgid "Escape Smoke"
+#~ msgstr "Flyktrök"
+
+#~ msgid "Evanium Ore"
+#~ msgstr "Evaniummalm"
+
+#~ msgid "Evasion"
+#~ msgstr "Undvika"
+
+#~ msgid ""
+#~ "Even when confronted by someone who can wipe out everything you hold "
+#~ "dear, you dare to stare me in the eyes? I admire such a courageous heart, "
+#~ "my dear one."
+#~ msgstr ""
+#~ "Även när du konfronteras av någon som kan förgöra allt du älskar, så "
+#~ "vågar du stirra mig i ögonen? Jag imponeras av sådant mod."
+
+#, fuzzy
+#~ msgid "Everyone."
+#~ msgstr "Alla..."
+
+#~ msgid "Execution"
+#~ msgstr "Avrättning"
+
+#~ msgid "Eye"
+#~ msgstr "Öga"
+
+#~ msgid "Eyeball"
+#~ msgstr "Ögonglob"
+
+#~ msgid "FOR: +"
+#~ msgstr "FOR: +"
+
+#~ msgid "Face"
+#~ msgstr "Ansikte"
+
+#~ msgid "Fairy"
+#~ msgstr "Fe"
+
+#, fuzzy
+#~ msgid "Farewell, chosen one."
+#~ msgstr "Farväl, utvalde..."
+
+#~ msgid "Father!"
+#~ msgstr "Pappa!"
+
+#~ msgid "Father! Orlinn has disappeared. I saw him taking the forest pathway!"
+#~ msgstr "Pappa! Orlinn är försvunnen. Jag såg att han sprang ut i skogen!"
+
+#~ msgid "Fenrir"
+#~ msgstr "Fenrir"
+
+#~ msgid "Fight it, Lilly! Focus!"
+#~ msgstr "Gör motstång Lilly! Fokusera!"
+
+#, fuzzy
+#~ msgid ""
+#~ "Finally, I found some. Lilly had what I sought in her house the whole "
+#~ "time."
+#~ msgstr ""
+#~ "Äntligen hittade jag lite... Lilly hade vad jag letade efter i sitt hus "
+#~ "hela tiden."
+
+#~ msgid "Find Georges's pen"
+#~ msgstr "Hitta Georges penna"
+
+#, fuzzy
+#~ msgid "Fine."
+#~ msgstr "Visst..."
+
+#~ msgid "Fire"
+#~ msgstr "Eld"
+
+#~ msgid "Fire Breath"
+#~ msgstr "Eldandedräkt"
+
+#~ msgid "Fire Circle"
+#~ msgstr "Eldcirkel"
+
+#~ msgid "Fire Elemental Strength"
+#~ msgstr "Eldelementarstyrka"
+
+#~ msgid "Fire burst"
+#~ msgstr "Eldskur"
+
+#~ msgid "First Aid"
+#~ msgstr "Första hjälpen"
+
+#~ msgid ""
+#~ "First of all, before going there, you might need better equipment. You "
+#~ "should visit Flora first, ok?"
+#~ msgstr ""
+#~ "För det första, innan vi beger oss iväg så kanske vi behöver bättre "
+#~ "utrustning, du borde börja med att besöka Flora, ok?"
+
+#~ msgid "Flora"
+#~ msgstr "Flora"
+
+#~ msgid "Flora's Boutique"
+#~ msgstr "Floras butik"
+
+#~ msgid "Focus"
+#~ msgstr "Fokus"
+
+#~ msgid "Fog"
+#~ msgstr "Dimma"
+
+#~ msgid "For us, it will be but an instant."
+#~ msgstr "För oss så kommer det blott vara ett ögonblick."
+
+#~ msgid "For you, it might be decades."
+#~ msgstr "För dig så kommer det kanske vara årtionden."
+
+#~ msgid "Forehead"
+#~ msgstr "Panna"
+
+#~ msgid "Forest entrance"
+#~ msgstr "Skogskanten"
+
+#~ msgid "Fortitude"
+#~ msgstr "Mod"
+
+#~ msgid "Fortitude (FRT): "
+#~ msgstr "Mod (FRT):"
+
+#~ msgid "Fortunately, they didn't see me or I would have been caught as well."
+#~ msgstr ""
+#~ "Som tur är så såg de inte mig, annars så skulle de ha fångat mig med."
+
+#~ msgid "Forward Thrust"
+#~ msgstr "Stöt"
+
+#, fuzzy
+#~ msgid "Gahh, ok."
+#~ msgstr "Gahh... Ok."
+
+#~ msgid "Game commands:"
+#~ msgstr "Spelkommandon:"
+
+#~ msgid "Georges"
+#~ msgstr "Georges"
+
+#~ msgid "Georges's pen, presumably used to write poetry."
+#~ msgstr "Georges penna, tydligen används den till att skriva poesi."
+
+#~ msgid ""
+#~ "Georges, I simply wanted to ask you whether or not you had any barley "
+#~ "meal left!"
+#~ msgstr ""
+#~ "Georges, Jag ville bara fråga dig om du har något av kornmjölet kvar!"
+
+#, fuzzy
+#~ msgid "Get some barley meal"
+#~ msgstr "Skaffa kornmjöl"
+
+#~ msgid ""
+#~ "Gives a reasonable boost in agility to an ally for a small amount of time."
+#~ msgstr ""
+#~ "Ger en person en rimlig förbättring av dess smidighet under en liten tid."
+
+#~ msgid ""
+#~ "Gives a reasonable boost in strength to an ally for a large amount of "
+#~ "time."
+#~ msgstr ""
+#~ "Ger en person en rimlig förbättring av dess styrka under en längre tid."
+
+#~ msgid "Good luck Bronann."
+#~ msgstr "Lycka till Bronann."
+
+#~ msgid "Good luck, son."
+#~ msgstr "Lycka till pojk."
+
+#~ msgid "Good. Let us quickly dispatch this minor threat."
+#~ msgstr "Bra. Låt oss göra oss av med det här lilla hotet."
+
+#, fuzzy
+#~ msgid "Good. Let's go back and wait for them."
+#~ msgstr "Bra. Låt oss gå tillbaka och vänta på dem."
+
+#, fuzzy
+#~ msgid "Gosh! By all heavens, is this...?"
+#~ msgstr "Jisses!! Vid hela himlen, är det här...?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Grandma asked me to catch the chickens that flew away. There are three of "
+#~ "them."
+#~ msgstr ""
+#~ "Mormor bad mig fånga kycklingarna som flög sin väg. Det finns tre "
+#~ "stycken..."
+
+#~ msgid "Graphics"
+#~ msgstr "Grafik"
+
+#~ msgid "Great! Now come on!"
+#~ msgstr "Utmärkt! Kom nu!"
+
+#~ msgid "Great! The tremor has opened a path back to the village!"
+#~ msgstr "Utmärkt! Jordbävningen har öppnat en väg tillbaka till byn!"
+
+#~ msgid "Green Slime"
+#~ msgstr "Grönt slem"
+
+#, fuzzy
+#~ msgid ""
+#~ "Guards are carefully watching their surroundings. I need to get closer to "
+#~ "see what's happening."
+#~ msgstr ""
+#~ "Vakterna observerar noggrant sin omgivning... Jag behöver komma närmare "
+#~ "för att kunna se vad som händer."
+
+#~ msgid "HP"
+#~ msgstr "HP"
+
+#~ msgid "HP: "
+#~ msgstr "HP:"
+
+#~ msgid "HP: +"
+#~ msgstr "HP: +"
+
+#~ msgid "Harlequin"
+#~ msgstr "Harlequin"
+
+#~ msgid "Harlequin?"
+#~ msgstr "Harlequin?"
+
+#~ msgid "Haste"
+#~ msgstr "Hast"
+
+#~ msgid "Have we got any other way to leave this place?"
+#~ msgstr "Finns det något annat sätt att ta oss ut?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Have you seen one of these before? This is a Layna statue. Praying near "
+#~ "it heals both your mind and body."
+#~ msgstr ""
+#~ "Har du sett en av de här innan? Det är en staty av Layna! Att be i "
+#~ "närheten helar både din kropp och ditt sinne."
+
+#~ msgid ""
+#~ "Have you still got any barley meal left for my parents and I? My mother "
+#~ "asked me to get some and I..."
+#~ msgstr ""
+#~ "Har du lite kornmjöl kvar åt min familj? Mamma bad mig att skaffa lite "
+#~ "och jag..."
+
+#, fuzzy
+#~ msgid "He is the only one that can get what I'm looking for."
+#~ msgstr "Han är den enda som kan få tag på det som jag är ute efter..."
+
+#, fuzzy
+#~ msgid ""
+#~ "He thought that I would be the one to be chosen by the crystal. However, "
+#~ "it seems he was wrong. Now, I am to look after you."
+#~ msgstr ""
+#~ "Han trodde att jag skulle bli den som kristallen valde. Men det verkar "
+#~ "som han hade fel. Nu, måste jag skydda dig..."
+
+#, fuzzy
+#~ msgid ""
+#~ "He trained me, taught me magic, and told me the crystal would appear one "
+#~ "day."
+#~ msgstr ""
+#~ "Han tränade mig, lärde mig magi, och berättade att en dag skulle "
+#~ "kristallen komma..."
+
+#~ msgid ""
+#~ "He was afraid they'd corner us to prevent an escape, and he was right."
+#~ msgstr ""
+#~ "Han var rädd att de skulle komma från flera håll, för att förhindra att "
+#~ "någon flydde, och han hade rätt."
+
+#~ msgid "He won't slow you down, believe me. Right, Bronann?"
+#~ msgstr "Han kommer inte att sinka dig, tro mig. Eller hur Bronann?"
+
+#~ msgid ""
+#~ "He's probably 'musing' around the cliffs in the village center right now."
+#~ msgstr ""
+#~ "Han letar antagligen efter inspiration bland klipporna i byns centrum för "
+#~ "närvarande."
+
+#~ msgid "Heal"
+#~ msgstr "Hela"
+
+#~ msgid "Healing Potion"
+#~ msgstr "Helande dryck"
+
+#~ msgid "Healing Rain"
+#~ msgstr "Helande regn"
+
+#~ msgid "Hee hee hee!"
+#~ msgstr "Hee hee hee!"
+
+#~ msgid "Hee hee hee! Yes!"
+#~ msgstr "Hee hee hee! Ja!"
+
+#~ msgid "Hee hee! (He'll never find me hiding behind the buildings!)"
+#~ msgstr "Hee hee! (Han kommer aldrig att hitta mig här bakom huset!)"
+
+#~ msgid "Heh heh, don't worry about it. It will come in time."
+#~ msgstr "Heh heh, oroa dig inte, det kommer lösa sig allteftersom."
+
+#~ msgid "Help Menu: %s"
+#~ msgstr "Hjälpmeny: %s"
+
+#~ msgid "Help: Button"
+#~ msgstr "Hjälp: Knapp"
+
+#~ msgid "Here it is, Bronann."
+#~ msgstr "Här är det bronann."
+
+#~ msgid "Here it is, Georges."
+#~ msgstr "Här är den, Georges."
+
+#, fuzzy
+#~ msgid ""
+#~ "Here we are, looking at this huge and wonderful, yet creepy door. I don't "
+#~ "like this."
+#~ msgstr ""
+#~ "Här är vi, tittandes på den här enorma, fantastiska och ändå läskiga "
+#~ "dörren... Jag gillar inte det här..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Here you can find the hit points (HP) and skill points (SP) of the ally "
+#~ "party. Don't let our HP reach 0 or we're doomed!"
+#~ msgstr ""
+#~ "Här hittar du Hälsopoängen (HP) och färdighetspoängen (SP) för alla i din "
+#~ "grupp. Låt inte våra HP falla till 0, då är vi dödsdömda!"
+
+#~ msgid "Herth"
+#~ msgstr "Herth"
+
+#, fuzzy
+#~ msgid "Herth prepared me all my life for this very day."
+#~ msgstr ""
+#~ "Herth förberedde mig... hela mitt liv... för precis den här dagen..."
+
+#~ msgid ""
+#~ "Herth sent you? But he told me it was nothing, that he would handle it!"
+#~ msgstr ""
+#~ "Herth skickade dig? Men han sade till mig att det inte var någon fara, "
+#~ "och att han kunde hantera det!"
+
+#~ msgid "Herth, we both know it'll likely..."
+#~ msgstr "Herth, vi vet båda två att de antagligen kommer..."
+
+#, fuzzy
+#~ msgid "Herth."
+#~ msgstr "Herth"
+
+#~ msgid ""
+#~ "Hey son! Did you sleep well? Hmm, now where did I leave that oil lamp?"
+#~ msgstr "Tjena grabben! Sovit gott? Hmm, var ställde jag den där lanternan?"
+
+#~ msgid ""
+#~ "Hey, wait! All of the village elders' nerves are on edge. There is "
+#~ "something going on here! Why won't you tell me?"
+#~ msgstr ""
+#~ "Vänta lite! Alla vuxna går runt och är nervösa. Det är något på gång här! "
+#~ "Varför berättar ni inte för mig?"
+
+#~ msgid "Hey, why would I tell you my hiding spots?!"
+#~ msgstr "Hej, varför berättar jag mina gömställen för dig?!"
+
+#~ msgid "Heya bro! Wanna play with me?"
+#~ msgstr "Tjena brossan! Vill du leka med mig?"
+
+#~ msgid "Hi Bronann! What can I do for you?"
+#~ msgstr "Hej Bronann! Vad kan jag hjälpa dig med?"
+
+#~ msgid "Hi Bronann."
+#~ msgstr "Hej Bronann"
+
+#~ msgid "Hi Dad! Um, I don't know. Sorry."
+#~ msgstr "Hej pappa! Uhm, Jag vet inte. Tyvärr."
+
+#~ msgid "Hi Flora! Do you have some barley meal left?"
+#~ msgstr "Hej Flora! Har du något kornmjöl kvar?"
+
+#~ msgid ""
+#~ "Hi Flora! Err, could you lend me one of your training swords? I'd like to "
+#~ "practice a bit."
+#~ msgstr ""
+#~ "Hej Flora! Skulle du kunna låna ut ett av dina träningssvärd? Jag skulle "
+#~ "vilja öva lite."
+
+#~ msgid "Hi Georges. Erm, I'm coming from the shop and I ..."
+#~ msgstr "Hej Georges. Erm, jag kom precis från butiken och jag..."
+
+#~ msgid "Hi Herth. I see you've blocked the gate, why so?"
+#~ msgstr "Hej Herth. Du verkar ha blockerat porten, varför det?"
+
+#~ msgid "Hi hi hi... What's happening to me..."
+#~ msgstr "Hi hi hi... Vad händer med mig..."
+
+#~ msgid "Hi hi... Hi hi hi... I can't stop!!"
+#~ msgstr "Hi hi... Hi hi hi... Jag kan inte sluta!!"
+
+#, fuzzy
+#~ msgid "Hi mom. Huh, how did you know?"
+#~ msgstr "Hej mamma. Huh, hur visste du det...?"
+
+#~ msgid "Hi son, did you have a nightmare again last night?"
+#~ msgstr "Hej Bronann, hade du en till mardröm i natt?"
+
+#, fuzzy
+#~ msgid "High air type damage on all foes."
+#~ msgstr "Gör mycket jordskada på alla fiender."
+
+#, fuzzy
+#~ msgid "High earth damage on all foes."
+#~ msgstr "Gör mycket jordskada på alla fiender."
+
+#, fuzzy
+#~ msgid "High life type damage on all foes."
+#~ msgstr "Kraftig livsskada på alla fiender."
+
+#, fuzzy
+#~ msgid "High water damage inflicted on all foes."
+#~ msgstr "Orsakar ordentligt med vattenskada på alla fiender."
+
+#, fuzzy
+#~ msgid "Hmm, I'll go to Flora's shop. I hope she'll help me."
+#~ msgstr ""
+#~ "Hmm, jag går till floras butik. Hon hjälper mig säkert, hoppas jag..."
+
+#~ msgid "Hmm, right. I'm not sure that I fully get what you mean, but..."
+#~ msgstr ""
+#~ "Hmm, ok. Jag är inte helt säker på att jag förstår vad du menar, men..."
+
+#~ msgid "Hmm, the door is locked."
+#~ msgstr "Hmm, dörren är låst."
+
+#, fuzzy
+#~ msgid "Hmm. Nevermind."
+#~ msgstr "Hmm... det var inget."
+
+#~ msgid "Hmpf, no surprise. Do you want me to bring him back?"
+#~ msgstr "Hmpf, det förvånar mig inte. Vill du att jag ska hämta honom?"
+
+#, fuzzy
+#~ msgid "Hmph, just go boy. You'll be free after that, ok?"
+#~ msgstr "Hmph, gå bara pojk. Du är fri efter det, ok?"
+
+#~ msgid "Hmph. Soldiers, leave that man to me!"
+#~ msgstr "Hmph. Soldater, lämna den mannen till mig!"
+
+#~ msgid "Hold on Bronann!"
+#~ msgstr "Håll i dig Bronann!"
+
+#~ msgid "Holy"
+#~ msgstr "Helig"
+
+#~ msgid "Holy Fire"
+#~ msgstr "Helig eld"
+
+#~ msgid "Holy Veil"
+#~ msgstr "Helig slöja"
+
+#~ msgid "How could I be hurt by... children..."
+#~ msgstr "Hur kan barn ha skadat... mig..."
+
+#, fuzzy
+#~ msgid "How in Layna did you reach Mt Elbrus all alone?"
+#~ msgstr "Hur i hela Layna lyckades du nå Elbrustoppen ensam?"
+
+#~ msgid "How?"
+#~ msgstr "Hur?"
+
+#~ msgid "However, I don't know what it means."
+#~ msgstr "Men, jag vet inte vad den betyder."
+
+#~ msgid "Huh, please Georges. I do not want to run away like the last time..."
+#~ msgstr ""
+#~ "Huh, snälla Georges. Jag vill inte springa min väg som senaste gången..."
+
+#~ msgid "Huh?"
+#~ msgstr "Huh?"
+
+#~ msgid "Huh? Hey! But..."
+#~ msgstr "Huh? Hej! Men..."
+
+#~ msgid "Huh? Hey, what's happening here?!"
+#~ msgstr "Huh? Hej, vad händer här?!"
+
+#, fuzzy
+#~ msgid "Huh? How do you know my name?"
+#~ msgstr "Huh? Hur vet du mitt namn??"
+
+#~ msgid "Huh? Wait! Are you talking about Georges's lost pen?"
+#~ msgstr "Huh? Vänta! Talar du om Georges borttappade penna?"
+
+#, fuzzy
+#~ msgid "Huh? Wait, I didn't do anything this time!"
+#~ msgstr "... Huh? Vänta lite, jag har inte gjort något, den här gången!!"
+
+#~ msgid "Huh? Well, Orlinn doesn't disappear every day, you know?"
+#~ msgstr "Huh? Nåväl, Orlinn springer inte bort varje dag, eller hur?"
+
+#~ msgid "Huh? What was that light?"
+#~ msgstr "Huh? Vad var det där för ljus?"
+
+#~ msgid "Huh?! What? Why? You told me that I could go into the forest and..."
+#~ msgstr "Huh?! Vad? Varför? Du sa att jag kunde gå ut i skogen och..."
+
+#~ msgid "Hurray! Those idiots will have a hard time catching us now!"
+#~ msgstr "Hurra! Nu kommer de där idioterna att ha svårt att hitta oss!"
+
+#, fuzzy
+#~ msgid "Hurry up! They're coming!"
+#~ msgstr "Skynda! De kommer!!"
+
+#, fuzzy
+#~ msgid ""
+#~ "I already told you, again and again, Banesore. I don't know anything "
+#~ "about such a crystal."
+#~ msgstr ""
+#~ "Jag har redan sagt det om och om igen Banesore. Jag vet ingenting om "
+#~ "någon kristall."
+
+#, fuzzy
+#~ msgid "I also left my parents behind."
+#~ msgstr "Jag lämnade också kvar mina föräldrar..."
+
+#, fuzzy
+#~ msgid ""
+#~ "I believe we don't really have a choice. Somehow this place... called me."
+#~ msgstr ""
+#~ "Jag tror inte att vi har något val... Det här stället... det kallar på "
+#~ "mig på något sätt."
+
+#, fuzzy
+#~ msgid ""
+#~ "I can feel a breeze and see light entering the cave from around this "
+#~ "rock. Orlinn must have gone through here."
+#~ msgstr ""
+#~ "Jag känner en svag luftström och kan se hur ljus sipprar in runt den här "
+#~ "stenen. Orlinn måste ha tagit sig igenom här."
+
+#~ msgid "I can feel it, sis'. It's coming!"
+#~ msgstr "Jag kan känna den syrran, den är på väg!"
+
+#, fuzzy
+#~ msgid "I can feel something moving far below."
+#~ msgstr "Jag kan känna att något rör på sig, långt där nere..."
+
+#, fuzzy
+#~ msgid "I can hear water everywhere."
+#~ msgstr "Jag kan höra vatten överallt ifrån..."
+
+#, fuzzy
+#~ msgid "I can't go back now."
+#~ msgstr "Jag kan inte gå tillbaka nu..."
+
+#, fuzzy
+#~ msgid "I can't let them die. I have to find out something."
+#~ msgstr "Jag kan inte tillåta dem, jag måste komma på något..."
+
+#, fuzzy
+#~ msgid "I can't sis. I can feel it... calling me."
+#~ msgstr "Jag kan inte syrran... Jag kan känna den... den kallar på mig..."
+
+#, fuzzy
+#~ msgid "I couldn't agree more."
+#~ msgstr "Jag håller verkligen med ..."
+
+#~ msgid ""
+#~ "I did, but he just slipped through my fingers at the very second that "
+#~ "strange light appeared."
+#~ msgstr ""
+#~ "Jag hade det, men han smet iväg när det där konstiga ljusskenet "
+#~ "uppenbarade sig."
+
+#, fuzzy
+#~ msgid ""
+#~ "I didn't know that there was a cave here. It's kind of creepy. Let's "
+#~ "hurry and find Orlinn."
+#~ msgstr ""
+#~ "Jag visste inte att det fanns en grotta här. Det är lite läskigt... Låt "
+#~ "oss skynda oss att hitta Orlinn."
+
+#, fuzzy
+#~ msgid "I didn't think I would say this, but thank you Orlinn."
+#~ msgstr "... Jag trodde aldrig att jag skulle säga det, men... tack Orlinn."
+
+#~ msgid "I do remember you, old man..."
+#~ msgstr "Nog kommer jag ihåg dig, gubbe..."
+
+#, fuzzy
+#~ msgid "I don't have any other choice, Lilly."
+#~ msgstr "Jag har inte något annat val Lilly..."
+
+#, fuzzy
+#~ msgid "I don't know, I felt something crack."
+#~ msgstr "... Jag vet inte, jag tror att jag kände något som knakade ..."
+
+#, fuzzy
+#~ msgid "I don't know."
+#~ msgstr "Jag vet inte..."
+
+#, fuzzy
+#~ msgid "I don't know... Ah, I can barely breathe!"
+#~ msgstr "Jag vet inte... Ah, jag kan knappt andas! ..."
+
+#~ msgid "I don't think I was talking to you, now was I?"
+#~ msgstr "Jag tror inte att jag talade till dig, vad jag vet?"
+
+#~ msgid ""
+#~ "I don't think so, Orlinn. We both know you didn't do it on purpose, right?"
+#~ msgstr ""
+#~ "Jag tror inte det Orlinn. Vi vet båda två att du inte gjorde det med "
+#~ "flit, eller hur?"
+
+#~ msgid "I don't want to hear it! Now, come!"
+#~ msgstr "Inga undanflykter! Kom nu!"
+
+#, fuzzy
+#~ msgid ""
+#~ "I fear he just wanted to protect you and make you all meet your destiny "
+#~ "at the same time."
+#~ msgstr ""
+#~ "Jag är rädd att han bara ville skydda dig, och se till så att ni "
+#~ "uppfyllde ert öde på samma gång..."
+
+#, fuzzy
+#~ msgid "I feel dizzy. So many things have happened in such little time."
+#~ msgstr "Jag är helt snurrig... Så många saker har hänt på så kort tid..."
+
+#, fuzzy
+#~ msgid "I feel much better now."
+#~ msgstr "Jag känner mig mycket bättre nu..."
+
+#~ msgid "I feel... I..."
+#~ msgstr "Jag känner mig... Jag..."
+
+#, fuzzy
+#~ msgid "I found that pen near the tree behind you. I just wanted to play."
+#~ msgstr ""
+#~ "Jag hittade pennan i närheten av det där trädet bakom dig. Jag ville bara "
+#~ "leka..."
+
+#, fuzzy
+#~ msgid "I found that pen under a tree near the river. I just wanted to play."
+#~ msgstr ""
+#~ "Jag hittade pennan under ett träd i närheten av floden. Jag ville bara "
+#~ "leka..."
+
+#, fuzzy
+#~ msgid ""
+#~ "I found you! My comrades will be here in no time. Surrender now, or "
+#~ "you'll be punished!"
+#~ msgstr ""
+#~ "Fann dig!!! Mina kamrater kommer när som helst. Ge dig nu annars så "
+#~ "kommer jag att straffa dig!!"
+
+#, fuzzy
+#~ msgid "I guess it's better than nothing. But Orlinn, you stay with us."
+#~ msgstr ""
+#~ "Jag antar att det är bättre än ingenting... Men Orlinn, du stannar med "
+#~ "oss."
+
+#, fuzzy
+#~ msgid ""
+#~ "I had that same nightmare again. This time, however, I still feel dizzy "
+#~ "even after getting up."
+#~ msgstr ""
+#~ "Jag hade den där mardrömmen igen... Den här gången så var jag dock "
+#~ "fortfarande snurrig efter att jag vaknade..."
+
+#, fuzzy
+#~ msgid "I have a bad feeling about all this now."
+#~ msgstr "... Det här känns inte riktigt bra..."
+
+#~ msgid "I hope Orlinn is alright."
+#~ msgstr "Jag hoppas att Orlinn mår bra."
+
+#, fuzzy
+#~ msgid "I knew the crystal would appear."
+#~ msgstr "Jag visste att kristallen skulle komma..."
+
+#~ msgid ""
+#~ "I know, but everything has changed. I'll explain it to you once it is all "
+#~ "finished. Now go, my son."
+#~ msgstr ""
+#~ "Jag vet, men allt har ändrats. Jag förklarar när allt har lugnat ner sig. "
+#~ "Iväg nu, son."
+
+#, fuzzy
+#~ msgid "I merely remember a voice in my head. Telling me to come."
+#~ msgstr ""
+#~ "Jag kommer bara ihåg en röst i mitt huvud... som sade mig att komma..."
+
+#, fuzzy
+#~ msgid "I might as well move on and forget about it."
+#~ msgstr "Lika bra att jag går vidare och glömmer det..."
+
+#, fuzzy
+#~ msgid "I need to, I guess."
+#~ msgstr "Jag behöver nog ... gissar jag."
+
+#, fuzzy
+#~ msgid ""
+#~ "I promise I didn't do it this time. I just fell in front of this hideous "
+#~ "green head."
+#~ msgstr ""
+#~ "Jag lovar att jag inte gjorde det den här gången. Jag bara föll framför "
+#~ "det där fula gröna huvudet..."
+
+#, fuzzy
+#~ msgid "I promise I won't bother you again."
+#~ msgstr "Jag lovar att jag inte ska störa dig igen ..."
+
+#, fuzzy
+#~ msgid "I really hope we are."
+#~ msgstr "Jag hoppas verkligen att vi har det..."
+
+#, fuzzy
+#~ msgid ""
+#~ "I see. Then there are two very important things that you need to know."
+#~ msgstr ""
+#~ "Jag förstår... Då finns det två väldigt viktiga saker jag måste berätta:"
+
+#, fuzzy
+#~ msgid "I shall become one with our only hope."
+#~ msgstr "Jag ska bli ett med vårt enda hopp..."
+
+#, fuzzy
+#~ msgid ""
+#~ "I shall bring your souls to the master. You don't stand a chance against "
+#~ "the Great Harlequin."
+#~ msgstr ""
+#~ "Jag ska hämta hem era själar till mästaren. Ni har inte en chans mot den "
+#~ "store Harlequin..."
+
+#, fuzzy
+#~ msgid "I should be able to sneak through when they're not watching."
+#~ msgstr "Jag borde kunna smyga igenom när de inte tittar..."
+
+#, fuzzy
+#~ msgid "I should be fine, but we should heal just in case."
+#~ msgstr "Jag klarar mig, men vi borde hela oss, utifallatt ..."
+
+#, fuzzy
+#~ msgid "I should be fine, thanks."
+#~ msgstr "Jag klarar mig, men vi borde hela oss, utifallatt ..."
+
+#, fuzzy
+#~ msgid "I should follow them silently."
+#~ msgstr "Jag borde följa efter dem ljudlöst..."
+
+#, fuzzy
+#~ msgid "I should really get back home."
+#~ msgstr "Jag borde verkligen ta mig hem..."
+
+#, fuzzy
+#~ msgid "I still feel really dizzy, but I'll be ok."
+#~ msgstr "Jag känner mig helt snurrig, men jag klarar mig..."
+
+#~ msgid "I suppose you just saw that light, right?"
+#~ msgstr "Jag antar att du såg det där ljuset, eller hur?"
+
+#~ msgid "I swear it's the truth!"
+#~ msgstr "Jag lovar att det är sanningen!"
+
+#, fuzzy
+#~ msgid ""
+#~ "I understand why Grandma actually never saw you using the 'normal' path."
+#~ msgstr ""
+#~ "... Jag förstår varför mormor faktiskt aldrig såg dig använda den "
+#~ "'normala' vägen..."
+
+#~ msgid "I was able to find them!"
+#~ msgstr "Jag lyckades hitta dem!"
+
+#, fuzzy
+#~ msgid ""
+#~ "I wasn't out for no reason. Herth sent me to watch for soldiers in the "
+#~ "west parts of the forest."
+#~ msgstr ""
+#~ "Jag var inte ute utan anledning. Det var faktiskt Herth som hade skickat "
+#~ "iväg mig för att spana efter soldater i den västra delen av skogen."
+
+#~ msgid "I will... try."
+#~ msgstr "Jag kommer att... försöka."
+
+#, fuzzy
+#~ msgid "I wouldn't mind some help..."
+#~ msgstr "Jag håller verkligen med ..."
+
+#~ msgid "I'll cut those ropes!"
+#~ msgstr "Jag skär av de där repen!"
+
+#, fuzzy
+#~ msgid "I'll do it."
+#~ msgstr "... Jag gör det."
+
+#, fuzzy
+#~ msgid "I'll fix this."
+#~ msgstr "Jag kommer ordna det här..."
+
+#, fuzzy
+#~ msgid ""
+#~ "I'll go and get Herth. Your parents must be worried. Go home. We'll meet "
+#~ "there."
+#~ msgstr ""
+#~ "Jag går och hämtar Herth. Dina föräldrar måste vara oroliga... Gå hem... "
+#~ "Vi möts där."
+
+#~ msgid "I'll see what I can do about it."
+#~ msgstr "Jag ska se vad jag kan göra åt det."
+
+#~ msgid "I'll stay here as long as you need me. Do you want to buy something?"
+#~ msgstr "Jag stannar sålänge som du behöver. Vill du köpa något?"
+
+#, fuzzy
+#~ msgid ""
+#~ "I'll try not to think about what it could have done to Orlinn. Let's find "
+#~ "him... quickly."
+#~ msgstr ""
+#~ "Jag ska försöka att inte tänka på vad den kan ha gjort mot Orlinn ... Låt "
+#~ "oss hitta honom... snabbt."
+
+#, fuzzy
+#~ msgid "I'm fine, I guess. The pain faded away."
+#~ msgstr "... Jag mår bra... Antar jag... Smärtan försvann..."
+
+#~ msgid "I'm now equipped, and access to the forest has been granted!"
+#~ msgstr ""
+#~ "Nu har jag förberett mig, och fått tillstånd att bege mig ut i skogen!"
+
+#, fuzzy
+#~ msgid ""
+#~ "I'm relieved that Orlinn is fine as well. Speaking of that, Orlinn! Stop "
+#~ "running and come here right now!"
+#~ msgstr ""
+#~ "Jag är glad att Orlinn mår bra också... På tal om det: Orlinn! Sluta "
+#~ "springa runt och kom hit genast!"
+
+#~ msgid "I'm so relieved we made it safely, hee hee."
+#~ msgstr "Jag är så glad att vi inte skadade oss, hee hee."
+
+#, fuzzy
+#~ msgid ""
+#~ "I've never been this far from the village without Herth. This place gives "
+#~ "me the chills."
+#~ msgstr ""
+#~ "Jag har aldrig varit längre hemifrån ensam... Det här ställer ger mig "
+#~ "kalla kårar..."
+
+#, fuzzy
+#~ msgid "I, I guess so."
+#~ msgstr "Jag ... Jag tror det ..."
+
+#, fuzzy
+#~ msgid ""
+#~ "I, I, I sincerely don't know. I swear! It was like I was... dreaming."
+#~ msgstr ""
+#~ "Jag... Jag... Jag vet ärligt talat inte... Jag lovar! Det kändes som att "
+#~ "jag... drömde..."
+
+#, fuzzy
+#~ msgid "I, I..."
+#~ msgstr "Jag, Jag..."
+
+#~ msgid "I..."
+#~ msgstr "Jag..."
+
+#, fuzzy
+#~ msgid "I... can't. My body... Argh!"
+#~ msgstr "Jag ... kan inte. Min kropp ... Argh!"
+
+#, fuzzy
+#~ msgid "If this crystal is so powerful, then I'll use it. And I'll fix this."
+#~ msgstr ""
+#~ "Om den här kristallen är så kraftfull, så kommer jag använda den... och "
+#~ "jag kommer ordna det här..."
+
+#, fuzzy
+#~ msgid ""
+#~ "If we can reach the great plains, we should indeed be out of trouble."
+#~ msgstr ""
+#~ "Om vi kan ta ända fram till slättmarkena så borde vi vara bortom fara..."
+
+#, fuzzy
+#~ msgid ""
+#~ "If we wouldn't have gotten here all by ourselves, I would swear "
+#~ "Banesore's army pushed us here on purpose."
+#~ msgstr ""
+#~ "Om vi hade fått bestämma själva så hade det här inte hänt. Jag skulle "
+#~ "kunna svära att Banesores trupper har manövrerat oss hit med flit..."
+
+#, fuzzy
+#~ msgid "If you're running after Orlinn, I just saw him near your house."
+#~ msgstr ""
+#~ "On du letar efter Orlinn så såg jag honom gömma sig i närheten av ditt "
+#~ "hus."
+
+#, fuzzy
+#~ msgid "Improves the health of all allies."
+#~ msgstr "Återställer hälsa hos gruppen."
+
+#, fuzzy
+#~ msgid ""
+#~ "In battle, our icons and those of our enemies will rise up on the stamina "
+#~ "bar. The more agility you have, the faster your icon will climb."
+#~ msgstr ""
+#~ "I strid, så färdas vår och fiendens uthållighetsmarkörer på "
+#~ "uthållighetsmätaren. Desto mer smidighet du har, desto snabbare så når du "
+#~ "den övre delen av den."
+
+#, fuzzy
+#~ msgid ""
+#~ "In order to know who Georges gave the rest of his barley meal to, I need "
+#~ "to get back his lost pen.\n"
+#~ " \n"
+#~ "He said he lost it near a tree. He also told me that people in the "
+#~ "village might know more."
+#~ msgstr ""
+#~ "För att få reda på vem som Georges gav resten av kornmjölet till, så "
+#~ "behöver jag hitta hans tappade penna.\n"
+#~ "\n"
+#~ "Han sa att han tappade den i närheten av ett träd; Han sa också att "
+#~ "invånarna i byn kanske vet något mer..."
+
+#, fuzzy
+#~ msgid ""
+#~ "In our basement. The other stairs there are leading to my room. This "
+#~ "house is an ancient sanctuary, so it might explain why you're feeling "
+#~ "better."
+#~ msgstr ""
+#~ "I vår källare. Den andra trappan där leder upp till mitt rum. Det här "
+#~ "huset är ett urgammalt tempel, så det förklarar kanske varför du känner "
+#~ "dig bättre..."
+
+#~ msgid "Incapacitating Shot"
+#~ msgstr "Förlamande skott"
+
+#, fuzzy
+#~ msgid "Increases all elemental effects of one character."
+#~ msgstr "Ökar alla elementareffekter på en person."
+
+#~ msgid "Increases an ally's physical defense by a slight degree."
+#~ msgstr "Öka en persons fysiska skydd lite."
+
+#, fuzzy
+#~ msgid "Increases every form of elemental resistance for all allies."
+#~ msgstr "Ökar alla elementarresistenser hos gruppen."
+
+#, fuzzy
+#~ msgid "Increases the air elemental defense of a character."
+#~ msgstr "Ökar en persons försvar mot vindbaserade attacker."
+
+#~ msgid "Increases the attack and magical attack of all allies."
+#~ msgstr "Ökar attackstyrkan och den magiska förmågan hos alla allierade."
+
+#, fuzzy
+#~ msgid "Increases the battle speed of an ally."
+#~ msgstr "Ökar stridshastigheten hos en person."
+
+#, fuzzy
+#~ msgid "Increases the death elemental defense of an ally."
+#~ msgstr "Ökar en persons försvar mot dödsbaserade attacker."
+
+#, fuzzy
+#~ msgid "Increases the earth elemental defense of a character."
+#~ msgstr "Ökar en persons försvar mot jordbaserade attacker."
+
+#~ msgid "Increases the evade rate of an ally."
+#~ msgstr "Ökar en persons chans att undvika."
+
+#, fuzzy
+#~ msgid "Increases the fire elemental defense on a character."
+#~ msgstr "Ökar en persons försvar mot eldbaserade attacker."
+
+#, fuzzy
+#~ msgid "Increases the life elemental defense of a character."
+#~ msgstr "Ökar en persons försvar mot livsbaserade attacker."
+
+#, fuzzy
+#~ msgid "Increases the magical defence of an ally."
+#~ msgstr "Ökar en persons magiska försvar."
+
+#, fuzzy
+#~ msgid "Increases the water elemental defense on a character."
+#~ msgstr "Ökar en persons försvar mot vattenbaserade attacker."
+
+#~ msgid "Indeed! They've been had!"
+#~ msgstr "Verkligen! Där lurade vi dem!"
+
+#~ msgid "Indeed! Yeepee!"
+#~ msgstr "Verkligen! Yeepee!"
+
+#, fuzzy
+#~ msgid "Indeed, it must be a long time ago."
+#~ msgstr "Oj, det måste vara länge sedan..."
+
+#~ msgid "Indeed. It seems the scent has no effect on us anymore."
+#~ msgstr "Ja, det verkar som att lukten inte längre har någon effekt på oss."
+
+#, fuzzy
+#~ msgid "Inflicts poison on an enemy."
+#~ msgstr "Förgiftar en fiende."
+
+#~ msgid "Input enabled: "
+#~ msgstr "Inmatning vald:"
+
+#~ msgid ""
+#~ "Inquire our comrades in the settlement, perhaps somebody has laid their "
+#~ "eyes on it."
+#~ msgstr "Fråga våra kamrater i byn, någon har kanske sett den."
+
+#~ msgid "Invalid Element"
+#~ msgstr "Ogiltig Elementareffekt"
+
+#~ msgid "Invalid Status"
+#~ msgstr "Ogiltig statuseffekt"
+
+#~ msgid "Invocation"
+#~ msgstr "Åkallelse"
+
+#~ msgid "Iron Ore"
+#~ msgstr "Järnmalm"
+
+#~ msgid "Iron Sword"
+#~ msgstr "Järnsvärd"
+
+#~ msgid "It is 'Lord Banesore', you scum!"
+#~ msgstr "Det är 'Hertig Banesore', ditt äckel!"
+
+#, fuzzy
+#~ msgid ""
+#~ "It ran away again. I'm glad we survived. Let's get out of here before it "
+#~ "comes back."
+#~ msgstr ""
+#~ "Den sprang sin väg igen... Jag är glad att vi överlevde... Låt oss bege "
+#~ "oss innan den kommer tillbaka."
+
+#, fuzzy
+#~ msgid ""
+#~ "It ran away. I'm almost certain that we'll meet it again. We'd better be "
+#~ "more prepared next time."
+#~ msgstr ""
+#~ "Den sprang sin väg... Jag är nästan helt säker på att vi kommer att stöta "
+#~ "på den igen... Bäst vi är bättre förberedda då."
+
+#, fuzzy
+#~ msgid ""
+#~ "It says: 'I fathomed it! After all, not every ladder is made of wood. "
+#~ "Now, I'll have to get back there alive.'"
+#~ msgstr ""
+#~ "Den lyder: 'Jag gissade det! Det är ju inte varje stege som är gjord av "
+#~ "trä. Nu måste jag bara ta mig levande härifrån...'"
+
+#, fuzzy
+#~ msgid "It seems Orlinn was able to go through those platforms. Somehow."
+#~ msgstr ""
+#~ "Det verkar som Orlinn lyckades ta sig över de här plattformarna... på "
+#~ "något sätt."
+
+#, fuzzy
+#~ msgid "It seems somebody left a note here on purpose."
+#~ msgstr "... Det verkar som att någon har lämnat en lapp här med flit..."
+
+#~ msgid "It seems the way is clear now."
+#~ msgstr "Det verkar som att kusten är klar nu."
+
+#, fuzzy
+#~ msgid ""
+#~ "It should have been me. But I couldn't move. And now, I have to fix my "
+#~ "mistake."
+#~ msgstr ""
+#~ "Det borde ha varit jag... Men jag lyckades inte röra mig. Och nu, så "
+#~ "måste jag reparera mitt misstag..."
+
+#~ msgid "It's a possibility. But don't worry too much, ok?"
+#~ msgstr "Det är möjligt. Men oroa dig inte för mycket, ok?"
+
+#, fuzzy
+#~ msgid ""
+#~ "It's been weeks since I could go outside the village.\n"
+#~ " \n"
+#~ "The entrance has been shut with stones, and now they won't even let me go "
+#~ "and breathe in the only place I could be alone?!?\n"
+#~ " \n"
+#~ "Whatever. I need a sword just in case, and I'll get there alone!"
+#~ msgstr ""
+#~ "Det har varit veckor sedan jag senast kunde bege mig utanför byn.\n"
+#~ "\n"
+#~ "Byingången har blivit blockerad med stenar, och nu så tillåter de mig "
+#~ "inte ens att gå och andas på den enda platsen där jag kan vara ensam?!?\n"
+#~ "\n"
+#~ "Hursom... Jag behöver ändå ett svärd, utifallatt.... och jag ska ta mig "
+#~ "dit ensam!"
+
+#, fuzzy
+#~ msgid "It's fine, I'll come."
+#~ msgstr "Det är ok, jag kommer..."
+
+#~ msgid "It's my room upstairs. Don't even think about it!"
+#~ msgstr "Det är mitt rum uppför trappan. Tänk inte ens tanken!"
+
+#, fuzzy
+#~ msgid ""
+#~ "It's not like I actually want to open this, but how are we going to do so?"
+#~ msgstr ""
+#~ "Det är inte riktigt som att jag faktiskt vill öppna den här dörren, men "
+#~ "hur skulle det gå till?"
+
+#~ msgid "It's the scent, ah ah ah."
+#~ msgstr "Det är lukten, ah ah ah."
+
+#, fuzzy
+#~ msgid "It's time to think Lilly."
+#~ msgstr "Det är dags att tänka, Lilly..."
+
+#, fuzzy
+#~ msgid "It's time."
+#~ msgstr "Det är dags..."
+
+#, fuzzy
+#~ msgid "It's too early, darling. We might be wrong."
+#~ msgstr "Det är för tidigt älskling... Vi kanske har fel."
+
+#~ msgid ""
+#~ "Jewelry is a gift from the heavens to remind us that beauty can be as "
+#~ "pure on the outside as it is on the inside. Besides, it suits me better "
+#~ "than it would you."
+#~ msgstr ""
+#~ "Smycken är en gåva från himlen för att påminna oss om att skönhet kan "
+#~ "vara lika fläckfritt på utsidan som det är på insidan. Dessutom så passar "
+#~ "det mycket bättre på mig än på dig."
+
+#~ msgid "Just find our *poet* and he should give you some barley meal, ok?"
+#~ msgstr "Hitta bara vår *poet* så borde han kunna ge dig lite kornmjöl, ok?"
+
+#, fuzzy
+#~ msgid "Just stand in front of the goddess below the spring and push '%s'."
+#~ msgstr "Stå bara framför gudinnan, nedanför källan, och tryck '%s'."
+
+#, fuzzy
+#~ msgid "Just tell me when you're ready and I'll throw you up there."
+#~ msgstr "Säg bara till när du är redo, så kastar jag upp dig."
+
+#~ msgid "Kalya"
+#~ msgstr "Kalya"
+
+#~ msgid "Kalya joins your party!"
+#~ msgstr "Kalya slår följe med dig!"
+
+#, fuzzy
+#~ msgid "Kalya! Now!"
+#~ msgstr "Kalya! Nu!!"
+
+#~ msgid "Kalya! You'd better be careful!"
+#~ msgstr "Kalya! Var försiktig!"
+
+#, fuzzy
+#~ msgid "Kalya's attack when she has no weapon."
+#~ msgstr "Kaylas attack om hon inte har något vapen."
+
+#~ msgid "Kalya's home basement"
+#~ msgstr "Kaylas hems källare"
+
+#~ msgid "Kalya, Bronann!"
+#~ msgstr "Kalya, Bronann!"
+
+#, fuzzy
+#~ msgid "Kalya, err..."
+#~ msgstr "Kalya, ... Err ..."
+
+#~ msgid "Kalya, have you seen Orlinn?"
+#~ msgstr "Kalya, har du sett Orlinn?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Kalya, the army is coming. I'll deal with them. You go and find Orlinn as "
+#~ "fast as possible."
+#~ msgstr ""
+#~ "Kalya, armen är på väg. Jag hanterar dem, så går du och hittar Orlinn, så "
+#~ "snabbt du bara kan."
+
+#, fuzzy
+#~ msgid "Kalya, you were supposed to keep an eye on him!"
+#~ msgstr "Kalya! Du hade ansvar för att hålla honom under uppsikt!"
+
+#, fuzzy
+#~ msgid ""
+#~ "Kalya. We're in the middle of a cave and you're only thinking about "
+#~ "wearing jewels?"
+#~ msgstr ""
+#~ "Kalya ... Vi är mitt i en grotta och du tänker bara på att bära smycken."
+
+#~ msgid "Kalya?!"
+#~ msgstr "Kalya?!"
+
+#~ msgid "Karlate Breastplate"
+#~ msgstr "Karlatesk bröstharnesk"
+
+#~ msgid "Keep quiet, little brat!"
+#~ msgstr "Håll käften ungjävel!"
+
+#~ msgid "Keep quiet, you old daft rat!"
+#~ msgstr "Håll tyst, din gamla råtta!"
+
+#~ msgid "Knight's Blade"
+#~ msgstr "Riddarsvärd"
+
+#~ msgid "Lava"
+#~ msgstr "Lava"
+
+#~ msgid "Layna Forest"
+#~ msgstr "Laynaskogen"
+
+#~ msgid "Layna Forest Cave"
+#~ msgstr "Laynas skogsgrotta"
+
+#, fuzzy
+#~ msgid ""
+#~ "Layna Village was abandoned a long time ago, before your parents and all "
+#~ "the others settled here. Your mother never told you that?"
+#~ msgstr ""
+#~ "Byn Layna övergavs för länge sedan, innan dina föräldrar och de andra "
+#~ "bosatte sig här... Berättade aldrig din mor det för dig?"
+
+#~ msgid "Lead Programming, Scripting, Maps"
+#~ msgstr "Huvudprogrammerande, Skriptande, Kartor"
+
+#~ msgid "Leader Call"
+#~ msgstr "Ledartjut"
+
+#~ msgid "Leather Chain Mail"
+#~ msgstr "Läderförstärkt ringbrynja"
+
+#, fuzzy
+#~ msgid "Leather Cloak"
+#~ msgstr "Läderkappa"
+
+#~ msgid "Leather boots"
+#~ msgstr "Läderstövlar"
+
+#~ msgid "Leg"
+#~ msgstr "Ben"
+
+#, fuzzy
+#~ msgid "Let everyone go. We don't have your 'crystal'."
+#~ msgstr "Låt alla oss gå. Vi har inte din 'kristall'..."
+
+#, fuzzy
+#~ msgid "Let go of me! You cheap low-grade filthy jerks."
+#~ msgstr "Släpp mig, era billiga, smutsiga idioter..."
+
+#~ msgid "Let her out of this! You can have me instead."
+#~ msgstr "Låg henne gå! Du kan ta mig istället."
+
+#~ msgid "Let me give you something as a reward."
+#~ msgstr "Låt mig ge dig något som tack."
+
+#, fuzzy
+#~ msgid "Let me see."
+#~ msgstr "Låt mig se?"
+
+#~ msgid "Let your fear grow, young boy!"
+#~ msgstr "Låt din fruktan växa, pojk!"
+
+#~ msgid "Let's fight for our lives then!"
+#~ msgstr "Låt oss slåss till döden då!"
+
+#, fuzzy
+#~ msgid "Let's find him, once more, before something bad happens."
+#~ msgstr "Låt oss hitta honom ... igen, innan något dåligt händer..."
+
+#~ msgid "Let's find out how to activate that waterfall, then."
+#~ msgstr "Låt oss leta reda på hur man aktiverar vattenfallet i så fall."
+
+#, fuzzy
+#~ msgid "Let's go back and inform the others."
+#~ msgstr "Låt oss gå tillbaka och berätta för de andra..."
+
+#, fuzzy
+#~ msgid "Let's go to the woods."
+#~ msgstr "Låt oss gå ut i skogen..."
+
+#, fuzzy
+#~ msgid "Let's have a look at the potions..."
+#~ msgstr "(Låt mig se..)"
+
+#~ msgid "Let's have a talk, Bronann!"
+#~ msgstr "Bronann, vi måste prata!"
+
+#, fuzzy
+#~ msgid "Let's hurry. I can't feel my toes anymore."
+#~ msgstr "Låt oss skynda, jag kan inte känna mina tår..."
+
+#~ msgid "Let's look around. We might find out."
+#~ msgstr "Vi undersöker stället. Vi kanske hittar något som hjälper."
+
+#~ msgid "Let's make our way through this before something bad happens to him."
+#~ msgstr "Låt oss skynda oss över innan något hemskt händer honom."
+
+#, fuzzy
+#~ msgid ""
+#~ "Let's not panic. Bronann, you look fine. Anyway, we'd better get back to "
+#~ "the village and see the elders as soon as possible."
+#~ msgstr ""
+#~ "Ingen panik, bronann, du ser ut att må bra... Hursomhelst, bäst att vi "
+#~ "tar oss tillbaka till byn och träffar de vuxna så snart som möjligt."
+
+#~ msgid "Let's run!"
+#~ msgstr "Spring!"
+
+#~ msgid "Life"
+#~ msgstr "Liv"
+
+#~ msgid "Life Circle"
+#~ msgstr "Livscirkel"
+
+#~ msgid "Life Elemental Strength"
+#~ msgstr "Livelementarstyrka"
+
+#~ msgid "Lightning"
+#~ msgstr "Blixtar"
+
+#~ msgid "Lilly"
+#~ msgstr "Lilly"
+
+#~ msgid "Lilly's house"
+#~ msgstr "Lillys hus"
+
+#, fuzzy
+#~ msgid ""
+#~ "Listen kids, I feel bad about what happened. But I can't help you as a "
+#~ "magical force is preventing me from entering the shrine."
+#~ msgstr ""
+#~ "Lyssna ungar, jag hatar det som har hänt, och jag kan inte hjälpa er då "
+#~ "en magisk kraft hindrar mig från att gå in i templet..."
+
+#~ msgid "Look at all those bones. We should be careful."
+#~ msgstr "Titta på alla de benen. Vi måste vara försiktiga."
+
+#, fuzzy
+#~ msgid ""
+#~ "Look at the grass. Snakes like to hide in the tall grass. We need to be "
+#~ "careful because their venom causes drowsiness."
+#~ msgstr ""
+#~ "Titta på det där gräset... ormar gillar att gömma sig i högt gräs... Vi "
+#~ "måste vara försiktiga för deras gift gör en sömnig."
+
+#~ msgid "Look!"
+#~ msgstr "Titta!"
+
+#~ msgid "Look, I..."
+#~ msgstr "Vänta, jag..."
+
+#~ msgid "Look, there is a stone slab on the ground. Let's check this out."
+#~ msgstr ""
+#~ "Titta, det ligger ett stenblock på marken. Låt oss undersöka det här."
+
+#~ msgid "Lord"
+#~ msgstr "Hertig"
+
+#~ msgid "Lord Banesore"
+#~ msgstr "Hertig Banesore"
+
+#~ msgid "Lotus Petal"
+#~ msgstr "Lotuskronblad"
+
+#~ msgid "Low Mountain"
+#~ msgstr "Kullarna"
+
+#~ msgid "Magic Drain"
+#~ msgstr "Magitappning"
+
+#~ msgid "Magical Armor"
+#~ msgstr "Magisk rustning"
+
+#~ msgid "Magical Poison"
+#~ msgstr "Magiskt gift"
+
+#~ msgid "Magical Reflection"
+#~ msgstr "Magiskreflex"
+
+#, fuzzy
+#~ msgid "Magical attack combining air and fire type damage."
+#~ msgstr "Magisk attack som kombinerat skadan från eld och luft."
+
+#, fuzzy
+#~ msgid "Magical attack combining earth and fire type damage."
+#~ msgstr "Magisk attack som kombinerar jord- och eldskada."
+
+#, fuzzy
+#~ msgid "Magical attack combining life and air type damage."
+#~ msgstr "Magisk attack som kombinerar livs- och eldskada."
+
+#, fuzzy
+#~ msgid "Magical attack combining life and fire damages."
+#~ msgstr "Magisk attack som kombinerar livs- och eldskada."
+
+#, fuzzy
+#~ msgid "Magical attack combining water and air type damage."
+#~ msgstr "Magisk attack som kombinerar skadan från vatten och luft."
+
+#, fuzzy
+#~ msgid "Makes an ally counter-attack if injured."
+#~ msgstr "Får en person att attackera tillbaka om den blir skadad."
+
+#~ msgid "Makes an ally's health regenerate moderately."
+#~ msgstr "Får någon att regenerera medelsnabbt."
+
+#~ msgid "Makes an enemy attack its own allies."
+#~ msgstr "Får en fiende att attackera sina allierade."
+
+#~ msgid "Makes an enemy lose its SP little by little."
+#~ msgstr "Får en fiende att långsamt förlora sina SP."
+
+#, fuzzy
+#~ msgid "Makes the next enemy spell cast reflect back upon the attacker."
+#~ msgstr "Får nästa magiska attack att studsa tillbaka på besvärjaren."
+
+#~ msgid "Makes waves fall on an enemy."
+#~ msgstr "Får vågor att slå emot en fiende."
+
+#~ msgid "Making one with the crystal, huh?"
+#~ msgstr "Bli ett med kristallen, huh?"
+
+#~ msgid "Malta"
+#~ msgstr "Malta"
+
+#~ msgid ""
+#~ "Map Tiles\n"
+#~ "\n"
+#~ "Inventory Icons\n"
+#~ "\n"
+#~ "Map monster sprites"
+#~ msgstr ""
+#~ "Kartbitar\n"
+#~ "\n"
+#~ "Inventarieikoner\n"
+#~ "\n"
+#~ "Kartmonsterbilder"
+
+#~ msgid ""
+#~ "Map sprite animations\n"
+#~ "\n"
+#~ "Map sprite animations, Map tiles\n"
+#~ "\n"
+#~ "Concept art, Allacrost title screen image\n"
+#~ "\n"
+#~ "Concept art, Map sprites, Map tiles\n"
+#~ "\n"
+#~ "Concept art, Map sprites\n"
+#~ "\n"
+#~ "Map tiles"
+#~ msgstr ""
+#~ "Kartanimationer\n"
+#~ "\n"
+#~ "Kartanimationer, Kartbilder\n"
+#~ "\n"
+#~ "Konceptkonst, Allacrost titelbild\n"
+#~ "\n"
+#~ "Konceptkonst, Kartbilder\n"
+#~ "\n"
+#~ "Konceptkonst, Kartbilder\n"
+#~ "\n"
+#~ "Kartbilder"
+
+#~ msgid ""
+#~ "Map sprites, Battle sprites, Character portraits, Location graphics\n"
+#~ "\n"
+#~ "Battle sprites, old Allacrost GUI artwork\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Allacrost website graphics, GUI artwork, Game logos\n"
+#~ "\n"
+#~ "Map tiles, map sprites, Inventory icons, Allacrost artwork coordination"
+#~ msgstr ""
+#~ "Kartbilder, Stridsbilder, Karaktärsporträtt, Platsgrafik\n"
+#~ "\n"
+#~ "Stridsbilder, gammalt Allacrost GUI grafik\n"
+#~ "\n"
+#~ "Kartbilder\n"
+#~ "\n"
+#~ "Allacrost hemsidegrafik, GUIgrafik, Spellogo\n"
+#~ "\n"
+#~ "Kartgrafik, Inventarieikoner, Allacrost grafik koordinering"
+
+#~ msgid "Martha"
+#~ msgstr "Martha"
+
+#, fuzzy
+#~ msgid "May they rest in peace."
+#~ msgstr "Må de vila i frid..."
+
+#~ msgid "May you bring a happy end to this foolish destiny of ours."
+#~ msgstr "Må du skapa ett lyckligt slut till vårt galna öde."
+
+#~ msgid ""
+#~ "Maybe I could sell you a few things to help you find a way to open a path "
+#~ "in there?"
+#~ msgstr ""
+#~ "Jag skulle kanske kunna sälja lite saker till er, så att ni kan komma på "
+#~ "ett sätt att ta er igenom där?"
+
+#, fuzzy
+#~ msgid "Maybe we should tell him."
+#~ msgstr "Vi kanske borde berätta för honom..."
+
+#~ msgid "Maybe yes, maybe no!"
+#~ msgstr "Kanske ja, kanske nej!"
+
+#~ msgid ""
+#~ "Maybe, maybe not. Sophia was out the time they attacked? Somehow I don't "
+#~ "buy it."
+#~ msgstr ""
+#~ "Kanske, kanske inte. Att Sophia skulle ha varit ute ur byn när de "
+#~ "attackerade? Jag köper inte den historien."
+
+#~ msgid "Maybe?"
+#~ msgstr "Kanske?"
+
+#, fuzzy
+#~ msgid "Me? But I'm not the chosen one."
+#~ msgstr "Jag? Men jag är inte den utvalda."
+
+#, fuzzy
+#~ msgid "Me? But..."
+#~ msgstr "Jag? Men ..."
+
+#~ msgid "Me? Not at all. I don't need bridges to cross a moutain."
+#~ msgstr ""
+#~ "Jag? Inte alls. Jag behöver inte broar för att ta mig över ett berg."
+
+#, fuzzy
+#~ msgid "Me? You know, a bit of this, a bit of that."
+#~ msgstr "Jag? Tja, du vet, lite av varje..."
+
+#~ msgid "Medium Healing Potion"
+#~ msgstr "Medelstor helande dryck"
+
+#~ msgid "Medium Moon Juice Potion"
+#~ msgstr "Medelstor månjuicedryck"
+
+#~ msgid "Mega Healing Potion"
+#~ msgstr "Enorm helande dryck"
+
+#~ msgid "Mega Moon Juice Potion"
+#~ msgstr "Enorm månjuicedryck"
+
+#~ msgid "Menu: Button"
+#~ msgstr "Many: Knapp"
+
+#~ msgid "Mesosoma"
+#~ msgstr "Mesosoma"
+
+#~ msgid "Metal Shield"
+#~ msgstr "Metalsköld"
+
+#~ msgid "Meteor"
+#~ msgstr "Meteroit"
+
+#~ msgid "Minor Elixir"
+#~ msgstr "Litet elexir"
+
+#~ msgid "Minor Healing Potion"
+#~ msgstr "Liten helande dryck"
+
+#~ msgid "Mist"
+#~ msgstr "Dimma"
+
+#~ msgid ""
+#~ "Mom needs some for dinner!\n"
+#~ " \n"
+#~ "Flora might have some in her shop. I should go and have a look there "
+#~ "first."
+#~ msgstr ""
+#~ "Mamma behöver lite till middagen!\n"
+#~ "\n"
+#~ "Flora kanske har lite i sin butik. Jag borde gå dit och se först."
+
+#~ msgid "Moon"
+#~ msgstr "Måne"
+
+#~ msgid "Moon Juice Potion"
+#~ msgstr "Månjuicedryck"
+
+#~ msgid "Mountain Village of Layna"
+#~ msgstr "Bergsbyn Layna"
+
+#~ msgid "Mountain bridge"
+#~ msgstr "Bergsbron"
+
+#~ msgid "Move your character:"
+#~ msgstr "Förflyttning:"
+
+#~ msgid "Mt. Elbrus"
+#~ msgstr "Elbrustoppen"
+
+#~ msgid "Mt. Elbrus Shrine"
+#~ msgstr "Elbrustemplet"
+
+#~ msgid "Mushroom Zombie"
+#~ msgstr "Svampzombie"
+
+#~ msgid "Music"
+#~ msgstr "Musik"
+
+#, fuzzy
+#~ msgid ""
+#~ "My name is Andromalius, guardian of the sacred seal and keeper of the "
+#~ "Goddess Shrine."
+#~ msgstr ""
+#~ "Mitt namn är Andromalius, väktare av det heliga sigillet, och bevarare av "
+#~ "gudinnans tempel..."
+
+#, fuzzy
+#~ msgid "My parents."
+#~ msgstr "Mina föräldrar..."
+
+#, fuzzy
+#~ msgid ""
+#~ "My three chicken have flown away again this morning. Could you find them "
+#~ "for me?"
+#~ msgstr ""
+#~ "Mina tre kycklingar har rymt i morse... Skulle du kunna hitta dem åt mig?"
+
+#, fuzzy
+#~ msgid ""
+#~ "My three chickens have flown away again this morning. Could you find the "
+#~ "last one for me?"
+#~ msgstr ""
+#~ "Mina tre kycklingar har rymt i morse... Skulle du kunna hitta den sista "
+#~ "åt mig?"
+
+#, fuzzy
+#~ msgid ""
+#~ "My three chickens have flown away again this morning. Could you find the "
+#~ "remaining ones for me?"
+#~ msgstr ""
+#~ "Mina tre kycklingar har rymt i morse... Skulle du kunna hitta de "
+#~ "återstående åt mig?"
+
+#, fuzzy
+#~ msgid "My three chickens have flown away again. Could you find them for me?"
+#~ msgstr ""
+#~ "Mina tre kycklingar har flygit iväg igen... Skulle du kunna hitta dem åt "
+#~ "mig?"
+
+#~ msgid "Nagaruda"
+#~ msgstr "Nagaruda"
+
+#, fuzzy
+#~ msgid "Nah, no problem, I'll find it somewhere, eventually."
+#~ msgstr "Nah, inga problem. Jag hittar den nog någonstanns... till slut."
+
+#, fuzzy
+#~ msgid "Neither of you?"
+#~ msgstr "Varken du eller mamma?"
+
+#~ msgid "Neutral"
+#~ msgstr "Neutral"
+
+#~ msgid "Neutral Elemental Strength"
+#~ msgstr "Neutral elementarstyrka"
+
+#~ msgid "Nevermind that, just do it."
+#~ msgstr "Bry dig inte så mycket, bara gör det."
+
+#, fuzzy
+#~ msgid ""
+#~ "Nevermind. Don't worry about me. Just find him and he should give you "
+#~ "some, ok?"
+#~ msgstr ""
+#~ "Bry dig inte om det, oroa dig inte för mig. Om du bara hittar honom så "
+#~ "kan han ge dig lite av mjölet, ok?"
+
+#~ msgid "No"
+#~ msgstr "Nej"
+
+#~ msgid "No data"
+#~ msgstr "Ingen data"
+
+#~ msgid "No way, we'd get sick."
+#~ msgstr "Inte en chans, vi kommer bli sjuka."
+
+#~ msgid "No!"
+#~ msgstr "Nej!"
+
+#~ msgid "No! I won't go unless you tell me the truth now!"
+#~ msgstr "Nej! Jag vägrar att följa med om du inte berättar sanningen nu!"
+
+#, fuzzy
+#~ msgid "No! Let him come closer."
+#~ msgstr "Nej! Låt honom komma närmare..."
+
+#, fuzzy
+#~ msgid "No, I won't follow you anymore."
+#~ msgstr "Nej, jag kommer inte att följa efter er längre..."
+
+#, fuzzy
+#~ msgid "No, I won't go there. I just can't talk to them at the moment."
+#~ msgstr ""
+#~ "Nej, Jag vill inte gå in där. Jag orkar inte med att snacka med dem just "
+#~ "nu..."
+
+#, fuzzy
+#~ msgid "No, it can't be."
+#~ msgstr "... Nej, det kan inte..."
+
+#~ msgid "No, it's alright!"
+#~ msgstr "Nej, det är bra nu!"
+
+#, fuzzy
+#~ msgid "No, it's alright."
+#~ msgstr "Nej, det är bra nu!"
+
+#~ msgid "No, it's not that bad."
+#~ msgstr "Nej, det är inte så farligt."
+
+#, fuzzy
+#~ msgid "No, let's prepare first."
+#~ msgstr "Nej, vi måste förbereda oss..."
+
+#~ msgid "No, not yet."
+#~ msgstr "Nej, inte ännu."
+
+#~ msgid "No."
+#~ msgstr "Nej."
+
+#~ msgid "No?!"
+#~ msgstr "Nej?!"
+
+#~ msgid "Noble Arbalest"
+#~ msgstr "Nobelt armborst"
+
+#, fuzzy
+#~ msgid ""
+#~ "Nobody told me what was happening. Herth and the Lord seemed to know each "
+#~ "other. And now you..."
+#~ msgstr ""
+#~ "Ingen berättar för mig vad som händer. Herth och Hertigen verkade känna "
+#~ "varandra... och nu du..."
+
+#, fuzzy
+#~ msgid "Not again..."
+#~ msgstr "... Inte igen ..."
+
+#, fuzzy
+#~ msgid "Not now."
+#~ msgstr "Inte nu..."
+
+#, fuzzy
+#~ msgid "Not the necklace, the fenrir!"
+#~ msgstr "Inte halsbandet, Fenrisulven!"
+
+#, fuzzy
+#~ msgid "Now catch me, if you can."
+#~ msgstr "Fånga mig... om du kan."
+
+#, fuzzy
+#~ msgid "Now come."
+#~ msgstr "Kom nu..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Now that you're *finally* up, could you go buy some barley meal for us?"
+#~ msgstr ""
+#~ "Nu när du *äntligen* har gått upp, skulle du kunna gå och köpa lite "
+#~ "kornmjöl till oss tre?"
+
+#~ msgid "Now we can get back to the village more quickly."
+#~ msgstr "Nu kan vi ta oss tillbaka till byn snabbare."
+
+#, fuzzy
+#~ msgid ""
+#~ "Now, Orlinn, tell us. Why on earth did you go into the forest alone, and "
+#~ "how did you get there so quickly?"
+#~ msgstr ""
+#~ "Nu, Orlinn. Berätta varför i hela friden du sprang in i skogen ensam, och "
+#~ "hur du kunde komma dit så snabbt?"
+
+#~ msgid "Now, come. Become one with our holy hope."
+#~ msgstr "Kom hit nu. Bli ett med vårt enda hopp."
+
+#, fuzzy
+#~ msgid "Now, show it to me."
+#~ msgstr "Nu, visa den för mig..."
+
+#, fuzzy
+#~ msgid "ORLINN! Come here, NOW!"
+#~ msgstr "ORLINN!! Kom hit NU!!"
+
+#~ msgid "Oblivion"
+#~ msgstr "Glömska"
+
+#, fuzzy
+#~ msgid "Of course you have it. I can sense it within your flesh."
+#~ msgstr "Så klart att ni har den. Jag kan känna den i ert kött..."
+
+#, fuzzy
+#~ msgid "Oh no! The gate!"
+#~ msgstr "Oh nej! porten!"
+
+#~ msgid "Oh no, please Orlinn! I need it!"
+#~ msgstr "Oh nej, snälla Orlinn! Jag behöver den!"
+
+#~ msgid "Oh sorry, our 'great' poet came earlier and took all the rest of it."
+#~ msgstr "Jag är ledsen, vår 'store' poet kom och tog det sista."
+
+#, fuzzy
+#~ msgid "Oh! My apologies, it seems you weren't lying."
+#~ msgstr "Oh! Jag ber om ursäkt, det verkar som att du inte ljög..."
+
+#, fuzzy
+#~ msgid "Oh, I see now. So this is her mother. Bring her here, and kill her!"
+#~ msgstr ""
+#~ "Oh, jag förstår... Så det här är hennes mor... För hit henne och döda "
+#~ "henne!"
+
+#, fuzzy
+#~ msgid "Oh, thanks grandma!"
+#~ msgstr "Oh, tack mormor!"
+
+#, fuzzy
+#~ msgid "Oh, they're all back, my brave hero."
+#~ msgstr "Oh, de är tillbaka, min modiga hjälte..."
+
+#, fuzzy
+#~ msgid "Oh? You didn't?"
+#~ msgstr "... Oh? Inte??"
+
+#~ msgid "Ok ok. Just having a bit of spirit, young man."
+#~ msgstr "Ok ok. Jag blev bara lite rörd."
+
+#~ msgid "Ok!"
+#~ msgstr "Ok!"
+
+#~ msgid "Ok, thanks."
+#~ msgstr "Ok, tackar."
+
+#, fuzzy
+#~ msgid "Ok, we'll go together. But slow me down and I'll make you regret it."
+#~ msgstr ""
+#~ "Ok, vi går tillsammans. Men om du sinkar mig så kommer du att få äta upp "
+#~ "det..."
+
+#, fuzzy
+#~ msgid "Ok."
+#~ msgstr "Ok"
+
+#~ msgid "Old Cemetery"
+#~ msgstr "Den gamla kyrkogården"
+
+#~ msgid "Old Helmet"
+#~ msgstr "Gammal hjälm"
+
+#~ msgid "Old Willow Dress"
+#~ msgstr "Gammal sälgdräkt"
+
+#~ msgid "Olivia"
+#~ msgstr "Olivia"
+
+#~ msgid "Omni Sword"
+#~ msgstr "Allsvärd"
+
+#, fuzzy
+#~ msgid ""
+#~ "Once an ally has reached the action level, you can select an action for "
+#~ "that ally. The battle is then paused and you've got all the time you need "
+#~ "to select one, so don't panic."
+#~ msgstr ""
+#~ "När någon når upp till handlingsnivån, så kan du välja en handling som "
+#~ "hen kommer utföra. Ta det lungt, striden är pausad och du kan ta hur lång "
+#~ "tid på dig som du vill för att välja något."
+
+#, fuzzy
+#~ msgid "One of Grandma's chickens. I should bring it back."
+#~ msgstr "En av mormors kycklingar... jag borde ta med den tillbaka."
+
+#, fuzzy
+#~ msgid "One of grandma's chickens. I should bring it back."
+#~ msgstr "En av mormors kycklingar... jag borde ta med den tillbaka."
+
+#, fuzzy
+#~ msgid "One second, Orlinn. I'm trying to..."
+#~ msgstr "... En sekund, Orlinn. Jag försöker att..."
+
+#, fuzzy
+#~ msgid "Only one. The mountain top."
+#~ msgstr "Bara ett sätt... Bergstoppen..."
+
+#, fuzzy
+#~ msgid "Only the last one standing shall pass."
+#~ msgstr "Endast den som överlever skall passera"
+
+#~ msgid "Oops, sorry!"
+#~ msgstr "Oops, ursäkta!"
+
+#~ msgid "Orifice"
+#~ msgstr "Öppning"
+
+#~ msgid "Orlinn"
+#~ msgstr "Orlinn"
+
+#~ msgid ""
+#~ "Orlinn had the pen and I ran after him all morning to get it back. I hope "
+#~ "he won't have any problems with Kalya..."
+#~ msgstr ""
+#~ "Orlinn hade pennan och jag sprang efter honom hela morgonen för att få "
+#~ "tillbaka den. Jag hoppas att han inte råkar i trubbel med Kayla..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Orlinn has the pen that I need to return to Georges! The only problem now "
+#~ "is I have to find out where he's hiding. Hmm, it shouldn't take long."
+#~ msgstr ""
+#~ "Orlinn hade pennan, jag behöver återvända till Georges! Enda problemet nu "
+#~ "är att hitta var han gömmer sig. Det borde inte ta alltför lång tid..."
+
+#~ msgid "Orlinn might be in danger!"
+#~ msgstr "Orlinn kanske är i fara!"
+
+#~ msgid "Orlinn!"
+#~ msgstr "Orlinn!"
+
+#~ msgid "Orlinn! Back off!"
+#~ msgstr "Orlinn! Sluta!"
+
+#~ msgid "Orlinn! How many times have I told you not to bother other people?"
+#~ msgstr ""
+#~ "Orlinn! Hur många gånger har jag sagt åt dig att inte störa andra "
+#~ "personer?"
+
+#~ msgid "Orlinn! NOW!"
+#~ msgstr "Orlinn! NU!"
+
+#~ msgid "Orlinn! Stop this!"
+#~ msgstr "Orlinn! Lägg av med det där!"
+
+#~ msgid "Orlinn, are you alright?"
+#~ msgstr "Orlinn, mår du bra?"
+
+#~ msgid "Orlinn, did you do something?"
+#~ msgstr "Orlinn, gjorde du något?"
+
+#, fuzzy
+#~ msgid "Orlinn, give back the pen to Bronann or I shall sma..."
+#~ msgstr ""
+#~ "Orlinn, ge tillbaka pennan till Bronann, annars så kommer jag att smä..."
+
+#, fuzzy
+#~ msgid "Orlinn, help us... Please, oh oh oh..."
+#~ msgstr "Orlinn, hjälp oss ... Snälla, Oh oh oh..."
+
+#~ msgid "Orlinn, how did you get there?"
+#~ msgstr "Orlinn, hur kom du dit?"
+
+#~ msgid "Orlinn, stop it RIGHT NOW!!"
+#~ msgstr "Orlinn, sluta GENAST!!"
+
+#~ msgid "Orlinn, stop!"
+#~ msgstr "Orlinn, stanna!"
+
+#, fuzzy
+#~ msgid "Orlinn, you sure have grown up through all of this. Are you sure?"
+#~ msgstr ""
+#~ "Orlinn, du har verkligen mognat med hjälp av allt som har skett. Är du "
+#~ "säker?"
+
+#, fuzzy
+#~ msgid "Orlinn. Go get our packings. We're leaving."
+#~ msgstr "Orlinn. Gå och hämta packningen. Vi måste ge oss iväg..."
+
+#~ msgid "Orlinn..."
+#~ msgstr "Orlinn..."
+
+#~ msgid "Orlinn? Orlinn!"
+#~ msgstr "Orlinn? Orlinn!"
+
+#, fuzzy
+#~ msgid "Ouch, why is my head hurting so much?"
+#~ msgstr "... Ajajaj, varför gör mitt huvud så ont? ..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Our elder will also be able to help us. And you'll get a better "
+#~ "explanation than I could ever..."
+#~ msgstr ""
+#~ "Vår älste kommer också att kunna hjälpa oss. Och du får mer förklaringar "
+#~ "än vad jag kan..."
+
+#, fuzzy
+#~ msgid "Our parents were killed a long time ago."
+#~ msgstr "Våra föräldrar dödades för länge sedan..."
+
+#, fuzzy
+#~ msgid "Our village. It's burning."
+#~ msgstr "Vår by... brinner..."
+
+#, fuzzy
+#~ msgid "Ow, my chest. It hurts!"
+#~ msgstr "Oh, mitt bröst, det gör ont!!"
+
+#, fuzzy
+#~ msgid "Owww. Alright."
+#~ msgstr "Owww... ok."
+
+#~ msgid "PRO: +"
+#~ msgstr "PRO: +"
+
+#~ msgid "Paladin's Sword"
+#~ msgstr "Paladinens svärd"
+
+#~ msgid "Paralysis"
+#~ msgstr "Paralys"
+
+#~ msgid "Party Menu: %s"
+#~ msgstr "Gruppmeny: %s"
+
+#~ msgid "Path to Kalya's house"
+#~ msgstr "Vägen till Kaylas hus"
+
+#~ msgid "Pause: %s"
+#~ msgstr "Pausa: %s"
+
+#~ msgid "Pause: Button"
+#~ msgstr "Pausa: Knapp"
+
+#~ msgid "Pen"
+#~ msgstr "Penna"
+
+#, fuzzy
+#~ msgid "Perfect Wooden Sword"
+#~ msgstr "Perfekt träsvärd"
+
+#~ msgid "Perfect timing, let's have dinner."
+#~ msgstr "Precis i rättan tid, låt oss äta middag."
+
+#~ msgid ""
+#~ "Performs basic medical assistance, healing the target by a minor degree."
+#~ msgstr "Genomför grundläggande livräddning, återställer lite hälsa."
+
+#~ msgid "Periwinkle Potion"
+#~ msgstr "Ljusblå dryck"
+
+#~ msgid "Petrify"
+#~ msgstr "Förstena"
+
+#, fuzzy
+#~ msgid "Phew, this one sure is heavier and more sturdy."
+#~ msgstr "Det här är verkligen tyngre och kraftigare..."
+
+#, fuzzy
+#~ msgid "Phew."
+#~ msgstr "Phew..."
+
+#~ msgid "Phoenix Call"
+#~ msgstr "Fenix rop"
+
+#~ msgid "Phoenix Feather"
+#~ msgstr "Fenixfjäder"
+
+#~ msgid "Phoenix Shield"
+#~ msgstr "Fenixsköld"
+
+#~ msgid "Pincer"
+#~ msgstr "Kniptångsklo"
+
+#~ msgid "Pincers"
+#~ msgstr "Kniptångsklor"
+
+#, fuzzy
+#~ msgid "Places a death counter upon the enemy's head."
+#~ msgstr "Lägger till en dödsnedräkning på en fiende."
+
+#~ msgid "Please no! Wait!"
+#~ msgstr "Snälla nej! Vänta!"
+
+#~ msgid "Please tell me! Have you found it?"
+#~ msgstr "Snälla berätta! Har du hittat den?"
+
+#~ msgid "Poison"
+#~ msgstr "Gift"
+
+#~ msgid "Poison Potion"
+#~ msgstr "Giftdryck"
+
+#~ msgid "Poison Slash"
+#~ msgstr "Förgiftat hugg"
+
+#, fuzzy
+#~ msgid "Poisons an enemy for a small amount of time."
+#~ msgstr "Förgiftar en fiende en stund."
+
+#, fuzzy
+#~ msgid "Poor guy. He must have died from starvation."
+#~ msgstr "Stackars sate... Han måste ha dött av svält."
+
+#~ msgid "Ports"
+#~ msgstr "Portningar"
+
+#~ msgid "Possible actions:"
+#~ msgstr "Möjliga handlingar:"
+
+#~ msgid "Prepare yourself!"
+#~ msgstr "Förbered dig!"
+
+#, fuzzy
+#~ msgid ""
+#~ "Prevents an enemy from succeeding to strike with any physical attacks."
+#~ msgstr "Förhindrar en fiende från att träffa med några fysiska attacker."
+
+#~ msgid "Prevents an enemy from using any magic skills."
+#~ msgstr "Hindrar en fiende från att använda några magiska förmågor."
+
+#, fuzzy
+#~ msgid "Prismatic Ring"
+#~ msgstr "Prismatisk ring"
+
+#~ msgid "Programming, Scripting, Maps"
+#~ msgstr "Programmering, skriptande, kartor"
+
+#~ msgid "Protection"
+#~ msgstr "Skydd"
+
+#~ msgid "Protection (PRO): "
+#~ msgstr "Skydd (PRO):"
+
+#~ msgid "Punch"
+#~ msgstr "Slag"
+
+#~ msgid "Purify"
+#~ msgstr "Rena"
+
+#~ msgid "Quick! Let's follow him."
+#~ msgstr "Fort! Låt oss följa efter."
+
+#, fuzzy
+#~ msgid "Quick, we must go now!"
+#~ msgstr "Fort, vi måste gå nu!!"
+
+#~ msgid "Quit Menu: %s"
+#~ msgstr "Stäng menyn: %s"
+
+#~ msgid "Quit: Button"
+#~ msgstr "Avsluta: Knapp"
+
+#~ msgid "Rage"
+#~ msgstr "Ilska"
+
+#~ msgid "Rain of Arrows"
+#~ msgstr "Pilregn"
+
+#~ msgid "Rat"
+#~ msgstr "Råtta"
+
+#, fuzzy
+#~ msgid "Ready to go up?"
+#~ msgstr "Redo att gå upp? ..."
+
+#~ msgid "Red Slime"
+#~ msgstr "Rött slem"
+
+#~ msgid "Regen"
+#~ msgstr "Regenerera"
+
+#, fuzzy
+#~ msgid "Reinforced Wooden Sword"
+#~ msgstr "Förstärkt träsvärd"
+
+#~ msgid ""
+#~ "Removes any status effect, elemental effect, and active spell on an enemy."
+#~ msgstr ""
+#~ "Tar bort alla statuseffekter, elementareffekter och aktiva besvärjelser "
+#~ "på en fiende."
+
+#~ msgid "Restores a large amount of hit points to an ally."
+#~ msgstr "Återställer en stor mängd hälsopoäng."
+
+#~ msgid "Restores a large amount of skill points to an ally."
+#~ msgstr "Återställer en stor mängd färdighetspoäng."
+
+#~ msgid "Restores a reasonable amount of hit points to an ally."
+#~ msgstr "Återställer en halvstor mängd hälsopoäng."
+
+#~ msgid "Restores a reasonable amount of skill points to an ally."
+#~ msgstr "Återställer en medelstor mängd färdighetspoäng."
+
+#~ msgid "Restores a small amount of hit points to an ally."
+#~ msgstr "Återställer en mindre mängd hälsopoäng."
+
+#~ msgid "Restores a small amount of skill points to an ally."
+#~ msgstr "Återställer en liten mängd färdighetspoäng."
+
+#~ msgid "Restores a very high amount of hit points to an ally."
+#~ msgstr "Återställer en väldigt stor mängd hälsopoäng."
+
+#~ msgid "Restores a very high amount of skill points to an ally."
+#~ msgstr "Återställer en väldigt stor mängd färdighetspoäng."
+
+#, fuzzy
+#~ msgid "Restores the health of an ally."
+#~ msgstr "Återställer en persons hälsa."
+
+#, fuzzy
+#~ msgid ""
+#~ "Revives a character to half of their hit points, or reasonably improves "
+#~ "the character's status while he/she is alive."
+#~ msgstr ""
+#~ "Återuppliva en person med hälften av dess hälsa återställd, eller "
+#~ "förbättra en levande persons status."
+
+#, fuzzy
+#~ msgid ""
+#~ "Revives a character, or improves the character's status when he/she is "
+#~ "alive by a limited degree."
+#~ msgstr ""
+#~ "Återuppliva en person, eller förbättra en levande personens status "
+#~ "litegrann."
+
+#~ msgid "Revives a fallen ally."
+#~ msgstr "Återuppliva en fallen kamrat."
+
+#~ msgid "Revives all allies."
+#~ msgstr "Återupplivar alla allierade."
+
+#, fuzzy
+#~ msgid "Revives an ally, restoring all of their HP and SP."
+#~ msgstr "Återupplivar en person samt återställer alla HP och SP."
+
+#~ msgid "Right!"
+#~ msgstr "Javisst!"
+
+#~ msgid "Riverbank"
+#~ msgstr "Flodstranden"
+
+#~ msgid "Robust wooden oak protects from all but the heaviest of assaults."
+#~ msgstr "Rubust eksköld som skyddar mot allt utom de tyngsta attackerna."
+
+#~ msgid "Rock Fall"
+#~ msgstr "Fallande sten"
+
+#~ msgid "Rocks fall on an enemy."
+#~ msgstr "Stenar faller på en fiende."
+
+#~ msgid "Rookie Tunic"
+#~ msgstr "Nybörjartunika"
+
+#~ msgid "Royal Silk"
+#~ msgstr "Regalt siden"
+
+#, fuzzy
+#~ msgid "Rrrr, Bronann. Just listen."
+#~ msgstr "Grrr... Bronann. Lyssna bara."
+
+#~ msgid "Run / Cancel: %s"
+#~ msgstr "Spring / Avbryt: %s"
+
+#~ msgid "SP"
+#~ msgstr "SP"
+
+#~ msgid "SP: "
+#~ msgstr "SP:"
+
+#~ msgid "SP: +"
+#~ msgstr "SP: +"
+
+#~ msgid "STR: +"
+#~ msgstr "STR: +"
+
+#~ msgid ""
+#~ "Sad theme\n"
+#~ "\n"
+#~ "Mountain music\n"
+#~ "\n"
+#~ "Mountain Shrine music\n"
+#~ "\n"
+#~ "Special Boss"
+#~ msgstr ""
+#~ "Sorligt tema\n"
+#~ "\n"
+#~ "Bergsmusik\n"
+#~ "\n"
+#~ "Bergstempelmusik\n"
+#~ "\n"
+#~ "Specialboss"
+
+#~ msgid "Say sis, do you think Herth will be angry at me for what happened?"
+#~ msgstr "Så syrran, tror du att Herth kommer att vara arg på mig?"
+
+#, fuzzy
+#~ msgid "Say, mom? Why is the village entrance blocked?"
+#~ msgstr "Hmm, en fråga mamma? Varför har ingången till byn blockerats?"
+
+#~ msgid "Scorpion"
+#~ msgstr "Skorpion"
+
+#~ msgid "Scorpion Goliath"
+#~ msgstr "Jätteskorpinion"
+
+#~ msgid "See?"
+#~ msgstr "Ser du?"
+
+#~ msgid "See? Now, let's find my brother before he gets hurt."
+#~ msgstr "Förstår du? Nu, låt oss hitta min bror innan han råkar skada sig."
+
+#~ msgid "Severely decreases several random stats of an enemy."
+#~ msgstr "Minskar kraftig en slumpmässig egenskap hos en fiende."
+
+#, fuzzy
+#~ msgid "Shall I repeat all that?"
+#~ msgstr "Vill du höra det en gång till?"
+
+#~ msgid "Shall I repeat?"
+#~ msgstr "Vill du höra det en gång till?"
+
+#~ msgid "Shall we go in?"
+#~ msgstr "Ska vi gå in?"
+
+#~ msgid "Shall we jump?"
+#~ msgstr "Ska vi hoppa?"
+
+#~ msgid "Shall you find it, I would be extremely obliged to you!"
+#~ msgstr "Skulle du hitta den, så kommer jag vara förevigt i skuld!"
+
+#~ msgid "Shall you find it, I would be extremely obliged!"
+#~ msgstr "Skulle du hitta den, så skulle jag stå i skuld till dig!"
+
+#~ msgid "Shell"
+#~ msgstr "Skal"
+
+#~ msgid "Shield"
+#~ msgstr "Sköld"
+
+#~ msgid "Shift"
+#~ msgstr "Shift"
+
+#~ msgid "Shop"
+#~ msgstr "Butik"
+
+#~ msgid "Shouldered Breastplate"
+#~ msgstr "Bröstharnesk med axelskydd"
+
+#~ msgid "Shroom"
+#~ msgstr "Svamp"
+
+#~ msgid "Silence"
+#~ msgstr "Tystnad"
+
+#~ msgid "Simple but fairly good leather boots."
+#~ msgstr "Enkla och ganska gedigna stövlar i läder."
+
+#~ msgid "Single Shot"
+#~ msgstr "Enkelskott."
+
+#~ msgid "Sis!"
+#~ msgstr "Syrran!"
+
+#, fuzzy
+#~ msgid "Sis! They're in front of the house!"
+#~ msgstr "Syrran!! De är framför huset!"
+
+#~ msgid "Sis! What's the matter? What happened?"
+#~ msgstr "Syrran! Hur är det med dig? Vad händer?"
+
+#, fuzzy
+#~ msgid "Sis'!"
+#~ msgstr "syrran'!"
+
+#~ msgid "Skeleton"
+#~ msgstr "Skelett"
+
+#~ msgid "Slime Mother"
+#~ msgstr "Slemmoder"
+
+#~ msgid "Slot 2"
+#~ msgstr "Plats 2"
+
+#~ msgid "Slot 3"
+#~ msgstr "Plats 3"
+
+#~ msgid "Slot 4"
+#~ msgstr "Plats 4"
+
+#~ msgid "Slot 5"
+#~ msgstr "Plats 5"
+
+#~ msgid "Slot 6"
+#~ msgstr "Plats 6"
+
+#~ msgid "Slow"
+#~ msgstr "Sakta"
+
+#~ msgid "Small Moon Juice Potion"
+#~ msgstr "Liten månjuicedryck"
+
+#~ msgid "Snake"
+#~ msgstr "Orm"
+
+#, fuzzy
+#~ msgid ""
+#~ "So long as the little arrows there are still visible, you can change the "
+#~ "selected action at any time."
+#~ msgstr ""
+#~ "Sålänge som pilarna är synliga, så kan du ändra den valda handlingen."
+
+#, fuzzy
+#~ msgid "So that's how you help, by selling things to us..."
+#~ msgstr "Så det är så du vill hjälpa till, genom att sälja saker..."
+
+#, fuzzy
+#~ msgid "So, here we have a gentleman! I'll start with you, then."
+#~ msgstr "Så, vi har en gentleman! Låt mig börja med dig då..."
+
+#, fuzzy
+#~ msgid "So, it appears that you remember me, Banesore. Is that correct?"
+#~ msgstr "Så... det verkar som att du kommer ihåg mig Banesore. Stämmer det?"
+
+#, fuzzy
+#~ msgid "So, the crystal is inside me?"
+#~ msgstr "Så kristallen är inuti mig??"
+
+#, fuzzy
+#~ msgid "So, you think you can wound me?"
+#~ msgstr "Så... Du tror att du kan skada mig?"
+
+#~ msgid "Soldier"
+#~ msgstr "Soldat"
+
+#~ msgid "Soldier Sword"
+#~ msgstr "Soldatsvärd"
+
+#, fuzzy
+#~ msgid "Soldiers wearing black armor... the Lord's personal guard!"
+#~ msgstr "Soldater i svart rustning. Hertigens personliga livvakt!"
+
+#~ msgid "Soldiers! Give them a few minutes before starting the chase."
+#~ msgstr "Soldater! Ge dem några minuter innan ni tar upp jakten."
+
+#, fuzzy
+#~ msgid ""
+#~ "Some say it is haunted. It was sealed a long time ago, long before I was "
+#~ "even born."
+#~ msgstr ""
+#~ "Vissa påstår att det är hemsökt... Det var blev nerstängt för länge "
+#~ "sedan, långt innan jag ens var född."
+
+#~ msgid ""
+#~ "Somebody left a note on purpose here. According to it, we need to find "
+#~ "out a way to trigger the waterfall from the highest floor."
+#~ msgstr ""
+#~ "Någon lämnade en lapp med flit här. Enligt den så kan vi hitta en väg ut "
+#~ "genom att sätta igång vattenfallet på översta våningen."
+
+#, fuzzy
+#~ msgid "Somehow. I'm not sure how I am able to, but I can read it."
+#~ msgstr ""
+#~ "På något sätt... Jag är inte säker på hur jag gör det, men jag kan läsa "
+#~ "den."
+
+#, fuzzy
+#~ msgid "Someone brave enough to jump between it and my brother."
+#~ msgstr "... någon som är modig nog att hoppa mellan den och min bror..."
+
+#, fuzzy
+#~ msgid "Something heavy seems to have fallen nearby."
+#~ msgstr "... Något tungt verkar ha fallit i närheten."
+
+#, fuzzy
+#~ msgid "Something is preventing me from entering."
+#~ msgstr "Något hindrar mig från att gå in ..."
+
+#, fuzzy
+#~ msgid "Something's burning."
+#~ msgstr "Något brinner..."
+
+#~ msgid "Sonic Wind"
+#~ msgstr "Ljudvind"
+
+#~ msgid "Sophia"
+#~ msgstr "Sophia"
+
+#, fuzzy
+#~ msgid ""
+#~ "Sophia could be of great help, Kalya. The passage has collapsed, and "
+#~ "we're stuck finding a way through this dreadful place."
+#~ msgstr ""
+#~ "Sophia skulle kunna vara till väldigt stor hjälp Kalya. Passagen har "
+#~ "kollapsat, och vi måste hitta en väg genom det här hemska stället..."
+
+#, fuzzy
+#~ msgid "Sophia's Items"
+#~ msgstr "Sophias saker"
+
+#, fuzzy
+#~ msgid "Sophia, you're here?"
+#~ msgstr "Sophia, är du där?"
+
+#~ msgid "Sorry, son. It's maybe a bit early, but I'd like you to be careful."
+#~ msgstr "Ledsen grabben. "
+
+#~ msgid ""
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Soundtrack composer\n"
+#~ "\n"
+#~ "Music and sound lead, Soundtrack composer\n"
+#~ "\n"
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Sound mixer\n"
+#~ "\n"
+#~ "Soundtrack composer"
+#~ msgstr ""
+#~ "Ljudkompositör\n"
+#~ "\n"
+#~ "Ljudspårskompositör\n"
+#~ "\n"
+#~ "Musik- och ljudkoordinator, Ljudspårskompositör\n"
+#~ "\n"
+#~ "Ljudkompositör\n"
+#~ "\n"
+#~ "Ljudkompositör\n"
+#~ "\n"
+#~ "Ljudmixer\n"
+#~ "\n"
+#~ "Ljudspårskompositör"
+
+#~ msgid "Sounds"
+#~ msgstr "Ljud"
+
+#~ msgid "Space"
+#~ msgstr "Mellanslag"
+
+#~ msgid "Spider"
+#~ msgstr "Spindel"
+
+#, fuzzy
+#~ msgid "Spinning knuckle attack that deals wind damage."
+#~ msgstr "Roterande knogattack som gör vindskada."
+
+#, fuzzy
+#~ msgid ""
+#~ "Spirit of the dark. It can't be possessed: it only chose to be possessed, "
+#~ "waiting for its hour."
+#~ msgstr ""
+#~ "Mörkrets ande. Den kan inte besättas, den väljer att bli besatt, "
+#~ "väntandes på rätt tillfälle..."
+
+#~ msgid "Squirrel"
+#~ msgstr "Ekorre"
+
+#~ msgid "Standard Greaves"
+#~ msgstr "Standardbenskenor"
+
+#~ msgid ""
+#~ "Standard Karlate issued equipment. Effectively protects the torso from "
+#~ "most types of attack."
+#~ msgstr ""
+#~ "Standardutrustning från Karlate. Skyddar effektivt bålen mot de flesta "
+#~ "attacker."
+
+#~ msgid ""
+#~ "Standard equipment. Light metal alloy protects the legs while minimizing "
+#~ "the negative impact on movement."
+#~ msgstr ""
+#~ "Del av standardutrustningen. Tillverkade av en lättmetallegering som "
+#~ "hindrar förflyttning minimalt."
+
+#~ msgid ""
+#~ "Standard greaves that have undergone an additional tempering process, "
+#~ "increasing their durability and strength."
+#~ msgstr ""
+#~ "Ett par standardbenskenor som har blivit härdade ytterligare, vilket ökar "
+#~ "deras slittålighet och styrka."
+
+#~ msgid ""
+#~ "Standard soldier sword. A light weight iron sword suitable for most "
+#~ "skirmishes."
+#~ msgstr ""
+#~ "Standard soldatsvärd. Ett lätt järnsvärd som passar de flesta tillfällena."
+
+#~ msgid "Steal Song"
+#~ msgstr "Stöldsång"
+
+#~ msgid "Steals HP from an enemy."
+#~ msgstr "Stjäler HP från en fiende."
+
+#~ msgid "Steals both physical and magical defense of an ally."
+#~ msgstr "Stjäl både fysiskt och magiskt skydd från en allierad."
+
+#~ msgid ""
+#~ "Steals both the physical and magical defense of all enemies and gives it "
+#~ "to the party."
+#~ msgstr ""
+#~ "Stjäl fysiskt och magiskt skydd från alla fiender och ger det till "
+#~ "gruppen."
+
+#~ msgid "Steals positive effects from an enemy."
+#~ msgstr "Stjäl positiva effekter från fienden."
+
+#, fuzzy
+#~ msgid "Steals skill points from an enemy."
+#~ msgstr "Stjäler färdighetspoäng från en fiende."
+
+#~ msgid ""
+#~ "Still, I have to go there and figure out what they're trying to hide from "
+#~ "me."
+#~ msgstr ""
+#~ "Men, jag måste försöka lista ut vad det är som de försöker gömmer för mig."
+
+#~ msgid "Stone sign"
+#~ msgstr "Stentecken"
+
+#~ msgid "Stop"
+#~ msgstr "Stanna"
+
+#~ msgid "Stop laughing now or I'll smash your little head against that wall!"
+#~ msgstr ""
+#~ "Sluta skratta genast, annars krossar jag ditt ansikte mot den där väggen!"
+
+#, fuzzy
+#~ msgid "Stops an enemy from taking any actions for quite a long time."
+#~ msgstr "Stannar en fiende ganska länge."
+
+#~ msgid "Storm"
+#~ msgstr "Storm"
+
+#~ msgid "Story"
+#~ msgstr "Handling"
+
+#~ msgid "Strength"
+#~ msgstr "Styrka"
+
+#~ msgid "Strength (STR): "
+#~ msgstr "Styrka (STR):"
+
+#~ msgid "Stun"
+#~ msgstr "Chocka"
+
+#~ msgid "Stun Strike"
+#~ msgstr "Förlamande slag"
+
+#~ msgid "Stuns an enemy."
+#~ msgstr "Chockar en fiende."
+
+#~ msgid "Stygian Lizard"
+#~ msgstr "Stygiansk ödla"
+
+#~ msgid "Sun Haze"
+#~ msgstr "Soldis"
+
+#~ msgid "Sure grandma."
+#~ msgstr "Visst mormor."
+
+#~ msgid "Sure, I'll help you. But only if you can catch me!"
+#~ msgstr "Visst, jag kan hjälpa dig. Men bara om du fångar mig!"
+
+#~ msgid "Sure, just ask."
+#~ msgstr "Visst, det är bara att fråga."
+
+#~ msgid "Sword Breaker"
+#~ msgstr "Svärdsbrytare"
+
+#~ msgid "Sword Slash"
+#~ msgstr "Svärdshugg"
+
+#~ msgid "Sylphid"
+#~ msgstr "Sylfid"
+
+#~ msgid "Sylve"
+#~ msgstr "Sylve"
+
+#~ msgid "Tail"
+#~ msgstr "Svans"
+
+#, fuzzy
+#~ msgid "Take it. Thanks."
+#~ msgstr "Du får den... tackar."
+
+#~ msgid "Tempered Greaves"
+#~ msgstr "Härdade benskenor"
+
+#~ msgid "Temporarily increases the strength of all allies."
+#~ msgstr "Ökar temporärt styrkan på alla i gruppen."
+
+#~ msgid "Terrify"
+#~ msgstr "Skräckslå"
+
+#~ msgid "Tester Team"
+#~ msgstr "testlaget"
+
+#~ msgid "Testers"
+#~ msgstr "Testare"
+
+#~ msgid "Thanis"
+#~ msgstr "Thanis"
+
+#, fuzzy
+#~ msgid "Thank the goddess you're all safe and sound. I was worried sick!"
+#~ msgstr "Tacka gudinnan! Ni är alla vid god hälsa... jag förgicks av oro!"
+
+#, fuzzy
+#~ msgid "Thank the goddess."
+#~ msgstr "Tacka gudinnan..."
+
+#~ msgid "Thank you, indeed."
+#~ msgstr "Tackar så mycket."
+
+#~ msgid "Thank you, young one."
+#~ msgstr "Tackar, yngling."
+
+#~ msgid "Thanks Kalya, I'm prepared now."
+#~ msgstr "Tack Kalya, jag är förbered nu."
+
+#~ msgid "Thanks anyway, Sophia."
+#~ msgstr "Tack ändå, Sophia."
+
+#~ msgid "Thanks dad, we'll find him in no time."
+#~ msgstr "Tackar pappa, vi kommer att hitta honom på nolltid."
+
+#~ msgid "Thanks for helping me out with the dishes."
+#~ msgstr "Tack för att du hjälpte till med disken."
+
+#~ msgid "Thanks for playing!!"
+#~ msgstr "Tack för att du spelar!!"
+
+#, fuzzy
+#~ msgid "Thanks for your help."
+#~ msgstr "Tack för din hjälp där ..."
+
+#~ msgid ""
+#~ "Thanks to everyone\n"
+#~ "who made this possible!!"
+#~ msgstr ""
+#~ "Tack alla som\n"
+#~ "gjorde det här möjligt!"
+
+#~ msgid "Thanks, Lilly."
+#~ msgstr "Tack, Lilly."
+
+#, fuzzy
+#~ msgid "Thanks..."
+#~ msgstr "Tackar ..."
+
+#, fuzzy
+#~ msgid "That kid is pretty quick. This is going to take all day."
+#~ msgstr "Den där ungen är granska snabb. Det här kommer att ta hela dan..."
+
+#, fuzzy
+#~ msgid "That sign, it is the sign of the ancients! Bronann! Are you alright?"
+#~ msgstr "Det tecknet... det är de urgamlas tecken! ... Bronann! Mår du bra?"
+
+#, fuzzy
+#~ msgid "That was close."
+#~ msgstr "Det var nära..."
+
+#, fuzzy
+#~ msgid ""
+#~ "That will be the case only in certain areas. Here in the village, you'll "
+#~ "be the one leading, or at least you may believe that."
+#~ msgstr ""
+#~ "Men det kommer bara att gälla vissa områden. Här i byn så kommer det vara "
+#~ "du som leder, eller du kommer i varje fall att tro det..."
+
+#, fuzzy
+#~ msgid "That's because he's not our father."
+#~ msgstr "Det är för att han inte är vår pappa..."
+
+#, fuzzy
+#~ msgid "That's it."
+#~ msgstr "Så är det..."
+
+#~ msgid ""
+#~ "That's the point! Can't you hear the magnificent sound of nature, so "
+#~ "invisible to our adapted ears?"
+#~ msgstr ""
+#~ "Det är det som är poängen! Kan du inte höra det magnifika ljudet från "
+#~ "naturen, så omärkligt för våra moderna öron?"
+
+#~ msgid ""
+#~ "The bridge is a few feet away. Let's reach the mountain pass before the "
+#~ "frost kills us."
+#~ msgstr ""
+#~ "Bron är några meter bort. Låt oss hinna fram till bergspasset innan kylan "
+#~ "tar oss."
+
+#~ msgid "The crystal chose me? But I'm just..."
+#~ msgstr "Kristallen valde mig? Men jag är bara..."
+
+#, fuzzy
+#~ msgid "The crystal! Orlinn! Let's stand back!"
+#~ msgstr "Kristallen!! ... Orlinn!! Lite säkerhetsavstånd!"
+
+#, fuzzy
+#~ msgid ""
+#~ "The dark soldiers, as we call them, are fanatics. They'll follow "
+#~ "Banesore's orders even if it means their death."
+#~ msgstr ""
+#~ "De mörka soldaterna, som vi kallar dem, är fanatiker. De kommer att följa "
+#~ "Banesores order även om det innebär döden för dem."
+
+#, fuzzy
+#~ msgid ""
+#~ "The fact is, you and I cannot afford to stand on those stones. Maybe with "
+#~ "a rope?"
+#~ msgstr ""
+#~ "Faktum är, att du och jag inte kommer lyckas stå på de där stenarna. "
+#~ "Kanske med ett rep?"
+
+#~ msgid ""
+#~ "The fact you didn't mention anything about the boy leads me to believe "
+#~ "that you know him."
+#~ msgstr ""
+#~ "Faktumet att du inte sa något om pojken leder mig till att tro att du "
+#~ "känner honom."
+
+#~ msgid "The former villagers? What do you mean?"
+#~ msgstr "De gamla byborna? Vad menar du?"
+
+#~ msgid "The gate to the great plains..."
+#~ msgstr "Porten till slättmarkerna..."
+
+#, fuzzy
+#~ msgid ""
+#~ "The icon will still need to climb to the top of the stamina bar before "
+#~ "the selected action is executed. This is called the 'preparation time'. "
+#~ "Generally the more powerful the skill being executed, the longer it will "
+#~ "take to prepare."
+#~ msgstr ""
+#~ "Symbolen kommer att färdas till toppen av uthållighetsmätaren innan "
+#~ "handlingen utförs. Det kallas för förberedelsetiden. Desto starkare "
+#~ "förmåga, desto längre tid tar den att förbereda."
+
+#, fuzzy
+#~ msgid "The master won't be happy with this."
+#~ msgstr "Mästaren kommer inte vara glad över det här..."
+
+#, fuzzy
+#~ msgid ""
+#~ "The ones being few or many, still each of them will have to prove "
+#~ "themselves as it is ought to be."
+#~ msgstr ""
+#~ "Oberoende om de utvalda är en eller flera, så måste var och en av dem "
+#~ "bevisa sin värdighet, precis som det borde vara..."
+
+#~ msgid "The party drinks the water and feels... alright?"
+#~ msgstr "Gruppen dricker vattnet och känner sig... som vanligt?"
+
+#~ msgid "The party won't drink it."
+#~ msgstr "Gruppen dricker det inte."
+
+#, fuzzy
+#~ msgid ""
+#~ "The path seems to lead straight into the storm up there. It's definitely "
+#~ "our lucky day."
+#~ msgstr ""
+#~ "Vägen verkar leda rakt in i det där stormen där uppe. Det är definitivt "
+#~ "vår dag idag..."
+
+#~ msgid ""
+#~ "The soldiers will be here any minute. We'll leave to the north and cross "
+#~ "the north-west plain up to..."
+#~ msgstr ""
+#~ "Soldaterna kommer att komma hit vilken minut som helst. Vi måste lämna "
+#~ "nordlandet och korsa den nordvästra steppen upp till..."
+
+#~ msgid "The west gate is condemned, as the Lord commanded."
+#~ msgstr "Den västra grinden är nerstängd, som hertigen beordrade."
+
+#~ msgid "The wind slashes an enemy."
+#~ msgstr "Vinden skär en fiende."
+
+#, fuzzy
+#~ msgid "The wolf! The crystal! Orlinn! Are you ok?"
+#~ msgstr "... Ulven! Kristallen! Orlinn! Mår du bra?? ..."
+
+#~ msgid ""
+#~ "Their strength is increased by the transformation. That's why we call "
+#~ "them the zombified army."
+#~ msgstr ""
+#~ "Deras styrka ökar av transformationen. Det är därför som vi kallare det "
+#~ "den zombifierade armen."
+
+#, fuzzy
+#~ msgid "Then I'll deal with them, sis. We can't just stay here, anyway."
+#~ msgstr ""
+#~ "Då kan jag ta hand om dem syrran. Vi kan ändå inte bara stanna här..."
+
+#, fuzzy
+#~ msgid "Then, I'll help you."
+#~ msgstr "Då kommer jag hjälpa dig..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Then, you already know that your zombified soldiers are no match for me."
+#~ msgstr ""
+#~ "Då vet du redan att dina odöda soldater inte har någon chans mot mig..."
+
+#, fuzzy
+#~ msgid ""
+#~ "There are signs engraved on this rock, too. This looks like some kind of "
+#~ "mechanism my family used long ago."
+#~ msgstr ""
+#~ "Det finns tecken inristade i den här stenen också. Det här ser ut som en "
+#~ "sorts mekanism min familj brukade använda för länge sedan..."
+
+#, fuzzy
+#~ msgid ""
+#~ "There are two action types: The basic 'Weapon' to attack, and later you "
+#~ "can also use 'Magic' skills. Last but not least, you'll also be able to "
+#~ "use our 'Items'. Simply choose an action followed by a target to trigger "
+#~ "it."
+#~ msgstr ""
+#~ "Det finns flera sorters handlingar: Den grundläggande 'Vapen' handlingen "
+#~ "och senare 'Magi' handlingar. Sist men inte minst så kan du också välja "
+#~ "'Föremål'. Välj en handling och ett mål för att använda den."
+
+#~ msgid ""
+#~ "There have been some reports of theft in the villages nearby recently."
+#~ msgstr ""
+#~ "Det har varit några rapporter om stölder i närliggande byar senaste tiden."
+
+#~ msgid "There is a note left here."
+#~ msgstr "Det ligger en lapp här."
+
+#, fuzzy
+#~ msgid ""
+#~ "There is a passage here, but I'm too heavy to climb on those stones "
+#~ "jutting out"
+#~ msgstr ""
+#~ "Det finns en passage här, men de där stenarna som sticker ut kommer "
+#~ "aldrig att hålla för min tyngd ..."
+
+#, fuzzy
+#~ msgid "There must be soldiers everywere, we're never gonna make it."
+#~ msgstr ""
+#~ "Det verkar vara soldater överallt, vi kommer aldrig att klara det..."
+
+#, fuzzy
+#~ msgid "There seems to be one of those rolling stones up here."
+#~ msgstr "Det verkar som en av de där rullbara stenarna finns där uppe ..."
+
+#~ msgid "There!"
+#~ msgstr "Där!"
+
+#~ msgid "There's no need to thank me for that. It's my pleasure."
+#~ msgstr "Du behöver inte tacka mig. Det var ett rent nöje."
+
+#, fuzzy
+#~ msgid "Therefore, I'm inclined to ask these questions one last time:"
+#~ msgstr "Därför så skulle jag vilja fråga en sista gång:"
+
+#~ msgid "They are too strong. If they catch us, we're doomed."
+#~ msgstr "De är för starka. Om de fångar oss så är vi dödsdömda."
+
+#, fuzzy
+#~ msgid ""
+#~ "They'll be fine, Bronann. We must prevent Banesore from obtaining the "
+#~ "crystal."
+#~ msgstr ""
+#~ "... De kommer att klara sig Bronann. Vi måste hindra Banesore från att få "
+#~ "tag på kristallen."
+
+#~ msgid "They're coming!"
+#~ msgstr "De kommer!"
+
+#, fuzzy
+#~ msgid ""
+#~ "They're gone. We should move on before they actually find a way to cross "
+#~ "the gap."
+#~ msgstr ""
+#~ "De är borta... Vi borde skynda vidare innan de faktiskt hittar ett sätt "
+#~ "att passera ravinen."
+
+#~ msgid "Thing"
+#~ msgstr "Sak"
+
+#~ msgid "This can only mean we're near the exit!"
+#~ msgstr "Det kan bara betyda att vi är i närheten av utgången!"
+
+#~ msgid ""
+#~ "This circle is a save point. Here, you can save your game by pushing %s."
+#~ msgstr ""
+#~ "Den här cirkeln är en lagringspunkt. Här kan du spara spelet genom att "
+#~ "trycka %s."
+
+#, fuzzy
+#~ msgid "This is her. I heard her voice calling."
+#~ msgstr "Det är henne. Jag hörde hennes röst ropandes..."
+
+#, fuzzy
+#~ msgid "This is the blocked passage to the shrine entrance."
+#~ msgstr "Det är den blockerade ingången till templet..."
+
+#, fuzzy
+#~ msgid ""
+#~ "This place is part of your burden. Herth was right. You managed to come "
+#~ "here all by yourselves, after all."
+#~ msgstr ""
+#~ "Den här platsen är en del av ert problem. Herth hade rätt. Och dessutom "
+#~ "så har ni lyckats ta er ända hit av er själva..."
+
+#, fuzzy
+#~ msgid ""
+#~ "This place is the village's old cemetery. It was used by the former "
+#~ "villagers who lived in Layna."
+#~ msgstr ""
+#~ "Det är är byns gamla kyrkogård, den användes av de gamla byborna som "
+#~ "bodde i Layna..."
+
+#, fuzzy
+#~ msgid "This town has many secrets."
+#~ msgstr "Den här byn har många hemligheter..."
+
+#~ msgid "This water looks weird. Shall we drink it anyway?"
+#~ msgstr "Vattnet ser lite konstigt ut. Ska vi dricka det ändå?"
+
+#~ msgid "Throw stone"
+#~ msgstr "Kasta sten"
+
+#, fuzzy
+#~ msgid ""
+#~ "Thus, let death embrace you, little boy. For your comrades are already "
+#~ "dying under my charm and you need to join them in the other world."
+#~ msgstr ""
+#~ "Så, låt döden omfamna dig pojk, för dina kamrater är redan döende tack "
+#~ "vare mig, och du kommer att återförenas med dem i den andra världen..."
+
+#~ msgid "Time left:"
+#~ msgstr "Tid kvar:"
+
+#, fuzzy
+#~ msgid "Times are becoming harder now. We've got less food than before."
+#~ msgstr "Det går mot hårdare tider. Vi har mindre mat än tidigare..."
+
+#~ msgid "Titanium Ore"
+#~ msgstr "Titanmalm"
+
+#~ msgid "To Lilou and Léo..."
+#~ msgstr "Till Lilou och Léo..."
+
+#~ msgid "To be continued..."
+#~ msgstr "Fortsättning följer..."
+
+#~ msgid "Tornado Punch"
+#~ msgstr "Virvelvindsslag"
+
+#, fuzzy
+#~ msgid ""
+#~ "Touched neither by time nor space, this spirit is dwelling in pure energy."
+#~ msgstr "Påverkad av varken tid eller rum, är denna ande av ren energi."
+
+#~ msgid "Translations"
+#~ msgstr "Översättningar"
+
+#~ msgid "Trident Shield"
+#~ msgstr "Treuddssköld"
+
+#~ msgid "Trunk"
+#~ msgstr "Stam"
+
+#~ msgid "Try to enjoy this day, Bronann."
+#~ msgstr "Försök att njut av dagen, Bronann."
+
+#~ msgid "Tsunami"
+#~ msgstr "Tsunami"
+
+#~ msgid "Tunic"
+#~ msgstr "Tunika"
+
+#~ msgid "Turns an enemy into stone."
+#~ msgstr "Förvandlar en fiende till sten."
+
+#, fuzzy
+#~ msgid "Ummm..."
+#~ msgstr "... Hmmm..."
+
+#~ msgid "Underpass"
+#~ msgstr "Grottgången"
+
+#~ msgid "Undine"
+#~ msgstr "Vattennymf"
+
+#, fuzzy
+#~ msgid "Unfortunately no. I left them behind."
+#~ msgstr "Tyvärr inte. Jag lämnade dem..."
+
+#, fuzzy
+#~ msgid "Unfortunately, I gave it all to Kalya."
+#~ msgstr "Tyvärr så gav jag allt till Kalya..."
+
+#, fuzzy
+#~ msgid "Unfortunately, yes. There is one."
+#~ msgstr "Tyvärr... så finns det ett sätt..."
+
+#, fuzzy
+#~ msgid "Using my rope and ranger skills, of course."
+#~ msgstr "Med mitt rep och min erfarenhet som utbygdsjägare så klart, eh."
+
+#~ msgid "VIG: +"
+#~ msgstr "VIG: +"
+
+#~ msgid "Valyria Tear was forked from Hero of Allacrost in 2011"
+#~ msgstr "Valyria Tear splittrades av från Hero of Allacrost 2011"
+
+#~ msgid ""
+#~ "Various art\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Enemy sprites\n"
+#~ "\n"
+#~ "Map sprites, Map tiles\n"
+#~ "\n"
+#~ "Map tiles, Inventory icons\n"
+#~ "\n"
+#~ "Map tiles, Battle sprites"
+#~ msgstr ""
+#~ "Blandad konst\n"
+#~ "\n"
+#~ "Kartbilder\n"
+#~ "\n"
+#~ "Fiendebilder\n"
+#~ "\n"
+#~ "Kartbilder\n"
+#~ "\n"
+#~ "Kartbilder, Inventarieikoner\n"
+#~ "\n"
+#~ "Kartbilder, Stridsbilder"
+
+#~ msgid ""
+#~ "Video engine, Game engine\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Scripting engine\n"
+#~ "\n"
+#~ "Various code\n"
+#~ "\n"
+#~ "Various code"
+#~ msgstr ""
+#~ "Videomotor, Spelmotor\n"
+#~ "\n"
+#~ "Videomotor\n"
+#~ "\n"
+#~ "Videomotor\n"
+#~ "\n"
+#~ "Skriptmotor\n"
+#~ "\n"
+#~ "Blandad kod\n"
+#~ "\n"
+#~ "Blandad kod"
+
+#~ msgid "Vigor"
+#~ msgstr "Energi"
+
+#~ msgid "Vigor (VIG): "
+#~ msgstr "Energi (VIG):"
+
+#~ msgid "Village center"
+#~ msgstr "Byns mitt"
+
+#~ msgid "Village entrance"
+#~ msgstr "Byporten"
+
+#~ msgid "Village of Layna"
+#~ msgstr "Byn Layna"
+
+#~ msgid ""
+#~ "Village tileset, ...\n"
+#~ "\n"
+#~ "Cemetery tileset, ...\n"
+#~ "\n"
+#~ "Heroes portraits, ...\n"
+#~ "\n"
+#~ "Heroes sprites, Cave tilesets, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "Forest battle backgrounds, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "The Fenrir\n"
+#~ "\n"
+#~ "A lot of various things"
+#~ msgstr ""
+#~ "Bygrafik, ...\n"
+#~ "\n"
+#~ "Kyrkogårdsgrafik, ...\n"
+#~ "\n"
+#~ "Hjälteporträtt, ...\n"
+#~ "\n"
+#~ "Hjältarnas sprites, grottgrafik, ...\n"
+#~ "\n"
+#~ "Stridsbakgrunder i skogen, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "Fenrisulven\n"
+#~ "\n"
+#~ "Mycket annat"
+
+#~ msgid "Volt"
+#~ msgstr "Volt"
+
+#, fuzzy
+#~ msgid "Wait Orlinn! That's not all he wrote."
+#~ msgstr "Vänta Orlinn! Det är inte över ännu..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Wait! There is one more thing. Why are you calling your own father by his "
+#~ "actual name?"
+#~ msgstr ""
+#~ "Vänta! En till fråga... Varför kallar du din pappa för hans riktiga namn?"
+
+#, fuzzy
+#~ msgid "Wait."
+#~ msgstr "Vänta..."
+
+#~ msgid "Wait..."
+#~ msgstr "Vänta..."
+
+#, fuzzy
+#~ msgid "Want to come back?"
+#~ msgstr "Vill du komma tillbaka?"
+
+#~ msgid "War God"
+#~ msgstr "Stridsgud"
+
+#~ msgid "Water"
+#~ msgstr "Vatten"
+
+#~ msgid "Water Circle"
+#~ msgstr "Vattencirkel"
+
+#~ msgid "Water Elemental Strength"
+#~ msgstr "Vattenelementarstyrka"
+
+#~ msgid "Wave"
+#~ msgstr "Våg"
+
+#, fuzzy
+#~ msgid "We can't go back now."
+#~ msgstr "Vi kan inte gå tillbaka nu..."
+
+#, fuzzy
+#~ msgid "We can't move Orlinn."
+#~ msgstr "Vi kan inte röra på oss, Orlinn..."
+
+#, fuzzy
+#~ msgid "We can't move, Orlinn."
+#~ msgstr "Vi kan inte röra på oss, Orlinn..."
+
+#, fuzzy
+#~ msgid ""
+#~ "We didn't know exactly what would happen, Bronann. But we knew one day "
+#~ "the three of you would have to carry a special burden. That is what Herth "
+#~ "told us."
+#~ msgstr ""
+#~ "Vi visste inte exakt vad som skulle ske bronann. Men vi visste att en dag "
+#~ "så kommer ni tre att behöva bära en tung börda... Det är vad Herth sa "
+#~ "till oss..."
+
+#~ msgid ""
+#~ "We don't know how he does it, but he can turn anybody into a servile "
+#~ "subject."
+#~ msgstr ""
+#~ "Vi vet inte hur han lyckas, men han kan få vem som helst att bli en lydig "
+#~ "undersåte."
+
+#, fuzzy
+#~ msgid ""
+#~ "We finally retrieved Orlinn in the center of the forest. A mysterious "
+#~ "wolf was protecting him, and we came just in time to prevent him from "
+#~ "approaching a strange crystal."
+#~ msgstr ""
+#~ "Vi lyckades äntligen hämta hem Orlinn från skogens mitt. En mystisk ulv "
+#~ "skyddade honom, och vi anlände precis i tid för att hindra honom från att "
+#~ "närma sig en konstig kristall..."
+
+#~ msgid "We made it, at last!"
+#~ msgstr "Vi klarade det, äntligen!"
+
+#, fuzzy
+#~ msgid "We made it."
+#~ msgstr "Vi klarade det..."
+
+#~ msgid "We managed to find a way up to the mountain top."
+#~ msgstr "Vi lyckades hitta en väg upp till bergets topp."
+
+#, fuzzy
+#~ msgid "We must absolutely avoid them or they'll call reinforcements."
+#~ msgstr "Vi måste försöka undvika dem, annars så ropar de på understöd."
+
+#, fuzzy
+#~ msgid "We must escape from the soldiers."
+#~ msgstr "Vi måste fly från soldaterna..."
+
+#, fuzzy
+#~ msgid "We shall go now. Good luck, both of you."
+#~ msgstr "Vi måste gå nu... Lycka till, båda två."
+
+#, fuzzy
+#~ msgid ""
+#~ "We won't be able to come back here once we leave. So feel free to pick up "
+#~ "everything you need and prepare yourself."
+#~ msgstr ""
+#~ "Vi kommer inte komma tillbaka hit när vi väl har gett oss av. Så se till "
+#~ "att ta med dig allt du behöver och förbered dig..."
+
+#, fuzzy
+#~ msgid "We'll have to enter the ancient shrine."
+#~ msgstr "Vi måste gå igenom det gamla templet..."
+
+#, fuzzy
+#~ msgid "We'll see each other again, chosen one..."
+#~ msgstr "Vi kommer att ses igen, utvalde..."
+
+#~ msgid "We're all anxiously awaiting your return."
+#~ msgstr "Vi väntar spänt på att du ska återvända."
+
+#~ msgid "We're almost there!"
+#~ msgstr "Vi är nästan framme!"
+
+#~ msgid "We're counting on you."
+#~ msgstr "Vi räknar med dig."
+
+#, fuzzy
+#~ msgid "We're gonna...suffocate."
+#~ msgstr "Vi kommer ... kvävas..."
+
+#, fuzzy
+#~ msgid "We're leaving the village now."
+#~ msgstr "Vi lämnar byn nu..."
+
+#~ msgid "We're trapped!"
+#~ msgstr "Vi är fångade!"
+
+#, fuzzy
+#~ msgid ""
+#~ "We've been having a shortage of food lately. I've been taking... special "
+#~ "measures to ensure that everyone has enough food."
+#~ msgstr ""
+#~ "Vi har haft matbrist senaste tiden. Jag har vidtagit... speciella "
+#~ "åtgärder... för att se till så att alla har nog med mat."
+
+#, fuzzy
+#~ msgid ""
+#~ "Weird, I don't see any lights on in there. I have a bad feeling about "
+#~ "this, let's get back home."
+#~ msgstr ""
+#~ "Konstigt, jag ser inte något ljus där... Det här känns inte helt bra, låt "
+#~ "oss skynda hem..."
+
+#, fuzzy
+#~ msgid "Well anyway, she's been ignoring me since the first day I saw her."
+#~ msgstr ""
+#~ "Hursomhelst, hon har ignorerat mig sedan första gången jag såg henne..."
+
+#, fuzzy
+#~ msgid "Well, here we go."
+#~ msgstr "Nåväl, nu gör vi det..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Well, it's a long story. But in short, I was out of the village when they "
+#~ "caught everyone."
+#~ msgstr ""
+#~ "Nåväl, det är en lång historia... Men den korta versionen är att jag inte "
+#~ "var i byn när de grep alla."
+
+#, fuzzy
+#~ msgid ""
+#~ "Well, let's leave this place before another one wants our lives again."
+#~ msgstr ""
+#~ "... Nåväl, låt oss ta oss härifrån innan något annat försöker döda oss."
+
+#, fuzzy
+#~ msgid ""
+#~ "Well, please stop laughing now. I'm not at ease with what just happened."
+#~ msgstr ""
+#~ "Nåväl, ni kan sluta skratta nu. Snälla, jag är inte bekväm med vad som "
+#~ "just hände..."
+
+#, fuzzy
+#~ msgid "Well, the door is open now."
+#~ msgstr "Nåväl, dörren är öppen nu..."
+
+#, fuzzy
+#~ msgid "What a large gate. What is behind it must be fearsome."
+#~ msgstr ""
+#~ "Vilken stor grind... Det som finns bakom måste vara skräckinjagande..."
+
+#~ msgid "What a lovely necklace! I'll take it."
+#~ msgstr "Vilket fantastiskt halsband! Jag tar det."
+
+#~ msgid "What a nice day, isn't it?"
+#~ msgstr "Vilken vacker dag det är, eller hur?"
+
+#~ msgid "What about the..."
+#~ msgstr "Vad är det med..."
+
+#~ msgid "What am I doing? I should go and try to free Kalya!"
+#~ msgstr "Vad håller jag på med? Jag borde gå och rädda Kalya!"
+
+#~ msgid "What are we waiting for, let's go!"
+#~ msgstr "Vad väntar vi på, kom igen!"
+
+#~ msgid "What are you laughing about, Orlinn?"
+#~ msgstr "Vad skrattar du åt Orlinn?"
+
+#~ msgid "What does all of this mean?"
+#~ msgstr "Vad betyder allt det här?"
+
+#, fuzzy
+#~ msgid "What happened? Orlinn, what have you done?"
+#~ msgstr "Vad hände?? ... Orlinn ... Vad har du gjort? ..."
+
+#~ msgid "What is it, Bronann?"
+#~ msgstr "Vad är det Bronann?"
+
+#, fuzzy
+#~ msgid "What is it, Kalya?"
+#~ msgstr "... Vad är det Kalya?"
+
+#, fuzzy
+#~ msgid "What is this? Skeletons?!"
+#~ msgstr "Vad är det här? ... Skelett?!"
+
+#~ msgid "What was that crystal? Why did you want to 'become one' with it?"
+#~ msgstr "Vad var det där för kristall? Varför ville du 'bli ett' med den?"
+
+#, fuzzy
+#~ msgid "What! Orlinn, no!"
+#~ msgstr "Vad! Orlinn, nej!"
+
+#, fuzzy
+#~ msgid "What's happening here?! Where is everyone?"
+#~ msgstr "Vad har hänt här?!? Var är alla??"
+
+#, fuzzy
+#~ msgid "What's happening!?"
+#~ msgstr "Vad händer!?!"
+
+#, fuzzy
+#~ msgid "What's so funny, Kalya? Hi hi."
+#~ msgstr "Vad är så roligt Kalya? Eh eh."
+
+#~ msgid "What's that?!"
+#~ msgstr "Vad är det?!"
+
+#, fuzzy
+#~ msgid "What's with this 'ancient shrine'?"
+#~ msgstr "... Vad är grejen med det här gamla templet?"
+
+#~ msgid "What?"
+#~ msgstr "Vad?"
+
+#, fuzzy
+#~ msgid "What? Are you crazy? There could be monsters up there."
+#~ msgstr "Vad? Är du galen? Det skulle kunna vara monster där uppe."
+
+#~ msgid "What? But one minute ago you said..."
+#~ msgstr "Vad? Men för en minut sedan så sa du..."
+
+#~ msgid "What? No!"
+#~ msgstr "Vad? Nej!"
+
+#~ msgid "What?!"
+#~ msgstr "Vad?!"
+
+#~ msgid "What?! You mean you all knew about the crystal?"
+#~ msgstr "Vad?! Du menar att han kände till kristallen?"
+
+#, fuzzy
+#~ msgid "When I catch you, I'll make you wish you were never born! Rahh!"
+#~ msgstr ""
+#~ "När jag fångar dig så kommer du att önska att du aldrig har blivit född! "
+#~ "Rahh!"
+
+#~ msgid ""
+#~ "When I saw you leaving the village to the sanctuary, I decided to follow "
+#~ "you."
+#~ msgstr ""
+#~ "När jag såg att du lämnade byn och gå upp mot templet så beslutade jag "
+#~ "mig för att följa efter."
+
+#~ msgid "Where is Orlinn?"
+#~ msgstr "Var är Orlinn?"
+
+#, fuzzy
+#~ msgid "Where is the crystal? Where is the boy?"
+#~ msgstr "Var är kristallen? Var är... pojken?"
+
+#~ msgid "Where it all began..."
+#~ msgstr "Där allt startade..."
+
+#~ msgid "Whirlwind"
+#~ msgstr "Virvelvind"
+
+#~ msgid "Who are the little brats now, eh?"
+#~ msgstr "Vilka är skitungarna nu va?"
+
+#~ msgid "Who's there?"
+#~ msgstr "Vem där?"
+
+#, fuzzy
+#~ msgid "Why doesn't anyone tell me what's going on!"
+#~ msgstr "Varför vill ingen berätta för mig vad som är på gång!!"
+
+#, fuzzy
+#~ msgid "Why the hell..."
+#~ msgstr "Varför i hela helvetet ...?"
+
+#~ msgid "Why was that giant wolf protecting you?"
+#~ msgstr "Varför beskyddade den där enorma ulven dig?"
+
+#, fuzzy
+#~ msgid "Why? Oh, don't tell me. He's hiding somewhere."
+#~ msgstr "Varför? ... Oh, säg det inte. Han gömmer sig någonstanns."
+
+#~ msgid "Wind"
+#~ msgstr "Vind"
+
+#~ msgid "Wind Circle"
+#~ msgstr "Vindcirkel"
+
+#~ msgid "Wind Elemental Strength"
+#~ msgstr "Vindelementarstyrka"
+
+#~ msgid "Wing"
+#~ msgstr "Vinge"
+
+#, fuzzy
+#~ msgid ""
+#~ "Woah, I wouldn't have expected monsters so close to the village. Bronann, "
+#~ "do you need a quick reminder about the basics of battle?"
+#~ msgstr ""
+#~ "Woah, jag förväntade mig inte monster så nära byn. Bronann, behöver du en "
+#~ "snabb genomgång av grundläggande strid?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Woah, that was quite a nasty fight. Why on earth was a north arctic "
+#~ "fenrir lurking in the forest? I thought it was merely a part of myths."
+#~ msgstr ""
+#~ "Woah, det var en svår strid. Varför i hela världen gömde sig en nordisk "
+#~ "fenris i skogen? Jag trodde att den var mytologisk."
+
+#~ msgid "Woah, wait!"
+#~ msgstr "Woah, vänta!"
+
+#~ msgid "Woah, where am I?"
+#~ msgstr "Woah, var är jag?"
+
+#~ msgid "Wolf Pain"
+#~ msgstr "Vargsmärta"
+
+#~ msgid "Wolfpain Necklace"
+#~ msgstr "Vargsmärtehalsband"
+
+#~ msgid "Wooden Shield"
+#~ msgstr "Träsköld"
+
+#~ msgid "Wooden Sword"
+#~ msgstr "Träsvärd"
+
+#~ msgid "Wow!"
+#~ msgstr "Wow!"
+
+#~ msgid "Wow! You found me!"
+#~ msgstr "Wow! Du hittade mig!"
+
+#~ msgid "Wow, do you think that they would come here?"
+#~ msgstr "Oj, tror du att de kommer att komma hit också?"
+
+#, fuzzy
+#~ msgid "Wow, what a fall. I didn't see that one coming."
+#~ msgstr "Wow, vilket fall... det här kunde jag inte förutse."
+
+#~ msgid "X-Strike"
+#~ msgstr "Krysslag"
+
+#~ msgid "XP left: "
+#~ msgstr "Erf kvar:"
+
+#, fuzzy
+#~ msgid "Yea, yes, here it is."
+#~ msgstr "Ja... Ja, här är det."
+
+#~ msgid "Yes"
+#~ msgstr "Ja"
+
+#~ msgid "Yes!"
+#~ msgstr "Ja!"
+
+#~ msgid "Yes! I can feel it coming closer to the surface!"
+#~ msgstr "Ja! Jag känner hur det kommer närmare ytan!"
+
+#~ msgid "Yes, I'm so thirsty."
+#~ msgstr "Ja, jag är så törstig."
+
+#~ msgid "Yes, Lilly. But I have something I have to ask you."
+#~ msgstr "Ja, Lilly. Men jag har en fråga."
+
+#, fuzzy
+#~ msgid "Yes, and let's do it quickly."
+#~ msgstr "Ja, och låt oss göra det snabbt..."
+
+#~ msgid "Yes, he took Georges pen and I need to give it back to him..."
+#~ msgstr "Ja, han tog Georges penna och jag behöver lämna tillbaka den..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Yes, it's a great privilege as I usually don't do such things for "
+#~ "children. I'll stay here as long as you are stuck, isn't this quite nice?"
+#~ msgstr ""
+#~ "Ja, det är ett stort privilegium då jag normalt sett inte handlar med "
+#~ "barn. Jag stannar här medans ni är fast, det är väl ganska ärligt?"
+
+#~ msgid "Yes, let's end this."
+#~ msgstr "Ja, låt oss avsluta det här."
+
+#~ msgid "Yes, let's go."
+#~ msgstr "Ja, låt oss."
+
+#~ msgid "Yes, my Lord!"
+#~ msgstr "Ja, Hertigen!"
+
+#~ msgid "Yes, please!"
+#~ msgstr "Ja, gärna!"
+
+#, fuzzy
+#~ msgid "Yes, please."
+#~ msgstr "Ja, tack..."
+
+#, fuzzy
+#~ msgid "Yes, sir."
+#~ msgstr "Ja chefen..."
+
+#, fuzzy
+#~ msgid "Yes. I'm sorry I wasn't able to protect myself, sis."
+#~ msgstr "Ja, jag är ledsen att jag inte lyckades skydda mig själv, syrran."
+
+#, fuzzy
+#~ msgid "Yes. Is it... smoke?"
+#~ msgstr "... Ja... Är det... rök?"
+
+#, fuzzy
+#~ msgid "Yes. It's a miracle that you were kept away from harm."
+#~ msgstr "Ja, det är ett mirakel att du inte har blivit skadad."
+
+#~ msgid "Yeti"
+#~ msgstr "Yeti"
+
+#~ msgid "Yiek!"
+#~ msgstr "Yiek!"
+
+#~ msgid "Yiek! A big monster!"
+#~ msgstr "Yiek! Ett stort monster!"
+
+#~ msgid "Yiek! Do you really want to go there??"
+#~ msgstr "Yiek! Vill du verkligen gå dit??"
+
+#, fuzzy
+#~ msgid "Yiek! Hey, you scared me."
+#~ msgstr "Jieks!!! Du skrämde mig verkligen."
+
+#, fuzzy
+#~ msgid "Yiek, it stinks in here."
+#~ msgstr "Yiek, det stinker här inne."
+
+#~ msgid "You are able to decipher this writing, Kalya?"
+#~ msgstr "Lyckas du tolka den här texten, Kayla?"
+
+#~ msgid "You can come back here and save as many times as you want."
+#~ msgstr "Du kan komma tillbaka hit och spara hur många gånger som du vill."
+
+#~ msgid "You can do it. Bronann..."
+#~ msgstr "Du kan göra det Bronann..."
+
+#~ msgid "You can go in there, Orlinn."
+#~ msgstr "Du kan gå in där, Orlinn."
+
+#~ msgid "You can't be serious, we would have heard it come."
+#~ msgstr "Du kan inte vara seriös, vi skulle ha hört när den kom."
+
+#~ msgid "You filthy demon!"
+#~ msgstr "Din smutsiga demon!"
+
+#, fuzzy
+#~ msgid ""
+#~ "You have made it through the holy ordeal alive. I shall not let you "
+#~ "survive."
+#~ msgstr ""
+#~ "Ni har tagit er igenom den heliga prövningen utan att dö. Jag kan inte "
+#~ "låta er leva..."
+
+#, fuzzy
+#~ msgid ""
+#~ "You have trespassed the holy ground of the Ancient and remained unharmed "
+#~ "for too long in this temple."
+#~ msgstr ""
+#~ "Du har gjort intrång på helig mark som tillhör de gamla och du har varit "
+#~ "oskadd för länge i det här templet..."
+
+#, fuzzy
+#~ msgid "You know you won't get away with this. When you see Herth..."
+#~ msgstr ""
+#~ "Du vet att du inte kommer komma undan med det här, när du träffar Herth..."
+
+#~ msgid "You mean I need to push a key to open my bag?"
+#~ msgstr "Du menar att jag måste trycka på en knapp för att öppna min väska?"
+
+#, fuzzy
+#~ msgid "You mean in the middle of those scary bones?"
+#~ msgstr "Du menar, mitt i de där läskiga benen?"
+
+#, fuzzy
+#~ msgid "You must believe me Bronann."
+#~ msgstr "Du måste lita på mig Bronann..."
+
+#~ msgid "You really won't tell me?"
+#~ msgstr "Ni vill verkligen inte berätta för mig?"
+
+#~ msgid ""
+#~ "You see, I lost my beloved pen. Was it near a tree or next to the waving "
+#~ "child of the mountain snow?"
+#~ msgstr ""
+#~ "Du förstår, jag har tappat min älskade penna. Var det nära ett träd eller "
+#~ "vid det ringlande barnet till bergets snö?"
+
+#, fuzzy
+#~ msgid "You seem so calm, ready, and prepared."
+#~ msgstr "Du verkar så lugn, redo och förberedd..."
+
+#~ msgid "You shall not leave this place without my consent."
+#~ msgstr "Ni kommer inte att lämna den här platsen utan mitt medgivande."
+
+#~ msgid "You should go back home. Your mom must be waiting for you."
+#~ msgstr "Du borde gå tillbaka hem. Din mamma måsta vänta på dig."
+
+#, fuzzy
+#~ msgid "You won't be fine for long after I'm done with you!!"
+#~ msgstr "... När jag väl får tag på dig så kommer du verkligen inte må bra!!"
+
+#, fuzzy
+#~ msgid "You won't get away so easily. We will catch you sooner or later."
+#~ msgstr ""
+#~ "Du kommer inte undan så lätt... Vi kommer att fånga dig till slut..."
+
+#, fuzzy
+#~ msgid ""
+#~ "You won't get him, Banesore! It seems we were smarter than you this time."
+#~ msgstr ""
+#~ "Du kommer inte att få honom Banesore! Det verkar som att vi var smartare "
+#~ "än dig den här gången..."
+
+#~ msgid "You'll never find it!"
+#~ msgstr "Du kommer aldrig att hitta den!"
+
+#~ msgid "You'll never find me hiding behind the..."
+#~ msgstr "Du kommer aldrig att hitta mig när jag gömmer mig bakom..."
+
+#~ msgid "You'll never get me!"
+#~ msgstr "Du kommer aldrig att fånga mig!"
+
+#, fuzzy
+#~ msgid ""
+#~ "You'll see. There's plenty of things I need to show you there. Plus, it's "
+#~ "a safe place."
+#~ msgstr ""
+#~ "... Du förstår: Det finns massor av saker som jag behöver visa dig där. "
+#~ "Plus att det är ett säkert gömställe."
+
+#~ msgid "You're mine now!"
+#~ msgstr "Du är min nu!"
+
+#, fuzzy
+#~ msgid ""
+#~ "You're stronger than I thought. But you are still too weak to challenge "
+#~ "me!"
+#~ msgstr ""
+#~ "Du är starkare än vad jag trodde... men fortfarande... så är du för svag "
+#~ "för att utmana mig!"
+
+#~ msgid ""
+#~ "You're the nicest person I know, Bronann. I will tell everyone how brave "
+#~ "you..."
+#~ msgstr ""
+#~ "Du är den snällaste personen jag känner Bronann. Jag kommer att berätta "
+#~ "för alla hur modig du..."
+
+#, fuzzy
+#~ msgid "You're too young to trade with me!"
+#~ msgstr "Du är för ung för att handla här!"
+
+#~ msgid "You're very welcome, my dear one."
+#~ msgstr "Det var så lite, mitt älsklingsbarnbarn."
+
+#~ msgid "You're welcome!"
+#~ msgstr "Ingen orsak!"
+
+#~ msgid "You're welcome, my dear!"
+#~ msgstr "Ingen orsak, gullet!"
+
+#, fuzzy
+#~ msgid "You're welcome."
+#~ msgstr "Ingen orsak!"
+
+#, fuzzy
+#~ msgid "You've proven yourself, chosen one. You deserve to live after all."
+#~ msgstr "Du har visat dig stark, utvalde... Du förtjänar att leva... "
+
+#, fuzzy
+#~ msgid "You, after all these years..."
+#~ msgstr "Du... Efter alla dess år..."
+
+#~ msgid "You? A child with an old wooden stick?"
+#~ msgstr "Du? Ett barn med en gammal träpinne?"
+
+#, fuzzy
+#~ msgid "Your family? Long ago?"
+#~ msgstr "Din familj? För länge sedan? ..."
+
+#, fuzzy
+#~ msgid "Your party feels better."
+#~ msgstr "Din grupp mår bättre..."
+
+#~ msgid "Your party feels better..."
+#~ msgstr "Din grupp mår bättre..."
+
+#~ msgid ""
+#~ "Your very soul is slowly but surely opening. I can feel your sorrow and "
+#~ "doubts grow."
+#~ msgstr ""
+#~ "Din själ håller sakta och säkert på att öppna sig. Jag känner hur din "
+#~ "sorg och ditt tvivel växer."
+
+#~ msgid "and many others"
+#~ msgstr "och många fler"
+
+#~ msgid "!! What?"
+#~ msgstr "!! Vad?"
+
+#~ msgid "... Bronann!!"
+#~ msgstr "... Bronann!!"
+
+#~ msgid "... Huh?"
+#~ msgstr "... Huh?"
+
+#~ msgid "... Look!"
+#~ msgstr "... Titta!"
+
+#~ msgid "... Ok..."
+#~ msgstr "... Ok..."
+
+#~ msgid "... You're welcome."
+#~ msgstr "... Ingen orsak."
+
+#~ msgid "Aww... Ok."
+#~ msgstr "Aww... Ok."
+
+#~ msgid "Back home, finally..."
+#~ msgstr "Hemma igen, äntligen!"
+
+#~ msgid "Bronann!!"
+#~ msgstr "Bronann!!"
+
+#~ msgid "Bronann!!!"
+#~ msgstr "Bronann!!!"
+
+#~ msgid "Err... Sis?"
+#~ msgstr "Err... syrran?"
+
+#~ msgid "Help!!!"
+#~ msgstr "Hjälp!!!"
+
+#~ msgid "Herth..."
+#~ msgstr "Herth..."
+
+#~ msgid "High Air damages on all foes."
+#~ msgstr "Kraftig luftskada på alla fiender."
+
+#~ msgid "Magical attack combining Life and Air damages."
+#~ msgstr "Magisk attack som kombinerar skadan från liv och luft."
+
+#~ msgid "Makes a normal enemy potentially leave."
+#~ msgstr "Får en vanlig motståndare att fly."
+
+#~ msgid "NO!"
+#~ msgstr "NEJ!"
+
+#~ msgid "Nevermind that..."
+#~ msgstr "Det var ingenting..."
+
+#~ msgid "Ok ..."
+#~ msgstr "Ok ..."
+
+#~ msgid "Ok..."
+#~ msgstr "Ok..."
+
+#~ msgid "Orlinn!!"
+#~ msgstr "Orlinn!!"
+
+#~ msgid "Sis!!"
+#~ msgstr "Syrran!!"
+
+#~ msgid "There's no need to thank me for that, it's my pleasure."
+#~ msgstr "Du behöver inte tacka mig för det, det var ett nöje."
+
+#~ msgid "What?!?"
+#~ msgstr "Vad?!?"
+
+#~ msgid "Yes, let's go ..."
+#~ msgstr "Ja, låt oss gå..."
+
+#~ msgid "Yiek!!"
+#~ msgstr "Yiek!!"

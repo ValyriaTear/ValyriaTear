@@ -1,0 +1,6538 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Bertram <yohann.ferreira@orange.fr>, 2014
+# Bertram <yohann.ferreira@orange.fr>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: Valyria Tear\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-22 23:22+0200\n"
+"PO-Revision-Date: 2014-08-23 19:33+0100\n"
+"Last-Translator: Yohann Ferreira <yohann.ferreira@orange.fr>\n"
+"Language-Team: Russian (http://www.transifex.com/projects/p/valyria-tear/"
+"language/ru/)\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../data/skills/barehands.lua:28
+msgid "Punch"
+msgstr "Удар кулаком"
+
+#: ../data/skills/barehands.lua:29
+#, fuzzy
+msgid "A simple punch. Better than nothing."
+msgstr "Простой удар кулаком. Лучше чем ничего..."
+
+#: ../data/skills/barehands.lua:56
+msgid "Throw stone"
+msgstr "Кинуть камень"
+
+#: ../data/skills/barehands.lua:57
+#, fuzzy
+msgid "Kalya's attack when she has no weapon."
+msgstr "Атака Кали когда она без оружия."
+
+#: ../data/skills/barehands.lua:83
+msgid "Tornado Punch"
+msgstr "Торнадо удар"
+
+#: ../data/skills/barehands.lua:84
+#, fuzzy
+msgid "Spinning knuckle attack that deals wind damage."
+msgstr "Атака кручением костяшек, создающая урон ветром."
+
+#: ../data/skills/magic.lua:51
+msgid "Shield"
+msgstr "Щит"
+
+#: ../data/skills/magic.lua:52
+msgid "Increases an ally's physical defense by a slight degree."
+msgstr "Увеличивает немного степень физической защиты у союзника."
+
+#: ../data/skills/magic.lua:100
+msgid "First Aid"
+msgstr "Первая помощь"
+
+#: ../data/skills/magic.lua:101
+msgid ""
+"Performs basic medical assistance, healing the target by a minor degree."
+msgstr "Основная медицинская помощь, лечит незначительные повреждения."
+
+#: ../data/skills/magic.lua:145
+msgid "Leader Call"
+msgstr "Зов лидера"
+
+#: ../data/skills/magic.lua:146
+#, fuzzy
+msgid "Temporarily increases the Physical Attack of all allies."
+msgstr "Временно увеличивает силу всех союзников."
+
+#: ../data/skills/magic.lua:172
+msgid "Holy Veil"
+msgstr "Святая завеса"
+
+#: ../data/skills/magic.lua:173
+msgid "Increases the attack and magical attack of all allies."
+msgstr "Увеличивает атаку и магическую атаку у всех союзников."
+
+#: ../data/skills/magic.lua:204
+msgid "Ancient Strength"
+msgstr "Древняя сила"
+
+#: ../data/skills/magic.lua:205
+#, fuzzy
+msgid "Increases every form of elemental resistance for all allies."
+msgstr "Увеличивает сопротивление любой стихии у всех союзников."
+
+#: ../data/skills/magic.lua:229
+msgid "Divine Wish"
+msgstr "Желание Дивайна"
+
+#: ../data/skills/magic.lua:230 ../data/skills/special.lua:213
+#, fuzzy
+msgid "Revives an ally, restoring all of their HP and SP."
+msgstr "Воскрешает союзника, восстанавливая всю его/её ЖС и УС."
+
+#: ../data/skills/magic.lua:249
+msgid "Magical Poison"
+msgstr "Магический яд"
+
+#: ../data/skills/magic.lua:250
+msgid "Makes an enemy lose its SP little by little."
+msgstr "Создаёт у врага постепенную потерю его УС."
+
+#: ../data/skills/magic.lua:273
+msgid "Steal Song"
+msgstr "Ворующая песня"
+
+#: ../data/skills/magic.lua:274
+msgid "Steals positive effects from an enemy."
+msgstr "Ворует позитивные воздействия у врага."
+
+#: ../data/skills/magic.lua:290
+msgid "Terrify"
+msgstr "Ужасать"
+
+#: ../data/skills/magic.lua:291
+msgid "Potentially causes a normal enemy to retreat."
+msgstr ""
+
+#: ../data/skills/magic.lua:307
+msgid "Decay Dirge"
+msgstr "Панихида"
+
+#: ../data/skills/magic.lua:308
+msgid "Steals both physical and magical defense of an ally."
+msgstr "Ворует физическую и магическую защиту у союзника."
+
+#: ../data/skills/magic.lua:324
+msgid "War God"
+msgstr "Бог войны"
+
+#: ../data/skills/magic.lua:325
+msgid ""
+"Steals both the physical and magical defense of all enemies and gives it to "
+"the party."
+msgstr ""
+"Ворует физическую и магическую защиту у всех врагов и отдаёт её компании."
+
+#: ../data/skills/magic.lua:361
+msgid "Fire burst"
+msgstr "Огненный взрыв"
+
+#: ../data/skills/magic.lua:362
+#, fuzzy
+msgid "Creates a small fire that burns enemies."
+msgstr "Создаёт маленький огонь, который обжигает врага."
+
+#: ../data/skills/magic.lua:403
+msgid "Fire Circle"
+msgstr "Круг огня"
+
+#: ../data/skills/magic.lua:404
+#, fuzzy
+msgid "Increases the fire elemental defense on a character."
+msgstr "Увеличивает защиту стихии огня у героя."
+
+#: ../data/skills/magic.lua:419
+msgid "Lava"
+msgstr "Лава"
+
+#: ../data/skills/magic.lua:420
+#, fuzzy
+msgid "Magical attack combining earth and fire type damage."
+msgstr "Магическая атака сочетает урон от земли и огня."
+
+#: ../data/skills/magic.lua:435
+msgid "Fog"
+msgstr "Туман"
+
+#: ../data/skills/magic.lua:436
+msgid "Increases the evade rate of an ally."
+msgstr "Увеличивает степень уклонения у союзника."
+
+#: ../data/skills/magic.lua:451
+msgid "Fire Breath"
+msgstr "Огненное дыхание"
+
+#: ../data/skills/magic.lua:452
+#, fuzzy
+msgid "Magical attack combining air and fire type damage."
+msgstr "Магическая атака сочетает урон от воздуха и огня."
+
+#: ../data/skills/magic.lua:467
+msgid "Focus"
+msgstr "Фокус"
+
+#: ../data/skills/magic.lua:468 ../data/skills/magic.lua:619
+#, fuzzy
+msgid "Increases the magical defense of an ally."
+msgstr "Увеличивает магическую защиту у союзника."
+
+#: ../data/skills/magic.lua:483
+msgid "Holy Fire"
+msgstr "Святой огонь"
+
+#: ../data/skills/magic.lua:484
+#, fuzzy
+msgid "Magical attack combining life and fire damages."
+msgstr "Магическая атака сочетает урон от стихий жизни и огня."
+
+#: ../data/skills/magic.lua:499
+msgid "Life"
+msgstr "Жизнь"
+
+#: ../data/skills/magic.lua:500
+msgid "Revives a fallen ally."
+msgstr "Воскрешает павшего союзника."
+
+#: ../data/skills/magic.lua:515
+msgid "Petrify"
+msgstr "Превращать в камень"
+
+#: ../data/skills/magic.lua:516
+msgid "Turns an enemy into stone."
+msgstr "Превращает врага в камень."
+
+#: ../data/skills/magic.lua:531
+msgid "Rage"
+msgstr "Ярость"
+
+#: ../data/skills/magic.lua:532
+#, fuzzy
+msgid ""
+"Enrages an ally, increasing their attack and speed but reducing their "
+"defense."
+msgstr ""
+"Приводит в ярость союзника, увеличивая атаку и скорость, но уменьшая защиту."
+
+#: ../data/skills/magic.lua:547
+msgid "Rock Fall"
+msgstr "Падение скал"
+
+#: ../data/skills/magic.lua:548
+msgid "Rocks fall on an enemy."
+msgstr "Скалы падают на врага."
+
+#: ../data/skills/magic.lua:573
+msgid "Earth Circle"
+msgstr "Круг земли"
+
+#: ../data/skills/magic.lua:574
+#, fuzzy
+msgid "Increases the earth elemental defense of a character."
+msgstr "Увеличивает защиту стихии земли у героя."
+
+#: ../data/skills/magic.lua:602
+msgid "Entangle"
+msgstr "Запутать"
+
+#: ../data/skills/magic.lua:603
+#, fuzzy
+msgid "Decreases the evasion rate of an enemy."
+msgstr "Уменьшает уклонение врага."
+
+#: ../data/skills/magic.lua:618
+msgid "Magical Armor"
+msgstr "Магическая защита"
+
+#: ../data/skills/magic.lua:634
+msgid "Haste"
+msgstr "Спешка"
+
+#: ../data/skills/magic.lua:635
+#, fuzzy
+msgid "Increases the battle speed of an ally."
+msgstr "Увеличивает скорость боя у союзника."
+
+#: ../data/skills/magic.lua:650
+msgid "Moon"
+msgstr "Луна"
+
+#: ../data/skills/magic.lua:651
+msgid "Makes an enemy attack its own allies."
+msgstr "Заставляет врага атаковать своих союзников."
+
+#: ../data/skills/magic.lua:666
+msgid "Cure"
+msgstr "Лечить"
+
+#: ../data/skills/magic.lua:667
+msgid "Cures the poison from an ally."
+msgstr "Лечит отравление союзника."
+
+#: ../data/skills/magic.lua:682
+msgid "Drain"
+msgstr "Водосток"
+
+#: ../data/skills/magic.lua:683
+msgid "Steals HP from an enemy."
+msgstr "Ворует ЖС у врага."
+
+#: ../data/skills/magic.lua:698
+msgid "Curse"
+msgstr "Проклятие"
+
+#: ../data/skills/magic.lua:699
+msgid "Severely decreases several random stats of an enemy."
+msgstr "Сильно уменьшает несколько случайных показателей врага."
+
+#: ../data/skills/magic.lua:714
+msgid "Meteor"
+msgstr "Метеор"
+
+#: ../data/skills/magic.lua:715
+#, fuzzy
+msgid "High earth damage on all foes."
+msgstr "Сила земли повреждает всех врагов."
+
+#: ../data/skills/magic.lua:730
+msgid "Wave"
+msgstr "Волна"
+
+#: ../data/skills/magic.lua:731
+msgid ""
+"Makes waves fall on an enemy, damaging them and decreasing their physical "
+"attack."
+msgstr ""
+
+#: ../data/skills/magic.lua:774
+msgid "Water Circle"
+msgstr "Круг воды"
+
+#: ../data/skills/magic.lua:775
+#, fuzzy
+msgid "Increases the water elemental defense on a character."
+msgstr "Увеличивает защиту стихии воды у героя."
+
+#: ../data/skills/magic.lua:799
+msgid "Whirlwind"
+msgstr "Вихрь"
+
+#: ../data/skills/magic.lua:800
+#, fuzzy
+msgid "Magical attack combining water and air type damage."
+msgstr "Магическая атака сочетает урон от воды и воздуха."
+
+#: ../data/skills/magic.lua:815
+msgid "Slow"
+msgstr "Медленный"
+
+#: ../data/skills/magic.lua:816
+msgid "Decreases the battle speed of an enemy."
+msgstr "Уменьшает скорость боя врага."
+
+#: ../data/skills/magic.lua:831
+msgid "Blindness"
+msgstr "Слепота"
+
+#: ../data/skills/magic.lua:832
+#, fuzzy
+msgid "Prevents an enemy from succeeding to strike with any physical attacks."
+msgstr "Мешает врагу иметь успех в любых физических атаках."
+
+#: ../data/skills/magic.lua:847
+msgid "Heal"
+msgstr "Исцелять"
+
+#: ../data/skills/magic.lua:848
+#, fuzzy
+msgid "Restores the health of an ally."
+msgstr "Восстанавливает здоровье у союзника."
+
+#: ../data/skills/magic.lua:863
+msgid "Poison"
+msgstr "Яд"
+
+#: ../data/skills/magic.lua:864
+#, fuzzy
+msgid "Inflicts poison on an enemy."
+msgstr "Наносит отравление врагу."
+
+#: ../data/skills/magic.lua:888
+msgid "Stun"
+msgstr "Оглушение"
+
+#: ../data/skills/magic.lua:889
+msgid "Stuns an enemy."
+msgstr "Оглушает врага."
+
+#: ../data/skills/magic.lua:907
+msgid "Tsunami"
+msgstr "Цунами"
+
+#: ../data/skills/magic.lua:908
+#, fuzzy
+msgid "High water damage inflicted on all foes."
+msgstr "Сила воды повреждает всех врагов."
+
+#: ../data/skills/magic.lua:923
+msgid "Healing Rain"
+msgstr "Лечебный дождь"
+
+#: ../data/skills/magic.lua:924
+#, fuzzy
+msgid "Improves the health of all allies."
+msgstr "Лечит здоровье всех союзников."
+
+#: ../data/skills/magic.lua:939
+msgid "Wind"
+msgstr "Ветер"
+
+#: ../data/skills/magic.lua:940
+msgid "The wind slashes an enemy."
+msgstr "Ветер ударил врага."
+
+#: ../data/skills/magic.lua:965
+msgid "Wind Circle"
+msgstr "Круг ветра"
+
+#: ../data/skills/magic.lua:966
+#, fuzzy
+msgid "Increases the air elemental defense of a character."
+msgstr "Увеличивает защиту стихии воздуха у героя."
+
+#: ../data/skills/magic.lua:990
+msgid "Lightning"
+msgstr "Молния"
+
+#: ../data/skills/magic.lua:991
+#, fuzzy
+msgid "Magical attack combining life and air type damage."
+msgstr "Магическая атака сочетает урон от стихий жизни и огня."
+
+#: ../data/skills/magic.lua:1006
+msgid "Regen"
+msgstr "Реген."
+
+#: ../data/skills/magic.lua:1007
+#, fuzzy
+msgid "Causes an ally to slowly recover their health."
+msgstr "Позволяет союзнику медленно восстанавливать своё здоровье."
+
+#: ../data/skills/magic.lua:1028
+msgid "Magic Drain"
+msgstr "Магический водосток"
+
+#: ../data/skills/magic.lua:1029
+#, fuzzy
+msgid "Steals skill points from an enemy."
+msgstr "Ворует умения силу у врага."
+
+#: ../data/skills/magic.lua:1044
+msgid "Silence"
+msgstr "Тишина"
+
+#: ../data/skills/magic.lua:1045
+msgid "Prevents an enemy from using any magic skills."
+msgstr "Мешает врагу использовать любые магические умения."
+
+#: ../data/skills/magic.lua:1060
+msgid "Storm"
+msgstr "Шторм"
+
+#: ../data/skills/magic.lua:1061
+#, fuzzy
+msgid "High air type damage on all foes."
+msgstr "Сила земли повреждает всех врагов."
+
+#: ../data/skills/magic.lua:1076
+msgid "Stop"
+msgstr "Стоп"
+
+#: ../data/skills/magic.lua:1077
+#, fuzzy
+msgid "Stops an enemy from taking any actions for quite a long time."
+msgstr "Останавливает врага на вполне долгое время."
+
+#: ../data/skills/magic.lua:1092
+msgid "Holy"
+msgstr "Святой"
+
+#: ../data/skills/magic.lua:1093
+msgid "A holy light strikes an enemy."
+msgstr "Священный свет ударил врага."
+
+#: ../data/skills/magic.lua:1118
+msgid "Life Circle"
+msgstr "Круг жизни"
+
+#: ../data/skills/magic.lua:1119
+#, fuzzy
+msgid "Increases the life elemental defense of a character."
+msgstr "Увеличивает защиту стихии жизни у героя."
+
+#: ../data/skills/magic.lua:1134
+msgid "Purify"
+msgstr "Очищать"
+
+#: ../data/skills/magic.lua:1135
+#, fuzzy
+msgid "Cures all bad effects on a character, except for poison."
+msgstr "Лечит все плохие эффекты на героя, кроме яда."
+
+#: ../data/skills/magic.lua:1150
+msgid "Sun Haze"
+msgstr "Солнечная дымка"
+
+#: ../data/skills/magic.lua:1151
+#, fuzzy
+msgid "High life type damage on all foes."
+msgstr "Сила жизни повреждает всех врагов."
+
+#: ../data/skills/magic.lua:1166
+msgid "Aura"
+msgstr "Аура"
+
+#: ../data/skills/magic.lua:1167
+#, fuzzy
+msgid "Boost an ally's speed and slowly recovers their health."
+msgstr "Повышает скорость союзника и восстанавливает медленно его здоровье."
+
+#: ../data/skills/magic.lua:1182
+msgid "Death"
+msgstr "Смерть"
+
+#: ../data/skills/magic.lua:1183
+#, fuzzy
+msgid "Death tries to take hold of an enemy."
+msgstr "Смерть попробовала и взяла врага себе."
+
+#: ../data/skills/magic.lua:1208
+msgid "Death Circle"
+msgstr "Круг смерти"
+
+#: ../data/skills/magic.lua:1209
+#, fuzzy
+msgid "Increases the death elemental defense of an ally."
+msgstr "Увеличивает защиту стихии смерти у союзника."
+
+#: ../data/skills/magic.lua:1224
+msgid "Doom"
+msgstr "Гибель"
+
+#: ../data/skills/magic.lua:1225
+#, fuzzy
+msgid "Places a death counter upon the enemy's head."
+msgstr "Увеличивает уязвимость головы врага."
+
+#: ../data/skills/magic.lua:1240
+msgid "Magical Reflection"
+msgstr "Магическое отражение"
+
+#: ../data/skills/magic.lua:1241
+#, fuzzy
+msgid "Makes the next enemy spell cast reflect back upon the attacker."
+msgstr ""
+"Делает следующее нацеленное заклинание врага на союзника действующим на себя."
+
+#: ../data/skills/magic.lua:1256
+msgid "Dispell"
+msgstr "Диспел"
+
+#: ../data/skills/magic.lua:1257
+msgid ""
+"Removes any status effect, elemental effect, and active spell on an enemy."
+msgstr ""
+"Убирает любое состояние воздействия, стихийного эфекта и активного "
+"заклинание на врага."
+
+#: ../data/skills/magic.lua:1282
+msgid "Shell"
+msgstr "Раковина"
+
+#: ../data/skills/magic.lua:1283
+#, fuzzy
+msgid "Increases all elemental effects of one character."
+msgstr "Увеличивает все стихийные эффекты у одного героя."
+
+#: ../data/skills/magic.lua:1298
+msgid "?"
+msgstr "?"
+
+#: ../data/skills/magic.lua:1299
+#, fuzzy
+msgid "An offensive mystic spell formed by combining opposite elementals."
+msgstr ""
+"Мистическое заклинание происходит, когда оскорбительно объединить "
+"противоположность стихиям."
+
+#: ../data/skills/magic.lua:1314
+msgid "Counter"
+msgstr "Счётчик"
+
+#: ../data/skills/magic.lua:1315
+#, fuzzy
+msgid "Makes an ally counter-attack if injured."
+msgstr "Позволяет союзнику контратаковать, если причинили боль."
+
+#: ../data/skills/magic.lua:1330
+msgid "Phoenix Call"
+msgstr "Вызвать Феникса"
+
+#: ../data/skills/magic.lua:1331
+msgid "Revives all allies."
+msgstr "Воскрешает всех союзников."
+
+#: ../data/skills/magic.lua:1346
+msgid "Bio"
+msgstr "Био"
+
+#: ../data/skills/magic.lua:1347
+msgid "Cures poison on all characters."
+msgstr "Лечит отравление у всех героев."
+
+#: ../data/skills/special.lua:74
+msgid "Wolf Pain"
+msgstr "Волк мучитель"
+
+#: ../data/skills/special.lua:75
+#, fuzzy
+msgid "Calls the defender of the arctic."
+msgstr "Вызвать защитника Артики."
+
+#: ../data/skills/special.lua:190
+#, fuzzy
+msgid "Spawn Slime"
+msgstr "Зелёная слизь"
+
+#: ../data/skills/special.lua:212
+msgid "Dark Wish"
+msgstr "Желание тьмы"
+
+#: ../data/skills/weapon.lua:84
+msgid "Sword Slash"
+msgstr "Удар мечом"
+
+#: ../data/skills/weapon.lua:85
+msgid "A textbook maneuver that deals an effective blow."
+msgstr "Образцовый манёвр, наносящий эффективный удар."
+
+#: ../data/skills/weapon.lua:112
+msgid "Forward Thrust"
+msgstr "Удар вперёд"
+
+#: ../data/skills/weapon.lua:114
+#, fuzzy
+msgid "A concentrated attack on an enemy."
+msgstr "Атака кинжалом, отравливает врага"
+
+#: ../data/skills/weapon.lua:142
+msgid "Stun Strike"
+msgstr "Оглуш. удар"
+
+#: ../data/skills/weapon.lua:144
+msgid "A blow which temporarily stun its target."
+msgstr "Удар, который временно оглушает цель."
+
+#: ../data/skills/weapon.lua:178
+msgid "X-Strike"
+msgstr "X-удар"
+
+#: ../data/skills/weapon.lua:180 ../data/skills/weapon.lua:240
+msgid ""
+"A strong and aggressive attack with a blade that deals significant damage."
+msgstr ""
+"Сильная и агрессивная атака клинком, которая наносит значительный урон."
+
+#: ../data/skills/weapon.lua:212
+msgid "Single Shot"
+msgstr "Один выстрел"
+
+#: ../data/skills/weapon.lua:213
+msgid "A simple shot using an arbalest."
+msgstr "Простой выстрел с арбалета."
+
+#: ../data/skills/weapon.lua:238
+msgid "Blade Rush"
+msgstr "Атака клинком"
+
+#: ../data/skills/weapon.lua:272
+msgid "Incapacitating Shot"
+msgstr "Лишающий выстрел"
+
+#: ../data/skills/weapon.lua:274
+#, fuzzy
+msgid "A powerful shot aimed at lowering the enemy's ability to attack."
+msgstr "Cильный и прицельный выстрел, уменьшающий атаку врага."
+
+#: ../data/skills/weapon.lua:302
+msgid "Rain of Arrows"
+msgstr "Дождь из стрел"
+
+#: ../data/skills/weapon.lua:304
+msgid "An attack striking all enemies."
+msgstr "Атака ударяет всех врагов."
+
+#: ../data/skills/weapon.lua:335
+msgid "Dagger Slash"
+msgstr "Удар кинжалом"
+
+#: ../data/skills/weapon.lua:336
+msgid "A simple but efficient dagger attack."
+msgstr "Простая, но эффективная атака кинжалом."
+
+#: ../data/skills/weapon.lua:358
+msgid "Poison Slash"
+msgstr "Ядовитый удар"
+
+#: ../data/skills/weapon.lua:360
+msgid "A dagger attack, poisoning the enemy."
+msgstr "Атака кинжалом, отравливает врага"
+
+#: ../data/skills/weapon.lua:383
+msgid "High Strike"
+msgstr "Сильный удар"
+
+#: ../data/skills/weapon.lua:385
+msgid ""
+"A strike from above, stunning the enemy and breaking its magical defense."
+msgstr "Удар сверху, оглушает врага и разрушает его магическую защиту."
+
+#: ../data/skills/weapon.lua:408
+msgid "Sonic Wind"
+msgstr "Звуковой ветер"
+
+#: ../data/skills/weapon.lua:410
+#, fuzzy
+msgid "Deals high wind damage to all enemies, stunning them along the way."
+msgstr "Наносит силные повреждения всем врагам, оглушая их по пути."
+
+#: ../data/skills/weapon.lua:433
+msgid "Sword Breaker"
+msgstr "Меч крушитель"
+
+#: ../data/skills/weapon.lua:435
+#, fuzzy
+msgid "An attack that breaks the enemy's own attack power."
+msgstr "Атака разрушающая силу атаки врага."
+
+#: ../data/skills/weapon.lua:461
+msgid "Execution"
+msgstr "Казнь"
+
+#: ../data/skills/weapon.lua:463
+#, fuzzy
+msgid "Attacks an enemy with a chance of causing death to catch its soul."
+msgstr "Атака врага с шансом убить, задев его душу."
+
+#: ../data/skills/weapon.lua:568
+#, fuzzy
+msgid "Stun Bite"
+msgstr "Оглуш. удар"
+
+#: ../data/skills/weapon.lua:601
+msgid "Dampening Bite"
+msgstr ""
+
+#: ../data/skills/weapon.lua:657
+#, fuzzy
+msgid "HP Drain"
+msgstr "Водосток"
+
+#: ../data/skills/weapon.lua:721
+msgid "Multiple Attack"
+msgstr ""
+
+#: ../data/skills/weapon.lua:794
+msgid "Frenzy Attack"
+msgstr ""
+
+#: ../data/skills/weapon.lua:828
+msgid "Stamina Steal"
+msgstr ""
+
+#: ../data/skills/weapon.lua:912
+#, fuzzy
+msgid "Water Spray"
+msgstr "Вода"
+
+#: ../data/skills/weapon.lua:948
+#, fuzzy
+msgid "Spider Web"
+msgstr "Паук"
+
+#~ msgid ""
+#~ "\n"
+#~ "Main theme, Village music, ...\n"
+#~ "\n"
+#~ "Banesore's battle, ...\n"
+#~ "\n"
+#~ "Layna Forest music, ...\n"
+#~ "\n"
+#~ "Boss Music\n"
+#~ "\n"
+#~ "Battle music\n"
+#~ "\n"
+#~ "Birds' song\n"
+#~ "\n"
+#~ "Battle lost music\n"
+#~ "\n"
+#~ "Layna cave music"
+#~ msgstr ""
+#~ "\n"
+#~ "Главная музыка, в деревне, ...\n"
+#~ "\n"
+#~ "Бой с Бэйнсором, ...\n"
+#~ "\n"
+#~ "Музыка в лесу Лэйны, ...\n"
+#~ "\n"
+#~ "Музыка, когда босс\n"
+#~ "\n"
+#~ "Музыка в бою\n"
+#~ "\n"
+#~ "Пение птиц\n"
+#~ "\n"
+#~ "Музыка поражения в бою\n"
+#~ "\n"
+#~ "Музыка в пещере Лэйны"
+
+#~ msgid " (+20%)"
+#~ msgstr " (+20%)"
+
+#~ msgid " SP"
+#~ msgstr "УС"
+
+#~ msgid " — "
+#~ msgstr " — "
+
+#~ msgid "\"Welcome! Take a look around.\""
+#~ msgstr "\"Приветствую! Осматрись здесь.\""
+
+#~ msgid "%s SP"
+#~ msgstr "%s УС"
+
+#~ msgid "%ss"
+#~ msgstr "%sc"
+
+#~ msgid "' if you need more details."
+#~ msgstr "' если нужно больше инфо."
+
+#, fuzzy
+#~ msgid ""
+#~ "'All my comrades have perished in battle and I am the last unfortunate "
+#~ "one left.'"
+#~ msgstr "'Все мои товаpищи погибли в боях, а я один несчастный остался.'"
+
+#~ msgid ""
+#~ "'Battles have been waging all over the place and the Ancient have now "
+#~ "forsaken me into oblivion when they sealed the Goddess Shrine.'"
+#~ msgstr ""
+#~ "'Бои ведутся повсюду и древний народ сейчас оставлен мной в забытье когда "
+#~ "они окружили святыню богини.'"
+
+#, fuzzy
+#~ msgid ""
+#~ "'But I will attempt one last time to escape from here and I'm leaving "
+#~ "this note in case you'd need to do the same.'"
+#~ msgstr ""
+#~ "'... Но я попытаюсь в последний раз сбежать отсюда и я оставляю эту "
+#~ "записку в случае, если тебе потребуется сделать тоже самое.'"
+
+#, fuzzy
+#~ msgid ""
+#~ "'But be warned, for even the very scent exuding from the dark waters is a "
+#~ "trap!'"
+#~ msgstr ""
+#~ "'... Однако надо учитывать, что запах выделяемый от тёмных вод сам по "
+#~ "себе является ловушкой!'"
+
+#, fuzzy
+#~ msgid ""
+#~ "'My name is Shawn, and I do believe my time is running out in this life "
+#~ "as there is neither food nor water in here.'"
+#~ msgstr ""
+#~ "'Меня зовут Шон, и я верю, что моё время жизни истекает, так как нет "
+#~ "здесь ни пищи, ни воды ...'"
+
+#, fuzzy
+#~ msgid "'Only the last one standing shall pass.'"
+#~ msgstr "'Только устоявший пройдёт.' ..."
+
+#, fuzzy
+#~ msgid ""
+#~ "'The entire shrine has been turned into a murderous area and you'll have "
+#~ "to fight your way through, just as I will now.'"
+#~ msgstr ""
+#~ "'Вся святыня превратилась в кровавую местность и тебе придётся сражаться "
+#~ "на своём пути точно так же, как я сейчас буду...'"
+
+#~ msgid ""
+#~ "'The only way to escape this hellish place is to reach the highest floor "
+#~ "and activate the waterfall. At least that's what they said.'"
+#~ msgstr ""
+#~ "'Единственный способ сбежать из этого адского места - это добраться до "
+#~ "самого верха и активировать водопад. Хотя бы это то, что они говорят.'"
+
+#~ msgid "'To whoever will read this:'"
+#~ msgstr "'Любой прочитает это:'"
+
+#, fuzzy
+#~ msgid "(Also whispering) I don't know."
+#~ msgstr "(Также шёпот) Я не знаю..."
+
+#, fuzzy
+#~ msgid "(Bronann looks at the ground)"
+#~ msgstr "(Бронан смотрит на землю ...)"
+
+#~ msgid "(Hmm, maybe I should get a sword then.)"
+#~ msgstr "(Хм, может тогда мне нужен меч.)"
+
+#~ msgid ""
+#~ "(I also heard something falling outside. Let's hope it's nothing bad.)"
+#~ msgstr ""
+#~ "(Я также услышал кое-что упавшее снаружи. Надеюсь ничего страшного.)"
+
+#~ msgid "(I thought you saw me.)"
+#~ msgstr "(я думал, что ты видел меня.)"
+
+#, fuzzy
+#~ msgid ""
+#~ "(Kalya was brought here by those weirdos. They are holding everyone "
+#~ "captive. Lilly is talking with that big guy. He gives me the chills.)"
+#~ msgstr ""
+#~ "(Калю привели сюда эти чудаки. Они удерживают пленных. Лили разговаривает "
+#~ "с тем большим парнем. Он вызывает у меня дрожь.)"
+
+#, fuzzy
+#~ msgid "(Let's have a look.)"
+#~ msgstr "(Давай посмотрим...)"
+
+#~ msgid "(Sigh)... Hmm, fine."
+#~ msgstr "(Вздох)... Хм, хорошо."
+
+#, fuzzy
+#~ msgid "(Sigh)... I should have stayed home today."
+#~ msgstr "(Вздох)... Мне следовало было остаться сегодня дома..."
+
+#~ msgid "(What's happening here?)"
+#~ msgstr "(Что здесь случилось?)"
+
+#~ msgid "(Whispering) Kalya!"
+#~ msgstr "(Шёпот) Каля!"
+
+#, fuzzy
+#~ msgid "(Woah, this bridge doesn't look very sturdy.)"
+#~ msgstr "(Ух, этот мост не выглядит прочным...)"
+
+#, fuzzy
+#~ msgid ""
+#~ "(Woah, you scared me. Are you mad? You could have got us both caught!)"
+#~ msgstr "(Ух, ты испугал меня. Ты нормальный? Ты можешь выдать нас!)"
+
+#~ msgid "(giggle) I won't tell you!"
+#~ msgstr "(хихиканье) Я тебе не скажу!"
+
+#~ msgid "(grumble)... Crap!"
+#~ msgstr "(ворчание)... Дерьмо!"
+
+#, fuzzy
+#~ msgid "(sigh)... Georges!"
+#~ msgstr "(Вздох)... Джордж!"
+
+#, fuzzy
+#~ msgid "(sigh)... Got it, mom!"
+#~ msgstr "(Вздох)... достал это, мам!"
+
+#, fuzzy
+#~ msgid "(sigh...) Hmm, fine."
+#~ msgstr "(Вздох...) Хм, хорошо."
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#, fuzzy
+#~ msgid "... Al... right..."
+#~ msgstr "... Всё ... правильно..."
+
+#~ msgid "... Fine."
+#~ msgstr "...Хорошо."
+
+#~ msgid "... It's not that simple, Bronann. Believe me."
+#~ msgstr "...Это то, что не просто, Бронан. Поверь мне."
+
+#, fuzzy
+#~ msgid "... My head."
+#~ msgstr "...Моя голова..."
+
+#~ msgid ""
+#~ "... The incredible and amazing. I could even say, the stunning feel of it "
+#~ "in the wind..."
+#~ msgstr ""
+#~ "... Это невероятно и удивительно. Я даже могу сказать, потрясающее "
+#~ "ощущение, которое дух захватывает..."
+
+#, fuzzy
+#~ msgid "...Kalya?!"
+#~ msgstr "... Каля?!"
+
+#, fuzzy
+#~ msgid "...am I telling you all that? It's simple."
+#~ msgstr "...Я тебе всё это говорил? Это просто..."
+
+#~ msgid "1st Floor"
+#~ msgstr "1-ый этаж"
+
+#~ msgid "2nd Floor"
+#~ msgstr "2-ой этаж"
+
+#, fuzzy
+#~ msgid ""
+#~ "? This is the first time that I've seen you wear such a worrisome "
+#~ "expression."
+#~ msgstr "? ... Первый раз я вижу у тебя такое беспокойное выражение лица."
+
+#~ msgid "???"
+#~ msgstr "???"
+
+#, fuzzy
+#~ msgid "A battle-worn helmet, still reliable for head protection."
+#~ msgstr "Шлем для боя, всё ещё надёжный для защиты головы."
+
+#~ msgid ""
+#~ "A breastplate with slightly thicker armor than is commonly found and "
+#~ "additional shoulder guards."
+#~ msgstr ""
+#~ "У нагрудника броня слегка толще, чем у обычно найденной дополнительной "
+#~ "защиты для плечей."
+
+#~ msgid "A cloak worn by apprentices."
+#~ msgstr "Плащ, носимый учениками."
+
+#, fuzzy
+#~ msgid "A crystal stone?!"
+#~ msgstr "Хрустальный камень?!?"
+
+#, fuzzy
+#~ msgid "A fragile spirit, child of mother nature."
+#~ msgstr "Хрупкий дух, дитя матери природы."
+
+#, fuzzy
+#~ msgid ""
+#~ "A genuine and perfect feather from the great fire bird. It is known to "
+#~ "bring life to inanimated items."
+#~ msgstr ""
+#~ "Подлинное и чудесное перо от великой птицы огня. Известно, что оно "
+#~ "приносит жизнь неодушевлённым предметам."
+
+#~ msgid ""
+#~ "A large shield with enough fortitude to withstand waves of powerful "
+#~ "attacks."
+#~ msgstr ""
+#~ "Большая защита с достаточной стойкостью, чтобы противостоять силным "
+#~ "атакам."
+
+#~ msgid "A light chain mail woven into a tough leather cuirass."
+#~ msgstr "Легкая кольчуга, сплетенная в крепкую кожаную кирасу."
+
+#, fuzzy
+#~ msgid ""
+#~ "A light tunic worn by new soldier recruits. This one belonged to "
+#~ "Bronann's father."
+#~ msgstr ""
+#~ "Легкий мундир, носимый воинами новобранцами. Этот принадлежит отцу "
+#~ "Бронана..."
+
+#~ msgid "A mesmerizing spirit of living water."
+#~ msgstr "Гипнотизирующий дух живой воды."
+
+#~ msgid "A mythical weapon blessed with a magical fire."
+#~ msgstr "Мифическое оружие, благословленное магическим огнём."
+
+#, fuzzy
+#~ msgid ""
+#~ "A ninja potion that bursts out a damp mist when it is crashed on the "
+#~ "ground. Used to hopefully escape from standard opponents."
+#~ msgstr ""
+#~ "Зелье ниндзя: появляется легкий туман, когда разбивается об землю. Даёт "
+#~ "надежду на побег от обычных противников."
+
+#~ msgid "A quicker and more powerful blow than the standard sword slash."
+#~ msgstr "Быстрее и сильнее удар, чем стандартный удар мечом."
+
+#~ msgid ""
+#~ "A shield formed completely out of a light-weight but cheap metallic alloy."
+#~ msgstr ""
+#~ "Щит, сформированный полностью из легковесного, но дешёвого металлического "
+#~ "сплава."
+
+#, fuzzy
+#~ msgid "A small amount of anthozium ore."
+#~ msgstr "Малое количество антозиумой руды."
+
+#, fuzzy
+#~ msgid "A small amount of auridium ore."
+#~ msgstr "Малое количество ауридиумой руды."
+
+#, fuzzy
+#~ msgid "A small amount of borium ore."
+#~ msgstr "Малое количество бориумой руды."
+
+#~ msgid "A small amount of copper ore."
+#~ msgstr "Малое количество медной руды."
+
+#, fuzzy
+#~ msgid "A small amount of evanium ore."
+#~ msgstr "Малое количество иваниумой руды."
+
+#~ msgid "A small amount of iron ore."
+#~ msgstr "Малое количество железной руды."
+
+#, fuzzy
+#~ msgid "A small amount of titanium ore."
+#~ msgstr "Малое количество титановой руды."
+
+#, fuzzy
+#~ msgid "A small helmet composed of a secret cobalt-based alloy."
+#~ msgstr "Маленький шлем, состоящий из секретного сплава на основе кобальта."
+
+#~ msgid "A standard wooden arbalest."
+#~ msgstr "Cтандартный деревянный арбалет."
+
+#~ msgid "A strange necklace with unknown powers."
+#~ msgstr "Странное ожерелье с неизвестными силами."
+
+#~ msgid "A strange ring that protects the wearer from darkness."
+#~ msgstr "Странное кольцо, что защищает владелца от тьмы."
+
+#~ msgid ""
+#~ "A sturdy but somewhat dull sword whose blade was forged from a single "
+#~ "block of solid iron."
+#~ msgstr ""
+#~ "Крепкий, но слегка тупой меч, у которого лезвие было сковано из 1 куска "
+#~ "твердого железа."
+
+#~ msgid ""
+#~ "A sturdy helmet with a hinged face guard offering additional protection."
+#~ msgstr ""
+#~ "Крепкий шлем с откидной защитой для лица, обеспечивающей дополнительную "
+#~ "защиту."
+
+#~ msgid "A sword made of wood with a steel hilt, reinforced magically."
+#~ msgstr "Меч, сделанный из дерева со стальной рукояткой, усилен магически."
+
+#~ msgid ""
+#~ "A sword made of wood with a steel hilt, surrounded by a great magical "
+#~ "force."
+#~ msgstr ""
+#~ "Меч, сделанный из дерева со стальной рукояткой, окружён огромной "
+#~ "магической силой."
+
+#~ msgid "A sword made of wood with a steel hilt, very good for practising."
+#~ msgstr ""
+#~ "Меч, сделанный из дерева со стальной рукояткой, очень хорош для практики."
+
+#~ msgid "A tall steel shield with a mighty phoenix emblazoned on the front."
+#~ msgstr "Высокий стальной щит, украшенный спереди могущественным фениксом."
+
+#, fuzzy
+#~ msgid "A very rare spirit of wind, usually neither tamable nor catchable."
+#~ msgstr "Очень редкий дух ветра, почти ни укротимый, ни уловимый."
+
+#~ msgid "A weapon bestowed to seasoned veterans of the knighthood."
+#~ msgstr "Оружие, даваемое бывалым ветеранам рыцарства."
+
+#~ msgid "AGI: +"
+#~ msgstr "Б: +"
+
+#~ msgid "ATK:"
+#~ msgstr "А:"
+
+#~ msgid "Abdomen"
+#~ msgstr "Живот"
+
+#~ msgid "Acheron"
+#~ msgstr "Ахерон"
+
+#~ msgid "Actually, I bought the barley meal for Lilly."
+#~ msgstr "На самом деле, я купил ячменую муку для Лили."
+
+#~ msgid "Add an item to the buy/sell list."
+#~ msgstr "Добавить предмет в список для покупки/продажи."
+
+#~ msgid ""
+#~ "Additional programming\n"
+#~ "and scripting"
+#~ msgstr ""
+#~ "Дополнит. программирование\n"
+#~ "и разработка сценария"
+
+#~ msgid "Additional programming and scripting"
+#~ msgstr "Доп. программир. и разраб. сценария"
+
+#~ msgid "Aerocephal"
+#~ msgstr "Аэросифал"
+
+#~ msgid "After all we've been through, this..."
+#~ msgstr "В конце концов мы пройдём, ну..."
+
+#~ msgid ""
+#~ "After all, I simply wanted to make sure that boy would reach Mt. Elbrus "
+#~ "safe and sound."
+#~ msgstr ""
+#~ "В конце концов, я просто хотел убедиться, что мальчик достиг бы г. "
+#~ "Эльбрус целым и невредимым."
+
+#, fuzzy
+#~ msgid ""
+#~ "After chasing him around the village all morning, I finally have the pen. "
+#~ "Time to bring it back to Georges."
+#~ msgstr ""
+#~ "После преследования его вокруг деревни в течение всего утра, я, наконец, "
+#~ "достал перо. Пора принести его назад Джорджу..."
+
+#, fuzzy
+#~ msgid ""
+#~ "After seeing that strange light, Orlinn ran into the woods. He's just a "
+#~ "kid, even if a quick one!\n"
+#~ " \n"
+#~ "My father asked me to go there with Kalya and bring him back safe and "
+#~ "sound.\n"
+#~ " \n"
+#~ "I can't let them down!"
+#~ msgstr ""
+#~ "После этого странного света, Орлин просто убежал в лес. Он просто "
+#~ "ребёнок, даже если и быстр!\n"
+#~ " \n"
+#~ "Мой отец попросил меня пойти туда с Калей и вернуть его обратно здоровым "
+#~ "и невредимым.\n"
+#~ " \n"
+#~ "Я не могу их подвести!"
+
+#, fuzzy
+#~ msgid ""
+#~ "After we returned to the village, Kalya was caught by strange soldiers. "
+#~ "The country lord himself provoked me in battle and thanks to her, we "
+#~ "escaped for now.\n"
+#~ " \n"
+#~ "But this isn't over. The soldiers are after us and we have to make our "
+#~ "way through."
+#~ msgstr ""
+#~ "После того, как мы вернулись в нашу деревню, Каля была поймана странными "
+#~ "воинами. Лорд деревни сам спровоцировал меня на бой и спасибо Кали, мы "
+#~ "пока что сбежали.\n"
+#~ " \n"
+#~ "Но это не всё, воины позади нас и мы должны пройти через..."
+
+#, fuzzy
+#~ msgid "Again, I can feel something moving not far from here."
+#~ msgstr "Опять, я чувствую, что кое-что переместилось не далеко отсюда..."
+
+#~ msgid "Agility"
+#~ msgstr "Быстрота"
+
+#~ msgid "Agility (AGI): "
+#~ msgstr "Быстрота (Б): "
+
+#, fuzzy
+#~ msgid "Ah ah ah, but this is exactly what I wanted."
+#~ msgstr "Ах ах ах... Но это точно, что я хотел."
+
+#~ msgid ""
+#~ "Ah hah! I just wanted to see your reaction. I still have some. Let me go "
+#~ "grab it and bring it back to you."
+#~ msgstr ""
+#~ "Ага! Я только хотела увидеть твою реакцию. У меня всё ещё есть она. "
+#~ "Позволь мне пойти, взять её и принести тебе."
+
+#, fuzzy
+#~ msgid "Ah! Bronann. Could you help your old grandma?"
+#~ msgstr "Ах! Бронан. Может ты поможешь своей старенькой бабуле?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Ah! It's nice to see your dear young face around, Bronann. Come and chat "
+#~ "with an old grandma."
+#~ msgstr ""
+#~ "Ах! Очень мило увидеть твоё дорогое молодое лицо здесь рядом, Бронан. "
+#~ "Подойди и побеседуй со старой бабушкой."
+
+#~ msgid ""
+#~ "Ah! Sure, as soon as your father will stop lending his sword to you to "
+#~ "practice with him. Are you sure everything is alright?"
+#~ msgstr ""
+#~ "Ах! Конечно, так скоро как твой отец прекратит одалживать свой меч тебе, "
+#~ "чтобы практиковаться с ним. Всё правильно, не так ли?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Ah! You'll surely want to see the young lady living up there. Ah, "
+#~ "youngins nowadays."
+#~ msgstr ""
+#~ "Ах! Ты непременно захочешь увидеть молодую леди живущую там наверху. Ах, "
+#~ "ещё молод так..."
+
+#~ msgid ""
+#~ "Ah, I see. Well unfortunately, I'm so sad about a recent loss that I "
+#~ "can't find the right words with which to tell you."
+#~ msgstr ""
+#~ "Ах, я вижу. Ну, к сожалению, я в такой печали насчёт недавней потери, что "
+#~ "я не могу подобрать правильные слова, чтобы сказать тебе."
+
+#~ msgid ""
+#~ "Ah, the river is so beautiful at this time of the year. I feel like "
+#~ "writing some poetry..."
+#~ msgstr ""
+#~ "Ах, река так красива в это время года. Я чувствую, что скоро напишу какую-"
+#~ "нибудь поэзию..."
+
+#, fuzzy
+#~ msgid "Ah, there it is. Finally!"
+#~ msgstr "Ах, оно там... В конце концов!"
+
+#, fuzzy
+#~ msgid "Ah, well. You were serious, weren't you?"
+#~ msgstr "А, хорошо, ты был серьёзен, не так ли?"
+
+#, fuzzy
+#~ msgid "Ah? So he must be close."
+#~ msgstr "А? Так он должно быть близко..."
+
+#~ msgid "Ahh sure! (gossip, gossip)"
+#~ msgstr "Ах, конечно! (сплетня, слух)"
+
+#~ msgid "All"
+#~ msgstr "Все"
+
+#~ msgid "All Allies"
+#~ msgstr "Все союзники"
+
+#~ msgid "All Enemies"
+#~ msgstr "Все враги"
+
+#~ msgid "All Foes"
+#~ msgstr "Все враги"
+
+#~ msgid "All Wares"
+#~ msgstr "Все товары"
+
+#, fuzzy
+#~ msgid "All this was for a crystal?"
+#~ msgstr "Всё это было ради кристалла??"
+
+#~ msgid "All this..."
+#~ msgstr "Всё это..."
+
+#~ msgid "Allacrost Artwork Team"
+#~ msgstr "Группа художников Allacrost"
+
+#~ msgid "Allacrost Artwork Team (2004-2011)"
+#~ msgstr "Группа художников Allacrost (2004-2011)"
+
+#~ msgid ""
+#~ "Allacrost Development Team (2004-2011)\n"
+#~ "\n"
+#~ "Founder and Lead Designer"
+#~ msgstr ""
+#~ "Группа разработчиков Allacrost (2004-2011)\n"
+#~ "\n"
+#~ "Основатель и главный дизайнер"
+
+#~ msgid "Allacrost Music and Sound Team (2004-2011)"
+#~ msgstr "Группа Allacrost по музыке и звуку (2004-2011)"
+
+#~ msgid "Allacrost Programming Team"
+#~ msgstr "Группа по програм. Allacrost"
+
+#~ msgid "Allacrost Programming Team (2004-2011)"
+#~ msgstr "Группа по програм. Allacrost (2004-2011)"
+
+#~ msgid "Allacrost Project Leads/Administrators"
+#~ msgstr "Главные проекта Allacrost/админы"
+
+#~ msgid "Allacrost Special Thanks"
+#~ msgstr "Allacrost благодарит"
+
+#~ msgid "Ally"
+#~ msgstr "Союзник"
+
+#~ msgid "Ally — Point"
+#~ msgstr "Союзник — Место"
+
+#, fuzzy
+#~ msgid "Alright then, take a look around..."
+#~ msgstr "\"Приветствую! Осматрись здесь.\""
+
+#~ msgid ""
+#~ "Also, the person in front of the battle line will lead the group in the "
+#~ "forest. What I mean by that is the person on the top of the battle "
+#~ "formation will actually appear while the others will stay hidden."
+#~ msgstr ""
+#~ "Также, герой впереди боевого порядка, будет вести группу в лесу. Я имею в "
+#~ "виду, что герой на верху боевого строя будет показываться, а другие будут "
+#~ "оставаться спрятанными."
+
+#~ msgid "Alt"
+#~ msgstr "Alt"
+
+#~ msgid "An arbalest made out of fine noble ash tree wood."
+#~ msgstr "Арбалет, состоит из превосходной древесины ясеня."
+
+#~ msgid "An arbalest strengthened with magical ore."
+#~ msgstr "Арбалет, усиленный магической рудой."
+
+#, fuzzy
+#~ msgid "An enchanting child of fire."
+#~ msgstr "Очаровательное дитя огня."
+
+#, fuzzy
+#~ msgid "An old and finely crafted piece of jewelery."
+#~ msgstr "Старая и тонко сделанная часть драгоценности."
+
+#~ msgid "An old light soldier tunic."
+#~ msgstr "Старый легкий воинский мундир."
+
+#~ msgid "An old willow dress that Kalya likes to wear."
+#~ msgstr "Старое ивовое платье, которое Кали нравится носить."
+
+#, fuzzy
+#~ msgid ""
+#~ "And I hope that you have already equipped your sword. If you haven't, "
+#~ "open your inventory by pressing the menu key (%s), and select 'Equip'. "
+#~ "Then you'll be able to select your sword and add it as your main weapon."
+#~ msgstr ""
+#~ "И скажи мне, что ты снаряжён мечом... Если не так, открой свой инвентарь, "
+#~ "нажав кнопку меню (%s), и выбери 'Снарядить'. Затем ты сможешь выбрать "
+#~ "свой меч и добавить его как своё главное оружие, хорошо?"
+
+#~ msgid ""
+#~ "And how did you reach up here? Weren't you caught by the soldiers with "
+#~ "the others?"
+#~ msgstr "И как ты добралась сюда наверх? Тебя не схватили воины и другие?"
+
+#, fuzzy
+#~ msgid "And you shall not touch my brother without mine."
+#~ msgstr "И ты не тронешь рядом брата без моего..."
+
+#~ msgid "And you..."
+#~ msgstr "И вы..."
+
+#~ msgid "Andromalius"
+#~ msgstr "Андромалиус"
+
+#~ msgid "Anthozium Ore"
+#~ msgstr "Антозиумая руда"
+
+#, fuzzy
+#~ msgid "Anyway, let's go now."
+#~ msgstr "Так или иначе, давайте сейчас идти..."
+
+#~ msgid "Anyway, let's stick together and we'll be fine as always, right?"
+#~ msgstr "Короче, держимся вместе и мы будем всегда в порядке, верно?"
+
+#, fuzzy
+#~ msgid "Anyway, once the cemetery is behind us we should be out of trouble!"
+#~ msgstr ""
+#~ "Так или иначе, кладбище будет позади нас, нам не следует беспокоится!"
+
+#, fuzzy
+#~ msgid ""
+#~ "Anyway, we might not be able to enter there at all. But you're right, "
+#~ "let's have a look around first. Who knows?"
+#~ msgstr ""
+#~ "Так или иначе, мы может даже никогда не войдём туда. Но ты прав, давай "
+#~ "сперва осмотримся. Кто знает?"
+
+#~ msgid "Arbalest"
+#~ msgstr "Арбалет"
+
+#~ msgid "Arbalest of Force"
+#~ msgstr "Арбалет силы"
+
+#~ msgid "Arcana Drake"
+#~ msgstr "Тайны Дрэйка"
+
+#~ msgid "Ardoris"
+#~ msgstr "Ардорис"
+
+#, fuzzy
+#~ msgid "Are those the soldiers up there?"
+#~ msgstr "Не эти воины там наверху?"
+
+#~ msgid "Are you alright, Kalya?"
+#~ msgstr "С тобой всё в порядке, Каля?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Are you ok? We should head back to the village so Lilly can examine you."
+#~ msgstr ""
+#~ "С тобой всё в порядке? Нам следовало бы направиться назад в деревню для "
+#~ "того, чтобы Лили осматрела тебя..."
+
+#~ msgid "Argh! It hurts!"
+#~ msgstr "Ай! Это больно!"
+
+#, fuzzy
+#~ msgid "Argh! My chest is burning!"
+#~ msgstr "Ай! Моя грудь горит!!"
+
+#~ msgid "Arm"
+#~ msgstr "Рука"
+
+#~ msgid "Arm Armor"
+#~ msgstr "Защита руки"
+
+#~ msgid "Arm: "
+#~ msgstr "Рука: "
+
+#~ msgid "Armored Beast"
+#~ msgstr "Зверь в доспехах"
+
+#~ msgid "Arms"
+#~ msgstr "Руки"
+
+#, fuzzy
+#~ msgid "As you wish."
+#~ msgstr "Как хочешь..."
+
+#, fuzzy
+#~ msgid "As you wish. Follow me."
+#~ msgstr "Как хочешь... Следуй за мной."
+
+#~ msgid "Ask about battle basics."
+#~ msgstr "Спросить об основах боя."
+
+#~ msgid "Ask nothing. I know how to fight."
+#~ msgstr "Ничего не спрашивать. Я знаю как бороться."
+
+#, fuzzy
+#~ msgid "At last, the boy."
+#~ msgstr "Наконец-то... Мальчик."
+
+#~ msgid "Attack (ATK): "
+#~ msgstr "Атака (А): "
+
+#~ msgid "Attack / Defense:"
+#~ msgstr "Атака / Защита:"
+
+#~ msgid "Audio"
+#~ msgstr "Аудио"
+
+#~ msgid "Auridium Ore"
+#~ msgstr "Ауридиумая руда"
+
+#~ msgid "Aurum Drakueli"
+#~ msgstr "Золотой Дракели"
+
+#~ msgid "Aww..."
+#~ msgstr "Аах..."
+
+#~ msgid "Back"
+#~ msgstr "Назад"
+
+#~ msgid ""
+#~ "Balancing, ...\n"
+#~ "\n"
+#~ "Quest log, Minimap support, ...\n"
+#~ "\n"
+#~ "Shop Trade mode support, ...\n"
+#~ "\n"
+#~ "UI theme change menu support, ...\n"
+#~ "\n"
+#~ "GL code improvement, ...\n"
+#~ "\n"
+#~ "Multiple screen fix, ...\n"
+#~ "\n"
+#~ "Misc fixes\n"
+#~ "\n"
+#~ "Joystick handling fixes"
+#~ msgstr ""
+#~ "Балансирование, ...\n"
+#~ "\n"
+#~ "Задания, Мини-карта, ...\n"
+#~ "\n"
+#~ "Режим торговли в магазине, ...\n"
+#~ "\n"
+#~ "Поддержка тем в меню, ...\n"
+#~ "\n"
+#~ "Улучшение кода GL, ...\n"
+#~ "\n"
+#~ "Исп. для нескольких экранов, ...\n"
+#~ "\n"
+#~ "Прочие исправления\n"
+#~ "\n"
+#~ "Исп. управления джойстиком"
+
+#~ msgid "Banesore"
+#~ msgstr "Бэйнсор"
+
+#, fuzzy
+#~ msgid "Banesore's minions are already all over the place."
+#~ msgstr "Фавориты Бэйнсора уже повсюду ..."
+
+#~ msgid "Bare hands"
+#~ msgstr "Голые руки"
+
+#~ msgid "Bare-hand"
+#~ msgstr "Голая рука"
+
+#~ msgid "Barley Meal"
+#~ msgstr "Ячменая мука"
+
+#~ msgid "Barley meal? Again?"
+#~ msgstr "Ячменой муки? Опять?"
+
+#~ msgid "Based on the engine"
+#~ msgstr "Основано на движке"
+
+#~ msgid "Basement"
+#~ msgstr "Подвал"
+
+#~ msgid "Basic yet good and cheap flour."
+#~ msgstr "Основная, но хорошая и дешёвая мука."
+
+#~ msgid "Bat"
+#~ msgstr "Летучая мышь"
+
+#~ msgid "Battle"
+#~ msgstr "Бой"
+
+#~ msgid "Battle Use:"
+#~ msgstr "В бою исп.:"
+
+#~ msgid ""
+#~ "Battle code, Menu code\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Game engine\n"
+#~ "\n"
+#~ "Map code\n"
+#~ "\n"
+#~ "Various game modes, content scripting\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Video engine, Audio engine\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Programming lead, Game engine, Map code"
+#~ msgstr ""
+#~ "Код для битвы, меню\n"
+#~ "\n"
+#~ "Редактор игры\n"
+#~ "\n"
+#~ "Игровой движок\n"
+#~ "\n"
+#~ "Код карт\n"
+#~ "\n"
+#~ "Игровые режимы, написание скрипта\n"
+#~ "\n"
+#~ "Видео движок\n"
+#~ "\n"
+#~ "Видео движок, аудио движок\n"
+#~ "\n"
+#~ "Издатель игры\n"
+#~ "\n"
+#~ "Гл. по програм., игр. движок, код карт"
+
+#~ msgid "Be careful, ok?"
+#~ msgstr "Будь осторожен, хорошо?"
+
+#~ msgid "Beetle"
+#~ msgstr "Жук"
+
+#, fuzzy
+#~ msgid "Better. Somehow, the pain faded away the second I entered here."
+#~ msgstr "Лучше... Почему-то, боль исчезла через секунду как я вошёл сюда..."
+
+#~ msgid "Black Sleet"
+#~ msgstr "Тёмное небо"
+
+#, fuzzy
+#~ msgid "Blinding as the sun, she brings life even where death belongs."
+#~ msgstr ""
+#~ "Ослепительная как солнце, она приносит жизнь даже когда происходит смерть."
+
+#~ msgid "Body"
+#~ msgstr "Тело"
+
+#~ msgid ""
+#~ "Boot code, Battle code\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Audio engine\n"
+#~ "\n"
+#~ "Various code, Mac OS X maintenance\n"
+#~ "\n"
+#~ "Game engine, Game modes, Windows build scripts\n"
+#~ "\n"
+#~ "Battle code\n"
+#~ "\n"
+#~ "Map editor\n"
+#~ "\n"
+#~ "Internationalization\n"
+#~ "\n"
+#~ "Video engine"
+#~ msgstr ""
+#~ "Код загрузки, битвы\n"
+#~ "\n"
+#~ "Редактор игры\n"
+#~ "\n"
+#~ "Аудио движок\n"
+#~ "\n"
+#~ "Разный код, Mac OS X сопровождение\n"
+#~ "\n"
+#~ "Игр. движок, режимы, скипты Windows сборки\n"
+#~ "\n"
+#~ "Код для битвы\n"
+#~ "\n"
+#~ "Редактор карт\n"
+#~ "\n"
+#~ "Интернационализация\n"
+#~ "\n"
+#~ "Видео движок"
+
+#~ msgid "Borium Ore"
+#~ msgstr "Бориумая руда"
+
+#~ msgid "Branches"
+#~ msgstr "Ветви"
+
+#~ msgid "Brightness: "
+#~ msgstr "Яркость: "
+
+#~ msgid "Bronann"
+#~ msgstr "Бронан"
+
+#~ msgid "Bronann!"
+#~ msgstr "Бронан!"
+
+#~ msgid "Bronann! Are you all right? Answer me!!"
+#~ msgstr "Бронан! С тобой всё в порядке? Ответь мне!!"
+
+#~ msgid "Bronann! Are you alright?"
+#~ msgstr "Бронан! С тобой всё в порядке?"
+
+#, fuzzy
+#~ msgid "Bronann! Hold on! We're almost there."
+#~ msgstr "Бронан!!! Держись! Мы почти там..."
+
+#, fuzzy
+#~ msgid "Bronann! Move!"
+#~ msgstr "Бронан!! Двигайся!!"
+
+#, fuzzy
+#~ msgid "Bronann! No!"
+#~ msgstr "Бронан!! Нет!"
+
+#, fuzzy
+#~ msgid ""
+#~ "Bronann! Sorry, you can't access the forest without permission. You don't "
+#~ "even have a sword."
+#~ msgstr ""
+#~ "Бронан! Сожалею, ты не можешь получить доступ в лес без разрешения. Ты "
+#~ "даже меч не имеешь..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Bronann! Sorry, you know that you can't access the forest without "
+#~ "permission."
+#~ msgstr ""
+#~ "Бронан! Сожалею, но ты знаешь, что ты не можешь получить доступ в лес без "
+#~ "разрешения."
+
+#, fuzzy
+#~ msgid "Bronann! Wait!"
+#~ msgstr "...Бронан! Постой!"
+
+#~ msgid "Bronann's home"
+#~ msgstr "Дом Бронана"
+
+#~ msgid "Bronann, I ..."
+#~ msgstr "Бронан, Я ..."
+
+#~ msgid "Bronann, I'd like for you to not leave the village today."
+#~ msgstr "Бронан, Мне бы хотелось, чтобы ты сегодня не покидал деревню."
+
+#, fuzzy
+#~ msgid "Bronann, I..."
+#~ msgstr "Бронан, Я ..."
+
+#, fuzzy
+#~ msgid "Bronann, are you okay?"
+#~ msgstr "Бронан, с тобой всё в порядке?"
+
+#~ msgid "Bronann, don't listen to him!"
+#~ msgstr "Бронан, не слушай его!"
+
+#~ msgid "Bronann, how do you feel?"
+#~ msgstr "Бронан, как ты себя чувствуешь?"
+
+#~ msgid "Bronann, please."
+#~ msgstr "Бронан, пожалуйста."
+
+#~ msgid "Bronann, promise me that you'll be careful, ok?"
+#~ msgstr "Бронан, пообещай мне, что ты будешь осторожным, хорошо?"
+
+#~ msgid ""
+#~ "Bronann, take this sword. You'll probably need it to make your way "
+#~ "through there."
+#~ msgstr ""
+#~ "Бронан, возьми этот меч. Тебе, вероятно, он понадобится, чтобы проложить "
+#~ "там свой путь."
+
+#~ msgid "Bronann, the crystal! No!"
+#~ msgstr "Бронан, кристалл! Нет!"
+
+#, fuzzy
+#~ msgid ""
+#~ "Bronann, there is something that I have to tell you. We've been fearing "
+#~ "for this moment, your mother and I."
+#~ msgstr ""
+#~ "Бронан, есть кое-что, что я должен сказать тебе. Мы будем волноваться с "
+#~ "этого момента. Я имею в виду твою маму и себя..."
+
+#~ msgid ""
+#~ "Bronann, this time I want you to listen to your father very carefully. "
+#~ "Please, my dear."
+#~ msgstr ""
+#~ "Бронан, на этот раз я хочу, чтобы ты выслушал своего отца очень "
+#~ "внимательно. Пожалуйста, мой дорогой."
+
+#, fuzzy
+#~ msgid "Bronann, why?"
+#~ msgstr "Бронан, Почему? ..."
+
+#~ msgid "Bronann, you should go with her."
+#~ msgstr "Бронан, тебе следовало бы пойти с ней."
+
+#~ msgid "Bronann, you'll get everything explained in time, I..."
+#~ msgstr "Бронан, ты получишь все объяснения вовремя, я..."
+
+#~ msgid "Bronann..."
+#~ msgstr "Бронан..."
+
+#~ msgid "Bronann?"
+#~ msgstr "Бронан?"
+
+#, fuzzy
+#~ msgid "Brr. It's quite cold up here."
+#~ msgstr "Брр... Здесь совсем холодно."
+
+#~ msgid "Brymir"
+#~ msgstr "Бример"
+
+#~ msgid "But I didn't know who it would choose."
+#~ msgstr "Но я не знала, кого бы она выбрала."
+
+#~ msgid "But I'm not done yet!"
+#~ msgstr "Но я ещё не устал!"
+
+#~ msgid "But I..."
+#~ msgstr "Но я..."
+
+#~ msgid "But Kalya, look at the passageway!"
+#~ msgstr "Тем не менее Каля, посмотри на проход!"
+
+#, fuzzy
+#~ msgid ""
+#~ "But by the time I reached the area, the three of you were gone. And I had "
+#~ "to find out where you were heading."
+#~ msgstr ""
+#~ "Со временем я добралась до местности, откуда вы ушли... И я выяснила, "
+#~ "куда вы направились."
+
+#~ msgid "But father!"
+#~ msgstr "Но отец!"
+
+#~ msgid "But he would just be a burden!"
+#~ msgstr "Но он как раз был бы обузой!"
+
+#, fuzzy
+#~ msgid "But it doesn't matter, as you're all going to die now."
+#~ msgstr "Это не имеет значения, как вы сейчас все собираетесь умереть..."
+
+#, fuzzy
+#~ msgid ""
+#~ "But let's be careful, as it also said this place is dangerous and the "
+#~ "dark waters are some kind of trap."
+#~ msgstr ""
+#~ "Но будем осторожны, это также опасное место, и тёмные воды почему-то "
+#~ "кажутся ловушкой..."
+
+#~ msgid "But let's play together first, shall we?"
+#~ msgstr "Но сперва давайте поиграем вместе, не так ли?"
+
+#, fuzzy
+#~ msgid "But maybe?"
+#~ msgstr "... Но может быть?"
+
+#~ msgid "But mom!"
+#~ msgstr "Но мам!"
+
+#, fuzzy
+#~ msgid "But she will be the next one."
+#~ msgstr "...Однако она будет следующей."
+
+#~ msgid "But sis! I..."
+#~ msgstr "Но сестра! Я..."
+
+#~ msgid "But the bridge, how did you cross?"
+#~ msgstr "Но мост, как ты прошла?"
+
+#, fuzzy
+#~ msgid "But then you're stuck here, too, right?"
+#~ msgstr "Однако, ты застряла здесь, тоже, правильно?"
+
+#~ msgid "But you might get hurt!"
+#~ msgstr "Но ты можешь пострадать!"
+
+#, fuzzy
+#~ msgid "But you'll let us deal with this place, alone?"
+#~ msgstr "Однако, ты оставишь нас разбираться с этим местом, одних??"
+
+#~ msgid "But you'll never find me hiding on top of the cliffs!"
+#~ msgstr "Но ты никогда не найдёшь меня спрятавшегося наверху скал!"
+
+#~ msgid "But..."
+#~ msgstr "Но..."
+
+#~ msgid "Butterfly"
+#~ msgstr "Бабочка"
+
+#, fuzzy
+#~ msgid "Butterfly Hair Tong"
+#~ msgstr "Заколка в виде бабочки"
+
+#~ msgid "Buy"
+#~ msgstr "Купить"
+
+#~ msgid "Buy count: x "
+#~ msgstr "Итого купить: x "
+
+#~ msgid "Buy prices"
+#~ msgstr "Цены покупки"
+
+#~ msgid ""
+#~ "By the way, have you ever prepared yourself for something like this "
+#~ "before?"
+#~ msgstr ""
+#~ "Между прочим, ты раньше сам когда-нибудь готовился к чему-нибудь "
+#~ "подобному?"
+
+#~ msgid "By the way, where are we?"
+#~ msgstr "Между прочим, где мы?"
+
+#, fuzzy
+#~ msgid ""
+#~ "By the way, you're not forced to wait for your icon to reach the action "
+#~ "level before you can select an action. When these two little arrows here "
+#~ "are highlighted, you can use your up and down keys to preselect an action "
+#~ "for the corresponding ally."
+#~ msgstr ""
+#~ "Между прочим, ты не вынужден ждать когда твоя иконка достигнет уровня "
+#~ "действия до действия. Две маленькие стрелки здесь могут быть запущены, "
+#~ "если использовать кнопки вверх или вниз, чтобы предварительно выбрать "
+#~ "действие для любого из нас."
+
+#, fuzzy
+#~ msgid "Calm down Kalya, there must be a way to go through this somehow."
+#~ msgstr ""
+#~ "... Успокойся, Каля, здесь должно быть есть способ, как пройти это..."
+
+#~ msgid "Can you hear this?"
+#~ msgstr "Может ты это слышал?"
+
+#~ msgid "Can you smell that stench?"
+#~ msgstr "Может ты слышишь эту вонь?"
+
+#~ msgid "Cancel"
+#~ msgstr "Отмена"
+
+#~ msgid "Cancel a menu command"
+#~ msgstr "Отменить команду меню"
+
+#~ msgid "Cancel an action or menu command"
+#~ msgstr "Отменить действие или команду меню"
+
+#~ msgid "Cancel: "
+#~ msgstr "Отмена: "
+
+#~ msgid "Cancel: Button"
+#~ msgstr "Отмена: кнопка"
+
+#~ msgid "Candy"
+#~ msgstr "Конфета"
+
+#~ msgid "Carson"
+#~ msgstr "Карсон"
+
+#~ msgid "Carson is right, Kalya. Bronann shall go with you."
+#~ msgstr "Карсон прав, Каля. Бронан пойдёт с тобой."
+
+#, fuzzy
+#~ msgid "Carson is right, Kalya. Bronann shall go with you. It's an order."
+#~ msgstr "Карсон прав, Каля. Бронан пойдёт с тобой. Это...это приказ."
+
+#, fuzzy
+#~ msgid "Carson, they've crossed the river. They shall be here in no time."
+#~ msgstr "Карсон, они прошли реку. Они будут здесь очень скоро."
+
+#~ msgid "Catch Orlinn!"
+#~ msgstr "Поймать Орлина!"
+
+#, fuzzy
+#~ msgid "Catch the chickens"
+#~ msgstr "Поймать куриц..."
+
+#, fuzzy
+#~ msgid "Catch them before they reach the shrine!"
+#~ msgstr "Схватите их раньше чем они достигнут святыни!"
+
+#~ msgid "Category"
+#~ msgstr "Категория"
+
+#~ msgid "Change the displayed item category."
+#~ msgstr "Изменить показываемую категорию предметов."
+
+#~ msgid "Chest"
+#~ msgstr "Грудь"
+
+#~ msgid "Chicken"
+#~ msgstr "Курица"
+
+#~ msgid "Choose a character."
+#~ msgstr "Выбери героя."
+
+#~ msgid "Choose a skill category to use."
+#~ msgstr "Выбери категорию умения, чтобы использовать."
+
+#~ msgid "Claw"
+#~ msgstr "Коготь"
+
+#, fuzzy
+#~ msgid "Clear the way, Lilly. I need to speak to him."
+#~ msgstr "Освободи путь, Лили. Мне нужно поговорить с ним..."
+
+#~ msgid "Close this window / Show the system menu"
+#~ msgstr "Закрыть это окно / Показать системное меню"
+
+#~ msgid "Cobalt Helm"
+#~ msgstr "Кобальтовый шлем"
+
+#~ msgid "Come Orlinn!"
+#~ msgstr "Пойдём Орлин!"
+
+#, fuzzy
+#~ msgid "Come here, now!"
+#~ msgstr "Подойди сюда, сейчас же!!!"
+
+#~ msgid "Command"
+#~ msgstr "Команда"
+
+#~ msgid ""
+#~ "Concept art\n"
+#~ "\n"
+#~ "Inventory icons\n"
+#~ "\n"
+#~ "Map sprite animations\n"
+#~ "\n"
+#~ "Concept art\n"
+#~ "\n"
+#~ "Inventory icons\n"
+#~ "\n"
+#~ "Concept art, Map sprites\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Map sprites"
+#~ msgstr ""
+#~ "Идея дизайна\n"
+#~ "\n"
+#~ "Иконки инвентаря\n"
+#~ "\n"
+#~ "Анимации спрайта\n"
+#~ "\n"
+#~ "Идея дизайна\n"
+#~ "\n"
+#~ "Иконки инвентаря\n"
+#~ "\n"
+#~ "Идея дизайна, спрайты\n"
+#~ "\n"
+#~ "Текстуры\n"
+#~ "\n"
+#~ "Текстуры\n"
+#~ "\n"
+#~ "Отобр. спрайтов"
+
+#~ msgid "Conditions:"
+#~ msgstr "Условия:"
+
+#~ msgid "Confirm"
+#~ msgstr "Подтвердить"
+
+#~ msgid "Confirm / Open / Talk: %s"
+#~ msgstr "Подтвердить / Открыть / Говорить: %s"
+
+#~ msgid "Confirm Save"
+#~ msgstr "Подтвердите сохранение"
+
+#~ msgid "Confirm a menu command"
+#~ msgstr "Подтвердить команду меню"
+
+#~ msgid "Confirm an action or menu command"
+#~ msgstr "Подтвердить действие или команду меню"
+
+#~ msgid "Confirm: "
+#~ msgstr "Подтвердите: "
+
+#~ msgid "Confirm: Button"
+#~ msgstr "Подтвердить: кнопка"
+
+#~ msgid "Confirm: retry battle."
+#~ msgstr "Подтвердите: повторить бой."
+
+#~ msgid "Confirm: return to main menu."
+#~ msgstr "Подтвердите: возврат в главное меню."
+
+#~ msgid "Cool Time: %s"
+#~ msgstr "Время покоя: %s"
+
+#~ msgid "Copper Ore"
+#~ msgstr "Медная руда"
+
+#, fuzzy
+#~ msgid "Could you go and buy some barley meal for the three of us?"
+#~ msgstr "Может ты пойдёшь и купишь немного ячменой муки для нас троих?"
+
+#~ msgid "Crested Helmet"
+#~ msgstr "Шлем с гребнем"
+
+#~ msgid "Crystal"
+#~ msgstr "Кристалл"
+
+#~ msgid "Ctrl"
+#~ msgstr "Ctrl"
+
+#, fuzzy
+#~ msgid "Cures moderate poisons from an ally."
+#~ msgstr "Лечит умеренно отравления союзника."
+
+#~ msgid "Current Key"
+#~ msgstr "Текущая кнопка"
+
+#~ msgid "DEF:"
+#~ msgstr "З:"
+
+#~ msgid "Daemarbora"
+#~ msgstr "Демарбора"
+
+#, fuzzy
+#~ msgid "Damn!"
+#~ msgstr "Чёрт!!"
+
+#, fuzzy
+#~ msgid "Dang! And now the rain too."
+#~ msgstr "Чёрт возьми! И дождь теперь..."
+
+#~ msgid "Dark Soldier"
+#~ msgstr "Воин тьмы"
+
+#~ msgid "Dear chosen one, the time has finally come."
+#~ msgstr "Дорогой избранный, время наконец пришло."
+
+#~ msgid "Death Elemental Strength"
+#~ msgstr "Стихийная сила смерти"
+
+#~ msgid "Deceleon"
+#~ msgstr "Диселирон"
+
+#~ msgid "Default Key"
+#~ msgstr "По умолчанию"
+
+#~ msgid "Defense (DEF): "
+#~ msgstr "Защита (З): "
+
+#~ msgid "Demona"
+#~ msgstr "Димона"
+
+#~ msgid "Demonic Essence"
+#~ msgstr "Дьявольское существо"
+
+#~ msgid "Detailed defense:"
+#~ msgstr "Подробно о защите:"
+
+#~ msgid "Did you hear that? (gossip, gossip)"
+#~ msgstr "Ты слышала это? (сплетня, слух)"
+
+#~ msgid "Do as I say and it'll be alright."
+#~ msgstr "Делай как я сказал и это будет правильно."
+
+#, fuzzy
+#~ msgid "Do you know how the others are doing? Are my parents okay?"
+#~ msgstr "Ты знаешь как там другие? Мои родители в порядке?"
+
+#~ msgid ""
+#~ "Do you need some kind of motivation? If so, let me handle this with my "
+#~ "greatest pleasure!"
+#~ msgstr ""
+#~ "Тебе нужна какая-нибудь мотивация? Если так, позволь мне добиться этого с "
+#~ "превеликим удовольствием!"
+
+#~ msgid "Do you need something, Bronann?"
+#~ msgstr "Тебе что-нибудь нужно, Бронан?"
+
+#~ msgid ""
+#~ "Don't blame Kalya. She was having a hard time along with her brother "
+#~ "before living here, you know?"
+#~ msgstr ""
+#~ "Не вини Калю. У ней было сложное время с её братом до проживания здесь, "
+#~ "ты знал? "
+
+#~ msgid "Don't blame him, Kalya. Actually, it was..."
+#~ msgstr "Не вини его, Каля. Фактический, это было..."
+
+#~ msgid "Don't even start, this one is all mine."
+#~ msgstr "Даже не начинай, оно моё."
+
+#~ msgid "Don't forget my trade offers!"
+#~ msgstr "Не забудь мои предложения по обмену!"
+
+#, fuzzy
+#~ msgid "Don't forget that you can press '"
+#~ msgstr "Не забудь, что ты можешь нажать '"
+
+#, fuzzy
+#~ msgid ""
+#~ "Don't listen to him! We must get rid of him before reinforcements arrive "
+#~ "or we're doomed!"
+#~ msgstr ""
+#~ "Не слушай его! Мы должны избавиться от него до прибытия подкрепления или "
+#~ "мы обречены!!"
+
+#, fuzzy
+#~ msgid ""
+#~ "Don't lose faith, Kalya. If we manage to escape from them here, we'll be "
+#~ "safe past the mountains."
+#~ msgstr ""
+#~ "Не теряй веру, Каля. Если здесь нам удастся сбежать от них, мы будем в "
+#~ "безопасности мимо гор."
+
+#~ msgid "Don't venture too far, I'll need your help soon!"
+#~ msgstr "Не рискуй слишком сильно. Мне скоро понадобится твоя помощь!"
+
+#~ msgid "Don't worry Kalya, I have not forgotten my training."
+#~ msgstr "Не беспокойся Каля, я не забыл подготовку."
+
+#, fuzzy
+#~ msgid "Don't worry about it."
+#~ msgstr "Не беспокойся об этом..."
+
+#~ msgid "Don't worry about that, Orlinn. Ok?"
+#~ msgstr "Не беспокойся об этом, Орлин. Хорошо?"
+
+#, fuzzy
+#~ msgid "Don't worry too much, Bronann. Herth will be able to help you."
+#~ msgstr "Не беспокойся так, Бронан, Герц может помочь тебе."
+
+#~ msgid ""
+#~ "Don't worry too much. I'm just preventing strangers from being able to "
+#~ "sneak in at night."
+#~ msgstr ""
+#~ "Не беспокойся так. Я просто не даю незнакомцам подкрадываться ночью."
+
+#, fuzzy
+#~ msgid "Don't worry, I'm fine. Err, what crystal? What... wolf??"
+#~ msgstr "Не беспокойся, я в порядке. Э, какой кристалл? Что ... волк??"
+
+#~ msgid "Don't worry, sis. It's fine, we can tell him."
+#~ msgstr "Не беспокойся, сестра. Это нормально, мы можем сказать ему."
+
+#~ msgid "Don't worry, we'll find him. Ok?"
+#~ msgstr "Не беспокойся, мы найдём его. Хорошо?"
+
+#~ msgid ""
+#~ "Don't worry, we've managed to come this far. There is nothing that "
+#~ "could..."
+#~ msgstr "Не беспокойся, мы долго шли к этому. Ничего, что может..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Don't worry. We'll simply talk to them and they'll move on. You know what "
+#~ "you have to do, right?"
+#~ msgstr ""
+#~ "Нет, не беспокойся. Мы просто поговорим с ними, и они пойдут дальше. Ты "
+#~ "знаешь, что ты должна делать, правильно?"
+
+#~ msgid ""
+#~ "Don't you worry about that, brother. Never leave me like that again, ok?"
+#~ msgstr ""
+#~ "Ты не беспокойся об этом, брат. Никогда не оставляй меня вот так снова, "
+#~ "хорошо?"
+
+#~ msgid "Dorver"
+#~ msgstr "Дорвер"
+
+#~ msgid "Down"
+#~ msgstr "Вниз"
+
+#~ msgid "Down: "
+#~ msgstr "Вниз: "
+
+#~ msgid "Drunes"
+#~ msgstr "Друны"
+
+#~ msgid "Drunes Found: "
+#~ msgstr "Найдено друн: "
+
+#~ msgid "Dryad"
+#~ msgstr "Дриада"
+
+#~ msgid "Dune Crawler"
+#~ msgstr "Ползун дюны"
+
+#~ msgid "EVA: +"
+#~ msgstr "УКЛ: +"
+
+#~ msgid "Earth"
+#~ msgstr "Земля"
+
+#~ msgid "Earth Elemental Strength"
+#~ msgstr "Стихийная сила земли"
+
+#~ msgid "Eh eh? Have you already forgotten that I'm your mother?"
+#~ msgstr "Что что? Ты уже забыл, что я твоя мать?"
+
+#~ msgid "Eh? You really know nothing about women, do you?"
+#~ msgstr "Что? Ты действительно ничего не знаешь о женщинах, не так ли?"
+
+#~ msgid "Elbrus Grotto"
+#~ msgstr "Эльбрус Гротто"
+
+#~ msgid "Elixir"
+#~ msgstr "Эликсир"
+
+#~ msgid "Elvish Feather"
+#~ msgstr "Волшебное перо"
+
+#~ msgid "End"
+#~ msgstr "Конец"
+
+#, fuzzy
+#~ msgid ""
+#~ "English text review\n"
+#~ "\n"
+#~ "Dutch (nl_NL)\n"
+#~ "\n"
+#~ "French (fr)\n"
+#~ "\n"
+#~ "Galician (gl)\n"
+#~ "\n"
+#~ "German (de)"
+#~ msgstr ""
+#~ "Проверка англ. текста\n"
+#~ "\n"
+#~ "Голландского (nl_NL)\n"
+#~ "\n"
+#~ "Французского (fr)\n"
+#~ "\n"
+#~ "Галисийского (gl)\n"
+#~ "\n"
+#~ "Немецкого (de)\n"
+#~ "\n"
+#~ "Итальянского (it)\n"
+#~ "\n"
+#~ "Португальского (pt_PT)\n"
+#~ "\n"
+#~ "Русского (ru)\n"
+#~ "\n"
+#~ "Испанского (es)"
+
+#, fuzzy
+#~ msgid "Enough of this shallow game. Give me your souls, now!"
+#~ msgstr "Довольно этой мелкой игры. Теперь отдайте мне свои души!..."
+
+#~ msgid "Enough!"
+#~ msgstr "Довольно!"
+
+#~ msgid ""
+#~ "Enough! You hid everything from me just like everyone else. You're a "
+#~ "liar! I won't be manipulated anymore!"
+#~ msgstr ""
+#~ "Довольно! Ты скрыла всё от меня, как все. Ты лгунья! Я не буду больше "
+#~ "поддаваться манипулиции!"
+
+#~ msgid "Episode I"
+#~ msgstr "Эпизод I"
+
+#~ msgid "Episode I - Additional Graphics"
+#~ msgstr "Эпизод I - доп. графика"
+
+#~ msgid "Episode I - Main Graphics"
+#~ msgstr "Эпизод I - основная графика"
+
+#~ msgid "Equip"
+#~ msgstr "Снарядить"
+
+#~ msgid "Er, I could use a refresher on the fundamentals of combat."
+#~ msgstr "Эээ, я могу получить переподготовку по основам боя."
+
+#, fuzzy
+#~ msgid "Er, sorry grandma. I have to go! Maybe later?"
+#~ msgstr "Эээ... Сожалею бабуль, Мне нужно идти! Может быть позднее?"
+
+#~ msgid "Er, yes?"
+#~ msgstr "Эээ, да?"
+
+#~ msgid "Erm, ... Well, I don't hear anything special..."
+#~ msgstr "Эээ, ... Ну, я не слышу ничего особенного..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Erm, are you crazy or what? I usually am the one with bad jokes you know."
+#~ msgstr ""
+#~ "Эээ, вы спятили или что? Обычно я один с плохими шутками, ты знаешь..."
+
+#, fuzzy
+#~ msgid "Err, nevermind."
+#~ msgstr "Эээ, неважно..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Err, nevermind. We must find a way to make this move. Let's look around."
+#~ msgstr ""
+#~ "Эээ... Это неважно, мы должны найти способ как пройти. Давай осмотримся."
+
+#, fuzzy
+#~ msgid "Err, not yet."
+#~ msgstr "Эээ, нет уже!"
+
+#~ msgid "Escape"
+#~ msgstr "Esc"
+
+#~ msgid "Escape Smoke"
+#~ msgstr "Дым для побега"
+
+#~ msgid "Evade (EVD): "
+#~ msgstr "Уклонение (УКЛ): "
+
+#~ msgid "Evanium Ore"
+#~ msgstr "Иваниумая руда"
+
+#~ msgid "Evasion"
+#~ msgstr "Уклонение"
+
+#~ msgid ""
+#~ "Even when confronted by someone who can wipe out everything you hold "
+#~ "dear, you dare to stare me in the eyes? I admire such a courageous heart, "
+#~ "my dear one."
+#~ msgstr ""
+#~ "Даже когда стоишь лицом к лицу к тому, кто может уничтожить всё, что ты "
+#~ "имеешь дорогая, ты осмелилась смотреть мне в глаза? Я восхищаюсь таким "
+#~ "храбрым сердцем, дорогая моя."
+
+#, fuzzy
+#~ msgid "Everyone."
+#~ msgstr "Все..."
+
+#~ msgid "Exit to main menu."
+#~ msgstr "Выход в главное меню."
+
+#~ msgid "Experience Level: "
+#~ msgstr "Уровень опыта: "
+
+#~ msgid "Eye"
+#~ msgstr "Глаз"
+
+#~ msgid "Eyeball"
+#~ msgstr "Глазное яблоко"
+
+#~ msgid "FOR: +"
+#~ msgstr "СТ: +"
+
+#~ msgid "Face"
+#~ msgstr "Лицо"
+
+#~ msgid "Fairy"
+#~ msgstr "Фея"
+
+#, fuzzy
+#~ msgid "Farewell, chosen one."
+#~ msgstr "Прощай, избранный..."
+
+#~ msgid "Father!"
+#~ msgstr "Отец!"
+
+#~ msgid "Father! Orlinn has disappeared. I saw him taking the forest pathway!"
+#~ msgstr "Отец! Орлин исчез. Я видела его направляющегося к лесной тропинке!"
+
+#~ msgid "Fenrir"
+#~ msgstr "Фенрир"
+
+#~ msgid "Field"
+#~ msgstr "Поле"
+
+#~ msgid "Field Use:"
+#~ msgstr "В игре исп.:"
+
+#~ msgid "Fight it, Lilly! Focus!"
+#~ msgstr "Сражайся с этим, Лили! Сосредоточься!"
+
+#, fuzzy
+#~ msgid ""
+#~ "Finally, I found some. Lilly had what I sought in her house the whole "
+#~ "time."
+#~ msgstr ""
+#~ "Наконец, я нашёл немного... У Лили, в её доме, было всё время то, что я "
+#~ "искал."
+
+#~ msgid "Find Georges's pen"
+#~ msgstr "Найти перо Джорджа"
+
+#, fuzzy
+#~ msgid "Fine."
+#~ msgstr "Превосходно..."
+
+#~ msgid "Fire"
+#~ msgstr "Огонь"
+
+#~ msgid "Fire Elemental Strength"
+#~ msgstr "Стихийная сила огня"
+
+#~ msgid ""
+#~ "First of all, before going there, you might need better equipment. You "
+#~ "should visit Flora first, ok?"
+#~ msgstr ""
+#~ "Во-первых, до того как идти туда, тебе может необходимо лучше снаряжение. "
+#~ "Тебе следовало бы сначала посетить Флору, хорошо?"
+
+#~ msgid "Flora"
+#~ msgstr "Флора"
+
+#~ msgid "Flora's Boutique"
+#~ msgstr "Небольшой магазин Флоры"
+
+#~ msgid "Foe"
+#~ msgstr "Враг"
+
+#~ msgid "Foe — Point"
+#~ msgstr "Враг — Место"
+
+#~ msgid "For us, it will be but an instant."
+#~ msgstr "Для нас, это было бы только мгновение."
+
+#~ msgid "For you, it might be decades."
+#~ msgstr "Для тебя, это может быть десятилетия."
+
+#~ msgid "Forehead"
+#~ msgstr "Лоб"
+
+#~ msgid "Forest entrance"
+#~ msgstr "Вход в лес"
+
+#~ msgid "Fortitude"
+#~ msgstr "Стойкость"
+
+#~ msgid "Fortitude (FRT): "
+#~ msgstr "Стойкость (СТ): "
+
+#~ msgid "Fortunately, they didn't see me or I would have been caught as well."
+#~ msgstr "К счастью, они меня не увидели или меня бы также поймали."
+
+#~ msgid "Fullscreen"
+#~ msgstr "Во весь экран"
+
+#~ msgid "Funds: "
+#~ msgstr "Деньги: "
+
+#, fuzzy
+#~ msgid "Gahh, ok."
+#~ msgstr "Ох... хорошо."
+
+#, fuzzy
+#~ msgid "Game"
+#~ msgstr "Новая игра"
+
+#~ msgid "Game commands:"
+#~ msgstr "Команды игры:"
+
+#~ msgid "General Purpose"
+#~ msgstr "Общая цель"
+
+#~ msgid "Georges"
+#~ msgstr "Джордж"
+
+#~ msgid "Georges's pen, presumably used to write poetry."
+#~ msgstr "Перо Джорджа, возможно использовалось для написания поэзии."
+
+#~ msgid ""
+#~ "Georges, I simply wanted to ask you whether or not you had any barley "
+#~ "meal left!"
+#~ msgstr ""
+#~ "Джордж, я просто хотел спросить тебя, осталось ли у тебя немного ячменой "
+#~ "муки!"
+
+#~ msgid ""
+#~ "Get out the Buy/Sell/Confirm mode,\n"
+#~ "or quit the shop."
+#~ msgstr ""
+#~ "Выйти из покупок/Продать/Режим подтверждения,\n"
+#~ "или выйти из магазина."
+
+#, fuzzy
+#~ msgid "Get some barley meal"
+#~ msgstr "Приобрести ячменой муки"
+
+#~ msgid ""
+#~ "Gives a reasonable boost in agility to an ally for a small amount of time."
+#~ msgstr "Даёт неплохое повышение скорости у союзника на короткое время."
+
+#~ msgid ""
+#~ "Gives a reasonable boost in strength to an ally for a large amount of "
+#~ "time."
+#~ msgstr "Даёт неплохое повышение силы у союзника на долгое время."
+
+#~ msgid "Good luck Bronann."
+#~ msgstr "Удачи Бронан."
+
+#~ msgid "Good luck, son."
+#~ msgstr "Удачи, сын."
+
+#~ msgid "Good. Let us quickly dispatch this minor threat."
+#~ msgstr "Хорошо. Давай быстро справимся с этой маленькой угрозой."
+
+#, fuzzy
+#~ msgid "Good. Let's go back and wait for them."
+#~ msgstr "Превосходно. Давайте возвращаться и подождём их."
+
+#, fuzzy
+#~ msgid "Gosh! By all heavens, is this...?"
+#~ msgstr "О боже! Всем небесам, это...?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Grandma asked me to catch the chickens that flew away. There are three of "
+#~ "them."
+#~ msgstr "Бабушка попросила меня поймать куриц, которые улетели. Всего три..."
+
+#~ msgid "Graphics"
+#~ msgstr "Графика"
+
+#~ msgid "Great! Now come on!"
+#~ msgstr "Отлично! Теперь пойдём!"
+
+#~ msgid "Great! The tremor has opened a path back to the village!"
+#~ msgstr "Отлично! Легкое землетрясение открыло путь обратно в деревню!"
+
+#, fuzzy
+#~ msgid ""
+#~ "Guards are carefully watching their surroundings. I need to get closer to "
+#~ "see what's happening."
+#~ msgstr ""
+#~ "Охрана тщательно следит за своими окрестностями... Мне нужно подойти "
+#~ "поближе, чтобы увидеть что случилось."
+
+#~ msgid "HP"
+#~ msgstr "ЖС"
+
+#~ msgid "HP: "
+#~ msgstr "ЖС: "
+
+#~ msgid "HP: +"
+#~ msgstr "ЖС: +"
+
+#~ msgid "Harlequin"
+#~ msgstr "Арлекин"
+
+#~ msgid "Harlequin?"
+#~ msgstr "Арлекин?"
+
+#~ msgid "Haste Potion"
+#~ msgstr "Зелье спешки"
+
+#~ msgid "Have we got any other way to leave this place?"
+#~ msgstr "У вас есть какой-нибудь другой способ покинуть это место?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Have you seen one of these before? This is a Layna statue. Praying near "
+#~ "it heals both your mind and body."
+#~ msgstr ""
+#~ "Ты раньше видел такую? Это статуя Лэйны! Помолись рядом и это вылечит "
+#~ "твой разум и тело."
+
+#~ msgid ""
+#~ "Have you still got any barley meal left for my parents and I? My mother "
+#~ "asked me to get some and I..."
+#~ msgstr ""
+#~ "У тебя всё ещё осталась ячменная мука для моих родителей и меня? Моя мама "
+#~ "попросила меня приобрести её и я..."
+
+#, fuzzy
+#~ msgid "He is the only one that can get what I'm looking for."
+#~ msgstr "Он только один, кто может добыть что я ищу..."
+
+#, fuzzy
+#~ msgid ""
+#~ "He thought that I would be the one to be chosen by the crystal. However, "
+#~ "it seems he was wrong. Now, I am to look after you."
+#~ msgstr ""
+#~ "Он думал, что я была бы одна выбрана кристаллом. Однако, кажется, он был "
+#~ "не прав. Теперь, я присматриваю за тобой..."
+
+#, fuzzy
+#~ msgid ""
+#~ "He trained me, taught me magic, and told me the crystal would appear one "
+#~ "day."
+#~ msgstr ""
+#~ "Он тренировал меня, учил магии и рассказал мне, что кристалл должен "
+#~ "появиться однажды..."
+
+#~ msgid ""
+#~ "He was afraid they'd corner us to prevent an escape, and he was right."
+#~ msgstr ""
+#~ "Он боялся, что они загонят нас в угол, чтобы предотвратить побег, и он "
+#~ "был прав."
+
+#~ msgid "He won't slow you down, believe me. Right, Bronann?"
+#~ msgstr "Он не замедлит тебя, поверь мне. Правильно, Бронан!"
+
+#~ msgid ""
+#~ "He's probably 'musing' around the cliffs in the village center right now."
+#~ msgstr "Он вероятно прямо сейчас 'размышляет' вокруг скал в центре деревни."
+
+#~ msgid "Head"
+#~ msgstr "Голова"
+
+#~ msgid "Head Armor"
+#~ msgstr "Защита головы"
+
+#~ msgid "Head: "
+#~ msgstr "Голова: "
+
+#~ msgid "Healing Potion"
+#~ msgstr "Лечебное зелье"
+
+#~ msgid "Hee hee hee!"
+#~ msgstr "Хи хи хи!"
+
+#~ msgid "Hee hee hee! Yes!"
+#~ msgstr "Хи хи хи! Да!"
+
+#~ msgid "Hee hee! (He'll never find me hiding behind the buildings!)"
+#~ msgstr "Хи хи! (он никогда не найдёт меня если я спрячусь за зданиями!)"
+
+#~ msgid "Heh heh, don't worry about it. It will come in time."
+#~ msgstr "Эх эх, не волнуйся об этом. Это придёт со временем."
+
+#~ msgid "Help Menu: %s"
+#~ msgstr "Помощь: %s"
+
+#, fuzzy
+#~ msgid "Help!"
+#~ msgstr "Помогите!!"
+
+#~ msgid "Help: Button"
+#~ msgstr "Карта: кнопка"
+
+#~ msgid "Here it is, Bronann."
+#~ msgstr "Вот она, Бронан."
+
+#~ msgid "Here it is, Georges."
+#~ msgstr "Вот оно, Джордж."
+
+#, fuzzy
+#~ msgid ""
+#~ "Here we are, looking at this huge and wonderful, yet creepy door. I don't "
+#~ "like this."
+#~ msgstr ""
+#~ "Вот мы, смотрим на эту огромную, чудную и ужасную дверь... Мне не "
+#~ "нравиться это..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Here you can find the hit points (HP) and skill points (SP) of the ally "
+#~ "party. Don't let our HP reach 0 or we're doomed!"
+#~ msgstr ""
+#~ "Здесь ты можешь найти жизненную силу (ЖС) и умения силу (УС) всех "
+#~ "союзников компании. Не позволяй нашей ЖС достичь 0 или мы обречены!"
+
+#~ msgid "Herth"
+#~ msgstr "Герц"
+
+#, fuzzy
+#~ msgid "Herth prepared me all my life for this very day."
+#~ msgstr "Герц подготавливал меня... всю мою жизнь... для этого самого дня..."
+
+#~ msgid ""
+#~ "Herth sent you? But he told me it was nothing, that he would handle it!"
+#~ msgstr ""
+#~ "Герц послал тебя? Но он сказал мне, что то было пустяком, и что он бы "
+#~ "уладил это!"
+
+#~ msgid "Herth, we both know it'll likely..."
+#~ msgstr "Герц, мы оба знаем, что это вероятно..."
+
+#, fuzzy
+#~ msgid "Herth."
+#~ msgstr "Герц"
+
+#~ msgid ""
+#~ "Hey son! Did you sleep well? Hmm, now where did I leave that oil lamp?"
+#~ msgstr "Эй сын! Спал хорошо? Хм, и вот, где я оставил масляную лампу?"
+
+#~ msgid ""
+#~ "Hey, wait! All of the village elders' nerves are on edge. There is "
+#~ "something going on here! Why won't you tell me?"
+#~ msgstr ""
+#~ "Эй, постой! Все старейшины деревни на нервах. Там кое-что происходит! "
+#~ "Почему вы не говорите мне?"
+
+#~ msgid "Hey, why would I tell you my hiding spots?!"
+#~ msgstr "Эй, зачем бы мне рассказывать тебе мои укромные места?!"
+
+#~ msgid "Heya bro! Wanna play with me?"
+#~ msgstr "Эй, братишка! Хочешь поиграть со мной?"
+
+#~ msgid "Hi Bronann! What can I do for you?"
+#~ msgstr "Привет Бронан! Что я могу сделать для тебя?"
+
+#~ msgid "Hi Bronann."
+#~ msgstr "Привет Бронан."
+
+#~ msgid "Hi Dad! Um, I don't know. Sorry."
+#~ msgstr "Привет пап! Гм, я не знаю. Сожалею."
+
+#~ msgid "Hi Flora! Do you have some barley meal left?"
+#~ msgstr "Привет Флора! У тебя осталась ячменая мука?"
+
+#~ msgid ""
+#~ "Hi Flora! Err, could you lend me one of your training swords? I'd like to "
+#~ "practice a bit."
+#~ msgstr ""
+#~ "Привет Флора! Э, может вы одолжите мне один из своих тренировочных мечей? "
+#~ "Мне хотелось бы попрактиковаться немного."
+
+#~ msgid "Hi Georges. Erm, I'm coming from the shop and I ..."
+#~ msgstr "Привет Джордж. Э, я пришёл из магазина и я ..."
+
+#~ msgid "Hi Herth. I see you've blocked the gate, why so?"
+#~ msgstr "Привет Герц. Я вижу, что ты заблокировал ворота, зачем так?"
+
+#~ msgid "Hi hi hi... What's happening to me..."
+#~ msgstr "Привет, привет, привет... Что происходит со мной..."
+
+#~ msgid "Hi hi... Hi hi hi... I can't stop!!"
+#~ msgstr ""
+#~ "Привет, привет... Привет, привет, привет... Я не могу остановиться!!"
+
+#, fuzzy
+#~ msgid "Hi mom. Huh, how did you know?"
+#~ msgstr "Привет мам. Ха, как ты узнала...?"
+
+#~ msgid "Hi son, did you have a nightmare again last night?"
+#~ msgstr "Привет сын, у тебя опять кошмар в последнюю ночь?"
+
+#, fuzzy
+#~ msgid "Hmm, I'll go to Flora's shop. I hope she'll help me."
+#~ msgstr "Хм, Я пойду в магазин Флоры. Я надеюсь, что она поможет мне..."
+
+#~ msgid "Hmm, right. I'm not sure that I fully get what you mean, but..."
+#~ msgstr ""
+#~ "Хм, правильно. Я не уверен, что я полностью понимаю, что ты имеешь в "
+#~ "виду, но..."
+
+#~ msgid "Hmm, the door is locked."
+#~ msgstr "Хм, дверь заперта."
+
+#, fuzzy
+#~ msgid "Hmm. Nevermind."
+#~ msgstr "Хм... Неважно."
+
+#~ msgid "Hmpf, no surprise. Do you want me to bring him back?"
+#~ msgstr "Хм, не удивительно. Ты хочешь, чтобы я его привела?"
+
+#, fuzzy
+#~ msgid "Hmph, just go boy. You'll be free after that, ok?"
+#~ msgstr ""
+#~ "Хм, всего лишь пойти, сынок. Ты можешь быть свободен после этого, хорошо?"
+
+#~ msgid "Hmph. Soldiers, leave that man to me!"
+#~ msgstr "Хм. Воины, оставте этого смельчака мне!"
+
+#~ msgid "Hold on Bronann!"
+#~ msgstr "Подожди Бронан!"
+
+#~ msgid "How could I be hurt by... children..."
+#~ msgstr "Как я могу причинить боль... детям..."
+
+#, fuzzy
+#~ msgid "How in Layna did you reach Mt Elbrus all alone?"
+#~ msgstr "Как, только вы, из Лэйны добрались до г. Эльбрус?"
+
+#~ msgid "How?"
+#~ msgstr "Как?"
+
+#~ msgid "However, I don't know what it means."
+#~ msgstr "Однако, я не знаю что это значит."
+
+#~ msgid "Huh, please Georges. I do not want to run away like the last time..."
+#~ msgstr ""
+#~ "Ха, пожалуйста Джордж. Я не хочу выйти из-под контроля как последний "
+#~ "раз..."
+
+#~ msgid "Huh?"
+#~ msgstr "А?"
+
+#~ msgid "Huh? Hey! But..."
+#~ msgstr "А? Эй! Но..."
+
+#~ msgid "Huh? Hey, what's happening here?!"
+#~ msgstr "А? Эй, что здесь случилось?!"
+
+#, fuzzy
+#~ msgid "Huh? How do you know my name?"
+#~ msgstr "Ха? Как ты знаешь моё имя??"
+
+#~ msgid "Huh? Wait! Are you talking about Georges's lost pen?"
+#~ msgstr "А? Постой! Ты говоришь насчёт потеряного пера Джорджа?"
+
+#, fuzzy
+#~ msgid "Huh? Wait, I didn't do anything this time!"
+#~ msgstr "... А? Подожди, я ничего не делал в этот раз!!"
+
+#~ msgid "Huh? Well, Orlinn doesn't disappear every day, you know?"
+#~ msgstr "А? Ну, Орлин не исчезает каждый день, ты знаешь?"
+
+#~ msgid "Huh? What was that light?"
+#~ msgstr "А? Что за свет?"
+
+#~ msgid "Huh?! What? Why? You told me that I could go into the forest and..."
+#~ msgstr "А?! Что? Почему? Ты говорил мне, что я могу войти в лес и..."
+
+#~ msgid "Hurray! Those idiots will have a hard time catching us now!"
+#~ msgstr "Ура! Теперь этим идиотам будет тяжёло схватить нас!"
+
+#, fuzzy
+#~ msgid "Hurry up! They're coming!"
+#~ msgstr "Торопись! Они приближаются!!"
+
+#, fuzzy
+#~ msgid ""
+#~ "I already told you, again and again, Banesore. I don't know anything "
+#~ "about such a crystal."
+#~ msgstr ""
+#~ "Я уже говорила тебе, неоднократно, Бэйнсор, я не знаю ничего о таком "
+#~ "кристалле."
+
+#, fuzzy
+#~ msgid "I also left my parents behind."
+#~ msgstr "Я тоже оставил моих родителей там..."
+
+#, fuzzy
+#~ msgid ""
+#~ "I believe we don't really have a choice. Somehow this place... called me."
+#~ msgstr ""
+#~ "Я верю в то, что у нас нет выбора... Почему-то это место... зовёт меня."
+
+#, fuzzy
+#~ msgid ""
+#~ "I can feel a breeze and see light entering the cave from around this "
+#~ "rock. Orlinn must have gone through here."
+#~ msgstr ""
+#~ "Я чувствую бриз и вижу свет выходящий из пещеры вокруг этой скалы. Орлин "
+#~ "должно быть ушёл туда."
+
+#~ msgid "I can feel it, sis'. It's coming!"
+#~ msgstr "Я чувствую это, сестра. Она приближается!"
+
+#, fuzzy
+#~ msgid "I can feel something moving far below."
+#~ msgstr "Я чувствую, что кое-что вдалеке внизу переместилось..."
+
+#, fuzzy
+#~ msgid "I can hear water everywhere."
+#~ msgstr "Я слышу воду отовсюду..."
+
+#, fuzzy
+#~ msgid "I can't go back now."
+#~ msgstr "Я не могу вернутся сейчас..."
+
+#, fuzzy
+#~ msgid "I can't let them die. I have to find out something."
+#~ msgstr "Я не могу позволить им, я должен выяснить кое-что..."
+
+#, fuzzy
+#~ msgid "I can't sis. I can feel it... calling me."
+#~ msgstr "Я не могу сестра... Я чувствую это... зовущее меня..."
+
+#, fuzzy
+#~ msgid "I couldn't agree more."
+#~ msgstr "Я больше не могу не согласиться ..."
+
+#~ msgid ""
+#~ "I did, but he just slipped through my fingers at the very second that "
+#~ "strange light appeared."
+#~ msgstr ""
+#~ "Да, но он просто ускользнул сквозь мои пальцы в сущую секунду, когда "
+#~ "странный свет появился."
+
+#, fuzzy
+#~ msgid ""
+#~ "I didn't know that there was a cave here. It's kind of creepy. Let's "
+#~ "hurry and find Orlinn."
+#~ msgstr ""
+#~ "Я не знала, что здесь была пещера. Вроде ужасная... Давай поспешим и "
+#~ "найдём Орлина."
+
+#, fuzzy
+#~ msgid "I didn't think I would say this, but thank you Orlinn."
+#~ msgstr "... Я не думала, что я сказала бы это, но... Спасибо тебе Орлин."
+
+#~ msgid "I do remember you, old man..."
+#~ msgstr "Я не забыл тебя, старик..."
+
+#, fuzzy
+#~ msgid "I don't have any other choice, Lilly."
+#~ msgstr "У меня нет другого выбора, Лили..."
+
+#, fuzzy
+#~ msgid "I don't know, I felt something crack."
+#~ msgstr "... Я не знаю, я полагаю, что на меня что-то упало ..."
+
+#, fuzzy
+#~ msgid "I don't know."
+#~ msgstr "Я не знаю..."
+
+#, fuzzy
+#~ msgid "I don't know... Ah, I can barely breathe!"
+#~ msgstr "Я не знаю... Ах, я могу едва дышать! ..."
+
+#~ msgid "I don't think I was talking to you, now was I?"
+#~ msgstr "Я не думаю, что я говорила тебе, не так ли?"
+
+#~ msgid ""
+#~ "I don't think so, Orlinn. We both know you didn't do it on purpose, right?"
+#~ msgstr ""
+#~ "Я так не думаю, Орлин. Мы оба знаем, что ты не делал это нарочно, я права?"
+
+#~ msgid "I don't want to hear it! Now, come!"
+#~ msgstr "Я не хочу этого слышать! Сейчас же подойди!"
+
+#, fuzzy
+#~ msgid ""
+#~ "I fear he just wanted to protect you and make you all meet your destiny "
+#~ "at the same time."
+#~ msgstr ""
+#~ "Я боюсь, что он просто хотел защитить тебя и чтобы вы все встретели свою "
+#~ "участь в одно и то же время..."
+
+#, fuzzy
+#~ msgid "I feel dizzy. So many things have happened in such little time."
+#~ msgstr ""
+#~ "Я чувствую головокружение... Столько вещей случилось в такой короткий "
+#~ "промежуток времени..."
+
+#, fuzzy
+#~ msgid "I feel much better now."
+#~ msgstr "Я чувствую себя сейчас намного лучше..."
+
+#~ msgid "I feel... I..."
+#~ msgstr "Я чувствую... я..."
+
+#, fuzzy
+#~ msgid "I found that pen near the tree behind you. I just wanted to play."
+#~ msgstr "Я нашёл его вблизи дерева, позади тебя. Я просто хотел поиграть..."
+
+#, fuzzy
+#~ msgid "I found that pen under a tree near the river. I just wanted to play."
+#~ msgstr "Я нашёл его вблизи дерева, позади тебя. Я просто хотел поиграть..."
+
+#, fuzzy
+#~ msgid ""
+#~ "I found you! My comrades will be here in no time. Surrender now, or "
+#~ "you'll be punished!"
+#~ msgstr ""
+#~ "Я нашёл тебя!! Мои товарищи будут здесь в мгновение ока. Сдавайся сейчас "
+#~ "или ты будешь наказан!!"
+
+#, fuzzy
+#~ msgid "I guess it's better than nothing. But Orlinn, you stay with us."
+#~ msgstr ""
+#~ "Я думаю, что это лучше чем ничего... Тем не менее Орлин, ты остаёшься с "
+#~ "нами."
+
+#, fuzzy
+#~ msgid ""
+#~ "I had that same nightmare again. This time, however, I still feel dizzy "
+#~ "even after getting up."
+#~ msgstr ""
+#~ "Опять этот же кошмар... На этот раз, однако, я всё ещё чувствую "
+#~ "головокружение даже после того, как встал..."
+
+#, fuzzy
+#~ msgid "I have a bad feeling about all this now."
+#~ msgstr "... У меня сейчас плохое предчувствие насчёт всего этого..."
+
+#~ msgid "I hope Orlinn is alright."
+#~ msgstr "Я надеюсь с Орлином всё хорошо."
+
+#, fuzzy
+#~ msgid "I knew the crystal would appear."
+#~ msgstr "Я знала, что кристалл появится..."
+
+#~ msgid ""
+#~ "I know, but everything has changed. I'll explain it to you once it is all "
+#~ "finished. Now go, my son."
+#~ msgstr ""
+#~ "Я знаю, но всё изменилось. Я объясню это тебе однажды, когда это всё "
+#~ "кончится. Сейчас иди, мой сын."
+
+#, fuzzy
+#~ msgid "I merely remember a voice in my head. Telling me to come."
+#~ msgstr ""
+#~ "Я просто помню голос в моей голове... говорящий мне, чтобы я пришёл..."
+
+#, fuzzy
+#~ msgid "I might as well move on and forget about it."
+#~ msgstr "Мне желательно встать и забыть об этом..."
+
+#, fuzzy
+#~ msgid "I need to, I guess."
+#~ msgstr "Я должен быть ... я так думаю."
+
+#, fuzzy
+#~ msgid ""
+#~ "I promise I didn't do it this time. I just fell in front of this hideous "
+#~ "green head."
+#~ msgstr ""
+#~ "Я уверяю, что я не делал это в этот раз. Я просто упал перед этой ужасной "
+#~ "зелёной головой..."
+
+#, fuzzy
+#~ msgid "I promise I won't bother you again."
+#~ msgstr "Я обещал, что я не буду беспокоить тебя снова ..."
+
+#, fuzzy
+#~ msgid "I really hope we are."
+#~ msgstr "Я действительно надеюсь, что мы..."
+
+#, fuzzy
+#~ msgid ""
+#~ "I see. Then there are two very important things that you need to know."
+#~ msgstr ""
+#~ "Я вижу... Тогда есть две очень важные вещи, которые тебе нужно знать:"
+
+#, fuzzy
+#~ msgid "I shall become one with our only hope."
+#~ msgstr "Я соединюсь с нашей единственной надеждой..."
+
+#, fuzzy
+#~ msgid ""
+#~ "I shall bring your souls to the master. You don't stand a chance against "
+#~ "the Great Harlequin."
+#~ msgstr ""
+#~ "Я принесу ваши души хозяину. У вас нет шансов устоять против великого "
+#~ "арлекина..."
+
+#, fuzzy
+#~ msgid "I should be able to sneak through when they're not watching."
+#~ msgstr "Мне следовало бы суметь подкрасться, когда они не наблюдают..."
+
+#, fuzzy
+#~ msgid "I should be fine, but we should heal just in case."
+#~ msgstr "Я должно быть здорова, но нам лучше вылечиться на всякий случай..."
+
+#, fuzzy
+#~ msgid "I should be fine, thanks."
+#~ msgstr "Я должно быть здорова, но нам лучше вылечиться на всякий случай..."
+
+#, fuzzy
+#~ msgid "I should follow them silently."
+#~ msgstr "Мне следовало бы следовать за ними молча..."
+
+#, fuzzy
+#~ msgid "I should really get back home."
+#~ msgstr "Мне действительно следовало бы вернуться домой..."
+
+#, fuzzy
+#~ msgid "I still feel really dizzy, but I'll be ok."
+#~ msgstr "Я всё ещё чувствую головокружение, но я буду в порядке..."
+
+#~ msgid "I suppose you just saw that light, right?"
+#~ msgstr "Я думаю, что ты только что видел этот свет, правильно?"
+
+#~ msgid "I swear it's the truth!"
+#~ msgstr "Я клянусь, что это правда!"
+
+#, fuzzy
+#~ msgid ""
+#~ "I understand why Grandma actually never saw you using the 'normal' path."
+#~ msgstr ""
+#~ "... Я понял почему бабушка фактически никогда не видела тебя использующей "
+#~ "'обычную' тропинку..."
+
+#~ msgid "I was able to find them!"
+#~ msgstr "Я смог найти их!"
+
+#, fuzzy
+#~ msgid ""
+#~ "I wasn't out for no reason. Herth sent me to watch for soldiers in the "
+#~ "west parts of the forest."
+#~ msgstr ""
+#~ "Я не отсутствовал без причины. На самом деле, Герц отправил меня следить "
+#~ "за воинами в западных частях леса."
+
+#~ msgid "I will... try."
+#~ msgstr "Я... попытаюсь."
+
+#, fuzzy
+#~ msgid "I wouldn't mind some help..."
+#~ msgstr "Я больше не могу не согласиться ..."
+
+#~ msgid "I'll cut those ropes!"
+#~ msgstr "Я разрежу эти верёвки!"
+
+#, fuzzy
+#~ msgid "I'll do it."
+#~ msgstr "... Я сделаю это."
+
+#, fuzzy
+#~ msgid "I'll fix this."
+#~ msgstr "Я это исправлю..."
+
+#, fuzzy
+#~ msgid ""
+#~ "I'll go and get Herth. Your parents must be worried. Go home. We'll meet "
+#~ "there."
+#~ msgstr ""
+#~ "Я пойду и найду Герца. Твои родители должно быть беспокоятся... Иди "
+#~ "домой... Мы там встретимся."
+
+#~ msgid "I'll see what I can do about it."
+#~ msgstr "Я посмотрю, что я могу сделать насчёт этого."
+
+#~ msgid "I'll stay here as long as you need me. Do you want to buy something?"
+#~ msgstr "Я останусь здесь, пока я тебе нужна. Хочешь купить что-нибудь?"
+
+#, fuzzy
+#~ msgid ""
+#~ "I'll try not to think about what it could have done to Orlinn. Let's find "
+#~ "him... quickly."
+#~ msgstr ""
+#~ "Я попробую, не думать о том, что это могло бы случиться с Орлином... Нам "
+#~ "нужно найти его... побыстрее."
+
+#, fuzzy
+#~ msgid "I'm fine, I guess. The pain faded away."
+#~ msgstr "... Я в порядке... Я думаю... Боль исчезла..."
+
+#~ msgid "I'm now equipped, and access to the forest has been granted!"
+#~ msgstr "Я теперь снаряжён, и доступ в лес разрешён!"
+
+#, fuzzy
+#~ msgid ""
+#~ "I'm relieved that Orlinn is fine as well. Speaking of that, Orlinn! Stop "
+#~ "running and come here right now!"
+#~ msgstr ""
+#~ "Мне легче, с Орлином тоже всё в порядке... Так: Орлин! Прекрати убегать и "
+#~ "подойди сюда прямо сейчас!"
+
+#~ msgid "I'm so relieved we made it safely, hee hee."
+#~ msgstr "У меня такое облегчение, мы благополучно сделали это, хе хе."
+
+#, fuzzy
+#~ msgid ""
+#~ "I've never been this far from the village without Herth. This place gives "
+#~ "me the chills."
+#~ msgstr ""
+#~ "Я раньше никогда не была так далеко одна... Это место вызывает у меня "
+#~ "дрожь..."
+
+#, fuzzy
+#~ msgid "I, I guess so."
+#~ msgstr "Я... Я думаю да. ..."
+
+#, fuzzy
+#~ msgid ""
+#~ "I, I, I sincerely don't know. I swear! It was like I was... dreaming."
+#~ msgstr ""
+#~ "Я... Я... Я искренне не знаю... Я клянусь! Я был похоже... видел сон..."
+
+#, fuzzy
+#~ msgid "I, I..."
+#~ msgstr "Я, я ..."
+
+#~ msgid "I..."
+#~ msgstr "Я..."
+
+#, fuzzy
+#~ msgid "I... can't. My body... Argh!"
+#~ msgstr "Я ... не могу. Моё тело ... Ай!"
+
+#, fuzzy
+#~ msgid "If this crystal is so powerful, then I'll use it. And I'll fix this."
+#~ msgstr ""
+#~ "Если этот кристалл так силён, тогда я использую его ... и я исправлю "
+#~ "это..."
+
+#, fuzzy
+#~ msgid ""
+#~ "If we can reach the great plains, we should indeed be out of trouble."
+#~ msgstr ""
+#~ "Если мы достигнем горных равнин, мы наверно избежим неприятностей..."
+
+#, fuzzy
+#~ msgid ""
+#~ "If we wouldn't have gotten here all by ourselves, I would swear "
+#~ "Banesore's army pushed us here on purpose."
+#~ msgstr ""
+#~ "Мы не сбежим от всех сами, я ручаюсь, что армия Бэйнсора подвела нас сюда "
+#~ "нарочно..."
+
+#, fuzzy
+#~ msgid "If you're running after Orlinn, I just saw him near your house."
+#~ msgstr ""
+#~ "Если ты гоняешься за Орлином, я как раз видела его исчезнувшим вблизи "
+#~ "твоего дома. "
+
+#, fuzzy
+#~ msgid ""
+#~ "In battle, our icons and those of our enemies will rise up on the stamina "
+#~ "bar. The more agility you have, the faster your icon will climb."
+#~ msgstr ""
+#~ "В бою, наши иконки выносливости и наших врагов поднимаются в панели "
+#~ "выносливости. Более  быстрый из нас быстрее достигнет верхней части этой "
+#~ "панели."
+
+#, fuzzy
+#~ msgid ""
+#~ "In order to know who Georges gave the rest of his barley meal to, I need "
+#~ "to get back his lost pen.\n"
+#~ " \n"
+#~ "He said he lost it near a tree. He also told me that people in the "
+#~ "village might know more."
+#~ msgstr ""
+#~ "Чтобы узнать кому Джордж отдал оставшуюся ячменую муку, мне нужно вернуть "
+#~ "ему потерянное перо.\n"
+#~ " \n"
+#~ "Он сказал, что потерял его вблизи дерева; он таже сказал мне о том, что "
+#~ "люди в деревне может знают больше..."
+
+#, fuzzy
+#~ msgid ""
+#~ "In our basement. The other stairs there are leading to my room. This "
+#~ "house is an ancient sanctuary, so it might explain why you're feeling "
+#~ "better."
+#~ msgstr ""
+#~ "В нашем подвале. Другая лестница там ведёт в мою комнату. Этот дом "
+#~ "является древним святилищем, только так можно объяснить почему ты "
+#~ "чувствуешь себя лучше..."
+
+#~ msgid "Indeed! They've been had!"
+#~ msgstr "Действительно! Они остались с носом!"
+
+#~ msgid "Indeed! Yeepee!"
+#~ msgstr "Действительно! Ураа!"
+
+#, fuzzy
+#~ msgid "Indeed, it must be a long time ago."
+#~ msgstr "Действительно, это должно быть давно..."
+
+#~ msgid "Indeed. It seems the scent has no effect on us anymore."
+#~ msgstr "Действительно. Кажется, этот запах больше не влияет на нас."
+
+#~ msgid "Input enabled: "
+#~ msgstr "Включить: "
+
+#~ msgid ""
+#~ "Inquire our comrades in the settlement, perhaps somebody has laid their "
+#~ "eyes on it."
+#~ msgstr "Спроси наших товарищей в деревне, возможно кто-то видел его."
+
+#~ msgid "Invalid Element"
+#~ msgstr "Неверная стихия"
+
+#~ msgid "Invalid Status"
+#~ msgstr "Неверное состояние"
+
+#~ msgid "Invalid Target"
+#~ msgstr "Не та цель"
+
+#~ msgid "Invalid data!"
+#~ msgstr "Неверные данные!"
+
+#~ msgid "Inventory"
+#~ msgstr "Инвентарь"
+
+#~ msgid "Invocation"
+#~ msgstr "Вызов"
+
+#~ msgid "Iron Ore"
+#~ msgstr "Железная руда"
+
+#~ msgid "Iron Sword"
+#~ msgstr "Железный меч"
+
+#~ msgid "It is 'Lord Banesore', you scum!"
+#~ msgstr "Это 'Лорд Бэйнсор', ты мерзавка!"
+
+#, fuzzy
+#~ msgid ""
+#~ "It ran away again. I'm glad we survived. Let's get out of here before it "
+#~ "comes back."
+#~ msgstr ""
+#~ "Он опять убежал... Я рада, что мы выжили... Нам нужно убежать отсюда до "
+#~ "того, как он обратно придёт."
+
+#, fuzzy
+#~ msgid ""
+#~ "It ran away. I'm almost certain that we'll meet it again. We'd better be "
+#~ "more prepared next time."
+#~ msgstr ""
+#~ "Он убежал... Я почти уверен, что мы встретим его снова... Нам лучше быть "
+#~ "более подготовленными в следующий раз."
+
+#, fuzzy
+#~ msgid ""
+#~ "It says: 'I fathomed it! After all, not every ladder is made of wood. "
+#~ "Now, I'll have to get back there alive.'"
+#~ msgstr ""
+#~ "Тут написано: 'Я  понял это! В конце концов, ни все лестницы сделаны из "
+#~ "дерева. Теперь, я должен вернуться туда живым...'"
+
+#, fuzzy
+#~ msgid "It seems Orlinn was able to go through those platforms. Somehow."
+#~ msgstr "Похоже Орлин смог пройти через эти платформы... как-то."
+
+#, fuzzy
+#~ msgid "It seems somebody left a note here on purpose."
+#~ msgstr "... Кажется кто‐то нарочно оставил здесь записку..."
+
+#~ msgid "It seems the way is clear now."
+#~ msgstr "Кажется дорога теперь очищена."
+
+#, fuzzy
+#~ msgid ""
+#~ "It should have been me. But I couldn't move. And now, I have to fix my "
+#~ "mistake."
+#~ msgstr ""
+#~ "Мне следовало сделать это... Но я не смогла двинуться. А сейчас, я должна "
+#~ "исправить мою ошибку..."
+
+#~ msgid "It's a possibility. But don't worry too much, ok?"
+#~ msgstr "Это возможно. Но не беспокойся так, хорошо?"
+
+#, fuzzy
+#~ msgid ""
+#~ "It's been weeks since I could go outside the village.\n"
+#~ " \n"
+#~ "The entrance has been shut with stones, and now they won't even let me go "
+#~ "and breathe in the only place I could be alone?!?\n"
+#~ " \n"
+#~ "Whatever. I need a sword just in case, and I'll get there alone!"
+#~ msgstr ""
+#~ "С тех пор прошли недели, когда я мог выйти на улицу с деревни.\n"
+#~ " \n"
+#~ "Вход закрыт камнями, и теперь они даже не позволяют мне пойти и подышать "
+#~ "в единственное место, где я мог быть один?!?\n"
+#~ " \n"
+#~ "Всё, что мне нужно... меч на всякий случай... и я доберусь туда один!"
+
+#, fuzzy
+#~ msgid "It's fine, I'll come."
+#~ msgstr "Хорошо. Я иду..."
+
+#~ msgid "It's my room upstairs. Don't even think about it!"
+#~ msgstr "Там наверху моя комната. Даже не думай об этом!"
+
+#, fuzzy
+#~ msgid ""
+#~ "It's not like I actually want to open this, but how are we going to do so?"
+#~ msgstr ""
+#~ "Не так, чтобы я действительно хотела бы открыть это, но как мы войдём?"
+
+#~ msgid "It's the scent, ah ah ah."
+#~ msgstr "Этот запах, ах ах ах."
+
+#, fuzzy
+#~ msgid "It's time to think Lilly."
+#~ msgstr "Пора подумать Лили..."
+
+#, fuzzy
+#~ msgid "It's time."
+#~ msgstr "Пора..."
+
+#, fuzzy
+#~ msgid "It's too early, darling. We might be wrong."
+#~ msgstr "Слишком рано, дорогая... Мы можем быть не правы."
+
+#~ msgid "Item<R>Type   ×"
+#~ msgstr "Предмет<R>Тип   ×"
+
+#~ msgid "Items"
+#~ msgstr "Предметы"
+
+#~ msgid "Items Found"
+#~ msgstr "Найденные предметы"
+
+#~ msgid ""
+#~ "Jewelry is a gift from the heavens to remind us that beauty can be as "
+#~ "pure on the outside as it is on the inside. Besides, it suits me better "
+#~ "than it would you."
+#~ msgstr ""
+#~ "Драгоценности являются даром с небес, которые напомнают нам, что красота "
+#~ "может быть как безупречна снаружи, так и внутри. Кроме того, это подходит "
+#~ "мне больше чем тебе."
+
+#~ msgid "Joystick Settings"
+#~ msgstr "Настройки джойстика"
+
+#~ msgid "Just find our *poet* and he should give you some barley meal, ok?"
+#~ msgstr ""
+#~ "Просто найди нашего *поэта* и он наверное даст тебе ячменой муки, хорошо?"
+
+#, fuzzy
+#~ msgid "Just stand in front of the goddess below the spring and push '%s'."
+#~ msgstr "Просто стань перед статуей богини у родника и нажми '%s'."
+
+#, fuzzy
+#~ msgid "Just tell me when you're ready and I'll throw you up there."
+#~ msgstr "Просто скажи мне когда ты будешь готов и я тебя туда подброшу."
+
+#~ msgid "Kalya"
+#~ msgstr "Каля"
+
+#~ msgid "Kalya joins your party!"
+#~ msgstr "Каля присоединилась к твоей компании!"
+
+#, fuzzy
+#~ msgid "Kalya! Now!"
+#~ msgstr "Каля! Сейчас!!"
+
+#~ msgid "Kalya! You'd better be careful!"
+#~ msgstr "Каля! Ты лучше была бы осторожной!"
+
+#~ msgid "Kalya's home basement"
+#~ msgstr "Подвал дома Кали"
+
+#~ msgid "Kalya, Bronann!"
+#~ msgstr "Каля, Бронан!"
+
+#, fuzzy
+#~ msgid "Kalya, err..."
+#~ msgstr "Каля, ... Эээ ..."
+
+#~ msgid "Kalya, have you seen Orlinn?"
+#~ msgstr "Каля, ты видела Орлина?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Kalya, the army is coming. I'll deal with them. You go and find Orlinn as "
+#~ "fast as possible."
+#~ msgstr ""
+#~ "Каля, армия приближается. Я буду сражаться с ними, ты, иди и найди Орлина "
+#~ "как можно скорее."
+
+#, fuzzy
+#~ msgid "Kalya, you were supposed to keep an eye on him!"
+#~ msgstr "Каля! Ты должна была держать глаз на нём!"
+
+#, fuzzy
+#~ msgid ""
+#~ "Kalya. We're in the middle of a cave and you're only thinking about "
+#~ "wearing jewels?"
+#~ msgstr ""
+#~ "Каля ... Мы в середине пещеры и ты только думаешь о ношении "
+#~ "драгоценностей."
+
+#~ msgid "Kalya?!"
+#~ msgstr "Каля?!"
+
+#~ msgid "Karlate Breastplate"
+#~ msgstr "Карлэйтский нагрудник"
+
+#~ msgid "Keep quiet, little brat!"
+#~ msgstr "Успокойся, маленькое отродье!"
+
+#~ msgid "Keep quiet, you old daft rat!"
+#~ msgstr "Успокойся, ты старый и глупый провокатор!"
+
+#~ msgid "Key Items"
+#~ msgstr "Ключевые предметы"
+
+#~ msgid "Key Settings"
+#~ msgstr "Настройки кнопок"
+
+#~ msgid "Knight's Blade"
+#~ msgstr "Клинок рыцаря"
+
+#~ msgid "Language"
+#~ msgstr "Язык"
+
+#~ msgid "Layna Forest"
+#~ msgstr "Лес Лэйны"
+
+#~ msgid "Layna Forest Cave"
+#~ msgstr "Лесная пещера Лэйны"
+
+#, fuzzy
+#~ msgid ""
+#~ "Layna Village was abandoned a long time ago, before your parents and all "
+#~ "the others settled here. Your mother never told you that?"
+#~ msgstr ""
+#~ "Ну, деревня Лэйны была заброшена очень давно, прежде чем твои родители и "
+#~ "все другие пришли сюда жить... Твоя мама никогда не говорила тебе это?"
+
+#~ msgid "Lead Programming, Scripting, Maps"
+#~ msgstr "Рук. прогр., Нап. скриптов, Карты"
+
+#~ msgid "Leather Chain Mail"
+#~ msgstr "Кожаная кольчуга"
+
+#, fuzzy
+#~ msgid "Leather Cloak"
+#~ msgstr "Кожаный плащ"
+
+#~ msgid "Leather boots"
+#~ msgstr "Кожаные ботинки"
+
+#~ msgid "Leave"
+#~ msgstr "Покинуть"
+
+#~ msgid "Left"
+#~ msgstr "Налево"
+
+#~ msgid "Left: "
+#~ msgstr "Налево: "
+
+#~ msgid "Leg"
+#~ msgstr "Нога"
+
+#~ msgid "Leg Armor"
+#~ msgstr "Защита ног"
+
+#~ msgid "Leg: "
+#~ msgstr "Ноги: "
+
+#~ msgid "Legs"
+#~ msgstr "Ноги"
+
+#, fuzzy
+#~ msgid "Let everyone go. We don't have your 'crystal'."
+#~ msgstr "...И никого не спрашивай. У нас нет вашего 'кристалла'..."
+
+#, fuzzy
+#~ msgid "Let go of me! You cheap low-grade filthy jerks."
+#~ msgstr "Отпустите меня, вы дешёвые, низкосортные, грязные тупицы..."
+
+#~ msgid "Let her out of this! You can have me instead."
+#~ msgstr "Оставте её! Ты можешь взять меня взамен."
+
+#~ msgid "Let me give you something as a reward."
+#~ msgstr "Позволь мне дать тебе кое-что, как вознаграждение."
+
+#, fuzzy
+#~ msgid "Let me see."
+#~ msgstr "Позвольте мне посмотреть..."
+
+#~ msgid "Let your fear grow, young boy!"
+#~ msgstr "Пусть твой страх растёт, малыш!"
+
+#~ msgid "Let's fight for our lives then!"
+#~ msgstr "Тогда, давайте бороться за наши жизни!"
+
+#, fuzzy
+#~ msgid "Let's find him, once more, before something bad happens."
+#~ msgstr ""
+#~ "Давайте найдём его ... ещё раз, прежде чем что-то плохое случиться..."
+
+#~ msgid "Let's find out how to activate that waterfall, then."
+#~ msgstr "Давай выясним, как тогда активировать этот водопад."
+
+#, fuzzy
+#~ msgid "Let's go back and inform the others."
+#~ msgstr "Давайте вернёмся и скажем другим..."
+
+#, fuzzy
+#~ msgid "Let's go to the woods."
+#~ msgstr "Давайте войдём в лес..."
+
+#, fuzzy
+#~ msgid "Let's have a look at the potions..."
+#~ msgstr "(Давай посмотрим...)"
+
+#~ msgid "Let's have a talk, Bronann!"
+#~ msgstr "Давай поговорим, Бронан!"
+
+#, fuzzy
+#~ msgid "Let's hurry. I can't feel my toes anymore."
+#~ msgstr "Нам нужно спешить, я больше не могу чувствовать палцев своих ног..."
+
+#~ msgid "Let's look around. We might find out."
+#~ msgstr "Давайте осмотримся. Мы может что-нибудь выясним."
+
+#~ msgid "Let's make our way through this before something bad happens to him."
+#~ msgstr ""
+#~ "Нам нужно проложить наш путь через это, прежде чем что-то плохое "
+#~ "случиться с ним."
+
+#, fuzzy
+#~ msgid ""
+#~ "Let's not panic. Bronann, you look fine. Anyway, we'd better get back to "
+#~ "the village and see the elders as soon as possible."
+#~ msgstr ""
+#~ "Давайте без паники, Бронан, ты смотришся прекрасно... Тем не менее, нам "
+#~ "лучше вернуться в деревню и увидеть старейшин как можно скорее."
+
+#~ msgid "Let's run!"
+#~ msgstr "Бежим!"
+
+#~ msgid "Level (Max): "
+#~ msgstr "Уровень (Макс.): "
+
+#~ msgid "Level: "
+#~ msgstr "Уровень: "
+
+#~ msgid "Life Elemental Strength"
+#~ msgstr "Стихийная сила жизни"
+
+#~ msgid "Lilly"
+#~ msgstr "Лили"
+
+#~ msgid "Lilly's house"
+#~ msgstr "Дом Лили"
+
+#, fuzzy
+#~ msgid ""
+#~ "Listen kids, I feel bad about what happened. But I can't help you as a "
+#~ "magical force is preventing me from entering the shrine."
+#~ msgstr ""
+#~ "Послушайте дети, мне неловко насчет того, что случилось, и я не могу "
+#~ "помочь вам, к тому же магическая сила мешает мне войти в святыню..."
+
+#~ msgid "Load Game"
+#~ msgstr "Загрузить игру"
+
+#~ msgid "Look at all those bones. We should be careful."
+#~ msgstr "Посмотри на все эти кости. Нам следовало бы быть осторожными."
+
+#, fuzzy
+#~ msgid ""
+#~ "Look at the grass. Snakes like to hide in the tall grass. We need to be "
+#~ "careful because their venom causes drowsiness."
+#~ msgstr ""
+#~ "Посмотри на эту траву... Похоже змеи спрятались в высокой траве... Нам "
+#~ "нужно быть поосторожней, потому что их яд вызывает сонливость."
+
+#~ msgid "Look!"
+#~ msgstr "Смотри!"
+
+#~ msgid "Look, I..."
+#~ msgstr "Смотри, Я..."
+
+#~ msgid "Look, there is a stone slab on the ground. Let's check this out."
+#~ msgstr "Смотри, каменная плита на земле. Давай проверим её."
+
+#~ msgid "Lord"
+#~ msgstr "Лорд"
+
+#~ msgid "Lord Banesore"
+#~ msgstr "Лорд Бэйнсор"
+
+#~ msgid "Lotus Petal"
+#~ msgstr "Лепесток лотоса"
+
+#~ msgid "Low Mountain"
+#~ msgstr "Невысокая гора"
+
+#~ msgid "Lv: "
+#~ msgstr "Ур: "
+
+#~ msgid "M.ATK:"
+#~ msgstr "МА:"
+
+#~ msgid "M.DEF:"
+#~ msgstr "МЗ:"
+
+#~ msgid "Magic"
+#~ msgstr "Магия"
+
+#~ msgid "Magic skill"
+#~ msgstr "Магическое умение"
+
+#~ msgid "Magical Attack (M.ATK): "
+#~ msgstr "Магическая атака (МА): "
+
+#~ msgid "Magical Defense (M.DEF): "
+#~ msgstr "Магическая защита (МЗ): "
+
+#~ msgid "Makes an ally's health regenerate moderately."
+#~ msgstr "Позволяет союзнику умеренно восстанавливать здоровье."
+
+#~ msgid "Makes waves fall on an enemy."
+#~ msgstr "Создаёт волны, падающие на врага."
+
+#~ msgid "Making one with the crystal, huh?"
+#~ msgstr "Делать одно с кристаллом, а?"
+
+#~ msgid "Malta"
+#~ msgstr "Мальта"
+
+#~ msgid "Map"
+#~ msgstr "Карта"
+
+#~ msgid ""
+#~ "Map Tiles\n"
+#~ "\n"
+#~ "Inventory Icons\n"
+#~ "\n"
+#~ "Map monster sprites"
+#~ msgstr ""
+#~ "Текстуры\n"
+#~ "\n"
+#~ "Иконки инвентаря\n"
+#~ "\n"
+#~ "Спрайты монстров"
+
+#~ msgid ""
+#~ "Map sprite animations\n"
+#~ "\n"
+#~ "Map sprite animations, Map tiles\n"
+#~ "\n"
+#~ "Concept art, Allacrost title screen image\n"
+#~ "\n"
+#~ "Concept art, Map sprites, Map tiles\n"
+#~ "\n"
+#~ "Concept art, Map sprites\n"
+#~ "\n"
+#~ "Map tiles"
+#~ msgstr ""
+#~ "Анимации спрайта\n"
+#~ "\n"
+#~ "Анимации спрайта, текстуры\n"
+#~ "\n"
+#~ "Идея дизайна, Allacrost изоб. тит. экрана\n"
+#~ "\n"
+#~ "Идея дизайна, спрайты, текстуры\n"
+#~ "\n"
+#~ "Идея дизайна, спрайты\n"
+#~ "\n"
+#~ "Текстуры"
+
+#~ msgid ""
+#~ "Map sprites, Battle sprites, Character portraits, Location graphics\n"
+#~ "\n"
+#~ "Battle sprites, old Allacrost GUI artwork\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Allacrost website graphics, GUI artwork, Game logos\n"
+#~ "\n"
+#~ "Map tiles, map sprites, Inventory icons, Allacrost artwork coordination"
+#~ msgstr ""
+#~ "Спрайты, спрайты боя, портреты героев, графика места\n"
+#~ "\n"
+#~ "Спрайты боя, старое Allacrost GUI художество\n"
+#~ "\n"
+#~ "Текстуры\n"
+#~ "\n"
+#~ "Allacrost графика вэбсайта, GUI художество, логотипы игры\n"
+#~ "\n"
+#~ "Текстуры, спрайты, иконки инвентаря, Allacrost согл. художества"
+
+#~ msgid "Map: Button"
+#~ msgstr "Карта: кнопка"
+
+#~ msgid "Martha"
+#~ msgstr "Марса"
+
+#, fuzzy
+#~ msgid "May they rest in peace."
+#~ msgstr "Может они полагались на мир..."
+
+#~ msgid "May you bring a happy end to this foolish destiny of ours."
+#~ msgstr "Может ты принесёшь счастливый конец этой глупой нашей судьбе."
+
+#~ msgid ""
+#~ "Maybe I could sell you a few things to help you find a way to open a path "
+#~ "in there?"
+#~ msgstr ""
+#~ "Могу ли я продать вам немного вещей, чтобы помочь вам найти способ "
+#~ "проложить там путь?"
+
+#, fuzzy
+#~ msgid "Maybe we should tell him."
+#~ msgstr "Может быть нам следовало бы рассказать ему..."
+
+#~ msgid "Maybe yes, maybe no!"
+#~ msgstr "А может нет, а может да!"
+
+#~ msgid ""
+#~ "Maybe, maybe not. Sophia was out the time they attacked? Somehow I don't "
+#~ "buy it."
+#~ msgstr ""
+#~ "Может быть, а может нет. Софии не было, когда их атаковали? Всё же я не "
+#~ "куплюсь на это."
+
+#~ msgid "Maybe?"
+#~ msgstr "Может быть?"
+
+#, fuzzy
+#~ msgid "Me? But I'm not the chosen one."
+#~ msgstr "Я? Но я не избранный."
+
+#, fuzzy
+#~ msgid "Me? But..."
+#~ msgstr "Мне? Но ..."
+
+#~ msgid "Me? Not at all. I don't need bridges to cross a moutain."
+#~ msgstr "Я? Совсем нет. Мне не нужны мосты, чтобы пересечь гору."
+
+#, fuzzy
+#~ msgid "Me? You know, a bit of this, a bit of that."
+#~ msgstr "Я? Ты знаешь: немного этого, немного того..."
+
+#~ msgid "Medium Healing Potion"
+#~ msgstr "Среднее лечебное зелье"
+
+#~ msgid "Medium Moon Juice Potion"
+#~ msgstr "Среднее лунное зелье"
+
+#~ msgid "Mega Healing Potion"
+#~ msgstr "Мега лечебное зелье"
+
+#~ msgid "Mega Moon Juice Potion"
+#~ msgstr "Мега лунное зелье"
+
+#~ msgid "Menu"
+#~ msgstr "Меню"
+
+#~ msgid "Menu: "
+#~ msgstr "Меню: "
+
+#~ msgid "Menu: Button"
+#~ msgstr "Меню: кнопка"
+
+#~ msgid "Mesosoma"
+#~ msgstr "Мезосома"
+
+#~ msgid "Metal Shield"
+#~ msgstr "Металлический щит"
+
+#~ msgid "Minor Elixir"
+#~ msgstr "Малый эликсир"
+
+#~ msgid "Minor Healing Potion"
+#~ msgstr "Малое лечебное зелье"
+
+#~ msgid "Miss"
+#~ msgstr "Мимо"
+
+#~ msgid "Mist"
+#~ msgstr "Туман"
+
+#~ msgid ""
+#~ "Mom needs some for dinner!\n"
+#~ " \n"
+#~ "Flora might have some in her shop. I should go and have a look there "
+#~ "first."
+#~ msgstr ""
+#~ "Маме необходимо кое-что для обеда!\n"
+#~ " \n"
+#~ "Возможно это есть в магазине Флоры. Сперва мне следовало бы пойти и "
+#~ "посмотреть там."
+
+#~ msgid "Moon Juice Potion"
+#~ msgstr "Лунное зелье"
+
+#~ msgid "Mountain Village of Layna"
+#~ msgstr "Горная деревня Лэйны"
+
+#~ msgid "Mountain bridge"
+#~ msgstr "Горный мост"
+
+#~ msgid "Move Down"
+#~ msgstr "Двиг. Вниз"
+
+#~ msgid "Move Left"
+#~ msgstr "Двиг. Налево"
+
+#~ msgid "Move Right"
+#~ msgstr "Двиг. Направо"
+
+#~ msgid "Move Up"
+#~ msgstr "Двиг. Вверх"
+
+#~ msgid "Move down in the item list."
+#~ msgstr "Двигать вниз в списке предметов."
+
+#~ msgid "Move menu cursor to the left"
+#~ msgstr "Двигать курсор меню налево"
+
+#~ msgid "Move menu cursor to the right"
+#~ msgstr "Двигать курсор меню направо"
+
+#~ msgid "Move position or cursor downwards"
+#~ msgstr "Двигать положение или курсор вниз"
+
+#~ msgid "Move position or cursor to the left"
+#~ msgstr "Двигать положение или курсор налево"
+
+#~ msgid "Move position or cursor to the right"
+#~ msgstr "Двигать положение или курсор направо"
+
+#~ msgid "Move position or cursor upwards"
+#~ msgstr "Двигать положение или курсор вверх"
+
+#~ msgid "Move up in the item list."
+#~ msgstr "Двигать вверх в списке предметов."
+
+#~ msgid "Move your character:"
+#~ msgstr "Движение твоего героя:"
+
+#~ msgid "Mt. Elbrus"
+#~ msgstr "Г. Эльбрус"
+
+#~ msgid "Mt. Elbrus Shrine"
+#~ msgstr "Г. Эльбрус. Святыня"
+
+#~ msgid "Mushroom Zombie"
+#~ msgstr "Грибной зомби"
+
+#~ msgid "Music"
+#~ msgstr "Музыка"
+
+#~ msgid "Music Volume: "
+#~ msgstr "Громкость музыки: "
+
+#, fuzzy
+#~ msgid ""
+#~ "My name is Andromalius, guardian of the sacred seal and keeper of the "
+#~ "Goddess Shrine."
+#~ msgstr ""
+#~ "Меня зовут Андромалиус, страж священной печати, и хранитель святыни "
+#~ "богини..."
+
+#, fuzzy
+#~ msgid "My parents."
+#~ msgstr "Мои родители..."
+
+#, fuzzy
+#~ msgid ""
+#~ "My three chicken have flown away again this morning. Could you find them "
+#~ "for me?"
+#~ msgstr ""
+#~ "Три мои курицы этим утром снова улетели... Может ты для меня их найдёшь?"
+
+#, fuzzy
+#~ msgid ""
+#~ "My three chickens have flown away again this morning. Could you find the "
+#~ "last one for me?"
+#~ msgstr ""
+#~ "Три мои курицы этим утром снова улетели... Может ты для меня найдёшь "
+#~ "последнюю?"
+
+#, fuzzy
+#~ msgid ""
+#~ "My three chickens have flown away again this morning. Could you find the "
+#~ "remaining ones for me?"
+#~ msgstr ""
+#~ "Три мои курицы этим утром снова улетели... Может ты для меня найдёшь "
+#~ "остальных?"
+
+#, fuzzy
+#~ msgid "My three chickens have flown away again. Could you find them for me?"
+#~ msgstr "Три мои курицы снова улетели... Может ты для меня их найдёшь?"
+
+#~ msgid "Nagaruda"
+#~ msgstr "Нагаруда"
+
+#, fuzzy
+#~ msgid "Nah, no problem, I'll find it somewhere, eventually."
+#~ msgstr "Не, нет проблем, я найду её где-нибудь... в конце концов."
+
+#~ msgid "Name"
+#~ msgstr "Название"
+
+#, fuzzy
+#~ msgid "Neither of you?"
+#~ msgstr "Никто из вас?"
+
+#~ msgid "Neutral"
+#~ msgstr "Нейтрал"
+
+#~ msgid "Neutral Elemental Strength"
+#~ msgstr "Стихийная сила нейтрала"
+
+#~ msgid "Nevermind that, just do it."
+#~ msgstr "Это неважно, просто сделай это."
+
+#, fuzzy
+#~ msgid ""
+#~ "Nevermind. Don't worry about me. Just find him and he should give you "
+#~ "some, ok?"
+#~ msgstr ""
+#~ "Неважно... Не беспокойся обо мне. Просто найди его и он наверное даст "
+#~ "тебе её, хорошо?"
+
+#~ msgid "New Game"
+#~ msgstr "Новая игра"
+
+#~ msgid "New Skill Learned:\n"
+#~ msgstr "Новое умение:\n"
+
+#~ msgid "No"
+#~ msgstr "Нет"
+
+#~ msgid "No arms armor"
+#~ msgstr "Нет защиты рук"
+
+#~ msgid "No data"
+#~ msgstr "Нет данных"
+
+#~ msgid "No head armor"
+#~ msgstr "Нет защиты головы"
+
+#~ msgid "No legs armor"
+#~ msgstr "Нет защиты ног"
+
+#~ msgid "No torso armor"
+#~ msgstr "Нет защиты торса"
+
+#~ msgid "No valid saves found!"
+#~ msgstr "Верных сохранений не найдено!"
+
+#~ msgid "No way, we'd get sick."
+#~ msgstr "Ни за что, мы бы заболели."
+
+#~ msgid "No weapon"
+#~ msgstr "Нет оружия"
+
+#~ msgid "No!"
+#~ msgstr "Нет!"
+
+#~ msgid "No! I won't go unless you tell me the truth now!"
+#~ msgstr "Нет! Я не пойду, если ты сейчас не скажешь мне правду!"
+
+#, fuzzy
+#~ msgid "No! Let him come closer."
+#~ msgstr "Нет! Пусть он подойдёт поближе..."
+
+#, fuzzy
+#~ msgid "No, I won't follow you anymore."
+#~ msgstr "Нет, я больше не последую за тобой..."
+
+#, fuzzy
+#~ msgid "No, I won't go there. I just can't talk to them at the moment."
+#~ msgstr ""
+#~ "Нет, я не пойду туда. Я просто не могу говорить с ними в данный момент..."
+
+#, fuzzy
+#~ msgid "No, it can't be."
+#~ msgstr "... Нет, это не может быть..."
+
+#~ msgid "No, it's alright!"
+#~ msgstr "Нет, всё правильно!"
+
+#, fuzzy
+#~ msgid "No, it's alright."
+#~ msgstr "Нет, всё правильно!"
+
+#~ msgid "No, it's not that bad."
+#~ msgstr "Нет, это не так плохо."
+
+#, fuzzy
+#~ msgid "No, let's prepare first."
+#~ msgstr "Нет, давайте сперва подготовимся..."
+
+#~ msgid "No, not yet."
+#~ msgstr "Нет, нет ещё."
+
+#~ msgid "No."
+#~ msgstr "Нет."
+
+#~ msgid "No?!"
+#~ msgstr "Нет?!"
+
+#~ msgid "Noble Arbalest"
+#~ msgstr "Превосходный арбалет"
+
+#, fuzzy
+#~ msgid ""
+#~ "Nobody told me what was happening. Herth and the Lord seemed to know each "
+#~ "other. And now you..."
+#~ msgstr ""
+#~ "Никто не говорил мне, что случилось. Герц и лорд, кажется, знают друг "
+#~ "друга... А теперь ты..."
+
+#, fuzzy
+#~ msgid "Not again..."
+#~ msgstr "... Не так ..."
+
+#, fuzzy
+#~ msgid "Not now."
+#~ msgstr "Не сейчас..."
+
+#, fuzzy
+#~ msgid "Not the necklace, the fenrir!"
+#~ msgstr "Не ожерелье, Фенрир!"
+
+#, fuzzy
+#~ msgid "Now catch me, if you can."
+#~ msgstr "Теперь поймайте меня... если вы сможете."
+
+#, fuzzy
+#~ msgid "Now come."
+#~ msgstr "Теперь пошли..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Now that you're *finally* up, could you go buy some barley meal for us?"
+#~ msgstr ""
+#~ "Сейчас это ты *в конце концов* там, может ты пойдёшь и купишь ячменной "
+#~ "муки для нас троих?"
+
+#~ msgid "Now we can get back to the village more quickly."
+#~ msgstr "Теперь мы сможем вернуться в деревню быстрее."
+
+#, fuzzy
+#~ msgid ""
+#~ "Now, Orlinn, tell us. Why on earth did you go into the forest alone, and "
+#~ "how did you get there so quickly?"
+#~ msgstr ""
+#~ "Теперь, Орлин. Скажи нам: Почему ты всё-таки пошёл в лес один, и как ты "
+#~ "оказался здесь так быстро?"
+
+#~ msgid "Now, come. Become one with our holy hope."
+#~ msgstr "Теперь, подойди. Соединись с нашей священной надеждой."
+
+#, fuzzy
+#~ msgid "Now, show it to me."
+#~ msgstr "Теперь, покажи это мне..."
+
+#, fuzzy
+#~ msgid "ORLINN! Come here, NOW!"
+#~ msgstr "ОРЛИН! Подойди сюда СЕЙЧАС ЖЕ!!"
+
+#~ msgid "Oblivion"
+#~ msgstr "Забвение"
+
+#, fuzzy
+#~ msgid "Of course you have it. I can sense it within your flesh."
+#~ msgstr "Конечно, он с тобой. Я чувствую это внутри твоей плоти..."
+
+#, fuzzy
+#~ msgid "Oh no! The gate!"
+#~ msgstr "О нет! ворота!"
+
+#~ msgid "Oh no, please Orlinn! I need it!"
+#~ msgstr "О нет, пожалуйста Орлин! Мне это нужно!"
+
+#~ msgid "Oh sorry, our 'great' poet came earlier and took all the rest of it."
+#~ msgstr ""
+#~ "Ох сожалею, наш 'великий' поэт пришёл раньше и забрал всю оставшуюся."
+
+#, fuzzy
+#~ msgid "Oh! My apologies, it seems you weren't lying."
+#~ msgstr "О! Мои извинения, кажется, ты не лгала..."
+
+#, fuzzy
+#~ msgid "Oh, I see now. So this is her mother. Bring her here, and kill her!"
+#~ msgstr "О, я теперь понял... Так это её мама. Приведи её сюда и убей её!"
+
+#, fuzzy
+#~ msgid "Oh, thanks grandma!"
+#~ msgstr "О, спасибо бабуль!"
+
+#, fuzzy
+#~ msgid "Oh, they're all back, my brave hero."
+#~ msgstr "О, всех вернул, ты мой храбрый герой..."
+
+#, fuzzy
+#~ msgid "Oh? You didn't?"
+#~ msgstr "... О? Ты не делал??"
+
+#~ msgid "Ok"
+#~ msgstr "Хорошо"
+
+#~ msgid "Ok ok. Just having a bit of spirit, young man."
+#~ msgstr ""
+#~ "Хорошо хорошо. Просто тебе нужно немного воодушевления, молодой человек."
+
+#~ msgid "Ok!"
+#~ msgstr "Хорошо!"
+
+#~ msgid "Ok, thanks."
+#~ msgstr "Хорошо, спасибо."
+
+#, fuzzy
+#~ msgid "Ok, we'll go together. But slow me down and I'll make you regret it."
+#~ msgstr ""
+#~ "Хорошо, мы пойдём вместе. Однако, если замедлишь меня, ты пожалеешь об "
+#~ "этом..."
+
+#, fuzzy
+#~ msgid "Ok."
+#~ msgstr "Хорошо"
+
+#~ msgid "Old Cemetery"
+#~ msgstr "Старое кладбище"
+
+#~ msgid "Old Helmet"
+#~ msgstr "Старый шлем"
+
+#~ msgid "Old Willow Dress"
+#~ msgstr "Старое ивовое платье"
+
+#~ msgid "Olivia"
+#~ msgstr "Оливия"
+
+#~ msgid "Omni Sword"
+#~ msgstr "Многоцелевой меч"
+
+#, fuzzy
+#~ msgid ""
+#~ "Once an ally has reached the action level, you can select an action for "
+#~ "that ally. The battle is then paused and you've got all the time you need "
+#~ "to select one, so don't panic."
+#~ msgstr ""
+#~ "Однажды один из нас достигнет уровня действия, и ты сможешь выбрать "
+#~ "действие для одного. Не паникуй, бой будет на паузе и тебе хватит времени "
+#~ "на выбор действия."
+
+#, fuzzy
+#~ msgid "One of Grandma's chickens. I should bring it back."
+#~ msgstr "Одна из куриц бабули... Мне следовало бы принести её обратно."
+
+#, fuzzy
+#~ msgid "One of grandma's chickens. I should bring it back."
+#~ msgstr "Одна из куриц бабули... Мне следовало бы принести её обратно."
+
+#, fuzzy
+#~ msgid "One second, Orlinn. I'm trying to..."
+#~ msgstr "... Одну секунду, Орлин. Я попытаюсь..."
+
+#, fuzzy
+#~ msgid "Only one. The mountain top."
+#~ msgstr "Только одна осталась... Вершина горы..."
+
+#, fuzzy
+#~ msgid "Only the last one standing shall pass."
+#~ msgstr "Только одну и последнюю линию обороны должны пройти ..."
+
+#~ msgid "Oops, sorry!"
+#~ msgstr "Оой, простите!"
+
+#~ msgid "Opens the party menu"
+#~ msgstr "Открыть меню героев"
+
+#~ msgid "Options"
+#~ msgstr "Опции"
+
+#~ msgid "Orifice"
+#~ msgstr "Отверстие"
+
+#~ msgid "Orlinn"
+#~ msgstr "Орлин"
+
+#~ msgid ""
+#~ "Orlinn had the pen and I ran after him all morning to get it back. I hope "
+#~ "he won't have any problems with Kalya..."
+#~ msgstr ""
+#~ "У Орлина было перо и я гонялся за ним всё утро, чтобы вернуть его назад. "
+#~ "Я надеюсь, что у него не будет никаких проблем с Калей..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Orlinn has the pen that I need to return to Georges! The only problem now "
+#~ "is I have to find out where he's hiding. Hmm, it shouldn't take long."
+#~ msgstr ""
+#~ "Орлин нашёл перо, а мне нужно вернуть его Джорджу! Единственной проблемой "
+#~ "сейчас является то, как найти где он прячется. Хм, это не должно быть "
+#~ "долго..."
+
+#~ msgid "Orlinn might be in danger!"
+#~ msgstr "Орлин может быть в опасности!"
+
+#~ msgid "Orlinn!"
+#~ msgstr "Орлин!"
+
+#~ msgid "Orlinn! Back off!"
+#~ msgstr "Орлин!! Отойди!"
+
+#~ msgid "Orlinn! How many times have I told you not to bother other people?"
+#~ msgstr ""
+#~ "Орлин! Сколько раз я тебе говорила, чтобы ты не беспокоил других людей?"
+
+#~ msgid "Orlinn! NOW!"
+#~ msgstr "Орлин! СЕЙЧАС!"
+
+#~ msgid "Orlinn! Stop this!"
+#~ msgstr "Орлин! Хватит!"
+
+#~ msgid "Orlinn, are you alright?"
+#~ msgstr "Орлин, с тобой всё в порядке?"
+
+#~ msgid "Orlinn, did you do something?"
+#~ msgstr "Орлин, ты что-то сделал?"
+
+#, fuzzy
+#~ msgid "Orlinn, give back the pen to Bronann or I shall sma..."
+#~ msgstr "Орлин, отдай перо Бронану, или я тебя уда..."
+
+#, fuzzy
+#~ msgid "Orlinn, help us... Please, oh oh oh..."
+#~ msgstr "Орлин, помоги нам ... Пожалуйста, Ох ох ох..."
+
+#~ msgid "Orlinn, how did you get there?"
+#~ msgstr "Орлин, как ты забрался туда?"
+
+#~ msgid "Orlinn, stop it RIGHT NOW!!"
+#~ msgstr "Орлин, прекрати это СЕЙЧАС ЖЕ!!"
+
+#~ msgid "Orlinn, stop!"
+#~ msgstr "Орлин, стой!"
+
+#, fuzzy
+#~ msgid "Orlinn, you sure have grown up through all of this. Are you sure?"
+#~ msgstr ""
+#~ "Орлин, ты несомненно повзрослел из-за всего этого. Ты уверен в этом?"
+
+#, fuzzy
+#~ msgid "Orlinn. Go get our packings. We're leaving."
+#~ msgstr "Орлин. Иди и принеси вещи. Мы уходим..."
+
+#~ msgid "Orlinn..."
+#~ msgstr "Орлин..."
+
+#~ msgid "Orlinn? Orlinn!"
+#~ msgstr "Орлин? Орлин!"
+
+#, fuzzy
+#~ msgid "Ouch, why is my head hurting so much?"
+#~ msgstr "... Ой, почему так сильно досталось голове? ..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Our elder will also be able to help us. And you'll get a better "
+#~ "explanation than I could ever..."
+#~ msgstr ""
+#~ "Наш старейшина тоже может помочь нам. И у тебя будет лучше объяснение чем "
+#~ "моё..."
+
+#, fuzzy
+#~ msgid "Our parents were killed a long time ago."
+#~ msgstr "Наши родители были убиты очень давно..."
+
+#, fuzzy
+#~ msgid "Our village. It's burning."
+#~ msgstr "Наша деревня... горит..."
+
+#, fuzzy
+#~ msgid "Ow, my chest. It hurts!"
+#~ msgstr "Ой, моя грудь, больно!!"
+
+#~ msgid "Own"
+#~ msgstr "Своё"
+
+#, fuzzy
+#~ msgid "Owww. Alright."
+#~ msgstr "Ааай... Всё нормально."
+
+#~ msgid "PRO: +"
+#~ msgstr "З: +"
+
+#~ msgid "Paladin's Sword"
+#~ msgstr "Меч паладина"
+
+#~ msgid "Paralysis"
+#~ msgstr "Паралич"
+
+#~ msgid "Party"
+#~ msgstr "Компания"
+
+#~ msgid "Party Menu: %s"
+#~ msgstr "Компания: %s"
+
+#~ msgid "Path to Kalya's house"
+#~ msgstr "Путь к дому Кали"
+
+#~ msgid "Pause"
+#~ msgstr "Пауза"
+
+#~ msgid "Pause: "
+#~ msgstr "Пауза: "
+
+#~ msgid "Pause: %s"
+#~ msgstr "Пауза: %s"
+
+#~ msgid "Pause: Button"
+#~ msgstr "Пауза: кнопка"
+
+#~ msgid "Paused"
+#~ msgstr "Пауза"
+
+#~ msgid "Pauses the game"
+#~ msgstr "Пауза в игре"
+
+#~ msgid "Pen"
+#~ msgstr "Перо"
+
+#, fuzzy
+#~ msgid "Perfect Wooden Sword"
+#~ msgstr "Безупречный деревянный меч"
+
+#~ msgid "Perfect timing, let's have dinner."
+#~ msgstr "Самое время. Давайте обедать."
+
+#~ msgid "Periwinkle Potion"
+#~ msgstr "Зелье из барвинка"
+
+#, fuzzy
+#~ msgid "Phew, this one sure is heavier and more sturdy."
+#~ msgstr "Фу, это точно тяжелее и прочнее..."
+
+#, fuzzy
+#~ msgid "Phew."
+#~ msgstr "Фу..."
+
+#~ msgid "Phoenix Feather"
+#~ msgstr "Перо Феникса"
+
+#~ msgid "Phoenix Shield"
+#~ msgstr "Щит Феникса"
+
+#~ msgid "Pincer"
+#~ msgstr "Клешня"
+
+#~ msgid "Pincers"
+#~ msgstr "Клешни"
+
+#~ msgid "Please move an axis."
+#~ msgstr "Двигай по оси."
+
+#~ msgid "Please no! Wait!"
+#~ msgstr "Пожалуйста нет! Постой!"
+
+#~ msgid "Please press a new joystick button."
+#~ msgstr "Нажми кнопку."
+
+#~ msgid "Please press a new key."
+#~ msgstr "Нажми кнопку."
+
+#~ msgid "Please tell me! Have you found it?"
+#~ msgstr "Пожалуйста скажи мне! Ты нашёл его?"
+
+#~ msgid "Poison Potion"
+#~ msgstr "Зелье из яда"
+
+#, fuzzy
+#~ msgid "Poisons an enemy for a small amount of time."
+#~ msgstr "Отравляет врага на короткое время."
+
+#, fuzzy
+#~ msgid "Poor guy. He must have died from starvation."
+#~ msgstr "Бедняга... Он должно быть умер от голода."
+
+#~ msgid "Ports"
+#~ msgstr "Порты"
+
+#~ msgid "Possible actions:"
+#~ msgstr "Действия:"
+
+#~ msgid "Prep Time: %s"
+#~ msgstr "Подг. время: %s"
+
+#~ msgid "Prepare yourself!"
+#~ msgstr "Готовся сам!"
+
+#~ msgid ""
+#~ "Press %s to add items to buy and %s to remove items from your purchase."
+#~ msgstr ""
+#~ "Нажми %s, чтобы добавить предметы к покупке или %s, чтобы убрать предметы "
+#~ "из твоей покупки."
+
+#~ msgid "Press %s to add items to sell and %s to remove items from your sale."
+#~ msgstr ""
+#~ "Нажми %s, чтобы добавить предметы для продажи или %s, чтобы убрать "
+#~ "предметы из твоей продажи."
+
+#~ msgid "Press %s to add items to trade and %s to remove them."
+#~ msgstr ""
+#~ "Нажми %s, чтобы добавить предметы для обмена или %s, чтобы убрать их."
+
+#~ msgid "Press '%s' anytime to show/hide help."
+#~ msgstr "Нажми '%s' в любое время, чтобы показать/скрыть помощь."
+
+#~ msgid "Press '%s' to get to know about the game keys."
+#~ msgstr "Нажми '%s' чтобы узнать об управлении в игре."
+
+#~ msgid "Price"
+#~ msgstr "Цена"
+
+#, fuzzy
+#~ msgid "Prismatic Ring"
+#~ msgstr "Призматическое кольцо"
+
+#~ msgid "Programming, Scripting, Maps"
+#~ msgstr "Прогр., Нап. скриптов, Карты"
+
+#~ msgid "Protection"
+#~ msgstr "Защита"
+
+#~ msgid "Protection (PRO): "
+#~ msgstr "Защита (З): "
+
+#~ msgid "Purchases: "
+#~ msgstr "Общая цена: "
+
+#~ msgid "Purpose"
+#~ msgstr "Цель"
+
+#~ msgid "Quests"
+#~ msgstr "Задания"
+
+#~ msgid "Quick! Let's follow him."
+#~ msgstr "Скорее! Давайте следовать за ним."
+
+#, fuzzy
+#~ msgid "Quick, we must go now!"
+#~ msgstr "Скорее, мы должны немедленно идти!!"
+
+#~ msgid "Quit"
+#~ msgstr "Выход"
+
+#~ msgid "Quit Game"
+#~ msgstr "Выйти"
+
+#~ msgid "Quit Menu: %s"
+#~ msgstr "Выйти: %s"
+
+#~ msgid "Quit the application"
+#~ msgstr "Выйти из игры"
+
+#~ msgid ""
+#~ "Quit the application\n"
+#~ "(when using the keyboard)"
+#~ msgstr ""
+#~ "Выйти из игры\n"
+#~ "(когда исп. клавиатуру)"
+
+#~ msgid "Quit to Main Menu"
+#~ msgstr "Выйти в главное меню"
+
+#~ msgid "Quit: Button"
+#~ msgstr "Выход: кнопка"
+
+#~ msgid "Rat"
+#~ msgstr "Крыса"
+
+#, fuzzy
+#~ msgid "Ready to go up?"
+#~ msgstr "Готов подняться? ..."
+
+#~ msgid "Red Slime"
+#~ msgstr "Красная слизь"
+
+#, fuzzy
+#~ msgid "Reinforced Wooden Sword"
+#~ msgstr "Усиленный деревянный меч"
+
+#~ msgid "Remove"
+#~ msgstr "Удалить"
+
+#~ msgid "Remove an item from the buy/sell list"
+#~ msgstr "Убрать предмет из списка покупка/продажа"
+
+#~ msgid "Resolution: "
+#~ msgstr "Разрешение: "
+
+#~ msgid "Restore defaults"
+#~ msgstr "По умолчанию"
+
+#~ msgid "Restores a large amount of hit points to an ally."
+#~ msgstr "Восстанавливает большое количество жизненной силы у союзника."
+
+#~ msgid "Restores a large amount of skill points to an ally."
+#~ msgstr "Восстанавливает большое количество умения силы у союзника."
+
+#~ msgid "Restores a reasonable amount of hit points to an ally."
+#~ msgstr "Восстанавливает разумное количество жизненной силы у союзника."
+
+#~ msgid "Restores a reasonable amount of skill points to an ally."
+#~ msgstr "Восстанавливает разумное количество умения силы у союзника."
+
+#~ msgid "Restores a small amount of hit points to an ally."
+#~ msgstr "Восстанавливает небольшое количество жизненной силы у союзника."
+
+#~ msgid "Restores a small amount of skill points to an ally."
+#~ msgstr "Восстанавливает небольшое количество умения силы у союзника."
+
+#~ msgid "Restores a very high amount of hit points to an ally."
+#~ msgstr "Восстанавливает очень большое количество жизненной силы у союзника."
+
+#~ msgid "Restores a very high amount of skill points to an ally."
+#~ msgstr "Восстанавливает очень большое количество умения силы у союзника."
+
+#~ msgid "Retry"
+#~ msgstr "Переиграть"
+
+#, fuzzy
+#~ msgid ""
+#~ "Revives a character to half of their hit points, or reasonably improves "
+#~ "the character's status while he/she is alive."
+#~ msgstr ""
+#~ "Воскрешает героя с половиной его жизненной силы или умеренно улучшает "
+#~ "состояние героя, когда он/она в живых."
+
+#, fuzzy
+#~ msgid ""
+#~ "Revives a character, or improves the character's status when he/she is "
+#~ "alive by a limited degree."
+#~ msgstr ""
+#~ "Воскрешает героя или улучшает состояние героя, когда он/она в живых в "
+#~ "ограниченной степени."
+
+#~ msgid "Right"
+#~ msgstr "Направо"
+
+#~ msgid "Right!"
+#~ msgstr "Правильно!"
+
+#~ msgid "Right: "
+#~ msgstr "Направо: "
+
+#~ msgid "Riverbank"
+#~ msgstr "Берег реки"
+
+#~ msgid "Robust wooden oak protects from all but the heaviest of assaults."
+#~ msgstr "Прочный, дубовый, защищает от всего, но тяжелейший в атаке."
+
+#~ msgid "Rookie Tunic"
+#~ msgstr "Мундир новичка"
+
+#~ msgid "Royal Silk"
+#~ msgstr "Царский шёлк"
+
+#, fuzzy
+#~ msgid "Rrrr, Bronann. Just listen."
+#~ msgstr "Рррр... Бронан. Просто послушай."
+
+#~ msgid "Run / Cancel: %s"
+#~ msgstr "Бежать / Отмена: %s"
+
+#~ msgid "SP"
+#~ msgstr "УС"
+
+#~ msgid "SP: "
+#~ msgstr "УС: "
+
+#~ msgid "SP: +"
+#~ msgstr "УС: +"
+
+#~ msgid "STR: +"
+#~ msgstr "С: +"
+
+#~ msgid ""
+#~ "Sad theme\n"
+#~ "\n"
+#~ "Mountain music\n"
+#~ "\n"
+#~ "Mountain Shrine music\n"
+#~ "\n"
+#~ "Special Boss"
+#~ msgstr ""
+#~ "Грустная тема\n"
+#~ "\n"
+#~ "Горная музыка\n"
+#~ "\n"
+#~ "Музыка горной святыни\n"
+#~ "\n"
+#~ "Специально для босса"
+
+#~ msgid "Sales: +"
+#~ msgstr "Продажа: +"
+
+#~ msgid "Save Game"
+#~ msgstr "Сохранить игру"
+
+#~ msgid "Save successful!"
+#~ msgstr "Сохранено  удачно!"
+
+#~ msgid "Say sis, do you think Herth will be angry at me for what happened?"
+#~ msgstr ""
+#~ "Скажи сестра, ты думаешь, что Герц будет сердиться на меня за то, что "
+#~ "случилось?"
+
+#, fuzzy
+#~ msgid "Say, mom? Why is the village entrance blocked?"
+#~ msgstr "Хм, скажи, мам? Почему вход в деревню заблокирован?"
+
+#~ msgid "Scorpion"
+#~ msgstr "Скорпион"
+
+#~ msgid "Scorpion Goliath"
+#~ msgstr "Скорпион гигант"
+
+#~ msgid "See?"
+#~ msgstr "Видел?"
+
+#~ msgid "See? Now, let's find my brother before he gets hurt."
+#~ msgstr ""
+#~ "Видишь? Теперь давай найдём моего брата раньше, чем ему причинят боль."
+
+#~ msgid "Select Attack Point"
+#~ msgstr "Выбери место атаки"
+
+#~ msgid "Select Target"
+#~ msgstr "Выбери цель"
+
+#~ msgid "Select a character to change formation."
+#~ msgstr "Выбери героя, чтобы изменить формирование."
+
+#~ msgid "Select a character to change position with."
+#~ msgstr "Выбери героя, чтобы поменять позицию с другим героем."
+
+#~ msgid "Select a character to use the item on."
+#~ msgstr "Выбери героя, чтобы использовать предмет для него."
+
+#~ msgid "Select an item to Equip or Use."
+#~ msgstr "Выбери предмет, чтобы Снарядить или Использовать."
+
+#~ msgid "Select to view Quest Log."
+#~ msgstr "Выбери, чтобы посмотреть журнал заданий."
+
+#~ msgid ""
+#~ "Select to view current world map.\n"
+#~ "Use left / right to cycle through locations.\n"
+#~ "Press 'cancel' to return"
+#~ msgstr ""
+#~ "Выбери, чтобы посмотреть текущую карту мира.\n"
+#~ "Используй налево / направо, чтобы перемещаться по местам.\n"
+#~ "Нажми 'отмена' чтобы вернуться"
+
+#~ msgid "Self"
+#~ msgstr "Сам"
+
+#~ msgid "Self — Point"
+#~ msgstr "Сам — Место"
+
+#~ msgid "Sell"
+#~ msgstr "Продать"
+
+#~ msgid "Sell count: x "
+#~ msgstr "Итого продать: x "
+
+#~ msgid "Sell prices"
+#~ msgstr "Цены продажи"
+
+#, fuzzy
+#~ msgid "Shall I repeat all that?"
+#~ msgstr "Мне повторить?"
+
+#~ msgid "Shall I repeat?"
+#~ msgstr "Мне повторить?"
+
+#~ msgid "Shall we go in?"
+#~ msgstr "Мы идём?"
+
+#~ msgid "Shall we jump?"
+#~ msgstr "Нам прыгать?"
+
+#~ msgid "Shall you find it, I would be extremely obliged to you!"
+#~ msgstr "Если найдёшь его, я буду тебе очень благодарен!"
+
+#~ msgid "Shall you find it, I would be extremely obliged!"
+#~ msgstr "Если найдёшь это, я буду очень благодарен!"
+
+#~ msgid "Shift"
+#~ msgstr "Shift"
+
+#~ msgid "Shop"
+#~ msgstr "Магазин"
+
+#~ msgid ""
+#~ "Shop mode\n"
+#~ "\n"
+#~ "Use the Left/Right keys to add/remove items into the Buy and Sell modes.\n"
+#~ "Then go into the Confirm mode to complete the transaction."
+#~ msgstr ""
+#~ "Режим магазина\n"
+#~ "\n"
+#~ "Используй кнопки Налево/Направо, чтобы добавить/убрать предметы в режимах "
+#~ "Покупка и Продажа.\n"
+#~ "Затем иди в режим Потвердить, чтобы завершить сделку."
+
+#~ msgid "Shouldered Breastplate"
+#~ msgstr "Плечевой нагрудник"
+
+#~ msgid "Show details or confirm a transaction"
+#~ msgstr "Показать детали или подтвердить сделку"
+
+#~ msgid "Show/Hide items and skills descriptions."
+#~ msgstr "Показать/скрыть описания предметов и умений."
+
+#~ msgid "Shroom"
+#~ msgstr "Галлюциногенный гриб"
+
+#~ msgid "Simple but fairly good leather boots."
+#~ msgstr "Простые, но довольно хорошие кожаные ботинки."
+
+#~ msgid "Sis!"
+#~ msgstr "Сестра!"
+
+#, fuzzy
+#~ msgid "Sis! They're in front of the house!"
+#~ msgstr "Сестра!! Они перед домом!"
+
+#~ msgid "Sis! What's the matter? What happened?"
+#~ msgstr "Сестра! В чём дело? Что случилось?"
+
+#, fuzzy
+#~ msgid "Sis'!"
+#~ msgstr "сестра!"
+
+#~ msgid "Skeleton"
+#~ msgstr "Скелет"
+
+#~ msgid "Skill<R>Type SP"
+#~ msgstr "Умение<R>Тип УС"
+
+#~ msgid "Skills"
+#~ msgstr "Умения"
+
+#~ msgid "Skills obtained:"
+#~ msgstr "Достигнуты умения:"
+
+#~ msgid "Slime Mother"
+#~ msgstr "Мать слизи"
+
+#~ msgid "Slot 1"
+#~ msgstr "Слот 1"
+
+#~ msgid "Slot 2"
+#~ msgstr "Слот 2"
+
+#~ msgid "Slot 3"
+#~ msgstr "Слот 3"
+
+#~ msgid "Slot 4"
+#~ msgstr "Слот 4"
+
+#~ msgid "Slot 5"
+#~ msgstr "Слот 5"
+
+#~ msgid "Slot 6"
+#~ msgstr "Слот 6"
+
+#~ msgid "Small Moon Juice Potion"
+#~ msgstr "Малое лунное зелье"
+
+#~ msgid "Snake"
+#~ msgstr "Змея"
+
+#, fuzzy
+#~ msgid ""
+#~ "So long as the little arrows there are still visible, you can change the "
+#~ "selected action at any time."
+#~ msgstr ""
+#~ "Пока видны маленькие стрелки, ты можешь изменить выбранное действие."
+
+#, fuzzy
+#~ msgid "So that's how you help, by selling things to us..."
+#~ msgstr "Это так ты помогаешь, продавая нам хлам..."
+
+#, fuzzy
+#~ msgid "So, here we have a gentleman! I'll start with you, then."
+#~ msgstr "Так, тут мы видим джентльмена! Тогда я начну с тебя..."
+
+#, fuzzy
+#~ msgid "So, it appears that you remember me, Banesore. Is that correct?"
+#~ msgstr "Итак... Кажется, что ты меня помнишь, Бэйнсор. Правильно...?"
+
+#, fuzzy
+#~ msgid "So, the crystal is inside me?"
+#~ msgstr "Итак, кристалл внутри меня??"
+
+#, fuzzy
+#~ msgid "So, you think you can wound me?"
+#~ msgstr "Так... Ты думаешь, что ты сделаешь мне больно?"
+
+#~ msgid "Soldier"
+#~ msgstr "Воин"
+
+#~ msgid "Soldier Sword"
+#~ msgstr "Меч воина"
+
+#, fuzzy
+#~ msgid "Soldiers wearing black armor... the Lord's personal guard!"
+#~ msgstr "Воины одеты в чёрную броню: личная гвардия лорда!"
+
+#~ msgid "Soldiers! Give them a few minutes before starting the chase."
+#~ msgstr "Воины! Дайте им несколько минут прежде чем начать погоню."
+
+#, fuzzy
+#~ msgid ""
+#~ "Some say it is haunted. It was sealed a long time ago, long before I was "
+#~ "even born."
+#~ msgstr ""
+#~ "Кто‐то сказал, что это притон... И это было запечатано давно, даже раньше "
+#~ "чем я родилась."
+
+#~ msgid ""
+#~ "Somebody left a note on purpose here. According to it, we need to find "
+#~ "out a way to trigger the waterfall from the highest floor."
+#~ msgstr ""
+#~ "Кто‐то здесь нарочно оставил записку. Согласно ей, нам нужно выяснить "
+#~ "способ вызова водопада из самого верха."
+
+#, fuzzy
+#~ msgid "Somehow. I'm not sure how I am able to, but I can read it."
+#~ msgstr "Почему-то... Я не уверен, что сумею, но я могу прочитать это."
+
+#, fuzzy
+#~ msgid "Someone brave enough to jump between it and my brother."
+#~ msgstr "... кто-то так смел, что прыгнул между моим братом и этим..."
+
+#, fuzzy
+#~ msgid "Something heavy seems to have fallen nearby."
+#~ msgstr "... Кажется недалеко что-то крупное разрушилось."
+
+#, fuzzy
+#~ msgid "Something is preventing me from entering."
+#~ msgstr "Что-то мешает мне войти ..."
+
+#, fuzzy
+#~ msgid "Something's burning."
+#~ msgstr "Что-то горит..."
+
+#~ msgid "Sophia"
+#~ msgstr "София"
+
+#, fuzzy
+#~ msgid ""
+#~ "Sophia could be of great help, Kalya. The passage has collapsed, and "
+#~ "we're stuck finding a way through this dreadful place."
+#~ msgstr ""
+#~ "София могла бы здорово помочь, Каля. Проход обрушен, и мы застряли, ищя "
+#~ "выход в этом ужасном месте..."
+
+#, fuzzy
+#~ msgid "Sophia's Items"
+#~ msgstr "Предметы Софии"
+
+#, fuzzy
+#~ msgid "Sophia, you're here?"
+#~ msgstr "София, вы здесь?"
+
+#~ msgid "Sorry, son. It's maybe a bit early, but I'd like you to be careful."
+#~ msgstr ""
+#~ "Сожалею, сын. Это может быть рановато, но мне хотелось бы, чтобы ты был "
+#~ "осторожен."
+
+#~ msgid "Sound Volume: "
+#~ msgstr "Громкость звука: "
+
+#~ msgid ""
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Soundtrack composer\n"
+#~ "\n"
+#~ "Music and sound lead, Soundtrack composer\n"
+#~ "\n"
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Sound mixer\n"
+#~ "\n"
+#~ "Soundtrack composer"
+#~ msgstr ""
+#~ "Композитоp по звуку\n"
+#~ "\n"
+#~ "Композитоp фонограммы\n"
+#~ "\n"
+#~ "Гл. по музыке и звуку, Комп. фонограммы\n"
+#~ "\n"
+#~ "Композитоp по звуку\n"
+#~ "\n"
+#~ "Композитоp по звуку\n"
+#~ "\n"
+#~ "Звуковой микшер\n"
+#~ "\n"
+#~ "Композитоp фонограммы"
+
+#~ msgid "Sounds"
+#~ msgstr "Звуки"
+
+#~ msgid "Space"
+#~ msgstr "Пробел"
+
+#~ msgid "Special skill"
+#~ msgstr "Особенное умение"
+
+#, fuzzy
+#~ msgid ""
+#~ "Spirit of the dark. It can't be possessed: it only chose to be possessed, "
+#~ "waiting for its hour."
+#~ msgstr ""
+#~ "Дух тьмы. Он не может быть одержимым: он только выбрал обладателя, "
+#~ "подождем его час..."
+
+#~ msgid "Spirits"
+#~ msgstr "Духи"
+
+#~ msgid "Squirrel"
+#~ msgstr "Белка"
+
+#~ msgid "Standard Greaves"
+#~ msgstr "Стандартные наголенники"
+
+#~ msgid ""
+#~ "Standard Karlate issued equipment. Effectively protects the torso from "
+#~ "most types of attack."
+#~ msgstr ""
+#~ "Стандартное, выпущенное в Карлэйте снаряжение. Эффективно защищает торс "
+#~ "от большинства типов атак."
+
+#~ msgid ""
+#~ "Standard equipment. Light metal alloy protects the legs while minimizing "
+#~ "the negative impact on movement."
+#~ msgstr ""
+#~ "Стандартное снаряжение. Легкий сплав металла защищает ноги и минимизирует "
+#~ "негативное влияние на движение."
+
+#~ msgid ""
+#~ "Standard greaves that have undergone an additional tempering process, "
+#~ "increasing their durability and strength."
+#~ msgstr ""
+#~ "Стандартные наголенники, дополнительно подвергались отпуску, увеличена "
+#~ "долговечность и прочность."
+
+#~ msgid ""
+#~ "Standard soldier sword. A light weight iron sword suitable for most "
+#~ "skirmishes."
+#~ msgstr ""
+#~ "Стандартный воинский меч. Легковесный железный меч, подходящий для "
+#~ "большинства схваток."
+
+#~ msgid "Start over from the beginning of this battle."
+#~ msgstr "Начать заново от начала этого боя."
+
+#~ msgid ""
+#~ "Still, I have to go there and figure out what they're trying to hide from "
+#~ "me."
+#~ msgstr ""
+#~ "Всё же я должен пойти туда и понять, что они пытаются спрятать от меня."
+
+#~ msgid "Stock"
+#~ msgstr "Запас"
+
+#~ msgid "Stone sign"
+#~ msgstr "Каменный знак"
+
+#~ msgid "Stop laughing now or I'll smash your little head against that wall!"
+#~ msgstr ""
+#~ "Прекрати сейчас же смеяться или я ударю твою маленькую головку об эту "
+#~ "стену!"
+
+#~ msgid "Story"
+#~ msgstr "История"
+
+#~ msgid "Strength"
+#~ msgstr "Сила"
+
+#~ msgid "Strength (STR): "
+#~ msgstr "Сила (С): "
+
+#~ msgid "Stygian Lizard"
+#~ msgstr "Стигийская ящерица"
+
+#~ msgid "Sure grandma."
+#~ msgstr "Конечно, бабуль."
+
+#~ msgid "Sure, I'll help you. But only if you can catch me!"
+#~ msgstr "Конечно, я помогу тебе. Но только если ты сможешь поймать меня!"
+
+#~ msgid "Sure, just ask."
+#~ msgstr "Конечно, спрашивай."
+
+#~ msgid "Sylphid"
+#~ msgstr "Сильфида"
+
+#~ msgid "Sylve"
+#~ msgstr "Сильв"
+
+#~ msgid "Tail"
+#~ msgstr "Хвост"
+
+#, fuzzy
+#~ msgid "Take it. Thanks."
+#~ msgstr "Возьми это... Спасибо."
+
+#~ msgid "Target Type: %s"
+#~ msgstr "Тип цели: %s"
+
+#~ msgid "Target:"
+#~ msgstr "Цель:"
+
+#~ msgid "Tempered Greaves"
+#~ msgstr "Наголенники с отпуском"
+
+#~ msgid "Tester Team"
+#~ msgstr "Команда тестеров"
+
+#~ msgid "Testers"
+#~ msgstr "Тестеры"
+
+#~ msgid "Thanis"
+#~ msgstr "Зэнис"
+
+#, fuzzy
+#~ msgid "Thank the goddess you're all safe and sound. I was worried sick!"
+#~ msgstr "Слава богине! Вы все целые и невредимые... Я сильно беспокоилась!"
+
+#, fuzzy
+#~ msgid "Thank the goddess."
+#~ msgstr "Слава богине..."
+
+#~ msgid "Thank you, indeed."
+#~ msgstr "Спасибо тебе, очень."
+
+#~ msgid "Thank you, young one."
+#~ msgstr "Спасибо тебе, внучёк."
+
+#~ msgid "Thanks Kalya, I'm prepared now."
+#~ msgstr "Спасибо Каля, я сейчас готов."
+
+#~ msgid "Thanks anyway, Sophia."
+#~ msgstr "Всё равно спасибо, София."
+
+#~ msgid "Thanks dad, we'll find him in no time."
+#~ msgstr "Спасибо пап, мы найдём его немедленно."
+
+#~ msgid "Thanks for helping me out with the dishes."
+#~ msgstr "Благодарю за помощь мне с посудой."
+
+#~ msgid "Thanks for playing!!"
+#~ msgstr "Cпасибо играющим!"
+
+#, fuzzy
+#~ msgid "Thanks for your help."
+#~ msgstr "Спасибо за твою помощь там..."
+
+#~ msgid ""
+#~ "Thanks to everyone\n"
+#~ "who made this possible!!"
+#~ msgstr ""
+#~ "Спасибо всем\n"
+#~ "кто сделал это возможным!!"
+
+#~ msgid "Thanks, Lilly."
+#~ msgstr "Спасибо, Лили"
+
+#, fuzzy
+#~ msgid "Thanks..."
+#~ msgstr "Благодарю ..."
+
+#, fuzzy
+#~ msgid "That kid is pretty quick. This is going to take all day."
+#~ msgstr ""
+#~ "Этот малой довольно быстр. Это идёт к тому, что весь день потрачу..."
+
+#, fuzzy
+#~ msgid "That sign, it is the sign of the ancients! Bronann! Are you alright?"
+#~ msgstr "Это знак... Символ античности! ... Бронан! Ты в порядке?"
+
+#, fuzzy
+#~ msgid "That was close."
+#~ msgstr "Это было близко..."
+
+#, fuzzy
+#~ msgid ""
+#~ "That will be the case only in certain areas. Here in the village, you'll "
+#~ "be the one leading, or at least you may believe that."
+#~ msgstr ""
+#~ "Это будет обстоятельством только в определённых местах. Здесь в деревне, "
+#~ "ты будешь один руководить или хотя бы можешь поверить в это ..."
+
+#, fuzzy
+#~ msgid "That's because he's not our father."
+#~ msgstr "Это потому что он не наш отец..."
+
+#, fuzzy
+#~ msgid "That's it."
+#~ msgstr "Это важно..."
+
+#~ msgid ""
+#~ "That's the point! Can't you hear the magnificent sound of nature, so "
+#~ "invisible to our adapted ears?"
+#~ msgstr ""
+#~ "В том то и дело! Ты не смог услышать великолепный звук природы, такой "
+#~ "незаметный для наших приспособленных ушей?"
+
+#~ msgid "The Shop"
+#~ msgstr "Магазин"
+
+#~ msgid ""
+#~ "The bridge is a few feet away. Let's reach the mountain pass before the "
+#~ "frost kills us."
+#~ msgstr ""
+#~ "Мост немного не для наших ног. Давайте дойдём до горы раньше, чем мороз "
+#~ "убьёт нас."
+
+#~ msgid "The control mappings can be changed in the options menu."
+#~ msgstr "Управление можно изменить в меню опции."
+
+#~ msgid "The crystal chose me? But I'm just..."
+#~ msgstr "Кристалл выбрал меня? Но я как раз..."
+
+#, fuzzy
+#~ msgid "The crystal! Orlinn! Let's stand back!"
+#~ msgstr "Кристалл! ... Орлин! Давай держаться от него подальше!"
+
+#, fuzzy
+#~ msgid ""
+#~ "The dark soldiers, as we call them, are fanatics. They'll follow "
+#~ "Banesore's orders even if it means their death."
+#~ msgstr ""
+#~ "Тёмные воины, так мы их называем - фанатики. Они будут следовать приказам "
+#~ "Бэйнсора даже если это подразумевает смерть."
+
+#, fuzzy
+#~ msgid ""
+#~ "The fact is, you and I cannot afford to stand on those stones. Maybe with "
+#~ "a rope?"
+#~ msgstr ""
+#~ "Факт в том, что ты и я не имеем возможности держаться за эти камни. Может "
+#~ "нужна верёвка?"
+
+#~ msgid ""
+#~ "The fact you didn't mention anything about the boy leads me to believe "
+#~ "that you know him."
+#~ msgstr ""
+#~ "Факт в том, что ты не упомянула что-нибудь о мальчике, что заставляет "
+#~ "меня поверить, что ты знаешь его."
+
+#~ msgid "The former villagers? What do you mean?"
+#~ msgstr "Бывшие жители деревни? Что ты имеешь в виду?"
+
+#~ msgid "The gate to the great plains..."
+#~ msgstr "Ворота в большие равнины..."
+
+#~ msgid "The heroes fell in battle..."
+#~ msgstr "Герои пали в бою..."
+
+#~ msgid "The heroes were victorious!"
+#~ msgstr "Герои победили!"
+
+#, fuzzy
+#~ msgid ""
+#~ "The icon will still need to climb to the top of the stamina bar before "
+#~ "the selected action is executed. This is called the 'preparation time'. "
+#~ "Generally the more powerful the skill being executed, the longer it will "
+#~ "take to prepare."
+#~ msgstr ""
+#~ "Иконка достигнет верха панели выносливости до запуска действия. Это "
+#~ "называется 'время подготовки'. Сильнее умение, дольше подготовка."
+
+#, fuzzy
+#~ msgid "The master won't be happy with this."
+#~ msgstr "Хозяин не будет этому счастлив..."
+
+#, fuzzy
+#~ msgid ""
+#~ "The ones being few or many, still each of them will have to prove "
+#~ "themselves as it is ought to be."
+#~ msgstr ""
+#~ "Немногие или многие, всё же каждый из них должен доказать сам, что "
+#~ "достоин жить..."
+
+#~ msgid "The party drinks the water and feels... alright?"
+#~ msgstr "Компания выпила воды и почувствовала... здоровы?"
+
+#~ msgid "The party won't drink it."
+#~ msgstr "Компания не будет пить это."
+
+#, fuzzy
+#~ msgid ""
+#~ "The path seems to lead straight into the storm up there. It's definitely "
+#~ "our lucky day."
+#~ msgstr ""
+#~ "Тропинка, кажется, ведёт прямо туда где буря. Это определённо наш "
+#~ "счастливый день..."
+
+#~ msgid ""
+#~ "The soldiers will be here any minute. We'll leave to the north and cross "
+#~ "the north-west plain up to..."
+#~ msgstr ""
+#~ "Воины будут здесь в любую минуту. Мы уйдём на север и пересечём вверху "
+#~ "северо-западную равнину до..."
+
+#~ msgid "The table below lists the default game controls.\n"
+#~ msgstr "Список управления игрой по умолчанию.\n"
+
+#~ msgid "The west gate is condemned, as the Lord commanded."
+#~ msgstr "Западные ворота в опасности, так лорд скомандовал."
+
+#, fuzzy
+#~ msgid "The wolf! The crystal! Orlinn! Are you ok?"
+#~ msgstr "... Волк! Кристалл! Орлин! Ты в порядке?? ..."
+
+#~ msgid ""
+#~ "Their strength is increased by the transformation. That's why we call "
+#~ "them the zombified army."
+#~ msgstr ""
+#~ "Их сила увеличена трансформацией. Это почему мы называем их зомбированной "
+#~ "армией."
+
+#, fuzzy
+#~ msgid "Then I'll deal with them, sis. We can't just stay here, anyway."
+#~ msgstr ""
+#~ "Тогда, я разберусь с ними, сестра. Мы не можем просто остаться здесь, так "
+#~ "или иначе..."
+
+#, fuzzy
+#~ msgid "Then, I'll help you."
+#~ msgstr "Тогда, я помогу тебе..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Then, you already know that your zombified soldiers are no match for me."
+#~ msgstr ""
+#~ "Тогда, ты уже знаешь, что твои зомбированные воины не подходят мне..."
+
+#~ msgid ""
+#~ "There are additional commands available which can be found in the MANUAL "
+#~ "file."
+#~ msgstr ""
+#~ "Доступны дополнительные команды, которые могут быть найдены в MANUAL "
+#~ "файле."
+
+#, fuzzy
+#~ msgid ""
+#~ "There are signs engraved on this rock, too. This looks like some kind of "
+#~ "mechanism my family used long ago."
+#~ msgstr ""
+#~ "На этой скале также выгравированы символы. Это, похоже, некоторый вид "
+#~ "механизма моей семьи, использовался давно…"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are two action types: The basic 'Weapon' to attack, and later you "
+#~ "can also use 'Magic' skills. Last but not least, you'll also be able to "
+#~ "use our 'Items'. Simply choose an action followed by a target to trigger "
+#~ "it."
+#~ msgstr ""
+#~ "Здесь несколько типов действий: основной 'Оружие' и позднее 'Магия' "
+#~ "умения. Последнее, но не самое малое, ты также можешь использовать наши "
+#~ "'Предметы'. Просто выбери одно действие и цель, чтобы выполнить это."
+
+#~ msgid ""
+#~ "There have been some reports of theft in the villages nearby recently."
+#~ msgstr "Недавно было несколько сообщений воровства в соседних деревнях."
+
+#~ msgid "There is a note left here."
+#~ msgstr "Тут осталась записка."
+
+#, fuzzy
+#~ msgid ""
+#~ "There is a passage here, but I'm too heavy to climb on those stones "
+#~ "jutting out"
+#~ msgstr "Там проход, но я слишком тяжёлый для этих выступающих камней ..."
+
+#, fuzzy
+#~ msgid "There must be soldiers everywere, we're never gonna make it."
+#~ msgstr "Должно быть воины повсюду, мы никогда не сможем сделать это..."
+
+#, fuzzy
+#~ msgid "There seems to be one of those rolling stones up here."
+#~ msgstr "Кажется там сверху есть один из этих катящихся камней ..."
+
+#~ msgid "There!"
+#~ msgstr "Сюда!"
+
+#~ msgid "There's no need to thank me for that. It's my pleasure."
+#~ msgstr ""
+#~ "Нет необходимости благодарить меня за это. Это мне одно удовольствие."
+
+#, fuzzy
+#~ msgid "Therefore, I'm inclined to ask these questions one last time:"
+#~ msgstr "Поэтому, я склонен задать вопросы в последний раз."
+
+#~ msgid "They are too strong. If they catch us, we're doomed."
+#~ msgstr "Они слишком сильные. Если они поймают нас, мы обречены."
+
+#, fuzzy
+#~ msgid ""
+#~ "They'll be fine, Bronann. We must prevent Banesore from obtaining the "
+#~ "crystal."
+#~ msgstr ""
+#~ "... С ними будет всё хорошо, Бронан. Мы должны помешать Бэйнсору получить "
+#~ "кристалл."
+
+#~ msgid "They're coming!"
+#~ msgstr "Они приближаются!"
+
+#, fuzzy
+#~ msgid ""
+#~ "They're gone. We should move on before they actually find a way to cross "
+#~ "the gap."
+#~ msgstr ""
+#~ "Они ушли... Нам следует идти дальше, пока они действительно не найдут "
+#~ "способ пересечь ущелье."
+
+#~ msgid "Thing"
+#~ msgstr "Вещь"
+
+#~ msgid "This can only mean we're near the exit!"
+#~ msgstr "Это молжет только значить, что мы близко к выходу!"
+
+#~ msgid "This character cannot equip this item."
+#~ msgstr "Этого героя нельзя снарядить этим."
+
+#~ msgid ""
+#~ "This circle is a save point. Here, you can save your game by pushing %s."
+#~ msgstr ""
+#~ "Этот круг является местом сохранения. Тут, ты сможешь сохранить свою "
+#~ "игру, нажав %s."
+
+#, fuzzy
+#~ msgid "This is her. I heard her voice calling."
+#~ msgstr "Это она. Я слышал её зовущий голос..."
+
+#, fuzzy
+#~ msgid "This is the blocked passage to the shrine entrance."
+#~ msgstr "Это заблокировало проход ко входу в святыню..."
+
+#~ msgid "This item is a key item and can be neither consumed nor sold."
+#~ msgstr "Это ключевой предмет и не может быть израсходован или продан."
+
+#~ msgid ""
+#~ "This item is an elemental spirit and can be associated with equipment."
+#~ msgstr ""
+#~ "Этот предмет является стихийным духом и может быть соединён со "
+#~ "снаряжением."
+
+#, fuzzy
+#~ msgid ""
+#~ "This place is part of your burden. Herth was right. You managed to come "
+#~ "here all by yourselves, after all."
+#~ msgstr ""
+#~ "Это место является частью вашей ноши. Герц был прав. Вам удалось прийти "
+#~ "сюда самим, в конце концов..."
+
+#, fuzzy
+#~ msgid ""
+#~ "This place is the village's old cemetery. It was used by the former "
+#~ "villagers who lived in Layna."
+#~ msgstr ""
+#~ "Это место является старым кладбищем деревни, использовалось когда бывшие "
+#~ "жители деревни жили в Лэйне..."
+
+#, fuzzy
+#~ msgid "This town has many secrets."
+#~ msgstr "У этого города много секретов..."
+
+#~ msgid "This water looks weird. Shall we drink it anyway?"
+#~ msgstr "Эта вода смотрится очень странно. Мы выпьем её всё равно?"
+
+#~ msgid "Threshold"
+#~ msgstr "Порог"
+
+#, fuzzy
+#~ msgid ""
+#~ "Thus, let death embrace you, little boy. For your comrades are already "
+#~ "dying under my charm and you need to join them in the other world."
+#~ msgstr ""
+#~ "Так, дай смерти обнять тебя, малыш, ради твоих товарищей уже умирающих "
+#~ "под моими чарами и ты должен присоединиться к ним в иной мир..."
+
+#~ msgid "Time left:"
+#~ msgstr "Времени осталось:"
+
+#, fuzzy
+#~ msgid "Times are becoming harder now. We've got less food than before."
+#~ msgstr ""
+#~ "Сейчас тяжелее время стало. Мы имеем меньше продовольствия, чем раньше..."
+
+#~ msgid "Titanium Ore"
+#~ msgstr "Титановая руда"
+
+#~ msgid "To Lilou and Léo..."
+#~ msgstr "Лайлоу и Лео..."
+
+#~ msgid "To be continued..."
+#~ msgstr "Продолжение следует..."
+
+#~ msgid "Toggle Map"
+#~ msgstr "Карта"
+
+#~ msgid "Toggle Map: "
+#~ msgstr "Карта: "
+
+#~ msgid "Torso"
+#~ msgstr "Торс"
+
+#~ msgid "Torso Armor"
+#~ msgstr "Защита торса"
+
+#~ msgid "Torso: "
+#~ msgstr "Торс: "
+
+#~ msgid "Total Drunes: "
+#~ msgstr "Итого друн: "
+
+#~ msgid "Total: "
+#~ msgstr "Итог: "
+
+#, fuzzy
+#~ msgid ""
+#~ "Touched neither by time nor space, this spirit is dwelling in pure energy."
+#~ msgstr ""
+#~ "Этот дух, не затронутый ни временем, ни пространством задерживается в "
+#~ "чистой энергии."
+
+#~ msgid "Trade"
+#~ msgstr "Обмен"
+
+#~ msgid "Trade count: x "
+#~ msgstr "Итого обменять: x "
+
+#~ msgid "Translations"
+#~ msgstr "Перевод"
+
+#~ msgid "Trident Shield"
+#~ msgstr "Щит от трезубца"
+
+#~ msgid "Trunk"
+#~ msgstr "Сундук"
+
+#~ msgid "Try to enjoy this day, Bronann."
+#~ msgstr "Попробуй получить удовольствие от этого дня, Бронан."
+
+#~ msgid "Tunic"
+#~ msgstr "Мундир"
+
+#~ msgid "UI Theme: "
+#~ msgstr "Тема: "
+
+#, fuzzy
+#~ msgid "Ummm..."
+#~ msgstr "...Хм..."
+
+#~ msgid ""
+#~ "Unable to save game!\n"
+#~ "Save FAILED!"
+#~ msgstr ""
+#~ "Невозможно сохранить игру!\n"
+#~ "Сохранение НЕУДАЧНО!"
+
+#~ msgid "Underpass"
+#~ msgstr "Подземный переход"
+
+#~ msgid "Undine"
+#~ msgstr "Ундина"
+
+#, fuzzy
+#~ msgid "Unfortunately no. I left them behind."
+#~ msgstr "К сожалению нет. Я оставила их..."
+
+#, fuzzy
+#~ msgid "Unfortunately, I gave it all to Kalya."
+#~ msgstr "К сожалению, я её всю отдала Кали..."
+
+#, fuzzy
+#~ msgid "Unfortunately, yes. There is one."
+#~ msgstr "К сожалению... Да, есть один..."
+
+#~ msgid "Up"
+#~ msgstr "Вверх"
+
+#~ msgid "Up: "
+#~ msgstr "Вверх: "
+
+#~ msgid "Use"
+#~ msgstr "Использовать"
+
+#, fuzzy
+#~ msgid "Using my rope and ranger skills, of course."
+#~ msgstr "Используя верёвку и мои навыки рейнджера, конечно, вот как."
+
+#~ msgid "VIG: +"
+#~ msgstr "Ж: +"
+
+#~ msgid "Valyria Tear was forked from Hero of Allacrost in 2011"
+#~ msgstr "Valyria Tear - это ответвление от Hero of Allacrost в 2011"
+
+#~ msgid ""
+#~ "Various art\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Enemy sprites\n"
+#~ "\n"
+#~ "Map sprites, Map tiles\n"
+#~ "\n"
+#~ "Map tiles, Inventory icons\n"
+#~ "\n"
+#~ "Map tiles, Battle sprites"
+#~ msgstr ""
+#~ "Разное художество\n"
+#~ "\n"
+#~ "Текстуры\n"
+#~ "\n"
+#~ "Спрайты врагов\n"
+#~ "\n"
+#~ "Спрайты,текстуры\n"
+#~ "\n"
+#~ "Текстуры, иконки инвентаря\n"
+#~ "\n"
+#~ "Текстуры, спрайты боя"
+
+#~ msgid "Video"
+#~ msgstr "Видео"
+
+#~ msgid ""
+#~ "Video engine, Game engine\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Scripting engine\n"
+#~ "\n"
+#~ "Various code\n"
+#~ "\n"
+#~ "Various code"
+#~ msgstr ""
+#~ "Видео, игровой движки\n"
+#~ "\n"
+#~ "Видео движок\n"
+#~ "\n"
+#~ "Видео движок\n"
+#~ "\n"
+#~ "Скриптовый движок\n"
+#~ "\n"
+#~ "Разный код\n"
+#~ "\n"
+#~ "Разный код"
+
+#~ msgid ""
+#~ "View character Information.\n"
+#~ "Select a character to change formation."
+#~ msgstr ""
+#~ "Посмотреть информацию о герое.\n"
+#~ "Выбери героя, чтобы изменить формирование."
+
+#~ msgid "View/Reorder"
+#~ msgstr "Смотреть/Переупорядочить"
+
+#~ msgid "Vigor"
+#~ msgstr "Живучесть"
+
+#~ msgid "Vigor (VIG): "
+#~ msgstr "Живучесть (Ж): "
+
+#~ msgid "Village center"
+#~ msgstr "Центр деревни"
+
+#~ msgid "Village entrance"
+#~ msgstr "Вход в деревню"
+
+#~ msgid "Village of Layna"
+#~ msgstr "Деревня Лэйны"
+
+#~ msgid ""
+#~ "Village tileset, ...\n"
+#~ "\n"
+#~ "Cemetery tileset, ...\n"
+#~ "\n"
+#~ "Heroes portraits, ...\n"
+#~ "\n"
+#~ "Heroes sprites, Cave tilesets, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "Forest battle backgrounds, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "The Fenrir\n"
+#~ "\n"
+#~ "A lot of various things"
+#~ msgstr ""
+#~ "Текстуры деревни, ...\n"
+#~ "\n"
+#~ "Текстуры кладбища, ...\n"
+#~ "\n"
+#~ "Портреты героев, ...\n"
+#~ "\n"
+#~ "Спрайты героев, т. пещеры, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "Фоны боя в лесу, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "Фенрир\n"
+#~ "\n"
+#~ "Много разных предметов"
+
+#~ msgid "Volt"
+#~ msgstr "Уклонение"
+
+#, fuzzy
+#~ msgid "Wait Orlinn! That's not all he wrote."
+#~ msgstr "Постой Орлин! Это ещё не конец..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Wait! There is one more thing. Why are you calling your own father by his "
+#~ "actual name?"
+#~ msgstr "Постой! Ещё одна вещь... Почему ты называешь своего отца по имени?"
+
+#, fuzzy
+#~ msgid "Wait."
+#~ msgstr "Подожди..."
+
+#~ msgid "Wait..."
+#~ msgstr "Подожди..."
+
+#, fuzzy
+#~ msgid "Want to come back?"
+#~ msgstr "Хочешь вернуться?"
+
+#~ msgid "Water Elemental Strength"
+#~ msgstr "Стихийная сила воды"
+
+#, fuzzy
+#~ msgid "We can't go back now."
+#~ msgstr "Мы сейчас не можем возвратиться..."
+
+#, fuzzy
+#~ msgid "We can't move Orlinn."
+#~ msgstr "Мы не можем двинуться Орлин ..."
+
+#, fuzzy
+#~ msgid "We can't move, Orlinn."
+#~ msgstr "Мы не можем двинуться Орлин ..."
+
+#, fuzzy
+#~ msgid ""
+#~ "We didn't know exactly what would happen, Bronann. But we knew one day "
+#~ "the three of you would have to carry a special burden. That is what Herth "
+#~ "told us."
+#~ msgstr ""
+#~ "Мы точно не знали, что бы случилось, Бронан. Но мы знали, что однажды "
+#~ "трое из нас возможно понесут тяжёлую ношу... Это так нам сказал Герц..."
+
+#~ msgid ""
+#~ "We don't know how he does it, but he can turn anybody into a servile "
+#~ "subject."
+#~ msgstr ""
+#~ "Мы не знаем, как он это делает, но он может превратить любого в "
+#~ "подчиненного раба."
+
+#, fuzzy
+#~ msgid ""
+#~ "We finally retrieved Orlinn in the center of the forest. A mysterious "
+#~ "wolf was protecting him, and we came just in time to prevent him from "
+#~ "approaching a strange crystal."
+#~ msgstr ""
+#~ "Мы, наконец, нашли Орлина в центре леса. Таинственный волк защищал его, а "
+#~ "мы пришли как раз вовремя, чтобы помешать ему приблизиться к странному "
+#~ "кристаллу..."
+
+#~ msgid "We made it, at last!"
+#~ msgstr "Наконец-то, мы сделали это!"
+
+#, fuzzy
+#~ msgid "We made it."
+#~ msgstr "Мы сделали это..."
+
+#~ msgid "We managed to find a way up to the mountain top."
+#~ msgstr "Нам удалось найти путь наверх к горной вершине."
+
+#, fuzzy
+#~ msgid "We must absolutely avoid them or they'll call reinforcements."
+#~ msgstr ""
+#~ "Мы должны, конечно, попробовать избежать их или они вызовут подкрепление."
+
+#, fuzzy
+#~ msgid "We must escape from the soldiers."
+#~ msgstr "Мы должны сбежать от воинов..."
+
+#, fuzzy
+#~ msgid "We shall go now. Good luck, both of you."
+#~ msgstr "Мы сейчас должны идти... Удачи, вам обоим."
+
+#, fuzzy
+#~ msgid ""
+#~ "We won't be able to come back here once we leave. So feel free to pick up "
+#~ "everything you need and prepare yourself."
+#~ msgstr ""
+#~ "Мы не сможем однажды появится здесь снова. Итак, разрешаю тебе собрать "
+#~ "нужное и подготовить себя..."
+
+#, fuzzy
+#~ msgid "We'll have to enter the ancient shrine."
+#~ msgstr "Мы должны войти в древнюю святыню..."
+
+#, fuzzy
+#~ msgid "We'll see each other again, chosen one..."
+#~ msgstr "Мы встретимся друг с другом снова, избранный..."
+
+#~ msgid "We're all anxiously awaiting your return."
+#~ msgstr "Мы все с нетерпением ожидаем твоего возвращения."
+
+#~ msgid "We're almost there!"
+#~ msgstr "Мы почти там!"
+
+#~ msgid "We're counting on you."
+#~ msgstr "Мы рассчитываем на тебя."
+
+#, fuzzy
+#~ msgid "We're gonna...suffocate."
+#~ msgstr "Мы ... задыхаемся..."
+
+#, fuzzy
+#~ msgid "We're leaving the village now."
+#~ msgstr "Мы сейчас покинем деревню..."
+
+#~ msgid "We're trapped!"
+#~ msgstr "Мы в ловушке!"
+
+#, fuzzy
+#~ msgid ""
+#~ "We've been having a shortage of food lately. I've been taking... special "
+#~ "measures to ensure that everyone has enough food."
+#~ msgstr ""
+#~ "У нас нехватка пищи недавно. А я говорила... специальные меры... чтобы "
+#~ "обеспечить каждого пищей."
+
+#~ msgid "Weapon"
+#~ msgstr "Оружие"
+
+#~ msgid "Weapon skill"
+#~ msgstr "умение"
+
+#~ msgid "Weapons"
+#~ msgstr "Оружия"
+
+#, fuzzy
+#~ msgid ""
+#~ "Weird, I don't see any lights on in there. I have a bad feeling about "
+#~ "this, let's get back home."
+#~ msgstr ""
+#~ "Жутко, я не могу там видеть источников света... У меня плохие "
+#~ "предчувствия об этом, давай вернёмся домой..."
+
+#~ msgid "Welcome to Valyria Tear"
+#~ msgstr "Добро пожаловать в Valyria Tear"
+
+#, fuzzy
+#~ msgid "Well anyway, she's been ignoring me since the first day I saw her."
+#~ msgstr ""
+#~ "Ну, так или иначе, она игнорирует меня с первого дня как я увидел её..."
+
+#, fuzzy
+#~ msgid "Well, here we go."
+#~ msgstr "Ну, началось..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Well, it's a long story. But in short, I was out of the village when they "
+#~ "caught everyone."
+#~ msgstr ""
+#~ "Ну, это долгая история... Но вкратце, меня не было в деревне, когда они "
+#~ "схватили всех."
+
+#, fuzzy
+#~ msgid ""
+#~ "Well, let's leave this place before another one wants our lives again."
+#~ msgstr ""
+#~ "... Хорошо, давайте оставим это место, прежде чем ещё один вновь захочет "
+#~ "наши жизни."
+
+#, fuzzy
+#~ msgid ""
+#~ "Well, please stop laughing now. I'm not at ease with what just happened."
+#~ msgstr ""
+#~ "Ну, пожалуйста, прекрати сейчас смеяться. Мне не ловко с тем, что только "
+#~ "что случилось..."
+
+#, fuzzy
+#~ msgid "Well, the door is open now."
+#~ msgstr "Так, дверь открыта..."
+
+#, fuzzy
+#~ msgid "What a large gate. What is behind it must be fearsome."
+#~ msgstr "Какие большие врата... Что вызывает должно быть что-то ужасное..."
+
+#~ msgid "What a lovely necklace! I'll take it."
+#~ msgstr "Какое очаровательное ожерелье. Я возьму его."
+
+#~ msgid "What a nice day, isn't it?"
+#~ msgstr "Какой прекрасный день, не так ли?"
+
+#~ msgid "What about the..."
+#~ msgstr "Ну, знаешь..."
+
+#~ msgid "What am I doing? I should go and try to free Kalya!"
+#~ msgstr "Что я делаю? Мне следовало бы пойти и попытаться освободить Калю!"
+
+#~ msgid "What are we waiting for, let's go!"
+#~ msgstr "Чего мы ждём? Пошли!"
+
+#~ msgid "What are you laughing about, Orlinn?"
+#~ msgstr "О чём ты смеёшься, Орлин?"
+
+#~ msgid "What does all of this mean?"
+#~ msgstr "Что всё это значит?"
+
+#, fuzzy
+#~ msgid "What happened? Orlinn, what have you done?"
+#~ msgstr "Что случилось?? ... Орлин ... Что ты сделал? ..."
+
+#~ msgid "What is it, Bronann?"
+#~ msgstr "Что, Бронан?"
+
+#, fuzzy
+#~ msgid "What is it, Kalya?"
+#~ msgstr "... Что это, Каля?"
+
+#, fuzzy
+#~ msgid "What is this? Skeletons?!"
+#~ msgstr "Что это? ... Скелеты?!"
+
+#~ msgid "What was that crystal? Why did you want to 'become one' with it?"
+#~ msgstr "Что за кристалл? Почему ты хочешь 'соединиться' с ней?"
+
+#, fuzzy
+#~ msgid "What! Orlinn, no!"
+#~ msgstr "Что! Орлин, Нет!"
+
+#, fuzzy
+#~ msgid "What's happening here?! Where is everyone?"
+#~ msgstr "Что здесь происходит?!? Где все??"
+
+#, fuzzy
+#~ msgid "What's happening!?"
+#~ msgstr "Что случилось!?!"
+
+#, fuzzy
+#~ msgid "What's so funny, Kalya? Hi hi."
+#~ msgstr "Что так смешно, Каля? А?"
+
+#~ msgid "What's that?!"
+#~ msgstr "Что это?!"
+
+#, fuzzy
+#~ msgid "What's with this 'ancient shrine'?"
+#~ msgstr "... Что с этой 'древней святыней'?"
+
+#~ msgid "What?"
+#~ msgstr "Что?"
+
+#, fuzzy
+#~ msgid "What? Are you crazy? There could be monsters up there."
+#~ msgstr "Что? Ты спятил? Там наверху могут быть монстры."
+
+#~ msgid "What? But one minute ago you said..."
+#~ msgstr "Что? Но минуту тому назад ты сказал..."
+
+#~ msgid "What? No!"
+#~ msgstr "Что? Нет!"
+
+#~ msgid "What?!"
+#~ msgstr "Что?!"
+
+#~ msgid "What?! You mean you all knew about the crystal?"
+#~ msgstr "Что?! Ты имеешь в виду, что вы всё знали насчёт кристалла?"
+
+#, fuzzy
+#~ msgid "When I catch you, I'll make you wish you were never born! Rahh!"
+#~ msgstr "Когда я поймаю тебя, ты пожалеешь, что родился!! Ураа!"
+
+#~ msgid ""
+#~ "When I saw you leaving the village to the sanctuary, I decided to follow "
+#~ "you."
+#~ msgstr ""
+#~ "Когда я увидела тебя покидающего деревню и идущего к убежищу, я решила "
+#~ "следовать за тобой."
+
+#~ msgid "Where is Orlinn?"
+#~ msgstr "Где Орлин?"
+
+#, fuzzy
+#~ msgid "Where is the crystal? Where is the boy?"
+#~ msgstr "Где кристалл? Где... мальчик?"
+
+#~ msgid "Where it all began..."
+#~ msgstr "Где это всё началось..."
+
+#~ msgid "Who are the little brats now, eh?"
+#~ msgstr "Кто теперь маленькие отродья, а?"
+
+#~ msgid "Who's there?"
+#~ msgstr "Кто здесь?"
+
+#, fuzzy
+#~ msgid "Why doesn't anyone tell me what's going on!"
+#~ msgstr "Почему никто не хочет сказать мне, что происходит!!"
+
+#, fuzzy
+#~ msgid "Why the hell..."
+#~ msgstr "Почему в ад ...?"
+
+#~ msgid "Why was that giant wolf protecting you?"
+#~ msgstr "Почему тот гигантский волк защищал тебя?"
+
+#, fuzzy
+#~ msgid "Why? Oh, don't tell me. He's hiding somewhere."
+#~ msgstr "Ну? ... Ох, не говори. Он где-то прячется."
+
+#~ msgid "Wind Elemental Strength"
+#~ msgstr "Стихийная сила ветра"
+
+#~ msgid "Window mode: "
+#~ msgstr "Режим: "
+
+#~ msgid "Windowed"
+#~ msgstr "Оконный"
+
+#~ msgid "Wing"
+#~ msgstr "Крыло"
+
+#~ msgid ""
+#~ "With the additional %u drunes found in this treasure added, the party now "
+#~ "holds a total of %u drunes."
+#~ msgstr ""
+#~ "Дополнительно добавлено %u друн, найденных в этом сокровище. Компания "
+#~ "сейчас держит в итоге %u друн."
+
+#, fuzzy
+#~ msgid ""
+#~ "Woah, I wouldn't have expected monsters so close to the village. Bronann, "
+#~ "do you need a quick reminder about the basics of battle?"
+#~ msgstr ""
+#~ "Ух, я не ожидала врагов так близко к деревне. Бронан, тебе нужно быстро "
+#~ "напомнить об основах в боях?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Woah, that was quite a nasty fight. Why on earth was a north arctic "
+#~ "fenrir lurking in the forest? I thought it was merely a part of myths."
+#~ msgstr ""
+#~ "Ух, это был довольно противный бой. Почему арктический волк Фенрир "
+#~ "таиться в лесу? Я думал, что он был просто частью мифов."
+
+#~ msgid "Woah, wait!"
+#~ msgstr "Ух, постой!"
+
+#~ msgid "Woah, where am I?"
+#~ msgstr "Ух, где я?"
+
+#~ msgid "Wolfpain Necklace"
+#~ msgstr "Ожерелье волка мучителя"
+
+#~ msgid "Wooden Shield"
+#~ msgstr "Деревянный  щит"
+
+#~ msgid "Wooden Sword"
+#~ msgstr "Деревянный меч"
+
+#~ msgid "Wow!"
+#~ msgstr "Ух ты!"
+
+#~ msgid "Wow! You found me!"
+#~ msgstr "Ух ты! Ты нашёл меня!"
+
+#~ msgid "Wow, do you think that they would come here?"
+#~ msgstr "Ничего себе, думаешь, что они пришли бы сюда?"
+
+#, fuzzy
+#~ msgid "Wow, what a fall. I didn't see that one coming."
+#~ msgstr "Ничего себе, какое падение... Я не видела, что это сюда приведёт."
+
+#~ msgid "X Axis"
+#~ msgstr "Ось X"
+
+#~ msgid "XP Earned: "
+#~ msgstr "Получено опыта: "
+
+#~ msgid "XP left: "
+#~ msgstr "ОП осталось: "
+
+#~ msgid "XP to Next: "
+#~ msgstr "ОП до след.: "
+
+#~ msgid "Y Axis"
+#~ msgstr "Ось Y"
+
+#, fuzzy
+#~ msgid "Yea, yes, here it is."
+#~ msgstr "Угу... Да, вот оно."
+
+#~ msgid "Yes"
+#~ msgstr "Да"
+
+#~ msgid "Yes!"
+#~ msgstr "Да!"
+
+#~ msgid "Yes! I can feel it coming closer to the surface!"
+#~ msgstr "Да! Я теперь чувствую, что это выходит наружу!"
+
+#~ msgid "Yes, I'm so thirsty."
+#~ msgstr "Да, я так хочу пить."
+
+#~ msgid "Yes, Lilly. But I have something I have to ask you."
+#~ msgstr "Да, Лили. Но я должен кое-что спросить у тебя."
+
+#, fuzzy
+#~ msgid "Yes, and let's do it quickly."
+#~ msgstr "Да, и давайте сделаем это быстро..."
+
+#~ msgid "Yes, he took Georges pen and I need to give it back to him..."
+#~ msgstr "Да, он взял перо Джорджа, а мне нужно его вернуть..."
+
+#, fuzzy
+#~ msgid ""
+#~ "Yes, it's a great privilege as I usually don't do such things for "
+#~ "children. I'll stay here as long as you are stuck, isn't this quite nice?"
+#~ msgstr ""
+#~ "Да, это большая привилегия, так как я обычно не делаю таких вещей для "
+#~ "детей. Я останусь здесь пока вы в неприятной ситуации, это не совсем "
+#~ "честно?"
+
+#~ msgid "Yes, let's end this."
+#~ msgstr "Да, давайте покончим с этим."
+
+#~ msgid "Yes, let's go."
+#~ msgstr "Да, идём."
+
+#~ msgid "Yes, my Lord!"
+#~ msgstr "Да, мой лорд!"
+
+#~ msgid "Yes, please!"
+#~ msgstr "Да, пожалуйста!"
+
+#, fuzzy
+#~ msgid "Yes, please."
+#~ msgstr "Да, пожалуйста..."
+
+#, fuzzy
+#~ msgid "Yes, sir."
+#~ msgstr "Да, Сэр..."
+
+#, fuzzy
+#~ msgid "Yes. I'm sorry I wasn't able to protect myself, sis."
+#~ msgstr "Да, я сожалею. Я не мог защитить себя, сестра."
+
+#, fuzzy
+#~ msgid "Yes. Is it... smoke?"
+#~ msgstr "... Да... Это... дым?"
+
+#, fuzzy
+#~ msgid "Yes. It's a miracle that you were kept away from harm."
+#~ msgstr "Да, Это чудо, что судьба оградила вас от вреда."
+
+#~ msgid "Yeti"
+#~ msgstr "Снежный человек"
+
+#~ msgid "Yiek!"
+#~ msgstr "Ёик!"
+
+#~ msgid "Yiek! A big monster!"
+#~ msgstr "Ёик! Большой монстр!"
+
+#~ msgid "Yiek! Do you really want to go there??"
+#~ msgstr "Ёик! Ты действительно туда хочешь идти??"
+
+#, fuzzy
+#~ msgid "Yiek! Hey, you scared me."
+#~ msgstr "Ёик!!! Эй, ты испугал меня."
+
+#, fuzzy
+#~ msgid "Yiek, it stinks in here."
+#~ msgstr "Ёик, как воняет здесь."
+
+#~ msgid "You are able to decipher this writing, Kalya?"
+#~ msgstr "Ты способна расшифровать это писание, Каля?"
+
+#~ msgid "You can come back here and save as many times as you want."
+#~ msgstr "Ты можешь вернуться сюда и сохраниться столько раз, сколько хочешь."
+
+#~ msgid "You can do it. Bronann..."
+#~ msgstr "Ты можешь это сделать. Бронан..."
+
+#~ msgid "You can go in there, Orlinn."
+#~ msgstr "Ты можешь войти туда, Орлин."
+
+#~ msgid "You can't be serious, we would have heard it come."
+#~ msgstr "Ты не серьёзный, мы бы услышали его приход."
+
+#~ msgid "You filthy demon!"
+#~ msgstr "Ты мерзкий демон!"
+
+#, fuzzy
+#~ msgid ""
+#~ "You have made it through the holy ordeal alive. I shall not let you "
+#~ "survive."
+#~ msgstr ""
+#~ "Вы прошли священное тяжёлое испытание не умерев. Я не дам вам жить..."
+
+#, fuzzy
+#~ msgid ""
+#~ "You have trespassed the holy ground of the Ancient and remained unharmed "
+#~ "for too long in this temple."
+#~ msgstr ""
+#~ "Ты посягнул на священную, древнию землю и остался невредимым слишком "
+#~ "долго в этом храме..."
+
+#, fuzzy
+#~ msgid "You know you won't get away with this. When you see Herth..."
+#~ msgstr "Ты знаешь, что ты не уйдёшь с этим, когда увидишь Герца..."
+
+#~ msgid "You mean I need to push a key to open my bag?"
+#~ msgstr ""
+#~ "Ты имеешь в виду, что мне нужно нажать кнопку, чтобы открыть мою сумку?"
+
+#, fuzzy
+#~ msgid "You mean in the middle of those scary bones?"
+#~ msgstr "Ты имеешь в виду, в середине этих ужасных костей?"
+
+#, fuzzy
+#~ msgid "You must believe me Bronann."
+#~ msgstr "Ты должен поверить мне Бронан..."
+
+#~ msgid "You obtain"
+#~ msgstr "Ты получил"
+
+#~ msgid "You really won't tell me?"
+#~ msgstr "Ты действительно не скажешь мне?"
+
+#~ msgid ""
+#~ "You see, I lost my beloved pen. Was it near a tree or next to the waving "
+#~ "child of the mountain snow?"
+#~ msgstr ""
+#~ "Пойми, я потерял моё любимое перо. Было это возле дерева или рядом с "
+#~ "озорным ребёнком где горный снег?"
+
+#, fuzzy
+#~ msgid "You seem so calm, ready, and prepared."
+#~ msgstr "Ты видимо такая спокойная, готовая и подготовленная..."
+
+#~ msgid "You shall not leave this place without my consent."
+#~ msgstr "Вы не покинете это место без моего согласия."
+
+#~ msgid "You should go back home. Your mom must be waiting for you."
+#~ msgstr "Тебе следовало бы вернуться домой. Твоя мама должно быть ждёт тебя."
+
+#, fuzzy
+#~ msgid "You won't be fine for long after I'm done with you!!"
+#~ msgstr "... Тебе долго будет плохо после того, что я сделаю с тобой!!"
+
+#, fuzzy
+#~ msgid "You won't get away so easily. We will catch you sooner or later."
+#~ msgstr "Ты не сможешь легко удрать... Мы схватим тебя рано или поздно..."
+
+#, fuzzy
+#~ msgid ""
+#~ "You won't get him, Banesore! It seems we were smarter than you this time."
+#~ msgstr ""
+#~ "Ты не тронешь его, Бэйнсор! По-видимому, мы умнее, чем ты, на этот раз..."
+
+#~ msgid "You'll never find it!"
+#~ msgstr "Ты никогда не найдёшь его!"
+
+#~ msgid "You'll never find me hiding behind the..."
+#~ msgstr "Ты никогда не найдёшь меня спрятанным за..."
+
+#~ msgid "You'll never get me!"
+#~ msgstr "Ты никогда не поймаешь меня!"
+
+#, fuzzy
+#~ msgid ""
+#~ "You'll see. There's plenty of things I need to show you there. Plus, it's "
+#~ "a safe place."
+#~ msgstr ""
+#~ "... Пойми: мне нужно тебе там много всего показать. Плюс, это безопасное "
+#~ "место."
+
+#~ msgid "You're mine now!"
+#~ msgstr "Ты мой сейчас!"
+
+#, fuzzy
+#~ msgid ""
+#~ "You're stronger than I thought. But you are still too weak to challenge "
+#~ "me!"
+#~ msgstr ""
+#~ "Ты сильнее, чем я думал, но всё же ... Ты слишком слаб, чтобы бросить мне "
+#~ "вызов!"
+
+#~ msgid ""
+#~ "You're the nicest person I know, Bronann. I will tell everyone how brave "
+#~ "you..."
+#~ msgstr ""
+#~ "Ты самый милый человек, которого я знаю, Бронан. Я расскажу всем, какой "
+#~ "ты смелый..."
+
+#, fuzzy
+#~ msgid "You're too young to trade with me!"
+#~ msgstr "Ты слишком молод, чтобы торговать вещами со мной!"
+
+#~ msgid "You're very welcome, my dear one."
+#~ msgstr "Ты всегда желанный, мой дорогой."
+
+#~ msgid "You're welcome!"
+#~ msgstr "Пожалуйста!"
+
+#~ msgid "You're welcome, my dear!"
+#~ msgstr "Пожалуйста, мой дорогой!"
+
+#, fuzzy
+#~ msgid "You're welcome."
+#~ msgstr "Пожалуйста!"
+
+#, fuzzy
+#~ msgid "You've proven yourself, chosen one. You deserve to live after all."
+#~ msgstr "Ты доказал сам, избранный... Ты, в конце концов, достоин жить..."
+
+#, fuzzy
+#~ msgid "You, after all these years..."
+#~ msgstr "Ты... После всех этих лет..."
+
+#~ msgid "You? A child with an old wooden stick?"
+#~ msgstr "Ты? Мальчишка со старой деревянной палкой?"
+
+#, fuzzy
+#~ msgid "Your family? Long ago?"
+#~ msgstr "Твоя семья? Давно? ..."
+
+#, fuzzy
+#~ msgid "Your party feels better."
+#~ msgstr "Твоя компания стала чувствовать себя лучше..."
+
+#~ msgid "Your party feels better..."
+#~ msgstr "Твоя компания стала чувствовать себя лучше..."
+
+#~ msgid ""
+#~ "Your very soul is slowly but surely opening. I can feel your sorrow and "
+#~ "doubts grow."
+#~ msgstr ""
+#~ "Твоя душа медленно, но, несомненно, открывается. Я уже чувствую твоё горе "
+#~ "и возникшие сомнения."
+
+#~ msgid "[Invalid Target]"
+#~ msgstr "[Не та цель]"
+
+#~ msgid "[Select Action]"
+#~ msgstr "[Выбери действие]"
+
+#~ msgid "[error]"
+#~ msgstr "[ошибка]"
+
+#~ msgid "and many others"
+#~ msgstr "и многие другие"
+
+#~ msgid "!! What?"
+#~ msgstr "!! Что?"
+
+#~ msgid "... Bronann!!"
+#~ msgstr "...Бронан!"
+
+#~ msgid "... Huh?"
+#~ msgstr "...А?"
+
+#~ msgid "... Look!"
+#~ msgstr "...Смотри!"
+
+#~ msgid "... Ok..."
+#~ msgstr "... Ладно..."
+
+#~ msgid "... You're welcome."
+#~ msgstr "... Пожалуйста."
+
+#~ msgid "Aww... Ok."
+#~ msgstr "Аах... Ладно."
+
+#~ msgid "Back home, finally..."
+#~ msgstr "Обратно домой, в конце концов..."
+
+#~ msgid "Bronann!!"
+#~ msgstr "Бронан!!"
+
+#~ msgid "Bronann!!!"
+#~ msgstr "Бронан!!!"
+
+#~ msgid "Err... Sis?"
+#~ msgstr "Эээ... Сестра?"
+
+#~ msgid "Help!!!"
+#~ msgstr "Помогите!!!"
+
+#~ msgid "Herth..."
+#~ msgstr "Герц..."
+
+#~ msgid "High Air damages on all foes."
+#~ msgstr "Сила ветра повреждает всех врагов."
+
+#~ msgid "Magical attack combining Life and Air damages."
+#~ msgstr "Магическая атака сочетает урон от стихий жизни и воздуха."
+
+#~ msgid "Makes a normal enemy potentially leave."
+#~ msgstr "Заставляет обычного врага уйти."
+
+#~ msgid "NO!"
+#~ msgstr "НЕТ!"
+
+#~ msgid "Nevermind that..."
+#~ msgstr "Это неважно..."
+
+#~ msgid "Ok ..."
+#~ msgstr "Хорошо ..."
+
+#~ msgid "Ok..."
+#~ msgstr "Хорошо..."
+
+#~ msgid "Orlinn!!"
+#~ msgstr "Орлин!!"
+
+#~ msgid "Sis!!"
+#~ msgstr "Сестра!!"
+
+#~ msgid "There's no need to thank me for that, it's my pleasure."
+#~ msgstr ""
+#~ "Нет необходимости благодарить меня за это, это мне одно удовольствие."
+
+#~ msgid "What?!?"
+#~ msgstr "Что?!?"
+
+#~ msgid "Yes, let's go ..."
+#~ msgstr "Да, идём ..."
+
+#~ msgid "Yiek!!"
+#~ msgstr "Ёик!!"

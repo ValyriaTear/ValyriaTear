@@ -1,0 +1,6472 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Bertram <yohann.ferreira@orange.fr>, 2019
+# GunChleoc, 2017
+# GunChleoc, 2019
+# GunChleoc, 2017-2018
+# GunChleoc, 2017,2019
+# GunChleoc, 2017
+# Bertram <yohann.ferreira@orange.fr>, 2019
+msgid ""
+msgstr ""
+"Project-Id-Version: Valyria Tear\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-22 23:22+0200\n"
+"PO-Revision-Date: 2019-09-19 08:44+0000\n"
+"Last-Translator: GunChleoc\n"
+"Language-Team: Gaelic, Scottish (http://www.transifex.com/valyria-tear/"
+"valyria-tear/language/gd/)\n"
+"Language: gd\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
+"(n > 2 && n < 20) ? 2 : 3;\n"
+
+#: ../data/inventory/arm_armor.lua:41
+msgid "Prismatic Ring"
+msgstr "Fàinne priosma"
+
+#: ../data/inventory/arm_armor.lua:42
+msgid "A strange ring that protects the wearer from darkness."
+msgstr "Fàinne annasach a dhìonas an neach a chuir i air on dorchadas."
+
+#: ../data/inventory/arm_armor.lua:60
+msgid "Long Leather Gloves"
+msgstr "Miotagan leathair fada"
+
+#: ../data/inventory/arm_armor.lua:61 ../data/inventory/arm_armor.lua:72
+msgid "Robust leather gloves."
+msgstr "Miotagan leathair treuna."
+
+#: ../data/inventory/arm_armor.lua:71
+msgid "Sturdy Leather Gloves"
+msgstr "Miotagan leathair treuna"
+
+#: ../data/inventory/arm_armor.lua:82
+msgid "Wooden Shield"
+msgstr "Sgiath darach"
+
+#: ../data/inventory/arm_armor.lua:83
+msgid "Robust wooden oak protects from all but the heaviest of assaults."
+msgstr ""
+"Dìonaidh an darach làidir on a h-uile ionnsaigh ach on fheadhainn fìor "
+"threun."
+
+#: ../data/inventory/arm_armor.lua:93
+msgid "Metal Shield"
+msgstr "Sgiath meatailt"
+
+#: ../data/inventory/arm_armor.lua:94
+msgid ""
+"A shield formed completely out of a light-weight but cheap metallic alloy."
+msgstr "Sgiath a chaidh a dèanamh gu tur à co-mheatailt aotrom ach saor."
+
+#: ../data/inventory/arm_armor.lua:104
+msgid "Phoenix Shield"
+msgstr "Sgiath ainneamhaige"
+
+#: ../data/inventory/arm_armor.lua:105
+msgid "A tall steel shield with a mighty phoenix emblazoned on the front."
+msgstr "Sgiath stàilinn mhòr le dealbh na h-ainneamhaige cumhachdaich air."
+
+#: ../data/inventory/arm_armor.lua:115
+msgid "Trident Shield"
+msgstr "Sgiath muirghidh"
+
+#: ../data/inventory/arm_armor.lua:116
+msgid ""
+"A large shield with enough fortitude to withstand waves of powerful attacks."
+msgstr ""
+"Sgiath mhòr a bhios làidir gu leòr gus seasamh an aghaidh iomadh ionnsaigh "
+"chumhachdach."
+
+#: ../data/inventory/head_armor.lua:41
+msgid "Butterfly Hair Tong"
+msgstr "Clobha fuilt dealain-dhè"
+
+#: ../data/inventory/head_armor.lua:42
+msgid "An old and finely crafted piece of jewelery."
+msgstr "Seann-sheud a chaidh a dhèanamh le sàr-cheàird."
+
+#: ../data/inventory/head_armor.lua:52 ../data/inventory/items.lua:1067
+msgid "Wolfpain Necklace"
+msgstr "Seud pian madaidh"
+
+#: ../data/inventory/head_armor.lua:53 ../data/inventory/items.lua:1068
+msgid "A strange necklace with unknown powers."
+msgstr "Seud-muineil annasach le cumhachdan nach aithne dhuibh."
+
+#: ../data/inventory/head_armor.lua:66
+msgid "Old Helmet"
+msgstr "Seann-chlogaid"
+
+#: ../data/inventory/head_armor.lua:67
+msgid "A battle-worn helmet, still reliable for head protection."
+msgstr ""
+"Clogaid a chaidh a chaitheamh air a’ bhlàr ach a bheir dìon earbsach dha do "
+"cheann fhathast."
+
+#: ../data/inventory/head_armor.lua:77
+msgid "Cobalt Helm"
+msgstr "Clogaid còbailt"
+
+#: ../data/inventory/head_armor.lua:78
+msgid "A small helmet composed of a secret cobalt-based alloy."
+msgstr ""
+"Clogaid bheag a chaidh a dhèanamh à co-mheatailt dhìomhair stèidhichte air "
+"còbalt."
+
+#: ../data/inventory/head_armor.lua:88
+msgid "Crested Helmet"
+msgstr "Clogaid chìreanach"
+
+#: ../data/inventory/head_armor.lua:89
+msgid ""
+"A sturdy helmet with a hinged face guard offering additional protection."
+msgstr ""
+"Clogaid sheasmhach le dìon aodainn air alt a bheir barrachd dìona dhut."
+
+#: ../data/inventory/items.lua:81
+msgid "Tiny Healing Potion"
+msgstr "Deoch-slàinte bhìodach"
+
+#: ../data/inventory/items.lua:82
+msgid "Restores a small amount of hit points to an ally."
+msgstr "Tillidh i cuid bheag a phuingean-beatha dha chaidreabhach."
+
+#: ../data/inventory/items.lua:112
+msgid "Small Healing Potion"
+msgstr "Deoch-slàinte bheag"
+
+#: ../data/inventory/items.lua:113
+msgid "Restores a reasonable amount of hit points to an ally."
+msgstr "Tillidh i cuid mhath a phuingean-beatha dha chaidreabhach."
+
+#: ../data/inventory/items.lua:143
+msgid "Healing Potion"
+msgstr "Deoch-slàinte"
+
+#: ../data/inventory/items.lua:144
+msgid "Restores a large amount of hit points to an ally."
+msgstr "Tillidh i cuid mhòr a phuingean-beatha dha chaidreabhach."
+
+#: ../data/inventory/items.lua:174
+msgid "Mega Healing Potion"
+msgstr "Deoch-slàinte mhòr"
+
+#: ../data/inventory/items.lua:175
+msgid "Restores a very high amount of hit points to an ally."
+msgstr "Tillidh i cuid glè mhòr a phuingean-beatha dha chaidreabhach."
+
+#: ../data/inventory/items.lua:235
+msgid "Tiny Moon Juice Potion"
+msgstr "Deoch-gealaich bhìodach"
+
+#: ../data/inventory/items.lua:236
+msgid "Restores a small amount of skill points to an ally."
+msgstr "Tillidh i cuid bheag a phuingean-comais dha chaidreabhach."
+
+#: ../data/inventory/items.lua:266
+msgid "Small Moon Juice Potion"
+msgstr "Deoch-gealaich bheag"
+
+#: ../data/inventory/items.lua:267
+msgid "Restores a reasonable amount of skill points to an ally."
+msgstr "Tillidh i cuid mhath a phuingean-comais dha chaidreabhach."
+
+#: ../data/inventory/items.lua:297
+msgid "Moon Juice Potion"
+msgstr "Deoch-gealaich"
+
+#: ../data/inventory/items.lua:298
+msgid "Restores a large amount of skill points to an ally."
+msgstr "Tillidh i cuid mhòr a phuingean-comais dha chaidreabhach."
+
+#: ../data/inventory/items.lua:328
+msgid "Mega Moon Juice Potion"
+msgstr "Deoch-gealaich mhòr"
+
+#: ../data/inventory/items.lua:329
+msgid "Restores a very high amount of skill points to an ally."
+msgstr "Tillidh i cuid glè mhòr a phuingean-comais dha chaidreabhach."
+
+#: ../data/inventory/items.lua:359
+msgid "Lotus Petal"
+msgstr "Bileag lòtais"
+
+#: ../data/inventory/items.lua:360
+msgid "Cures moderate poisons from an ally."
+msgstr "Leigheas air puinnseanan cuibheasach do chaidreabhach."
+
+#: ../data/inventory/items.lua:418
+msgid "Candy"
+msgstr "Suiteas"
+
+#: ../data/inventory/items.lua:419
+msgid "Makes an ally's health regenerate moderately."
+msgstr "Slànaichidh e caidreabhach gu cuibheasach."
+
+#: ../data/inventory/items.lua:504
+msgid "Minor Elixir"
+msgstr "Bladh-shùgh beag"
+
+#: ../data/inventory/items.lua:505
+msgid ""
+"Revives a character, or improves the character's status when he/she is alive "
+"by a limited degree."
+msgstr ""
+"Ath-bheòthaichidh e pearsa no bheir e beagan pisich air cor pearsa beò."
+
+#: ../data/inventory/items.lua:554
+msgid "Elixir"
+msgstr "Bladh-shùgh"
+
+#: ../data/inventory/items.lua:555
+msgid ""
+"Revives a character to half of their hit points, or reasonably improves the "
+"character's status while he/she is alive."
+msgstr ""
+"Ath-bheòthaichidh e dàrna leth dhen t-slàinte aig pearsa no bheir e piseach "
+"math air cor pearsa beò."
+
+#: ../data/inventory/items.lua:602
+msgid "Periwinkle Potion"
+msgstr "Deoch faochaige"
+
+#: ../data/inventory/items.lua:603
+msgid ""
+"Gives a reasonable boost in Physical Attack to an ally for a large amount of "
+"time."
+msgstr ""
+"Bheir i neartachadh reusanta air ionnsaighean bodhaige caidreabhaich rè ùine "
+"mhòr."
+
+#: ../data/inventory/items.lua:651
+msgid "Haste Potion"
+msgstr "Deoch na cabhaige"
+
+#: ../data/inventory/items.lua:652
+msgid ""
+"Gives a reasonable boost in stamina to an ally for a small amount of time."
+msgstr "Bheir i meudachadh reusanta air smiodam caidreabhaich rè ùine bheag."
+
+#: ../data/inventory/items.lua:701
+msgid "Poison Potion"
+msgstr "Deoch phuinnseanach"
+
+#: ../data/inventory/items.lua:702
+msgid "Poisons an enemy for a small amount of time."
+msgstr "Cuiridh i puinnseanachadh air nàmhaid rè ùine bheag."
+
+#: ../data/inventory/items.lua:749
+msgid "Copper Ore"
+msgstr "Clach-chopair"
+
+#: ../data/inventory/items.lua:750
+msgid "A small amount of copper ore."
+msgstr "Beagan cloiche-copair."
+
+#: ../data/inventory/items.lua:756
+msgid "Iron Ore"
+msgstr "Clach-iarainn"
+
+#: ../data/inventory/items.lua:757
+msgid "A small amount of iron ore."
+msgstr "Beagan cloiche-iarainn."
+
+#: ../data/inventory/items.lua:763
+msgid "Titanium Ore"
+msgstr "Clach-thitanium"
+
+#: ../data/inventory/items.lua:764
+msgid "A small amount of titanium ore."
+msgstr "Beagan cloiche-titanium."
+
+#: ../data/inventory/items.lua:770
+msgid "Anthozium Ore"
+msgstr "Clach-antosium"
+
+#: ../data/inventory/items.lua:771
+msgid "A small amount of anthozium ore."
+msgstr "Beagan cloiche-antosium."
+
+#: ../data/inventory/items.lua:777
+msgid "Auridium Ore"
+msgstr "Clach-auridium"
+
+#: ../data/inventory/items.lua:778
+msgid "A small amount of auridium ore."
+msgstr "Beagan cloiche-auridium."
+
+#: ../data/inventory/items.lua:784
+msgid "Borium Ore"
+msgstr "Clach-bhorium"
+
+#: ../data/inventory/items.lua:785
+msgid "A small amount of borium ore."
+msgstr "Beagan cloiche-borium."
+
+#: ../data/inventory/items.lua:791
+msgid "Evanium Ore"
+msgstr "Clach evanium"
+
+#: ../data/inventory/items.lua:792
+msgid "A small amount of evanium ore."
+msgstr "Beagan cloiche-evanium."
+
+#: ../data/inventory/items.lua:798
+msgid "Phoenix Feather"
+msgstr "Ite ainneamhaige"
+
+#: ../data/inventory/items.lua:799
+msgid ""
+"A genuine and perfect feather from the great fire bird. It is known to bring "
+"life to inanimated items."
+msgstr ""
+"Fìor-ite ainneamhaige fhoirfe o mhòr-eun an teine. Thathar ag ràdh gun doir "
+"e beatha dha nithean nach eil beò."
+
+#: ../data/inventory/items.lua:807
+msgid "Slimy Material"
+msgstr "Stuth glodhach"
+
+#: ../data/inventory/items.lua:808
+msgid "Material provided by slimy creatures."
+msgstr "Stuth a bheir thu o chreutairean glodhach."
+
+#: ../data/inventory/items.lua:814
+msgid "Refined Slimy Material"
+msgstr "Sàr-stuth glodhach"
+
+#: ../data/inventory/items.lua:815
+msgid "Quality material provided by slimy creatures."
+msgstr "Stuth le càileachd àrd a bheir thu o chreutairean glodhach."
+
+#: ../data/inventory/items.lua:821
+msgid "Insect Material"
+msgstr "Stuth biastaige"
+
+#: ../data/inventory/items.lua:822
+msgid "Material provided by various insects."
+msgstr "Stuth a bheir thu o bhiastagan."
+
+#: ../data/inventory/items.lua:828
+msgid "Refined Insect Material"
+msgstr "Sàr-stuth biastaige"
+
+#: ../data/inventory/items.lua:829
+msgid "Quality material provided by various insects."
+msgstr "Stuth le càileachd àrd a bheir thu o bhiastagan."
+
+#: ../data/inventory/items.lua:835
+msgid "Fur"
+msgstr "Bian"
+
+#: ../data/inventory/items.lua:836 ../data/inventory/items.lua:885
+#: ../data/inventory/items.lua:913
+msgid "Material provided by various creatures."
+msgstr "Stuth a bheir thu o chaochladh de chreutairean."
+
+#: ../data/inventory/items.lua:842
+msgid "Soft Fur"
+msgstr "Bian bog"
+
+#: ../data/inventory/items.lua:843
+msgid "Material provided by rare animals."
+msgstr "Stuth a bheir thu o chreutairean ainneamh."
+
+#: ../data/inventory/items.lua:849
+msgid "Silver Fur"
+msgstr "Bian airgid"
+
+#: ../data/inventory/items.lua:850
+msgid "Highly sought-after material provided by very special creatures."
+msgstr "Stuth glè phrìseil a bheir thu o chreutairean glè shònraichte."
+
+#: ../data/inventory/items.lua:856
+msgid "Saurian Material"
+msgstr "Stuth laghairt"
+
+#: ../data/inventory/items.lua:857
+msgid "Material provided by various reptilians."
+msgstr "Stuth a bheir thu o chaochladh de laghairtean."
+
+#: ../data/inventory/items.lua:863
+msgid "Refined Saurian Material"
+msgstr "Sàr-stuth laghairt"
+
+#: ../data/inventory/items.lua:864
+msgid "Quality material provided by various reptilians."
+msgstr "Stuth le càileachd àrd a bheir thu o chaochladh de laghairtean."
+
+#: ../data/inventory/items.lua:870
+msgid "Rodent Material"
+msgstr "Stuth creimich"
+
+#: ../data/inventory/items.lua:871
+msgid "Material provided by small rodents."
+msgstr "Stuth a bheir thu o chreimich bheaga."
+
+#: ../data/inventory/items.lua:877
+msgid "Refined Rodent Material"
+msgstr "Sàr-stuth creimich"
+
+#: ../data/inventory/items.lua:878
+msgid "Quality material provided by not-that-small rodents."
+msgstr "Stuth le càileachd àrd a bheir thu o chreimich nach eil cho beag sin."
+
+#: ../data/inventory/items.lua:884
+msgid "Soft Powder"
+msgstr "Fùdar bog"
+
+#: ../data/inventory/items.lua:891
+msgid "Silk"
+msgstr "Sìoda"
+
+#: ../data/inventory/items.lua:892 ../data/inventory/items.lua:920
+#: ../data/inventory/items.lua:927
+msgid "Material provided by a few creatures."
+msgstr "Stuth a bheir thu o chuid a chreutairean."
+
+#: ../data/inventory/items.lua:898
+msgid "Red Meat"
+msgstr "Feòil dhearg"
+
+#: ../data/inventory/items.lua:899
+msgid "Material provided by warm-blooded creatures."
+msgstr "Stuth a bheir thu o chreutairean blàth-fhuileach."
+
+#: ../data/inventory/items.lua:905
+msgid "Fish Meat"
+msgstr "Feòil èisg"
+
+#: ../data/inventory/items.lua:906
+msgid "Material provided by various underwater creatures."
+msgstr "Stuth a bheir thu o chreutairean a dh’fhuiricheas san uisge."
+
+#: ../data/inventory/items.lua:912
+msgid "White Meat"
+msgstr "Feòil gheal"
+
+#: ../data/inventory/items.lua:919
+msgid "Orb"
+msgstr "Cruinne"
+
+#: ../data/inventory/items.lua:926
+msgid "Stinging Material"
+msgstr "Stuth guineach"
+
+#: ../data/inventory/items.lua:933
+msgid "Thick Fabric"
+msgstr "Clò tiugh"
+
+#: ../data/inventory/items.lua:934
+msgid "Common fabric, but of good quality."
+msgstr "Clò àbhaisteach ach math."
+
+#: ../data/inventory/items.lua:940
+msgid "Fine Wood"
+msgstr "Fiodh fìnealta"
+
+#: ../data/inventory/items.lua:941
+msgid "Common but durable wood. Always useful"
+msgstr "Fiodh àbhaisteach ach math. Feumail an-còmhnaidh"
+
+#: ../data/inventory/items.lua:993
+msgid "Escape Smoke"
+msgstr "Toit teichidh"
+
+#: ../data/inventory/items.lua:994
+msgid ""
+"A ninja potion that bursts out a damp mist when it is crashed on the ground. "
+"Used to hopefully escape from standard opponents."
+msgstr ""
+"Deoch ninja a leigeas ceò tais nuair a bhuaileas tu ris an làr i. An dòchas "
+"gun cuidich i thu le teicheadh o nàimhdean àbhaisteach."
+
+#: ../data/inventory/items.lua:1050
+msgid "Pen"
+msgstr "Peann"
+
+#: ../data/inventory/items.lua:1051
+msgid "Georges's pen, presumably used to write poetry."
+msgstr "Peann Shomhairle, a chùm sgrìobhadh dàin gun teagamh."
+
+#: ../data/inventory/items.lua:1058
+msgid "Barley Meal"
+msgstr "Min-eòrna"
+
+#: ../data/inventory/items.lua:1059
+msgid "Basic yet good and cheap flour."
+msgstr "Flùr saor bunasach ach math."
+
+#: ../data/inventory/leg_armor.lua:41
+msgid "Leather boots"
+msgstr "Bòtannan leathair"
+
+#: ../data/inventory/leg_armor.lua:42 ../data/inventory/leg_armor.lua:52
+msgid "Simple but fairly good leather boots."
+msgstr "Bòtannan leathair sìmplidh ach reusanta math."
+
+#: ../data/inventory/leg_armor.lua:51
+msgid "Sturdy boots"
+msgstr "Bòtannan treuna"
+
+#: ../data/inventory/leg_armor.lua:61
+msgid "Standard Greaves"
+msgstr "Èideadh calpa àbhaisteach"
+
+#: ../data/inventory/leg_armor.lua:62
+msgid ""
+"Standard equipment. Light metal alloy protects the legs while minimizing the "
+"negative impact on movement."
+msgstr ""
+"Uidheamachd àbhaisteach. Dìonaidh co-mheatailt aotrom na casan gun a bhith "
+"a’ cur gus bacaidh air a’ ghluasad."
+
+#: ../data/inventory/leg_armor.lua:72
+msgid "Tempered Greaves"
+msgstr "Èideadh calpa foinnichte"
+
+#: ../data/inventory/leg_armor.lua:73
+msgid ""
+"Standard greaves that have undergone an additional tempering process, "
+"increasing their durability and strength."
+msgstr ""
+"Èideadh calpa àbhaisteach a chaidh fhoinneachadh gus cur ris an seasmhachd."
+
+#: ../data/inventory/spirits.lua:23
+msgid "Ardoris"
+msgstr "Loisgean"
+
+#: ../data/inventory/spirits.lua:24
+msgid "An enchanting child of fire."
+msgstr "Mac teine draoidheach."
+
+#: ../data/inventory/spirits.lua:55
+msgid "Undine"
+msgstr "Òigh-mhara"
+
+#: ../data/inventory/spirits.lua:56
+msgid "A mesmerizing spirit of living water."
+msgstr "Spiorad uisge ceò-draoidheach beò."
+
+#: ../data/inventory/spirits.lua:87
+msgid "Sylphid"
+msgstr "Deòthach"
+
+#: ../data/inventory/spirits.lua:88
+msgid "A very rare spirit of wind, usually neither tamable nor catchable."
+msgstr ""
+"Spiorad gaoithe glè ainneamh, cha ghabh a challachadh no ghlacadh mar as "
+"trice."
+
+#: ../data/inventory/spirits.lua:119
+msgid "Dryad"
+msgstr "Darach"
+
+#: ../data/inventory/spirits.lua:120
+msgid "A fragile spirit, child of mother nature."
+msgstr "Spiorad brisg, nighean an nàdair."
+
+#: ../data/inventory/spirits.lua:151
+msgid "Fairy"
+msgstr "Sìthiche"
+
+#: ../data/inventory/spirits.lua:152
+msgid "Blinding as the sun, she brings life even where death belongs."
+msgstr ""
+"Dallaidh i mar a’ ghrian ach bheir i a’ bheatha do far a bhuaineas am bàs."
+
+#: ../data/inventory/spirits.lua:183
+msgid "Demona"
+msgstr "Deamhain"
+
+#: ../data/inventory/spirits.lua:184
+msgid ""
+"Spirit of the dark. It can't be possessed: it only chose to be possessed, "
+"waiting for its hour."
+msgstr ""
+"Spiorad an dorchadais. Cha ghabh a ghlacadh ach ma chuir e roimhe do "
+"ghlacadh-sa nuair a thig an t-àm aige."
+
+#: ../data/inventory/spirits.lua:215
+msgid "Oblivion"
+msgstr "Dìochuimhne"
+
+#: ../data/inventory/spirits.lua:216
+msgid ""
+"Touched neither by time nor space, this spirit is dwelling in pure energy."
+msgstr ""
+"Cha bhean an tìm no an rùm ris an spiorad seo a tha a’ fuireach ann an "
+"rìoghachd an lùths ghlain."
+
+#: ../data/inventory/torso_armor.lua:41
+msgid "Rookie Tunic"
+msgstr "Lèine glas-laoich"
+
+#: ../data/inventory/torso_armor.lua:42 ../data/inventory/torso_armor.lua:84
+msgid ""
+"A light tunic worn by new soldier recruits. This one belonged to Bronann's "
+"father."
+msgstr ""
+"Lèine aotrom a chaitheas saighdearan air an ùr-thrusadh. Bhiodh an tè seo "
+"aig athair Bhreannain."
+
+#: ../data/inventory/torso_armor.lua:52
+msgid "Old Willow Dress"
+msgstr "Seann-dreasa seileach"
+
+#: ../data/inventory/torso_armor.lua:53 ../data/inventory/torso_armor.lua:102
+msgid "An old willow dress that Kalya likes to wear."
+msgstr "Seann-dreasa seileach as toigh le Chaoimhe a chur oirre."
+
+#: ../data/inventory/torso_armor.lua:63
+msgid "Tunic"
+msgstr "Lèine"
+
+#: ../data/inventory/torso_armor.lua:64
+msgid "An old light soldier tunic."
+msgstr "Seann-lèine aotrom saighdeir."
+
+#: ../data/inventory/torso_armor.lua:73
+msgid "Leather Cloak"
+msgstr "Cleòc leathair"
+
+#: ../data/inventory/torso_armor.lua:74
+msgid "A cloak worn by apprentices."
+msgstr "Cleòc a chuireas foghlamaichean orra."
+
+#: ../data/inventory/torso_armor.lua:83
+msgid "Adjusted Rookie Tunic"
+msgstr "Lèine glas-laoich air dòigh"
+
+#: ../data/inventory/torso_armor.lua:101
+msgid "Patched Willow Dress"
+msgstr "Dreasa seileach a chaidh a chàradh"
+
+#: ../data/inventory/torso_armor.lua:119
+msgid "Leather Chain Mail"
+msgstr "Màilleach leathair"
+
+#: ../data/inventory/torso_armor.lua:120
+msgid "A light chain mail woven into a tough leather cuirass."
+msgstr "Màilleach aotrom air fhighe ri lùireach leathair cruaidh."
+
+#: ../data/inventory/torso_armor.lua:130
+msgid "Karlate Breastplate"
+msgstr "Èideadh-broillich Carlachd"
+
+#: ../data/inventory/torso_armor.lua:131
+msgid ""
+"Standard Karlate issued equipment. Effectively protects the torso from most "
+"types of attack."
+msgstr ""
+"Uidheamachd stannardach a’ Charlachd. Dìonaidh e an com on mhòrchuid a "
+"sheòrsaichean de dh’ionnsaigh."
+
+#: ../data/inventory/torso_armor.lua:141
+msgid "Shouldered Breastplate"
+msgstr "Èideadh-broillich ’s guailne"
+
+#: ../data/inventory/torso_armor.lua:142
+msgid ""
+"A breastplate with slightly thicker armor than is commonly found and "
+"additional shoulder guards."
+msgstr ""
+"Èideadh-broillich le armachd beagan nas treasa na an àbhaist agus le dìon "
+"ghuailnean ris."
+
+#: ../data/inventory/weapons.lua:43
+msgid "Wooden Sword"
+msgstr "Claidheamh fiodha"
+
+#: ../data/inventory/weapons.lua:44 ../data/inventory/weapons.lua:78
+msgid "A sword made of wood with a steel hilt, very good for practising."
+msgstr ""
+"Claidheamh a chaidh a dhèanamh à fiodh le dòrn stàilinn, glè mhath airson "
+"oideachadh."
+
+#: ../data/inventory/weapons.lua:77
+msgid "Hardened Practice Sword"
+msgstr "Claidheamh trèanaidh cruaidh"
+
+#: ../data/inventory/weapons.lua:118
+msgid "Initiate Sword"
+msgstr "Claidheamh foghlamaiche"
+
+#: ../data/inventory/weapons.lua:119
+msgid "A sword made of wood with a steel hilt, reinforced magically."
+msgstr ""
+"Claidheamh a chaidh a dhèanamh à fiodh le dòrn stàilinn, le neartachadh "
+"draoidheach air."
+
+#: ../data/inventory/weapons.lua:158
+msgid "Perfect Wooden Sword"
+msgstr "Claidheamh fiodha foirfe"
+
+#: ../data/inventory/weapons.lua:159
+msgid ""
+"A sword made of wood with a steel hilt, surrounded by a great magical force."
+msgstr ""
+"Claidheamh a chaidh a dhèanamh à fiodh le dòrn stàilinn, le forsa "
+"draoidheach mòr air."
+
+#: ../data/inventory/weapons.lua:201
+msgid "Iron Sword"
+msgstr "Claidheamh iarainn"
+
+#: ../data/inventory/weapons.lua:202
+msgid ""
+"A sturdy but somewhat dull sword whose blade was forged from a single block "
+"of solid iron."
+msgstr ""
+"Claidheamh seasmhach ach caran maol a chaidh a dhèanamh à bloca iarrainn."
+
+#: ../data/inventory/weapons.lua:234
+msgid "Soldier Sword"
+msgstr "Claidheamh saighdeir"
+
+#: ../data/inventory/weapons.lua:235
+msgid ""
+"Standard soldier sword. A light weight iron sword suitable for most "
+"skirmishes."
+msgstr ""
+"Claidheamh àbhaisteach saighdeir. Seo claidheamh iarrainn aotrom a tha "
+"iomchaidh airson a’ mhòrchuid a chòmhragan."
+
+#: ../data/inventory/weapons.lua:274
+msgid "Knight's Blade"
+msgstr "Lann ridire"
+
+#: ../data/inventory/weapons.lua:275
+msgid "A weapon bestowed to seasoned veterans of the knighthood."
+msgstr "Claidheamh a gheibh ridirean seann-eòlach."
+
+#: ../data/inventory/weapons.lua:314
+msgid "Paladin's Sword"
+msgstr "Claidheamh ridire rìoghail"
+
+#: ../data/inventory/weapons.lua:315
+msgid "A mythical weapon blessed with a magical fire."
+msgstr "Claidheamh faoinsgeulach a chaidh a bheannachadh le teine draoidheach."
+
+#: ../data/inventory/weapons.lua:362
+msgid "Omni Sword"
+msgstr "Claidheamh uile-choitcheann"
+
+#: ../data/inventory/weapons.lua:432
+msgid "Arbalest"
+msgstr "Crois-bhogha"
+
+#: ../data/inventory/weapons.lua:433 ../data/inventory/weapons.lua:466
+msgid "A standard wooden arbalest."
+msgstr "Crois-bhogha fiodha àbhaisteach."
+
+#: ../data/inventory/weapons.lua:465
+msgid "Improved Arbalest"
+msgstr "Crois-bhogha pisichte"
+
+#: ../data/inventory/weapons.lua:506
+msgid "Noble Arbalest"
+msgstr "Crois-bhogha uasail"
+
+#: ../data/inventory/weapons.lua:507
+msgid "An arbalest made out of fine noble ash tree wood."
+msgstr "Crois-bhogha a chaidh a dhèanamh à uinnseann uasail."
+
+#: ../data/inventory/weapons.lua:546
+msgid "Arbalest of Force"
+msgstr "Crois-bhogha na cumhachd"
+
+#: ../data/inventory/weapons.lua:547
+msgid "An arbalest strengthened with magical ore."
+msgstr "Crois-bhogha a chaidh a neartachadh le clach-mhèinneir dhraoidheach."
+
+#~ msgid "Lv: "
+#~ msgstr "Rang: "
+
+#~ msgid "Next: "
+#~ msgstr "A dhìth: "
+
+#~ msgid "XP for skills: "
+#~ msgstr "PE chomasan: "
+
+#~ msgid "Self — Point"
+#~ msgstr "Mi fhìn – Puing"
+
+#~ msgid "Ally — Point"
+#~ msgstr "Caidreabhach – Puing"
+
+#~ msgid "Foe — Point"
+#~ msgstr "Nàmhaid – Puing"
+
+#~ msgid "Self"
+#~ msgstr "Mi fhìn"
+
+#~ msgid "Ally"
+#~ msgstr "Caidreabhach"
+
+#~ msgid "Ally (Even KO)"
+#~ msgstr "Caidreabhach (’na shìneadh cuideachd)"
+
+#~ msgid "Ally (Only KO)"
+#~ msgstr "Caidreabhach (’na shìneadh a-mhàin)"
+
+#~ msgid "Foe"
+#~ msgstr "Nàmhaid"
+
+#~ msgid "All Allies"
+#~ msgstr "A h-uile caidreabhach"
+
+#~ msgid "All Foes"
+#~ msgstr "A h-uile nàmhaid"
+
+#~ msgid "Invalid Target"
+#~ msgstr "Amas mì-dhligheach"
+
+#~ msgid "Use the %s and %s keys to select your language and then press %s."
+#~ msgstr ""
+#~ "Cleachd iuchraichean %s is %s a thaghadh do chànan is brùth air %s an "
+#~ "uairsin."
+
+#~ msgid "Valyria Tear"
+#~ msgstr "Valyria Tear"
+
+#~ msgid "Video"
+#~ msgstr "Video"
+
+#~ msgid "Audio"
+#~ msgstr "Fuaim"
+
+#~ msgid "Game"
+#~ msgstr "Geama"
+
+#~ msgid "Language"
+#~ msgstr "Cànan"
+
+#~ msgid "Key Settings"
+#~ msgstr "Roghainnean a’ mheur-chlàir"
+
+#~ msgid "Joystick Settings"
+#~ msgstr "Roghainnean joystick"
+
+#~ msgid "Resolution: "
+#~ msgstr "Dùmhlachd-bhreacaidh: "
+
+#~ msgid "Window mode: "
+#~ msgstr "Modh na h-uinneige: "
+
+#~ msgid "Brightness: "
+#~ msgstr "Soilleireachd: "
+
+#~ msgid "VSync: "
+#~ msgstr "Sioncronachadh-V: "
+
+#~ msgid "UI Theme: "
+#~ msgstr "Ùrlar: "
+
+#~ msgid "Sound Volume: "
+#~ msgstr "Àirde nan èifeachdan: "
+
+#~ msgid "Music Volume: "
+#~ msgstr "Àirde a’ chiùil: "
+
+#~ msgid "Easy"
+#~ msgstr "Furasta"
+
+#~ msgid "Normal"
+#~ msgstr "Meadhanach"
+
+#~ msgid "Hard"
+#~ msgstr "Doirbh"
+
+#~ msgid "Game Difficulty: %s"
+#~ msgstr "Duilgheas a’ gheama: %s"
+
+#~ msgid "Dialogue text speed: %i"
+#~ msgstr "Luaths teacsa còmhraidh: %i"
+
+#~ msgid "Enabled"
+#~ msgstr "Air"
+
+#~ msgid "Disabled"
+#~ msgstr "Dheth"
+
+#~ msgid "Remember battle target: %s"
+#~ msgstr "Cuimhneachadh amais: %s"
+
+#~ msgid "Up: "
+#~ msgstr "Suas: "
+
+#~ msgid "Down: "
+#~ msgstr "Sìos: "
+
+#~ msgid "Left: "
+#~ msgstr "Gu clì: "
+
+#~ msgid "Right: "
+#~ msgstr "Gu deas: "
+
+#~ msgid "Confirm: "
+#~ msgstr "Dearbh: "
+
+#~ msgid "Cancel: "
+#~ msgstr "Sguir dheth: "
+
+#~ msgid "Menu: "
+#~ msgstr "Clàr-taice: "
+
+#~ msgid "Toggle Map: "
+#~ msgstr "Toglaich am mapa: "
+
+#~ msgid "Pause: "
+#~ msgstr "Cuir ’na stad: "
+
+#~ msgid "Restore defaults"
+#~ msgstr "Aisig na bun-roghainnean"
+
+#~ msgid "Fullscreen"
+#~ msgstr "Làn-sgrìn"
+
+#~ msgid "Windowed"
+#~ msgstr "Uinneagach"
+
+#~ msgid "VSync_mode|Off"
+#~ msgstr "VSync_mode|Dheth"
+
+#~ msgid "VSync_mode|On"
+#~ msgstr "VSync_mode|Air"
+
+#~ msgid "VSync_mode|Swap Tearing"
+#~ msgstr "VSync_mode|Sracadh suaipe"
+
+#~ msgid "Move Up"
+#~ msgstr "Gluais suas"
+
+#~ msgid "Move Down"
+#~ msgstr "Gluais sìos"
+
+#~ msgid "Move Left"
+#~ msgstr "Gluais gun taobh chlì"
+
+#~ msgid "Move Right"
+#~ msgstr "Gluais gun taobh deas"
+
+#~ msgid "Confirm"
+#~ msgstr "Dearbh"
+
+#~ msgid "Cancel"
+#~ msgstr "Sguir dheth"
+
+#~ msgid "Menu"
+#~ msgstr "Clàr-taice"
+
+#~ msgid "Toggle Map"
+#~ msgstr "Toglaich am mapa"
+
+#~ msgid "Pause"
+#~ msgstr "Cuir ’na stad"
+
+#~ msgid "Input"
+#~ msgstr "Ion-chur"
+
+#~ msgid "X Axis"
+#~ msgstr "Aiseal X"
+
+#~ msgid "Y Axis"
+#~ msgstr "Aiseal Y"
+
+#~ msgid "Threshold"
+#~ msgstr "Stairsneach"
+
+#~ msgid "Button %d"
+#~ msgstr "Putan %d"
+
+#~ msgid "Map"
+#~ msgstr "Mapa"
+
+#~ msgid "Help"
+#~ msgstr "Cobhair"
+
+#~ msgid "Quit"
+#~ msgstr "Fàg an-seo"
+
+#~ msgid "Please press a new joystick button."
+#~ msgstr "Brùth air putan joystick ùr."
+
+#~ msgid "Please press a new key."
+#~ msgstr "Brùth air iuchair ùr."
+
+#~ msgid "Please move an axis."
+#~ msgstr "Gluais aiseal."
+
+#~ msgid ""
+#~ "Here you can set up the video options such as the resolution, whether to "
+#~ "play in full screen, the GUI theme, ..."
+#~ msgstr ""
+#~ "’S urrainn dhut roghainnean a’ video a shuidheachadh an-seo, can an "
+#~ "dùmhlachd-bhreacaidh, co-dhiù an cluich thu sa mhodh làn-sgrìn no sa "
+#~ "mhodh uinneagach, ùrlar na h-eadar-aghaidh, …"
+
+#~ msgid "Here you can setup the music and SFX volumes."
+#~ msgstr ""
+#~ "’S urrainn dhut àirde nan èifeachdan fuaime ’s a’ chiùil a shuidheachadh "
+#~ "an-seo."
+
+#~ msgid ""
+#~ "This menu permits to setup game specific options, such as the text "
+#~ "scrolling speed, the game difficulty, ..."
+#~ msgstr ""
+#~ "Leigidh an clàr-taice seo leat roghainnean co-cheangailte ris a’ gheama a "
+#~ "shuidheachadh, can dè cho luath ’s a bhios sgroladh an teacsa, "
+#~ "duilgheadas a’ gheama, …"
+
+#~ msgid ""
+#~ "This menu will show the available languages. Only available from the boot "
+#~ "menu..."
+#~ msgstr ""
+#~ "Seallaidh an clàr-taice seo na cànain a tha ri làimh. Chan fhaigh thu seo "
+#~ "ach air a’ phrìomh chlàr-taice…"
+
+#~ msgid "Here you change the keys used when playing with the keyboard..."
+#~ msgstr ""
+#~ "Atharraichidh tu na h-iuchraichean an-seo ma bhios tu a’ cluich leis a’ "
+#~ "mheur-chlàr…"
+
+#~ msgid "Here you change the keys used when playing with a joystick..."
+#~ msgstr ""
+#~ "Atharraichidh tu na h-iuchraichean an-seo ma bhios tu a’ cluich le "
+#~ "joystick…"
+
+#~ msgid "This permits to select the game's resolution..."
+#~ msgstr "Leigidh seo leat dùmhlachd-bhreacaidh a’ gheama a thaghadh…"
+
+#~ msgid ""
+#~ "Here you can set whether you want to play in windowed mode or fullscreen."
+#~ msgstr ""
+#~ "’S urrainn dhut suidheachadh an-seo co-dhiù an cluich thu sa mhodh "
+#~ "uinneagach no làn-sgrìn."
+
+#~ msgid "Sets the game brightness percentage. Default: 50%"
+#~ msgstr "Suidhichidh seo ceudad na soilleireachd. Bun-roghainn: 50%"
+
+#~ msgid ""
+#~ "Permits to change the Screen Vertical Synchronization mode. (Use the left "
+#~ "and right arrow keys.)"
+#~ msgstr ""
+#~ "Leigidh seo leat modh sioncronachaidh inghearach na sgrìn atharrachadh. "
+#~ "(Cleachd na h-iuchraichean saighde gu clì is deas.)"
+
+#~ msgid "Permits to change the in-game GUI theme."
+#~ msgstr "Leigidh seo leat ùrlar a’ gheama atharrachadh."
+
+#~ msgid "Permits to set the general music volume."
+#~ msgstr "Leigidh seo leat àirde choitcheann a’ chiùil atharrachadh."
+
+#~ msgid "Permits to set the general SFX volume."
+#~ msgstr ""
+#~ "Leigidh seo leat àirde choitcheann nan èifeachdan fuaime atharrachadh."
+
+#~ msgid ""
+#~ "Sets the game difficulty, can change how hard battles and certain events "
+#~ "are in game..."
+#~ msgstr ""
+#~ "Suidhichidh seo duilgheas a’ gheama. Atharraichidh seo dè cho doirbh ’s a "
+#~ "bhios na còmhragan agus tachartasan sònraichte sa gheama…"
+
+#~ msgid ""
+#~ "Permits to set up the dialogue text scrolling speed (in character per "
+#~ "seconds)..."
+#~ msgstr ""
+#~ "Leigidh seo leat suidheachadh dè cho luath ’s a nì teacsa nan "
+#~ "còmhraidhean sgroladh (caractar san diog)…"
+
+#~ msgid ""
+#~ "Sets whether the characters will remember their previous action in battle."
+#~ msgstr ""
+#~ "Suidhichidh seo an cùm na pearsachan an gnìomh mu dheireadh aca sa "
+#~ "chòmhrag an cuimhne gus nach cùm."
+
+#~ msgid "Miss"
+#~ msgstr "Mì-amais"
+
+#~ msgid "[error]"
+#~ msgstr "[mearachd]"
+
+#~ msgid "Auto-Battle"
+#~ msgstr "Còmhrag fhèin-obrachail"
+
+#~ msgid "Double Rush!"
+#~ msgstr "Deann-ruith dhùbailte!"
+
+#~ msgid "First Strike!"
+#~ msgstr "Ciad bhuille!"
+
+#~ msgid "Ambush!"
+#~ msgstr "Fàth!"
+
+#~ msgid ""
+#~ "When the Auto-Battle mode is activated, your party will auto attack the "
+#~ "opponents using default attacks. If you open a command menu, the Auto-"
+#~ "Battle mode will be deactivated again."
+#~ msgstr ""
+#~ "Nuair a bhios modh na còmhraige fèin-obrachail an gnìomh, bheir do "
+#~ "chuideachd ionnsaigh air na nàimhdean gu fèin-obrachail leis na h-"
+#~ "ionnsaighean tùsail aca. Ma dh’fhosglas tu clàr-taice nan àitheantan, "
+#~ "thèid modh na còmhraige fèin-obrachail a chur à comas."
+
+#~ msgid "[Invalid Target]"
+#~ msgstr "[Amas mì-dhligheach]"
+
+#~ msgid " — "
+#~ msgstr " – "
+
+#~ msgid "All Enemies"
+#~ msgstr "A h-uile nàmhaid"
+
+#~ msgid "Weapon"
+#~ msgstr "Arm"
+
+#~ msgid "Magic"
+#~ msgstr "Draoidheachd"
+
+#~ msgid "Items"
+#~ msgstr "Nithean"
+
+#~ msgid "Bare-hand"
+#~ msgstr "Làmh"
+
+#~ msgid "%ss"
+#~ msgstr "%sd"
+
+#~ msgid "Enemy Defense Modifiers:\n"
+#~ msgstr "Atharraichearan dìon nàmhad:\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "\n"
+#~ "Effects:\n"
+#~ msgstr ""
+#~ "\n"
+#~ "\n"
+#~ "Buaidhean:\n"
+
+#~ msgid "%s SP"
+#~ msgstr "%s PC"
+
+#~ msgid "Target Type: %s"
+#~ msgstr "Seòrsa an amais: %s"
+
+#~ msgid "Prep Time: %s"
+#~ msgstr "Ùine ullachaidh: %s"
+
+#~ msgid "Cool Time: %s"
+#~ msgstr "Ùine socraidh: %s"
+
+#~ msgid "Select Target"
+#~ msgstr "Tagh amas"
+
+#~ msgid "Select Attack Point"
+#~ msgstr "Tagh puing ionnsaighe"
+
+#~ msgid "Item<R>Type   ×"
+#~ msgstr "Nì<R>Seòrsa   ×"
+
+#~ msgid "Skill<R>Type SP"
+#~ msgstr "Comas<R>Seòrsa PC"
+
+#~ msgid "The heroes fell in battle..."
+#~ msgstr "Fhuair na gaisgich am bàs air a’ bhlàr…"
+
+#~ msgid "Retry"
+#~ msgstr "Feuch ris a-rithist"
+
+#~ msgid "End"
+#~ msgstr "Cuir crìoch air"
+
+#~ msgid "OK"
+#~ msgstr "Ceart ma-thà"
+
+#~ msgid "Start over from the beginning of this battle."
+#~ msgstr "Tòisich air a’ chòmhrag seo às ùr."
+
+#~ msgid "Exit to main menu."
+#~ msgstr "Fàg dhan phrìomh chlàr-taice."
+
+#~ msgid "Confirm: retry battle."
+#~ msgstr "Dearbh tòiseachadh às ùr air a’ chòmhrag."
+
+#~ msgid "Confirm: return to main menu."
+#~ msgstr "Dearbh an tilleadh dhan phrìomh chlàr-taice."
+
+#~ msgid "The heroes were victorious!"
+#~ msgstr "Chaidh an latha leis na gaisgich!"
+
+#~ msgid "Items Found"
+#~ msgstr "Na nithean a lorg sibh"
+
+#~ msgid "End Battle"
+#~ msgstr "Fàg a’ chòmhrag"
+
+#~ msgid "Improve Skills"
+#~ msgstr "Pisich comasan"
+
+#~ msgid "XP Earned: "
+#~ msgstr "Bhuannaich sibh PE: "
+
+#~ msgid "Drunes Found: "
+#~ msgstr "Drùnaichean air an lorg: "
+
+#~ msgid "Total Drunes: "
+#~ msgstr "Drùnaichean iomlan: "
+
+#~ msgid "Level (Max): "
+#~ msgstr "Rang (as motha): "
+
+#~ msgid "Level: "
+#~ msgstr "Rang: "
+
+#~ msgid "XP for level up: "
+#~ msgstr "PE rangachaidh: "
+
+#~ msgid "No Items Found"
+#~ msgstr "Cha deach nì a lorg"
+
+#~ msgid "Item Found"
+#~ msgstr "Chaidh nì a lorg"
+
+#~ msgid " (+20%)"
+#~ msgstr " (+20%)"
+
+#~ msgid "[Select Action]"
+#~ msgstr "[Tagh gnìomh]"
+
+#~ msgid "%d s"
+#~ msgstr "%d d"
+
+#~ msgid "New Game"
+#~ msgstr "Geama ùr"
+
+#~ msgid "Load Game"
+#~ msgstr "Luchdaich geama"
+
+#~ msgid "Options"
+#~ msgstr "Roghainnean"
+
+#~ msgid "Press '%s' to get to know about the game keys."
+#~ msgstr "Brùth air “%s” gus iuchraichean a’ gheama ionnsachadh."
+
+#~ msgid "Escape to destination?"
+#~ msgstr "An teich thu dhan cheann-uidhe?"
+
+#~ msgid "EscapeMenu|No"
+#~ msgstr "EscapeMenu|Cha teich"
+
+#~ msgid "EscapeMenu|Yes"
+#~ msgstr "EscapeMenu|Teichidh"
+
+#~ msgid "No available destination"
+#~ msgstr "Chan eil ceann-uidhe ri fhaighinn"
+
+#~ msgid "You obtain"
+#~ msgstr "Fhuair thu"
+
+#~ msgid "Ok"
+#~ msgstr "Ceart ma-thà"
+
+#~ msgid "Drunes"
+#~ msgstr "Drùnaichean"
+
+#~ msgid "the party now holds a total of %u drune."
+#~ msgid_plural "the party now holds a total of %u drunes."
+#~ msgstr[0] "tha %u drùna aig a’ chuideachd a-nis."
+#~ msgstr[1] "tha %u dhrùna aig a’ chuideachd a-nis."
+#~ msgstr[2] "tha %u drùnaichean aig a’ chuideachd a-nis."
+#~ msgstr[3] "tha %u drùna aig a’ chuideachd a-nis."
+
+#~ msgid "With the additional %u drune found in this treasure added, %s."
+#~ msgid_plural ""
+#~ "With the additional %u drunes found in this treasure added, %s."
+#~ msgstr[0] ""
+#~ "Leis an %u drùna a bharrachd a lorg thu san ulaidh seo air an cur ris, %s."
+#~ msgstr[1] ""
+#~ "Leis an %u dhrùna a bharrachd a lorg thu san ulaidh seo air an cur ris, "
+#~ "%s."
+#~ msgstr[2] ""
+#~ "Leis na %u dhrùnaichean a bharrachd a lorg thu san ulaidh seo air an cur "
+#~ "ris, %s."
+#~ msgstr[3] ""
+#~ "Leis an %u drùna a bharrachd a lorg thu san ulaidh seo air an cur ris, %s."
+
+#~ msgid "This item is a key item and can be neither consumed nor sold."
+#~ msgstr "’S e nì iuchrach a tha seo ’s cha ghabh a chaitheamh no reic."
+
+#~ msgid ""
+#~ "This item is an elemental spirit and can be associated with equipment."
+#~ msgstr ""
+#~ "’S e spiorad dùileach a tha san nì seo agus gabhaidh a cho-cheangal le "
+#~ "uidheamachd."
+
+#~ msgid "Skills obtained:"
+#~ msgstr "Bhuannaich thu comasan:"
+
+#~ msgid "ATK:"
+#~ msgstr "Ionns:"
+
+#~ msgid "M.ATK:"
+#~ msgstr "Ionns. dhraoidheach:"
+
+#~ msgid "DEF:"
+#~ msgstr "Dìon:"
+
+#~ msgid "M.DEF:"
+#~ msgstr "Dìon draoidheach:"
+
+#~ msgid "Equip"
+#~ msgstr "Uidheamaich"
+
+#~ msgid "Remove"
+#~ msgstr "Thoir air falbh"
+
+#~ msgid "Back"
+#~ msgstr "Air ais"
+
+#~ msgid "Inventory"
+#~ msgstr "Tasgadh"
+
+#~ msgid "Skills"
+#~ msgstr "Comasan"
+
+#~ msgid "Party"
+#~ msgstr "Cuideachd"
+
+#~ msgid "Quests"
+#~ msgstr "Cinn-thurais"
+
+#~ msgid ""
+#~ "Select to view current world map.\n"
+#~ "Use left / right to cycle through locations.\n"
+#~ "Press 'cancel' to return"
+#~ msgstr ""
+#~ "Tagh gus mapa làithreach an t-saoghail a shealltainn.\n"
+#~ "Cleachd na h-iuchraichean gu clì/deas a sheòladh tro na h-ionadan.\n"
+#~ "Bruth air “Sguir dheth” airson tilleadh"
+
+#~ msgid "Select to view Quest Log."
+#~ msgstr "Tagh gus loga nan ceann-turais a shealltainn."
+
+#~ msgid "View/Reorder"
+#~ msgstr "Seall/Òrdugh"
+
+#~ msgid "Battle Formation"
+#~ msgstr "Cumadh còmhraige"
+
+#~ msgid ""
+#~ "View character Information.\n"
+#~ "Select a character to change formation."
+#~ msgstr ""
+#~ "Seall fiosrachadh a’ phearsa.\n"
+#~ "Tagh pearsa gus an cumadh atharrachadh."
+
+#~ msgid "Use"
+#~ msgstr "Cleachd"
+
+#~ msgid "Improve"
+#~ msgstr "Pisich"
+
+#~ msgid "Switch"
+#~ msgstr "Dèan suids"
+
+#~ msgid "Select a battle formation to change character placement."
+#~ msgstr "Tagh cumadh còmhraige gus ionadan nam pearsachan atharrachadh."
+
+#~ msgid "Rear - Front"
+#~ msgstr "Cùlaibh – Beulaibh"
+
+#~ msgid "%d %%"
+#~ msgstr "%d %%"
+
+#~ msgid "Head"
+#~ msgstr "Ceann"
+
+#~ msgid "Torso"
+#~ msgstr "Com"
+
+#~ msgid "Arms"
+#~ msgstr "Gàirdeanan"
+
+#~ msgid "Legs"
+#~ msgstr "Casan"
+
+#~ msgid "No weapon"
+#~ msgstr "Gun arm"
+
+#~ msgid "No head armor"
+#~ msgstr "Gun armachd cinn"
+
+#~ msgid "No torso armor"
+#~ msgstr "Gun armachd cuim"
+
+#~ msgid "No arms armor"
+#~ msgstr "Gun armachd ghàirdeanan"
+
+#~ msgid "No legs armor"
+#~ msgstr "Gun armachd chasan"
+
+#~ msgid "Select an item to Equip or Use."
+#~ msgstr "Tagh nì gus uidheamachadh no a chleachdadh."
+
+#~ msgid "This character cannot equip this item."
+#~ msgstr "Chan urrainn dhan phearsa seo an nì seo uidheamachadh."
+
+#~ msgid "Select a character to use the item on."
+#~ msgstr "Tagh pearsa a chleachdadh an nì seo air."
+
+#~ msgid "Select a character to change position with."
+#~ msgstr "Tagh pearsa gus an t-ionad iomlaid."
+
+#~ msgid "Select a character to change formation."
+#~ msgstr "Tagh pearsa gus an cumadh atharrachadh."
+
+#~ msgid "Global Attack / Defense:"
+#~ msgstr "Ionnsaigh / Dìon coitcheann:"
+
+#~ msgid "Detailed Defense:"
+#~ msgstr "Dìon mionaideach:"
+
+#~ msgid "Total Attack: "
+#~ msgstr "Ionnsaigh iomlan: "
+
+#~ msgid "Total Magical Attack: "
+#~ msgstr "Ionnsaigh dhraoidheach ioml.: "
+
+#~ msgid "Average Defense: "
+#~ msgstr "Dìon cuibheasach: "
+
+#~ msgid "Average Magical Defense: "
+#~ msgstr "Dìon draoidheach cuibh.: "
+
+#~ msgid "Head: "
+#~ msgstr "Ceann: "
+
+#~ msgid "Torso: "
+#~ msgstr "Com: "
+
+#~ msgid "Arm: "
+#~ msgstr "Gàirdean: "
+
+#~ msgid "Leg: "
+#~ msgstr "Cas: "
+
+#~ msgid "Experience Level: "
+#~ msgstr "Leibheil eòlais: "
+
+#~ msgid "Physical Attack: "
+#~ msgstr "Ionns. bodhaige: "
+
+#~ msgid "Magical Attack: "
+#~ msgstr "Ionns. dhraoidheach: "
+
+#~ msgid "Physical Defense: "
+#~ msgstr "Dìon bodhaige: "
+
+#~ msgid "Magical Defense: "
+#~ msgstr "Dìon draoidheach: "
+
+#~ msgid "Stamina: "
+#~ msgstr "Smiodam: "
+
+#~ msgid "Evade: "
+#~ msgstr "Teàrnadh: "
+
+#~ msgid "Choose a character."
+#~ msgstr "Tagh pearsa."
+
+#~ msgid "Choose a skill category to use."
+#~ msgstr "Tagh roinn-seòrsa comais gus a chleachdadh."
+
+#~ msgid "All"
+#~ msgstr "Na h-uile"
+
+#~ msgid "Field"
+#~ msgstr "Raon"
+
+#~ msgid "Battle"
+#~ msgstr "Còmhrag"
+
+#~ msgid "Weapon skill"
+#~ msgstr "Comas airm"
+
+#~ msgid "Bare hands"
+#~ msgstr "Làmh"
+
+#~ msgid "Magic skill"
+#~ msgstr "Comas draoidheachd"
+
+#~ msgid "Special skill"
+#~ msgstr "Comas sònraichte"
+
+#~ msgid " SP"
+#~ msgstr " PC"
+
+#~ msgid "Unlocked"
+#~ msgstr "Air a neo-ghlasadh"
+
+#~ msgid "To Unlock:"
+#~ msgstr "Gus a neo-ghlasadh:"
+
+#~ msgid ""
+#~ "XP Needed: %d /\n"
+#~ "Available: %d"
+#~ msgstr ""
+#~ "Puing-eòlais: %d /\n"
+#~ "Ri fhaighinn: %d"
+
+#~ msgid "No XP Needed"
+#~ msgstr "Chan eil feum air puingean-eòlais"
+
+#~ msgid " x %d"
+#~ msgstr " x %d"
+
+#~ msgid "%d SP"
+#~ msgstr "%d PC"
+
+#~ msgid "Skill learned:"
+#~ msgstr "Dh’ionnsaich thu comas:"
+
+#~ msgid "Statistics:"
+#~ msgstr "Stadastaireachd:"
+
+#~ msgid "Phys. Atk +%d"
+#~ msgstr "Ionns. bodh. +%d"
+
+#~ msgid "Mag. Atk +%d"
+#~ msgstr "Ionns. dhraoidh. +%d"
+
+#~ msgid "Phys. Def +%d"
+#~ msgstr "Dìon bodh. +%d"
+
+#~ msgid "Mag. Def +%d"
+#~ msgstr "Dìon draoidh. +%d"
+
+#~ msgid "Stamina +%d"
+#~ msgstr "Smiodam +%d"
+
+#~ msgid "Evade +%.1f%%"
+#~ msgstr "Teàrnadh +%.1f%%"
+
+#~ msgid "HP +%d"
+#~ msgstr "P-beatha +%d"
+
+#~ msgid "SP +%d"
+#~ msgstr "P-comais +%d"
+
+#~ msgid "Press '%s' anytime to show/hide help."
+#~ msgstr ""
+#~ "Brùth air “%s” uair sam bith gus a’ chobhair a shealltainn no fhalach."
+
+#~ msgid "Welcome to Valyria Tear"
+#~ msgstr "Fàilte gu Valyria Tear"
+
+#~ msgid "Command"
+#~ msgstr "Àithne"
+
+#~ msgid "Current Key"
+#~ msgstr "Iuchair"
+
+#~ msgid "Purpose"
+#~ msgstr "Adhbhar"
+
+#~ msgid "Left"
+#~ msgstr "Clì"
+
+#~ msgid "Move menu cursor to the left"
+#~ msgstr "Gluais cùrsair a’ chlàir-thaice dhan taobh chlì"
+
+#~ msgid "Right"
+#~ msgstr "Deas"
+
+#~ msgid "Move menu cursor to the right"
+#~ msgstr "Gluais cùrsair a’ chlàir-thaice dhan taobh deas"
+
+#~ msgid "Confirm a menu command"
+#~ msgstr "Dearbh àithne clàir-thaice"
+
+#~ msgid "Cancel a menu command"
+#~ msgstr "Sguir de dh’àithne clàir-thaice"
+
+#~ msgid ""
+#~ "Quit the application\n"
+#~ "(when using the keyboard)"
+#~ msgstr ""
+#~ "Fàg an aplacaid\n"
+#~ "(nuair a chleachdas tu am meur-chlàr)"
+
+#~ msgid ""
+#~ "Shop mode\n"
+#~ "\n"
+#~ "Use the Left/Right keys to add/remove items into the Buy and Sell modes.\n"
+#~ "Then go into the Confirm mode to complete the transaction."
+#~ msgstr ""
+#~ "Modh bùtha\n"
+#~ "\n"
+#~ "Cleachd na h-iuchraichean clì/deas gus nì a chur ris no a thoirt air "
+#~ "falbh sna modhan ceannachd is reic.\n"
+#~ "Rach dhan mhodh dearbhaidh an uairsin gus am malart a choileanadh."
+
+#~ msgid "Remove an item from the buy/sell list"
+#~ msgstr "Thoir nì ri reic no cheannach air falbh on liosta"
+
+#~ msgid "Add an item to the buy/sell list."
+#~ msgstr "Cuir nì ri reic no cheannach ris an liosta."
+
+#~ msgid "Up"
+#~ msgstr "Suas"
+
+#~ msgid "Move up in the item list."
+#~ msgstr "Gluais suas air liosta nan nithean."
+
+#~ msgid "Down"
+#~ msgstr "Sìos"
+
+#~ msgid "Move down in the item list."
+#~ msgstr "Gluais sìos air liosta nan nithean."
+
+#~ msgid "Show details or confirm a transaction"
+#~ msgstr "Seall mion-fhiosrachadh no dearbh malart"
+
+#~ msgid "Change the displayed item category."
+#~ msgstr "Atharraich roinn-seòrsa nan nithean a tha ’gan sealltainn."
+
+#~ msgid ""
+#~ "Get out the Buy/Sell/Confirm mode,\n"
+#~ "or quit the shop."
+#~ msgstr ""
+#~ "Fàg modh an reic/na ceannachd/an dearbhaidh,\n"
+#~ "no fàg am bùth."
+
+#~ msgid "Pauses the game"
+#~ msgstr "Cuir an geama ’na stad"
+
+#~ msgid "Close this window / Show the system menu"
+#~ msgstr "Dùin an uinneag seo / Seall clàr-taice an t-siostaim"
+
+#~ msgid "The table below lists the default game controls.\n"
+#~ msgstr ""
+#~ "Seallaidh an clàr gu h-ìosal na bun-roghainnean air stiùireadh a’ "
+#~ "gheama.\n"
+
+#~ msgid "The control mappings can be changed in the options menu."
+#~ msgstr ""
+#~ "’S urrainn dhut nasgadh nan iuchraichean-stiùiridh atharrachadh ann an "
+#~ "clàr-taice nan roghainnean."
+
+#~ msgid "Default Key"
+#~ msgstr "Iuchair thùsail"
+
+#~ msgid "General Purpose"
+#~ msgstr "Adhbhar coitcheann"
+
+#~ msgid "Move position or cursor upwards"
+#~ msgstr "Gluais ionad no cùrsair suas"
+
+#~ msgid "Move position or cursor downwards"
+#~ msgstr "Gluais ionad no cùrsair sìos"
+
+#~ msgid "Move position or cursor to the left"
+#~ msgstr "Gluais ionad no cùrsair dhan taobh chlì"
+
+#~ msgid "Move position or cursor to the right"
+#~ msgstr "Gluais ionad no cùrsair dhan taobh deas"
+
+#~ msgid "Confirm an action or menu command"
+#~ msgstr "Dearbh gnìomh no àithne clàir-thaice"
+
+#~ msgid "Cancel an action or menu command"
+#~ msgstr "Sguir de ghnìomh no àithne clàir-thaice"
+
+#~ msgid "Opens the party menu"
+#~ msgstr "Fosgail clàr-taice na cuideachd"
+
+#~ msgid "Show/Hide items and skills descriptions."
+#~ msgstr "Seall/Falaich tuairisgeulan nithean ’s chomasan."
+
+#~ msgid "Quit the application"
+#~ msgstr "Fàg an aplacaid"
+
+#~ msgid ""
+#~ "There are additional commands available which can be found in the MANUAL "
+#~ "file."
+#~ msgstr ""
+#~ "Tha barrachd àitheantan ann ’s fiosrachadh mu an dèidhinn san fhaidhle "
+#~ "MANUAL."
+
+#~ msgid "Paused"
+#~ msgstr "’Na stad"
+
+#~ msgid "Quit to Main Menu"
+#~ msgstr "Fàg dhan phrìomh chlàr-taice"
+
+#~ msgid "Quit Game"
+#~ msgstr "Fàg an geama"
+
+#~ msgid "Save Game"
+#~ msgstr "Sàbhail an geama"
+
+#~ msgid "Confirm Save"
+#~ msgstr "Dearbh an sàbhaladh"
+
+#~ msgid "Load Auto-Save"
+#~ msgstr "Luchdaich fèin-shàbhaladh"
+
+#~ msgid "Load Save"
+#~ msgstr "Luchdaich na shàbhail thu fhèin"
+
+#~ msgid "Save successful!"
+#~ msgstr "Chaidh a shàbhaladh!"
+
+#~ msgid ""
+#~ "Unable to save game!\n"
+#~ "Save FAILED!"
+#~ msgstr ""
+#~ "Cha deach leinn an geama a shàbhaladh!\n"
+#~ "DH’FHÀILLIG leis an t-sàbhaladh!"
+
+#~ msgid "No valid saves found!"
+#~ msgstr "Cha deach geama air a shàbhaladh dligheach a lorg!"
+
+#~ msgid "Slot %d"
+#~ msgstr "Ionad %d"
+
+#~ msgid "Invalid data!"
+#~ msgstr "Dàta mì-dhligheach!"
+
+#~ msgid "This slot is unused"
+#~ msgstr "Cha deach an t-ionad seo a chleachdadh fhathast"
+
+#~ msgid "Weapons"
+#~ msgstr "Airm"
+
+#~ msgid "Head Armor"
+#~ msgstr "Armachd cinn"
+
+#~ msgid "Torso Armor"
+#~ msgstr "Armachd cuim"
+
+#~ msgid "Arm Armor"
+#~ msgstr "Armachd ghàirdeanan"
+
+#~ msgid "Leg Armor"
+#~ msgstr "Armachd coise"
+
+#~ msgid "Spirits"
+#~ msgstr "Dùilean"
+
+#~ msgid "Key Items"
+#~ msgstr "Nithean iuchrach"
+
+#~ msgid "All Wares"
+#~ msgstr "A h-uile bathar"
+
+#~ msgid "Field Use:"
+#~ msgstr "Air an raon:"
+
+#~ msgid "Battle Use:"
+#~ msgstr "Sa còmhrag:"
+
+#~ msgid "Target:"
+#~ msgstr "Amas:"
+
+#~ msgid "Conditions:"
+#~ msgstr "Cumhaidhean:"
+
+#~ msgid ""
+#~ "Press %s to add items to buy and %s to remove items from your purchase."
+#~ msgstr ""
+#~ "Brùth air %s gus nì ri cheannach a chur ris ’s air %s gus a thoirt air "
+#~ "falbh uaipe."
+
+#~ msgid "Press %s to add items to sell and %s to remove items from your sale."
+#~ msgstr ""
+#~ "Brùth air %s gus nì ri reic a chur ris ’s air %s gus a thoirt air falbh "
+#~ "uaidhe."
+
+#~ msgid "Press %s to add items to trade and %s to remove them."
+#~ msgstr ""
+#~ "Brùth air %s gus nì ri iomlaideachadh a chur ris ’s air %s gus a thoirt "
+#~ "air falbh."
+
+#~ msgid "Buy count: x "
+#~ msgstr "Co mheud: x "
+
+#~ msgid "Sell count: x "
+#~ msgstr "Co mheud: x "
+
+#~ msgid "Trade count: x "
+#~ msgstr "Co mheud: x "
+
+#~ msgid "Buy"
+#~ msgstr "Ceannaich"
+
+#~ msgid "Sell"
+#~ msgstr "Reic"
+
+#~ msgid "Trade"
+#~ msgstr "Iomlaidich"
+
+#~ msgid "Leave"
+#~ msgstr "Falbh"
+
+#~ msgid "Funds: "
+#~ msgstr "Maoin: "
+
+#~ msgid "Purchases: "
+#~ msgstr "Ceannachdan: "
+
+#~ msgid "Remaining: "
+#~ msgstr "Air fhàgail: "
+
+#~ msgid "Sales: +"
+#~ msgstr "Reicean: +"
+
+#~ msgid "Category"
+#~ msgstr "Roinn-seòrsa"
+
+#~ msgid "Name"
+#~ msgstr "Ainm"
+
+#~ msgid "Price"
+#~ msgstr "Prìs"
+
+#~ msgid "Stock"
+#~ msgstr "Stòras"
+
+#~ msgid "Own"
+#~ msgstr "Leatsa"
+
+#~ msgid "The Shop"
+#~ msgstr "Am bùth"
+
+#~ msgid "Buy prices"
+#~ msgstr "Prìsean ceannachd"
+
+#~ msgid "Sell prices"
+#~ msgstr "Prìsean reic"
+
+#~ msgid "\"Welcome! Take a look around.\""
+#~ msgstr "“Fàilte! Seall mun cuairt.”"
+
+#~ msgid "data/boot_menu/valyria_logo.png"
+#~ msgstr "data/boot_menu/valyria_logo.png"
+
+#~ msgid "Get some barley meal"
+#~ msgstr "Faigh min-eòrna"
+
+#~ msgid ""
+#~ "Mom needs some for dinner!\n"
+#~ " \n"
+#~ "Flora might have some in her shop. I should go and have a look there "
+#~ "first."
+#~ msgstr ""
+#~ "Tha mo mhàthair feumach air airson na dìnnearach!\n"
+#~ " \n"
+#~ "’S`dòcha gu bheil gin aig Flòraidh sa bhùth aice. Bu chòir dhomh dol ann "
+#~ "’s fheuchainn an toiseach."
+
+#~ msgid ""
+#~ "Finally, I found some. Lilly had what I sought in her house the whole "
+#~ "time."
+#~ msgstr "Lorg mi min-eòrna mu dheireadh thall. Bha cuid ann an taigh Ròis."
+
+#~ msgid "Village of Layna"
+#~ msgstr "Baile Duaine"
+
+#~ msgid "Bronann's home"
+#~ msgstr "Taigh Bhreannain"
+
+#~ msgid "Find Georges's pen"
+#~ msgstr "Lorg peann Shomhairle"
+
+#~ msgid ""
+#~ "I need to get back Georges lost pen.\n"
+#~ " \n"
+#~ "He said he lost it near a tree. He also told me that people in the "
+#~ "village might know more."
+#~ msgstr ""
+#~ "Feumaidh mi am peann a chaill Somhairle fhaighinn dha.\n"
+#~ " \n"
+#~ "Thuirt e gun do chaill e faisg air craobh e. Dh’innis e dhomh cuideachd "
+#~ "gum bi barrachd fios aig muinntir a’ bhaile, ’s dòcha."
+
+#~ msgid ""
+#~ "Orlinn had the pen and I ran after him all morning to get it back. I hope "
+#~ "he won't have any problems with Kalya..."
+#~ msgstr ""
+#~ "Bha am peann aig Odhran is mi a’ ruith às a dhèidh fad na maidne gus "
+#~ "fhaighinn air ais. Tha mi ’n dòchas nach fhaigh e trod o Chaoimhe…"
+
+#~ msgid "Village center"
+#~ msgstr "Meadhan a’ bhaile"
+
+#~ msgid "Catch Orlinn!"
+#~ msgstr "Glac Odhran!"
+
+#~ msgid ""
+#~ "Orlinn has the pen that I need to return to Georges! The only problem now "
+#~ "is I have to find out where he's hiding. Hmm, it shouldn't take long."
+#~ msgstr ""
+#~ "Tha am peann a dh’fheumas mi tilleadh dha Shomhairle aig Odhran! ’S e an "
+#~ "duilgheadas gum feum mi faighinn a-mach cà bheil e ’na fhalach. Uill, cha "
+#~ "chreid mi gun doir sin fada."
+
+#~ msgid ""
+#~ "After chasing him around the village all morning, I finally have the pen. "
+#~ "Time to bring it back to Georges."
+#~ msgstr ""
+#~ "Às dèidh mo ruith ’na thoir air feadh a’ baile fad na maidne, tha am "
+#~ "peann agam mu dheireadh thall. Bu chòir dhomh a thilleadh dha Shomhairle."
+
+#~ msgid "Catch the chickens"
+#~ msgstr "Glac na circ"
+
+#~ msgid ""
+#~ "Grandma asked me to catch the chickens that flew away. There are three of "
+#~ "them."
+#~ msgstr ""
+#~ "Dh’iarr mo sheanmhair orm na circ a theich a ghlacadh. Tha trì dhiubh ann."
+
+#~ msgid "I was able to find them!"
+#~ msgstr "Chaidh leam an lorg!"
+
+#~ msgid "Path to Kalya's house"
+#~ msgstr "Slighe taigh Chaoimhe"
+
+#~ msgid "Orlinn might be in danger!"
+#~ msgstr "Tha Odhran fo chunnart!"
+
+#~ msgid ""
+#~ "After seeing that strange light, Orlinn ran into the woods. He's just a "
+#~ "kid, even if a quick one!\n"
+#~ " \n"
+#~ "My father asked me to go there with Kalya and bring him back safe and "
+#~ "sound.\n"
+#~ " \n"
+#~ "I can't let them down!"
+#~ msgstr ""
+#~ "Às dèidh an solas neònach fhaicinn, ruith Odhran dhan choille. Chan e ach "
+#~ "balachan a th’ ann ged a tha e luath air a chasan!\n"
+#~ " \n"
+#~ "Dh’iarr m’ athair dhìom gun dèid mi ann le Caoimhe gus a thilleadh slàn "
+#~ "sàbhailte.\n"
+#~ " \n"
+#~ "Chan fhaod mi an dòchas a mhilleadh!"
+
+#~ msgid ""
+#~ "We finally retrieved Orlinn in the center of the forest. A mysterious "
+#~ "wolf was protecting him, and we came just in time to prevent him from "
+#~ "approaching a strange crystal."
+#~ msgstr ""
+#~ "Fhuair sinn grèim air Odhran ann am meadhan na coille mu dheireadh thall. "
+#~ "Bha madadh-allaidh dìomhair ’ga dhìon agus ràinig sinn e dìreach mus do "
+#~ "theannaich e air criostal neònach."
+
+#~ msgid "We must escape from the soldiers."
+#~ msgstr "Teich o na saighdearan"
+
+#~ msgid ""
+#~ "After we returned to the village, Kalya was caught by strange soldiers. "
+#~ "The country lord himself provoked me in battle and thanks to her, we "
+#~ "escaped for now.\n"
+#~ " \n"
+#~ "But this isn't over. The soldiers are after us and we have to make our "
+#~ "way through."
+#~ msgstr ""
+#~ "Às dèidh ur tilleadh dhan bhaile, chaidh Caoimhe a ghlacadh le "
+#~ "saighdearan neònach. Thug morair na dùthcha fhèin dùbhlan còmhraige orm "
+#~ "ach chaidh leinn teicheadh air sàilleabh a taice-se.\n"
+#~ " \n"
+#~ "Ach chan e seo deireadh na sgeòil. Tha na saighdearan an toir oirnn agus "
+#~ "feumaidh sinn tighinn troimhe."
+
+#~ msgid "We managed to find a way up to the mountain top."
+#~ msgstr "Lorg sinn slighe suas gu mullach na beinne."
+
+#~ msgid "Kalya's home basement"
+#~ msgstr "Ìoslach taigh Chaoimhe"
+
+#~ msgid "Royal Silk"
+#~ msgstr "Sìoda rìoghail"
+
+#~ msgid "Black Sleet"
+#~ msgstr "Flinne dubh"
+
+#~ msgid "Elvish Feather"
+#~ msgstr "Ite-shìthe"
+
+#~ msgid "Layna Forest"
+#~ msgstr "Coille Duaine"
+
+#~ msgid "Mt. Elbrus"
+#~ msgstr "Beinn Ealbhrais"
+
+#~ msgid "Thanks for playing!!"
+#~ msgstr "Mòran taing airson a chluiche!!"
+
+#~ msgid "Episode I"
+#~ msgstr "Eapasod I"
+
+#~ msgid "Story"
+#~ msgstr "Sgeulachd"
+
+#~ msgid "Lead Programming, Scripting, Maps"
+#~ msgstr "Prìomh-phrògramachadh, sgriobtadh, mapaichean"
+
+#~ msgid "Additional programming and scripting"
+#~ msgstr "Barrachd prògramachaidh is sgriobtaidh"
+
+#~ msgid ""
+#~ "Balancing, ...\n"
+#~ "\n"
+#~ "Quest log, Minimap support, ...\n"
+#~ "\n"
+#~ "Shop Trade mode support, ...\n"
+#~ "\n"
+#~ "UI theme change menu support, ...\n"
+#~ "\n"
+#~ "GL code improvement, ...\n"
+#~ "\n"
+#~ "Multiple screen fix, ...\n"
+#~ "\n"
+#~ "Misc fixes\n"
+#~ "\n"
+#~ "Joystick handling fixes"
+#~ msgstr ""
+#~ "Cothromachadh, …\n"
+#~ "\n"
+#~ "Loga nan ceann-turas, taic ri meanbh-mhapa, …\n"
+#~ "\n"
+#~ "Taic ri modh iomlaideachaidh a’ bhùtha, …\n"
+#~ "\n"
+#~ "Taic clàr-taice ri atharrachadh ùrlar na h-eadar-aghaidh, …\n"
+#~ "\n"
+#~ "Piseach air còd GL, …\n"
+#~ "\n"
+#~ "Càradh air iomadh sgrìn, …\n"
+#~ "\n"
+#~ "Càraichean eile\n"
+#~ "\n"
+#~ "Càradh air làimhseachadh joystick"
+
+#~ msgid "Graphics"
+#~ msgstr "Grafaigeachd"
+
+#~ msgid ""
+#~ "Village tileset, ...\n"
+#~ "\n"
+#~ "Cemetery tileset, ...\n"
+#~ "\n"
+#~ "Heroes portraits, ...\n"
+#~ "\n"
+#~ "Heroes sprites, Cave tilesets, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "Forest battle backgrounds, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "The Fenrir\n"
+#~ "\n"
+#~ "A lot of various things"
+#~ msgstr ""
+#~ "Buidheann-leacagan baile, …\n"
+#~ "\n"
+#~ "Buidheann-leacagan cladha, …\n"
+#~ "\n"
+#~ "Dealbhan nan laoch, …\n"
+#~ "\n"
+#~ "Sprìdean nan laoch, buidhnean-leacagan uamha, …\n"
+#~ "\n"
+#~ "\n"
+#~ "Cùlaibhean còmhraige coille, …\n"
+#~ "\n"
+#~ "\n"
+#~ "Am Fenrir\n"
+#~ "\n"
+#~ "Iomadh nì eile"
+
+#~ msgid "Music"
+#~ msgstr "Ceòl"
+
+#~ msgid ""
+#~ "\n"
+#~ "Main theme, Village music, ...\n"
+#~ "\n"
+#~ "Banesore's battle, ...\n"
+#~ "\n"
+#~ "Layna Forest music, ...\n"
+#~ "\n"
+#~ "Boss Music\n"
+#~ "\n"
+#~ "Battle music\n"
+#~ "\n"
+#~ "Birds' song\n"
+#~ "\n"
+#~ "Battle lost music\n"
+#~ "\n"
+#~ "Layna cave music"
+#~ msgstr ""
+#~ "\n"
+#~ "Am prìomh ùrlar, ceòl a’ bhaile, …\n"
+#~ "\n"
+#~ "Còmhrag Ghoirturbhaidh, …\n"
+#~ "\n"
+#~ "Ceòl coille Duaine, …\n"
+#~ "\n"
+#~ "Ceòl ceannaird\n"
+#~ "\n"
+#~ "Ceòl còmhraige\n"
+#~ "\n"
+#~ "Seinn nan eun\n"
+#~ "\n"
+#~ "Ceòl còmhraige caillte\n"
+#~ "\n"
+#~ "Ceòl uamh Duaine"
+
+#~ msgid ""
+#~ "Sad theme\n"
+#~ "\n"
+#~ "Mountain music\n"
+#~ "\n"
+#~ "Mountain Shrine music\n"
+#~ "\n"
+#~ "Special Boss"
+#~ msgstr ""
+#~ "Ùrlar brònach\n"
+#~ "\n"
+#~ "Ceòl beinne\n"
+#~ "\n"
+#~ "Ceòl Naomh-chiste na beinne\n"
+#~ "\n"
+#~ "Ceannard sònraichte"
+
+#~ msgid "Sounds"
+#~ msgstr "Fuaimean"
+
+#~ msgid "Ports"
+#~ msgstr "Portachaidhean"
+
+#~ msgid "Translations"
+#~ msgstr "Eadar-theangachaidhean"
+
+#~ msgid ""
+#~ "English text review\n"
+#~ "\n"
+#~ "Dutch (nl_NL)\n"
+#~ "\n"
+#~ "French (fr)\n"
+#~ "\n"
+#~ "Galician (gl)\n"
+#~ "\n"
+#~ "German (de)"
+#~ msgstr ""
+#~ "Lèirmheas air an teacsa Beurla\n"
+#~ "\n"
+#~ "Duitsis (nl_NL)\n"
+#~ "\n"
+#~ "Fraingis (fr)\n"
+#~ "\n"
+#~ "Gailìsis (gl)\n"
+#~ "\n"
+#~ "Gearmailtis (de)"
+
+#~ msgid ""
+#~ "Italian (it)\n"
+#~ "\n"
+#~ "Portuguese (pt_PT)\n"
+#~ "\n"
+#~ "Russian (ru)\n"
+#~ "\n"
+#~ "Spanish (es)\n"
+#~ "\n"
+#~ "Swedish (sv)\n"
+#~ "\n"
+#~ "Gaelic, Scottish (gd)\n"
+#~ "\n"
+#~ "Ukrainian (uk_UA)"
+#~ msgstr ""
+#~ "Eadailtis (it)\n"
+#~ "\n"
+#~ "Portagailis (pt_PT)\n"
+#~ "\n"
+#~ "Ruisis (ru)\n"
+#~ "\n"
+#~ "Spàinntis (es)\n"
+#~ "\n"
+#~ "Suainis (sv)\n"
+#~ "\n"
+#~ "Gàidhlig na h-Alba (gd)\n"
+#~ "\n"
+#~ "Ucràinis (uk_UA)"
+
+#~ msgid "Testers"
+#~ msgstr "Luchd-deuchainne"
+
+#~ msgid "And you..."
+#~ msgstr "Agus thu fhèin…"
+
+#~ msgid "Valyria Tear was forked from Hero of Allacrost in 2011"
+#~ msgstr ""
+#~ "Chaidh Valyria Tear a stèidheachadh mar ghobhal\n"
+#~ "dhe Hero of Allacrost ann an 2011"
+
+#~ msgid ""
+#~ "Allacrost Development Team (2004-2011)\n"
+#~ "\n"
+#~ "Founder and Lead Designer"
+#~ msgstr ""
+#~ "Sgioba leasachaidh Allacrost (2004-2011)\n"
+#~ "\n"
+#~ "Stèidheadair is prìomh-dhealbhaiche"
+
+#~ msgid "Allacrost Project Leads/Administrators"
+#~ msgstr "Ceannardan pròiseict/Rianairean Allacrost"
+
+#~ msgid "Allacrost Programming Team (2004-2011)"
+#~ msgstr "Sgioba prògramachaidh Allacrost (2004-2011)"
+
+#~ msgid ""
+#~ "Battle code, Menu code\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Game engine\n"
+#~ "\n"
+#~ "Map code\n"
+#~ "\n"
+#~ "Various game modes, content scripting\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Video engine, Audio engine\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Programming lead, Game engine, Map code"
+#~ msgstr ""
+#~ "Còd còmhraige ’s clàir-thaice\n"
+#~ "\n"
+#~ "Deasaiche a’ gheama\n"
+#~ "\n"
+#~ "Einnsean a’ gheama\n"
+#~ "\n"
+#~ "Còd nam mapaichean\n"
+#~ "\n"
+#~ "Iomadh modh geama, sgriobtadh susbainte\n"
+#~ "\n"
+#~ "Einnsean video\n"
+#~ "\n"
+#~ "Einnseanan video ’s fuaime\n"
+#~ "\n"
+#~ "Deasaiche a’ gheama\n"
+#~ "\n"
+#~ "Stiùiriche prògramachaidh, einnsean a’ gheama, còd nam mapaichean"
+
+#~ msgid "Allacrost Programming Team"
+#~ msgstr "Sgioba prògramachaidh Allacrost"
+
+#~ msgid ""
+#~ "Boot code, Battle code\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Audio engine\n"
+#~ "\n"
+#~ "Various code, Mac OS X maintenance\n"
+#~ "\n"
+#~ "Game engine, Game modes, Windows build scripts\n"
+#~ "\n"
+#~ "Battle code\n"
+#~ "\n"
+#~ "Map editor\n"
+#~ "\n"
+#~ "Internationalization\n"
+#~ "\n"
+#~ "Video engine"
+#~ msgstr ""
+#~ "Còd tòiseachaidh, còd còmhraige\n"
+#~ "\n"
+#~ "Deasaiche a’ gheama\n"
+#~ "\n"
+#~ "Einnsean fuaime\n"
+#~ "\n"
+#~ "Còd measgaichte, obair-ghlèidhidh Mac OS X\n"
+#~ "\n"
+#~ "Einnsean a’ gheama, modhan a’ gheama, sgriobtaichean togail Windows\n"
+#~ "\n"
+#~ "Còd còmhraige\n"
+#~ "\n"
+#~ "Deasaiche nam mapa\n"
+#~ "\n"
+#~ "Siostam eadar-theangachaidh\n"
+#~ "\n"
+#~ "Einnsean Video"
+
+#~ msgid ""
+#~ "Video engine, Game engine\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Scripting engine\n"
+#~ "\n"
+#~ "Various code\n"
+#~ "\n"
+#~ "Various code"
+#~ msgstr ""
+#~ "Einnsean video, einnsean a’ gheama\n"
+#~ "\n"
+#~ "Einnsean video\n"
+#~ "\n"
+#~ "Einnsean video\n"
+#~ "\n"
+#~ "Einnsean sgriobtaidh\n"
+#~ "\n"
+#~ "Còd measgaichte\n"
+#~ "\n"
+#~ "Còd measgaichte"
+
+#~ msgid "Allacrost Artwork Team (2004-2011)"
+#~ msgstr "Sgioba ealain Allacrost (2004-2011)"
+
+#~ msgid ""
+#~ "Map sprites, Battle sprites, Character portraits, Location graphics\n"
+#~ "\n"
+#~ "Battle sprites, old Allacrost GUI artwork\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Allacrost website graphics, GUI artwork, Game logos\n"
+#~ "\n"
+#~ "Map tiles, map sprites, Inventory icons, Allacrost artwork coordination"
+#~ msgstr ""
+#~ "Sprìdean mapa, sprìdean còmhraige, dealbhan phearsachan, grafaigeachd "
+#~ "ionadan\n"
+#~ "\n"
+#~ "Sprìdean còmhraige, seann-ealain na h-eadar-aghaidh Allacrost\n"
+#~ "\n"
+#~ "Leacagan mapa\n"
+#~ "\n"
+#~ "Grafaigeachd làraich-lìn Allacrost, ealain na h-eadar-aghaidh, "
+#~ "suaicheantasan a’ gheama\n"
+#~ "\n"
+#~ "Leacagan is sprìdean mapa, ìomhaigheagan an tasgaidh, stiùireadh ealain "
+#~ "Allacrost"
+
+#~ msgid "Allacrost Artwork Team"
+#~ msgstr "Sgioba ealain Allacrost"
+
+#~ msgid ""
+#~ "Concept art\n"
+#~ "\n"
+#~ "Inventory icons\n"
+#~ "\n"
+#~ "Map sprite animations\n"
+#~ "\n"
+#~ "Concept art\n"
+#~ "\n"
+#~ "Inventory icons\n"
+#~ "\n"
+#~ "Concept art, Map sprites\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Map sprites"
+#~ msgstr ""
+#~ "Bun-ealain\n"
+#~ "\n"
+#~ "Ìomhaigheagan an tasgadain\n"
+#~ "\n"
+#~ "Beòthachadh air sprìdean mapa\n"
+#~ "\n"
+#~ "Bun-ealain\n"
+#~ "\n"
+#~ "Ìomhaigheagan an tasgadain\n"
+#~ "\n"
+#~ "Bun-ealain,  sprìdean mapa\n"
+#~ "\n"
+#~ "Leacagan mapa\n"
+#~ "\n"
+#~ "Leacagan mapa\n"
+#~ "\n"
+#~ "Sprìdean mapa"
+
+#~ msgid ""
+#~ "Map sprite animations\n"
+#~ "\n"
+#~ "Map sprite animations, Map tiles\n"
+#~ "\n"
+#~ "Concept art, Allacrost title screen image\n"
+#~ "\n"
+#~ "Concept art, Map sprites, Map tiles\n"
+#~ "\n"
+#~ "Concept art, Map sprites\n"
+#~ "\n"
+#~ "Map tiles"
+#~ msgstr ""
+#~ "Beòthachadh air sprìdean mapa\n"
+#~ "\n"
+#~ "Beòthachadh air sprìdean mapa, leacagan mapa\n"
+#~ "\n"
+#~ "Bun-ealain, dealbh sgrìn-tiotail Allacrost\n"
+#~ "\n"
+#~ "Bun-ealain, sprìdean is leacagan mapa\n"
+#~ "\n"
+#~ "Bun-ealain, sprìdean mapa\n"
+#~ "\n"
+#~ "Leacagan mapa"
+
+#~ msgid ""
+#~ "Various art\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Enemy sprites\n"
+#~ "\n"
+#~ "Map sprites, Map tiles\n"
+#~ "\n"
+#~ "Map tiles, Inventory icons\n"
+#~ "\n"
+#~ "Map tiles, Battle sprites"
+#~ msgstr ""
+#~ "Ealain mheasgaichte\n"
+#~ "\n"
+#~ "Leacagan mapa\n"
+#~ "\n"
+#~ "Sprìdean nàimhdean\n"
+#~ "\n"
+#~ "Sprìdean is leacagan mapa\n"
+#~ "\n"
+#~ "Leacagan mapa, ìomhaigheagan an tasgadain\n"
+#~ "\n"
+#~ "Leacagan mapa, sprìdean còmhraige"
+
+#~ msgid "Allacrost Music and Sound Team (2004-2011)"
+#~ msgstr "Sgioba ciùil is fuaime Allacrost (2004-2011)"
+
+#~ msgid ""
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Soundtrack composer\n"
+#~ "\n"
+#~ "Music and sound lead, Soundtrack composer\n"
+#~ "\n"
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Sound mixer\n"
+#~ "\n"
+#~ "Soundtrack composer"
+#~ msgstr ""
+#~ "Sgrìobhaiche-fhuaimean\n"
+#~ "\n"
+#~ "Sgrìobhaiche-ciùil\n"
+#~ "\n"
+#~ "Stiùiriche a’ chiùil ’s nam fuaimean, sgrìobhaiche-ciùil\n"
+#~ "\n"
+#~ "Sgrìobhaiche-fhuaimean\n"
+#~ "\n"
+#~ "Sgrìobhaiche-fhuaimean\n"
+#~ "\n"
+#~ "Measgachadh fhuaimean\n"
+#~ "\n"
+#~ "Sgrìobhaiche-ciùil"
+
+#~ msgid "Allacrost Special Thanks"
+#~ msgstr "Taing shònraichte Allacrost"
+
+#~ msgid ""
+#~ "Map Tiles\n"
+#~ "\n"
+#~ "Inventory Icons\n"
+#~ "\n"
+#~ "Map monster sprites"
+#~ msgstr ""
+#~ "Leacagan mapa\n"
+#~ "\n"
+#~ "Ìomhaigheagan an tasgadain\n"
+#~ "\n"
+#~ "Sprìdean uilebheistean"
+
+#~ msgid "To be continued..."
+#~ msgstr "Ri leantainn…"
+
+#~ msgid "Based on the engine"
+#~ msgstr "Stèidhichte air einnsean"
+
+#~ msgid "Episode I - Main Graphics"
+#~ msgstr "Eapasod I – Prìomh-ghrafaigeachd"
+
+#~ msgid "Episode I - Additional Graphics"
+#~ msgstr "Eapasod I – Barrachd grafaigeachd"
+
+#~ msgid "and many others"
+#~ msgstr "agus mòran eile"
+
+#~ msgid "Programming, Scripting, Maps"
+#~ msgstr ""
+#~ "Prògramachadh, sgriobtadh,\n"
+#~ "mapaichean"
+
+#~ msgid ""
+#~ "Additional programming\n"
+#~ "and scripting"
+#~ msgstr ""
+#~ "Barrachd prògramachaidh\n"
+#~ "is sgriobtaidh"
+
+#~ msgid "Tester Team"
+#~ msgstr "Sgioba nan deuchainnean"
+
+#~ msgid "To Lilou and Léo..."
+#~ msgstr "Dha Lilou agus Léo…"
+
+#~ msgid ""
+#~ "Thanks to everyone\n"
+#~ "who made this possible!!"
+#~ msgstr ""
+#~ "Mòran taing dhan a h-uile duine\n"
+#~ "a thug cuideachadh dhuinn!!"
+
+#~ msgid "Flora's Shop"
+#~ msgstr "Bùth Flòraidh"
+
+#~ msgid "Don't forget my trade offers!"
+#~ msgstr "Thoir an aire air na tairgsean agam!"
+
+#~ msgid "Your party feels better."
+#~ msgstr "Tha do chuideachd a’ faireachdainn nas fheàrr."
+
+#~ msgid "Look!"
+#~ msgstr "Seall!"
+
+#~ msgid ""
+#~ "Have you seen one of these before? This is a Layna statue. Praying near "
+#~ "it heals both your mind and body."
+#~ msgstr ""
+#~ "Na chunna tu ìomhaigh mar sin a-riamh? Seo ìomhaigh Duaine. Ma nì thu "
+#~ "ùrnaigh faisg oirre gheibh d’ inntinn is bodhaig slànachadh."
+
+#~ msgid "Just stand in front of the goddess below the spring and push '%s'."
+#~ msgstr ""
+#~ "Seas air beulaibh na ban-dia aig bonn an tobair agus brùth air “%s.”"
+
+#~ msgid "Ok, thanks."
+#~ msgstr "Ceart ma-thà, mòran taing."
+
+#~ msgid "See? Now, let's find my brother before he gets hurt."
+#~ msgstr "’Eil thu agam? Nise, lorgamaid mo bhràthair mus dèid a leòn."
+
+#~ msgid "As you wish. Follow me."
+#~ msgstr "Mar a thogras tu. Lean orm."
+
+#~ msgid "Bronann"
+#~ msgstr "Breannan"
+
+#~ msgid "Holy"
+#~ msgstr "Naomh"
+
+#~ msgid "Kalya"
+#~ msgstr "Caoimhe"
+
+#~ msgid "Invocation"
+#~ msgstr "Gairm"
+
+#~ msgid "Sylve"
+#~ msgstr "Slàine"
+
+#~ msgid "Mist"
+#~ msgstr "Ceò"
+
+#~ msgid "Thanis"
+#~ msgstr "Taran"
+
+#~ msgid "Acheron"
+#~ msgstr "Ifrinn"
+
+#~ msgid "Green Slime"
+#~ msgstr "Glodh uaine"
+
+#~ msgid "Body"
+#~ msgstr "Bodhaig"
+
+#~ msgid "Spider"
+#~ msgstr "Damhan-allaidh"
+
+#~ msgid "Abdomen"
+#~ msgstr "Balg"
+
+#~ msgid "Fenrir"
+#~ msgstr "Fenrir"
+
+#~ msgid "Snake"
+#~ msgstr "Nathair"
+
+#~ msgid "Tail"
+#~ msgstr "Earball"
+
+#~ msgid "Slime Mother"
+#~ msgstr "Màthair glodha"
+
+#~ msgid "Bat"
+#~ msgstr "Ialtag"
+
+#~ msgid "Wing"
+#~ msgstr "Sgiath"
+
+#~ msgid "Dark Soldier"
+#~ msgstr "Saighdear dubh"
+
+#~ msgid "Lord Banesore"
+#~ msgstr "Goirturbhaidh"
+
+#~ msgid "Shroom"
+#~ msgstr "Balgan-buachair"
+
+#~ msgid "Eyeball"
+#~ msgstr "Clach-sùla"
+
+#~ msgid "Eye"
+#~ msgstr "Sùil"
+
+#~ msgid "Harlequin?"
+#~ msgstr "Cleasaiche-fanaid, saoil?"
+
+#~ msgid "Harlequin"
+#~ msgstr "Cleasaiche-fanaid"
+
+#~ msgid "Beetle"
+#~ msgstr "Daolag"
+
+#~ msgid "Chest"
+#~ msgstr "Uchd"
+
+#~ msgid "Rat"
+#~ msgstr "Radan"
+
+#~ msgid "Thing"
+#~ msgstr "Bèist"
+
+#~ msgid "Yeti"
+#~ msgstr "Fear-sneachda"
+
+#~ msgid "Skeleton"
+#~ msgstr "Cnàimhneach"
+
+#~ msgid "Leg"
+#~ msgstr "Cas"
+
+#~ msgid "Dorver"
+#~ msgstr "Dorbhair"
+
+#~ msgid "Andromalius"
+#~ msgstr "Glaisrig"
+
+#~ msgid "Ratto"
+#~ msgstr "Radan sgreataidh"
+
+#~ msgid "Scorpion"
+#~ msgstr "Sgairp"
+
+#~ msgid "Dune Crawler"
+#~ msgstr "Snàigear-gainmhich"
+
+#~ msgid "Stygian Lizard"
+#~ msgstr "Laghairt ifrinneach"
+
+#~ msgid "Claw"
+#~ msgstr "Spòg"
+
+#~ msgid "Demonic Essence"
+#~ msgstr "Stuth diabhlaidh"
+
+#~ msgid "Face"
+#~ msgstr "Aodann"
+
+#~ msgid "Red Slime"
+#~ msgstr "Glodh dearg"
+
+#~ msgid "Mushroom Zombie"
+#~ msgstr "Closach balgaim-bhuachair"
+
+#~ msgid "Scorpion Goliath"
+#~ msgstr "Mòr-sgairp"
+
+#~ msgid "Pincer"
+#~ msgstr "Greimiche"
+
+#~ msgid "Armored Beast"
+#~ msgstr "Bèist armaichte"
+
+#~ msgid "Mesosoma"
+#~ msgstr "Mesosoma"
+
+#~ msgid "Pincers"
+#~ msgstr "Greimichean"
+
+#~ msgid "Daemarbora"
+#~ msgstr "Daemarbora"
+
+#~ msgid "Trunk"
+#~ msgstr "Stoc"
+
+#~ msgid "Branches"
+#~ msgstr "Meuran"
+
+#~ msgid "Aerocephal"
+#~ msgstr "Inntinn-adhair"
+
+#~ msgid "Forehead"
+#~ msgstr "Maol"
+
+#~ msgid "Orifice"
+#~ msgstr "Tollan"
+
+#~ msgid "Arcana Drake"
+#~ msgstr "Dràc dìomhair"
+
+#~ msgid "Nagaruda"
+#~ msgstr "Nagaruda"
+
+#~ msgid "Deceleon"
+#~ msgstr "Deicealan"
+
+#~ msgid "Arm"
+#~ msgstr "Gàirdean"
+
+#~ msgid "Aurum Drakueli"
+#~ msgstr "Aurum Drakueli"
+
+#~ msgid "Carson"
+#~ msgstr "Calum"
+
+#~ msgid "Malta"
+#~ msgstr "Marsaili"
+
+#~ msgid "Orlinn"
+#~ msgstr "Odhran"
+
+#~ msgid "Herth"
+#~ msgstr "Taog"
+
+#~ msgid "Olivia"
+#~ msgstr "Oighrig"
+
+#~ msgid "Brymir"
+#~ msgstr "Brìghde"
+
+#~ msgid "Martha"
+#~ msgstr "Mòr"
+
+#~ msgid "Sophia"
+#~ msgstr "Sorcha"
+
+#~ msgid "Lilly"
+#~ msgstr "Ròs"
+
+#~ msgid "Georges"
+#~ msgstr "Somhairle"
+
+#~ msgid "Dandy Shroom"
+#~ msgstr "Balgan-buachair spaideil"
+
+#~ msgid "Crystal"
+#~ msgstr "Criostal"
+
+#~ msgid "Soldier"
+#~ msgstr "Saighdear"
+
+#~ msgid "Chicken"
+#~ msgstr "Cearc"
+
+#~ msgid "Butterfly"
+#~ msgstr "Dealan-dè"
+
+#~ msgid "Squirrel"
+#~ msgstr "Feòrag"
+
+#~ msgid "Lord"
+#~ msgstr "Morair"
+
+#~ msgid "Physical Attack"
+#~ msgstr "Ionnsaigh bodhaige"
+
+#~ msgid "Magical Attack"
+#~ msgstr "Ionnsaigh dhraoidheach"
+
+#~ msgid "Physical Defense"
+#~ msgstr "Dìon bodhaige"
+
+#~ msgid "Magical Defense"
+#~ msgstr "Dìon draoidheach"
+
+#~ msgid "Stamina"
+#~ msgstr "Smiodam"
+
+#~ msgid "Evasion"
+#~ msgstr "Teàrnadh"
+
+#~ msgid "HP"
+#~ msgstr "PB"
+
+#~ msgid "SP"
+#~ msgstr "PC"
+
+#~ msgid "Paralysis"
+#~ msgstr "Pairilis"
+
+#~ msgid "Fire Elemental Strength"
+#~ msgstr "Neart dùileach teine"
+
+#~ msgid "Water Elemental Strength"
+#~ msgstr "Neart dùileach uisge"
+
+#~ msgid "Wind Elemental Strength"
+#~ msgstr "Neart dùileach gaoithe"
+
+#~ msgid "Earth Elemental Strength"
+#~ msgstr "Neart dùileach talmhainn"
+
+#~ msgid "Life Elemental Strength"
+#~ msgstr "Neart dùileach beatha"
+
+#~ msgid "Death Elemental Strength"
+#~ msgstr "Neart dùileach bàis"
+
+#~ msgid "Neutral Elemental Strength"
+#~ msgstr "Neart dùileach neodraich"
+
+#~ msgid "Punch"
+#~ msgstr "Dòrn"
+
+#~ msgid "A simple punch. Better than nothing."
+#~ msgstr ""
+#~ "Bualadh bunasach. Mur eil dad eile agad, ‘s fheàrr teicheadh math na "
+#~ "droch-fhuireach…"
+
+#~ msgid "Throw stone"
+#~ msgstr "Tilg clach"
+
+#~ msgid "Kalya's attack when she has no weapon."
+#~ msgstr "Ionnsaigh Chaoimhe mur eil arm aice."
+
+#~ msgid "Tornado Punch"
+#~ msgstr "Dòrn gaillinn"
+
+#~ msgid "Spinning knuckle attack that deals wind damage."
+#~ msgstr "Ionnsaigh dùirn cuairteach a nì dochann gaoithe."
+
+#~ msgid "Shield"
+#~ msgstr "Sgiath"
+
+#~ msgid "Increases an ally's physical defense by a slight degree."
+#~ msgstr "Cuiridh i beagan ri dìon bodhaig caidreabhaich."
+
+#~ msgid "First Aid"
+#~ msgstr "Ciad chobhair"
+
+#~ msgid ""
+#~ "Performs basic medical assistance, healing the target by a minor degree."
+#~ msgstr ""
+#~ "Cobhair mheadaigeach bhunasach a bheir beagan slànachaidh dhan amas."
+
+#~ msgid "Leader Call"
+#~ msgstr "Gairm a’ cheannaird"
+
+#~ msgid "Temporarily increases the Physical Attack of all allies."
+#~ msgstr "Cuiridh seo ri ionnsaighean bodhaige nan caidreabhach uile rè seal."
+
+#~ msgid "Holy Veil"
+#~ msgstr "Sgàil naomh"
+
+#~ msgid "Increases the attack and magical attack of all allies."
+#~ msgstr ""
+#~ "Cuiridh seo ri ionnsaighean is ionnsaighean draoidheach nan caidreabhach "
+#~ "uile."
+
+#~ msgid "Ancient Strength"
+#~ msgstr "Neart àrsaidh"
+
+#~ msgid "Increases every form of elemental resistance for all allies."
+#~ msgstr ""
+#~ "Meudaichidh e comas-seasaimh an aghaidh gach dùilich airson a h-uile "
+#~ "caidreabhach."
+
+#~ msgid "Divine Wish"
+#~ msgstr "Miann nèamhaidh"
+
+#~ msgid "Revives an ally, restoring all of their HP and SP."
+#~ msgstr ""
+#~ "Ath-bheòthaichidh e caidreabhach, a’ toirt a h-uile PB is PC air ais dha."
+
+#~ msgid "Magical Poison"
+#~ msgstr "Puinnsean draoidheach"
+
+#~ msgid "Makes an enemy lose its SP little by little."
+#~ msgstr "Cuiridh seo call PC air nàmhaid beag air bheag."
+
+#~ msgid "Steal Song"
+#~ msgstr "Òran goide"
+
+#~ msgid "Steals positive effects from an enemy."
+#~ msgstr "Goididh e buadhan matha o nàmhaid."
+
+#~ msgid "Terrify"
+#~ msgstr "Oilltich"
+
+#~ msgid "Potentially causes a normal enemy to retreat."
+#~ msgstr "Nì nàmhaid àbhaisteach cùlachadh ma thèid leis."
+
+#~ msgid "Decay Dirge"
+#~ msgstr "Crònan crìonaidh"
+
+#~ msgid "Steals both physical and magical defense of an ally."
+#~ msgstr "Goididh e dìon bodhaige is draoidheach o chaidreabhach."
+
+#~ msgid "War God"
+#~ msgstr "Dia cogaidh"
+
+#~ msgid ""
+#~ "Steals both the physical and magical defense of all enemies and gives it "
+#~ "to the party."
+#~ msgstr ""
+#~ "Goididh e dìon bodhaige is draoidheach o gach nàmhaid ’s bheir e dhan "
+#~ "chuideachd iad."
+
+#~ msgid "Fire burst"
+#~ msgstr "Gal teine"
+
+#~ msgid "Creates a small fire that burns enemies."
+#~ msgstr "Cruthaichidh e teine beag a loisgeas na nàimhdean."
+
+#~ msgid "Fire Circle"
+#~ msgstr "Cearcall teine"
+
+#~ msgid "Increases the fire elemental defense on a character."
+#~ msgstr "Meudaichidh e dìon an aghaidh dùileach teine aig pearsa."
+
+#~ msgid "Lava"
+#~ msgstr "Làbha"
+
+#~ msgid "Magical attack combining earth and fire type damage."
+#~ msgstr ""
+#~ "Ionnsaigh dhraoidheach a chuireas dochann talmhainn is teine ri chèile."
+
+#~ msgid "Fog"
+#~ msgstr "Ceò"
+
+#~ msgid "Increases the evade rate of an ally."
+#~ msgstr "Cuiridh e ri teàrnadh caidreabhaich."
+
+#~ msgid "Fire Breath"
+#~ msgstr "Anail teine"
+
+#~ msgid "Magical attack combining air and fire type damage."
+#~ msgstr ""
+#~ "Ionnsaigh dhraoidheach a chuireas dochann adhair is teine ri chèile."
+
+#~ msgid "Focus"
+#~ msgstr "Fòcas"
+
+#~ msgid "Increases the magical defense of an ally."
+#~ msgstr "Meudaichidh e dìon an aghaidh draoidheachd aig caidreabhach."
+
+#~ msgid "Holy Fire"
+#~ msgstr "Teine naomh"
+
+#~ msgid "Magical attack combining life and fire damages."
+#~ msgstr ""
+#~ "Ionnsaigh dhraoidheach a chuireas dochann beatha is teine ri chèile."
+
+#~ msgid "Life"
+#~ msgstr "Beatha"
+
+#~ msgid "Revives a fallen ally."
+#~ msgstr "Ath-bheòthaichidh e caidreabhach a thuit."
+
+#~ msgid "Petrify"
+#~ msgstr "Clach"
+
+#~ msgid "Turns an enemy into stone."
+#~ msgstr "Bheir e air nàmhaid dol ’na chloich."
+
+#~ msgid "Rage"
+#~ msgstr "Boile"
+
+#~ msgid ""
+#~ "Enrages an ally, increasing their attack and speed but reducing their "
+#~ "defense."
+#~ msgstr ""
+#~ "Cuiridh e a’ bhoile air caidreabhaich a’ meudachadh ionnsaigh is a luaths "
+#~ "ach a’ lùghdachadh a dhìon."
+
+#~ msgid "Rock Fall"
+#~ msgstr "Fras chlachan"
+
+#~ msgid "Rocks fall on an enemy."
+#~ msgstr "Tuitidh clachan air nàmhaid."
+
+#~ msgid "Earth Circle"
+#~ msgstr "Cearcall talmhainn"
+
+#~ msgid "Increases the earth elemental defense of a character."
+#~ msgstr "Meudaichidh e dìon an aghaidh dùileach talmhainn aig pearsa."
+
+#~ msgid "Entangle"
+#~ msgstr "Amail"
+
+#~ msgid "Decreases the evasion rate of an enemy."
+#~ msgstr "Lùghdaichidh e teàrnadh nàmhad."
+
+#~ msgid "Magical Armor"
+#~ msgstr "Armachd dhraoidheach"
+
+#~ msgid "Haste"
+#~ msgstr "Cabhag"
+
+#~ msgid "Increases the battle speed of an ally."
+#~ msgstr "Cuiridh e ri luaths caidreabhaich sa chòmhrag."
+
+#~ msgid "Moon"
+#~ msgstr "Gealach"
+
+#~ msgid "Makes an enemy attack its own allies."
+#~ msgstr ""
+#~ "Thoir air nàmhaid ionnsaigh a thoirt air na caidreabhaich aice fhèin."
+
+#~ msgid "Cure"
+#~ msgstr "Leigheas"
+
+#~ msgid "Cures the poison from an ally."
+#~ msgstr "Leigheas air puinnsean do chaidreabhach."
+
+#~ msgid "Drain"
+#~ msgstr "Leigeil"
+
+#~ msgid "Steals HP from an enemy."
+#~ msgstr "Goididh e PB o nàmhaid."
+
+#~ msgid "Curse"
+#~ msgstr "Mallachd"
+
+#~ msgid "Severely decreases several random stats of an enemy."
+#~ msgstr "Ìslichidh e cuid a dh’fheartan tuaireamach nàmhad gu mòr."
+
+#~ msgid "Meteor"
+#~ msgstr "Dreag"
+
+#~ msgid "High earth damage on all foes."
+#~ msgstr "Dochann talmhainn mòr air a h-uile nàmhaid."
+
+#~ msgid "Wave"
+#~ msgstr "Tonn"
+
+#~ msgid ""
+#~ "Makes waves fall on an enemy, damaging them and decreasing their physical "
+#~ "attack."
+#~ msgstr ""
+#~ "Tuitidh tuinn air a h-uile nàmhaid a chuireas dochann orra ’s a nì an "
+#~ "ionnsaigh bodhaige aca nas laige."
+
+#~ msgid "Water Circle"
+#~ msgstr "Cearcall uisge"
+
+#~ msgid "Increases the water elemental defense on a character."
+#~ msgstr "Meudaichidh e dìon an aghaidh dùileach uisge aig pearsa."
+
+#~ msgid "Whirlwind"
+#~ msgstr "Cuairt-ghaoth"
+
+#~ msgid "Magical attack combining water and air type damage."
+#~ msgstr ""
+#~ "Ionnsaigh dhraoidheach a chuireas dochann uisge is adhair ri chèile."
+
+#~ msgid "Slow"
+#~ msgstr "Maille"
+
+#~ msgid "Decreases the battle speed of an enemy."
+#~ msgstr "Cuiridh seo maille air nàmhaid sa chòmhrag."
+
+#~ msgid "Blindness"
+#~ msgstr "Doille"
+
+#~ msgid ""
+#~ "Prevents an enemy from succeeding to strike with any physical attacks."
+#~ msgstr ""
+#~ "Cha bhuail ionnsaighean bodhaige an nàmhad air a chuireas tu seo an amas."
+
+#~ msgid "Heal"
+#~ msgstr "Slànachadh"
+
+#~ msgid "Restores the health of an ally."
+#~ msgstr "Bheir seo slàinte caidreabhaich air ais."
+
+#~ msgid "Poison"
+#~ msgstr "Puinnsean"
+
+#~ msgid "Inflicts poison on an enemy."
+#~ msgstr "Cuiridh e puinnsean air nàmhaid."
+
+#~ msgid "Stun"
+#~ msgstr "Tuainealach"
+
+#~ msgid "Stuns an enemy."
+#~ msgstr "Cuiridh seo an tuainealach air nàmhaid."
+
+#~ msgid "Tsunami"
+#~ msgstr "Stuadh"
+
+#~ msgid "High water damage inflicted on all foes."
+#~ msgstr "Fulaingidh a h-uile nàmhaid dochann uisge mòr."
+
+#~ msgid "Healing Rain"
+#~ msgstr "Uisge slàinte"
+
+#~ msgid "Improves the health of all allies."
+#~ msgstr "Bheir seo piseach air slàinte nan caidreabhach uile."
+
+#~ msgid "Wind"
+#~ msgstr "Gaoth"
+
+#~ msgid "The wind slashes an enemy."
+#~ msgstr "Bheir a’ ghaoth sgud air nàmhaid."
+
+#~ msgid "Wind Circle"
+#~ msgstr "Cearcall gaoithe"
+
+#~ msgid "Increases the air elemental defense of a character."
+#~ msgstr "Meudaichidh e dìon an aghaidh dùileach adhair aig pearsa."
+
+#~ msgid "Lightning"
+#~ msgstr "Dealanach"
+
+#~ msgid "Magical attack combining life and air type damage."
+#~ msgstr ""
+#~ "Ionnsaigh dhraoidheach a chuireas dochann beatha is adhair ri chèile."
+
+#~ msgid "Regen"
+#~ msgstr "Ath-ghintinn"
+
+#~ msgid "Causes an ally to slowly recover their health."
+#~ msgstr "Bheir caidreabhach a shlàinte air ais mean air mhean."
+
+#~ msgid "Magic Drain"
+#~ msgstr "Leigeil dhraoidheach"
+
+#~ msgid "Steals skill points from an enemy."
+#~ msgstr "Goididh seo puingean-comais o nàmhaid."
+
+#~ msgid "Silence"
+#~ msgstr "Tost"
+
+#~ msgid "Prevents an enemy from using any magic skills."
+#~ msgstr ""
+#~ "Cha leig seo leis an nàmhaid comas draoidheachd sam bith a chleachdadh."
+
+#~ msgid "Storm"
+#~ msgstr "Stoirm"
+
+#~ msgid "High air type damage on all foes."
+#~ msgstr "Dochann adhair mòr air a h-uile nàmhaid."
+
+#~ msgid "Stop"
+#~ msgstr "Stad"
+
+#~ msgid "Stops an enemy from taking any actions for quite a long time."
+#~ msgstr "Bacaidh seo nàmhaid o ghnìomh sam bith a ghabhail rè ùine mhòr."
+
+#~ msgid "A holy light strikes an enemy."
+#~ msgstr "Buailidh solas naomh nàmhaid."
+
+#~ msgid "Life Circle"
+#~ msgstr "Cearcall beatha"
+
+#~ msgid "Increases the life elemental defense of a character."
+#~ msgstr "Meudaichidh e dìon an aghaidh dùileach beatha aig pearsa."
+
+#~ msgid "Purify"
+#~ msgstr "Glanadh"
+
+#~ msgid "Cures all bad effects on a character, except for poison."
+#~ msgstr "Bheir seo gach droch-bhuaidh o phearsa seach puinnsean."
+
+#~ msgid "Sun Haze"
+#~ msgstr "Teas na grèine"
+
+#~ msgid "High life type damage on all foes."
+#~ msgstr "Dochann beatha mòr air a h-uile nàmhaid."
+
+#~ msgid "Aura"
+#~ msgstr "Aura"
+
+#~ msgid "Boost an ally's speed and slowly recovers their health."
+#~ msgstr ""
+#~ "Cuiridh e ri luaths caidreabhaich is gheibh e a shlàinte air ais mean air "
+#~ "mhean."
+
+#~ msgid "Death"
+#~ msgstr "Bàs"
+
+#~ msgid "Death tries to take hold of an enemy."
+#~ msgstr "Feuchaidh e ri nàmhaid a chur ann an grèim a’ bhàis."
+
+#~ msgid "Death Circle"
+#~ msgstr "Cearcall bàis"
+
+#~ msgid "Increases the death elemental defense of an ally."
+#~ msgstr "Meudaichidh e dìon an aghaidh dùileach bàis aig caidreabhach."
+
+#~ msgid "Doom"
+#~ msgstr "Damnachadh"
+
+#~ msgid "Places a death counter upon the enemy's head."
+#~ msgstr "Cuiridh e cunntas bàis air ceann nàmhad."
+
+#~ msgid "Magical Reflection"
+#~ msgstr "Faileas draoidheach"
+
+#~ msgid "Makes the next enemy spell cast reflect back upon the attacker."
+#~ msgstr "Thèid an ath-gheas a chuireas nàmhaid a chur air fhèin."
+
+#~ msgid "Dispell"
+#~ msgstr "Dì-gheasaich"
+
+#~ msgid ""
+#~ "Removes any status effect, elemental effect, and active spell on an enemy."
+#~ msgstr ""
+#~ "Bheir e air falbh gach buaidh air a’ chor, buaidh dùileach is geas "
+#~ "gnìomhach air nàmhaid."
+
+#~ msgid "Shell"
+#~ msgstr "Slige"
+
+#~ msgid "Increases all elemental effects of one character."
+#~ msgstr "Meudaichidh e gach buaidh dùileach air pearsa."
+
+#~ msgid "?"
+#~ msgstr "?"
+
+#~ msgid "An offensive mystic spell formed by combining opposite elementals."
+#~ msgstr "Seo geas ionnsaighe a chuireas dùilich comhaireach ri chèile."
+
+#~ msgid "Counter"
+#~ msgstr "Frith-ionnsaigh"
+
+#~ msgid "Makes an ally counter-attack if injured."
+#~ msgstr ""
+#~ "Bheir e air caidreabhach frith-ionnsaigh a thoirt nuair a thèid a leòn."
+
+#~ msgid "Phoenix Call"
+#~ msgstr "Gairm ainneamhaige"
+
+#~ msgid "Revives all allies."
+#~ msgstr "Ath-bheòthaichidh e gach caidreabhach."
+
+#~ msgid "Bio"
+#~ msgstr "Beatha"
+
+#~ msgid "Cures poison on all characters."
+#~ msgstr "Thèid am puinnsean air gach pearsa a leigheas."
+
+#~ msgid "Wolf Pain"
+#~ msgstr "Pian madaidh"
+
+#~ msgid "Calls the defender of the arctic."
+#~ msgstr "Gairmidh seo dìonadair na h-Artaig."
+
+#~ msgid "Spawn Slime"
+#~ msgstr "Gin glodh"
+
+#~ msgid "Dark Wish"
+#~ msgstr "Dubh-mhiann"
+
+#~ msgid "Sword Slash"
+#~ msgstr "Sgudadh claidheimh"
+
+#~ msgid "A textbook maneuver that deals an effective blow."
+#~ msgstr "Obair a-rèir leabhair-ionnsachaidh a bheir buille èifeachdach."
+
+#~ msgid "Forward Thrust"
+#~ msgstr "Sàthadh a-mach"
+
+#~ msgid "A concentrated attack on an enemy."
+#~ msgstr "Dian-ionnsaigh air nàmhaid."
+
+#~ msgid "Stun Strike"
+#~ msgstr "Buille tuainealaich"
+
+#~ msgid "A blow which temporarily stun its target."
+#~ msgstr "Buille a bheir an tuainealach air an t-amas rè seal."
+
+#~ msgid "X-Strike"
+#~ msgstr "Tar-bhualadh"
+
+#~ msgid ""
+#~ "A strong and aggressive attack with a blade that deals significant damage."
+#~ msgstr "Ionnsaigh neartmhor le lann a nì dochann mòr."
+
+#~ msgid "Single Shot"
+#~ msgstr "Tilgeil shìmplidh"
+
+#~ msgid "A simple shot using an arbalest."
+#~ msgstr "Tilgeil sìmplidh le crois-bhogha."
+
+#~ msgid "Blade Rush"
+#~ msgstr "Lann luath"
+
+#~ msgid "Incapacitating Shot"
+#~ msgstr "Tilgeil lagachaidh"
+
+#~ msgid "A powerful shot aimed at lowering the enemy's ability to attack."
+#~ msgstr "Tilgeil chumhachdach a lagaicheas comas ionnsaighe nàmhad."
+
+#~ msgid "Rain of Arrows"
+#~ msgstr "Fras shaighdean"
+
+#~ msgid "An attack striking all enemies."
+#~ msgstr "Ionnsaigh a bhuaileas air a h-uile nàmhaid."
+
+#~ msgid "Dagger Slash"
+#~ msgstr "Speachail biodaige"
+
+#~ msgid "A simple but efficient dagger attack."
+#~ msgstr "Ionnsaigh biodaige shìmplidh ach èifeachdach."
+
+#~ msgid "Poison Slash"
+#~ msgstr "Speachail puinnsein"
+
+#~ msgid "A dagger attack, poisoning the enemy."
+#~ msgstr "Ionnsaigh biodaige a chuireas puinnsean air an nàmhaid."
+
+#~ msgid "High Strike"
+#~ msgstr "Buille àrd"
+
+#~ msgid ""
+#~ "A strike from above, stunning the enemy and breaking its magical defense."
+#~ msgstr ""
+#~ "Buille on àirde a chuireas an tuainealach air an nàmhaid ’s a bhriseas a "
+#~ "dhìon dhraoidhich."
+
+#~ msgid "Sonic Wind"
+#~ msgstr "Gaoth fuaimneach"
+
+#~ msgid "Deals high wind damage to all enemies, stunning them along the way."
+#~ msgstr "Fulaingidh gach nàmhaid dochann gaoithe mòr ’s an tuainealach."
+
+#~ msgid "Sword Breaker"
+#~ msgstr "Brisear claidheimh"
+
+#~ msgid "An attack that breaks the enemy's own attack power."
+#~ msgstr "Ionnsaigh a bhriseas cumhachd ionnsaighe an nàmhad."
+
+#~ msgid "Execution"
+#~ msgstr "Buille bàis"
+
+#~ msgid "Attacks an enemy with a chance of causing death to catch its soul."
+#~ msgstr "Ionnsaigh air an nàmhaid le teans gun glac am bàs anam."
+
+#~ msgid "Stun Bite"
+#~ msgstr "Grèim tuainealaich"
+
+#~ msgid "Dampening Bite"
+#~ msgstr "Grèim mì-mhisneachaidh"
+
+#~ msgid "HP Drain"
+#~ msgstr "Leigeil phuingean-beatha"
+
+#~ msgid "Multiple Attack"
+#~ msgstr "Ionnsaigh iomadach"
+
+#~ msgid "Frenzy Attack"
+#~ msgstr "Ionnsaigh mire-chatha"
+
+#~ msgid "Stamina Steal"
+#~ msgstr "Goid smiodaim"
+
+#~ msgid "Water Spray"
+#~ msgstr "Smùid uisge"
+
+#~ msgid "Spider Web"
+#~ msgstr "Eige damhain-allaidh"
+
+#~ msgid "Bronann, do you need a quick reminder about the basics of battle?"
+#~ msgstr ""
+#~ "A Bhreannain, a bheil thu feumach air beagan cuimhneachaidh mun chòmhrag?"
+
+#~ msgid "..."
+#~ msgstr "…"
+
+#~ msgid "Ask about battle basics."
+#~ msgstr "Faighnich mu chùisean còmhraige bunasach."
+
+#~ msgid "Ask nothing. I know how to fight."
+#~ msgstr "Na faighnich. Tha fhios a’m mar a nì mi sabaid."
+
+#~ msgid "Er, I could use a refresher on the fundamentals of combat."
+#~ msgstr "Uill, cha dèanadh beagan oideachaidh mu shabaid cron orm."
+
+#~ msgid ""
+#~ "Here you can find the hit points (HP) and skill points (SP) of the ally "
+#~ "party. Don't let your HP reach 0 or you're doomed!"
+#~ msgstr ""
+#~ "Chì thu puingean-beatha (PB) agus puingean-comais (PC) aig a’ chuideachd "
+#~ "chaidreabhach. Thoir an aire nach ruig na PB agad 0 on a gheibheadh tu "
+#~ "bàs!"
+
+#~ msgid ""
+#~ "In battle, your icon and those of our enemies will rise up on the stamina "
+#~ "bar. The more stamina you have, the faster your icon will climb."
+#~ msgstr ""
+#~ "Rè na còmhraige, bidh an ìomhaigheag agad fhèin ’s nan nàimhdean a’ "
+#~ "dìreadh air bàr an smiodaim. Mar as motha do shmiodam, ’s ann nas luaithe "
+#~ "a dhìricheas an ìomhaigheag agad."
+
+#~ msgid ""
+#~ "Once you or one of your allies has reached the action level, you can "
+#~ "select an action for that ally. The battle is then paused and you've got "
+#~ "all the time you need to select one, so don't panic."
+#~ msgstr ""
+#~ "Nuair a bhios tu fhèin no caidreabhach air ìre a’ gnìomha a ruigsinn, ’s "
+#~ "urrainn dhut gnìomh a thaghadh dhan chaidreabhach sin. Thèid a’ chòmhrag "
+#~ "a chur ’na stad an uairsin agus bidh pailteas ùine agad gus gnìomh a "
+#~ "thaghadh, mar sin gabh air do shocair."
+
+#~ msgid ""
+#~ "There are two action types: The basic 'Weapon' to attack, and later you "
+#~ "can also use 'Magic' skills. Last but not least, you'll also be able to "
+#~ "use our 'Items'. Simply choose an action followed by a target to trigger "
+#~ "it."
+#~ msgstr ""
+#~ "Tha dà sheòrsa de ghnìomhan ann: Ionnsaigh bunasach leis an “arm” agus "
+#~ "comasan “draoidheachd” an uairsin. ’S urrainn dhut na “nithean” againn a "
+#~ "chleachdadh cuideachd. Gus gnìomh a ghabhail, tagh gnìomh agus an uairsin "
+#~ "an t-amas."
+
+#~ msgid ""
+#~ "The icon will still need to climb to the top of the stamina bar before "
+#~ "the selected action is executed. This is called the 'preparation time'. "
+#~ "Generally the more powerful the skill being executed, the longer it will "
+#~ "take to prepare."
+#~ msgstr ""
+#~ "Feumaidh an ìomhaigheag dìreadh gu bàrr bàr an smiodaim fhathast mus dèid "
+#~ "an gnìomh a thagh thu a ghabhail. Seo an “ùine ullachaidh.” San "
+#~ "fharsaingeachd, mar as cumhachdaiche an comas a tha ’ga chleachdadh ’s "
+#~ "ann nas fhaide a bheir ullachadh."
+
+#~ msgid ""
+#~ "By the way, you're not forced to wait for your icon to reach the action "
+#~ "level before you can select an action. When these two little arrows here "
+#~ "are highlighted, you can use your up and down keys to preselect an action "
+#~ "for the corresponding ally."
+#~ msgstr ""
+#~ "Eadar dà sgeul, cha leig thu leas fuireach gus an ruig an ìomhaigheag "
+#~ "agad ìre a’ ghnìomha mus tagh thu gnìomh. Nuair a bhios an dà shaighead "
+#~ "bheag seo soillsichte, ’s urrainn dhut na h-iuchraichean suas is sìos a "
+#~ "chleachdadh gus gnìomhan na cuideachd a thaghadh ro làimh."
+
+#~ msgid ""
+#~ "So long as the little arrows there are still visible, you can change the "
+#~ "selected action at any time."
+#~ msgstr ""
+#~ "Cho fad ’s a chì thu na saighdean beaga seo, ’s urrainn dhut an gnìomh a "
+#~ "thagh thu atharrachadh fhathast."
+
+#~ msgid "Don't forget that you can press '"
+#~ msgstr "Cuimhnich gur urrainn dhut brùthadh air “"
+
+#~ msgid "' if you need more details."
+#~ msgstr "” ma tha barrachd fiosrachaidh a dhìth ort."
+
+#~ msgid "Shall I repeat all that?"
+#~ msgstr "An innis mi seo a-rithist?"
+
+#~ msgid "Yes, please."
+#~ msgstr "Bhiodh sin coibhneil."
+
+#~ msgid "No, it's alright."
+#~ msgstr "Chan innis, tha mi agaibh."
+
+#~ msgid "Don't worry Olivia, I have not forgotten my training."
+#~ msgstr ""
+#~ "Na gabh dragh, Oighrig. Cha do dhìochuimhnich mi an t-oideachadh a fhuair "
+#~ "mi."
+
+#~ msgid "Thanks Olivia, I'm prepared now."
+#~ msgstr "Mòran taing, Oighrig. Tha mi ullamh a-nis."
+
+#~ msgid "Good. I'll let you quickly dispatch this minor threat."
+#~ msgstr ""
+#~ "Glè mhath. Nach cuir thu às dhan chunnart bheag seo gu luath ma-thà?"
+
+#~ msgid ""
+#~ "Running out of magic points?\n"
+#~ "You can restore your PMs using Moon juice."
+#~ msgstr ""
+#~ "A bheil an comas draoidheachd a’ ruith ort?\n"
+#~ "’S urrainn dhut na phuingean-comais agad aiseag le deoch-gealaich."
+
+#~ msgid ""
+#~ "I didn't know that there was a cave here. It's kind of creepy. Let's "
+#~ "hurry and find Orlinn."
+#~ msgstr ""
+#~ "Cha robh fhios a’m gun robh uamh ann a sheo. Tha e caran eagalach. "
+#~ "Greasamaid a’ lorg Odhrain."
+
+#~ msgid "It seems Orlinn was able to go through those platforms. Somehow."
+#~ msgstr ""
+#~ "Tha coltas gun d’ fhuair Odhran slighe gu taobh eile nan ùrlaran seo. Air "
+#~ "dòigh air choireigin."
+
+#~ msgid "Let's make our way through this before something bad happens to him."
+#~ msgstr "Lorgamaid fhìn slighe troimhpe mus èirich an donas dha."
+
+#~ msgid "Look, there is a stone slab on the ground. Let's check this out."
+#~ msgstr "Seall, tha leac air an làr. Thoireamaid sùil air."
+
+#~ msgid "It seems the way is clear now."
+#~ msgstr "Tha coltas gu bheil an t-slighe fosgailte a-nis."
+
+#~ msgid ""
+#~ "(I also heard something falling outside. Let's hope it's nothing bad.)"
+#~ msgstr ""
+#~ "(Chuala mi cuideachd rudeigin a’ tuiteam taobh a-muigh. Tha mi ’n dòchas "
+#~ "nach robh sin dona.)"
+
+#~ msgid "Stone sign"
+#~ msgstr "Sanas cloiche"
+
+#~ msgid "'Here, only your enemies prevent you from going further.''"
+#~ msgstr "“An-seo, cha bhac ach ur nàimhdean sibh o leantainn air adhart.”"
+
+#~ msgid "'Here, only your enemies prevent you from going further.'"
+#~ msgstr "“An-seo, cha bhac ach ur nàimhdean sibh o leantainn air adhart.”"
+
+#~ msgid "You are able to decipher this writing, Kalya?"
+#~ msgstr "An urrainn dhut an sgrìobhadh seo a leughadh, a Chaoimhe?"
+
+#~ msgid "Somehow. I'm not sure how I am able to, but I can read it."
+#~ msgstr ""
+#~ "’S urrainn air adhbhar air choireigin. Chan eil fhios a’m carson, ach "
+#~ "leughaidh mi e."
+
+#~ msgid "However, I don't know what it means."
+#~ msgstr "Gidheadh, chan eil fhios a’m dè as ciall dha."
+
+#~ msgid "Let's look around. We might find out."
+#~ msgstr "Thoireamaid sùil air an àite. ’S dòcha gum faigh sinn a-mach."
+
+#~ msgid "Something heavy seems to have fallen nearby."
+#~ msgstr "Cha chreid mi nach cuala mi rudeigin trom a’ tuiteam."
+
+#~ msgid ""
+#~ "I can feel a breeze and see light entering the cave from around this "
+#~ "rock. Orlinn must have gone through here."
+#~ msgstr ""
+#~ "Tha mi a’ faireachdainn ospag agus chì mi solas a’ tighinn a-steach dhan "
+#~ "uamh timcheall air an ulpag seo. Feumadh gun deach Odhran troimhe ann a "
+#~ "sheo."
+
+#~ msgid ""
+#~ "There are signs engraved on this rock, too. This looks like some kind of "
+#~ "mechanism my family used long ago."
+#~ msgstr ""
+#~ "Chaidh sanasan a ghràbhadh air an ulpag seo cuideachd. Tha coltas inneil "
+#~ "air a bu dual dha m’ theaghlach cleachdadh o chionn fhada."
+
+#~ msgid "Your family? Long ago?"
+#~ msgstr "Do theaghlach? O chionn fhada?"
+
+#~ msgid ""
+#~ "Err, nevermind. We must find a way to make this move. Let's look around."
+#~ msgstr ""
+#~ "Bhiodh… coma leat a-nis. Feumaidh sinn dòigh a lorg gus seo a ghluasad. "
+#~ "Thoireamaid sùil mu thimcheall."
+
+#~ msgid "Orlinn!"
+#~ msgstr "Odhrain!"
+
+#~ msgid "I can feel it, sis'. It's coming!"
+#~ msgstr "Tha mi ’ga faireachdainn, a pheathar. Tha i a’ tighinn!"
+
+#~ msgid "Orlinn, stop!"
+#~ msgstr "Odhrain, stad ort!"
+
+#~ msgid "What's happening!?"
+#~ msgstr "Dè a tha a’ tachairt!?"
+
+#~ msgid "Gosh! By all heavens, is this...?"
+#~ msgstr "Rìgh! Na can rium, an e…?"
+
+#~ msgid "A crystal stone?!"
+#~ msgstr "Clach criostail?!"
+
+#~ msgid "This is her. I heard her voice calling."
+#~ msgstr "Seo ise. Chuala mi a guth ’gam iarraidh."
+
+#~ msgid "Dear chosen one, the time has finally come."
+#~ msgstr "Fhir thaghta, thàinig an t-àm dhut mu dheireadh thall."
+
+#~ msgid "For us, it will be but an instant."
+#~ msgstr "Cha bhi e ach priobadh na sùla dhuinne."
+
+#~ msgid "For you, it might be decades."
+#~ msgstr "Dhuibhse, faodaidh gur e deicheadan a bhios annta."
+
+#~ msgid "May you bring a happy end to this foolish destiny of ours."
+#~ msgstr "Gun doir thu crìoch thoilichte air an dàn ghòrach againn."
+
+#~ msgid "We're all anxiously awaiting your return."
+#~ msgstr "Bidh sinn uile a’ feitheamh le ana-chùram gus an till thu."
+
+#~ msgid "Now, come. Become one with our holy hope."
+#~ msgstr "Nise, tromhad. Aonaich leis an aon dòchas againn."
+
+#~ msgid "What does all of this mean?"
+#~ msgstr "Dè as ciall dha seo?"
+
+#~ msgid "I shall become one with our only hope."
+#~ msgstr "Aonaichidh mi leis an aon dòchas againn."
+
+#~ msgid "What! Orlinn, no!"
+#~ msgstr "Gu dè? Odhrain, ochan ò!"
+
+#~ msgid "Bronann, the crystal! No!"
+#~ msgstr "A Bhreannain, an criostal! Obh obh!"
+
+#~ msgid "Bronann!"
+#~ msgstr "A Bhreannain!"
+
+#~ msgid "Bronann! Are you all right? Answer me!!"
+#~ msgstr "A Bhreannain! ’Eil thu ceart gu leòr? Can rudeigin!!"
+
+#~ msgid "Woah, where am I?"
+#~ msgstr "Cà… cà bheil mi?"
+
+#~ msgid "Sis! What's the matter? What happened?"
+#~ msgstr "A pheathar! Dè dh’èirich dhut?  Dè thachair?"
+
+#~ msgid "What happened? Orlinn, what have you done?"
+#~ msgstr "Dè thachair? Odhrain, dè rinn thu?"
+
+#~ msgid "... My head."
+#~ msgstr "… Mo chinn."
+
+#~ msgid "Bronann! Are you alright?"
+#~ msgstr "A Bhreannain! ’Eil thu ceart gu leòr?"
+
+#~ msgid "I, I guess so."
+#~ msgstr "Tha, saoilidh mi gu bheil."
+
+#~ msgid "The wolf! The crystal! Orlinn! Are you ok?"
+#~ msgstr "Am madadh-allaidh! An criostal! Odhrain! ’Eil thu ceart gu leòr?"
+
+#~ msgid "Don't worry, I'm fine. Err, what crystal? What... wolf??"
+#~ msgstr ""
+#~ "Na gabh dragh, tha mi gu dòigheil. Dè an criostal a tha siud? Agus madadh-"
+#~ "allaidh??"
+
+#~ msgid "You won't be fine for long after I'm done with you!!"
+#~ msgstr "Cha bhi thu gu dòigheil tuilleadh nuair a bhios mise deiseil leat!!"
+
+#~ msgid "Huh? Wait, I didn't do anything this time!"
+#~ msgstr "Gu dè? Fuirich ort, cha do rinn mi càil an turas seo!"
+
+#~ msgid "Oh? You didn't?"
+#~ msgstr "Nach do rinn? Rinn gu dearbh!"
+
+#~ msgid "When I catch you, I'll make you wish you were never born! Rahh!"
+#~ msgstr ""
+#~ "Nuair a gheibh mi grèim ort, bidh thu a’ guidhe nach rugadh tu a-riamh. "
+#~ "Ràà!"
+
+#~ msgid "Yiek!"
+#~ msgstr "Iochd!"
+
+#~ msgid "Come here, now!"
+#~ msgstr "Trobhad a-nise!"
+
+#~ msgid "(Sigh)... I should have stayed home today."
+#~ msgstr "(Osna)… B’ feàirrde mi fuireach aig an taigh an-diugh."
+
+#~ msgid "Ouch, why is my head hurting so much?"
+#~ msgstr "Oich, carson a tha mo cheann cho goirt?"
+
+#~ msgid ""
+#~ "Are you ok? We should head back to the village so Lilly can examine you."
+#~ msgstr ""
+#~ "’Eil thu ceart gu leòr? Bu chòir dhuinn tilleadh dhan a’ bhaile ach an "
+#~ "doir Ròs sùil air."
+
+#~ msgid "I still feel really dizzy, but I'll be ok."
+#~ msgstr "Tha an tuainealach orm gu dona fhathast, ach bidh mi ceart gu leòr."
+
+#~ msgid ""
+#~ "I'm relieved that Orlinn is fine as well. Speaking of that, Orlinn! Stop "
+#~ "running and come here right now!"
+#~ msgstr ""
+#~ "Fhuair mi faochadh gu bheil Odhran gu dòigheil cuideachd. Fhad ’s a bhios "
+#~ "sinn a’ bruidhinn air, Odhrain! Sguir a ruith is trobhad sa bhad!"
+
+#~ msgid "Owww. Alright."
+#~ msgstr "Ò. Ma thogras tu."
+
+#~ msgid ""
+#~ "Now, Orlinn, tell us. Why on earth did you go into the forest alone, and "
+#~ "how did you get there so quickly?"
+#~ msgstr ""
+#~ "Nise Odhrain, innis dhuinn. Carson fon ghrèin a chaidh thu dhan choille "
+#~ "’nad aonar, agus ciamar a fhuair thu ann co luath sin?"
+
+#~ msgid "I don't know."
+#~ msgstr "Chan eil fhios a’m."
+
+#~ msgid "Why was that giant wolf protecting you?"
+#~ msgstr "Carson a bha am madadh-allaidh mòr ’gad dhìon?"
+
+#~ msgid "What was that crystal? Why did you want to 'become one' with it?"
+#~ msgstr ""
+#~ "Dè an criostal a bha siud? Carson a bha thu airson “aonachadh” leis?"
+
+#~ msgid ""
+#~ "I, I, I sincerely don't know. I swear! It was like I was... dreaming."
+#~ msgstr ""
+#~ "An-dà, an-dà, chan eil fhios a’m idir. Cuiridh mi geall! Bha e mar… "
+#~ "bruadair."
+
+#~ msgid "I merely remember a voice in my head, telling me to come."
+#~ msgstr ""
+#~ "Chan eil cuimhn’ a’m ach air guth nam cheann ag iarraidh orm tighinn."
+
+#~ msgid "You know you won't get away with this. When you see Herth..."
+#~ msgstr "Tha fhios a’d nach fhaigh thu às leis. Nuair a chì thu Taog…"
+
+#~ msgid "I swear it's the truth!"
+#~ msgstr "Air m’ fhacal gur e an fhìrinn a th’ ann!"
+
+#~ msgid "Making one with the crystal, huh?"
+#~ msgstr "Ag aontachadh leis a’ chriostal, an robh?"
+
+#~ msgid ""
+#~ "Let's not panic. Bronann, you look fine. Anyway, we'd better get back to "
+#~ "the village and see the elders as soon as possible."
+#~ msgstr ""
+#~ "Na gabhaibh giorag. A Bhreannain, tha coltas ceart gu leòr ort. Co-dhiù "
+#~ "no co-dheth, bu chòir dhuinn tilleadh dhan bhaile agus bruidhinn ris na "
+#~ "seanairean cho luath ’s a ghabhas."
+
+#~ msgid ""
+#~ "Did you know?\n"
+#~ "You can improve spend your earned XP points to improve your skills and "
+#~ "stats.\n"
+#~ "Simply open the menu, select 'Skills' and 'Improve'."
+#~ msgstr ""
+#~ "An robh fios agad?\n"
+#~ "’S urrainn dhut na puingean-eòlais a choisinn thu a chosg airson piseach "
+#~ "a thoirt air na comasan is an stadastaireachd agad.\n"
+#~ "Fosgail an clàr-taice, tagh “Comasan” is “Pisich.”"
+
+#~ msgid ""
+#~ "Did you know?\n"
+#~ "Escape points like this one permit to go back to the latest safe location "
+#~ "instantly.\n"
+#~ "Escape smoke can also be used to flee from battles."
+#~ msgstr ""
+#~ "An robh fios agad?\n"
+#~ "Leighidh ionadan teichidh mar am fear seo leat tilleadh dhan ionad "
+#~ "shàbhailte mu dheireadh sa bhad.\n"
+#~ "’S urrainn dhut toit teichidh a chleachdadh cuideachd airson teicheadh o "
+#~ "chòmhrag."
+
+#~ msgid "What's that?!"
+#~ msgstr "Dè siud?!"
+
+#~ msgid ""
+#~ "Woah, that was quite a nasty fight. Why on earth was a north arctic "
+#~ "fenrir lurking in the forest? I thought it was merely a part of myths."
+#~ msgstr ""
+#~ "Oich, ’s e còmhrag dhona a bha siud. Carson fon ghrèin a bha fenrir "
+#~ "Artach a’ feitheamh oirnn sa choille? Ar leam chan e ach faoinsgeul a "
+#~ "bhiodh annta."
+
+#~ msgid ""
+#~ "It ran away. I'm almost certain that we'll meet it again. We'd better be "
+#~ "more prepared next time."
+#~ msgstr ""
+#~ "Theich e, ach tachraidh sinn ris a-rithist gun teagamh. Bu chòir dhuinn "
+#~ "ullachadh na b’ fheàrr an ath-thuras."
+
+#~ msgid ""
+#~ "I'll try not to think about what it could have done to Orlinn. Let's find "
+#~ "him... quickly."
+#~ msgstr ""
+#~ "B’ fheàrr leam gun a bhith a’ cnuasadh air na b’ urrainn dha cur air "
+#~ "Odhran. Lorgamaid e… gu luath."
+
+#~ msgid ""
+#~ "Did you know?\n"
+#~ "Stamina (the bar on the bottom-right) is limited in dangerous areas.\n"
+#~ "The more you run, the more you're exhausted and it can show in combat.\n"
+#~ "Manage it well."
+#~ msgstr ""
+#~ "An robh fios agad?\n"
+#~ "Tha do smiodam (am bàr taobh clì aig a’ bhonn) cuingichte ann an cuid a "
+#~ "sgìrean cunnartach.\n"
+#~ "Mar as fhaide a ruitheas tu ’s ann as truime a thig an sgithear ort agus "
+#~ "mothaichidh tu sin sa chòmhrag.\n"
+#~ "Cleachd gu cùramach e."
+
+#~ msgid "Orlinn, stop it RIGHT NOW!!"
+#~ msgstr "Odhrain, sguir dheth làrach nam bonn!"
+
+#~ msgid "I can't sis. I can feel it... calling me."
+#~ msgstr ""
+#~ "Chan urrainn dhomh, a pheathar. Tha mi ’ga faireachdainn… ’gam iarraidh."
+
+#~ msgid "Quick! Let's follow him."
+#~ msgstr "Greas ort! Rachamaid às a dhèidh."
+
+#~ msgid "Right!"
+#~ msgstr "Gu dearbh!"
+
+#~ msgid "Great! The tremor has opened a path back to the village!"
+#~ msgstr "Taghta! Dh’fhosgail an crith-thalmhainn slighe air ais dhan bhaile!"
+
+#~ msgid "Now we can get back to the village more quickly."
+#~ msgstr "’S urrainn dhuinn tilleadh dhachaigh nas luaithe a-nis."
+
+#~ msgid "We're almost there!"
+#~ msgstr "Chan eil sinn fad às a-nis!"
+
+#~ msgid "Say sis, do you think Herth will be angry at me for what happened?"
+#~ msgstr "A pheathar, saoil am faigh mi trod o Thaog ri linn na thachair?"
+
+#~ msgid ""
+#~ "I don't think so, Orlinn. We both know you didn't do it on purpose, right?"
+#~ msgstr ""
+#~ "Cha chreid mi gum faigh, Odhrain. Tha fhios aig an dithis againn nach d’ "
+#~ "rinn thu a dh’aona-ghnothaich e, an d’ rinn?"
+
+#~ msgid "Ok."
+#~ msgstr "Ceart ma-thà."
+
+#~ msgid "Kalya, err..."
+#~ msgstr "A Chaoimhe, tha…"
+
+#~ msgid "What is it, Bronann?"
+#~ msgstr "Dè th’ ann, a Bhreannain?"
+
+#~ msgid "Hmm. Nevermind."
+#~ msgstr "An-dà… coma leat."
+
+#~ msgid "Don't worry too much, Bronann. Herth will be able to help you."
+#~ msgstr "Na gabh cus dragh, a Bhreannain. Bheir Taog cuideachadh dhut."
+
+#~ msgid "Me? But..."
+#~ msgstr "Dhomhsa? Ach…"
+
+#~ msgid "Thanks..."
+#~ msgstr "Taing…"
+
+#~ msgid "Thanks for your help."
+#~ msgstr "Tapadh leat airson do chuideachaidh."
+
+#~ msgid "You're welcome."
+#~ msgstr "Tha thu làn di-beathte."
+
+#~ msgid "Please, don't hurt me, my life is already so short!"
+#~ msgstr "Na goirtichibh mi, tha mo bheatha ro ghoirid mar a thà!"
+
+#~ msgid "What about buying some items instead?"
+#~ msgstr "Saoil an ceannaich sibh nithean ’na àite?"
+
+#~ msgid "Your party feels better..."
+#~ msgstr "Tha do chuideachd a’ faireachdainn nas fheàrr…"
+
+#~ msgid ""
+#~ "Did you know?\n"
+#~ "If you face an enemy and use the confirm key (%s), you get a boost to "
+#~ "your first attack preparation in battle.\n"
+#~ "The enemy can do the same if it catches you unaware."
+#~ msgstr ""
+#~ "An robh fios agad?\n"
+#~ "Ma chleachdas tu an iuchair dearbhaidh (%s) nuair a bhios tu a’ sabaid an "
+#~ "aghaidh nàmhad, gheibh thu neartachadh air a’ chiad ullachadh ionnsaighe "
+#~ "sa chòmhrag.\n"
+#~ "Nì an nàmhaid an dearbh rud ma bhios esan nas luaithe."
+
+#~ msgid ""
+#~ "Did you know?\n"
+#~ "Special attacks can trigger effects decreasing enemy defense, stamina, "
+#~ "attack, ...\n"
+#~ "The enemy can do the same. For instance, snakes can stun you with their "
+#~ "attacks."
+#~ msgstr ""
+#~ "An robh fios agad?\n"
+#~ "’S urrainn do dh’ionnsaighean sònraichte buaidhean adhbharachadh a "
+#~ "lagaicheas dìon, smiodam, ionnsaigh is msaa an nàmhad.\n"
+#~ "Nì an nàmhaid an dearbh rud ort-sa. Mar eisimpleir, ’s urrainn do "
+#~ "nathraichean an tuainealach a chur ort leis na h-ionnsaighean aca."
+
+#~ msgid "Woah, wait!"
+#~ msgstr "Fuirich ort!"
+
+#~ msgid ""
+#~ "Look at the grass. Snakes like to hide in the tall grass. We need to be "
+#~ "careful because their venom causes drowsiness."
+#~ msgstr ""
+#~ "Seall air an fheur. ’S toigh le nathraichean falach san fheur àrd. "
+#~ "Feumaidh sinn bhith faiceallach on a chuireas am puinnsean aca an "
+#~ "tuainealach oirnn."
+
+#~ msgid "(Bronann looks at the ground)"
+#~ msgstr "(Tha Breannan a’ coimhead air an làr)"
+
+#~ msgid "This water looks weird. Shall we drink it anyway?"
+#~ msgstr "Tha coltas neònach air an uisge seo. An òl sinn co-dhiù e?"
+
+#~ msgid "Yes, I'm so thirsty."
+#~ msgstr "Òlaidh, tha am pathadh orm gu dona."
+
+#~ msgid "No way, we'd get sick."
+#~ msgstr "Chan òl, chuireadh e galar oirnn."
+
+#~ msgid "The party drinks the water and feels... alright?"
+#~ msgstr ""
+#~ "Tha do chuideachd ag òl an uisge agus a’ faireachdainn… ceart gu leòr, "
+#~ "saoil?"
+
+#~ msgid "The party won't drink it."
+#~ msgstr "Chan òl do chuideachd e."
+
+#~ msgid "Yiek, it stinks in here."
+#~ msgstr "Iochd, tha droch-fhàileadh ann."
+
+#~ msgid "Look at all those bones. We should be careful."
+#~ msgstr ""
+#~ "Seall air na cnàimhean seo uile. Bu chòir dhuinn a bhith faiceallach."
+
+#~ msgid "I hope Orlinn is alright."
+#~ msgstr "Tha mi ’n dòchas gu bheil Odhran ceart gu leòr."
+
+#~ msgid "What a lovely necklace! I'll take it."
+#~ msgstr "Abair seud-muineil àlainn! Gabhaidh mi e."
+
+#~ msgid ""
+#~ "Kalya. We're in the middle of a cave and you're only thinking about "
+#~ "wearing jewels?"
+#~ msgstr ""
+#~ "A Chaoimhe. Tha sinn ann an teas-mheadhan uamha agus chan eil thu a’ "
+#~ "smaoineachadh ach air na seudan a chuireas tu ort!"
+
+#~ msgid ""
+#~ "Jewelry is a gift from the heavens to remind us that beauty can be as "
+#~ "pure on the outside as it is on the inside. Besides, it suits me better "
+#~ "than it would you."
+#~ msgstr ""
+#~ "’S e tìodhlac on nèamh a tha sna seudan gus cur ’nar cuimhne gum faod a’ "
+#~ "bhòidhchead a bhith cheart cho glan air an taobh a-muigh ’s a tha i a-"
+#~ "staigh. A bharrachd air sin, tha e a’ tighinn rium nas fheàrr na riutsa."
+
+#~ msgid "Kalya! You'd better be careful!"
+#~ msgstr "A Chaoimhe! Thoir an aire!"
+
+#~ msgid "Don't even start, this one is all mine."
+#~ msgstr "Chan fhiach trod, ’s ann leamsa a tha am fear sin."
+
+#~ msgid "Not the necklace, the fenrir!"
+#~ msgstr "Chan eil mi a-mach air an t-seud ach air an fhenrir!"
+
+#~ msgid "You can't be serious, we would have heard it come."
+#~ msgstr "Na tarraing asam, chluinneamaid e a’ tighinn."
+
+#~ msgid "Ah, well. You were serious, weren't you?"
+#~ msgstr ""
+#~ "Uill uill, ’s ann nach robh thu a’ tarraing asam aig deireadh na sgeòil!"
+
+#~ msgid ""
+#~ "It ran away again. I'm glad we survived. Let's get out of here before it "
+#~ "comes back."
+#~ msgstr ""
+#~ "Theich e a-rithist. Tha mi toilichte gun do mhair sinn beò. Falbhamaid "
+#~ "mus till e."
+
+#~ msgid "Banesore"
+#~ msgstr "Goirturbhaidh"
+
+#~ msgid "So, you think you can wound me?"
+#~ msgstr "Dhen bheachd gun leòn thu mi, an e?"
+
+#~ msgid "You? A child with an old wooden stick?"
+#~ msgstr "Thusa? Balachan le bata grod?"
+
+#~ msgid ""
+#~ "You're stronger than I thought. But you are still too weak to challenge "
+#~ "me!"
+#~ msgstr ""
+#~ "Tha thu nas treasa na bha mi ’n dùil. Ach tha thu ro lag fhathast ach an "
+#~ "doireadh tu dùbhlan orm!"
+
+#~ msgid "Argh! It hurts!"
+#~ msgstr "Eub! Tha mi goirt!"
+
+#~ msgid "Yes! I can feel it coming closer to the surface!"
+#~ msgstr "Glè mhath! Tha mi ’ga faireachdainn a’ tighinn dhan uachdar!"
+
+#~ msgid "Let your fear grow, young boy!"
+#~ msgstr "Gum fàsadh d’ eagal, a bhalaich òig!"
+
+#~ msgid "Bronann, don't listen to him!"
+#~ msgstr "A Bhreannain, na èist ris!"
+
+#~ msgid "I will... try."
+#~ msgstr "Feuchaidh… mi."
+
+#~ msgid "Hmph. Soldiers, leave that man to me!"
+#~ msgstr "Dè? A shaighdearaibh, dèiligidh mise ris an duine ud!"
+
+#~ msgid "So, it appears that you remember me, Banesore. Is that correct?"
+#~ msgstr "Na can rium gu bheil cuimhne agad orm, a Ghoirturbhaidh!"
+
+#~ msgid "I do remember you, old man..."
+#~ msgstr "Tha gu dearbh, a bhodaich…"
+
+#~ msgid ""
+#~ "Then, you already know that your zombified soldiers are no match for me."
+#~ msgstr ""
+#~ "Nise, tha fhios a’d mar-thà nach dèan na closaich de shaighdearan agad a’ "
+#~ "chùis orm."
+
+#~ msgid "Argh! My chest is burning!"
+#~ msgstr "Eub! Tha m’ uchd a’ losgadh!"
+
+#~ msgid "Hold on Bronann!"
+#~ msgstr "Cùm ort, a Bhreannain!"
+
+#~ msgid "Escape"
+#~ msgstr "Escape"
+
+#~ msgid "Space"
+#~ msgstr "Space"
+
+#~ msgid "Ctrl"
+#~ msgstr "Ctrl"
+
+#~ msgid "Alt"
+#~ msgstr "Alt"
+
+#~ msgid "Shift"
+#~ msgstr "Shift"
+
+#~ msgid "Move your character:"
+#~ msgstr "Gluais am pearsa agad:"
+
+#~ msgid "Possible actions:"
+#~ msgstr "Gnìomhan:"
+
+#~ msgid "Confirm / Open / Talk: %s"
+#~ msgstr "Dearbh / Fosgail / Bruidhinn: %s"
+
+#~ msgid "Run / Cancel: %s"
+#~ msgstr "Ruith / Sguir dheth: %s"
+
+#~ msgid "Party Menu: %s"
+#~ msgstr "Clàr-taice na cuideachd: %s"
+
+#~ msgid "Game commands:"
+#~ msgstr "Àitheantan a’ gheama:"
+
+#~ msgid "Pause: %s"
+#~ msgstr "Cuir ’na stad: %s"
+
+#~ msgid "Quit Menu: %s"
+#~ msgstr "Fàg clàr-taice: %s"
+
+#~ msgid "Help Menu: %s"
+#~ msgstr "Cobhair: %s"
+
+#~ msgid ""
+#~ "I had that same nightmare again. This time, however, I still feel dizzy "
+#~ "even after getting up."
+#~ msgstr ""
+#~ "Thàinig an t-aon trom-laighe orm a-rithist. An turas seo, bha an "
+#~ "tuainealach orm fhathast às dèidh m’ èirigh."
+
+#~ msgid "I might as well move on and forget about it."
+#~ msgstr "B’ fheàirrde mi faighinn seachad air ’s a dhìochuimhneachadh."
+
+#~ msgid ""
+#~ "This circle is a save point. Here, you can save your game by pushing %s."
+#~ msgstr ""
+#~ "’S e puing-shàbhalaidh a tha sa chearcall seo. Brùth air %s nuair a bhios "
+#~ "tu an-seo gus an geama a shàbhaladh."
+
+#~ msgid "You can come back here and save as many times as you want."
+#~ msgstr ""
+#~ "’S urrainn dhut tilleadh an-seo agus an geama a shàbhaladh cho tric ’s a "
+#~ "thogras tu."
+
+#~ msgid ""
+#~ "Now that you're *finally* up, could you go buy some barley meal for us?"
+#~ msgstr ""
+#~ "Nise o na dh’èirich thu fa dheòigh, an dèid thu min-eòrna a cheannach "
+#~ "dhuinn?"
+
+#~ msgid "Barley meal? Again?"
+#~ msgstr "Min-eòrna? A-rithist?"
+
+#~ msgid "Hmph, just go boy. You'll be free after that, ok?"
+#~ msgstr ""
+#~ "A sheòid, dèan na dh’innis mi dhut. Bidh thu saor an uairsin, ceart gu "
+#~ "leòr?"
+
+#~ msgid "Thanks for helping me out with the dishes."
+#~ msgstr "Mòran taing airson mo chuideachadh leis na soithichean."
+
+#~ msgid "Say, mom? Why is the village entrance blocked?"
+#~ msgstr "A mhàthair? Carson a chaidh inntrigeadh a’ bhaile a bhacadh?"
+
+#~ msgid ""
+#~ "All of the village elders' nerves are on edge. There is something going "
+#~ "on here! Why won't you tell me?"
+#~ msgstr ""
+#~ "Tha seanairean a’ bhaile fo iomagain uile. Tha rudeigin a’ tachairt! "
+#~ "Carson nach innis sibh dhomh?"
+
+#~ msgid "Bronann, there is something we, your mother and I, have to tell you."
+#~ msgstr "A Bhreannain, feumaidh mi fhìn is do mhàthair rudeigin innse dhut."
+
+#~ msgid ""
+#~ "Sorry son. In fact, we've been willing to tell you since quite a lot of "
+#~ "time now."
+#~ msgstr ""
+#~ "Duilich, a mhic. Bha sinn airson seo innse dhut fad ùine mhòr mu thràth."
+
+#~ msgid "We chose to live in this village for a reason, we "
+#~ msgstr "Cha dàinig sin a dh’fhuireach sa bhaile seo gun adhbhar, bha "
+
+#~ msgid "Huh? What was that light?"
+#~ msgstr "Gu dè? Dè an solas a bha siud?"
+
+#~ msgid "Bronann! Wait!"
+#~ msgstr "A Bhreannain! Fuirich ort!"
+
+#~ msgid "Nice job, son."
+#~ msgstr "Is tusa am balach!"
+
+#~ msgid "Please go and see Olivia. She will explain everything to you."
+#~ msgstr "Rach a dh’iarraidh Oighrig. Mìnichidh ise a h-uile càil dhut."
+
+#~ msgid ""
+#~ "Hey son! Did you sleep well? Hmm, now where did I leave that oil lamp?"
+#~ msgstr ""
+#~ "A laochain! An d’fhuair thu cadal sèimh? Nise, cà na chuir mi an t-ola "
+#~ "lampa ud?"
+
+#~ msgid "Hi Dad! Um, I don't know. Sorry."
+#~ msgstr "Athair! Chuir sibh… chan eil fhios a’am. Duilich."
+
+#~ msgid "Nah, no problem, I'll find it somewhere, eventually."
+#~ msgstr ""
+#~ "Na gabh dragh, lorgaidh mi àite air choireigin e aig deireadh na sgeòil."
+
+#~ msgid "By the way, I have great news for you, son."
+#~ msgstr "Eadar dà sgeul, tha deagh naidheachd agam dhut, a mhic."
+
+#~ msgid "Something you've been waiting for. Come here I'll show you."
+#~ msgstr "Seo rudeigin a bha fiughair agad ris. Trobhad is seallaidh mi dhut."
+
+#~ msgid "Today, you're going to help Olivia with this."
+#~ msgstr "Gabh seo ’s cuidichidh tu Oighrig an-diugh."
+
+#~ msgid "Wow, your practice sword. Many thanks Dad."
+#~ msgstr "A shaoghail, an claidheamh trèanaidh agaibh. Mòran taing, athair."
+
+#~ msgid ""
+#~ "Your mother and I believe you've now grown enough to start dealing with "
+#~ "the critters around the village."
+#~ msgstr ""
+#~ "Tha do mhàthair ’s mi fhìn dhen bheachd gun d’ ràinig thu an ìre as "
+#~ "urrainn dhut cuidhteas fhaighinn dhe na creutairean a chuireas dragh air "
+#~ "a’ bhaile."
+
+#~ msgid "Go see Olivia. She will explain everything to you."
+#~ msgstr "Rach a dh’iarraidh Oighrig. Mìnichidh ise a h-uile càil dhut."
+
+#~ msgid "Bronann, promise me that you'll be careful, ok?"
+#~ msgstr "A Bhreannain, geall dhomh gum bi thu cùramach."
+
+#~ msgid "So, finally you're going away."
+#~ msgstr "Nise, tha thu a’ falbh mu dheireadh thall."
+
+#~ msgid "Please, take this. It's not much but I hope it will help."
+#~ msgstr "Gabh seo. Chan eil e mòran ach tha mi ’n dòchas gun cuidich e."
+
+#~ msgid "Thanks, mom."
+#~ msgstr "Mòran taing, a mhàthair."
+
+#~ msgid "Take care, my son."
+#~ msgstr "Thoir an aire, m’ eudail."
+
+#~ msgid "(sigh)... Got it, mom!"
+#~ msgstr "(osna)… Fhuair mi i, a mhàthair!"
+
+#~ msgid "Perfect timing, let's have dinner."
+#~ msgstr "Dìreach ri àm, gabhamaid an dìnnear."
+
+#~ msgid "Perfect timing, I'll cook dinner. Have you helped your father yet?"
+#~ msgstr ""
+#~ "Dìreach ri àm, nì mi dìnnear dhuinn. Na chuidich thu d’ athair fhathast?"
+
+#~ msgid "Could you go and buy some barley meal for the three of us?"
+#~ msgstr "An dèid thu gus min-eòrna fhaighinn dhan triùir againn?"
+
+#~ msgid "Hi son, did you have a nightmare again last night?"
+#~ msgstr "Shin thu m’ eudail, an robh trom-laighe ort a-rithist a-raoir?"
+
+#~ msgid "Hi mom. Huh, how did you know?"
+#~ msgstr "A mhàthair. Ciamar fon ghrèin a tha fhios agaibh?"
+
+#~ msgid "Eh eh? Have you already forgotten that I'm your mother?"
+#~ msgstr "Ùbh ùbh. Na dhìochuimhnich thu mar-thà gur mise do mhàthair?"
+
+#~ msgid "Don't venture too far, I'll need your help soon!"
+#~ msgstr "Na rach ro fhada, bi mi feumach air do thaic a dh’aithghearr!"
+
+#~ msgid "Finally, we made it back home."
+#~ msgstr "Thill sinn dhachaigh mu dheireadh thall."
+
+#~ msgid ""
+#~ "I'll go and get Herth. Your parents must be worried. Go home. We'll meet "
+#~ "there."
+#~ msgstr ""
+#~ "Thèid mi a shireadh Taog. Feumaidh gu bheil do phàrantan fo uallach. Rach "
+#~ "dhachaigh. Chì mi ann a shiud thu."
+
+#~ msgid "I should really get back home."
+#~ msgstr "Bu chòir dhomh dol dhachaigh dha-rìribh."
+
+#~ msgid ""
+#~ "Weird, I don't see any lights on in there. I have a bad feeling about "
+#~ "this, let's get back home."
+#~ msgstr ""
+#~ "Sin neònach, chan fhaic mi solas thall. Tha mi mì-shocair mu dhèidhinn, "
+#~ "tilleamaid dhachaigh."
+
+#~ msgid "Huh?"
+#~ msgstr "Duda?"
+
+#~ msgid "What's happening here?! Where is everyone?"
+#~ msgstr "Dè tha tachairt an-seo?! Cà bheil a h-uile duine?"
+
+#~ msgid "Help!"
+#~ msgstr "Cobhair!"
+
+#~ msgid "Kalya?!"
+#~ msgstr "A Chaoimhe?!"
+
+#~ msgid "Let go of me! You cheap low-grade filthy jerks."
+#~ msgstr "Leigibh mi! Amadain shaor shalach."
+
+#~ msgid "Keep quiet, little brat!"
+#~ msgstr "Ist do bheul, a dhroch-isein!"
+
+#~ msgid "Soldiers wearing black armor... the Lord's personal guard!"
+#~ msgstr "Saighdearan le armachd dhubh orra.. seo gillean-crios a’ mhorair!"
+
+#~ msgid "Fortunately, they didn't see me or I would have been caught as well."
+#~ msgstr "Gu fortanach, chan fhaca iad mi no rachadh mo ghlacadh cuideachd."
+
+#~ msgid "I should follow them silently."
+#~ msgstr "Bu chòir dhomh leantainn orra gu sàmhach."
+
+#~ msgid "What am I doing? I should go and try to free Kalya!"
+#~ msgstr "Dè tha mi dèanamh? Bu chòir dhomh feuchainn Caoimhe a shaoradh!"
+
+#~ msgid "Do you need something, Bronann?"
+#~ msgstr "’Eil rudeigin a dhìth ort, a Bhreannain?"
+
+#~ msgid "Ahh sure! (gossip, gossip)"
+#~ msgstr "Seadh seadh! (gobaireachd, gobaireachd)"
+
+#~ msgid "Did you hear that? (gossip, gossip)"
+#~ msgstr "Na chuala tu seo? (gobaireachd, gobaireachd)"
+
+#~ msgid "If you're running after Orlinn, I just saw him near your house."
+#~ msgstr ""
+#~ "Ma tha thu an toir air Odhran, tha mi air fhaicinn faisg air do thaigh."
+
+#~ msgid "Do you want to trade with me?"
+#~ msgstr "Am bu mhiann leat malart?"
+
+#~ msgid ""
+#~ "Tired of walking?\n"
+#~ "You can run when holding the Cancel (%s) key"
+#~ msgstr ""
+#~ "A bheil thu seachd searbh dhen choiseachd?\n"
+#~ "Cùm sìos an iuchair sguir dheth (%s) airson ruith"
+
+#~ msgid "Hmm, I'll go to Flora's shop. I hope she'll help me."
+#~ msgstr ""
+#~ "Saoil an dèid mi gu bùth Flòraidh? Tha mi ’n dòchas gun cuidich i mi."
+
+#~ msgid "ORLINN! Come here, NOW!"
+#~ msgstr "Odhrain! Trobhad sa bhad!"
+
+#~ msgid "Orlinn, give back the pen to Bronann or I shall sma..."
+#~ msgstr "Odhrain, thoir am peann air ais dha Bhreannain no bheir mi…"
+
+#~ msgid "Yea, yes, here it is."
+#~ msgstr "Iochd, seo e."
+
+#~ msgid "I found that pen under a tree near the river. I just wanted to play."
+#~ msgstr ""
+#~ "Lorg mi am peann ud fo chraobh faisg air an abhainn. Cha robh mi ach "
+#~ "airson cluich."
+
+#~ msgid "Don't worry about it."
+#~ msgstr "Chan e cus trioblaid a bh’ ann."
+
+#~ msgid "What was this?"
+#~ msgstr "Dè fon ghrèin?"
+
+#~ msgid ""
+#~ "Bronann, there is something that I have to tell you. We've been fearing "
+#~ "for this moment, your mother and I."
+#~ msgstr ""
+#~ "A Bhreannain, feumaidh mi rudeigin innse dhut. Bha an t-eagal againn air "
+#~ "an latha seo, agamsa ’s aig do mhàthair."
+
+#~ msgid "They're coming!"
+#~ msgstr "Tha iad a’ tighinn!"
+
+#~ msgid "Carson, they've crossed the river. They shall be here in no time."
+#~ msgstr ""
+#~ "A Chaluim, thàinig iad thairis air an abhainn. Bidh iad oirnn a "
+#~ "dh’aithghearr."
+
+#~ msgid "Huh? Hey, what's happening here?!"
+#~ msgstr "È? Dè tha tachairt an-seo?!"
+
+#~ msgid "Bronann, I..."
+#~ msgstr "A Bhreannain, tha…"
+
+#~ msgid "Herth!"
+#~ msgstr "A Thaoig!"
+
+#~ msgid "Herth! Orlinn has disappeared. I saw him taking the forest pathway!"
+#~ msgstr "A Thaoig! Dh’fhalbh Odhran. Chunna mi e air slighe na coille!"
+
+#~ msgid "Kalya, you were supposed to keep an eye on him!"
+#~ msgstr ""
+#~ "A Chaoimhe, ’s e do dhleastanas a bh’ ann sùil a chumail a-mach air!"
+
+#~ msgid ""
+#~ "I did, but he just slipped through my fingers at the very second that "
+#~ "strange light appeared."
+#~ msgstr "Chùm ach theich e uam an dearbh dhiog a nochd an solas annasach ud."
+
+#~ msgid ""
+#~ "Kalya, the army is coming. I'll deal with them. You go and find Orlinn as "
+#~ "fast as possible."
+#~ msgstr ""
+#~ "A Chaoimhe, tha am feachd a’ tighinn. Dèiligidh mise riutha. Siuthad is "
+#~ "lorg Odhran cho luath ’s a ghabhas."
+
+#~ msgid "But you might get hurt!"
+#~ msgstr "Ach ’s dòcha gun dèid ur leòn!"
+
+#~ msgid ""
+#~ "Don't worry. We'll simply talk to them and they'll move on. You know what "
+#~ "you have to do, right?"
+#~ msgstr ""
+#~ "Na gabh dragh. Bruidhnidh sinn riutha ’s falbhaidh iad. Tha fhios a’d dè "
+#~ "dh’fheumas tu dèanamh, nach eil?"
+
+#~ msgid "Herth, we both know it'll likely..."
+#~ msgstr "A Thaoig, tha fhios againn gu bheil e buailteach…"
+
+#~ msgid "Do as I say and it'll be alright."
+#~ msgstr "Dèan na thuirt mi agus bidh e ceart gu leòr."
+
+#~ msgid "But..."
+#~ msgstr "Ach…"
+
+#~ msgid "Bronann, you should go with her."
+#~ msgstr "A Bhreannain, bu chòir dhut dol còmhla rithe."
+
+#~ msgid "What?!"
+#~ msgstr "Gu dè?!"
+
+#~ msgid "Carson is right, Kalya. Bronann shall go with you."
+#~ msgstr "Tha Calum ceart, a Chaoimhe. Thèid Breannan còmhla riut."
+
+#~ msgid "But he would just be a burden!"
+#~ msgstr "Ach bhiodh e ’na throm orm!"
+
+#~ msgid "Huh? Hey! But..."
+#~ msgstr "Ubh? È! Ach…"
+
+#~ msgid "He won't slow you down, believe me. Right, Bronann?"
+#~ msgstr "Cha chuir e maille ort, èist rium. An cuir, a Bhreannain?"
+
+#~ msgid "But Herth!"
+#~ msgstr "Ach a Thaoig!"
+
+#~ msgid "Carson is right, Kalya. Bronann shall go with you. It's an order."
+#~ msgstr ""
+#~ "Tha Calum ceart, a Chaoimhe. Thèid Breannan còmhla riut. ’S e òrdugh a "
+#~ "th’ ann."
+
+#~ msgid "Gahh, ok."
+#~ msgstr "Thèid ma-thà ge b’ oil leam."
+
+#~ msgid ""
+#~ "Now go, my son. I'll explain it to you once it is all finished. I trust "
+#~ "you will succeed."
+#~ msgstr ""
+#~ "Siuthad ’s fhalbh, a sheòid. Mìnichidh mi a h-uile càil dhut nuair a "
+#~ "bhios sinn seachad air seo. Tha mi cinnteach gun soirbhich leat."
+
+#~ msgid "Thanks dad, we'll find him in no time."
+#~ msgstr "Mòran taing, athair, lorgaidh sinn e gun dàil."
+
+#~ msgid "We shall go now. Good luck, both of you."
+#~ msgstr "Falbhaidh sinn a-nis. Gura math a thèid leis an dithis agaibh."
+
+#~ msgid "Good luck, son."
+#~ msgstr "Gura math a thèid leat, a sheòid."
+
+#~ msgid "Ok, we'll go together. But slow me down and I'll make you regret it."
+#~ msgstr ""
+#~ "Ceart ma-thà, thèid sinn ann còmhla. Ach ma chuireas tu maille orm, bidh "
+#~ "goirt a’ cheannachd agad air."
+
+#~ msgid "Don't worry, we'll find him. Ok?"
+#~ msgstr "Na gabh dragh, lorgaidh sinn e gu cinnteach."
+
+#~ msgid "Kalya joins your party!"
+#~ msgstr "Tha Caoimhe ’nad chuideachd a-nis!"
+
+#~ msgid ""
+#~ "By the way, have you ever prepared yourself for something like this "
+#~ "before?"
+#~ msgstr "Eadar dà sgeul, na dh’ullaich thu airson a leithid rud a-riamh?"
+
+#~ msgid "Huh? Well, Orlinn doesn't disappear every day, you know?"
+#~ msgstr ""
+#~ "B’ àill leat? Cha dèid Odhran a-mach à sealladh gach latha, fhios a’d?"
+
+#~ msgid ""
+#~ "I see. Then there are two very important things that you need to know."
+#~ msgstr ""
+#~ "Cha dèid. Nise, tha dà rud cudromach air a dh’fheumas tu d’ aire a thoirt."
+
+#~ msgid ""
+#~ "First of all, before going there, you might need better equipment. You "
+#~ "should visit Flora first, ok?"
+#~ msgstr ""
+#~ "An toiseach, mus fhalbh sinn, bidh feum agad air uidheamachd nas fheàrr. "
+#~ "Bu chòir dhut tadhal air bùth Flòraidh."
+
+#~ msgid ""
+#~ "And I hope that you have already equipped your sword. If you haven't, "
+#~ "open your inventory by pressing the menu key (%s), and select 'Equip'. "
+#~ "Then you'll be able to select your sword and add it as your main weapon."
+#~ msgstr ""
+#~ "Agus tha mi ’n dòchas gun do dh’uidheamaich thu an claidheamh agad. Mur "
+#~ "an do dh’uidheamaich, fosgail an tasgadh agad leis an iuchair clàr-taice "
+#~ "(%s) ’s tagh “Uidheamaich.” ’S urrainn dhut an claidheamh agad a thaghadh "
+#~ "an uairsin mar am prìomh-arm agad."
+
+#~ msgid "You mean I need to push a key to open my bag?"
+#~ msgstr ""
+#~ "’Eil seo a’ ciallachadh gum feum mi brùthadh air iuchair gus am baga agam "
+#~ "fhosgladh?"
+
+#~ msgid "Nevermind that, just do it."
+#~ msgstr "Coma leat co-dhiù, dèan e."
+
+#~ msgid ""
+#~ "Also, the person in front of the battle line will lead the group in the "
+#~ "forest. What I mean by that is the person on the top of the battle "
+#~ "formation will actually appear while the others will stay hidden."
+#~ msgstr ""
+#~ "Cuideachd, bidh an neach air toiseach loidhne còmhraige a’ stiùireadh am "
+#~ "buidheann tron choille. Is ciall dha seo gun nochd an neach a tha air "
+#~ "thoiseach càich fhad ’s a mhaireas càch falaichte."
+
+#~ msgid "Hmm, right. I'm not sure that I fully get what you mean, but..."
+#~ msgstr "Ceart ma-thà. Chan eil mi cinnteach gu bheil mi agad, ach…"
+
+#~ msgid "Rrrr, Bronann. Just listen."
+#~ msgstr "Rrrr, a Bhreannain. Èist."
+
+#~ msgid ""
+#~ "That will be the case only in certain areas. Here in the village, you'll "
+#~ "be the one leading, or at least you may believe that."
+#~ msgstr ""
+#~ "Bidh seo fìor an an sgìrean sònraichte a-mhàin. Sa bhaile seo, bidh thu "
+#~ "fhèin a’ stiùireadh càch is seo na shaoileadh tu co-dhiù."
+
+#~ msgid ""
+#~ "Bronann! Sorry, you know that you can't access the forest without "
+#~ "permission."
+#~ msgstr ""
+#~ "A Bhreannain! Tha mi duilich, ach tha fhios a’d nach fhaod thu dol dhan "
+#~ "choille gun chead."
+
+#~ msgid "Aww..."
+#~ msgstr "Ò ghiall…"
+
+#~ msgid ""
+#~ "Hey Bronann. I can see you have your father practice sword. Ready for "
+#~ "your first real challenge?"
+#~ msgstr ""
+#~ "Shin thu, a Bhreannain. Chì mi gu bheil claidheamh trèanaidh d’ athar "
+#~ "agad. A bheil thu deiseil airson a’ chiad dùbhlan agad?"
+
+#~ msgid "Hey Olivia. I guess so. What is it all about?"
+#~ msgstr "Sin sibh fhèin, Oighrig. Cha chreid mi nach eil. Dè as adhbhar dha?"
+
+#~ msgid "Follow me."
+#~ msgstr "Lean orm."
+
+#~ msgid "Here we go!"
+#~ msgstr "Tiugainn!"
+
+#~ msgid "Time to dive in, Bronann."
+#~ msgstr "Àm tòiseachaidh, a Bhreannain."
+
+#~ msgid "Follow me inside."
+#~ msgstr "Lean orm a-steach."
+
+#~ msgid "Good luck Bronann."
+#~ msgstr "Gura math a thèid leat, a Bhreannain."
+
+#~ msgid ""
+#~ "Ah, the river is so beautiful at this time of the year. I feel like "
+#~ "writing some poetry..."
+#~ msgstr ""
+#~ "Ò nach àlainn an abhainn an t-àm seo dhen bhliadhna? Tha miann a’ "
+#~ "bhàrdachd orm a-nis…"
+
+#~ msgid "Here it is, Georges."
+#~ msgstr "Seo dhuibh, a Shomhairle."
+
+#~ msgid ""
+#~ "You're the nicest person I know, Bronann. I will tell everyone how brave "
+#~ "you..."
+#~ msgstr ""
+#~ "Is tusa am fear as coibhneile air a bheil mi eòlach, a Bhreannain. "
+#~ "Innsidh mi dhan a h-uile duine dè cho dàna ’s…"
+
+#~ msgid "(sigh)... Georges!"
+#~ msgstr "(osna)… A Shomhairle!"
+
+#~ msgid "Ok ok. Just having a bit of spirit, young man."
+#~ msgstr "Air do shocair, cha b’ e ach beagan meanmna a bh’ ann, a ghille."
+
+#~ msgid ""
+#~ "You see, I lost my beloved pen. Was it near a tree or next to the waving "
+#~ "child of the mountain snow?"
+#~ msgstr ""
+#~ "Chaill mi peann mo ghaoil, fhios a’d? An robh e faisg air craobh no air "
+#~ "an duine-chloinne a smèid o shneachd na beinne?"
+
+#~ msgid "Shall you find it, I would be extremely obliged to you!"
+#~ msgstr "Nan lorgadh tu e, bhithinns’ fada ’nad chomain!"
+
+#~ msgid ""
+#~ "Inquire our comrades in the settlement, perhaps somebody has laid their "
+#~ "eyes on it."
+#~ msgstr "Faighnich dha ’r càirdean sa bhaile, ’s dòcha gum faca cuideigin e."
+
+#~ msgid "(sigh...) Hmm, fine. I'll have a look."
+#~ msgstr "(osna)… Ceart ma-thà, bheir mi sùil a-mach air a shon."
+
+#~ msgid "Oh Bronann, sad is the poet today."
+#~ msgstr "Ochan ò a Bhreannain, nach brònach ’s a tha am bàrd an-diugh."
+
+#~ msgid "Hi Georges, well, I was just passing by you know, and"
+#~ msgstr "A Shomhairle, ’s ann gun robh mi air an t-slighe gu"
+
+#~ msgid "I promise I won't bother you again."
+#~ msgstr "Geallaidh mi dhut nach cuir mi dragh ort a-rithist."
+
+#~ msgid "Don't worry about that, Orlinn. Ok?"
+#~ msgstr "Na gabh dragh mu dhèidhinn, Odhrain. Air do shocair, a ghille."
+
+#~ msgid "Kalya, have you seen Orlinn?"
+#~ msgstr "A Chaoimhe, am faca tu Odhran?"
+
+#~ msgid "Why? Oh, don't tell me. He's hiding somewhere."
+#~ msgstr "Carson? Na innis dhomh gu bheil e ’na fhalach am badeigin."
+
+#~ msgid "Yes, he took Georges pen and I need to give it back to him..."
+#~ msgstr "Tha ’s thog e peann Shomhairle agus feumaidh mi thilleadh dha…"
+
+#~ msgid "Hmpf, no surprise. Do you want me to bring him back?"
+#~ msgstr "Chan e iongantas a tha sin. An doir mi air ais dhut e?"
+
+#~ msgid "No, it's not that bad."
+#~ msgstr "Cha doir, chan eil e ro dhona."
+
+#~ msgid "As you wish."
+#~ msgstr "Mar a thogras tu."
+
+#~ msgid "Hee hee hee!"
+#~ msgstr "Hi hi hi!"
+
+#~ msgid "What are you laughing about, Orlinn?"
+#~ msgstr "Dè thug a’ ghàire ort, Odhrain?"
+
+#~ msgid "You'll never find it!"
+#~ msgstr "Cha lorg sibh e gu bràth tuilleadh!"
+
+#~ msgid "Huh? Wait! Are you talking about Georges's lost pen?"
+#~ msgstr ""
+#~ "Dè nach lorg sinn? Fuirich ort! ’Eil thu a’ bruidhinn air peann caillte "
+#~ "Shomhairle?"
+
+#~ msgid "Hee hee hee! Yes!"
+#~ msgstr "Hi hi hi! Thà!"
+
+#~ msgid "Please tell me! Have you found it?"
+#~ msgstr "Innis dhomh! Na lorg thu e?"
+
+#~ msgid "Maybe yes, maybe no!"
+#~ msgstr "’S dòcha gun do lorg, ’s dòcha nach do lorg!"
+
+#~ msgid "Oh no, please Orlinn! I need it!"
+#~ msgstr "Odhrain, a sheòid! Tha mi feumach air!"
+
+#~ msgid "Sure, I'll help you. But only if you can catch me!"
+#~ msgstr ""
+#~ "Seadh, bheir mi cuideachadh dhut. Ach feumaidh tu mo ghlacadh an toiseach!"
+
+#~ msgid "Hee hee! (He'll never find me hiding behind the buildings!)"
+#~ msgstr "Hi Hi! (Cha lorg e mi air cùlaibh nan taighean gu bràth!)"
+
+#~ msgid "Heya bro! Wanna play with me?"
+#~ msgstr "A charaid! An cluich thu còmhla rium?"
+
+#~ msgid "Flora"
+#~ msgstr "Flòraidh"
+
+#~ msgid "Just find Lilly and he should give you some barley meal, ok?"
+#~ msgstr ""
+#~ "Cha leig thu leas ach Ròs a lorg agus bheir i beagan min-eòrna dhut."
+
+#~ msgid ""
+#~ "She's probably walking her dog near the river at this time of the day."
+#~ msgstr ""
+#~ "Tha mi ’n dùil gu bheil i a’ coiseachd leis a cù ri taobh na h-aibhne mun "
+#~ "tac seo de latha."
+
+#~ msgid "Hi Bronann! What can I do for you?"
+#~ msgstr "Shin thu, a Bhreannain! Dè do thoil?"
+
+#~ msgid "Hi Flora! Do you have some barley meal left?"
+#~ msgstr "A Fhlòraidh! ’Eil min-eòrna agaibh fhathast?"
+
+#~ msgid "Oh sorry, our mayor came earlier and took all the rest of it."
+#~ msgstr ""
+#~ "Och, tha mi duilich ach thog an t-àrd-bhàillidh againn na bha air fhàgail "
+#~ "dhith mu thràth."
+
+#~ msgid "Times are becoming harder now. We've got less food than before."
+#~ msgstr ""
+#~ "Tha cùisean air am fàs nas duilghe. Chan eil uiread a bhiadh againn mar a "
+#~ "bhà."
+
+#~ msgid ""
+#~ "This is the first time that I've seen you wear such a worrisome "
+#~ "expression."
+#~ msgstr "Seo a’ chiad turas a chunna mi mèin car dubhach oirbh a-riamh."
+
+#~ msgid ""
+#~ "Nevermind. Don't worry about me. Just find Lilly and she should give you "
+#~ "some, ok?"
+#~ msgstr ""
+#~ "Coma leat. Na gabh dragh mu m’ dhèidhinn. Lorg Ròs agus cuiridh mi geall "
+#~ "gun doir i cuid dhut, ceart gu leòr?"
+
+#~ msgid "One of Grandma's chickens. I should bring it back."
+#~ msgstr "Cearc seanmhar. Bu chòir dhomh a thoirt air ais."
+
+#~ msgid "Hmm, the door is locked."
+#~ msgstr "Tha an doras glaiste."
+
+#~ msgid "Hurry up! They're coming!"
+#~ msgstr "Greas ort! Tha iad a’ tighinn!"
+
+#~ msgid "Bronann! Hold on! We're almost there."
+#~ msgstr "A Bhreannain! Cùm a’ dol! Chan eil sinn fada a-nis."
+
+#~ msgid "I... can't. My body... Argh!"
+#~ msgstr "Chan… chan urrainn dhomh. Mo bhodhaig… Ochan!"
+
+#~ msgid "You can do it. Bronann..."
+#~ msgstr "Tha thu suas ris. A Bhreannain…"
+
+#~ msgid "Bronann! Move!"
+#~ msgstr "A Bhreannain! Càirich do thòin!"
+
+#~ msgid "... Al... right..."
+#~ msgstr "… Ceart… ma… thà…"
+
+#~ msgid "Great! Now come on!"
+#~ msgstr "Taghta! Tiugainn a-nist!"
+
+#~ msgid "There must be soldiers everywere, we're never gonna make it."
+#~ msgstr ""
+#~ "Feumaidh gu bheil saighdearan air feadh an àite, cha teich sinn idir."
+
+#~ msgid "This town has many secrets."
+#~ msgstr "Tha iomadh rùn-dìomhair aig a’ bhaile seo."
+
+#~ msgid "You can go in there, Orlinn."
+#~ msgstr "Faodaidh tu dol a-steach, Odhrain."
+
+#~ msgid "Ok!"
+#~ msgstr "Ceart ma-thà!"
+
+#~ msgid "See?"
+#~ msgstr "Am faca tu e?"
+
+#~ msgid ""
+#~ "I understand why Grandma actually never saw you using the 'normal' path."
+#~ msgstr ""
+#~ "Tha mi a’ tuigsinn a-nis carson nach fhaca mo sheanmhair sibh a-riamh a’ "
+#~ "cleachdadh na slighe “àbhaistich.”"
+
+#~ msgid "Now come."
+#~ msgstr "Trobhad a-nis."
+
+#~ msgid ""
+#~ "My three chickens have flown away again this morning. Could you find the "
+#~ "last one for me?"
+#~ msgstr ""
+#~ "Theich na trì circ agam madainn an-diugh. An glac thu an tè mu dheireadh?"
+
+#~ msgid ""
+#~ "My three chickens have flown away again this morning. Could you find the "
+#~ "remaining ones for me?"
+#~ msgstr ""
+#~ "Theich na trì circ agam madainn an-diugh. An glac thu an fheadhainn a tha "
+#~ "a dhìth fhathast?"
+
+#~ msgid ""
+#~ "My three chickens have flown away again this morning. Could you find them "
+#~ "for me?"
+#~ msgstr "Theich na trì circ agam madainn an-diugh. An glac thu iad?"
+
+#~ msgid "Ah! Bronann. Could you help your old grandma?"
+#~ msgstr "A Bhreannain! An cuidich thu do sheanmhair?"
+
+#~ msgid "Sure grandma."
+#~ msgstr "Cuidichidh, a sheanmhair."
+
+#~ msgid "My three chickens have flown away again. Could you find them for me?"
+#~ msgstr "Theich na trì circ agam a-rithist. An glac thu iad?"
+
+#~ msgid "I'll see what I can do about it."
+#~ msgstr "Feuchaidh mi gun glac."
+
+#~ msgid "Thank you, young one."
+#~ msgstr "Mòran taing, m’ eudail."
+
+#~ msgid "Oh, they're all back, my brave hero."
+#~ msgstr "Tha iad uile air ais, a ghaisgich."
+
+#~ msgid "Let me give you something as a reward."
+#~ msgstr "Bheir mi rudeigin dhut mar dhuais."
+
+#~ msgid "Oh, thanks grandma!"
+#~ msgstr "Tapadh leibh, a sheanmhair!"
+
+#~ msgid "You're very welcome, my dear one."
+#~ msgstr "Tha thu làn di-beathte, m’ eudail."
+
+#~ msgid ""
+#~ "Ah! It's nice to see your dear young face around, Bronann. Come and chat "
+#~ "with an old grandma."
+#~ msgstr ""
+#~ "À! Nach math d’ aodann còir òg fhaicinn, a Bhreannain. Trobhad is "
+#~ "bruidhinn ri do sheanmhair."
+
+#~ msgid "Er, sorry grandma. I have to go! Maybe later?"
+#~ msgstr ""
+#~ "Tha mi duilich, a sheanmhair. Feumaidh mi falbh! Nas anmoiche ’s dòcha!"
+
+#~ msgid ""
+#~ "Ah! You'll surely want to see the young lady living up there. Ah, "
+#~ "youngins nowadays."
+#~ msgstr ""
+#~ "À! Tha mi cinnteach gu bheil thu airson tadhal air an nighean a tha a’ "
+#~ "fuireach shuas. Seo òigearan an latha an-diugh dhut."
+
+#~ msgid "Grandma"
+#~ msgstr "Seanmhair"
+
+#~ msgid "Bronann, how do you feel?"
+#~ msgstr "A Bhreannain, ciamar a tha thu a’ faireachdainn?"
+
+#~ msgid "Better. Somehow, the pain faded away the second I entered here."
+#~ msgstr "Nas fheàrr. Chrìon am pian nuair a thàinig mi a-steach an-seo."
+
+#~ msgid "By the way, where are we?"
+#~ msgstr "Eadar dà sgeul, cà bheil sinn?"
+
+#~ msgid ""
+#~ "In our basement. The other stairs there are leading to my room. This "
+#~ "house is an ancient sanctuary, so it might explain why you're feeling "
+#~ "better."
+#~ msgstr ""
+#~ "San ìoslach againn. Thèid an staidhre eile dhan t-seòmar agam. ’S e seann-"
+#~ "chomraich a tha san taigh seo agus feumaidh gur e sin as adhbhar gu bheil "
+#~ "thu a’ faireachdainn nas fheàrr."
+
+#~ msgid "Orlinn. Go get our packings. We're leaving."
+#~ msgstr "Odhrain. Faigh an sacraidh againn. Falbhaidh sinn."
+
+#~ msgid "We're leaving the village now."
+#~ msgstr "Fàgaidh sinn am baile an-dràsta."
+
+#~ msgid "I feel dizzy. So many things have happened in such little time."
+#~ msgstr "Tha mi tro chèile. Thachair tòrr an ùine glè bheag."
+
+#~ msgid ""
+#~ "The soldiers will be here any minute. We'll leave to the north and cross "
+#~ "the north-west plain up to..."
+#~ msgstr ""
+#~ "Thig na saighdearan oirnn an ceartuair. Thèid sinn gu tuath ’s thar a’ "
+#~ "bhlàir shiar-thuaith gu ruige…"
+
+#~ msgid "No."
+#~ msgstr "Cha dèid."
+
+#~ msgid "No?!"
+#~ msgstr "Nach dèid?!"
+
+#~ msgid "No, I won't follow you anymore."
+#~ msgstr "Cha dèid, cha lean mi ort tuilleadh."
+
+#~ msgid "Look, I..."
+#~ msgstr "Nise…"
+
+#~ msgid "Enough!"
+#~ msgstr "Fòghnaidh na dh’fhòghnas!"
+
+#~ msgid ""
+#~ "Nobody told me what was happening. Herth and the Lord seemed to know each "
+#~ "other. And now you..."
+#~ msgstr ""
+#~ "Cha do dh’innis duine beò rium dè bha tachairt. Tha Taog agus am morair "
+#~ "eòlach air a chèile o shean a-rèir coltais. Agus thu fhèin a-nis…"
+
+#~ msgid "You seem so calm, ready, and prepared."
+#~ msgstr "Tha coltas cho socair ullaichte ort."
+
+#~ msgid "Bronann, I ..."
+#~ msgstr "A Bhreannain, ’s ann…"
+
+#~ msgid ""
+#~ "Enough! You hid everything from me just like everyone else. You're a "
+#~ "liar! I won't be manipulated anymore!"
+#~ msgstr ""
+#~ "Tha mi seachd searbh! Dh’fhalaich thu a h-uile rud uam mar a dh’fhalaich "
+#~ "a h-uile duine eile. ’S e breugaire a th’ annad! Cha stiùir sibh mi "
+#~ "tuilleadh!"
+
+#~ msgid "Bronann, you'll get everything explained in time, I..."
+#~ msgstr ""
+#~ "A Bhreannain, mìnichidh sinn a h-uile rud dhut nuair a thig an t-àm, "
+#~ "trobhad…"
+
+#~ msgid "No! I won't go unless you tell me the truth now!"
+#~ msgstr ""
+#~ "Cha dèid mi còmhla riut ach ma dh’innseas tu an fhìrinn rium an-dràsta "
+#~ "fhèin!"
+
+#~ msgid "... Fine."
+#~ msgstr "… Iochd."
+
+#~ msgid "I knew the crystal would appear."
+#~ msgstr "Bha fhios agam gun nochdadh an criostal."
+
+#~ msgid "What?"
+#~ msgstr "Gu dè?"
+
+#~ msgid "But I didn't know who it would choose."
+#~ msgstr "Ach cha robh fhios a’m cò thaghadh e."
+
+#~ msgid "Herth prepared me all my life for this very day."
+#~ msgstr "Dh’ullaich Taog mi airson an dearbh latha seo fad mo bheatha."
+
+#~ msgid ""
+#~ "He trained me, taught me magic, and told me the crystal would appear one "
+#~ "day."
+#~ msgstr ""
+#~ "Thug e oideachadh dhomh is dh’ionnsaich e draoidheachd dhomh agus "
+#~ "dh’innis e dhomh gun digeadh an latha a nochdadh an criostal."
+
+#~ msgid ""
+#~ "He thought that I would be the one to be chosen by the crystal. However, "
+#~ "it seems he was wrong. Now, I am to look after you."
+#~ msgstr ""
+#~ "Shaoil e gum bu mhise a thaghadh an criostal. Gidheadh, tha coltas gun "
+#~ "robh e ceàrr. Nise, is mo dhleastanas do chùram a ghabhail."
+
+#~ msgid "You must believe me Bronann."
+#~ msgstr "Feumaidh tu d’ earbsa a chur annam, a Bhreannain."
+
+#~ msgid "The crystal chose me? But I'm just..."
+#~ msgstr "An e gun do thagh an criostal mise? Chan eil mi ach…"
+
+#~ msgid "Someone brave enough to jump between it and my brother."
+#~ msgstr "Cuideigin a tha dàna gu leòr gus leum eadar e ’s mo bhràthair."
+
+#~ msgid ""
+#~ "It should have been me. But I couldn't move. And now, I have to fix my "
+#~ "mistake."
+#~ msgstr ""
+#~ "Bu chòir gum bu mhise a bh’ ann. Ach cha b’ urrainn dhomh gluasad. "
+#~ "Feumaidh mi a’ mhearachd agam a chur ceart a-nis."
+
+#~ msgid "How?"
+#~ msgstr "Ciamar?"
+
+#~ msgid "I..."
+#~ msgstr "Feumaidh…"
+
+#~ msgid "Sis!"
+#~ msgstr "A pheathar!"
+
+#~ msgid "Sis! They're in front of the house!"
+#~ msgstr "A pheathar! Tha iad air beulaibh an taighe!"
+
+#~ msgid "Quick, we must go now!"
+#~ msgstr "Greas oirbh, feumaidh sinn falbh sa bhad!"
+
+#~ msgid ""
+#~ "We won't be able to come back here once we leave. So feel free to pick up "
+#~ "everything you need and prepare yourself."
+#~ msgstr ""
+#~ "Cha till sinn an-seo nuair a bhios sinn air fhàgail. Tog na dh’fheumas tu "
+#~ "is ullaich."
+
+#~ msgid ""
+#~ "Wait! There is one more thing. Why are you calling your own father by his "
+#~ "actual name?"
+#~ msgstr ""
+#~ "Fuirich ort! Aon rud eile. Carson a chuireas sibh ainm fhèin air ur n-"
+#~ "athair?"
+
+#~ msgid "That's because he's not our father."
+#~ msgstr "Cuiridh air sgàth ’s nach e ar n-athair a th’ ann."
+
+#~ msgid "Our parents were killed a long time ago."
+#~ msgstr "Chaidh ar pàrantan a mharbhadh o fhionn fhada."
+
+#~ msgid "Orlinn..."
+#~ msgstr "Odhrain…"
+
+#~ msgid "Don't worry, sis. It's fine, we can tell him."
+#~ msgstr "Na gabh dragh, a pheathar. Faodaidh sinn innse dha."
+
+#~ msgid "I also left my parents behind."
+#~ msgstr "Dh’fhàg mi mo phàrantan-san cuideachd."
+
+#~ msgid ""
+#~ "They'll be fine, Bronann. We must prevent Banesore from obtaining the "
+#~ "crystal."
+#~ msgstr ""
+#~ "Bidh iad ceart gu leòr, a Bhreannain. Feumaidh sinn stad a chur air "
+#~ "Goirturbhaidh ach nach fhaigh e an criostal."
+
+#~ msgid "Anyway, let's go now."
+#~ msgstr "Co-dhiù no co-dheth, tiugainn a-nis."
+
+#~ msgid "Wow!"
+#~ msgstr "Gu sealladh sealbh ort!"
+
+#~ msgid "It's time."
+#~ msgstr "Thàinig an t-àm."
+
+#~ msgid "We can't go back now."
+#~ msgstr "Chan urrainn dhuinn tilleadh a-nis."
+
+#~ msgid "It's my room upstairs. Don't even think about it!"
+#~ msgstr "Tha an t-seòmar agam shuas. Na beachdaich air!"
+
+#~ msgid "I can't go back now."
+#~ msgstr "Chan urrainn dhomh tilleadh a-nis."
+
+#~ msgid ""
+#~ "Guards are carefully watching their surroundings. I need to get closer to "
+#~ "see what's happening."
+#~ msgstr ""
+#~ "Tha geàird a’ dèanamh faire air na tha timcheall orra. Feumaidh mi "
+#~ "teannadh a-null ach am faic mi dè tha a’ tachairt."
+
+#~ msgid "I should be able to sneak through when they're not watching."
+#~ msgstr ""
+#~ "Saoilidh mi gun siolp mi seachad orra nuair nach coimhead iad dham "
+#~ "ionnsaigh."
+
+#~ msgid "Who's there?"
+#~ msgstr "Cò th’ ann?"
+
+#~ msgid "(Whispering) Kalya!"
+#~ msgstr "(Os ìosal) A Chaoimhe!"
+
+#~ msgid "(What's happening here?)"
+#~ msgstr "(Dè a tha tachairt an-seo?)"
+
+#~ msgid "(Also whispering) I don't know."
+#~ msgstr "(Os ìosal cuideachd) Chan eil fhios a’m."
+
+#~ msgid ""
+#~ "(Woah, you scared me. Are you mad? You could have got us both caught!)"
+#~ msgstr ""
+#~ "(Iochd, thug thu clisgeadh orm. ’Eil thu às do chiall? Theab gun deach ar "
+#~ "glacadh!)"
+
+#~ msgid "(I thought you saw me.)"
+#~ msgstr "(Shaoil mi gum faca tu mi.)"
+
+#~ msgid ""
+#~ "(Kalya was brought here by those weirdos. They are holding everyone "
+#~ "captive. Lilly is talking with that big guy. He gives me the chills.)"
+#~ msgstr ""
+#~ "(Chaidh Caoimhe a thoirt an-seo leis na daoine neònach ud. Tha iad a’ "
+#~ "cumail a h-uile duine fo ghrèim. Tha Ròs a’ bruidhinn leis an duine mhòr "
+#~ "ud. Tha e a’ cur an t-eagal orm.)"
+
+#~ msgid "(Let's have a look.)"
+#~ msgstr "(Thoireamaid sùil air.)"
+
+#~ msgid ""
+#~ "I already told you, again and again, Banesore. I don't know anything "
+#~ "about such a crystal."
+#~ msgstr ""
+#~ "Mar a dh’innis mi dhut a-rithist ’s a-rithist roimhe, a Ghoirturbhaidh, "
+#~ "chan eil mi eòlach air criostal dhen leithid idir."
+
+#~ msgid "It is 'Lord Banesore', you scum!"
+#~ msgstr "’S e “A Mhorair Ghoirturbhaidh” a th’ ann, a shalchair!"
+
+#~ msgid ""
+#~ "Even when confronted by someone who can wipe out everything you hold "
+#~ "dear, you dare to stare me in the eyes? I admire such a courageous heart, "
+#~ "my dear one."
+#~ msgstr ""
+#~ "A dh’aindeoin ’s gu bheil cuideigin ’nad aghaidh a tha comasach air a h-"
+#~ "uile càil a tha prìseil dhut a mhilleadh, tha a’ chridhe agad a’ dùr-"
+#~ "bheachdachadh orm! Mo mholadh air do chridhe a tha cho dàna sin."
+
+#~ msgid "Therefore, I'm inclined to ask these questions one last time:"
+#~ msgstr ""
+#~ "Air an adhbhar sin, cuiridh mi na ceistean seo ort aon turas eile agus "
+#~ "seo an turas mu dheireadh:"
+
+#~ msgid "Where is the crystal? Where is the boy?"
+#~ msgstr "Càit a bheil an criostal? Càit a bheil am balach?"
+
+#~ msgid "It's time to think Lilly."
+#~ msgstr "Feumaidh tu beachdachadh air, a Ròs."
+
+#~ msgid "Huh? How do you know my name?"
+#~ msgstr "Duda? Ciamar fon ghrèin a tha thu eòlach air m’ ainm?"
+
+#~ msgid ""
+#~ "Your very soul is slowly but surely opening. I can feel your sorrow and "
+#~ "doubts grow."
+#~ msgstr ""
+#~ "Tha d’ anam fhèin a’ fosgladh mean air mhean. Tha mi a’ faireachdainn am "
+#~ "mulad is mì-chinnt a’ neartachadh annad."
+
+#~ msgid "Fight it, Lilly! Focus!"
+#~ msgstr "Strì ’na aghaidh, a Ròs! Cùm d’ aire air!"
+
+#~ msgid "Keep quiet, you old daft rat!"
+#~ msgstr "Ist, a sheann-radain ghòraich!"
+
+#~ msgid "Oh! My apologies, it seems you weren't lying."
+#~ msgstr "Ò! Gabh mo leisgeul, tha coltas nach robh a’ bhreug agad."
+
+#~ msgid ""
+#~ "The fact you didn't mention anything about the boy leads me to believe "
+#~ "that you know him."
+#~ msgstr ""
+#~ "O nach duirt thu smid mun bhalach, cha chreid mi nach eil thu eòlach air."
+
+#~ msgid "Ah? So he must be close."
+#~ msgstr "À! Feumaidh gu bheil e am fagas ma-thà."
+
+#~ msgid "What? No!"
+#~ msgstr "Gu dè? Chan eil idir!"
+
+#~ msgid "Oh, I see now. So this is his mother. Bring her here, and kill her!"
+#~ msgstr ""
+#~ "Ò, tha mi a’ tuigsinn a-nis. Seo a mhàthair. Thoiribh an-seo i is "
+#~ "marbhaibh i!"
+
+#~ msgid "Let her out of this! You can have me instead."
+#~ msgstr "Fàgaibh i! Marbhaibh mise ’na h-àite."
+
+#~ msgid "So, here we have a gentleman! I'll start with you, then."
+#~ msgstr ""
+#~ "Sin sin, abair thusa gu bheil duine-uasail againn! Tòisichidh mi leat-sa "
+#~ "ma-thà."
+
+#~ msgid "Fine."
+#~ msgstr "Ceart."
+
+#~ msgid "But she will be the next one."
+#~ msgstr "Ach thig ise às do dhèidh."
+
+#~ msgid "You filthy demon!"
+#~ msgstr "A dheamhain shalaich!"
+
+#~ msgid "It's fine, I'll come."
+#~ msgstr "Tha sin ceart gu leòr, thèid mi ann."
+
+#~ msgid "No!"
+#~ msgstr "Stadaibh!"
+
+#~ msgid "At last, the boy."
+#~ msgstr "Seo am balach mu dheireadh thall."
+
+#~ msgid "No! Let him come closer."
+#~ msgstr "Stad! Leig leis teannadh a-nall."
+
+#~ msgid "Bronann! No!"
+#~ msgstr "A Bhreannain! O chòin!"
+
+#~ msgid "Bronann, why?"
+#~ msgstr "A Bhreannain, carson?"
+
+#~ msgid "Clear the way, Lilly. I need to speak to him."
+#~ msgstr "A-mach às an rathad, a Ròs. Feumaidh mi bruidhinn ris."
+
+#~ msgid "Let's have a talk, Bronann!"
+#~ msgstr "Bruidhneamaid, a Bhreannain!"
+
+#~ msgid "I don't have any other choice, Lilly."
+#~ msgstr "Chan eil roghainn eile agam, a Ròs."
+
+#~ msgid "Bronann..."
+#~ msgstr "A Bhreannain…"
+
+#~ msgid "You, after all these years..."
+#~ msgstr "Seo thu, às dèidh nam blianaichean mòra…"
+
+#~ msgid "Let everyone go. We don't have your 'crystal'."
+#~ msgstr ""
+#~ "Leig leis a h-uile duine falbh. Chan eil an “criostal” againn air a bheil "
+#~ "thu a-mach."
+
+#~ msgid "Of course you have it. I can sense it within your flesh."
+#~ msgstr "Ach tha gu dearbh. Tha mi ’ga fhaireachdainn ’nad fheòil."
+
+#~ msgid "So, the crystal is inside me?"
+#~ msgstr "An e ’s gu bheil an criostal ’nam bhroinn?"
+
+#~ msgid "Now, show it to me."
+#~ msgstr "Nise, sheall dhomh e."
+
+#~ msgid "But I..."
+#~ msgstr "Ach…"
+
+#~ msgid ""
+#~ "Do you need some kind of motivation? If so, let me handle this with my "
+#~ "greatest pleasure!"
+#~ msgstr ""
+#~ "A bheil barrachd brosnachaidh a dhìth ort? Ma thà, bhithinn-sa glè "
+#~ "thoilichte seo a chur air dòigh dhut!"
+
+#~ msgid "Prepare yourself!"
+#~ msgstr "Ullaich!"
+
+#~ msgid "Ah, there it is. Finally!"
+#~ msgstr "À, seo e. Mu dheireadh thall!"
+
+#~ msgid "Kalya! Now!"
+#~ msgstr "A Chaoimhe! An-dràsta!"
+
+#~ msgid ""
+#~ "You won't get him, Banesore! It seems we were smarter than you this time."
+#~ msgstr ""
+#~ "Chan fhaigh thu grèim air, a Ghoirturbhaidh! Tha coltas gun robh sinn na "
+#~ "bu ghlice na thusa fhèin an turas seo."
+
+#~ msgid "Ah ah ah, but this is exactly what I wanted."
+#~ msgstr "Hà hà hà ach seo dìreadh na bha mi ag amas air."
+
+#~ msgid ""
+#~ "After all, I simply wanted to make sure that boy would reach Mt. Elbrus "
+#~ "safe and sound."
+#~ msgstr ""
+#~ "Aig deireadh na sgeòil, bha mi airson dèanamh cinnteach gun ruig am "
+#~ "balach Beinn Ealbhrais gu sàbhailte."
+
+#~ msgid "He is the only one that can get what I'm looking for."
+#~ msgstr "Chan urrainn ach dhàsan fhaighinn na tha mi a’ sireadh."
+
+#~ msgid "Soldiers! Give them a few minutes before starting the chase."
+#~ msgstr "A shaighdearaibh! Thoiribh greis dhaibh mus dèid sibh nan toir."
+
+#~ msgid "Yes, my Lord!"
+#~ msgstr "Aidh, mo thighearna!"
+
+#~ msgid "Why the hell..."
+#~ msgstr "Carson fon ghrèin…"
+
+#~ msgid "...am I telling you all that? It's simple."
+#~ msgstr "… a tha mi ag innse seo dhuibh? Tha e sìmplidh."
+
+#~ msgid "But it doesn't matter, as you're all going to die now."
+#~ msgstr "Ach chan eil sin gu diofar on a gheibh sibh uile bàs a-nis."
+
+#~ msgid "One of grandma's chickens. I should bring it back."
+#~ msgstr "Cearc seanmhar. Bu chòir dhomh a toirt air ais."
+
+#~ msgid "Wow! You found me!"
+#~ msgstr "A shaoghail! Lorg thu mi!"
+
+#~ msgid "But I'm not done yet!"
+#~ msgstr "Ach chan eil mi deiseil fhathast!"
+
+#~ msgid "You'll never find me hiding behind the..."
+#~ msgstr "Cha lorg thu mi ’nam fhalach air cùil…"
+
+#~ msgid "Hey, why would I tell you my hiding spots?!"
+#~ msgstr "È, carson a dh’innsinn dhut na h-àitichean-falaich agam?"
+
+#~ msgid "That kid is pretty quick. This is going to take all day."
+#~ msgstr "Tha am balach seo clis air a chois. Bheir seo fad an latha."
+
+#~ msgid "Please no! Wait!"
+#~ msgstr "Na falaich a-rithist! Fuirich ort!"
+
+#~ msgid "Orlinn! Stop this!"
+#~ msgstr "Odhrain! Sguir dheth!"
+
+#~ msgid "Orlinn! How many times have I told you not to bother other people?"
+#~ msgstr ""
+#~ "Odhrain! Dè cho tric ’s a dh’innis mi dhut gun a bhith cur dragh air "
+#~ "daoine?"
+
+#~ msgid "But sis! I..."
+#~ msgstr "Ach a pheathar! Cha…"
+
+#~ msgid "I don't want to hear it! Now, come!"
+#~ msgstr "Na cluinneam facal! Trobhad a-nis!"
+
+#~ msgid "Don't blame him, Kalya. Actually, it was..."
+#~ msgstr "Na cuir a’ choire air, a Chaoimhe. Ag innse na fìrinn, ’s ann…"
+
+#~ msgid "I don't think I was talking to you, now was I?"
+#~ msgstr "Saoil ann an riutsa a bha mi a’ bruidhinn?"
+
+#~ msgid "Come Orlinn!"
+#~ msgstr "Tiugainn Odhrain!"
+
+#~ msgid "I found that pen near the tree behind you. I just wanted to play."
+#~ msgstr ""
+#~ "Lorg mi am peann ud faisg air a’ chraobh air do chùlaibh. Cha robh mi ach "
+#~ "airson cluich."
+
+#~ msgid "Take it. Thanks."
+#~ msgstr "Gabh e. Mòran taing."
+
+#~ msgid "Bronann?"
+#~ msgstr "A Bhreannain?"
+
+#~ msgid "Er, yes?"
+#~ msgstr "Ù, seadh?"
+
+#~ msgid ""
+#~ "Don't blame Kalya. She was having a hard time along with her brother "
+#~ "before living here, you know?"
+#~ msgstr ""
+#~ "Na cuir a’ choire air Caoimhe. Bha e doirbh dhi ’s dha bràthair mus "
+#~ "dàinig iad an-seo, fhios a’d?"
+
+#~ msgid "Well anyway, she's been ignoring me since the first day I saw her."
+#~ msgstr ""
+#~ "Co-dhiù no co-dheth, cha robh for aice orm on latha a chunna mi i a’ "
+#~ "chiad turas."
+
+#~ msgid "Eh? You really know nothing about women, do you?"
+#~ msgstr "B’ àill leat? Chan eil sgot agad mu bhoireannaich, a bheil?"
+
+#~ msgid "Heh heh, don't worry about it. It will come in time."
+#~ msgstr "Hè hè, coma co-dhiù. Thig e thugad ri àm."
+
+#~ msgid "Here it is, Bronann."
+#~ msgstr "Seo dhut, a Bhreannain."
+
+#~ msgid "Thanks, Lilly."
+#~ msgstr "Mòran taing, a Ròs."
+
+#~ msgid ""
+#~ "We've been having a shortage of food lately. I've been taking... special "
+#~ "measures to ensure that everyone has enough food."
+#~ msgstr ""
+#~ "Tha am biadh againn a’ fàs gann. Ghabh mi… ceuman sònraichte gus dèanamh "
+#~ "cinnteach gu bheil biadh gu leòr aig a h-uile duine."
+
+#~ msgid "Try to enjoy this day, Bronann."
+#~ msgstr "Feuch gun gabh thu tlachd às an latha seo, a Bhreannain."
+
+#~ msgid "We're counting on you."
+#~ msgstr "Tha sinn an eisimeil ort."
+
+#~ msgid "You should go back home. Your mom must be waiting for you."
+#~ msgstr ""
+#~ "Bu chòir dhut tilleadh dhachaigh. Feumaidh gu bheil do mhàthair a’ "
+#~ "feitheamh ort."
+
+#~ msgid "What a nice day, isn't it?"
+#~ msgstr "’S e latha brèagha a th’ ann, nach e?"
+
+#~ msgid "Yes, Lilly. But I have something I have to ask you."
+#~ msgstr "’S e gu dearbh, a Ròs. Ach feumaidh mi rud fhaighneachd oirbh."
+
+#~ msgid "Sure, just ask."
+#~ msgstr "Seadh, cha leig thu leas ach faighneachd."
+
+#~ msgid ""
+#~ "Have you still got any barley meal left for my parents and I? My mother "
+#~ "asked me to get some and I..."
+#~ msgstr ""
+#~ "A bheil min-eòrna air fhàgail dhuibh a b’ urrainn dhomh a thoirt dha mo "
+#~ "phàrantan? Dh’innis mo mhàthair gum faighinn agus…"
+
+#~ msgid "Unfortunately, I gave it all to Kalya."
+#~ msgstr "Gu mì-fhortanach, chuir mi na bh’ agam dheth gu Caoimhe."
+
+#~ msgid ""
+#~ "Ah hah! I just wanted to see your reaction. I still have some. Let me go "
+#~ "grab it and bring it back to you."
+#~ msgstr ""
+#~ "Adad! Cha robh mi ach airson do fhreagairt fhaicinn. Tha cuid agam "
+#~ "fhathast. Gheibh mi a lorg dhut ’s tillidh mi leatha."
+
+#~ msgid "You'll never get me!"
+#~ msgstr "Cha ghlac thu mi gu bràth tuilleadh!"
+
+#~ msgid "Orlinn, how did you get there?"
+#~ msgstr "Odhrain, ciamar a ràinig thu an-seo?"
+
+#~ msgid "(giggle) I won't tell you!"
+#~ msgstr "(gàire) Chan innis!"
+
+#~ msgid "Hi Bronann."
+#~ msgstr "Shin thu, a Bhreannain."
+
+#~ msgid "Hi Herth. I see you've blocked the gate, why so?"
+#~ msgstr ""
+#~ "Shin sibh fhèin, a Thaoig. Mhothaich mi gun do bhac sibh an geata, carson?"
+
+#~ msgid ""
+#~ "Don't worry too much. I'm just preventing strangers from being able to "
+#~ "sneak in at night."
+#~ msgstr ""
+#~ "Na gabh dragh. Chan eil mi ach a’ bacadh coigrich o shiolpadh a-steach "
+#~ "air an oidhche."
+
+#~ msgid ""
+#~ "There have been some reports of theft in the villages nearby recently."
+#~ msgstr ""
+#~ "Fhuair sinn naidheachd gun deach nithean a ghoid sna bailtean faisg oirnn "
+#~ "o chionn ghoirid."
+
+#~ msgid "Wow, do you think that they would come here?"
+#~ msgstr "Fire faire! An saoil sibh gun dig iad an-seo?"
+
+#~ msgid "It's a possibility. But don't worry too much, ok?"
+#~ msgstr ""
+#~ "Dh’fhaoidte gun dig. Ach na gabh cus dragh mu dhèidhinn, a bhalaich!"
+
+#~ msgid "Yiek! Hey, you scared me."
+#~ msgstr "Iochd! Thug thu an clisgeadh orm."
+
+#~ msgid "But you'll never find me hiding on top of the cliffs!"
+#~ msgstr "Ach cha lorg thu mi air mullach nan creag idir!"
+
+#~ msgid ""
+#~ "Did you know?\n"
+#~ "You can equip weapons and armors from the menu.\n"
+#~ "Simply open it and go to 'Inventory', and 'Equip'."
+#~ msgstr ""
+#~ "An robh fios agad?\n"
+#~ "’S urrainn dhut airm ’s armachd uidheamachadh on chlàr-taice.\n"
+#~ "Fosgail e is rach gu “Tasgadh” agus “Uidheamaich.”"
+
+#~ msgid "Congratulations, Bronann. Here is your reward."
+#~ msgstr "Meal do naidheachd, a Bhreannain. Seo do dhuais."
+
+#~ msgid "You can come, Bronann."
+#~ msgstr "Trobhad, a Bhreannain."
+
+#~ msgid "This is one of the many secrets of this village."
+#~ msgstr "Seo fear de na rùintean-dìomhair a tha pailt sa bhaile seo."
+
+#~ msgid ""
+#~ "This village was once a sanctuary and many people lived around here. "
+#~ "Surprising, eh?"
+#~ msgstr ""
+#~ "Bhiodh am baile seo ’na chomraich uair agus bhiodh mòran dhaoine a’ "
+#~ "fuireach an-seo. Nach iongantach sin?"
+
+#~ msgid "Your father told me you were now ready."
+#~ msgstr "Dh’innis d’ athair dhomh gun robh thu ullamh a-nis."
+
+#~ msgid "Huh? Ready for what?"
+#~ msgstr "B’ àill leibh? Ullamh air dè?"
+
+#~ msgid "For your first true trial."
+#~ msgstr "A’ chiad fhìor-dhùbhlan agad."
+
+#~ msgid ""
+#~ "I know I will sound harsh Bronann, but we've been having issues with rats "
+#~ "in the well recently."
+#~ msgstr ""
+#~ "Tha mi duilich gu bheil coltas cruaidh orm ach tha duilgheadasan air a "
+#~ "bhith againn le radanan san tobar."
+
+#~ msgid ""
+#~ "You're now going to go deep down this cave and chase them all before they "
+#~ "start polluting our water."
+#~ msgstr ""
+#~ "Thèid thu sìos dhan uamh dhomhainn a-nis agus sealgaidh tu iad mus "
+#~ "tòisich iad air an t-uisge againn a thruailleadh."
+
+#~ msgid "All by yourself."
+#~ msgstr "Leat fhèin."
+
+#~ msgid ""
+#~ "I'll stay around but I won't participate. This... will prepare you for "
+#~ "the days to come."
+#~ msgstr ""
+#~ "Fuirichidh mi am fagas ach cha chuidich mi thu. Ullaichidh seo thu… "
+#~ "airson na bhios romhad fhathast."
+
+#~ msgid "Take this lamp, your father gave it to me earlier. You can keep it."
+#~ msgstr ""
+#~ "Thoir an lampa seo leat, thug d’ athair dhomh e a bu tràithe. Faodaidh tu "
+#~ "a chumail."
+
+#~ msgid ""
+#~ "You can use the fountain here to restore your health, but you are to "
+#~ "complete this before going out again. Not too afraid?"
+#~ msgstr ""
+#~ "’S urrainn dhut am fuaran seo a chleachdadh airson do shlàinte a "
+#~ "thilleadh ach feumaidh tu an obair a choileanadh mus dig thu a-mach a-"
+#~ "rithist. Nach eil cus eagail ort?"
+
+#~ msgid "I'm completely panicking, Olivia. Why now?"
+#~ msgstr "Tha an dubh-eagal orm, Oighrig. Carson an-dràsta?"
+
+#~ msgid "It will be fine."
+#~ msgstr "Bidh thu ceart gu leòr."
+
+#~ msgid "You can make it."
+#~ msgstr "Nì thu a’ chùis air."
+
+#~ msgid "Bronann. Sorry, you have to complete this first."
+#~ msgstr ""
+#~ "A Bhreannain. Tha mi duilich ach feumaidh tu d’ obair a choileanadh an "
+#~ "toiseach."
+
+#~ msgid "You can use the fountain here to restore your health."
+#~ msgstr ""
+#~ "’S urrainn dhut am fuaran seo a chleachdadh airson do shlàinte a "
+#~ "thilleadh."
+
+#~ msgid "It seems it is your first time around, right? Need help?"
+#~ msgstr ""
+#~ "Tha coltas nach do cheannaich thu rud roimhe. ’Eil thu feumach air taic?"
+
+#~ msgid "I wouldn't mind some help..."
+#~ msgstr "Tha, bhiodh beagan taice math…"
+
+#~ msgid "I should be fine, thanks."
+#~ msgstr "Chan eil, mòran taing."
+
+#~ msgid ""
+#~ "Welcome to my shop, then! \n"
+#~ "First of all you can choose to either 'Buy' or 'Sell' items from the top "
+#~ "menu right here... \n"
+#~ "'Trade' is for special offers that don't only cost money."
+#~ msgstr ""
+#~ "Fàilte dhan bhùth agam ma-thà! \n"
+#~ "An toiseach, tagh aig a’ bhàrr co-dhiù an “ceannaich” no an “reic” thu "
+#~ "nithean… \n"
+#~ "Tha “iomlaidich” airson tairgsean sònraichte a chosgas barrachd air "
+#~ "airgead."
+
+#~ msgid ""
+#~ "Don't worry, I'll make good prices for you as you can testify in the buy "
+#~ "ranking right there!"
+#~ msgstr ""
+#~ "Na biodh dragh ort, gheibh thu prìs mhath uam mar a chì thu ann an "
+#~ "rangachadh na ceannachd an-seo!"
+
+#~ msgid ""
+#~ "For now, let's see what I have in store and select the 'Buy' option..."
+#~ msgstr ""
+#~ "Faiceamaid na tha san stòras agam ’s tu a’ taghadh an roghainn "
+#~ "“ceannaich”…"
+
+#~ msgid ""
+#~ "Here you can see the list of available wares, how many items I've got and "
+#~ "how many you already have for each."
+#~ msgstr ""
+#~ "Chì thu liosta dhe na batharan a tha ri am faighinn ann a sheo, co mheud "
+#~ "nì a th’ agam agus co mheud a th’ agadsa dhe gach nì."
+
+#~ msgid ""
+#~ "Don't forget that certain items are limited or unique! \n"
+#~ "When reviewing items, you can also cycle through the proposed item "
+#~ "categories using the menu key (%s)."
+#~ msgstr ""
+#~ "Thoir an aire gu bheil nithean ann a tha cuingichte no àraidh! \n"
+#~ "Nuair a bheir thu sùil air na nithean, ’s urrainn dhut seòladh tro "
+#~ "roinnean-seòrsa nan nithean leis an iuchair clàr-taice (%s) ma thogras tu."
+
+#~ msgid "Let's have a look at the potions..."
+#~ msgstr "Thoireamaid sùil air na deochan…"
+
+#~ msgid ""
+#~ "Once you're here, you'll be able to add or remove how many items you want "
+#~ "by pressing left or right. Of course, only if you have money, Sweeties..."
+#~ msgstr ""
+#~ "Nuair a bhios tu ann a sheo, ’s urrainn dhut meudachadh no lùghdachadh co "
+#~ "mheud nì a tha thu ag iarraidh leis na h-iuchraichean clì is deas. Ach "
+#~ "chan obraich sin mur eil airgead agad, a ghràidh…"
+
+#~ msgid "Shall I repeat?"
+#~ msgstr "An innis mi seo dhut a-rithist?"
+
+#~ msgid "Yes, please!"
+#~ msgstr "Innsidh!"
+
+#~ msgid "No, it's alright!"
+#~ msgstr "Chan innis, tha mi agaibh!"
+
+#~ msgid "Alright then, take a look around..."
+#~ msgstr "Ceart ma-thà, seall mun cuairt…"
+
+#~ msgid ""
+#~ "I found you! My comrades will be here in no time. Surrender now, or "
+#~ "you'll be punished!"
+#~ msgstr ""
+#~ "Fhuair mi lorg oirbh! Thig mo chuideachd gun dàil. Gèillibh an-dràsta air "
+#~ "no thèid ur peanasachadh!"
+
+#~ msgid ""
+#~ "Don't listen to him! We must get rid of him before reinforcements arrive "
+#~ "or we're doomed!"
+#~ msgstr ""
+#~ "Na èist ris! Feumaidh sinn chuidhteas fhaighinn dheth mus dig am "
+#~ "foirlionadh no cuiridh iad às dhinn!"
+
+#~ msgid "Time left:"
+#~ msgstr "Ùine air fhàgail:"
+
+#~ msgid "Shall we jump?"
+#~ msgstr "An leum sinn?"
+
+#~ msgid "Yes, let's go."
+#~ msgstr "Seadh."
+
+#~ msgid "Not now."
+#~ msgstr "Cha leum an-dràsta."
+
+#~ msgid "We made it, at last!"
+#~ msgstr "Ràinig sinn ann, mu dheireadh thall!"
+
+#~ msgid "Indeed! Yeepee!"
+#~ msgstr "Ràinig gu dearbh! Hò-rò!"
+
+#~ msgid "I'm so relieved we made it safely, hee hee."
+#~ msgstr "Tha mi cho toilichte gu bheil sinn sàbhailte, hi hi."
+
+#~ msgid "Wait."
+#~ msgstr "Fuirich ort."
+
+#~ msgid "Can you smell that stench?"
+#~ msgstr "Am fairich thu an toth ud?"
+
+#~ msgid "Yes. Is it... smoke?"
+#~ msgstr "Fairichidh. An e… toit a th’ ann?"
+
+#~ msgid "Something's burning."
+#~ msgstr "Tha rudeigin ’na theine."
+
+#~ msgid "Our village. It's burning."
+#~ msgstr "’S e am baile againn a th’ ann. Tha e ’na theine."
+
+#~ msgid "My parents."
+#~ msgstr "Mo phàrantan."
+
+#~ msgid "Herth."
+#~ msgstr "Taog."
+
+#~ msgid "Everyone."
+#~ msgstr "A h-uile duine."
+
+#~ msgid "May they rest in peace."
+#~ msgstr "Sìth dhan anman."
+
+#~ msgid "All this..."
+#~ msgstr "A h-uile càil seo…"
+
+#~ msgid "All this was for a crystal?"
+#~ msgstr "A h-uile càil seo airson criostal, an robh?"
+
+#~ msgid "I'll fix this."
+#~ msgstr "Feumaidh mi seo a chur ceart."
+
+#~ msgid "If this crystal is so powerful, then I'll use it. And I'll fix this."
+#~ msgstr ""
+#~ "Ma tha an criostal seo cho cumhachdach, cleachdaidh mi e. Agus cuiridh mi "
+#~ "ceart e."
+
+#~ msgid "Then, I'll help you."
+#~ msgstr "Bheir mi taic dhut."
+
+#~ msgid "Banesore's minions are already all over the place."
+#~ msgstr "Tha luchd-taic Ghoirturbhaidh air feadh an àite mar-thà."
+
+#~ msgid ""
+#~ "The dark soldiers, as we call them, are fanatics. They'll follow "
+#~ "Banesore's orders even if it means their death."
+#~ msgstr ""
+#~ "’S e fanataich a tha sna saighdearan dubha mar a th’ againn orra. "
+#~ "Leanaidh iad òrduighean Ghoirturbhaidh fhiù ’s ma gheibh iad bàs."
+
+#~ msgid ""
+#~ "We don't know how he does it, but he can turn anybody into a servile "
+#~ "subject."
+#~ msgstr ""
+#~ "Chan eil fios againn ciamar a nì e sin ach nì e tràill de dhuine sam bith."
+
+#~ msgid ""
+#~ "Their strength is increased by the transformation. That's why we call "
+#~ "them the zombified army."
+#~ msgstr ""
+#~ "Thèid daoine neartachadh leis a’ chruth-atharrachadh. Seo as adhbhar gu "
+#~ "bheil “am feachd closach” againn orra."
+
+#~ msgid "We must absolutely avoid them or they'll call reinforcements."
+#~ msgstr "Feumaidh sinn an seachnadh mus gairm iad foirlionadh."
+
+#~ msgid "They are too strong. If they catch us, we're doomed."
+#~ msgstr ""
+#~ "Tha iad ro neartmhor dhuinn. Cuiridh iad às dhuinn ma bheir iad grèim "
+#~ "oirnn."
+
+#~ msgid "Dang! And now the rain too."
+#~ msgstr "Mac an donais! Tha an t-uisge ann a-nis cuideachd."
+
+#~ msgid ""
+#~ "The path seems to lead straight into the storm up there. It's definitely "
+#~ "our lucky day."
+#~ msgstr ""
+#~ "Tha coltas gu bheil an t-slighe a’ dol dhan ghailleann thall shuas. Nach "
+#~ "sinne a tha fortanach an-diugh."
+
+#~ msgid ""
+#~ "Don't lose faith, Kalya. If we manage to escape from them here, we'll be "
+#~ "safe past the mountains."
+#~ msgstr ""
+#~ "Na caill d’ earbsa, a Chaoimhe. Ma thèid leinn teicheadh on a sheo, bidh "
+#~ "sinn sàbhailte taobh thall a’ mhonaidh."
+
+#~ msgid ""
+#~ "If we can reach the great plains, we should indeed be out of trouble."
+#~ msgstr "Ma ruigeas sinn an raonach mòr, bu chòir dhuinn a bhith sàbhailte."
+
+#~ msgid "???"
+#~ msgstr "???"
+
+#~ msgid ""
+#~ "This place is the village's old cemetery. It was used by the former "
+#~ "villagers who lived in Layna."
+#~ msgstr ""
+#~ "Seo seann-chladh a’ bhaile. Bhiodh na daoine a b’ àbhaist a bhith a’ "
+#~ "fuireach ann an Duaine ’ga chleachdadh."
+
+#~ msgid "The former villagers? What do you mean?"
+#~ msgstr ""
+#~ "Na daoine a b’ àbhaist a bhith a’ fuireach ann… dè tha sin a’ ciallachadh?"
+
+#~ msgid ""
+#~ "Layna Village was abandoned a long time ago, before your parents and all "
+#~ "the others settled here. Your mother never told you that?"
+#~ msgstr ""
+#~ "Chaidh Baile Duaine a thrèigsinn o chionn fhada mus do ghabh do phàrantan "
+#~ "is càch còmhnaidh ann. Nach do dh’innis do mhàthair dhut mu dhèidhinn a-"
+#~ "riamh?"
+
+#~ msgid ""
+#~ "I've never been this far from the village without Herth. This place gives "
+#~ "me the chills."
+#~ msgstr ""
+#~ "Cha robh mi cho fad air falbh on bhaile às aonais Thaoig a-riamh. Tha an "
+#~ "t-àite seo a’ chur an t-eagal orm."
+
+#~ msgid "Anyway, once the cemetery is behind us we should be out of trouble!"
+#~ msgstr ""
+#~ "Co-dhiù no co-dheth, nuair a gheibh sinn seachad air a’ chladh, bu chòir "
+#~ "dhuinn a bhith sàbhailte!"
+
+#~ msgid "Are those the soldiers up there?"
+#~ msgstr "A bheil saighdearan ann thall shuas?"
+
+#~ msgid "The west gate is condemned, as the Lord commanded."
+#~ msgstr "Tha geata an iar daor fo òrdugh an tighearna."
+
+#~ msgid "Good. Let's go back and wait for them."
+#~ msgstr "Glè mhath. Tilleamaid a dh’fheitheamh orra."
+
+#~ msgid "The gate to the great plains..."
+#~ msgstr "Geata an raonaich mhòir…"
+
+#~ msgid "Have we got any other way to leave this place?"
+#~ msgstr "A bheil slighe eile a-mach às an àite seo ann?"
+
+#~ msgid "Only one. The mountain top."
+#~ msgstr "Chan eil ach aon. Mullach na beinne."
+
+#~ msgid "Oh no! The gate!"
+#~ msgstr "Ochan ò! an geata!"
+
+#~ msgid "We're trapped!"
+#~ msgstr "Tha sinn glacte!"
+
+#~ msgid "You're mine now!"
+#~ msgstr "’S ann leamsa a tha sibh a-nis!"
+
+#~ msgid ""
+#~ "I shall bring your souls to the master. You don't stand a chance against "
+#~ "the Great Harlequin."
+#~ msgstr ""
+#~ "Bheir mi ur n-anman dhan mhaighstir. Chan eil cothrom na Fèinne agaibh an "
+#~ "aghaidh a’ Chleasaiche-fhanaid Mhòir."
+
+#~ msgid "But let's play together first, shall we?"
+#~ msgstr "Ach cluichidh sinn greis an toiseach, nach cluich?"
+
+#~ msgid "Now catch me, if you can."
+#~ msgstr "Nise, feuchaibh an glac sibh mi."
+
+#~ msgid "Enough of this shallow game. Give me your souls, now!"
+#~ msgstr ""
+#~ "Tha mi seachd searbh dhen gheama fhaoin seo a-nis. Thoiribh ur n-anman "
+#~ "dhomh!"
+
+#~ msgid "How could I be hurt by... children..."
+#~ msgstr "Cha chreid mi gun deach mo leòn … le clann…"
+
+#~ msgid "We'll see each other again, chosen one..."
+#~ msgstr "Chì mi a-rithist thu, a dhuine-cloinne thaghta…"
+
+#~ msgid "We made it."
+#~ msgstr "Ràinig sinn an t-àite."
+
+#~ msgid "Brr. It's quite cold up here."
+#~ msgstr "Foiteag. Tha e caran fionnar an-seo."
+
+#~ msgid ""
+#~ "The bridge is a few feet away. Let's reach the mountain pass before the "
+#~ "frost kills us."
+#~ msgstr ""
+#~ "Chan eil an drochaid fada oirnn. Ruigeamaid am bealach mus fhaigh sinn "
+#~ "bàs leis an fhuachd."
+
+#~ msgid "Let's hurry. I can't feel my toes anymore."
+#~ msgstr ""
+#~ "Tiugainn gun dàil. Chan eil mi a’ faireachdainn m’ òrdagan tuilleadh."
+
+#~ msgid "(Woah, this bridge doesn't look very sturdy.)"
+#~ msgstr "(Thoiribh an aire, chan eil coltas glè threun air an drochaid seo.)"
+
+#~ msgid "Well, here we go."
+#~ msgstr "Uill, tiugainn ma-thà."
+
+#~ msgid "There!"
+#~ msgstr "An-siud!"
+
+#~ msgid "Catch them before they reach the shrine!"
+#~ msgstr "Feumaidh sinn an glacadh mus ruig iad an naomh-chiste!"
+
+#~ msgid "Let's run!"
+#~ msgstr "Thoiribh ur casan leibh!"
+
+#~ msgid "I'll cut those ropes!"
+#~ msgstr "Gearraidh mi na ròpannan!"
+
+#~ msgid "That was close."
+#~ msgstr "Abair caol-shàbhaladh!"
+
+#~ msgid "Damn!"
+#~ msgstr "Gonadh orra!"
+
+#~ msgid "The master won't be happy with this."
+#~ msgstr "Cha bhi am maighstir toilichte le seo."
+
+#~ msgid "You won't get away so easily. We will catch you sooner or later."
+#~ msgstr "Cha teic sibh cho furasta sin. Glacaidh sinn sibh gu luath no mall."
+
+#~ msgid "Hurray! Those idiots will have a hard time catching us now!"
+#~ msgstr "Hò-rò! Cha ghlac na h-amadain ud sinn gun duilgheadas a-nis!"
+
+#~ msgid "Indeed! They've been had!"
+#~ msgstr "Gu dearbh! Rinn sinn a’ chùis orra!"
+
+#~ msgid "Who are the little brats now, eh?"
+#~ msgstr "Cò na droch-iseanan a-nis, saoil?"
+
+#~ msgid "Let's go back and inform the others."
+#~ msgstr "Tilleamaid ’ga innse do chàch."
+
+#~ msgid "Yes, sir."
+#~ msgstr "Aidh, a thighearna."
+
+#~ msgid ""
+#~ "They're gone. We should move on before they actually find a way to cross "
+#~ "the gap."
+#~ msgstr ""
+#~ "Dh’fhalbh iad. Bu chòir dhuinn dol air adhart mus lorg iad dòigh air an "
+#~ "dig iad thairis air a’ bheàrn."
+
+#~ msgid "Phew, this one sure is heavier and more sturdy."
+#~ msgstr "Ò ghiall, tha an tè seo nas truime buileach."
+
+#~ msgid "I can feel something moving far below."
+#~ msgstr "Tha mi a’ mothachadh do rudeigin a’ gluasad fada fodhainn."
+
+#~ msgid "Yiek! A big monster!"
+#~ msgstr "Iochd! Seo uilebheist mòr!"
+
+#~ msgid ""
+#~ "My name is Andromalius, guardian of the sacred seal and keeper of the "
+#~ "Goddess Shrine."
+#~ msgstr ""
+#~ "’S mise a’ ghlaisrig, ban-ghlèidhidh an t-seula naoimh agus ban-chumail "
+#~ "Naomh-chiste na Ban-dia."
+
+#~ msgid ""
+#~ "You have trespassed the holy ground of the Ancient and remained unharmed "
+#~ "for too long in this temple."
+#~ msgstr ""
+#~ "Rinn sibh ain-inntrigeadh air talamh naomh an t-Sinnseir agus fhuair sibh "
+#~ "às gun leòn ro fada san teampall seo."
+
+#~ msgid ""
+#~ "Thus, let death embrace you, little boy. For your comrades are already "
+#~ "dying under my charm and you need to join them in the other world."
+#~ msgstr ""
+#~ "Agus le seo, bàs ort a bhalaich bhig. On a tha do chuideachd a’ caochladh "
+#~ "mar-thà fon t-seun agam agus feumaidh tu dol còmhla riutha don t-saoghal "
+#~ "eile."
+
+#~ msgid "You've proven yourself, chosen one. You deserve to live after all."
+#~ msgstr ""
+#~ "Dhearbh thu gur tusa am fear taghta. ’S fhiach gum mair thu beò ma-thà."
+
+#~ msgid "Me? But I'm not the chosen one."
+#~ msgstr "Mise? Ach chan e am fear taghta a th’ annam-sa."
+
+#~ msgid ""
+#~ "The ones being few or many, still each of them will have to prove "
+#~ "themselves as it is ought to be."
+#~ msgstr ""
+#~ "Ge b’ e mòran no beagan dhiubh, feumaidh gach aon ’ga dhearbhadh fhèin "
+#~ "mar bu chòir."
+
+#~ msgid "Farewell, chosen one."
+#~ msgstr "Beannachd leibh, fhir thaghta."
+
+#~ msgid "I can hear water everywhere."
+#~ msgstr "Cluinnidh mi uisge feadh an àite."
+
+#~ msgid "Kalya, Bronann!"
+#~ msgstr "A Chaoimhe, a Bhreannain!"
+
+#~ msgid "Wow, what a fall. I didn't see that one coming."
+#~ msgstr ""
+#~ "Abair thusa gun do thuit sinn fada. Cha robh mi ’n dùil air seo idir."
+
+#~ msgid "Are you alright, Kalya?"
+#~ msgstr "’Eil thu ceart gu leòr, a Chaoimhe?"
+
+#~ msgid "I should be fine, but we should heal just in case."
+#~ msgstr ""
+#~ "Tha ach bu chòir dhuinn slànachadh dìreach air eagal ’s gun dig cunnart "
+#~ "eile oirnn."
+
+#~ msgid "Wait..."
+#~ msgstr "Fuirich ort…"
+
+#~ msgid "Where is Orlinn?"
+#~ msgstr "Cà bheil Odhran?"
+
+#~ msgid "Orlinn? Orlinn!"
+#~ msgstr "Odhrain? Odhrain!"
+
+#~ msgid "Let's find him, once more, before something bad happens."
+#~ msgstr "Feumaidh sinn a lorg a-rithist mus èirich beud dha."
+
+#~ msgid "This is the blocked passage to the shrine entrance."
+#~ msgstr "Seo an trannsa bacte gu doras na naomh-chiste."
+
+#~ msgid "This can only mean we're near the exit!"
+#~ msgstr "Feumaidh gu bheil sinn faisg air an doras a-mach ma-thà!"
+
+#~ msgid "Orlinn! Back off!"
+#~ msgstr "Odhrain! Cùm air ais!"
+
+#~ msgid "I, I..."
+#~ msgstr "Tha, tha…"
+
+#~ msgid "Orlinn! NOW!"
+#~ msgstr "Odhrain! Làrach nam bonn!"
+
+#~ msgid "You shall not leave this place without my consent."
+#~ msgstr "Chan fhàg sibh an t-àite seo às aonais m’ aontachaidh."
+
+#~ msgid "And you shall not touch my brother without mine."
+#~ msgstr "Agus cha bhean sibh ri m’ bhràthair às aonais m’ aontachadh-sa."
+
+#~ msgid ""
+#~ "You have made it through the holy ordeal alive. I shall not let you "
+#~ "survive."
+#~ msgstr ""
+#~ "Sheas sibh an aghaidh na cruaidh-dheuchainn. Chan fhulaing mi gum faigh "
+#~ "sibh às beò."
+
+#~ msgid "Let's fight for our lives then!"
+#~ msgstr "Nì sinn sabaid ma-thà ach am mair sinn beò!"
+
+#~ msgid "Orlinn, are you alright?"
+#~ msgstr "Odhrain, ’eil thu ceart gu leòr?"
+
+#~ msgid "Yes. I'm sorry I wasn't able to protect myself, sis."
+#~ msgstr ""
+#~ "Tha. Tha mi duilich nach b’ urrainn dhomh mo dhìon fhìn, a phiuthar."
+
+#~ msgid ""
+#~ "Don't you worry about that, brother. Never leave me like that again, ok?"
+#~ msgstr "Na gabh dragh, a bhràthair. Ach na fàg a-rithist mi, m’ eudail!"
+
+#~ msgid ""
+#~ "I promise I didn't do it this time. I just fell in front of this hideous "
+#~ "green head."
+#~ msgstr ""
+#~ "Geallaidh mi nach bu mhis’ a bh’ ann an turas seo. ’S ann gun do thuit mi "
+#~ "air beulaibh a’ chinn uaine uabhasaich seo."
+
+#~ msgid ""
+#~ "Well, let's leave this place before another one wants our lives again."
+#~ msgstr ""
+#~ "Uill, a-mach à seo leinn mus fheuch cuideigin eile air ur beathannan."
+
+#~ msgid "I couldn't agree more."
+#~ msgstr "Tha mi a’ dol leat gu dearbh."
+
+#~ msgid "We can't move, Orlinn."
+#~ msgstr "Chan urrainn dhuinn gluasad, Odhrain."
+
+#~ msgid "We're gonna...suffocate."
+#~ msgstr "Tha rudeigin ’gar… mùchadh."
+
+#~ msgid "Orlinn, help us... Please, oh oh oh..."
+#~ msgstr "Odhrain, cuidich sinn… cuidich, och ochan och…"
+
+#~ msgid "What a large gate. What is behind it must be fearsome."
+#~ msgstr ""
+#~ "Abair thusa gur e geata mòr a th’ ann. Feumaidh gu bheil na tha air a "
+#~ "chùlaibh eagalach."
+
+#~ msgid "Shall we go in?"
+#~ msgstr "An dèid sinn a-steach?"
+
+#~ msgid "Yes, let's end this."
+#~ msgstr "Thèid is cuiridh sinn crìoch air seo."
+
+#~ msgid "No, let's prepare first."
+#~ msgstr "Cha dèid is barrachd ullachaidh a dhìth oirnn."
+
+#~ msgid ""
+#~ "Don't worry, we've managed to come this far. There is nothing that "
+#~ "could..."
+#~ msgstr ""
+#~ "Na gabh dragh. Chaidh an latha leinn gu ruige seo. Chan eil dòigh fon "
+#~ "ghrèin…"
+
+#~ msgid "What is it, Kalya?"
+#~ msgstr "Dè th’ ann, a Chaoimhe?"
+
+#~ msgid "...Kalya?!"
+#~ msgstr "…a Chaoimhe?!"
+
+#~ msgid "Sis'!"
+#~ msgstr "A pheathar!"
+
+#~ msgid "I feel... I..."
+#~ msgstr "Tha mi… tha…"
+
+#~ msgid "Hi hi... Hi hi hi... I can't stop!!"
+#~ msgstr "Hà hà… Hà hà hà… Chan urrainn dhomh stad!!"
+
+#~ msgid "What's so funny, Kalya? Hi hi."
+#~ msgstr "Dè tha èibhinn, a Chaoimhe? Hà hà."
+
+#~ msgid "I don't know... Ah, I can barely breathe!"
+#~ msgstr "Chan eil fhios a’m… À, ’s gann gun tarraing mi anail!"
+
+#~ msgid "Hi hi hi... What's happening to me..."
+#~ msgstr "Hà hà hà… Dè tha ’g èirigh dhomh…"
+
+#~ msgid "It's the scent, ah ah ah."
+#~ msgstr "Is am fàileadh as coireach, hà hà hà."
+
+#~ msgid ""
+#~ "Erm, are you crazy or what? I usually am the one with bad jokes you know."
+#~ msgstr ""
+#~ "Iochd, ’eil sibh às ur rian? ’S mise am fear a nì droch fhealla-dhà, "
+#~ "fhios agaibh?"
+
+#~ msgid "We can't move Orlinn."
+#~ msgstr "Chan urrainn dhuinn gluasad, Odhrain."
+
+#~ msgid "I can't let them die. I have to find out something."
+#~ msgstr ""
+#~ "Chan fhulaing mi gun caochail iad. Feumaidh mi rudeigin fhaighinn a-mach."
+
+#~ msgid "Something is preventing me from entering."
+#~ msgstr "Tha rudeigin ’gar bacadh o dhol a-steach."
+
+#~ msgid "I feel much better now."
+#~ msgstr "Tha mi a’ faireachdainn mòran nas fheàrr a-nis."
+
+#~ msgid "Indeed. It seems the scent has no effect on us anymore."
+#~ msgstr ""
+#~ "Gu dearbh. Tha coltas nach eil buaidh aig an fhàileadh oirnn tuilleadh."
+
+#~ msgid "Orlinn, did you do something?"
+#~ msgstr "Odhrain, na rinn thu rudeigin?"
+
+#~ msgid "Me? You know, a bit of this, a bit of that."
+#~ msgstr "Mise? Uill, rud no dhà…"
+
+#~ msgid "I didn't think I would say this, but thank you Orlinn."
+#~ msgstr "Cha shaoilinn a-riamh gun canainn seo, ach tapadh leat, Odhrain."
+
+#~ msgid "Thank you, indeed."
+#~ msgstr "Tapadh leat dha-rìribh."
+
+#~ msgid "You're welcome!"
+#~ msgstr "Tha sibh làn di-beathte!"
+
+#~ msgid ""
+#~ "Well, please stop laughing now. I'm not at ease with what just happened."
+#~ msgstr ""
+#~ "Murt, sguir dhen ghàireachdainn. Chan eil mi rèidh leis na thachair."
+
+#~ msgid "Stop laughing now or I'll smash your little head against that wall!"
+#~ msgstr ""
+#~ "Sguir dhen ghàireachdainn no bualaidh mi do cheann ris a’ bhalla, a "
+#~ "dhroch-isein!"
+
+#~ msgid "Aww, ok."
+#~ msgstr "Ò ghiall, ceart ma-thà."
+
+#~ msgid ""
+#~ "You'll see. There's plenty of things I need to show you there. Plus, it's "
+#~ "a safe place."
+#~ msgstr ""
+#~ "Tuigidh tu a dh’aithghearr. Tha iomad rud an-seo a dh’fheumas mi "
+#~ "sealltainn dhut. A bharrachd air sin, ’s e àite sàbhailte a th’ ann."
+
+#~ msgid "Err, sis?"
+#~ msgstr "An-dà, a phiuthar?"
+
+#~ msgid ""
+#~ "Our elder will also be able to help us. And you'll get a better "
+#~ "explanation than I could ever..."
+#~ msgstr ""
+#~ "Cuidichidh an seanair sinn. Agus gheibh thu mìneachadh nas fheàrr na b’ "
+#~ "urrainn dhomh fhìn…"
+
+#~ msgid "One second, Orlinn. I'm trying to..."
+#~ msgstr "Fuirich greis, Odhrain. Tha mi a’ feuchainn ri…"
+
+#~ msgid "But Kalya, look at the passageway!"
+#~ msgstr "Ach a Chaoimhe, seall air an trannsa!"
+
+#~ msgid "What about the..."
+#~ msgstr "Dè mu dhèidhinn…"
+
+#~ msgid "No, it can't be."
+#~ msgstr "Och, cha chreid mi e."
+
+#~ msgid "After all we've been through, this..."
+#~ msgstr "Às dèidh na dh’fhulaing sinn, tha…"
+
+#~ msgid "Calm down Kalya, there must be a way to go through this somehow."
+#~ msgstr ""
+#~ "Air do shocair, a Chaoimhe, feumaidh gu bheil slighe troimhe air "
+#~ "choireigin ann."
+
+#~ msgid "Unfortunately, yes. There is one."
+#~ msgstr "Gu mì-fhortanach, thà."
+
+#~ msgid "We'll have to enter the ancient shrine."
+#~ msgstr "Feumaidh sinn dol a-steach dhan naomh-chiste àrsaidh."
+
+#~ msgid ""
+#~ "If we wouldn't have gotten here all by ourselves, I would swear "
+#~ "Banesore's army pushed us here on purpose."
+#~ msgstr ""
+#~ "Mura robh sinn air an t-àite seo a ruigsinn leinn fhìn, bhithinn-sa "
+#~ "cinnteach gun do stiùirich feachd Ghoirturbhaidh sinn ann a dh’aona-"
+#~ "ghnothaich."
+
+#~ msgid "What's with this 'ancient shrine'?"
+#~ msgstr "Dè an sgeul mun naomh-chiste àrsaidh?"
+
+#~ msgid ""
+#~ "Some say it is haunted. It was sealed a long time ago, long before I was "
+#~ "even born."
+#~ msgstr ""
+#~ "Tha cuid ag ràdh gu bheil tàbharnadh air. Chaidh a seuladh o chionn fhada "
+#~ "fhada mus rugadh mi."
+
+#~ msgid "Indeed, it must be a long time ago."
+#~ msgstr "Feumaidh gur e o chionn fhada a bh’ ann."
+
+#~ msgid ""
+#~ "Anyway, we might not be able to enter there at all. But you're right, "
+#~ "let's have a look around first. Who knows?"
+#~ msgstr ""
+#~ "Gidheadh, ’s dòcha nach dèid leinn dol a-steach idir. Ach tha thu ceart, "
+#~ "bu chòir dhuinn sùil a thoirt air an àite seo an toiseach. Cò aig’ a tha "
+#~ "fhios dè lorgas sinn?"
+
+#~ msgid ""
+#~ "Here we are, looking at this huge and wonderful, yet creepy door. I don't "
+#~ "like this."
+#~ msgstr ""
+#~ "Seo sinne a’ coimhead air an doras mhìorbhaileach mhòr ach uamhalta a tha "
+#~ "seo. Cha toigh leam e."
+
+#~ msgid ""
+#~ "It's not like I actually want to open this, but how are we going to do so?"
+#~ msgstr ""
+#~ "Chan ann ’s gu bheil mi deònach air fhosgladh, ach ciamar a nì sinn seo?"
+
+#~ msgid "Ow, my chest. It hurts!"
+#~ msgstr "Oich, m’ uchd. Tha e goirt!"
+
+#~ msgid "The crystal! Orlinn! Let's stand back!"
+#~ msgstr "An criostal! Odhrain! Cumaidh sinn fad an sgadain uaidhe!"
+
+#~ msgid "That sign, it is the sign of the ancients! Bronann! Are you alright?"
+#~ msgstr ""
+#~ "An samhla sin, ’s e samhla nan sinnsearan a th’ ann. A Bhreannain! ’Eil "
+#~ "thu ceart gu leòr?"
+
+#~ msgid "I'm fine, I guess. The pain faded away."
+#~ msgstr "Saoilidh mi gu bheil. Dh’fhalbh am pian."
+
+#~ msgid "Thank the goddess."
+#~ msgstr "Taing dhan bhan-dia."
+
+#~ msgid "Well, the door is open now."
+#~ msgstr "Uill, tha an doras fosgailte a-nis."
+
+#~ msgid "Yiek! Do you really want to go there??"
+#~ msgstr "Iochd! A bheil sibh airson dol troimhe dha-rìribh??"
+
+#~ msgid ""
+#~ "I believe we don't really have a choice. Somehow this place... called me."
+#~ msgstr ""
+#~ "Cha chreid mi gu bheil roghainn againn. Ann an dòigh … dh’iarr an t-àite "
+#~ "seo fhèin mi."
+
+#~ msgid "Anyway, let's stick together and we'll be fine as always, right?"
+#~ msgstr ""
+#~ "Co-dhiù no co-dheth, cumaidh sinn an làimh a chèile is bidh sinn ceart gu "
+#~ "leòr mar as àbhaist, nach bi?"
+
+#~ msgid "I have a bad feeling about all this now."
+#~ msgstr "Tha mi amharasach mu dhèidhinn a-nis."
+
+#~ msgid "It seems somebody left a note here on purpose."
+#~ msgstr ""
+#~ "Tha coltas gun do dh’fhàg cuideigin nòta an-seo a dh’aona-ghnothaich."
+
+#~ msgid "You mean in the middle of those scary bones?"
+#~ msgstr "An teas-mheadhan nan cnàmhan eagalach seo!"
+
+#~ msgid "Let me see."
+#~ msgstr "Faiceam."
+
+#~ msgid "'To whoever will read this:'"
+#~ msgstr "“Ge b’ e cò a leughas seo:”"
+
+#~ msgid ""
+#~ "'Battles have been waging all over the place and the Ancient have now "
+#~ "forsaken me into oblivion when they sealed the Goddess Shrine.'"
+#~ msgstr ""
+#~ "“Bhiodhte a’ sabaid air feadh an àite ⁊ dhìobair an Sinnsear chun an "
+#~ "dearmaid mi nuair a sheulaich iad Naomh-chiste na Ban-dia.”"
+
+#~ msgid ""
+#~ "'All my comrades have perished in battle and I am the last unfortunate "
+#~ "one left.'"
+#~ msgstr ""
+#~ "“Thuit mo cuideachd gu lèir air a’ bhlàr ⁊ is mise am fear mì-àghmhor a "
+#~ "mhair.”"
+
+#~ msgid ""
+#~ "'My name is Shawn, and I do believe my time is running out in this life "
+#~ "as there is neither food nor water in here.'"
+#~ msgstr ""
+#~ "“’S e Iain a th’ orm ⁊ cha chreid mi nach e am bàs an dàn dhomh o nach "
+#~ "eil biadh no uisge an-seo.”"
+
+#~ msgid "Poor guy. He must have died from starvation."
+#~ msgstr "An truaghan. Feumaidh gun d’ fhuair e bàs leis an acras."
+
+#~ msgid ""
+#~ "'But I will attempt one last time to escape from here and I'm leaving "
+#~ "this note in case you'd need to do the same.'"
+#~ msgstr ""
+#~ "“Ach feuchaidh mi aon turas eile gun teich mi ⁊ fàgaidh mi an nòta seo "
+#~ "air eagal ’s gum bi sibh fon dearbh staing.”"
+
+#~ msgid ""
+#~ "'The only way to escape this hellish place is to reach the highest floor "
+#~ "and activate the waterfall. At least that's what they said.'"
+#~ msgstr ""
+#~ "“Chan eil ach aon dòigh teichidh o àite an donais seo ⁊ ruigibh an làr as "
+#~ "àirde ⁊ gnìomhaichibh an t-eas. Seo mar a chaidh innse dhomh-sa.”"
+
+#~ msgid "What are we waiting for, let's go!"
+#~ msgstr "Tiugainn ma-thà!"
+
+#~ msgid "Wait Orlinn! That's not all he wrote."
+#~ msgstr "Fuirich ort, Odhrain! Chan e seo a h-uile càil a sgrìobh e."
+
+#~ msgid ""
+#~ "'But be warned, for even the very scent exuding from the dark waters is a "
+#~ "trap!'"
+#~ msgstr ""
+#~ "“Ach bithibh faiceallach on a tha am fàileadh fhèin a thig às an uisge "
+#~ "dorcha ’na ribe!”"
+
+#~ msgid ""
+#~ "'The entire shrine has been turned into a murderous area and you'll have "
+#~ "to fight your way through, just as I will now.'"
+#~ msgstr ""
+#~ "“Chaidh àite marbhtach a dhèanamh den naomh-chiste gu lèir ⁊ feumaidh "
+#~ "sibh sabaid le gach ceum mar a shabaideas mi fhìn a-nis.”"
+
+#~ msgid "That's it."
+#~ msgstr "Sin agaibh e."
+
+#~ msgid "Let's find out how to activate that waterfall, then."
+#~ msgstr ""
+#~ "Feumaidh sinn faighinn a-mach ciamar a ghnìomhaicheas sinn an t-eas ud ma-"
+#~ "thà."
+
+#~ msgid "Yes, and let's do it quickly."
+#~ msgstr "Feumaidh gun dàil."
+
+#~ msgid ""
+#~ "Somebody left a note on purpose here. According to it, we need to find "
+#~ "out a way to trigger the waterfall from the highest floor."
+#~ msgstr ""
+#~ "Dh’fhàg cuideigin nòta an-seo a dh’aona-ghnothaich. Tha e ag innse gum "
+#~ "feum sinn faighinn a-mach mar a ghnìomhaicheas sinn an t-eas on làr as "
+#~ "àirde."
+
+#~ msgid ""
+#~ "But let's be careful, as it also said this place is dangerous and the "
+#~ "dark waters are some kind of trap."
+#~ msgstr ""
+#~ "Ach thoireamaid an aire, tha e ag innse cuideachd gu bheil an t-àite seo "
+#~ "cunnartach agus gu bheil an t-uisge dorcha ’na ribe air choireigin."
+
+#~ msgid "What is this? Skeletons?!"
+#~ msgstr "Dè am mì-shealbh a tha sin? Cnàimhnich, an e?"
+
+#~ msgid "Phew."
+#~ msgstr "Murt!"
+
+#~ msgid "Again, I can feel something moving not far from here."
+#~ msgstr ""
+#~ "A-rithist, tha mi a’ mothachadh do rudeigin a’ gluasad nach eil fada "
+#~ "uainn."
+
+#~ msgid ""
+#~ "There is a passage here, but I'm too heavy to climb on those stones "
+#~ "jutting out."
+#~ msgstr ""
+#~ "Tha trannsa an-seo ach tha mi ro throm airson na clachan tana sin a "
+#~ "shreap."
+
+#~ msgid ""
+#~ "The fact is, you and I cannot afford to stand on those stones. Maybe with "
+#~ "a rope?"
+#~ msgstr ""
+#~ "A dh’innse na fìrinn, cha bu chòir dhutsa no dhom fhìn seasamh air na "
+#~ "clachan ud. ’S dòcha gur urrainn le ròpa?"
+
+#~ msgid "I'll do it."
+#~ msgstr "Nì mise e."
+
+#~ msgid "What? Are you crazy? There could be monsters up there."
+#~ msgstr ""
+#~ "B’ àill leat? ’Eil thu às do rian? Faodaidh gu bheil uilebheistean ann "
+#~ "thall shuas."
+
+#~ msgid "Then I'll deal with them, sis. We can't just stay here, anyway."
+#~ msgstr ""
+#~ "Dèiligidh mi riutha, a pheathar. Chan urrainn dhuinn fuireach an-seo co-"
+#~ "dhiù."
+
+#~ msgid "Orlinn, you sure have grown up through all of this. Are you sure?"
+#~ msgstr ""
+#~ "Odhrain, tha thu a’ tighinn gu inbhe leis na tha air èirigh dhuinn. A "
+#~ "bheil thu cinnteach?"
+
+#~ msgid "I need to, I guess."
+#~ msgstr "Saoilidh mi gum feum mi ’ga dhèanamh."
+
+#~ msgid "Just tell me when you're ready and I'll throw you up there."
+#~ msgstr "Innis dhomh nuair a bhios tu deis is tilgidh mi suas thu."
+
+#~ msgid "Ready to go up?"
+#~ msgstr "A bheil thu deiseil airson dìreadh?"
+
+#~ msgid "Err, not yet."
+#~ msgstr "An-dà, chan eil fhathast."
+
+#~ msgid "Be careful, ok?"
+#~ msgstr "Thoir an aire, m’ eudail!"
+
+#~ msgid "Want to come back?"
+#~ msgstr "A bheil thu airson tilleadh?"
+
+#~ msgid "Yes!"
+#~ msgstr "Tha!"
+
+#~ msgid "No, not yet."
+#~ msgstr "Chan eil fhathast."
+
+#~ msgid "Oops, sorry!"
+#~ msgstr "Oich, duilich!"
+
+#~ msgid "Bronann, are you okay?"
+#~ msgstr "A Bhreannain, ’eil thu ceart gu leòr?"
+
+#~ msgid "I don't know, I felt something crack."
+#~ msgstr "Chan eil fhios a’m, cha chreid mi nach cuala mi brag."
+
+#~ msgid "Not again..."
+#~ msgstr "Murt…"
+
+#~ msgid "There is a note left here."
+#~ msgstr "Dh’fhàg cuideigin nòta an-seo."
+
+#~ msgid ""
+#~ "It says: 'I fathomed it! After all, not every ladder is made of wood. "
+#~ "Now, I'll have to get back there alive.'"
+#~ msgstr ""
+#~ "Tha e ag ràdh: “Ràinig mi air! ’S ann nach dèid gach faradh a dhèanamh de "
+#~ "dh’fhiodh. Nise, feumaidh mi tilleadh dha beò.”"
+
+#~ msgid "There seems to be one of those rolling stones up here."
+#~ msgstr "Tha coltas gu bheil tè nan clach a ghabhas caradh thall shuas."
+
+#~ msgid "Layna Forest Cave"
+#~ msgstr "Uamh coille Duaine"
+
+#~ msgid "Forest entrance"
+#~ msgstr "A-steach dhan choille"
+
+#~ msgid "Where it all began..."
+#~ msgstr "Far na thòisich e…"
+
+#~ msgid "Mountain Village of Layna"
+#~ msgstr "Baile monadh Duaine"
+
+#~ msgid "Flora's Boutique"
+#~ msgstr "Bùth Flòraidh"
+
+#~ msgid "Basement"
+#~ msgstr "Ìoslach"
+
+#~ msgid "Riverbank"
+#~ msgstr "Tràigh na h-aibhne"
+
+#~ msgid "Lilly's house"
+#~ msgstr "Taigh Ròis"
+
+#~ msgid "Village entrance"
+#~ msgstr "Doras a’ bhaile"
+
+#~ msgid "Well Undergrounds"
+#~ msgstr "Fon tobar"
+
+#~ msgid "Elbrus Grotto"
+#~ msgstr "Uamh Ealbhrais"
+
+#~ msgid "Low Mountain"
+#~ msgstr "Beinn ìosal"
+
+#~ msgid "Old Cemetery"
+#~ msgstr "Seann-chladh"
+
+#~ msgid "Mountain bridge"
+#~ msgstr "Drochaid monaidh"
+
+#~ msgid "Mt. Elbrus Shrine"
+#~ msgstr "Naomh-chiste Beinn Ealbhrais"
+
+#~ msgid "2nd Floor"
+#~ msgstr "An dàrna làr"
+
+#~ msgid "Underpass"
+#~ msgstr "Fo-shlighe"
+
+#~ msgid "1st Floor"
+#~ msgstr "A’ chiad làr"

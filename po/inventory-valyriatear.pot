@@ -1,0 +1,736 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-22 23:22+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../data/inventory/arm_armor.lua:41
+msgid "Prismatic Ring"
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:42
+msgid "A strange ring that protects the wearer from darkness."
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:60
+msgid "Long Leather Gloves"
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:61 ../data/inventory/arm_armor.lua:72
+msgid "Robust leather gloves."
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:71
+msgid "Sturdy Leather Gloves"
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:82
+msgid "Wooden Shield"
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:83
+msgid "Robust wooden oak protects from all but the heaviest of assaults."
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:93
+msgid "Metal Shield"
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:94
+msgid ""
+"A shield formed completely out of a light-weight but cheap metallic alloy."
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:104
+msgid "Phoenix Shield"
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:105
+msgid "A tall steel shield with a mighty phoenix emblazoned on the front."
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:115
+msgid "Trident Shield"
+msgstr ""
+
+#: ../data/inventory/arm_armor.lua:116
+msgid ""
+"A large shield with enough fortitude to withstand waves of powerful attacks."
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:41
+msgid "Butterfly Hair Tong"
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:42
+msgid "An old and finely crafted piece of jewelery."
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:52 ../data/inventory/items.lua:1067
+msgid "Wolfpain Necklace"
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:53 ../data/inventory/items.lua:1068
+msgid "A strange necklace with unknown powers."
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:66
+msgid "Old Helmet"
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:67
+msgid "A battle-worn helmet, still reliable for head protection."
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:77
+msgid "Cobalt Helm"
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:78
+msgid "A small helmet composed of a secret cobalt-based alloy."
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:88
+msgid "Crested Helmet"
+msgstr ""
+
+#: ../data/inventory/head_armor.lua:89
+msgid ""
+"A sturdy helmet with a hinged face guard offering additional protection."
+msgstr ""
+
+#: ../data/inventory/items.lua:81
+msgid "Tiny Healing Potion"
+msgstr ""
+
+#: ../data/inventory/items.lua:82
+msgid "Restores a small amount of hit points to an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:112
+msgid "Small Healing Potion"
+msgstr ""
+
+#: ../data/inventory/items.lua:113
+msgid "Restores a reasonable amount of hit points to an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:143
+msgid "Healing Potion"
+msgstr ""
+
+#: ../data/inventory/items.lua:144
+msgid "Restores a large amount of hit points to an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:174
+msgid "Mega Healing Potion"
+msgstr ""
+
+#: ../data/inventory/items.lua:175
+msgid "Restores a very high amount of hit points to an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:235
+msgid "Tiny Moon Juice Potion"
+msgstr ""
+
+#: ../data/inventory/items.lua:236
+msgid "Restores a small amount of skill points to an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:266
+msgid "Small Moon Juice Potion"
+msgstr ""
+
+#: ../data/inventory/items.lua:267
+msgid "Restores a reasonable amount of skill points to an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:297
+msgid "Moon Juice Potion"
+msgstr ""
+
+#: ../data/inventory/items.lua:298
+msgid "Restores a large amount of skill points to an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:328
+msgid "Mega Moon Juice Potion"
+msgstr ""
+
+#: ../data/inventory/items.lua:329
+msgid "Restores a very high amount of skill points to an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:359
+msgid "Lotus Petal"
+msgstr ""
+
+#: ../data/inventory/items.lua:360
+msgid "Cures moderate poisons from an ally."
+msgstr ""
+
+#: ../data/inventory/items.lua:418
+msgid "Candy"
+msgstr ""
+
+#: ../data/inventory/items.lua:419
+msgid "Makes an ally's health regenerate moderately."
+msgstr ""
+
+#: ../data/inventory/items.lua:504
+msgid "Minor Elixir"
+msgstr ""
+
+#: ../data/inventory/items.lua:505
+msgid ""
+"Revives a character, or improves the character's status when he/she is alive "
+"by a limited degree."
+msgstr ""
+
+#: ../data/inventory/items.lua:554
+msgid "Elixir"
+msgstr ""
+
+#: ../data/inventory/items.lua:555
+msgid ""
+"Revives a character to half of their hit points, or reasonably improves the "
+"character's status while he/she is alive."
+msgstr ""
+
+#: ../data/inventory/items.lua:602
+msgid "Periwinkle Potion"
+msgstr ""
+
+#: ../data/inventory/items.lua:603
+msgid ""
+"Gives a reasonable boost in Physical Attack to an ally for a large amount of "
+"time."
+msgstr ""
+
+#: ../data/inventory/items.lua:651
+msgid "Haste Potion"
+msgstr ""
+
+#: ../data/inventory/items.lua:652
+msgid ""
+"Gives a reasonable boost in stamina to an ally for a small amount of time."
+msgstr ""
+
+#: ../data/inventory/items.lua:701
+msgid "Poison Potion"
+msgstr ""
+
+#: ../data/inventory/items.lua:702
+msgid "Poisons an enemy for a small amount of time."
+msgstr ""
+
+#: ../data/inventory/items.lua:749
+msgid "Copper Ore"
+msgstr ""
+
+#: ../data/inventory/items.lua:750
+msgid "A small amount of copper ore."
+msgstr ""
+
+#: ../data/inventory/items.lua:756
+msgid "Iron Ore"
+msgstr ""
+
+#: ../data/inventory/items.lua:757
+msgid "A small amount of iron ore."
+msgstr ""
+
+#: ../data/inventory/items.lua:763
+msgid "Titanium Ore"
+msgstr ""
+
+#: ../data/inventory/items.lua:764
+msgid "A small amount of titanium ore."
+msgstr ""
+
+#: ../data/inventory/items.lua:770
+msgid "Anthozium Ore"
+msgstr ""
+
+#: ../data/inventory/items.lua:771
+msgid "A small amount of anthozium ore."
+msgstr ""
+
+#: ../data/inventory/items.lua:777
+msgid "Auridium Ore"
+msgstr ""
+
+#: ../data/inventory/items.lua:778
+msgid "A small amount of auridium ore."
+msgstr ""
+
+#: ../data/inventory/items.lua:784
+msgid "Borium Ore"
+msgstr ""
+
+#: ../data/inventory/items.lua:785
+msgid "A small amount of borium ore."
+msgstr ""
+
+#: ../data/inventory/items.lua:791
+msgid "Evanium Ore"
+msgstr ""
+
+#: ../data/inventory/items.lua:792
+msgid "A small amount of evanium ore."
+msgstr ""
+
+#: ../data/inventory/items.lua:798
+msgid "Phoenix Feather"
+msgstr ""
+
+#: ../data/inventory/items.lua:799
+msgid ""
+"A genuine and perfect feather from the great fire bird. It is known to bring "
+"life to inanimated items."
+msgstr ""
+
+#: ../data/inventory/items.lua:807
+msgid "Slimy Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:808
+msgid "Material provided by slimy creatures."
+msgstr ""
+
+#: ../data/inventory/items.lua:814
+msgid "Refined Slimy Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:815
+msgid "Quality material provided by slimy creatures."
+msgstr ""
+
+#: ../data/inventory/items.lua:821
+msgid "Insect Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:822
+msgid "Material provided by various insects."
+msgstr ""
+
+#: ../data/inventory/items.lua:828
+msgid "Refined Insect Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:829
+msgid "Quality material provided by various insects."
+msgstr ""
+
+#: ../data/inventory/items.lua:835
+msgid "Fur"
+msgstr ""
+
+#: ../data/inventory/items.lua:836 ../data/inventory/items.lua:885
+#: ../data/inventory/items.lua:913
+msgid "Material provided by various creatures."
+msgstr ""
+
+#: ../data/inventory/items.lua:842
+msgid "Soft Fur"
+msgstr ""
+
+#: ../data/inventory/items.lua:843
+msgid "Material provided by rare animals."
+msgstr ""
+
+#: ../data/inventory/items.lua:849
+msgid "Silver Fur"
+msgstr ""
+
+#: ../data/inventory/items.lua:850
+msgid "Highly sought-after material provided by very special creatures."
+msgstr ""
+
+#: ../data/inventory/items.lua:856
+msgid "Saurian Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:857
+msgid "Material provided by various reptilians."
+msgstr ""
+
+#: ../data/inventory/items.lua:863
+msgid "Refined Saurian Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:864
+msgid "Quality material provided by various reptilians."
+msgstr ""
+
+#: ../data/inventory/items.lua:870
+msgid "Rodent Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:871
+msgid "Material provided by small rodents."
+msgstr ""
+
+#: ../data/inventory/items.lua:877
+msgid "Refined Rodent Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:878
+msgid "Quality material provided by not-that-small rodents."
+msgstr ""
+
+#: ../data/inventory/items.lua:884
+msgid "Soft Powder"
+msgstr ""
+
+#: ../data/inventory/items.lua:891
+msgid "Silk"
+msgstr ""
+
+#: ../data/inventory/items.lua:892 ../data/inventory/items.lua:920
+#: ../data/inventory/items.lua:927
+msgid "Material provided by a few creatures."
+msgstr ""
+
+#: ../data/inventory/items.lua:898
+msgid "Red Meat"
+msgstr ""
+
+#: ../data/inventory/items.lua:899
+msgid "Material provided by warm-blooded creatures."
+msgstr ""
+
+#: ../data/inventory/items.lua:905
+msgid "Fish Meat"
+msgstr ""
+
+#: ../data/inventory/items.lua:906
+msgid "Material provided by various underwater creatures."
+msgstr ""
+
+#: ../data/inventory/items.lua:912
+msgid "White Meat"
+msgstr ""
+
+#: ../data/inventory/items.lua:919
+msgid "Orb"
+msgstr ""
+
+#: ../data/inventory/items.lua:926
+msgid "Stinging Material"
+msgstr ""
+
+#: ../data/inventory/items.lua:933
+msgid "Thick Fabric"
+msgstr ""
+
+#: ../data/inventory/items.lua:934
+msgid "Common fabric, but of good quality."
+msgstr ""
+
+#: ../data/inventory/items.lua:940
+msgid "Fine Wood"
+msgstr ""
+
+#: ../data/inventory/items.lua:941
+msgid "Common but durable wood. Always useful"
+msgstr ""
+
+#: ../data/inventory/items.lua:993
+msgid "Escape Smoke"
+msgstr ""
+
+#: ../data/inventory/items.lua:994
+msgid ""
+"A ninja potion that bursts out a damp mist when it is crashed on the ground. "
+"Used to hopefully escape from standard opponents."
+msgstr ""
+
+#: ../data/inventory/items.lua:1050
+msgid "Pen"
+msgstr ""
+
+#: ../data/inventory/items.lua:1051
+msgid "Georges's pen, presumably used to write poetry."
+msgstr ""
+
+#: ../data/inventory/items.lua:1058
+msgid "Barley Meal"
+msgstr ""
+
+#: ../data/inventory/items.lua:1059
+msgid "Basic yet good and cheap flour."
+msgstr ""
+
+#: ../data/inventory/leg_armor.lua:41
+msgid "Leather boots"
+msgstr ""
+
+#: ../data/inventory/leg_armor.lua:42 ../data/inventory/leg_armor.lua:52
+msgid "Simple but fairly good leather boots."
+msgstr ""
+
+#: ../data/inventory/leg_armor.lua:51
+msgid "Sturdy boots"
+msgstr ""
+
+#: ../data/inventory/leg_armor.lua:61
+msgid "Standard Greaves"
+msgstr ""
+
+#: ../data/inventory/leg_armor.lua:62
+msgid ""
+"Standard equipment. Light metal alloy protects the legs while minimizing the "
+"negative impact on movement."
+msgstr ""
+
+#: ../data/inventory/leg_armor.lua:72
+msgid "Tempered Greaves"
+msgstr ""
+
+#: ../data/inventory/leg_armor.lua:73
+msgid ""
+"Standard greaves that have undergone an additional tempering process, "
+"increasing their durability and strength."
+msgstr ""
+
+#: ../data/inventory/spirits.lua:23
+msgid "Ardoris"
+msgstr ""
+
+#: ../data/inventory/spirits.lua:24
+msgid "An enchanting child of fire."
+msgstr ""
+
+#: ../data/inventory/spirits.lua:55
+msgid "Undine"
+msgstr ""
+
+#: ../data/inventory/spirits.lua:56
+msgid "A mesmerizing spirit of living water."
+msgstr ""
+
+#: ../data/inventory/spirits.lua:87
+msgid "Sylphid"
+msgstr ""
+
+#: ../data/inventory/spirits.lua:88
+msgid "A very rare spirit of wind, usually neither tamable nor catchable."
+msgstr ""
+
+#: ../data/inventory/spirits.lua:119
+msgid "Dryad"
+msgstr ""
+
+#: ../data/inventory/spirits.lua:120
+msgid "A fragile spirit, child of mother nature."
+msgstr ""
+
+#: ../data/inventory/spirits.lua:151
+msgid "Fairy"
+msgstr ""
+
+#: ../data/inventory/spirits.lua:152
+msgid "Blinding as the sun, she brings life even where death belongs."
+msgstr ""
+
+#: ../data/inventory/spirits.lua:183
+msgid "Demona"
+msgstr ""
+
+#: ../data/inventory/spirits.lua:184
+msgid ""
+"Spirit of the dark. It can't be possessed: it only chose to be possessed, "
+"waiting for its hour."
+msgstr ""
+
+#: ../data/inventory/spirits.lua:215
+msgid "Oblivion"
+msgstr ""
+
+#: ../data/inventory/spirits.lua:216
+msgid ""
+"Touched neither by time nor space, this spirit is dwelling in pure energy."
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:41
+msgid "Rookie Tunic"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:42 ../data/inventory/torso_armor.lua:84
+msgid ""
+"A light tunic worn by new soldier recruits. This one belonged to Bronann's "
+"father."
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:52
+msgid "Old Willow Dress"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:53 ../data/inventory/torso_armor.lua:102
+msgid "An old willow dress that Kalya likes to wear."
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:63
+msgid "Tunic"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:64
+msgid "An old light soldier tunic."
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:73
+msgid "Leather Cloak"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:74
+msgid "A cloak worn by apprentices."
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:83
+msgid "Adjusted Rookie Tunic"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:101
+msgid "Patched Willow Dress"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:119
+msgid "Leather Chain Mail"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:120
+msgid "A light chain mail woven into a tough leather cuirass."
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:130
+msgid "Karlate Breastplate"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:131
+msgid ""
+"Standard Karlate issued equipment. Effectively protects the torso from most "
+"types of attack."
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:141
+msgid "Shouldered Breastplate"
+msgstr ""
+
+#: ../data/inventory/torso_armor.lua:142
+msgid ""
+"A breastplate with slightly thicker armor than is commonly found and "
+"additional shoulder guards."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:43
+msgid "Wooden Sword"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:44 ../data/inventory/weapons.lua:78
+msgid "A sword made of wood with a steel hilt, very good for practising."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:77
+msgid "Hardened Practice Sword"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:118
+msgid "Initiate Sword"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:119
+msgid "A sword made of wood with a steel hilt, reinforced magically."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:158
+msgid "Perfect Wooden Sword"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:159
+msgid ""
+"A sword made of wood with a steel hilt, surrounded by a great magical force."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:201
+msgid "Iron Sword"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:202
+msgid ""
+"A sturdy but somewhat dull sword whose blade was forged from a single block "
+"of solid iron."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:234
+msgid "Soldier Sword"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:235
+msgid ""
+"Standard soldier sword. A light weight iron sword suitable for most "
+"skirmishes."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:274
+msgid "Knight's Blade"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:275
+msgid "A weapon bestowed to seasoned veterans of the knighthood."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:314
+msgid "Paladin's Sword"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:315
+msgid "A mythical weapon blessed with a magical fire."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:362
+msgid "Omni Sword"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:432
+msgid "Arbalest"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:433 ../data/inventory/weapons.lua:466
+msgid "A standard wooden arbalest."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:465
+msgid "Improved Arbalest"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:506
+msgid "Noble Arbalest"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:507
+msgid "An arbalest made out of fine noble ash tree wood."
+msgstr ""
+
+#: ../data/inventory/weapons.lua:546
+msgid "Arbalest of Force"
+msgstr ""
+
+#: ../data/inventory/weapons.lua:547
+msgid "An arbalest strengthened with magical ore."
+msgstr ""

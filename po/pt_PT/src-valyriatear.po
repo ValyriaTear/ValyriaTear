@@ -1,0 +1,2191 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ValkyriaTear\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-22 23:22+0200\n"
+"PO-Revision-Date: 2013-05-01 19:02-0000\n"
+"Last-Translator: Sérgio Lopes <knitter.is@gmail.com>\n"
+"Language-Team: Sérgio Lopes <knitter.is@gmail.com>\n"
+"Language: pt_PT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. tr: level
+#: ../src/common/character_window.cpp:69
+msgid "Lv: "
+msgstr ""
+
+#: ../src/common/character_window.cpp:70
+msgid "Next: "
+msgstr ""
+
+#. tr: experience points to be spent for skills
+#: ../src/common/character_window.cpp:76
+#: ../src/modes/battle/finish/battle_victory.cpp:360
+#: ../src/modes/battle/finish/battle_victory.cpp:505
+msgid "XP for skills: "
+msgstr ""
+
+#: ../src/common/global/global_target.cpp:28
+msgid "Self — Point"
+msgstr ""
+
+#: ../src/common/global/global_target.cpp:30
+msgid "Ally — Point"
+msgstr ""
+
+#: ../src/common/global/global_target.cpp:32
+msgid "Foe — Point"
+msgstr ""
+
+#: ../src/common/global/global_target.cpp:34
+msgid "Self"
+msgstr ""
+
+#: ../src/common/global/global_target.cpp:36
+msgid "Ally"
+msgstr "Aliado"
+
+#: ../src/common/global/global_target.cpp:38
+msgid "Ally (Even KO)"
+msgstr ""
+
+#: ../src/common/global/global_target.cpp:40
+msgid "Ally (Only KO)"
+msgstr ""
+
+#: ../src/common/global/global_target.cpp:42
+msgid "Foe"
+msgstr "Inimigo"
+
+#: ../src/common/global/global_target.cpp:44
+#: ../src/modes/battle/battle_target.cpp:305
+#: ../src/modes/battle/command/command_supervisor.cpp:826
+#: ../src/modes/battle/command/command_supervisor.cpp:856
+msgid "All Allies"
+msgstr ""
+
+#: ../src/common/global/global_target.cpp:46
+msgid "All Foes"
+msgstr ""
+
+#: ../src/common/global/global_target.cpp:48
+msgid "Invalid Target"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:190
+#, c-format
+msgid "Use the %s and %s keys to select your language and then press %s."
+msgstr ""
+
+#. tr: The window title only supports UTF-8 characters in SDL2.
+#: ../src/common/options_handler.cpp:376 ../src/main.cpp:529
+msgid "Valyria Tear"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:394
+msgid "Video"
+msgstr "Vídeo"
+
+#: ../src/common/options_handler.cpp:395
+msgid "Audio"
+msgstr "Audio"
+
+#: ../src/common/options_handler.cpp:396
+#, fuzzy
+msgid "Game"
+msgstr "Sair do Jogo"
+
+#: ../src/common/options_handler.cpp:397
+msgid "Language"
+msgstr "Língua"
+
+#: ../src/common/options_handler.cpp:398
+msgid "Key Settings"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:399
+msgid "Joystick Settings"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:422 ../src/common/options_handler.cpp:680
+msgid "Resolution: "
+msgstr "Resolução:"
+
+#: ../src/common/options_handler.cpp:424 ../src/common/options_handler.cpp:685
+#: ../src/common/options_handler.cpp:689
+msgid "Window mode: "
+msgstr ""
+
+#: ../src/common/options_handler.cpp:426 ../src/common/options_handler.cpp:695
+msgid "Brightness: "
+msgstr "Brilho:"
+
+#: ../src/common/options_handler.cpp:428 ../src/common/options_handler.cpp:713
+msgid "VSync: "
+msgstr ""
+
+#: ../src/common/options_handler.cpp:431 ../src/common/options_handler.cpp:716
+#, fuzzy
+msgid "UI Theme: "
+msgstr "Tempo:"
+
+#: ../src/common/options_handler.cpp:450 ../src/common/options_handler.cpp:772
+msgid "Sound Volume: "
+msgstr "Volume de Som:"
+
+#: ../src/common/options_handler.cpp:453 ../src/common/options_handler.cpp:773
+msgid "Music Volume: "
+msgstr "Volume de Música"
+
+#: ../src/common/options_handler.cpp:475 ../src/common/options_handler.cpp:781
+msgid "Easy"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:481 ../src/common/options_handler.cpp:787
+msgid "Normal"
+msgstr "Normal"
+
+#: ../src/common/options_handler.cpp:484 ../src/common/options_handler.cpp:790
+msgid "Hard"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:488 ../src/common/options_handler.cpp:794
+#, c-format
+msgid "Game Difficulty: %s"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:494 ../src/common/options_handler.cpp:797
+#, c-format
+msgid "Dialogue text speed: %i"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:498 ../src/common/options_handler.cpp:800
+#: ../src/common/options_handler.cpp:821
+msgid "Enabled"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:498 ../src/common/options_handler.cpp:800
+msgid "Disabled"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:498 ../src/common/options_handler.cpp:800
+#, c-format
+msgid "Remember battle target: %s"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:529
+msgid "Up: "
+msgstr "Cima:"
+
+#: ../src/common/options_handler.cpp:530
+msgid "Down: "
+msgstr "Baixo:"
+
+#: ../src/common/options_handler.cpp:531
+msgid "Left: "
+msgstr "Esquerda:"
+
+#: ../src/common/options_handler.cpp:532
+msgid "Right: "
+msgstr "Direita:"
+
+#: ../src/common/options_handler.cpp:533
+msgid "Confirm: "
+msgstr "Confirmar:"
+
+#: ../src/common/options_handler.cpp:534
+msgid "Cancel: "
+msgstr "Cancelar:"
+
+#: ../src/common/options_handler.cpp:535
+msgid "Menu: "
+msgstr "Menu:"
+
+#: ../src/common/options_handler.cpp:536
+msgid "Toggle Map: "
+msgstr ""
+
+#: ../src/common/options_handler.cpp:537
+msgid "Pause: "
+msgstr "Pausa:"
+
+#: ../src/common/options_handler.cpp:538 ../src/common/options_handler.cpp:572
+msgid "Restore defaults"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:685
+msgid "Fullscreen"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:689
+msgid "Windowed"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:704
+msgid "VSync_mode|Off"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:707
+msgid "VSync_mode|On"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:710
+msgid "VSync_mode|Swap Tearing"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:807
+msgid "Move Up"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:808
+msgid "Move Down"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:809
+msgid "Move Left"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:810
+msgid "Move Right"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:811 ../src/common/options_handler.cpp:825
+#: ../src/modes/mode_help_window.cpp:142 ../src/modes/mode_help_window.cpp:185
+#: ../src/modes/mode_help_window.cpp:241
+msgid "Confirm"
+msgstr "Confirmar"
+
+#: ../src/common/options_handler.cpp:812 ../src/common/options_handler.cpp:826
+#: ../src/modes/battle/finish/battle_defeat.cpp:102
+#: ../src/modes/mode_help_window.cpp:145 ../src/modes/mode_help_window.cpp:191
+#: ../src/modes/mode_help_window.cpp:244 ../src/modes/pause.cpp:92
+#: ../src/modes/save/save_mode.cpp:132 ../src/modes/save/save_mode.cpp:147
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: ../src/common/options_handler.cpp:813 ../src/common/options_handler.cpp:827
+#: ../src/modes/mode_help_window.cpp:188 ../src/modes/mode_help_window.cpp:249
+#: ../src/modes/mode_help_window.cpp:254
+msgid "Menu"
+msgstr "Menu"
+
+#: ../src/common/options_handler.cpp:814
+msgid "Toggle Map"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:815 ../src/common/options_handler.cpp:829
+#: ../src/modes/mode_help_window.cpp:197 ../src/modes/mode_help_window.cpp:258
+msgid "Pause"
+msgstr "Pausa"
+
+#: ../src/common/options_handler.cpp:821
+msgid "Input"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:822
+msgid "X Axis"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:823
+msgid "Y Axis"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:824
+msgid "Threshold"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:825 ../src/common/options_handler.cpp:826
+#: ../src/common/options_handler.cpp:827 ../src/common/options_handler.cpp:828
+#: ../src/common/options_handler.cpp:829 ../src/common/options_handler.cpp:830
+#: ../src/common/options_handler.cpp:831
+#, c-format
+msgid "Button %d"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:828
+#: ../src/modes/menu/menu_states/menu_main_state.cpp:38
+msgid "Map"
+msgstr "Mapa"
+
+#: ../src/common/options_handler.cpp:830
+msgid "Help"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:831 ../src/modes/boot/boot.cpp:425
+#: ../src/modes/mode_help_window.cpp:149 ../src/modes/mode_help_window.cpp:200
+#: ../src/modes/mode_help_window.cpp:261
+msgid "Quit"
+msgstr "Sair"
+
+#: ../src/common/options_handler.cpp:1108
+msgid "Please press a new joystick button."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1110
+msgid "Please press a new key."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1112
+msgid "Please move an axis."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1130
+msgid ""
+"Here you can set up the video options such as the resolution, whether to "
+"play in full screen, the GUI theme, ..."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1133
+msgid "Here you can setup the music and SFX volumes."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1136
+msgid ""
+"This menu permits to setup game specific options, such as the text scrolling "
+"speed, the game difficulty, ..."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1139
+msgid ""
+"This menu will show the available languages. Only available from the boot "
+"menu..."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1142
+msgid "Here you change the keys used when playing with the keyboard..."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1145
+msgid "Here you change the keys used when playing with a joystick..."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1155
+msgid "This permits to select the game's resolution..."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1158
+msgid ""
+"Here you can set whether you want to play in windowed mode or fullscreen."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1161
+msgid "Sets the game brightness percentage. Default: 50%"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1164
+msgid ""
+"Permits to change the Screen Vertical Synchronization mode. (Use the left "
+"and right arrow keys.)"
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1167
+msgid "Permits to change the in-game GUI theme."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1177
+msgid "Permits to set the general music volume."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1180
+msgid "Permits to set the general SFX volume."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1190
+msgid ""
+"Sets the game difficulty, can change how hard battles and certain events are "
+"in game..."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1193
+msgid ""
+"Permits to set up the dialogue text scrolling speed (in character per "
+"seconds)..."
+msgstr ""
+
+#: ../src/common/options_handler.cpp:1196
+msgid ""
+"Sets whether the characters will remember their previous action in battle."
+msgstr ""
+
+#: ../src/engine/indicator_supervisor.cpp:436
+msgid "Miss"
+msgstr ""
+
+#: ../src/modes/battle/actions/item_action.cpp:194
+msgid "[error]"
+msgstr ""
+
+#: ../src/modes/battle/battle.cpp:132 ../src/modes/battle/battle_menu.cpp:143
+msgid "Auto-Battle"
+msgstr ""
+
+#: ../src/modes/battle/battle.cpp:584
+msgid "Double Rush!"
+msgstr ""
+
+#: ../src/modes/battle/battle.cpp:589
+#, fuzzy
+msgid "First Strike!"
+msgstr "Primeiros Socorros"
+
+#: ../src/modes/battle/battle.cpp:594
+msgid "Ambush!"
+msgstr ""
+
+#: ../src/modes/battle/battle_menu.cpp:152
+msgid ""
+"When the Auto-Battle mode is activated, your party will auto attack the "
+"opponents using default attacks. If you open a command menu, the Auto-Battle "
+"mode will be deactivated again."
+msgstr ""
+
+#: ../src/modes/battle/battle_target.cpp:290
+msgid "[Invalid Target]"
+msgstr ""
+
+#: ../src/modes/battle/battle_target.cpp:295
+msgid " — "
+msgstr " — "
+
+#: ../src/modes/battle/battle_target.cpp:308
+#: ../src/modes/battle/command/command_supervisor.cpp:828
+#: ../src/modes/battle/command/command_supervisor.cpp:858
+msgid "All Enemies"
+msgstr ""
+
+#: ../src/modes/battle/command/command_supervisor.cpp:80
+#: ../src/modes/battle/command/command_supervisor.cpp:86
+#: ../src/modes/battle/command/command_supervisor.cpp:178
+#: ../src/modes/battle/command/command_supervisor.cpp:179
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:68
+msgid "Weapon"
+msgstr "Arma"
+
+#: ../src/modes/battle/command/command_supervisor.cpp:81
+#: ../src/modes/battle/command/command_supervisor.cpp:87
+msgid "Magic"
+msgstr "Magia"
+
+#: ../src/modes/battle/command/command_supervisor.cpp:83
+#: ../src/modes/battle/command/command_supervisor.cpp:89
+#: ../src/modes/menu/menu_states/menu_inventory_state.cpp:29
+#: ../src/modes/shop/shop.cpp:70
+msgid "Items"
+msgstr "Itens"
+
+#: ../src/modes/battle/command/command_supervisor.cpp:182
+#: ../src/modes/battle/command/command_supervisor.cpp:183
+msgid "Bare-hand"
+msgstr ""
+
+#. tr: this is about displaying a time: eg 4.2s
+#: ../src/modes/battle/command/command_supervisor.cpp:644
+#, c-format
+msgid "%ss"
+msgstr ""
+
+#: ../src/modes/battle/command/command_supervisor.cpp:661
+msgid "Enemy Defense Modifiers:\n"
+msgstr ""
+
+#: ../src/modes/battle/command/command_supervisor.cpp:705
+msgid ""
+"\n"
+"\n"
+"Effects:\n"
+msgstr ""
+
+#: ../src/modes/battle/command/command_supervisor.cpp:718
+#, c-format
+msgid "%s SP"
+msgstr ""
+
+#: ../src/modes/battle/command/command_supervisor.cpp:720
+#: ../src/modes/battle/command/command_supervisor.cpp:727
+#, c-format
+msgid "Target Type: %s"
+msgstr ""
+
+#: ../src/modes/battle/command/command_supervisor.cpp:721
+#, fuzzy, c-format
+msgid "Prep Time: %s"
+msgstr "Tempo:"
+
+#: ../src/modes/battle/command/command_supervisor.cpp:722
+#, fuzzy, c-format
+msgid "Cool Time: %s"
+msgstr "Tempo:"
+
+#: ../src/modes/battle/command/command_supervisor.cpp:821
+msgid "Select Target"
+msgstr ""
+
+#: ../src/modes/battle/command/command_supervisor.cpp:880
+msgid "Select Attack Point"
+msgstr ""
+
+#: ../src/modes/battle/command/item_command.cpp:54
+msgid "Item<R>Type   ×"
+msgstr ""
+
+#: ../src/modes/battle/command/skill_command.cpp:48
+msgid "Skill<R>Type SP"
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_defeat.cpp:67
+msgid "The heroes fell in battle..."
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_defeat.cpp:88
+msgid "Retry"
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_defeat.cpp:89
+msgid "End"
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_defeat.cpp:101
+msgid "OK"
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_defeat.cpp:236
+msgid "Start over from the beginning of this battle."
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_defeat.cpp:239
+msgid "Exit to main menu."
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_defeat.cpp:248
+msgid "Confirm: retry battle."
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_defeat.cpp:251
+msgid "Confirm: return to main menu."
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_victory.cpp:84
+msgid "The heroes were victorious!"
+msgstr ""
+
+#. tr: Header in battle result screen: more than 1 item found
+#: ../src/modes/battle/finish/battle_victory.cpp:127
+#: ../src/modes/battle/finish/battle_victory.cpp:397
+msgid "Items Found"
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_victory.cpp:146
+msgid "End Battle"
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_victory.cpp:147
+msgid "Improve Skills"
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_victory.cpp:254
+#: ../src/modes/battle/finish/battle_victory.cpp:515
+msgid "XP Earned: "
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_victory.cpp:255
+#: ../src/modes/battle/finish/battle_victory.cpp:570
+msgid "Drunes Found: "
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_victory.cpp:256
+#: ../src/modes/battle/finish/battle_victory.cpp:571
+msgid "Total Drunes: "
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_victory.cpp:352
+#: ../src/modes/battle/finish/battle_victory.cpp:499
+msgid "Level (Max): "
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_victory.cpp:356
+#: ../src/modes/battle/finish/battle_victory.cpp:501
+msgid "Level: "
+msgstr "Nível:"
+
+#: ../src/modes/battle/finish/battle_victory.cpp:358
+#: ../src/modes/battle/finish/battle_victory.cpp:502
+msgid "XP for level up: "
+msgstr ""
+
+#. tr: Header in battle result screen: 0 items found
+#: ../src/modes/battle/finish/battle_victory.cpp:392
+msgid "No Items Found"
+msgstr ""
+
+#. tr: Header in battle result screen: 1 item found
+#: ../src/modes/battle/finish/battle_victory.cpp:395
+msgid "Item Found"
+msgstr ""
+
+#: ../src/modes/battle/finish/battle_victory.cpp:504
+msgid " (+20%)"
+msgstr "(+20%)"
+
+#: ../src/modes/battle/objects/battle_character.cpp:405
+msgid "[Select Action]"
+msgstr ""
+
+#. tr: status effect time left string in seconds
+#: ../src/modes/battle/status_effects/active_effects.cpp:138
+#, c-format
+msgid "%d s"
+msgstr ""
+
+#: ../src/modes/boot/boot.cpp:413
+msgid "New Game"
+msgstr ""
+
+#: ../src/modes/boot/boot.cpp:414 ../src/modes/save/save_mode.cpp:97
+msgid "Load Game"
+msgstr ""
+
+#: ../src/modes/boot/boot.cpp:415 ../src/modes/pause.cpp:93
+msgid "Options"
+msgstr ""
+
+#: ../src/modes/boot/boot.cpp:435
+#, c-format
+msgid "Press '%s' to get to know about the game keys."
+msgstr ""
+
+#: ../src/modes/map/map_escape.cpp:33
+msgid "Escape to destination?"
+msgstr ""
+
+#: ../src/modes/map/map_escape.cpp:57
+msgid "EscapeMenu|No"
+msgstr ""
+
+#: ../src/modes/map/map_escape.cpp:58
+msgid "EscapeMenu|Yes"
+msgstr ""
+
+#: ../src/modes/map/map_escape.cpp:87
+msgid "No available destination"
+msgstr ""
+
+#: ../src/modes/map/map_treasure_supervisor.cpp:50
+msgid "You obtain"
+msgstr ""
+
+#: ../src/modes/map/map_treasure_supervisor.cpp:73
+msgid "Ok"
+msgstr "Ok"
+
+#: ../src/modes/map/map_treasure_supervisor.cpp:126
+#: ../src/modes/map/map_treasure_supervisor.cpp:295
+msgid "Drunes"
+msgstr ""
+
+#. tr: Part 2 of "With the additional %u drune(s) found in this treasure added, ... "
+#: ../src/modes/map/map_treasure_supervisor.cpp:300
+#, c-format
+msgid "the party now holds a total of %u drune."
+msgid_plural "the party now holds a total of %u drunes."
+msgstr[0] ""
+msgstr[1] ""
+
+#. tr: %s will be replaced with "the party now holds a total of %u drune(s)."
+#: ../src/modes/map/map_treasure_supervisor.cpp:306
+#, c-format
+msgid "With the additional %u drune found in this treasure added, %s."
+msgid_plural "With the additional %u drunes found in this treasure added, %s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../src/modes/menu/menu_mode.cpp:106
+msgid "This item is a key item and can be neither consumed nor sold."
+msgstr ""
+
+#: ../src/modes/menu/menu_mode.cpp:114
+msgid "This item is an elemental spirit and can be associated with equipment."
+msgstr ""
+
+#: ../src/modes/menu/menu_mode.cpp:241 ../src/modes/shop/shop.cpp:220
+msgid "Skills obtained:"
+msgstr ""
+
+#: ../src/modes/menu/menu_mode.cpp:458 ../src/modes/shop/shop.cpp:209
+#: ../src/modes/shop/shop.cpp:535
+msgid "ATK:"
+msgstr ""
+
+#: ../src/modes/menu/menu_mode.cpp:459 ../src/modes/shop/shop.cpp:211
+#: ../src/modes/shop/shop.cpp:536
+msgid "M.ATK:"
+msgstr ""
+
+#: ../src/modes/menu/menu_mode.cpp:462 ../src/modes/shop/shop.cpp:542
+msgid "DEF:"
+msgstr ""
+
+#: ../src/modes/menu/menu_mode.cpp:463 ../src/modes/shop/shop.cpp:543
+msgid "M.DEF:"
+msgstr ""
+
+#: ../src/modes/menu/menu_states/menu_inventory_state.cpp:30
+msgid "Equip"
+msgstr ""
+
+#: ../src/modes/menu/menu_states/menu_inventory_state.cpp:31
+msgid "Remove"
+msgstr ""
+
+#: ../src/modes/menu/menu_states/menu_inventory_state.cpp:32
+#: ../src/modes/menu/menu_states/menu_party_state.cpp:60
+#: ../src/modes/menu/menu_states/menu_skill_state.cpp:54
+msgid "Back"
+msgstr "Voltar"
+
+#: ../src/modes/menu/menu_states/menu_main_state.cpp:34
+msgid "Inventory"
+msgstr "Inventário"
+
+#: ../src/modes/menu/menu_states/menu_main_state.cpp:35
+msgid "Skills"
+msgstr ""
+
+#: ../src/modes/menu/menu_states/menu_main_state.cpp:36
+msgid "Party"
+msgstr ""
+
+#: ../src/modes/menu/menu_states/menu_main_state.cpp:37
+msgid "Quests"
+msgstr ""
+
+#: ../src/modes/menu/menu_states/menu_main_state.cpp:53
+msgid ""
+"Select to view current world map.\n"
+"Use left / right to cycle through locations.\n"
+"Press 'cancel' to return"
+msgstr ""
+
+#: ../src/modes/menu/menu_states/menu_main_state.cpp:55
+msgid "Select to view Quest Log."
+msgstr ""
+
+#: ../src/modes/menu/menu_states/menu_party_state.cpp:58
+msgid "View/Reorder"
+msgstr ""
+
+#: ../src/modes/menu/menu_states/menu_party_state.cpp:59
+#, fuzzy
+msgid "Battle Formation"
+msgstr "Poção de Cura"
+
+#: ../src/modes/menu/menu_states/menu_party_state.cpp:71
+msgid ""
+"View character Information.\n"
+"Select a character to change formation."
+msgstr ""
+
+#: ../src/modes/menu/menu_states/menu_skill_state.cpp:52
+msgid "Use"
+msgstr "Usar"
+
+#: ../src/modes/menu/menu_states/menu_skill_state.cpp:53
+msgid "Improve"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_battle_formation_window.cpp:62
+msgid "Switch"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_battle_formation_window.cpp:85
+msgid "Select a battle formation to change character placement."
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_battle_formation_window.cpp:88
+msgid "Rear - Front"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_battle_formation_window.cpp:174
+#: ../src/modes/menu/menu_windows/menu_battle_formation_window.cpp:190
+#: ../src/modes/menu/menu_windows/menu_battle_formation_window.cpp:193
+#, c-format
+msgid "%d %%"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:70
+msgid "Head"
+msgstr "Cabeça"
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:72
+msgid "Torso"
+msgstr "Tronco"
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:74
+msgid "Arms"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:76
+msgid "Legs"
+msgstr "Pernas"
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:437
+msgid "No weapon"
+msgstr "Sem arma"
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:439
+msgid "No head armor"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:441
+msgid "No torso armor"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:443
+#, fuzzy
+msgid "No arms armor"
+msgstr "Armadura de Tronco"
+
+#: ../src/modes/menu/menu_windows/menu_equip_window.cpp:445
+#, fuzzy
+msgid "No legs armor"
+msgstr "Armadura de Perna"
+
+#: ../src/modes/menu/menu_windows/menu_inventory_window.cpp:90
+msgid "Select an item to Equip or Use."
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_inventory_window.cpp:91
+msgid "This character cannot equip this item."
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_inventory_window.cpp:92
+msgid "Select a character to use the item on."
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:58
+msgid "Select a character to change position with."
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:60
+msgid "Select a character to change formation."
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:120
+msgid "Global Attack / Defense:"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:122
+msgid "Detailed Defense:"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:125
+#, fuzzy
+msgid "Total Attack: "
+msgstr "Total:"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:126
+msgid "Total Magical Attack: "
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:127
+msgid "Average Defense: "
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:128
+msgid "Average Magical Defense: "
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:135
+#, fuzzy
+msgid "Head: "
+msgstr "Cabeça"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:136
+#, fuzzy
+msgid "Torso: "
+msgstr "Tronco"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:137
+msgid "Arm: "
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:138
+msgid "Leg: "
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:249
+msgid "Experience Level: "
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:251
+msgid "Physical Attack: "
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:252
+#, fuzzy
+msgid "Magical Attack: "
+msgstr "Armadura de Perna"
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:253
+msgid "Physical Defense: "
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:254
+msgid "Magical Defense: "
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:255
+msgid "Stamina: "
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_party_window.cpp:256
+msgid "Evade: "
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_skillgraph_window.cpp:70
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:59
+#, fuzzy
+msgid "Choose a character."
+msgstr "Mover a personagem:"
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:60
+msgid "Choose a skill category to use."
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:143
+msgid "All"
+msgstr "Todos"
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:144
+msgid "Field"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:145
+msgid "Battle"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:354
+msgid "Weapon skill"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:356
+msgid "Bare hands"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:359
+msgid "Magic skill"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:365
+msgid "Special skill"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/menu_skills_window.cpp:495
+msgid " SP"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:119
+msgid "Unlocked"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:125
+msgid "To Unlock:"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:128
+#, c-format
+msgid ""
+"XP Needed: %d /\n"
+"Available: %d"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:132
+msgid "No XP Needed"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:153
+#, c-format
+msgid " x %d"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:194
+#, c-format
+msgid "%d SP"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:198
+msgid "Skill learned:"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:207
+msgid "Statistics:"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:228
+#, c-format
+msgid "Phys. Atk +%d"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:232
+#, c-format
+msgid "Mag. Atk +%d"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:236
+#, c-format
+msgid "Phys. Def +%d"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:240
+#, c-format
+msgid "Mag. Def +%d"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:244
+#, c-format
+msgid "Stamina +%d"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:248
+#, c-format
+msgid "Evade +%.1f%%"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:252
+#, c-format
+msgid "HP +%d"
+msgstr ""
+
+#: ../src/modes/menu/menu_windows/skill_node_bottom_info.cpp:256
+#, c-format
+msgid "SP +%d"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:113
+#, c-format
+msgid "Press '%s' anytime to show/hide help."
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:120
+msgid "Welcome to Valyria Tear"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:126 ../src/modes/mode_help_window.cpp:163
+#: ../src/modes/mode_help_window.cpp:218
+msgid "Command"
+msgstr "Comando"
+
+#: ../src/modes/mode_help_window.cpp:127 ../src/modes/mode_help_window.cpp:164
+msgid "Current Key"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:128 ../src/modes/mode_help_window.cpp:165
+msgid "Purpose"
+msgstr "Objectivo"
+
+#: ../src/modes/mode_help_window.cpp:136 ../src/modes/mode_help_window.cpp:173
+#: ../src/modes/mode_help_window.cpp:235
+msgid "Left"
+msgstr "Esquerda"
+
+#: ../src/modes/mode_help_window.cpp:138
+msgid "Move menu cursor to the left"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:139 ../src/modes/mode_help_window.cpp:176
+#: ../src/modes/mode_help_window.cpp:238
+msgid "Right"
+msgstr "Direita"
+
+#: ../src/modes/mode_help_window.cpp:141
+msgid "Move menu cursor to the right"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:144
+msgid "Confirm a menu command"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:147
+msgid "Cancel a menu command"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:151
+msgid ""
+"Quit the application\n"
+"(when using the keyboard)"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:155
+msgid ""
+"Shop mode\n"
+"\n"
+"Use the Left/Right keys to add/remove items into the Buy and Sell modes.\n"
+"Then go into the Confirm mode to complete the transaction."
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:175
+msgid "Remove an item from the buy/sell list"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:178
+msgid "Add an item to the buy/sell list."
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:179 ../src/modes/mode_help_window.cpp:229
+msgid "Up"
+msgstr "Cima"
+
+#: ../src/modes/mode_help_window.cpp:181
+msgid "Move up in the item list."
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:182 ../src/modes/mode_help_window.cpp:232
+msgid "Down"
+msgstr "Baixo"
+
+#: ../src/modes/mode_help_window.cpp:184
+msgid "Move down in the item list."
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:187
+msgid "Show details or confirm a transaction"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:190
+msgid "Change the displayed item category."
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:193
+msgid ""
+"Get out the Buy/Sell/Confirm mode,\n"
+"or quit the shop."
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:199 ../src/modes/mode_help_window.cpp:260
+msgid "Pauses the game"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:202
+msgid "Close this window / Show the system menu"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:208
+msgid "The table below lists the default game controls.\n"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:209
+msgid "The control mappings can be changed in the options menu."
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:219
+msgid "Default Key"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:220
+msgid "General Purpose"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:231
+msgid "Move position or cursor upwards"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:234
+msgid "Move position or cursor downwards"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:237
+msgid "Move position or cursor to the left"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:240
+msgid "Move position or cursor to the right"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:243
+msgid "Confirm an action or menu command"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:246
+msgid "Cancel an action or menu command"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:251
+msgid "Opens the party menu"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:256
+msgid "Show/Hide items and skills descriptions."
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:263
+msgid "Quit the application"
+msgstr ""
+
+#: ../src/modes/mode_help_window.cpp:266
+msgid ""
+"There are additional commands available which can be found in the MANUAL "
+"file."
+msgstr ""
+
+#: ../src/modes/pause.cpp:73
+msgid "Paused"
+msgstr "Em Pausa"
+
+#: ../src/modes/pause.cpp:94
+msgid "Quit to Main Menu"
+msgstr "Sair para Menu Principal"
+
+#: ../src/modes/pause.cpp:95
+msgid "Quit Game"
+msgstr "Sair do Jogo"
+
+#: ../src/modes/save/save_mode.cpp:95
+msgid "Save Game"
+msgstr "Gravar Jogo"
+
+#: ../src/modes/save/save_mode.cpp:131
+msgid "Confirm Save"
+msgstr ""
+
+#: ../src/modes/save/save_mode.cpp:145
+msgid "Load Auto-Save"
+msgstr ""
+
+#: ../src/modes/save/save_mode.cpp:146
+msgid "Load Save"
+msgstr ""
+
+#: ../src/modes/save/save_mode.cpp:156
+msgid "Save successful!"
+msgstr ""
+
+#: ../src/modes/save/save_mode.cpp:164
+msgid ""
+"Unable to save game!\n"
+"Save FAILED!"
+msgstr ""
+
+#: ../src/modes/save/save_mode.cpp:171
+msgid "No valid saves found!"
+msgstr ""
+
+#: ../src/modes/save/save_mode.cpp:202 ../src/modes/save/save_mode.cpp:719
+#, fuzzy, c-format
+msgid "Slot %d"
+msgstr "Espaço 1"
+
+#: ../src/modes/save/save_mode.cpp:511
+msgid "Invalid data!"
+msgstr "Dados inválidos!"
+
+#. tr: A slot for saving the same
+#: ../src/modes/save/save_mode.cpp:514
+msgid "This slot is unused"
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:71
+msgid "Weapons"
+msgstr "Armas"
+
+#: ../src/modes/shop/shop.cpp:72
+msgid "Head Armor"
+msgstr "Armadura de Cabeça"
+
+#: ../src/modes/shop/shop.cpp:73
+msgid "Torso Armor"
+msgstr "Armadura de Tronco"
+
+#: ../src/modes/shop/shop.cpp:74
+msgid "Arm Armor"
+msgstr "Armadura de Braço"
+
+#: ../src/modes/shop/shop.cpp:75
+msgid "Leg Armor"
+msgstr "Armadura de Perna"
+
+#: ../src/modes/shop/shop.cpp:76
+msgid "Spirits"
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:77
+msgid "Key Items"
+msgstr "Items Chave"
+
+#: ../src/modes/shop/shop.cpp:78
+msgid "All Wares"
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:181
+msgid "Field Use:"
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:183
+msgid "Battle Use:"
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:185
+msgid "Target:"
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:217
+msgid "Conditions:"
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:709
+#, c-format
+msgid "Press %s to add items to buy and %s to remove items from your purchase."
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:713
+#, c-format
+msgid "Press %s to add items to sell and %s to remove items from your sale."
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:717
+#, c-format
+msgid "Press %s to add items to trade and %s to remove them."
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:735
+msgid "Buy count: x "
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:739
+msgid "Sell count: x "
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:743
+msgid "Trade count: x "
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:1046 ../src/modes/shop/shop.cpp:1306
+msgid "Buy"
+msgstr "Comprar"
+
+#: ../src/modes/shop/shop.cpp:1047 ../src/modes/shop/shop.cpp:1307
+msgid "Sell"
+msgstr "Vender"
+
+#: ../src/modes/shop/shop.cpp:1048 ../src/modes/shop/shop.cpp:1308
+msgid "Trade"
+msgstr "Trocar"
+
+#: ../src/modes/shop/shop.cpp:1309
+msgid "Leave"
+msgstr "Sair"
+
+#: ../src/modes/shop/shop.cpp:1793
+msgid "Funds: "
+msgstr "Recursos:"
+
+#: ../src/modes/shop/shop.cpp:1795
+msgid "Purchases: "
+msgstr "Compras:"
+
+#: ../src/modes/shop/shop.cpp:1796 ../src/modes/shop/shop.cpp:1799
+msgid "Remaining: "
+msgstr ""
+
+#: ../src/modes/shop/shop.cpp:1798
+msgid "Sales: +"
+msgstr "Vendas: +"
+
+#: ../src/modes/shop/shop_buy.cpp:59 ../src/modes/shop/shop_sell.cpp:59
+#: ../src/modes/shop/shop_trade.cpp:56
+msgid "Category"
+msgstr "Categoria"
+
+#: ../src/modes/shop/shop_buy.cpp:62 ../src/modes/shop/shop_sell.cpp:62
+#: ../src/modes/shop/shop_trade.cpp:59
+msgid "Name"
+msgstr "Nome"
+
+#: ../src/modes/shop/shop_buy.cpp:68 ../src/modes/shop/shop_sell.cpp:68
+#: ../src/modes/shop/shop_trade.cpp:65
+msgid "Price"
+msgstr "Preço"
+
+#: ../src/modes/shop/shop_buy.cpp:69 ../src/modes/shop/shop_trade.cpp:66
+msgid "Stock"
+msgstr "Stock"
+
+#: ../src/modes/shop/shop_buy.cpp:70 ../src/modes/shop/shop_sell.cpp:69
+#: ../src/modes/shop/shop_trade.cpp:67
+msgid "Own"
+msgstr ""
+
+#: ../src/modes/shop/shop_root.cpp:53
+msgid "The Shop"
+msgstr "A Loja"
+
+#: ../src/modes/shop/shop_root.cpp:56
+msgid "Buy prices"
+msgstr ""
+
+#: ../src/modes/shop/shop_root.cpp:58
+msgid "Sell prices"
+msgstr ""
+
+#: ../src/modes/shop/shop_root.cpp:66
+msgid "\"Welcome! Take a look around.\""
+msgstr ""
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#, fuzzy
+#~ msgid "... Al... right..."
+#~ msgstr "Owww… Ok."
+
+#, fuzzy
+#~ msgid "...Kalya?!"
+#~ msgstr "Kalya"
+
+#~ msgid "???"
+#~ msgstr "???"
+
+#~ msgid "Acheron"
+#~ msgstr "Acheron"
+
+#, fuzzy
+#~ msgid "Agility"
+#~ msgstr "Agilidade:"
+
+#, fuzzy
+#~ msgid "Agility (AGI): "
+#~ msgstr "Agilidade:"
+
+#~ msgid "Alt"
+#~ msgstr "Alt"
+
+#, fuzzy
+#~ msgid "Ancient Strength"
+#~ msgstr "Força:"
+
+#, fuzzy
+#~ msgid "Anyway, let's go now."
+#~ msgstr "Sim, por favor!"
+
+#~ msgid "Arm"
+#~ msgstr "Braço"
+
+#~ msgid "Aww..."
+#~ msgstr "Aww…"
+
+#~ msgid "Bat"
+#~ msgstr "Morcego"
+
+#, fuzzy
+#~ msgid "Blindness"
+#~ msgstr "Brilho:"
+
+#~ msgid "Body"
+#~ msgstr "Corpo"
+
+#~ msgid "Bronann"
+#~ msgstr "Bronann"
+
+#~ msgid "Bronann!"
+#~ msgstr "Bronann!"
+
+#, fuzzy
+#~ msgid "Bronann! Move!"
+#~ msgstr "Bronann!"
+
+#, fuzzy
+#~ msgid "Bronann! No!"
+#~ msgstr "Bronann!"
+
+#, fuzzy
+#~ msgid "Bronann! Wait!"
+#~ msgstr "Bronann!"
+
+#~ msgid "Bronann, I ..."
+#~ msgstr "Bronann, eu …"
+
+#, fuzzy
+#~ msgid "Bronann, I..."
+#~ msgstr "Bronann, eu …"
+
+#~ msgid "Bronann, please."
+#~ msgstr "Bronann, por favor."
+
+#, fuzzy
+#~ msgid "Bronann, why?"
+#~ msgstr "Bronann, eu …"
+
+#, fuzzy
+#~ msgid "Bronann..."
+#~ msgstr "Bronann, eu …"
+
+#~ msgid "Bronann?"
+#~ msgstr "Bronann?"
+
+#~ msgid "Brymir"
+#~ msgstr "Brymir"
+
+#, fuzzy
+#~ msgid "But I..."
+#~ msgstr "Mas mana! Eu…"
+
+#~ msgid "But father!"
+#~ msgstr "Mas pai!"
+
+#~ msgid "But mom!"
+#~ msgstr "Mas mãe!"
+
+#~ msgid "But sis! I..."
+#~ msgstr "Mas mana! Eu…"
+
+#~ msgid "But..."
+#~ msgstr "Mas..."
+
+#~ msgid "Butterfly"
+#~ msgstr "Borboleta"
+
+#, fuzzy
+#~ msgid "Butterfly Hair Tong"
+#~ msgstr "Borboleta"
+
+#~ msgid "Carson"
+#~ msgstr "Carson"
+
+#~ msgid "Chest"
+#~ msgstr "Peito"
+
+#~ msgid "Chicken"
+#~ msgstr "Galinha"
+
+#~ msgid "Claw"
+#~ msgstr "Garra"
+
+#~ msgid "Cobalt Helm"
+#~ msgstr "Elmo de Cobalto"
+
+#, fuzzy
+#~ msgid "Confirm / Open / Talk: %s"
+#~ msgstr "Confirmar / Abrir / Falar:"
+
+#~ msgid "Ctrl"
+#~ msgstr "Ctrl"
+
+#, fuzzy
+#~ msgid "Dark Soldier"
+#~ msgstr "Soldado"
+
+#~ msgid "Demonic Essence"
+#~ msgstr "Essência Demoníaca"
+
+#~ msgid "Earth"
+#~ msgstr "Terra"
+
+#~ msgid "Elixir"
+#~ msgstr "Elixir"
+
+#, fuzzy
+#~ msgid "Elvish Feather"
+#~ msgstr "Escudo da Fénix"
+
+#~ msgid "Er, yes?"
+#~ msgstr "Er, sim?"
+
+#, fuzzy
+#~ msgid "Err, nevermind."
+#~ msgstr "Err, esquece..."
+
+#, fuzzy
+#~ msgid "Execution"
+#~ msgstr "Resolução:"
+
+#~ msgid "Eye"
+#~ msgstr "Olho"
+
+#~ msgid "Face"
+#~ msgstr "Cara"
+
+#~ msgid "Father!"
+#~ msgstr "Pai!"
+
+#~ msgid "Fire"
+#~ msgstr "Fogo"
+
+#, fuzzy
+#~ msgid "Fog"
+#~ msgstr "Inimigo"
+
+#~ msgid "Forehead"
+#~ msgstr "Testa"
+
+#~ msgid "Forest entrance"
+#~ msgstr "Entrada da floresta"
+
+#, fuzzy
+#~ msgid "Gahh, ok."
+#~ msgstr "Gahh… ok."
+
+#~ msgid "Georges"
+#~ msgstr "Georges"
+
+#~ msgid "Good luck Bronann."
+#~ msgstr "Boa sorte Bronann."
+
+#~ msgid "Good luck, son."
+#~ msgstr "Boa sorte, filho."
+
+#~ msgid "Green Slime"
+#~ msgstr "Lodo Verde"
+
+#~ msgid "Healing Potion"
+#~ msgstr "Poção de Cura"
+
+#, fuzzy
+#~ msgid "Healing Rain"
+#~ msgstr "Poção de Cura"
+
+#~ msgid "Hee hee hee! Yes!"
+#~ msgstr "Hee hee hee! Sim!"
+
+#, fuzzy
+#~ msgid "Help Menu: %s"
+#~ msgstr "Menu:"
+
+#~ msgid "Herth"
+#~ msgstr "Herth"
+
+#, fuzzy
+#~ msgid "Herth."
+#~ msgstr "Herth"
+
+#~ msgid "Hi Bronann."
+#~ msgstr "Olá Bronann."
+
+#~ msgid "Hmm, the door is locked."
+#~ msgstr "Hmm, a porta está trancada."
+
+#, fuzzy
+#~ msgid "Hmm. Nevermind."
+#~ msgstr "Err, esquece..."
+
+#, fuzzy
+#~ msgid "Hold on Bronann!"
+#~ msgstr "Bronann!"
+
+#, fuzzy
+#~ msgid "Holy Fire"
+#~ msgstr "Fogo"
+
+#~ msgid "Huh?"
+#~ msgstr "Huh?"
+
+#, fuzzy
+#~ msgid "I feel... I..."
+#~ msgstr "Owww… Ok."
+
+#, fuzzy
+#~ msgid "I promise I won't bother you again."
+#~ msgstr "Prometo que não te incomodo mais ..."
+
+#, fuzzy
+#~ msgid "I, I..."
+#~ msgstr "Mas mana! Eu…"
+
+#, fuzzy
+#~ msgid "Invalid Element"
+#~ msgstr "Dados inválidos!"
+
+#~ msgid "Invocation"
+#~ msgstr "Invocação"
+
+#, fuzzy
+#~ msgid "Iron Ore"
+#~ msgstr "Espada de Ferro"
+
+#~ msgid "Iron Sword"
+#~ msgstr "Espada de Ferro"
+
+#~ msgid "Kalya"
+#~ msgstr "Kalya"
+
+#, fuzzy
+#~ msgid "Kalya! Now!"
+#~ msgstr "Kalya"
+
+#, fuzzy
+#~ msgid "Kalya, Bronann!"
+#~ msgstr "Bronann!"
+
+#, fuzzy
+#~ msgid "Kalya?!"
+#~ msgstr "Kalya"
+
+#, fuzzy
+#~ msgid "Leather Cloak"
+#~ msgstr "Botas de cabedal"
+
+#~ msgid "Leather boots"
+#~ msgstr "Botas de cabedal"
+
+#~ msgid "Lilly"
+#~ msgstr "Lilly"
+
+#, fuzzy
+#~ msgid "Look!"
+#~ msgstr "… Olha!"
+
+#, fuzzy
+#~ msgid "Magic Drain"
+#~ msgstr "Magia"
+
+#~ msgid "Martha"
+#~ msgstr "Martha"
+
+#, fuzzy
+#~ msgid "Me? But..."
+#~ msgstr "Mas..."
+
+#~ msgid "Metal Shield"
+#~ msgstr "Escudo de Metal"
+
+#~ msgid "Mist"
+#~ msgstr "Névoa"
+
+#~ msgid "Moon Juice Potion"
+#~ msgstr "Poção de Sumo de Lua"
+
+#~ msgid "Move your character:"
+#~ msgstr "Mover a personagem:"
+
+#~ msgid "Music"
+#~ msgstr "Música"
+
+#, fuzzy
+#~ msgid "Neither of you?"
+#~ msgstr "Nenhum de vós?"
+
+#~ msgid "No"
+#~ msgstr "Não"
+
+#~ msgid "No data"
+#~ msgstr "Sem dados"
+
+#, fuzzy
+#~ msgid "No!"
+#~ msgstr "Não"
+
+#~ msgid "No, it's alright!"
+#~ msgstr "Não, não há problema!"
+
+#, fuzzy
+#~ msgid "No, it's alright."
+#~ msgstr "Não, não há problema!"
+
+#, fuzzy
+#~ msgid "No."
+#~ msgstr "Não"
+
+#, fuzzy
+#~ msgid "Oblivion"
+#~ msgstr "Olivia"
+
+#, fuzzy
+#~ msgid "Ok!"
+#~ msgstr "Ok"
+
+#, fuzzy
+#~ msgid "Ok."
+#~ msgstr "Ok"
+
+#~ msgid "Olivia"
+#~ msgstr "Olivia"
+
+#, fuzzy
+#~ msgid "Omni Sword"
+#~ msgstr "Espada de Ferro"
+
+#~ msgid "Orlinn!"
+#~ msgstr "Orlinn!"
+
+#, fuzzy
+#~ msgid "Orlinn! Back off!"
+#~ msgstr "Orlinn!!"
+
+#, fuzzy
+#~ msgid "Orlinn! NOW!"
+#~ msgstr "Orlinn!!"
+
+#, fuzzy
+#~ msgid "Orlinn..."
+#~ msgstr "Orlinn!"
+
+#, fuzzy
+#~ msgid "Orlinn? Orlinn!"
+#~ msgstr "Orlinn!"
+
+#, fuzzy
+#~ msgid "Owww. Alright."
+#~ msgstr "Owww… Ok."
+
+#, fuzzy
+#~ msgid "Party Menu: %s"
+#~ msgstr "Menu:"
+
+#, fuzzy
+#~ msgid "Pause: %s"
+#~ msgstr "Pausa:"
+
+#, fuzzy
+#~ msgid "Perfect Wooden Sword"
+#~ msgstr "Espada de Madeira"
+
+#, fuzzy
+#~ msgid "Periwinkle Potion"
+#~ msgstr "Poção de Cura"
+
+#, fuzzy
+#~ msgid "Phew."
+#~ msgstr "Aww…"
+
+#, fuzzy
+#~ msgid "Phoenix Call"
+#~ msgstr "Escudo da Fénix"
+
+#, fuzzy
+#~ msgid "Phoenix Feather"
+#~ msgstr "Escudo da Fénix"
+
+#~ msgid "Phoenix Shield"
+#~ msgstr "Escudo da Fénix"
+
+#~ msgid "Pincer"
+#~ msgstr "Pinça"
+
+#~ msgid "Pincers"
+#~ msgstr "Pinças"
+
+#~ msgid "Please no! Wait!"
+#~ msgstr "Por favor não! Espera!"
+
+#, fuzzy
+#~ msgid "Poison Potion"
+#~ msgstr "Poção de Cura"
+
+#~ msgid "Possible actions:"
+#~ msgstr "Acções possíveis:"
+
+#, fuzzy
+#~ msgid "Protection"
+#~ msgstr "Invocação"
+
+#~ msgid "Punch"
+#~ msgstr "Murro"
+
+#, fuzzy
+#~ msgid "Quit Menu: %s"
+#~ msgstr "Menu:"
+
+#~ msgid "Rat"
+#~ msgstr "Rato"
+
+#~ msgid "Red Slime"
+#~ msgstr "Lodo Vermelho"
+
+#, fuzzy
+#~ msgid "Reinforced Wooden Sword"
+#~ msgstr "Espada de Madeira"
+
+#~ msgid "Right!"
+#~ msgstr "Certo!"
+
+#, fuzzy
+#~ msgid "Run / Cancel: %s"
+#~ msgstr "Correr / Cancelar:"
+
+#~ msgid "Scorpion"
+#~ msgstr "Escorpião"
+
+#, fuzzy
+#~ msgid "Shield"
+#~ msgstr "Escudo de Metal"
+
+#~ msgid "Shift"
+#~ msgstr "Shift"
+
+#~ msgid "Skeleton"
+#~ msgstr "Esqueleto"
+
+#~ msgid "Slime Mother"
+#~ msgstr "Lodo Mãe"
+
+#~ msgid "Slot 2"
+#~ msgstr "Espaço 2"
+
+#~ msgid "Slot 3"
+#~ msgstr "Espaço 3"
+
+#~ msgid "Slot 4"
+#~ msgstr "Espaço 4"
+
+#~ msgid "Slot 5"
+#~ msgstr "Espaço 5"
+
+#~ msgid "Slot 6"
+#~ msgstr "Espaço 6"
+
+#~ msgid "Snake"
+#~ msgstr "Cobra"
+
+#~ msgid "Soldier"
+#~ msgstr "Soldado"
+
+#, fuzzy
+#~ msgid "Soldier Sword"
+#~ msgstr "Espada de Madeira"
+
+#~ msgid "Sophia"
+#~ msgstr "Sophia"
+
+#, fuzzy
+#~ msgid "Sophia's Items"
+#~ msgstr "Sophia"
+
+#, fuzzy
+#~ msgid "Sounds"
+#~ msgstr "Recursos:"
+
+#~ msgid "Space"
+#~ msgstr "Espaço"
+
+#~ msgid "Spider"
+#~ msgstr "Aranha"
+
+#~ msgid "Squirrel"
+#~ msgstr "Esquilo"
+
+#, fuzzy
+#~ msgid "Storm"
+#~ msgstr "História"
+
+#~ msgid "Story"
+#~ msgstr "História"
+
+#, fuzzy
+#~ msgid "Strength"
+#~ msgstr "Força:"
+
+#, fuzzy
+#~ msgid "Strength (STR): "
+#~ msgstr "Força:"
+
+#~ msgid "Sure, just ask."
+#~ msgstr "Claro, basta pedires."
+
+#~ msgid "Sylve"
+#~ msgstr "Sylve"
+
+#~ msgid "Tail"
+#~ msgstr "Cauda"
+
+#~ msgid "Tester Team"
+#~ msgstr "Equipa de Testes"
+
+#, fuzzy
+#~ msgid "Testers"
+#~ msgstr "Equipa de Testes"
+
+#~ msgid "Thanis"
+#~ msgstr "Thanis"
+
+#, fuzzy
+#~ msgid "Thank the goddess."
+#~ msgstr "Obrigado, Lilly."
+
+#~ msgid "Thanks, Lilly."
+#~ msgstr "Obrigado, Lilly."
+
+#, fuzzy
+#~ msgid "Thanks..."
+#~ msgstr "Obrigado, Lilly."
+
+#~ msgid "Thing"
+#~ msgstr "Coisa"
+
+#~ msgid "Throw stone"
+#~ msgstr "Atirar pedra"
+
+#, fuzzy
+#~ msgid "Time left:"
+#~ msgstr "Tempo:"
+
+#~ msgid "To be continued..."
+#~ msgstr "Continua..."
+
+#~ msgid "Translations"
+#~ msgstr "Traduções"
+
+#~ msgid "Trident Shield"
+#~ msgstr "Escudo de Tridente"
+
+#~ msgid "Tunic"
+#~ msgstr "Túnica"
+
+#, fuzzy
+#~ msgid "Ummm..."
+#~ msgstr "... Hmmm…"
+
+#~ msgid "Village entrance"
+#~ msgstr "Entrada da aldeia"
+
+#, fuzzy
+#~ msgid "Wait..."
+#~ msgstr "Mas..."
+
+#~ msgid "Water"
+#~ msgstr "Água"
+
+#, fuzzy
+#~ msgid "Well, here we go."
+#~ msgstr "Hmm, a porta está trancada."
+
+#, fuzzy
+#~ msgid "Well, the door is open now."
+#~ msgstr "Hmm, a porta está trancada."
+
+#, fuzzy
+#~ msgid "What?"
+#~ msgstr "O quê?!"
+
+#, fuzzy
+#~ msgid "What? No!"
+#~ msgstr "O quê?!"
+
+#~ msgid "What?!"
+#~ msgstr "O quê?!"
+
+#~ msgid "Wing"
+#~ msgstr "Asa"
+
+#~ msgid "Wooden Shield"
+#~ msgstr "Escudo de Madeira"
+
+#~ msgid "Wooden Sword"
+#~ msgstr "Espada de Madeira"
+
+#~ msgid "Yes"
+#~ msgstr "Sim"
+
+#, fuzzy
+#~ msgid "Yes, and let's do it quickly."
+#~ msgstr "Sim, por favor!"
+
+#, fuzzy
+#~ msgid "Yes, let's end this."
+#~ msgstr "Sim, por favor!"
+
+#, fuzzy
+#~ msgid "Yes, let's go."
+#~ msgstr "Sim, por favor!"
+
+#~ msgid "Yes, please!"
+#~ msgstr "Sim, por favor!"
+
+#, fuzzy
+#~ msgid "Yes, please."
+#~ msgstr "Sim, por favor!"
+
+#, fuzzy
+#~ msgid "Yes, sir."
+#~ msgstr "Sim, por favor!"
+
+#~ msgid "Yeti"
+#~ msgstr "Yeti"
+
+#~ msgid "You'll never get me!"
+#~ msgstr "Nunca me apanharás!"
+
+#~ msgid " "
+#~ msgstr " "
+
+#~ msgid "!! What?"
+#~ msgstr "!! O quê?"
+
+#~ msgid "'."
+#~ msgstr "'."
+
+#, fuzzy
+#~ msgid "... Bronann!!"
+#~ msgstr "Bronann!"
+
+#~ msgid "... Huh?"
+#~ msgstr "... Huh?"
+
+#~ msgid "... Look!"
+#~ msgstr "… Olha!"
+
+#~ msgid "A"
+#~ msgstr "A"
+
+#, fuzzy
+#~ msgid "Bronann!!!"
+#~ msgstr "Bronann!"
+
+#~ msgid "D"
+#~ msgstr "D"
+
+#~ msgid "E"
+#~ msgstr "E"
+
+#~ msgid "Esc"
+#~ msgstr "Esc"
+
+#~ msgid "F"
+#~ msgstr "F"
+
+#~ msgid "Kyle"
+#~ msgstr "Kyle"
+
+#, fuzzy
+#~ msgid "Menu|Arm"
+#~ msgstr "Menu"
+
+#, fuzzy
+#~ msgid "Nevermind that..."
+#~ msgstr "Err, esquece..."
+
+#~ msgid "Ok ..."
+#~ msgstr "Ok …"
+
+#, fuzzy
+#~ msgid "Pause Menu: %s"
+#~ msgstr "Pausa:"
+
+#~ msgid "Press "
+#~ msgstr "Pressiona"
+
+#~ msgid "S"
+#~ msgstr "S"
+
+#~ msgid "Shards"
+#~ msgstr "Lascas"
+
+#~ msgid "Spacebar"
+#~ msgstr "Barra de Espaços"
+
+#~ msgid "Swap"
+#~ msgstr "Trocar"
+
+#~ msgid "Time - "
+#~ msgstr "Tempo - "
+
+#~ msgid "W"
+#~ msgstr "W"
+
+#~ msgid "What?!?"
+#~ msgstr "O quê?!?"

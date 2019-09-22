@@ -1,0 +1,6303 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Willem Sonke <willem@wimiso.nl>, 2019
+# Willem Sonke <willem@wimiso.nl>, 2014-2017
+# Bertram <yohann.ferreira@orange.fr>, 2014,2019
+msgid ""
+msgstr ""
+"Project-Id-Version: Valyria Tear\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-22 23:22+0200\n"
+"PO-Revision-Date: 2019-09-14 12:08+0000\n"
+"Last-Translator: Willem Sonke <willem@wimiso.nl>\n"
+"Language-Team: Dutch (Netherlands) (http://www.transifex.com/valyria-tear/"
+"valyria-tear/language/nl_NL/)\n"
+"Language: nl_NL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../data/entities/characters.lua:13 ../data/entities/map_sprites.lua:11
+#: ../data/entities/map_sprites.lua:44
+msgid "Bronann"
+msgstr "Bronann"
+
+#: ../data/entities/characters.lua:19
+msgid "Holy"
+msgstr "Heilig"
+
+#: ../data/entities/characters.lua:64 ../data/entities/characters.lua:171
+#: ../data/entities/characters.lua:274 ../data/entities/characters.lua:369
+#: ../data/entities/enemies.lua:93 ../data/entities/enemies.lua:154
+#: ../data/entities/enemies.lua:209 ../data/entities/enemies.lua:381
+#: ../data/entities/enemies.lua:442 ../data/entities/enemies.lua:496
+#: ../data/entities/enemies.lua:564 ../data/entities/enemies.lua:879
+#: ../data/entities/enemies.lua:1024 ../data/entities/enemies.lua:1086
+#: ../data/entities/enemies.lua:1154 ../data/entities/enemies.lua:1253
+#: ../data/entities/enemies.lua:1309 ../data/entities/enemies.lua:1587
+#: ../data/entities/enemies.lua:1806 ../data/entities/enemies.lua:1863
+#: ../data/entities/enemies.lua:1920 ../data/entities/enemies.lua:1986
+msgid "Head"
+msgstr "Hoofd"
+
+#: ../data/entities/characters.lua:73 ../data/entities/characters.lua:180
+#: ../data/entities/characters.lua:283 ../data/entities/characters.lua:378
+#: ../data/entities/enemies.lua:320 ../data/entities/enemies.lua:505
+#: ../data/entities/enemies.lua:573 ../data/entities/enemies.lua:721
+#: ../data/entities/enemies.lua:777 ../data/entities/enemies.lua:980
+#: ../data/entities/enemies.lua:1372
+msgid "Torso"
+msgstr "Borst"
+
+#: ../data/entities/characters.lua:81 ../data/entities/characters.lua:188
+#: ../data/entities/characters.lua:291 ../data/entities/characters.lua:386
+msgid "Arms"
+msgstr "Armen"
+
+#: ../data/entities/characters.lua:90 ../data/entities/characters.lua:197
+#: ../data/entities/characters.lua:300 ../data/entities/characters.lua:395
+#: ../data/entities/enemies.lua:513 ../data/entities/enemies.lua:581
+#: ../data/entities/enemies.lua:1667 ../data/entities/enemies.lua:1944
+msgid "Legs"
+msgstr "Benen"
+
+#: ../data/entities/characters.lua:122 ../data/entities/map_sprites.lua:60
+msgid "Kalya"
+msgstr "Kalya"
+
+#: ../data/entities/characters.lua:128
+msgid "Invocation"
+msgstr "Aanroep"
+
+#: ../data/entities/characters.lua:228
+msgid "Sylve"
+msgstr "Sylve"
+
+#: ../data/entities/characters.lua:234
+msgid "Mist"
+msgstr "Mist"
+
+#: ../data/entities/characters.lua:322 ../data/entities/map_sprites.lua:87
+msgid "Thanis"
+msgstr "Thanis"
+
+#: ../data/entities/characters.lua:328
+msgid "Acheron"
+msgstr "Acheron"
+
+#: ../data/entities/enemies.lua:22
+msgid "Green Slime"
+msgstr "Groen slijm"
+
+#: ../data/entities/enemies.lua:47 ../data/entities/enemies.lua:163
+#: ../data/entities/enemies.lua:218 ../data/entities/enemies.lua:274
+#: ../data/entities/enemies.lua:390 ../data/entities/enemies.lua:451
+#: ../data/entities/enemies.lua:628 ../data/entities/enemies.lua:933
+#: ../data/entities/enemies.lua:1207 ../data/entities/enemies.lua:1436
+#: ../data/entities/enemies.lua:1492 ../data/entities/enemies.lua:1539
+#: ../data/entities/enemies.lua:1814
+msgid "Body"
+msgstr "Lichaam"
+
+#: ../data/entities/enemies.lua:68
+msgid "Spider"
+msgstr "Spin"
+
+#: ../data/entities/enemies.lua:102 ../data/entities/enemies.lua:1261
+#: ../data/entities/enemies.lua:1871
+msgid "Abdomen"
+msgstr "Achterlijf"
+
+#: ../data/entities/enemies.lua:125 ../data/entities/enemies.lua:352
+#: ../data/entities/enemies.lua:413 ../data/entities/map_sprites.lua:467
+msgid "Fenrir"
+msgstr "Fenrir"
+
+#: ../data/entities/enemies.lua:184
+msgid "Snake"
+msgstr "Slang"
+
+#: ../data/entities/enemies.lua:226 ../data/entities/enemies.lua:1317
+#: ../data/entities/enemies.lua:1822 ../data/entities/enemies.lua:1879
+msgid "Tail"
+msgstr "Staart"
+
+#: ../data/entities/enemies.lua:249 ../data/entities/map_sprites.lua:425
+msgid "Slime Mother"
+msgstr "Moederslijm"
+
+#: ../data/entities/enemies.lua:295 ../data/entities/map_sprites.lua:384
+msgid "Bat"
+msgstr "Vleermuis"
+
+#: ../data/entities/enemies.lua:329
+msgid "Wing"
+msgstr "Vleugel"
+
+#: ../data/entities/enemies.lua:471 ../data/entities/map_sprites.lua:482
+#: ../data/entities/map_sprites.lua:557
+msgid "Dark Soldier"
+msgstr "Duistere soldaat"
+
+#: ../data/entities/enemies.lua:534
+msgid "Lord Banesore"
+msgstr "Heer Banesore"
+
+#: ../data/entities/enemies.lua:603 ../data/entities/map_sprites.lua:520
+msgid "Shroom"
+msgstr "Paddestoel"
+
+#: ../data/entities/enemies.lua:650 ../data/entities/map_sprites.lua:541
+msgid "Eyeball"
+msgstr "Oogbol"
+
+#: ../data/entities/enemies.lua:675 ../data/entities/enemies.lua:1364
+msgid "Eye"
+msgstr "Oog"
+
+#: ../data/entities/enemies.lua:696
+msgid "Harlequin?"
+msgstr "Harlekijn?"
+
+#: ../data/entities/enemies.lua:752
+msgid "Harlequin"
+msgstr "Harlekijn"
+
+#: ../data/entities/enemies.lua:808 ../data/entities/map_sprites.lua:573
+msgid "Beetle"
+msgstr "Kever"
+
+#: ../data/entities/enemies.lua:833 ../data/entities/enemies.lua:887
+#: ../data/entities/enemies.lua:1032 ../data/entities/enemies.lua:1094
+#: ../data/entities/enemies.lua:1928 ../data/entities/enemies.lua:1994
+msgid "Chest"
+msgstr "Borst"
+
+#: ../data/entities/enemies.lua:854
+msgid "Rat"
+msgstr "Rat"
+
+#: ../data/entities/enemies.lua:908
+msgid "Thing"
+msgstr "Ding"
+
+#: ../data/entities/enemies.lua:955
+msgid "Yeti"
+msgstr "Yeti"
+
+#: ../data/entities/enemies.lua:999 ../data/entities/map_sprites.lua:589
+msgid "Skeleton"
+msgstr "Skelet"
+
+#: ../data/entities/enemies.lua:1040 ../data/entities/enemies.lua:1102
+#: ../data/entities/enemies.lua:1269 ../data/entities/enemies.lua:1603
+msgid "Leg"
+msgstr "Bn"
+
+#: ../data/entities/enemies.lua:1061 ../data/entities/map_sprites.lua:605
+msgid "Dorver"
+msgstr "Dorver"
+
+#: ../data/entities/enemies.lua:1129 ../data/entities/map_sprites.lua:621
+msgid "Andromalius"
+msgstr "Andromalius"
+
+#: ../data/entities/enemies.lua:1182 ../data/entities/map_sprites.lua:369
+msgid "Ratto"
+msgstr "Ratto"
+
+#: ../data/entities/enemies.lua:1235
+msgid "Scorpion"
+msgstr "Schorpioen"
+
+#: ../data/entities/enemies.lua:1288
+msgid "Dune Crawler"
+msgstr "Duinkruiper"
+
+#: ../data/entities/enemies.lua:1343
+msgid "Stygian Lizard"
+msgstr "Stygische hagedis"
+
+#: ../data/entities/enemies.lua:1380 ../data/entities/enemies.lua:1444
+msgid "Claw"
+msgstr "Klauw"
+
+#: ../data/entities/enemies.lua:1407
+msgid "Demonic Essence"
+msgstr "Demonische essentie"
+
+#: ../data/entities/enemies.lua:1428
+msgid "Face"
+msgstr "Gezicht"
+
+#: ../data/entities/enemies.lua:1471
+msgid "Red Slime"
+msgstr "Rood slijm"
+
+#: ../data/entities/enemies.lua:1518
+msgid "Mushroom Zombie"
+msgstr "Paddenstoelenzombie"
+
+#: ../data/entities/enemies.lua:1566
+msgid "Scorpion Goliath"
+msgstr "Goliath-schorpioen"
+
+#: ../data/entities/enemies.lua:1595
+msgid "Pincer"
+msgstr "Tang"
+
+#: ../data/entities/enemies.lua:1630
+msgid "Armored Beast"
+msgstr "Gepantserd beest"
+
+#: ../data/entities/enemies.lua:1651
+msgid "Mesosoma"
+msgstr "Middenlijf"
+
+#: ../data/entities/enemies.lua:1659
+msgid "Pincers"
+msgstr "Tang"
+
+#: ../data/entities/enemies.lua:1687
+msgid "Daemarbora"
+msgstr "Daemarbora"
+
+#: ../data/entities/enemies.lua:1708
+msgid "Trunk"
+msgstr "Stam"
+
+#: ../data/entities/enemies.lua:1716
+msgid "Branches"
+msgstr "Takken"
+
+#: ../data/entities/enemies.lua:1736
+msgid "Aerocephal"
+msgstr "Aerocephal"
+
+#: ../data/entities/enemies.lua:1757
+msgid "Forehead"
+msgstr "Voorhoofd"
+
+#: ../data/entities/enemies.lua:1765
+msgid "Orifice"
+msgstr "Opening"
+
+#: ../data/entities/enemies.lua:1785
+msgid "Arcana Drake"
+msgstr "Arcana-woerd"
+
+#: ../data/entities/enemies.lua:1842
+msgid "Nagaruda"
+msgstr "Nagaruda"
+
+#: ../data/entities/enemies.lua:1899
+msgid "Deceleon"
+msgstr "Deceleon"
+
+#: ../data/entities/enemies.lua:1936 ../data/entities/enemies.lua:2002
+msgid "Arm"
+msgstr "Arm"
+
+#: ../data/entities/enemies.lua:1964
+msgid "Aurum Drakueli"
+msgstr "Aurum Drakueli"
+
+#: ../data/entities/map_sprites.lua:105
+msgid "Carson"
+msgstr "Carson"
+
+#: ../data/entities/map_sprites.lua:121
+msgid "Malta"
+msgstr "Malta"
+
+#: ../data/entities/map_sprites.lua:137
+msgid "Orlinn"
+msgstr "Orlinn"
+
+#: ../data/entities/map_sprites.lua:159
+msgid "Herth"
+msgstr "Herth"
+
+#: ../data/entities/map_sprites.lua:179
+msgid "Olivia"
+msgstr "Olivia"
+
+#: ../data/entities/map_sprites.lua:194
+msgid "Brymir"
+msgstr "Brymir"
+
+#: ../data/entities/map_sprites.lua:209
+msgid "Martha"
+msgstr "Martha"
+
+#: ../data/entities/map_sprites.lua:224
+msgid "Sophia"
+msgstr "Sophia"
+
+#: ../data/entities/map_sprites.lua:240
+msgid "Lilly"
+msgstr "Lilly"
+
+#: ../data/entities/map_sprites.lua:255
+msgid "Georges"
+msgstr "Georges"
+
+#: ../data/entities/map_sprites.lua:270
+msgid "Dandy Shroom"
+msgstr "Mooie paddenstoel"
+
+#: ../data/entities/map_sprites.lua:287
+msgid "Crystal"
+msgstr "Kristal"
+
+#: ../data/entities/map_sprites.lua:303
+msgid "Soldier"
+msgstr "Soldaat"
+
+#: ../data/entities/map_sprites.lua:321
+msgid "Chicken"
+msgstr "Kip"
+
+#: ../data/entities/map_sprites.lua:336
+msgid "Butterfly"
+msgstr "Vlinder"
+
+#: ../data/entities/map_sprites.lua:351
+msgid "Squirrel"
+msgstr "Eekhoorn"
+
+#: ../data/entities/map_sprites.lua:503
+msgid "Lord"
+msgstr "Heer"
+
+#: ../data/entities/status_effects/status_effects.lua:78
+msgid "Physical Attack"
+msgstr "Fysieke aanval"
+
+#: ../data/entities/status_effects/status_effects.lua:135
+msgid "Magical Attack"
+msgstr "Magische aanval"
+
+#: ../data/entities/status_effects/status_effects.lua:192
+msgid "Physical Defense"
+msgstr "Fysieke verdediging"
+
+#: ../data/entities/status_effects/status_effects.lua:249
+msgid "Magical Defense"
+msgstr "Magische verdediging"
+
+#: ../data/entities/status_effects/status_effects.lua:306
+msgid "Stamina"
+msgstr "Uithoudingsvermogen"
+
+#: ../data/entities/status_effects/status_effects.lua:365
+msgid "Evasion"
+msgstr "Ontwijking"
+
+#: ../data/entities/status_effects/status_effects.lua:422
+msgid "HP"
+msgstr "HP"
+
+#: ../data/entities/status_effects/status_effects.lua:590
+msgid "SP"
+msgstr "SP"
+
+#: ../data/entities/status_effects/status_effects.lua:763
+msgid "Paralysis"
+msgstr "Verlamming"
+
+#: ../data/entities/status_effects/status_effects.lua:818
+msgid "Fire Elemental Strength"
+msgstr "Vuur-element-sterkte"
+
+#: ../data/entities/status_effects/status_effects.lua:875
+msgid "Water Elemental Strength"
+msgstr "Water-element-sterkte"
+
+#: ../data/entities/status_effects/status_effects.lua:932
+msgid "Wind Elemental Strength"
+msgstr "Wind-element-sterkte"
+
+#: ../data/entities/status_effects/status_effects.lua:988
+msgid "Earth Elemental Strength"
+msgstr "Aarde-element-sterkte"
+
+#: ../data/entities/status_effects/status_effects.lua:1044
+msgid "Life Elemental Strength"
+msgstr "Levens-element-sterkte"
+
+#: ../data/entities/status_effects/status_effects.lua:1100
+msgid "Death Elemental Strength"
+msgstr "Dood-element-sterkte"
+
+#: ../data/entities/status_effects/status_effects.lua:1157
+msgid "Neutral Elemental Strength"
+msgstr "Neutraal-element-sterkte"
+
+#~ msgid "Lv: "
+#~ msgstr "Lv:"
+
+#~ msgid "Next: "
+#~ msgstr "Volgende:"
+
+#~ msgid "XP for skills: "
+#~ msgstr "XP voor vaardigheden:"
+
+#~ msgid "Self — Point"
+#~ msgstr "Zelf — Punt"
+
+#~ msgid "Ally — Point"
+#~ msgstr "Medestander — Punt"
+
+#~ msgid "Foe — Point"
+#~ msgstr "Vijand — Punt"
+
+#~ msgid "Self"
+#~ msgstr "Zelf"
+
+#~ msgid "Ally"
+#~ msgstr "Medestander"
+
+#~ msgid "Ally (Even KO)"
+#~ msgstr "Medestander (zelfs KO)"
+
+#~ msgid "Ally (Only KO)"
+#~ msgstr "Medestander (alleen KO)"
+
+#~ msgid "Foe"
+#~ msgstr "Vijand"
+
+#~ msgid "All Allies"
+#~ msgstr "Alle medestanders"
+
+#~ msgid "All Foes"
+#~ msgstr "Alle vijanden"
+
+#~ msgid "Invalid Target"
+#~ msgstr "Ongeldig doelwit"
+
+#~ msgid "Auto-Battle"
+#~ msgstr "Auto-gevecht"
+
+#~ msgid "Use the %s and %s keys to select your language and then press %s."
+#~ msgstr ""
+#~ "Gebruik de toetsen %s en %s om een taal te kiezen, en druk dan op %s."
+
+#~ msgid "Valyria Tear"
+#~ msgstr "Valyria Tear"
+
+#~ msgid "Video"
+#~ msgstr "Beeld"
+
+#~ msgid "Audio"
+#~ msgstr "Geluid"
+
+#~ msgid "Game"
+#~ msgstr "Spel"
+
+#~ msgid "Language"
+#~ msgstr "Taal"
+
+#~ msgid "Key Settings"
+#~ msgstr "Toetsenbord"
+
+#~ msgid "Joystick Settings"
+#~ msgstr "Joystick"
+
+#~ msgid "Resolution: "
+#~ msgstr "Resolutie: "
+
+#~ msgid "Window mode: "
+#~ msgstr "Modus: "
+
+#~ msgid "Brightness: "
+#~ msgstr "Helderheid: "
+
+#~ msgid "VSync: "
+#~ msgstr "VSync:"
+
+#~ msgid "UI Theme: "
+#~ msgstr "Thema: "
+
+#~ msgid "Sound Volume: "
+#~ msgstr "Geluidsvolume: "
+
+#~ msgid "Music Volume: "
+#~ msgstr "Muziekvolume: "
+
+#~ msgid "Easy"
+#~ msgstr "Makkelijk"
+
+#~ msgid "Normal"
+#~ msgstr "Normaal"
+
+#~ msgid "Hard"
+#~ msgstr "Moeilijk"
+
+#~ msgid "Game Difficulty: %s"
+#~ msgstr "Moeilijkheidsgraad: %s"
+
+#~ msgid "Dialogue text speed: %i"
+#~ msgstr "Tekstsnelheid: %i"
+
+#~ msgid "Enabled"
+#~ msgstr "Ingeschakeld"
+
+#~ msgid "Disabled"
+#~ msgstr "Uitgeschakeld"
+
+#~ msgid "Remember battle target: %s"
+#~ msgstr "Gevechtsdoel onthouden: %s"
+
+#~ msgid "Up: "
+#~ msgstr "Omhoog:"
+
+#~ msgid "Down: "
+#~ msgstr "Omlaag:"
+
+#~ msgid "Left: "
+#~ msgstr "Naar links:"
+
+#~ msgid "Right: "
+#~ msgstr "Naar rechts:"
+
+#~ msgid "Confirm: "
+#~ msgstr "Bevestigen:"
+
+#~ msgid "Cancel: "
+#~ msgstr "Annuleren:"
+
+#~ msgid "Menu: "
+#~ msgstr "Menu:"
+
+#~ msgid "Toggle Map: "
+#~ msgstr "Kaart aan/uit:"
+
+#~ msgid "Pause: "
+#~ msgstr "Pauze:"
+
+#~ msgid "Restore defaults"
+#~ msgstr "Terug naar standaard"
+
+#~ msgid "Fullscreen"
+#~ msgstr "Schermvullend"
+
+#~ msgid "Windowed"
+#~ msgstr "Venster"
+
+#~ msgid "VSync_mode|Off"
+#~ msgstr "VSync_modelUit"
+
+#~ msgid "VSync_mode|On"
+#~ msgstr "VSync_modelAan"
+
+#~ msgid "VSync_mode|Swap Tearing"
+#~ msgstr "VSync_modelSwap-tearing"
+
+#~ msgid "Move Up"
+#~ msgstr "Naar boven"
+
+#~ msgid "Move Down"
+#~ msgstr "Naar onder"
+
+#~ msgid "Move Left"
+#~ msgstr "Naar links"
+
+#~ msgid "Move Right"
+#~ msgstr "Naar rechts"
+
+#~ msgid "Confirm"
+#~ msgstr "Bevestigen"
+
+#~ msgid "Cancel"
+#~ msgstr "Annuleren"
+
+#~ msgid "Menu"
+#~ msgstr "Menu"
+
+#~ msgid "Toggle Map"
+#~ msgstr "Kaart aan/uit"
+
+#~ msgid "Pause"
+#~ msgstr "Pauze"
+
+#~ msgid "Input"
+#~ msgstr "Input"
+
+#~ msgid "X Axis"
+#~ msgstr "X-as"
+
+#~ msgid "Y Axis"
+#~ msgstr "Y-as"
+
+#~ msgid "Threshold"
+#~ msgstr "Drempelwaarde"
+
+#~ msgid "Button %d"
+#~ msgstr "Knop %d"
+
+#~ msgid "Map"
+#~ msgstr "Kaart"
+
+#~ msgid "Help"
+#~ msgstr "Help"
+
+#~ msgid "Quit"
+#~ msgstr "Afsluiten"
+
+#~ msgid "Please press a new joystick button."
+#~ msgstr "Druk op een joystick-knop."
+
+#~ msgid "Please press a new key."
+#~ msgstr "Druk op een nieuwe toets."
+
+#~ msgid "Please move an axis."
+#~ msgstr "Beweeg een as."
+
+#~ msgid ""
+#~ "Here you can set up the video options such as the resolution, whether to "
+#~ "play in full screen, the GUI theme, ..."
+#~ msgstr ""
+#~ "Hier kun je video-opties instellen, zoals de resolutie, de volledig-"
+#~ "scherm-modus, het GUI-thema, ..."
+
+#~ msgid "Here you can setup the music and SFX volumes."
+#~ msgstr ""
+#~ "Hier kun je het volume van de muziek en de geluidseffecten instellen."
+
+#~ msgid ""
+#~ "This menu permits to setup game specific options, such as the text "
+#~ "scrolling speed, the game difficulty, ..."
+#~ msgstr ""
+#~ "In dit menu kun je specifieke opties instellen, zoals de snelheid van "
+#~ "scrollende tekst, de moeilijkheidsgraad, ..."
+
+#~ msgid ""
+#~ "This menu will show the available languages. Only available from the boot "
+#~ "menu..."
+#~ msgstr ""
+#~ "Dit menu geeft de beschikbare talen weer. Alleen beschikbaar vanaf het "
+#~ "opstartmenu..."
+
+#~ msgid "Here you change the keys used when playing with the keyboard..."
+#~ msgstr ""
+#~ "Als je met het toetsenbord speelt, kun je hier de gebruikte toetsen "
+#~ "aanpassen..."
+
+#~ msgid "Here you change the keys used when playing with a joystick..."
+#~ msgstr ""
+#~ "Als je met een joystick speelt, kun je hier de gebruikte toetsen "
+#~ "aanpassen..."
+
+#~ msgid "This permits to select the game's resolution..."
+#~ msgstr "Hier kun je de resolutie van het spel selecteren..."
+
+#~ msgid ""
+#~ "Here you can set whether you want to play in windowed mode or fullscreen."
+#~ msgstr ""
+#~ "Hier kun je instellen of je in venstermodus of met een volledig scherm "
+#~ "wilt spelen."
+
+#~ msgid "Sets the game brightness percentage. Default: 50%"
+#~ msgstr "Stelt de helderheid van het spel in. Standaard: 50%"
+
+#~ msgid ""
+#~ "Permits to change the Screen Vertical Synchronization mode. (Use the left "
+#~ "and right arrow keys.)"
+#~ msgstr ""
+#~ "Dit stelt de VSync-modus in. (Gebruik de pijltjes naar links en rechts.)"
+
+#~ msgid "Permits to change the in-game GUI theme."
+#~ msgstr "Stelt het interfacethema van het spel in."
+
+#~ msgid "Permits to set the general music volume."
+#~ msgstr "Stelt het algemene muziekvolume in."
+
+#~ msgid "Permits to set the general SFX volume."
+#~ msgstr "Stelt het algemene volume van geluidseffecten in."
+
+#~ msgid ""
+#~ "Sets the game difficulty, can change how hard battles and certain events "
+#~ "are in game..."
+#~ msgstr ""
+#~ "Stelt de moeilijkheidsgraad in; dit kan veranderen hoe moeilijk gevechten "
+#~ "en gebeurtenissen in het spel zijn..."
+
+#~ msgid ""
+#~ "Permits to set up the dialogue text scrolling speed (in character per "
+#~ "seconds)..."
+#~ msgstr ""
+#~ "Stelt de scrollsnelheid van dialoogtekst in (uitgedrukt in tekens per "
+#~ "seconde)..."
+
+#~ msgid ""
+#~ "Sets whether the characters will remember their previous action in battle."
+#~ msgstr "Bepaalt of karakters hun vorige gevechtshandeling onthouden."
+
+#~ msgid "Miss"
+#~ msgstr "Mis"
+
+#~ msgid "[error]"
+#~ msgstr "[fout]"
+
+#~ msgid "Double Rush!"
+#~ msgstr "Dubbele aanval!"
+
+#~ msgid "First Strike!"
+#~ msgstr "Eerste slag!"
+
+#~ msgid "Ambush!"
+#~ msgstr "Hinderlaag!"
+
+#~ msgid ""
+#~ "When the Auto-Battle mode is activated, your party will auto attack the "
+#~ "opponents using default attacks. If you open a command menu, the Auto-"
+#~ "Battle mode will be deactivated again."
+#~ msgstr ""
+#~ "Als de modus Auto-gevecht aanstaat, dan vallen je personages hun "
+#~ "tegenstanders automatisch aan met standaard-aanvallen. Open je een "
+#~ "commandomenu, dan schakelt Auto-gevecht zichzelf uit."
+
+#~ msgid "[Invalid Target]"
+#~ msgstr "[Ongeldig doelwit]"
+
+#~ msgid " — "
+#~ msgstr " — "
+
+#~ msgid "All Enemies"
+#~ msgstr "Alle vijanden"
+
+#~ msgid "Weapon"
+#~ msgstr "Wapen"
+
+#~ msgid "Magic"
+#~ msgstr "Magie"
+
+#~ msgid "Items"
+#~ msgstr "Voorwerpen"
+
+#~ msgid "Bare-hand"
+#~ msgstr "Blote hand"
+
+#~ msgid "%ss"
+#~ msgstr "%ss"
+
+#~ msgid "Enemy Defense Modifiers:\n"
+#~ msgstr "Modificaties van de vijandelijke verdediging:\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "\n"
+#~ "Effects:\n"
+#~ msgstr ""
+#~ "\n"
+#~ "\n"
+#~ "Effecten:\n"
+
+#~ msgid "%s SP"
+#~ msgstr "%s SP"
+
+#~ msgid "Target Type: %s"
+#~ msgstr "Doeltype: %s"
+
+#~ msgid "Prep Time: %s"
+#~ msgstr "Voorbereidingstijd: %s"
+
+#~ msgid "Cool Time: %s"
+#~ msgstr "Afkoeltijd: %s"
+
+#~ msgid "Select Target"
+#~ msgstr "Doelwit kiezen"
+
+#~ msgid "Select Attack Point"
+#~ msgstr "Selecteer aanvalspunt"
+
+#~ msgid "Item<R>Type   ×"
+#~ msgstr "Voorwerp<R>Type ×"
+
+#~ msgid "Skill<R>Type SP"
+#~ msgstr "Vaardigheid<R>Type SP"
+
+#~ msgid "The heroes fell in battle..."
+#~ msgstr "De helden zijn gesneuveld..."
+
+#~ msgid "Retry"
+#~ msgstr "Opnieuw"
+
+#~ msgid "End"
+#~ msgstr "Stoppen"
+
+#~ msgid "OK"
+#~ msgstr "OK"
+
+#~ msgid "Start over from the beginning of this battle."
+#~ msgstr "Start opnieuw bij het begin van dit gevecht."
+
+#~ msgid "Exit to main menu."
+#~ msgstr "Terug naar het hoofdmenu."
+
+#~ msgid "Confirm: retry battle."
+#~ msgstr "Bevestigen: gevecht opnieuw proberen."
+
+#~ msgid "Confirm: return to main menu."
+#~ msgstr "Bevestigen: terug naar het hoofdmenu."
+
+#~ msgid "The heroes were victorious!"
+#~ msgstr "De helden hebben gewonnen!"
+
+#~ msgid "Items Found"
+#~ msgstr "Gevonden:"
+
+#~ msgid "End Battle"
+#~ msgstr "Gevecht beëindigen"
+
+#~ msgid "Improve Skills"
+#~ msgstr "Vaardigheden verbeteren"
+
+#~ msgid "XP Earned: "
+#~ msgstr "XP verdiend:"
+
+#~ msgid "Drunes Found: "
+#~ msgstr "Gevonden drunen:"
+
+#~ msgid "Total Drunes: "
+#~ msgstr "Totale drunen:"
+
+#~ msgid "Level (Max): "
+#~ msgstr "Level (Max):"
+
+#~ msgid "Level: "
+#~ msgstr "Level:"
+
+#~ msgid "XP for level up: "
+#~ msgstr "XP voor level-verhoging:"
+
+#~ msgid "No Items Found"
+#~ msgstr "Geen voorwerpen gevonden"
+
+#~ msgid "Item Found"
+#~ msgstr "Voorwerp gevonden"
+
+#~ msgid " (+20%)"
+#~ msgstr " (+20%)"
+
+#~ msgid "[Select Action]"
+#~ msgstr "[Actie kiezen]"
+
+#~ msgid "%d s"
+#~ msgstr "%d s"
+
+#~ msgid "New Game"
+#~ msgstr "Nieuw spel"
+
+#~ msgid "Load Game"
+#~ msgstr "Spel laden"
+
+#~ msgid "Options"
+#~ msgstr "Opties"
+
+#~ msgid "Press '%s' to get to know about the game keys."
+#~ msgstr "Druk op \"%s\" om meer te weten te komen over de toetsen."
+
+#~ msgid "Escape to destination?"
+#~ msgstr "Ontsnappen naar bestemming?"
+
+#~ msgid "EscapeMenu|No"
+#~ msgstr "EscapeMenu|Nee"
+
+#~ msgid "EscapeMenu|Yes"
+#~ msgstr "EscapeMenu|Ja"
+
+#~ msgid "No available destination"
+#~ msgstr "Geen bestemming beschikbaar"
+
+#~ msgid "You obtain"
+#~ msgstr "Je krijgt"
+
+#~ msgid "Ok"
+#~ msgstr "OK"
+
+#~ msgid "Drunes"
+#~ msgstr "Drunen"
+
+#~ msgid "the party now holds a total of %u drune."
+#~ msgid_plural "the party now holds a total of %u drunes."
+#~ msgstr[0] "heeft je groep nu %u drune."
+#~ msgstr[1] "heeft je groep nu %u drunen."
+
+#~ msgid "With the additional %u drune found in this treasure added, %s."
+#~ msgid_plural ""
+#~ "With the additional %u drunes found in this treasure added, %s."
+#~ msgstr[0] "Met de extra %u drune uit deze schat erbij, %s"
+#~ msgstr[1] "Met de extra %u drunen uit deze schat erbij, %s"
+
+#~ msgid "This item is a key item and can be neither consumed nor sold."
+#~ msgstr ""
+#~ "Dit voorwerp is belangrijk, en kan niet verbruikt of verkocht worden."
+
+#~ msgid ""
+#~ "This item is an elemental spirit and can be associated with equipment."
+#~ msgstr ""
+#~ "Dit voorwerp is een elementgeest en kan worden geassocieerd met een "
+#~ "uitrusting."
+
+#~ msgid "Skills obtained:"
+#~ msgstr "Geleerde vaardigheden:"
+
+#~ msgid "ATK:"
+#~ msgstr "AAN:"
+
+#~ msgid "M.ATK:"
+#~ msgstr "M.AAN:"
+
+#~ msgid "DEF:"
+#~ msgstr "VRD:"
+
+#~ msgid "M.DEF:"
+#~ msgstr "M.VRD:"
+
+#~ msgid "Equip"
+#~ msgstr "Uitrusten"
+
+#~ msgid "Remove"
+#~ msgstr "Verwijderen"
+
+#~ msgid "Back"
+#~ msgstr "Terug"
+
+#~ msgid "Inventory"
+#~ msgstr "Inventaris"
+
+#~ msgid "Skills"
+#~ msgstr "Vaardigheden"
+
+#~ msgid "Party"
+#~ msgstr "Groep"
+
+#~ msgid "Quests"
+#~ msgstr "Doelen"
+
+#~ msgid ""
+#~ "Select to view current world map.\n"
+#~ "Use left / right to cycle through locations.\n"
+#~ "Press 'cancel' to return"
+#~ msgstr ""
+#~ "Selecteer dit om de huidige wereldkaart te bekijken.\n"
+#~ "Gebruik links / rechts om van plaats te wisselen.\n"
+#~ "Druk op 'annuleren' om terug te gaan"
+
+#~ msgid "Select to view Quest Log."
+#~ msgstr "Selecteer dit om het Doelen-logboek te bekijken."
+
+#~ msgid "View/Reorder"
+#~ msgstr "Bekijken/Formatie"
+
+#~ msgid "Battle Formation"
+#~ msgstr "Gevechtsformatie"
+
+#~ msgid ""
+#~ "View character Information.\n"
+#~ "Select a character to change formation."
+#~ msgstr ""
+#~ "Bekijk personage-informatie.\n"
+#~ "Selecteer een personage om de formatie aan te passen."
+
+#~ msgid "Use"
+#~ msgstr "Gebruiken"
+
+#~ msgid "Improve"
+#~ msgstr "Verbeteren"
+
+#~ msgid "Switch"
+#~ msgstr "Veranderen"
+
+#~ msgid "Select a battle formation to change character placement."
+#~ msgstr ""
+#~ "Kies een gevechtsformatie om de positie van personages te veranderen."
+
+#~ msgid "Rear - Front"
+#~ msgstr "Achter - Voor"
+
+#~ msgid "%d %%"
+#~ msgstr "%d %%"
+
+#~ msgid "No weapon"
+#~ msgstr "Geen wapen"
+
+#~ msgid "No head armor"
+#~ msgstr "Geen hoofd-uitrusting"
+
+#~ msgid "No torso armor"
+#~ msgstr "Geen borst-uitrusting"
+
+#~ msgid "No arms armor"
+#~ msgstr "Geen arm-uitrusting"
+
+#~ msgid "No legs armor"
+#~ msgstr "Geen been-uitrusting"
+
+#~ msgid "Select an item to Equip or Use."
+#~ msgstr "Selecteer een voorwerp om uit te rusten of te gebruiken."
+
+#~ msgid "This character cannot equip this item."
+#~ msgstr "Dit personage kan niet met dit voorwerp worden uitgerust."
+
+#~ msgid "Select a character to use the item on."
+#~ msgstr "Kies een personage om dit voorwerp op te gebruiken."
+
+#~ msgid "Select a character to change position with."
+#~ msgstr "Kies een personage om van positie mee te wisselen."
+
+#~ msgid "Select a character to change formation."
+#~ msgstr "Selecteer een personage om de formatie te veranderen."
+
+#~ msgid "Global Attack / Defense:"
+#~ msgstr "Algemene aanval / verdediging:"
+
+#~ msgid "Detailed Defense:"
+#~ msgstr "Gedetailleerde verdediging:"
+
+#~ msgid "Total Attack: "
+#~ msgstr "Totale aanval:"
+
+#~ msgid "Total Magical Attack: "
+#~ msgstr "Totale magische aanval:"
+
+#~ msgid "Average Defense: "
+#~ msgstr "Gemiddelde verdediging:"
+
+#~ msgid "Average Magical Defense: "
+#~ msgstr "Gemiddelde magische verdediging:"
+
+#~ msgid "Head: "
+#~ msgstr "Hoofd:"
+
+#~ msgid "Torso: "
+#~ msgstr "Borst:"
+
+#~ msgid "Arm: "
+#~ msgstr "Arm:"
+
+#~ msgid "Leg: "
+#~ msgstr "Been:"
+
+#~ msgid "Experience Level: "
+#~ msgstr "Ervaringsniveau:"
+
+#~ msgid "Physical Attack: "
+#~ msgstr "Fysieke aanval:"
+
+#~ msgid "Magical Attack: "
+#~ msgstr "Magische aanval:"
+
+#~ msgid "Physical Defense: "
+#~ msgstr "Fysieke verdediging:"
+
+#~ msgid "Magical Defense: "
+#~ msgstr "Magische verdediging:"
+
+#~ msgid "Stamina: "
+#~ msgstr "Uithoudingsvermogen:"
+
+#~ msgid "Evade: "
+#~ msgstr "Ontwijking:"
+
+#~ msgid "Choose a character."
+#~ msgstr "Kies een personage."
+
+#~ msgid "Choose a skill category to use."
+#~ msgstr "Kies een vaardighedencategorie om te gebruiken."
+
+#~ msgid "All"
+#~ msgstr "Al"
+
+#~ msgid "Field"
+#~ msgstr "Veld"
+
+#~ msgid "Battle"
+#~ msgstr "Gevecht"
+
+#~ msgid "Weapon skill"
+#~ msgstr "Wapen-vaardigheid"
+
+#~ msgid "Bare hands"
+#~ msgstr "Blote handen"
+
+#~ msgid "Magic skill"
+#~ msgstr "Magische vaardigheid"
+
+#~ msgid "Special skill"
+#~ msgstr "Speciale vaardigheid"
+
+#~ msgid " SP"
+#~ msgstr " SP"
+
+#~ msgid "Unlocked"
+#~ msgstr "Ontgrendeld"
+
+#~ msgid "To Unlock:"
+#~ msgstr "Om te ontgrendelen:"
+
+#~ msgid ""
+#~ "XP Needed: %d /\n"
+#~ "Available: %d"
+#~ msgstr ""
+#~ "Benodigde XP: %d /\n"
+#~ "Beschikbaar: %d"
+
+#~ msgid "No XP Needed"
+#~ msgstr "Geen XP nodig"
+
+#~ msgid " x %d"
+#~ msgstr "x%d"
+
+#~ msgid "%d SP"
+#~ msgstr "%d SP"
+
+#~ msgid "Skill learned:"
+#~ msgstr "Geleerde vaardigheid:"
+
+#~ msgid "Statistics:"
+#~ msgstr "Statistieken:"
+
+#~ msgid "Phys. Atk +%d"
+#~ msgstr "Fys. aanv. +%d"
+
+#~ msgid "Mag. Atk +%d"
+#~ msgstr "Mag. aanv. +%d"
+
+#~ msgid "Phys. Def +%d"
+#~ msgstr "Fys. verd. +%d"
+
+#~ msgid "Mag. Def +%d"
+#~ msgstr "Mag. verd. +%d"
+
+#~ msgid "Stamina +%d"
+#~ msgstr "Uith. +%d"
+
+#~ msgid "Evade +%.1f%%"
+#~ msgstr "Ontw. +%.1f%%"
+
+#~ msgid "HP +%d"
+#~ msgstr "HP +%d"
+
+#~ msgid "SP +%d"
+#~ msgstr "SP +%d"
+
+#~ msgid "Press '%s' anytime to show/hide help."
+#~ msgstr "Druk, wanneer dan ook, op \"%s\" om hulp weer te geven."
+
+#~ msgid "Welcome to Valyria Tear"
+#~ msgstr "Welkom bij Valyria Tear"
+
+#~ msgid "Command"
+#~ msgstr "Commando"
+
+#~ msgid "Current Key"
+#~ msgstr "Huidige toets"
+
+#~ msgid "Purpose"
+#~ msgstr "Doel"
+
+#~ msgid "Left"
+#~ msgstr "Links"
+
+#~ msgid "Move menu cursor to the left"
+#~ msgstr "Beweeg de menucursor naar links"
+
+#~ msgid "Right"
+#~ msgstr "Rechts"
+
+#~ msgid "Move menu cursor to the right"
+#~ msgstr "Beweeg de menucursor naar rechts"
+
+#~ msgid "Confirm a menu command"
+#~ msgstr "Bevestig een menucommando"
+
+#~ msgid "Cancel a menu command"
+#~ msgstr "Annuleer een menucommando"
+
+#~ msgid ""
+#~ "Quit the application\n"
+#~ "(when using the keyboard)"
+#~ msgstr ""
+#~ "Sluit het programma af\n"
+#~ "(wanneer je het toetsenbord gebruikt)"
+
+#~ msgid ""
+#~ "Shop mode\n"
+#~ "\n"
+#~ "Use the Left/Right keys to add/remove items into the Buy and Sell modes.\n"
+#~ "Then go into the Confirm mode to complete the transaction."
+#~ msgstr ""
+#~ "Winkelmodus\n"
+#~ "\n"
+#~ "Gebruik links/rechts om voorwerpen toe te voegen of te verwijderen in de "
+#~ "(Ver)koop-modus.\n"
+#~ "Ga dan naar de Bevestigen-modus om de transactie te voltooien."
+
+#~ msgid "Remove an item from the buy/sell list"
+#~ msgstr "Verwijder een voorwerp van de (ver)kooplijst"
+
+#~ msgid "Add an item to the buy/sell list."
+#~ msgstr "Voeg een voorwerp toe aan de (ver)kooplijst"
+
+#~ msgid "Up"
+#~ msgstr "Omhoog"
+
+#~ msgid "Move up in the item list."
+#~ msgstr "Ga omhoog in de voorwerpenlijst."
+
+#~ msgid "Down"
+#~ msgstr "Omlaag"
+
+#~ msgid "Move down in the item list."
+#~ msgstr "Ga omlaag in de voorwerpenlijst."
+
+#~ msgid "Show details or confirm a transaction"
+#~ msgstr "Details weergeven of een transactie bevestigen"
+
+#~ msgid "Change the displayed item category."
+#~ msgstr "Verander de weergegeven categorie."
+
+#~ msgid ""
+#~ "Get out the Buy/Sell/Confirm mode,\n"
+#~ "or quit the shop."
+#~ msgstr ""
+#~ "Verlaat de (Ver)koop- of Bevestigen-modus,\n"
+#~ "of verlaat de winkel."
+
+#~ msgid "Pauses the game"
+#~ msgstr "Pauzeert het spel"
+
+#~ msgid "Close this window / Show the system menu"
+#~ msgstr "Sluit dit venster / Toon het systeemmenu"
+
+#~ msgid "The table below lists the default game controls.\n"
+#~ msgstr "De onderstaande tabel bevat de standaardtoetsenindeling.\n"
+
+#~ msgid "The control mappings can be changed in the options menu."
+#~ msgstr "De toetsenindeling kan worden aangepast in het opties-menu."
+
+#~ msgid "Default Key"
+#~ msgstr "Standaardtoets"
+
+#~ msgid "General Purpose"
+#~ msgstr "Algemeen doel"
+
+#~ msgid "Move position or cursor upwards"
+#~ msgstr "Beweeg positie of cursor omhoog"
+
+#~ msgid "Move position or cursor downwards"
+#~ msgstr "Beweeg positie of cursor omlaag"
+
+#~ msgid "Move position or cursor to the left"
+#~ msgstr "Beweeg positie of cursor naar links"
+
+#~ msgid "Move position or cursor to the right"
+#~ msgstr "Beweeg positie of cursor naar rechts"
+
+#~ msgid "Confirm an action or menu command"
+#~ msgstr "Bevestig een actie of menucommando"
+
+#~ msgid "Cancel an action or menu command"
+#~ msgstr "Annuleer een actie of menucommando"
+
+#~ msgid "Opens the party menu"
+#~ msgstr "Opent het groepsmenu"
+
+#~ msgid "Show/Hide items and skills descriptions."
+#~ msgstr "Voorwerpen tonen/verbergen en beschrijvingen van vaardigheden."
+
+#~ msgid "Quit the application"
+#~ msgstr "Applicatie afsluiten"
+
+#~ msgid ""
+#~ "There are additional commands available which can be found in the MANUAL "
+#~ "file."
+#~ msgstr ""
+#~ "Er zijn nog meer commando's, die te vinden zijn in het MANUAL-bestand."
+
+#~ msgid "Paused"
+#~ msgstr "Gepauzeerd"
+
+#~ msgid "Quit to Main Menu"
+#~ msgstr "Terug naar het hoofdmenu"
+
+#~ msgid "Quit Game"
+#~ msgstr "Spel afsluiten"
+
+#~ msgid "Save Game"
+#~ msgstr "Spel opslaan"
+
+#~ msgid "Confirm Save"
+#~ msgstr "Opslaan bevestigen"
+
+#~ msgid "Load Auto-Save"
+#~ msgstr "Automatisch opgeslagen spel laden"
+
+#~ msgid "Load Save"
+#~ msgstr "Opgeslagen spel laden"
+
+#~ msgid "Save successful!"
+#~ msgstr "Het spel is opgeslagen!"
+
+#~ msgid ""
+#~ "Unable to save game!\n"
+#~ "Save FAILED!"
+#~ msgstr ""
+#~ "Het spel kan niet worden opgeslagen!\n"
+#~ "Opslaan MISLUKT!"
+
+#~ msgid "No valid saves found!"
+#~ msgstr "Geen geldige opgeslagen spellen gevonden!"
+
+#~ msgid "Slot %d"
+#~ msgstr "Bestand %d"
+
+#~ msgid "Invalid data!"
+#~ msgstr "Ongeldige gegevens!"
+
+#~ msgid "This slot is unused"
+#~ msgstr "Dit bestand is ongebruikt"
+
+#~ msgid "Weapons"
+#~ msgstr "Wapens"
+
+#~ msgid "Head Armor"
+#~ msgstr "Hoofd-uitrusting"
+
+#~ msgid "Torso Armor"
+#~ msgstr "Borst-uitrusting"
+
+#~ msgid "Arm Armor"
+#~ msgstr "Arm-uitrusting"
+
+#~ msgid "Leg Armor"
+#~ msgstr "Been-uitrusting"
+
+#~ msgid "Spirits"
+#~ msgstr "Geesten"
+
+#~ msgid "Key Items"
+#~ msgstr "Belangrijke voorwerpen"
+
+#~ msgid "All Wares"
+#~ msgstr "Alle waren"
+
+#~ msgid "Field Use:"
+#~ msgstr "In het veld:"
+
+#~ msgid "Battle Use:"
+#~ msgstr "In gevecht:"
+
+#~ msgid "Target:"
+#~ msgstr "Doelwit:"
+
+#~ msgid "Conditions:"
+#~ msgstr "Voorwaarden:"
+
+#~ msgid ""
+#~ "Press %s to add items to buy and %s to remove items from your purchase."
+#~ msgstr ""
+#~ "Druk op %s om voorwerpen te kopen en om %s om ze uit je aankoop te "
+#~ "verwijderen."
+
+#~ msgid "Press %s to add items to sell and %s to remove items from your sale."
+#~ msgstr ""
+#~ "Druk op %s om te verkopen voorwerpen toe te voegen en op %s om ze uit je "
+#~ "verkoop te verwijderen."
+
+#~ msgid "Press %s to add items to trade and %s to remove them."
+#~ msgstr ""
+#~ "Druk op %s om te verhandelen voorwerpen toe te voegen en op %s om ze te "
+#~ "verwijderen."
+
+#~ msgid "Buy count: x "
+#~ msgstr "Aantal kopen: x"
+
+#~ msgid "Sell count: x "
+#~ msgstr "Aantal verkopen: x"
+
+#~ msgid "Trade count: x "
+#~ msgstr "Aantal verhandelen: x"
+
+#~ msgid "Buy"
+#~ msgstr "Kopen"
+
+#~ msgid "Sell"
+#~ msgstr "Verkopen"
+
+#~ msgid "Trade"
+#~ msgstr "Handelen"
+
+#~ msgid "Leave"
+#~ msgstr "Verlaten"
+
+#~ msgid "Funds: "
+#~ msgstr "Geld:"
+
+#~ msgid "Purchases: "
+#~ msgstr "Aankopen:"
+
+#~ msgid "Remaining: "
+#~ msgstr "Resterend:"
+
+#~ msgid "Sales: +"
+#~ msgstr "Aankopen: +"
+
+#~ msgid "Category"
+#~ msgstr "Categorie"
+
+#~ msgid "Name"
+#~ msgstr "Naam"
+
+#~ msgid "Price"
+#~ msgstr "Prijs"
+
+#~ msgid "Stock"
+#~ msgstr "Voorraad"
+
+#~ msgid "Own"
+#~ msgstr "Eigen"
+
+#~ msgid "The Shop"
+#~ msgstr "De winkel"
+
+#~ msgid "Buy prices"
+#~ msgstr "Aankoopprijzen"
+
+#~ msgid "Sell prices"
+#~ msgstr "Verkoopprijzen"
+
+#~ msgid "\"Welcome! Take a look around.\""
+#~ msgstr "\"Welkom! Kijk gerust even rond.\""
+
+#~ msgid "data/boot_menu/valyria_logo.png"
+#~ msgstr "data/boot_menu/valyria_logo.png"
+
+#~ msgid "Get some barley meal"
+#~ msgstr "Krijg wat gerstemeel"
+
+#~ msgid ""
+#~ "Mom needs some for dinner!\n"
+#~ " \n"
+#~ "Flora might have some in her shop. I should go and have a look there "
+#~ "first."
+#~ msgstr ""
+#~ "Mama heeft het nodig voor het eten!\n"
+#~ "\n"
+#~ "Misschien heeft Flora het in haar winkel. Laten we eerst daar eens kijken."
+
+#~ msgid ""
+#~ "Finally, I found some. Lilly had what I sought in her house the whole "
+#~ "time."
+#~ msgstr ""
+#~ "Eindelijk, ik heb het gevonden. Lilly had het gewoon bij haar thuis "
+#~ "liggen."
+
+#~ msgid "Village of Layna"
+#~ msgstr "Het dorp Layna"
+
+#~ msgid "Bronann's home"
+#~ msgstr "Het huis van Bronann"
+
+#~ msgid "Find Georges's pen"
+#~ msgstr "Zoek de pen van Georges"
+
+#~ msgid ""
+#~ "I need to get back Georges lost pen.\n"
+#~ " \n"
+#~ "He said he lost it near a tree. He also told me that people in the "
+#~ "village might know more."
+#~ msgstr ""
+#~ "Ik moet de pen vinden die George kwijt is.\n"
+#~ "\n"
+#~ "Hij zei dat hij hem is kwijtgeraakt bij een boom. Hij zei ook dat mensen "
+#~ "in het dorp er misschien meer van weten."
+
+#~ msgid ""
+#~ "Orlinn had the pen and I ran after him all morning to get it back. I hope "
+#~ "he won't have any problems with Kalya..."
+#~ msgstr ""
+#~ "Orlinn had de pen en om hem terug te krijgen heb ik de hele ochtend "
+#~ "achter hem aan lopen rennen. Ik hoop dat hij geen problemen krijgt met "
+#~ "Kalya..."
+
+#~ msgid "Village center"
+#~ msgstr "Dorpscentrum"
+
+#~ msgid "Catch Orlinn!"
+#~ msgstr "Vang Orlinn!"
+
+#~ msgid ""
+#~ "Orlinn has the pen that I need to return to Georges! The only problem now "
+#~ "is I have to find out where he's hiding. Hmm, it shouldn't take long."
+#~ msgstr ""
+#~ "Orlinn heeft de pen die ik aan George moet teruggeven! Het enige probleem "
+#~ "is om hem te vinden. Hmm, dat zal niet al te lang duren."
+
+#~ msgid ""
+#~ "After chasing him around the village all morning, I finally have the pen. "
+#~ "Time to bring it back to Georges."
+#~ msgstr ""
+#~ "Nadat ik het hele dorp door heb gerend, heb ik de pen eindelijk te "
+#~ "pakken. Tijd om hem naar Georges te brengen."
+
+#~ msgid "Catch the chickens"
+#~ msgstr "Vang de kippen"
+
+#~ msgid ""
+#~ "Grandma asked me to catch the chickens that flew away. There are three of "
+#~ "them."
+#~ msgstr ""
+#~ "Oma heeft me gevraagd om de weggevlogen kippen te vangen. Er zijn er drie."
+
+#~ msgid "I was able to find them!"
+#~ msgstr "Ik heb ze gevonden!"
+
+#~ msgid "Path to Kalya's house"
+#~ msgstr "Pad naar Kalya's huis"
+
+#~ msgid "Orlinn might be in danger!"
+#~ msgstr "Orlinn is in gevaar!"
+
+#~ msgid ""
+#~ "After seeing that strange light, Orlinn ran into the woods. He's just a "
+#~ "kid, even if a quick one!\n"
+#~ " \n"
+#~ "My father asked me to go there with Kalya and bring him back safe and "
+#~ "sound.\n"
+#~ " \n"
+#~ "I can't let them down!"
+#~ msgstr ""
+#~ "Toen hij dat vreemde licht zag, is Orlinn het bos in gerend. Hij is dan "
+#~ "wel een kind, hij is razendsnel!\n"
+#~ "\n"
+#~ "Mijn vader heeft me gevraagd om hem met Kalya achterna te gaan en hem "
+#~ "veilig terug te brengen.\n"
+#~ "\n"
+#~ "Ik kan hem niet in de steek laten!"
+
+#~ msgid ""
+#~ "We finally retrieved Orlinn in the center of the forest. A mysterious "
+#~ "wolf was protecting him, and we came just in time to prevent him from "
+#~ "approaching a strange crystal."
+#~ msgstr ""
+#~ "We hebben Orlinn eindelijk gevonden in het midden van het bos. Een "
+#~ "mysterieuze wolf beschermde hem, en we waren net op tijd om te voorkomen "
+#~ "dat hij in de buurt kwam van een vreemd kristal."
+
+#~ msgid "We must escape from the soldiers."
+#~ msgstr "We moeten ontsnappen van de soldaten."
+
+#~ msgid ""
+#~ "After we returned to the village, Kalya was caught by strange soldiers. "
+#~ "The country lord himself provoked me in battle and thanks to her, we "
+#~ "escaped for now.\n"
+#~ " \n"
+#~ "But this isn't over. The soldiers are after us and we have to make our "
+#~ "way through."
+#~ msgstr ""
+#~ "Teruggekomen in het dorp werd Kalya gevangen door vreemde soldaten. De "
+#~ "landheer lokte me het gevecht in, en dankzij haar zijn we ontsnapt.\n"
+#~ "\n"
+#~ "Maar het is nog niet voorbij. De soldaten zitten achter ons aan en we "
+#~ "moeten erdoorheen zien te komen."
+
+#~ msgid "We managed to find a way up to the mountain top."
+#~ msgstr "We hebben een weg naar de bergtop gevonden."
+
+#~ msgid "Kalya's home basement"
+#~ msgstr "De kelder van Kalya's huis"
+
+#~ msgid "Royal Silk"
+#~ msgstr "Koninklijke zijde"
+
+#~ msgid "Black Sleet"
+#~ msgstr "Zwarte ijzel"
+
+#~ msgid "Elvish Feather"
+#~ msgstr "Elfenveer"
+
+#~ msgid "Layna Forest"
+#~ msgstr "Het Laynabos"
+
+#~ msgid "Mt. Elbrus"
+#~ msgstr "Mount Elbrus"
+
+#~ msgid "Thanks for playing!!"
+#~ msgstr "Bedankt voor het spelen!!"
+
+#~ msgid "Episode I"
+#~ msgstr "Aflevering I"
+
+#~ msgid "Story"
+#~ msgstr "Verhaal"
+
+#~ msgid "Lead Programming, Scripting, Maps"
+#~ msgstr "Hoofdprogrammeur, scripten, kaarten"
+
+#~ msgid "Additional programming and scripting"
+#~ msgstr "Bijkomend programmeerwerk en scripten"
+
+#~ msgid ""
+#~ "Balancing, ...\n"
+#~ "\n"
+#~ "Quest log, Minimap support, ...\n"
+#~ "\n"
+#~ "Shop Trade mode support, ...\n"
+#~ "\n"
+#~ "UI theme change menu support, ...\n"
+#~ "\n"
+#~ "GL code improvement, ...\n"
+#~ "\n"
+#~ "Multiple screen fix, ...\n"
+#~ "\n"
+#~ "Misc fixes\n"
+#~ "\n"
+#~ "Joystick handling fixes"
+#~ msgstr ""
+#~ "Balanceren, ...\n"
+#~ "\n"
+#~ "Doelstellingen-logboek, minimap, ...\n"
+#~ "\n"
+#~ "De handel-modus in de winkel, ...\n"
+#~ "\n"
+#~ "Het interface-thema-menu, ...\n"
+#~ "\n"
+#~ "Verbeteringen in de GL-code, ...\n"
+#~ "\n"
+#~ "Fix voor meerdere schermen, ...\n"
+#~ "\n"
+#~ "Allerlei verbeteringen\n"
+#~ "\n"
+#~ "Verbeteringen voor joysticks"
+
+#~ msgid "Graphics"
+#~ msgstr "Graphics"
+
+#~ msgid ""
+#~ "Village tileset, ...\n"
+#~ "\n"
+#~ "Cemetery tileset, ...\n"
+#~ "\n"
+#~ "Heroes portraits, ...\n"
+#~ "\n"
+#~ "Heroes sprites, Cave tilesets, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "Forest battle backgrounds, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "The Fenrir\n"
+#~ "\n"
+#~ "A lot of various things"
+#~ msgstr ""
+#~ "Dorp-tileset, ...\n"
+#~ "\n"
+#~ "Begraafplaats-tileset, ...\n"
+#~ "\n"
+#~ "Portretten van de helden, ...\n"
+#~ "\n"
+#~ "Heldensprites, grot-tilesets, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "Bos-gevechtsachtergronden, ...\n"
+#~ "\n"
+#~ "\n"
+#~ "De Fenrir\n"
+#~ "\n"
+#~ "Allerlei dingen"
+
+#~ msgid "Music"
+#~ msgstr "Muziek"
+
+#~ msgid ""
+#~ "\n"
+#~ "Main theme, Village music, ...\n"
+#~ "\n"
+#~ "Banesore's battle, ...\n"
+#~ "\n"
+#~ "Layna Forest music, ...\n"
+#~ "\n"
+#~ "Boss Music\n"
+#~ "\n"
+#~ "Battle music\n"
+#~ "\n"
+#~ "Birds' song\n"
+#~ "\n"
+#~ "Battle lost music\n"
+#~ "\n"
+#~ "Layna cave music"
+#~ msgstr ""
+#~ "\n"
+#~ "Hoofdmenu-muziek, dorpsmuziek, ...\n"
+#~ "\n"
+#~ "Gevecht met Banesore, ...\n"
+#~ "\n"
+#~ "Laynabos-muziek, ...\n"
+#~ "\n"
+#~ "Eindbaasmuziek\n"
+#~ "\n"
+#~ "Gevechtsmuziek\n"
+#~ "\n"
+#~ "Zingende vogels\n"
+#~ "\n"
+#~ "Muziek voor verloren gevecht\n"
+#~ "\n"
+#~ "Laynagrot-muziek"
+
+#~ msgid ""
+#~ "Sad theme\n"
+#~ "\n"
+#~ "Mountain music\n"
+#~ "\n"
+#~ "Mountain Shrine music\n"
+#~ "\n"
+#~ "Special Boss"
+#~ msgstr ""
+#~ "Verdrietige muziek\n"
+#~ "\n"
+#~ "Bergenmuziek\n"
+#~ "\n"
+#~ "Bergschrijn-muziek\n"
+#~ "\n"
+#~ "Speciale eindbaas"
+
+#~ msgid "Sounds"
+#~ msgstr "Geluiden"
+
+#~ msgid "Ports"
+#~ msgstr "Ports"
+
+#~ msgid "Translations"
+#~ msgstr "Vertalingen"
+
+#~ msgid ""
+#~ "English text review\n"
+#~ "\n"
+#~ "Dutch (nl_NL)\n"
+#~ "\n"
+#~ "French (fr)\n"
+#~ "\n"
+#~ "Galician (gl)\n"
+#~ "\n"
+#~ "German (de)"
+#~ msgstr ""
+#~ "Herziening van de Engelse tekst\n"
+#~ "\n"
+#~ "Nederlands (nl_NL)\n"
+#~ "\n"
+#~ "Frans (fr)\n"
+#~ "\n"
+#~ "Galicisch (gl)\n"
+#~ "\n"
+#~ "Duits (de)"
+
+#~ msgid ""
+#~ "Italian (it)\n"
+#~ "\n"
+#~ "Portuguese (pt_PT)\n"
+#~ "\n"
+#~ "Russian (ru)\n"
+#~ "\n"
+#~ "Spanish (es)\n"
+#~ "\n"
+#~ "Swedish (sv)"
+#~ msgstr ""
+#~ "Italiaans (it)\n"
+#~ "\n"
+#~ "Portugees (pt_PT)\n"
+#~ "\n"
+#~ "Russisch (ru)\n"
+#~ "\n"
+#~ "Spaans (es)\n"
+#~ "\n"
+#~ "Zweeds (sv)"
+
+#~ msgid "Testers"
+#~ msgstr "Testers"
+
+#~ msgid "And you..."
+#~ msgstr "En jij..."
+
+#~ msgid "Valyria Tear was forked from Hero of Allacrost in 2011"
+#~ msgstr "Valyria Tear is in 2011 geforkt van Hero of Allacrost"
+
+#~ msgid ""
+#~ "Allacrost Development Team (2004-2011)\n"
+#~ "\n"
+#~ "Founder and Lead Designer"
+#~ msgstr ""
+#~ "Het Allacrost-ontwikkelingsteam (2004-2011)\n"
+#~ "\n"
+#~ "Oprichter en hoofd-ontwerper"
+
+#~ msgid "Allacrost Project Leads/Administrators"
+#~ msgstr "Projectleiders en -administrators van Allacrost"
+
+#~ msgid "Allacrost Programming Team (2004-2011)"
+#~ msgstr "Het Allacrost-programmeerteam (2004-2011)"
+
+#~ msgid ""
+#~ "Battle code, Menu code\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Game engine\n"
+#~ "\n"
+#~ "Map code\n"
+#~ "\n"
+#~ "Various game modes, content scripting\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Video engine, Audio engine\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Programming lead, Game engine, Map code"
+#~ msgstr ""
+#~ "Gevechten en menu's\n"
+#~ "\n"
+#~ "Spel-editor\n"
+#~ "\n"
+#~ "Spel-engine\n"
+#~ "\n"
+#~ "De kaart\n"
+#~ "\n"
+#~ "Verscheidene spelmodi, gescripte inhoud\n"
+#~ "\n"
+#~ "Beeld-engine\n"
+#~ "\n"
+#~ "Beeld- en geluid-engines\n"
+#~ "\n"
+#~ "Spel-editor\n"
+#~ "\n"
+#~ "Hoofd-programmeur, spel-engine en de kaart"
+
+#~ msgid "Allacrost Programming Team"
+#~ msgstr "Het Allacrost-programmeerteam"
+
+#~ msgid ""
+#~ "Boot code, Battle code\n"
+#~ "\n"
+#~ "Game editor\n"
+#~ "\n"
+#~ "Audio engine\n"
+#~ "\n"
+#~ "Various code, Mac OS X maintenance\n"
+#~ "\n"
+#~ "Game engine, Game modes, Windows build scripts\n"
+#~ "\n"
+#~ "Battle code\n"
+#~ "\n"
+#~ "Map editor\n"
+#~ "\n"
+#~ "Internationalization\n"
+#~ "\n"
+#~ "Video engine"
+#~ msgstr ""
+#~ "Opstartcode en gevechten\n"
+#~ "\n"
+#~ "Spel-editor\n"
+#~ "\n"
+#~ "Geluids-engine\n"
+#~ "\n"
+#~ "Allerlei code, onderhoud voor Mac OS X\n"
+#~ "\n"
+#~ "Spel-engine, spelmodi, bouwscripts voor Windows\n"
+#~ "\n"
+#~ "Gevechten\n"
+#~ "\n"
+#~ "De kaart-editor\n"
+#~ "\n"
+#~ "Internationalisatie\n"
+#~ "\n"
+#~ "Beeld-engine"
+
+#~ msgid ""
+#~ "Video engine, Game engine\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Video engine\n"
+#~ "\n"
+#~ "Scripting engine\n"
+#~ "\n"
+#~ "Various code\n"
+#~ "\n"
+#~ "Various code"
+#~ msgstr ""
+#~ "Beeld-engine en spel-engine\n"
+#~ "\n"
+#~ "Beeld-engine\n"
+#~ "\n"
+#~ "Beeld-engine\n"
+#~ "\n"
+#~ "Script-engine\n"
+#~ "\n"
+#~ "Allerlei code\n"
+#~ "\n"
+#~ "Allerlei code"
+
+#~ msgid "Allacrost Artwork Team (2004-2011)"
+#~ msgstr "Het Allacrost-graphicsteam (2004-2011)"
+
+#~ msgid ""
+#~ "Map sprites, Battle sprites, Character portraits, Location graphics\n"
+#~ "\n"
+#~ "Battle sprites, old Allacrost GUI artwork\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Allacrost website graphics, GUI artwork, Game logos\n"
+#~ "\n"
+#~ "Map tiles, map sprites, Inventory icons, Allacrost artwork coordination"
+#~ msgstr ""
+#~ "Kaart- en gevechts-sprites, portretten, locaties\n"
+#~ "\n"
+#~ "Gevechts-sprites, het Allacrost-GUI-thema\n"
+#~ "\n"
+#~ "Kaart-tiles\n"
+#~ "\n"
+#~ "De Allacrost-website, de GUI, spel-logo's\n"
+#~ "\n"
+#~ "Kaart-tiles, kaart-sprites, inventaris-iconen, coördinatie"
+
+#~ msgid "Allacrost Artwork Team"
+#~ msgstr "Het Allacrost-graphicsteam"
+
+#~ msgid ""
+#~ "Concept art\n"
+#~ "\n"
+#~ "Inventory icons\n"
+#~ "\n"
+#~ "Map sprite animations\n"
+#~ "\n"
+#~ "Concept art\n"
+#~ "\n"
+#~ "Inventory icons\n"
+#~ "\n"
+#~ "Concept art, Map sprites\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Map sprites"
+#~ msgstr ""
+#~ "Conceptkunst\n"
+#~ "\n"
+#~ "Inventaris-iconen\n"
+#~ "\n"
+#~ "Animaties voor de kaart-sprites\n"
+#~ "\n"
+#~ "Conceptkunst\n"
+#~ "\n"
+#~ "Inventaris-iconen\n"
+#~ "\n"
+#~ "Conceptkunst, kaart-sprites\n"
+#~ "\n"
+#~ "Kaart-tiles\n"
+#~ "\n"
+#~ "Kaart-tiles\n"
+#~ "\n"
+#~ "Kaart-sprites"
+
+#~ msgid ""
+#~ "Map sprite animations\n"
+#~ "\n"
+#~ "Map sprite animations, Map tiles\n"
+#~ "\n"
+#~ "Concept art, Allacrost title screen image\n"
+#~ "\n"
+#~ "Concept art, Map sprites, Map tiles\n"
+#~ "\n"
+#~ "Concept art, Map sprites\n"
+#~ "\n"
+#~ "Map tiles"
+#~ msgstr ""
+#~ "Animaties voor de kaart-sprites\n"
+#~ "\n"
+#~ "Animaties voor de kaart-sprites, kaart-tiles\n"
+#~ "\n"
+#~ "Conceptkunst, het Allacrost-titelscherm\n"
+#~ "\n"
+#~ "Conceptkunst, kaart-sprites, kaart-tiles\n"
+#~ "\n"
+#~ "Conceptkunst, kaart-sprites\n"
+#~ "\n"
+#~ "Kaart-tiles"
+
+#~ msgid ""
+#~ "Various art\n"
+#~ "\n"
+#~ "Map tiles\n"
+#~ "\n"
+#~ "Enemy sprites\n"
+#~ "\n"
+#~ "Map sprites, Map tiles\n"
+#~ "\n"
+#~ "Map tiles, Inventory icons\n"
+#~ "\n"
+#~ "Map tiles, Battle sprites"
+#~ msgstr ""
+#~ "Allerlei kunst\n"
+#~ "\n"
+#~ "Kaart-tiles\n"
+#~ "\n"
+#~ "Vijand-sprites\n"
+#~ "\n"
+#~ "Kaart-sprites, kaart-tiles\n"
+#~ "\n"
+#~ "Kaart-tiles, inventaris-iconen\n"
+#~ "\n"
+#~ "Kaart-tiles, gevechts-sprites"
+
+#~ msgid "Allacrost Music and Sound Team (2004-2011)"
+#~ msgstr "Het muziek- en geluidsteam van Allacrost (2004-2011)"
+
+#~ msgid ""
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Soundtrack composer\n"
+#~ "\n"
+#~ "Music and sound lead, Soundtrack composer\n"
+#~ "\n"
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Sound composer\n"
+#~ "\n"
+#~ "Sound mixer\n"
+#~ "\n"
+#~ "Soundtrack composer"
+#~ msgstr ""
+#~ "Geluidscomponist\n"
+#~ "\n"
+#~ "Componist van de soundtrack\n"
+#~ "\n"
+#~ "Teamleider, soundtrack-componist\n"
+#~ "\n"
+#~ "Geluidscomponist\n"
+#~ "\n"
+#~ "Geluidscomponist\n"
+#~ "\n"
+#~ "Geluidsmixer\n"
+#~ "\n"
+#~ "Soundtrack-componist"
+
+#~ msgid "Allacrost Special Thanks"
+#~ msgstr "Speciale dank van Allacrost"
+
+#~ msgid ""
+#~ "Map Tiles\n"
+#~ "\n"
+#~ "Inventory Icons\n"
+#~ "\n"
+#~ "Map monster sprites"
+#~ msgstr ""
+#~ "Kaart-tiles\n"
+#~ "\n"
+#~ "Inventaris-iconen\n"
+#~ "\n"
+#~ "Monster-sprites voor de kaart"
+
+#~ msgid "To be continued..."
+#~ msgstr "Wordt vervolgd..."
+
+#~ msgid "Based on the engine"
+#~ msgstr "Gebaseerd op de engine"
+
+#~ msgid "Episode I - Main Graphics"
+#~ msgstr "Aflevering I - Graphics"
+
+#~ msgid "Episode I - Additional Graphics"
+#~ msgstr "Aflevering I - Meer graphics"
+
+#~ msgid "and many others"
+#~ msgstr "en vele anderen"
+
+#~ msgid "Programming, Scripting, Maps"
+#~ msgstr "Programmeren, scripten, kaarten"
+
+#~ msgid ""
+#~ "Additional programming\n"
+#~ "and scripting"
+#~ msgstr ""
+#~ "Overig programmeerwerk\n"
+#~ "en scripten"
+
+#~ msgid "Tester Team"
+#~ msgstr "Test-team"
+
+#~ msgid "To Lilou and Léo..."
+#~ msgstr "Voor Lilou en Léo..."
+
+#~ msgid ""
+#~ "Thanks to everyone\n"
+#~ "who made this possible!!"
+#~ msgstr ""
+#~ "Bedankt aan iedereen die\n"
+#~ "dit mogelijk heeft gemaakt!!"
+
+#~ msgid "Flora's Shop"
+#~ msgstr "Flora's winkel"
+
+#~ msgid "Don't forget my trade offers!"
+#~ msgstr "Vergeet mijn aanbiedingen niet!"
+
+#~ msgid "Your party feels better."
+#~ msgstr "Je groep voelt zich beter."
+
+#~ msgid "Look!"
+#~ msgstr "Kijk!"
+
+#~ msgid ""
+#~ "Have you seen one of these before? This is a Layna statue. Praying near "
+#~ "it heals both your mind and body."
+#~ msgstr ""
+#~ "Heb je deze wel eens gezien? Dit is een standbeeld van Layna. Bid je "
+#~ "hier, dan geneest ze zowel je geest als je lichaam."
+
+#~ msgid "Just stand in front of the goddess below the spring and push '%s'."
+#~ msgstr "Ga voor de godin staan, onder de bron, en druk op '%s'."
+
+#~ msgid "Ok, thanks."
+#~ msgstr "Oké, bedankt."
+
+#~ msgid "See? Now, let's find my brother before he gets hurt."
+#~ msgstr ""
+#~ "Zie je wel? Laten we nu mijn broertje vinden voordat hij gewond raakt."
+
+#~ msgid "As you wish. Follow me."
+#~ msgstr "Zoals je wilt. Volg me."
+
+#~ msgid "Prismatic Ring"
+#~ msgstr "Prismaring"
+
+#~ msgid "A strange ring that protects the wearer from darkness."
+#~ msgstr "Een vreemde ring die de drager beschermt tegen duisternis."
+
+#~ msgid "Long Leather Gloves"
+#~ msgstr "Lange leren handschoenen"
+
+#~ msgid "Robust leather gloves."
+#~ msgstr "Degelijke leren handschoenen."
+
+#~ msgid "Sturdy Leather Gloves"
+#~ msgstr "Stevige leren handschoenen"
+
+#~ msgid "Wooden Shield"
+#~ msgstr "Houten schild"
+
+#~ msgid "Robust wooden oak protects from all but the heaviest of assaults."
+#~ msgstr "Sterk eikenhout beschermt tegen bijna alle aanvallen."
+
+#~ msgid "Metal Shield"
+#~ msgstr "Metalen schild"
+
+#~ msgid ""
+#~ "A shield formed completely out of a light-weight but cheap metallic alloy."
+#~ msgstr ""
+#~ "Een schild dat is gemaakt van een lichte, maar toch goedkope, metalen "
+#~ "legering."
+
+#~ msgid "Phoenix Shield"
+#~ msgstr "Feniks-schild"
+
+#~ msgid "A tall steel shield with a mighty phoenix emblazoned on the front."
+#~ msgstr "Een lang stalen schild met een machtige feniks op de voorkant."
+
+#~ msgid "Trident Shield"
+#~ msgstr "Drietand-schild"
+
+#~ msgid ""
+#~ "A large shield with enough fortitude to withstand waves of powerful "
+#~ "attacks."
+#~ msgstr ""
+#~ "Een groot schild dat sterk genoeg is om golven krachtige aanvallen af te "
+#~ "slaan."
+
+#~ msgid "Butterfly Hair Tong"
+#~ msgstr "Vlinderspeld"
+
+#~ msgid "An old and finely crafted piece of jewelery."
+#~ msgstr "Een oud maar fijnbewerkt sieraad."
+
+#~ msgid "Wolfpain Necklace"
+#~ msgstr "Wolvenpijnketting"
+
+#~ msgid "A strange necklace with unknown powers."
+#~ msgstr "Een vreemde ketting met onbekende krachten."
+
+#~ msgid "Old Helmet"
+#~ msgstr "Oude helm"
+
+#~ msgid "A battle-worn helmet, still reliable for head protection."
+#~ msgstr ""
+#~ "Een gebruikte helm, nog steeds betrouwbaar om je hoofd te beschermen."
+
+#~ msgid "Cobalt Helm"
+#~ msgstr "Kobalt-helm"
+
+#~ msgid "A small helmet composed of a secret cobalt-based alloy."
+#~ msgstr "Een kleine helm, gemaakt van een geheime kobaltlegering."
+
+#~ msgid "Crested Helmet"
+#~ msgstr "Gekuifde helm"
+
+#~ msgid ""
+#~ "A sturdy helmet with a hinged face guard offering additional protection."
+#~ msgstr ""
+#~ "Een stevige helm met wegklapbare gezichtsbescherming die voor extra "
+#~ "bescherming zorgt."
+
+#~ msgid "Tiny Healing Potion"
+#~ msgstr "Mini-heeldrank"
+
+#~ msgid "Restores a small amount of hit points to an ally."
+#~ msgstr "Geeft een medestander een klein aantal gezondheidspunten terug."
+
+#~ msgid "Small Healing Potion"
+#~ msgstr "Kleine heeldrank"
+
+#~ msgid "Restores a reasonable amount of hit points to an ally."
+#~ msgstr ""
+#~ "Geeft een medestander een behoorlijk aantal gezondheidspunten terug."
+
+#~ msgid "Healing Potion"
+#~ msgstr "Genezingsdrank"
+
+#~ msgid "Restores a large amount of hit points to an ally."
+#~ msgstr "Geeft een medestander een groot aantal gezondheidspunten terug."
+
+#~ msgid "Mega Healing Potion"
+#~ msgstr "Enorme genezingsdrank"
+
+#~ msgid "Restores a very high amount of hit points to an ally."
+#~ msgstr ""
+#~ "Geeft een medestander een zeer groot aantal gezondheidspunten terug."
+
+#~ msgid "Tiny Moon Juice Potion"
+#~ msgstr "Mini-maansapdrank"
+
+#~ msgid "Restores a small amount of skill points to an ally."
+#~ msgstr "Geeft een medestander een klein aantal vaardigheidspunten terug."
+
+#~ msgid "Small Moon Juice Potion"
+#~ msgstr "Kleine maansapdrank"
+
+#~ msgid "Restores a reasonable amount of skill points to an ally."
+#~ msgstr ""
+#~ "Geeft een medestander een behoorlijk aantal vaardigheidspunten terug."
+
+#~ msgid "Moon Juice Potion"
+#~ msgstr "Maansapdrank"
+
+#~ msgid "Restores a large amount of skill points to an ally."
+#~ msgstr "Geeft een medestander een groot aantal vaardigheidspunten terug."
+
+#~ msgid "Mega Moon Juice Potion"
+#~ msgstr "Enorme maansapdrank"
+
+#~ msgid "Restores a very high amount of skill points to an ally."
+#~ msgstr ""
+#~ "Geeft een medestander een zeer groot aantal vaardigheidspunten terug."
+
+#~ msgid "Lotus Petal"
+#~ msgstr "Lotusblad"
+
+#~ msgid "Cures moderate poisons from an ally."
+#~ msgstr "Geneest matige vergiftiging bij een medestander."
+
+#~ msgid "Candy"
+#~ msgstr "Snoep"
+
+#~ msgid "Makes an ally's health regenerate moderately."
+#~ msgstr ""
+#~ "Zorgt ervoor dat de gezondheid van een medestander enigszins verbetert."
+
+#~ msgid "Minor Elixir"
+#~ msgstr "Klein elixer"
+
+#~ msgid ""
+#~ "Revives a character, or improves the character's status when he/she is "
+#~ "alive by a limited degree."
+#~ msgstr ""
+#~ "Wekt een personage weer tot leven, of verbetert zijn status een beetje "
+#~ "als hij/zij nog leeft."
+
+#~ msgid "Elixir"
+#~ msgstr "Elixer"
+
+#~ msgid ""
+#~ "Revives a character to half of their hit points, or reasonably improves "
+#~ "the character's status while he/she is alive."
+#~ msgstr ""
+#~ "Wekt een personage weer tot leven met de helft van zijn "
+#~ "gezondheidspunten, of verbetert zijn status behoorlijk als hij/zij nog "
+#~ "leeft."
+
+#~ msgid "Periwinkle Potion"
+#~ msgstr "Maagdenpalmdrank"
+
+#~ msgid ""
+#~ "Gives a reasonable boost in Physical Attack to an ally for a large amount "
+#~ "of time."
+#~ msgstr ""
+#~ "Maakt een medestander gedurende lange tijd behoorlijk veel beter in "
+#~ "Fysieke Aanval."
+
+#~ msgid "Haste Potion"
+#~ msgstr "Haastdrank"
+
+#~ msgid ""
+#~ "Gives a reasonable boost in stamina to an ally for a small amount of time."
+#~ msgstr ""
+#~ "Geeft een medestander gedurende korte tijd een flinke hoeveelheid extra "
+#~ "uithoudingsvermogen."
+
+#~ msgid "Poison Potion"
+#~ msgstr "Gifdrank"
+
+#~ msgid "Poisons an enemy for a small amount of time."
+#~ msgstr "Vergiftigt een vijand gedurende korte tijd."
+
+#~ msgid "Copper Ore"
+#~ msgstr "Kopererts"
+
+#~ msgid "A small amount of copper ore."
+#~ msgstr "Een kleine hoeveelheid kopererts."
+
+#~ msgid "Iron Ore"
+#~ msgstr "IJzererts"
+
+#~ msgid "A small amount of iron ore."
+#~ msgstr "Een kleine hoeveelheid ijzererts."
+
+#~ msgid "Titanium Ore"
+#~ msgstr "Titaniumerts"
+
+#~ msgid "A small amount of titanium ore."
+#~ msgstr "Een kleine hoeveelheid titaniumerts."
+
+#~ msgid "Anthozium Ore"
+#~ msgstr "Anthoziumerts"
+
+#~ msgid "A small amount of anthozium ore."
+#~ msgstr "Een kleine hoeveelheid anthoziumerts."
+
+#~ msgid "Auridium Ore"
+#~ msgstr "Auridiumerts"
+
+#~ msgid "A small amount of auridium ore."
+#~ msgstr "Een kleine hoeveelheid auridiumerts."
+
+#~ msgid "Borium Ore"
+#~ msgstr "Boorerts"
+
+#~ msgid "A small amount of borium ore."
+#~ msgstr "Een kleine hoeveelheid boorerts."
+
+#~ msgid "Evanium Ore"
+#~ msgstr "Evaniumerts"
+
+#~ msgid "A small amount of evanium ore."
+#~ msgstr "Een kleine hoeveelheid evaniumerts."
+
+#~ msgid "Phoenix Feather"
+#~ msgstr "Feniksveer"
+
+#~ msgid ""
+#~ "A genuine and perfect feather from the great fire bird. It is known to "
+#~ "bring life to inanimated items."
+#~ msgstr ""
+#~ "Een echte, perfecte veer van de grote vuurvogel. Staat erom bekend dat "
+#~ "hij leven schenkt aan levenloze voorwerpen."
+
+#~ msgid "Slimy Material"
+#~ msgstr "Slijmerig materiaal"
+
+#~ msgid "Material provided by slimy creatures."
+#~ msgstr "Materiaal afkomstig van slijmerige wezens."
+
+#~ msgid "Refined Slimy Material"
+#~ msgstr "Verfijnd slijmerig materiaal"
+
+#~ msgid "Quality material provided by slimy creatures."
+#~ msgstr "Kwalitatief hoogstaand materiaal afkomstig van slijmerige wezens."
+
+#~ msgid "Insect Material"
+#~ msgstr "Insectenmateriaal"
+
+#~ msgid "Material provided by various insects."
+#~ msgstr "Materiaal afkomstig van verscheidene insecten."
+
+#~ msgid "Refined Insect Material"
+#~ msgstr "Verfijnd insectenmateriaal"
+
+#~ msgid "Quality material provided by various insects."
+#~ msgstr ""
+#~ "Kwalitatief hoogstaand materiaal afkomstig van verscheidene insecten."
+
+#~ msgid "Fur"
+#~ msgstr "Vacht"
+
+#~ msgid "Material provided by various creatures."
+#~ msgstr "Materiaal afkomstig van verscheidene wezens."
+
+#~ msgid "Soft Fur"
+#~ msgstr "Zachte vacht"
+
+#~ msgid "Material provided by rare animals."
+#~ msgstr "Materiaal afkomstig van zeldzame wezens."
+
+#~ msgid "Silver Fur"
+#~ msgstr "Zilveren vacht"
+
+#~ msgid "Highly sought-after material provided by very special creatures."
+#~ msgstr "Zeldzaam materiaal afkomstig van bijzonder speciale wezens."
+
+#~ msgid "Saurian Material"
+#~ msgstr "Reptielenmateriaal"
+
+#~ msgid "Material provided by various reptilians."
+#~ msgstr "Materiaal afkomstig van verscheidene reptielen."
+
+#~ msgid "Refined Saurian Material"
+#~ msgstr "Verfijnd reptielenmateriaal"
+
+#~ msgid "Quality material provided by various reptilians."
+#~ msgstr ""
+#~ "Kwalitatief hoogstaand materiaal afkomstig van verscheidene reptielen."
+
+#~ msgid "Rodent Material"
+#~ msgstr "Knaagdiermateriaal"
+
+#~ msgid "Material provided by small rodents."
+#~ msgstr "Materiaal afkomstig van verscheidene kleine knaagdieren."
+
+#~ msgid "Refined Rodent Material"
+#~ msgstr "Verfijnd knaagdiermateriaal"
+
+#~ msgid "Quality material provided by not-that-small rodents."
+#~ msgstr ""
+#~ "Kwalitatief hoogstaand materiaal afkomstig van niet-zo-kleine knaagdieren."
+
+#~ msgid "Soft Powder"
+#~ msgstr "Zacht poeder"
+
+#~ msgid "Silk"
+#~ msgstr "Zijde"
+
+#~ msgid "Material provided by a few creatures."
+#~ msgstr "Materiaal afkomstig van enkele wezens."
+
+#~ msgid "Red Meat"
+#~ msgstr "Rauw vlees"
+
+#~ msgid "Material provided by warm-blooded creatures."
+#~ msgstr "Materiaal afkomstig van warmbloedige wezens."
+
+#~ msgid "Fish Meat"
+#~ msgstr "Vis"
+
+#~ msgid "Material provided by various underwater creatures."
+#~ msgstr "Materiaal afkomstig van verscheidene waterdieren."
+
+#~ msgid "White Meat"
+#~ msgstr "Wit vlees"
+
+#~ msgid "Orb"
+#~ msgstr "Bol"
+
+#~ msgid "Stinging Material"
+#~ msgstr "Steekmateriaal"
+
+#~ msgid "Thick Fabric"
+#~ msgstr "Dik weefsel"
+
+#~ msgid "Common fabric, but of good quality."
+#~ msgstr "Veelvoorkomend doek, maar van goede kwaliteit."
+
+#~ msgid "Fine Wood"
+#~ msgstr "Goed hout"
+
+#~ msgid "Common but durable wood. Always useful"
+#~ msgstr "Gewoon maar stevig houd. Altijd nuttig."
+
+#~ msgid "Escape Smoke"
+#~ msgstr "Ontsnappingsrook"
+
+#~ msgid ""
+#~ "A ninja potion that bursts out a damp mist when it is crashed on the "
+#~ "ground. Used to hopefully escape from standard opponents."
+#~ msgstr ""
+#~ "Een ninjadrank die een mistpluim veroorzaakt als je hem op de grond "
+#~ "gooit. Gebruikt om hopelijk te ontsnappen aan standaard-tegenstanders."
+
+#~ msgid "Pen"
+#~ msgstr "Pen"
+
+#~ msgid "Georges's pen, presumably used to write poetry."
+#~ msgstr "George's pen, vermoedelijk gebruikt om poëzie mee te schrijven."
+
+#~ msgid "Barley Meal"
+#~ msgstr "Gerstemeel"
+
+#~ msgid "Basic yet good and cheap flour."
+#~ msgstr "Alledaags, maar goed en goedkoop meel."
+
+#~ msgid "Leather boots"
+#~ msgstr "Leren laarzen"
+
+#~ msgid "Simple but fairly good leather boots."
+#~ msgstr "Eenvoudige, maar vrij goede leren laarzen."
+
+#~ msgid "Sturdy boots"
+#~ msgstr "Stevige laarzen"
+
+#~ msgid "Standard Greaves"
+#~ msgstr "Standaard scheenbeschermers"
+
+#~ msgid ""
+#~ "Standard equipment. Light metal alloy protects the legs while minimizing "
+#~ "the negative impact on movement."
+#~ msgstr ""
+#~ "Standaarduitrusting. Een lichte metaallegering beschermt de benen maar "
+#~ "hindert je bewegingen nauwelijks."
+
+#~ msgid "Tempered Greaves"
+#~ msgstr "Geharde scheenbeschermers"
+
+#~ msgid ""
+#~ "Standard greaves that have undergone an additional tempering process, "
+#~ "increasing their durability and strength."
+#~ msgstr ""
+#~ "Standaard-scheenbeschermers die extra zijn gehard, zodat ze sterker zijn "
+#~ "en langer meegaan."
+
+#~ msgid "Ardoris"
+#~ msgstr "Ardoris"
+
+#~ msgid "An enchanting child of fire."
+#~ msgstr "Een betoverend kind van vuur."
+
+#~ msgid "Undine"
+#~ msgstr "Undine"
+
+#~ msgid "A mesmerizing spirit of living water."
+#~ msgstr "Een hypnotiserend kind van levend water."
+
+#~ msgid "Sylphid"
+#~ msgstr "Sylfide"
+
+#~ msgid "A very rare spirit of wind, usually neither tamable nor catchable."
+#~ msgstr ""
+#~ "Een uiterst zeldzame windgeest, normaal gesproken niet te temmen of te "
+#~ "vangen."
+
+#~ msgid "Dryad"
+#~ msgstr "Dryade"
+
+#~ msgid "A fragile spirit, child of mother nature."
+#~ msgstr "Een kwetsbare geest, kind van moeder natuur."
+
+#~ msgid "Fairy"
+#~ msgstr "Fee"
+
+#~ msgid "Blinding as the sun, she brings life even where death belongs."
+#~ msgstr ""
+#~ "Verblindend als de zon brengt zij zelfs leven waar normaal alleen de dood "
+#~ "thuishoort."
+
+#~ msgid "Demona"
+#~ msgstr "Demona"
+
+#~ msgid ""
+#~ "Spirit of the dark. It can't be possessed: it only chose to be possessed, "
+#~ "waiting for its hour."
+#~ msgstr ""
+#~ "Duistere geest. Kan niet worden bezeten: koos er alleen zelf voor om "
+#~ "bezeten te worden, de goede tijd afwachtend."
+
+#~ msgid "Oblivion"
+#~ msgstr "Oblivion"
+
+#~ msgid ""
+#~ "Touched neither by time nor space, this spirit is dwelling in pure energy."
+#~ msgstr ""
+#~ "Wordt door tijd noch ruimte beïnvloed; deze geest woont in pure energie."
+
+#~ msgid "Rookie Tunic"
+#~ msgstr "Rekrutenjas"
+
+#~ msgid ""
+#~ "A light tunic worn by new soldier recruits. This one belonged to "
+#~ "Bronann's father."
+#~ msgstr ""
+#~ "Een lichte uniformjas die wordt gedragen door nieuwe rekruten. Deze was "
+#~ "van Bronanns vader."
+
+#~ msgid "Old Willow Dress"
+#~ msgstr "Oude jurk"
+
+#~ msgid "An old willow dress that Kalya likes to wear."
+#~ msgstr "Een oude jurk die Kalya graag draagt."
+
+#~ msgid "Tunic"
+#~ msgstr "Soldatenjas"
+
+#~ msgid "An old light soldier tunic."
+#~ msgstr "Een oude, lichte uniformjas."
+
+#~ msgid "Leather Cloak"
+#~ msgstr "Leren mantel"
+
+#~ msgid "A cloak worn by apprentices."
+#~ msgstr "Een mantel die werd gedragen door leerlingen."
+
+#~ msgid "Adjusted Rookie Tunic"
+#~ msgstr "Bijgestelde rekrutenjas"
+
+#~ msgid "Patched Willow Dress"
+#~ msgstr "Opgelapte jurk"
+
+#~ msgid "Leather Chain Mail"
+#~ msgstr "Leren maliënkolder"
+
+#~ msgid "A light chain mail woven into a tough leather cuirass."
+#~ msgstr "Een lichte maliënkolder, geweven tot een sterk leren borstharnas."
+
+#~ msgid "Karlate Breastplate"
+#~ msgstr "Karlate-borstplaat"
+
+#~ msgid ""
+#~ "Standard Karlate issued equipment. Effectively protects the torso from "
+#~ "most types of attack."
+#~ msgstr ""
+#~ "Karlate-standaarduitrusting. Beschermt de borst effectief tegen de meeste "
+#~ "soorten aanvallen."
+
+#~ msgid "Shouldered Breastplate"
+#~ msgstr "Schouder- en borstplaat"
+
+#~ msgid ""
+#~ "A breastplate with slightly thicker armor than is commonly found and "
+#~ "additional shoulder guards."
+#~ msgstr ""
+#~ "Een borstplaat met schouderbescherming en iets dikker metaal dan normaal."
+
+#~ msgid "Wooden Sword"
+#~ msgstr "Houten zwaard"
+
+#~ msgid "A sword made of wood with a steel hilt, very good for practising."
+#~ msgstr ""
+#~ "Een van hout gemaakt zwaard met een stalen heft; goed om mee te oefenen."
+
+#~ msgid "Hardened Practice Sword"
+#~ msgstr "Gehard oefenzwaard"
+
+#~ msgid "Initiate Sword"
+#~ msgstr "Beginnerszwaard"
+
+#~ msgid "A sword made of wood with a steel hilt, reinforced magically."
+#~ msgstr ""
+#~ "Een van hout gemaakt zwaard met een stalen heft, dat magisch versterkt is."
+
+#~ msgid "Perfect Wooden Sword"
+#~ msgstr "Perfect houten zwaard"
+
+#~ msgid ""
+#~ "A sword made of wood with a steel hilt, surrounded by a great magical "
+#~ "force."
+#~ msgstr ""
+#~ "Een van hout gemaakt zwaard met een stalen heft, beschermd door een grote "
+#~ "magische kracht."
+
+#~ msgid "Iron Sword"
+#~ msgstr "IJzeren zwaard"
+
+#~ msgid ""
+#~ "A sturdy but somewhat dull sword whose blade was forged from a single "
+#~ "block of solid iron."
+#~ msgstr ""
+#~ "Een sterk, maar enigszins lomp zwaard, waarvan het lemmet uit één enkel "
+#~ "blok ijzer is gesmeed."
+
+#~ msgid "Soldier Sword"
+#~ msgstr "Soldatenzwaard"
+
+#~ msgid ""
+#~ "Standard soldier sword. A light weight iron sword suitable for most "
+#~ "skirmishes."
+#~ msgstr ""
+#~ "Standaard-soldatenzwaard. Een licht ijzeren zwaard, geschikt voor de "
+#~ "meeste gevechten."
+
+#~ msgid "Knight's Blade"
+#~ msgstr "Ridderzwaard"
+
+#~ msgid "A weapon bestowed to seasoned veterans of the knighthood."
+#~ msgstr "Een wapen dat geschonken wordt aan in de strijd geharde ridders."
+
+#~ msgid "Paladin's Sword"
+#~ msgstr "Zwaard van Paladin"
+
+#~ msgid "A mythical weapon blessed with a magical fire."
+#~ msgstr "Een mythisch wapen, gezegend met een magisch vuur."
+
+#~ msgid "Omni Sword"
+#~ msgstr "Omni-zwaard"
+
+#~ msgid "Arbalest"
+#~ msgstr "Arbalest"
+
+#~ msgid "A standard wooden arbalest."
+#~ msgstr "Een standaard houten arbalest."
+
+#~ msgid "Improved Arbalest"
+#~ msgstr "Verbeterde arbalest"
+
+#~ msgid "Noble Arbalest"
+#~ msgstr "Nobele arbalest"
+
+#~ msgid "An arbalest made out of fine noble ash tree wood."
+#~ msgstr "Een arbalest, gemaakt van mooi, nobel hout van de asboom."
+
+#~ msgid "Arbalest of Force"
+#~ msgstr "Krachtige arbalest"
+
+#~ msgid "An arbalest strengthened with magical ore."
+#~ msgstr "Een arbalest die versterkt is met magisch erts."
+
+#~ msgid "Punch"
+#~ msgstr "Vuistslag"
+
+#~ msgid "A simple punch. Better than nothing."
+#~ msgstr "Een klap met de vuist. Beter dan niets."
+
+#~ msgid "Throw stone"
+#~ msgstr "Steenworp"
+
+#~ msgid "Kalya's attack when she has no weapon."
+#~ msgstr "Kalya's aanval, als ze geen wapen heeft."
+
+#~ msgid "Tornado Punch"
+#~ msgstr "Tornadoslag"
+
+#~ msgid "Spinning knuckle attack that deals wind damage."
+#~ msgstr "Slag als een wervelwind; veroorzaakt wind-schade."
+
+#~ msgid "Shield"
+#~ msgstr "Schild"
+
+#~ msgid "Increases an ally's physical defense by a slight degree."
+#~ msgstr "Vergroot de fysieke verdediging van een medestander een beetje."
+
+#~ msgid "First Aid"
+#~ msgstr "Eerste hulp"
+
+#~ msgid ""
+#~ "Performs basic medical assistance, healing the target by a minor degree."
+#~ msgstr "Basale medische hulp, die het doelwit een beetje geneest."
+
+#~ msgid "Leader Call"
+#~ msgstr "Leidersroep"
+
+#~ msgid "Temporarily increases the Physical Attack of all allies."
+#~ msgstr "Verhoogt tijdelijk de Fysieke Aanval van alle medestanders."
+
+#~ msgid "Holy Veil"
+#~ msgstr "Heilige sluier"
+
+#~ msgid "Increases the attack and magical attack of all allies."
+#~ msgstr "Verbetert de aanval en magische aanval van alle medestanders."
+
+#~ msgid "Ancient Strength"
+#~ msgstr "Oude kracht"
+
+#~ msgid "Increases every form of elemental resistance for all allies."
+#~ msgstr "Verbetert iedere vorm van element-verzet van alle medestanders."
+
+#~ msgid "Divine Wish"
+#~ msgstr "Goddelijke wens"
+
+#~ msgid "Revives an ally, restoring all of their HP and SP."
+#~ msgstr "Brengt een medestander weer tot leven, met alle HP en SP."
+
+#~ msgid "Magical Poison"
+#~ msgstr "Magisch vergif"
+
+#~ msgid "Makes an enemy lose its SP little by little."
+#~ msgstr "Zorgt ervoor dat een vijand zijn SP langzaamaan verliest."
+
+#~ msgid "Steal Song"
+#~ msgstr "Dievenlied"
+
+#~ msgid "Steals positive effects from an enemy."
+#~ msgstr "Steelt positieve effecten van een vijand."
+
+#~ msgid "Terrify"
+#~ msgstr "Afschrikking"
+
+#~ msgid "Potentially causes a normal enemy to retreat."
+#~ msgstr "Zorgt er mogelijk voor dat een normale vijand zich terugtrekt."
+
+#~ msgid "Decay Dirge"
+#~ msgstr "Klaagzang des vervals"
+
+#~ msgid "Steals both physical and magical defense of an ally."
+#~ msgstr "Steelt zowel fysieke als magische verdediging van een medestander."
+
+#~ msgid "War God"
+#~ msgstr "Oorlogsgod"
+
+#~ msgid ""
+#~ "Steals both the physical and magical defense of all enemies and gives it "
+#~ "to the party."
+#~ msgstr ""
+#~ "Steelt zowel fysieke als magische verdediging van alle tegenstanders, en "
+#~ "geeft ze aan jouw groep."
+
+#~ msgid "Fire burst"
+#~ msgstr "Vuuruitbarsting"
+
+#~ msgid "Creates a small fire that burns enemies."
+#~ msgstr "Maakt een klein vuur dat vijanden verbrandt."
+
+#~ msgid "Fire Circle"
+#~ msgstr "Vuurcirkel"
+
+#~ msgid "Increases the fire elemental defense on a character."
+#~ msgstr "Verhoogt de vuur-element-verdediging van een personage."
+
+#~ msgid "Lava"
+#~ msgstr "Lava"
+
+#~ msgid "Magical attack combining earth and fire type damage."
+#~ msgstr "Magische aanval die aarde- en vuur-schade combineert."
+
+#~ msgid "Fog"
+#~ msgstr "Mist"
+
+#~ msgid "Increases the evade rate of an ally."
+#~ msgstr "Verhoogt de ontwijkingsgraad van een medestander."
+
+#~ msgid "Fire Breath"
+#~ msgstr "Vuuradem"
+
+#~ msgid "Magical attack combining air and fire type damage."
+#~ msgstr "Magische aanval die lucht- en vuur-schade combineert."
+
+#~ msgid "Focus"
+#~ msgstr "Concentratie"
+
+#~ msgid "Increases the magical defense of an ally."
+#~ msgstr "Verhoogt de magische verdediging van een medestander."
+
+#~ msgid "Holy Fire"
+#~ msgstr "Heilig vuur"
+
+#~ msgid "Magical attack combining life and fire damages."
+#~ msgstr "Magische aanval die levens- en vuur-schade combineert."
+
+#~ msgid "Life"
+#~ msgstr "Leven"
+
+#~ msgid "Revives a fallen ally."
+#~ msgstr "Brengt een gesneuvelde medestander weer tot leven."
+
+#~ msgid "Petrify"
+#~ msgstr "Verstening"
+
+#~ msgid "Turns an enemy into stone."
+#~ msgstr "Verandert een vijand in steen."
+
+#~ msgid "Rage"
+#~ msgstr "Woede"
+
+#~ msgid ""
+#~ "Enrages an ally, increasing their attack and speed but reducing their "
+#~ "defense."
+#~ msgstr ""
+#~ "Maakt een vijand kwaad; dit vergroot zijn aanval en snelheid, maar "
+#~ "vermindert zijn verdediging."
+
+#~ msgid "Rock Fall"
+#~ msgstr "Vallende rots"
+
+#~ msgid "Rocks fall on an enemy."
+#~ msgstr "Rotsen vallen op een vijand."
+
+#~ msgid "Earth Circle"
+#~ msgstr "Aarde-cirkel"
+
+#~ msgid "Increases the earth elemental defense of a character."
+#~ msgstr "Verhoogt de aarde-element-verdediging van een personage."
+
+#~ msgid "Entangle"
+#~ msgstr "Verstrikking"
+
+#~ msgid "Decreases the evasion rate of an enemy."
+#~ msgstr "Vermindert de ontwijkingsgraad van een vijand."
+
+#~ msgid "Magical Armor"
+#~ msgstr "Magische uitrusting"
+
+#~ msgid "Haste"
+#~ msgstr "Haast"
+
+#~ msgid "Increases the battle speed of an ally."
+#~ msgstr "Verhoogt de gevechtssnelheid van een medestander."
+
+#~ msgid "Moon"
+#~ msgstr "Maan"
+
+#~ msgid "Makes an enemy attack its own allies."
+#~ msgstr "Zorgt ervoor dat een vijand zijn eigen medestanders gaat aanvallen."
+
+#~ msgid "Cure"
+#~ msgstr "Verzorging"
+
+#~ msgid "Cures the poison from an ally."
+#~ msgstr "Verzorgt de gifwond van een medestander."
+
+#~ msgid "Drain"
+#~ msgstr "Aftapping"
+
+#~ msgid "Steals HP from an enemy."
+#~ msgstr "Steelt HP van een vijand."
+
+#~ msgid "Curse"
+#~ msgstr "Vloek"
+
+#~ msgid "Severely decreases several random stats of an enemy."
+#~ msgstr ""
+#~ "Vermindert ernstig enkele willekeurige eigenschappen van een vijand."
+
+#~ msgid "Meteor"
+#~ msgstr "Meteoor"
+
+#~ msgid "High earth damage on all foes."
+#~ msgstr "Veel aarde-schade voor alle vijanden."
+
+#~ msgid "Wave"
+#~ msgstr "Golf"
+
+#~ msgid ""
+#~ "Makes waves fall on an enemy, damaging them and decreasing their physical "
+#~ "attack."
+#~ msgstr ""
+#~ "Laat golven neerdalen op een vijand, zodat ze schade oplopen en hun "
+#~ "fysieke aanval vermindert."
+
+#~ msgid "Water Circle"
+#~ msgstr "Watercirkel"
+
+#~ msgid "Increases the water elemental defense on a character."
+#~ msgstr "Verhoogt de water-element-verdediging van een personage."
+
+#~ msgid "Whirlwind"
+#~ msgstr "Wervelwind"
+
+#~ msgid "Magical attack combining water and air type damage."
+#~ msgstr "Magische aanval die water- en lucht-schade combineert."
+
+#~ msgid "Slow"
+#~ msgstr "Traagheid"
+
+#~ msgid "Decreases the battle speed of an enemy."
+#~ msgstr "Verlaagt de gevechtssnelheid van een vijand."
+
+#~ msgid "Blindness"
+#~ msgstr "Blindheid"
+
+#~ msgid ""
+#~ "Prevents an enemy from succeeding to strike with any physical attacks."
+#~ msgstr "Zorgt ervoor dat een vijand geen enkele fysieke aanval kan doen."
+
+#~ msgid "Heal"
+#~ msgstr "Genezing"
+
+#~ msgid "Restores the health of an ally."
+#~ msgstr "Geeft een medestander HP terug."
+
+#~ msgid "Poison"
+#~ msgstr "Vergiftiging"
+
+#~ msgid "Inflicts poison on an enemy."
+#~ msgstr "Vergiftigt een vijand."
+
+#~ msgid "Stun"
+#~ msgstr "Verdoving"
+
+#~ msgid "Stuns an enemy."
+#~ msgstr "Verdooft een vijand."
+
+#~ msgid "Tsunami"
+#~ msgstr "Tsunami"
+
+#~ msgid "High water damage inflicted on all foes."
+#~ msgstr "Veel water-schade voor alle vijanden."
+
+#~ msgid "Healing Rain"
+#~ msgstr "Genezingsregen"
+
+#~ msgid "Improves the health of all allies."
+#~ msgstr "Verbetert de gezondheid van alle medestanders."
+
+#~ msgid "Wind"
+#~ msgstr "Wind"
+
+#~ msgid "The wind slashes an enemy."
+#~ msgstr "De wind waait tegen een vijand."
+
+#~ msgid "Wind Circle"
+#~ msgstr "Windcirkel"
+
+#~ msgid "Increases the air elemental defense of a character."
+#~ msgstr "Verhoogt de lucht-element-verdediging van een personage."
+
+#~ msgid "Lightning"
+#~ msgstr "Bliksem"
+
+#~ msgid "Magical attack combining life and air type damage."
+#~ msgstr "Magische aanval die levens- en lucht-schade combineert."
+
+#~ msgid "Regen"
+#~ msgstr "Hernieuwing"
+
+#~ msgid "Causes an ally to slowly recover their health."
+#~ msgstr ""
+#~ "Zorgt ervoor dat een medestander langzaam zijn gezondheid terugkrijgt."
+
+#~ msgid "Magic Drain"
+#~ msgstr "Magische aftapping"
+
+#~ msgid "Steals skill points from an enemy."
+#~ msgstr "Steelt SP van een vijand."
+
+#~ msgid "Silence"
+#~ msgstr "Stilte"
+
+#~ msgid "Prevents an enemy from using any magic skills."
+#~ msgstr ""
+#~ "Zorgt ervoor dat een vijand geen magische vaardigheden meer kan gebruiken."
+
+#~ msgid "Storm"
+#~ msgstr "Storm"
+
+#~ msgid "High air type damage on all foes."
+#~ msgstr "Veel lucht-schade voor alle vijanden."
+
+#~ msgid "Stop"
+#~ msgstr "Stilstand"
+
+#~ msgid "Stops an enemy from taking any actions for quite a long time."
+#~ msgstr "Stopt een vijand volledig voor een behoorlijk lange tijd."
+
+#~ msgid "A holy light strikes an enemy."
+#~ msgstr "Een heilig licht raakt een vijand."
+
+#~ msgid "Life Circle"
+#~ msgstr "Levenscirkel"
+
+#~ msgid "Increases the life elemental defense of a character."
+#~ msgstr "Verhoogt de levens-element-verdediging van een personage."
+
+#~ msgid "Purify"
+#~ msgstr "Zuivering"
+
+#~ msgid "Cures all bad effects on a character, except for poison."
+#~ msgstr "Geneest alle slechte effecten op een personage, behalve vergiften."
+
+#~ msgid "Sun Haze"
+#~ msgstr "Zonnemist"
+
+#~ msgid "High life type damage on all foes."
+#~ msgstr "Veel levens-schade voor alle vijanden."
+
+#~ msgid "Aura"
+#~ msgstr "Aura"
+
+#~ msgid "Boost an ally's speed and slowly recovers their health."
+#~ msgstr ""
+#~ "Verhoogt de snelheid van een medestander en geeft langzaam HP terug."
+
+#~ msgid "Death"
+#~ msgstr "Dood"
+
+#~ msgid "Death tries to take hold of an enemy."
+#~ msgstr "De dood probeert een vijand met zich mee te nemen."
+
+#~ msgid "Death Circle"
+#~ msgstr "Doodcirkel"
+
+#~ msgid "Increases the death elemental defense of an ally."
+#~ msgstr "Verhoogt de dood-element-verdediging van een medestander."
+
+#~ msgid "Doom"
+#~ msgstr "Noodlot"
+
+#~ msgid "Places a death counter upon the enemy's head."
+#~ msgstr "Telt af tot de dood van een vijand."
+
+#~ msgid "Magical Reflection"
+#~ msgstr "Magische reflectie"
+
+#~ msgid "Makes the next enemy spell cast reflect back upon the attacker."
+#~ msgstr ""
+#~ "Zorgt ervoor dat de volgende vijandige spreuk terugkaatst naar de "
+#~ "aanvaller."
+
+#~ msgid "Dispell"
+#~ msgstr "Onttovering"
+
+#~ msgid ""
+#~ "Removes any status effect, elemental effect, and active spell on an enemy."
+#~ msgstr ""
+#~ "Verwijdert alle statuseffecten, element-effecten en betoveringen van een "
+#~ "vijand."
+
+#~ msgid "Shell"
+#~ msgstr "Schelp"
+
+#~ msgid "Increases all elemental effects of one character."
+#~ msgstr "Verhoogt alle element-effecten van een personage."
+
+#~ msgid "?"
+#~ msgstr "?"
+
+#~ msgid "An offensive mystic spell formed by combining opposite elementals."
+#~ msgstr ""
+#~ "Een mystieke aanvallende toverspreuk, die wordt gevormd door het "
+#~ "combineren van tegenovergestelde elementen."
+
+#~ msgid "Counter"
+#~ msgstr "Tegenaanval"
+
+#~ msgid "Makes an ally counter-attack if injured."
+#~ msgstr "Laat een medestander bij een aanval een tegenaanval uitvoeren."
+
+#~ msgid "Phoenix Call"
+#~ msgstr "Roep van de feniks"
+
+#~ msgid "Revives all allies."
+#~ msgstr "Brengt alle medestanders weer tot leven."
+
+#~ msgid "Bio"
+#~ msgstr "Biologie"
+
+#~ msgid "Cures poison on all characters."
+#~ msgstr "Geneest de vergiftigingen van alle personages."
+
+#~ msgid "Wolf Pain"
+#~ msgstr "Wolvenpijn"
+
+#~ msgid "Calls the defender of the arctic."
+#~ msgstr "Roept de beschermer van de noordpool."
+
+#~ msgid "Spawn Slime"
+#~ msgstr "Slijm oproepen"
+
+#~ msgid "Dark Wish"
+#~ msgstr "Duistere wens"
+
+#~ msgid "Sword Slash"
+#~ msgstr "Zwaardslag"
+
+#~ msgid "A textbook maneuver that deals an effective blow."
+#~ msgstr "Een manoeuvre uit het boekje; deelt een flinke klap uit."
+
+#~ msgid "Forward Thrust"
+#~ msgstr "Voorwaartse slag"
+
+#~ msgid "A concentrated attack on an enemy."
+#~ msgstr "Een geconcentreerde aanval op een vijand."
+
+#~ msgid "Stun Strike"
+#~ msgstr "Verdovingsslag"
+
+#~ msgid "A blow which temporarily stun its target."
+#~ msgstr "Een slag die zijn doelwit tijdelijk verdooft."
+
+#~ msgid "X-Strike"
+#~ msgstr "X-slag"
+
+#~ msgid ""
+#~ "A strong and aggressive attack with a blade that deals significant damage."
+#~ msgstr ""
+#~ "Een sterke en agressieve aanval met het lemmet, die veel schade toebrengt."
+
+#~ msgid "Single Shot"
+#~ msgstr "Enkel schot"
+
+#~ msgid "A simple shot using an arbalest."
+#~ msgstr "Een schot met een arbalest."
+
+#~ msgid "Blade Rush"
+#~ msgstr "Lemmetstorm"
+
+#~ msgid "Incapacitating Shot"
+#~ msgstr "Weerloosheidsschot"
+
+#~ msgid "A powerful shot aimed at lowering the enemy's ability to attack."
+#~ msgstr ""
+#~ "Een krachtig, gericht schot, dat de aanval van de vijand vermindert."
+
+#~ msgid "Rain of Arrows"
+#~ msgstr "Pijlenregen"
+
+#~ msgid "An attack striking all enemies."
+#~ msgstr "Een aanval die alle vijanden raakt."
+
+#~ msgid "Dagger Slash"
+#~ msgstr "Dolkhouw"
+
+#~ msgid "A simple but efficient dagger attack."
+#~ msgstr "Simpele maar efficiënte dolkaanval."
+
+#~ msgid "Poison Slash"
+#~ msgstr "Gifslag"
+
+#~ msgid "A dagger attack, poisoning the enemy."
+#~ msgstr "Een dolkaanval die de vijand vergiftigt."
+
+#~ msgid "High Strike"
+#~ msgstr "Hoge slag"
+
+#~ msgid ""
+#~ "A strike from above, stunning the enemy and breaking its magical defense."
+#~ msgstr ""
+#~ "Een slag van bovenaf, die de vijand verdooft en zijn magische verdediging "
+#~ "breekt."
+
+#~ msgid "Sonic Wind"
+#~ msgstr "Sonische wind"
+
+#~ msgid "Deals high wind damage to all enemies, stunning them along the way."
+#~ msgstr "Veroorzaakt veel windschade bij alle vijanden en verdooft ze."
+
+#~ msgid "Sword Breaker"
+#~ msgstr "Zwaardbreker"
+
+#~ msgid "An attack that breaks the enemy's own attack power."
+#~ msgstr "Een aanval die de eigen aanvalskracht van de vijand breekt."
+
+#~ msgid "Execution"
+#~ msgstr "Executie"
+
+#~ msgid "Attacks an enemy with a chance of causing death to catch its soul."
+#~ msgstr ""
+#~ "Een aanval die de dood de kans geeft om de ziel van een vijand te pakken."
+
+#~ msgid "Stun Bite"
+#~ msgstr "Verdovingsbeet"
+
+#~ msgid "Dampening Bite"
+#~ msgstr "Dempende beet"
+
+#~ msgid "HP Drain"
+#~ msgstr "HP-aftapping"
+
+#~ msgid "Multiple Attack"
+#~ msgstr "Multi-aanval"
+
+#~ msgid "Frenzy Attack"
+#~ msgstr "Fanatieke aanval"
+
+#~ msgid "Stamina Steal"
+#~ msgstr "Diefstal van uithoudingsvermogen"
+
+#~ msgid "Water Spray"
+#~ msgstr "Waterstraal"
+
+#~ msgid "Spider Web"
+#~ msgstr "Spinnenweb"
+
+#~ msgid "Bronann, do you need a quick reminder about the basics of battle?"
+#~ msgstr ""
+#~ "Bronann, moet ik je er even aan herinneren hoe je ook alweer moet vechten?"
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid "Ask about battle basics."
+#~ msgstr "Vraag hoe je moet vechten."
+
+#~ msgid "Ask nothing. I know how to fight."
+#~ msgstr "Vraag niets; ik weet hoe je moet vechten."
+
+#~ msgid "Er, I could use a refresher on the fundamentals of combat."
+#~ msgstr ""
+#~ "Ehm, ik zou wel een opfrisser kunnen gebruiken over de basistechnieken."
+
+#~ msgid ""
+#~ "Here you can find the hit points (HP) and skill points (SP) of the ally "
+#~ "party. Don't let your HP reach 0 or you're doomed!"
+#~ msgstr ""
+#~ "Hier vind je de gezondheidspunten (HP) en vaardigheidspunten (SP) van "
+#~ "onze groep. Zorg ervoor dat je HP niet de 0 bereikt, of je gaat eraan! "
+
+#~ msgid ""
+#~ "In battle, your icon and those of our enemies will rise up on the stamina "
+#~ "bar. The more stamina you have, the faster your icon will climb."
+#~ msgstr ""
+#~ "Tijdens het gevecht schuift je icoon omhoog over deze balk, net als die "
+#~ "van je vijanden. Hoe meer uithoudingsvermogen je hebt, hoe sneller je "
+#~ "icoon stijgt."
+
+#~ msgid ""
+#~ "Once you or one of your allies has reached the action level, you can "
+#~ "select an action for that ally. The battle is then paused and you've got "
+#~ "all the time you need to select one, so don't panic."
+#~ msgstr ""
+#~ "Zodra jij of iemand uit onze groep het actieniveau heeft bereikt, kun je "
+#~ "een actie kiezen voor die persoon. Het gevecht staat dan stil en je hebt "
+#~ "alle tijd om er eentje te kiezen, dus geen paniek."
+
+#~ msgid ""
+#~ "There are two action types: The basic 'Weapon' to attack, and later you "
+#~ "can also use 'Magic' skills. Last but not least, you'll also be able to "
+#~ "use our 'Items'. Simply choose an action followed by a target to trigger "
+#~ "it."
+#~ msgstr ""
+#~ "Er zijn twee actietypes. Als eerste is er \"Wapen\" om aan te vallen; "
+#~ "later kun je ook \"Magie\"-vaardigheden gebruiken. Ten slotte kun je onze "
+#~ "\"Voorwerpen\" gebruiken. Kies daarvoor een actie en een doelwit."
+
+#~ msgid ""
+#~ "The icon will still need to climb to the top of the stamina bar before "
+#~ "the selected action is executed. This is called the 'preparation time'. "
+#~ "Generally the more powerful the skill being executed, the longer it will "
+#~ "take to prepare."
+#~ msgstr ""
+#~ "Voordat de geselecteerde actie wordt uitgevoerd, moet het icoon eerst de "
+#~ "bovenkant van de balk bereiken. Dat heet de \"voorbereidingstijd\". In "
+#~ "het algemeen geldt: hoe sterker de vaardigheid is, hoe langer het duurt "
+#~ "om hem voor te bereiden."
+
+#~ msgid ""
+#~ "By the way, you're not forced to wait for your icon to reach the action "
+#~ "level before you can select an action. When these two little arrows here "
+#~ "are highlighted, you can use your up and down keys to preselect an action "
+#~ "for the corresponding ally."
+#~ msgstr ""
+#~ "Trouwens, je hoeft niet af te wachten tot je icoontje op het actielevel "
+#~ "staat. Zodra deze twee kleine pijltjes oplichten, kun je met de pijltjes "
+#~ "omhoog en omlaag drukken om al eerder een actie in te stellen."
+
+#~ msgid ""
+#~ "So long as the little arrows there are still visible, you can change the "
+#~ "selected action at any time."
+#~ msgstr ""
+#~ "Zolang de pijltjes zichtbaar blijven, kun je de geselecteerde actie nog "
+#~ "veranderen."
+
+#~ msgid "Don't forget that you can press '"
+#~ msgstr "Vergeet niet dat je op \""
+
+#~ msgid "' if you need more details."
+#~ msgstr "\" kunt drukken als je meer hulp nodig hebt."
+
+#~ msgid "Shall I repeat all that?"
+#~ msgstr "Zal ik het nog eens zeggen?"
+
+#~ msgid "Yes, please."
+#~ msgstr "Ja, graag."
+
+#~ msgid "No, it's alright."
+#~ msgstr "Nee, ik snap het."
+
+#~ msgid "Don't worry Olivia, I have not forgotten my training."
+#~ msgstr ""
+#~ "Maak je geen zorgen Olivia, ik ben niet voor niets op training geweest."
+
+#~ msgid "Thanks Olivia, I'm prepared now."
+#~ msgstr "Bedankt Olivia, ik ben er klaar voor."
+
+#~ msgid "Good. I'll let you quickly dispatch this minor threat."
+#~ msgstr "Goed. Dan laat ik jou deze kleine bedreiging uit de weg ruimen."
+
+#~ msgid ""
+#~ "Running out of magic points?\n"
+#~ "You can restore your PMs using Moon juice."
+#~ msgstr ""
+#~ "Geen magiepunten meer?\n"
+#~ "Je kunt ze terugkrijgen met Maansap."
+
+#~ msgid ""
+#~ "I didn't know that there was a cave here. It's kind of creepy. Let's "
+#~ "hurry and find Orlinn."
+#~ msgstr ""
+#~ "Ik wist niet dat er hier een grot was. Het is een beetje eng. Laten we "
+#~ "opschieten en Orlinn zoeken."
+
+#~ msgid "It seems Orlinn was able to go through those platforms. Somehow."
+#~ msgstr ""
+#~ "Zo te zien is Orlinn over deze platforms gekomen. Op de een of andere "
+#~ "manier."
+
+#~ msgid "Let's make our way through this before something bad happens to him."
+#~ msgstr ""
+#~ "We moeten hierlangs zien te komen voordat er iets ergs met hem gebeurt."
+
+#~ msgid "Look, there is a stone slab on the ground. Let's check this out."
+#~ msgstr "Kijk, hier ligt een stuk steen op de grond. Laten we eens kijken."
+
+#~ msgid "It seems the way is clear now."
+#~ msgstr "Zo te zien kunnen we erdoor."
+
+#~ msgid ""
+#~ "(I also heard something falling outside. Let's hope it's nothing bad.)"
+#~ msgstr ""
+#~ "(Ik hoorde ook buiten iets vallen. Laten we hopen dat het niks slechts "
+#~ "is.)"
+
+#~ msgid "Stone sign"
+#~ msgstr "Inscriptie"
+
+#~ msgid "'Here, only your enemies prevent you from going further.''"
+#~ msgstr "'Hier verhinderen alleen je vijanden je de doorgang.'"
+
+#~ msgid "'Here, only your enemies prevent you from going further.'"
+#~ msgstr "'Hier verhinderen alleen je vijanden je de doorgang.'"
+
+#~ msgid "You are able to decipher this writing, Kalya?"
+#~ msgstr "Kun je deze tekst ontcijferen, Kalya?"
+
+#~ msgid "Somehow. I'm not sure how I am able to, but I can read it."
+#~ msgstr "Ja. Geen idee hoe, maar ik kan het lezen."
+
+#~ msgid "However, I don't know what it means."
+#~ msgstr "Maar ik weet niet wat het betekent."
+
+#~ msgid "Let's look around. We might find out."
+#~ msgstr "Laten we rondkijken, dan komen we er misschien achter."
+
+#~ msgid "Something heavy seems to have fallen nearby."
+#~ msgstr "Zo te horen is er iets zwaars op de grond gevallen."
+
+#~ msgid ""
+#~ "I can feel a breeze and see light entering the cave from around this "
+#~ "rock. Orlinn must have gone through here."
+#~ msgstr ""
+#~ "Ik voel frisse lucht, en ik zie rondom dit rotsblok licht de grot "
+#~ "binnenstralen. Orlinn moet hierdoorheen gegaan zijn."
+
+#~ msgid ""
+#~ "There are signs engraved on this rock, too. This looks like some kind of "
+#~ "mechanism my family used long ago."
+#~ msgstr ""
+#~ "Op deze rots staan ook tekens gegraveerd. Dit lijkt op een soort "
+#~ "mechanisme dat mijn familie lang geleden gebruikte."
+
+#~ msgid "Your family? Long ago?"
+#~ msgstr "Je familie? Lang geleden?"
+
+#~ msgid ""
+#~ "Err, nevermind. We must find a way to make this move. Let's look around."
+#~ msgstr ""
+#~ "Eh, laat maar. We moeten een manier vinden om hierlangs te komen. Laten "
+#~ "we eens rondkijken."
+
+#~ msgid "Orlinn!"
+#~ msgstr "Orlinn!"
+
+#~ msgid "I can feel it, sis'. It's coming!"
+#~ msgstr "Ik voel het, Kalya. Het komt eraan!"
+
+#~ msgid "Orlinn, stop!"
+#~ msgstr "Orlinn, stop!"
+
+#~ msgid "What's happening!?"
+#~ msgstr "Wat gebeurt er?!"
+
+#~ msgid "Gosh! By all heavens, is this...?"
+#~ msgstr "Lieve help! Is - is dit...?"
+
+#~ msgid "A crystal stone?!"
+#~ msgstr "Een kristalsteen?!"
+
+#~ msgid "This is her. I heard her voice calling."
+#~ msgstr "Dit is ze. Ik hoorde haar stem roepen."
+
+#~ msgid "Dear chosen one, the time has finally come."
+#~ msgstr "Mijn uitverkorene, de tijd is eindelijk daar."
+
+#~ msgid "For us, it will be but an instant."
+#~ msgstr "Voor ons zal het slechts een moment zijn."
+
+#~ msgid "For you, it might be decades."
+#~ msgstr "Voor jou worden het misschien vele jaren."
+
+#~ msgid "May you bring a happy end to this foolish destiny of ours."
+#~ msgstr "Moge je een goed einde brengen aan ons dwaze lot."
+
+#~ msgid "We're all anxiously awaiting your return."
+#~ msgstr "We wachten allemaal met smart op je terugkeer."
+
+#~ msgid "Now, come. Become one with our holy hope."
+#~ msgstr "Kom nu. Word één met onze heilige hoop."
+
+#~ msgid "What does all of this mean?"
+#~ msgstr "Wat heeft dit te betekenen?"
+
+#~ msgid "I shall become one with our only hope."
+#~ msgstr "Ik moet één worden met onze enige hoop."
+
+#~ msgid "What! Orlinn, no!"
+#~ msgstr "Wat? Orlinn, nee!"
+
+#~ msgid "Bronann, the crystal! No!"
+#~ msgstr "Bronann, het kristal! Nee!"
+
+#~ msgid "Bronann!"
+#~ msgstr "Bronann!"
+
+#~ msgid "Bronann! Are you all right? Answer me!!"
+#~ msgstr "Bronann! Ben je in orde? Geef antwoord!!"
+
+#~ msgid "Woah, where am I?"
+#~ msgstr "Hé, waar ben ik?"
+
+#~ msgid "Sis! What's the matter? What happened?"
+#~ msgstr "Kal! Wat is dit? Wat is er gebeurd?"
+
+#~ msgid "What happened? Orlinn, what have you done?"
+#~ msgstr "Wat is er gebeurd? Orlinn, wat heb je gedaan?"
+
+#~ msgid "... My head."
+#~ msgstr "... Mijn hoofd."
+
+#~ msgid "Bronann! Are you alright?"
+#~ msgstr "Bronann! Ben je in orde?"
+
+#~ msgid "I, I guess so."
+#~ msgstr "Ik - ik denk het."
+
+#~ msgid "The wolf! The crystal! Orlinn! Are you ok?"
+#~ msgstr "De wolf! Het kristal! Orlinn! Gaat het wel?"
+
+#~ msgid "Don't worry, I'm fine. Err, what crystal? What... wolf??"
+#~ msgstr "Geen paniek, ik ben in orde. Eh, welk kristal? Wat voor... wolf??"
+
+#~ msgid "You won't be fine for long after I'm done with you!!"
+#~ msgstr "Oh! Wacht maar tot ik met je klaar ben!!"
+
+#~ msgid "Huh? Wait, I didn't do anything this time!"
+#~ msgstr ""
+#~ "Huh? Wacht eens even, voor deze ene keer heb ik helemaal niks gedaan!!"
+
+#~ msgid "Oh? You didn't?"
+#~ msgstr "Oh? Nee?"
+
+#~ msgid "When I catch you, I'll make you wish you were never born! Rahh!"
+#~ msgstr "Als ik je te pakken krijg, wou je dat je nooit geboren was! Raaahh!"
+
+#~ msgid "Yiek!"
+#~ msgstr "Ieeee!"
+
+#~ msgid "Come here, now!"
+#~ msgstr "Kom hier, nu!"
+
+#~ msgid "(Sigh)... I should have stayed home today."
+#~ msgstr "(Zucht...) Ik had vandaag thuis moeten blijven."
+
+#~ msgid "Ouch, why is my head hurting so much?"
+#~ msgstr "Au, waarom doet mijn hoofd zo'n pijn?"
+
+#~ msgid ""
+#~ "Are you ok? We should head back to the village so Lilly can examine you."
+#~ msgstr ""
+#~ "Voel je je wel goed? We moeten terug naar het dorp zodat Lily je kan "
+#~ "onderzoeken."
+
+#~ msgid "I still feel really dizzy, but I'll be ok."
+#~ msgstr "Ik ben nog erg draaierig, maar het komt wel goed."
+
+#~ msgid ""
+#~ "I'm relieved that Orlinn is fine as well. Speaking of that, Orlinn! Stop "
+#~ "running and come here right now!"
+#~ msgstr ""
+#~ "Ik ben opgelucht dat Orlinn ook in orde is. Daarover gesproken: Orlinn! "
+#~ "Stop met rennen en kom hier!"
+
+#~ msgid "Owww. Alright."
+#~ msgstr "Ohhh. Goed dan."
+
+#~ msgid ""
+#~ "Now, Orlinn, tell us. Why on earth did you go into the forest alone, and "
+#~ "how did you get there so quickly?"
+#~ msgstr ""
+#~ "Nou, Orlinn, zeg op. Waarom ben je in hemelsnaam alleen het bos ingegaan, "
+#~ "en hoe ben je er zo snel gekomen?"
+
+#~ msgid "I don't know."
+#~ msgstr "Ik weet het niet."
+
+#~ msgid "Why was that giant wolf protecting you?"
+#~ msgstr "Waarom beschermde die grote wolf je?"
+
+#~ msgid "What was that crystal? Why did you want to 'become one' with it?"
+#~ msgstr "Wat was dat voor kristal? Waarom wilde je er \"één mee worden\"?"
+
+#~ msgid ""
+#~ "I, I, I sincerely don't know. I swear! It was like I was... dreaming."
+#~ msgstr ""
+#~ "Ik - ik - ik weet het echt niet. Ik zweer het! Het was alsof ik... "
+#~ "droomde."
+
+#~ msgid "I merely remember a voice in my head, telling me to come."
+#~ msgstr ""
+#~ "Ik herinner me alleen een stem in mijn hoofd, die me zei dat ik moest "
+#~ "komen."
+
+#~ msgid "You know you won't get away with this. When you see Herth..."
+#~ msgstr ""
+#~ "Hier kom je niet mee weg, dat weet je zelf ook wel. Als je Herth ziet..."
+
+#~ msgid "I swear it's the truth!"
+#~ msgstr "Ik zweer het! Het is de waarheid!"
+
+#~ msgid "Making one with the crystal, huh?"
+#~ msgstr "Één worden met het kristal, hè?"
+
+#~ msgid ""
+#~ "Let's not panic. Bronann, you look fine. Anyway, we'd better get back to "
+#~ "the village and see the elders as soon as possible."
+#~ msgstr ""
+#~ "Laten we kalm blijven. Bronann, je lijkt niet gewond. We kunnen het beste "
+#~ "maar zo snel mogelijk teruggaan naar het dorp en met de ouderen spreken."
+
+#~ msgid ""
+#~ "Did you know?\n"
+#~ "You can improve spend your earned XP points to improve your skills and "
+#~ "stats.\n"
+#~ "Simply open the menu, select 'Skills' and 'Improve'."
+#~ msgstr ""
+#~ "Wist je dat?\n"
+#~ "Je kunt je verdiende XP inzetten om je vaardigheden en stats te "
+#~ "verbeteren.\n"
+#~ "Open het menu en ga naar Vaardigheden, en dan Verbeteren."
+
+#~ msgid ""
+#~ "Did you know?\n"
+#~ "Escape points like this one permit to go back to the latest safe location "
+#~ "instantly.\n"
+#~ "Escape smoke can also be used to flee from battles."
+#~ msgstr ""
+#~ "Wist je dat?\n"
+#~ "Met behulp van ontsnappingspunten, zoals deze, kun je direct naar de "
+#~ "laatste veilige locatie terugkeren.\n"
+#~ "Je kunt ook Ontsnappingsrook gebruiken om gevechten te ontvluchten."
+
+#~ msgid "What's that?!"
+#~ msgstr "Wat is dat?!"
+
+#~ msgid ""
+#~ "Woah, that was quite a nasty fight. Why on earth was a north arctic "
+#~ "fenrir lurking in the forest? I thought it was merely a part of myths."
+#~ msgstr ""
+#~ "Whoa, dat was een gevaarlijk gevecht. Wat deed die arctische fenrir hier "
+#~ "in het bos? Ik dacht dat die alleen in mythes bestonden."
+
+#~ msgid ""
+#~ "It ran away. I'm almost certain that we'll meet it again. We'd better be "
+#~ "more prepared next time."
+#~ msgstr ""
+#~ "Hij is weggerend. Ik weet bijna zeker dat we hem nog eens tegenkomen. Dan "
+#~ "kunnen we maar beter goed voorbereid zijn."
+
+#~ msgid ""
+#~ "I'll try not to think about what it could have done to Orlinn. Let's find "
+#~ "him... quickly."
+#~ msgstr ""
+#~ "Ik durf er niet aan te denken wat hij met Orlinn gedaan zou kunnen "
+#~ "hebben. Laten we hem snel vinden..."
+
+#~ msgid ""
+#~ "Did you know?\n"
+#~ "Stamina (the bar on the bottom-right) is limited in dangerous areas.\n"
+#~ "The more you run, the more you're exhausted and it can show in combat.\n"
+#~ "Manage it well."
+#~ msgstr ""
+#~ "Wist je dat?\n"
+#~ "Je uithoudingsvermogen (zie de balk rechtsonder) is beperkt in "
+#~ "gevaarlijke gebieden.\n"
+#~ "Ren je veel, dan raak je uitgeput, en dat kan je in een gevecht "
+#~ "belemmeren."
+
+#~ msgid "Orlinn, stop it RIGHT NOW!!"
+#~ msgstr "Orlinn, stop daarmee! NU!!"
+
+#~ msgid "I can't sis. I can feel it... calling me."
+#~ msgstr "Ik kan het niet, Kal. Het roept me... ik voel het."
+
+#~ msgid "Quick! Let's follow him."
+#~ msgstr "Snel! Laten we hem volgen."
+
+#~ msgid "Right!"
+#~ msgstr "Oké!"
+
+#~ msgid "Great! The tremor has opened a path back to the village!"
+#~ msgstr "Mooi! De trillingen hebben een pad naar het dorp geopend!"
+
+#~ msgid "Now we can get back to the village more quickly."
+#~ msgstr "Nu kunnen we sneller naar het dorp terug."
+
+#~ msgid "We're almost there!"
+#~ msgstr "We zijn er bijna!"
+
+#~ msgid "Say sis, do you think Herth will be angry at me for what happened?"
+#~ msgstr ""
+#~ "Zeg eens, Kal, denk je dat Herth boos op me is over wat er gebeurd is?"
+
+#~ msgid ""
+#~ "I don't think so, Orlinn. We both know you didn't do it on purpose, right?"
+#~ msgstr ""
+#~ "Ik denk het niet, Orlinn. We weten alletwee dat je het niet met opzet "
+#~ "deed, toch?"
+
+#~ msgid "Ok."
+#~ msgstr "Oké."
+
+#~ msgid "Kalya, err..."
+#~ msgstr "Kalya, eh..."
+
+#~ msgid "What is it, Bronann?"
+#~ msgstr "Wat is er, Bronann?"
+
+#~ msgid "Hmm. Nevermind."
+#~ msgstr "Hmm. Laat maar."
+
+#~ msgid "Don't worry too much, Bronann. Herth will be able to help you."
+#~ msgstr "Maak je niet al teveel zorgen, Bronann. Herth kan je helpen."
+
+#~ msgid "Me? But..."
+#~ msgstr "Ik? Maar..."
+
+#~ msgid "Thanks..."
+#~ msgstr "Dank je..."
+
+#~ msgid "Thanks for your help."
+#~ msgstr "Bedankt voor je hulp."
+
+#~ msgid "You're welcome."
+#~ msgstr "Graag gedaan."
+
+#~ msgid "Please, don't hurt me, my life is already so short!"
+#~ msgstr "Doe me alsjeblieft geen pijn, mijn leven is al zo kort!"
+
+#~ msgid "What about buying some items instead?"
+#~ msgstr "Wil je misschien wat spullen kopen?"
+
+#~ msgid "Your party feels better..."
+#~ msgstr "Je groep voelt zich beter..."
+
+#~ msgid ""
+#~ "Did you know?\n"
+#~ "If you face an enemy and use the confirm key (%s), you get a boost to "
+#~ "your first attack preparation in battle.\n"
+#~ "The enemy can do the same if it catches you unaware."
+#~ msgstr ""
+#~ "Wist je dat?\n"
+#~ "Sta je voor een vijand, en gebruik je de Bevestigen-knop (%s), dan krijg "
+#~ "je een voorsprong bij de voorbereiding van je eerste aanval.\n"
+#~ "Je vijand kan hetzelfde doen als hij je te grazen neemt zonder dat je het "
+#~ "merkt."
+
+#~ msgid ""
+#~ "Did you know?\n"
+#~ "Special attacks can trigger effects decreasing enemy defense, stamina, "
+#~ "attack, ...\n"
+#~ "The enemy can do the same. For instance, snakes can stun you with their "
+#~ "attacks."
+#~ msgstr ""
+#~ "Wist je dat?\n"
+#~ "Speciale aanvallen kunnen effecten veroorzaken die verdediging, "
+#~ "uithoudingsvermogen of aanvalskracht van de vijand verminderen.\n"
+#~ "De vijand kan hetzelfde doen. Slangen bijvoorbeeld kunnen je verlammen "
+#~ "met hun aanvallen."
+
+#~ msgid "Woah, wait!"
+#~ msgstr "Whaaa, wacht!"
+
+#~ msgid ""
+#~ "Look at the grass. Snakes like to hide in the tall grass. We need to be "
+#~ "careful because their venom causes drowsiness."
+#~ msgstr ""
+#~ "Kijk naar het gras. Slangen verstoppen zich vaak in lang gras. We moeten "
+#~ "goed opletten, want hun vergif veroorzaakt slaperigheid."
+
+#~ msgid "(Bronann looks at the ground)"
+#~ msgstr "(Bronann kijkt naar beneden)"
+
+#~ msgid "This water looks weird. Shall we drink it anyway?"
+#~ msgstr "Dit water ziet er vreemd uit. Moeten we het wel drinken?"
+
+#~ msgid "Yes, I'm so thirsty."
+#~ msgstr "Ja, ik heb zo'n dorst."
+
+#~ msgid "No way, we'd get sick."
+#~ msgstr "Nee, we zouden er ziek van worden."
+
+#~ msgid "The party drinks the water and feels... alright?"
+#~ msgstr "De groep drinkt het water en voelt zich... in orde?"
+
+#~ msgid "The party won't drink it."
+#~ msgstr "De groep blijft ervan af."
+
+#~ msgid "Yiek, it stinks in here."
+#~ msgstr "Ieee, het stinkt hier."
+
+#~ msgid "Look at all those bones. We should be careful."
+#~ msgstr "Kijk naar al die botten. We moeten goed opletten."
+
+#~ msgid "I hope Orlinn is alright."
+#~ msgstr "Ik hoop dat Orlinn in orde is."
+
+#~ msgid "What a lovely necklace! I'll take it."
+#~ msgstr "Wat een mooie ketting! Ik pak hem wel."
+
+#~ msgid ""
+#~ "Kalya. We're in the middle of a cave and you're only thinking about "
+#~ "wearing jewels?"
+#~ msgstr ""
+#~ "Kalya. We zitten hier midden in een grot en jij denkt alleen maar aan "
+#~ "sieraden?"
+
+#~ msgid ""
+#~ "Jewelry is a gift from the heavens to remind us that beauty can be as "
+#~ "pure on the outside as it is on the inside. Besides, it suits me better "
+#~ "than it would you."
+#~ msgstr ""
+#~ "Sieraden zijn een geschenk uit de hemel om ons eraan te herinneren dat "
+#~ "schoonheid aan de buitenkant net zo puur kan zijn als aan de binnenkant. "
+#~ "Daarnaast, ik denk dat hij mij beter zou staan dan jou."
+
+#~ msgid "Kalya! You'd better be careful!"
+#~ msgstr "Kalya! Pas toch op!"
+
+#~ msgid "Don't even start, this one is all mine."
+#~ msgstr "Hou maar op, hij is van mij."
+
+#~ msgid "Not the necklace, the fenrir!"
+#~ msgstr "Niet de ketting, de fenrir!"
+
+#~ msgid "You can't be serious, we would have heard it come."
+#~ msgstr "Dat kun je niet menen. Die hadden we toch aan horen komen?"
+
+#~ msgid "Ah, well. You were serious, weren't you?"
+#~ msgstr "Eh, hmm. Je meende het, nietwaar?"
+
+#~ msgid ""
+#~ "It ran away again. I'm glad we survived. Let's get out of here before it "
+#~ "comes back."
+#~ msgstr ""
+#~ "Hij is weer weggerend. Ik ben blij dat we het overleefd hebben. Laten we "
+#~ "hier weggaan voordat hij terugkomt."
+
+#~ msgid "Banesore"
+#~ msgstr "Banesore"
+
+#~ msgid "So, you think you can wound me?"
+#~ msgstr "Nou, denk je dat je me pijn kunt doen?"
+
+#~ msgid "You? A child with an old wooden stick?"
+#~ msgstr "Jij? Een kind met een oude houten stok?"
+
+#~ msgid ""
+#~ "You're stronger than I thought. But you are still too weak to challenge "
+#~ "me!"
+#~ msgstr ""
+#~ "Je bent sterker dan ik gedacht had, maar dan nog. Je bent te zwak om me "
+#~ "uit te dagen!"
+
+#~ msgid "Argh! It hurts!"
+#~ msgstr "Aaargh! Dat doet pijn!"
+
+#~ msgid "Yes! I can feel it coming closer to the surface!"
+#~ msgstr "Ja! Het komt dichter bij het oppervlak, ik voel het!"
+
+#~ msgid "Let your fear grow, young boy!"
+#~ msgstr "Laat je angst groeien, jongeman!"
+
+#~ msgid "Bronann, don't listen to him!"
+#~ msgstr "Bronann, luister niet naar hem!"
+
+#~ msgid "I will... try."
+#~ msgstr "Ik zal het... proberen."
+
+#~ msgid "Hmph. Soldiers, leave that man to me!"
+#~ msgstr "Hmpf. Soldaten, laat die man voor mij over!"
+
+#~ msgid "So, it appears that you remember me, Banesore. Is that correct?"
+#~ msgstr "Zo te zien herinner je me nog, Banesore. Klopt dat?"
+
+#~ msgid "I do remember you, old man..."
+#~ msgstr "Ik herinner me je inderdaad, oude man..."
+
+#~ msgid ""
+#~ "Then, you already know that your zombified soldiers are no match for me."
+#~ msgstr "Dan weet je al dat jouw zombie-soldaten geen partij voor me zijn."
+
+#~ msgid "Argh! My chest is burning!"
+#~ msgstr "Aaargh! Mijn borst staat in brand!"
+
+#~ msgid "Hold on Bronann!"
+#~ msgstr "Bronann, hou vol!"
+
+#~ msgid "Escape"
+#~ msgstr "Escape"
+
+#~ msgid "Space"
+#~ msgstr "Spatie"
+
+#~ msgid "Ctrl"
+#~ msgstr "Ctrl"
+
+#~ msgid "Alt"
+#~ msgstr "Alt"
+
+#~ msgid "Shift"
+#~ msgstr "Shift"
+
+#~ msgid "Move your character:"
+#~ msgstr "Beweeg je personage:"
+
+#~ msgid "Possible actions:"
+#~ msgstr "Mogelijke acties:"
+
+#~ msgid "Confirm / Open / Talk: %s"
+#~ msgstr "Bevestigen / Openen / Praten: %s"
+
+#~ msgid "Run / Cancel: %s"
+#~ msgstr "Rennen / Annuleren: %s"
+
+#~ msgid "Party Menu: %s"
+#~ msgstr "Groepmenu: %s"
+
+#~ msgid "Game commands:"
+#~ msgstr "Spelcommando's:"
+
+#~ msgid "Pause: %s"
+#~ msgstr "Pauze: %s"
+
+#~ msgid "Quit Menu: %s"
+#~ msgstr "Afsluitmenu: %s"
+
+#~ msgid "Help Menu: %s"
+#~ msgstr "Helpmenu: %s"
+
+#~ msgid ""
+#~ "I had that same nightmare again. This time, however, I still feel dizzy "
+#~ "even after getting up."
+#~ msgstr ""
+#~ "Weer diezelfde nachtmerrie. Maar deze keer voel ik me zelfs nog duizelig "
+#~ "nu ik weer wakker ben."
+
+#~ msgid "I might as well move on and forget about it."
+#~ msgstr "Ik kan het maar beter zo snel mogelijk vergeten."
+
+#~ msgid ""
+#~ "This circle is a save point. Here, you can save your game by pushing %s."
+#~ msgstr ""
+#~ "Deze cirkel is een opsla-punt. Hier kun je je spel opslaan door op \"%s\" "
+#~ "te drukken."
+
+#~ msgid "You can come back here and save as many times as you want."
+#~ msgstr "Je kunt hier terugkeren en opslaan, zo vaak als je wilt."
+
+#~ msgid ""
+#~ "Now that you're *finally* up, could you go buy some barley meal for us?"
+#~ msgstr ""
+#~ "Kun je wat gerstemeel voor ons halen, nu je *eindelijk* wakker bent?"
+
+#~ msgid "Barley meal? Again?"
+#~ msgstr "Alweer gerstemeel?"
+
+#~ msgid "Hmph, just go boy. You'll be free after that, ok?"
+#~ msgstr "Hmpf, ga maar gewoon, jongen. Daarna ben je vrij, oké?"
+
+#~ msgid "Thanks for helping me out with the dishes."
+#~ msgstr "Bedankt dat je hebt geholpen met de afwas."
+
+#~ msgid "Say, mom? Why is the village entrance blocked?"
+#~ msgstr "Zeg eens, mam? Waarom is de dorpsingang geblokkeerd?"
+
+#~ msgid ""
+#~ "All of the village elders' nerves are on edge. There is something going "
+#~ "on here! Why won't you tell me?"
+#~ msgstr ""
+#~ "Alle volwassenen hier zijn bloednerveus. Er is hier iets aan de hand! "
+#~ "Vertel me wat er is!"
+
+#~ msgid "Bronann, there is something we, your mother and I, have to tell you."
+#~ msgstr "Bronann, er is iets wat wij, je moeder en ik, je moeten zeggen."
+
+#~ msgid ""
+#~ "Sorry son. In fact, we've been willing to tell you since quite a lot of "
+#~ "time now."
+#~ msgstr "Sorry, zoon. Eigenlijk wilden we het je al een hele tijd vertellen."
+
+#~ msgid "We chose to live in this village for a reason, we "
+#~ msgstr "We hadden een reden waarom we in dit dorp zijn komen wonen, we"
+
+#~ msgid "Huh? What was that light?"
+#~ msgstr "Huh? Wat was dat voor een licht?"
+
+#~ msgid "Bronann! Wait!"
+#~ msgstr "Bronann! Wacht!"
+
+#~ msgid "Nice job, son."
+#~ msgstr "Goed gedaan, zoon."
+
+#~ msgid "Please go and see Olivia. She will explain everything to you."
+#~ msgstr "Ga maar naar Olivia. Zij legt je alles wel uit."
+
+#~ msgid ""
+#~ "Hey son! Did you sleep well? Hmm, now where did I leave that oil lamp?"
+#~ msgstr ""
+#~ "Hallo zoon! Lekker geslapen? Hmm, waar heb ik die olielamp nou gelaten?"
+
+#~ msgid "Hi Dad! Um, I don't know. Sorry."
+#~ msgstr "Hoi pap! Uh, dat weet ik niet. Sorry."
+
+#~ msgid "Nah, no problem, I'll find it somewhere, eventually."
+#~ msgstr "Geen probleem hoor. Ik vind hem wel ergens, uiteindelijk."
+
+#~ msgid "By the way, I have great news for you, son."
+#~ msgstr "Ik heb trouwens fantastisch nieuws voor je, zoon."
+
+#~ msgid "Something you've been waiting for. Come here I'll show you."
+#~ msgstr ""
+#~ "Iets waar je op hebt zitten wachten. Kom hier, ik zal het je laten zien."
+
+#~ msgid "Today, you're going to help Olivia with this."
+#~ msgstr "Vandaag ga je Olivia hiermee helpen."
+
+#~ msgid "Wow, your practice sword. Many thanks Dad."
+#~ msgstr "Wauw, je oefenzwaard! Heel erg bedankt, papa."
+
+#~ msgid ""
+#~ "Your mother and I believe you've now grown enough to start dealing with "
+#~ "the critters around the village."
+#~ msgstr ""
+#~ "Je moeder en ik vinden dat je nu oud genoeg bent om het ongedierte rond "
+#~ "het dorp eens aan te gaan pakken."
+
+#~ msgid "Go see Olivia. She will explain everything to you."
+#~ msgstr "Breng een bezoek aan Olivia. Zij zal alles wel uitleggen."
+
+#~ msgid "Bronann, promise me that you'll be careful, ok?"
+#~ msgstr "Bronann, beloof me dat je oppast, oké?"
+
+#~ msgid "So, finally you're going away."
+#~ msgstr "Dus je gaat ons eindelijk verlaten?"
+
+#~ msgid "Please, take this. It's not much but I hope it will help."
+#~ msgstr "Neem dit mee. Het is niet veel, maar misschien helpt het je."
+
+#~ msgid "Thanks, mom."
+#~ msgstr "Bedankt, mama."
+
+#~ msgid "Take care, my son."
+#~ msgstr "Pas goed op, mijn zoon."
+
+#~ msgid "(sigh)... Got it, mom!"
+#~ msgstr "(Zucht...) Ja hoor, mam!"
+
+#~ msgid "Perfect timing, let's have dinner."
+#~ msgstr "Perfecte timing, laten we gaan eten."
+
+#~ msgid "Perfect timing, I'll cook dinner. Have you helped your father yet?"
+#~ msgstr "Perfecte timing, ik ga koken. Heb je je vader al geholpen?"
+
+#~ msgid "Could you go and buy some barley meal for the three of us?"
+#~ msgstr "Kun je wat gerstemeel voor ons drieën gaan kopen?"
+
+#~ msgid "Hi son, did you have a nightmare again last night?"
+#~ msgstr "Hallo zoon, had je weer een nachtmerrie vannacht?"
+
+#~ msgid "Hi mom. Huh, how did you know?"
+#~ msgstr "Hoi mam. Huh, hoe weet je dat?"
+
+#~ msgid "Eh eh? Have you already forgotten that I'm your mother?"
+#~ msgstr "Hmm hmm? Ben je vergeten dat ik je moeder ben?"
+
+#~ msgid "Don't venture too far, I'll need your help soon!"
+#~ msgstr "Ga niet te ver weg; ik zal je hulp dadelijk nodig hebben!"
+
+#~ msgid "Finally, we made it back home."
+#~ msgstr "Eindelijk zijn we weer thuis."
+
+#~ msgid ""
+#~ "I'll go and get Herth. Your parents must be worried. Go home. We'll meet "
+#~ "there."
+#~ msgstr ""
+#~ "Ik ga Herth halen. Je ouders moeten ongerust zijn. Ga naar huis. Ik zie "
+#~ "je daar wel."
+
+#~ msgid "I should really get back home."
+#~ msgstr "Ik moet echt terug naar huis gaan."
+
+#~ msgid ""
+#~ "Weird, I don't see any lights on in there. I have a bad feeling about "
+#~ "this, let's get back home."
+#~ msgstr ""
+#~ "Vreemd, ik zie helemaal geen licht daar. Ik heb hier een slecht gevoel "
+#~ "over; laten we naar huis gaan."
+
+#~ msgid "Huh?"
+#~ msgstr "Huh?"
+
+#~ msgid "What's happening here?! Where is everyone?"
+#~ msgstr "Wat gebeurt hier?! Waar is iedereen?"
+
+#~ msgid "Help!"
+#~ msgstr "Help!"
+
+#~ msgid "Kalya?!"
+#~ msgstr "Kalya?!"
+
+#~ msgid "Let go of me! You cheap low-grade filthy jerks."
+#~ msgstr "Laat me los! Jullie stomme, vieze, idiote..."
+
+#~ msgid "Keep quiet, little brat!"
+#~ msgstr "Hou je gedeisd, snotneus!"
+
+#~ msgid "Soldiers wearing black armor... the Lord's personal guard!"
+#~ msgstr ""
+#~ "Soldaten met zwarte wapenuitrusting... de persoonlijke lijfwacht van de "
+#~ "Heer!"
+
+#~ msgid "Fortunately, they didn't see me or I would have been caught as well."
+#~ msgstr ""
+#~ "Gelukkig zagen ze me niet, want anders hadden ze mij ook te pakken gehad."
+
+#~ msgid "I should follow them silently."
+#~ msgstr "Laat ik ze zachtjes volgen."
+
+#~ msgid "What am I doing? I should go and try to free Kalya!"
+#~ msgstr "Wat doe ik nou? Ik moet proberen Kalya te bevrijden!"
+
+#~ msgid "Do you need something, Bronann?"
+#~ msgstr "Heb je iets nodig, Bronann?"
+
+#~ msgid "Ahh sure! (gossip, gossip)"
+#~ msgstr "Maar natuurlijk (roddel, roddel)"
+
+#~ msgid "Did you hear that? (gossip, gossip)"
+#~ msgstr "Heb je dat gehoord? (roddel, roddel)"
+
+#~ msgid "If you're running after Orlinn, I just saw him near your house."
+#~ msgstr ""
+#~ "Zit je achter Orlinn aan? Ik zag hem net bij jullie huis verdwijnen."
+
+#~ msgid "Do you want to trade with me?"
+#~ msgstr "Wil je met me handelen?"
+
+#~ msgid ""
+#~ "Tired of walking?\n"
+#~ "You can run when holding the Cancel (%s) key"
+#~ msgstr ""
+#~ "Moe van al dat lopen?\n"
+#~ "Je kunt rennen door de Annuleren-knop (%s) ingedrukt te houden."
+
+#~ msgid "Hmm, I'll go to Flora's shop. I hope she'll help me."
+#~ msgstr "Hmm, laat ik naar Flora's winkel gaan. Ik hoop dat ze me helpt."
+
+#~ msgid "ORLINN! Come here, NOW!"
+#~ msgstr "ORLINN! Kom hier, NU!"
+
+#~ msgid "Orlinn, give back the pen to Bronann or I shall sma..."
+#~ msgstr "Orlinn, geef die pen terug aan Bronann, of ik ra..."
+
+#~ msgid "Yea, yes, here it is."
+#~ msgstr "Ja, ja, hier is hij al."
+
+#~ msgid "I found that pen under a tree near the river. I just wanted to play."
+#~ msgstr ""
+#~ "Die pen lag onder een boom bij de rivier. Ik wilde alleen maar spelen."
+
+#~ msgid "Don't worry about it."
+#~ msgstr "Maak je er geen zorgen over."
+
+#~ msgid "What was this?"
+#~ msgstr "Wat was dat?"
+
+#~ msgid ""
+#~ "Bronann, there is something that I have to tell you. We've been fearing "
+#~ "for this moment, your mother and I."
+#~ msgstr ""
+#~ "Bronann, ik moet je iets vertellen. Je moeder en ik... we vrezen dit "
+#~ "moment al tijden."
+
+#~ msgid "They're coming!"
+#~ msgstr "Ze komen eraan!"
+
+#~ msgid "Carson, they've crossed the river. They shall be here in no time."
+#~ msgstr "Carson, ze zijn de rivier al over. Ze zijn zo hier."
+
+#~ msgid "Huh? Hey, what's happening here?!"
+#~ msgstr "Huh? Hé, wat gebeurt hier?!"
+
+#~ msgid "Bronann, I..."
+#~ msgstr "Bronann, ik..."
+
+#~ msgid "Herth!"
+#~ msgstr "Herth!"
+
+#~ msgid "Herth! Orlinn has disappeared. I saw him taking the forest pathway!"
+#~ msgstr "Herth! Orlinn is weg. Ik zag hem het bospad ingaan!"
+
+#~ msgid "Kalya, you were supposed to keep an eye on him!"
+#~ msgstr "Kalya, je zou op hem letten!"
+
+#~ msgid ""
+#~ "I did, but he just slipped through my fingers at the very second that "
+#~ "strange light appeared."
+#~ msgstr ""
+#~ "Dat deed ik ook! Maar hij glipte weg op het moment dat dat vreemde licht "
+#~ "verscheen."
+
+#~ msgid ""
+#~ "Kalya, the army is coming. I'll deal with them. You go and find Orlinn as "
+#~ "fast as possible."
+#~ msgstr ""
+#~ "Kalya, het leger komt eraan. Ik praat wel met ze. Ga jij zo snel mogelijk "
+#~ "Orlinn zoeken."
+
+#~ msgid "But you might get hurt!"
+#~ msgstr "Maar misschien raak je wel gewond!"
+
+#~ msgid ""
+#~ "Don't worry. We'll simply talk to them and they'll move on. You know what "
+#~ "you have to do, right?"
+#~ msgstr ""
+#~ "Maak je geen zorgen. We praten tegen ze, en ze gaan weer verder. Je weet "
+#~ "wat je moet doen, toch?"
+
+#~ msgid "Herth, we both know it'll likely..."
+#~ msgstr "Herth, we weten allebei dat ze waarschijnlijk..."
+
+#~ msgid "Do as I say and it'll be alright."
+#~ msgstr "Doe wat ik zeg en het komt goed."
+
+#~ msgid "But..."
+#~ msgstr "Maar..."
+
+#~ msgid "Bronann, you should go with her."
+#~ msgstr "Bronann, ga met haar mee."
+
+#~ msgid "What?!"
+#~ msgstr "Wat?!"
+
+#~ msgid "Carson is right, Kalya. Bronann shall go with you."
+#~ msgstr "Carson heeft gelijk, Kalya. Bronann gaat met je mee."
+
+#~ msgid "But he would just be a burden!"
+#~ msgstr "Maar hij zal me alleen maar vertragen!"
+
+#~ msgid "Huh? Hey! But..."
+#~ msgstr "Huh? Hé! Maar..."
+
+#~ msgid "He won't slow you down, believe me. Right, Bronann?"
+#~ msgstr "Hij zal je niet ophouden, geloof me maar. Toch, Bronann?"
+
+#~ msgid "But Herth!"
+#~ msgstr "Maar Herth!"
+
+#~ msgid "Carson is right, Kalya. Bronann shall go with you. It's an order."
+#~ msgstr ""
+#~ "Carson heeft gelijk, Kalya. Bronann gaat met je mee. Het is een bevel."
+
+#~ msgid "Gahh, ok."
+#~ msgstr "Aaaargh, oké dan."
+
+#~ msgid ""
+#~ "Now go, my son. I'll explain it to you once it is all finished. I trust "
+#~ "you will succeed."
+#~ msgstr ""
+#~ "Ga nu, zoon. Ik leg het wel uit als het allemaal voorbij is. Ik vertrouw "
+#~ "erop dat het je lukt."
+
+#~ msgid "Thanks dad, we'll find him in no time."
+#~ msgstr "Bedankt papa, we zullen hem snel vinden."
+
+#~ msgid "We shall go now. Good luck, both of you."
+#~ msgstr "We gaan nu. Veel succes, jullie allebei."
+
+#~ msgid "Good luck, son."
+#~ msgstr "Veel succes, zoon."
+
+#~ msgid "Ok, we'll go together. But slow me down and I'll make you regret it."
+#~ msgstr ""
+#~ "Oké, we gaan dus samen. Maar verspil mijn tijd en je zult er spijt van "
+#~ "krijgen."
+
+#~ msgid "Don't worry, we'll find him. Ok?"
+#~ msgstr "Geen probleem, we zullen hem vinden. Oké?"
+
+#~ msgid "Kalya joins your party!"
+#~ msgstr "Kalya hoort nu bij je groep!"
+
+#~ msgid ""
+#~ "By the way, have you ever prepared yourself for something like this "
+#~ "before?"
+#~ msgstr "Trouwens, heb je je wel eens voorbereid op een situatie zoals deze?"
+
+#~ msgid "Huh? Well, Orlinn doesn't disappear every day, you know?"
+#~ msgstr "Huh? Nou, Orlinn verdwijnt niet elke dag, snap je wel?"
+
+#~ msgid ""
+#~ "I see. Then there are two very important things that you need to know."
+#~ msgstr "Juist. Dan zijn er twee heel belangrijke dingen die je moet weten."
+
+#~ msgid ""
+#~ "First of all, before going there, you might need better equipment. You "
+#~ "should visit Flora first, ok?"
+#~ msgstr ""
+#~ "Als eerste heb je betere spullen nodig voordat je hieraan begint. Ga "
+#~ "eerst even langs Flora, goed?"
+
+#~ msgid ""
+#~ "And I hope that you have already equipped your sword. If you haven't, "
+#~ "open your inventory by pressing the menu key (%s), and select 'Equip'. "
+#~ "Then you'll be able to select your sword and add it as your main weapon."
+#~ msgstr ""
+#~ "En zeg me alsjeblieft dat je je zwaard bij de hand hebt. Zo niet, open "
+#~ "dan onze inventaris door op de menuknop (%s) te drukken en \"Uitrusten\" "
+#~ "te kiezen. Dan kun je je zwaard selecteren en het als je wapen instellen."
+
+#~ msgid "You mean I need to push a key to open my bag?"
+#~ msgstr "Wat? Moet ik op een knop duwen om mijn tas open te maken?"
+
+#~ msgid "Nevermind that, just do it."
+#~ msgstr "Niet zeuren, doe het maar gewoon."
+
+#~ msgid ""
+#~ "Also, the person in front of the battle line will lead the group in the "
+#~ "forest. What I mean by that is the person on the top of the battle "
+#~ "formation will actually appear while the others will stay hidden."
+#~ msgstr ""
+#~ "Verder: de persoon die vooraan de gevechtslinie staat, zal de groep "
+#~ "leiden. Ik bedoel daarmee dat je alleen de persoon kunt zien die bovenaan "
+#~ "de formatie staat; de anderen blijven verborgen."
+
+#~ msgid "Hmm, right. I'm not sure that I fully get what you mean, but..."
+#~ msgstr ""
+#~ "Hmm, juist. Ik geloof niet dat ik helemaal begrijp wat je bedoelt, maar..."
+
+#~ msgid "Rrrr, Bronann. Just listen."
+#~ msgstr "Grrr, Bronann. Luister gewoon."
+
+#~ msgid ""
+#~ "That will be the case only in certain areas. Here in the village, you'll "
+#~ "be the one leading, or at least you may believe that."
+#~ msgstr ""
+#~ "Dat gebeurt alleen in bepaalde gebieden. Hier in het dorp leid jij ons, "
+#~ "of ten minste, dat mag je denken."
+
+#~ msgid ""
+#~ "Bronann! Sorry, you know that you can't access the forest without "
+#~ "permission."
+#~ msgstr ""
+#~ "Bronann! Sorry, je weet dat je zonder toestemming het bos niet in mag."
+
+#~ msgid "Aww..."
+#~ msgstr "Ohhh..."
+
+#~ msgid ""
+#~ "Hey Bronann. I can see you have your father practice sword. Ready for "
+#~ "your first real challenge?"
+#~ msgstr ""
+#~ "Hé, Bronann. Zie ik daar nou je vaders oefenzwaard? Je bent dus klaar "
+#~ "voor je eerste echte uitdaging?"
+
+#~ msgid "Hey Olivia. I guess so. What is it all about?"
+#~ msgstr "Hoi Olivia. Ik denk het wel. Wat is de bedoeling?"
+
+#~ msgid "Follow me."
+#~ msgstr "Ga met me mee."
+
+#~ msgid "Here we go!"
+#~ msgstr "Daar gaan we!"
+
+#~ msgid "Time to dive in, Bronann."
+#~ msgstr "Tijd om naar binnen te gaan, Bronann."
+
+#~ msgid "Follow me inside."
+#~ msgstr "Volg me naar binnen."
+
+#~ msgid "Good luck Bronann."
+#~ msgstr "Veel success, Bronann."
+
+#~ msgid ""
+#~ "Ah, the river is so beautiful at this time of the year. I feel like "
+#~ "writing some poetry..."
+#~ msgstr ""
+#~ "Ah, de rivier is zo mooi, deze tijd van het jaar. Ik zou wel een gedicht "
+#~ "willen schrijven..."
+
+#~ msgid "Here it is, Georges."
+#~ msgstr "Hier is hij, Georges."
+
+#~ msgid ""
+#~ "You're the nicest person I know, Bronann. I will tell everyone how brave "
+#~ "you..."
+#~ msgstr ""
+#~ "Bronann, je bent de fijnste persoon die ik ken. Ik vertel iedereen hoe "
+#~ "dapper je..."
+
+#~ msgid "(sigh)... Georges!"
+#~ msgstr "(Zucht...) Georges!"
+
+#~ msgid "Ok ok. Just having a bit of spirit, young man."
+#~ msgstr "Oké, oké, ik had gewoon een beetje inspiratie, jongeman."
+
+#~ msgid ""
+#~ "You see, I lost my beloved pen. Was it near a tree or next to the waving "
+#~ "child of the mountain snow?"
+#~ msgstr ""
+#~ "Ik verloor mijn geliefde pen. Was het bij een boom, of naast het golvende "
+#~ "kind van de bergsneeuw?"
+
+#~ msgid "Shall you find it, I would be extremely obliged to you!"
+#~ msgstr "Mocht je hem vinden, dan zou ik je zeer hoog achten."
+
+#~ msgid ""
+#~ "Inquire our comrades in the settlement, perhaps somebody has laid their "
+#~ "eyes on it."
+#~ msgstr ""
+#~ "Vraag het bij onze kameraden in de nederzetting; misschien heeft iemand "
+#~ "hem gezien."
+
+#~ msgid "(sigh...) Hmm, fine. I'll have a look."
+#~ msgstr "(zucht...) Goed dan, ik kijk wel even."
+
+#~ msgid "Oh Bronann, sad is the poet today."
+#~ msgstr "O Bronann, zo verdrietig is de dichter vandaag."
+
+#~ msgid "Hi Georges, well, I was just passing by you know, and"
+#~ msgstr "Hoi Georges, weet je, ik kwam alleen maar langs, en"
+
+#~ msgid "I promise I won't bother you again."
+#~ msgstr "Ik zal je niet meer lastig vallen, ik beloof het."
+
+#~ msgid "Don't worry about that, Orlinn. Ok?"
+#~ msgstr "Maak je daar geen zorgen over, Orlinn. Goed?"
+
+#~ msgid "Kalya, have you seen Orlinn?"
+#~ msgstr "Kalya, heb je Orlinn ergens gezien?"
+
+#~ msgid "Why? Oh, don't tell me. He's hiding somewhere."
+#~ msgstr "Waarom? ... Oh, wacht. Hij heeft zich weer ergens verstopt, zeker?"
+
+#~ msgid "Yes, he took Georges pen and I need to give it back to him..."
+#~ msgstr "Ja, hij heeft de pen van Georges, en ik moet hem teruggeven..."
+
+#~ msgid "Hmpf, no surprise. Do you want me to bring him back?"
+#~ msgstr "Hmpf, dat verbaast me niks. Zal ik hem voor je zoeken?"
+
+#~ msgid "No, it's not that bad."
+#~ msgstr "Nee, het lukt wel."
+
+#~ msgid "As you wish."
+#~ msgstr "Zoals je wilt."
+
+#~ msgid "Hee hee hee!"
+#~ msgstr "Hihihi!"
+
+#~ msgid "What are you laughing about, Orlinn?"
+#~ msgstr "Waar lach je om, Orlinn?"
+
+#~ msgid "You'll never find it!"
+#~ msgstr "Je vindt hem nooit!"
+
+#~ msgid "Huh? Wait! Are you talking about Georges's lost pen?"
+#~ msgstr "Huh? Wacht! Heb je het over de pen van Georges?"
+
+#~ msgid "Hee hee hee! Yes!"
+#~ msgstr "Hihihi! Jazeker!"
+
+#~ msgid "Please tell me! Have you found it?"
+#~ msgstr "Vertel het me! Alsjeblieft! Heb je hem gevonden?"
+
+#~ msgid "Maybe yes, maybe no!"
+#~ msgstr "Misschien wel, misschien niet!"
+
+#~ msgid "Oh no, please Orlinn! I need it!"
+#~ msgstr "Oh alsjeblieft Orlinn! Ik heb hem nodig!"
+
+#~ msgid "Sure, I'll help you. But only if you can catch me!"
+#~ msgstr ""
+#~ "Tuurlijk, ik zal je helpen. Maar alleen als je me te pakken kan krijgen!"
+
+#~ msgid "Hee hee! (He'll never find me hiding behind the buildings!)"
+#~ msgstr "Hihi! (Hij gaat me nooit vinden achter de gebouwen!)"
+
+#~ msgid "Heya bro! Wanna play with me?"
+#~ msgstr "Hoi hoi! Wil je met me spelen?"
+
+#~ msgid "Flora"
+#~ msgstr "Flora"
+
+#~ msgid "Just find Lilly and he should give you some barley meal, ok?"
+#~ msgstr "Zoek Lilly maar. Zij zal je wel wat gerstemeel geven, oké?"
+
+#~ msgid ""
+#~ "She's probably walking her dog near the river at this time of the day."
+#~ msgstr ""
+#~ "Rond deze tijd zal ze wel haar hond aan het uitlaten zijn, bij de rivier."
+
+#~ msgid "Hi Bronann! What can I do for you?"
+#~ msgstr "Hoi Bronann! Waarmee kan ik je van dienst zijn?"
+
+#~ msgid "Hi Flora! Do you have some barley meal left?"
+#~ msgstr "Hé Flora! Heb je nog wat gerstemeel?"
+
+#~ msgid "Oh sorry, our mayor came earlier and took all the rest of it."
+#~ msgstr ""
+#~ "Sorry hoor, de burgemeester kwam eerder vandaag langs, en heeft de rest "
+#~ "meegenomen."
+
+#~ msgid "Times are becoming harder now. We've got less food than before."
+#~ msgstr "Het zijn moeilijke tijden. We hebben minder voedsel dan eerst."
+
+#~ msgid ""
+#~ "This is the first time that I've seen you wear such a worrisome "
+#~ "expression."
+#~ msgstr "Dit is de eerste keer dat ik je zie met zo'n bezorgd gezicht."
+
+#~ msgid ""
+#~ "Nevermind. Don't worry about me. Just find Lilly and she should give you "
+#~ "some, ok?"
+#~ msgstr ""
+#~ "Laat maar zitten. Maak je geen zorgen over mij. Zoek Lilly maar, zij "
+#~ "geeft je vast wel wat."
+
+#~ msgid "One of Grandma's chickens. I should bring it back."
+#~ msgstr "Dit is een kip van oma. Laat ik hem terugbrengen."
+
+#~ msgid "Hmm, the door is locked."
+#~ msgstr "Hmm, de deur zit op slot."
+
+#~ msgid "Hurry up! They're coming!"
+#~ msgstr "Schiet op! Ze komen eraan!"
+
+#~ msgid "Bronann! Hold on! We're almost there."
+#~ msgstr "Bronann! Hou vol! We zijn er bijna."
+
+#~ msgid "I... can't. My body... Argh!"
+#~ msgstr "Ik - ik kan het niet. Mijn lichaam... Aaargh!"
+
+#~ msgid "You can do it. Bronann..."
+#~ msgstr "Je kunt het. Bronann..."
+
+#~ msgid "Bronann! Move!"
+#~ msgstr "Bronann! Beweeg!"
+
+#~ msgid "... Al... right..."
+#~ msgstr "... Goed - goed dan..."
+
+#~ msgid "Great! Now come on!"
+#~ msgstr "Mooi! Kom op!"
+
+#~ msgid "There must be soldiers everywere, we're never gonna make it."
+#~ msgstr "Er zijn vast overal soldaten, we gaan het nooit halen zo."
+
+#~ msgid "This town has many secrets."
+#~ msgstr "Dit dorp heeft vele geheimen."
+
+#~ msgid "You can go in there, Orlinn."
+#~ msgstr "Je kunt erin, Orlann."
+
+#~ msgid "Ok!"
+#~ msgstr "Oké!"
+
+#~ msgid "See?"
+#~ msgstr "Zie je wel?"
+
+#~ msgid ""
+#~ "I understand why Grandma actually never saw you using the 'normal' path."
+#~ msgstr "Nu snap ik waarom oma je nooit het 'normale' pad zag nemen."
+
+#~ msgid "Now come."
+#~ msgstr "Kom nu."
+
+#~ msgid ""
+#~ "My three chickens have flown away again this morning. Could you find the "
+#~ "last one for me?"
+#~ msgstr ""
+#~ "Mijn drie kippen zijn vanochtend weer weggevlogen. Kun je de laatste voor "
+#~ "me zoeken?"
+
+#~ msgid ""
+#~ "My three chickens have flown away again this morning. Could you find the "
+#~ "remaining ones for me?"
+#~ msgstr ""
+#~ "Mijn drie kippen zijn vanochtend weer weggevlogen. Kun je de andere voor "
+#~ "me zoeken?"
+
+#~ msgid ""
+#~ "My three chickens have flown away again this morning. Could you find them "
+#~ "for me?"
+#~ msgstr ""
+#~ "Mijn drie kippen zijn vanochtend weer weggevlogen. Zou je ze voor me "
+#~ "kunnen zoeken?"
+
+#~ msgid "Ah! Bronann. Could you help your old grandma?"
+#~ msgstr "Ah! Bronann. Zou je je oude oma een handje kunnen helpen?"
+
+#~ msgid "Sure grandma."
+#~ msgstr "Natuurlijk oma."
+
+#~ msgid "My three chickens have flown away again. Could you find them for me?"
+#~ msgstr ""
+#~ "Mijn drie kippen zijn weer eens weggevlogen. Kun je ze voor me zoeken?"
+
+#~ msgid "I'll see what I can do about it."
+#~ msgstr "Ik zal kijken wat ik kan doen."
+
+#~ msgid "Thank you, young one."
+#~ msgstr "Dank je, jongeling."
+
+#~ msgid "Oh, they're all back, my brave hero."
+#~ msgstr "Oh, ze zijn allemaal terug, mijn dappere held."
+
+#~ msgid "Let me give you something as a reward."
+#~ msgstr "Hier, laat me je iets geven als bedankje."
+
+#~ msgid "Oh, thanks grandma!"
+#~ msgstr "Oh, dank je, oma!"
+
+#~ msgid "You're very welcome, my dear one."
+#~ msgstr "Graag gedaan, mijn lieveling."
+
+#~ msgid ""
+#~ "Ah! It's nice to see your dear young face around, Bronann. Come and chat "
+#~ "with an old grandma."
+#~ msgstr ""
+#~ "Ah! Het is leuk om je gezicht hier weer eens te zien, Bronann. Kom hier "
+#~ "en praat wat met je oude oma."
+
+#~ msgid "Er, sorry grandma. I have to go! Maybe later?"
+#~ msgstr "Eh, sorry oma. Ik moet weg! Misschien een andere keer?"
+
+#~ msgid ""
+#~ "Ah! You'll surely want to see the young lady living up there. Ah, "
+#~ "youngins nowadays."
+#~ msgstr ""
+#~ "Ah! Je wil vast die jongedame zien die daarboven woont. Die jeugd van "
+#~ "tegenwoordig ook."
+
+#~ msgid "Grandma"
+#~ msgstr "Oma"
+
+#~ msgid "Bronann, how do you feel?"
+#~ msgstr "Bronann, hoe voel je je?"
+
+#~ msgid "Better. Somehow, the pain faded away the second I entered here."
+#~ msgstr ""
+#~ "Beter. Op de een of andere manier verdween de pijn op het moment dat ik "
+#~ "hier binnenkwam."
+
+#~ msgid "By the way, where are we?"
+#~ msgstr "Waar zijn we eigenlijk?"
+
+#~ msgid ""
+#~ "In our basement. The other stairs there are leading to my room. This "
+#~ "house is an ancient sanctuary, so it might explain why you're feeling "
+#~ "better."
+#~ msgstr ""
+#~ "In onze kelder. De andere trap daar gaat naar mijn kamer. Dit huis is een "
+#~ "oud heiligdom, daarom voel je je misschien beter."
+
+#~ msgid "Orlinn. Go get our packings. We're leaving."
+#~ msgstr "Orlinn. Ga de bagage halen. We vertrekken."
+
+#~ msgid "We're leaving the village now."
+#~ msgstr "We verlaten het dorp nu."
+
+#~ msgid "I feel dizzy. So many things have happened in such little time."
+#~ msgstr "Ik ben draaierig. Er is zoveel gebeurd in zo'n korte tijd."
+
+#~ msgid ""
+#~ "The soldiers will be here any minute. We'll leave to the north and cross "
+#~ "the north-west plain up to..."
+#~ msgstr ""
+#~ "De soldaten kunnen elk moment hier zijn. We vertrekken noordwaarts en "
+#~ "steken de vlakte in het noordwesten over naar..."
+
+#~ msgid "No."
+#~ msgstr "Nee."
+
+#~ msgid "No?!"
+#~ msgstr "Nee?!"
+
+#~ msgid "No, I won't follow you anymore."
+#~ msgstr "Nee, ik ga niet meer met je mee."
+
+#~ msgid "Look, I..."
+#~ msgstr "Luister eens, ik..."
+
+#~ msgid "Enough!"
+#~ msgstr "Genoeg!"
+
+#~ msgid ""
+#~ "Nobody told me what was happening. Herth and the Lord seemed to know each "
+#~ "other. And now you..."
+#~ msgstr ""
+#~ "Niemand vertelt me wat er gebeurt. Herth en de Heer kennen elkaar opeen. "
+#~ "En nu jij ook al..."
+
+#~ msgid "You seem so calm, ready, and prepared."
+#~ msgstr "Je lijkt zo kalm, rustig en voorbereid."
+
+#~ msgid "Bronann, I ..."
+#~ msgstr "Bronann, ik..."
+
+#~ msgid ""
+#~ "Enough! You hid everything from me just like everyone else. You're a "
+#~ "liar! I won't be manipulated anymore!"
+#~ msgstr ""
+#~ "Genoeg! Je hield alles voor me verborgen, net als iedereen. Je bent een "
+#~ "leugenaar! Ik wil niet meer worden gemanipuleerd!"
+
+#~ msgid "Bronann, you'll get everything explained in time, I..."
+#~ msgstr "Bronann, je zult alles uiteindelijk begrijpen. Ik..."
+
+#~ msgid "No! I won't go unless you tell me the truth now!"
+#~ msgstr "Nee! Ik ga niet mee, tenzij je me nu de waarheid vertelt!"
+
+#~ msgid "... Fine."
+#~ msgstr "... Goed dan."
+
+#~ msgid "I knew the crystal would appear."
+#~ msgstr "Ik wist dat het kristal zou verschijnen."
+
+#~ msgid "What?"
+#~ msgstr "Wat?"
+
+#~ msgid "But I didn't know who it would choose."
+#~ msgstr "Maar niet wie het zou kiezen."
+
+#~ msgid "Herth prepared me all my life for this very day."
+#~ msgstr "Herth heeft me mijn leven lang voorbereid op deze ene dag."
+
+#~ msgid ""
+#~ "He trained me, taught me magic, and told me the crystal would appear one "
+#~ "day."
+#~ msgstr ""
+#~ "Hij heeft me opgeleid, magie geleerd en verteld dat het kristal op een "
+#~ "dag zou verschijnen."
+
+#~ msgid ""
+#~ "He thought that I would be the one to be chosen by the crystal. However, "
+#~ "it seems he was wrong. Now, I am to look after you."
+#~ msgstr ""
+#~ "Hij dacht dat ik degene zou zijn die het kristal uit zou kiezen. Maar hij "
+#~ "had het verkeerd. Nu ben ik er om op je te passen."
+
+#~ msgid "You must believe me Bronann."
+#~ msgstr "Geloof me, Bronann."
+
+#~ msgid "The crystal chose me? But I'm just..."
+#~ msgstr "Heeft het kristal mij gekozen? Maar ik ben niet..."
+
+#~ msgid "Someone brave enough to jump between it and my brother."
+#~ msgstr ""
+#~ "Iemand die dapper genoeg was om tussen mijn broer en dat kristal te "
+#~ "springen."
+
+#~ msgid ""
+#~ "It should have been me. But I couldn't move. And now, I have to fix my "
+#~ "mistake."
+#~ msgstr ""
+#~ "Ik had het moeten zijn, maar ik stond aan de grond genageld. En nu moet "
+#~ "ik mijn fout goedmaken."
+
+#~ msgid "How?"
+#~ msgstr "Hoe?"
+
+#~ msgid "I..."
+#~ msgstr "Ik..."
+
+#~ msgid "Sis!"
+#~ msgstr "Kal!"
+
+#~ msgid "Sis! They're in front of the house!"
+#~ msgstr "Kal! Ze staan al voor het huis!"
+
+#~ msgid "Quick, we must go now!"
+#~ msgstr "Snel, we moeten nu gaan!"
+
+#~ msgid ""
+#~ "We won't be able to come back here once we leave. So feel free to pick up "
+#~ "everything you need and prepare yourself."
+#~ msgstr ""
+#~ "Nadat we vertrokken zijn, kunnen we hier niet meer terugkomen. Dus neem "
+#~ "alles mee wat je nodig hebt en bereid je voor."
+
+#~ msgid ""
+#~ "Wait! There is one more thing. Why are you calling your own father by his "
+#~ "actual name?"
+#~ msgstr ""
+#~ "Wacht! Nog één ding. Waarom noem je je eigen vader iedere keer bij zijn "
+#~ "naam?"
+
+#~ msgid "That's because he's not our father."
+#~ msgstr "Omdat hij niet onze vader is."
+
+#~ msgid "Our parents were killed a long time ago."
+#~ msgstr "Onze ouders zijn lang geleden vermoord."
+
+#~ msgid "Orlinn..."
+#~ msgstr "Orlinn..."
+
+#~ msgid "Don't worry, sis. It's fine, we can tell him."
+#~ msgstr "Geen zorgen, Kal. Het is goed, we kunnen het hem zeggen, toch?"
+
+#~ msgid "I also left my parents behind."
+#~ msgstr "Ik heb mijn ouders ook achtergelaten."
+
+#~ msgid ""
+#~ "They'll be fine, Bronann. We must prevent Banesore from obtaining the "
+#~ "crystal."
+#~ msgstr ""
+#~ "Zij redden zich wel, Bronann. We moeten voorkomen dat Banesore het "
+#~ "kristal in handen krijgt."
+
+#~ msgid "Anyway, let's go now."
+#~ msgstr "Goed, laten we gaan."
+
+#~ msgid "Wow!"
+#~ msgstr "Wauw!"
+
+#~ msgid "It's time."
+#~ msgstr "Het is tijd."
+
+#~ msgid "We can't go back now."
+#~ msgstr "We kunnen nu niet meer terug."
+
+#~ msgid "It's my room upstairs. Don't even think about it!"
+#~ msgstr "Boven is mijn kamer. Waag het niet om daar in de buurt te komen!"
+
+#~ msgid "I can't go back now."
+#~ msgstr "Ik kan nu niet meer terug."
+
+#~ msgid ""
+#~ "Guards are carefully watching their surroundings. I need to get closer to "
+#~ "see what's happening."
+#~ msgstr ""
+#~ "Bewakers kijken goed om zich heen. Ik moet dichterbij zien te komen om te "
+#~ "zien wat er gebeurt."
+
+#~ msgid "I should be able to sneak through when they're not watching."
+#~ msgstr "Het lukt me vast wel om ertussendoor te glippen als ze niet kijken."
+
+#~ msgid "Who's there?"
+#~ msgstr "Wie is daar?"
+
+#~ msgid "(Whispering) Kalya!"
+#~ msgstr "(fluisterend) Kalya!"
+
+#~ msgid "(What's happening here?)"
+#~ msgstr "(Wat gebeurt daar?)"
+
+#~ msgid "(Also whispering) I don't know."
+#~ msgstr "(Ook fluisterend) Ik weet niet."
+
+#~ msgid ""
+#~ "(Woah, you scared me. Are you mad? You could have got us both caught!)"
+#~ msgstr ""
+#~ "(Whoa, je liet me schrikken. Ben je gek geworden? We hadden allebei "
+#~ "gepakt kunnen worden!)"
+
+#~ msgid "(I thought you saw me.)"
+#~ msgstr "(Ik dacht dat je me wel gezien zou hebben.)"
+
+#~ msgid ""
+#~ "(Kalya was brought here by those weirdos. They are holding everyone "
+#~ "captive. Lilly is talking with that big guy. He gives me the chills.)"
+#~ msgstr ""
+#~ "(Kalya is hierheen gebracht door die pipo's daar. Ze houden iedereen "
+#~ "gevangen. Lilly praat nu met die grote vent aan het praten. Hij geeft me "
+#~ "koude rillingen.)"
+
+#~ msgid "(Let's have a look.)"
+#~ msgstr "(Laten we eens kijken.)"
+
+#~ msgid ""
+#~ "I already told you, again and again, Banesore. I don't know anything "
+#~ "about such a crystal."
+#~ msgstr ""
+#~ "Ik heb het je al zo vaak gezegd, Banesore. Ik weet niks over een kristal."
+
+#~ msgid "It is 'Lord Banesore', you scum!"
+#~ msgstr "Het is \"Heer Banesore\", jij rat!"
+
+#~ msgid ""
+#~ "Even when confronted by someone who can wipe out everything you hold "
+#~ "dear, you dare to stare me in the eyes? I admire such a courageous heart, "
+#~ "my dear one."
+#~ msgstr ""
+#~ "Zelfs wanneer je tegenover iemand staat, die alles wat je liefhebt kan "
+#~ "vernietigen, durf je me nog in de ogen te kijken. Ik bewonder zo'n moedig "
+#~ "hart."
+
+#~ msgid "Therefore, I'm inclined to ask these questions one last time:"
+#~ msgstr "Daarom zal ik je mijn vragen nog één keer stellen:"
+
+#~ msgid "Where is the crystal? Where is the boy?"
+#~ msgstr "Waar is het kristal? Waar is de jongen?"
+
+#~ msgid "It's time to think Lilly."
+#~ msgstr "Het is tijd om na te denken, Lilly."
+
+#~ msgid "Huh? How do you know my name?"
+#~ msgstr "Huh? Hoe weet je mijn naam?"
+
+#~ msgid ""
+#~ "Your very soul is slowly but surely opening. I can feel your sorrow and "
+#~ "doubts grow."
+#~ msgstr ""
+#~ "Langzaam opent je eigen ziel zich voor me. Ik voel je angst en twijfel "
+#~ "groeien."
+
+#~ msgid "Fight it, Lilly! Focus!"
+#~ msgstr "Vecht ertegen, Lilly! Concentreer je!"
+
+#~ msgid "Keep quiet, you old daft rat!"
+#~ msgstr "Hou je mond, ouwe maffe rat!"
+
+#~ msgid "Oh! My apologies, it seems you weren't lying."
+#~ msgstr "Oh, sorry! Je loog dus niet."
+
+#~ msgid ""
+#~ "The fact you didn't mention anything about the boy leads me to believe "
+#~ "that you know him."
+#~ msgstr ""
+#~ "Omdat je niets wilde zeggen over de jongen, denk ik dat je hem kent."
+
+#~ msgid "Ah? So he must be close."
+#~ msgstr "Ah? Dan moet hij in de buurt zijn."
+
+#~ msgid "What? No!"
+#~ msgstr "Wat? Nee!"
+
+#~ msgid "Oh, I see now. So this is his mother. Bring her here, and kill her!"
+#~ msgstr ""
+#~ "Oh, ik snap het. Dus dit is zijn moeder. Breng haar hier, en dood haar!"
+
+#~ msgid "Let her out of this! You can have me instead."
+#~ msgstr "Laat haar erbuiten! Neem mij maar..."
+
+#~ msgid "So, here we have a gentleman! I'll start with you, then."
+#~ msgstr "Aha, hier hebben we een echte heer! Dan start ik met jou."
+
+#~ msgid "Fine."
+#~ msgstr "Goed."
+
+#~ msgid "But she will be the next one."
+#~ msgstr "Maar zij is daarna aan de beurt."
+
+#~ msgid "You filthy demon!"
+#~ msgstr "Vieze vuile demon dat je bent!"
+
+#~ msgid "It's fine, I'll come."
+#~ msgstr "Goed dan, ik kom."
+
+#~ msgid "No!"
+#~ msgstr "Nee!"
+
+#~ msgid "At last, the boy."
+#~ msgstr "Eindelijk, de jongen."
+
+#~ msgid "No! Let him come closer."
+#~ msgstr "Nee! Laat hem maar dichterbij komen."
+
+#~ msgid "Bronann! No!"
+#~ msgstr "Bronann! Nee!"
+
+#~ msgid "Bronann, why?"
+#~ msgstr "Bronann, waarom?"
+
+#~ msgid "Clear the way, Lilly. I need to speak to him."
+#~ msgstr "Ga uit de weg, Lilly. Ik moet hem spreken."
+
+#~ msgid "Let's have a talk, Bronann!"
+#~ msgstr "Laten we eens wat kletsen, Bronann!"
+
+#~ msgid "I don't have any other choice, Lilly."
+#~ msgstr "Ik heb geen andere keus, Lilly."
+
+#~ msgid "Bronann..."
+#~ msgstr "Bronann..."
+
+#~ msgid "You, after all these years..."
+#~ msgstr "Jij, na al die jaren..."
+
+#~ msgid "Let everyone go. We don't have your 'crystal'."
+#~ msgstr "Laat iedereen vrij. We hebben je 'kristal' niet."
+
+#~ msgid "Of course you have it. I can sense it within your flesh."
+#~ msgstr "Natuurlijk heb je het wel. Ik voel het in je vlees."
+
+#~ msgid "So, the crystal is inside me?"
+#~ msgstr "Dus het kristal zit binnenin mij?"
+
+#~ msgid "Now, show it to me."
+#~ msgstr "Laat het me zien."
+
+#~ msgid "But I..."
+#~ msgstr "Maar ik..."
+
+#~ msgid ""
+#~ "Do you need some kind of motivation? If so, let me handle this with my "
+#~ "greatest pleasure!"
+#~ msgstr ""
+#~ "Heb je motivatie nodig of zo? Dan kan ik dat met alle plezier regelen!"
+
+#~ msgid "Prepare yourself!"
+#~ msgstr "Bereid je voor!"
+
+#~ msgid "Ah, there it is. Finally!"
+#~ msgstr "Ah, daar is hij. Eindelijk!"
+
+#~ msgid "Kalya! Now!"
+#~ msgstr "Kalya! Nu!"
+
+#~ msgid ""
+#~ "You won't get him, Banesore! It seems we were smarter than you this time."
+#~ msgstr ""
+#~ "Je gaat hem niet te pakken krijgen, Banesore! We waren je deze keer te "
+#~ "slim af."
+
+#~ msgid "Ah ah ah, but this is exactly what I wanted."
+#~ msgstr "Ah ah ah, maar dit is precies wat ik wilde."
+
+#~ msgid ""
+#~ "After all, I simply wanted to make sure that boy would reach Mt. Elbrus "
+#~ "safe and sound."
+#~ msgstr ""
+#~ "Ik wilde alleen maar ervoor zorgen dat die jongen veilig Mount Elbrus zou "
+#~ "bereiken."
+
+#~ msgid "He is the only one that can get what I'm looking for."
+#~ msgstr "Hij is de enige die kan krijgen waar ik naar op zoek ben."
+
+#~ msgid "Soldiers! Give them a few minutes before starting the chase."
+#~ msgstr ""
+#~ "Soldaten! Geef hem een paar minuten voorsprong voordat jullie achter hem "
+#~ "aan gaan."
+
+#~ msgid "Yes, my Lord!"
+#~ msgstr "Ja, mijn Heer!"
+
+#~ msgid "Why the hell..."
+#~ msgstr "Waarom in hemelsnaam..."
+
+#~ msgid "...am I telling you all that? It's simple."
+#~ msgstr "... ik jullie dat vertel? Dat is simpel."
+
+#~ msgid "But it doesn't matter, as you're all going to die now."
+#~ msgstr ""
+#~ "Maar dat maakt niet uit, want jullie zullen nu toch allemaal sterven."
+
+#~ msgid "One of grandma's chickens. I should bring it back."
+#~ msgstr "Eén van oma's kippen. Laat ik hem terugbrengen."
+
+#~ msgid "Wow! You found me!"
+#~ msgstr "Wauw! Je hebt me gevonden!"
+
+#~ msgid "But I'm not done yet!"
+#~ msgstr "Maar ik ben nog niet klaar!"
+
+#~ msgid "You'll never find me hiding behind the..."
+#~ msgstr "Je gaat me nooit vinden achter de..."
+
+#~ msgid "Hey, why would I tell you my hiding spots?!"
+#~ msgstr "Zeg eens, waarom zou ik je eigenlijk zeggen waar ik me verstop?!"
+
+#~ msgid "That kid is pretty quick. This is going to take all day."
+#~ msgstr "Dat joch is behoorlijk snel. Dit gaat zo de hele dag duren."
+
+#~ msgid "Please no! Wait!"
+#~ msgstr "Alsjeblieft, nee! Wacht!"
+
+#~ msgid "Orlinn! Stop this!"
+#~ msgstr "Orlinn! Stop daarmee!"
+
+#~ msgid "Orlinn! How many times have I told you not to bother other people?"
+#~ msgstr ""
+#~ "Orlinn! Hoe vaak moet ik nog zeggen dat je andere mensen met rust moet "
+#~ "laten?"
+
+#~ msgid "But sis! I..."
+#~ msgstr "Maar Kal! Ik..."
+
+#~ msgid "I don't want to hear it! Now, come!"
+#~ msgstr "Ik wil het niet horen! Kom mee!"
+
+#~ msgid "Don't blame him, Kalya. Actually, it was..."
+#~ msgstr "Hij is het niet schuld, Kalya. Het was..."
+
+#~ msgid "I don't think I was talking to you, now was I?"
+#~ msgstr "Ik praatte niet tegen jou, of wel soms?"
+
+#~ msgid "Come Orlinn!"
+#~ msgstr "Meekomen, Orlinn!"
+
+#~ msgid "I found that pen near the tree behind you. I just wanted to play."
+#~ msgstr "Die pen lag bij de boom achter je. Ik wilde alleen maar spelen."
+
+#~ msgid "Take it. Thanks."
+#~ msgstr "Pak hem maar. Bedankt."
+
+#~ msgid "Bronann?"
+#~ msgstr "Bronann?"
+
+#~ msgid "Er, yes?"
+#~ msgstr "Eh, ja?"
+
+#~ msgid ""
+#~ "Don't blame Kalya. She was having a hard time along with her brother "
+#~ "before living here, you know?"
+#~ msgstr ""
+#~ "Kalya meent het niet verkeerd. Ze heeft samen met haar broer een zware "
+#~ "tijd gehad voordat ze hier kwam wonen, wist je dat?"
+
+#~ msgid "Well anyway, she's been ignoring me since the first day I saw her."
+#~ msgstr ""
+#~ "Wat dan ook, ze negeert me al sinds de eerste dag dat ik haar gezien heb."
+
+#~ msgid "Eh? You really know nothing about women, do you?"
+#~ msgstr "Hmm, jij weet echt niks over vrouwen, hè?"
+
+#~ msgid "Heh heh, don't worry about it. It will come in time."
+#~ msgstr "Hèhèhè, maak je niet druk. Het komt wel."
+
+#~ msgid "Here it is, Bronann."
+#~ msgstr "Hier is het, Bronann."
+
+#~ msgid "Thanks, Lilly."
+#~ msgstr "Dank je, Lilly."
+
+#~ msgid ""
+#~ "We've been having a shortage of food lately. I've been taking... special "
+#~ "measures to ensure that everyone has enough food."
+#~ msgstr ""
+#~ "We hebben de laatste tijd een voedseltekort. Ik heb... speciale "
+#~ "maatregelen getroffen om ervoor te zorgen dat iedereen genoeg te eten "
+#~ "heeft."
+
+#~ msgid "Try to enjoy this day, Bronann."
+#~ msgstr "Probeer van deze dag te genieten, Bronann."
+
+#~ msgid "We're counting on you."
+#~ msgstr "We rekenen op je."
+
+#~ msgid "You should go back home. Your mom must be waiting for you."
+#~ msgstr "Je moet terug naar huis. Je moeder wacht vast op je."
+
+#~ msgid "What a nice day, isn't it?"
+#~ msgstr "Wat een mooie dag, vind je niet?"
+
+#~ msgid "Yes, Lilly. But I have something I have to ask you."
+#~ msgstr "Ja, Lilly. Maar ik moet je iets vragen."
+
+#~ msgid "Sure, just ask."
+#~ msgstr "Oké, vraag maar raak."
+
+#~ msgid ""
+#~ "Have you still got any barley meal left for my parents and I? My mother "
+#~ "asked me to get some and I..."
+#~ msgstr ""
+#~ "Heb je nog wat gerstemeel over voor mijn ouders en mij? Mijn moeder vroeg "
+#~ "me om wat te halen en ik..."
+
+#~ msgid "Unfortunately, I gave it all to Kalya."
+#~ msgstr "Helaas, dat heb ik allemaal aan Kalya gegeven."
+
+#~ msgid ""
+#~ "Ah hah! I just wanted to see your reaction. I still have some. Let me go "
+#~ "grab it and bring it back to you."
+#~ msgstr ""
+#~ "Aha! Ik wilde alleen je reactie zien; ik heb nog wat over. Een momentje, "
+#~ "dan ga ik het even halen."
+
+#~ msgid "You'll never get me!"
+#~ msgstr "Je krijgt me nooit te pakken!"
+
+#~ msgid "Orlinn, how did you get there?"
+#~ msgstr "Orlinn, hoe kom je daar?"
+
+#~ msgid "(giggle) I won't tell you!"
+#~ msgstr "(giechelend) Dat ga ik jou niet vertellen!"
+
+#~ msgid "Hi Bronann."
+#~ msgstr "Hé Bronann."
+
+#~ msgid "Hi Herth. I see you've blocked the gate, why so?"
+#~ msgstr "Hoi Herth. Ik zie dat je de poort hebt geblokkeerd... Waarom dat?"
+
+#~ msgid ""
+#~ "Don't worry too much. I'm just preventing strangers from being able to "
+#~ "sneak in at night."
+#~ msgstr ""
+#~ "Maak je niet te druk. Ik zorg er alleen voor dat vreemdelingen 's nachts "
+#~ "niet zomaar binnen kunnen sluipen."
+
+#~ msgid ""
+#~ "There have been some reports of theft in the villages nearby recently."
+#~ msgstr "Uit dorpen in de buurt komen allerlei geruchten over diefstal."
+
+#~ msgid "Wow, do you think that they would come here?"
+#~ msgstr "Wauw, denk je echt dat ze ook hierheen komen?"
+
+#~ msgid "It's a possibility. But don't worry too much, ok?"
+#~ msgstr "Dat zou kunnen. Maar maak je niet al teveel zorgen, goed?"
+
+#~ msgid "Yiek! Hey, you scared me."
+#~ msgstr "Ieeee! Hé, je liet me schrikken."
+
+#~ msgid "But you'll never find me hiding on top of the cliffs!"
+#~ msgstr "Maar je gaat me nooit vinden bovenop het klif!"
+
+#~ msgid ""
+#~ "Did you know?\n"
+#~ "You can equip weapons and armors from the menu.\n"
+#~ "Simply open it and go to 'Inventory', and 'Equip'."
+#~ msgstr ""
+#~ "Wist je dat?\n"
+#~ "Je kunt wapens en uitrusting aandoen vanuit het menu.\n"
+#~ "Open het menu en ga naar Inventaris, en dan Uitrusten."
+
+#~ msgid "Congratulations, Bronann. Here is your reward."
+#~ msgstr "Gefeliciteerd, Bronann. Hier is je beloning."
+
+#~ msgid "You can come, Bronann."
+#~ msgstr "Kom er maar uit, Bronann."
+
+#~ msgid "This is one of the many secrets of this village."
+#~ msgstr "Dit is een van de vele geheimen van dit dorp."
+
+#~ msgid ""
+#~ "This village was once a sanctuary and many people lived around here. "
+#~ "Surprising, eh?"
+#~ msgstr ""
+#~ "Dit dorp was vroeger een heiligdom, en toen woonden hier veel mensen. Gek "
+#~ "hè?"
+
+#~ msgid "Your father told me you were now ready."
+#~ msgstr "Je vader heeft me gezegd dat je klaar bent."
+
+#~ msgid "Huh? Ready for what?"
+#~ msgstr "Huh? Klaar waarvoor?"
+
+#~ msgid "For your first true trial."
+#~ msgstr "Voor je eerste echte beproeving."
+
+#~ msgid ""
+#~ "I know I will sound harsh Bronann, but we've been having issues with rats "
+#~ "in the well recently."
+#~ msgstr ""
+#~ "Ik weet dat dit hard klinkt, Bronann. Maar we hebben de laatste tijd "
+#~ "problemen met ratten in de bron."
+
+#~ msgid ""
+#~ "You're now going to go deep down this cave and chase them all before they "
+#~ "start polluting our water."
+#~ msgstr ""
+#~ "Je gaat nu diep deze grot in om ze weg te jagen, voordat ze ons water "
+#~ "kunnen vervuilen."
+
+#~ msgid "All by yourself."
+#~ msgstr "Helemaal in je eentje."
+
+#~ msgid ""
+#~ "I'll stay around but I won't participate. This... will prepare you for "
+#~ "the days to come."
+#~ msgstr ""
+#~ "Ik blijf in de buurt, maar ik hou me er verder buiten. Dit... zal je "
+#~ "voorbereiden op de komende dagen."
+
+#~ msgid "Take this lamp, your father gave it to me earlier. You can keep it."
+#~ msgstr ""
+#~ "Neem deze lamp mee. Je vader heeft hem aan mij gegeven, je mag hem houden."
+
+#~ msgid ""
+#~ "You can use the fountain here to restore your health, but you are to "
+#~ "complete this before going out again. Not too afraid?"
+#~ msgstr ""
+#~ "Je kunt deze fontein gebruiken om jezelf te helen, maar maak eerst dit af "
+#~ "voordat je naar buiten gaat. Ben je niet bang?"
+
+#~ msgid "I'm completely panicking, Olivia. Why now?"
+#~ msgstr "Ik ben helemaal in paniek, Olivia. Waarom nu?"
+
+#~ msgid "It will be fine."
+#~ msgstr "Het komt wel goed."
+
+#~ msgid "You can make it."
+#~ msgstr "Je kunt het."
+
+#~ msgid "Bronann. Sorry, you have to complete this first."
+#~ msgstr "Bronann. Sorry, je moet eerst dit afmaken."
+
+#~ msgid "You can use the fountain here to restore your health."
+#~ msgstr "Je kunt deze fontein gebruiken om jezelf te helen."
+
+#~ msgid "It seems it is your first time around, right? Need help?"
+#~ msgstr "Volgens mij is dit je eerste keer hier, toch? Heb je hulp nodig?"
+
+#~ msgid "I wouldn't mind some help..."
+#~ msgstr "Dat zou wel prettig zijn..."
+
+#~ msgid "I should be fine, thanks."
+#~ msgstr "Ik vind het wel, bedankt."
+
+#~ msgid ""
+#~ "Welcome to my shop, then! \n"
+#~ "First of all you can choose to either 'Buy' or 'Sell' items from the top "
+#~ "menu right here... \n"
+#~ "'Trade' is for special offers that don't only cost money."
+#~ msgstr ""
+#~ "In dat geval: welkom in mijn winkel!\n"
+#~ "Als eerste kun je hier voorwerpen 'Kopen' of 'Verkopen' via het menu "
+#~ "hierboven...\n"
+#~ "'Handelen' is voor speciale aanbiedingen waar je niet alleen geld voor "
+#~ "nodig hebt."
+
+#~ msgid ""
+#~ "Don't worry, I'll make good prices for you as you can testify in the buy "
+#~ "ranking right there!"
+#~ msgstr ""
+#~ "Geen zorgen, ik zal lage prijzen voor je hanteren. Kijk maar naar deze "
+#~ "prijsindicatie!"
+
+#~ msgid ""
+#~ "For now, let's see what I have in store and select the 'Buy' option..."
+#~ msgstr ""
+#~ "Kijk nu maar eens wat ik in de aanbieding heb, en selecteer de optie "
+#~ "'Kopen'..."
+
+#~ msgid ""
+#~ "Here you can see the list of available wares, how many items I've got and "
+#~ "how many you already have for each."
+#~ msgstr ""
+#~ "Hier zie je de lijst met artikelen. De getallen geven aan hoeveel jij er "
+#~ "al van hebt en hoeveel er nog in mijn winkel zijn."
+
+#~ msgid ""
+#~ "Don't forget that certain items are limited or unique! \n"
+#~ "When reviewing items, you can also cycle through the proposed item "
+#~ "categories using the menu key (%s)."
+#~ msgstr ""
+#~ "Vergeet niet dat sommige voorwerpen maar beperkt verkrijgbaar zijn!\n"
+#~ "Als je voorwerpen bekijkt, kun je ook door de voorgestelde categorieën "
+#~ "bladeren met de menu-toets (%s)."
+
+#~ msgid "Let's have a look at the potions..."
+#~ msgstr "Laten we eens kijken naar de toverdranken..."
+
+#~ msgid ""
+#~ "Once you're here, you'll be able to add or remove how many items you want "
+#~ "by pressing left or right. Of course, only if you have money, Sweeties..."
+#~ msgstr ""
+#~ "Als je hier bent, kun je kiezen hoeveel voorwerpen je wilt met de "
+#~ "pijltjes naar links en rechts. Natuurlijk moet je daar wel geld voor "
+#~ "hebben, snoepje van me..."
+
+#~ msgid "Shall I repeat?"
+#~ msgstr "Zal ik het herhalen?"
+
+#~ msgid "Yes, please!"
+#~ msgstr "Ja, graag!"
+
+#~ msgid "No, it's alright!"
+#~ msgstr "Nee, ik snap het."
+
+#~ msgid "Alright then, take a look around..."
+#~ msgstr "Goed dan, kijk maar eens rond..."
+
+#~ msgid ""
+#~ "I found you! My comrades will be here in no time. Surrender now, or "
+#~ "you'll be punished!"
+#~ msgstr ""
+#~ "Ik heb je gevonden! Mijn kameraden zullen hier binnen enkele ogenblikken "
+#~ "zijn. Geef je over, of ik zal je straffen!"
+
+#~ msgid ""
+#~ "Don't listen to him! We must get rid of him before reinforcements arrive "
+#~ "or we're doomed!"
+#~ msgstr ""
+#~ "Luister niet naar hem! We moeten hem verslaan voordat er versterkingen "
+#~ "komen, of we gaan eraan!"
+
+#~ msgid "Time left:"
+#~ msgstr "Tijd over:"
+
+#~ msgid "Shall we jump?"
+#~ msgstr "Zullen we springen?"
+
+#~ msgid "Yes, let's go."
+#~ msgstr "Ja, vooruit."
+
+#~ msgid "Not now."
+#~ msgstr "Niet nu."
+
+#~ msgid "We made it, at last!"
+#~ msgstr "We hebben het gehaald!"
+
+#~ msgid "Indeed! Yeepee!"
+#~ msgstr "Inderdaad! Jippie!"
+
+#~ msgid "I'm so relieved we made it safely, hee hee."
+#~ msgstr "Ik ben zo blij dat we het hebben gehaald, hihi."
+
+#~ msgid "Wait."
+#~ msgstr "Wacht."
+
+#~ msgid "Can you smell that stench?"
+#~ msgstr "Ruik je die stank?"
+
+#~ msgid "Yes. Is it... smoke?"
+#~ msgstr "Ja. Is dat... rook?"
+
+#~ msgid "Something's burning."
+#~ msgstr "Er staat iets in brand."
+
+#~ msgid "Our village. It's burning."
+#~ msgstr "Ons dorp. Het gaat in vlammen op."
+
+#~ msgid "My parents."
+#~ msgstr "Mijn ouders."
+
+#~ msgid "Herth."
+#~ msgstr "Herth."
+
+#~ msgid "Everyone."
+#~ msgstr "Iedereen."
+
+#~ msgid "May they rest in peace."
+#~ msgstr "Rust in vrede..."
+
+#~ msgid "All this..."
+#~ msgstr "Ging dit..."
+
+#~ msgid "All this was for a crystal?"
+#~ msgstr "En dit alles ging alleen om een kristal?"
+
+#~ msgid "I'll fix this."
+#~ msgstr "Ik zal dit oplossen."
+
+#~ msgid "If this crystal is so powerful, then I'll use it. And I'll fix this."
+#~ msgstr ""
+#~ "Als dat kristal zo krachtig is, dan zal ik het gebruiken. En ik zal dit "
+#~ "oplossen."
+
+#~ msgid "Then, I'll help you."
+#~ msgstr "Dan zal ik je helpen."
+
+#~ msgid "Banesore's minions are already all over the place."
+#~ msgstr "De knechten van Banesore zitten al overal."
+
+#~ msgid ""
+#~ "The dark soldiers, as we call them, are fanatics. They'll follow "
+#~ "Banesore's orders even if it means their death."
+#~ msgstr ""
+#~ "De duistere soldaten - zo noemen we ze - zijn ongelofelijk fanatiek. Ze "
+#~ "gehoorzamen Banesore altijd, zelfs als dat hun dood betekent."
+
+#~ msgid ""
+#~ "We don't know how he does it, but he can turn anybody into a servile "
+#~ "subject."
+#~ msgstr ""
+#~ "We weten niet hoe het kan, maar hij kan wie dan ook bekeren tot zijn "
+#~ "slaafse volgeling."
+
+#~ msgid ""
+#~ "Their strength is increased by the transformation. That's why we call "
+#~ "them the zombified army."
+#~ msgstr ""
+#~ "Door die transformatie worden ze sterker. Daarom noemen we ze het "
+#~ "zombieleger."
+
+#~ msgid "We must absolutely avoid them or they'll call reinforcements."
+#~ msgstr ""
+#~ "We moeten ze absoluut vermijden, of ze zullen versterkingen erbij halen."
+
+#~ msgid "They are too strong. If they catch us, we're doomed."
+#~ msgstr "Ze zijn te sterk: vangen ze ons, dan gaan we eraan."
+
+#~ msgid "Dang! And now the rain too."
+#~ msgstr "Verdorie! Nou ook nog regen."
+
+#~ msgid ""
+#~ "The path seems to lead straight into the storm up there. It's definitely "
+#~ "our lucky day."
+#~ msgstr ""
+#~ "Het pad leidt ons daarboven recht de storm in. Vandaag is echt onze "
+#~ "geluksdag."
+
+#~ msgid ""
+#~ "Don't lose faith, Kalya. If we manage to escape from them here, we'll be "
+#~ "safe past the mountains."
+#~ msgstr ""
+#~ "Verlies de moed niet, Kalya. Als we hier van hen kunnen ontsnappen, dan "
+#~ "zijn we veilig over de bergen heen."
+
+#~ msgid ""
+#~ "If we can reach the great plains, we should indeed be out of trouble."
+#~ msgstr ""
+#~ "Als we de grote vlakte kunnen bereiken, zijn we als het goed is inderdaad "
+#~ "uit de problemen."
+
+#~ msgid "???"
+#~ msgstr "???"
+
+#~ msgid ""
+#~ "This place is the village's old cemetery. It was used by the former "
+#~ "villagers who lived in Layna."
+#~ msgstr ""
+#~ "Deze plaats is de oude begraafplaats van het dorp. Hij werd gebruikt door "
+#~ "de voormalige dorpelingen die in Layna woonden."
+
+#~ msgid "The former villagers? What do you mean?"
+#~ msgstr "De vorige dorpelingen? Wat bedoel je?"
+
+#~ msgid ""
+#~ "Layna Village was abandoned a long time ago, before your parents and all "
+#~ "the others settled here. Your mother never told you that?"
+#~ msgstr ""
+#~ "Het dorp Layna is lang geleden verlaten, voordat je ouders en alle "
+#~ "anderen hier gingen wonen. Heeft je moeder dat nooit verteld?"
+
+#~ msgid ""
+#~ "I've never been this far from the village without Herth. This place gives "
+#~ "me the chills."
+#~ msgstr ""
+#~ "Ik ben nog nooit zonder Herth zo ver van het dorp geweest. Deze plaats "
+#~ "geeft me de kriebels."
+
+#~ msgid "Anyway, once the cemetery is behind us we should be out of trouble!"
+#~ msgstr ""
+#~ "Maar goed, als we over de begraafplaats zijn, dan zijn de problemen "
+#~ "voorbij!"
+
+#~ msgid "Are those the soldiers up there?"
+#~ msgstr "Zijn dat de soldaten?"
+
+#~ msgid "The west gate is condemned, as the Lord commanded."
+#~ msgstr "De westpoort is afgesloten, zoals de Heer bevolen heeft."
+
+#~ msgid "Good. Let's go back and wait for them."
+#~ msgstr "Goed. Laten we teruggaan en op ze wachten."
+
+#~ msgid "The gate to the great plains..."
+#~ msgstr "De poort naar de grote vlakte..."
+
+#~ msgid "Have we got any other way to leave this place?"
+#~ msgstr "Is er nog een andere manier om deze plaats te verlaten?"
+
+#~ msgid "Only one. The mountain top."
+#~ msgstr "Maar één. De bergtop."
+
+#~ msgid "Oh no! The gate!"
+#~ msgstr "O nee! De poort!"
+
+#~ msgid "We're trapped!"
+#~ msgstr "We zitten vast!"
+
+#~ msgid "You're mine now!"
+#~ msgstr "Ik heb jullie te pakken!"
+
+#~ msgid ""
+#~ "I shall bring your souls to the master. You don't stand a chance against "
+#~ "the Great Harlequin."
+#~ msgstr ""
+#~ "Ik breng jullie zielen naar mijn heer. Jullie maken geen schijn van kans "
+#~ "tegen de Grote Harlekijn."
+
+#~ msgid "But let's play together first, shall we?"
+#~ msgstr "Maar zullen we eerst even samen spelen?"
+
+#~ msgid "Now catch me, if you can."
+#~ msgstr "Vang me maar, als je kunt."
+
+#~ msgid "Enough of this shallow game. Give me your souls, now!"
+#~ msgstr "Genoeg van dit stomme spelletje. Geef me je zielen, nu!"
+
+#~ msgid "How could I be hurt by... children..."
+#~ msgstr "Hoe kan het dat die... kinderen... me verslagen hebben..."
+
+#~ msgid "We'll see each other again, chosen one..."
+#~ msgstr "We zullen elkaar nog wel eens terugzien, uitverkorene..."
+
+#~ msgid "We made it."
+#~ msgstr "We hebben het gehaald."
+
+#~ msgid "Brr. It's quite cold up here."
+#~ msgstr "Brrrr. Het is best koud hierboven."
+
+#~ msgid ""
+#~ "The bridge is a few feet away. Let's reach the mountain pass before the "
+#~ "frost kills us."
+#~ msgstr ""
+#~ "De brug is een paar meter verderop. We moeten de bergpas bereiken voordat "
+#~ "we doorvriezen."
+
+#~ msgid "Let's hurry. I can't feel my toes anymore."
+#~ msgstr "Laten we opschieten. Ik voel mijn tenen al niet eens meer."
+
+#~ msgid "(Woah, this bridge doesn't look very sturdy.)"
+#~ msgstr "(Whoa, deze brug ziet er wel erg gammel uit.)"
+
+#~ msgid "Well, here we go."
+#~ msgstr "Nou, daar gaan we dan."
+
+#~ msgid "There!"
+#~ msgstr "Daar!"
+
+#~ msgid "Catch them before they reach the shrine!"
+#~ msgstr "Pak ze voordat ze de schrijn bereiken!"
+
+#~ msgid "Let's run!"
+#~ msgstr "Rennen!"
+
+#~ msgid "I'll cut those ropes!"
+#~ msgstr "Ik snij die touwen door!"
+
+#~ msgid "That was close."
+#~ msgstr "Dat was op het nippertje."
+
+#~ msgid "Damn!"
+#~ msgstr "Verdorie!"
+
+#~ msgid "The master won't be happy with this."
+#~ msgstr "Hier zal mijn meester niet blij mee zijn."
+
+#~ msgid "You won't get away so easily. We will catch you sooner or later."
+#~ msgstr ""
+#~ "Zo makkelijk kom je niet van ons af. We krijgen jullie vroeger of later "
+#~ "wel te pakken."
+
+#~ msgid "Hurray! Those idiots will have a hard time catching us now!"
+#~ msgstr ""
+#~ "Hoera! Die idioten krijgen het niet makkelijk als ze ons nog willen "
+#~ "vangen!"
+
+#~ msgid "Indeed! They've been had!"
+#~ msgstr "Inderdaad! We hebben ze mooi te pakken!"
+
+#~ msgid "Who are the little brats now, eh?"
+#~ msgstr "Wie zijn hier nou de snotneuzen, hè?"
+
+#~ msgid "Let's go back and inform the others."
+#~ msgstr "Laten we teruggaan en het de anderen vertellen."
+
+#~ msgid "Yes, sir."
+#~ msgstr "Ja, meneer."
+
+#~ msgid ""
+#~ "They're gone. We should move on before they actually find a way to cross "
+#~ "the gap."
+#~ msgstr ""
+#~ "Ze zijn weg. We moeten snel doorgaan, voordat ze een manier vinden om er "
+#~ "alsnog overheen te komen."
+
+#~ msgid "Phew, this one sure is heavier and more sturdy."
+#~ msgstr "Pfoe, deze is een stuk zwaarder en steviger."
+
+#~ msgid "I can feel something moving far below."
+#~ msgstr "Ik voel iets bewegen hier beneden."
+
+#~ msgid "Yiek! A big monster!"
+#~ msgstr "Ieeee! Een groot monster!"
+
+#~ msgid ""
+#~ "My name is Andromalius, guardian of the sacred seal and keeper of the "
+#~ "Goddess Shrine."
+#~ msgstr ""
+#~ "Mijn naam is Andromalius, bewaker van de heilige zegel en bewaarder van "
+#~ "de Schrijn van de Godin..."
+
+#~ msgid ""
+#~ "You have trespassed the holy ground of the Ancient and remained unharmed "
+#~ "for too long in this temple."
+#~ msgstr ""
+#~ "Je loopt hier over de heilige grond van de Ouderlingen, en bent al veel "
+#~ "te lang in leven gebleven in deze tempel."
+
+#~ msgid ""
+#~ "Thus, let death embrace you, little boy. For your comrades are already "
+#~ "dying under my charm and you need to join them in the other world."
+#~ msgstr ""
+#~ "Dus, laat de dood je omarmen, jongeman. Je kameraden sterven reeds door "
+#~ "mijn spreuk, en je moet ze volgen naar de andere wereld."
+
+#~ msgid "You've proven yourself, chosen one. You deserve to live after all."
+#~ msgstr ""
+#~ "Je hebt jezelf bewezen, uitverkorene. Je verdient het om te blijven leven."
+
+#~ msgid "Me? But I'm not the chosen one."
+#~ msgstr "Ik? Maar ik ben de uitverkorene niet."
+
+#~ msgid ""
+#~ "The ones being few or many, still each of them will have to prove "
+#~ "themselves as it is ought to be."
+#~ msgstr ""
+#~ "Of het er nu veel of weinig zijn, ieder van hen moet zich bewijzen, en zo "
+#~ "hoort het ook."
+
+#~ msgid "Farewell, chosen one."
+#~ msgstr "Vaarwel, uitverkorene."
+
+#~ msgid "I can hear water everywhere."
+#~ msgstr "Ik hoor overal water."
+
+#~ msgid "Kalya, Bronann!"
+#~ msgstr "Kalya, Bronann!"
+
+#~ msgid "Wow, what a fall. I didn't see that one coming."
+#~ msgstr "Wat een val was dat. Dat zag ik niet aankomen."
+
+#~ msgid "Are you alright, Kalya?"
+#~ msgstr "Gaat het een beetje, Kalya?"
+
+#~ msgid "I should be fine, but we should heal just in case."
+#~ msgstr ""
+#~ "Ik denk het wel, maar we moeten ons toch genezen, voor het geval dat."
+
+#~ msgid "Wait..."
+#~ msgstr "Wacht..."
+
+#~ msgid "Where is Orlinn?"
+#~ msgstr "Waar is Orlinn?"
+
+#~ msgid "Orlinn? Orlinn!"
+#~ msgstr "Orlinn? Orlinn!"
+
+#~ msgid "Let's find him, once more, before something bad happens."
+#~ msgstr "We moeten hem nog een keer zoeken, voordat hem iets ergs overkomt."
+
+#~ msgid "This is the blocked passage to the shrine entrance."
+#~ msgstr "Dit is de geblokkeerde doorgang naar de ingang van de schrijn."
+
+#~ msgid "This can only mean we're near the exit!"
+#~ msgstr "Dat betekent dat we bijna bij de uitgang zijn!"
+
+#~ msgid "Orlinn! Back off!"
+#~ msgstr "Orlinn! Wegwezen!"
+
+#~ msgid "I, I..."
+#~ msgstr "Ik, ik..."
+
+#~ msgid "Orlinn! NOW!"
+#~ msgstr "Orlinn! NU!"
+
+#~ msgid "You shall not leave this place without my consent."
+#~ msgstr "Jullie zullen deze plaats niet verlaten zonder mijn toestemming."
+
+#~ msgid "And you shall not touch my brother without mine."
+#~ msgstr "En jij blijft van mijn broer af zonder de mijne."
+
+#~ msgid ""
+#~ "You have made it through the holy ordeal alive. I shall not let you "
+#~ "survive."
+#~ msgstr ""
+#~ "Jullie hebben de heilige beproeving doorstaan zonder te sterven. Ik kan "
+#~ "jullie niet in leven laten."
+
+#~ msgid "Let's fight for our lives then!"
+#~ msgstr "Dan vechten we om onze levens!"
+
+#~ msgid "Orlinn, are you alright?"
+#~ msgstr "Orlinn, ben je oké?"
+
+#~ msgid "Yes. I'm sorry I wasn't able to protect myself, sis."
+#~ msgstr "Ja. Sorry dat ik me niet wist te verdedigen, Kal."
+
+#~ msgid ""
+#~ "Don't you worry about that, brother. Never leave me like that again, ok?"
+#~ msgstr ""
+#~ "Maak je daarover geen zorgen, broertje. Blijf alleen in het vervolg bij "
+#~ "me, wil je?"
+
+#~ msgid ""
+#~ "I promise I didn't do it this time. I just fell in front of this hideous "
+#~ "green head."
+#~ msgstr ""
+#~ "Het was deze keer echt niet mijn schuld. Ik viel precies voor die lelijke "
+#~ "groene kop."
+
+#~ msgid ""
+#~ "Well, let's leave this place before another one wants our lives again."
+#~ msgstr ""
+#~ "Goed dan, laten we hier weggaan voordat iets anders ons wil vermoorden."
+
+#~ msgid "I couldn't agree more."
+#~ msgstr "Helemaal mee eens."
+
+#~ msgid "We can't move, Orlinn."
+#~ msgstr "We zitten vast, Orlinn."
+
+#~ msgid "We're gonna...suffocate."
+#~ msgstr "We zullen... stikken."
+
+#~ msgid "Orlinn, help us... Please, oh oh oh..."
+#~ msgstr "Orlinn, help ons... Alsjeblieft..."
+
+#~ msgid "What a large gate. What is behind it must be fearsome."
+#~ msgstr ""
+#~ "Wat een grote poort. Ik weet niet wat erachter zit, maar het is vast "
+#~ "angstaanjagend."
+
+#~ msgid "Shall we go in?"
+#~ msgstr "Zullen we naar binnen gaan?"
+
+#~ msgid "Yes, let's end this."
+#~ msgstr "Ja, laten we hier een eind aan maken."
+
+#~ msgid "No, let's prepare first."
+#~ msgstr "Nee, laten we ons eerst voorbereiden."
+
+#~ msgid ""
+#~ "Don't worry, we've managed to come this far. There is nothing that "
+#~ "could..."
+#~ msgstr "Geen paniek, we zijn al zover gekomen. Er is niets wat ons kan..."
+
+#~ msgid "What is it, Kalya?"
+#~ msgstr "Wat is er, Kalya?"
+
+#~ msgid "...Kalya?!"
+#~ msgstr "... Kalya?!"
+
+#~ msgid "Sis'!"
+#~ msgstr "Kal!"
+
+#~ msgid "I feel... I..."
+#~ msgstr "Ik voel me... ik..."
+
+#~ msgid "Hi hi... Hi hi hi... I can't stop!!"
+#~ msgstr "Hihi... Hahaha... ik kan niet stoppen!!"
+
+#~ msgid "What's so funny, Kalya? Hi hi."
+#~ msgstr "Wat is er zo grappig, Kalya? Hi hi."
+
+#~ msgid "I don't know... Ah, I can barely breathe!"
+#~ msgstr "Ik weet niet... Ah, ik kan nauwelijks ademen!"
+
+#~ msgid "Hi hi hi... What's happening to me..."
+#~ msgstr "Hihihi... Wat gebeurt er met me..."
+
+#~ msgid "It's the scent, ah ah ah."
+#~ msgstr "Het is de geur, hahaha."
+
+#~ msgid ""
+#~ "Erm, are you crazy or what? I usually am the one with bad jokes you know."
+#~ msgstr ""
+#~ "Ben je gek geworden of zo? Normaal maak ik hier de flauwe grappen, weet "
+#~ "je wel."
+
+#~ msgid "We can't move Orlinn."
+#~ msgstr "We zitten vast, Orlinn."
+
+#~ msgid "I can't let them die. I have to find out something."
+#~ msgstr "Ik kan ze daar niet laten zitten. Ik moet een oplossing vinden."
+
+#~ msgid "Something is preventing me from entering."
+#~ msgstr "Iets zorgt ervoor dat ik daar niet naar binnen kan."
+
+#~ msgid "I feel much better now."
+#~ msgstr "Ik voel me nu veel beter."
+
+#~ msgid "Indeed. It seems the scent has no effect on us anymore."
+#~ msgstr "Inderdaad. Het schijnt dat de geur ons geen kwaad meer doet."
+
+#~ msgid "Orlinn, did you do something?"
+#~ msgstr "Orlinn, wat heb je gedaan?"
+
+#~ msgid "Me? You know, a bit of this, a bit of that."
+#~ msgstr "Ik? Je weet wel, een beetje van dit, een beetje van dat."
+
+#~ msgid "I didn't think I would say this, but thank you Orlinn."
+#~ msgstr ""
+#~ "Ik had niet gedacht dat ik dit ooit zou zeggen, maar bedankt, Orlinn."
+
+#~ msgid "Thank you, indeed."
+#~ msgstr "Inderdaad, bedankt."
+
+#~ msgid "You're welcome!"
+#~ msgstr "Graag gedaan!"
+
+#~ msgid ""
+#~ "Well, please stop laughing now. I'm not at ease with what just happened."
+#~ msgstr ""
+#~ "Zeg, hou alsjeblieft op met lachen. Ik ben niet echt blij met wat er net "
+#~ "gebeurd is."
+
+#~ msgid "Stop laughing now or I'll smash your little head against that wall!"
+#~ msgstr "Stop met lachen of ik ram je hoofd tegen die muur daar!"
+
+#~ msgid "Aww, ok."
+#~ msgstr "Mwah, oké."
+
+#~ msgid ""
+#~ "You'll see. There's plenty of things I need to show you there. Plus, it's "
+#~ "a safe place."
+#~ msgstr ""
+#~ "Je zult zien dat er daar veel dingen zijn die ik je moet laten zien. "
+#~ "Bovendien, het is een veilige plaats."
+
+#~ msgid "Err, sis?"
+#~ msgstr "Eh, Kal?"
+
+#~ msgid ""
+#~ "Our elder will also be able to help us. And you'll get a better "
+#~ "explanation than I could ever..."
+#~ msgstr ""
+#~ "Onze oudere zal ons ook kunnen helpen. En je krijgt een betere uitleg dan "
+#~ "ik ooit zou kunnen..."
+
+#~ msgid "One second, Orlinn. I'm trying to..."
+#~ msgstr "Eén moment, Orlinn. Ik probeer om..."
+
+#~ msgid "But Kalya, look at the passageway!"
+#~ msgstr "Maar Kalya, kijk naar de doorgang!"
+
+#~ msgid "What about the..."
+#~ msgstr "Wat is er met..."
+
+#~ msgid "No, it can't be."
+#~ msgstr "Nee, dat kan toch niet."
+
+#~ msgid "After all we've been through, this..."
+#~ msgstr "Dan denk je dat je alles hebt gehad, krijgen we dit..."
+
+#~ msgid "Calm down Kalya, there must be a way to go through this somehow."
+#~ msgstr ""
+#~ "Rustig aan, Kalya; er moet een manier zijn om hierdoorheen te komen."
+
+#~ msgid "Unfortunately, yes. There is one."
+#~ msgstr "Helaas, ja. Er is er één..."
+
+#~ msgid "We'll have to enter the ancient shrine."
+#~ msgstr "We zullen de oude schrijn in moeten."
+
+#~ msgid ""
+#~ "If we wouldn't have gotten here all by ourselves, I would swear "
+#~ "Banesore's army pushed us here on purpose."
+#~ msgstr ""
+#~ "Waren we niet uit onszelf weggevlucht, dan zou ik gezworen hebben dat "
+#~ "Banesore's leger ons met opzet hierheen heeft gelokt."
+
+#~ msgid "What's with this 'ancient shrine'?"
+#~ msgstr "Wat is dat eigenlijk, de 'oude schrijn'?"
+
+#~ msgid ""
+#~ "Some say it is haunted. It was sealed a long time ago, long before I was "
+#~ "even born."
+#~ msgstr ""
+#~ "Men zegt dat het er spookt. Hij is lange tijd geleden dichtgemaakt, zelfs "
+#~ "lang voordat ik geboren was."
+
+#~ msgid "Indeed, it must be a long time ago."
+#~ msgstr "Dat moet inderdaad een lange tijd geleden zijn."
+
+#~ msgid ""
+#~ "Anyway, we might not be able to enter there at all. But you're right, "
+#~ "let's have a look around first. Who knows?"
+#~ msgstr ""
+#~ "Goed, misschien kunnen we wel helemaal niet naar binnen. Maar je hebt "
+#~ "gelijk, laten we eerst even rondkijken. Wie weet?"
+
+#~ msgid ""
+#~ "Here we are, looking at this huge and wonderful, yet creepy door. I don't "
+#~ "like this."
+#~ msgstr ""
+#~ "Daar zijn we dan, bij deze grote, mooie maar toch enge deur. Dit bevalt "
+#~ "me absoluut niet."
+
+#~ msgid ""
+#~ "It's not like I actually want to open this, but how are we going to do so?"
+#~ msgstr ""
+#~ "Niet dat ik hem überhaupt open zou wíllen maken, maar hoe zou dat moeten?"
+
+#~ msgid "Ow, my chest. It hurts!"
+#~ msgstr "Oh, mijn borst doet pijn!"
+
+#~ msgid "The crystal! Orlinn! Let's stand back!"
+#~ msgstr "Het kristal! Orlinn! Terug, terug!"
+
+#~ msgid "That sign, it is the sign of the ancients! Bronann! Are you alright?"
+#~ msgstr ""
+#~ "Dat teken, het is het teken van de ouderlingen! Bronann! Alles in orde?"
+
+#~ msgid "I'm fine, I guess. The pain faded away."
+#~ msgstr "Het gaat wel, denk ik. De pijn is weg."
+
+#~ msgid "Thank the goddess."
+#~ msgstr "Godin zij dank."
+
+#~ msgid "Well, the door is open now."
+#~ msgstr "Nou, de deur is nu open."
+
+#~ msgid "Yiek! Do you really want to go there??"
+#~ msgstr "Ieeee! Wil je daar echt naar binnen gaan??"
+
+#~ msgid ""
+#~ "I believe we don't really have a choice. Somehow this place... called me."
+#~ msgstr ""
+#~ "Ik denk niet wat we een keus hebben. Op de een of andere manier heeft "
+#~ "deze plaats me... geroepen."
+
+#~ msgid "Anyway, let's stick together and we'll be fine as always, right?"
+#~ msgstr "Hoe dan ook, laten we bij elkaar blijven, en alles komt goed, oké?"
+
+#~ msgid "I have a bad feeling about all this now."
+#~ msgstr "Ik heb hier een slecht voorgevoel over."
+
+#~ msgid "It seems somebody left a note here on purpose."
+#~ msgstr "Iemand heeft hier met opzet een briefje achtergelaten."
+
+#~ msgid "You mean in the middle of those scary bones?"
+#~ msgstr "Wat, midden tussen die enge botten?"
+
+#~ msgid "Let me see."
+#~ msgstr "Eens even kijken."
+
+#~ msgid "'To whoever will read this:'"
+#~ msgstr "\"Aan wie dit ook leest:\""
+
+#~ msgid ""
+#~ "'Battles have been waging all over the place and the Ancient have now "
+#~ "forsaken me into oblivion when they sealed the Goddess Shrine.'"
+#~ msgstr ""
+#~ "\"De oorlog is overal, en de Ouderlingen hebben me in de steek gelaten, "
+#~ "toen ze de Schrijn van de Godin afgesloten hebben.\""
+
+#~ msgid ""
+#~ "'All my comrades have perished in battle and I am the last unfortunate "
+#~ "one left.'"
+#~ msgstr ""
+#~ "\"Mijn kameraden zijn allemaal gesneuveld, en ik ben de laatste "
+#~ "ongelukkige die over is.\""
+
+#~ msgid ""
+#~ "'My name is Shawn, and I do believe my time is running out in this life "
+#~ "as there is neither food nor water in here.'"
+#~ msgstr ""
+#~ "\"Ik heet Shawn, en ik geloof dat mijn leven ten einde loopt, want er is "
+#~ "hier voedsel noch water...\""
+
+#~ msgid "Poor guy. He must have died from starvation."
+#~ msgstr "Arme man. Hij is vast gestorven door voedselgebrek."
+
+#~ msgid ""
+#~ "'But I will attempt one last time to escape from here and I'm leaving "
+#~ "this note in case you'd need to do the same.'"
+#~ msgstr ""
+#~ "\"Maar ik zal nog één laatste ontsnappingspoging wagen, en ik laat deze "
+#~ "brief achter voor als jij hetzelfde moet doen.\""
+
+#~ msgid ""
+#~ "'The only way to escape this hellish place is to reach the highest floor "
+#~ "and activate the waterfall. At least that's what they said.'"
+#~ msgstr ""
+#~ "\"De enige manier om uit deze helse plaats te ontsnappen is om op de "
+#~ "hoogste verdieping de waterval te activeren. Dat zeiden ze ten minste.\""
+
+#~ msgid "What are we waiting for, let's go!"
+#~ msgstr "Waar wachten we op; laten we gaan!"
+
+#~ msgid "Wait Orlinn! That's not all he wrote."
+#~ msgstr "Wacht, Orlinn! Er staat nog iets onder."
+
+#~ msgid ""
+#~ "'But be warned, for even the very scent exuding from the dark waters is a "
+#~ "trap!'"
+#~ msgstr ""
+#~ "\"Maar wees gewaarschuwd, want alleen al de geur die opstijgt uit de "
+#~ "duistere wateren is een valstrik!\""
+
+#~ msgid ""
+#~ "'The entire shrine has been turned into a murderous area and you'll have "
+#~ "to fight your way through, just as I will now.'"
+#~ msgstr ""
+#~ "\"De hele schrijn is veranderd in een dodelijke val, en je zult je "
+#~ "erdoorheen moeten vechten, net zoals ik nu zal doen.\""
+
+#~ msgid "That's it."
+#~ msgstr "Dat was het."
+
+#~ msgid "Let's find out how to activate that waterfall, then."
+#~ msgstr "Laten we dan uitzoeken hoe we die waterval moeten activeren..."
+
+#~ msgid "Yes, and let's do it quickly."
+#~ msgstr "Ja, en laten we opschieten."
+
+#~ msgid ""
+#~ "Somebody left a note on purpose here. According to it, we need to find "
+#~ "out a way to trigger the waterfall from the highest floor."
+#~ msgstr ""
+#~ "Iemand heeft hier met opzet een briefje achtergelaten. Volgens hem moeten "
+#~ "we een manier vinden om de waterval te activeren vanaf de hoogste "
+#~ "verdieping."
+
+#~ msgid ""
+#~ "But let's be careful, as it also said this place is dangerous and the "
+#~ "dark waters are some kind of trap."
+#~ msgstr ""
+#~ "Maar laten we goed oppassen, want er stond ook dat deze plaats gevaarlijk "
+#~ "is, en dat de duistere wateren een valstrik zijn."
+
+#~ msgid "What is this? Skeletons?!"
+#~ msgstr "Wat zijn dit? Skeletten?!"
+
+#~ msgid "Phew."
+#~ msgstr "Pfoe."
+
+#~ msgid "Again, I can feel something moving not far from here."
+#~ msgstr "Ik heb weer het gevoel dat er iets beweegt, niet ver hiervandaan."
+
+#~ msgid ""
+#~ "There is a passage here, but I'm too heavy to climb on those stones "
+#~ "jutting out."
+#~ msgstr ""
+#~ "Er is een doorgang hier, maar ik ben te zwaar voor die uitstekende stenen."
+
+#~ msgid ""
+#~ "The fact is, you and I cannot afford to stand on those stones. Maybe with "
+#~ "a rope?"
+#~ msgstr ""
+#~ "Hoe dan ook, jij en ik kunnen niet op die stenen staan. Met een touw dan, "
+#~ "misschien?"
+
+#~ msgid "I'll do it."
+#~ msgstr "Ik doe het wel."
+
+#~ msgid "What? Are you crazy? There could be monsters up there."
+#~ msgstr "Wat? Ben je gek geworden? Daarboven zijn misschien wel monsters."
+
+#~ msgid "Then I'll deal with them, sis. We can't just stay here, anyway."
+#~ msgstr "Dan reken ik wel met ze af, Kal. We kunnen hier niet blijven."
+
+#~ msgid "Orlinn, you sure have grown up through all of this. Are you sure?"
+#~ msgstr ""
+#~ "Orlinn, ik moet zeggen dat je volwassener bent geworden door dit "
+#~ "avontuur. Weet je het zeker?"
+
+#~ msgid "I need to, I guess."
+#~ msgstr "Ik moet wel, denk ik."
+
+#~ msgid "Just tell me when you're ready and I'll throw you up there."
+#~ msgstr "Zeg me maar als je klaar bent, en dan gooi ik je erheen."
+
+#~ msgid "Ready to go up?"
+#~ msgstr "Klaar om te gaan?"
+
+#~ msgid "Err, not yet."
+#~ msgstr "Eh, nog niet."
+
+#~ msgid "Be careful, ok?"
+#~ msgstr "Pas goed op, oké?"
+
+#~ msgid "Want to come back?"
+#~ msgstr "Wil je terug?"
+
+#~ msgid "Yes!"
+#~ msgstr "Ja!"
+
+#~ msgid "No, not yet."
+#~ msgstr "Nee, nog niet."
+
+#~ msgid "Oops, sorry!"
+#~ msgstr "Oeps, sorry!"
+
+#~ msgid "Bronann, are you okay?"
+#~ msgstr "Bronann, gaat het wel?"
+
+#~ msgid "I don't know, I felt something crack."
+#~ msgstr "Ik weet niet. Ik hoorde iets breken."
+
+#~ msgid "Not again..."
+#~ msgstr "Niet nog een keer..."
+
+#~ msgid "There is a note left here."
+#~ msgstr "Er ligt hier een briefje."
+
+#~ msgid ""
+#~ "It says: 'I fathomed it! After all, not every ladder is made of wood. "
+#~ "Now, I'll have to get back there alive.'"
+#~ msgstr ""
+#~ "Er staat: \"Ik begrijp het! Niet elke ladder is van hout gemaakt. Nu moet "
+#~ "ik daar nog levend terug zien te komen.\""
+
+#~ msgid "There seems to be one of those rolling stones up here."
+#~ msgstr "Er is daarboven weer zo'n rollende steen, zo te zien."
+
+#~ msgid "Layna Forest Cave"
+#~ msgstr "Grot in het Laynabos"
+
+#~ msgid "Forest entrance"
+#~ msgstr "Bosingang"
+
+#~ msgid "Where it all began..."
+#~ msgstr "Waar het allemaal begon..."
+
+#~ msgid "Mountain Village of Layna"
+#~ msgstr "Het bergdorp Layna"
+
+#~ msgid "Flora's Boutique"
+#~ msgstr "Flora's Boetiek"
+
+#~ msgid "Basement"
+#~ msgstr "Kelder"
+
+#~ msgid "Riverbank"
+#~ msgstr "Rivieroever"
+
+#~ msgid "Lilly's house"
+#~ msgstr "Lilly's huis"
+
+#~ msgid "Village entrance"
+#~ msgstr "Dorpsingang"
+
+#~ msgid "Well Undergrounds"
+#~ msgstr "Ondergrondse put"
+
+#~ msgid "Elbrus Grotto"
+#~ msgstr "Elbrusgrot"
+
+#~ msgid "Low Mountain"
+#~ msgstr "Lage berg"
+
+#~ msgid "Old Cemetery"
+#~ msgstr "Oud kerkhof"
+
+#~ msgid "Mountain bridge"
+#~ msgstr "Bergbrug"
+
+#~ msgid "Mt. Elbrus Shrine"
+#~ msgstr "Schrijn van Mount Elbrus"
+
+#~ msgid "2nd Floor"
+#~ msgstr "2e verdieping"
+
+#~ msgid "Underpass"
+#~ msgstr "Onderdoorgang"
+
+#~ msgid "1st Floor"
+#~ msgstr "1e verdieping"

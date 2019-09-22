@@ -1,0 +1,2142 @@
+# Portuguese translations for Allacrost Demo package
+# Traduções em português para o pacote Allacrost Demo.
+# Copyright (C) 2010 The Allacrost Project
+# This file is distributed under the same license as the Allacrost package.
+# Marcos Avila Isidoro <marcavis@yahoo.com.br>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Allacrost Demo 0.3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-22 23:22+0200\n"
+"PO-Revision-Date: 2010-09-01 01:46-0300\n"
+"Last-Translator: Marcos Avila Isidoro <marcavis@yahoo.com.br>\n"
+"Language-Team: Team Allacrost\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: BRAZIL\n"
+"X-Poedit-Basepath: /home/marcos/allacrost/demo\n"
+
+#: ../data/skills/barehands.lua:28
+msgid "Punch"
+msgstr ""
+
+#: ../data/skills/barehands.lua:29
+msgid "A simple punch. Better than nothing."
+msgstr ""
+
+#: ../data/skills/barehands.lua:56
+msgid "Throw stone"
+msgstr ""
+
+#: ../data/skills/barehands.lua:57
+msgid "Kalya's attack when she has no weapon."
+msgstr ""
+
+#: ../data/skills/barehands.lua:83
+msgid "Tornado Punch"
+msgstr ""
+
+#: ../data/skills/barehands.lua:84
+msgid "Spinning knuckle attack that deals wind damage."
+msgstr ""
+
+#: ../data/skills/magic.lua:51
+#, fuzzy
+msgid "Shield"
+msgstr "Mapa"
+
+#: ../data/skills/magic.lua:52
+msgid "Increases an ally's physical defense by a slight degree."
+msgstr ""
+
+#: ../data/skills/magic.lua:100
+msgid "First Aid"
+msgstr ""
+
+#: ../data/skills/magic.lua:101
+msgid ""
+"Performs basic medical assistance, healing the target by a minor degree."
+msgstr ""
+
+#: ../data/skills/magic.lua:145
+msgid "Leader Call"
+msgstr ""
+
+#: ../data/skills/magic.lua:146
+msgid "Temporarily increases the Physical Attack of all allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:172
+msgid "Holy Veil"
+msgstr ""
+
+#: ../data/skills/magic.lua:173
+msgid "Increases the attack and magical attack of all allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:204
+#, fuzzy
+msgid "Ancient Strength"
+msgstr "Força: "
+
+#: ../data/skills/magic.lua:205
+msgid "Increases every form of elemental resistance for all allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:229
+msgid "Divine Wish"
+msgstr ""
+
+#: ../data/skills/magic.lua:230 ../data/skills/special.lua:213
+msgid "Revives an ally, restoring all of their HP and SP."
+msgstr ""
+
+#: ../data/skills/magic.lua:249
+msgid "Magical Poison"
+msgstr ""
+
+#: ../data/skills/magic.lua:250
+msgid "Makes an enemy lose its SP little by little."
+msgstr ""
+
+#: ../data/skills/magic.lua:273
+msgid "Steal Song"
+msgstr ""
+
+#: ../data/skills/magic.lua:274
+msgid "Steals positive effects from an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:290
+msgid "Terrify"
+msgstr ""
+
+#: ../data/skills/magic.lua:291
+msgid "Potentially causes a normal enemy to retreat."
+msgstr ""
+
+#: ../data/skills/magic.lua:307
+msgid "Decay Dirge"
+msgstr ""
+
+#: ../data/skills/magic.lua:308
+msgid "Steals both physical and magical defense of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:324
+msgid "War God"
+msgstr ""
+
+#: ../data/skills/magic.lua:325
+msgid ""
+"Steals both the physical and magical defense of all enemies and gives it to "
+"the party."
+msgstr ""
+
+#: ../data/skills/magic.lua:361
+msgid "Fire burst"
+msgstr ""
+
+#: ../data/skills/magic.lua:362
+msgid "Creates a small fire that burns enemies."
+msgstr ""
+
+#: ../data/skills/magic.lua:403
+msgid "Fire Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:404
+msgid "Increases the fire elemental defense on a character."
+msgstr ""
+
+#: ../data/skills/magic.lua:419
+msgid "Lava"
+msgstr ""
+
+#: ../data/skills/magic.lua:420
+msgid "Magical attack combining earth and fire type damage."
+msgstr ""
+
+#: ../data/skills/magic.lua:435
+#, fuzzy
+msgid "Fog"
+msgstr "Joe"
+
+#: ../data/skills/magic.lua:436
+msgid "Increases the evade rate of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:451
+msgid "Fire Breath"
+msgstr ""
+
+#: ../data/skills/magic.lua:452
+msgid "Magical attack combining air and fire type damage."
+msgstr ""
+
+#: ../data/skills/magic.lua:467
+msgid "Focus"
+msgstr ""
+
+#: ../data/skills/magic.lua:468 ../data/skills/magic.lua:619
+msgid "Increases the magical defense of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:483
+msgid "Holy Fire"
+msgstr ""
+
+#: ../data/skills/magic.lua:484
+msgid "Magical attack combining life and fire damages."
+msgstr ""
+
+#: ../data/skills/magic.lua:499
+msgid "Life"
+msgstr ""
+
+#: ../data/skills/magic.lua:500
+msgid "Revives a fallen ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:515
+msgid "Petrify"
+msgstr ""
+
+#: ../data/skills/magic.lua:516
+#, fuzzy
+msgid "Turns an enemy into stone."
+msgstr "Pressione qualquer tecla para continuar."
+
+#: ../data/skills/magic.lua:531
+msgid "Rage"
+msgstr ""
+
+#: ../data/skills/magic.lua:532
+msgid ""
+"Enrages an ally, increasing their attack and speed but reducing their "
+"defense."
+msgstr ""
+
+#: ../data/skills/magic.lua:547
+msgid "Rock Fall"
+msgstr ""
+
+#: ../data/skills/magic.lua:548
+msgid "Rocks fall on an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:573
+msgid "Earth Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:574
+msgid "Increases the earth elemental defense of a character."
+msgstr ""
+
+#: ../data/skills/magic.lua:602
+msgid "Entangle"
+msgstr ""
+
+#: ../data/skills/magic.lua:603
+msgid "Decreases the evasion rate of an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:618
+#, fuzzy
+msgid "Magical Armor"
+msgstr "Proteção das Pernas"
+
+#: ../data/skills/magic.lua:634
+msgid "Haste"
+msgstr ""
+
+#: ../data/skills/magic.lua:635
+msgid "Increases the battle speed of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:650
+msgid "Moon"
+msgstr ""
+
+#: ../data/skills/magic.lua:651
+msgid "Makes an enemy attack its own allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:666
+msgid "Cure"
+msgstr ""
+
+#: ../data/skills/magic.lua:667
+msgid "Cures the poison from an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:682
+msgid "Drain"
+msgstr ""
+
+#: ../data/skills/magic.lua:683
+msgid "Steals HP from an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:698
+msgid "Curse"
+msgstr ""
+
+#: ../data/skills/magic.lua:699
+msgid "Severely decreases several random stats of an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:714
+msgid "Meteor"
+msgstr ""
+
+#: ../data/skills/magic.lua:715
+msgid "High earth damage on all foes."
+msgstr ""
+
+#: ../data/skills/magic.lua:730
+msgid "Wave"
+msgstr ""
+
+#: ../data/skills/magic.lua:731
+msgid ""
+"Makes waves fall on an enemy, damaging them and decreasing their physical "
+"attack."
+msgstr ""
+
+#: ../data/skills/magic.lua:774
+msgid "Water Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:775
+msgid "Increases the water elemental defense on a character."
+msgstr ""
+
+#: ../data/skills/magic.lua:799
+msgid "Whirlwind"
+msgstr ""
+
+#: ../data/skills/magic.lua:800
+msgid "Magical attack combining water and air type damage."
+msgstr ""
+
+#: ../data/skills/magic.lua:815
+msgid "Slow"
+msgstr ""
+
+#: ../data/skills/magic.lua:816
+msgid "Decreases the battle speed of an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:831
+#, fuzzy
+msgid "Blindness"
+msgstr "Brilho:"
+
+#: ../data/skills/magic.lua:832
+msgid "Prevents an enemy from succeeding to strike with any physical attacks."
+msgstr ""
+
+#: ../data/skills/magic.lua:847
+msgid "Heal"
+msgstr ""
+
+#: ../data/skills/magic.lua:848
+msgid "Restores the health of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:863
+msgid "Poison"
+msgstr ""
+
+#: ../data/skills/magic.lua:864
+msgid "Inflicts poison on an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:888
+msgid "Stun"
+msgstr ""
+
+#: ../data/skills/magic.lua:889
+msgid "Stuns an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:907
+msgid "Tsunami"
+msgstr ""
+
+#: ../data/skills/magic.lua:908
+msgid "High water damage inflicted on all foes."
+msgstr ""
+
+#: ../data/skills/magic.lua:923
+#, fuzzy
+msgid "Healing Rain"
+msgstr "Proteção: "
+
+#: ../data/skills/magic.lua:924
+msgid "Improves the health of all allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:939
+#, fuzzy
+msgid "Wind"
+msgstr "Tela cheia:"
+
+#: ../data/skills/magic.lua:940
+msgid "The wind slashes an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:965
+msgid "Wind Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:966
+msgid "Increases the air elemental defense of a character."
+msgstr ""
+
+#: ../data/skills/magic.lua:990
+msgid "Lightning"
+msgstr ""
+
+#: ../data/skills/magic.lua:991
+msgid "Magical attack combining life and air type damage."
+msgstr ""
+
+#: ../data/skills/magic.lua:1006
+msgid "Regen"
+msgstr ""
+
+#: ../data/skills/magic.lua:1007
+msgid "Causes an ally to slowly recover their health."
+msgstr ""
+
+#: ../data/skills/magic.lua:1028
+msgid "Magic Drain"
+msgstr ""
+
+#: ../data/skills/magic.lua:1029
+msgid "Steals skill points from an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:1044
+msgid "Silence"
+msgstr ""
+
+#: ../data/skills/magic.lua:1045
+msgid "Prevents an enemy from using any magic skills."
+msgstr ""
+
+#: ../data/skills/magic.lua:1060
+msgid "Storm"
+msgstr ""
+
+#: ../data/skills/magic.lua:1061
+msgid "High air type damage on all foes."
+msgstr ""
+
+#: ../data/skills/magic.lua:1076
+msgid "Stop"
+msgstr ""
+
+#: ../data/skills/magic.lua:1077
+msgid "Stops an enemy from taking any actions for quite a long time."
+msgstr ""
+
+#: ../data/skills/magic.lua:1092
+msgid "Holy"
+msgstr ""
+
+#: ../data/skills/magic.lua:1093
+msgid "A holy light strikes an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:1118
+msgid "Life Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:1119
+msgid "Increases the life elemental defense of a character."
+msgstr ""
+
+#: ../data/skills/magic.lua:1134
+msgid "Purify"
+msgstr ""
+
+#: ../data/skills/magic.lua:1135
+msgid "Cures all bad effects on a character, except for poison."
+msgstr ""
+
+#: ../data/skills/magic.lua:1150
+msgid "Sun Haze"
+msgstr ""
+
+#: ../data/skills/magic.lua:1151
+msgid "High life type damage on all foes."
+msgstr ""
+
+#: ../data/skills/magic.lua:1166
+msgid "Aura"
+msgstr ""
+
+#: ../data/skills/magic.lua:1167
+msgid "Boost an ally's speed and slowly recovers their health."
+msgstr ""
+
+#: ../data/skills/magic.lua:1182
+msgid "Death"
+msgstr ""
+
+#: ../data/skills/magic.lua:1183
+msgid "Death tries to take hold of an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:1208
+msgid "Death Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:1209
+msgid "Increases the death elemental defense of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:1224
+msgid "Doom"
+msgstr ""
+
+#: ../data/skills/magic.lua:1225
+msgid "Places a death counter upon the enemy's head."
+msgstr ""
+
+#: ../data/skills/magic.lua:1240
+msgid "Magical Reflection"
+msgstr ""
+
+#: ../data/skills/magic.lua:1241
+msgid "Makes the next enemy spell cast reflect back upon the attacker."
+msgstr ""
+
+#: ../data/skills/magic.lua:1256
+msgid "Dispell"
+msgstr ""
+
+#: ../data/skills/magic.lua:1257
+msgid ""
+"Removes any status effect, elemental effect, and active spell on an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:1282
+msgid "Shell"
+msgstr ""
+
+#: ../data/skills/magic.lua:1283
+msgid "Increases all elemental effects of one character."
+msgstr ""
+
+#: ../data/skills/magic.lua:1298
+msgid "?"
+msgstr ""
+
+#: ../data/skills/magic.lua:1299
+msgid "An offensive mystic spell formed by combining opposite elementals."
+msgstr ""
+
+# requires implementation of plural-forms
+#: ../data/skills/magic.lua:1314
+#, fuzzy
+msgid "Counter"
+msgstr " itens"
+
+#: ../data/skills/magic.lua:1315
+msgid "Makes an ally counter-attack if injured."
+msgstr ""
+
+#: ../data/skills/magic.lua:1330
+msgid "Phoenix Call"
+msgstr ""
+
+#: ../data/skills/magic.lua:1331
+msgid "Revives all allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:1346
+msgid "Bio"
+msgstr ""
+
+#: ../data/skills/magic.lua:1347
+msgid "Cures poison on all characters."
+msgstr ""
+
+#: ../data/skills/special.lua:74
+msgid "Wolf Pain"
+msgstr ""
+
+#: ../data/skills/special.lua:75
+msgid "Calls the defender of the arctic."
+msgstr ""
+
+#: ../data/skills/special.lua:190
+msgid "Spawn Slime"
+msgstr ""
+
+#: ../data/skills/special.lua:212
+msgid "Dark Wish"
+msgstr ""
+
+#: ../data/skills/weapon.lua:84
+msgid "Sword Slash"
+msgstr ""
+
+#: ../data/skills/weapon.lua:85
+msgid "A textbook maneuver that deals an effective blow."
+msgstr ""
+
+#: ../data/skills/weapon.lua:112
+msgid "Forward Thrust"
+msgstr ""
+
+#: ../data/skills/weapon.lua:114
+msgid "A concentrated attack on an enemy."
+msgstr ""
+
+#: ../data/skills/weapon.lua:142
+msgid "Stun Strike"
+msgstr ""
+
+#: ../data/skills/weapon.lua:144
+msgid "A blow which temporarily stun its target."
+msgstr ""
+
+#: ../data/skills/weapon.lua:178
+msgid "X-Strike"
+msgstr ""
+
+#: ../data/skills/weapon.lua:180 ../data/skills/weapon.lua:240
+msgid ""
+"A strong and aggressive attack with a blade that deals significant damage."
+msgstr ""
+
+#: ../data/skills/weapon.lua:212
+msgid "Single Shot"
+msgstr ""
+
+#: ../data/skills/weapon.lua:213
+msgid "A simple shot using an arbalest."
+msgstr ""
+
+#: ../data/skills/weapon.lua:238
+msgid "Blade Rush"
+msgstr ""
+
+#: ../data/skills/weapon.lua:272
+msgid "Incapacitating Shot"
+msgstr ""
+
+#: ../data/skills/weapon.lua:274
+msgid "A powerful shot aimed at lowering the enemy's ability to attack."
+msgstr ""
+
+#: ../data/skills/weapon.lua:302
+#, fuzzy
+msgid "Rain of Arrows"
+msgstr "Seta para Direita"
+
+#: ../data/skills/weapon.lua:304
+msgid "An attack striking all enemies."
+msgstr ""
+
+#: ../data/skills/weapon.lua:335
+msgid "Dagger Slash"
+msgstr ""
+
+#: ../data/skills/weapon.lua:336
+msgid "A simple but efficient dagger attack."
+msgstr ""
+
+#: ../data/skills/weapon.lua:358
+msgid "Poison Slash"
+msgstr ""
+
+#: ../data/skills/weapon.lua:360
+msgid "A dagger attack, poisoning the enemy."
+msgstr ""
+
+#: ../data/skills/weapon.lua:383
+msgid "High Strike"
+msgstr ""
+
+#: ../data/skills/weapon.lua:385
+msgid ""
+"A strike from above, stunning the enemy and breaking its magical defense."
+msgstr ""
+
+#: ../data/skills/weapon.lua:408
+msgid "Sonic Wind"
+msgstr ""
+
+#: ../data/skills/weapon.lua:410
+msgid "Deals high wind damage to all enemies, stunning them along the way."
+msgstr ""
+
+#: ../data/skills/weapon.lua:433
+msgid "Sword Breaker"
+msgstr ""
+
+#: ../data/skills/weapon.lua:435
+msgid "An attack that breaks the enemy's own attack power."
+msgstr ""
+
+#: ../data/skills/weapon.lua:461
+#, fuzzy
+msgid "Execution"
+msgstr "Resolução:"
+
+#: ../data/skills/weapon.lua:463
+msgid "Attacks an enemy with a chance of causing death to catch its soul."
+msgstr ""
+
+#: ../data/skills/weapon.lua:568
+msgid "Stun Bite"
+msgstr ""
+
+#: ../data/skills/weapon.lua:601
+msgid "Dampening Bite"
+msgstr ""
+
+#: ../data/skills/weapon.lua:657
+msgid "HP Drain"
+msgstr ""
+
+#: ../data/skills/weapon.lua:721
+msgid "Multiple Attack"
+msgstr ""
+
+#: ../data/skills/weapon.lua:794
+msgid "Frenzy Attack"
+msgstr ""
+
+#: ../data/skills/weapon.lua:828
+msgid "Stamina Steal"
+msgstr ""
+
+#: ../data/skills/weapon.lua:912
+msgid "Water Spray"
+msgstr ""
+
+#: ../data/skills/weapon.lua:948
+msgid "Spider Web"
+msgstr ""
+
+# requires implementation of plural-forms
+#~ msgid " characters"
+#~ msgstr " personagens"
+
+# Change this message to a more natural one
+#~ msgid ""
+#~ " drunes found in this treasure added, the party now holds a total of "
+#~ msgstr ""
+#~ " drunes encontrados no tesouro, o total possuído pelo grupo agora é "
+
+# requires implementation of plural-forms
+#~ msgid " unique"
+#~ msgstr " tipos"
+
+# TODO: Have different messages for whether Claudius is alone or in a party.
+#~ msgid "\"Welcome! Take a look around.\""
+#~ msgstr "\"Seja bem-vindo! Fique à vontade.\""
+
+#~ msgid "(Kyle hands Claudius a cloth.  Inside is a piece of cake.)"
+#~ msgstr ""
+#~ "(Kyle entrega um pedaço de pano para Claudius. Dentro dele há uma fatia "
+#~ "de bolo.)"
+
+#~ msgid "A"
+#~ msgstr "A"
+
+#, fuzzy
+#~ msgid "AGI:"
+#~ msgstr "AGI: "
+
+#~ msgid "AGI: "
+#~ msgstr "AGI: "
+
+#~ msgid "Agility: "
+#~ msgstr "Agilidade: "
+
+#~ msgid "Alex"
+#~ msgstr "Alex"
+
+#~ msgid "Alexander"
+#~ msgstr "Alexander"
+
+# Must be split into two messages depending on context
+#~ msgid "All"
+#~ msgstr "Tudo"
+
+#, fuzzy
+#~ msgid "All Allies"
+#~ msgstr "Todos os Produtos"
+
+#, fuzzy
+#~ msgid "All Enemies"
+#~ msgstr "Todos os Produtos"
+
+#, fuzzy
+#~ msgid "All Foes"
+#~ msgstr "Todos os Produtos"
+
+#~ msgid "All Wares"
+#~ msgstr "Todos os Produtos"
+
+#~ msgid "All right buddy, let's go."
+#~ msgstr "Certo cara, vamos lá."
+
+#~ msgid "All right."
+#~ msgstr "Certo."
+
+#~ msgid "And you know I can’t just let you go."
+#~ msgstr "E você sabe que eu simplesmente não posso liberar você."
+
+# Must be split into two messages depending on context
+#~ msgid "Arm"
+#~ msgstr "Braço"
+
+#~ msgid "Arm Armor"
+#~ msgstr "Proteção de Braço"
+
+#, fuzzy
+#~ msgid "Ask nothing."
+#~ msgstr "…Nada."
+
+#~ msgid "Audio"
+#~ msgstr "Áudio"
+
+#~ msgid "Back"
+#~ msgstr "Voltar"
+
+#~ msgid ""
+#~ "Back home… hey Claudius, we should get some rest.  Let's head back to the "
+#~ "barracks."
+#~ msgstr ""
+#~ "De volta ao lar… ei, Claudius, melhor descansarmos um pouco. Vamos voltar "
+#~ "pro quartel."
+
+#, fuzzy
+#~ msgid "Bat"
+#~ msgstr "Batalha"
+
+#~ msgid "Battle"
+#~ msgstr "Batalha"
+
+#~ msgid "Battle Use:"
+#~ msgstr "Uso na Batalha:"
+
+#~ msgid "Body Armor"
+#~ msgstr "Proteção do Tronco"
+
+#~ msgid "Brightness: "
+#~ msgstr "Brilho: "
+
+#~ msgid "Buy"
+#~ msgstr "Comprar"
+
+#~ msgid "Buy prices"
+#~ msgstr "Preços de Compra"
+
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
+
+#~ msgid "Cancel an action or menu command"
+#~ msgstr "Cancela uma ação ou um comando no menu"
+
+#~ msgid "Cancel: "
+#~ msgstr "Cancelar: "
+
+#~ msgid "Cancel: Button"
+#~ msgstr "Cancela: Botão"
+
+#~ msgid "Captain"
+#~ msgstr "Capitão"
+
+#, fuzzy
+#~ msgid "Captain Bravis"
+#~ msgstr "Capitão"
+
+#~ msgid "Category"
+#~ msgstr "Categoria"
+
+#~ msgid "Charles"
+#~ msgstr "Charles"
+
+#~ msgid "Claudius"
+#~ msgstr "Claudius"
+
+#~ msgid "Claudius! Are you all right?"
+#~ msgstr "Claudius! Tudo bem com você?"
+
+#, fuzzy
+#~ msgid "Claudius, what are you doing here?"
+#~ msgstr "O que você está fazendo?"
+
+#~ msgid "Claudius?"
+#~ msgstr "Claudius?"
+
+#~ msgid "Claudius?  Claudius!  WAKE UP!"
+#~ msgstr "Claudius? Claudius! ACORDE!"
+
+#~ msgid "Clear Order"
+#~ msgstr "Limpar Pedido"
+
+#~ msgid "Come on, Kyle, let’s go! Kyle?"
+#~ msgstr "Venha, Kyle, vamos! …Kyle?"
+
+#~ msgid "Come with me, Claudius, we need to talk."
+#~ msgstr "Venha cá, Claudius, temos que conversar."
+
+#~ msgid "Command"
+#~ msgstr "Comando"
+
+#~ msgid "Complete Transaction"
+#~ msgstr "Completar Transação"
+
+#~ msgid "Confirm"
+#~ msgstr "Confirmar"
+
+#~ msgid "Confirm Order"
+#~ msgstr "Confirmar Pedido"
+
+#, fuzzy
+#~ msgid "Confirm Save"
+#~ msgstr "Confirmar: "
+
+#~ msgid "Confirm an action or menu command"
+#~ msgstr "Confirma uma ação ou um comando no menu"
+
+#~ msgid "Confirm: "
+#~ msgstr "Confirmar: "
+
+#~ msgid "Confirm: Button"
+#~ msgstr "Confirma: Botão"
+
+#, fuzzy
+#~ msgid "Confirm: exit game."
+#~ msgstr "Confirmar: "
+
+#, fuzzy
+#~ msgid "Confirm: restart from last save."
+#~ msgstr "Confirmar Pedido"
+
+#, fuzzy
+#~ msgid "Confirm: retry battle."
+#~ msgstr "Confirmar Pedido"
+
+#, fuzzy
+#~ msgid "Confirm: return to main menu."
+#~ msgstr "Confirmar Pedido"
+
+#~ msgid "Current Equipment:"
+#~ msgstr "Equipamento Atual:"
+
+#~ msgid "D"
+#~ msgstr "D"
+
+#~ msgid "Damn you, Kyle."
+#~ msgstr "Você me paga, Kyle."
+
+#~ msgid "Default Key"
+#~ msgstr "Tecla Padrão"
+
+#~ msgid "Delete"
+#~ msgstr "Apagar"
+
+#~ msgid "Display the character menu"
+#~ msgstr "Mostra o menu "
+
+#~ msgid "Don’t do this."
+#~ msgstr "Não faça isso."
+
+#~ msgid ""
+#~ "Don’t mention it. I’m already on bad terms with the captain, there’s no "
+#~ "sense in you getting in trouble too."
+#~ msgstr ""
+#~ "Não foi nada. Eu já tenho problemas com o capitão, não tem motivo pra "
+#~ "você se meter em confusão também."
+
+#~ msgid "Down"
+#~ msgstr "Abaixo"
+
+#~ msgid "Down Arrow"
+#~ msgstr "Seta para Baixo"
+
+#~ msgid "Down: "
+#~ msgstr "Abaixo: "
+
+#~ msgid "Draw your weapon."
+#~ msgstr "Desembainhe a espada."
+
+#~ msgid "Drunes"
+#~ msgstr "Drunes"
+
+#, fuzzy
+#~ msgid "Drunes Found: "
+#~ msgstr "Drunes: "
+
+#~ msgid "Drunes: "
+#~ msgstr "Drunes: "
+
+#~ msgid "E"
+#~ msgstr "E"
+
+#~ msgid "EVD: "
+#~ msgstr "ESQ: "
+
+#~ msgid "Edit"
+#~ msgstr "Editar"
+
+#~ msgid "Entry into the kitchen is strictly forbidden!"
+#~ msgstr "É proibido entrar na cozinha!"
+
+# Needs to be split into two messages, depending on context
+#~ msgid "Equip"
+#~ msgstr "Equipar"
+
+#~ msgid "Esc"
+#~ msgstr "Esc"
+
+#~ msgid "Evade: "
+#~ msgstr "Esquiva: "
+
+#~ msgid "Everyone down to the cave floor! He might still be alive!"
+#~ msgstr "Todos pro fundo da caverna! Ele ainda pode estar vivo!"
+
+#, fuzzy
+#~ msgid "Exit the game."
+#~ msgstr "Pausa o jogo"
+
+#~ msgid "Experience Level: "
+#~ msgstr "Nível de Experiência: "
+
+#~ msgid "F"
+#~ msgstr "F"
+
+#~ msgid "FRT: "
+#~ msgstr "RES: "
+
+#~ msgid "Female Merchant"
+#~ msgstr "Vendedora"
+
+#~ msgid "Field Use:"
+#~ msgstr "Uso no Mapa:"
+
+#~ msgid "Finished"
+#~ msgstr "OK"
+
+# Translated as is for now, "armory" could change later
+#~ msgid ""
+#~ "For those of you who don’t know, a thief has broken into the armory. It "
+#~ "is up to us to capture him. Split up and comb the area."
+#~ msgstr ""
+#~ "Para quem ainda não ficou sabendo, um ladrão arrombou o arsenal. É o "
+#~ "nosso dever capturá-lo. Dividam-se e vasculhem a área."
+
+#~ msgid "Formation"
+#~ msgstr "Formação"
+
+#~ msgid "Fortitude: "
+#~ msgstr "Resistência: "
+
+#~ msgid "Fred"
+#~ msgstr "Fred"
+
+#~ msgid "Funds: "
+#~ msgstr "Fundos: "
+
+#~ msgid "General Purpose"
+#~ msgstr "Efeito no Jogo"
+
+#~ msgid "Get your gear and let’s go!"
+#~ msgstr "Arrume-se e vamos!"
+
+#~ msgid "Good job."
+#~ msgstr "Bom trabalho."
+
+#~ msgid ""
+#~ "Good. Remember, never take your eye off your target. Now show me the "
+#~ "proper form for a parry."
+#~ msgstr ""
+#~ "Certo. Lembre-se, nunca tire os olhos do seu alvo. Agora me mostre a "
+#~ "forma correta de uma esquiva."
+
+#, fuzzy
+#~ msgid "HP:"
+#~ msgstr "HP: "
+
+#~ msgid "HP: "
+#~ msgstr "HP: "
+
+#~ msgid "He can wait."
+#~ msgstr "Ele pode esperar."
+
+#~ msgid "Head"
+#~ msgstr "Cabeça"
+
+#~ msgid "Head Armor"
+#~ msgstr "Proteção da Cabeça"
+
+#~ msgid "Headgear"
+#~ msgstr "Proteção da Cabeça"
+
+#~ msgid "Hector"
+#~ msgstr "Hector"
+
+#~ msgid "Hello, Claudius.  Is your equipment in order?"
+#~ msgstr "Olá, Claudius. Está com o equipamento em ordem?"
+
+#~ msgid "Hey, what's that… look out!"
+#~ msgstr "Ei, o que é aquilo… cuidado!"
+
+#~ msgid "Hey."
+#~ msgstr "Opa."
+
+#~ msgid ""
+#~ "Hi, Claudius.  If you're looking for the captain, he's at the training "
+#~ "hall."
+#~ msgstr ""
+#~ "Oi, Claudius. Se você está procurando o capitão, ele está no salão de "
+#~ "treinamento."
+
+#~ msgid "Hi-ya!"
+#~ msgstr "Hi-ya!"
+
+#~ msgid "Hlm"
+#~ msgstr "Cab"
+
+#~ msgid "Huh?  What?"
+#~ msgstr "Hã? O quê?"
+
+#~ msgid "I can’t let you get away."
+#~ msgstr "Não posso deixar você fugir."
+
+#~ msgid "I don’t know, sir."
+#~ msgstr "Eu não sei, capitão."
+
+#~ msgid "I don’t want to fight you."
+#~ msgstr "Eu não quero te enfrentar."
+
+#~ msgid ""
+#~ "I guess you’re right. And hey, thanks for covering for me back there. I "
+#~ "appreciate it."
+#~ msgstr ""
+#~ "É, acho que está certo. Ah, e obrigado por ter me tirado daquela encrenca "
+#~ "com o capitão."
+
+#~ msgid ""
+#~ "I hear some guy stole from the kitchen yesterday.  They've tightened up "
+#~ "security."
+#~ msgstr ""
+#~ "Ouvi dizer que alguém roubou da cozinha ontem. Já reforçaram a segurança "
+#~ "hoje."
+
+#~ msgid ""
+#~ "I just took some supplies, just enough to start a new life, away from "
+#~ "this servitude. Can’t you understand?"
+#~ msgstr ""
+#~ "Eu só peguei uns suprimentos, o que desse pra começar uma vida nova, "
+#~ "longe dessa escravidão. Você não entende?"
+
+#~ msgid ""
+#~ "I managed to swipe some goodies from the kitchen quarters. I saved you "
+#~ "some."
+#~ msgstr ""
+#~ "Eu consegui pegar umas coisinhas da despensa. Guardei um pouco pra você."
+
+#~ msgid ""
+#~ "I need you to look for Kyle.  I hope he didn't wander off.  Maybe the "
+#~ "other soldiers know where he is?"
+#~ msgstr ""
+#~ "Eu preciso que você procure o Kyle. Espero que não tenha sumido… Talvez "
+#~ "os outros soldados saibam aonde ele foi?"
+
+#~ msgid "I understand, sir."
+#~ msgstr "Eu entendo, senhor."
+
+#~ msgid "I'll stay behind and protect the barracks.  Good luck!"
+#~ msgstr "Ficarei na retaguarda, protegendo o quartel. Boa sorte!"
+
+#~ msgid "Image quality:"
+#~ msgstr "Qualidade de imagem:"
+
+#, fuzzy
+#~ msgid "Image quality: "
+#~ msgstr "Qualidade de imagem:"
+
+#, fuzzy
+#~ msgid "Invalid Status"
+#~ msgstr "Condição"
+
+#~ msgid "Inventory"
+#~ msgstr "Inventário"
+
+#~ msgid "Isn’t our friendship more important than your duty?"
+#~ msgstr "A nossa amizade não é mais importante que o seu dever?"
+
+#~ msgid "It's just a piece of cake.  It's not going to hurt anyone."
+#~ msgstr "É só uma fatia de bolo. Não vai fazer mal pra ninguém."
+
+#, fuzzy
+#~ msgid "Item"
+#~ msgstr "Itens"
+
+#~ msgid "Items"
+#~ msgstr "Itens"
+
+#, fuzzy
+#~ msgid "Items Found"
+#~ msgstr "Itens"
+
+#~ msgid "Itm"
+#~ msgstr "Item"
+
+#~ msgid "It’s my duty!"
+#~ msgstr "É o meu dever!"
+
+#~ msgid "It’s my fault, sir. I dragged Claudius off this morning."
+#~ msgstr ""
+#~ "A culpa foi minha, capitão. Eu arrastei o Claudius pra fora hoje cedo."
+
+#~ msgid "I’m fine… But the captain… He fell…"
+#~ msgstr "Estou bem… Mas o capitão… ele caiu…"
+
+#~ msgid "I’m sorry.  I didn't want to have to do that."
+#~ msgstr "Eu sei, eu… não queria ter que fazer isso."
+
+#~ msgid "I’m very disappointed in you, Kyle."
+#~ msgstr "Estou muito decepcionado com você, Kyle."
+
+#~ msgid "I’m your friend!"
+#~ msgstr "Mas sou seu amigo!"
+
+#~ msgid "Jeff"
+#~ msgstr "Jeff"
+
+#~ msgid "Joe"
+#~ msgstr "Joe"
+
+#~ msgid "Joystick Settings"
+#~ msgstr "Configuração do Joystick"
+
+#~ msgid ""
+#~ "Just think about it. Now, do me a favor and find Kyle. I need to speak "
+#~ "with him as well."
+#~ msgstr ""
+#~ "Pense nisso. Agora, me faça um favor e vá buscar o Kyle. Eu preciso falar "
+#~ "com ele também."
+
+#~ msgid "Karlate"
+#~ msgstr "Karlate"
+
+#, fuzzy
+#~ msgid "Karlate Sword"
+#~ msgstr "Karlate"
+
+# Esp as in "especial" - "special"
+#~ msgid "Key"
+#~ msgstr "Esp"
+
+#~ msgid "Key Items"
+#~ msgstr "Itens Especiais"
+
+#~ msgid "Key Settings"
+#~ msgstr "Configuração do Teclado"
+
+#, fuzzy
+#~ msgid "Knight"
+#~ msgstr "Direita"
+
+#~ msgid "Kyle"
+#~ msgstr "Kyle"
+
+#~ msgid "Kyle is a good man, sir."
+#~ msgstr "Kyle é um bom homem, senhor."
+
+#~ msgid "Kyle!"
+#~ msgstr "Kyle!"
+
+#~ msgid "Kyle?  Oh, yeah, I think he went off to the south."
+#~ msgstr "O Kyle? Ah, sim, acho que ele foi na direção sul."
+
+#, fuzzy
+#~ msgid "Laila has joined the party."
+#~ msgstr "Kyle se juntou ao grupo."
+
+#~ msgid "Laine"
+#~ msgstr "Laine"
+
+#~ msgid "Language"
+#~ msgstr "Idioma"
+
+#~ msgid "Leave"
+#~ msgstr "Sair"
+
+#~ msgid "Leave Shop"
+#~ msgstr "Sair"
+
+#~ msgid "Left"
+#~ msgstr "Esquerda"
+
+#~ msgid "Left Arrow"
+#~ msgstr "Seta para Esquerda"
+
+#~ msgid "Left Select"
+#~ msgstr "Seleção Esquerda"
+
+#~ msgid "Left Select: "
+#~ msgstr "Seleção Esquerda: "
+
+#~ msgid "Left Select: Button"
+#~ msgstr "Seleção Esquerda: Botão"
+
+#~ msgid "Left: "
+#~ msgstr "Esquerda: "
+
+#~ msgid "Leg"
+#~ msgstr "Per"
+
+#~ msgid "Leggings"
+#~ msgstr "Grevas"
+
+#~ msgid "Legs"
+#~ msgstr "Pernas"
+
+#~ msgid ""
+#~ "Let’s see how you fare when the opponent strikes back. Kyle! Get over "
+#~ "here!"
+#~ msgstr ""
+#~ "Vamos ver como você se sai quando o oponente revidar. Kyle! Venha cá!"
+
+#~ msgid "Livia"
+#~ msgstr "Livia"
+
+#~ msgid "Load"
+#~ msgstr "Carregar"
+
+#~ msgid "Load Game"
+#~ msgstr "Carregar Jogo"
+
+#, fuzzy
+#~ msgid "Lower Agility"
+#~ msgstr "Agilidade: "
+
+#, fuzzy
+#~ msgid "Lower Fortitude"
+#~ msgstr "Resistência: "
+
+#, fuzzy
+#~ msgid "Lower Protection"
+#~ msgstr "Proteção: "
+
+#, fuzzy
+#~ msgid "Lower Strength"
+#~ msgstr "Força: "
+
+#~ msgid "Lv: "
+#~ msgstr "Nv: "
+
+#~ msgid "META ATK:"
+#~ msgstr "ATQ META:"
+
+#~ msgid "META ATK: "
+#~ msgstr "ATQ META: "
+
+#~ msgid "META DEF:"
+#~ msgstr "DEF META:"
+
+#~ msgid "META DEF: "
+#~ msgstr "DEF META: "
+
+#~ msgid "Marcus"
+#~ msgstr "Marcus"
+
+#~ msgid "Menu"
+#~ msgstr "Menu"
+
+#~ msgid "Menu: "
+#~ msgstr "Menu: "
+
+#~ msgid "Menu: Button"
+#~ msgstr "Menu: Botão"
+
+#~ msgid "Meta:"
+#~ msgstr "Meta:"
+
+#~ msgid "Modify Order"
+#~ msgstr "Alterar Pedido"
+
+#~ msgid "Move Down"
+#~ msgstr "Para Baixo"
+
+#~ msgid "Move Left"
+#~ msgstr "Para a Esquerda"
+
+#~ msgid "Move Right"
+#~ msgstr "Para a Direita"
+
+#~ msgid "Move Up"
+#~ msgstr "Para Cima"
+
+#~ msgid "Move position or cursor downwards"
+#~ msgstr "Anda ou move o cursor para baixo"
+
+#~ msgid "Move position or cursor to the left"
+#~ msgstr "Anda ou move o cursor para a esquerda"
+
+#~ msgid "Move position or cursor to the right"
+#~ msgstr "Anda ou move o cursor para a direita"
+
+#~ msgid "Move position or cursor upwards"
+#~ msgstr "Anda ou move o cursor para cima"
+
+#~ msgid "Music Volume: "
+#~ msgstr "Volume da música: "
+
+#~ msgid "Name"
+#~ msgstr "Nome"
+
+#~ msgid "New Game"
+#~ msgstr "Novo Jogo"
+
+#~ msgid "New Profile"
+#~ msgstr "Novo Perfil"
+
+#~ msgid "Nicely done."
+#~ msgstr "Muito bem."
+
+#~ msgid "No"
+#~ msgstr "Não"
+
+#, fuzzy
+#~ msgid "No arm armor"
+#~ msgstr "Proteção de Braço"
+
+#, fuzzy
+#~ msgid "No head armor"
+#~ msgstr "Proteção da Cabeça"
+
+#, fuzzy
+#~ msgid "No leg armor"
+#~ msgstr "Proteção das Pernas"
+
+#~ msgid "No marked transactions."
+#~ msgstr "Nenhuma transação marcada."
+
+#, fuzzy
+#~ msgid "No torso armor"
+#~ msgstr "Proteção do Tronco"
+
+#, fuzzy
+#~ msgid "No weapon"
+#~ msgstr "Arma"
+
+#~ msgid "No!"
+#~ msgstr "Não!"
+
+#, fuzzy
+#~ msgid "No, of course not..."
+#~ msgstr "Claro que não."
+
+#~ msgid "No. I’m doing this for me. I don’t expect you to understand."
+#~ msgstr "Não. Estou fazendo isso por mim. Não espero que você entenda."
+
+#~ msgid "Not him. Claudius trains with me today."
+#~ msgstr "Ele não. O Claudius vai treinar comigo hoje."
+
+#~ msgid "Octavia"
+#~ msgstr "Octavia"
+
+#, fuzzy
+#~ msgid "Of course, I promise."
+#~ msgstr "Claro que não."
+
+# To be decided
+#~ msgid "Offhand"
+#~ msgstr "Mão do Escudo"
+
+#~ msgid "Oh no."
+#~ msgstr "Ah não…"
+
+#~ msgid "Okay, let's call it a night."
+#~ msgstr "Certo, vamos encerrar por hoje."
+
+#~ msgid "Options"
+#~ msgstr "Opções"
+
+#~ msgid "Over here, Claudius!"
+#~ msgstr "Por aqui, Claudius!"
+
+#, fuzzy
+#~ msgid "Over there! Watch out!"
+#~ msgstr "Por aqui, Claudius!"
+
+#~ msgid "Overwrite? Confirm/Cancel"
+#~ msgstr "Sobrescrever? Confirma/Cancela"
+
+#~ msgid "Own"
+#~ msgstr "Inventário"
+
+#~ msgid "PHYS ATK:"
+#~ msgstr "ATQ FÍS:"
+
+#~ msgid "PHYS ATK: "
+#~ msgstr "ATQ FÍS:"
+
+#~ msgid "PHYS DEF:"
+#~ msgstr "DEF FÍS:"
+
+#~ msgid "PHYS DEF: "
+#~ msgstr "DEF FÍS: "
+
+#, fuzzy
+#~ msgid "PRO:"
+#~ msgstr "PRO: "
+
+#~ msgid "PRO: "
+#~ msgstr "PRO: "
+
+#~ msgid "Pause"
+#~ msgstr "Pausar"
+
+#~ msgid "Pause: "
+#~ msgstr "Pausar: "
+
+#~ msgid "Pause: Button"
+#~ msgstr "Pausa: Botão"
+
+#~ msgid "Paused"
+#~ msgstr "Pausa"
+
+#~ msgid "Pauses the game"
+#~ msgstr "Pausa o jogo"
+
+#~ msgid "Phys:"
+#~ msgstr "Fís:"
+
+#~ msgid "Please enter a name for your new profile"
+#~ msgstr "Defina um nome para o novo perfil"
+
+#~ msgid "Please move an axis."
+#~ msgstr "Movimente o eixo do direcional analógico na direção desejada."
+
+#~ msgid "Please press a new joystick button."
+#~ msgstr "Pressione o botão desejado no joystick."
+
+#~ msgid "Please press a new key."
+#~ msgstr "Pressione a tecla desejada."
+
+#~ msgid "Price"
+#~ msgstr "Preço"
+
+#~ msgid "Profiles"
+#~ msgstr "Perfis"
+
+#~ msgid "Protection: "
+#~ msgstr "Proteção: "
+
+#~ msgid "Purchases"
+#~ msgstr "Compras"
+
+#~ msgid "Purchases: -"
+#~ msgstr "Compras: -"
+
+#~ msgid "Quit"
+#~ msgstr "Sair"
+
+#~ msgid "Quit Game"
+#~ msgstr "Sair do Jogo"
+
+#~ msgid "Quit the application"
+#~ msgstr "Encerra o jogo"
+
+#~ msgid "Quit to Main Menu"
+#~ msgstr "Sair para o Menu Principal"
+
+#, fuzzy
+#~ msgid "Raise Agility"
+#~ msgstr "Agilidade: "
+
+#, fuzzy
+#~ msgid "Raise Fortitude"
+#~ msgstr "Resistência: "
+
+#, fuzzy
+#~ msgid "Raise Protection"
+#~ msgstr "Proteção: "
+
+#, fuzzy
+#~ msgid "Rat"
+#~ msgstr "Batalha"
+
+#~ msgid ""
+#~ "Regardless, I want you to consider your priorities. Becoming a knight "
+#~ "takes sacrifice. Sometimes that sacrifice means spending less time with "
+#~ "the people we care about."
+#~ msgstr ""
+#~ "Eu sei, mas… eu quero que você decida quais são as suas prioridades. É "
+#~ "preciso sacrifício para se tornar um cavaleiro. Às vezes esse sacrifício "
+#~ "significa passarmos menos tempo com as pessoas que importam pra nós."
+
+#~ msgid "Remember what you’ve learned."
+#~ msgstr "Lembre-se do que você já aprendeu."
+
+#~ msgid "Remove"
+#~ msgstr "Retirar"
+
+#, fuzzy
+#~ msgid "Resolution: "
+#~ msgstr "Resolução:"
+
+#~ msgid "Restore defaults"
+#~ msgstr "Carregar padrões"
+
+#~ msgid "Right"
+#~ msgstr "Direita"
+
+#~ msgid "Right Select"
+#~ msgstr "Seleção Direita"
+
+#~ msgid "Right Select: "
+#~ msgstr "Seleção Direita: "
+
+#~ msgid "Right Select: Button"
+#~ msgstr "Seleção Direita: Botão"
+
+#~ msgid "Right: "
+#~ msgstr "Direita: "
+
+#~ msgid "S"
+#~ msgstr "S"
+
+#, fuzzy
+#~ msgid "SP:"
+#~ msgstr "SP: "
+
+#~ msgid "SP: "
+#~ msgstr "SP: "
+
+#, fuzzy
+#~ msgid "STR:"
+#~ msgstr "FOR: "
+
+#~ msgid "STR: "
+#~ msgstr "FOR: "
+
+#~ msgid "Sales"
+#~ msgstr "Vendas"
+
+#~ msgid "Sales: +"
+#~ msgstr "Vendas: +"
+
+#~ msgid "Save"
+#~ msgstr "Salvar"
+
+#~ msgid "Save Game"
+#~ msgstr "Salvar Jogo"
+
+#~ msgid "Scott"
+#~ msgstr "Scott"
+
+#, fuzzy
+#~ msgid "Select Target"
+#~ msgstr "Alvo:"
+
+#~ msgid "Select multiple or backward page scroll"
+#~ msgstr "Seleção múltipla ou ir à página anterior"
+
+#~ msgid "Select multiple or forward page scroll"
+#~ msgstr "Seleção múltipla ou ir à próxima página"
+
+#~ msgid "Sell"
+#~ msgstr "Vender"
+
+#~ msgid "Sell prices"
+#~ msgstr "Preços de Venda"
+
+# To be decided
+#~ msgid "Shards"
+#~ msgstr "Shards"
+
+#~ msgid "Shop"
+#~ msgstr "Loja"
+
+#~ msgid "Shop Name"
+#~ msgstr "Nome da Loja"
+
+#~ msgid "Show me your slicing attack technique."
+#~ msgstr "Quero ver sua técnica de ataque."
+
+#~ msgid "Sir?"
+#~ msgstr "Senhor?"
+
+#, fuzzy
+#~ msgid "Skill Points: "
+#~ msgstr "Habilidades"
+
+#, fuzzy
+#~ msgid "Skill<R>Type SP"
+#~ msgstr "Habilidades"
+
+#~ msgid "Skills"
+#~ msgstr "Habilidades"
+
+#~ msgid "Sorry, sir, I –"
+#~ msgstr "Perdão, senhor, eu –"
+
+#~ msgid "Sound Volume: "
+#~ msgstr "Volume do som: "
+
+#~ msgid "Spacebar"
+#~ msgstr "Barra de espaço"
+
+#, fuzzy
+#~ msgid "Standard Helmet"
+#~ msgstr "Karlate"
+
+#~ msgid "Status"
+#~ msgstr "Condição"
+
+#~ msgid "Stock"
+#~ msgstr "Estoque"
+
+#~ msgid ""
+#~ "Stop this, Kyle. You can’t escape. Lower your weapon and come peacefully "
+#~ "and I’ll make sure your punishment is lenient."
+#~ msgstr ""
+#~ "Pare com isso, Kyle. Você não tem como escapar. Baixe sua arma e venha em "
+#~ "paz que eu lhe garanto que sua punição será branda."
+
+#~ msgid "Strength: "
+#~ msgstr "Força: "
+
+#~ msgid "Swap"
+#~ msgstr "Trocar"
+
+#~ msgid "Swap: "
+#~ msgstr "Trocar: "
+
+#~ msgid "Swap: Button"
+#~ msgstr "Troca: Botão"
+
+#~ msgid "Swaps active menu or character"
+#~ msgstr "Troca o menu ou o personagem ativo"
+
+#~ msgid "Switch"
+#~ msgstr "Substituir"
+
+#, fuzzy
+#~ msgid "Target Type: "
+#~ msgstr "Alvo:"
+
+#~ msgid "Target:"
+#~ msgstr "Alvo:"
+
+#~ msgid "Thank you, sir."
+#~ msgstr "Obrigado, senhor."
+
+#~ msgid ""
+#~ "The captain and some others went off to the cave down that path to the "
+#~ "west."
+#~ msgstr ""
+#~ "O capitão e mais alguns soldados foram até a caverna por aquele caminho a "
+#~ "oeste."
+
+#~ msgid ""
+#~ "The control mappings can be changed in the options menu on the next "
+#~ "screen."
+#~ msgstr ""
+#~ "Os controles podem ser personalizados no menu \"Opções\" na próxima tela."
+
+#~ msgid "The table below lists the default game controls.\n"
+#~ msgstr "A tabela abaixo mostra os controles padrões do jogo.\n"
+
+# "treasury" might change later
+#~ msgid ""
+#~ "The treasury!  A thief has broken in and stolen everything.  The captain "
+#~ "has called a man hunt.  Now equip yourself and meet us out front."
+#~ msgstr ""
+#~ "O tesouro! Um ladrão o arrombou e levou tudo. O capitão convocou uma "
+#~ "busca. Agora arrume-se e nos encontre lá fora."
+
+#~ msgid "Then lower your weapon and turn yourself in."
+#~ msgstr "Então baixe sua arma e entregue-se."
+
+#~ msgid "Then you leave me no choice."
+#~ msgstr "Então você não me deixa escolha."
+
+# TODO: Translate the MANUAL file if/when needed.
+#~ msgid ""
+#~ "There are additional commands available which can be found in the MANUAL "
+#~ "file."
+#~ msgstr ""
+#~ "Há outros comandos disponíveis, que podem ser encontrados no arquivo "
+#~ "MANUAL."
+
+#~ msgid "There are no marked purchases, sales, or trades."
+#~ msgstr "Nenhuma compra, venda ou troca foi marcada."
+
+#~ msgid "There you are."
+#~ msgstr "Ah, você está aí."
+
+#~ msgid "This feature is not yet available."
+#~ msgstr "Esta função ainda não foi implementada."
+
+#~ msgid ""
+#~ "This is the Karlate training site.  The barracks are to the east.  "
+#~ "There's a cave off to the west."
+#~ msgstr ""
+#~ "Aqui é a base de treinamento dos Karlate. O quartel fica a leste, e há "
+#~ "uma caverna a oeste."
+
+#~ msgid "This way to the barracks."
+#~ msgstr "O quartel é por aqui."
+
+#~ msgid ""
+#~ "This will remove all marked purchases, sales, and trades. Are you sure?"
+#~ msgstr ""
+#~ "Isso vai cancelar todas as compras, vendas e trocas marcadas. Tem certeza?"
+
+#~ msgid "Tim"
+#~ msgstr "Tim"
+
+#~ msgid "To hell with the knighthood!"
+#~ msgstr "Que a ordem vá pro inferno!"
+
+#~ msgid "Tor"
+#~ msgstr "Cor"
+
+#~ msgid "Torl"
+#~ msgstr "Torl"
+
+#~ msgid "Torso"
+#~ msgstr "Tronco"
+
+#~ msgid "Torso Armor"
+#~ msgstr "Proteção do Tronco"
+
+#, fuzzy
+#~ msgid "Total Drunes: "
+#~ msgstr "Drunes: "
+
+#~ msgid "Total: "
+#~ msgstr "Total: "
+
+#~ msgid "Trade"
+#~ msgstr "Trocar"
+
+#~ msgid "Trades"
+#~ msgstr "Trocas"
+
+#~ msgid "Treasure Contents"
+#~ msgstr "Tesouro Encontrado"
+
+#~ msgid "Up"
+#~ msgstr "Acima"
+
+#~ msgid "Up Arrow"
+#~ msgstr "Seta para cima"
+
+#~ msgid "Up: "
+#~ msgstr "Acima: "
+
+#~ msgid "Use"
+#~ msgstr "Usar"
+
+#, fuzzy
+#~ msgid "Use: "
+#~ msgstr "Pausar: "
+
+#, fuzzy
+#~ msgid "VIG:"
+#~ msgstr "VIG: "
+
+#~ msgid "VIG: "
+#~ msgstr "VIG: "
+
+#~ msgid "Vanica"
+#~ msgstr "Vanica"
+
+#~ msgid ""
+#~ "Very well. Kyle. Find a partner to train with. I’ll deal with you later."
+#~ msgstr ""
+#~ "Muito bem. Kyle, procure um parceiro pra treinar. Depois eu cuido do seu "
+#~ "caso."
+
+#~ msgid "Video"
+#~ msgstr "Vídeo"
+
+#~ msgid "View"
+#~ msgstr "Visualizar"
+
+#~ msgid "View Order"
+#~ msgstr "Ver Pedido"
+
+#~ msgid "Vigor: "
+#~ msgstr "Vigor: "
+
+#~ msgid "W"
+#~ msgstr "W"
+
+#, fuzzy
+#~ msgid "Wait, what was that noise? Hey, look out!"
+#~ msgstr "Ei, o que é aquilo… cuidado!"
+
+#~ msgid "We are, sir."
+#~ msgstr "Nós somos, senhor."
+
+#~ msgid "Weapon"
+#~ msgstr "Arma"
+
+#~ msgid "Weapons"
+#~ msgstr "Armas"
+
+#~ msgid "Well done, Claudius."
+#~ msgstr "Muito bem, Claudius."
+
+#~ msgid "What are you doing?"
+#~ msgstr "O que você está fazendo?"
+
+#~ msgid "What are you doing? The captain wants to speak with you."
+#~ msgstr "O que está fazendo? O capitão quer falar com você."
+
+#~ msgid "What have you done…"
+#~ msgstr "O que foi que você fez…"
+
+#~ msgid "What’s going on?"
+#~ msgstr "O que aconteceu?"
+
+#~ msgid "Where’s that friend of yours run off to this time?"
+#~ msgstr "Pra onde fugiu agora o seu amigo?"
+
+#~ msgid "Will that be all?"
+#~ msgstr "Isso é tudo?"
+
+#~ msgid "Window mode:"
+#~ msgstr "Tela cheia:"
+
+#, fuzzy
+#~ msgid "Window mode: "
+#~ msgstr "Tela cheia:"
+
+#, fuzzy
+#~ msgid "Wing"
+#~ msgstr "Grevas"
+
+# Change this message to a more natural one
+#~ msgid "With the additional "
+#~ msgstr "Com os "
+
+#, fuzzy
+#~ msgid "Woah, are you men alright?"
+#~ msgstr "Claudius! Tudo bem com você?"
+
+#~ msgid "Wpn"
+#~ msgstr "Arma"
+
+#~ msgid "X Axis"
+#~ msgstr "Eixo X"
+
+# To be decided
+#~ msgid "XP to Next: "
+#~ msgstr "EXP p/ avançar: "
+
+#~ msgid "Y Axis"
+#~ msgstr "Eixo Y"
+
+#~ msgid "Yes"
+#~ msgstr "Sim"
+
+#~ msgid "Yes sir."
+#~ msgstr "Sim, senhor."
+
+#~ msgid "Yes, Claudius?"
+#~ msgstr "Sim, Claudius?"
+
+#~ msgid "Yes, sir."
+#~ msgstr "Sim, senhor."
+
+#~ msgid "Yes?"
+#~ msgstr "Sim?"
+
+#~ msgid "You and Kyle are close."
+#~ msgstr "Você e Kyle são próximos."
+
+#~ msgid ""
+#~ "You have a lot of potential, Claudius. I know Kyle is your friend, but I "
+#~ "fear he’s becoming an impediment to your quest for knighthood."
+#~ msgstr ""
+#~ "Você tem muito potencial, Claudius. Eu sei que Kyle é seu amigo, mas "
+#~ "talvez ele esteja se tornando um obstáculo na sua carreira militar."
+
+#~ msgid "You have your orders.  Now go."
+#~ msgstr "Você tem suas ordens. Agora vá."
+
+#~ msgid "You killed the Captain!"
+#~ msgstr "Você matou o capitão!"
+
+#~ msgid "You know I can’t."
+#~ msgstr "Você sabe que não posso."
+
+#~ msgid "You shouldn’t –"
+#~ msgstr "Você não devia –"
+
+#~ msgid "You too. We should head back."
+#~ msgstr "Você também. Nós devíamos voltar."
+
+#~ msgid ""
+#~ "You'd be a fool to run out into the desert on your own for very long.  "
+#~ "There's a cave to the west, though, and if you go far enough, you'll find "
+#~ "water."
+#~ msgstr ""
+#~ "Você seria louco em ir longe no deserto sozinho. Mas há uma caverna a "
+#~ "oeste, onde tem água se você avançar o bastante."
+
+#~ msgid "You're late."
+#~ msgstr "Vocês estão atrasados."
+
+#~ msgid ""
+#~ "Your order is not yet final. Are you sure you want to leave the shop?"
+#~ msgstr "Você ainda não finalizou o pedido. Tem certeza de que deseja sair?"
+
+#~ msgid "You’ll face me then."
+#~ msgstr "Você irá me enfrentar, então."
+
+#~ msgid "You’ve already done it."
+#~ msgstr "Quem fez foi você."
+
+#~ msgid "You’ve tarnished your honor and disgraced the Harrvahan knighthood!"
+#~ msgstr "Você manchou a sua honra e maculou a ordem de Harrvah!"
+
+#~ msgid "back"
+#~ msgstr "back"
+
+#~ msgid "end"
+#~ msgstr "OK"
+
+#~ msgid "…Let’s go."
+#~ msgstr "…Vamos."
+
+#~ msgid "…Nothing."
+#~ msgstr "…Nada."
+
+#~ msgid "…What?"
+#~ msgstr "…Quê?"
+
+#~ msgid ""
+#~ "And go where? You should be happy. It’s an honor to serve your country."
+#~ msgstr ""
+#~ "E ir aonde? Você deveria estar feliz. É uma honra poder servir à pátria."
+
+#~ msgid "Aren’t we supposed to be sparring right now?"
+#~ msgstr "Não era pra estarmos treinando agora mesmo?"
+
+#~ msgid "Credits"
+#~ msgstr "Créditos"
+
+#~ msgid "Demo 1.0.0"
+#~ msgstr "Demo 1.0.0"
+
+#, fuzzy
+#~ msgid "Drunes Recovered: "
+#~ msgstr "Drunes: "
+
+#~ msgid "File #1"
+#~ msgstr "Arquivo #1"
+
+#~ msgid "File #2"
+#~ msgstr "Arquivo #2"
+
+#~ msgid "File #3"
+#~ msgstr "Arquivo #3"
+
+#~ msgid "File #4"
+#~ msgstr "Arquivo #4"
+
+#~ msgid "File #5"
+#~ msgstr "Arquivo #5"
+
+#~ msgid "File #6"
+#~ msgstr "Arquivo #6"
+
+#~ msgid "Hey, what time is it?"
+#~ msgstr "Ei, que horas são?"
+
+#~ msgid "I can do that on my own."
+#~ msgstr "Eu posso fazer isso sozinho."
+
+#~ msgid "I didn’t think so."
+#~ msgstr "Achei que teria pensado."
+
+#~ msgid "I don’t know."
+#~ msgstr "Eu não sei."
+
+#~ msgid "I just don’t understand you sometimes."
+#~ msgstr "Eu não te entendo às vezes."
+
+#~ msgid "I think we are. Come on."
+#~ msgstr "Acho que era. Vamos lá."
+
+#~ msgid ""
+#~ "It’s more effective to work together. Besides, the Captain has our best "
+#~ "interest at heart."
+#~ msgstr ""
+#~ "É mais fácil se trabalharmos juntos. Além disso, o Capitão tem em mente o "
+#~ "que é melhor para nós."
+
+#~ msgid "Kyle has joined the party."
+#~ msgstr "Kyle se juntou ao grupo."
+
+#~ msgid "Laila"
+#~ msgstr "Laila"
+
+#~ msgid "Of course not."
+#~ msgstr "Claro que não."
+
+#~ msgid ""
+#~ "That’s where you’re wrong, Claudius. As far as he’s concerned we’re "
+#~ "expendable."
+#~ msgstr ""
+#~ "É aí que você se engana, Claudius. No que depender dele, nós somos "
+#~ "descartáveis."
+
+#~ msgid "Who cares?"
+#~ msgstr "Que diferença faz?"
+
+# Changed meaning to "Fullscreen: yes" as it sounds better here
+#~ msgid "Window mode: fullscreen"
+#~ msgstr "Tela cheia: sim"
+
+# Changed meaning to "Fullscreen: no" as it sounds better here
+#~ msgid "Window mode: windowed"
+#~ msgstr "Tela cheia: não"
+
+#~ msgid ""
+#~ "You know the only reason I’m doing this is because of my family. There "
+#~ "was never any discussion. If it was my choice I’d be far away from here."
+#~ msgstr ""
+#~ "Você sabe que só estou fazendo isso pela minha família. Nunca pensei que "
+#~ "não fosse. Se eu pudesse escolher, estaria bem longe daqui."
+
+#~ msgid "You’ll be all right."
+#~ msgstr "Você vai ficar bem."
+
+#~ msgid "You’re crazy."
+#~ msgstr "Você é doido."
+
+#~ msgid "You’ve never thought about leaving the knighthood?"
+#~ msgstr "Você nunca pensou em deixar a ordem?"
+
+#, fuzzy
+#~ msgid "© 2004 — 2011 The Allacrost Project"
+#~ msgstr "© 2004 — 2010 Projeto Allacrost"

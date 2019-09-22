@@ -1,0 +1,716 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-22 23:22+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../data/skills/barehands.lua:28
+msgid "Punch"
+msgstr ""
+
+#: ../data/skills/barehands.lua:29
+msgid "A simple punch. Better than nothing."
+msgstr ""
+
+#: ../data/skills/barehands.lua:56
+msgid "Throw stone"
+msgstr ""
+
+#: ../data/skills/barehands.lua:57
+msgid "Kalya's attack when she has no weapon."
+msgstr ""
+
+#: ../data/skills/barehands.lua:83
+msgid "Tornado Punch"
+msgstr ""
+
+#: ../data/skills/barehands.lua:84
+msgid "Spinning knuckle attack that deals wind damage."
+msgstr ""
+
+#: ../data/skills/magic.lua:51
+msgid "Shield"
+msgstr ""
+
+#: ../data/skills/magic.lua:52
+msgid "Increases an ally's physical defense by a slight degree."
+msgstr ""
+
+#: ../data/skills/magic.lua:100
+msgid "First Aid"
+msgstr ""
+
+#: ../data/skills/magic.lua:101
+msgid ""
+"Performs basic medical assistance, healing the target by a minor degree."
+msgstr ""
+
+#: ../data/skills/magic.lua:145
+msgid "Leader Call"
+msgstr ""
+
+#: ../data/skills/magic.lua:146
+msgid "Temporarily increases the Physical Attack of all allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:172
+msgid "Holy Veil"
+msgstr ""
+
+#: ../data/skills/magic.lua:173
+msgid "Increases the attack and magical attack of all allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:204
+msgid "Ancient Strength"
+msgstr ""
+
+#: ../data/skills/magic.lua:205
+msgid "Increases every form of elemental resistance for all allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:229
+msgid "Divine Wish"
+msgstr ""
+
+#: ../data/skills/magic.lua:230 ../data/skills/special.lua:213
+msgid "Revives an ally, restoring all of their HP and SP."
+msgstr ""
+
+#: ../data/skills/magic.lua:249
+msgid "Magical Poison"
+msgstr ""
+
+#: ../data/skills/magic.lua:250
+msgid "Makes an enemy lose its SP little by little."
+msgstr ""
+
+#: ../data/skills/magic.lua:273
+msgid "Steal Song"
+msgstr ""
+
+#: ../data/skills/magic.lua:274
+msgid "Steals positive effects from an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:290
+msgid "Terrify"
+msgstr ""
+
+#: ../data/skills/magic.lua:291
+msgid "Potentially causes a normal enemy to retreat."
+msgstr ""
+
+#: ../data/skills/magic.lua:307
+msgid "Decay Dirge"
+msgstr ""
+
+#: ../data/skills/magic.lua:308
+msgid "Steals both physical and magical defense of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:324
+msgid "War God"
+msgstr ""
+
+#: ../data/skills/magic.lua:325
+msgid ""
+"Steals both the physical and magical defense of all enemies and gives it to "
+"the party."
+msgstr ""
+
+#: ../data/skills/magic.lua:361
+msgid "Fire burst"
+msgstr ""
+
+#: ../data/skills/magic.lua:362
+msgid "Creates a small fire that burns enemies."
+msgstr ""
+
+#: ../data/skills/magic.lua:403
+msgid "Fire Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:404
+msgid "Increases the fire elemental defense on a character."
+msgstr ""
+
+#: ../data/skills/magic.lua:419
+msgid "Lava"
+msgstr ""
+
+#: ../data/skills/magic.lua:420
+msgid "Magical attack combining earth and fire type damage."
+msgstr ""
+
+#: ../data/skills/magic.lua:435
+msgid "Fog"
+msgstr ""
+
+#: ../data/skills/magic.lua:436
+msgid "Increases the evade rate of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:451
+msgid "Fire Breath"
+msgstr ""
+
+#: ../data/skills/magic.lua:452
+msgid "Magical attack combining air and fire type damage."
+msgstr ""
+
+#: ../data/skills/magic.lua:467
+msgid "Focus"
+msgstr ""
+
+#: ../data/skills/magic.lua:468 ../data/skills/magic.lua:619
+msgid "Increases the magical defense of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:483
+msgid "Holy Fire"
+msgstr ""
+
+#: ../data/skills/magic.lua:484
+msgid "Magical attack combining life and fire damages."
+msgstr ""
+
+#: ../data/skills/magic.lua:499
+msgid "Life"
+msgstr ""
+
+#: ../data/skills/magic.lua:500
+msgid "Revives a fallen ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:515
+msgid "Petrify"
+msgstr ""
+
+#: ../data/skills/magic.lua:516
+msgid "Turns an enemy into stone."
+msgstr ""
+
+#: ../data/skills/magic.lua:531
+msgid "Rage"
+msgstr ""
+
+#: ../data/skills/magic.lua:532
+msgid ""
+"Enrages an ally, increasing their attack and speed but reducing their "
+"defense."
+msgstr ""
+
+#: ../data/skills/magic.lua:547
+msgid "Rock Fall"
+msgstr ""
+
+#: ../data/skills/magic.lua:548
+msgid "Rocks fall on an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:573
+msgid "Earth Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:574
+msgid "Increases the earth elemental defense of a character."
+msgstr ""
+
+#: ../data/skills/magic.lua:602
+msgid "Entangle"
+msgstr ""
+
+#: ../data/skills/magic.lua:603
+msgid "Decreases the evasion rate of an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:618
+msgid "Magical Armor"
+msgstr ""
+
+#: ../data/skills/magic.lua:634
+msgid "Haste"
+msgstr ""
+
+#: ../data/skills/magic.lua:635
+msgid "Increases the battle speed of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:650
+msgid "Moon"
+msgstr ""
+
+#: ../data/skills/magic.lua:651
+msgid "Makes an enemy attack its own allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:666
+msgid "Cure"
+msgstr ""
+
+#: ../data/skills/magic.lua:667
+msgid "Cures the poison from an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:682
+msgid "Drain"
+msgstr ""
+
+#: ../data/skills/magic.lua:683
+msgid "Steals HP from an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:698
+msgid "Curse"
+msgstr ""
+
+#: ../data/skills/magic.lua:699
+msgid "Severely decreases several random stats of an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:714
+msgid "Meteor"
+msgstr ""
+
+#: ../data/skills/magic.lua:715
+msgid "High earth damage on all foes."
+msgstr ""
+
+#: ../data/skills/magic.lua:730
+msgid "Wave"
+msgstr ""
+
+#: ../data/skills/magic.lua:731
+msgid ""
+"Makes waves fall on an enemy, damaging them and decreasing their physical "
+"attack."
+msgstr ""
+
+#: ../data/skills/magic.lua:774
+msgid "Water Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:775
+msgid "Increases the water elemental defense on a character."
+msgstr ""
+
+#: ../data/skills/magic.lua:799
+msgid "Whirlwind"
+msgstr ""
+
+#: ../data/skills/magic.lua:800
+msgid "Magical attack combining water and air type damage."
+msgstr ""
+
+#: ../data/skills/magic.lua:815
+msgid "Slow"
+msgstr ""
+
+#: ../data/skills/magic.lua:816
+msgid "Decreases the battle speed of an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:831
+msgid "Blindness"
+msgstr ""
+
+#: ../data/skills/magic.lua:832
+msgid "Prevents an enemy from succeeding to strike with any physical attacks."
+msgstr ""
+
+#: ../data/skills/magic.lua:847
+msgid "Heal"
+msgstr ""
+
+#: ../data/skills/magic.lua:848
+msgid "Restores the health of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:863
+msgid "Poison"
+msgstr ""
+
+#: ../data/skills/magic.lua:864
+msgid "Inflicts poison on an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:888
+msgid "Stun"
+msgstr ""
+
+#: ../data/skills/magic.lua:889
+msgid "Stuns an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:907
+msgid "Tsunami"
+msgstr ""
+
+#: ../data/skills/magic.lua:908
+msgid "High water damage inflicted on all foes."
+msgstr ""
+
+#: ../data/skills/magic.lua:923
+msgid "Healing Rain"
+msgstr ""
+
+#: ../data/skills/magic.lua:924
+msgid "Improves the health of all allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:939
+msgid "Wind"
+msgstr ""
+
+#: ../data/skills/magic.lua:940
+msgid "The wind slashes an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:965
+msgid "Wind Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:966
+msgid "Increases the air elemental defense of a character."
+msgstr ""
+
+#: ../data/skills/magic.lua:990
+msgid "Lightning"
+msgstr ""
+
+#: ../data/skills/magic.lua:991
+msgid "Magical attack combining life and air type damage."
+msgstr ""
+
+#: ../data/skills/magic.lua:1006
+msgid "Regen"
+msgstr ""
+
+#: ../data/skills/magic.lua:1007
+msgid "Causes an ally to slowly recover their health."
+msgstr ""
+
+#: ../data/skills/magic.lua:1028
+msgid "Magic Drain"
+msgstr ""
+
+#: ../data/skills/magic.lua:1029
+msgid "Steals skill points from an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:1044
+msgid "Silence"
+msgstr ""
+
+#: ../data/skills/magic.lua:1045
+msgid "Prevents an enemy from using any magic skills."
+msgstr ""
+
+#: ../data/skills/magic.lua:1060
+msgid "Storm"
+msgstr ""
+
+#: ../data/skills/magic.lua:1061
+msgid "High air type damage on all foes."
+msgstr ""
+
+#: ../data/skills/magic.lua:1076
+msgid "Stop"
+msgstr ""
+
+#: ../data/skills/magic.lua:1077
+msgid "Stops an enemy from taking any actions for quite a long time."
+msgstr ""
+
+#: ../data/skills/magic.lua:1092
+msgid "Holy"
+msgstr ""
+
+#: ../data/skills/magic.lua:1093
+msgid "A holy light strikes an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:1118
+msgid "Life Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:1119
+msgid "Increases the life elemental defense of a character."
+msgstr ""
+
+#: ../data/skills/magic.lua:1134
+msgid "Purify"
+msgstr ""
+
+#: ../data/skills/magic.lua:1135
+msgid "Cures all bad effects on a character, except for poison."
+msgstr ""
+
+#: ../data/skills/magic.lua:1150
+msgid "Sun Haze"
+msgstr ""
+
+#: ../data/skills/magic.lua:1151
+msgid "High life type damage on all foes."
+msgstr ""
+
+#: ../data/skills/magic.lua:1166
+msgid "Aura"
+msgstr ""
+
+#: ../data/skills/magic.lua:1167
+msgid "Boost an ally's speed and slowly recovers their health."
+msgstr ""
+
+#: ../data/skills/magic.lua:1182
+msgid "Death"
+msgstr ""
+
+#: ../data/skills/magic.lua:1183
+msgid "Death tries to take hold of an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:1208
+msgid "Death Circle"
+msgstr ""
+
+#: ../data/skills/magic.lua:1209
+msgid "Increases the death elemental defense of an ally."
+msgstr ""
+
+#: ../data/skills/magic.lua:1224
+msgid "Doom"
+msgstr ""
+
+#: ../data/skills/magic.lua:1225
+msgid "Places a death counter upon the enemy's head."
+msgstr ""
+
+#: ../data/skills/magic.lua:1240
+msgid "Magical Reflection"
+msgstr ""
+
+#: ../data/skills/magic.lua:1241
+msgid "Makes the next enemy spell cast reflect back upon the attacker."
+msgstr ""
+
+#: ../data/skills/magic.lua:1256
+msgid "Dispell"
+msgstr ""
+
+#: ../data/skills/magic.lua:1257
+msgid ""
+"Removes any status effect, elemental effect, and active spell on an enemy."
+msgstr ""
+
+#: ../data/skills/magic.lua:1282
+msgid "Shell"
+msgstr ""
+
+#: ../data/skills/magic.lua:1283
+msgid "Increases all elemental effects of one character."
+msgstr ""
+
+#: ../data/skills/magic.lua:1298
+msgid "?"
+msgstr ""
+
+#: ../data/skills/magic.lua:1299
+msgid "An offensive mystic spell formed by combining opposite elementals."
+msgstr ""
+
+#: ../data/skills/magic.lua:1314
+msgid "Counter"
+msgstr ""
+
+#: ../data/skills/magic.lua:1315
+msgid "Makes an ally counter-attack if injured."
+msgstr ""
+
+#: ../data/skills/magic.lua:1330
+msgid "Phoenix Call"
+msgstr ""
+
+#: ../data/skills/magic.lua:1331
+msgid "Revives all allies."
+msgstr ""
+
+#: ../data/skills/magic.lua:1346
+msgid "Bio"
+msgstr ""
+
+#: ../data/skills/magic.lua:1347
+msgid "Cures poison on all characters."
+msgstr ""
+
+#: ../data/skills/special.lua:74
+msgid "Wolf Pain"
+msgstr ""
+
+#: ../data/skills/special.lua:75
+msgid "Calls the defender of the arctic."
+msgstr ""
+
+#: ../data/skills/special.lua:190
+msgid "Spawn Slime"
+msgstr ""
+
+#: ../data/skills/special.lua:212
+msgid "Dark Wish"
+msgstr ""
+
+#: ../data/skills/weapon.lua:84
+msgid "Sword Slash"
+msgstr ""
+
+#: ../data/skills/weapon.lua:85
+msgid "A textbook maneuver that deals an effective blow."
+msgstr ""
+
+#: ../data/skills/weapon.lua:112
+msgid "Forward Thrust"
+msgstr ""
+
+#: ../data/skills/weapon.lua:114
+msgid "A concentrated attack on an enemy."
+msgstr ""
+
+#: ../data/skills/weapon.lua:142
+msgid "Stun Strike"
+msgstr ""
+
+#: ../data/skills/weapon.lua:144
+msgid "A blow which temporarily stun its target."
+msgstr ""
+
+#: ../data/skills/weapon.lua:178
+msgid "X-Strike"
+msgstr ""
+
+#: ../data/skills/weapon.lua:180 ../data/skills/weapon.lua:240
+msgid ""
+"A strong and aggressive attack with a blade that deals significant damage."
+msgstr ""
+
+#: ../data/skills/weapon.lua:212
+msgid "Single Shot"
+msgstr ""
+
+#: ../data/skills/weapon.lua:213
+msgid "A simple shot using an arbalest."
+msgstr ""
+
+#: ../data/skills/weapon.lua:238
+msgid "Blade Rush"
+msgstr ""
+
+#: ../data/skills/weapon.lua:272
+msgid "Incapacitating Shot"
+msgstr ""
+
+#: ../data/skills/weapon.lua:274
+msgid "A powerful shot aimed at lowering the enemy's ability to attack."
+msgstr ""
+
+#: ../data/skills/weapon.lua:302
+msgid "Rain of Arrows"
+msgstr ""
+
+#: ../data/skills/weapon.lua:304
+msgid "An attack striking all enemies."
+msgstr ""
+
+#: ../data/skills/weapon.lua:335
+msgid "Dagger Slash"
+msgstr ""
+
+#: ../data/skills/weapon.lua:336
+msgid "A simple but efficient dagger attack."
+msgstr ""
+
+#: ../data/skills/weapon.lua:358
+msgid "Poison Slash"
+msgstr ""
+
+#: ../data/skills/weapon.lua:360
+msgid "A dagger attack, poisoning the enemy."
+msgstr ""
+
+#: ../data/skills/weapon.lua:383
+msgid "High Strike"
+msgstr ""
+
+#: ../data/skills/weapon.lua:385
+msgid ""
+"A strike from above, stunning the enemy and breaking its magical defense."
+msgstr ""
+
+#: ../data/skills/weapon.lua:408
+msgid "Sonic Wind"
+msgstr ""
+
+#: ../data/skills/weapon.lua:410
+msgid "Deals high wind damage to all enemies, stunning them along the way."
+msgstr ""
+
+#: ../data/skills/weapon.lua:433
+msgid "Sword Breaker"
+msgstr ""
+
+#: ../data/skills/weapon.lua:435
+msgid "An attack that breaks the enemy's own attack power."
+msgstr ""
+
+#: ../data/skills/weapon.lua:461
+msgid "Execution"
+msgstr ""
+
+#: ../data/skills/weapon.lua:463
+msgid "Attacks an enemy with a chance of causing death to catch its soul."
+msgstr ""
+
+#: ../data/skills/weapon.lua:568
+msgid "Stun Bite"
+msgstr ""
+
+#: ../data/skills/weapon.lua:601
+msgid "Dampening Bite"
+msgstr ""
+
+#: ../data/skills/weapon.lua:657
+msgid "HP Drain"
+msgstr ""
+
+#: ../data/skills/weapon.lua:721
+msgid "Multiple Attack"
+msgstr ""
+
+#: ../data/skills/weapon.lua:794
+msgid "Frenzy Attack"
+msgstr ""
+
+#: ../data/skills/weapon.lua:828
+msgid "Stamina Steal"
+msgstr ""
+
+#: ../data/skills/weapon.lua:912
+msgid "Water Spray"
+msgstr ""
+
+#: ../data/skills/weapon.lua:948
+msgid "Spider Web"
+msgstr ""
