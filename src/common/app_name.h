@@ -15,4 +15,7 @@
 #define APPSHORTNAME "valyriatear"
 #define APPUPCASEDIRNAME "ValyriaTear"
 
+//! \brief The app version name
+#define APP_VERSION_NAME "v1.1.0 - Beta 1"
+
 #endif // __APP_NAME_HEADER__

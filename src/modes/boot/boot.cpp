@@ -18,6 +18,7 @@
 #include "modes/boot/boot.h"
 
 #include "common/global/global.h"
+#include "common/app_name.h"
 
 #include "engine/input.h"
 #include "engine/audio/audio.h"
@@ -96,9 +97,7 @@ BootMode::BootMode() :
 
     // Note: Not translated on purpose.
     _version_text.SetStyle(TextStyle("text18"));
-    std::string version_string = "Version 1.1.0 - Beta 1";
-
-    // NOTE: Only leave the " - " part for releases.
+    std::string version_string = APP_VERSION_NAME;
     version_string.append(" - ");
     version_string.append(__DATE__);
     _version_text.SetText(MakeUnicodeString(version_string));
