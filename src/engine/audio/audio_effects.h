@@ -16,9 +16,6 @@
 ***
 *** This code provides the interface for effects, as well as the private classes
 *** used for build all the audio fx system
-***
-*** \todo Add an effect class that modifies an audio's position over time,
-*** which will allow support for panning effects
 *** ***************************************************************************/
 
 #ifndef __AUDIO_EFFECTS_HEADER__

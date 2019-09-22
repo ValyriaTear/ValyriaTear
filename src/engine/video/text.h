@@ -619,9 +619,6 @@ private:
     ***
     *** If the argument name is invalid (i.e. no font with that reference name exists), this method will do
     *** nothing more than print out a warning message if running in debug mode.
-    ***
-    *** \todo Implement this function. Its not available yet because of potential problems with lingering references to the
-    *** font (in TextStyle objects, or elswhere)
     **/
     void _FreeFont(const std::string &font_name);
 

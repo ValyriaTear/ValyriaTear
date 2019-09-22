@@ -660,8 +660,7 @@ void CommandSupervisor::_UpdateActionInformation()
          // Set the text
         info_text = UTranslate("Enemy Defense Modifiers:\n");
         // Evade
-        // Hack to get the text located right.
-        // FIXME: Once image within text is supported, we can get rid of all that.
+        // Make the text located right.
         float evade_modifier = attack_point->GetEvadeModifier();
         {
             std::string evade_str = "     ";

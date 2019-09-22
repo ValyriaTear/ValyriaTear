@@ -252,7 +252,6 @@ function _SetBattleEnvironment(enemy)
     enemy:AddBattleScript("data/story/common/lost_in_darkness.lua")
     -- Add tutorial battle dialog with Olivia
     enemy:AddBattleScript("data/story/common/tutorial_battle_dialogs.lua");
-    -- TODO: Add oil lamp as scenery in battles
 end
 
 -- Creates all events and sets up the entire event sequence chain

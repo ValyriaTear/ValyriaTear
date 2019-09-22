@@ -51,7 +51,7 @@ namespace private_battle
 ***
 *** Currently this class supports the following sequences:
 ***   - Battle initialization
-***   - TODO: Transition to finish screen
+***   - Transition to finish screen
 ***   - Battle exit
 ***
 *** \note BattleMode declares this class as a friend, and hence this class has access to all private data and methods of

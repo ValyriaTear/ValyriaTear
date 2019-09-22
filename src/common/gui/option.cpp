@@ -662,7 +662,6 @@ void OptionBox::InputConfirm()
     // Case #3: standard confirm
     else {
         if(_options[_selection].disabled) {
-            // TODO: do something to tell player they confirmed on a disabled option?
             return;
         }
         _event = VIDEO_OPTION_CONFIRM;

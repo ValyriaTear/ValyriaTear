@@ -521,7 +521,6 @@ void BattleVictory::_UpdateSpoils()
     const uint32_t UPDATE_PERIOD = 50;
     // A simple counter used to keep track of when the next drunes count should begin
     static uint32_t time_counter = 0;
-    // TODO: Add drunes gradually instead of all at once
     static uint32_t drunes_to_add = 0;
 
     // Process confirm press inputs.

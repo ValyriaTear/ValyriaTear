@@ -1167,7 +1167,7 @@ void MapMode::_DrawMapLayers()
     VideoManager->Clear();
 
     //
-    // TODO: Draw the map's tiles and objects at their
+    // TODO: #435 Draw the map's tiles and objects at their
     //       native resolutions into the secondary render
     //       target.
     //
@@ -1200,7 +1200,7 @@ void MapMode::_DrawMapLayers()
     VideoManager->PopState();
 
     //
-    // TODO: Draw the composited, native resolution map
+    // TODO: #435 Draw the composited, native resolution map
     //       onto the primary render target with the appropriate
     //       scale factor and offsets.
     //

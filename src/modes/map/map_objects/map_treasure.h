@@ -38,9 +38,6 @@ namespace private_map
 *** To add contents to the treasure for this object, you will need to retreive the
 *** pointer to the MapTreasure object via the GetTreasure() method, then add drunes
 *** and/or objects (items/equipment/etc) to the MapTreasure.
-***
-*** \todo Add support for more treasure features, such as locked chests, chests which
-*** trigger a battle, etc.
 *** ***************************************************************************/
 class TreasureObject : public PhysicalObject
 {

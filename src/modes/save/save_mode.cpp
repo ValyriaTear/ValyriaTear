@@ -597,12 +597,7 @@ bool SaveMode::_PreviewGame(const std::string& filename)
         // Read in all of the character's stats data
         GlobalCharacter character = GlobalCharacter(char_ids[i], false);
         character.SetExperienceLevel(file.ReadUInt("experience_level"));
-        // DEPRECATED: Do not read experience_points anymore in one release
-        uint32_t total_xp = file.ReadUInt("experience_points");
-        if (total_xp == 0) {
-            total_xp = file.ReadUInt("total_experience_points");
-        }
-        character.SetTotalExperiencePoints(total_xp);
+        character.SetTotalExperiencePoints(file.ReadUInt("total_experience_points"));
         character.SetUnspentExperiencePoints(file.ReadUInt("unspent_experience_points"));
         character.AddExperienceForNextLevel(file.ReadUInt("experience_points_next"));
 

@@ -324,7 +324,6 @@ local slime_mother_defeated = false;
 
 function _CheckSlimeMotherState()
     -- Tells the game that the slime mother was defeated
-    -- TODO: This will have to be improved by adding battle event support in the slime mother
     if (slime_mother_defeated == false and slime_mother_roam_zone:GetSpawnsLeft() == 0) then
         if (GlobalManager:GetGameEvents():DoesEventExist("story", "layna_forest_slime_mother_defeated") == false) then
             GlobalManager:GetGameEvents():SetEventValue("story", "layna_forest_slime_mother_defeated", 1);

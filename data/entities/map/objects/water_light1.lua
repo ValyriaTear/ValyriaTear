@@ -17,7 +17,6 @@ animation = {
     -- The frames duration in milliseconds
     frames = {
         [0] = { id = 0, duration = 2000 },
-        -- TODO: Waiting for crossfaded animation support.
         --[1] = { id = 1, duration = 2000 },
         --[2] = { id = 2, duration = 2000 },
         --[3] = { id = 3, duration = 2000 },

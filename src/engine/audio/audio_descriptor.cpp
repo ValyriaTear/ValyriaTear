@@ -922,8 +922,6 @@ void AudioDescriptor::_SetSourceProperties()
             }
         }
     }
-
-    //! \todo More properties need to be set here, such as source position, etc.
 }
 
 

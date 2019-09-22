@@ -39,12 +39,6 @@ namespace private_audio
 ***
 *** \note The _end_of_stream will never be set to true while the stream has
 *** looping enabled.
-***
-*** \todo Customized looping support is only very rudimentary right now (one
-*** start, one end position). We need full support added to this class to be
-*** able to do operations such as: play section A once, loop section B 3 times,
-*** then loop section C infinitely. We may also want to be able to apply audio
-*** effects to the different streaming portions.
 *** ***************************************************************************/
 class AudioStream
 {

@@ -214,9 +214,6 @@ private:
 *** \note By default, enemies are restricted to move about within their zones and
 *** a default regeneration timer is used. These properties can be changed after
 *** the class object is constructed.
-***
-*** \todo Consider adding a call that will disable additional enemies from spawning in
-*** the zone, or limit the maximum number of enemies that may ever spawn in the zone.
 *** ***************************************************************************/
 class EnemyZone : public MapZone
 {
@@ -356,8 +353,8 @@ private:
     **/
     std::vector<EnemySprite*> _enemies;
 
-    /** \brief Contains all of the enemies that are owned by this class.  These objects must be cleaned up by this class.
-    ***        This is a hack around a memory leak and should be addressed more formally in the future.
+    /** \brief Contains all of the enemies that are owned by this class.
+    *** These objects must be cleaned up by this class.
     **/
     std::vector<EnemySprite*> _enemies_owned;
 };

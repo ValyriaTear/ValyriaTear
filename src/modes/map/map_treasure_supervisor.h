@@ -49,25 +49,6 @@ class MapTreasureContent;
 *** displays the contents of the treasure in a larger window below the action window. This object
 *** list is formatted vertically. The detail window shares the same area as the list window and
 *** displays textual and visual detail about an object selected by the user from the list window.
-***
-*** Proper utilization of this class entails the following steps:
-***
-*** -# Call the Initialize method to show the menu with the treasure that has been obtained
-*** -# Call the Update method to process user input and update the menu's appearance
-*** -# Call the Draw method to draw the menu to the screen
-*** -# Call the Finish method to hide the menu and add the treasure's contents to the player's
-***    inventory
-***
-*** \todo Allow the player to use or equip selected treasure objects directly from the
-*** action menu.
-***
-*** \todo Add visual scissoring to the list window so that the option list or detail text does
-*** not exceed the window boundary when the text or list is exceedingly long.
-***
-*** \todo Instead of forcing the detail window to share the list window, maybe it would look
-*** better if there was a separate detail window which "popped out" of the other two windows
-*** and could be placed over them when it was visible? I think this would be much more visually
-*** pleasing than the current implementation.
 *** **************************************************************************************/
 class TreasureSupervisor
 {

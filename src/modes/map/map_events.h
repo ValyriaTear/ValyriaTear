@@ -360,10 +360,6 @@ protected:
 *** \note The MapMode class has a container of SoundDescriptor objects which should include all of
 *** the sounds that may be used on a given map. This means that when a SoundEvent is created, the
 *** sound file data will already be loaded by the audio engine.
-***
-*** \todo Support sounds with a position that employ distance attenuation. Perhaps
-*** another derived class would be ideal to implement this, since sounds could possibly
-*** be mobile (attached to sprites).
 *** ***************************************************************************/
 class SoundEvent : public MapEvent
 {

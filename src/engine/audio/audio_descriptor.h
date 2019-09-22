@@ -202,9 +202,6 @@ public:
 *** AUDIO_STATE_PLAYING. This is because the audio may stop playing on its own
 *** after the play state has been set. Instead, you should call the GetState()
 *** method, which guarantees that the correct state value is set.
-***
-*** \todo This class either needs to have its copy assignment operator defined
-*** or it should be made private.
 *** ***************************************************************************/
 class AudioDescriptor
 {

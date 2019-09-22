@@ -34,10 +34,6 @@ class Light;
 *** and map sprites, in addition to maintaining the map's collision grid and map
 *** zones. This class contains the implementation of the collision detection
 *** and path finding algorithms.
-***
-*** \todo Each map object is assigned an ID and certain values of IDs are reserved
-*** for different types of map objects. We need to find out what these are and
-*** maintain a list of those ranges here.
 *** ***************************************************************************/
 class ObjectSupervisor
 {
@@ -166,8 +162,6 @@ public:
     *** \param y The y axis position
     *** \param object The object to check for occupation of the grid element
     *** \return True if the grid element is occupied by the object
-    ***
-    *** \todo Take into account the object/sprite's collision property and also add a parameter for map context
     **/
     bool IsPositionOccupiedByObject(float x, float y, MapObject *object);
 

@@ -115,17 +115,6 @@ private:
 *** using both the middle and lower menu windows. The type of information which is displayed is
 *** different depending upon what type of object is selected. The primary purpose of this class
 *** is to serve as a helper to the BuyInterface class and to keep the code organized.
-***
-*** \todo Currently this class treats the display of spirits the same as it does for items
-*** and key items. This should be changed once spirit properties have a more clear definition
-*** in the game design.
-***
-*** \todo Status icons are not currently displayed as there are no status effects implemented
-*** in the game yet. Once status effects are functional and graphics are ready to represent
-*** them, this code should be updated.
-***
-*** \todo The character sprites are not yet animated in the display. This should be changed
-*** once the appropriate set of sprite frames are available for this menu.
 *** ***************************************************************************/
 class ShopObjectViewer
 {

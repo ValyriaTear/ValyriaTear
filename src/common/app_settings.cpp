@@ -39,102 +39,6 @@ using namespace vt_utils;
 namespace vt_common
 {
 
-//! \brief Copy old save files from ~/.valyriatear to new path on unices
-//! And from the personal folder to the destination on Windows.
-//! \DEPRECATED: Remove this in one or two releases.
-static void _CopyOldSaveFiles(const std::string &destination_path)
-{
-    if(!DoesFileExist(destination_path)) {
-        PRINT_WARNING << "No valid destination path given: " << destination_path
-            << std::endl << "Can't copy old save files." << std::endl;
-        return;
-    }
-
-#if (defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(SOLARIS))
-    // We assume the old save files are in ~/.valyriatear
-    passwd *pw = getpwuid(getuid());
-    if(!pw)
-        return;
-
-    std::string old_path = std::string(pw->pw_dir) + "/." APPSHORTNAME "/";
-    if(!DoesFileExist(old_path))
-        return; // Nothing to do.
-#elif defined _WIN32
-    char path[MAX_PATH];
-    // %USERPROFILE%\My Documents
-    if(!(SUCCEEDED(SHGetFolderPathA(nullptr, CSIDL_PERSONAL, nullptr, 0, path))))
-        return; // No folder, nothing to do.
-
-    std::string old_path = std::string(path) + "/" APPUPCASEDIRNAME "/";
-    if(!DoesFileExist(old_path))
-        return; // nothing to do
-#endif
-
-#ifndef __APPLE__
-    for (uint32_t i = 0; i < 6; ++i) {
-        std::stringstream save_filename;
-        save_filename << "saved_game_" << i << ".lua";
-        const std::string old_file = old_path + save_filename.str();
-
-        if(!DoesFileExist(old_file))
-            return; // Nothing to do.
-
-        const std::string new_filename = destination_path + save_filename.str();
-
-        if (!MoveFile(old_file.c_str(), new_filename.c_str()))
-            PRINT_WARNING << "Couldn't move the save file "
-                          << "('" << save_filename.str() << "') "
-                          << "to new location!" << std::endl;
-
-        PRINT_WARNING << "Moved " << save_filename.str()
-                      << " file from: " << old_file << std::endl
-                      << "to: " << new_filename << std::endl;
-    }
-#endif
-}
-
-//! \brief Copy old save files from ~/.valyriatear to new path on unices
-//! And from the personal folder to the destination on Windows.
-//! \DEPRECATED: Remove this in one or two releases.
-static void _CopyOldSettingsFile(const std::string &destination_path)
-{
-    if(!DoesFileExist(destination_path)) {
-        PRINT_WARNING << "No valid destination path given: " << destination_path
-            << std::endl << "Can't copy old settings file." << std::endl;
-        return;
-    }
-
-#if (defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(SOLARIS))
-    // We assume the old settings.lua file is in ~/.valyriatear
-    passwd *pw = getpwuid(getuid());
-    if(!pw)
-        return; // Nothing to do
-
-    std::string old_file = std::string(pw->pw_dir) + "/." APPSHORTNAME "/settings.lua";
-    if(!DoesFileExist(old_file))
-        return; // Nothing to do.
-
-#elif defined _WIN32
-    char path[MAX_PATH];
-    // %USERPROFILE%\My Documents
-    if(!(SUCCEEDED(SHGetFolderPathA(nullptr, CSIDL_PERSONAL, nullptr, 0, path))))
-        return; // No folder, nothing to do.
-
-    const std::string old_file = std::string(path) + "/" APPUPCASEDIRNAME "/settings.lua";
-    if(!DoesFileExist(old_file))
-        return; // nothing to do
-#endif
-#ifndef __APPLE__
-    const std::string new_filename = destination_path + "settings.lua";
-
-    if (!MoveFile(old_file.c_str(), new_filename.c_str()))
-        PRINT_WARNING << "Couldn't move the settings file to new location!" << std::endl;
-
-    PRINT_WARNING << "Moved settings.lua file from: " << old_file << std::endl
-        << "to: " << new_filename << std::endl;
-#endif
-}
-
 //! \brief Finds the OS specific directory path to save and retrieve user data
 static const std::string _SetupUserDataPath()
 {
@@ -145,8 +49,6 @@ static const std::string _SetupUserDataPath()
         std::string user_path = std::string(path) + "/" APPUPCASEDIRNAME "/";
         if(!DoesFileExist(user_path))
             MakeDirectory(user_path);
-
-        _CopyOldSaveFiles(user_path);
 
         return user_path;
     }
@@ -170,7 +72,6 @@ static const std::string _SetupUserDataPath()
         std::string path = std::string(getenv("XDG_DATA_HOME")) + "/" APPSHORTNAME "/";
         if(!DoesFileExist(path))
             MakeDirectory(path);
-        _CopyOldSaveFiles(path);
 
         return path;
     }
@@ -186,7 +87,6 @@ static const std::string _SetupUserDataPath()
         path += "/" APPSHORTNAME "/";
         if(!DoesFileExist(path))
             MakeDirectory(path);
-        _CopyOldSaveFiles(path);
 
         return path;
     }
@@ -209,7 +109,6 @@ static const std::string _SetupUserConfigPath()
         std::string user_path = std::string(path) + "/" APPUPCASEDIRNAME "/";
         if(!DoesFileExist(user_path))
             MakeDirectory(user_path);
-        _CopyOldSettingsFile(user_path);
         return user_path;
      }
 
@@ -232,7 +131,6 @@ static const std::string _SetupUserConfigPath()
         std::string path = std::string(getenv("XDG_CONFIG_HOME")) + "/" APPSHORTNAME "/";
         if(!DoesFileExist(path))
             MakeDirectory(path);
-        _CopyOldSettingsFile(path);
 
         return path;
     }
@@ -246,7 +144,6 @@ static const std::string _SetupUserConfigPath()
         path += "/" APPSHORTNAME "/";
         if(!DoesFileExist(path))
             MakeDirectory(path);
-        _CopyOldSettingsFile(path);
 
         return path;
     }

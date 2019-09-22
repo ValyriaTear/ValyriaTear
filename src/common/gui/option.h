@@ -192,8 +192,6 @@ public:
 ***
 *** \todo Text should contain rendered text images instead of text that needs
 *** to be rendered and drawn every frame
-***
-*** \todo Add support for animated images? (Low priority task)
 *** ***************************************************************************/
 class Option
 {
@@ -235,11 +233,6 @@ public:
 ***
 *** Contains support for drawing scroll arrows on the option box to indicate
 *** additional options that are not currently in view
-***
-*** \todo Allow the user to set an arbitrary cursor blink rate and scroll rate
-***
-*** \todo Support multiple forms of scroll animations.
-*** (This should be considered a low priority task, if dealt with at all.)
 *** ***************************************************************************/
 class OptionBox : public private_gui::GUIControl
 {

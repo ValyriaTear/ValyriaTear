@@ -23,8 +23,6 @@ namespace vt_global
 *** weapons and armor. Spirits have the ability to enhance the properties of
 *** equipment it is attached to, allowing the player a degree of customization
 *** in the weapons and armor that their character use.
-***
-*** \todo This class is not yet implemented
 *** ***************************************************************************/
 class GlobalSpirit : public GlobalObject
 {

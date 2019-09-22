@@ -346,7 +346,6 @@ ObjectCategoryDisplay::ObjectCategoryDisplay() :
     _name_textbox.SetDisplayMode(VIDEO_TEXT_FADECHAR);
     _name_textbox.SetDisplaySpeed(TRANSITION_TIME_TEXT);
     _name_textbox.SetAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
-    // TODO: Alignment should be VIDEO_X_CENTER, but a bug is preventing it from working correctly right now
     _name_textbox.SetTextAlignment(VIDEO_X_LEFT, VIDEO_Y_TOP);
 
     _transition_timer.Initialize(TRANSITION_TIME_ICON, SYSTEM_TIMER_NO_LOOPS);

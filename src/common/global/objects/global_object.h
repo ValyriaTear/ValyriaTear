@@ -96,10 +96,6 @@ std::shared_ptr<GlobalObject> GlobalCreateNewObject(uint32_t id, uint32_t count 
 *** \note The price of an object is not actually the price it is bought or sold
 *** at in the game. It is a "base price" from which all levels of buy and sell
 *** prices are derived from.
-***
-*** \todo The "lore" for an object is a feature that we have discussed but not
-*** yet decided if we wish to implement. Placeholders exist in this class for now,
-*** but if lore is not to be implemented as a game feature they should be removed.
 *** ***************************************************************************/
 class GlobalObject
 {

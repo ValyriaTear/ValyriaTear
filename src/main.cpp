@@ -104,29 +104,13 @@ static bool LoadSettings()
         return false;
     }
 
-    // Hack to port SDL1.2 arrow values to SDL 2.0
-    // DEPRECATED: Dump this in a release aka while in Episode II
-    // old - SDL1.2
-    // settings.key_settings.up = 273
-    // settings.key_settings.down = 274
-    // settings.key_settings.left = 276
-    // settings.key_settings.right = 275
-    // new - SDL 2.0
-    // settings.key_settings.up = 1073741906
-    // settings.key_settings.down = 1073741905
-    // settings.key_settings.left = 1073741904
-    // settings.key_settings.right = 1073741903
     int32_t key_code = settings.ReadInt("up");
-    if (key_code == 273) key_code = 1073741906;
     InputManager->SetUpKey(static_cast<SDL_Keycode>(key_code));
     key_code = settings.ReadInt("down");
-    if (key_code == 274) key_code = 1073741905;
     InputManager->SetDownKey(static_cast<SDL_Keycode>(key_code));
     key_code = settings.ReadInt("left");
-    if (key_code == 276) key_code = 1073741904;
     InputManager->SetLeftKey(static_cast<SDL_Keycode>(key_code));
     key_code = settings.ReadInt("right");
-    if (key_code == 275) key_code = 1073741903;
     InputManager->SetRightKey(static_cast<SDL_Keycode>(key_code));
 
     InputManager->SetConfirmKey(static_cast<SDL_Keycode>(settings.ReadInt("confirm")));
@@ -152,11 +136,7 @@ static bool LoadSettings()
     InputManager->SetMinimapJoy(static_cast<uint8_t>(settings.ReadInt("minimap")));
     InputManager->SetPauseJoy(static_cast<uint8_t>(settings.ReadInt("pause")));
     InputManager->SetQuitJoy(static_cast<uint8_t>(settings.ReadInt("quit")));
-    // DEPRECATED: Remove the hack in one or two releases...
-    if(settings.DoesIntExist("help"))
-        InputManager->SetHelpJoy(static_cast<uint8_t>(settings.ReadInt("help")));
-    else
-        InputManager->SetHelpJoy(15); // A high value to avoid getting in the way
+    InputManager->SetHelpJoy(static_cast<uint8_t>(settings.ReadInt("help")));
 
     if(settings.DoesIntExist("x_axis"))
         InputManager->SetXAxisJoy(static_cast<int8_t>(settings.ReadInt("x_axis")));

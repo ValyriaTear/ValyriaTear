@@ -86,7 +86,6 @@ void TriggerObject::Update()
     if (!_triggerable_by_character)
         return;
 
-    // TODO: Permit other behaviour
     if (_trigger_state)
         return;
 

@@ -123,7 +123,6 @@ std::string VTranslate(const std::string &text, uint32_t arg1, uint32_t arg2);
 std::string VTranslate(const std::string &text, const std::string &arg1, const std::string &arg2);
 std::string VTranslate(const std::string &text, const std::string &arg1, const std::string &arg2, const std::string &arg3);
 
-// TODO: Use Lua Array with luabind so pass a random amount of parameters.
 /** \brief Returns the translated string fprinted with the c-formatted number.
 *** \param singular The singular form of the text to transform containing c-format number
 *** \param plural The plural form of the text to transform containing c-format number
@@ -190,12 +189,6 @@ private:
     //! \brief Language using interword spaces.
     //! Many languages are using them except languages such as Japanese, Chinese, ...)
     bool _inter_words_spaces;
-
-    //!\brief \TODO: Right-to-Left language.
-    //bool _rtl_language.
-
-    //!\brief \TODO: Country corresponding flag image displayed in the language menu.
-    //vt_video::StillImage _flag_img;
 
     //! \brief The copy constructor and assignment operator are hidden by design
     //! to cause compilation errors when attempting to copy or assign this class.

@@ -64,12 +64,6 @@ namespace private_gui
 ***
 *** \note The contructor and destructor of this class do nothing. The creation and destruction
 *** of the images contained by this class is done from the GUI class.
-***
-*** \todo Add support for menu skin backgrounds to be tiled images versus
-*** stretched images.
-***
-*** \todo Add support to allow menu skin backgrounds to be colors instead of
-*** images.
 *** ***************************************************************************/
 class MenuSkin
 {

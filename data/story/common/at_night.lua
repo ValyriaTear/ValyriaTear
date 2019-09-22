@@ -6,8 +6,6 @@ setfenv(1, ns);
 local Script = nil
 local night_layer = nil
 
--- TODO #611: Add support for multiple light layers, and get rid of this script.
-
 -- add a evening light layer
 function Initialize(battle_instance)
     Script = battle_instance:GetScriptSupervisor();

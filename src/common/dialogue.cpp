@@ -178,18 +178,6 @@ bool Dialogue::Validate()
         speaker_ids.insert(_speakers[i]);
     }
 
-    // Check that all sprites and events referenced by the dialogue exist
-    // FIXME: Move the check into the dialogue supervisor
-    /*
-    for(std::set<uint32_t>::iterator i = speaker_ids.begin(); i != speaker_ids.end(); ++i) {
-        if(BattleMode::CurrentInstance()->GetDialogueSupervisor()->GetSpeaker(*i) == nullptr) {
-            PRINT_WARNING << "Validation failed for dialogue #" << _dialogue_id
-                          << ": dialogue referenced invalid speaker with id: " << *i << std::endl;
-            return false;
-        }
-    }
-    */
-
     return true;
 }
 

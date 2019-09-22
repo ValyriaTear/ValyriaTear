@@ -340,30 +340,17 @@ bool GlobalCharacter::LoadCharacter(ReadScriptDescriptor& file)
     }
 
     // Gets whether the character is currently enabled
-    if(file.DoesBoolExist("enabled")) {
-        Enable(file.ReadBool("enabled"));
-    }
-    else { // old format DEPRECATED: Removed in one release
-        Enable(true);
-    }
+    Enable(file.ReadBool("enabled"));
 
     // Read in all of the character's stats data
     SetExperienceLevel(file.ReadUInt("experience_level"));
 
-    uint32_t total_xp = file.ReadUInt("experience_points");
-    // DEPRECATED: Used to upgrade old saves without skill trees.
-    if (total_xp == 0) {
-        total_xp = file.ReadUInt("total_experience_points");
-    }
+    uint32_t total_xp = file.ReadUInt("total_experience_points");
     SetTotalExperiencePoints(total_xp);
 
     _experience_for_next_level = file.ReadInt("experience_points_next");
 
-    uint32_t unspent_xp = file.ReadUInt("unspent_experience_points", std::numeric_limits<uint32_t>::max());
-    // DEPRECATED: Used to upgrade old saves without skill trees.
-    if (unspent_xp == std::numeric_limits<uint32_t>::max()) {
-        unspent_xp = GetTotalExperiencePoints();
-    }
+    uint32_t unspent_xp = file.ReadUInt("unspent_experience_points");
     _unspent_experience_points = unspent_xp;
 
     SetMaxHitPoints(file.ReadUInt("max_hit_points"));
@@ -371,21 +358,11 @@ bool GlobalCharacter::LoadCharacter(ReadScriptDescriptor& file)
     SetMaxSkillPoints(file.ReadUInt("max_skill_points"));
     SetSkillPoints(file.ReadUInt("skill_points"));
 
-    // DEPRECATED: Old confusing character's stats. Remove for Episode II release.
-    if (file.DoesUIntExist("strength")) {
-        SetPhysAtk(file.ReadUInt("strength"));
-        SetMagAtk(file.ReadUInt("vigor"));
-        SetPhysDef(file.ReadUInt("fortitude"));
-        SetMagDef(file.ReadUInt("protection"));
-        SetStamina(file.ReadUInt("agility"));
-    }
-    else {
-        SetPhysAtk(file.ReadUInt("phys_atk"));
-        SetMagAtk(file.ReadUInt("mag_atk"));
-        SetPhysDef(file.ReadUInt("phys_def"));
-        SetMagDef(file.ReadUInt("mag_def"));
-        SetStamina(file.ReadUInt("stamina"));
-    }
+    SetPhysAtk(file.ReadUInt("phys_atk"));
+    SetMagAtk(file.ReadUInt("mag_atk"));
+    SetPhysDef(file.ReadUInt("phys_def"));
+    SetMagDef(file.ReadUInt("mag_def"));
+    SetStamina(file.ReadUInt("stamina"));
     SetEvade(file.ReadFloat("evade"));
 
     // Read the character's equipment and load it onto the character
@@ -427,63 +404,6 @@ bool GlobalCharacter::LoadCharacter(ReadScriptDescriptor& file)
     skill_ids.clear();
     file.ReadUIntVector("skills", skill_ids);
     for(uint32_t i = 0; i < skill_ids.size(); i++) {
-        // DEPRECATED HACK: Remove that in one release.
-        // Turn old bare hands skills id into new ones at load time.
-        if (skill_ids[i] == 999)
-            skill_ids[i] = 30002;
-        else if (skill_ids[i] == 1000)
-            skill_ids[i] = 30001;
-
-        AddSkill(skill_ids[i]);
-    }
-
-    //DEPRECATED: Will be removed in one release!
-    skill_ids.clear();
-    file.ReadUIntVector("weapon_skills", skill_ids);
-    for(uint32_t i = 0; i < skill_ids.size(); i++) {
-        // DEPRECATED HACK: Remove that in one release.
-        // Turn old bare hands skills id into new ones at load time.
-        if (skill_ids[i] == 999)
-            skill_ids[i] = 30002;
-        else if (skill_ids[i] == 1000)
-            skill_ids[i] = 30001;
-
-        AddSkill(skill_ids[i]);
-    }
-    //DEPRECATED: Will be removed in one release!
-    skill_ids.clear();
-    file.ReadUIntVector("magic_skills", skill_ids);
-    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
-        AddSkill(skill_ids[i]);
-    }
-    //DEPRECATED: Will be removed in one release!
-    skill_ids.clear();
-    file.ReadUIntVector("special_skills", skill_ids);
-    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
-        AddSkill(skill_ids[i]);
-    }
-    //DEPRECATED: Will be removed in one release!
-    skill_ids.clear();
-    file.ReadUIntVector("bare_hands_skills", skill_ids);
-    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
-        AddSkill(skill_ids[i]);
-    }
-
-    // DEPRECATED: Remove in one release
-    skill_ids.clear();
-    file.ReadUIntVector("defense_skills", skill_ids);
-    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
-        AddSkill(skill_ids[i]);
-    }
-    // DEPRECATED: Remove in one release
-    file.ReadUIntVector("attack_skills", skill_ids);
-    for(uint32_t i = 0; i < skill_ids.size(); i++) {
-        AddSkill(skill_ids[i]);
-    }
-    // DEPRECATED: Remove in one release
-    skill_ids.clear();
-    file.ReadUIntVector("support_skills", skill_ids);
-    for(uint32_t i = 0; i < skill_ids.size(); ++i) {
         AddSkill(skill_ids[i]);
     }
 
@@ -1071,7 +991,7 @@ void GlobalCharacter::AddObtainedSkillNode(uint32_t skill_node_id) {
                 PRINT_WARNING << "Unsupported stat id: (" << stat.first
                               << ") in skill node id: (" << node->GetId() << ")" << std::endl;
             break;
-            case GLOBAL_STATUS_PHYS_ATK: // FIXME: Improve API for stats, it is sooo duplicated.
+            case GLOBAL_STATUS_PHYS_ATK:
                 AddPhysAtk(stat.second);
                 break;
             case GLOBAL_STATUS_MAG_ATK:

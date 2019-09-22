@@ -313,7 +313,6 @@ void TreasureSupervisor::_UpdateList()
                 list_selection--;
             _selection_name.SetText(_treasure->_items_list[list_selection]->GetName());
             _is_key_item = _treasure->_items_list[list_selection]->IsKeyItem();
-            // TODO: this is not good practice. We should probably either remove the const status from the GetIconImage() call
             _selection_icon = const_cast<StillImage *>(&_treasure->_items_list[list_selection]->GetIconImage());
             _detail_textbox.SetDisplayText(_treasure->_items_list[list_selection]->GetDescription());
         }

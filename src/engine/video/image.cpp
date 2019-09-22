@@ -827,7 +827,7 @@ bool StillImage::Load(const std::string &filename)
 
     _filename = filename;
 
-    // TEMP: This is a temporary hack to support procedural images by using empty filenames. It should be removed later
+    // This is a hack to support procedural images by using empty filenames.
     if(filename.empty()) {
         return true;
     }
