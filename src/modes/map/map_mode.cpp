@@ -45,6 +45,9 @@
 #include "common/global/global.h"
 #include "common/global/actors/global_character.h"
 
+// DEPRECATED: Used only to check old filenames
+#include "utils/utils_files.h"
+
 using namespace vt_utils;
 using namespace vt_audio;
 using namespace vt_boot;
@@ -631,11 +634,36 @@ uint16_t MapMode::GetMapHeight() const
 // ********** MapMode Private Class Methods
 // ****************************************************************************
 
+
+//! \brief Adds 'ep1' in map filename for previous hierarchy support
+//! DEPRECATED: Remove this after full Episode II release
+void AddEp1ToMapPath(std::string& map_filename)
+{
+    std::string root_folder = "data/story";
+    std::size_t root_folder_pos = map_filename.find(root_folder);
+    if (root_folder_pos == std::string::npos)
+    {
+        return;
+    }
+    map_filename.replace(root_folder_pos,
+                         root_folder.length(),
+                         "data/story/ep1");
+}
+
 bool MapMode::_Load()
 {
     // Map data
     // Clear out all old map data if existing.
     ScriptManager->DropGlobalTable("map_data");
+
+
+    // DEPRECATED: Remove this after episode II release
+    if (!vt_utils::DoesFileExist(_map_data_filename)) {
+        AddEp1ToMapPath(_map_data_filename);
+    }
+    if(!vt_utils::DoesFileExist(_map_script_filename)) {
+        AddEp1ToMapPath(_map_script_filename);
+    }
 
     // Open map script file and read in the basic map properties and tile definitions
     if(!_map_script.OpenFile(_map_data_filename)) {
@@ -758,7 +786,7 @@ bool MapMode::_Load()
     }
 
     return true;
-} // bool MapMode::_Load()
+}
 
 void MapMode::_CreateMinimap()
 {

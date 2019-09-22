@@ -520,6 +520,21 @@ void SaveMode::_ClearSaveData(bool selected_file_exists)
         _character_window[i].SetCharacter(nullptr);
 }
 
+//! \brief Adds 'ep1' in map filename for previous hierarchy support
+//! DEPRECATED: Remove this after full Episode II release
+void AddEp1ToMapPath(std::string& map_filename)
+{
+    std::string root_folder = "data/story";
+    std::size_t root_folder_pos = map_filename.find(root_folder);
+    if (root_folder_pos == std::string::npos)
+    {
+        return;
+    }
+    map_filename.replace(root_folder_pos,
+                         root_folder.length(),
+                         "data/story/ep1");
+}
+
 bool SaveMode::_PreviewGame(const std::string& filename)
 {
     // Check for the file existence, prevents a useless warning
@@ -549,13 +564,19 @@ bool SaveMode::_PreviewGame(const std::string& filename)
     file.OpenTable("save_game1");
 
     // The map file, tested after the save game is closed.
-    std::string map_script_filename;
-    std::string map_data_filename;
-    map_script_filename = file.ReadString("map_script_filename");
-    map_data_filename = file.ReadString("map_data_filename");
+    std::string map_script_filename = file.ReadString("map_script_filename");
+    std::string map_data_filename = file.ReadString("map_data_filename");
+
+    // DEPRECATED: Remove this after episode II release
+    if (!vt_utils::DoesFileExist(map_data_filename)) {
+        AddEp1ToMapPath(map_data_filename);
+    }
+    if(!vt_utils::DoesFileExist(map_script_filename)) {
+        AddEp1ToMapPath(map_script_filename);
+    }
 
     // Check whether the map data file is available
-    if (map_data_filename.empty() || !vt_utils::DoesFileExist(map_data_filename)) {
+    if (!vt_utils::DoesFileExist(map_data_filename)) {
         file.CloseTable(); // save_game1
         file.CloseFile();
         _ClearSaveData(true);
@@ -636,6 +657,7 @@ bool SaveMode::_PreviewGame(const std::string& filename)
 
     // Tests the map file and gets the untranslated map hud name from it.
     ReadScriptDescriptor map_file;
+
     if(!map_file.OpenFile(map_script_filename)) {
         _ClearSaveData(true);
         return false;
