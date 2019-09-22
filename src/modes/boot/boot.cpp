@@ -107,7 +107,7 @@ BootMode::BootMode() :
 
     // Test the existence and validity of the boot script.
     ReadScriptDescriptor boot_script;
-    if(!boot_script.OpenFile("data/boot_menu/boot.lua")) {
+    if(!boot_script.OpenFile("data/boot_menu/ep1/boot.lua")) {
         PRINT_ERROR << "Failed to load boot data file" << std::endl;
         SystemManager->ExitGame();
         return;
@@ -123,7 +123,7 @@ BootMode::BootMode() :
     boot_script.CloseFile();
 
     // Trigger the Initialize functions in the scene script component
-    GetScriptSupervisor().AddScript("data/boot_menu/boot.lua");
+    GetScriptSupervisor().AddScript("data/boot_menu/ep1/boot.lua");
     GetScriptSupervisor().Initialize(this);
 
     // Load the menu bar and the help text

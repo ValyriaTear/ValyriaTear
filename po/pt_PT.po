@@ -6173,7 +6173,7 @@ msgstr ""
 msgid "To Lilou and Léo..."
 msgstr ""
 
-#: ../dat/credits/end_credits.lua:944 ../dat/maps/to_be_continued_anim.lua:32
+#: ../dat/credits/end_credits.lua:944 ../dat/maps/ep1/to_be_continued_anim.lua:32
 msgid "To be continued..."
 msgstr "Continua..."
 

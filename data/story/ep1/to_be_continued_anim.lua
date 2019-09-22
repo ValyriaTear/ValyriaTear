@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------[[
--- Filename: to_be_continued_anim.lua
+-- Filename: ep1/to_be_continued_anim.lua
 --
 -- Description: Display the "To be continued..." text in front of a black background
 ------------------------------------------------------------------------------]]

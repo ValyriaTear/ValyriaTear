@@ -1306,7 +1306,7 @@ msgstr "「いらっしゃい！ゆっくり見て回って。」"
 #. / Translators: The logo file path here can be overidden to an image of the
 #. logo made for your country language.
 #. / Leave the same value if you don't plan to change this image.
-#: ../data/boot_menu/boot.lua:53 ../data/credits/end_credits.lua:30
+#: ../data/boot_menu/ep1/boot.lua:53 ../data/credits/end_credits.lua:30
 msgid "data/boot_menu/valyria_logo.png"
 msgstr "data/boot_menu/valyria_logo.png"
 
@@ -1817,7 +1817,7 @@ msgid ""
 msgstr "マップタイル\n\nインベントリアイコン\n\nマップモンスタースプライト"
 
 #: ../data/credits/end_credits.lua:948
-#: ../data/story/to_be_continued_anim.lua:32
+#: ../data/story/ep1/to_be_continued_anim.lua:32
 msgid "To be continued..."
 msgstr "To be continued..."
 

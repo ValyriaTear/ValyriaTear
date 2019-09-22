@@ -4,7 +4,7 @@
 -- then invoke CMake again to regenerate the po targets list.
 
 languages = {
-    -- The default language (used when translations are disabled/broken, or at first start.s)
+    -- The default language (used when translations are disabled/broken, or at first start.)
     default_locale = "en_GB",
 
     -- The name part of the gettext PO file for that language.

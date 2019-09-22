@@ -1465,7 +1465,7 @@ msgstr "\"Ласкаво прошу! Огляньте мій асортимен�
 #. tr: The logo file path here can be overidden to an image of the logo made
 #. for your country language.
 #. tr: Leave the same value if you don't plan to change this image.
-#: ../data/boot_menu/boot.lua:53 ../data/credits/end_credits.lua:30
+#: ../data/boot_menu/ep1/boot.lua:53 ../data/credits/end_credits.lua:30
 msgid "data/boot_menu/valyria_logo.png"
 msgstr "data/boot_menu/valyria_logo.png"
 
@@ -1962,7 +1962,7 @@ msgid ""
 msgstr "Текстури карти\n\n Іконки предметів\n\n Спрайти монстрів на карті"
 
 #: ../data/credits/end_credits.lua:948
-#: ../data/story/to_be_continued_anim.lua:32
+#: ../data/story/ep1/to_be_continued_anim.lua:32
 msgid "To be continued..."
 msgstr "Це лише початок історії..."
 
@@ -2066,7 +2066,7 @@ msgstr "Як хочеш. Йди за мною."
 
 #: ../data/entities/characters.lua:13 ../data/entities/map_sprites.lua:11
 #: ../data/entities/map_sprites.lua:44
-#: ../data/story/common/tutorial_battle_dialogs.lua:62
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:62
 #: ../data/story/ep1/layna_village/battle_with_banesore/battle_with_banesore_script.lua:56
 #: ../data/story/ep1/layna_village/tutorial_shop_dialogs.lua:58
 msgid "Bronann"
@@ -2339,7 +2339,7 @@ msgid "Herth"
 msgstr "Герц"
 
 #: ../data/entities/map_sprites.lua:179
-#: ../data/story/common/tutorial_battle_dialogs.lua:63
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:63
 #: ../data/story/ep1/layna_village/layna_village_center_script.lua:203
 #: ../data/story/ep1/layna_village/layna_village_riverbank_at_night_script.lua:159
 #: ../data/story/ep1/layna_village/layna_village_well_underground_script.lua:65
@@ -3915,12 +3915,12 @@ msgstr "Поливання водою"
 msgid "Spider Web"
 msgstr "Павутиння"
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:69
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:69
 msgid "Bronann, do you need a quick reminder about the basics of battle?"
 msgstr "Бронане, тобі треба по-швидкому нагадати про основи бою?"
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:71
-#: ../data/story/common/tutorial_battle_dialogs.lua:98
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:71
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:98
 #: ../data/story/ep1/layna_forest/layna_forest_cave1_2_script.lua:190
 #: ../data/story/ep1/layna_forest/layna_forest_wolf_cave_script.lua:198
 #: ../data/story/ep1/layna_village/battle_with_banesore/battle_with_banesore_script.lua:66
@@ -3947,45 +3947,45 @@ msgstr "Бронане, тобі треба по-швидкому нагадат
 msgid "..."
 msgstr "..."
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:73
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:73
 msgid "Ask about battle basics."
 msgstr "Спитати про те, як воювати."
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:75
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:75
 msgid "Ask nothing. I know how to fight."
 msgstr "Нічого не питати. Я знаю, як воювати."
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:78
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:78
 msgid "Er, I could use a refresher on the fundamentals of combat."
 msgstr "Ну... я би залюбки ще разочок пройшовся по основам бою."
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:80
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:80
 msgid ""
 "Here you can find the hit points (HP) and skill points (SP) of the ally "
 "party. Don't let your HP reach 0 or you're doomed!"
 msgstr "Тут можна побачити життєві сили (HP) та здібності (SP) всієї команди союзників. Слідкуй, щоб життєві сили не стали рівні 0, бо інакше тобі кінець!"
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:82
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:82
 msgid ""
 "In battle, your icon and those of our enemies will rise up on the stamina "
 "bar. The more stamina you have, the faster your icon will climb."
 msgstr "В битві твій значок та значки противників будуть підніматися по смужці снаги. Чим більша твоя снага, тим скоріше підніматиметься значок."
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:84
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:84
 msgid ""
 "Once you or one of your allies has reached the action level, you can select "
 "an action for that ally. The battle is then paused and you've got all the "
 "time you need to select one, so don't panic."
 msgstr "Коли ти або твій союзник дійде до рівню атаки, ти можеш вибрати дій для цього союзника. На цей час битва призупиняється, і у тебе буде час вибрати дію, тож не панікуй."
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:86
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:86
 msgid ""
 "There are two action types: The basic 'Weapon' to attack, and later you can "
 "also use 'Magic' skills. Last but not least, you'll also be able to use our "
 "'Items'. Simply choose an action followed by a target to trigger it."
 msgstr "Є два типи дій: основна атакувальна дія — «Зброя», а потім можна буде використовувати здібності типу «Магія». І ще важливо пам'ятати про «Предмети». Просто обери дію, а потім ціль, щоб виконати цю дію."
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:88
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:88
 msgid ""
 "The icon will still need to climb to the top of the stamina bar before the "
 "selected action is executed. This is called the 'preparation time'. "
@@ -3993,7 +3993,7 @@ msgid ""
 "take to prepare."
 msgstr "Значок мусить піднятися до самого верху смужки снаги, щоб дія виконалася. Це називається «часом на підготовку». Звичайно чим сильніше здібність, тим довше треба готуватися."
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:90
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:90
 msgid ""
 "By the way, you're not forced to wait for your icon to reach the action "
 "level before you can select an action. When these two little arrows here are"
@@ -4001,42 +4001,42 @@ msgid ""
 "the corresponding ally."
 msgstr "До речі, тобі не обов'язково чекати, коли значок дійде до рівню дії, щоб вибрати дію. Коли підсвічуються ось ці дві маленькі стрілочки, можна обрати дію для союзника заздалегідь."
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:92
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:92
 msgid ""
 "So long as the little arrows there are still visible, you can change the "
 "selected action at any time."
 msgstr "Поки ці маленькі стрілочки видно, можна змінити дію."
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:94
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:94
 msgid "Don't forget that you can press '"
 msgstr "Не забувай, що можна натиснути '"
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:94
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:94
 msgid "' if you need more details."
 msgstr "' для отримання додаткової інформації."
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:96
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:96
 msgid "Shall I repeat all that?"
 msgstr "Допетрав, чи повторити?"
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:100
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:100
 #: ../data/story/ep1/layna_village/layna_village_center_script.lua:961
 msgid "Yes, please."
 msgstr "Так, якщо можна."
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:102
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:102
 msgid "No, it's alright."
 msgstr "Ні, все зрозумів."
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:106
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:106
 msgid "Don't worry Olivia, I have not forgotten my training."
 msgstr "Не хвилюйся, Олівіє, я не забув свої тренування."
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:109
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:109
 msgid "Thanks Olivia, I'm prepared now."
 msgstr "Дякую, Олівіє, тепер я готовий."
 
-#: ../data/story/common/tutorial_battle_dialogs.lua:112
+#: ../data/story/ep1/layna_village/tutorial_battle_dialogs.lua:112
 msgid "Good. I'll let you quickly dispatch this minor threat."
 msgstr "Добре. Я дам тобі швиденько розібратися з цією не дуже небезпечною істотою."
 

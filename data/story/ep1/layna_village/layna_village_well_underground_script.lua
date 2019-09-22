@@ -251,7 +251,7 @@ function _SetBattleEnvironment(enemy)
     enemy:AddBattleScript("data/battles/battle_scenes/desert_cave_battle_anim.lua")
     enemy:AddBattleScript("data/story/common/lost_in_darkness.lua")
     -- Add tutorial battle dialog with Olivia
-    enemy:AddBattleScript("data/story/common/tutorial_battle_dialogs.lua");
+    enemy:AddBattleScript("data/story/ep1/layna_village/tutorial_battle_dialogs.lua");
 end
 
 -- Creates all events and sets up the entire event sequence chain
