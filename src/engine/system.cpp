@@ -444,7 +444,7 @@ bool SystemEngine::LoadLanguages()
     return true;
 }
 
-std::string _Reinitl10n()
+std::string _Reinitl10n(const std::string& lang)
 {
     // Initialize the gettext library
     setlocale(LC_ALL, "");
@@ -461,7 +461,7 @@ std::string _Reinitl10n()
 #elif (defined(__linux__) || defined(__FreeBSD__)) && !defined(RELEASE_BUILD)
     // Look for translation files in LOCALEDIR only if they are not available in the
     // current directory.
-    if(!vt_utils::DoesFileExist("data/locale/" + DEFAULT_LOCALE + "/LC_MESSAGES/" APPSHORTNAME ".mo")) {
+    if(!vt_utils::DoesFileExist("data/locale/" + lang + "/LC_MESSAGES/" APPSHORTNAME ".mo")) {
         bind_text_domain_path = LOCALEDIR;
     } else {
         char buffer[PATH_MAX];
@@ -483,7 +483,7 @@ std::string _Reinitl10n()
 bool SystemEngine::IsLanguageLocaleAvailable(const std::string& lang)
 {
     // Construct the corresponding mo filename path.
-    std::string mo_filename = _Reinitl10n();
+    std::string mo_filename = _Reinitl10n(lang);
     mo_filename.append("/");
     mo_filename.append(lang);
     mo_filename.append("/LC_MESSAGES/" APPSHORTNAME ".mo");

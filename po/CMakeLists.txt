@@ -103,6 +103,8 @@ MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _languages)
         COMMAND rm -f ep1-translatable-files ep2-translatable-files
         COMMAND rm -f ep1-map-files ep2-map-files ep1-map-files-tr.lua ep2-map-files-tr.lua
         COMMAND rm -f map_names_tr.lua
+        # Let's also remove the mo files as they are not obsolete, this will trigger their refresh
+        COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_BINARY_DIR}/../data/locale
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
 
@@ -152,7 +154,6 @@ MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _languages)
                 COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --quiet --update --backup=none -s ${_absPoFile} ${_absPotFile}
                 WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
             )
-            ADD_DEPENDENCIES("update-po-${_lang}-${_potFile}" update-pot)
             ADD_DEPENDENCIES(update-po-${_lang} "update-po-${_lang}-${_potFile}")
         ENDFOREACH()
         ADD_DEPENDENCIES(update-po "update-po-${_lang}")
