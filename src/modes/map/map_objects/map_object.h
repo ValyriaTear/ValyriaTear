@@ -250,7 +250,7 @@ public:
     }
 
     //! \brief Get the object position in tiles.
-    vt_common::Position2D GetPosition() const {
+    const vt_common::Position2D& GetPosition() const {
         return _tile_position;
     }
 

@@ -65,7 +65,7 @@ struct Position2D {
         return *this;
     }
 
-    bool operator == (const Position2D& other_pos) {
+    bool operator == (const Position2D& other_pos) const {
         // Handles upon-self test.
         if (&other_pos == this)
             return true;
