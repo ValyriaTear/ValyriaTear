@@ -1,27 +1,9 @@
 FIND_PACKAGE(Gettext REQUIRED)
 
-# based on the CMake 2.6.3 GETTEXT_CREATE_TRANSLATIONS
-# we need our own version because the upstream one contains
-# a call to msgmerge (updating po files) which can't be
-# disabled
-MACRO(VALYRIATEAR_GETTEXT_CREATE_TRANSLATIONS _potFile _firstPoFileArg)
-   # make it a real variable, so we can modify it here
-   SET(_firstPoFile "${_firstPoFileArg}")
+# Creates a single mo file from all the language po files and install it
+MACRO(VALYRIATEAR_GETTEXT_INSTALL_TRANSLATIONS _languages)
 
-   SET(_moFiles)
-   GET_FILENAME_COMPONENT(_potBasename ${_potFile} NAME_WE)
-   GET_FILENAME_COMPONENT(_absPotFile ${_potFile} ABSOLUTE)
-
-   SET(_addToAll)
-   IF(${_firstPoFile} STREQUAL "ALL")
-      SET(_addToAll "ALL")
-      SET(_firstPoFile)
-   ENDIF(${_firstPoFile} STREQUAL "ALL")
-
-   FOREACH (_currentPoFile ${_firstPoFile} ${ARGN})
-      GET_FILENAME_COMPONENT(_absFile ${_currentPoFile} ABSOLUTE)
-      GET_FILENAME_COMPONENT(_abs_PATH ${_absFile} PATH)
-      GET_FILENAME_COMPONENT(_lang ${_absFile} NAME_WE)
+   FOREACH (_lang ${languages})
 
       # Prepare output directories for the translation binaries (mo files)
       SET(_moDir ${CMAKE_CURRENT_BINARY_DIR}/../data/locale/${_lang}/LC_MESSAGES/)
@@ -33,56 +15,71 @@ MACRO(VALYRIATEAR_GETTEXT_CREATE_TRANSLATIONS _potFile _firstPoFileArg)
 
       # Generate the translation binaries (mo files)
       SET(_moFile ${_moDir}/valyriatear.mo)
+      SET(_poFile ${CMAKE_CURRENT_SOURCE_DIR}/${_lang}.po)
 
       ADD_CUSTOM_COMMAND(
          OUTPUT ${_moFile}
          # Concatenate the client po files into a single one
-         COMMAND msgcat --output-file=${_absFile} ${_abs_PATH}/${_lang}/*.po
+         COMMAND msgcat --output-file=${_poFile} ${CMAKE_CURRENT_SOURCE_DIR}/${_lang}/*.po
          # Generate the mo file
-         COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -o ${_moFile} ${_absFile}
+         COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -o ${_moFile} ${_poFile}
          # Delete the temp po file
-         COMMAND ${CMAKE_COMMAND} -E remove -f ${_absFile}
-         DEPENDS ${_absPotFile} ${_absFile} ${_moDir}
+         COMMAND ${CMAKE_COMMAND} -E remove -f ${_poFile}
+         DEPENDS "update-po-${_lang}" ${_moDir}
       )
 
       # Install the mo files depending on the OS.
       IF (UNIX)
           # In the linux localedir, e.g.: /usr/share/locale/<lang>/LC_MESSAGES/valyriatear.mo
-          INSTALL(FILES ${_moFile} DESTINATION ${LOCALEDIR}/${_lang}/LC_MESSAGES RENAME ${_potBasename}.mo)
+          INSTALL(FILES ${_moFile} DESTINATION ${LOCALEDIR}/${_lang}/LC_MESSAGES)
       ELSE()
           # In the locale/ data folder
-          INSTALL(FILES ${_moFile} DESTINATION ${PKG_DATADIR}/locale/${_lang}/LC_MESSAGES RENAME ${_potBasename}.mo)
+          INSTALL(FILES ${_moFile} DESTINATION ${PKG_DATADIR}/locale/${_lang}/LC_MESSAGES)
       ENDIF()
 
       SET(_moFiles ${_moFiles} ${_moFile})
 
-   ENDFOREACH (_currentPoFile)
+   ENDFOREACH()
 
-   ADD_CUSTOM_TARGET(translations ${_addToAll} DEPENDS ${_moFiles})
+   ADD_CUSTOM_TARGET(translations ALL DEPENDS ${_moFiles})
 ENDMACRO()
 
-MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
-   GET_FILENAME_COMPONENT(_absPotFile ${_potFile} ABSOLUTE)
+# Update every po files according to the corresponding pot file for each language
+MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _languages)
+
+   # Set the pot files suffix name
+   SET(_potFileSuffix "valyriatear.pot")
+
+   # Setup filenames
+   SET(_srcPotFile src-${_potFileSuffix})
+   SET(_inventoryPotFile inventory-${_potFileSuffix})
+   SET(_skillsPotFile skills-${_potFileSuffix})
+   SET(_configPotFile config-${_potFileSuffix})
+   SET(_entitiesPotFile entities-${_potFileSuffix})
+   SET(_ep1PotFile ep1-${_potFileSuffix})
+   SET(_ep2PotFile ep2-${_potFileSuffix})
+
+   SET(_potFiles ${_srcPotFile} ${_inventoryPotFile} ${_skillsPotFile} ${_configPotFile} ${_entitiesPotFile} ${_ep1PotFile} ${_ep2PotFile})
 
    ADD_CUSTOM_TARGET(
       update-pot
       # Strings from C++ and Lua
-      COMMAND xgettext -C --files-from=src-translatable-files --directory=. --output=src-${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
-      COMMAND xgettext -C --files-from=inventory-translatable-files --directory=. --output=inventory-${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
-      COMMAND xgettext -C --files-from=skills-translatable-files --directory=. --output=skills-${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
-      COMMAND xgettext -C --files-from=config-translatable-files --directory=. --output=config-${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
-      COMMAND xgettext -C --files-from=entities-translatable-files --directory=. --output=entities-${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
+      COMMAND xgettext -C --files-from=src-translatable-files --directory=. --output=${_srcPotFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
+      COMMAND xgettext -C --files-from=inventory-translatable-files --directory=. --output=${_inventoryPotFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
+      COMMAND xgettext -C --files-from=skills-translatable-files --directory=. --output=${_skillsPotFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
+      COMMAND xgettext -C --files-from=config-translatable-files --directory=. --output=${_configPotFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
+      COMMAND xgettext -C --files-from=entities-translatable-files --directory=. --output=${_entitiesPotFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
       # Story pot files
-      COMMAND xgettext -C --files-from=ep1-translatable-files --directory=. --output=ep1-${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
-      COMMAND xgettext -C --force-po --files-from=ep2-translatable-files --directory=. --output=ep2-${_potFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
+      COMMAND xgettext -C --files-from=ep1-translatable-files --directory=. --output=${_ep1PotFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
+      COMMAND xgettext -C --force-po --files-from=ep2-translatable-files --directory=. --output=${_ep2PotFile} -d valyriatear --keyword=_ --keyword=N_ --keyword=Translate --keyword=UTranslate --keyword=CTranslate --keyword=CUTranslate --keyword=VTranslate:1 --keyword=NVTranslate:1,2 --add-comments=tr: --from-code=UTF-8
 
       ## Map names
       # Episode 1 -> output ep2-map-files-tr.lua
       COMMAND bash create_map_names_translatable_strings.sh ep1-map-files
-      COMMAND xgettext -C --directory=. -j --output=ep1-${_potFile} -d valyriatear --keyword=Translate --add-comments=tr: --from-code=UTF-8  ep1-map-files-tr.lua
+      COMMAND xgettext -C --directory=. -j --output=${_ep1PotFile} -d valyriatear --keyword=Translate --add-comments=tr: --from-code=UTF-8  ep1-map-files-tr.lua
       # Episode 2 -> output ep2-map-files-tr.lua
       COMMAND bash create_map_names_translatable_strings.sh ep2-map-files
-      COMMAND xgettext -C --directory=. -j --output=ep2-${_potFile} -d valyriatear --keyword=Translate --add-comments=tr: --from-code=UTF-8  ep2-map-files-tr.lua
+      COMMAND xgettext -C --directory=. -j --output=${_ep2PotFile} -d valyriatear --keyword=Translate --add-comments=tr: --from-code=UTF-8  ep2-map-files-tr.lua
 
       # The pot files are ready - We can remove the temp files
       COMMAND rm -f src-translatable-files inventory-translatable-files skills-translatable-files
@@ -123,35 +120,39 @@ MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _potFile _languages)
       COMMAND grep 'map_subname =' -Irl  ../data/story/ep2 --include=*.lua | sort >> ep2-map-files
 
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-      )
+   )
+   ADD_DEPENDENCIES(update-pot update-translatable-files)
 
    FOREACH(_lang ${_languages})
-      GET_FILENAME_COMPONENT(_absFile "${_lang}.po" ABSOLUTE)
-      SET(_currentPoFile ${CMAKE_CURRENT_BINARY_DIR}/${_lang}.po)
-      ADD_CUSTOM_TARGET(
-         "update-translation-${_lang}"
-         COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --quiet --update --backup=none -s ${_absFile} ${_absPotFile}
-         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-         )
-      ADD_DEPENDENCIES("update-translation-${_lang}" update-pot)
-      ADD_DEPENDENCIES(update-po "update-translation-${_lang}")
-      ADD_DEPENDENCIES(update-pot update-translatable-files)
+      ADD_CUSTOM_TARGET("update-po-${_lang}")
+      FOREACH(_potFile ${_potFiles})
+          # Get the corresponding po file for the given pot file
+          GET_FILENAME_COMPONENT(_currentPo ${_potFile} NAME_WE)
+          GET_FILENAME_COMPONENT(_absPoFile "${_lang}/${_currentPo}.po" ABSOLUTE)
+          GET_FILENAME_COMPONENT(_absPotFile "${_potFile}" ABSOLUTE)
+
+          ADD_CUSTOM_TARGET(
+             "update-po-${_lang}-${_potFile}"
+             COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --quiet --update --backup=none -s ${_absPoFile} ${_absPotFile}
+             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+          )
+          ADD_DEPENDENCIES("update-po-${_lang}-${_potFile}" update-pot)
+          ADD_DEPENDENCIES(update-po-${_lang} "update-po-${_lang}-${_potFile}")
+      ENDFOREACH()
+      ADD_DEPENDENCIES(update-po "update-po-${_lang}")
    ENDFOREACH()
 ENDMACRO()
 
 # Iterate locales
 SET(languages)
-SET(POFILES)
-file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/LINGUAS" files)
-foreach(file ${files})
-   get_filename_component(_lang ${file} NAME_WE)
+FILE(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/LINGUAS" linguas)
+foreach(_lang ${linguas})
    IF(NOT ${_lang} STREQUAL "")
       SET(languages ${languages} ${_lang})
-      SET(POFILES ${POFILES} "${CMAKE_CURRENT_SOURCE_DIR}/${_lang}.po")
    ENDIF()
 endforeach()
 
 ADD_CUSTOM_TARGET(update-po)
 
-VALYRIATEAR_GETTEXT_CREATE_TRANSLATIONS(valyriatear.pot ALL ${POFILES})
-VALYRIATEAR_GETTEXT_UPDATE_PO(valyriatear.pot "${languages}")
+VALYRIATEAR_GETTEXT_UPDATE_PO("${languages}")
+VALYRIATEAR_GETTEXT_INSTALL_TRANSLATIONS("${languages}")
