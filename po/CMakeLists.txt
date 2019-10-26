@@ -1,5 +1,31 @@
 FIND_PACKAGE(Gettext REQUIRED)
 
+# Set the pot files suffix name
+SET(_fileBasename "valyriatear")
+SET(_potFileSuffix "pot")
+SET(_poFileSuffix "po")
+
+# Setup filenames
+SET(_srcPotFile src-${_fileBasename}.${_potFileSuffix})
+SET(_inventoryPotFile inventory-${_fileBasename}.${_potFileSuffix})
+SET(_skillsPotFile skills-${_fileBasename}.${_potFileSuffix})
+SET(_configPotFile config-${_fileBasename}.${_potFileSuffix})
+SET(_entitiesPotFile entities-${_fileBasename}.${_potFileSuffix})
+SET(_ep1PotFile ep1-${_fileBasename}.${_potFileSuffix})
+SET(_ep2PotFile ep2-${_fileBasename}.${_potFileSuffix})
+
+SET(_potFiles ${_srcPotFile} ${_inventoryPotFile} ${_skillsPotFile} ${_configPotFile} ${_entitiesPotFile} ${_ep1PotFile} ${_ep2PotFile})
+
+SET(_srcPoFile src-${_fileBasename}.${_poFileSuffix})
+SET(_inventoryPoFile inventory-${_fileBasename}.${_poFileSuffix})
+SET(_skillsPoFile skills-${_fileBasename}.${_poFileSuffix})
+SET(_configPoFile config-${_fileBasename}.${_poFileSuffix})
+SET(_entitiesPoFile entities-${_fileBasename}.${_poFileSuffix})
+SET(_ep1PoFile ep1-${_fileBasename}.${_poFileSuffix})
+SET(_ep2PoFile ep2-${_fileBasename}.${_poFileSuffix})
+
+SET(_poFiles ${_srcPoFile} ${_inventoryPoFile} ${_skillsPoFile} ${_configPoFile} ${_entitiesPoFile} ${_ep1PoFile} ${_ep2PoFile})
+
 # Creates a single mo file from all the language po files and install it
 MACRO(VALYRIATEAR_GETTEXT_INSTALL_TRANSLATIONS _languages)
     FOREACH (_lang ${languages})
@@ -7,23 +33,29 @@ MACRO(VALYRIATEAR_GETTEXT_INSTALL_TRANSLATIONS _languages)
         SET(_moDir ${CMAKE_CURRENT_BINARY_DIR}/../data/locale/${_lang}/LC_MESSAGES/)
         ADD_CUSTOM_COMMAND(
         OUTPUT ${_moDir}
-          COMMAND ${CMAKE_COMMAND} -E remove_directory ${_moDir}
-          COMMAND ${CMAKE_COMMAND} -E make_directory ${_moDir}
+            COMMAND ${CMAKE_COMMAND} -E remove_directory ${_moDir}
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${_moDir}
         )
 
         # Generate the translation binaries (mo files)
         SET(_moFile ${_moDir}/valyriatear.mo)
-        SET(_poFile ${CMAKE_CURRENT_SOURCE_DIR}/${_lang}.po)
+        SET(_singlePoFile ${CMAKE_CURRENT_SOURCE_DIR}/${_lang}.po)
+
+        # Generate the po file list dependency
+        SET(_langPoFiles)
+        FOREACH(_langPoFile ${_poFiles})
+            SET(_langPoFiles ${_langPoFiles} "${CMAKE_CURRENT_SOURCE_DIR}/${_lang}/${_langPoFile}")
+        ENDFOREACH()
 
         ADD_CUSTOM_COMMAND(
             OUTPUT ${_moFile}
             # Concatenate the client po files into a single one
-            COMMAND msgcat --output-file=${_poFile} ${CMAKE_CURRENT_SOURCE_DIR}/${_lang}/*.po
+            COMMAND msgcat --output-file=${_singlePoFile} ${_langPoFiles}
             # Generate the mo file
-            COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -o ${_moFile} ${_poFile}
+            COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -o ${_moFile} ${_singlePoFile}
             # Delete the temp po file
-            COMMAND ${CMAKE_COMMAND} -E remove -f ${_poFile}
-            DEPENDS "update-po-${_lang}" ${_moDir}
+            COMMAND ${CMAKE_COMMAND} -E remove -f ${_singlePoFile}
+            DEPENDS ${_langPoFiles} ${_moDir}
         )
 
         # Install the mo files depending on the OS.
@@ -39,25 +71,11 @@ MACRO(VALYRIATEAR_GETTEXT_INSTALL_TRANSLATIONS _languages)
     ENDFOREACH()
 
     ADD_CUSTOM_TARGET(translations DEPENDS ${_moFiles})
-    ADD_DEPENDENCIES(valyriatear DEPENDS translations)
+    ADD_DEPENDENCIES(valyriatear translations)
 ENDMACRO()
 
 # Update every po files according to the corresponding pot file for each language
 MACRO(VALYRIATEAR_GETTEXT_UPDATE_PO _languages)
-
-    # Set the pot files suffix name
-    SET(_potFileSuffix "valyriatear.pot")
-
-    # Setup filenames
-    SET(_srcPotFile src-${_potFileSuffix})
-    SET(_inventoryPotFile inventory-${_potFileSuffix})
-    SET(_skillsPotFile skills-${_potFileSuffix})
-    SET(_configPotFile config-${_potFileSuffix})
-    SET(_entitiesPotFile entities-${_potFileSuffix})
-    SET(_ep1PotFile ep1-${_potFileSuffix})
-    SET(_ep2PotFile ep2-${_potFileSuffix})
-
-    SET(_potFiles ${_srcPotFile} ${_inventoryPotFile} ${_skillsPotFile} ${_configPotFile} ${_entitiesPotFile} ${_ep1PotFile} ${_ep2PotFile})
 
     ADD_CUSTOM_TARGET(
         update-pot
