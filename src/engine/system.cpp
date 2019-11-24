@@ -52,11 +52,16 @@ bool SYSTEM_DEBUG = false;
 
 const std::string LANGUAGE_FILE = "data/config/languages.lua";
 
-// If gettext translations are disabled, let's define a dummy gettext.
+// If gettext translations are disabled, let's define minimal dummy gettext functions.
 #ifdef DISABLE_TRANSLATIONS
-const char* gettext(const char *text)
+const char* gettext(const char* text)
 {
     return text;
+}
+
+const char* ngettext(const char* text_when_singular, const char* text_when_plural, unsigned long int number)
+{
+    return number > 1 ? text_when_plural : text_when_singular;
 }
 #endif
 
@@ -476,6 +481,8 @@ std::string _Reinitl10n(const std::string& lang)
     bindtextdomain(APPSHORTNAME, bind_text_domain_path.c_str());
     bind_textdomain_codeset(APPSHORTNAME, "UTF-8");
     textdomain(APPSHORTNAME);
+#else
+    bind_text_domain_path = lang;
 #endif
     return bind_text_domain_path;
 }
@@ -508,6 +515,9 @@ bool SystemEngine::SetLanguageLocale(const std::string& lang)
         return false;
 
     _current_language_locale = lang;
+
+#ifndef DISABLE_TRANSLATIONS
+
     setlocale(LC_MESSAGES, _current_language_locale.c_str());
     setlocale(LC_ALL, "");
 
@@ -519,7 +529,10 @@ bool SystemEngine::SetLanguageLocale(const std::string& lang)
 #else
     setenv("LANGUAGE", _current_language_locale.c_str(), 1);
     setenv("LANG", _current_language_locale.c_str(), 1);
-#endif
+#endif // _WIN32
+
+#endif // DISABLE_TRANSLATIONS
+
     return true;
 }
 
