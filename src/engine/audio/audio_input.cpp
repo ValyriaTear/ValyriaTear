@@ -27,6 +27,7 @@
 #include "utils/utils_common.h"
 
 #include <cstring>
+#include <SDL_endian.h>
 
 namespace vt_audio
 {
