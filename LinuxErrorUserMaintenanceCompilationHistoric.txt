@@ -1,0 +1,70 @@
+ _   _       _            _         _____
+| | | |     | |          (_)       |_   _|
+| | | | __ _| |_   _ _ __ _  __ _    | | ___  __ _ _ __
+| | | |/ _` | | | | | '__| |/ _` |   | |/ _ \/ _` | '__|
+\ \_/ / (_| | | |_| | |  | | (_| |   | |  __/ (_| | |
+ \___/ \__,_|_|\__, |_|  |_|\__,_|   \_/\___|\__,_|_|
+                __/ |
+               |___/
+
+
+**Development blog:** https://valyriatear.blogspot.com
+**Bug Tracker:** https://github.com/ValyriaTearValyriaTear/issues
+**Forums:** https://forum.freegamedev.net/viewforum.php?f=76
+
+Valyria Tear is an open-source single-player medieval-fantasy 2D J-RPG based on an extended Hero of Allacrost engine
+and inspired by classic console RPGs. See: http://www.allacrost.org
+
+The player incarnates Bronann, a young boy forced to take part into the struggle for the possession of a mysterious crystal.
+This powerful artifact will lead him to discover the actual threat set upon his world, but also courage and love.
+
+The game has all the features you can expect from JRPG classics: entertaining story development, colourful map exploration,
+active side-view battles, character management, puzzles... It is also translated in several languages.
+
+## Licensing ##
+
+Copyright (C) 2012-2019 by Bertram
+Copyright (C) 2004-2011 by The Allacrost Project
+
+The source code is licensed under the *GNU GPL*. It is free software and you may
+modify it and/or redistribute it under the terms of this license.
+See https://www.gnu.org/copyleft/gpl.html for details.
+
+The graphics, sounds, musics and script files are licensed according to the LICENSES file:
+https://raw.githubusercontent.com/ValyriaTear/ValyriaTear/master/LICENSES
+
+While the scripts are under the GNU GPL, the story concept is copyrighted
+and cannot be reused as is or part of it in another project without the author's consent.
+This means you can package, and distribute Valyria Tear under the term of this license
+but you cannot take the story or parts of it in another project without agreement.
+
+The game directories included and used are:
+data/ po/
+
+
+1 - LibLua error.
+CMake Error: File /home/ti/Software/valdev/ValyriaTear/src/luabind/build_information.hpp.cmake_in does not exist.
+CMake Error at src/CMakeLists.txt:156 (CONFIGURE_FILE):
+CONFIGURE_FILE Problem configuring file
+Cmake doesn't find liblua.
+
+run in shell the command bellow, to upgrade liblua present inside valyriatear folder
+'git submodule update --init --remote --force`
+
+
+2 - glibc error.
+result:
+-- Check for working C compiler: /usr/bin/cc -- broken
+
+gbilc installation is not make correctly, retry the installation.
+
+
+3 - Data folder error.
+ERROR:/home/ti/Software/Valdev/ValyriaTear/src/main.cpp:main:518:
+EXCEPTION:/home/ti/Software/Valdev/ValyriaTear/src/main.cpp:main:493: ERROR: failed to change directory to data location
+
+you have try to run ./valyriatear from valyriatear/src folder and the data folder is not find ( define in hard in main.cpp line 493
+if(!std::ifstream("data/config/settings.lua").good()) {.
+to solve it, Run the 'src/valyriatear' from valyriatear folder. 
+
+
