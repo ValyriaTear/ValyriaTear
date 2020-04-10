@@ -418,6 +418,79 @@ static void InitializeEngine()
     SystemManager->InitializeTimers();
 }
 
+void DeinitializeEngine()
+{
+    // NOTE: Even if the singleton objects do not exist when this function is called, invoking the
+    // static Destroy() singleton function will do no harm (it checks that the object exists before deleting it).
+
+    // Delete the mode manager first so that all game modes free their resources
+    ModeEngine::SingletonDestroy();
+
+    // Delete the global manager second
+    // to remove all object references corresponding to other engine subsystems
+    GameGlobal::SingletonDestroy();
+
+    // Delete all of the reamining independent engine components
+    GUISystem::SingletonDestroy();
+    AudioEngine::SingletonDestroy();
+    InputEngine::SingletonDestroy();
+    SystemEngine::SingletonDestroy();
+    VideoEngine::SingletonDestroy();
+    // Do it last since all luabind objects must be freed
+    // before closing the lua state.
+    ScriptEngine::SingletonDestroy();
+}
+
+//! \brief Render the game frame.
+void RenderFrame()
+{
+    // Clear the primary render target.
+    VideoManager->Clear();
+
+    // Render the game.
+    ModeManager->Draw();
+    ModeManager->DrawEffects();
+    ModeManager->DrawPostEffects();
+    VideoManager->DrawFadeEffect();
+    VideoManager->DrawDebugInfo();
+}
+
+//! \brief Update the engine logic with the provided new absolute tick time.
+void UpdateEngine(uint32_t update_tick)
+{
+    //uint32_t update_begin_tick = update_tick;
+
+    // Update timers for correct time-based movement operation
+    SystemManager->UpdateTimers(update_tick);
+
+    //std::cout << "Update timers delay: " << SDL_GetTicks() - update_tick << "ms" << std::endl;
+    //update_tick = SDL_GetTicks();
+
+    // Process all new events
+    InputManager->EventHandler();
+
+    //std::cout << "Update events delay: " << SDL_GetTicks() - update_tick << "ms" << std::endl;
+    //update_tick = SDL_GetTicks();
+
+    // Update video
+    VideoManager->Update();
+
+    //std::cout << "Update video delay: " << SDL_GetTicks() - update_tick << "ms" << std::endl;
+    //update_tick = SDL_GetTicks();
+
+    // Update any streaming audio sources
+    AudioManager->Update();
+
+    //std::cout << "Update audio delay: " << SDL_GetTicks() - update_tick << "ms" << std::endl;
+    //update_tick = SDL_GetTicks();
+
+    // Update the game status
+    ModeManager->Update();
+
+    //std::cout << "Update events delay: " << SDL_GetTicks() - update_tick << "ms" << std::endl;
+    //std::cout << "Update total delay: " << SDL_GetTicks() - update_begin_tick << "ms" << std::endl;
+}
+
 // Every great game begins with a single function :)
 // N.B.: The main signature must be:
 // int main(int argc, char *argv[]) to permit compilation
@@ -450,7 +523,6 @@ int main(int argc, char* argv[])
                     << SDL_GetError() << std::endl;
         return EXIT_FAILURE;
     }
-    SDL_HideWindow(sdl_window);
 
     // Set the window icon
     SDL_Surface* icon = IMG_Load("data/icons/program_icon.png");
@@ -528,69 +600,41 @@ int main(int argc, char* argv[])
     // tr: The window title only supports UTF-8 characters in SDL2.
     std::string app_fullname = vt_system::Translate("Valyria Tear");
     SDL_SetWindowTitle(sdl_window, app_fullname.c_str());
-
     SDL_ShowWindow(sdl_window);
+
     ModeManager->Push(new BootMode(), false, true);
 
     // Used for a variable game speed,
     // sleeping when on sufficiently fast hardware, and max FPS.
-    const uint32_t UPDATES_PER_SECOND = 60 + 10; // 10 is a smoothness safety margin
-    const uint32_t SKIP_UPDATE_TICKS = 1000 / UPDATES_PER_SECOND;
-    // The average time assumed to do a game logic cycle
-    const uint32_t MIN_LOGIC_DELAY = 16; // in ms
-    uint32_t update_tick = SDL_GetTicks();
-    uint32_t next_update_tick = update_tick;
+    const uint32_t UPDATES_PER_SECOND = 60 + 10; // 10 is a smoothness safety margin (gives a max of 70 FPS)
+    const uint32_t SKIP_RENDER_TICKS = 1000 / UPDATES_PER_SECOND;
+    uint32_t render_tick = SDL_GetTicks();
+    uint32_t next_render_tick = 0;
 
     try {
         // This is the main loop for the game.
         // The loop iterates once for every frame drawn to the screen.
         while (SystemManager->NotDone()) {
 
-            update_tick = SDL_GetTicks();
+            // Render part
+            render_tick = SDL_GetTicks();
 
-            // If we want to be nice with the CPU % used.
-            if (update_tick <= next_update_tick &&
-                    next_update_tick - update_tick >= MIN_LOGIC_DELAY) {
-                SDL_Delay(next_update_tick - update_tick);
+            // We want to be nice with the CPU % used..
+            // And set fixed rendering updates
+            if (render_tick < next_render_tick) {
+                SDL_Delay(next_render_tick - render_tick);
+                continue;
             }
 
-            // Render capped at UPDATES_PER_SECOND
-            // if the update mode is gentle with the CPU(s).
-            if (update_tick > next_update_tick) {
+            UpdateEngine(render_tick);
 
-                // Clear the primary render target.
-                VideoManager->Clear();
+            RenderFrame();
 
-                // Draw the game.
-                ModeManager->Draw();
-                ModeManager->DrawEffects();
-                ModeManager->DrawPostEffects();
-                VideoManager->DrawFadeEffect();
-                VideoManager->DrawDebugInfo();
+            // Swap the buffers once the draw operations are done.
+            SDL_GL_SwapWindow(sdl_window);
 
-                // Swap the buffers once the draw operations are done.
-                SDL_GL_SwapWindow(sdl_window);
+            next_render_tick = SDL_GetTicks() + SKIP_RENDER_TICKS;
 
-                // Update the game logic
-
-                // Update timers for correct time-based movement operation
-                SystemManager->UpdateTimers();
-
-                // Process all new events
-                InputManager->EventHandler();
-
-                // Update video
-                VideoManager->Update();
-
-                // Update any streaming audio sources
-                AudioManager->Update();
-
-                // Update the game status
-                ModeManager->Update();
-
-                // Wait for the next update.
-                next_update_tick += SKIP_UPDATE_TICKS;
-            }
         } // while (SystemManager->NotDone())
     } catch(const Exception& e) {
 #ifdef WIN32
@@ -602,25 +646,7 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-    // NOTE: Even if the singleton objects do not exist when this function is called, invoking the
-    // static Destroy() singleton function will do no harm (it checks that the object exists before deleting it).
-
-    // Delete the mode manager first so that all game modes free their resources
-    ModeEngine::SingletonDestroy();
-
-    // Delete the global manager second
-    // to remove all object references corresponding to other engine subsystems
-    GameGlobal::SingletonDestroy();
-
-    // Delete all of the reamining independent engine components
-    GUISystem::SingletonDestroy();
-    AudioEngine::SingletonDestroy();
-    InputEngine::SingletonDestroy();
-    SystemEngine::SingletonDestroy();
-    VideoEngine::SingletonDestroy();
-    // Do it last since all luabind objects must be freed
-    // before closing the lua state.
-    ScriptEngine::SingletonDestroy();
+    DeinitializeEngine();
 
     // Once finished with OpenGL functions, the SDL_GLContext can be deleted.
     SDL_GL_DeleteContext(glcontext);

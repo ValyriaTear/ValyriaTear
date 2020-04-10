@@ -610,11 +610,11 @@ void SystemEngine::RemoveAutoTimer(SystemTimer *timer)
     }
 }
 
-void SystemEngine::UpdateTimers()
+void SystemEngine::UpdateTimers(uint32_t update_tick)
 {
     // Update the update game timer
     uint32_t tmp = _last_update;
-    _last_update = SDL_GetTicks();
+    _last_update = update_tick;
     _update_time = _last_update - tmp;
 
     // Update the game play timer

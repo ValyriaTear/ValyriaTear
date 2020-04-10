@@ -463,7 +463,7 @@ public:
     *** it is called inside the loop in main.cpp, you should have no reason to call this function anywhere
     *** else.
     **/
-    void UpdateTimers();
+    void UpdateTimers(uint32_t update_tick);
 
     /** \brief Checks all system timers for whether they should be paused or resumed
     *** This function is typically called whenever the ModeEngine class has changed the active game mode.
