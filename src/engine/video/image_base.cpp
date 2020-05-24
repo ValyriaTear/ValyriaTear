@@ -79,7 +79,13 @@ bool ImageMemory::LoadImage(const std::string& filename)
         return false;
     }
 
-    SDL_Surface* alpha_surf = SDL_ConvertSurfaceFormat(temp_surf, SDL_PIXELFORMAT_ARGB8888, 0);
+    // ARGB8888 as input format for any platform
+#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+    uint32_t sdl_pixel_format = SDL_PIXELFORMAT_ARGB8888;
+#else
+    uint32_t sdl_pixel_format = SDL_PIXELFORMAT_RGBA8888;
+#endif
+    SDL_Surface* alpha_surf = SDL_ConvertSurfaceFormat(temp_surf, sdl_pixel_format, 0);
 
     // Tells whether the alpha image will be used
     bool alpha_format = true;
@@ -419,7 +425,7 @@ void ImageMemory::CopyFromImage(BaseTexture *img)
     std::swap(_pixels, img_pixels);
 }
 
-void ImageMemory::CopyFrom(const ImageMemory& src, 
+void ImageMemory::CopyFrom(const ImageMemory& src,
                            uint32_t src_offset,
                            uint32_t dst_bytes,
                            uint32_t dst_offset)

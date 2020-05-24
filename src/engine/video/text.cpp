@@ -1068,17 +1068,24 @@ void TextSupervisor::_RenderText(const uint16_t* text, FontProperties* font_prop
     // Lock the SDL surface.
     SDL_LockSurface(surface);
 
-    //
-    // Send the surface pixel data to OpenGL.
-    //
+    // Handles text surface endianess
+    GLuint internal_format = GL_RGBA;
+    GLuint pixel_format = GL_RGBA;
+    if (surface->format->Rmask == 0x000000ff) {
+        pixel_format = GL_RGBA;
+    }
+    else {
+        pixel_format = GL_BGRA;
+    }
 
+    // Send the surface pixel data to OpenGL.
     if (_text_texture_width == static_cast<GLuint>(surface->w) &&
         _text_texture_height == static_cast<GLuint>(surface->h)) {
         // The size of the old texture is the same.  Just update the pixel data.
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _text_texture_width, _text_texture_height, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _text_texture_width, _text_texture_height, pixel_format, GL_UNSIGNED_BYTE, surface->pixels);
     } else {
         // The size of the old texture is different.  Update the storage definition as well as the pixel data.
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
+        glTexImage2D(GL_TEXTURE_2D, 0, internal_format, surface->w, surface->h, 0, pixel_format, GL_UNSIGNED_BYTE, surface->pixels);
     }
 
     // Update the texture's width and height.
