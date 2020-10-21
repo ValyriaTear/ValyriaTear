@@ -12,6 +12,7 @@
 #define __SHOP_DATA_HEADER__
 
 #include <map>
+#include <stdint.h>
 
 namespace vt_global {
 
