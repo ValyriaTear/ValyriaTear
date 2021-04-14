@@ -20,26 +20,27 @@ namespace vt_global {
 *** the parameters are all immutable and loaded at creation time
 *** there should be no reason for these to be created outside the global manager
 *** the key is the unique location id set in the script as a string
-*** there is no need for accesor functions because this is just a storage struct
 *** *****************************************************************************/
 class WorldMapLocation
 {
 public:
     WorldMapLocation():
-        _pos(0.0f, 0.0f)
+        _pos(0.0f, 0.0f),
+        _visible(false)
     {}
 
     WorldMapLocation(float x, float y, const std::string& location_name,
                      const std::string& image_path, const std::string& world_map_location_id);
 
     WorldMapLocation(const WorldMapLocation& other):
+        _world_map_location_id(other._world_map_location_id),
         _pos(other._pos),
         _location_name(other._location_name),
-        _world_map_location_id(other._world_map_location_id),
-        _image(other._image)
+        _image(other._image),
+        _visible(false)
     {}
 
-    WorldMapLocation &operator=(const WorldMapLocation& other)
+    WorldMapLocation& operator=(const WorldMapLocation& other)
     {
         if(this == &other)
             return *this;
@@ -47,6 +48,7 @@ public:
         _location_name = other._location_name;
         _world_map_location_id = other._world_map_location_id;
         _image = other._image;
+        _visible = other._visible;
         return *this;
     }
 
@@ -54,10 +56,24 @@ public:
         _image.Clear();
     }
 
-    vt_common::Position2D _pos;
-    std::string _location_name;
+    const vt_common::Position2D& GetPosition() const {
+      return _pos;
+    }
+
+    //! \brief The unique location id
     std::string _world_map_location_id;
+
+    //! \brief The marker location on the worldmap image
+    vt_common::Position2D _pos;
+
+    //! \brief The translated location name
+    std::string _location_name;
+
+    //! \brief the marker image
     vt_video::StillImage _image;
+
+    //! \brief Whether the player can see the location on the worldmap
+    bool _visible;
 };
 
 } // namespace vt_global

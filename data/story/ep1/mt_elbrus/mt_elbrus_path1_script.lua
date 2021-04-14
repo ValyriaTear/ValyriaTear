@@ -59,7 +59,7 @@ function Load(m)
     end
 
     -- Show the new location on map,
-    GlobalManager:GetWorldMapData():ShowWorldLocation("mt elbrus");
+    GlobalManager:GetWorldMapData():SetWorldLocationVisible("mt elbrus", true);
     GlobalManager:GetWorldMapData():SetCurrentLocationId("mt elbrus");
 end
 

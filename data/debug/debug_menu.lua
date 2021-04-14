@@ -124,9 +124,9 @@ function TestFunction()
     -- Used to debug World Map
     local worldmap = GlobalManager:GetWorldMapData()
     worldmap:SetWorldMapImage("data/story/common/worldmaps/layna_region.png")
-    worldmap:ShowWorldLocation("layna village")
-    worldmap:ShowWorldLocation("layna forest")
-    worldmap:ShowWorldLocation("mt elbrus")
+    worldmap:SetWorldLocationVisible("layna village", true)
+    worldmap:SetWorldLocationVisible("layna forest", true)
+    worldmap:SetWorldLocationVisible("mt elbrus", true)
     worldmap:SetCurrentLocationId("layna forest")
 
     GlobalManager:GetMapData():SetMap("dummy_map", "dummy_script",

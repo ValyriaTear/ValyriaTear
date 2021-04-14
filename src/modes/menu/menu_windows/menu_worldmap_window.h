@@ -84,7 +84,7 @@ public:
     * location, or nullptr if it deson't exist
     * \return Pointer to the currently indexes WorldMapLocation
     */
-    vt_global::WorldMapLocation* GetCurrentViewingLocation();
+    const vt_global::WorldMapLocation* GetCurrentViewingLocation() const;
 
 private:
 
@@ -94,10 +94,7 @@ private:
 
     //! \brief draws the locations and the pointer based on
     //! the currently active location ids and what we have selected
-    //! \param window_position_x The X position of the window
-    //! \param window_position_y The Y position of the window
-    void _DrawViewableLocations(float window_position_x,
-                                float window_position_y);
+    void _DrawViewableLocations();
 
     //! \brief pointer to the currently loaded world map image
     vt_video::StillImage* _current_world_map;
@@ -108,11 +105,11 @@ private:
     //! \brief the location pointer. this is loaded in the ctor
     vt_video::StillImage _location_pointer;
 
-    //! \brief offsets for the current image to view in the center of the window
-    vt_common::Position2D _current_image_offset;
+    //! \brief offsets for the current worldmap image and markers to view
+    vt_common::Position2D _view_position;
 
-    //! \brief the current index to the location the pointer should be on
-    uint32_t _location_pointer_index;
+    //! \brief the current location id the pointer should be on
+    std::string _current_location_id;
 
     //! \brief indicates whether this window is active or not
     bool _active;

@@ -56,7 +56,6 @@ public:
     /** \brief Gets a reference to the current world location id
     *** \return Reference to the current id. this value always exists, but could be "" if
     *** the location is not set, or if the world map is cleared
-    *** the value could also not currently exist, if HideWorldLocation was called on an
     *** id that was also set as the current location. the calling code should check for this
     **/
     const std::string& GetCurrentLocationId() const {
@@ -74,31 +73,15 @@ public:
     /** \brief adds a viewable location string id to the currently viewable
     *** set. This string IDs are maintained in the data/config/world_location.lua file.
     *** \param the string id to the currently viewable location
+    *** \param visible Whether the location can be seen by the player
     **/
-    void ShowWorldLocation(const std::string& location_id);
+    void SetWorldLocationVisible(const std::string& location_id, bool visible);
 
-    /** \brief removes a location from the currently viewable list
-    *** if the id doesn't exist, we don't do anything
-    *** \param the string id to the viewable location we want to hide
+    /** \brief gets a reference to the worldmap location data
+    *** \return reference to the current worldmap location data
     **/
-    void HideWorldLocation(const std::string &location_id);
-
-    /** \brief gets a reference to the current viewable location ids
-    *** \return reference to the current viewable location ids
-    **/
-    const std::vector<std::string>& GetViewableLocationIds() const {
-        return _viewable_world_locations;
-    }
-
-    /** \brief get a pointer to the associated world location for the id
-    *** \param string Reference if for the world map location
-    *** \return nullptr if the location does not exist. otherwise, return a const pointer
-    *** to the location
-    **/
-    WorldMapLocation* GetWorldLocation(const std::string &id)
-    {
-        std::map<std::string, WorldMapLocation>::iterator itr = _world_map_locations.find(id);
-        return itr == _world_map_locations.end() ? nullptr : &(itr->second);
+    const std::map<std::string, WorldMapLocation>& GetWorldMapLocations() const {
+        return _world_map_locations;
     }
 
     //! \brief Load world map and viewable information from the save game

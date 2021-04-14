@@ -19,12 +19,13 @@ WorldMapLocation::WorldMapLocation(float x,
                                    const std::string& location_name,
                                    const std::string& image_path,
                                    const std::string& world_map_location_id) :
+    _world_map_location_id(world_map_location_id),
     _pos(x, y),
     _location_name(location_name),
-    _world_map_location_id(world_map_location_id)
+    _visible(false)
 {
     if(!_image.Load(image_path))
-        PRINT_ERROR << "image: " << image_path << " not able to load" << std::endl;
+        PRINT_ERROR << "image: Could not load the worldmap location image: " << image_path << std::endl;
 }
 
 } // namespace vt_global

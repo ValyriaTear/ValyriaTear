@@ -51,7 +51,7 @@ protected:
     bool _IsActive();
 
     vt_gui::TextBox _location_text;
-    vt_video::StillImage* _location_image;
+    const vt_video::StillImage* _location_image;
 };
 
 } // namespace private_menu

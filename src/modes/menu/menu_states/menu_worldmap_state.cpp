@@ -24,7 +24,6 @@ WorldMapState::WorldMapState(MenuMode* menu_mode):
     _location_text.SetDimensions(500.0f, 50.0f);
     _location_text.SetTextStyle(vt_video::TextStyle("title22"));
     _location_text.SetAlignment(vt_video::VIDEO_X_LEFT, vt_video::VIDEO_Y_CENTER);
-
 }
 
 void WorldMapState::Reset()
@@ -76,8 +75,8 @@ void WorldMapState::_ActiveWindowUpdate()
         return;
     }
 
-    //draw the current viewing location information
-    vt_global::WorldMapLocation *current_location = _menu_mode->_world_map_window.GetCurrentViewingLocation();
+    // Draw the current viewing location information
+    const vt_global::WorldMapLocation* current_location = _menu_mode->_world_map_window.GetCurrentViewingLocation();
     if(current_location == nullptr)
     {
         _location_image = nullptr;

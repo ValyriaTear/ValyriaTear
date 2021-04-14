@@ -30,7 +30,7 @@ function NewGame()
     -- Set the starting world map data
     local worldmap = GlobalManager:GetWorldMapData()
     worldmap:SetWorldMapImage("data/story/common/worldmaps/layna_region.png")
-    worldmap:ShowWorldLocation("layna village")
+    worldmap:SetWorldLocationVisible("layna village", true)
     worldmap:SetCurrentLocationId("layna village")
 
     -- Don't permit autosave at that moment.

@@ -103,28 +103,18 @@ void WorldMapHandler::SetWorldMapImage(const std::string& world_map_filename)
     _world_map_image->Load(world_map_filename);
 }
 
-void WorldMapHandler::ShowWorldLocation(const std::string& location_id)
+void WorldMapHandler::SetWorldLocationVisible(const std::string& location_id, bool visible)
 {
-    // Defensive check. do not allow blank ids.
-    // If you want to remove an id, call HideWorldLocation
     if(location_id.empty())
         return;
-    // Check to make sure this location isn't already visible
-    if(std::find(_viewable_world_locations.begin(),
-                 _viewable_world_locations.end(),
-                 location_id) == _viewable_world_locations.end())
-    {
-        _viewable_world_locations.push_back(location_id);
-    }
-}
 
-void WorldMapHandler::HideWorldLocation(const std::string &location_id)
-{
-    auto rem_iterator = std::find(_viewable_world_locations.begin(),
-                                  _viewable_world_locations.end(),
-                                  location_id);
-    if(rem_iterator != _viewable_world_locations.end())
-        _viewable_world_locations.erase((rem_iterator));
+    auto location_iter = _world_map_locations.find(location_id);
+    if(location_iter == _world_map_locations.end()) {
+      PRINT_WARNING << "Couldn't find map location to show: " << location_id << std::endl;
+      return;
+    }
+
+    location_iter->second._visible = visible;
 }
 
 void WorldMapHandler::LoadWorldMap(vt_script::ReadScriptDescriptor& file)
@@ -140,9 +130,9 @@ void WorldMapHandler::LoadWorldMap(vt_script::ReadScriptDescriptor& file)
 
     std::vector<std::string> location_ids;
     file.ReadStringVector("viewable_locations", location_ids);
-    for(uint32_t i = 0; i < location_ids.size(); ++i)
-        ShowWorldLocation(location_ids[i]);
-
+    for(uint32_t i = 0; i < location_ids.size(); ++i) {
+        SetWorldLocationVisible(location_ids[i], true);
+    }
     std::string current_location = file.ReadString("current_location");
     if (!current_location.empty())
         SetCurrentLocationId(current_location);
@@ -166,8 +156,10 @@ void WorldMapHandler::SaveWorldMap(vt_script::WriteScriptDescriptor& file)
 
     // Write the viewable locations
     file.WriteLine("\tviewable_locations = {");
-    for(uint32_t i = 0; i < _viewable_world_locations.size(); ++i)
-        file.WriteLine("\t\t\"" + _viewable_world_locations[i]+"\",");
+    for(auto iter = _world_map_locations.begin(); iter != _world_map_locations.end(); ++iter) {
+        if (iter->second._visible)
+            file.WriteLine("\t\t\"" + iter->second._world_map_location_id + "\",");
+    }
     file.WriteLine("\t},");
     file.InsertNewLine();
 

@@ -395,8 +395,7 @@ void BindCommonCode()
         [
             luabind::class_<WorldMapHandler>("WorldMapHandler")
             .def("SetWorldMapImage", &WorldMapHandler::SetWorldMapImage)
-            .def("ShowWorldLocation", &WorldMapHandler::ShowWorldLocation)
-            .def("HideWorldLocation", &WorldMapHandler::HideWorldLocation)
+            .def("SetWorldLocationVisible", &WorldMapHandler::SetWorldLocationVisible)
             .def("SetCurrentLocationId", &WorldMapHandler::SetCurrentLocationId)
         ];
 
