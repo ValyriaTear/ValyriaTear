@@ -43,11 +43,13 @@ MainMenuState::MainMenuState(MenuMode *menu_mode):
     _options.SetSkipDisabled(true);
 
     // Deactivate menus with empty content
-    if (vt_global::GlobalManager->GetGameQuests().GetActiveQuestIds().empty())
+    if (vt_global::GlobalManager->GetGameQuests().GetActiveQuestIds().empty()) {
         _options.EnableOption(3, false);
+    }
 
-    if (vt_global::GlobalManager->GetWorldMapData().GetWorldMapImageFilename().empty())
+    if (!vt_global::GlobalManager->GetWorldMapData().HasWorldMapImage()) {
         _options.EnableOption(4, false);
+    }
 
     // We set them here in case the language has changed since the game start.
     world_map_window_message = vt_system::UTranslate("Select to view current world map.\n"

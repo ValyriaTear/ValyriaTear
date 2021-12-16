@@ -8,18 +8,16 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __WORLDMAP_LOCATION_HEADER__
-#define __WORLDMAP_LOCATION_HEADER__
+#ifndef __WORLD_MAP_LOCATION_HEADER__
+#define __WORLD_MAP_LOCATION_HEADER__
 
-#include "engine/video/image.h"
+#include "common/position_2d.h"
+#include "utils/ustring.h"
 
 namespace vt_global {
 
 /** *****************************************************************************
-*** \brief Struct for world map locations
-*** the parameters are all immutable and loaded at creation time
-*** there should be no reason for these to be created outside the global manager
-*** the key is the unique location id set in the script as a string
+*** \brief world map locations class used to define its interactable elements
 *** *****************************************************************************/
 class WorldMapLocation
 {
@@ -29,53 +27,77 @@ public:
         _visible(false)
     {}
 
-    WorldMapLocation(float x, float y, const std::string& location_name,
-                     const std::string& image_path, const std::string& world_map_location_id);
+    WorldMapLocation(float x, float y,
+                     const vt_utils::ustring& location_name,
+                     const std::string& image_filename,
+                     bool visible = false):
+        _pos(x, y),
+        _location_name(location_name),
+        _location_image_filename(image_filename),
+        _visible(visible)
+    {
+    }
 
     WorldMapLocation(const WorldMapLocation& other):
-        _world_map_location_id(other._world_map_location_id),
         _pos(other._pos),
         _location_name(other._location_name),
-        _image(other._image),
-        _visible(false)
+        _location_image_filename(other._location_image_filename),
+        _visible(other._visible)
     {}
 
     WorldMapLocation& operator=(const WorldMapLocation& other)
     {
         if(this == &other)
             return *this;
+
+        _world_map_location_id = other._world_map_location_id;
         _pos = other._pos;
         _location_name = other._location_name;
-        _world_map_location_id = other._world_map_location_id;
-        _image = other._image;
+        _location_image_filename = other._location_image_filename;
         _visible = other._visible;
         return *this;
     }
 
     ~WorldMapLocation() {
-        _image.Clear();
     }
 
     const vt_common::Position2D& GetPosition() const {
       return _pos;
     }
 
+    const vt_utils::ustring& GetLocationName() const {
+        return _location_name;
+    }
+
+    const std::string& GetLocationImageFileName() const {
+        return _location_image_filename;
+    }
+
+    bool IsVisible() const {
+        return _visible;
+    }
+
+    void SetVisible(bool visible) {
+        _visible = visible;
+    }
+
+private:
     //! \brief The unique location id
     std::string _world_map_location_id;
 
-    //! \brief The marker location on the worldmap image
+    //! \brief The marker location on the world map image
     vt_common::Position2D _pos;
 
     //! \brief The translated location name
-    std::string _location_name;
+    vt_utils::ustring _location_name;
 
-    //! \brief the marker image
-    vt_video::StillImage _image;
+    //! \brief The location banner image filename
+    std::string _location_image_filename;
 
-    //! \brief Whether the player can see the location on the worldmap
+    //! \brief Whether the player can see the location on the world map
     bool _visible;
 };
 
 } // namespace vt_global
 
-#endif // __WORLDMAP_LOCATION_HEADER__
+#endif // __WORLD_MAP_LOCATION_HEADER__

@@ -17,8 +17,7 @@ namespace vt_menu {
 namespace private_menu {
 
 WorldMapState::WorldMapState(MenuMode* menu_mode):
-    AbstractMenuState("WorldMapState", menu_mode),
-    _location_image(nullptr)
+    AbstractMenuState("WorldMapState", menu_mode)
 {
     _location_text.SetPosition(102, 556);
     _location_text.SetDimensions(500.0f, 50.0f);
@@ -53,12 +52,12 @@ void WorldMapState::_DrawBottomMenu()
     vt_video::VideoManager->Move(150, 580);
     // Display Location
     _location_text.Draw();
-    if(_location_image != nullptr && !_location_image->GetFilename().empty())
+    if(!_location_image.GetFilename().empty())
     {
         vt_video::VideoManager->SetDrawFlags(vt_video::VIDEO_X_LEFT,
                                              vt_video::VIDEO_Y_BOTTOM, 0);
         vt_video::VideoManager->Move(390, 685);
-        _location_image->Draw();
+        _location_image.Draw();
     }
 }
 
@@ -79,12 +78,12 @@ void WorldMapState::_ActiveWindowUpdate()
     const vt_global::WorldMapLocation* current_location = _menu_mode->_world_map_window.GetCurrentViewingLocation();
     if(current_location == nullptr)
     {
-        _location_image = nullptr;
+        _location_image.Clear();
         _location_text.ClearText();
         return;
     }
-    _location_text.SetDisplayText(current_location->_location_name);
-    _location_image = &(current_location->_image);
+    _location_text.SetDisplayText(current_location->GetLocationName());
+    _location_image.Load(current_location->GetLocationImageFileName());
 }
 
 } // namespace private_menu

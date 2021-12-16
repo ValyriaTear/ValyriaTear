@@ -81,23 +81,20 @@ public:
 
     /*!
     * \brief gets the WorldMapLocation pointer to the currently pointing
-    * location, or nullptr if it deson't exist
+    * location, or nullptr if it doesn't exist
     * \return Pointer to the currently indexes WorldMapLocation
     */
     const vt_global::WorldMapLocation* GetCurrentViewingLocation() const;
 
 private:
 
-    //! \brief based on the worldmap selection, sets the pointer on the
-    //! current map
-    void _SetSelectedLocation(WORLDMAP_NAVIGATION worldmap_goto);
+    //! \brief based on the world_map selection,
+    //! sets the pointer on the current map
+    void _SetSelectedLocation(WORLDMAP_NAVIGATION world_map_goto);
 
     //! \brief draws the locations and the pointer based on
     //! the currently active location ids and what we have selected
     void _DrawViewableLocations();
-
-    //! \brief pointer to the currently loaded world map image
-    vt_video::StillImage* _current_world_map;
 
     //! \brief the location marker. this is loaded in the ctor
     vt_video::AnimatedImage _location_marker;
@@ -105,11 +102,18 @@ private:
     //! \brief the location pointer. this is loaded in the ctor
     vt_video::StillImage _location_pointer;
 
-    //! \brief offsets for the current worldmap image and markers to view
+    //! \brief offsets for the current world map image and markers to view
     vt_common::Position2D _view_position;
+
+    //! \brief Target offsets for the current world map image and markers to view
+    //! This permits to smooth scrolling between positions
+    vt_common::Position2D _target_position;
 
     //! \brief the current location id the pointer should be on
     std::string _current_location_id;
+
+    //! \brief the current location position the pointer should be on
+    vt_common::Position2D _current_location_pos;
 
     //! \brief indicates whether this window is active or not
     bool _active;

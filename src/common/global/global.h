@@ -32,7 +32,7 @@
 
 #include "events/global_events.h"
 #include "quests/quests.h"
-#include "worldmap/worldmap_handler.h"
+#include "world_map/world_map_handler.h"
 #include "maps/map_data_handler.h"
 #include "shop/shop_data_handler.h"
 #include "emotes/emote_handler.h"

@@ -8,13 +8,15 @@
 // See http://www.gnu.org/copyleft/gpl.html for details.
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef __GLOBAL_WORLDMAP_HEADER__
-#define __GLOBAL_WORLDMAP_HEADER__
+#ifndef __GLOBAL_WORLD_MAP_HANDLER_HEADER__
+#define __GLOBAL_WORLD_MAP_HANDLER_HEADER__
 
-#include "worldmap_location.h"
+#include "world_map.h"
 
 #include "script/script_read.h"
 #include "script/script_write.h"
+#include "engine/video/image.h"
+#include "utils/ustring.h"
 
 #include <string>
 #include <vector>
@@ -26,32 +28,46 @@ namespace vt_global
 class WorldMapHandler
 {
 public:
-    WorldMapHandler();
-    ~WorldMapHandler();
+    WorldMapHandler():
+        _current_world_map(nullptr)
+    {};
+
+    ~WorldMapHandler() {
+        ClearUIData();
+    };
+
+    //! \brief Clears all world map UI related data
+    void ClearUIData();
+
+    //! \brief Clear all data from handler (for new game purpose)
+    void ClearAllData();
 
     //! \brief Loads each world location from the script into the world location entry map
     //! \param file Path to the file to world locations script
     //! \return true if successfully loaded
-    bool LoadScript(const std::string& world_locations_filename);
+    bool LoadScript(const std::string& world_map_filename);
 
-    //! \brief Clear worldmap image
-    void ClearWorldMapImage();
+    /** \brief Sets the current viewable world map taken from the config file.
+    *** empty strings are valid, and will set an empty world map.
+    **/
+    void SetCurrentWorldMap(const std::string& world_map_id);
 
     //! \brief gets the current world map image
     //! \return a pointer to the currently viewable World Map Image.
-    //! \note returns nullptr if the filename has been set to ""
-    vt_video::StillImage* GetWorldMapImage() const {
-        return _world_map_image;
+    const vt_video::StillImage& GetWorldMapImage() const {
+        return _current_world_map_image;
     }
 
-    const std::string& GetWorldMapImageFilename() const;
+    //! \brief Indicates whether the current world map has an instanced image
+    bool HasWorldMapImage() const {
+        return !_current_world_map_image.GetFilename().empty();
+    }
 
-    /** \brief sets the current viewable world map
-    *** empty strings are valid, and will cause the return
-    *** of a null pointer on GetWorldMap call.
-    *** \note this will also clear the currently viewable locations and the current location id
-    **/
-    void SetWorldMapImage(const std::string& world_map_filename);
+    //! \brief Provides the available world locations of the current map
+    const WorldMapLocations& GetAllWorldMapLocations() const;
+
+    //! \brief Provides the visible world locations of the current map
+    const WorldMapLocations& GetVisibleWorldMapLocations() const;
 
     /** \brief Gets a reference to the current world location id
     *** \return Reference to the current id. this value always exists, but could be "" if
@@ -77,42 +93,35 @@ public:
     **/
     void SetWorldLocationVisible(const std::string& location_id, bool visible);
 
-    /** \brief gets a reference to the worldmap location data
-    *** \return reference to the current worldmap location data
-    **/
-    const std::map<std::string, WorldMapLocation>& GetWorldMapLocations() const {
-        return _world_map_locations;
-    }
-
     //! \brief Load world map and viewable information from the save game
     //! \param file Reference to an open file for reading save game data
-    void LoadWorldMap(vt_script::ReadScriptDescriptor& file);
+    void LoadPlayerSaveGameWorldMap(vt_script::ReadScriptDescriptor& file);
 
-    //! \brief saves the world map information. this is called from SaveGame()
+    //! \brief Saves the current world map information. this is called from SaveGame()
     //! \param file Reference to open and valid file for writting the data
-    void SaveWorldMap(vt_script::WriteScriptDescriptor& file);
+    void SavePlayerSaveGameWorldMap(vt_script::WriteScriptDescriptor& file);
 
 private:
-    //! \brief The current graphical world map. If the filename is empty,
-    //! then we are "hiding" the map
-    vt_video::StillImage* _world_map_image;
+    //! \brief The container which stores all the available world maps information
+    std::map<std::string, WorldMap> _world_map_info;
 
-    //! \brief The current viewable location ids on the current world map image
-    //! \note this list is cleared when we call SetWorldMap. It is up to the
-    //! script writter to maintain the properties of the map by either
-    //!  1) call CopyViewableLocationList()
-    //!  2) maintain in some other fashion the list
-    std::vector<std::string> _viewable_world_locations;
+    //! \brief The current world map id that indicates where the player is
+    std::string _current_world_map_id;
 
-    /** \brief the container which stores all the available world locations in the game.
-    *** the world_location_id acts as the key
-    **/
-    std::map<std::string, WorldMapLocation> _world_map_locations;
-
-    //! \brief the current world map location id that indicates where the player is
+    //! \brief The current world map location id
+    //! that indicates where the player is on the currently selected world map
     std::string _current_world_location_id;
+
+    //! \brief the current world map image
+    vt_video::StillImage _current_world_map_image;
+
+    //! \brief Pointer to the currently used world map data
+    WorldMap* _current_world_map;
+
+    //! \brief default empty world map
+    WorldMap defaultWorldMap;
 };
 
 } // namespace vt_global
 
-#endif // __GLOBAL_WORLDMAP_HEADER__
+#endif // __GLOBAL_WORLD_MAP_HANDLER_HEADER__

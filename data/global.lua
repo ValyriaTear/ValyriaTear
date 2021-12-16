@@ -29,7 +29,7 @@ function NewGame()
 
     -- Set the starting world map data
     local worldmap = GlobalManager:GetWorldMapData()
-    worldmap:SetWorldMapImage("data/story/common/worldmaps/layna_region.png")
+    worldmap:SetCurrentWorldMap("Layna present")
     worldmap:SetWorldLocationVisible("layna village", true)
     worldmap:SetCurrentLocationId("layna village")
 

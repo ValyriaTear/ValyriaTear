@@ -394,7 +394,7 @@ void BindCommonCode()
         luabind::module(vt_script::ScriptManager->GetGlobalState(), "vt_global")
         [
             luabind::class_<WorldMapHandler>("WorldMapHandler")
-            .def("SetWorldMapImage", &WorldMapHandler::SetWorldMapImage)
+            .def("SetCurrentWorldMap", &WorldMapHandler::SetCurrentWorldMap)
             .def("SetWorldLocationVisible", &WorldMapHandler::SetWorldLocationVisible)
             .def("SetCurrentLocationId", &WorldMapHandler::SetCurrentLocationId)
         ];

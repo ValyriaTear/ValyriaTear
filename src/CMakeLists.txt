@@ -296,8 +296,8 @@ common/global/shop/shop_data_handler.cpp
 common/global/skill_graph/skill_node.cpp
 common/global/skill_graph/skill_graph.cpp
 common/global/status_effects/global_effects.cpp
-common/global/worldmap/worldmap_handler.cpp
-common/global/worldmap/worldmap_location.cpp
+common/global/world_map/world_map_handler.cpp
+common/global/world_map/world_map.cpp
 common/global/global.cpp
 common/global/global_skills.cpp
 common/global/global_target.cpp

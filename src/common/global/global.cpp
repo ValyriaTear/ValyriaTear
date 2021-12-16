@@ -134,7 +134,7 @@ bool GameGlobal::_LoadGlobalScripts()
     if(!_game_quests.LoadQuestsScript("data/config/quests.lua"))
         return false;
 
-    if(!_worldmap_handler.LoadScript("data/config/world_locations.lua"))
+    if(!_worldmap_handler.LoadScript("data/config/world_maps.lua"))
         return false;
 
     if (!_skill_graph.Initialize("data/config/skill_graph.lua"))
@@ -155,7 +155,7 @@ void GameGlobal::ClearAllData()
 
     _map_data_handler.Clear();
 
-    _worldmap_handler.ClearWorldMapImage();
+    _worldmap_handler.ClearAllData();
 
     _shop_data_handler.Clear();
 
@@ -247,7 +247,7 @@ bool GameGlobal::SaveGame(const std::string& filename,
 
     _game_quests.SaveQuests(file);
 
-    _worldmap_handler.SaveWorldMap(file);
+    _worldmap_handler.SavePlayerSaveGameWorldMap(file);
 
     _shop_data_handler.SaveShopData(file);
 
@@ -300,7 +300,7 @@ bool GameGlobal::LoadGame(const std::string &filename, uint32_t slot_id)
     _game_quests.LoadQuests(file);
 
     // Load the world map data
-    _worldmap_handler.LoadWorldMap(file);
+    _worldmap_handler.LoadPlayerSaveGameWorldMap(file);
 
     // Report any errors detected from the previous read operations
     if(file.IsErrorDetected()) {

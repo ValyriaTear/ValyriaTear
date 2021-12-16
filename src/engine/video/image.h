@@ -394,7 +394,7 @@ public:
     //! \name Class Member Access Functions
     //@{
     //! \brief Returns the filename string for the image
-    const std::string &GetFilename() const {
+    const std::string& GetFilename() const {
         return _filename;
     }
 
