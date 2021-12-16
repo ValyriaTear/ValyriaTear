@@ -23,7 +23,7 @@ active side-view battles, character management, puzzles... It is also translated
 
 ## Licensing ##
 
-Copyright (C) 2012-2019 by Bertram
+Copyright (C) 2012-2021 by Bertram
 Copyright (C) 2004-2011 by The Allacrost Project
 
 The source code is licensed under the *GNU GPL*. It is free software and you may
@@ -45,17 +45,13 @@ data/ po/
 
 **Linux compilation**
 Once you've unpacked the tarball, if you have checked it out from the Git repository, run this first to get the latest luabind code:
-`git submodule update --init --remote --force`
+`git submodule update --init`
+or `git submodule update --init --remote --force` if you want all the latest dependency versions.
 and then the usual `cmake . && make` from the top-level directory at the prompt.
 
 You'll then be able to play by typing: `src/valyriatear`
 
 **Windows compilation**
-- **Code::Blocks:**
-
-A [Code::Blocks](http://www.codeblocks.org/) project file is also provided when compiling under Windows.
-In that case, you might need the dependencies and headers files that can be downloaded here:
-https://sourceforge.net/projects/valyriatear/files/win32-depends/valyriatear-win32-depends-sdl1.2-2014-12-11.zip/download
 
 - ** MSys/MinGW **
 
@@ -87,6 +83,12 @@ https://sourceforge.net/projects/valyriatear/files/win32-depends/valyriatear-win
 4. Run the build: ninja
 
 Note: To update translation files, run: ninja update-pot
+
+- **Code::Blocks:**
+
+A quite outdated [Code::Blocks](http://www.codeblocks.org/) project file is also provided when compiling under Windows.
+In that case, you might need the dependencies and headers files that can be downloaded here:
+https://sourceforge.net/projects/valyriatear/files/win32-depends/valyriatear-win32-depends-sdl1.2-2014-12-11.zip/download
 
 - **Microsoft Visual C++ 2013 and later:**
 
