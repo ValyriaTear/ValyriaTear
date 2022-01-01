@@ -101,11 +101,11 @@ void ScreenFader::Update(uint32_t time)
     float percent_complete = static_cast<float>(_current_time) / static_cast<float>(_end_time);
 
     if(_interpolate_rgb_values) {
-        _current_color[0] = Lerp(percent_complete, _initial_color[0], _final_color[0]);
-        _current_color[1] = Lerp(percent_complete, _initial_color[1], _final_color[1]);
-        _current_color[2] = Lerp(percent_complete, _initial_color[2], _final_color[2]);
+        _current_color[0] = Lerp(_initial_color[0], _final_color[0], percent_complete);
+        _current_color[1] = Lerp(_initial_color[1], _final_color[1], percent_complete);
+        _current_color[2] = Lerp(_initial_color[2], _final_color[2], percent_complete);
     }
-    _current_color[3] = Lerp(percent_complete, _initial_color[3], _final_color[3]);
+    _current_color[3] = Lerp(_initial_color[3], _final_color[3], percent_complete);
 
     _fade_overlay_img.SetColor(_current_color);
 

@@ -166,7 +166,7 @@ void Interpolator::Update(uint32_t frame_time)
         return;
     };
 
-    _current_value = vt_utils::Lerp(progress, _a, _b);
+    _current_value = vt_utils::Lerp(_a, _b, progress);
 } // void Interpolator::Update(uint32_t frame_time)
 
 }  // namespace vt_video

@@ -107,3 +107,8 @@ build/
 
 # VS Dependencies Directory
 ValyriaTear-VS2013-Dependencies
+
+# CLion files
+.cmake
+.idea
+CmakeLists.txt.user.*

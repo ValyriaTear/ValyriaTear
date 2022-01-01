@@ -391,39 +391,9 @@ void SkillGraphWindow::_UpdateSkillGraphView(bool scroll, bool force)
         target_distance = Position2D(0.0f, 0.0f);
     }
     else {
-        // Smooth the view move
-        const float max_speed = 30.0f;
-        const float min_speed = 100.0f;
-        const float pixel_move_x = (min_speed - std::abs(target_distance.x)) / 10.0f < max_speed / 10.0f ?
-                                   max_speed / 10.0f : (min_speed - std::abs(target_distance.x)) / 10.0f;
-        const float pixel_move_y = (min_speed - std::abs(target_distance.y)) / 10.0f < max_speed / 10.0f ?
-                                   max_speed / 10.0f : (min_speed - std::abs(target_distance.y)) / 10.0f;
-        const float update_time = static_cast<float>(vt_system::SystemManager->GetUpdateTime());
-        const Position2D update_move(update_time / pixel_move_x,
-                                     update_time / pixel_move_y);
-
-        // Make the view scroll
-        if (_view_position.x < target_position.x) {
-            _view_position.x += update_move.x;
-            if (_view_position.x > target_position.x)
-                _view_position.x = target_position.x;
-        }
-        else if (_view_position.x > target_position.x) {
-            _view_position.x -= update_move.x;
-            if (_view_position.x < target_position.x)
-                _view_position.x = target_position.x;
-        }
-
-        if (_view_position.y < target_position.y) {
-            _view_position.y += update_move.y;
-            if (_view_position.y > target_position.y)
-                _view_position.y = target_position.y;
-        }
-        else if (_view_position.y > target_position.y) {
-            _view_position.y -= update_move.y;
-            if (_view_position.y < target_position.y)
-                _view_position.y = target_position.y;
-        }
+        // Make the view smoothly scroll
+        _view_position.x = vt_utils::Lerp(_view_position.x, target_position.x, 0.07f);
+        _view_position.y = vt_utils::Lerp(_view_position.y, target_position.y, 0.07f);
     }
 
     // Update the skill node displayed list

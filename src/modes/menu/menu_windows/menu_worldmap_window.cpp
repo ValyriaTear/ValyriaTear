@@ -150,52 +150,13 @@ void WorldMapWindow::Update()
     // Handle scrolling to the known location position
     if (_current_location_id.empty()) {
         // Center the view by default
-        _view_position.x = (window_width - image_width) / 2.0;
-        _view_position.y = (window_height - image_height) / 2.0;
+        _view_position.x = (window_width - image_width) / 2.0f;
+        _view_position.y = (window_height - image_height) / 2.0f;
     }
     else {
         // Smooth the view move
-        Vector2D target_distance(_target_position.x - _view_position.x,
-                                 _target_position.y - _view_position.y);
-        if (target_distance.x != 0.0f || target_distance.y != 0.0f) {
-            const float max_speed = 3.0f;
-            const float min_speed = 35.0f;
-            const float pixel_move_x = (min_speed - std::abs(target_distance.x)) < max_speed ?
-                                       max_speed : (min_speed - std::abs(target_distance.x));
-            const float pixel_move_y = (min_speed - std::abs(target_distance.y)) < max_speed ?
-                                       max_speed : (min_speed - std::abs(target_distance.y));
-            const float update_time = static_cast<float>(vt_system::SystemManager->GetUpdateTime());
-            const Position2D update_move(update_time / pixel_move_x,
-                                         update_time / pixel_move_y);
-
-            // Make the view scroll
-            if (_view_position.x < _target_position.x) {
-                _view_position.x += update_move.x;
-                if (_view_position.x > _target_position.x)
-                    _view_position.x = _target_position.x;
-            }
-            else if (_view_position.x > _target_position.x) {
-                _view_position.x -= update_move.x;
-                if (_view_position.x < _target_position.x)
-                    _view_position.x = _target_position.x;
-            }
-
-            if (_view_position.y < _target_position.y) {
-                _view_position.y += update_move.y;
-                if (_view_position.y > _target_position.y)
-                    _view_position.y = _target_position.y;
-            }
-            else if (_view_position.y > _target_position.y) {
-                _view_position.y -= update_move.y;
-                if (_view_position.y < _target_position.y)
-                    _view_position.y = _target_position.y;
-            }
-        }
-        else {
-            // Get the target offset of the selected marker
-            _view_position.x = _target_position.x;
-            _view_position.y = _target_position.y;
-        }
+        _view_position.x = vt_utils::Lerp(_view_position.x, _target_position.x, 0.12f);
+        _view_position.y = vt_utils::Lerp(_view_position.y, _target_position.y, 0.12f);
     }
 
     // If this window is active, we check the cursor states

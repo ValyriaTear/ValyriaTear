@@ -495,34 +495,34 @@ void ParticleSystem::_UpdateParticles(float t, const EffectParameters &params)
             float cur_a = (scaled_time - _particles[j].current_keyframe->time) /
                           (_particles[j].next_keyframe->time - _particles[j].current_keyframe->time);
 
-            _particles[j].rotation_speed = Lerp(cur_a, _particles[j].current_keyframe->rotation_speed
+            _particles[j].rotation_speed = Lerp(_particles[j].current_keyframe->rotation_speed
                                                 + _particles[j].current_rotation_speed_variation,
                                                 _particles[j].next_keyframe->rotation_speed
-                                                + _particles[j].next_rotation_speed_variation);
-            _particles[j].size.x         = Lerp(cur_a, _particles[j].current_keyframe->size.x
+                                                + _particles[j].next_rotation_speed_variation, cur_a);
+            _particles[j].size.x         = Lerp(_particles[j].current_keyframe->size.x
                                                 + _particles[j].current_size_variation.x,
                                                 _particles[j].next_keyframe->size.x
-                                                + _particles[j].next_size_variation.x);
-            _particles[j].size.y         = Lerp(cur_a, _particles[j].current_keyframe->size.y
+                                                + _particles[j].next_size_variation.x, cur_a);
+            _particles[j].size.y         = Lerp(_particles[j].current_keyframe->size.y
                                                 + _particles[j].current_size_variation.y,
                                                 _particles[j].next_keyframe->size.y
-                                                + _particles[j].next_size_variation.y);
-            _particles[j].color[0]       = Lerp(cur_a, _particles[j].current_keyframe->color[0]
+                                                + _particles[j].next_size_variation.y, cur_a);
+            _particles[j].color[0]       = Lerp(_particles[j].current_keyframe->color[0]
                                                 + _particles[j].current_color_variation[0],
                                                 _particles[j].next_keyframe->color[0]
-                                                + _particles[j].next_color_variation[0]);
-            _particles[j].color[1]       = Lerp(cur_a, _particles[j].current_keyframe->color[1]
+                                                + _particles[j].next_color_variation[0], cur_a);
+            _particles[j].color[1]       = Lerp(_particles[j].current_keyframe->color[1]
                                                 + _particles[j].current_color_variation[1],
                                                 _particles[j].next_keyframe->color[1]
-                                                + _particles[j].next_color_variation[1]);
-            _particles[j].color[2]       = Lerp(cur_a, _particles[j].current_keyframe->color[2]
+                                                + _particles[j].next_color_variation[1], cur_a);
+            _particles[j].color[2]       = Lerp(_particles[j].current_keyframe->color[2]
                                                 + _particles[j].current_color_variation[2],
                                                 _particles[j].next_keyframe->color[2]
-                                                + _particles[j].next_color_variation[2]);
-            _particles[j].color[3]       = Lerp(cur_a, _particles[j].current_keyframe->color[3]
+                                                + _particles[j].next_color_variation[2], cur_a);
+            _particles[j].color[3]       = Lerp(_particles[j].current_keyframe->color[3]
                                                 + _particles[j].current_color_variation[3],
                                                 _particles[j].next_keyframe->color[3]
-                                                + _particles[j].next_color_variation[3]);
+                                                + _particles[j].next_color_variation[3], cur_a);
         }
 
         _particles[j].rotation_angle += _particles[j].rotation_speed * _particles[j].rotation_direction * t;
