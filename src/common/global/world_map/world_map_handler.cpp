@@ -69,7 +69,7 @@ bool WorldMapHandler::LoadScript(const std::string& world_maps_filename)
 
             world_map.AddWorldMapLocation(
                     location_id,
-                    WorldMapLocation(x, y, location_name, image_path));
+                    WorldMapLocation(location_id, x, y, location_name, image_path));
         }
         script.CloseTable(); // map_locations
 

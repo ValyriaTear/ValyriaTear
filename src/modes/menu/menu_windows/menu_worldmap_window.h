@@ -80,11 +80,13 @@ public:
     void Activate(bool new_state);
 
     /*!
-    * \brief gets the WorldMapLocation pointer to the currently pointing
-    * location, or nullptr if it doesn't exist
-    * \return Pointer to the currently indexes WorldMapLocation
+    * \brief gets the WorldMapLocation pointer to the currently pointing location,
+    * or nullptr if it doesn't exist
+    * \return Pointer to the currently selected WorldMapLocation
     */
-    const vt_global::WorldMapLocation* GetCurrentViewingLocation() const;
+    const vt_global::WorldMapLocation* GetCurrentViewingLocation() const {
+        return _current_location;
+    }
 
 private:
 
@@ -109,11 +111,8 @@ private:
     //! This permits to smooth scrolling between positions
     vt_common::Position2D _target_position;
 
-    //! \brief the current location id the pointer should be on
-    std::string _current_location_id;
-
-    //! \brief the current location position the pointer should be on
-    vt_common::Position2D _current_location_pos;
+    //! \brief the current location the pointer should be on, or nullptr if none
+    const vt_global::WorldMapLocation* _current_location;
 
     //! \brief indicates whether this window is active or not
     bool _active;

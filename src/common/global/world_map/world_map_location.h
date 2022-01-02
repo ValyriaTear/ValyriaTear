@@ -27,10 +27,12 @@ public:
         _visible(false)
     {}
 
-    WorldMapLocation(float x, float y,
+    WorldMapLocation(const std::string& id,
+                     float x, float y,
                      const vt_utils::ustring& location_name,
                      const std::string& image_filename,
                      bool visible = false):
+        _world_map_location_id(id),
         _pos(x, y),
         _location_name(location_name),
         _location_image_filename(image_filename),
@@ -39,6 +41,7 @@ public:
     }
 
     WorldMapLocation(const WorldMapLocation& other):
+        _world_map_location_id(other._world_map_location_id),
         _pos(other._pos),
         _location_name(other._location_name),
         _location_image_filename(other._location_image_filename),
@@ -59,6 +62,10 @@ public:
     }
 
     ~WorldMapLocation() {
+    }
+
+    const std::string& GetId() const {
+        return _world_map_location_id;
     }
 
     const vt_common::Position2D& GetPosition() const {

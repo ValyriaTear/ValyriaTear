@@ -123,16 +123,18 @@ function TestFunction()
 
     -- Used to debug World Map
     local worldmap = GlobalManager:GetWorldMapData()
-    worldmap:SetCurrentWorldMap("Layna present")
-    worldmap:SetWorldLocationVisible("layna village", true)
-    worldmap:SetWorldLocationVisible("layna forest", true)
-    worldmap:SetWorldLocationVisible("mt elbrus", true)
+    worldmap:SetCurrentWorldMap("Test map")
+    worldmap:SetWorldLocationVisible("test1", true)
+    worldmap:SetWorldLocationVisible("test2", true)
+    worldmap:SetWorldLocationVisible("test3", true)
+    worldmap:SetWorldLocationVisible("test4", true)
+    worldmap:SetWorldLocationVisible("test4", true)
 
     -- Testing visible behavior
-    worldmap:SetWorldLocationVisible("layna forest", false)
-    worldmap:SetWorldLocationVisible("layna forest", true)
+    worldmap:SetWorldLocationVisible("test5", false)
+    worldmap:SetWorldLocationVisible("test5", true)
 
-    worldmap:SetCurrentLocationId("layna forest")
+    worldmap:SetCurrentLocationId("test4")
 
     GlobalManager:GetMapData():SetMap("dummy_map", "dummy_script",
                                       "data/story/common/locations/desert_cave.png",
