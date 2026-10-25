@@ -179,6 +179,8 @@ bool GameGlobal::DoesEnemyExist(uint32_t enemy_id)
 
 bool GameGlobal::NewGame()
 {
+    // A new playthrough has no save slot until the player chooses one.
+    _game_slot_id = std::numeric_limits<uint32_t>::max();
     // Make sure no debug data is in the way.
     ClearAllData();
     return _global_script.RunScriptFunction("NewGame");

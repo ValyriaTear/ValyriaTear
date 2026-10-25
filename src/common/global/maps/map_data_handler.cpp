@@ -102,7 +102,7 @@ bool MapDataHandler::Save(vt_script::WriteScriptDescriptor& file,
         file.InsertNewLine();
         file.WriteLine("home_map = {");
         file.WriteLine("\tmap_data_filename = \"" + _home_map.GetMapDataFilename() + "\",");
-        file.WriteLine("\tmap_script_filename = \"" + _home_map.GetMapDataFilename() + "\",");
+        file.WriteLine("\tmap_script_filename = \"" + _home_map.GetMapScriptFilename() + "\",");
         //! \note Coords are in map tiles
         file.WriteLine("\tlocation_x = " + NumberToString(_home_map.GetMapPosition().x) + ",");
         file.WriteLine("\tlocation_y = " + NumberToString(_home_map.GetMapPosition().y) + ",");
