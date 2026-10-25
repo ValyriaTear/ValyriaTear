@@ -1069,17 +1069,16 @@ void TextSupervisor::_RenderText(const uint16_t* text, FontProperties* font_prop
     SDL_LockSurface(surface);
 
     //
-    // Send the surface pixel data to OpenGL.
+    // Copy to packed rows before uploading; SDL_ttf may pad the surface pitch.
     //
+    ImageMemory buffer(surface);
 
-    if (_text_texture_width == static_cast<GLuint>(surface->w) &&
-        _text_texture_height == static_cast<GLuint>(surface->h)) {
-        // The size of the old texture is the same.  Just update the pixel data.
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _text_texture_width, _text_texture_height, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
-    } else {
-        // The size of the old texture is different.  Update the storage definition as well as the pixel data.
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
+    if (_text_texture_width != static_cast<GLuint>(surface->w) ||
+        _text_texture_height != static_cast<GLuint>(surface->h)) {
+        // Allocate storage when the text size changes, then upload the packed data.
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
     }
+    buffer.GlTexSubImage(0, 0);
 
     // Update the texture's width and height.
     _text_texture_width = surface->w;
@@ -1199,17 +1198,16 @@ void TextSupervisor::_RenderText(const uint16_t* text, FontProperties* font_prop
     SDL_LockSurface(surface);
 
     //
-    // Send the surface pixel data to OpenGL.
+    // Copy to packed rows before uploading; SDL_ttf may pad the surface pitch.
     //
+    ImageMemory buffer(surface);
 
-    if (_text_texture_width == static_cast<GLuint>(surface->w) &&
-        _text_texture_height == static_cast<GLuint>(surface->h)) {
-        // The size of the old texture is the same.  Just update the pixel data.
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _text_texture_width, _text_texture_height, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
-    } else {
-        // The size of the old texture is different.  Update the storage definition as well as the pixel data.
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
+    if (_text_texture_width != static_cast<GLuint>(surface->w) ||
+        _text_texture_height != static_cast<GLuint>(surface->h)) {
+        // Allocate storage when the text size changes, then upload the packed data.
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
     }
+    buffer.GlTexSubImage(0, 0);
 
     // Update the texture's width and height.
     _text_texture_width = surface->w;
